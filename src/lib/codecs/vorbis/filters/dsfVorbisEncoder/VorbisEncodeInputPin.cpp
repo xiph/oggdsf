@@ -55,7 +55,11 @@ long VorbisEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	float locTempFloat = 0;
 
 	__int64 locGranPos = 0;
-	fish_sound_command(mFishSound, 7, &locGranPos, sizeof(__int64));
+	locGranPos = fish_sound_get_frameno(mFishSound);
+	//Removed the hack
+	//fish_sound_command(mFishSound, 7, &locGranPos, sizeof(__int64));
+	//
+
 	mUptoFrame = locGranPos;
 	//__int64 locTemp = ((FishSoundVorbisInfo*)mFishSound->codec_data)->vd.pcm_returned;
 	for (int i = 0; i < inNumBytes; i += 2) {

@@ -62,6 +62,10 @@
  * - \link fishsound.h fishsound.h \endlink:
  * Documentation of the FishSound API.
  *
+ * - \link comments.h Handling comments \endlink:
+ * How to add and retrieve \a name = \a value metadata in Vorbis and Speex
+ * streams.
+ *
  * - \link decode Decoding audio data \endlink:
  * How to decode audio data with FishSound, including source for a fully
  * working Ogg Vorbis and Ogg Speex decoder.
@@ -331,8 +335,8 @@
  * callback you provided earlier each time it has a block of audio ready.
  * - when finished, call fish_sound_delete().
  *
- * This procedure is illustrated in src/examples/decode.c. Note that this
- * example additionally:
+ * This procedure is illustrated in src/examples/fishsound-decode.c.
+ * Note that this example additionally:
  * - uses <a href="http://www.annodex.net/software/liboggz/">liboggz</a> to
  * demultiplex audio data from an Ogg encapsulated Vorbis or Speex stream.
  * Hence, the step of feeding encoded data to libfishsound is done within
@@ -343,7 +347,7 @@
  * Hence this example code demonstrates all that is needed to decode both
  * Ogg Vorbis and Ogg Speex files:
  *
- * \include decode.c
+ * \include fishsound-decode.c
  */
 
 /** \defgroup encode Encoding audio data
@@ -365,8 +369,8 @@
  * ready.
  * - when finished, call fish_sound_delete().
  *
- * This procedure is illustrated in src/examples/encode.c. Note that this
- * example additionally:
+ * This procedure is illustrated in src/examples/fishsound-encode.c.
+ * Note that this example additionally:
  * - uses <a href="http://www.mega-nerd.com/libsndfile/">libsndfile</a> to
  * read input from a PCM audio file (WAV, AIFF, etc.)
  * - uses <a href="http://www.annodex.net/software/liboggz/">liboggz</a> to
@@ -375,7 +379,7 @@
  * Hence this example code demonstrates all that is needed to encode
  * Ogg Vorbis and Ogg Speex files:
  *
- * \include encode.c
+ * \include fishsound-encode.c
  */
 
 /**
@@ -439,6 +443,10 @@ typedef int (*FishSoundDecoded) (FishSound * fsound, float ** pcm,
  */
 typedef int (*FishSoundEncoded) (FishSound * fsound, unsigned char * buf,
 				 long bytes, void * user_data);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * Identify a codec based on the first few bytes of data.
@@ -519,7 +527,11 @@ long fish_sound_encode (FishSound * fsound, float ** pcm, long frames);
 long fish_sound_flush (FishSound * fsound);
 
 /**
- * Reset the codec state of a FishSound object
+ * Reset the codec state of a FishSound object.
+ *
+ * When decoding from a seekable file, fish_sound_reset() should be called
+ * after any seek operations. See also fish_sound_set_frameno().
+ *
  * \param fsound A FishSound* handle
  * \returns 0 on success, -1 on failure
  */
@@ -562,5 +574,78 @@ int fish_sound_get_interleave (FishSound * fsound);
  * \retval -1 Invalid \a fsound
  */
 int fish_sound_set_interleave (FishSound * fsound, int interleave);
+
+/**
+ * Query the current frame number of a FishSound object.
+ *
+ * For decoding, this is the greatest frame index that has been decoded and
+ * made available to a FishSoundDecoded callback. This function is safe to
+ * call from within a FishSoundDecoded callback, and corresponds to the frame
+ * number of the last frame in the current decoded block.
+ *
+ * For encoding, this is the greatest frame index that has been encoded. This
+ * function is safe to call from within a FishSoundEncoded callback, and
+ * corresponds to the frame number of the last frame encoded in the current
+ * block.
+ *
+ * \param fsound A FishSound* handle
+ * \returns The current frame number
+ * \retval -1 Invalid \a fsound
+ */
+long fish_sound_get_frameno (FishSound * fsound);
+
+/**
+ * Set the current frame number of a FishSound object.
+ *
+ * When decoding from a seekable file, fish_sound_set_frameno() should be
+ * called after any seek operations, otherwise the value returned by
+ * fish_sound_get_frameno() will simply continue to increment. See also
+ * fish_sound_reset().
+ *
+ * \param fsound A FishSound* handle
+ * \param frameno The current frame number.
+ * \retval 0 Success
+ * \retval -1 Invalid \a fsound
+ */
+int fish_sound_set_frameno (FishSound * fsound, long frameno);
+
+/**
+ * Prepare truncation details for the next block of data.
+ * The semantics of these parameters derives directly from Ogg encapsulation
+ * of Vorbis, described
+ * <a href="http://www.xiph.org/ogg/vorbis/doc/Vorbis_I_spec.html#vorbis-over-ogg">here</a>.
+ *
+ * When decoding from Ogg, you should call this function with the \a granulepos
+ * and \a eos of the \a ogg_packet structure. This call should be made before
+ * passing the packet's data to fish_sound_decode(). Failure to do so may
+ * result in minor decode errors on the first and/or last packet of the stream.
+ *
+ * When encoding into Ogg, you should call this function with the \a granulepos
+ * and \a eos that will be used for the \a ogg_packet structure. This call
+ * should be made before passing the block of audio data to
+ * fish_sound_encode(). Failure to do so may result in minor encoding errors
+ * on the first and/or last packet of the stream.
+ *
+ * \param fsound A FishSound* handle
+ * \param next_granulepos The "granulepos" for the next block to decode.
+ *        If unknown, set \a next_granulepos to -1. Otherwise,
+ *        \a next_granulepos specifies the frameno of the final frame in the
+ *        block. This is authoritative, hence can be used to indicate
+ *        various forms of truncation at the beginning or end of a stream.
+ *        Mid-stream, a later-than-expected "granulepos" indicates that some
+ *        data was missing. 
+ * \param next_eos A boolean indicating whether the next data block will be
+ *        the last in the stream.
+ * \retval 0 Success
+ * \retval -1 Invalid \a fsound
+ */
+int fish_sound_prepare_truncation (FishSound * fsound, long next_granulepos,
+                                   int next_eos);
+
+#ifdef __cplusplus
+}
+#endif
+
+#include <fishsound/comments.h>
 
 #endif /* __FISH_SOUND_H__ */

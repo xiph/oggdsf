@@ -75,6 +75,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			mGranulePosShift = (((inOggPage->getPacket(0)->packetData()[40]) % 4) << 3) + ((inOggPage->getPacket(0)->packetData()[41]) >> 5);
 			mSampleRate = FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 22) / FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 26);
+			mNumHeaders = 3;
 			//Need denominators
 			//mTheoraFormatBlock->frameRateDenominator = FLACMath::charArrToULong(locIdentHeader + 26);
 		} else {
@@ -86,8 +87,8 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 
 
 	if (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) {
-		if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
-		//if ((mPacketCount > mNumHeaders) && (inOggPage->header()->HeaderFlags() & 1 != 1)) {
+		//if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
+		if ((mPacketCount > mNumHeaders) && ((inOggPage->header()->HeaderFlags() & 1) != 1)) {
 			addSeekPoint(mLastSeekTime, mFilePos);
 			
 		}
@@ -108,7 +109,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mLastSeekTime = ((inOggPage->header()->GranulePos()->value()) * DS_UNITS) / mSampleRate;
 			//stDebug<<"Last Seek Time : "<<mLastSeekTime;
 		}
-		if ((inOggPage->header()->HeaderFlags() & 1 == 1)) {
+		if (((inOggPage->header()->HeaderFlags() & 1) == 1)) {
 			//stDebug <<"    NOT SEEKABLE";
 			mLastIsSeekable = false;
 		}

@@ -145,7 +145,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath="..\src\libfishsound\comments.c">
+			</File>
+			<File
 				RelativePath="..\src\libfishsound\fishsound.c">
+			</File>
+			<File
+				RelativePath="..\src\libfishsound\fs_vector.c">
 			</File>
 			<File
 				RelativePath=".\libfishsound\libfishsound.def">
@@ -168,6 +174,9 @@
 			</File>
 			<File
 				RelativePath="..\include\fishsound\fishsound.h">
+			</File>
+			<File
+				RelativePath="..\src\libfishsound\fs_vector.h">
 			</File>
 			<File
 				RelativePath="..\src\libfishsound\private.h">

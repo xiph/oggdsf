@@ -63,6 +63,7 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {
 			theora_decode_init(&mTheoraState, &mTheoraInfo);
 			mFirstPacket = false;
 		}
+		
 			theora_decode_packetin(&mTheoraState, simulateOldOggPacket(inPacket));
 			
 			int locRetVal = theora_decode_YUVout(&mTheoraState, &mYUVBuffer);

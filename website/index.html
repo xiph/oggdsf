@@ -36,13 +36,11 @@ Also, if you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</
 Also any other windows application that uses directshow will also be vorbis/speex/flac/theora compatible.
 <br>
 <br>
-<b><u>Current Version (0.56.6741) - 21/05/2004</u></b><br>
-Most of the changes in this build are internal modifications to better deal with the need to determine start times of all samples in order to properly synchronise multi-stream files. The main externally visible change is the limited ability to seek in theora files without total loss of synch. There are still a few issues to be ironed out though.
+<b><u>Current Version (0.57.6744) - 22/05/2004</u></b><br>
+Previous release a few hours ago had hundreds of debug statements in the release build. It may have created log files in your C:\ Root directory as well as C:\temp and possibly in G:\ if you have a writable G drive. Sorry if you got this a few hours ago.
 <br>
-	<li>Modified internal timestamping mechanism, to allow resynch easier in theora.</li>
-	<li>Now able to seek in theora (not to keyframe), but occasionally crashes after seek.</li>
-	<li>Speex and vorbis, don't have seg fault any more, though very rarely after a seek there is no audio. Another seek fixes it.</li>
-	<li>Added simple new tool called OOOggStat, to give info on contained streams.</li>
+	<li>Removed a whole heap of debugging code.</li>
+	<li>See 0.56.6741 release below for latest changes.</li>
 
 <br>
 <b><u>Known issues.</u></b><br>
@@ -71,11 +69,11 @@ Most of the changes in this build are internal modifications to better deal with
 </TD>
 
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">768,952 bytes</div></DIV></FONT>
+<DIV><div align="right">759,287 bytes</div></DIV></FONT>
 </TD>
 
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.56.6741_small.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.57.6744_small.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -85,17 +83,26 @@ Most of the changes in this build are internal modifications to better deal with
 
 </TD>
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">4,218,972 bytes</div></DIV></FONT>
+<DIV><div align="right">4,209,307 bytes</div></DIV></FONT>
 </TD>
 
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.56.6741.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.57.6744.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
 </TABLE>
 </DIV>
 </FONT>
+<br>
+<b><u>Previous Version (0.56.6741) - 21/05/2004</u></b><br>
+Most of the changes in this build are internal modifications to better deal with the need to determine start times of all samples in order to properly synchronise multi-stream files. The main externally visible change is the limited ability to seek in theora files without total loss of synch. There are still a few issues to be ironed out though.
+<br>
+	<li>Modified internal timestamping mechanism, to allow resynch easier in theora.</li>
+	<li>Now able to seek in theora (not to keyframe), but occasionally crashes after seek.</li>
+	<li>Speex and vorbis, don't have seg fault any more, though very rarely after a seek there is no audio. Another seek fixes it.</li>
+	<li>Added simple new tool called OOOggStat, to give info on contained streams.</li>
+
 <br>
 <b><u>Previous Version (0.55.0115) - 27/04/2004</u></b><br>
 Vorbis and speex playback are now pretty much finished bar the very rare bug I mention below. I've played dozens of speex and vorbis files and they all seem just fine. Pretty much fully functional.<br>

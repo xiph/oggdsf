@@ -63,9 +63,6 @@ typedef enum _FishSoundCommand {
   /** No operation */
   FISH_SOUND_COMMAND_NOP                = 0x0000,
 
-  //Zen's hack
-  VORBIS_TELL_GRANULE_POS = 7,
-  SPEEX_TELL_GRANULE_POS = 8,
   /** Retrieve the FishSoundInfo */
   FISH_SOUND_GET_INFO                   = 0x1000,
 
@@ -76,8 +73,6 @@ typedef enum _FishSoundCommand {
   FISH_SOUND_SET_INTERLEAVE      = 0x2001,
 
   FISH_SOUND_SET_ENCODE_VBR             = 0x4000,
-
-  
   
   FISH_SOUND_COMMAND_MAX
 } FishSoundCommand;
@@ -87,11 +82,23 @@ typedef enum _FishSoundError {
   /** No error */
   FISH_SOUND_OK                         = 0,
 
+  /** generic error */
+  FISH_SOUND_ERR_GENERIC                = -1,
+
+  /** Not a valid FishSound* handle */
+  FISH_SOUND_ERR_BAD                    = -2,
+
+  /** The requested operation is not suitable for this FishSound* handle */
+  FISH_SOUND_ERR_INVALID                = -3,
+
   /** Functionality disabled at build time */
   FISH_SOUND_ERR_DISABLED               = -10,
 
   /** Too few bytes passed to fish_sound_identify() */
-  FISH_SOUND_ERR_SHORT_IDENTIFY         = -20
+  FISH_SOUND_ERR_SHORT_IDENTIFY         = -20,
+
+  /** Comment violates VorbisComment restrictions */
+  FISH_SOUND_ERR_COMMENT_INVALID        = -21
 } FishSoundError;
 
 #endif /* __FISH_SOUND_CONSTANTS_H__ */

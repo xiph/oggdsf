@@ -4,13 +4,14 @@ The libfishsound C API.
 
 
 {\tt \#include $<$fishsound/constants.h$>$}\par
+{\tt \#include $<$fishsound/comments.h$>$}\par
 \subsection*{Data Structures}
 \begin{CompactItemize}
 \item 
-struct {\bf Fish\-Sound\-Info}
-\begin{CompactList}\small\item\em Info about a particular encoder/decoder instance. \item\end{CompactList}\item 
 struct {\bf Fish\-Sound\-Format}
-\begin{CompactList}\small\item\em Info about a particular sound format. \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em Info about a particular sound format. \item\end{CompactList}\item 
+struct {\bf Fish\-Sound\-Info}
+\begin{CompactList}\small\item\em Info about a particular encoder/decoder instance. \item\end{CompactList}\end{CompactItemize}
 \subsection*{Typedefs}
 \begin{CompactItemize}
 \item 
@@ -46,15 +47,21 @@ int {\bf fish\_\-sound\_\-command} ({\bf Fish\-Sound} $\ast$fsound, int command,
 int {\bf fish\_\-sound\_\-get\_\-interleave} ({\bf Fish\-Sound} $\ast$fsound)
 \begin{CompactList}\small\item\em Query whether a Fish\-Sound object is using interleaved PCM. \item\end{CompactList}\item 
 int {\bf fish\_\-sound\_\-set\_\-interleave} ({\bf Fish\-Sound} $\ast$fsound, int interleave)
-\begin{CompactList}\small\item\em Set the PCM format used by a Fish\-Sound object. \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em Set the PCM format used by a Fish\-Sound object. \item\end{CompactList}\item 
+long {\bf fish\_\-sound\_\-get\_\-frameno} ({\bf Fish\-Sound} $\ast$fsound)
+\begin{CompactList}\small\item\em Query the current frame number of a Fish\-Sound object. \item\end{CompactList}\item 
+int {\bf fish\_\-sound\_\-set\_\-frameno} ({\bf Fish\-Sound} $\ast$fsound, long frameno)
+\begin{CompactList}\small\item\em Set the current frame number of a Fish\-Sound object. \item\end{CompactList}\item 
+int {\bf fish\_\-sound\_\-prepare\_\-truncation} ({\bf Fish\-Sound} $\ast$fsound, long next\_\-granulepos, int next\_\-eos)
+\begin{CompactList}\small\item\em Prepare truncation details for the next block of data. \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}
 The libfishsound C API. 
 
-\subsection{General usage}\label{fishsound_8h_general}
-All access is managed via a Fish\-Sound$\ast$ handle. This is instantiated using {\bf fish\_\-sound\_\-new()}{\rm (p.\,\pageref{fishsound_8h_a4})} and should be deleted with {\bf fish\_\-sound\_\-delete()}{\rm (p.\,\pageref{fishsound_8h_a11})} when no longer required. If there is a discontinuity in the input data (eg. after seeking in an input file), call {\bf fish\_\-sound\_\-reset()}{\rm (p.\,\pageref{fishsound_8h_a10})} to reset the internal codec state.\subsection{Decoding}\label{fishsound_8h_decoding}
-libfishsound provides callback based decoding: you feed it encoded audio data, and it will call your callback with decoded PCM. A more detailed explanation and a full example of decoding Ogg Vorbis and Speex files is provided in the {\bf Decoding audio data }{\rm (p.\,\pageref{group__decode})} section.\subsection{Encoding}\label{fishsound_8h_encoding}
+\subsection{General usage}\label{general}
+All access is managed via a Fish\-Sound$\ast$ handle. This is instantiated using {\bf fish\_\-sound\_\-new()}{\rm (p.\,\pageref{fishsound_8h_a4})} and should be deleted with {\bf fish\_\-sound\_\-delete()}{\rm (p.\,\pageref{fishsound_8h_a11})} when no longer required. If there is a discontinuity in the input data (eg. after seeking in an input file), call {\bf fish\_\-sound\_\-reset()}{\rm (p.\,\pageref{fishsound_8h_a10})} to reset the internal codec state.\subsection{Decoding}\label{decoding}
+libfishsound provides callback based decoding: you feed it encoded audio data, and it will call your callback with decoded PCM. A more detailed explanation and a full example of decoding Ogg Vorbis and Speex files is provided in the {\bf Decoding audio data }{\rm (p.\,\pageref{group__decode})} section.\subsection{Encoding}\label{encoding}
 libfishsound provides callback based encoding: you feed it PCM audio, and it will call your callback with encoded audio data. A more detailed explanation and a full example of encoding Ogg Vorbis and Speex files is provided in the {\bf Encoding audio data }{\rm (p.\,\pageref{group__encode})} section.
 
 \subsection{Typedef Documentation}
@@ -174,6 +181,29 @@ Flush any internally buffered data, forcing encode.
 \end{Desc}
 \begin{Desc}
 \item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{fishsound.h@{fishsound.h}!fish_sound_get_frameno@{fish\_\-sound\_\-get\_\-frameno}}
+\index{fish_sound_get_frameno@{fish\_\-sound\_\-get\_\-frameno}!fishsound.h@{fishsound.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}long fish\_\-sound\_\-get\_\-frameno ({\bf Fish\-Sound} $\ast$ {\em fsound})}\label{fishsound_8h_a15}
+
+
+Query the current frame number of a Fish\-Sound object. 
+
+For decoding, this is the greatest frame index that has been decoded and made available to a Fish\-Sound\-Decoded callback. This function is safe to call from within a Fish\-Sound\-Decoded callback, and corresponds to the frame number of the last frame in the current decoded block.
+
+For encoding, this is the greatest frame index that has been encoded. This function is safe to call from within a Fish\-Sound\-Encoded callback, and corresponds to the frame number of the last frame encoded in the current block.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fsound}]A Fish\-Sound$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The current frame number \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em -1}]Invalid {\em fsound\/} \end{description}
+\end{Desc}
 \index{fishsound.h@{fishsound.h}!fish_sound_get_interleave@{fish\_\-sound\_\-get\_\-interleave}}
 \index{fish_sound_get_interleave@{fish\_\-sound\_\-get\_\-interleave}!fishsound.h@{fishsound.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int fish\_\-sound\_\-get\_\-interleave ({\bf Fish\-Sound} $\ast$ {\em fsound})}\label{fishsound_8h_a13}
@@ -226,12 +256,37 @@ Instantiate a new Fish\-Sound$\ast$ handle.
 \end{Desc}
 \begin{Desc}
 \item[Returns:]A new Fish\-Sound$\ast$ handle, or NULL on error \end{Desc}
+\index{fishsound.h@{fishsound.h}!fish_sound_prepare_truncation@{fish\_\-sound\_\-prepare\_\-truncation}}
+\index{fish_sound_prepare_truncation@{fish\_\-sound\_\-prepare\_\-truncation}!fishsound.h@{fishsound.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int fish\_\-sound\_\-prepare\_\-truncation ({\bf Fish\-Sound} $\ast$ {\em fsound}, long {\em next\_\-granulepos}, int {\em next\_\-eos})}\label{fishsound_8h_a17}
+
+
+Prepare truncation details for the next block of data. 
+
+The semantics of these parameters derives directly from Ogg encapsulation of Vorbis, described {\tt here}.
+
+When decoding from Ogg, you should call this function with the {\em granulepos\/} and {\em eos\/} of the {\em ogg\_\-packet\/} structure. This call should be made before passing the packet's data to {\bf fish\_\-sound\_\-decode()}{\rm (p.\,\pageref{fishsound_8h_a7})}. Failure to do so may result in minor decode errors on the first and/or last packet of the stream.
+
+When encoding into Ogg, you should call this function with the {\em granulepos\/} and {\em eos\/} that will be used for the {\em ogg\_\-packet\/} structure. This call should be made before passing the block of audio data to {\bf fish\_\-sound\_\-encode()}{\rm (p.\,\pageref{fishsound_8h_a8})}. Failure to do so may result in minor encoding errors on the first and/or last packet of the stream.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fsound}]A Fish\-Sound$\ast$ handle \item[{\em next\_\-granulepos}]The \char`\"{}granulepos\char`\"{} for the next block to decode. If unknown, set {\em next\_\-granulepos\/} to -1. Otherwise, {\em next\_\-granulepos\/} specifies the frameno of the final frame in the block. This is authoritative, hence can be used to indicate various forms of truncation at the beginning or end of a stream. Mid-stream, a later-than-expected \char`\"{}granulepos\char`\"{} indicates that some data was missing. \item[{\em next\_\-eos}]A boolean indicating whether the next data block will be the last in the stream. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em -1}]Invalid {\em fsound\/} \end{description}
+\end{Desc}
 \index{fishsound.h@{fishsound.h}!fish_sound_reset@{fish\_\-sound\_\-reset}}
 \index{fish_sound_reset@{fish\_\-sound\_\-reset}!fishsound.h@{fishsound.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int fish\_\-sound\_\-reset ({\bf Fish\-Sound} $\ast$ {\em fsound})}\label{fishsound_8h_a10}
 
 
 Reset the codec state of a Fish\-Sound object. 
+
+When decoding from a seekable file, {\bf fish\_\-sound\_\-reset()}{\rm (p.\,\pageref{fishsound_8h_a10})} should be called after any seek operations. See also {\bf fish\_\-sound\_\-set\_\-frameno()}{\rm (p.\,\pageref{fishsound_8h_a16})}.
 
 \begin{Desc}
 \item[Parameters:]
@@ -268,6 +323,25 @@ Set the callback for libfishsound to call when it has a block of encoded data re
 \end{Desc}
 \begin{Desc}
 \item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{fishsound.h@{fishsound.h}!fish_sound_set_frameno@{fish\_\-sound\_\-set\_\-frameno}}
+\index{fish_sound_set_frameno@{fish\_\-sound\_\-set\_\-frameno}!fishsound.h@{fishsound.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int fish\_\-sound\_\-set\_\-frameno ({\bf Fish\-Sound} $\ast$ {\em fsound}, long {\em frameno})}\label{fishsound_8h_a16}
+
+
+Set the current frame number of a Fish\-Sound object. 
+
+When decoding from a seekable file, {\bf fish\_\-sound\_\-set\_\-frameno()}{\rm (p.\,\pageref{fishsound_8h_a16})} should be called after any seek operations, otherwise the value returned by {\bf fish\_\-sound\_\-get\_\-frameno()}{\rm (p.\,\pageref{fishsound_8h_a15})} will simply continue to increment. See also {\bf fish\_\-sound\_\-reset()}{\rm (p.\,\pageref{fishsound_8h_a10})}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fsound}]A Fish\-Sound$\ast$ handle \item[{\em frameno}]The current frame number. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em -1}]Invalid {\em fsound\/} \end{description}
+\end{Desc}
 \index{fishsound.h@{fishsound.h}!fish_sound_set_interleave@{fish\_\-sound\_\-set\_\-interleave}}
 \index{fish_sound_set_interleave@{fish\_\-sound\_\-set\_\-interleave}!fishsound.h@{fishsound.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int fish\_\-sound\_\-set\_\-interleave ({\bf Fish\-Sound} $\ast$ {\em fsound}, int {\em interleave})}\label{fishsound_8h_a14}

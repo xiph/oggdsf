@@ -5,7 +5,7 @@ To encode audio data using libfishsound:.
 \item create a Fish\-Sound$\ast$ object with mode FISH\_\-SOUND\_\-ENCODE, and with a {\bf Fish\-Sound\-Info}{\rm (p.\,\pageref{structFishSoundInfo})} structure filled in with the required encoding parameters. {\bf fish\_\-sound\_\-new()}{\rm (p.\,\pageref{fishsound_8h_a4})} will return a new Fish\-Sound$\ast$ object initialised for encoding.\item provide a Fish\-Sound\-Encoded callback for libfishsound to call when it has a block of encoded audio\item (optionally) specify whether you will be providing interleaved or per-channel PCM data, using a {\bf fish\_\-sound\_\-set\_\-interleave()}{\rm (p.\,\pageref{fishsound_8h_a14})}. The default is for per-channel (non-interleaved) PCM.\item feed raw PCM audio data to libfishsound via {\bf fish\_\-sound\_\-encode()}{\rm (p.\,\pageref{fishsound_8h_a8})}. libfishsound will encode the audio for you, calling the Fish\-Sound\-Encoded callback you provided earlier each time it has a block of encoded audio ready.\item when finished, call {\bf fish\_\-sound\_\-delete()}{\rm (p.\,\pageref{fishsound_8h_a11})}.\end{itemize}
 
 
-This procedure is illustrated in src/examples/encode.c. Note that this example additionally:\begin{itemize}
+This procedure is illustrated in src/examples/fishsound-encode.c. Note that this example additionally:\begin{itemize}
 \item uses {\tt libsndfile} to read input from a PCM audio file (WAV, AIFF, etc.)\item uses {\tt liboggz} to encapsulate the encoded Vorbis or Speex data in an Ogg stream.\end{itemize}
 
 

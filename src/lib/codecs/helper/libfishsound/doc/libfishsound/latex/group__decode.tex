@@ -5,7 +5,7 @@ To decode audio data using libfishsound:.
 \item create a Fish\-Sound$\ast$ object with mode FISH\_\-SOUND\_\-DECODE. {\bf fish\_\-sound\_\-new()}{\rm (p.\,\pageref{fishsound_8h_a4})} will return a new Fish\-Sound$\ast$ object, initialised for decoding, and the {\bf Fish\-Sound\-Info}{\rm (p.\,\pageref{structFishSoundInfo})} structure will be cleared.\item provide a Fish\-Sound\-Decoded callback for libfishsound to call when it has decoded audio.\item (optionally) specify whether you want to receive interleaved or per-channel PCM data, using a {\bf fish\_\-sound\_\-set\_\-interleave()}{\rm (p.\,\pageref{fishsound_8h_a14})}. The default is for per-channel (non-interleaved) PCM.\item feed encoded audio data to libfishsound via {\bf fish\_\-sound\_\-decode()}{\rm (p.\,\pageref{fishsound_8h_a7})}. libfishsound will decode the audio for you, calling the Fish\-Sound\-Decoded callback you provided earlier each time it has a block of audio ready.\item when finished, call {\bf fish\_\-sound\_\-delete()}{\rm (p.\,\pageref{fishsound_8h_a11})}.\end{itemize}
 
 
-This procedure is illustrated in src/examples/decode.c. Note that this example additionally:\begin{itemize}
+This procedure is illustrated in src/examples/fishsound-decode.c. Note that this example additionally:\begin{itemize}
 \item uses {\tt liboggz} to demultiplex audio data from an Ogg encapsulated Vorbis or Speex stream. Hence, the step of feeding encoded data to libfishsound is done within the Oggz\-Read\-Packet callback.\item uses {\tt libsndfile} to write the decoded audio to a WAV file.\end{itemize}
 
 
@@ -94,6 +94,7 @@ read_packet (OGGZ * oggz, ogg_packet * op, long serialno, void * user_data)
 {
   FishSound * fsound = (FishSound *)user_data;
 
+  fish_sound_prepare_truncation (fsound, op->granulepos, op->e_o_s);
   fish_sound_decode (fsound, op->packet, op->bytes);
 
   return 0;

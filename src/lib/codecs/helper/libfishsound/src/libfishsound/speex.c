@@ -49,12 +49,15 @@
 #include <speex_stereo.h>
 #include <speex_callbacks.h>
 
+/* Format for the vendor string: "Encoded with Speex VERSION", where VERSION
+ * is the libspeex version as read from a newly-generated Speex header.
+ */
+#define VENDOR_FORMAT "Encoded with Speex %s"
+
 #define DEFAULT_ENH_ENABLED 1
 
 #define MAX_FRAME_BYTES 2000
 
-//Zen's hack
-__int64 frame_count = 0;
 typedef struct _FishSoundSpeexEnc {
   int frame_offset; /* number of speex frames done in this packet */
   int pcm_offset;
@@ -83,7 +86,7 @@ fs_speex_identify (unsigned char * buf, long bytes)
 
   if (bytes < 8) return FISH_SOUND_UNKNOWN;
 
-  if (!strncmp (buf, "Speex   ", 8)) {
+  if (!strncmp ((char *)buf, "Speex   ", 8)) {
     /* if only a short buffer was passed, do a weak identify */
     if (bytes == 8) return FISH_SOUND_SPEEX;
 
@@ -101,13 +104,7 @@ fs_speex_identify (unsigned char * buf, long bytes)
 static int
 fs_speex_command (FishSound * fsound, int command, void * data, int datasize)
 {
-	if (command == SPEEX_TELL_GRANULE_POS) {
-		__int64* locTemp = (__int64*) data;
-		*locTemp = frame_count;
-			
-	}
-	return 0;
-
+  return 0;
 }
 
 #ifdef FS_DECODE
@@ -141,7 +138,8 @@ process_header(unsigned char * buf, long bytes, int enh_enabled,
   modeID = header->mode;
   if (forceMode!=-1)
     modeID = forceMode;
-  mode = speex_mode_list[modeID];
+  /* speex_mode_list[] is declared const in speex 1.1.x, hence the cast */
+  mode = (SpeexMode *)speex_mode_list[modeID];
 
   if (header->speex_version_id > 1) {
     /*
@@ -271,8 +269,11 @@ fs_speex_decode (FishSound * fsound, unsigned char * buf, long bytes)
 
     if (fss->nframes == 0) fss->nframes = 1;
 
+  } else if (fss->packetno == 1) {
+    /* Comments */
+    fish_sound_comments_decode (fsound, buf, bytes);
   } else if (fss->packetno <= 1+fss->extra_headers) {
-    /* XXX: metadata etc. */
+    /* Unknown extra headers */
   } else {
     speex_bits_read_from (&fss->bits, (char *)buf, (int)bytes);
 
@@ -302,6 +303,8 @@ fs_speex_decode (FishSound * fsound, unsigned char * buf, long bytes)
 	retpcm = (float **)fss->pcm;
       }
 
+      fsound->frameno += fss->frame_size;
+
       /* fss->pcm is ready to go! */
       if (fsound->callback) {
 	((FishSoundDecoded)fsound->callback) (fsound, retpcm,
@@ -329,11 +332,12 @@ fs_speex_enc_headers (FishSound * fsound)
   FishSoundSpeexInfo * fss = (FishSoundSpeexInfo *)fsound->codec_data;
   SpeexMode * mode = NULL;
   SpeexHeader header;
-  char * buf;
+  unsigned char * buf;
   int bytes;
 
   /* XXX: set wb, nb, uwb modes */
-  mode = &speex_wb_mode;
+  /* These modes are declared const in speex 1.1.x, hence the explicit cast */
+  mode = (SpeexMode *)&speex_wb_mode;
 
   speex_init_header (&header, fsound->info.samplerate, 1, mode);
   header.frames_per_packet = fss->nframes; /* XXX: frames per packet */
@@ -344,15 +348,23 @@ fs_speex_enc_headers (FishSound * fsound)
 
   if (fsound->callback) {
     FishSoundEncoded encoded = (FishSoundEncoded)fsound->callback;
+    char vendor_string[128];
 
     /* header */
-    buf = speex_header_to_packet (&header, &bytes);    
-    encoded (fsound, (unsigned char *)buf, (long)bytes, fsound->user_data);
+    buf = (unsigned char *) speex_header_to_packet (&header, &bytes);    
+    encoded (fsound, buf, (long)bytes, fsound->user_data);
     fss->packetno++;
     free (buf);
 
-    /* XXX: and comments */
-    encoded (fsound, NULL, 0, fsound->user_data);
+    /* comments */
+    snprintf (vendor_string, 128, VENDOR_FORMAT, header.speex_version);
+    fish_sound_comment_set_vendor (fsound, vendor_string);
+    bytes = fish_sound_comments_encode (fsound, NULL, 0);
+    buf = malloc (bytes);
+    bytes = fish_sound_comments_encode (fsound, buf, bytes);
+    encoded (fsound, buf, (long)bytes, fsound->user_data);
+    fss->packetno++;
+    free (buf);
   }
 
   speex_encoder_ctl (fss->st, SPEEX_SET_SAMPLING_RATE,
@@ -406,6 +418,7 @@ fs_speex_encode_block (FishSound * fsound)
   
   fse->frame_offset++;
   if (fse->frame_offset == fss->nframes) {
+    fsound->frameno += fss->frame_size * fss->nframes;
     nencoded = fs_speex_encode_write (fsound);
     fse->frame_offset = 0;
   }
@@ -418,7 +431,6 @@ fs_speex_encode_block (FishSound * fsound)
 static long
 fs_speex_encode_i (FishSound * fsound, float ** pcm, long frames)
 {
-  
   FishSoundSpeexInfo * fss = (FishSoundSpeexInfo *)fsound->codec_data;
   FishSoundSpeexEnc * fse = (FishSoundSpeexEnc *)fss->enc;
   long remaining = frames, len, nencoded = 0;
@@ -426,17 +438,12 @@ fs_speex_encode_i (FishSound * fsound, float ** pcm, long frames)
   int channels = fsound->info.channels;
   float * p = (float *)pcm;
 
-  
-
   if (fss->packetno == 0)
     fs_speex_enc_headers (fsound);
 
   while (remaining > 0) {
     len = MIN (remaining, fss->frame_size - fse->pcm_offset);
-	
-	//Zen's hack
-	frame_count+= len;
-	//
+
     start = fse->pcm_offset * channels;
     end = (len + fse->pcm_offset) * channels;
     for (j = start; j < end; j++) {
@@ -446,22 +453,7 @@ fs_speex_encode_i (FishSound * fsound, float ** pcm, long frames)
     fse->pcm_offset += len;
 
     if (fse->pcm_offset == fss->frame_size) {
-#if 0
-      fse->pcm_offset = 0;
-
-      if (fsound->info.channels == 2)
-	speex_encode_stereo (fss->ipcm, fss->frame_size, &fss->bits);
-      
-      speex_encode (fss->st, fss->ipcm, &fss->bits);
-    
-      fse->frame_offset++;
-      if (fse->frame_offset == fss->nframes) {
-	nencoded += fs_speex_encode_write (fsound);
-	fse->frame_offset = 0;
-      }
-#else
       nencoded += fs_speex_encode_block (fsound);
-#endif
     }
 
     remaining -= len;
@@ -474,7 +466,6 @@ static long
 fs_speex_encode_n (FishSound * fsound, float * pcm[], long frames)
 {
   FishSoundSpeexInfo * fss = (FishSoundSpeexInfo *)fsound->codec_data;
-  FishSoundSpeexEnc * fse = (FishSoundSpeexEnc *)fss->enc;
   long remaining = frames, len;
   int i, j;
 
@@ -521,23 +512,11 @@ fs_speex_flush (FishSound * fsound)
   FishSoundSpeexEnc * fse = (FishSoundSpeexEnc *)fss->enc;
   long nencoded = 0;
 
-  if (fse->pcm_offset > 0) {
-#if 0
-    fse->pcm_offset = 0;
+  if (fsound->mode != FISH_SOUND_ENCODE)
+    return 0;
 
-    if (fsound->info.channels == 2)
-      speex_encode_stereo (fss->ipcm, fse->pcm_offset, &fss->bits);
-      
-    speex_encode (fss->st, fss->ipcm, &fss->bits);
-    
-    fse->frame_offset++;
-    if (fse->frame_offset == fss->nframes) {
-      nencoded += fs_speex_encode_write (fsound);
-      fse->frame_offset = 0;
-    }
-#else
+  if (fse->pcm_offset > 0) {
     nencoded += fs_speex_encode_block (fsound);
-#endif
   }
 
   if (fse->frame_offset == 0) return 0;
@@ -572,15 +551,11 @@ fs_speex_reset (FishSound * fsound)
 static FishSound *
 fs_speex_enc_init (FishSound * fsound)
 {
-  
   FishSoundSpeexInfo * fss = (FishSoundSpeexInfo *)fsound->codec_data;
   FishSoundSpeexEnc * fse;
 
   fse = malloc (sizeof (FishSoundSpeexEnc));
   if (fse == NULL) return NULL;
-  //Zen's hack
-  frame_count = 0;
-  //
 
   fse->frame_offset = 0;
   fse->pcm_offset = 0;

@@ -92,16 +92,23 @@ fish_sound_new (int mode, FishSoundInfo * fsinfo)
 	if (fsinfo->format == FISH_SOUND_SPEEX) return NULL;
       }
     }
+  } else if (mode != FISH_SOUND_DECODE) {
+    return NULL;
   }
 
   fsound = malloc (sizeof (FishSound));
 
   fsound->mode = mode;
   fsound->interleave = 0;
+  fsound->frameno = 0;
+  fsound->next_granulepos = -1;
+  fsound->next_eos = 0;
   fsound->codec = NULL;
   fsound->codec_data = NULL;
   fsound->callback = NULL;
   fsound->user_data = NULL;
+
+  fish_sound_comments_init (fsound);
 
   if (mode == FISH_SOUND_DECODE) {
     fsound->info.samplerate = 0;
@@ -112,9 +119,10 @@ fish_sound_new (int mode, FishSoundInfo * fsinfo)
     fsound->info.channels = fsinfo->channels;
     fsound->info.format = fsinfo->format;
 
-    fish_sound_set_format (fsound, fsinfo->format);
-  } else {
-    /* XXX: error */
+    if (fish_sound_set_format (fsound, fsinfo->format) == -1) {
+      free (fsound);
+      return NULL;
+    }
   } 
 
   return fsound;
@@ -276,6 +284,36 @@ fish_sound_set_interleave (FishSound * fsound, int interleave)
   if (fsound == NULL) return -1;
 
   fsound->interleave = (interleave ? 1 : 0);
+
+  return 0;
+}
+
+long
+fish_sound_get_frameno (FishSound * fsound)
+{
+  if (fsound == NULL) return -1L;
+
+  return fsound->frameno;
+}
+
+int
+fish_sound_set_frameno (FishSound * fsound, long frameno)
+{
+  if (fsound == NULL) return -1;
+
+  fsound->frameno = frameno;
+
+  return 0;
+}
+
+int
+fish_sound_prepare_truncation (FishSound * fsound, long next_granulepos,
+			       int next_eos)
+{
+  if (fsound == NULL) return -1;
+
+  fsound->next_granulepos = next_granulepos;
+  fsound->next_eos = next_eos;
 
   return 0;
 }
