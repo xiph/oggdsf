@@ -34,6 +34,10 @@
 
 #include "stdafx.h"
 
+//These ignore unreferenced formal parameter (lpReserved and hModule since they are unused)
+#pragma warning( push )
+#pragma warning( disable : 4100 )
+
 BOOL APIENTRY DllMain( HANDLE, 
                        DWORD  ul_reason_for_call, 
                        LPVOID
@@ -50,3 +54,4 @@ BOOL APIENTRY DllMain( HANDLE,
     return TRUE;
 }
 
+#pragma warning( pop )
