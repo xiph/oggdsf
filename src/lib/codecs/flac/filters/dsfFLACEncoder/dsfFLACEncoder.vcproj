@@ -118,6 +118,15 @@
 				RelativePath=".\dsfFLACEncoder.cpp">
 			</File>
 			<File
+				RelativePath=".\FLACEncodeFilter.cpp">
+			</File>
+			<File
+				RelativePath=".\FLACEncodeInputPin.cpp">
+			</File>
+			<File
+				RelativePath=".\FLACEncodeOutputPin.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -137,6 +146,15 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath=".\FLACEncodeFilter.h">
+			</File>
+			<File
+				RelativePath=".\FLACEncodeInputPin.h">
+			</File>
+			<File
+				RelativePath=".\FLACEncodeOutputPin.h">
+			</File>
 			<File
 				RelativePath=".\stdafx.h">
 			</File>
