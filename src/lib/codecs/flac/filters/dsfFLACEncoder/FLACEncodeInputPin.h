@@ -44,14 +44,18 @@
 
 //#include <fstream>
 //using namespace std;
+
+using namespace FLAC::Encoder;
+
 class FLACEncodeInputPin
 	:	public AbstractAudioEncodeInputPin
+	,	public Stream
 {
 public:
 	FLACEncodeInputPin(AbstractAudioEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin);
 	virtual ~FLACEncodeInputPin(void);
 
-	static int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
+	//static int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
 	//PURE VIRTUALS
 	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
 	virtual bool ConstructCodec();

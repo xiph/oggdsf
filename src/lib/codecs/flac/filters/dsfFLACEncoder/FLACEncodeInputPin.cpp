@@ -34,7 +34,7 @@
 
 FLACEncodeInputPin::FLACEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)
 	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACEncodeInputPin"), L"PCM In")
-	,	mFishSound(NULL)
+	
 {
 	//debugLog.open("C:\\temp\\FLACenc.log", ios_base::out);
 }
@@ -50,36 +50,36 @@ FLACEncodeInputPin::~FLACEncodeInputPin(void)
 long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
 
-	//debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
-	
-	float* locFloatBuf = new float[inNumBytes/2];
-	short locTempShort = 0;
-	float locTempFloat = 0;
-
-	//__int64 locGranPos = 0;
-	//Removed hack for gran pos
-	//fish_sound_command(mFishSound, 8, &locGranPos, sizeof(__int64));
+	////debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
 	//
-	//locGranPos = fish_sound_get_frameno(mFishSound);
-	//mUptoFrame = locGranPos;
-	//__int64 locTemp = ((FishSoundFLACInfo*)mFishSound->codec_data)->vd.pcm_returned;
-	for (int i = 0; i < inNumBytes; i += 2) {
-		locTempShort = *((short*)(inBuf + i));
-		locTempFloat = (float)locTempShort;
-		locTempFloat /= 32767.0;
-		locFloatBuf[i/2] = locTempFloat;;
-	}
-	//debugLog<<"Calling encode"<<endl;
-	//FIX::: The 2 is the size of a sample ie 16 bits
-	long locErr = fish_sound_encode(mFishSound, (float**)locFloatBuf, inNumBytes/(mFishInfo.channels*2));
-	delete locFloatBuf;
-	//FIX::: Do something here ?
-	if (locErr < 0) {
-		//debugLog<<"Fishsound reports error"<<endl;
-	} else {
-	
-	}
-	return locErr;
+	//float* locFloatBuf = new float[inNumBytes/2];
+	//short locTempShort = 0;
+	//float locTempFloat = 0;
+
+	////__int64 locGranPos = 0;
+	////Removed hack for gran pos
+	////fish_sound_command(mFishSound, 8, &locGranPos, sizeof(__int64));
+	////
+	////locGranPos = fish_sound_get_frameno(mFishSound);
+	////mUptoFrame = locGranPos;
+	////__int64 locTemp = ((FishSoundFLACInfo*)mFishSound->codec_data)->vd.pcm_returned;
+	//for (int i = 0; i < inNumBytes; i += 2) {
+	//	locTempShort = *((short*)(inBuf + i));
+	//	locTempFloat = (float)locTempShort;
+	//	locTempFloat /= 32767.0;
+	//	locFloatBuf[i/2] = locTempFloat;;
+	//}
+	////debugLog<<"Calling encode"<<endl;
+	////FIX::: The 2 is the size of a sample ie 16 bits
+	//long locErr = fish_sound_encode(mFishSound, (float**)locFloatBuf, inNumBytes/(mFishInfo.channels*2));
+	//delete locFloatBuf;
+	////FIX::: Do something here ?
+	//if (locErr < 0) {
+	//	//debugLog<<"Fishsound reports error"<<endl;
+	//} else {
+	//
+	//}
+	//return locErr;
 }
 bool FLACEncodeInputPin::ConstructCodec() {
 	//mFishInfo.channels = mWaveFormat->nChannels;
@@ -106,64 +106,64 @@ void FLACEncodeInputPin::DestroyCodec() {
 
 
 //Encoded callback
-int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) 
-{
-
-	//For convenience we do all these cast once and for all here.
-	FLACEncodeInputPin* locThis = reinterpret_cast<FLACEncodeInputPin*> (inThisPointer);
-	FLACEncodeFilter* locFilter = reinterpret_cast<FLACEncodeFilter*>(locThis->m_pFilter);
-	//locThis->debugLog << "FLACEncoded called with "<<inNumBytes<< " byte of data"<<endl;
-
-	//Time stamps are granule pos not directshow times
-	LONGLONG locFrameStart = locThis->mUptoFrame;
-	LONGLONG locFrameEnd	= locThis->mUptoFrame
-							= fish_sound_get_frameno(locThis->mFishSound);
-
-	
-	//locThis->debugLog << "Stamping packet "<<locFrameStart<< " to "<<locFrameEnd<<endl;
-	//Get a pointer to a new sample stamped with our time
-	IMediaSample* locSample;
-	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
-	if (FAILED(locHR)) {
-		//We get here when the application goes into stop mode usually.
-		//locThis->debugLog<<"Getting buffer failed"<<endl;
-		return locHR;
-	}	
-	
-	BYTE* locBuffer = NULL;
-
-	
-	//Make our pointers set to point to the samples buffer
-	locSample->GetPointer(&locBuffer);
-
-	
-
-	if (locSample->GetSize() >= inNumBytes) {
-
-		memcpy((void*)locBuffer, (const void*)inPacketData, inNumBytes);
-		
-		//Set the sample parameters.
-		locThis->SetSampleParams(locSample, inNumBytes, &locFrameStart, &locFrameEnd);
-
-		{
-			CAutoLock locLock(locThis->m_pLock);
-
-			//Add a reference so it isn't deleted en route.
-			//locSample->AddRef();
-			HRESULT locHR = locThis->mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
-			if (locHR != S_OK) {
-				//locThis->debugLog<<"Sample rejected"<<endl;
-			} else {
-				//locThis->debugLog<<"Sample Delivered"<<endl;
-			}
-		}
-
-		return 0;
-	} else {
-		throw 0;
-	}
-}
+//int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) 
+//{
+//
+//	//For convenience we do all these cast once and for all here.
+//	FLACEncodeInputPin* locThis = reinterpret_cast<FLACEncodeInputPin*> (inThisPointer);
+//	FLACEncodeFilter* locFilter = reinterpret_cast<FLACEncodeFilter*>(locThis->m_pFilter);
+//	//locThis->debugLog << "FLACEncoded called with "<<inNumBytes<< " byte of data"<<endl;
+//
+//	//Time stamps are granule pos not directshow times
+//	LONGLONG locFrameStart = locThis->mUptoFrame;
+//	LONGLONG locFrameEnd	= locThis->mUptoFrame
+//							= fish_sound_get_frameno(locThis->mFishSound);
+//
+//	
+//	//locThis->debugLog << "Stamping packet "<<locFrameStart<< " to "<<locFrameEnd<<endl;
+//	//Get a pointer to a new sample stamped with our time
+//	IMediaSample* locSample;
+//	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
+//
+//	if (FAILED(locHR)) {
+//		//We get here when the application goes into stop mode usually.
+//		//locThis->debugLog<<"Getting buffer failed"<<endl;
+//		return locHR;
+//	}	
+//	
+//	BYTE* locBuffer = NULL;
+//
+//	
+//	//Make our pointers set to point to the samples buffer
+//	locSample->GetPointer(&locBuffer);
+//
+//	
+//
+//	if (locSample->GetSize() >= inNumBytes) {
+//
+//		memcpy((void*)locBuffer, (const void*)inPacketData, inNumBytes);
+//		
+//		//Set the sample parameters.
+//		locThis->SetSampleParams(locSample, inNumBytes, &locFrameStart, &locFrameEnd);
+//
+//		{
+//			CAutoLock locLock(locThis->m_pLock);
+//
+//			//Add a reference so it isn't deleted en route.
+//			//locSample->AddRef();
+//			HRESULT locHR = locThis->mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+//			if (locHR != S_OK) {
+//				//locThis->debugLog<<"Sample rejected"<<endl;
+//			} else {
+//				//locThis->debugLog<<"Sample Delivered"<<endl;
+//			}
+//		}
+//
+//		return 0;
+//	} else {
+//		throw 0;
+//	}
+//}
 
 
 HRESULT FLACEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
