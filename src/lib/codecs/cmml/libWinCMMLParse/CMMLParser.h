@@ -74,7 +74,7 @@ public:
 	bool parseCMMLRootTag(MSXML2::IXMLDOMNode* inCMMLRootNode, C_CMMLRootTag* outCMMLRoot);
 
 	
-	bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
+	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
 
 
 

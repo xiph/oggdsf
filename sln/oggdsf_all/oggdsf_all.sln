@@ -1139,6 +1139,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testTemporal", "..\..\src\t
 		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC} = {37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libCMMLParseDotNET", "..\..\src\lib\codecs\cmml\libCMMLParseDotNET\libCMMLParseDotNET.vcproj", "{150940C1-A4EF-474D-8703-DF7100ABDA52}"
+	ProjectSection(ProjectDependencies) = postProject
+		{23BAAF7B-AEC3-4812-AA91-7E5061E83A39} = {23BAAF7B-AEC3-4812-AA91-7E5061E83A39}
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA} = {AD38DCC6-B431-4B32-8569-74F3376EF2DA}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2528,6 +2534,26 @@ Global
 		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_SSE.Build.0 = Release|Win32
 		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_SSE2.ActiveCfg = Release|Win32
 		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_SSE2.Build.0 = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Debug.ActiveCfg = Debug|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Debug.Build.0 = Debug|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Debug Unicode.ActiveCfg = Debug|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Debug Unicode.Build.0 = Debug|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Debug__cdecl.ActiveCfg = Debug|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Debug__cdecl.Build.0 = Debug|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.MakeFile.ActiveCfg = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.MakeFile.Build.0 = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release.ActiveCfg = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release.Build.0 = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release Unicode.ActiveCfg = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release Unicode.Build.0 = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release__cdecl.ActiveCfg = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release__cdecl.Build.0 = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release_NoDotNET.Build.0 = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release_SSE.ActiveCfg = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release_SSE.Build.0 = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release_SSE2.ActiveCfg = Release|Win32
+		{150940C1-A4EF-474D-8703-DF7100ABDA52}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
