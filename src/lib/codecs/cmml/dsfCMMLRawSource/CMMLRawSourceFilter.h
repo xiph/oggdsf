@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include "libWinCMMLParse.h"
-#include "CMMLParser.h"
+#include <libWinCMMLParse/libWinCMMLParse.h>
+#include <libWinCMMLParse/CMMLParser.h>
 #include "CMMLRawSourcePin.h"
 using namespace std;
 

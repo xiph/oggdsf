@@ -39,11 +39,11 @@
 using namespace std;
 
 //Local Include Files
-#include "C_HumReadCMMLTag.h"
-#include "C_MetaTagList.h"
-#include "C_AnchorTag.h"
-#include "C_ImageTag.h"
-#include "C_DescTag.h"
+#include <libCMMLTags/C_HumReadCMMLTag.h>
+#include <libCMMLTags/C_MetaTagList.h>
+#include <libCMMLTags/C_AnchorTag.h>
+#include <libCMMLTags/C_ImageTag.h>
+#include <libCMMLTags/C_DescTag.h>
 
 
 class LIBCMMLTAGS_API C_ClipTag :

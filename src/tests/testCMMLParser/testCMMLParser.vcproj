@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\lib\codecs\cmml\libCMMLTags;..\..\lib\codecs\cmml\libWinCMMLParse"
+				AdditionalIncludeDirectories="..\..\lib\codecs\cmml;..\..\lib\codecs\cmml"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -68,7 +68,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\lib\codecs\cmml\libCMMLTags;..\..\lib\codecs\cmml\libWinCMMLParse"
+				AdditionalIncludeDirectories="..\..\lib\codecs\cmml;..\..\lib\codecs\cmml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"

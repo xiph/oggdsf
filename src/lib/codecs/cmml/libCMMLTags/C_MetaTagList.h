@@ -32,8 +32,8 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #pragma once
-#include "C_MappedTagList.h"
-#include "C_MetaTag.h"
+#include <libCMMLTags/C_MappedTagList.h>
+#include <libCMMLTags/C_MetaTag.h>
 
 class LIBCMMLTAGS_API C_MetaTagList
 	: public C_MappedTagList

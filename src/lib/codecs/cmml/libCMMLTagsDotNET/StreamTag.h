@@ -45,7 +45,7 @@ using namespace illiminable::libiWrapper;
 
 #pragma unmanaged
 #include <config.h>
-#include <C_StreamTag.h>
+#include <libCMMLTags/C_StreamTag.h>
 #pragma managed
 
 namespace illiminable {

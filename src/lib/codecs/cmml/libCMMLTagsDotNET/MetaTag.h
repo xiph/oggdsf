@@ -41,7 +41,7 @@ using namespace illiminable::libiWrapper;
 
 #pragma unmanaged
 #include <config.h>
-#include <C_MetaTag.h>
+#include <libCMMLTags/C_MetaTag.h>
 #pragma managed
 
 namespace illiminable {

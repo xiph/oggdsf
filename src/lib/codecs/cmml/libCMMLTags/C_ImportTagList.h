@@ -38,8 +38,8 @@
 using namespace std;
 
 //Local Include Files
-#include "C_TagList.h"
-#include "C_ImportTag.h"
+#include <libCMMLTags/C_TagList.h>
+#include <libCMMLTags/C_ImportTag.h>
 class LIBCMMLTAGS_API C_ImportTagList
 	//Derived Classes
 	: public C_TagList

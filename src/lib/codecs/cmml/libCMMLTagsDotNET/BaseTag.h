@@ -43,7 +43,7 @@ using namespace illiminable::libiWrapper;
 
 #pragma unmanaged
 #include <config.h>
-#include <C_BaseTag.h>
+#include <libCMMLTags/C_BaseTag.h>
 #pragma managed
 
 namespace illiminable {

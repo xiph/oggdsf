@@ -45,9 +45,9 @@
 using namespace std;
 
 //Local Include Files
-#include "C_CMMLPreamble.h"
-#include "C_CMMLRootTag.h"
-//#include "C_CMMLError.h"
+#include <libCMMLTags/C_CMMLPreamble.h>
+#include <libCMMLTags/C_CMMLRootTag.h>
+//#include <libCMMLTags/C_CMMLError.h>
 
 
 //typedef int (*CMMLReadStreamCB)  (const C_StreamTag *inStream, void * user_data);

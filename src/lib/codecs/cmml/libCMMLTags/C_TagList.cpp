@@ -77,7 +77,7 @@ wstring C_TagList::toString() {
 }
 
 void C_TagList::privateClone(C_TagList* outTagList) {
-	for (int i = 0; i < mTagList.size(); i++) {
+	for (unsigned int i = 0; i < mTagList.size(); i++) {
 		outTagList->addTag(mTagList[i]->genericClone());
 	}
 

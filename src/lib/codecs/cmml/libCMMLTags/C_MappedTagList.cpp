@@ -99,7 +99,7 @@ wstring C_MappedTagList::toString() {
 }
 
 void C_MappedTagList::privateClone(C_MappedTagList* outTagList) {
-	for(int i = 0; i < mTagList.size(); i++) {
+	for(unsigned int i = 0; i < mTagList.size(); i++) {
 		outTagList->addTag(mTagList[i]->mappedClone());
 
 	}

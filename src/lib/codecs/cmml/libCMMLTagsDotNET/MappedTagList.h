@@ -40,7 +40,7 @@ using namespace illiminable::libiWrapper;
 
 #pragma unmanaged
 #include <config.h>
-#include <C_MappedTagList.h>
+#include <libCMMLTags/C_MappedTagList.h>
 #pragma managed
 
 namespace illiminable {

@@ -38,11 +38,11 @@
 using namespace std;
 
 //Local Include Files
-#include "C_CMMLTag.h"
-#include "C_HumReadCMMLTag.h"
-#include "C_StreamTag.h"
-#include "C_HeadTag.h"
-#include "C_ClipTagList.h"
+#include <libCMMLTags/C_CMMLTag.h>
+#include <libCMMLTags/C_HumReadCMMLTag.h>
+#include <libCMMLTags/C_StreamTag.h>
+#include <libCMMLTags/C_HeadTag.h>
+#include <libCMMLTags/C_ClipTagList.h>
 
 class LIBCMMLTAGS_API C_CMMLRootTag :
 	//Derived Classes

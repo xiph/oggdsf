@@ -44,7 +44,7 @@ using namespace illiminable::libiWrapper;
 
 #pragma unmanaged
 #include <config.h>
-#include <C_HumReadCMMLTag.h>
+#include <libCMMLTags/C_HumReadCMMLTag.h>
 #pragma managed
 
 namespace illiminable {

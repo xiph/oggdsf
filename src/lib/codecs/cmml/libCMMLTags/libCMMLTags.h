@@ -48,29 +48,29 @@
 #include "config.h"
 
 // These classes are exported from the cpp_lib_cmml.dll
-#include "C_AnchorTag.h"
-#include "C_BaseTag.h"
-#include "C_ClipTag.h"
-#include "C_ClipTagList.h"
-#include "C_CMMLDoc.h"
-#include "C_CMMLPreamble.h"
-#include "C_CMMLRootTag.h"
-#include "C_CMMLTag.h"
-#include "C_DescTag.h"
-#include "C_HeadTag.h"
-#include "C_HumReadCMMLTag.h"
-#include "C_ImageTag.h"
-#include "C_ImportTag.h"
-#include "C_ImportTagList.h"
-#include "C_Int64.h"				//Remove ??
-#include "C_MappedTag.h"
-#include "C_MappedTagList.h"
-#include "C_MetaTag.h"
-#include "C_MetaTagList.h"
-#include "C_ParamTag.h"
-#include "C_ParamTagList.h"
-#include "C_StreamTag.h"
-#include "C_TagList.h"
-#include "C_TextFieldTag.h"
-#include "C_TitleTag.h"
+#include <libCMMLTags/C_AnchorTag.h>
+#include <libCMMLTags/C_BaseTag.h>
+#include <libCMMLTags/C_ClipTag.h>
+#include <libCMMLTags/C_ClipTagList.h>
+#include <libCMMLTags/C_CMMLDoc.h>
+#include <libCMMLTags/C_CMMLPreamble.h>
+#include <libCMMLTags/C_CMMLRootTag.h>
+#include <libCMMLTags/C_CMMLTag.h>
+#include <libCMMLTags/C_DescTag.h>
+#include <libCMMLTags/C_HeadTag.h>
+#include <libCMMLTags/C_HumReadCMMLTag.h>
+#include <libCMMLTags/C_ImageTag.h>
+#include <libCMMLTags/C_ImportTag.h>
+#include <libCMMLTags/C_ImportTagList.h>
+#include <libCMMLTags/C_Int64.h>				//Remove ??
+#include <libCMMLTags/C_MappedTag.h>
+#include <libCMMLTags/C_MappedTagList.h>
+#include <libCMMLTags/C_MetaTag.h>
+#include <libCMMLTags/C_MetaTagList.h>
+#include <libCMMLTags/C_ParamTag.h>
+#include <libCMMLTags/C_ParamTagList.h>
+#include <libCMMLTags/C_StreamTag.h>
+#include <libCMMLTags/C_TagList.h>
+#include <libCMMLTags/C_TextFieldTag.h>
+#include <libCMMLTags/C_TitleTag.h>
 

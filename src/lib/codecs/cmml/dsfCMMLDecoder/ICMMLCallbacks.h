@@ -33,7 +33,7 @@
 //===========================================================================
 
 #pragma once
-#include "libCMMLTags.h"
+#include <libCMMLTags/libCMMLTags.h>
 
 class ICMMLCallbacks
 {

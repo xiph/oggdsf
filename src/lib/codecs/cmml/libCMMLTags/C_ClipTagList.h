@@ -38,8 +38,8 @@
 using namespace std;
 
 //Local Include Files
-#include "C_TagList.h"
-#include "C_ClipTag.h"
+#include <libCMMLTags/C_TagList.h>
+#include <libCMMLTags/C_ClipTag.h>
 
 //TO DO:::Make this class !
 class LIBCMMLTAGS_API C_ClipTagList :

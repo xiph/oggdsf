@@ -39,7 +39,7 @@
 using namespace std;
 
 //Local Include Files
-#include "C_MappedTag.h"
+#include <libCMMLTags/C_MappedTag.h>
 
 class LIBCMMLTAGS_API C_MappedTagList
 {

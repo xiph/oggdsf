@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml\libWinCMMLParse;..\..\cmml\libCMMLTags"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml;..\..\cmml"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFCMMLRAWSOURCE_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -72,7 +72,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml\libWinCMMLParse;..\..\cmml\libCMMLTags"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml;..\..\cmml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFCMMLRAWSOURCE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
@@ -125,7 +125,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml\libWinCMMLParse;..\..\cmml\libCMMLTags"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml;..\..\cmml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFCMMLRAWSOURCE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableEnhancedInstructionSet="2"
@@ -179,7 +179,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml\libWinCMMLParse;..\..\cmml\libCMMLTags"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\helper;..\..\cmml;..\..\cmml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFCMMLRAWSOURCE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableEnhancedInstructionSet="1"

@@ -35,7 +35,7 @@
 #pragma once
 
 #include <string>
-#include "libCMMLTags.h"
+#include <libCMMLTags/libCMMLTags.h>
 
 #import <msxml3.dll> raw_interfaces_only
 using namespace MSXML2;

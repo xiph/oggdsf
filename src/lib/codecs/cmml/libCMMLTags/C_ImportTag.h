@@ -38,9 +38,9 @@
 using namespace std;
 
 //Local Include Files
-#include "C_HumReadCMMLTag.h"
-#include "C_ParamTagList.h"
-#include "C_CMMLTime.h"
+#include <libCMMLTags/C_HumReadCMMLTag.h>
+#include <libCMMLTags/C_ParamTagList.h>
+#include <libCMMLTags/C_CMMLTime.h>
 
 class LIBCMMLTAGS_API C_ImportTag
 	//Derived Classes

@@ -5,8 +5,8 @@
 
 #include "libCMMLTags.h"
 
-#include "libWinCMMLParse.h"
-#include "CMMLParser.h"
+#include <libWinCMMLParse/libWinCMMLParse.h>
+#include <libWinCMMLParse/CMMLParser.h>
 
 
 bool testHeadParse(wstring inHeadString) {

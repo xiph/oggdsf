@@ -39,8 +39,8 @@
 using namespace std;
 
 //Local Include Files
-#include "C_ParamTag.h"
-#include "C_MappedTagList.h"
+#include <libCMMLTags/C_ParamTag.h>
+#include <libCMMLTags/C_MappedTagList.h>
 
 class LIBCMMLTAGS_API C_ParamTagList 
 	//Derived Classes

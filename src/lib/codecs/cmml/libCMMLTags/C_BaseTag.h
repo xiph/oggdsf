@@ -38,7 +38,7 @@
 using namespace std;
 
 //Local Include Files
-#include "C_CMMLTag.h"
+#include <libCMMLTags/C_CMMLTag.h>
 
 class LIBCMMLTAGS_API C_BaseTag
 	//Derived Classes

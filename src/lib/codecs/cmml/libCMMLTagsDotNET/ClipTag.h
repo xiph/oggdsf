@@ -45,7 +45,7 @@ using namespace illiminable::libiWrapper;
 
 #pragma unmanaged
 #include <config.h>
-#include <C_ClipTag.h>
+#include <libCMMLTags/C_ClipTag.h>
 #pragma managed
 
 namespace illiminable {

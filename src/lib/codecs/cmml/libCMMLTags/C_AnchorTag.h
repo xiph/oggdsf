@@ -39,7 +39,7 @@
 using namespace std;
 
 //Local Include Files
-#include "C_TextFieldTag.h"
+#include <libCMMLTags/C_TextFieldTag.h>
 
 class LIBCMMLTAGS_API C_AnchorTag
 	//Derived Classes

@@ -43,4 +43,4 @@
 // Windows Header Files:
 #include <windows.h>
 
-#include "libWinCMMLParse.h"
+#include <libWinCMMLParse/libWinCMMLParse.h>
