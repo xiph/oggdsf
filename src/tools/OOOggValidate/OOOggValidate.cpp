@@ -19,8 +19,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	//
 	//bytePos = 0;
 
-	int x;
-	cin>>x;
+
 
 	if (argc < 2) {
 		cout<<"Usage : OOOggValidate <filename>"<<endl;
