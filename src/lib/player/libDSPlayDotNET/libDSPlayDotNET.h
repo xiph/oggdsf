@@ -9,7 +9,6 @@
 #using "libCMMLTagsDotNET.dll"
 using namespace illiminable::libCMMLTagsDotNET;
 using namespace std;
-
 using namespace System;
 
 namespace illiminable {

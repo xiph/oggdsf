@@ -73,6 +73,7 @@
 				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Release"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
+				RuntimeLibrary="2"
 				WarningLevel="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>

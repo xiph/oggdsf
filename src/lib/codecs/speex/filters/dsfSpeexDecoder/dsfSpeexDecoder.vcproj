@@ -95,7 +95,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmbase.lib Msvcrt.lib Winmm.lib Strmiids.lib  Quartz.lib"
+				AdditionalDependencies="Strmbase.lib Winmm.lib Strmiids.lib  Quartz.lib"
 				OutputFile="$(OutDir)/dsfSpeexDecoder.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"

@@ -72,8 +72,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags"
-				AdditionalUsingDirectories="..\..\helper\libiWrapper\Release"
+				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include"
+				AdditionalUsingDirectories="..\..\helper\libiWrapper\Release;..\..\codecs\cmml\libCMMLTagsDotNET\Release"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
 				RuntimeLibrary="2"
@@ -87,7 +87,7 @@
 				AdditionalDependencies="strmiids.lib"
 				OutputFile="$(OutDir)/libDSPlayDotNET.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\helper\libiWrapper\Release;G:\Dev\oggdsf\src\lib\helper\libiWrapper\Release"
+				AdditionalLibraryDirectories="..\..\helper\libiWrapper\Release;G:\Dev\oggdsf\src\lib\helper\libiWrapper\Release;C:\DXSDK\Lib"
 				GenerateDebugInformation="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
