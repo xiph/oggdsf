@@ -126,6 +126,10 @@ void C_ClipTag::privateClone(C_CMMLTag* outTag) {
 	locTag->setDesc(mDesc->clone());
 	locTag->setStart(mStart);
 	locTag->setEnd(mEnd);
+	//locTag->mMetaList = mMetaList->clone();
+	for (int i = 0; i < mMetaList->numTags(); i++) {
+		locTag->metaList()->addTag(mMetaList->getTag(i)->clone());
+	}
 }
 wstring C_ClipTag::toString() {
 	wstring retStr = L"<clip";

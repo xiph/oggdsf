@@ -87,7 +87,8 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void ClipTag::setTrack(String* inTrack) {
 		wchar_t* tc = Wrappers::netStrToWStr( inTrack );
-		getMe()->setTrack( tc );
+		wstring locStr = tc;
+		getMe()->setTrack( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 	void ClipTag::setAnchor(AnchorTag* inAnchor) {

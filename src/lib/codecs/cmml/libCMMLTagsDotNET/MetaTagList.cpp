@@ -59,6 +59,7 @@ namespace libCMMLTagsDotNET {
 
 
 	void MetaTagList::addTag(MetaTag* inTag) {
+		getMe()->addTag(inTag->getMe()->clone());
 
 	}
 	void MetaTagList::addTag(String* inName, String* inContent) {
