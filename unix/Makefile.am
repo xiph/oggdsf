@@ -15,6 +15,9 @@ bin_PROGRAMS = \
 	AnxCutter \
 	$(NULL)
 
+noinst_PROGRAMS = \
+	testCMMLParser
+
 lib_LTLIBRARIES = \
 	libilliCore.la \
 	libCMMLTags.la \
@@ -24,7 +27,6 @@ lib_LTLIBRARIES = \
 	libOOOggSeek.la \
 	libVorbisComment.la \
 	$(NULL)
-#libOOOggChef.la
 
 INCLUDES = \
 	   -I@top_srcdir@/../src/lib/helper \
@@ -67,7 +69,6 @@ libCMMLTags_la_SOURCES = \
 	../src/lib/codecs/cmml/libCMMLTags/C_TextFieldTag.cpp \
 	../src/lib/codecs/cmml/libCMMLTags/C_TitleTag.cpp \
 	$(NULL)
-
 libCMMLTagsdir = $(includedir)/libCMMLTags
 libCMMLTags_HEADERS = \
 	../src/lib/codecs/cmml/libCMMLTags/C_AnchorTag.h \
@@ -102,13 +103,13 @@ libCMMLTags_HEADERS = \
 	../src/lib/codecs/cmml/libCMMLTags/libCMMLTags.h \
 	$(NULL)
 
+
 libCMMLParse_la_SOURCES = \
 	../src/lib/codecs/cmml/libCMMLParse/CMMLParser.cpp \
 	../src/lib/codecs/cmml/libCMMLParse/ConvertUTF.c \
 	../src/lib/codecs/cmml/libCMMLParse/xlist.c \
 	../src/lib/codecs/cmml/libCMMLParse/xtag.c \
 	$(NULL)
-
 libCMMLParsedir = $(includedir)/libCMMLParse
 libCMMLParse_HEADERS = \
 	../src/lib/codecs/cmml/libCMMLParse/CMMLParser.h \
@@ -119,12 +120,12 @@ libCMMLParse_HEADERS = \
 	../src/lib/codecs/cmml/libCMMLParse/xtag.h \
 	$(NULL)
 
+
 libOOOggChef_la_LIBADD = libOOOgg.la libOOOggSeek.la
 libOOOggChef_la_SOURCES = \
 	../src/lib/helper/libOOOggChef/AnnodexRecomposer.cpp \
 	../src/lib/helper/libOOOggChef/IRecomposer.cpp \
 	$(NULL)
-
 libOOOggChefdir = $(includedir)/libOOOggChef
 libOOOggChef_HEADERS = \
 	../src/lib/helper/libOOOggChef/AnnodexRecomposer.h \
@@ -132,6 +133,7 @@ libOOOggChef_HEADERS = \
 	../src/lib/helper/libOOOggChef/libOOOggChef.h \
 	../src/lib/helper/libOOOggChef/stdafx.h \
 	$(NULL)
+
 
 libOOOggSeek_la_LIBADD = libOOOgg.la
 libOOOggSeek_la_SOURCES = \
@@ -142,7 +144,6 @@ libOOOggSeek_la_SOURCES = \
 	../src/lib/core/ogg/libOOOggSeek/OggSeekTable.cpp \
 	../src/lib/core/ogg/libOOOggSeek/OGGSRecogniser.cpp \
 	$(NULL)
-
 libOOOggSeekdir = $(includedir)/libOOOggSeek
 libOOOggSeek_HEADERS = \
 	../src/lib/core/ogg/libOOOggSeek/AutoAnxSeekTable.h \
@@ -156,6 +157,7 @@ libOOOggSeek_HEADERS = \
 	../src/lib/core/ogg/libOOOggSeek/stdafx.h \
 	$(NULL)
 
+
 libVorbisComment_la_LIBADD = libOOOgg.la
 libVorbisComment_la_SOURCES = \
 	../src/lib/core/ogg/libVorbisComment/FileComments.cpp \
@@ -163,7 +165,8 @@ libVorbisComment_la_SOURCES = \
 	../src/lib/core/ogg/libVorbisComment/StreamCommentInfo.cpp \
 	../src/lib/core/ogg/libVorbisComment/VorbisComments.cpp \
 	$(NULL)
-	
+
+
 libilliCore_la_SOURCES = \
 	../src/lib/helper/libilliCore/StringHelper.cpp \
 	../src/lib/helper/libilliCore/iBE_Math.cpp \
@@ -179,6 +182,7 @@ libilliCore_HEADERS = \
 	../src/lib/helper/libilliCore/StringHelper.h \
 	../src/lib/helper/libilliCore/stdafx.h \
 	$(NULL)
+
 
 libOOOgg_la_LIBADD = libilliCore.la
 libOOOgg_la_SOURCES = \
@@ -267,4 +271,12 @@ AnxCutter_SOURCES = \
 	../src/tools/AnxCutter/AnxCutter.cpp \
 	$(NULL)
 
+
+#
+# Tests
+#
+
+testCMMLParser_LDADD = libilliCore.la libCMMLTags.la libCMMLParse.la
+testCMMLParser_SOURCES = \
+	../src/tests/testCMMLParser/testCMMLParser.cpp
 
