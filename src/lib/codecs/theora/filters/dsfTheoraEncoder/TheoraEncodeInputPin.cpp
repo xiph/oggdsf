@@ -1303,6 +1303,8 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.width = mTheoraInfo.width;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = mXOffset;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = mYOffset;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.aspectDenominator = 0;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.aspectNumerator = 0;
 
 	return true;
 
