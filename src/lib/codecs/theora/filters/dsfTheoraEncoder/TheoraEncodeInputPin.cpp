@@ -105,6 +105,10 @@ HRESULT TheoraEncodeInputPin::deliverData(LONGLONG inStart, LONGLONG inEnd, unsi
 }
 
 long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumBytes) {
+	//
+	// Now properly pads on one side only... 20/12/04
+	//
+
 	//Source Buffer all in one buffer
 
 	//YV12 memory layout for directshow
@@ -383,11 +387,11 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	char* locDestUptoPtr = mYUV.y;
 	//
 
-	//Pad top of Y plane buffer with mYOffset lines of width mYUV.y_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += (mYOffset * mYUV.y_width);
-	}
+	////Pad top of Y plane buffer with mYOffset lines of width mYUV.y_width
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += (mYOffset * mYUV.y_width);
+	//}
 	//Source pointer does not advance
 	//
 
@@ -410,9 +414,9 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 			locSourceUptoPtr += mWidth;
 			locDestUptoPtr += mWidth;
 
-			//Pad the end of the line with mXOffset bytes
-			memset((void*)locDestUptoPtr, NULL, mXOffset);
-			locDestUptoPtr += mXOffset;
+			////Pad the end of the line with mXOffset bytes
+			//memset((void*)locDestUptoPtr, NULL, mXOffset);
+			//locDestUptoPtr += mXOffset;
 		}
 
 	}
@@ -432,12 +436,12 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	locDestUptoPtr = mYUV.u;
 	//
 
-	//Pad top of U plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-		//Source pointer does not advance
-	}
+	////Pad top of U plane buffer with mYOffset/2 lines of width mYUV.uv_width
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//	//Source pointer does not advance
+	//}
 	//
 
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
@@ -460,10 +464,10 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 
-			//Pad the end of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
-			//Source pointer does not advance
+			////Pad the end of the line
+			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
+			//locDestUptoPtr += (mXOffset / 2);
+			////Source pointer does not advance
 		}
 
 	}
@@ -485,13 +489,13 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	locDestUptoPtr = mYUV.v;
 	//
 
-	//Pad top of V plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-		//Source pointer does not advance
-	}
-	//
+	////Pad top of V plane buffer with mYOffset/2 lines of width mYUV.uv_width
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//	//Source pointer does not advance
+	//}
+	////
 
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
 	if (mXOffset == 0) {
@@ -513,10 +517,10 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 
-			//Pad the end of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
-			//Source pointer does not advance
+			////Pad the end of the line
+			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
+			//locDestUptoPtr += (mXOffset / 2);
+			////Source pointer does not advance
 		}
 
 	}
