@@ -116,7 +116,8 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 		//for (int i = 0; i < mSeenStreams.size(); i++) {
 			if (mSeenStreams[i] == inOggPage->header()->StreamSerialNo()) {
 				//If the page is a BOS we need to start a new stream
-				OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter, false);
+				const bool ALLOW_OTHERS_TO_SEEK = true;
+				OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter, ALLOW_OTHERS_TO_SEEK);
 				//FIX::: Need to check for NULL
 				if (locStream != NULL) {
 					mStreamList.push_back(locStream);

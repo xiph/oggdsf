@@ -36,6 +36,7 @@ VorbisStream::VorbisStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFil
 	,	mVorbisFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
+	debugLog.open("G:\\logs\\vorbisstream.log", ios_base::out);
 }
 
 VorbisStream::~VorbisStream(void)
