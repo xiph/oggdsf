@@ -35,7 +35,7 @@
 #include "theoradecodeoutputpin.h"
 #include "theoradecodeinputpin.h"
 #include <math.h>
-#include "DSStringer.h"
+//#include "DSStringer.h"
 #include "TheoraDecoder.h"
 #include <fstream>
 using namespace std;
