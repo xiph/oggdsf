@@ -53,7 +53,6 @@ unsigned long iBE_Math::charArrToULong(unsigned char* inCharArray)
 void iBE_Math::ULongToCharArr(unsigned long inLong, unsigned char* outCharArray)
 {
 	//Writes a long MSB (Most sig. byte first/leftmost) out to the char arr
-	unsigned long locLong = inLong;
 	outCharArray[0] = (unsigned char) (inLong >> 24);
 	outCharArray[1] = (unsigned char) ((inLong << 8) >> 24);
 	outCharArray[2] = (unsigned char) ((inLong << 16) >> 24);

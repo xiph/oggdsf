@@ -71,7 +71,7 @@ public:
 
 	virtual HRESULT deliverTag(C_CMMLTag* inTag);
 protected:
-	//fstream debugLog;
+	fstream debugLog;
 	HRESULT mFilterHR;
 	COutputQueue* mDataQueue;
 	sCMMLFormatBlock mCMMLFormatBlock;

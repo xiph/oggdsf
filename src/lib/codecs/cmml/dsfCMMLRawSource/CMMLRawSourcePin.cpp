@@ -9,10 +9,12 @@ CMMLRawSourcePin::CMMLRawSourcePin(CMMLRawSourceFilter* inParentFilter, CCritSec
 	mCMMLFormatBlock.granuleDenominator = 1;
 	mCMMLFormatBlock.granuleNumerator = 1000;
 
+	debugLog.open("G:\\logs\\cmmlrawsource.log", ios_base::out);
 }
 
 CMMLRawSourcePin::~CMMLRawSourcePin(void)
 {
+	debugLog.close();
 }
 
 STDMETHODIMP CMMLRawSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -160,11 +162,12 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 
 	if (inTag->tagType() == C_CMMLTag::CLIP) {
 		C_ClipTag* locClip = (C_ClipTag*)inTag;
-		locStart = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 10000000ULL;
+		locStart = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
 		
 		//TODO::: Do something better for handling of end times !!!!!!!!!!!!!!!!!!!!!!
 
-		locStop = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 10000000ULL;
+		locStop = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
+		
 
 	}
 	locSample->SetActualDataLength(locNarrowStr.size());

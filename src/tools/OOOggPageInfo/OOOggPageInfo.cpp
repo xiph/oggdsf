@@ -123,7 +123,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 int main (int argc, char * argv[])
 #endif
 {
-	//This program just dumps the pages out of a file in ogg format.
+	//This program just gives some info about number of packets
 	// Currently does not error checking. Check your command line carefully !
 	// USAGE :: OOOggPageInfo <OggFile>
 	//
