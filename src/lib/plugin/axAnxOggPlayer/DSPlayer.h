@@ -11,6 +11,8 @@
 #include "ICMMLCallbacks.h"
 #include "ICMMLAppControl.h"
 #include "libCMMLTags.h"
+#include "IMediaEventNotification.h"
+#include "StringHelper.h"
 
 
 
@@ -20,11 +22,17 @@
 
 
 using namespace std;
+
+// {6188AD0C-62CB-4658-A14E-CD23CF84EC31}
+DEFINE_GUID(X_IID_ICMMLAppControl, 
+0x6188ad0c, 0x62cb, 0x4658, 0xa1, 0x4e, 0xcd, 0x23, 0xcf, 0x84, 0xec, 0x31);
 class DSPlayer
 {
 public:
+	
 	DSPlayer(void);
 	~DSPlayer(void);
+	//static const GUID X_IID_ICMMLAppControl = {0x6188ad0c, 0x62cb, 0x4658, {0xa1, 0x4e, 0xcd, 0x23, 0xcf, 0x84, 0xec, 0x31};
 
 		bool loadFile(string inFileName);
 		bool play();
@@ -39,8 +47,8 @@ public:
 		__int64 fileDuration();
 	
 
-		//bool setMediaEventCallback(IDNMediaEvent* inMediaEventCallback);
-		//IDNMediaEvent* getMediaEventCallback();
+		bool setMediaEventCallback(IMediaEventNotification* inMediaEventCallback);
+		IMediaEventNotification* getMediaEventCallback();
 
 		//bool setCMMLCallbacks(IDNCMMLCallbacks* inCMMLCallbacks);
 		bool checkEvents();
@@ -53,6 +61,8 @@ public:
 		IMediaSeeking* mMediaSeeking;
 		IMediaEvent* mMediaEvent;
 		ICMMLAppControl* mCMMLAppControl;
+		ICMMLCallbacks* mCMMLCallback;
+		IMediaEventNotification* mMediaEventNotify;
 
 		HANDLE mEventHandle;
 

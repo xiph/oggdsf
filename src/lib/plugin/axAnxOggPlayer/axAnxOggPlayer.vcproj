@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include"
+				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include;..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -80,7 +80,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include"
+				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include;..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="TRUE"
@@ -161,6 +161,9 @@
 				RelativePath=".\DSPlayer.cpp">
 			</File>
 			<File
+				RelativePath=".\IMediaEventNotification.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -194,6 +197,9 @@
 			</File>
 			<File
 				RelativePath=".\DSPlayer.h">
+			</File>
+			<File
+				RelativePath=".\IMediaEventNotification.h">
 			</File>
 			<File
 				RelativePath=".\Resource.h">

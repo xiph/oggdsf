@@ -62,11 +62,11 @@ bool DSPlayer::checkEvents() {
 			while (locHR = mMediaEvent->GetEvent(&locEventCode, &locParam1, &locParam2, 0), SUCCEEDED(locHR)) 
 			{
 	            
-				//cout<<"Event : "<<evCode<<" Params : "<<param1<<", "<<param2<<endl;
+				debugLog<<"Event : "<<locEventCode<<" Params : "<<locParam1<<", "<<locParam2<<endl;
 				
-				//FIX::: MANAGED CODE
-				if (mDNMediaEvent != NULL) {
-					mDNMediaEvent->eventNotification(locEventCode, locParam1, locParam2);
+				
+				if (mMediaEventNotify != NULL) {
+					mMediaEventNotify->eventNotification(locEventCode, locParam1, locParam2);
 				}
 
 				mMediaEvent->FreeEventParams(locEventCode, locParam1, locParam2);
@@ -78,8 +78,8 @@ bool DSPlayer::checkEvents() {
 
 DSPlayer::~DSPlayer(void) {
 	debugLog<<"Killing DSPlayer"<<endl;
-	debugLog->close();
-	delete debugLog;
+	debugLog.close();
+	
 	releaseInterfaces();
 	CoUninitialize();
 }
@@ -141,14 +141,13 @@ bool DSPlayer::loadFile(string inFileName) {
 
 	releaseInterfaces();
 	HRESULT locHR = S_OK;
-	//FIX::: MANAGED CODE
-	char* locFileName = Wrappers::netStrToCStr(inFileName);
-	debugLog<<"File = "<<locFileName<<endl;
-	wstring locWFileName = illiminable::libDSPlayDotNET::toWStr(locFileName);
+
 	
-	Wrappers::releaseCStr(locFileName);
-	locFileName = NULL;
-	//
+	debugLog<<"File = "<<inFileName<<endl;
+	wstring locWFileName = StringHelper::toWStr(inFileName);
+	
+	
+	
 
 	//Have to use a local pointer or taking the adress of a member function makes the second level
 	// of indirection a __gc pointer.
@@ -211,12 +210,12 @@ bool DSPlayer::loadFile(string inFileName) {
 
 		if (locCMMLFilter != NULL) {
 			ICMMLAppControl* locCMMLAppControl = NULL;
-			//FIX::: MANAGED CODE
+			
 			locHR = locCMMLFilter->QueryInterface(X_IID_ICMMLAppControl, (void**)&locCMMLAppControl);
 			if (locCMMLAppControl != NULL) {
 				mCMMLAppControl = locCMMLAppControl;
-				//FIX::: MANAGED CODE
-				mCMMLAppControl->setCallbacks(mCMMLProxy);
+				
+				mCMMLAppControl->setCallbacks(mCMMLCallback);
 			}
 			numRef = 
                 locCMMLFilter->Release();
@@ -354,22 +353,23 @@ __int64 DSPlayer::fileDuration() {
 
 bool DSPlayer::isFileAnnodex(string inFilename)
 {
-	//FIX::: MANAGED CODE
-	String* locExt = (inFilename->Substring(inFilename->Length - 4, 4))->ToUpper();
-	if (locExt->Equals(".ANX")) {
+	//BUG::: Case sensitive
+	string locExt = inFilename.substr(inFilename.size() - 4, 4);
+	
+	if (locExt == ".anx") {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-//bool DSPlayer::setMediaEventCallback(IDNMediaEvent* inMediaEventCallback) {
-//	mDNMediaEvent = inMediaEventCallback;
-//	return true;
-//}
-//IDNMediaEvent* DSPlayer::getMediaEventCallback() {
-//	return mDNMediaEvent;
-//}
+bool DSPlayer::setMediaEventCallback(IMediaEventNotification* inMediaEventCallback) {
+	mMediaEventNotify = inMediaEventCallback;
+	return true;
+}
+IMediaEventNotification* DSPlayer::getMediaEventCallback() {
+	return mMediaEventNotify;
+}
 
 
 
