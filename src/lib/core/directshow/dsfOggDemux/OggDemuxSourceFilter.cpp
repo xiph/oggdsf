@@ -58,7 +58,7 @@ CFactoryTemplate g_Templates[] =
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
 
-
+//COM Creator Function
 CUnknown* WINAPI OggDemuxSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
 	OggDemuxSourceFilter *pNewObject = new OggDemuxSourceFilter();
@@ -68,6 +68,7 @@ CUnknown* WINAPI OggDemuxSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *p
     return pNewObject;
 } 
 
+//COM Interface query function
 STDMETHODIMP OggDemuxSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
 	if (riid == IID_IFileSourceFilter) {
@@ -144,38 +145,43 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 
 OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 {
-	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
-	
 	//TODO::: For some reason, you can't delete these !!
 
+	//Clean up all our stuff...
 	//delete m_pLock;
 	//delete mStreamLock;
 	//delete mSourceFileLock;
 	//delete mDemuxLock;
 	//debugLog<<"Deleting Data Source : "<<(int)mDataSource<<endl;
+
+	//Close down the data source and delete it
 	mDataSource->close();
 	delete mDataSource;
+
 	//debugLog.close();
 	
+	//Selete the stream mapper
 	delete mStreamMapper;
-	
-	
 	mStreamMapper = NULL;
 
-	
+	//Shut down the thread
 	if (ThreadExists() == TRUE) {
 		//DbgLog((LOG_ERROR, 1, TEXT("******** Thread exists - closing *****")));
 		Close();
 	}
+	//Delete the seektable
 	delete mSeekTable;
-
 }
+
 //IAMFilterMiscFlags Interface
-ULONG OggDemuxSourceFilter::GetMiscFlags(void) {
+ULONG OggDemuxSourceFilter::GetMiscFlags(void) 
+{
 	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
 }
 //ISpecifyPropertyPgaes Interface
-STDMETHODIMP OggDemuxSourceFilter::GetPages(CAUUID* outPropPages) {
+STDMETHODIMP OggDemuxSourceFilter::GetPages(CAUUID* outPropPages) 
+{
+	//This function is to display a property page in graphedit.
 	if (outPropPages == NULL) return E_POINTER;
 
 	const int NUM_PROP_PAGES = 1;
@@ -193,18 +199,18 @@ STDMETHODIMP OggDemuxSourceFilter::GetPages(CAUUID* outPropPages) {
 }
 
 	//IFileSource Interface
-STDMETHODIMP OggDemuxSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) {
+STDMETHODIMP OggDemuxSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) 
+{
 	//Return the filename and mediatype of the raw data
-
-	 
 	LPOLESTR x = SysAllocString(mFileName.c_str());
 	*outFileName = x;
 	
 	return S_OK;
 }
 
-//ANX::: Seek table will need modifying to handle this.
-STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) {
+
+STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) 
+{
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
@@ -218,7 +224,8 @@ STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	return SetUpPins();
 }
 
-STDMETHODIMP OggDemuxSourceFilter::GetCapabilities(DWORD* inCapabilities) {
+STDMETHODIMP OggDemuxSourceFilter::GetCapabilities(DWORD* inCapabilities) 
+{
 	if (mSeekTable->enabled())  {
 		//debugLog<<"GetCaps "<<mSeekingCap<<endl;
 		*inCapabilities = mSeekingCap;
@@ -229,7 +236,8 @@ STDMETHODIMP OggDemuxSourceFilter::GetCapabilities(DWORD* inCapabilities) {
 		return S_OK;;
 	}
 }
-STDMETHODIMP OggDemuxSourceFilter::GetDuration(LONGLONG* outDuration) {
+STDMETHODIMP OggDemuxSourceFilter::GetDuration(LONGLONG* outDuration) 
+{
 	if (mSeekTable->enabled())  {
 		//debugLog<<"GetDuration = " << mSeekTable->fileDuration()<<" ds units"<<endl;
 		*outDuration = mSeekTable->fileDuration();
@@ -241,11 +249,13 @@ STDMETHODIMP OggDemuxSourceFilter::GetDuration(LONGLONG* outDuration) {
 }
 
 	 
-STDMETHODIMP OggDemuxSourceFilter::CheckCapabilities(DWORD *pCapabilities){
+STDMETHODIMP OggDemuxSourceFilter::CheckCapabilities(DWORD *pCapabilities)
+{
 	//debugLog<<"CheckCaps	: Not impl"<<endl;
 	return E_NOTIMPL;
 }
-STDMETHODIMP OggDemuxSourceFilter::IsFormatSupported(const GUID *pFormat){
+STDMETHODIMP OggDemuxSourceFilter::IsFormatSupported(const GUID *pFormat)
+{
 	ASSERT(pFormat != NULL);
 	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
 		//debugLog<<"IsFormatSupported	: TRUE"<<endl;
@@ -303,11 +313,8 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 
 	
 		CAutoLock locSourceLock(mSourceFileLock);
-		//CAutoLock locStreamLock(mStreamLock);
 		
-		
-			DeliverBeginFlush();
-		
+		DeliverBeginFlush();
 		//debugLog<<"       : Begin flush Delviered."<<endl;
 
 		//Find the byte position for this time.
@@ -326,7 +333,6 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		// we have to use granule pos timestamps in order for downstream codecs to work.
 		// Because of this we can't factor time bases after seeking into the sample times.
 		*pCurrent	= mSeekTimeBase 
-					//= mSeekTable->getRealStartPos();
 					= locStartPos.first;		//Time from seek pair.
 
 		//debugLog<<"Corrected pCurrent : "<<mSeekTimeBase<<endl;
@@ -335,7 +341,6 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			mStreamMapper->getOggStream(i)->setLastEndGranPos(*pCurrent);
 		}
 		{
-			//			CAutoLock locStreamLock(mStreamLock);
 			//debugLog<<"       : Delivering End Flush..."<<endl;
 			DeliverEndFlush();
 			//debugLog<<"       : End flush Delviered."<<endl;
@@ -344,40 +349,12 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 
 		//.second is the file position.
 		mDataSource->seek(locStartPos.second);
-		//
-
-	
 	
 		//debugLog<<"       : Seek complete."<<endl;
-		//debugLog<<"       : Notifying whether to send excess... ";
-		if (locSendExcess) {
-			//debugLog<<"YES"<<endl;
-		} else {
-			//debugLog<<"NO"<<endl;
-		}
-		//debugLog << "Setting GranPos : "<<mSeekTable->getRealStartPos()<<endl;
-		//for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-		//	mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);
-		//	mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getRealStartPos());
-		//}
 	} else {
 		//debugLog<<"Seek not IMPL"<<endl;
 		return E_NOTIMPL;
 	}
-	
-
-	//Run(locCurrentTime);
-	//Grabbing stream lock so that new samples don't flow immediately.
-	
-	//CAutoLock locStreamLock(mStreamLock);
-	//debugLog<<"       : Delivering End Flush..."<<endl;
-	//DeliverEndFlush();
-	//debugLog<<"       : End flush Delviered."<<endl;
-	//DeliverNewSegment(*pCurrent, *pCurrent + mSeekTable->fileDuration(), 1.0);
-
-	
-
-	//DeliverBeginFlush();
 
 	return S_OK;
 }
