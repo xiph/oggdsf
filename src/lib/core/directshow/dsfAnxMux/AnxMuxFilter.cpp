@@ -34,7 +34,7 @@ AnxMuxFilter::AnxMuxFilter(void)
 {
 
 	mInterleaver = new AnxPageInterleaver(this, this, 2, 0);
-	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
+	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 
 
 		//Make our delegate pin[0], the top pin... we send all out requests there.

@@ -2,6 +2,7 @@
 #include "anxmuxdllstuff.h"
 #include "OggMuxFilter.h"
 #include "AnxPageInterleaver.h"
+#include "AnxMuxInputPin.h"
 class AnxMuxFilter
 	:	public OggMuxFilter
 {

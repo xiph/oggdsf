@@ -82,7 +82,7 @@ StampedOggPacket* AnxPacketMaker::makeAnxData	(			unsigned short inVersionMajor
 {
 
 	StampedOggPacket* locPack = NULL;
-	OggPage* retPage = NULL;
+	//OggPage* retPage = NULL;
 	unsigned char* locBuff = NULL;
 	unsigned long locUpto = 0;
 	unsigned long locPacketSize = 0;
@@ -127,7 +127,7 @@ StampedOggPacket* AnxPacketMaker::makeAnxData	(			unsigned short inVersionMajor
 			locBuff[locUpto++] = '\n';
 			
 			locPack = new StampedOggPacket(locBuff, locPacketSize, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY);
-			retPage = new OggPage;
+			return locPack;
 
 			
 

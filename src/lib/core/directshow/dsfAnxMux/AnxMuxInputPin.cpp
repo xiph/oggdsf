@@ -4,6 +4,7 @@
 AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream)
 :	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
 {
+	debugLog.open("g:\\logs\\anxmuxinputpin.log", ios_base::out);
 }
 
 AnxMuxInputPin::~AnxMuxInputPin(void)
@@ -16,7 +17,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 	HRESULT locHR = OggMuxInputPin::SetMediaType(inMediaType);
 
 	if (locHR == S_OK) {
-
+		debugLog<<"Set media type ok in base class"<<endl;
 		mPaginator.acceptStampedOggPacket(AnxPacketMaker::makeAnxData_2_0(mMuxStream, &mPaginator));
 	}
 

@@ -4,6 +4,12 @@
 #include "OggMuxInputPin.h"
 #include "AnxMuxFilter.h"
 #include "AnxPacketMaker.h"
+
+
+#include <fstream>
+using namespace std;
+
+class AnxMuxFilter;
 class AnxMuxInputPin
 	:	public OggMuxInputPin
 {
@@ -13,4 +19,7 @@ public:
 
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+
+protected:
+	fstream debugLog;
 };

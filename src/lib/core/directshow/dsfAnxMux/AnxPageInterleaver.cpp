@@ -41,7 +41,7 @@ void AnxPageInterleaver::addAnnodex_2_0_BOS() {
 }
 
 void AnxPageInterleaver::addAllAnxData_2_0_BOS() {
-	for (int i = 1; i < mInputStreams.size() - 1; i++) {
+	for (int i = 0; i < mInputStreams.size() - 1; i++) {
 		mFileWriter->acceptOggPage(mInputStreams[i]->popFront());
 	}
 
