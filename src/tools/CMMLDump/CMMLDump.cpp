@@ -36,8 +36,9 @@
 
 #include <libOOOgg/libOOOgg.h>
 #include <libOOOgg/dllstuff.h>
-#include <libWinCMMLParse/libWinCMMLParse.h>
-#include <libWinCMMLParse/CMMLParser.h>
+#include <libCMMLTags/libCMMLTags.h>
+#include <libCMMLParse/libCMMLParse.h>
+#include <libCMMLParse/CMMLParser.h>
 
 #include <iostream>
 #include <fstream>
@@ -113,17 +114,56 @@ bool OggDataBufferProcessor::acceptOggPage (OggPage* inOggPage)
 					char *locPacketData = (char *) inOggPage->getPacket(i)->packetData();
 
 					// Add a terminating '\0'
-					char *locMyPacketData = (char *) malloc(locPacketSize + 1);
-					locMyPacketData = (char *) memcpy(locMyPacketData, locPacketData, locPacketSize);
+					char *locMyPacketData = new char[locPacketSize + 1];
+					(void) memcpy(locMyPacketData, locPacketData, locPacketSize);
 					locMyPacketData[locPacketSize] = '\0';
 
 					// Get the packet's time in seconds
 					LOOG_INT64 locPacketGranulePos = inOggPage->header()->GranulePos();
 					float locPacketStartTimeInSeconds = (float) locPacketGranulePos/ (float) 1000;
 
-					printf("%.2f seconds:\n%s", locPacketStartTimeInSeconds, locMyPacketData);
+					// Let's make the CMML parsing library decide whether it's a <head>
+					// or <clip> tag -- after all, that's what it's there for :)
+					
+					wstring locPacketDataWString = StringHelper::toWStr(locMyPacketData);
 
-					free(locMyPacketData);
+					CMMLParser locCMMLParser;
+					C_CMMLTag *locCMMLTag = NULL;
+
+					// Try parsing it as a <head> tag
+					C_HeadTag *locHeadTag = new C_HeadTag;
+					bool locDidParseHead = 
+						locCMMLParser.parseHeadTag(locPacketDataWString, locHeadTag);
+					if (locDidParseHead) {
+						locCMMLTag = locHeadTag;
+					}
+
+					// Try parsing it as a <clip> tag
+					C_ClipTag *locClipTag = new C_ClipTag;
+					bool locDidParseClip = 
+						locCMMLParser.parseClipTag(locPacketDataWString, locClipTag);
+					if (locDidParseClip) {
+						// Only succeed if parsing it as a <head> tag didn't work
+						if (!locDidParseHead) {
+							locCMMLTag = locClipTag;
+						} else {
+							cout << "Parsed successfully as both a <clip> and <head>:" << endl;
+							wcout << locPacketDataWString << endl;
+						}
+					}
+
+					if (locCMMLTag == NULL) {
+						cout << "Couldn't parse as either <clip> or <head>:" << endl;
+						wcout << locPacketDataWString << endl;
+					}
+
+					if (locDidParseClip) {
+						cout << locPacketStartTimeInSeconds << " seconds:" << endl;
+					}
+					wcout << locCMMLTag->toString() << endl;
+
+					delete locCMMLTag;
+					delete locMyPacketData;
 				}
 			}
 
