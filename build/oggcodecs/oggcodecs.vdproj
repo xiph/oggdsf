@@ -970,9 +970,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libiWrapper, Version=1.0.1688.30336, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libiWrapper, Version=1.0.1688.40268, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_47225549A24F5D369822BE937CA1B1ED"
+                    {
+                    "Name" = "8:libiwrapper.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libiwrapper.dll"
             "TargetName" = "8:"
@@ -1036,9 +1041,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libCMMLTagsDotNET, Version=1.0.1688.30369, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libCMMLTagsDotNET, Version=1.0.1688.42808, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_585CCFE6D7240D5E8FE18F714EBE7445"
+                    {
+                    "Name" = "8:libcmmltagsdotnet.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libcmmltagsdotnet.dll"
             "TargetName" = "8:"
@@ -1082,9 +1092,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libDSPlayDotNET, Version=1.0.1688.30384, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libDSPlayDotNET, Version=1.0.1688.42817, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_AA7CFEB795610E8A0A36E21EE484E892"
+                    {
+                    "Name" = "8:libDSPlayDotNET.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libDSPlayDotNET.dll"
             "TargetName" = "8:"
@@ -1148,9 +1163,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libVorbisCommentDotNET, Version=1.0.1688.30401, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libVorbisCommentDotNET, Version=1.0.1688.42820, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_ED6FE6CF465CB58CEF4CEC2211C5BC52"
+                    {
+                    "Name" = "8:libVorbisCommentDotNET.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libVorbisCommentDotNET.dll"
             "TargetName" = "8:"
@@ -1226,7 +1246,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{581AEA36-0A4B-4726-BD3B-1A63ED074627}"
-        "PackageCode" = "8:{289C69C8-1238-4B6F-8E1A-85DE0275C76B}"
+        "PackageCode" = "8:{38FF81D0-3C9F-4402-A2FE-832A4474710B}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"

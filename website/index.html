@@ -10,10 +10,16 @@
 <br>
 This is a temporary page until I get time to do a proper one. I really will get around to it someday soon ! I made a token effort to tidy it up !<br>
 <br>
+Please contact me at ogg@illiminable.com with new bugs or suggestions. Help me, help you. If you don't tell me, I'll never know !!<br>
+<br>
 <b><u>Installation</u></b><br>
 <li>Uninstall any previous version of these filters. Go to add remove programs, remove oggcodecs</li>
 <li>Make sure media player or any directshow applications are closed.</li>
-<li>Unzip the file to a temp directory then run setup.</li>
+<li><b>Important: Non-XP Windows -</b> You need the Microsoft installer before you can install this package, most systems already have it. If the setup package won't run, download the Microsoft installer from the links below and run the setup package again.</li>
+	<li><a href="http://download.microsoft.com/download/WindowsInstaller/Install/2.0/W9XMe/EN-US/InstMsiA.exe">98, ME Microsoft Installer download</a></li>
+	<li><a href="http://download.microsoft.com/download/WindowsInstaller/Install/2.0/NT45/EN-US/InstMsiW.exe">NT, 2K Microsoft Installer download</a></li>
+
+<li>Unzip the setup package(download below) to a temp directory then run setup.</li>
 <br>
 Then media player or any other directshow application (ie BSPlayer) will be able to play Ogg Vorbis, Ogg Speex, Ogg Theora and Ogg FLAC.<br>
 <br>
@@ -24,42 +30,37 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 <li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
 <li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
 <li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the zipped source code (7 MB zipped, 70MB unzipped) ?</li>
-<li>Want to browse the source on the web http://svn.xiph.org/trunk/oggdsf/ </li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.61.7571.zip">zipped source code</a> (7 MB zipped, 25MB unzipped) ?</li>
+<li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
 <br>
-<b><u>Current Version (0.60.7043) - 08/07/2004</u></b><br>
-Quite a fair bit added this time, most notably an encoder for theora... see <a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">Encoding theora</a><br>
-Only a few encoding parameters are currently exposed via a filter property page. Also modified the demuxer so it can handle http streams though there are some issues. The buffering is very simple, it doesn't optimise buffer based on bandwidth. Network steams are currently non-seekable. Also only non-chained
-files should be streamed. Most encoded files are not chained. However some icecast streams, Which are not continuous, have breaks where songs change, this type of stream will likely crash the media player. However continuous live streams... such as radio broadcasts etc generally work fine. The network streaming has only recently be added, so i expect it to still be fairly buggy.<br>
+<b><u>Current Version (0.61.7571) - 16/08/2004</u></b><br>
+To stop people unnecessarily downloading the windows installer over and over, the packages will no longer include the installer. If you have a pre-XP 
+windows, and don't already have the windows installer on your system (almost everyone who has ever installed something should have it already) you can
+download the installer seperately from the links at the top of the page.<br>
+<br>
+Fixed a few bugs in theora, seeking almost never crashes now. FLAC playback and seeking now works properly, though not extensively tested. Includes a FLAC encoder filter. Starting from the
+next release I will start offering different build configurations, ie minimal decode only installation, builds with SSE2 optimisations etc.<br>
 <br>
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
 <TR valign=top>
+
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV>Windows XP</DIV>
+<DIV>Ogg Codecs for windows</DIV>
+</FONT>
+</TD>
+<TD width=20%><FONT size=2 color="#000000" face="Arial">
+<DIV>Windows 98/ME/NT/2K/XP</DIV>
 </FONT>
 </TD>
 
-<TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">853,647 bytes</div></DIV></FONT>
+
+<TD width=20%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right">1,076,031 bytes</div></DIV></FONT>
 </TD>
 
-<TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.60.7043_small.zip">Download Now</a></div></DIV></FONT>
-</TD>
-
-</TR>
-<TR valign=top>
-<TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV>Windows 98/ME/NT/2000</DIV></FONT>
-
-</TD>
-<TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">4,303,667 bytes</div></DIV></FONT>
-</TD>
-
-<TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.60.7043.zip">Download Now</a></div></DIV></FONT>
+<TD width=20%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.61.7571.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -68,41 +69,31 @@ files should be streamed. Most encoded files are not chained. However some iceca
 </FONT>
 <br>
 <b><u>Changes this version</u></b><br>
-	<li>Added <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a> Decoder filter</li>
-	<li>Added a simple subtitle renderer based on VMR 9</li>
-	<li>Added an OO vorbis comment parsing library</li>
-	<li>Added an example tool called OOOggCommentDump which dumps comment information from the first stream in a file</li>
-	<li>Added container class library for <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a></li>
-	<li>Added minimal <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a> parsing library based on MSXML</a>
-	<li>Added a demuxer filter for <a href="http://www.annodex.net/">Annodex</a>, will only play in graphedit currently, and needs to manually build graphs to include the VMR9 as video renderer, also won't play the mpeg coded videos that are on the annodex site.</li>
-	<li>Added network support for demuxer to stream .ogg files</li>
-	<li>Fixed the speex encoder (I think)</li>
-	<li>Ogg Mux filter now supports multiple stream muxing</li>
-	<li>Added a theora encode filter, with a minimal configurable property page</li>
-	<li>Theora encode filter supports YUY2 input (generally from mpeg) or YV12 (generally from avi codecs, in particular those decoded by ffdshow)</li>
-	<li>Fixed some bad implementation of frame offsets in the theora decoder</li>
-	<li>Now files can be added to the WMP9+ Media Library, however no media metadata is yet extracted from the vorbis comments. Nor can you currently use the rip or burn functionality.</li>
-
+	<li>Fixed seeking crash problems with theora</li>
+	<li>Fixed FLAC playback</li>
+	<li>Added a FLAC encoder filter</li>
+	<li>Added a very simple .NET media player called DNPlay</li>
+	<li>Added a .NET directshow playback library</li>
+	<li>Added a validation program for ogg files OOOggValidate</li>
+<br>
 <br>
 <b><u>Known issues.</u></b><br>
+	<li>Seeking is slightly less responsive in this latest version. Most noticable in speex.</li>
 	<li>Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.</li>
 	<li>There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3</li>
-	<li>Seeking in theora occasionally seg faults</li>
-	<li>Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback</li>
 	<li>When transcoding theora, if a media decoder (WMV usually) doesn't advertise its framerate, output may be time distorted</li>
 	<li>Created files are not yet gauranteed to be correct. <b>No produced encoded files should be distributed.</b></li>
 	<li>I think there may be a little memory leak in the encoders... nothing too serious, but if you try and encode really large files it may be a problem.</li>
-	<li>Theora will not playback with Windows Media Player 9 or 10, but vorbis and speex are just fine, but will in previous WMP's and other DS players like BSPlayer</li>
+	<li>Theora will not playback with Windows Media Player 9 or 10, but vorbis, speex and FLAC are just fine, but will in previous WMP's and other DS players like BSPlayer</li>
 	<li>Theora and annodex playback requires directX 9.</li>
 	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
-	<li>DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.</li>
-	<li>FLAC will make media player do the error sound or crash on exit</li>
-	<li>Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.</li>
 	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
-	<li><strike>Muxer only does a single stream... won't interleave yet. This is fine for encoding speex and vorbis, or splitting theora+vorbis into component parts</strike></li>
-	<li><strike>Speex encoder is currently broken. Vorbis works but is buggy.</strike></li>
-	<li><strike>Seeking in speex and vorbis seeking is sometimes not as responsive as it previously was.</strike></li>
-	<li><strike>Some black bordering when frame size changes mid-stream</strike></li>
+	<li><strike>Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback</strike></li>
+	<li><strike>Seeking in theora occasionally seg faults</strike></li>	
+	<li><strike>Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.</strike></li>
+	<li><strike>FLAC will make media player do the error sound or crash on exit</strike></li>
+	<li><strike>DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.</strike></li>
+
 <br>
 <br>
 
