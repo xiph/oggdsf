@@ -368,9 +368,7 @@ namespace DNPlay
 		}
 
 		
-
-		
-		private void menuItem3_Click(object sender, System.EventArgs e)
+		private void OpenFile() 
 		{
 			//File->Open
 			dlgOpenFile.CheckFileExists = true;
@@ -393,10 +391,16 @@ namespace DNPlay
 				mPlayer.setCMMLCallbacks(this);
 				cmdPlay.Enabled = true;
 			}
+
+		}
+		
+		private void menuItem3_Click(object sender, System.EventArgs e)
+		{
+			OpenFile();
 			
 		}
 
-		private void cmdPlay_Click(object sender, System.EventArgs e)
+		private void StartPlayback() 
 		{
 			mPlayer.play();
 			tmrUpdateDuration.Enabled = true;
@@ -405,8 +409,12 @@ namespace DNPlay
 			cmdPause.Enabled = true;
 			cmdStop.Enabled = true;
 		}
+		private void cmdPlay_Click(object sender, System.EventArgs e)
+		{
+			StartPlayback();
+		}
 
-		private void cmdStop_Click(object sender, System.EventArgs e)
+		private void StopPlayback() 
 		{
 			tmrUpdateDuration.Enabled = false;
 			tmrEventCheck.Enabled = false;
@@ -420,8 +428,12 @@ namespace DNPlay
 			cmdStop.Enabled = false;
 			cmdPlay.Enabled = true;
 		}
+		private void cmdStop_Click(object sender, System.EventArgs e)
+		{
+			StopPlayback();
+		}
 
-		private void cmdPause_Click(object sender, System.EventArgs e)
+		private void PausePlayback() 
 		{
 			tmrEventCheck.Enabled = false;
 			tmrUpdateDuration.Enabled = false;
@@ -429,6 +441,10 @@ namespace DNPlay
 			cmdPause.Enabled = false;
 			cmdPlay.Enabled = true;
 			cmdStop.Enabled = true;
+		}
+		private void cmdPause_Click(object sender, System.EventArgs e)
+		{
+			PausePlayback();
 		}
 
 		private void frmDNPlay_Load(object sender, System.EventArgs e)
