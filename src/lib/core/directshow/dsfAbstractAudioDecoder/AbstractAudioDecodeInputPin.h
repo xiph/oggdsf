@@ -103,7 +103,7 @@ protected:
 
 	//fstream debugLog;
 	CCritSec* mStreamLock;
-	CCritSec* mFilterLock;
+	//CCritSec* mFilterLock;
 
 	unsigned long mFrameSize;
 	unsigned long mNumChannels;

@@ -35,7 +35,7 @@
 AbstractAudioDecodeOutputPin::AbstractAudioDecodeOutputPin(AbstractAudioDecodeFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName)
 	:	CBaseOutputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
 	,	mParentFilter(inParentFilter)
-	,	mFilterLock(inFilterLock)
+	//,	mFilterLock(inFilterLock)
 	,	mDataQueue(NULL)
 {
 	
@@ -158,22 +158,23 @@ HRESULT AbstractAudioDecodeOutputPin::DeliverEndOfStream(void) {
 }
 
 HRESULT AbstractAudioDecodeOutputPin::DeliverEndFlush(void) {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	//QUERY::: Locks ??
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
 HRESULT AbstractAudioDecodeOutputPin::DeliverBeginFlush(void) {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	//QUERY:: Locks ???
+	
 	mDataQueue->BeginFlush();
     return S_OK;
 	
 }
 
 HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	HRESULT locHR = S_OK;
 
 	//Here when another pin connects to us, we internally connect the seek delegate
@@ -192,10 +193,11 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 }
 
 HRESULT AbstractAudioDecodeOutputPin::BreakConnect(void) {
-	CAutoLock locLock(mFilterLock);
-	HRESULT locHR = CBaseOutputPin::BreakConnect();
-	ReleaseDelegate();
+	CAutoLock locLock(m_pLock);
 	delete mDataQueue;
 	mDataQueue = NULL;
+
+	HRESULT locHR = CBaseOutputPin::BreakConnect();
+	ReleaseDelegate();
 	return locHR;
 }

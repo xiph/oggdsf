@@ -42,11 +42,12 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mFrameSize(0)
 	,	mNumChannels(0)
 	,	mSampleRate(0)
-	,	mFilterLock(inFilterLock)
+	//,	mFilterLock(inFilterLock)
 	,	mLastSeenStartGranPos(0)
 	,	mSeekTimeBase(0)
 	,	mChainTimeBase(0)
 {
+	
 	//ConstructCodec();
 	//debugLog.open("g:\\logs\\aad.log", ios_base::out);
 	mAcceptableMediaType = inAcceptMediaType;
@@ -90,13 +91,13 @@ STDMETHODIMP AbstractAudioDecodeInputPin::NonDelegatingQueryInterface(REFIID rii
 }
 
 HRESULT AbstractAudioDecodeInputPin::BreakConnect() {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	//Need a lock ??
 	ReleaseDelegate();
 	return CBaseInputPin::BreakConnect();
 }
 HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	
 	IMediaSeeking* locSeeker = NULL;
 	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
@@ -211,12 +212,12 @@ STDMETHODIMP AbstractAudioDecodeInputPin::EndOfStream(void) {
 }
 
 STDMETHODIMP AbstractAudioDecodeInputPin::BeginFlush() {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	CBaseInputPin::BeginFlush();
 	return mParentFilter->mOutputPin->DeliverBeginFlush();
 }
 STDMETHODIMP AbstractAudioDecodeInputPin::EndFlush() {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	mParentFilter->mOutputPin->DeliverEndFlush();
 	
 	return CBaseInputPin::EndFlush();

@@ -180,7 +180,7 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 
 
 STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
-	CAutoLock locLock(mFilterLock);
+	CAutoLock locLock(m_pLock);
 	
 	//debugLog<<"BeginFlush : Calling flush on the codec."<<endl;
 
