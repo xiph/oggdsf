@@ -1,0 +1,10 @@
+base referer
+rect $C__HumReadCMMLTag_8h.html 8,82 178,109
+rect $C__MappedTagList_8h.html 412,232 553,258
+rect $C__MappedTag_8h.html 514,157 634,184
+rect $C__MetaTag_8h.html 577,232 678,258
+rect $C__AnchorTag_8h.html 273,232 388,258
+rect $C__TextFieldTag_8h.html 181,157 306,184
+rect $C__ImageTag_8h.html 760,82 869,109
+rect $C__DescTag_8h.html 148,232 249,258
+rect $C__MetaTagList_8h.html 421,306 544,333

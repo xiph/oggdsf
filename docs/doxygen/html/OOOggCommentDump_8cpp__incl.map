@@ -1,0 +1,7 @@
+base referer
+rect $tools_2OOOggCommentDump_2stdafx_8h.html 7,157 77,184
+rect $libOOOgg_8h.html 151,157 245,184
+rect $dllstuff_8h.html 119,82 191,109
+rect $VorbisComments_8h.html 271,8 407,34
+rect $StreamCommentInfo_8h.html 319,82 477,109
+rect $FileComments_8h.html 370,157 490,184

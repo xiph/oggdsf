@@ -1,0 +1,9 @@
+base referer
+rect $TagList_8h.html 400,157 474,184
+rect $config_8h.html 176,8 245,34
+rect $ImportTag_8h.html 277,157 370,184
+rect $HumReadCMMLTag_8h.html 248,82 400,109
+rect $ParamTagList_8h.html 58,82 173,109
+rect $C__TagList_8h.html 608,82 701,109
+rect $C__ImportTagList_8h.html 544,157 674,184
+rect $C__ImportTag_8h.html 474,82 584,109
