@@ -78,7 +78,8 @@ STDAPI DllRegisterServer()
         L"Annodex Mux Filter",							// Instance data. ???????
         &AnxMuxFilterReg								// Pointer to filter information.
     );
-	debugLog<<"Post reg"<<endl;
+	debugLog<<"Post reg - "<< hr<<endl;
+	debugLog.close();
 
 
     locFilterMapper->Release();

@@ -4,6 +4,8 @@
 CMMLRawSourcePin::CMMLRawSourcePin(CMMLRawSourceFilter* inParentFilter, CCritSec* inFilterLock)
 	:	CBaseOutputPin(NAME("CMML Raw Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"CMML Source")
 	,	mDataQueue(NULL)
+	,	mLastTime(0)
+
 
 {
 	mCMMLFormatBlock.granuleDenominator = 1;
@@ -168,13 +170,31 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		C_TimeStamp locStartStamp;
 		locStartStamp.parseTimeStamp(StringHelper::toNarrowStr(locClip->start()));
 		//locStart = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
-		locStart = locStartStamp.toHunNanos() / 10000;
+		if ((ANX_VERSION_MAJOR == 2) && (ANX_VERSION_MINOR == 0)) {
+			locStart = locStartStamp.toHunNanos() / 10000;
+		} else if ((ANX_VERSION_MAJOR == 3) && (ANX_VERSION_MINOR == 0)) {
+			locStart = (mLastTime << 32) + (locStartStamp.toHunNanos() / 10000);
+			
+		} else {
+			//If you are here... you set the constants in the header file wrong
+			throw 0;
+		}
+		
 		
 		//TODO::: Do something better for handling of end times !!!!!!!!!!!!!!!!!!!!!!
 
 		C_TimeStamp locEndStamp;
 		locEndStamp.parseTimeStamp(StringHelper::toNarrowStr(locClip->start()));
-		locStop = locEndStamp.toHunNanos() / 10000;
+		if ((ANX_VERSION_MAJOR == 2) && (ANX_VERSION_MINOR == 0)) {
+			locStop = locEndStamp.toHunNanos() / 10000;
+		} else if ((ANX_VERSION_MAJOR == 3) && (ANX_VERSION_MINOR == 0)) {
+			locStop = (mLastTime << 32) + (locEndStamp.toHunNanos() / 10000);
+		} else {
+			//If you are here you set the constants in the header file wrong
+			throw 0;
+		}
+
+		mLastTime = locStartStamp.toHunNanos() / 10000;
 		//locStop = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
 		
 

@@ -65,47 +65,74 @@ DEFINE_GUID(CLSID_AnxMuxFilter,
 DEFINE_GUID(CLSID_CMMLDecodeFilter, 
 0xbf1121d1, 0x8739, 0x45e1, 0xbc, 0xd8, 0x90, 0xb8, 0x28, 0xf6, 0x43, 0xab);
 
+// {3913F0AB-E7ED-41c4-979B-1D1FDD983C07}
+DEFINE_GUID(MEDIASUBTYPE_X_FLAC, 
+0x3913f0ab, 0xe7ed, 0x41c4, 0x97, 0x9b, 0x1d, 0x1f, 0xdd, 0x98, 0x3c, 0x7);
 
-//const REGPINTYPES AnxMuxInputTypes[] = {
-//	{	
-//		&MEDIATYPE_Audio,
-//		&MEDIASUBTYPE_Speex
-//	},
-//	{
-//		&MEDIATYPE_Audio,
-//		&MEDIASUBTYPE_Vorbis
-//	},
-//	{
-//		&MEDIATYPE_Audio,
-//		&MEDIASUBTYPE_OggFLAC_1_0
-//	},
-//	{
-//		&MEDIATYPE_Video,
-//		&MEDIASUBTYPE_Theora
-//	},
-//	{
-//		&MEDIATYPE_Audio,
-//		&MEDIASUBTYPE_FLAC
-//	}
-//};
-//const REGFILTERPINS AnxMuxPinReg = {
-//	
-//    L"Ogg Packet Input",				//Name (obsoleted)
-//	TRUE,								//Renders from this pin ?? Not sure about this.
-//	FALSE,								//Not an output pin
-//	FALSE,								//Cannot have zero instances of this pin
-//	FALSE,								//Cannot have more than one instance of this pin
-//	NULL,								//Connects to filter (obsoleted)
-//	NULL,								//Connects to pin (obsoleted)
-//	5,									//upport two media type
-//	AnxMuxInputTypes					//Pointer to media type (Audio/Vorbis or Audio/Speex)
-//};
+// {2C409DB0-95BF-47ba-B0F5-587256F1EDCF}
+DEFINE_GUID(MEDIASUBTYPE_X_OggFLAC_1_0, 
+0x2c409db0, 0x95bf, 0x47ba, 0xb0, 0xf5, 0x58, 0x72, 0x56, 0xf1, 0xed, 0xcf);
+
+
+// {8A0566AC-42B3-4ad9-ACA3-93B906DDF98A}
+DEFINE_GUID(MEDIASUBTYPE_X_Vorbis, 
+0x8a0566ac, 0x42b3, 0x4ad9, 0xac, 0xa3, 0x93, 0xb9, 0x6, 0xdd, 0xf9, 0x8a);
+
+// {25A9729D-12F6-420e-BD53-1D631DC217DF}
+DEFINE_GUID(MEDIASUBTYPE_X_Speex, 
+0x25a9729d, 0x12f6, 0x420e, 0xbd, 0x53, 0x1d, 0x63, 0x1d, 0xc2, 0x17, 0xdf);
+
+// {D124B2B1-8968-4ae8-B288-FE16EA34B0CE}
+DEFINE_GUID(MEDIASUBTYPE_X_Theora, 
+0xd124b2b1, 0x8968, 0x4ae8, 0xb2, 0x88, 0xfe, 0x16, 0xea, 0x34, 0xb0, 0xce);
+
+// {5A656E74-6172-6F26-B79C-D6416E647282}
+DEFINE_GUID(MEDIASUBTYPE_X_CMML, 
+0x5a656e74, 0x6172, 0x6f26, 0xb7, 0x9c, 0xd6, 0x41, 0x6e, 0x64, 0x72, 0x82);
+const REGPINTYPES AnxMuxInputTypes[] = {
+	{	
+		&MEDIATYPE_Audio,
+		&MEDIASUBTYPE_X_Speex
+	},
+	{
+		&MEDIATYPE_Audio,
+		&MEDIASUBTYPE_X_Vorbis
+	},
+	{
+		&MEDIATYPE_Audio,
+		&MEDIASUBTYPE_X_OggFLAC_1_0
+	},
+	{
+		&MEDIATYPE_Video,
+		&MEDIASUBTYPE_X_Theora
+	},
+	{
+		&MEDIATYPE_Audio,
+		&MEDIASUBTYPE_X_FLAC
+	},
+	{
+		&MEDIATYPE_Text,
+		&MEDIASUBTYPE_X_CMML
+	}
+};
+const REGFILTERPINS AnxMuxPinReg = {
+	
+    L"Ogg Packet Input",				//Name (obsoleted)
+	TRUE,								//Renders from this pin ?? Not sure about this.
+	FALSE,								//Not an output pin
+	FALSE,								//Cannot have zero instances of this pin
+	FALSE,								//Cannot have more than one instance of this pin
+	NULL,								//Connects to filter (obsoleted)
+	NULL,								//Connects to pin (obsoleted)
+	6,									//upport two media type
+	AnxMuxInputTypes					//Pointer to media type (Audio/Vorbis or Audio/Speex)
+};
 
 const REGFILTER2 AnxMuxFilterReg = {
 		1,
 		MERIT_DO_NOT_USE,
 		1,
-        NULL
+        &AnxMuxPinReg
 		
 };
 

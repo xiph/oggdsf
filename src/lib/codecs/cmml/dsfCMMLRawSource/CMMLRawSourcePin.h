@@ -44,6 +44,8 @@ class CMMLRawSourcePin
 	:	public CBaseOutputPin
 {
 public:
+	static const unsigned short ANX_VERSION_MAJOR = 2;
+	static const unsigned short ANX_VERSION_MINOR = 0;
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
@@ -75,4 +77,7 @@ protected:
 	HRESULT mFilterHR;
 	COutputQueue* mDataQueue;
 	sCMMLFormatBlock mCMMLFormatBlock;
+	__int64 mLastTime;
+
+
 };

@@ -128,6 +128,8 @@ namespace libDSPlayDotNET
 
 		/// Seek to the start of the media file.
 		Int64 seekStart();
+
+		/// Queries the time in the media in 100ns units. Returns -1 if unknown or no file loaded.
 		Int64 queryPosition();
 
 		/// Repaints the frame. Only needed for windowless rendering.
