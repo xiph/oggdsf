@@ -62,7 +62,7 @@ const REGFILTERPINS CMMLDecodePinReg[] = {
 
 const REGFILTER2 CMMLDecodeFilterReg = {
 		1,
-		MERIT_NORMAL,
+		MERIT_PREFERRED + 2,
 		2,
         CMMLDecodePinReg
 		

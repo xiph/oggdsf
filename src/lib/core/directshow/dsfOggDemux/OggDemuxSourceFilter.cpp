@@ -589,3 +589,7 @@ STDMETHODIMP OggDemuxSourceFilter::Stop(void) {
 	DeliverEndFlush();
 	return CBaseFilter::Stop();
 }
+
+CCritSec* OggDemuxSourceFilter::theLock() {
+	return m_pLock;
+}

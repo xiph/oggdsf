@@ -82,7 +82,7 @@ const REGFILTERPINS SubtitleVMR9PinReg[] = {
 
 const REGFILTER2 SubtitleVMR9FilterReg = {
 		1,
-		MERIT_NORMAL,
+		MERIT_PREFERRED + 2,
 		2,
         SubtitleVMR9PinReg
 		

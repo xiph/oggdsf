@@ -3,6 +3,7 @@
 #include "anxdllstuff.h"
 #include "OggPacket.h"
 #include "OggStream.h"
+#include "CMMLSourcePin.h"
 class CMMLStream
 	:	public OggStream
 {
@@ -23,6 +24,9 @@ public:
 	virtual bool createFormatBlock();
 
 	virtual LONGLONG getCurrentPos();
+
+	//Override
+	virtual bool AddPin();
 
 protected:
 	OggPacket* mAnxDataPacket;

@@ -106,6 +106,7 @@ public:
 	 virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
 		
 
+	 CCritSec* theLock();
 	//CAMThread
 	virtual DWORD ThreadProc(void);
 

@@ -2,6 +2,7 @@
 #include "anxdllstuff.h"
 #include "OggDemuxSourceFilter.h"
 #include "AnxStreamMapper.h"
+#include "CMMLStream.h"
 #include <fstream>
 using namespace std;
 
@@ -11,6 +12,7 @@ class AnxDemuxSourceFilter
 	:	public OggDemuxSourceFilter
 {
 public:
+	friend class CMMLStream;
 	AnxDemuxSourceFilter(void);
 	~AnxDemuxSourceFilter(void);
 

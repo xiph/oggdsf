@@ -40,7 +40,7 @@ using namespace std;
 
 class OggDemuxSourceFilter;
 
-class OggDemuxSourcePin
+class OGG_DEMUX_API OggDemuxSourcePin
 	:	public CBaseOutputPin
 	,	public BasicSeekable
 		

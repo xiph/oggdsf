@@ -13,7 +13,27 @@ CMMLStream::~CMMLStream(void)
 	delete mCMMLFormatBlock;
 }
 
+bool CMMLStream::AddPin() {
+	createFormatBlock();
+	CMediaType* locMediaType = createMediaType(	getMajorTypeGUID(),
+												getSubtypeGUID(), 
+												getFormatGUID(), 
+												getFormatBlockSize(), 
+												getFormatBlock());
 
+	//LEAK CHECK::: Where does this get deleted ?
+	OggDemuxSourcePin* locSourcePin = new CMMLSourcePin(	NAME("Ogg Source Pin"), 
+																mOwningFilter, 
+																mOwningFilter->theLock(), 
+																mCodecHeaders, 
+																locMediaType, 
+																getPinName());
+	mStreamReady = true;
+	mSourcePin = locSourcePin;
+	
+	return true;
+	
+}
 bool CMMLStream::InitCodec(StampedOggPacket* inOggPacket) {
 	mCodecHeaders = new StreamHeaders;
 	mCodecHeaders->mCodecType = StreamHeaders::CMML;
