@@ -37,6 +37,7 @@
 VorbisDecodeInputPin::VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType)
 	:	AbstractAudioDecodeInputPin(inFilter, inFilterLock, inOutputPin, NAME("VorbisDecodeInputPin"), L"Vorbis In", inAcceptMediaType),
 		mBegun(false)
+	,	mFishSound(NULL)
 		
 {
 	//debugLog.open("C:\\vorbislog.log", ios_base::out);

@@ -34,6 +34,7 @@
 
 VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)
 	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("VorbisEncodeInputPin"), L"PCM In")
+	,	mFishSound(NULL)
 {
 	
 }

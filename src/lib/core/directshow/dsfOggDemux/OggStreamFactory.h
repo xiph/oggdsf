@@ -42,7 +42,7 @@
 class OggDemuxSourceFilter;
 class StreamHeaders;
 
-class OggStreamFactory
+class OGG_DEMUX_API OggStreamFactory
 {
 public:
 	OggStreamFactory(void);

@@ -63,6 +63,7 @@ public:
 	};
 	//Constructors
 	OggDemuxSourceFilter();
+	OggDemuxSourceFilter(REFCLSID inFilterGUID);
 	virtual ~OggDemuxSourceFilter(void);
 
 	//IFileSource Interface

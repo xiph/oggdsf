@@ -35,6 +35,7 @@
 
 SpeexDecodeInputPin::SpeexDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType)
 	:	AbstractAudioDecodeInputPin(inFilter, inFilterLock, inOutputPin, NAME("SpeexDecodeInputPin"), L"Speex In", inAcceptMediaType)
+	,	mFishSound(NULL)
 {
 	ConstructCodec();
 }

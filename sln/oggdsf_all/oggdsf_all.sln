@@ -53,6 +53,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggStat", "..\..\src\tool
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfAnxDemux", "..\..\src\lib\core\directshow\dsfAnxDemux\dsfAnxDemux.vcproj", "{F9F22B14-22FE-4651-81B8-5AE267A6B189}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libCMMLTags", "..\..\src\lib\codecs\cmml\libCMMLTags\libCMMLTags.vcproj", "{AD38DCC6-B431-4B32-8569-74F3376EF2DA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfSubtitleVMR9", "..\..\src\lib\core\directshow\dsfSubtitleVMR9\dsfSubtitleVMR9.vcproj", "{88532BA9-1EED-421F-84BF-88A7A87FB2D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -576,6 +580,26 @@ Global
 		{F9F22B14-22FE-4651-81B8-5AE267A6B189}.Release.Build.0 = Release|Win32
 		{F9F22B14-22FE-4651-81B8-5AE267A6B189}.Release Unicode.ActiveCfg = Release|Win32
 		{F9F22B14-22FE-4651-81B8-5AE267A6B189}.Release Unicode.Build.0 = Release|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Debug.ActiveCfg = Debug|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Debug.Build.0 = Debug|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Debug Unicode.ActiveCfg = Debug|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Debug Unicode.Build.0 = Debug|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.MakeFile.ActiveCfg = Release|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.MakeFile.Build.0 = Release|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Release.ActiveCfg = Release|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Release.Build.0 = Release|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Release Unicode.ActiveCfg = Release|Win32
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA}.Release Unicode.Build.0 = Release|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Debug.ActiveCfg = Debug|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Debug.Build.0 = Debug|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Debug Unicode.ActiveCfg = Debug|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Debug Unicode.Build.0 = Debug|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.MakeFile.ActiveCfg = Release|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.MakeFile.Build.0 = Release|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Release.ActiveCfg = Release|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Release.Build.0 = Release|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Release Unicode.ActiveCfg = Release|Win32
+		{88532BA9-1EED-421F-84BF-88A7A87FB2D3}.Release Unicode.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

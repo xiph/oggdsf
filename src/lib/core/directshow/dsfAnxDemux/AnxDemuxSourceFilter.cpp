@@ -30,7 +30,9 @@ CUnknown* WINAPI AnxDemuxSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *p
     return pNewObject;
 } 
 AnxDemuxSourceFilter::AnxDemuxSourceFilter(void)
+	:	OggDemuxSourceFilter(CLSID_AnxDemuxSourceFilter)
 {
+	mStreamMapper = new AnxStreamMapper(this);
 }
 
 AnxDemuxSourceFilter::~AnxDemuxSourceFilter(void)
@@ -46,7 +48,8 @@ STDMETHODIMP AnxDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 
 	//ANX::: Needs to override ??? Or just modify the seeker.
 	mSeekTable = new AutoOggSeekTable(StringHelper::toNarrowStr(mFileName));
-	mSeekTable->buildTable();
+	
+	//mSeekTable->buildTable();
 	
 	return SetUpPins();
 }

@@ -96,6 +96,23 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 
 }
 
+//Perhaps also pass in the name field.
+OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
+	:	CBaseFilter(NAME("OggDemuxSourceFilter"), NULL, m_pLock, inFilterGUID)
+	,	mSeekTable(NULL)
+	,	mStreamMapper(NULL)
+{
+	//LEAK CHECK:::Both get deleted in constructor.
+	m_pLock = new CCritSec;
+	mSourceFileLock = new CCritSec;
+	mDemuxLock = new CCritSec;
+	mStreamLock = new CCritSec;
+
+	//When it is derived, it's up to the superclass to set this.
+	//mStreamMapper = new OggStreamMapper(this);
+
+}
+
 OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 {
 	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));

@@ -34,6 +34,7 @@
 
 SpeexEncodeInputPin::SpeexEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)
 	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("SpeexEncodeInputPin"), L"PCM In")
+	,	mFishSound(NULL)
 {
 	debugLog.open("C:\\temp\\speexenc.log", ios_base::out);
 }

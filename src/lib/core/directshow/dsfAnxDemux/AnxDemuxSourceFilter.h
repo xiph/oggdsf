@@ -1,6 +1,7 @@
 #pragma once
 #include "anxdllstuff.h"
 #include "OggDemuxSourceFilter.h"
+#include "AnxStreamMapper.h"
 #include <fstream>
 using namespace std;
 

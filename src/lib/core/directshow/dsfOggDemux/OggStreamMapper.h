@@ -35,10 +35,10 @@
 #include "OggStreamFactory.h"
 #include "OggDemuxSourceFilter.h"
 
-//#include <vector>
-//using namespace std;
+#include <vector>
+using namespace std;
 
-class OggStreamMapper
+class OGG_DEMUX_API OggStreamMapper
 	:	public IOggCallback
 {
 public:
