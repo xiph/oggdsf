@@ -13,6 +13,13 @@ dynamically recompose media, according to the client's wishes.  It can:
   example, a web client can request playback of the media beginning at 30
   minutes into a movie.
 
+Note that mod_oggchef is effectively a re-implementation of mod_annodex
+<http://www.annodex.net/installation.html>, using illiminable's C++ Ogg
+framework.  mod_annodex is full more featureful, however, being able to
+dynamically generate Annodex media on-the-fly from CMML files, which
+mod_oggchef doesn't do yet.  We hope to add these features to mod_oggchef
+in the future.
+
 
 Extracting Tracks
 -----------------
@@ -69,12 +76,6 @@ at 15 seconds.  For more information on timed URIs, including various
 different time scheme formats, see
 <http://www.annodex.net/specifications.html>.
 
-Note that mod_oggchef is effectively a re-implementation of the timed
-URI capability of mod_annodex <http://www.annodex.net/installation.html>.
-mod_annodex is far more powerful, being able to dynamically generate
-Annodex media from CMML files, and serve out only the CMML portion of
-Annodex media.  These features will be added in the future, though
-possibly not to mod_oggchef itself.
 
 
 Restrictions
@@ -98,10 +99,6 @@ UNIX:
 * An Apache 2 installation of some sort with the Apache 2
   development tools (such as apxs).
 
-Note that this module has been tested to work on Linux systems, but
-I haven't packaged the build system for it yet (though it's a standard
-apxs2 module build).
-
 
 Building
 --------
@@ -119,7 +116,7 @@ Windows:
 
 UNIX:
 
-* We use a simple apxs-based build system, which is tested on
+* We use a simple apxs-based build system, which has been tested on
   Debian GNU/Linux.  You may need to modify some Makefile variables to get
   things working: see the first few lines of the Makefile to see what
   variables to tweak.
