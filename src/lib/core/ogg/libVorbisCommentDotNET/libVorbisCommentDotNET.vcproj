@@ -124,7 +124,13 @@
 				RelativePath=".\AssemblyInfo.cpp">
 			</File>
 			<File
+				RelativePath=".\FileComments.cpp">
+			</File>
+			<File
 				RelativePath=".\libVorbisCommentDotNET.cpp">
+			</File>
+			<File
+				RelativePath=".\SingleVorbisComment.cpp">
 			</File>
 			<File
 				RelativePath=".\Stdafx.cpp">
@@ -141,11 +147,20 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\StreamCommentInfo.cpp">
+			</File>
+			<File
+				RelativePath=".\VorbisComments.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath=".\FileComments.h">
+			</File>
 			<File
 				RelativePath=".\libVorbisCommentDotNET.h">
 			</File>
@@ -153,7 +168,16 @@
 				RelativePath=".\resource.h">
 			</File>
 			<File
+				RelativePath=".\SingleVorbisComment.h">
+			</File>
+			<File
 				RelativePath=".\Stdafx.h">
+			</File>
+			<File
+				RelativePath=".\StreamCommentInfo.h">
+			</File>
+			<File
+				RelativePath=".\VorbisComments.h">
 			</File>
 		</Filter>
 		<Filter
