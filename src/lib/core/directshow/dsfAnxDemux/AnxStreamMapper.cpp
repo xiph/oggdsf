@@ -132,3 +132,17 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 		return dispatchPage(inOggPage);
 	}
 }
+
+bool AnxStreamMapper::toStartOfData() {
+	//Specialise for anx... adds one extra ignore packet to the flush to account for the anxdata pages.
+
+	if (isReady()) {  //CHECK::: Should check for allow dsipatch ???
+		for (unsigned long i = 0; i < mStreamList.size(); i++) {
+			//Flush each stream, then ignore the codec headers.
+			mStreamList[i]->flush(mStreamList[i]->numCodecHeaders() + 1);  //+1 = AnxData Header...
+		}	
+		return true;
+	} else {
+		return false;
+	}
+}

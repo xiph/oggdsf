@@ -57,7 +57,7 @@ public:
 
 	virtual bool isReady();
 	virtual void setAllowDispatch(bool inAllowDispatch);
-	bool toStartOfData();
+	virtual bool toStartOfData();
 	
 protected:
 	unsigned long mDataStartsAt;

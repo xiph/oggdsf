@@ -46,7 +46,8 @@ public:
 
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
-	virtual bool AnxStreamMapper::isReady();
+	virtual bool isReady();
+	virtual bool toStartOfData();
 protected:
 	vector<unsigned long> mSeenStreams;
 	bool mSeenAnnodexBOS;
