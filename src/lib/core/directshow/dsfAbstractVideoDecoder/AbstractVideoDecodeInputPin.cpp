@@ -75,6 +75,12 @@ STDMETHODIMP AbstractVideoDecodeInputPin::NonDelegatingQueryInterface(REFIID rii
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
+HRESULT AbstractVideoDecodeInputPin::BreakConnect() {
+	CAutoLock locLock(m_pLock);
+	//Need a lock ??
+	ReleaseDelegate();
+	return CBaseInputPin::BreakConnect();
+}
 HRESULT AbstractVideoDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
 	CAutoLock locLock(m_pLock);
 	

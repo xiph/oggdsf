@@ -47,7 +47,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mSeekTimeBase(0)
 {
 	//ConstructCodec();
-	//debugLog.open("g:\\logs\\aad.log", ios_base::out);
+	debugLog.open("g:\\logs\\aad.log", ios_base::out);
 	mAcceptableMediaType = inAcceptMediaType;
 	mStreamLock = new CCritSec;
 
@@ -89,6 +89,7 @@ STDMETHODIMP AbstractAudioDecodeInputPin::NonDelegatingQueryInterface(REFIID rii
 }
 
 HRESULT AbstractAudioDecodeInputPin::BreakConnect() {
+	CAutoLock locLock(mFilterLock);
 	//Need a lock ??
 	ReleaseDelegate();
 	return CBaseInputPin::BreakConnect();
@@ -104,7 +105,7 @@ HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
 AbstractAudioDecodeInputPin::~AbstractAudioDecodeInputPin(void)
 {
 	//DestroyCodec();
-	//debugLog.close();
+	debugLog.close();
 	delete mStreamLock;
 }
 
@@ -130,52 +131,60 @@ bool AbstractAudioDecodeInputPin::SetSampleParams(IMediaSample* outMediaSample, 
 
 STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample) 
 {
+	//
+	inSample->AddRef();
+	debugLog<<"Received Sample with refcount = "<<inSample->Release()<<endl;
+	//
 	//TO DO::: Fix this up...
 	CAutoLock locLock(mStreamLock);
-	HRESULT locHR;
-	BYTE* locBuff = NULL;
-	locHR = inSample->GetPointer(&locBuff);
+	HRESULT locHR = CheckStreaming();
+	if (locHR == S_OK) {
+		BYTE* locBuff = NULL;
+		locHR = inSample->GetPointer(&locBuff);
 
-	if (FAILED(locHR)) {
-		
-		return locHR;
-	} else {
-		//New start time hacks
-		REFERENCE_TIME locStart = 0;
-		REFERENCE_TIME locEnd = 0;
-
-		//More work arounds for that stupid granule pos scheme in theora!
-		REFERENCE_TIME locTimeBase = 0;
-		REFERENCE_TIME locDummy = 0;
-		inSample->GetMediaTime(&locTimeBase, &locDummy);
-		mSeekTimeBase = locTimeBase;
-		//
-
-		inSample->GetTime(&locStart, &locEnd);
-		//Error chacks needed here
-		//debugLog<<"Receive : Start    = "<<locStart<<endl;
-		//debugLog<<"Receive : End      = "<<locEnd<<endl;
-		//debugLog<<"Receive : Timebase = "<<locTimeBase<<endl;
-		
-		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
-			//debugLog<<"Receive : RESETTING FRAME COUNT !!"<<endl;
-			ResetFrameCount();
-		}
-		//debugLog<<endl;
-		mLastSeenStartGranPos = locStart;
-		//End of additions
-		
-		long locResult = decodeData(locBuff, inSample->GetActualDataLength());
-		if (locResult == 0) {
-
-			//aadDebug<<"Receive Decode : OK"<<endl;
-			return S_OK;
+		if (FAILED(locHR)) {
+			
+			return locHR;
 		} else {
-			//aadDebug<<"Receive Decode : *** FAILED *** "<<locResult<<endl;
-			return S_FALSE;
-		}
-	}
+			//New start time hacks
+			REFERENCE_TIME locStart = 0;
+			REFERENCE_TIME locEnd = 0;
 
+			//More work arounds for that stupid granule pos scheme in theora!
+			REFERENCE_TIME locTimeBase = 0;
+			REFERENCE_TIME locDummy = 0;
+			inSample->GetMediaTime(&locTimeBase, &locDummy);
+			mSeekTimeBase = locTimeBase;
+			//
+
+			inSample->GetTime(&locStart, &locEnd);
+			//Error chacks needed here
+			//debugLog<<"Receive : Start    = "<<locStart<<endl;
+			//debugLog<<"Receive : End      = "<<locEnd<<endl;
+			//debugLog<<"Receive : Timebase = "<<locTimeBase<<endl;
+			
+			if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
+				//debugLog<<"Receive : RESETTING FRAME COUNT !!"<<endl;
+				ResetFrameCount();
+			}
+			//debugLog<<endl;
+			mLastSeenStartGranPos = locStart;
+			//End of additions
+			
+			long locResult = decodeData(locBuff, inSample->GetActualDataLength());
+			if (locResult == 0) {
+
+				//aadDebug<<"Receive Decode : OK"<<endl;
+				return S_OK;
+			} else {
+				//aadDebug<<"Receive Decode : *** FAILED *** "<<locResult<<endl;
+				return S_FALSE;
+			}
+		}
+	} else {
+		debugLog<<"NOT STREAMING.... "<<endl;
+		return locHR;
+	}
 	
 	return S_OK;
 }

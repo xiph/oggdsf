@@ -190,8 +190,9 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 
 HRESULT AbstractAudioDecodeOutputPin::BreakConnect(void) {
 
+	HRESULT locHR = CBaseOutputPin::BreakConnect();
 	ReleaseDelegate();
 	delete mDataQueue;
 	mDataQueue = NULL;
-	return CBaseOutputPin::BreakConnect();
+	return locHR;
 }
