@@ -5,105 +5,14 @@
   <meta name="description" content="Directshow Ogg demuxer/muxer with vorbis, speex, FLAC and theora decoders and encoders.">
   <meta name="keywords" content="directshow, theora, vorbis, speex, ogg, media player, flac, codec, windows, audio, video, wmp, directX, plugin, plug-in, decoder, encoder, demux, mux, demuxer">
 </head>
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#DD0000" alink="#FF0000">
-
-
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#DDDDDD" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=15%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><a href="http://www.xiph.org">Xiph.org</a></DIV>
-</FONT>
-</TD>
-
-<TD width=15%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><a href="http://www.vorbis.com">Vorbis</a></DIV>
-</FONT>
-</TD>
-
-<TD width=15%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><a href="http://www.speex.org">Speex</a></DIV>
-</FONT>
-</TD>
-
-<TD width=15%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><a href="http://www.theora.org">Theora</a></DIV>
-</FONT>
-</TD>
-
-<TD width=15%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><a href="http://flac.sourceforge.net/">FLAC</a></DIV>
-</FONT>
-</TD>
-
-<TD width=15%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><a href="http://www.annodex.net">Annodex</a></DIV>
-</FONT>
-</TD>
-
-<TD width=10%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>ogg@illiminable.com</b></DIV>
-</FONT>
-</TD>
-
-</TR>
-
-
-</TABLE>
-</DIV>
-</FONT>
-
-
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><b><font size="+2">Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC</font></b></DIV>
-</FONT>
-</TD>
-</TR>
-
-</TABLE>
-</DIV>
-</FONT>
-
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#070707" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"></DIV>
-</FONT>
-</TD>
-
-</TR>
-</TABLE>
-</DIV>
-</FONT>
-
-
-
-
-
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Installation</b></DIV>
-</FONT>
-</TD>
-
-</TR>
-</TABLE>
-</DIV>
-</FONT>
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#FF00FF" alink="#FF0000">
+<b><u><font size="+2">Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC</font></u></b><br>
+<br>
+This is a temporary page until I get time to do a proper one. I really will get around to it someday soon ! I made a token effort to tidy it up !<br>
+<br>
+Please contact me at ogg@illiminable.com with new bugs or suggestions. Help me, help you. If you don't tell me, I'll never know !!<br>
+<br>
+<b><u>Installation</u></b><br>
 <li>Uninstall any previous version of these filters.(<b>This is important!</b>) Go to add remove programs, remove oggcodecs</li>
 <li>Make sure media player or any directshow applications are closed.</li>
 <li>Unzip the setup package(download below) to a temp directory then run setup.</li>
@@ -112,21 +21,20 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 <br>
 
 
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.63.7755) - 13/09/2004</b></DIV>
-</FONT>
-</TD>
-
-</TR>
-</TABLE>
-</DIV>
-</FONT>
+<b><u>Other stuff</u></b><br>
+<li>Also you can encode vorbis, speex, FLAC and theora files using graphedit(<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en">DirectX9 SDK</a>) or other similar program.</li>
+<li><a href="http://www.illiminable.com/ogg/graphedit.html">See audio encoding example filter graphs</a></li>
+<li><a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">Theora encoding how-to</a></li>
+<li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
+<li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
+<li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.63.7755.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
+<li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
+<li><a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a></li>
 <br>
+
+
+<b><u>Current Version (0.63.7755) - 13/09/2004</u></b><br>
 I put the installers back in the packages. Just makes it easier for people who aren't computer savvy. Also theora now plays in WMP9 and 10 (but still can't seek in these two players). 
 Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fixed a few more memory leaks.<br>
 <br>
@@ -207,22 +115,7 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 </DIV>
 </FONT>
 <br>
-
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Changes this version</b></DIV>
-</FONT>
-</TD>
-
-</TR>
-</TABLE>
-</DIV>
-</FONT>
-<b><u></u></b><br>
+<b><u>Changes this version</u></b><br>
 	<li>Fixed a few memory leaks... there are still more left though.</li>
 	<li>Fixed some bugs in speex encoder. Can now make proper speex+theora files</li>
 	<li>Theora playback works in WMP 9 and 10 now... but no seeking in these two players</li>
@@ -230,21 +123,7 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 	<li>Increased some of the buffer sizes. Trying to encode very high quality theora was crashing as the buffer was too small</li>
 <br>
 <br>
-
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Known issues.</b></DIV>
-</FONT>
-</TD>
-
-</TR>
-</TABLE>
-</DIV>
-</FONT>
+<b><u>Known issues.</u></b><br>
 	<li>Make the installer properly detect if it's already installed. If you don't uninstall the old version you will get multiple identical file masks in WMP</li>
 	<li>Theora won't seek in WMP 9 or 10</li>
 	<li>If you are getting codec problems, there appears to be a conflict with something in Media Player Classic... it tries to enforce the use of another ogg demultiplexer, either by design or accident.If you see in MPC it complaining about a media subtype with a 
@@ -266,31 +145,6 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 <br>
 <br>
 
-<FONT size=2 color="#101010" face="Arial">
-<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
-<TR valign=top>
-
-
-<TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Other stuff<br></b></DIV>
-</FONT>
-</TD>
-
-</TR>
-</TABLE>
-</DIV>
-</FONT>
-
-<li>Also you can encode vorbis, speex, FLAC and theora files using graphedit(<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en">DirectX9 SDK</a>) or other similar program.</li>
-<li><a href="http://www.illiminable.com/ogg/graphedit.html">See audio encoding example filter graphs</a></li>
-<li><a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">Theora encoding how-to</a></li>
-<li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
-<li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
-<li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.63.7755.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
-<li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
-<li><a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a></li>
-<br>
 </body>
 </html>
 
