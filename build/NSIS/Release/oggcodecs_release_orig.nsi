@@ -126,43 +126,39 @@ Section "Ogg Core Files" SEC01
   File "..\..\..\src\lib\helper\libTemporalURI\Release\libTemporalURI.dll"
 
 
-; Install libraries
-  File "..\..\..\src\lib\codecs\flac\filters\dsfFLACEncoder\Release\dsfFLACEncoder.dll"
-  File "..\..\..\src\lib\codecs\speex\filters\dsfSpeexEncoder\Release\dsfSpeexEncoder.dll"
-  File "..\..\..\src\lib\codecs\theora\filters\dsfTheoraEncoder\Release\dsfTheoraEncoder.dll"
-  File "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisEncoder\Release\dsfVorbisEncoder.dll"
-  File "..\..\..\src\lib\codecs\flac\filters\dsfNativeFLACSource\Release\dsfNativeFLACSource.dll"
-  File "..\..\..\src\lib\codecs\speex\filters\dsfSpeexDecoder\Release\dsfSpeexDecoder.dll"
-  File "..\..\..\src\lib\codecs\theora\filters\dsfTheoraDecoder\Release\dsfTheoraDecoder.dll"
-  File "..\..\..\src\lib\codecs\flac\filters\dsfFLACDecoder\Release\dsfFLACDecoder.dll"
-  File "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisDecoder\Release\dsfVorbisDecoder.dll"
-  File "..\..\..\src\lib\core\directshow\dsfOggDemux\Release\dsfOggDemux.dll"
-  File "..\..\..\src\lib\core\directshow\dsfOggMux\Release\dsfOggMux.dll"
-  File "..\..\..\src\lib\codecs\cmml\dsfCMMLDecoder\Release\dsfCMMLDecoder.dll"
-  File "..\..\..\src\lib\codecs\cmml\dsfCMMLRawSource\Release\dsfCMMLRawSource.dll"
-  File "..\..\..\src\lib\core\directshow\dsfSubtitleVMR9\Release\dsfSubtitleVMR9.dll"
-  File "..\..\..\src\lib\core\directshow\dsfAnxDemux\Release\dsfAnxDemux.dll"
-  File "..\..\..\src\lib\core\directshow\dsfAnxMux\Release\dsfAnxMux.dll"
-
 ; Register libraries
-  ExecWait 'regsvr32 "$INSTDIR\dsfFLACEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfSpeexEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfTheoraEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfVorbisEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfNativeFLACSource.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfSpeexDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfTheoraDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfFLACDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfVorbisDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfOggDemux.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfOggMux.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfCMMLDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfCMMLRawSource.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfSubtitleVMR9.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfAnxDemux.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfAnxMux.dll"'
-
-
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\flac\filters\dsfFLACEncoder\Release\dsfFLACEncoder.dll" "$INSTDIR\dsfFLACEncoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\speex\filters\dsfSpeexEncoder\Release\dsfSpeexEncoder.dll" "$INSTDIR\dsfSpeexEncoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\theora\filters\dsfTheoraEncoder\Release\dsfTheoraEncoder.dll" "$INSTDIR\dsfTheoraEncoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisEncoder\Release\dsfVorbisEncoder.dll" "$INSTDIR\dsfVorbisEncoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\flac\filters\dsfNativeFLACSource\Release\dsfNativeFLACSource.dll" "$INSTDIR\dsfNativeFLACSource.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\speex\filters\dsfSpeexDecoder\Release\dsfSpeexDecoder.dll" "$INSTDIR\dsfSpeexDecoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\theora\filters\dsfTheoraDecoder\Release\dsfTheoraDecoder.dll" "$INSTDIR\dsfTheoraDecoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\flac\filters\dsfFLACDecoder\Release\dsfFLACDecoder.dll" "$INSTDIR\dsfFLACDecoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisDecoder\Release\dsfVorbisDecoder.dll" "$INSTDIR\dsfVorbisDecoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfOggDemux\Release\dsfOggDemux.dll" "$INSTDIR\dsfOggDemux.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfOggMux\Release\dsfOggMux.dll" "$INSTDIR\dsfOggMux.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\cmml\dsfCMMLDecoder\Release\dsfCMMLDecoder.dll" "$INSTDIR\dsfCMMLDecoder.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\cmml\dsfCMMLRawSource\Release\dsfCMMLRawSource.dll" "$INSTDIR\dsfCMMLRawSource.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfSubtitleVMR9\Release\dsfSubtitleVMR9.dll" "$INSTDIR\dsfSubtitleVMR9.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfAnxDemux\Release\dsfAnxDemux.dll" "$INSTDIR\dsfAnxDemux.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfAnxMux\Release\dsfAnxMux.dll" "$INSTDIR\dsfAnxMux.dll" "$INSTDIR"
   Sleep 10000
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
