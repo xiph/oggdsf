@@ -2,8 +2,8 @@
 
 #include <string>
 #include <map>
-#include <libWinCMMLParse/libWinCMMLParse.h>
-#include <libWinCMMLParse/CMMLParser.h>
+#include <libCMMLParse/libCMMLParse.h>
+#include <libCMMLParse/CMMLParser.h>
 #include "CMMLRawSourcePin.h"
 using namespace std;
 

@@ -2,7 +2,7 @@
 
 #pragma unmanaged
 #include <string>
-#include "libWinCMMLParse/CMMLParser.h"
+#include "libCMMLParse/CMMLParser.h"
 using namespace std;
 
 #pragma managed

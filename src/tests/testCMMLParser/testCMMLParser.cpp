@@ -194,6 +194,19 @@ int main(int, char **)
 	wstring head_6 = L"<head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base href=\"http://baseurl.com\"/><title lang=\"fr\">Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"></head>";
 	testHeadParse(head_6, false);
 
+	//Valid use many
+	wstring head_7 = L"<head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base id=\"baseID\" href=\"http://baseurl.com\"/><title id=\"titleid\" lang=\"fr\">Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head>";
+	testHeadParse(head_7, true);
+
+	//Empty string
+	wstring head_8 = L"";
+	testHeadParse(head_8, false);
+
+	//Valid use many - but one random unknown tag
+	wstring head_9 = L"<head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><red>hello</red><base id=\"baseID\" href=\"http://baseurl.com\"/><title id=\"titleid\" lang=\"fr\">Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head>";
+	testHeadParse(head_9, true);
+
+
 
 	//Valid minimal
 	wstring clip_1 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";

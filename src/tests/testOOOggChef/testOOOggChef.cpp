@@ -7,8 +7,8 @@
 #include <libilliCore/illicoreconfig.h>
 #include <libilliCore/StringHelper.h>
 #include <libTemporalURI/C_TimeStamp.h>
-#include <libWinCMMLParse/CMMLParser.h>
-#include <libWinCMMLParse/CMMLTagUtils.h>
+#include <libCMMLParse/CMMLParser.h>
+#include <libCMMLParse/CMMLTagUtils.h>
 
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {

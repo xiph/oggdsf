@@ -37,8 +37,8 @@
 #include <string>
 #include <fstream>
 #include <libilliCore/StringHelper.h>
-#include <libWinCMMLParse/libWinCMMLParse.h>
-#include <libWinCMMLParse/CMMLParser.h>
+#include <libCMMLParse/libCMMLParse.h>
+#include <libCMMLParse/CMMLParser.h>
 #include <libCMMLTags/libCMMLTags.h>
 #include "ICMMLAppControl.h"
 using namespace std;
