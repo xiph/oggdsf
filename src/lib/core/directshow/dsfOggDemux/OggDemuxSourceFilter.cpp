@@ -530,9 +530,9 @@ void OggDemuxSourceFilter::DeliverEndFlush()
 }
 void OggDemuxSourceFilter::DeliverEOS() 
 {
-	
+	mStreamMapper->toStartOfData();
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-		mStreamMapper->getOggStream(i)->flush();
+		//mStreamMapper->getOggStream(i)->flush();
 		mStreamMapper->getOggStream(i)->getPin()->DeliverEndOfStream();
 		
 	}
@@ -693,6 +693,7 @@ STDMETHODIMP OggDemuxSourceFilter::Stop(void)
 	CallWorker(THREAD_EXIT);
 	Close();
 	DeliverBeginFlush();
+	mSetIgnorePackets = true;
 	DeliverEndFlush();
 	
 	return CBaseFilter::Stop();

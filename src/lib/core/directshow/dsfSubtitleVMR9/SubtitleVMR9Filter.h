@@ -76,6 +76,10 @@ public:
 	virtual STDMETHODIMP GetState(DWORD dw, FILTER_STATE *pState);
 
 
+	//AKLSJFDLAKSJDL:ASKJD:LKAJSDL:KJSAD:KLJS
+	//This method is disabling the filter...
+	HRESULT SubtitleVMR9Filter::Receive(IMediaSample *pMediaSample);
+	//asdfasdfasdfaskldjf;lkasjdfl;kasjdf;kl
 
 
 protected:

@@ -58,6 +58,13 @@ CUnknown* WINAPI SubtitleVMR9Filter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 	return pNewObject;
 } 
 
+//***********************&!*(#&$()*&!@()*#&!@()*#&()!@*&#)(!@*&#()*!@&#)(*!@&#)*(!@
+//This esentially disables the filter...
+HRESULT SubtitleVMR9Filter::Receive(IMediaSample *pMediaSample) {
+	return S_OK;
+}
+//&)(*Q&#$()*!@&#$()!*@&#)(*!@&#)(*!@&#)(*&!@)#(*&!@)(#*&()!@*#&)(!*@&#()!*@&#()!@*&#
+
 SubtitleVMR9Filter::SubtitleVMR9Filter(void)
 	:	CBaseRenderer(CLSID_SubtitleVMR9Filter, NAME("Subtitle VMR9 Filter") ,NULL,&mHR)
 	,	mBitmapMixer(NULL)
