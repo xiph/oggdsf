@@ -47,12 +47,12 @@ class LIBOOOGG_API OggPaginator
 {
 public:
 	OggPaginator(void);
-	~OggPaginator(void);
+	virtual ~OggPaginator(void);
 
 	bool setParameters(OggPaginatorSettings* inSettings);
 	
-
-	bool acceptStampedOggPacket(StampedOggPacket* inOggPacket);
+	//IStampedOggPacketSink
+	virtual bool acceptStampedOggPacket(StampedOggPacket* inOggPacket);
 
 	bool setPageCallback(IOggCallback* inPageCallback);
 	bool finishStream();
@@ -83,6 +83,10 @@ protected:
 	OggPaginatorSettings* mSettings;
 	OggPage* mPendingPage;
 
+	unsigned char* mHeaderBuff;
 	fstream debugLog;
-	
+
+private:
+	OggPaginator& operator=(const OggPaginator& other);  /* Don't assign me */
+	OggPaginator(const OggPaginator& other); /* Don't copy me */
 };

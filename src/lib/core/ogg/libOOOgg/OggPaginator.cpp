@@ -31,7 +31,7 @@
 
 #include "StdAfx.h"
 #include "oggpaginator.h"
-
+//LEAK CHECK::: Potential for leak based on mPendingPage. if setSettings is called. and also the last page won't get deleted. 20041018
 
 //Checksum tables from libogg
 static unsigned long crc_lookup[256]={
@@ -114,15 +114,19 @@ OggPaginator::OggPaginator(void)
 	,	mPacketCount(0)
 {
 	debugLog.open("G:\\logs\\paginator.log", ios_base::out);
+
+	mHeaderBuff = new unsigned char[300];		//Deleted in destructor.
 	
 }
 
 OggPaginator::~OggPaginator(void)
 {
+	delete mHeaderBuff;
+	mHeaderBuff = NULL;
 	debugLog.close();
 }
 
-
+//Calling this after you have fed in packets will cause lost data and memory leak (mPending page)
 bool OggPaginator::setParameters(OggPaginatorSettings* inSettings) {
 	delete mSettings;
     mSettings = inSettings;
@@ -207,21 +211,24 @@ bool OggPaginator::setChecksum() {
 	
 		mPendingPage->header()->setCRCChecksum((unsigned long)0);
 
-		unsigned char* locBuff = new unsigned char[300];
-		mPendingPage->header()->rawData(locBuff, 300);
+		//To save memory allocation overhead... there is now one per class. Created in constructor, destroyed in destructor.
+		//unsigned char* locBuff = new unsigned char[300];		//Deleted this function 
+		mPendingPage->header()->rawData(mHeaderBuff, 300);
 
 		for(unsigned long i = 0; i < mPendingPage->headerSize(); i++) {
 			//Create the index we use for the lookup
-			locTemp = ((locChecksum >> 24) & 0xff) ^ locBuff[i];
+			locTemp = ((locChecksum >> 24) & 0xff) ^ mHeaderBuff[i];
 			//XOR the lookup value with the the current checksum shifted left 8 bits.
 			locChecksum=(locChecksum << 8) ^ crc_lookup[locTemp];
 		}
 
-		delete[] locBuff;
-		locBuff = NULL;
+		//Not required, using a single buffer for the class.
+		//delete[] locBuff;
+		//locBuff = NULL;
 
+		unsigned char* locBuff = NULL;
 		for(unsigned long i = 0; i < mPendingPage->numPackets(); i++) {
-			locBuff = mPendingPage->getPacket(i)->packetData();
+			locBuff = mPendingPage->getPacket(i)->packetData();			//View only don't delete.
 
 			for (unsigned long j = 0; j < mPendingPage->getPacket(i)->packetSize(); j++) {
 				locTemp = ((locChecksum >> 24) & 0xff) ^ locBuff[j];
@@ -256,7 +263,7 @@ bool OggPaginator::deliverCurrentPage() {
 }
 bool OggPaginator::createFreshPage() {
 	debugLog<<"Creating fresh page"<<endl;
-	mPendingPage = new OggPage;
+	mPendingPage = new OggPage;			//Potential for leak here if setsettings called. Otherwise deleted in destructor or dispatched
 	mCurrentPageSize = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	mPendingPageHasData = false;
 	mSegmentTableSize = 0;
@@ -384,7 +391,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 	//debugLog<<"Add part of packet to page"<<endl;
 
 	//Buffer the amount of the packet we are going to add.
-	unsigned char* locBuff = new unsigned char[inLength];
+	unsigned char* locBuff = new unsigned char[inLength];			//Given to constructor of stampedpacket.
 	memcpy((void*)locBuff, (const void*)(inOggPacket->packetData() + inStartFrom), inLength);
 
 	//unsigned long locBytesOfPacketRemaining = inOggPacket->packetSize() - (((locNumSegsNeeded - (255 - mSegmentTableSize)) * 255);
@@ -402,7 +409,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 																false,   //Not continuation
 																inOggPacket->startTime(), 
 																inOggPacket->endTime(), 
-																inOggPacket->mStampType);
+																inOggPacket->mStampType);		//Given to page.
 
 	//Add the packet to the page.
 	mPendingPage->addPacket(locPartialPacket);
@@ -472,34 +479,6 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 
 
 	
-//	unsigned long locNumSegsNeeded = ((inOggPacket->packetSize()) / 255) + 1;
-//	if (locNumSegsNeeded + mSegmentTableSize > 255) {
-//		//Must split the packet... not enough segments
-//		
-//
-//		
-//		deliverCurrentPage();
-//		createFreshPage();
-//		addPartOfPacketToPage(inOggPacket, 0, locRemainingPacketStartsAt);
-//		
-//
-//
-//	} else {
-//		//Just add the packet
-//		mPendingPage->addPacket(inOggPacket->clone());
-//		for (int i = 0; i < locNumSegsNeeded - 1; i++) {
-//			mSegmentTable[mSegmentTableSize] = 255;
-//			mSegmentTableSize++;
-//		}
-//		mSegmentTableSize++;
-//		mSegmentTable[mSegmentTableSize] = (inOggPacket->packetSize() % 255);
-//		mCurrentPageSize += (locNumSegsNeeded + inOggPacket->packetSize());
-//		OggInt64* locGranulePos = new OggInt64;
-//		locGranulePos->setValue(inOggPacket->endTime());
-//		mPendingPage->header()->setGranulePos(locGranulePos);
-//	}
-//	
-//}
 
 
 bool OggPaginator::setPageCallback(IOggCallback* inPageCallback) {

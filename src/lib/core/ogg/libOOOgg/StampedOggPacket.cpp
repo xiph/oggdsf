@@ -59,7 +59,7 @@ StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPa
 void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
 
 	//Make a new buffer the size of both data segs together
-	unsigned char* locBuff = new unsigned char[mPacketSize + inMorePacket->mPacketSize];
+	unsigned char* locBuff = new unsigned char[mPacketSize + inMorePacket->mPacketSize];		//Stored in the member var and deleted by base destructor
 	//Copy this packets data to the start
 	memcpy((void*)locBuff, (const void*)mPacketData, mPacketSize);
 	//Copy the next packets data after it
@@ -91,15 +91,16 @@ void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
 	mIsContinuation = false;
 }
 
+//Returns a packet the caller is responsible for.
 OggPacket* StampedOggPacket::clone() {
 	//Make a new buffer for packet data
-	unsigned char* locBuff = new unsigned char[mPacketSize];
+	unsigned char* locBuff = new unsigned char[mPacketSize];		//Given to constructor of stamped packet... it deletes it.
 
 	//Copy the packet data into the new buffer
 	memcpy((void*)locBuff, (const void*)mPacketData, mPacketSize);
 
 	//Create the new packet
-	StampedOggPacket* retPack = new StampedOggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation, mStartTime, mEndTime, mStampType);
+	StampedOggPacket* retPack = new StampedOggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation, mStartTime, mEndTime, mStampType);		//Caller takes responsibiility for this.
 	return retPack;
 }
 __int64 StampedOggPacket::startTime() {
