@@ -298,6 +298,9 @@
 				RelativePath="HTTPFileSource.cpp">
 			</File>
 			<File
+				RelativePath=".\HTTPOggSeeking.cpp">
+			</File>
+			<File
 				RelativePath=".\HTTPSocket.cpp">
 			</File>
 			<File
@@ -399,6 +402,9 @@
 			</File>
 			<File
 				RelativePath="HTTPFileSource.h">
+			</File>
+			<File
+				RelativePath=".\HTTPOggSeeking.h">
 			</File>
 			<File
 				RelativePath=".\HTTPSocket.h">
