@@ -676,10 +676,24 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	if (mPinInputType.subtype == MEDIASUBTYPE_YUY2) {
 		//debugLog<<"About to encode YUY2 to YV12"<<endl;
 		encodeYUY2ToYV12(inBuf, inNumBytes);
-	} else {
+	} else if (mPinInputType.subtype == MEDIASUBTYPE_AYUV) {
+		encodeAYUVtoYV12(inBuf, inNumBytes);
+
+	} else if (mPinInputType.subtype == MEDIASUBTYPE_RGB32) {
+		encodeRGB32toYV12(inBuf, inNumBytes);
+
+	} else if (mPinInputType.subtype == MEDIASUBTYPE_RGB24) {
+		encodeRGB24toYV12(inBuf, inNumBytes);
+
+
+	} else if (mPinInputType.subtype == MEDIASUBTYPE_YV12) {
 		//Should be more specifc.
 		//debugLog<<"About to encode YV12 to YV12"<<endl;
 		encodeYV12ToYV12(inBuf, inNumBytes);
+	} else {
+
+		//FATAL ERROR
+		throw 0;
 	}
 	
 

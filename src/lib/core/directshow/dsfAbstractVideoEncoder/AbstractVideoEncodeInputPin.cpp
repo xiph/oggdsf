@@ -121,7 +121,12 @@ HRESULT AbstractVideoEncodeInputPin::CheckMediaType(const CMediaType *inMediaTyp
 	//FIX::: Clean this up !
 	
 	if	( (inMediaType->majortype == MEDIATYPE_Video) &&
-			(inMediaType->subtype == MEDIASUBTYPE_YV12 || inMediaType->subtype == MEDIASUBTYPE_YUY2) &&
+			(	inMediaType->subtype == MEDIASUBTYPE_YV12 ||	
+				inMediaType->subtype == MEDIASUBTYPE_YUY2 ||
+				inMediaType->subtype == MEDIASUBTYPE_AYUV ||
+				inMediaType->subtype == MEDIASUBTYPE_RGB32 ||
+				inMediaType->subtype == MEDIASUBTYPE_RGB24
+			) &&
 			(inMediaType->formattype == FORMAT_VideoInfo)
 		)
 	{
@@ -155,7 +160,12 @@ HRESULT AbstractVideoEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 	//FIX:::Error checking
 	//RESOLVED::: Bit better.
 
-	if (inMediaType->subtype == MEDIASUBTYPE_YV12 || inMediaType->subtype == MEDIASUBTYPE_YUY2) {
+	if  (	inMediaType->subtype == MEDIASUBTYPE_YV12 || 
+			inMediaType->subtype == MEDIASUBTYPE_YUY2 ||
+			inMediaType->subtype == MEDIASUBTYPE_AYUV ||
+			inMediaType->subtype == MEDIASUBTYPE_RGB32 ||
+			inMediaType->subtype == MEDIASUBTYPE_RGB24
+		) {
 		mVideoFormat = (VIDEOINFOHEADER*)inMediaType->pbFormat;
 		mPinInputType = *inMediaType;
 		//mParentFilter->mAudioFormat = AbstractAudioDecodeFilter::VORBIS;
@@ -182,6 +192,15 @@ HRESULT AbstractVideoEncodeInputPin::GetMediaType(int inPosition, CMediaType *ou
 		case 1:
 			outMediaType->SetType(&MEDIATYPE_Video);
 			outMediaType->SetSubtype(&MEDIASUBTYPE_YUY2);
+		case 2:
+			outMediaType->SetType(&MEDIATYPE_Video);
+			outMediaType->SetSubtype(&MEDIASUBTYPE_RGB32);
+		case 3:
+			outMediaType->SetType(&MEDIATYPE_Video);
+			outMediaType->SetSubtype(&MEDIASUBTYPE_RGB24);
+		case 4:
+			outMediaType->SetType(&MEDIATYPE_Video);
+			outMediaType->SetSubtype(&MEDIASUBTYPE_AYUV);
 		default:
 			return VFW_S_NO_MORE_ITEMS;
 	}
