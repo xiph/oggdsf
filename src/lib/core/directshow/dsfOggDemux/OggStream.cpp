@@ -220,6 +220,10 @@ void OggStream::setLastEndGranPos(__int64 inGranPos) {
 bool OggStream::acceptOggPage(OggPage* inOggPage) {		//Gives away page.
 	
 	//debugLog<<"Accepting ogg page..."<<endl;
+
+
+	//TODO::: Is this even necessary any more ?????
+
 	//Chaining hack for icecast.
 	if ( (!mAllowSeek) && (inOggPage->header()->isBOS() )) {
 		//debugLog<<"ice case hack"<<endl;

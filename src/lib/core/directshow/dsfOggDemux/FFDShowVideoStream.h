@@ -65,7 +65,7 @@ protected:
 	StampedOggPacket* mHeaderPack;
 
 	LONGLONG mLastTimeStamp;
-	//LONGLONG mLastGranulePos;
+	LONGLONG mLastKnownTimeBase;
 	LONGLONG mGranuleOffset;
 
 	fstream debugLog;

@@ -47,6 +47,7 @@ public:
 
 	bool enabled();
 
+	typedef pair<__int64, unsigned long> tSeekPair;
 protected:
 	typedef map<__int64, unsigned long> tSeekMap;
 	tSeekMap mSeekMap;

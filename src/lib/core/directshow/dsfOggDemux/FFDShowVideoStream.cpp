@@ -38,7 +38,7 @@ FFDShowVideoStream::FFDShowVideoStream(OggPage* inBOSPage, OggDemuxSourceFilter*
 	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mFFDShowVideoFormatBlock(NULL)
 	,	mLastTimeStamp(0)
-	//,	mLastGranulePos(0)
+	,	mLastKnownTimeBase(0)
 	,	mGranuleOffset(0)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
@@ -199,13 +199,25 @@ bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 	unsigned char* locBuff = new unsigned char[inPacket->packetSize() - 1];
 	memcpy((void*)locBuff, (const void*) (inPacket->packetData() + 1), inPacket->packetSize() - 1);
 	
-	
+
+	//This is to help ffdshow handle timestamps the way it likes them.
+	//Everytime, the start time changes, we record it and reset the granule counter (frame count)
+	//This lets ogm stuff be seekable cleanly.
+	if ((mLastKnownTimeBase != inPacket->startTime()) && (inPacket->startTime() != -1)) {
+		mLastKnownTimeBase = inPacket->startTime();
+		mLastTimeStamp = mLastKnownTimeBase * mFFDShowVideoFormatBlock->AvgTimePerFrame;
+		debugLog<<"Last Time base set  to  "<<mLastKnownTimeBase<<endl;
+		debugLog<<"Last time stamp set to "<<mLastTimeStamp<<endl;
+
+		//Granule Offset may not be needed any more.
+		mGranuleOffset = 0;
+	}
 
 	debugLog<<"Packet stamps = "<<inPacket->startTime() << " - "<<inPacket->endTime()<<endl;
 
 	debugLog<<"m_tStart = "<<mSourcePin->CurrentStartTime()<<endl;
 	LONGLONG locStart = mLastTimeStamp - mSourcePin->CurrentStartTime();
-	LONGLONG locEnd = (mGranuleOffset) * mFFDShowVideoFormatBlock->AvgTimePerFrame - mSourcePin->CurrentStartTime();
+	LONGLONG locEnd = locStart + mFFDShowVideoFormatBlock->AvgTimePerFrame;
 	mGranuleOffset++;
 
 	debugLog<<"Time Stamps = "<<locStart<<" - "<<locEnd<<endl;
