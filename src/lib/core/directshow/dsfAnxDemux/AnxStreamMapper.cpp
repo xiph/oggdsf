@@ -106,6 +106,7 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 				return false;
 			}
 		}
+		return true;
 	} else {
 		vector<unsigned long>::iterator it;
 		int i;
