@@ -41,8 +41,6 @@
 
 #ifdef LIBCMMLTAGS_EXPORTS
 #define LIBCMMLTAGS_API __declspec(dllexport)
-#pragma message ("Exporting libCMMLTags Library Symbols...")
 #else
 #define LIBCMMLTAGS_API __declspec(dllimport)
-#pragma message ("Importing libCMMLTags Library Symbols...")
 #endif
