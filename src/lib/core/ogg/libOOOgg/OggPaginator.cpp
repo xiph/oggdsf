@@ -295,7 +295,7 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 	//
 
 	//Every header gets it's own page.
-	if (((mPacketCount < mSettings->mNumHeaders) || (mPacketCount >= mSettings->mMaxPacksPerPage)) && (mPendingPageHasData)) {
+	if (((mPacketCount < mSettings->mNumHeaders) || ((mSettings->mMaxPacksPerPage != 0) && (mPacketCount >= mSettings->mMaxPacksPerPage))) && (mPendingPageHasData)) {
 		debugLog<<"addPacketToPage : Cond Deliv : Packet Count = "<<mPacketCount<<endl;
 		debugLog<<"addPacketToPage : Cond Deliv : Num Headers = "<<mSettings->mNumHeaders<<endl;
 		debugLog<<"addPacketToPage : Cond Deliv : Max Pack per page = "<<mSettings->mMaxPacksPerPage<<endl;

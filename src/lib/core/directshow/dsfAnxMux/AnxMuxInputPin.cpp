@@ -177,6 +177,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 			}
 
 			mPaginator.setNumHeaders(locNumHeaders);
+			mPaginator.parameters()->mMaxPacksPerPage = 1;
 			mMuxStream->setNumHeaders(locNumHeaders);
 
 

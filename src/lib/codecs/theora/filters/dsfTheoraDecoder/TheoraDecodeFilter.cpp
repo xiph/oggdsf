@@ -149,11 +149,15 @@ HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, c
 		((inOutputMediaType->majortype == MEDIATYPE_Video) && (inOutputMediaType->subtype == MEDIASUBTYPE_YV12) && (inOutputMediaType->formattype == FORMAT_VideoInfo)
 		)) {
 		VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inOutputMediaType->Format();
-		mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
-		mWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
 
-	
-		return S_OK;
+	//	if ((locVideoHeader->bmiHeader.biHeight == mTheoraFormatInfo->pictureHeight) && (locVideoHeader->bmiHeader.biWidth == mTheoraFormatInfo->pictureWidth)) {
+
+			mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+			mWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+			return S_OK;
+	//	} else {
+	//		return S_FALSE;
+	//	}
 	} else {
 		return S_FALSE;
 	}

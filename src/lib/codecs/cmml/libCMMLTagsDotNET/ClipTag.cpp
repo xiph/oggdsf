@@ -115,13 +115,25 @@ namespace libCMMLTagsDotNET {
 		Wrappers::releaseWStr( tc );
 	}
 	void ClipTag::setAnchor(AnchorTag* inAnchor) {
-		getMe()->setAnchor(inAnchor->getMe()->clone());
+		if (inAnchor != NULL) {
+			getMe()->setAnchor(inAnchor->getMe()->clone());
+		} else {
+			getMe()->setAnchor(NULL);
+		}
 	}
 	void ClipTag::setImage(ImageTag* inImage) {
-		getMe()->setImage(inImage->getMe()->clone());
+		if (inImage != NULL) {
+			getMe()->setImage(inImage->getMe()->clone());
+		} else {
+			getMe()->setImage(NULL);
+		}
 	}
 	void ClipTag::setDesc(DescTag* inDesc) {
-		getMe()->setDesc(inDesc->getMe()->clone());
+		if (inDesc != NULL) {
+			getMe()->setDesc(inDesc->getMe()->clone());
+		} else {
+			getMe()->setDesc(NULL);
+		}
 	}
 
 	void ClipTag::setStart(String* inStart) {

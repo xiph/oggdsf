@@ -843,7 +843,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	char* locUUpto = mYUV.u;
 	char* locVUpto = mYUV.v;
 	//Pointer to the same pixel on next line
-	char* locDestNextLine = locYUpto + (mWidth);				//View only... don't delete
+	char* locDestNextLine = locYUpto + (mYUV.y_stride);				//View only... don't delete
 
 	int temp = 0;
 
@@ -851,15 +851,37 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	for (unsigned long line = 0; line < mHeight; line += 2) {
 		//debugLog<<"Encode AYUV To YV12 : ++ Line = "<<line<<endl;
 		
+		//Ensures the current destination buffer skips a line ie points to line 2, 4, 6 etc
+		locYUpto = (mYUV.y + (line * mYUV.y_stride));
+		//Ensures the nextlinedest skips a
+		locDestNextLine = locYUpto + (mYUV.y_stride);
+
+		//locUUpto = (mYUV.u + ((line/2) * mYUV.uv_stride));
+		//locVUpto = (mYUV.v + ((line/2) * mYUV.uv_stride));
+
 		ASSERT (locSourceUptoPtr == (inBuf + (line * (mWidth * PIXEL_BYTE_SIZE))));
 		ASSERT (locSourceNextLine == locSourceUptoPtr + (mWidth * PIXEL_BYTE_SIZE));
-		ASSERT (locYUpto == (mYUV.y + (line * mWidth)));
-		ASSERT (locDestNextLine == locYUpto + (mWidth));
+		ASSERT (locYUpto == (mYUV.y + (line * mYUV.y_stride)));
+		ASSERT (locDestNextLine == locYUpto + (mYUV.y_stride));
 		
 
+		//Pad out the start of the line if needed
+		if (mXOffset != 0) {
+			memset((void*)locYUpto, 0, mXOffset);
+			memset((void*)locDestNextLine, 0, mXOffset);
+			memset((void*)locUUpto, 0, mXOffset/2);
+			memset((void*)locVUpto, 0, mXOffset/2);
+			locYUpto += mXOffset;
+			locDestNextLine += mXOffset;
+			locUUpto += (mXOffset/2);
+			locVUpto += (mXOffset/2);
+		}
 		//Columns also done 2 at a time
 		for (unsigned long col = 0; col < mWidth; col += 2) {
 			//debugLog<<"Encode AYUV To YV12 : ++++++ Col = "<<col<<endl;
+			
+
+
 
 
 			//						v	u	y	a	v	u	y	a
@@ -986,10 +1008,8 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 		//Ensures nextlinesource is one line ahead of the main source.
 		locSourceNextLine += (mWidth * PIXEL_BYTE_SIZE);
 
-		//Ensures the current destination buffer skips a line ie points to line 2, 4, 6 etc
-		locYUpto = locDestNextLine;
-		//Ensures the nextlinedest skips a
-		locDestNextLine += (mWidth);
+
+
 	}
 	return 0;
 }
@@ -1299,7 +1319,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	//Set offset values... no longer centred... all the offset is at the bottom left of the image (ie very start of memory image)
 	//Difference between the outframe dimensions and the inner picture dimensions
 	mTheoraInfo.offset_x		=	mXOffset
-								=	(mWidth - mTheoraInfo.frame_width);
+								=	(mTheoraInfo.width - mTheoraInfo.frame_width);
 
 	mTheoraInfo.offset_y		=	mYOffset
 								=	(mHeight - mTheoraInfo.frame_height);

@@ -236,6 +236,9 @@ bool DSPlay::loadFile(String* inFileName) {
 	ULONG numRef = 0;
 	//
 
+	if (!File::Exists(inFileName)) {
+		return false;
+	}
 	FileInfo* locFileInfo = new FileInfo(inFileName);
 	mFileSize = locFileInfo->Length;
 
