@@ -59,6 +59,17 @@ bool AnxStreamMapper::isReady() {
 	bool locWasAny = false;
 	//Use 1 instead of 0... cmml is always ready and terminates the graph creation early.
 	//We want to know when everything else is ready.
+
+	//XXXXXXXXXXXXXX:::: Big dirty hack to deal with badly ordered header packets !!
+	//=======================================================================
+	//The side effect is... a file will hang if it has unknown streams.
+	//=======================================================================
+	if (mSeenStreams.size() == 0) {
+		retVal = true;
+	} else {
+		retVal = false;
+	}
+	
 	for (unsigned long i = 1; i < mStreamList.size(); i++) {
 		locWasAny = true;
 		retVal = retVal && mStreamList[i]->streamReady();
@@ -69,6 +80,7 @@ bool AnxStreamMapper::isReady() {
 			//debugLog<<"NOT READY !!!!"<<endl;
 		}
 	}
+	//=======================================================================
 	if (locWasAny && retVal) {
 		//debugLog<<"Streams READY"<<endl;
 	} else {
