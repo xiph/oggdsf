@@ -70,8 +70,13 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 
 	fstream locFile;
 
-	locFile.open(StringHelper::toNarrowStr(inFilename).c_str(),
-		ios_base::in | ios_base::binary);
+	locFile.open(StringHelper::toNarrowStr(inFilename).c_str(), ios_base::in | ios_base::binary);
+
+	if (!locFile.is_open()) {
+		//Check if the file is actually open, else if it isn't tellg will return -1 as unsigned.
+		// and then we'll try to allocate 4 gigs of memory... which will probably fail :)
+		return false;
+	}
 
 	// Look ma, the world's most portable file-size-getting-function-thing
 	locFile.seekg(0, ios::end);

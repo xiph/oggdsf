@@ -89,7 +89,12 @@ C_MappedTag* C_MappedTagList::getTag(wstring inName) {
 }
 
 wstring C_MappedTagList::getContent(wstring inName) {
-	return getTag(inName)->name();
+	C_MappedTag* locTag =  getTag(inName);
+	if (locTag != NULL) {
+		return locTag->content();
+	} else {
+		return L"";
+	}
 }
 
 wstring C_MappedTagList::toString() {
