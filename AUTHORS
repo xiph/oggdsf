@@ -17,6 +17,7 @@
 		- Mac OS X and UNIX porting.
 ==============================================================
 *** CMMLDump
+*** libCMMLParse
 *** libOOOggChef
 *** mod_oggchef
 
@@ -64,6 +65,7 @@
 *** libFLACHelper
 *** libiWrapper
 *** libOOTheora
+*** libTemporalURI
 *** libVorbisCommentDotNET
 *** libWinCMMLParse
 
