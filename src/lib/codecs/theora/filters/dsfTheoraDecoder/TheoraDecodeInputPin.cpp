@@ -36,16 +36,16 @@
 TheoraDecodeInputPin::TheoraDecodeInputPin(CTransformFilter* inParentFilter, HRESULT* outHR) 
 	:	CTransformInputPin(NAME("Theora Input Pin"), inParentFilter, outHR, L"Theora In")
 {
-	debugLog.open("G:\\logs\\theoinput.log", ios_base::out);
+	//debugLog.open("G:\\logs\\theoinput.log", ios_base::out);
 }
 TheoraDecodeInputPin::~TheoraDecodeInputPin() {
-	debugLog.close();
+	//debugLog.close();
 }
 
 STDMETHODIMP TheoraDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
-	debugLog<<"Querying interface"<<endl;
+	//debugLog<<"Querying interface"<<endl;
 	if (riid == IID_IMediaSeeking) {
-		debugLog<<"Got Seeker"<<endl;
+		//debugLog<<"Got Seeker"<<endl;
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
 		
@@ -57,18 +57,18 @@ STDMETHODIMP TheoraDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void
 
 HRESULT TheoraDecodeInputPin::BreakConnect() {
 	CAutoLock locLock(m_pLock);
-	debugLog<<"Break conenct"<<endl;
+	//debugLog<<"Break conenct"<<endl;
 	//Need a lock ??
 	ReleaseDelegate();
 	return CTransformInputPin::BreakConnect();
 }
 HRESULT TheoraDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
 	CAutoLock locLock(m_pLock);
-	debugLog<<"Complete conenct"<<endl;
+	//debugLog<<"Complete conenct"<<endl;
 	IMediaSeeking* locSeeker = NULL;
 	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 	if (locSeeker == NULL) {
-		debugLog<<"Seeker is null"<<endl;
+		//debugLog<<"Seeker is null"<<endl;
 	}
 	SetDelegate(locSeeker);
 	return CTransformInputPin::CompleteConnect(inReceivePin);
