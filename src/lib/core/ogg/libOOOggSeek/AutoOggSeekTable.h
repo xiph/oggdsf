@@ -58,6 +58,9 @@ public:
 
 	__int64 fileDuration();
 
+	unsigned long serialisedSize();
+	bool serialiseInto(unsigned char* inBuff, unsigned long inBuffSize);
+
 protected:
 	unsigned long mFilePos;
 	unsigned long mPacketCount;
