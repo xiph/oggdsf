@@ -1196,72 +1196,24 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DecodeDirac", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DecodeDirac\DecodeDirac.vcproj", "{CCA690F8-1356-4BD5-9152-8E0A6496842D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracCommon", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracCommon\DiracCommon.vcproj", "{A45B7D48-9E8D-4475-BED4-CBE3E3CCAD21}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracDecoder", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracDecoder\DiracDecoder.vcproj", "{89EC2AEB-8284-4213-874B-29D549893FC9}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracEncoder", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracEncoder\DiracEncoder.vcproj", "{9076B578-583A-493D-96C4-776DCEC0FFBD}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracMotionEst", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracMotionEst\DiracMotionEst.vcproj", "{C6A615BF-D4EB-4D50-9638-2C715E0695C6}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EncodeDirac", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\EncodeDirac\EncodeDirac.vcproj", "{547FE1E9-70EF-48D4-B45B-2FF39B39855D}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -1309,6 +1261,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggSeekFileMaker", "..\..
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggSeekFileReader", "..\..\src\tools\OOOggSeekFileReader\OOOggSeekFileReader.vcproj", "{F6B75B61-4BEF-4323-B15E-37AFFC9CB52A}"
 	ProjectSection(ProjectDependencies) = postProject
+		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggPageInfo", "..\..\src\tools\OOOggPageInfo\OOOggPageInfo.vcproj", "{EE19996C-FEB3-4247-9EEF-490C854177B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
 	EndProjectSection
 EndProject
@@ -2647,6 +2605,22 @@ Global
 		{F6B75B61-4BEF-4323-B15E-37AFFC9CB52A}.Release_SSE.Build.0 = Release|Win32
 		{F6B75B61-4BEF-4323-B15E-37AFFC9CB52A}.Release_SSE2.ActiveCfg = Release|Win32
 		{F6B75B61-4BEF-4323-B15E-37AFFC9CB52A}.Release_SSE2.Build.0 = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Debug.ActiveCfg = Debug|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Debug.Build.0 = Debug|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Debug Unicode.ActiveCfg = Debug|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Debug Unicode.Build.0 = Debug|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.MakeFile.ActiveCfg = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.MakeFile.Build.0 = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release.ActiveCfg = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release.Build.0 = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release Unicode.ActiveCfg = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release Unicode.Build.0 = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_NoDotNET.Build.0 = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_SSE.ActiveCfg = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_SSE.Build.0 = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_SSE2.ActiveCfg = Release|Win32
+		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
