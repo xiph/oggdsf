@@ -22,7 +22,6 @@ AnnodexRecomposer::AnnodexRecomposer(string inFilename, BufferWriter inBufferWri
 	:	mFilename(inFilename)
 	,	mDemuxState(SEEN_NOTHING)
 	,	mDemuxParserState(LOOK_FOR_HEADERS)
-	,	mRequestedTime(0)
 	,	mBufferWriter(inBufferWriter)
 	,	mBufferWriterUserData(inBufferWriterUserData)
 {
@@ -46,8 +45,8 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	static const size_t BUFF_SIZE = 8192;
 
 	// Open the file and prepare the OggDataBuffer to receive pages
-	fstream mFile;
-	mFile.open(mFilename.c_str(), ios_base::in | ios_base::binary);
+	fstream locFile;
+	locFile.open(mFilename.c_str(), ios_base::in | ios_base::binary);
 
 	// Build a seek table from the file, so we can find out the end location of
 	// the stream headers, and the byte position of the user's requested start
@@ -87,8 +86,8 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 			// projects)
 			unsigned long locBytesToRead =
 				MIN(locStartOfBodyOffset - locBytesRead, BUFF_SIZE);
-			mFile.read(locBuffer, locBytesToRead);
-			unsigned long locBytesReadThisIteration = mFile.gcount();
+			locFile.read(locBuffer, locBytesToRead);
+			unsigned long locBytesReadThisIteration = locFile.gcount();
 			if (locBytesReadThisIteration <= 0) {
 				break;
 			}
@@ -103,13 +102,13 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 		locSeekTable->getStartPos(locRequestedStartTime).second;
 
 	// Re-open the file, to avoid any fallout from reading the headers
-	mFile.clear();
-	mFile.seekg(locRequestedStartTimeOffset);
+	locFile.clear();
+	locFile.seekg(locRequestedStartTimeOffset);
 
 #ifdef DEBUG
 	mDebugFile << "locRequestedStartTime: " << locRequestedStartTime << endl;
 	mDebugFile << "locRequestedStartTimeOffset: " << locRequestedStartTimeOffset << endl;
-	mDebugFile << "Current position: " << mFile.tellg() << endl;
+	mDebugFile << "Current position: " << locFile.tellg() << endl;
 #endif
 
 	mDemuxParserState = LOOK_FOR_BODY;
@@ -120,8 +119,8 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 		char *locBuffer = new char[BUFF_SIZE];
 		for (;;)
 		{
-			mFile.read(locBuffer, BUFF_SIZE);
-			unsigned long locBytesReadThisIteration = mFile.gcount();
+			locFile.read(locBuffer, BUFF_SIZE);
+			unsigned long locBytesReadThisIteration = locFile.gcount();
 			if (locBytesReadThisIteration <= 0) {
 				break;
 			}
@@ -130,7 +129,7 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	}
 
 	// Tidy up
-	mFile.close();
+	locFile.close();
 
 #ifdef DEBUG
 	mDebugFile << "----------------" << endl;

@@ -51,11 +51,8 @@ protected:
 	fstream mDebugFile;
 
 	string mFilename;
-	fstream mFile;
 
 	unsigned long mAnnodexSerialNumber;
-
-	LOOG_INT64 mRequestedTime;  // Deprecate
 
 	eDemuxState mDemuxState;
 	eDemuxParserState mDemuxParserState;
