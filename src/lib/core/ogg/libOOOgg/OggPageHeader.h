@@ -32,7 +32,7 @@
 #pragma once
 
 #include "StringHelper.h"
-#include "OggSegmentTable.h"
+//#include "OggSegmentTable.h"
 #include "OggInt64.h"
 #include "OggMath.h"
 
@@ -55,6 +55,10 @@ public:
 	//22-25			CheckSum
 	//26			Num Segments
 	//27...			SegmentTable
+
+	static const int MAX_NUM_SEGMENTS = 255;
+	static const int MAX_SEGMENT_SIZE = 255;
+	static const int SEGMENT_WIDTH = 1;
 
 	static const unsigned char OGG_CAPTURE_PATTERN_SIZE = 4;
 	static const unsigned char OGG_BASE_HEADER_SIZE = 27;
@@ -87,9 +91,10 @@ public:
 	unsigned long headerSize();
 	unsigned long dataSize();
 	
+	unsigned long calculateDataSize();
 	//Bulk Mutators
 	bool setBaseHeader(const unsigned char* inBaseHeader);
-	bool setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegs);
+	//bool setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegs);
 
 
 	unsigned char StructureVersion();
@@ -99,7 +104,7 @@ public:
 	unsigned long PageSequenceNo();
 	unsigned long CRCChecksum();
 	unsigned char NumPageSegments();
-	OggSegmentTable* SegmentTable();
+	unsigned char* SegmentTable();
 
 
 
@@ -114,7 +119,8 @@ public:
 	void setCRCChecksum(unsigned long inVal);
 	void setCRCChecksum(const unsigned char* inPtr);
 	void setNumPageSegments(unsigned char inVal);
-	void setSegmentTable(OggSegmentTable* inPtr);
+	void setSegmentTable(unsigned char* inPtr);
+	void setSegmentTable(const unsigned char* inPtr, unsigned char inNumSegs);
 
 	void setHeaderSize(unsigned long inVal);
 	void setDataSize(unsigned long inVal);
@@ -137,7 +143,7 @@ protected:
 	unsigned long mCRCChecksum;
 	unsigned char mNumPageSegments;
 
-	unsigned char[255] mSegmentTable;
+	unsigned char* mSegmentTable;
 	//OggSegmentTable* mSegmentTable;
 
 	ePageState mPageState;

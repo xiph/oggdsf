@@ -356,7 +356,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 	//If it's not the last of the packet, it will be a multiple of 255, hence we don't put a terminating 0 on.
 	//If it is the last of the packet this last segment will be between 0 and 254 inclusive.
 	if (locIsLastOfPacket) {
-		mSegmentTable[mSegmentTableSize] = inLength % 255;
+		mSegmentTable[mSegmentTableSize] = (unsigned char)(inLength % 255);
 		mSegmentTableSize++;
 	}
 	mCurrentPageSize += (locNumSegsNeeded + inLength);

@@ -72,8 +72,8 @@ public:
 	};
 
 	static const int MAX_OGG_PAGE_SIZE =	OggPageHeader::OGG_BASE_HEADER_SIZE +											//Header
-											(OggSegmentTable::MAX_NUM_SEGMENTS * OggSegmentTable::MAX_SEGMENT_SIZE) +		//Page Data
-											(OggSegmentTable::SEGMENT_WIDTH * OggSegmentTable::MAX_NUM_SEGMENTS);			//Segment table
+											(OggPageHeader::MAX_NUM_SEGMENTS * OggPageHeader::MAX_SEGMENT_SIZE) +		//Page Data
+											(OggPageHeader::SEGMENT_WIDTH * OggPageHeader::MAX_NUM_SEGMENTS);			//Segment table
 
 
 	OggDataBuffer(void);

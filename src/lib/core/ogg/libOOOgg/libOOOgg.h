@@ -37,7 +37,7 @@
 #include "OggDataBuffer.h"
 #include "OggInt64.h"
 #include "OggPage.h"
-#include "OggSegmentTable.h"
+//#include "OggSegmentTable.h"
 #include "OggTypeDefs.h"
 #include "IOggCallback.h"
 #include "OggBOSPage.h"

@@ -25,7 +25,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 
 	cout<<"* Testing fill to limit"<<endl;
 	unsigned long locNumWritten = 0;
-	for (int i = 0; i < 12; i++) {
+	for (int i = 0; i < (CIRC_BUFF_SIZE/LOC_BUFF_SIZE) + 2; i++) {
 		locNumWritten = locCircBuf->write(locBuf, LOC_BUFF_SIZE);
 		if (locNumWritten == 0) {
 			cout<<"Buffer full... Wrote 0"<<endl;

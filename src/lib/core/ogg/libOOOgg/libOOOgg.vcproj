@@ -176,9 +176,6 @@
 				RelativePath="OggPaginatorSettings.cpp">
 			</File>
 			<File
-				RelativePath="OggSegmentTable.cpp">
-			</File>
-			<File
 				RelativePath="SerialNoRego.cpp">
 			</File>
 			<File
@@ -274,9 +271,6 @@
 			</File>
 			<File
 				RelativePath="OggPaginatorSettings.h">
-			</File>
-			<File
-				RelativePath="OggSegmentTable.h">
 			</File>
 			<File
 				RelativePath="OggTypeDefs.h">
