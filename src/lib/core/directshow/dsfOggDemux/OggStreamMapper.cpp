@@ -71,6 +71,9 @@ bool OggStreamMapper::dispatchPage(OggPage* inOggPage)				//Gives away or delete
 		}
 	}
 	debugLog<<"Shouldn't be here $$$$$$"<<endl;
+
+	//::: CHAINING SUPPORT HACKED IN HERE !!!
+	//===================================
 	//We only get here if the serial number wasn't in a header... this means either
 	// a) It's a chain, and we are going to hack around it
 	// b) The file is invalid.

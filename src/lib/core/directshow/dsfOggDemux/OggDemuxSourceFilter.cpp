@@ -575,7 +575,11 @@ void OggDemuxSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TI
 		mStreamMapper->getOggStream(i)->getPin()->DeliverNewSegment(tStart, tStop, dRate);
 	}
 }
-HRESULT OggDemuxSourceFilter::DataProcessLoop() {
+HRESULT OggDemuxSourceFilter::DataProcessLoop() 
+{
+
+	//Mess with the locking mechanisms at your own risk.
+
 	debugLog<<"Starting DataProcessLoop :"<<endl;
 	DWORD locCommand = 0;
 	char* locBuff = new  char[4096];			//Deleted before function returns...
