@@ -32,6 +32,7 @@
 #pragma once
 #include "oggmuxdllstuff.h"
 #include "OggMuxInputPin.h"
+#include "IOggMuxProgress.h"
 #include "BasicSeekPassThrough.h"
 #include <libOOOgg/OggPageInterleaver.h>
 #include <libOOOgg/INotifyComplete.h>
@@ -51,6 +52,7 @@ class OGG_MUX_API OggMuxFilter
 	,	public IAMFilterMiscFlags
 	,	public BasicSeekPassThrough
 	,	public INotifyComplete
+	,	public IOggMuxProgress
 {
 public:
 	OggMuxFilter(void);
@@ -86,9 +88,13 @@ public:
 	virtual HRESULT addAnotherPin();
 	virtual void NotifyComplete();
 
-	//IMediaSeeking Override to give progress.
+	//IMediaSeeking Override to give progress. - This is unreliable !!
 	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
 	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
+
+	//IOggMuxProgress Implementation
+	virtual STDMETHODIMP_(LONGLONG) getProgressTime();
+
 
 protected:
 

@@ -54,6 +54,11 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 
 
+STDMETHODIMP AnxMuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+	return OggMuxFilter::NonDelegatingQueryInterface(riid, ppv); 
+}
+
 CUnknown* WINAPI AnxMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
 	AnxMuxFilter *pNewObject = new AnxMuxFilter();

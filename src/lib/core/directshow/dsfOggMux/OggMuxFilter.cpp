@@ -82,12 +82,26 @@ STDMETHODIMP OggMuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
+	} else if (riid == IID_IOggMuxProgress) {
+		debugLog<<"Queried for IMediaSeeking"<<endl;
+		*ppv = (IOggMuxProgress*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
 	}
-
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-ULONG OggMuxFilter::GetMiscFlags(void) {
+STDMETHODIMP_(LONGLONG) OggMuxFilter::getProgressTime() 
+{
+	if (mInterleaver != NULL) {
+		return mInterleaver->progressTime();
+	} else {
+		return -1;
+	}
+
+}
+ULONG OggMuxFilter::GetMiscFlags(void) 
+{
 	debugLog<<"GetMiscflags"<<endl;
 	return AM_FILTER_MISC_FLAGS_IS_RENDERER;
 }

@@ -315,6 +315,9 @@
 				RelativePath=".\FishSkeleton.h">
 			</File>
 			<File
+				RelativePath=".\IOggMuxProgress.h">
+			</File>
+			<File
 				RelativePath="oggmuxdllstuff.h">
 			</File>
 			<File

@@ -43,6 +43,9 @@ public:
 	AnxMuxFilter(void);
 	~AnxMuxFilter(void);
 
+	//Com Stuff
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	static CUnknown* WINAPI AnxMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
 	enum eAnxMuxState {
