@@ -1,5 +1,5 @@
 #pragma once
-
+#include "OggDemuxSourcePin.h"
 class AnxDemuxSourcePin
 	:	public OggDemuxSourcePin
 {

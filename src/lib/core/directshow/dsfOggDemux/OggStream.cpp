@@ -125,6 +125,7 @@ StampedOggPacket* OggStream::processPacket(StampedOggPacket* inPacket) {
 	}
 }
 
+//ANX::: Need to override here to ensure the anxdata header isn't passed through.
 bool OggStream::processHeaderPacket(StampedOggPacket* inPacket) {
 	//FIX::: Return values
 
@@ -188,6 +189,7 @@ CMediaType* OggStream::createMediaType(GUID inMajorType, GUID inSubType, GUID in
 	return new CMediaType(locAMMediaType);
 }
 
+//ANX::: Need to override here to create anx pins
 bool OggStream::AddPin() {
 	createFormatBlock();
 	CMediaType* locMediaType = createMediaType(	getMajorTypeGUID(),
@@ -295,6 +297,8 @@ bool OggStream::deliverCodecHeaders() {
 	}
 	return true;
 }
+
+//ANX::: Maybe also needs override. ??
 bool OggStream::dispatchPacket(StampedOggPacket* inPacket) {
 	//osDebug<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
 	return mSourcePin->deliverOggPacket(inPacket);

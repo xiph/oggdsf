@@ -80,8 +80,9 @@ STDMETHODIMP OggDemuxSourceFilter::NonDelegatingQueryInterface(REFIID riid, void
 
 //------------------
 
+//ANX::: This needs to be changed so these details are passed into the constructor. Or add another parametised constructo
 OggDemuxSourceFilter::OggDemuxSourceFilter()
-	:	CBaseFilter(NAME("OggDemucSourceFilter"), NULL, m_pLock, CLSID_OggDemuxSourceFilter)
+	:	CBaseFilter(NAME("OggDemuxSourceFilter"), NULL, m_pLock, CLSID_OggDemuxSourceFilter)
 	,	mSeekTable(NULL)
 {
 	//LEAK CHECK:::Both get deleted in constructor.
@@ -123,6 +124,8 @@ STDMETHODIMP OggDemuxSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TY
 	
 	return S_OK;
 }
+
+//ANX::: Seek table will need modifying to handle this.
 STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) {
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
@@ -502,6 +505,8 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	
 	//return value ??
 }
+
+//ANX:::Perhaps override here. Provide a different set-up function.
 HRESULT OggDemuxSourceFilter::SetUpPins() {
 	
 	CAutoLock locSourceLock(mSourceFileLock);
