@@ -32,23 +32,28 @@
 #pragma once
 
 #include "theoraencoderdllstuff.h"
-//#include "AbstractVideoEncodeOutputPin.h"
+
 
 class TheoraEncodeFilter;
 struct sTheoraFormatBlock;
 
 class TheoraEncodeOutputPin
-	:	public	AbstractVideoEncodeOutputPin
+	:	public	AbstractTransformOutputPin
 {
 public:
-	TheoraEncodeOutputPin(TheoraEncodeFilter* inParentFilter, CCritSec* inFilterLock, CMediaType* inOutputMediaType);
+
+	friend class TheoraEncodeInputPin;
+
+	TheoraEncodeOutputPin(TheoraEncodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~TheoraEncodeOutputPin(void);
 
 	//PURE VIRTUAL IMPLEMENTATION
-	virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
-	virtual unsigned long FormatBufferSize();
+	//virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
+	//virtual unsigned long FormatBufferSize();
 
 
 protected:
+	HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
+
 	
 };

@@ -32,8 +32,8 @@
 #include "StdAfx.h"
 #include "theoraencodeoutputpin.h"
 
-TheoraEncodeOutputPin::TheoraEncodeOutputPin(TheoraEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)
-	:	AbstractVideoEncodeOutputPin(inParentFilter, inFilterLock,NAME("TheoraDecodeOutputPin"), L"Theora Out", inOutputMediaType)
+TheoraEncodeOutputPin::TheoraEncodeOutputPin(TheoraEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("TheoraEncodeOutputPin"), L"Theora Out", 1024*1024, 3, inAcceptableMediaTypes)
 {
 }
 
@@ -41,11 +41,24 @@ TheoraEncodeOutputPin::~TheoraEncodeOutputPin(void)
 {
 }
 
-bool TheoraEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
-	TheoraEncodeFilter* locParentFilter = (TheoraEncodeFilter*)mParentFilter;
-	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mTheoraFormatBlock), sizeof(sTheoraFormatBlock));
-	return true;
-}
-unsigned long TheoraEncodeOutputPin::FormatBufferSize() {
-	return sizeof(sTheoraFormatBlock);
+//bool TheoraEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
+//	TheoraEncodeFilter* locParentFilter = (TheoraEncodeFilter*)mParentFilter;
+//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mTheoraFormatBlock), sizeof(sTheoraFormatBlock));
+//	return true;
+//}
+//unsigned long TheoraEncodeOutputPin::FormatBufferSize() {
+//	return sizeof(sTheoraFormatBlock);
+//}
+
+HRESULT TheoraEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+{
+	if (inPosition == 0) {
+		sTheoraFormatBlock* locTheoraFormat = (sTheoraFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sTheoraFormatBlock));
+		//TODO::: Check for null ?
+
+		memcpy((void*)locTheoraFormat, (const void*) &(((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock), sizeof(sTheoraFormatBlock));
+		return S_OK;
+	} else {
+        return S_FALSE;
+	}
 }

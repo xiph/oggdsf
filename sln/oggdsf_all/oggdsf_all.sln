@@ -971,7 +971,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfTheoraEncoder", "..\..\s
 		{A882A968-3013-4A27-B653-E18CF5C791FE} = {A882A968-3013-4A27-B653-E18CF5C791FE}
 		{4CBC0173-27E6-4218-AE06-5EFDCA7B2547} = {4CBC0173-27E6-4218-AE06-5EFDCA7B2547}
 		{6B20BD7A-644B-4087-9CAC-71B2D68D0231} = {6B20BD7A-644B-4087-9CAC-71B2D68D0231}
-		{AD2DC5BB-AC7B-482D-9472-19BB98A833CE} = {AD2DC5BB-AC7B-482D-9472-19BB98A833CE}
+		{EA7091BB-9906-41DF-9738-F4858A136086} = {EA7091BB-9906-41DF-9738-F4858A136086}
 		{2394BCBD-BAE8-443F-A65C-6BFDDD42D7CA} = {2394BCBD-BAE8-443F-A65C-6BFDDD42D7CA}
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
 	EndProjectSection
@@ -1193,24 +1193,36 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DecodeDirac", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DecodeDirac\DecodeDirac.vcproj", "{CCA690F8-1356-4BD5-9152-8E0A6496842D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracCommon", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracCommon\DiracCommon.vcproj", "{A45B7D48-9E8D-4475-BED4-CBE3E3CCAD21}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracDecoder", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracDecoder\DiracDecoder.vcproj", "{89EC2AEB-8284-4213-874B-29D549893FC9}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracEncoder", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracEncoder\DiracEncoder.vcproj", "{9076B578-583A-493D-96C4-776DCEC0FFBD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracMotionEst", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracMotionEst\DiracMotionEst.vcproj", "{C6A615BF-D4EB-4D50-9638-2C715E0695C6}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EncodeDirac", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\EncodeDirac\EncodeDirac.vcproj", "{547FE1E9-70EF-48D4-B45B-2FF39B39855D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject

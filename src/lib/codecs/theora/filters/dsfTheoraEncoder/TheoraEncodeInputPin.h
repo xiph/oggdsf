@@ -50,23 +50,26 @@ using namespace std;
 
 class TheoraEncodeOutputPin;
 class TheoraEncodeInputPin
-	:	public AbstractVideoEncodeInputPin
+	:	public AbstractTransformInputPin
 {
 public:
-	TheoraEncodeInputPin(AbstractVideoEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractVideoEncodeOutputPin* inOutputPin);
+	TheoraEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~TheoraEncodeInputPin(void);
 
 
-	//PURE VIRTUALS
-	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
+	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 	//
 
 	theora_info* theoraInfo();
 
 protected:
+
+	//PURE VIRTUALS
+	virtual long TransformData(unsigned char* inBuf, long inNumBytes);
+	virtual bool ConstructCodec();
+	virtual void DestroyCodec();
+
 	HRESULT mHR;
 	//bool mBegun;	//Already in base class !
 
@@ -92,6 +95,17 @@ protected:
 
 	unsigned long mXOffset;
 	unsigned long mYOffset;
+
+	unsigned long mHeight;
+	unsigned long mWidth;
+
+	unsigned __int64 mUptoFrame;
+
+	CMediaType mPinInputType;
+	VIDEOINFOHEADER* mVideoFormat;
+
+	bool mBegun;
+
 
 	//DEBUG ONLY
 	//fstream debugLog;

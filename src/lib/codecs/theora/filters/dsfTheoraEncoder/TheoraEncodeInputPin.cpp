@@ -32,10 +32,15 @@
 #include "StdAfx.h"
 #include "theoraencodeinputpin.h"
 
-TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractVideoEncodeOutputPin* inOutputPin)
-	:	AbstractVideoEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("TheoraEncodeInputPin"), L"YV12 In")
+TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("TheoraEncodeInputPin"), L"YV12 In", inAcceptableMediaTypes)
 	,	mXOffset(0)
 	,	mYOffset(0)
+	,	mHeight(0)
+	,	mWidth(0)
+	,	mUptoFrame(0)
+	,	mBegun(false)
+	,	mVideoFormat(NULL)
 	
 
 {
@@ -84,7 +89,7 @@ HRESULT TheoraEncodeInputPin::deliverData(LONGLONG inStart, LONGLONG inEnd, unsi
 		{
 			CAutoLock locLock(m_pLock);
 
-			HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+			HRESULT locHR = ((TheoraEncodeOutputPin*)mOutputPin)->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 			if (locHR != S_OK) {
 				return locHR;	
 			} else {
@@ -1112,7 +1117,7 @@ long TheoraEncodeInputPin::encodeUYVYToYV12(unsigned char* inBuf, long inNumByte
 
 
 //PURE VIRTUALS
-long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
+long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) {
 
 	//TODO::: Break this function up a bit !!
 
@@ -1318,9 +1323,27 @@ void TheoraEncodeInputPin::DestroyCodec() {
 
 
 HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
-	AbstractVideoEncodeInputPin::SetMediaType(inMediaType);
+	//AbstractVideoEncodeInputPin::SetMediaType(inMediaType);
 
+	if  (	inMediaType->subtype == MEDIASUBTYPE_YV12 || 
+			inMediaType->subtype == MEDIASUBTYPE_IYUV ||
+			inMediaType->subtype == MEDIASUBTYPE_YUY2 ||
+			inMediaType->subtype == MEDIASUBTYPE_UYVY ||
+			inMediaType->subtype == MEDIASUBTYPE_YVYU ||
+			inMediaType->subtype == MEDIASUBTYPE_AYUV ||
+			inMediaType->subtype == MEDIASUBTYPE_RGB32 ||
+			inMediaType->subtype == MEDIASUBTYPE_RGB24
+	) {
+		mVideoFormat = (VIDEOINFOHEADER*)inMediaType->pbFormat;
+		mPinInputType = *inMediaType;
+		//mParentFilter->mAudioFormat = AbstractAudioDecodeFilter::VORBIS;
+	} else {
+		//Failed... should never be here !
+		throw 0;
+	}
 	ConstructCodec();
+	return CBaseInputPin::SetMediaType(inMediaType);
+
 
 
 	return S_OK;

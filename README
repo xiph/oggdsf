@@ -23,9 +23,12 @@ You need NASM for FLAC to build. (lifes easier if it's at C:\NASM)
  delete some necessary header files. Don't ask me why !
  Also ignore visual studio hassling you about sourcesafe for flac.
 
+I've been using NASM 0.98.38 which you can find here
+ http://sourceforge.net/projects/nasm You want the win32 binaries.
+
 If you do accidentally clean FLAC, you will get a message when you
  try to build that says "ordinals.h" not found. You need to
- go to the libFLAC directory and find the file called ordinals.h.in
+ go to the libFLAC directory and find the file called ordinals.h.bak
  and *copy* it to the same directory without the .in extension.
  Don't just rename it... you want to keep that file for next time
  this happens !

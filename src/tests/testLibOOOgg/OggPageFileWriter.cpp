@@ -8,6 +8,7 @@ OggPageFileWriter::OggPageFileWriter(string inFileName)
 
 OggPageFileWriter::~OggPageFileWriter(void)
 {
+	mFile.close();
 }
 
 bool OggPageFileWriter::acceptOggPage(OggPage* inOggPage) {

@@ -11,9 +11,9 @@
 
 // TODO: reference additional headers your program requires here
 #include "theoraencoderdllstuff.h"
-#include "AbstractVideoEncodeFilter.h"
-#include "AbstractVideoEncodeInputPin.h"
-#include "AbstractVideoEncodeOutputPin.h"
+#include "AbstractTransformFilter.h"
+#include "AbstractTransformInputPin.h"
+#include "AbstractTransformOutputPin.h"
 #include "TheoraEncodeInputPin.h"
 #include "TheoraEncodeOutputPin.h"
 #include "TheoraEncodeFilter.h"
