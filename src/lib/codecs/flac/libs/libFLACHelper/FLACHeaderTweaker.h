@@ -2,6 +2,7 @@
 #include "dllstuff.h"
 #include "OggPacket.h"
 #include <vector>
+#include <fstream>
 using namespace std;
 class FLACHeaderTweaker
 {
@@ -30,5 +31,6 @@ protected:
 	vector<OggPacket*> mNewHeaderList;
 
 
+	fstream debugLog;
 	bool mSeenAllHeaders;
 };

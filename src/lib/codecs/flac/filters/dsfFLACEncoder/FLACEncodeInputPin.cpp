@@ -38,12 +38,12 @@ FLACEncodeInputPin::FLACEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter
 	
 	
 {
-	//debugLog.open("C:\\temp\\FLACenc.log", ios_base::out);
+	debugLog.open("G:\\logs\\FLACenc.log", ios_base::out);
 }
 
 FLACEncodeInputPin::~FLACEncodeInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	DestroyCodec();
 }
 
@@ -181,22 +181,27 @@ void FLACEncodeInputPin::DestroyCodec() {
 	//	locBuffer[5] = 1;
 	//	locBuffer[6] = 0;
 
+	debugLog<<"Write CAllback.."<<endl;
 	LONGLONG locFrameStart = 0;
 	LONGLONG locFrameEnd = 0;
 
 
 	if (!mTweakedHeaders) {
+		debugLog<<"Still tweaking headers..."<<endl;
 		//Still handling headers...
 		unsigned char* locBuf = new unsigned char[inNumBytes];
 		memcpy((void*)locBuf, (const void*) inBuffer, inNumBytes);
+		debugLog<<"Sending header to tweaker..."<<endl;
 		FLACHeaderTweaker::eFLACAcceptHeaderResult locResult = mHeaderTweaker.acceptHeader(new OggPacket(locBuf, inNumBytes, false, false));
+		debugLog<<"Tweaker returned... "<<(int)locResult<<endl;
 		if (locResult == FLACHeaderTweaker::LAST_HEADER_ACCEPTED) {
+			debugLog<<"Last Header accepted..."<<endl;
 			//Send all the headers
 			mTweakedHeaders = true;
 
 			for (int i = 0; i < mHeaderTweaker.numNewHeaders(); i++) {
 				//Loop through firing out all the headers.
-
+				debugLog<<"Sending new header "<<i<<endl;
 
 				//Get a pointer to a new sample stamped with our time
 				IMediaSample* locSample;
@@ -238,8 +243,10 @@ void FLACEncodeInputPin::DestroyCodec() {
 			return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
 		} else if (locResult == FLACHeaderTweaker::HEADER_ACCEPTED) {
 			//Another header added.
+			debugLog<<"Header accepted"<<endl;
 			return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
 		} else {
+			debugLog<<"Header failed..."<<endl;
 			return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
 		}
 

@@ -5,32 +5,45 @@ FLACHeaderTweaker::FLACHeaderTweaker(void)
 	:	mSeenAllHeaders(false)
 
 {
+	debugLog.open("G:\\logs\\flactweaker.log", ios_base::out);
+
 }
 
 FLACHeaderTweaker::~FLACHeaderTweaker(void)
 {
+	debugLog.close();
+
 	deleteOldHeaders();
 	deleteNewHeaders();
 }
 
 FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPacket* inHeader) {
+	debugLog<<endl<<"Accepting header.."<<endl;
+	debugLog<<inHeader->toPackDumpString()<<endl;
 	const unsigned char MORE_HEADERS_MASK = 128;
 	if (!mSeenAllHeaders) {
+		debugLog<<"Still tweaking... adding to old list..."<<endl;
 		
+
 		mOldHeaderList.push_back(inHeader);
 		if ((inHeader->packetData()[0] & MORE_HEADERS_MASK)  != 0) {
+			debugLog<<"This is the last header..."<<endl;
 			//Last header
 			mSeenAllHeaders = true;
 			if (createNewHeaderList()) {
+				debugLog<<"Create new headers FAILED"<<endl;
 				return LAST_HEADER_ACCEPTED;
 			} else {
+				debugLog<<"Create new headers OK"<<endl;
 				return HEADER_ERROR;
 			}
 		} else {
+			debugLog<<"Still need more ehaders..."<<endl;
 			//Still more headers to come...
 			return HEADER_ACCEPTED;
 		}
 	} else {
+		debugLog<<"All headers already seen"<<endl;
 		return ALL_HEADERS_ALREADY_SEEN;
 	}
 
@@ -38,8 +51,9 @@ FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPa
 
 bool FLACHeaderTweaker::createNewHeaderList() {
 	
+	debugLog<<"Create new header list method"<<endl;
 	
-	
+	debugLog<<"Filling first pack"<<endl;
 	unsigned char* locFirstPackBuff = new unsigned char[51];
 	locFirstPackBuff[0] = '\177';
 	locFirstPackBuff[1] = 'F';
@@ -55,10 +69,12 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 	locFirstPackBuff[11] = 'a';
 	locFirstPackBuff[12] = 'C';
 
+	debugLog<<"Copying in packet data"<<endl;
 	memcpy((void*)(locFirstPackBuff + 13), (const void*) mOldHeaderList[1]->packetData(), 38);
 
 	mNewHeaderList.empty();
 	mNewHeaderList.clear();
+	debugLog<<"Putting first header into new list"<<endl;
 	mNewHeaderList.push_back(new OggPacket(locFirstPackBuff, 51, false, false));
 	locFirstPackBuff = NULL;
 
@@ -68,8 +84,10 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 	//Start at 2, 0 is just fLaC, 1 is the stream info
 	for (int i = 2; i < mOldHeaderList.size(); i++) {
 		//Loop through to find the comment packet...
-		if ( (( (mOldHeaderList[i]->packetData()[0]) << 1) >> 1) == 4) {
+		debugLog<<"Scanning old header "<<i<<endl;
+		if ( ((mOldHeaderList[i]->packetData()[0]) & 127) == 4) {
 			//It's the comment packet.
+			debugLog<<"Found a comment packet..."<<endl;
 			locFoundComment = true;
 			locCommentNo = i;
 			mNewHeaderList.push_back(mOldHeaderList[i]->clone());
@@ -77,12 +95,15 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 	}
 
 	if (locFoundComment != true) {
+		debugLog<<"No comments present... FATALITY !"<<endl;
 		//Maybe make one... for now bail out !
 		throw 0;
 	}
 
 	for (int i = 2; i < mOldHeaderList.size(); i++) {
-		if (i != locFoundComment) {
+	
+		if (i != locCommentNo) {
+			debugLog<<"Adding another ehader..."<<endl;
 			//If it's not the comment packet we already added, put it in the list.
 			mNewHeaderList.push_back(mOldHeaderList[i]->clone());
 		}
@@ -92,13 +113,16 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 		//Loop through the new headers and make sure the flags are set right.
 		if (i != mNewHeaderList.size() -1) {
 			//Clear the first bit
+			debugLog<<"Clearing header bit "<<i<<endl;
 			mNewHeaderList[i]->packetData()[0] = mNewHeaderList[i]->packetData()[0] & 127;
 		} else {
+			debugLog<<"Setting header bit "<<i<<endl;
 			//Set the first bit on the last header
 			mNewHeaderList[i]->packetData()[0] = mNewHeaderList[i]->packetData()[0] | 128;
 		}
 	}
 
+	debugLog<<"Deleting old headers..."<<endl;
 	deleteOldHeaders();
 
 	return true;
