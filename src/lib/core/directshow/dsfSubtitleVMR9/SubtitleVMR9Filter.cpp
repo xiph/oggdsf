@@ -71,6 +71,18 @@ SubtitleVMR9Filter::SubtitleVMR9Filter(void)
 SubtitleVMR9Filter::~SubtitleVMR9Filter(void)
 {
 	//debugLog.close();
+
+	if (mBitmapMixer != NULL) {
+		mBitmapMixer->Release();
+	}
+
+	if (mVideoWindow != NULL) {
+		mVideoWindow->Release();
+	}
+
+	if (mWindowLess != NULL) {
+		mWindowLess->Release();
+	}
 }
 
 STDMETHODIMP SubtitleVMR9Filter::GetState(DWORD dw, FILTER_STATE *pState)

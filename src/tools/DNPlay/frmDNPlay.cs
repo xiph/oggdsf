@@ -127,24 +127,24 @@ namespace DNPlay
 		}
 		public bool headCallback(HeadTag inHeadTag) 
 		{
-			MessageBox.Show("Head callback");
+			//MessageBox.Show("Head callback");
 			mHeadTag = inHeadTag;
 			if (mHeadTag != null) 
 			{
-				MessageBox.Show("Head tag not null");
+				//MessageBox.Show("Head tag not null");
 			}
 			else 
 			{
-				MessageBox.Show("Head tag is null");
+				//MessageBox.Show("Head tag is null");
 			}
 			lblTitle.Text = mHeadTag.title().text();
-			MessageBox.Show(mHeadTag.title().text());
+			//MessageBox.Show(mHeadTag.title().text());
 			Uri locBaseURI = null;
 			try 
 			{
 				if (mHeadTag.@base() != null) 
 				{
-					MessageBox.Show("Href = "+mHeadTag.@base().href());
+					//MessageBox.Show("Href = "+mHeadTag.@base().href());
 					locBaseURI = new Uri(mHeadTag.@base().href());
 				}
 			} 
@@ -159,7 +159,7 @@ namespace DNPlay
 				mBaseURI = locBaseURI;
 			}
 		
-			MessageBox.Show("Bug not here !!");
+			//MessageBox.Show("Bug not here !!");
 			return true;
 		}
 		//
@@ -497,7 +497,7 @@ namespace DNPlay
 			} 
 			else 
 			{
-				MessageBox.Show("File type is unrecognised, or media file does not exist", "Media Open Failed.", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				//MessageBox.Show("File type is unrecognised, or media file does not exist", "Media Open Failed.", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			
 			}
 		}
@@ -603,7 +603,7 @@ namespace DNPlay
 
 		private bool setBaseURIFromFullPath(String inFullPath) 
 		{
-			MessageBox.Show(inFullPath);
+			//MessageBox.Show(inFullPath);
 			Uri locURI = null;
 			Uri locBaseURI = null;
 			try 
@@ -619,8 +619,8 @@ namespace DNPlay
 
 			if (locURI != null) 
 			{
-				MessageBox.Show(locURI.ToString());
-				MessageBox.Show(locURI.GetLeftPart(UriPartial.Authority));
+				//MessageBox.Show(locURI.ToString());
+				//MessageBox.Show(locURI.GetLeftPart(UriPartial.Authority));
 				String locPartial = locURI.GetLeftPart(UriPartial.Authority);
 
 				if (locPartial.Equals("")) 
@@ -635,7 +635,7 @@ namespace DNPlay
 					{
 						//Strip off the filename part at the end
 						locPartial = locPartial.Substring(0, locDelimPos + 1);
-						MessageBox.Show("Parital : " + locPartial);
+						//MessageBox.Show("Parital : " + locPartial);
 					} 
 					else 
 					{
@@ -647,7 +647,7 @@ namespace DNPlay
 				if (!locPartial.Equals("")) 
 				{
 					locBaseURI = new Uri(locPartial);
-					MessageBox.Show(locBaseURI.ToString());
+					//MessageBox.Show(locBaseURI.ToString());
 				}
 				
 			} 
@@ -667,10 +667,10 @@ namespace DNPlay
 				Uri locURI = null;
 				try 
 				{
-					MessageBox.Show("Base is "+mBaseURI.ToString());
+					//MessageBox.Show("Base is "+mBaseURI.ToString());
 					//try and make a URI using the base and the href from the clip (relative)
 					locURI = new Uri(mBaseURI, mCurrentClip.anchor().href());	
-					MessageBox.Show("New URI is "+locURI.ToString());
+					//MessageBox.Show("New URI is "+locURI.ToString());
 				} 
 				catch(System.UriFormatException) 
 				{
@@ -693,7 +693,7 @@ namespace DNPlay
 				} 
 				else
 				{
-					MessageBox.Show("Opening "+locURI.ToString());
+					//MessageBox.Show("Opening "+locURI.ToString());
 					if (locURI.IsFile) 
 					{
 						//If it's a file change it to a local path.

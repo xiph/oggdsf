@@ -175,6 +175,7 @@ bool DSPlay::loadFile(String* inFileName) {
 	HRESULT locHR = S_OK;
 
 	char* locFileName = Wrappers::netStrToCStr(inFileName);
+	*debugLog<<"File = "<<locFileName<<endl;
 	wstring locWFileName = illiminable::libDSPlayDotNET::toWStr(locFileName);
 	
 	Wrappers::releaseCStr(locFileName);
@@ -194,13 +195,14 @@ bool DSPlay::loadFile(String* inFileName) {
 	
 	//If it's an annodex file, then put the VMR 9 in the graph.
 	if (isFileAnnodex(inFileName)) {
-	
+		*debugLog<<"Is annodex"<<endl;
 		IBaseFilter* locVMR9 = NULL;
 
 		HRESULT locHR2 = S_OK;
 		locHR2 = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
 		if (locVMR9 == NULL) {
-			locHR= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
+			*debugLog<<"Not in graph... making it !"<<endl;
+			locHR2= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
 			if (locHR2 == S_OK) {
 				locHR2 = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
 				numRef =
