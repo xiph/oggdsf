@@ -42,12 +42,12 @@ FFDShowVideoStream::FFDShowVideoStream(OggPage* inBOSPage, OggDemuxSourceFilter*
 	,	mGranuleOffset(0)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
-	//debugLog.open("g:\\downloads\\ffd_dump.out", ios_base::out|ios_base::binary);
+	debugLog.open("g:\\logs\\ffd_dump.out", ios_base::out);
 }
 
 FFDShowVideoStream::~FFDShowVideoStream(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	delete mFFDShowVideoFormatBlock;
 }
 
@@ -81,6 +81,8 @@ bool FFDShowVideoStream::InitCodec(StampedOggPacket* inOggPacket) {
 
 bool FFDShowVideoStream::deliverCodecHeaders() {
 	StampedOggPacket* locPacket = NULL;
+
+	//TODO::: Why 2 ?
 	for (unsigned long i = 2; i < mCodecHeaders->numPackets(); i++) {
 		locPacket = mCodecHeaders->getPacket(i);
 
@@ -146,10 +148,15 @@ bool FFDShowVideoStream::createFormatBlock() {
 	
 	__int64 locSamplesPerBlock = iLE_Math::CharArrToInt64(mHeaderPack->packetData() + 25);
 
+	debugLog<<"t/block = "<<locTimePerBlock<<"        Sam/block = "<<locSamplesPerBlock<<endl;
 
 	mFFDShowVideoFormatBlock->AvgTimePerFrame = locTimePerBlock / locSamplesPerBlock;
 
+	debugLog<<"Time per frame = "<<mFFDShowVideoFormatBlock->AvgTimePerFrame<<endl;
+
 	__int64 locFPSec = (UNITS / locTimePerBlock) * locSamplesPerBlock;
+
+	debugLog<<"Rate = "<<locFPSec<<" fps"<<endl;
 	unsigned short locBPSample = ((unsigned char)(mHeaderPack->packetData()[41])) + (((unsigned short)(mHeaderPack->packetData()[42])) * 256);
 
 	
@@ -194,11 +201,15 @@ bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 	
 	
 
+	debugLog<<"Packet stamps = "<<inPacket->startTime() << " - "<<inPacket->endTime()<<endl;
 
-
-	LONGLONG locStart = mLastTimeStamp;
-	LONGLONG locEnd = (mGranuleOffset) * mFFDShowVideoFormatBlock->AvgTimePerFrame;
+	debugLog<<"m_tStart = "<<mSourcePin->CurrentStartTime()<<endl;
+	LONGLONG locStart = mLastTimeStamp - mSourcePin->CurrentStartTime();
+	LONGLONG locEnd = (mGranuleOffset) * mFFDShowVideoFormatBlock->AvgTimePerFrame - mSourcePin->CurrentStartTime();
 	mGranuleOffset++;
+
+	debugLog<<"Time Stamps = "<<locStart<<" - "<<locEnd<<endl;
+	debugLog<<"Granule offset " << mGranuleOffset<<endl;
 	
 	mLastTimeStamp = (locEnd >= mLastTimeStamp)		?	locEnd
 													:	mLastTimeStamp;

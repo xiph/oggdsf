@@ -47,6 +47,10 @@ Review need and usage of locks
 
 Check initialisation lists.
 
+Crashing problems with video encoder.
+
+Account for drop frame sample rates in the seek table (29.97)
+
 DONE::::
 
 Fix the leaks caused by the accept media types.

@@ -149,6 +149,8 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 }
 HRESULT OggDemuxSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
+	NewSegment(tStart, tStop, dRate);
+
 	mPartialPacket = NULL;
 	mDataQueue->NewSegment(tStart, tStop, dRate);
 

@@ -92,9 +92,4 @@ protected:
 	COutputQueue* mDataQueue;
 	//fstream debugLog;
 	bool mFirstRun;
-
-
-
-
-
 };

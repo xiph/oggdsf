@@ -154,7 +154,15 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 				}
 			}
 			
-		
+		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(), "\001video\000\000\000", 9)) == 0) {
+			//FFDSHOW
+			__int64 locTimePerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 17);
+			__int64 locSamplesPerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 25);
+
+			mSampleRate = (10000000 / locTimePerBlock) * locSamplesPerBlock;
+			mFoundStreamInfo = true;
+			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
+			mNumHeaders = 1;
 
 		} else {
 			mFoundStreamInfo = true;		//Why do this ?

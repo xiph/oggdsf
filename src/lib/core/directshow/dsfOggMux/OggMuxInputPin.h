@@ -72,7 +72,7 @@ public:
 	virtual STDMETHODIMP EndOfStream(void);
 	virtual HRESULT CompleteConnect(IPin* inReceivePin);
 
-
+	
 	//virtual HRESULT DeliverEndFlush(void);
 	//virtual HRESULT DeliverBeginFlush(void);
 

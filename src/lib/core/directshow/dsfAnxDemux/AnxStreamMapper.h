@@ -68,6 +68,7 @@ public:
 
 	virtual bool isReady();
 	virtual bool toStartOfData();
+
 protected:
 	//Helper Methods
 	bool isAnnodexEOS(OggPage* inOggPage);
@@ -76,6 +77,7 @@ protected:
 	unsigned long getAnxVersion(OggPage* inOggPage);
 	bool handleAnxVersion_2_0(OggPage* inOggPage);
 	bool handleAnxVersion_3_0(OggPage* inOggPage);
+
 	//Member Data
 	vector<unsigned long> mSeenStreams;
 	bool mSeenAnnodexBOS;

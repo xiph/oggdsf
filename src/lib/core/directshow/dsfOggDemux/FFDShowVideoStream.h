@@ -31,6 +31,9 @@
 #pragma once
 #include "oggstream.h"
 
+#include <fstream>
+using namespace std;
+
 class FFDShowVideoStream 
 	:	public OggStream
 {
@@ -65,5 +68,5 @@ protected:
 	//LONGLONG mLastGranulePos;
 	LONGLONG mGranuleOffset;
 
-	//fstream debugLog;
+	fstream debugLog;
 };
