@@ -127,18 +127,25 @@ class LIBOOOGG_API CircularBuffer
 	:	public IFIFOBuffer
 {
 public:
+	/// Constructor taking in the size in bytes of the internal buffer.
 	CircularBuffer(unsigned long inBufferSize);
 	virtual ~CircularBuffer(void);
 
-	//IFIFOBuffer Implementation
+	/// Read bytes from the internal buffer. Returns how many actually read.
 	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead);
+
+	/// Write bytes into the internal buffer. Returns how many written.
 	virtual unsigned long write(const unsigned char* inData, unsigned long inBytesToWrite);
 
+	/// Returns how many bytes are available in the buffer.
 	virtual unsigned long numBytesAvail();
+
+	/// Returns how much space is left in the buffer.
 	virtual unsigned long spaceLeft();
 
+	/// Resets the buffer.
 	virtual void reset();
-	//
+
 protected:
 	unsigned long mBufferSize;
 	unsigned long mReadPtr;

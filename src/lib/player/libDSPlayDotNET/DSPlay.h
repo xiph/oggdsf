@@ -33,8 +33,10 @@
 //===========================================================================
 
 #pragma once
+
+//Unmanaged Includes
 #pragma unmanaged
-//#include "CMMLDecoderIIDs.h"
+
 #include <uuids.h>
 #include <dshow.h>
 
@@ -50,16 +52,19 @@
 
 #include <fstream>
 
+//Managed Includes
 #pragma managed
+
 using namespace System::IO;
 #using "System.Drawing.dll"
 
 #using "libCMMLTagsDotNET.dll"
 using namespace illiminable::libCMMLTagsDotNET;
+
 #include "libDSPlayDotNet.h"
 #include "IDNCMMLCallbacks.h"
 #include "IDNMediaEvent.h"
-//#include "Wrappers.h"
+
 using namespace illiminable::libiWrapper;
 using namespace std;
 
@@ -71,6 +76,8 @@ namespace libDSPlayDotNET
 	{
 	public:
 		DSPlay(void);
+
+		/// Constructor takes a HWND and the video location/size wrt to the window the handle refers to.
 		DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, Int32 inHeight);
 		~DSPlay(void);
 
