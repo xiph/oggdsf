@@ -33,19 +33,20 @@
 #include "abstractaudiodecodeinputpin.h"
 
 //#include <mtype.h>
-AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, CMediaType* inAcceptMediaType)
-	:	CBaseInputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
-	,	mOutputPin(inOutputPin)
-	,	mUptoFrame(0)
-	,	mBegun(false)
-	,	mParentFilter(inParentFilter)
-	,	mFrameSize(0)
-	,	mNumChannels(0)
-	,	mSampleRate(0)
+AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin (AbstractAudioDecodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, CMediaType* inAcceptMediaType)
+	:	CBaseInputPin (inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
+	,	mOutputPin (inOutputPin)
+	,	mParentFilter (inParentFilter)
+	
+	,	mBegun (false)
+	,	mUptoFrame (0)
+	,	mFrameSize (0)
+	,	mNumChannels (0)
+	,	mSampleRate (0)
 	//,	mFilterLock(inFilterLock)
-	,	mLastSeenStartGranPos(0)
-	,	mSeekTimeBase(0)
-	,	mChainTimeBase(0)
+	,	mLastSeenStartGranPos (0)
+	,	mSeekTimeBase (0)
+	,	mChainTimeBase (0)
 {
 	
 	//ConstructCodec();
@@ -90,13 +91,15 @@ STDMETHODIMP AbstractAudioDecodeInputPin::NonDelegatingQueryInterface(REFIID rii
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-HRESULT AbstractAudioDecodeInputPin::BreakConnect() {
+HRESULT AbstractAudioDecodeInputPin::BreakConnect() 
+{
 	CAutoLock locLock(m_pLock);
-	//Need a lock ??
+	//Release the seeking 
 	ReleaseDelegate();
 	return CBaseInputPin::BreakConnect();
 }
-HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
+HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) 
+{
 	CAutoLock locLock(m_pLock);
 	
 	IMediaSeeking* locSeeker = NULL;
@@ -114,11 +117,13 @@ AbstractAudioDecodeInputPin::~AbstractAudioDecodeInputPin(void)
 }
 
 
-void AbstractAudioDecodeInputPin::ResetFrameCount() {
+void AbstractAudioDecodeInputPin::ResetFrameCount() 
+{
 	mUptoFrame = 0;
 	
 }
-void AbstractAudioDecodeInputPin::ResetTimeBases() {
+void AbstractAudioDecodeInputPin::ResetTimeBases() 
+{
 	mLastSeenStartGranPos = 0;
 }
 bool AbstractAudioDecodeInputPin::SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime) 
@@ -135,19 +140,15 @@ bool AbstractAudioDecodeInputPin::SetSampleParams(IMediaSample* outMediaSample, 
 
 STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample) 
 {
-	//
-	//inSample->AddRef();
-	//debugLog<<"Received Sample with refcount = "<<inSample->Release()<<endl;
-	//
-	//TO DO::: Fix this up...
 	CAutoLock locLock(mStreamLock);
+
 	HRESULT locHR = CheckStreaming();
+
 	if (locHR == S_OK) {
 		BYTE* locBuff = NULL;
 		locHR = inSample->GetPointer(&locBuff);
 
 		if (FAILED(locHR)) {
-			
 			return locHR;
 		} else {
 			//New start time hacks
@@ -213,13 +214,14 @@ STDMETHODIMP AbstractAudioDecodeInputPin::EndOfStream(void) {
 
 STDMETHODIMP AbstractAudioDecodeInputPin::BeginFlush() {
 	CAutoLock locLock(m_pLock);
+
 	CBaseInputPin::BeginFlush();
 	return mParentFilter->mOutputPin->DeliverBeginFlush();
 }
 STDMETHODIMP AbstractAudioDecodeInputPin::EndFlush() {
 	CAutoLock locLock(m_pLock);
+
 	mParentFilter->mOutputPin->DeliverEndFlush();
-	
 	return CBaseInputPin::EndFlush();
 }
 

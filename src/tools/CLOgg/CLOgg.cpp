@@ -29,6 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
+//
 // CLOgg.cpp : Command line minimalist audio player.
 //
 
@@ -37,11 +38,13 @@
 #include <windows.h>
 #include <iostream>
 using namespace std;
+
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
+	//
 	IGraphBuilder* locGraphBuilder = NULL;
 	IMediaControl* locMediaControl = NULL;
-	HRESULT locHR;
+	HRESULT locHR = S_FALSE;;
 	CoInitialize(NULL);
 	locHR = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&locGraphBuilder);
 	locHR = locGraphBuilder->RenderFile(L"g:\\a.ogg", NULL);

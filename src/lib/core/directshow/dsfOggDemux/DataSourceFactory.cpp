@@ -45,6 +45,9 @@ IFilterDataSource* DataSourceFactory::createDataSource(string inSourceLocation) 
 	if(locType.length() == 1) {
 		//File...
 		return new FilterFileSource;
+	} else if (locType == "\\\\") {
+		//Network share...
+		return new FilterFileSource;
 	} else if (locType == "http") {
 		//Http stream
 		return new HTTPFileSource;
@@ -57,8 +60,22 @@ IFilterDataSource* DataSourceFactory::createDataSource(string inSourceLocation) 
 string DataSourceFactory::identifySourceType(string inSourceLocation) {
 	size_t locPos = inSourceLocation.find(':');
 	if (locPos == string::npos) {
-		//No colon... not a url or file... failure.
-		return "";
+		//No colon... not a normal file. See if it's a network share...
+
+		//Make sure it's long enough...
+		if (inSourceLocation.length() > 2) {
+			string retStr = inSourceLocation.substr(0,2);
+			if (retStr == "\\\\") {
+				//A "\\" is a network share
+				return retStr;
+			} else {
+				//Not a network share.
+				return "";
+			}
+		} else {
+			//Too short
+			return "";
+		}
 	} else {
 		string retStr = inSourceLocation.substr(0,locPos);
 		return retStr;

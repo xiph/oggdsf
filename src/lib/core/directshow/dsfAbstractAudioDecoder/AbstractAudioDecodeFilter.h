@@ -29,6 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
+
 #pragma once
 
 //Local Includes
@@ -39,21 +40,21 @@
 class AbstractAudioDecodeInputPin;
 class AbstractAudioDecodeOutputPin;
 
-//*************************************************************************************************
+
 class ABS_AUDIO_DEC_API AbstractAudioDecodeFilter
 	//Parent Classes
-	:	public CBaseFilter
-	//,	public BasicSeekable
+	:	public CBaseFilter	
+			//http://msdn.microsoft.com/library/default.asp?url=/library/en-us/directshow/htm/cbasefilterclass.asp
 {
 public:
-	//Friends
+	//Friend Classes
 	friend class AbstractAudioDecodeInputPin;
 	friend class AbstractAudioDecodeOutputPin;
 
 	//COM Setup
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	//STDMETHODIMP_(ULONG) NonDelegatingRelease();
+	
 	//Constants and Enumerations
 	static const long NUM_PINS = 2;
 	enum eAudioFormat {

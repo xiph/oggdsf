@@ -114,7 +114,9 @@ HRESULT AbstractAudioDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocato
 	return locHR;
 }
 HRESULT AbstractAudioDecodeOutputPin::CheckMediaType(const CMediaType *inMediaType) {
-	if (inMediaType->majortype == MEDIATYPE_Audio && inMediaType->subtype == MEDIASUBTYPE_PCM && inMediaType->formattype == FORMAT_WaveFormatEx) {
+	if (	(inMediaType->majortype == MEDIATYPE_Audio) && 
+			(inMediaType->subtype == MEDIASUBTYPE_PCM) && 
+			(inMediaType->formattype == FORMAT_WaveFormatEx)) {
 		return S_OK;
 	} else {
 		return S_FALSE;
@@ -152,21 +154,21 @@ HRESULT AbstractAudioDecodeOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, R
 	return S_OK;
 }
 HRESULT AbstractAudioDecodeOutputPin::DeliverEndOfStream(void) {
-	//QUERY::: I think we need a lock here !
+	
 	mDataQueue->EOS();
     return S_OK;
 }
 
 HRESULT AbstractAudioDecodeOutputPin::DeliverEndFlush(void) {
 	CAutoLock locLock(m_pLock);
-	//QUERY::: Locks ??
+	
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
 HRESULT AbstractAudioDecodeOutputPin::DeliverBeginFlush(void) {
 	CAutoLock locLock(m_pLock);
-	//QUERY:: Locks ???
+	
 	
 	mDataQueue->BeginFlush();
     return S_OK;
@@ -185,8 +187,10 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 	SetDelegate(locSeeker);
 	//
 	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, FALSE, 1, TRUE, 20);			//Deleted in destructor
+
 	if (FAILED(locHR)) {
-		locHR = locHR;
+		//Handle data Q failure
+		
 	}
 	
 	return CBaseOutputPin::CompleteConnect(inReceivePin);
@@ -194,10 +198,12 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 
 HRESULT AbstractAudioDecodeOutputPin::BreakConnect(void) {
 	CAutoLock locLock(m_pLock);
+
 	delete mDataQueue;
 	mDataQueue = NULL;
 
 	HRESULT locHR = CBaseOutputPin::BreakConnect();
 	ReleaseDelegate();
+
 	return locHR;
 }

@@ -29,55 +29,75 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
+//
+// AbstractAudioDecodeFilter.cpp :	Abstract Audio Decoder Filter Class
+//
+
+
 #include "StdAfx.h"
 #include "abstractaudiodecodefilter.h"
 
+//Constructors
 AbstractAudioDecodeFilter::AbstractAudioDecodeFilter(TCHAR* inFilterName, REFCLSID inFilterGUID, unsigned short inAudioFormat )
-	:	CBaseFilter(inFilterName, NULL,m_pLock, inFilterGUID),
-		mAudioFormat(inAudioFormat)
+	//Base Classes
+	:	CBaseFilter(inFilterName, NULL, m_pLock, inFilterGUID)
+
+	//Member initialisations
+	,	mAudioFormat(inAudioFormat)
 	
 {
+	//Create the filter lock.
 	m_pLock = new CCritSec;		//Deleted in destructor... check what is happening in the base class.
 }
 
 AbstractAudioDecodeFilter::~AbstractAudioDecodeFilter(void)
 {
 	DestroyPins();
-	delete m_pLock;
-	
+	delete m_pLock;		//Deleting filter lock
 }
 
-//STDMETHODIMP_(ULONG) AbstractAudioDecodeFilter::NonDelegatingRelease() {
-//	ULONG x = CBaseFilter::NonDelegatingRelease();
-//	return x;
-//}
-void AbstractAudioDecodeFilter::DestroyPins() {
+void AbstractAudioDecodeFilter::DestroyPins() 
+{
 	delete mOutputPin;
 	delete mInputPin;
 }
 
-STDMETHODIMP AbstractAudioDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+//If you want to handle an interface, do it here.
+STDMETHODIMP AbstractAudioDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
+{
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv);
 }
 
-CBasePin* AbstractAudioDecodeFilter::GetPin(int inPinNo) {
-	//TO DO::: This is buggy, make a switch	
-	if (inPinNo < 0 ) {
-		return NULL;
-	} else if (inPinNo == 0) {
-		return mInputPin;
-	} else if (inPinNo == 1) {
-		return mOutputPin;
-	}
+CBasePin* AbstractAudioDecodeFilter::GetPin(int inPinNo) 
+{
+	//Pin Constants
+	const int INPUT_PIN = 0;
+	const int OUTPUT_PIN = 1;
+	
+	//Return the pin.
+	switch (inPinNo) {
+		case INPUT_PIN:		
+			return mInputPin;
+		case OUTPUT_PIN:
+			return mOutputPin;
+		default:
+			return NULL;
+	};
 }
 
-STDMETHODIMP AbstractAudioDecodeFilter::Stop() {
+STDMETHODIMP AbstractAudioDecodeFilter::Stop() 
+{
+	//Hold the filter lock
 	CAutoLock locLock(m_pLock);
+
+	//Reset the 
 	mInputPin->ResetFrameCount();
 	mInputPin->ResetTimeBases();
+	
 	return CBaseFilter::Stop();
 }
-int AbstractAudioDecodeFilter::GetPinCount(void) {
+int AbstractAudioDecodeFilter::GetPinCount(void) 
+{
 	const long NUM_PINS = 2;
 	return NUM_PINS;
 }	

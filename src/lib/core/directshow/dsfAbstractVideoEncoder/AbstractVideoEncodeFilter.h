@@ -38,12 +38,15 @@ class ABS_VIDEO_ENC_API AbstractVideoEncodeFilter
 
 {
 public:
+	//Friend Classes
 	friend class AbstractVideoEncodeInputPin;
 	friend class AbstractVideoEncodeOutputPin;
 
+	//Constructors
 	AbstractVideoEncodeFilter(TCHAR* inFilterName, REFCLSID inFilterGUID, unsigned short inVideoFormat );
 	virtual ~AbstractVideoEncodeFilter(void);
 
+	//Constants and enumerations
 	static const long NUM_PINS = 2;
 	enum eVideoFormat {
 		NONE = 0,
@@ -52,13 +55,13 @@ public:
 		OTHER_VIDEO = 2000
 	};
 
+	//COM SETUP
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//PURE VIRTUALS
 	virtual bool ConstructPins() = 0;
 	virtual void DestroyPins();
-
 
 	//CBaseFilter overrides
 	CBasePin* GetPin(int n);

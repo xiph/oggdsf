@@ -122,7 +122,7 @@ STDMETHODIMP AbstractAudioEncodeInputPin::Receive(IMediaSample* inSample) {
 HRESULT AbstractAudioEncodeInputPin::CheckMediaType(const CMediaType *inMediaType) {
 	//FIX::: Clean this up !
 	
-	if	( (inMediaType->majortype == MEDIATYPE_Audio) &&
+	if	(	(inMediaType->majortype == MEDIATYPE_Audio) &&
 			(inMediaType->subtype == MEDIASUBTYPE_PCM) &&
 			(inMediaType->formattype == FORMAT_WaveFormatEx)
 		)

@@ -33,18 +33,20 @@
 #include "abstractvideodecodeinputpin.h"
 
 //#include <mtype.h>
-AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractVideoDecodeOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, CMediaType* inAcceptMediaType)
-	:	CBaseInputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName),
-		mOutputPin(inOutputPin),
+AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin (AbstractVideoDecodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractVideoDecodeOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, CMediaType* inAcceptMediaType)
+	:	CBaseInputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
+	,	mOutputPin(inOutputPin)
+	,	mParentFilter(inParentFilter)
 	
-		mBegun(false),
-		mParentFilter(inParentFilter),
-		mHeight(0),
-		mWidth(0)
+	,	mBegun(false)
+	
+	,	mHeight(0)
+	,	mWidth(0)
 
 	,	mFrameDuration(0)
 	,	mFrameSize(0)
 	,	mFrameCount(0)
+	
 	,	mStreamLock(NULL)
 	,	mLastSeenStartGranPos(0)
 	,	mSeekTimeBase(0)

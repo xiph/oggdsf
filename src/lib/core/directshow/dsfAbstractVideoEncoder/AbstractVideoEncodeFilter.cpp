@@ -51,7 +51,9 @@ void AbstractVideoEncodeFilter::DestroyPins() {
 	delete mInputPin;
 }
 
-STDMETHODIMP AbstractVideoEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+STDMETHODIMP AbstractVideoEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
+{
+
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv);
 }
 
