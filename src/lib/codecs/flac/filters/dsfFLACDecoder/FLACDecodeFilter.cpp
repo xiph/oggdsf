@@ -58,7 +58,7 @@ FLACDecodeFilter::FLACDecodeFilter(void)
 
 FLACDecodeFilter::~FLACDecodeFilter(void)
 {
-	DestroyPins();
+	//DestroyPins();
 	delete mFLACFormatBlock;
 }
 

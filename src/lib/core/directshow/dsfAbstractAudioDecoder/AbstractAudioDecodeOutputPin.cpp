@@ -158,12 +158,14 @@ HRESULT AbstractAudioDecodeOutputPin::DeliverEndOfStream(void) {
 }
 
 HRESULT AbstractAudioDecodeOutputPin::DeliverEndFlush(void) {
+	CAutoLock locLock(mFilterLock);
 	//QUERY::: Locks ??
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
 HRESULT AbstractAudioDecodeOutputPin::DeliverBeginFlush(void) {
+	CAutoLock locLock(mFilterLock);
 	//QUERY:: Locks ???
 	mDataQueue->BeginFlush();
     return S_OK;
@@ -171,6 +173,7 @@ HRESULT AbstractAudioDecodeOutputPin::DeliverBeginFlush(void) {
 }
 
 HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
+	CAutoLock locLock(mFilterLock);
 	HRESULT locHR = S_OK;
 
 	//Here when another pin connects to us, we internally connect the seek delegate
@@ -189,7 +192,7 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 }
 
 HRESULT AbstractAudioDecodeOutputPin::BreakConnect(void) {
-
+	CAutoLock locLock(mFilterLock);
 	HRESULT locHR = CBaseOutputPin::BreakConnect();
 	ReleaseDelegate();
 	delete mDataQueue;
