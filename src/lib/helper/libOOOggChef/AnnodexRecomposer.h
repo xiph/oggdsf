@@ -92,4 +92,6 @@ protected:
 	const vector<string>* mWantedMIMETypes;
 
 	vector<tSerial_HeadCountPair> mPendingSecondaryHeaders;
+
+	LOOG_UINT64 mRequestedStartTime;
 };

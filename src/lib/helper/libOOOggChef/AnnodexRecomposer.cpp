@@ -96,6 +96,9 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 
 	static const size_t BUFF_SIZE = 8192;
 
+	// Turn the starting time offset into DirectSeconds
+	mRequestedStartTime = (LOOG_UINT64) inStartingTimeOffset * 10000000;
+
 	// Open the file and prepare the OggDataBuffer to receive pages
 	fstream locFile;
 	locFile.open(mFilename.c_str(), ios_base::in | ios_base::binary);
@@ -161,11 +164,9 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 		}
 	}
 
-	// Grab data from the stream at offset
-	LOOG_UINT64 locRequestedStartTime =
-		(LOOG_UINT64) inStartingTimeOffset * 10000000;
+	// Get the offset into the file from the requested start time
 	unsigned long locRequestedStartTimeOffset =
-		locSeekTable->getStartPos(locRequestedStartTime).second;
+		locSeekTable->getStartPos(mRequestedStartTime).second;
 
 	// Clear the file's flags, to avoid any fallout from reading the headers
 	locFile.clear();
@@ -255,6 +256,30 @@ unsigned long secondaryHeaders(OggPacket* inPacket)
 
 }
 
+void setPresentationTimeOnAnnodexBOSPage (OggPage *inOggPage, LOOG_UINT64 inPresentationTime)
+{
+	// Sanity check that this is actually an Annodex BOS page
+	if (!isAnnodexBOSPage(inOggPage)) {
+		return;
+	}
+
+	// Offsets for Annodex v2 (the "timebase" field)
+	const unsigned short PRESENTATION_TIME_NUMERATOR_OFFSET = 12;
+	const unsigned short PRESENTATION_TIME_DENOMINATOR_OFFSET =
+		PRESENTATION_TIME_NUMERATOR_OFFSET + 8;
+
+	unsigned char* locPacketData = inOggPage->getPacket(0)->packetData();
+
+	// Get pointers for the offsets into the packet
+	unsigned char* locNumeratorPointer = locPacketData + PRESENTATION_TIME_NUMERATOR_OFFSET;
+	unsigned char* locDenominatorPointer = locPacketData + PRESENTATION_TIME_DENOMINATOR_OFFSET;
+	
+	// Set the presentation time on the packet in DirectSeconds (using the
+	// denominator to indicate that the units are in DirectSeconds)
+	iLE_Math::Int64ToCharArr(inPresentationTime, locNumeratorPointer);
+	iLE_Math::Int64ToCharArr(10000000, locDenominatorPointer);
+}
+
 #ifdef WIN32
 # define strncasecmp _strnicmp
 #endif /* will be undef'ed below */
@@ -291,6 +316,12 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 					// Remember the Annodex stream's serial number, so we can output it later
 					mAnnodexSerialNumber = inOggPage->header()->StreamSerialNo();
 					mWantedStreamSerialNumbers.push_back(make_pair<unsigned long, unsigned long>(mAnnodexSerialNumber, 0));
+
+					// Fix up the presentation time of the Annodex BOS page if we're not
+					// serving out the data from time 0
+					if (mRequestedStartTime != 0) {
+						setPresentationTimeOnAnnodexBOSPage(inOggPage, mRequestedStartTime);
+					}
 
 					if (!wantOnlyPacketBody(mWantedMIMETypes)) {
 						// Send out the page
