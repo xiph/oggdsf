@@ -46,6 +46,7 @@ AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilt
 	,	mFrameSize(0)
 	,	mFrameCount(0)
 	,	mStreamLock(NULL)
+	,	mLastSeenGranPos(0)
 		
 {
 	//ConstructCodec();

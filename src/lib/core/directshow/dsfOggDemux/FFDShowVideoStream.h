@@ -62,7 +62,7 @@ protected:
 	StampedOggPacket* mHeaderPack;
 
 	LONGLONG mLastTimeStamp;
-	LONGLONG mLastGranulePos;
+	//LONGLONG mLastGranulePos;
 	LONGLONG mGranuleOffset;
 
 	fstream debugLog;

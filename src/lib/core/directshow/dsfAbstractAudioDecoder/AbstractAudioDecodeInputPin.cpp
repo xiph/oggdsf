@@ -43,6 +43,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mNumChannels(0)
 	,	mSampleRate(0)
 	,	mFilterLock(inFilterLock)
+	,	mLastSeenGranPos(0)
 {
 	//ConstructCodec();
 	mAcceptableMediaType = inAcceptMediaType;

@@ -38,7 +38,7 @@ FFDShowVideoStream::FFDShowVideoStream(OggPage* inBOSPage, OggDemuxSourceFilter*
 	:	OggStream(inBOSPage, inOwningFilter)
 	,	mFFDShowVideoFormatBlock(NULL)
 	,	mLastTimeStamp(0)
-	,	mLastGranulePos(0)
+	//,	mLastGranulePos(0)
 	,	mGranuleOffset(0)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
@@ -123,7 +123,7 @@ bool FFDShowVideoStream::createFormatBlock() {
 
 	//FORMAT OF HEADER IN OGG BOS
 	//-----------------------------------------
-	//0		-		8		=		STRING		Stream Type
+	//0		-		8		=		STRING		Stream Type (char[8] is NULL)
 	//9		-		12		=		STRING		Sub Type (FOURCC)
 	//13	-		16		=		INT32		Size of structure ???
 	//17	-		24		=		INT64		Time per "unit" in DSHOW UNITS
