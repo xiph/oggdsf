@@ -70,7 +70,7 @@ public:
 	virtual STDMETHODIMP EndOfStream(void);
 protected:
 	HRESULT mHR;
-	bool mBegun;
+	//bool mBegun;
 	//SpeexDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;
 
