@@ -118,19 +118,9 @@ void FLACDecodeInputPin::DestroyCodec()
 }
 ::FLAC__StreamDecoderWriteStatus FLACDecodeInputPin::write_callback(const ::FLAC__Frame* inFrame, const FLAC__int32* const inBuffer[]) 
 {
-	//inFrame->header.blocksize
 
-	
-		//Do we need to delete the pcm structure ???? 
-	//More of this can go to the abstract class.
-
-	//For convenience we do all these cast once and for all here.
-
-	//locFilter	
 	if (! mBegun) {
-		
 	
-		
 		mBegun = true;
 		
 		mNumChannels = inFrame->header.channels;
@@ -288,7 +278,9 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 			ASSERT((locBuff[0] == 255) && (locBuff[1] == 248));
 			if (mPendingPackets.size() == 1) {
 				//debugLog<<"decodeData : Calling process_single with 1 packet."<<endl;
-				locRet = process_single();
+				
+					locRet = process_single();
+			
 			} else {
 				//debugLog<<"decodeData : Something bad happened !"<<endl;
 				return -1;
@@ -297,8 +289,10 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 			//}
 			//mNumPacksBuffered = 0;
 		} else {
+		
+				CAutoLock locCodecLock(mCodecLock);
+				int locRet = process_until_end_of_metadata();
 			
-			int locRet = process_until_end_of_metadata();
 			mGotMetaData = true;
 		}
 		//debugLog<<"decodeData : Successful return."<<endl;
@@ -323,11 +317,14 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 
 STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
 	CAutoLock locLock(mFilterLock);
-	CAutoLock locCodecLock(mCodecLock);
+	
 	//debugLog<<"BeginFlush : Calling flush on the codec."<<endl;
 
 	HRESULT locHR = AbstractAudioDecodeInputPin::BeginFlush();
-	flush();
+	{	//PROTECT CODEC FROM IMPLODING
+		CAutoLock locCodecLock(mCodecLock);
+		flush();
+	}	//END CRITICAL SECTION
 	unsigned long locSize = mPendingPackets.size();
 	//debugLog<<"BeginFlush : deleting "<<locSize<<" packets."<<endl;
 	for (unsigned long i = 0; i < locSize; i++) {
@@ -339,7 +336,12 @@ STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
 }
 
 STDMETHODIMP FLACDecodeInputPin::EndOfStream(void) {
-	flush();
+	CAutoLock locStreamLock(mStreamLock);
+	{	//PROTECT CODEC FROM IMPLODING
+		CAutoLock locCodecLock(mCodecLock);
+		flush();
+	}	//END CRITICAL SECTION
+
 	unsigned long locSize = mPendingPackets.size();
 	for (unsigned long i = 0; i < locSize; i++) {
 		delete mPendingPackets.front();
