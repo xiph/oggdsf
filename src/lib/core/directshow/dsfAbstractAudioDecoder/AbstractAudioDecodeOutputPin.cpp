@@ -183,7 +183,7 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 	mParentFilter->mInputPin->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 	SetDelegate(locSeeker);
 	//
-	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 20);
+	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 20);			//Deleted in destructor
 	if (FAILED(locHR)) {
 		locHR = locHR;
 	}
