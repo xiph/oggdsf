@@ -54,7 +54,7 @@ public:
 	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
 	~AnnodexRecomposer(void);
 
-	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
+	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes, const string inCachedSeekTableFilename = "");
 	bool acceptOggPage(OggPage* inOggPage);
 
     AnnodexRecomposer(const AnnodexRecomposer&);  // Don't copy me
@@ -85,6 +85,7 @@ protected:
 	fstream mDebugFile;
 
 	string mFilename;
+	string mCachedSeekTableFilename;
 
 	unsigned long mAnnodexSerialNumber;
 

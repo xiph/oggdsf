@@ -44,10 +44,14 @@ using namespace std;
 class LIBOOOGGCHEF_API IRecomposer
 {
 public:
+	// TODO: We should probably make the constructor take in the cached seek
+	// table file name, rather than the recomposeStreamFrom method, but this
+	// works, so what the hey ...
+
 	IRecomposer(void);
 	virtual ~IRecomposer(void);
 
 	/// Recompose a stream from a particular time offset and/or only selecting certain logical bitstreams (specified as MIME types)
-	virtual void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes) = 0;
+	virtual void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes, const string inCachedSeekTableFilename = "") = 0;
 };
 

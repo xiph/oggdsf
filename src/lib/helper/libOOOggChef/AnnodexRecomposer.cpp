@@ -65,18 +65,40 @@ AnnodexRecomposer::~AnnodexRecomposer(void)
 {
 }
 
-
 bool wantOnlyCMML(const vector<string>* inWantedMIMETypes)
 {
 	return (	inWantedMIMETypes->size() == 1
 			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
 }
 
+bool fileExists(const string inFilename)
+{
+	// Behold, the world's most C++-portable filename-checking mechanism!
+
+	fstream locFile;
+
+	locFile.open(inFilename.c_str(), ios_base::in | ios_base::binary);
+	if (locFile.is_open()) {
+		locFile.close();
+		return true;
+	} else {
+		locFile.close();
+		return false;
+	}
+}
+
 /** The starting time offset's units is in seconds, while the wanted MIME types
     is a vector of strings, which will be matched against the MIME type in the
-	AnxData header of the logical bitstream. */
+	AnxData header of the logical bitstream.  You may optionally ask
+	AnnodexRecomposer to use a cached representation of the seek table (which is
+	computationally expensive to build) by passing the a filename in the
+	inCachedSeekTableFilename parameter.  If the file does not exist,
+	AnnodexRecomposer will write out the constructed seek table to the filename
+	given.  (If the file cannot be written for any reason, you will receive no
+	warning.  Yell at me if this is a serious issue.)
+  */
 void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
-	const vector<string>* inWantedMIMETypes)
+	const vector<string>* inWantedMIMETypes, string inCachedSeekTableFilename)
 {
 	mWantedMIMETypes = inWantedMIMETypes;
 
@@ -95,7 +117,15 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	// the stream headers, and the byte position of the user's requested start
 	// time
 	AutoAnxSeekTable *locSeekTable = new AutoAnxSeekTable(mFilename);
-	locSeekTable->buildTable();
+	if (inCachedSeekTableFilename != "" && fileExists(inCachedSeekTableFilename)) {
+		locSeekTable->buildTableFromFile(inCachedSeekTableFilename);
+	} else {
+		locSeekTable->buildTable();
+	}
+
+	if (inCachedSeekTableFilename != "" && !fileExists(inCachedSeekTableFilename)) {
+		locSeekTable->serialiseInto(inCachedSeekTableFilename);
+	}
 	
 	// Find out where the non-header packets (i.e. the stream body) starts
 
@@ -478,4 +508,3 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 
 	return true;
 }
-

@@ -55,7 +55,6 @@
 #include <libOOOggChef/AnnodexRecomposer.h>
 #include <libOOOggChef/IRecomposer.h>
 
-
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -153,12 +152,13 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	apr_uri_t *locURI = &(inRequest->parsed_uri);
 
 	// Ignore the request if it's not directed at this module
-	if (strcmp(inRequest->handler, "oggchef")) {
+	if (strcmp(inRequest->handler, "mod_oggchef") != 0) {
 		return DECLINED;
 	}
 
 	// Grab the local filename (which is determined by the requested URL)
 	string locFilename = inRequest->filename;
+	string locCachedSeekTableFilename = locFilename + ".seektable";
 
 	// Make a name=value table of the CGI query parameters
 	apr_table_t* locCGITable = make_cgi_table (inRequest, locURI->query);
@@ -198,7 +198,7 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	}
 
 	if (locRecomposer) {
-		locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes);
+		locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes, locCachedSeekTableFilename);
 		delete locRecomposer;
 	}
 
