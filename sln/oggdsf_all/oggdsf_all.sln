@@ -1237,6 +1237,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfAnxMux", "..\..\src\lib\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testCMMLParser", "..\..\src\tests\testCMMLParser\testCMMLParser.vcproj", "{BF72BA81-0735-46FB-8C8C-E36758477756}"
 	ProjectSection(ProjectDependencies) = postProject
+		{23BAAF7B-AEC3-4812-AA91-7E5061E83A39} = {23BAAF7B-AEC3-4812-AA91-7E5061E83A39}
+		{AD38DCC6-B431-4B32-8569-74F3376EF2DA} = {AD38DCC6-B431-4B32-8569-74F3376EF2DA}
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WinCMMLToolsAndTests", "..\..\build\WinCMMLToolsAndTests\WinCMMLToolsAndTests.vdproj", "{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}"
+	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Global
@@ -2518,6 +2524,14 @@ Global
 		{BF72BA81-0735-46FB-8C8C-E36758477756}.Release_SSE.Build.0 = Release|Win32
 		{BF72BA81-0735-46FB-8C8C-E36758477756}.Release_SSE2.ActiveCfg = Release|Win32
 		{BF72BA81-0735-46FB-8C8C-E36758477756}.Release_SSE2.Build.0 = Release|Win32
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.Debug.ActiveCfg = Debug
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.Debug Unicode.ActiveCfg = Debug
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.MakeFile.ActiveCfg = Release
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.Release.ActiveCfg = Release
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.Release Unicode.ActiveCfg = Release
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.Release_NoDotNET.ActiveCfg = Release
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.Release_SSE.ActiveCfg = Release
+		{C6EE2F72-1743-47CA-B8A8-001E7C9CEEBA}.Release_SSE2.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
