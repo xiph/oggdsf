@@ -103,8 +103,11 @@ unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long i
 }
 
 unsigned long CircularBuffer::spaceLeft() {
+	bufASSERT(mReadPtr <= mBufferSize);
+	bufASSERT(mWritePtr <= mBufferSize);
+
 	//The write pointer is always treated as being equal to or in front of the read pointer.
-	return mBufferSize - numBytesAvail() - 1;
+	//return mBufferSize - numBytesAvail() - 1;
 	if (mReadPtr > mWritePtr) {
 		//Read pointer is to the right of the Write pointer
 		// Since the write pointer is always in front, this means all the data from the read ptr
@@ -113,14 +116,17 @@ unsigned long CircularBuffer::spaceLeft() {
 		//
 		////
 
-		
+		bufASSERT(mReadPtr > mWritePtr);
 		return  (mReadPtr - mWritePtr - 1);
 	} else {
-		
+		bufASSERT(mReadPtr <= mWritePtr);
 		return mBufferSize + mReadPtr - mWritePtr ;
 	}
 }
 unsigned long CircularBuffer::numBytesAvail() {
+	bufASSERT(mReadPtr <= mBufferSize);
+	bufASSERT(mWritePtr <= mBufferSize);
+
 	if (mReadPtr > mWritePtr) {
 		//Read pointer is to the right of the Write pointer
 		// Since the write pointer is always in front, this means all the data from the read ptr
@@ -129,8 +135,10 @@ unsigned long CircularBuffer::numBytesAvail() {
 		//
 		////
 
-		
-		return  (mBufferSize - 1 - mWritePtr - mReadPtr);
+		bufASSERT(mReadPtr > mWritePtr);
+
+		//Here
+		return  (mBufferSize + 1 + mWritePtr - mReadPtr);
 	} else {
 		//if (mReadPtr <= mWritePtr)
 		return mWritePtr - mReadPtr;
