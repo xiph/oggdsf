@@ -24,7 +24,6 @@ namespace DNPlay
 		private System.Windows.Forms.Button cmdPlay;
 		private System.ComponentModel.IContainer components;
 		private System.Windows.Forms.Label lblFileLocation;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.OpenFileDialog dlgOpenFile;
 		private System.Windows.Forms.Button cmdStop;
 		private System.Windows.Forms.Button cmdPause;
@@ -122,7 +121,6 @@ namespace DNPlay
 			this.menuItem7 = new System.Windows.Forms.MenuItem();
 			this.cmdPlay = new System.Windows.Forms.Button();
 			this.lblFileLocation = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
 			this.cmdStop = new System.Windows.Forms.Button();
 			this.cmdPause = new System.Windows.Forms.Button();
@@ -194,18 +192,10 @@ namespace DNPlay
 			// lblFileLocation
 			// 
 			this.lblFileLocation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblFileLocation.Location = new System.Drawing.Point(96, 8);
+			this.lblFileLocation.Location = new System.Drawing.Point(8, 8);
 			this.lblFileLocation.Name = "lblFileLocation";
-			this.lblFileLocation.Size = new System.Drawing.Size(368, 16);
+			this.lblFileLocation.Size = new System.Drawing.Size(400, 16);
 			this.lblFileLocation.TabIndex = 3;
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(8, 8);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 16);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "File Location";
 			// 
 			// dlgOpenFile
 			// 
@@ -233,7 +223,7 @@ namespace DNPlay
 			// 
 			this.lblDuration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lblDuration.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblDuration.Location = new System.Drawing.Point(296, 56);
+			this.lblDuration.Location = new System.Drawing.Point(240, 56);
 			this.lblDuration.Name = "lblDuration";
 			this.lblDuration.Size = new System.Drawing.Size(168, 24);
 			this.lblDuration.TabIndex = 7;
@@ -249,7 +239,7 @@ namespace DNPlay
 			this.lblProgressBkgd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lblProgressBkgd.Location = new System.Drawing.Point(8, 32);
 			this.lblProgressBkgd.Name = "lblProgressBkgd";
-			this.lblProgressBkgd.Size = new System.Drawing.Size(456, 16);
+			this.lblProgressBkgd.Size = new System.Drawing.Size(400, 16);
 			this.lblProgressBkgd.TabIndex = 8;
 			// 
 			// lblProgressFgnd
@@ -258,20 +248,19 @@ namespace DNPlay
 			this.lblProgressFgnd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lblProgressFgnd.Location = new System.Drawing.Point(8, 32);
 			this.lblProgressFgnd.Name = "lblProgressFgnd";
-			this.lblProgressFgnd.Size = new System.Drawing.Size(272, 16);
+			this.lblProgressFgnd.Size = new System.Drawing.Size(232, 16);
 			this.lblProgressFgnd.TabIndex = 9;
 			// 
 			// frmDNPlay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(472, 89);
+			this.ClientSize = new System.Drawing.Size(416, 89);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.lblProgressFgnd,
 																		  this.lblProgressBkgd,
 																		  this.lblDuration,
 																		  this.cmdPause,
 																		  this.cmdStop,
-																		  this.label2,
 																		  this.lblFileLocation,
 																		  this.cmdPlay});
 			this.Menu = this.mainMenu1;
