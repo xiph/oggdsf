@@ -32,8 +32,8 @@
 #include "StdAfx.h"
 #include "flacdecodeoutputpin.h"
 
-FLACDecodeOutputPin::FLACDecodeOutputPin(FLACDecodeFilter* inParentFilter, CCritSec* inFilterLock)
-	: AbstractAudioDecodeOutputPin(inParentFilter, inFilterLock, NAME("FLACDecodeOutputPin"), L"PCM Out")
+FLACDecodeOutputPin::FLACDecodeOutputPin(FLACDecodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
+	: AbstractTransformOutputPin(inParentFilter, inFilterLock, NAME("FLACDecodeOutputPin"), L"PCM Out", 65536, 20, inAcceptableMediaTypes)
 {
 }
 
@@ -52,15 +52,21 @@ STDMETHODIMP FLACDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void 
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-bool FLACDecodeOutputPin::FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer) {
-	FLACDecodeFilter* locFilter = (FLACDecodeFilter*)mParentFilter;
+HRESULT FLACDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+{
+	if (inPosition == 0) {
+		WAVEFORMATEX* locWaveFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
+		FLACDecodeFilter* locFilter = (FLACDecodeFilter*)mParentFilter;
 
-	inFormatBuffer->wFormatTag = WAVE_FORMAT_PCM;
-	inFormatBuffer->nChannels = locFilter->getFLACFormatBlock()->numChannels;
-    inFormatBuffer->nSamplesPerSec =  locFilter->getFLACFormatBlock()->samplesPerSec;
-	inFormatBuffer->wBitsPerSample = locFilter->getFLACFormatBlock()->numBitsPerSample;
-	inFormatBuffer->nBlockAlign = (inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3);
-	inFormatBuffer->nAvgBytesPerSec = ((inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3)) * inFormatBuffer->nSamplesPerSec;
-	inFormatBuffer->cbSize = 0;
-	return true;
+		locWaveFormat->wFormatTag = WAVE_FORMAT_PCM;
+		locWaveFormat->nChannels = locFilter->getFLACFormatBlock()->numChannels;
+		locWaveFormat->nSamplesPerSec =  locFilter->getFLACFormatBlock()->samplesPerSec;
+		locWaveFormat->wBitsPerSample = locFilter->getFLACFormatBlock()->numBitsPerSample;
+		locWaveFormat->nBlockAlign = (locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3);
+		locWaveFormat->nAvgBytesPerSec = ((locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3)) * locWaveFormat->nSamplesPerSec;
+		locWaveFormat->cbSize = 0;
+		return S_OK;
+	} else {
+		return S_FALSE;
+	}
 }

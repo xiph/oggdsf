@@ -1,0 +1,5 @@
+Filters crash if you try to right click and view props in graphedit on the output pin
+
+Fix the hardcoded buffer parameters in the decoders
+
+Fix the leaks caused by the accept media types.

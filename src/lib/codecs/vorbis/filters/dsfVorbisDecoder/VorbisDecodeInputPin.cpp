@@ -208,8 +208,10 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 
 
-long VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
+HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
 {
+	//TODO::: Return types !!!
+
 	//debugLog << "Decode called... Last Gran Pos : "<<mLastSeenStartGranPos<<endl;
 	DbgLog((LOG_TRACE,1,TEXT("decodeData")));
 	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);

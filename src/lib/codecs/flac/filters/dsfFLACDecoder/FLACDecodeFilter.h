@@ -30,30 +30,32 @@
 //===========================================================================
 
 #pragma once
+//Local Includes
 #include "FLACdecoderdllstuff.h"
+
+//External INcludes
 #include "FLAC++/decoder.h"
+
 class FLACDecodeFilter
-	:	public AbstractAudioDecodeFilter
+	//Base Classes
+	:	public AbstractTransformFilter
 {
 public:
-	FLACDecodeFilter(void);
-	virtual ~FLACDecodeFilter(void);
-
-
+	//Friend Classes
 	friend class FLACDecodeInputPin;
 	friend class FLACDecodeOutputPin;
+
+	//Constructors
+	FLACDecodeFilter(void);
+	virtual ~FLACDecodeFilter(void);
 
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
-	virtual bool ConstructPins();
-
-	//Should really be here
-
 	void FLACDecodeFilter::setFLACFormatBlock(sFLACFormatBlock* inFormatBlock) ;
 	sFLACFormatBlock* FLACDecodeFilter::getFLACFormatBlock();
 protected:
+	//Implemenation of Pue Virtuals from AbstractTransformFilter
+	virtual bool ConstructPins();
 	sFLACFormatBlock* mFLACFormatBlock;
-
 };

@@ -30,58 +30,55 @@
 //===========================================================================
 
 #pragma once
+
+//Local Includes
 #include "FLACdecoderdllstuff.h"
-//#include "FLAC++/decoder.h"
+
+//External Includes
 #include "FLACPushDecoder.h"
 #include "OggPacket.h"
 #include "StampedOggPacket.h"
-//#include <queue>
 
+//STL Includes
 //debug only
 #include <fstream>
 //
-
 using namespace std;
-//using namespace FLAC::Decoder;
+
 
 class FLACDecodeInputPin
-	:	public AbstractAudioDecodeInputPin
-	//,	public Stream
+	//Base Classes
+	:	public AbstractTransformInputPin
 {
 public:
-
+	//COM Initialisation
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	FLACDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
-	virtual ~FLACDecodeInputPin(void);
 
+	//Constructors
+	FLACDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
+	virtual ~FLACDecodeInputPin(void);
 
 	HRESULT SetMediaType(const CMediaType* inMediaType);
 
-	//virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte buffer[], unsigned *bytes);
-	//virtual ::FLAC__StreamDecoderWriteStatus write_callback(const ::FLAC__Frame *frame, const FLAC__int32 * const buffer[]);
-	//virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
-	//virtual void error_callback(::FLAC__StreamDecoderErrorStatus status);
-
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
-	//FIX:::These should be protected.
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
-	//virtual STDMETHODIMP EndFlush();
 	virtual STDMETHODIMP BeginFlush();
 	virtual STDMETHODIMP EndOfStream(void);
-
-	long decodeData(unsigned char* inBuf, long inNumBytes);
-
+	virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
+	
 protected:
+	//Implementation of pure virtuals from AbstractTransformInputPin
+	virtual bool ConstructCodec();
+	virtual void DestroyCodec();
+	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
+
+	//Member Data
 	bool mGotMetaData;
 	FLACPushDecoder mFLACDecoder;
+	CCritSec* mCodecLock;
+	unsigned long mUptoFrame;
 	
 	//debug only
 	//fstream debugLog;
 	//
 
-	CCritSec* mCodecLock;
-	//queue<OggPacket*> mPendingPackets;
-	//unsigned long mNumPacksBuffered;
 };

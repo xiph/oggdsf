@@ -32,12 +32,13 @@
 #include "StdAfx.h"
 #include "flacdecodeinputpin.h"
 
-FLACDecodeInputPin::FLACDecodeInputPin(AbstractAudioDecodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType)
-	:	AbstractAudioDecodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACDecodeInputPin"), L"FLAC In", inAcceptMediaType)
+FLACDecodeInputPin::FLACDecodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACDecodeInputPin"), L"FLAC In", inAcceptableMediaTypes)
 	,	mGotMetaData(false)
 	,	mCodecLock(NULL)
-	
-	//,	mNumPacksBuffered(0)
+
+	,	mUptoFrame(0)
+
 {
 	//debugLog.open("G:\\logs\\flacfilter.log", ios_base::out);
 	mCodecLock = new CCritSec;			//Deleted in destructor.
@@ -63,18 +64,23 @@ STDMETHODIMP FLACDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void *
 }
 bool FLACDecodeInputPin::ConstructCodec() 
 {
-	//mFLACDecoder = new FLAC__StreamDecoder;
 	mFLACDecoder.initCodec();
 
 	return true;
 }
 void FLACDecodeInputPin::DestroyCodec() 
 {
-	//delete mFLACDecoder;
-	//mFLACDecoder = NULL;
-}
 
-long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes) 
+}
+STDMETHODIMP FLACDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 
+{
+	CAutoLock locLock(mStreamLock);
+	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
+	mUptoFrame = 0;
+	return AbstractTransformInputPin::NewSegment(inStartTime, inStopTime, inRate);
+	
+}
+HRESULT FLACDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
 {
 
 	//TODO::: Locks ???
@@ -107,7 +113,7 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 					//debugLog<<"Write_Callback : Get deliverybuffer failed. returning abort code."<<endl;
 					//		//We get here when the application goes into stop mode usually.
 					delete locStamped;
-					return -1;
+					return S_FALSE;
 				}	
 
 
@@ -118,23 +124,19 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 				locSample->GetPointer(&locBuffer);
 
 
-
-
 				if (locSample->GetSize() >= locStamped->packetSize()) {
-					//	//ADDING TIMEBASE INFO.
-					REFERENCE_TIME locTimeBase = ((mLastSeenStartGranPos * UNITS) / mFLACDecoder.mSampleRate) - mSeekTimeBase;
-					REFERENCE_TIME locFrameStart = locTimeBase + (((__int64)(mUptoFrame * UNITS)) / mFLACDecoder.mSampleRate);
+					REFERENCE_TIME locFrameStart = (((__int64)(mUptoFrame * UNITS)) / mFLACDecoder.mSampleRate);
 					
-					//Increment the frame counter
+					//Increment the frame counter - note the returned packet is stamped 0-numSamples
 					mUptoFrame += locStamped->endTime();
 					
 					//	//Make the end frame counter
 
-					REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(mUptoFrame * UNITS)) / mFLACDecoder.mSampleRate);
+					REFERENCE_TIME locFrameEnd = (((__int64)(mUptoFrame * UNITS)) / mFLACDecoder.mSampleRate);
 
 					memcpy((void*)locBuffer, (const void*)locStamped->packetData(), locStamped->packetSize());
 					SetSampleParams(locSample, locStamped->packetSize(), &locFrameStart, &locFrameEnd);
-					HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);
+					HRESULT locHR = ((FLACDecodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);
 					if (locHR != S_OK) {
 	
 					} else {
@@ -147,9 +149,9 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 
 
 				delete locStamped;
-				return 0;
+				return S_OK;
 			} else {
-				return -1;
+				return S_FALSE;
 			}
 
 		} else {
@@ -158,9 +160,9 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 				mGotMetaData = mFLACDecoder.acceptMetadata(locPacket);		//Accepts the packet.
 			}
 			if (mGotMetaData) {
-				return 0;
+				return S_OK;
 			} else {
-				return -1;
+				return S_FALSE;
 			}
 
 			
@@ -169,10 +171,10 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 		//debugLog<<"decodeData : Successful return."<<endl;
 
 		//Should be impossible to get here.
-		return 0;
+		return S_OK;
 	} else {
 		//debugLog<<"decodeData : Filter flushing... bad things !!!"<<endl;
-		return -1;
+		return S_FALSE;
 	}
 
 	
@@ -184,7 +186,7 @@ STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
 	
 	//debugLog<<"BeginFlush : Calling flush on the codec."<<endl;
 
-	HRESULT locHR = AbstractAudioDecodeInputPin::BeginFlush();
+	HRESULT locHR = AbstractTransformInputPin::BeginFlush();
 	{	//PROTECT CODEC FROM IMPLODING
 		CAutoLock locCodecLock(mCodecLock);
 		mFLACDecoder.flushCodec();
@@ -200,7 +202,7 @@ STDMETHODIMP FLACDecodeInputPin::EndOfStream(void) {
 		mFLACDecoder.flushCodec();
 	}	//END CRITICAL SECTION
 
-	return AbstractAudioDecodeInputPin::EndOfStream();
+	return AbstractTransformInputPin::EndOfStream();
 }
 
 HRESULT FLACDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {

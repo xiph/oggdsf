@@ -182,10 +182,14 @@ int SpeexDecodeInputPin::SpeexDecoded (FishSound* inFishSound, float** inPCM, lo
 
 
 
-long SpeexDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
+HRESULT SpeexDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
 {
 	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
-	return locErr;
+	if (locErr == 0) {
+		return S_OK;
+	} else {
+		return S_FALSE;
+	}
 }
 
 

@@ -93,7 +93,6 @@ bool SpeexDecodeFilter::ConstructPins()
 
 SpeexDecodeFilter::~SpeexDecodeFilter(void)
 {
-	//DestroyPins();
 	delete mSpeexFormatInfo;
 }
 

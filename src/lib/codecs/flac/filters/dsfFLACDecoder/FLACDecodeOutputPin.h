@@ -30,18 +30,27 @@
 //===========================================================================
 
 #pragma once
+//Local Includes
 #include "FLACdecoderdllstuff.h"
 
+//Forward Declarations
 class FLACDecodeFilter;
 
 class FLACDecodeOutputPin
-	:	public AbstractAudioDecodeOutputPin
+	:	public AbstractTransformOutputPin
 {
 public:
+	//Friend Classes
+	friend class FLACDecodeInputPin;
+
+	//COM Initialisation
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	FLACDecodeOutputPin(FLACDecodeFilter* inParentFilter, CCritSec* inFilterLock);
-	virtual ~FLACDecodeOutputPin(void);
 
-	virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
+	//Constructors
+	FLACDecodeOutputPin(FLACDecodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
+	virtual ~FLACDecodeOutputPin(void);
+protected:
+	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
+	//virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
 };

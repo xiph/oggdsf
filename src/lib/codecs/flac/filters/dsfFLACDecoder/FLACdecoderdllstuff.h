@@ -31,24 +31,23 @@
 
 
 #pragma once
-#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
-#pragma message("----> Exporting from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllexport)
-#else
-#pragma message("<---- Importing from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllimport)
-#endif
+//#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
+//#pragma message("----> Exporting from Abstract Library...")
+//#define ABS_AUDIO_DEC_API __declspec(dllexport)
+//#else
+//#pragma message("<---- Importing from Abstract Library...")
+//#define ABS_AUDIO_DEC_API __declspec(dllimport)
+//#endif
 
 struct sFLACFormatBlock {
 	unsigned short numChannels;
 	unsigned long numBitsPerSample;
 	unsigned long samplesPerSec;
-
 };
 
-#include "AbstractAudioDecodeFilter.h"
-#include "AbstractAudioDecodeInputPin.h"
-#include "AbstractAudioDecodeOutputPin.h"
+#include "AbstractTransformFilter.h"
+#include "AbstractTransformInputPin.h"
+#include "AbstractTransformOutputPin.h"
 #include "FLACDecodeFilter.h"
 #include "FLACDecodeInputPin.h"
 #include "FLACDecodeOutputPin.h"

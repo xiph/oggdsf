@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include "flacdecodefilter.h"
+#include "FLACDecodeFilter.h"
 
 
 //COM Factory Template
@@ -50,7 +50,7 @@ CFactoryTemplate g_Templates[] =
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
 FLACDecodeFilter::FLACDecodeFilter(void)
-	:	AbstractAudioDecodeFilter(NAME("FLAC Audio Decoder"), CLSID_FLACDecodeFilter, FLAC)
+	:	AbstractTransformFilter(NAME("FLAC Audio Decoder"), CLSID_FLACDecodeFilter)
 	,	mFLACFormatBlock(NULL)
 {
 	bool locWasConstructed = ConstructPins();
@@ -58,21 +58,40 @@ FLACDecodeFilter::FLACDecodeFilter(void)
 
 FLACDecodeFilter::~FLACDecodeFilter(void)
 {
-	//DestroyPins();
 	delete mFLACFormatBlock;
 	mFLACFormatBlock = NULL;
 }
 
 bool FLACDecodeFilter::ConstructPins() 
 {
-	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new FLACDecodeOutputPin(this, m_pLock);				//Deleted in destroy pins in base class.
+	//Vector to hold our set of media types we want to accept.
+	vector<CMediaType*> locAcceptableTypes;
 
-	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Given to Input pin... it's responsible (deletes in base constructor of pin)
+	//Setup the media types for the output pin.
+	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
+	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
+	
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//Output pin must be done first because it's passed to the input pin.
+	mOutputPin = new FLACDecodeOutputPin(this, m_pLock, locAcceptableTypes);			//Deleted in base class destructor
+
+	//Clear out the vector, now we've already passed it to the output pin.
+	locAcceptableTypes.clear();
+
+	//Setup the media Types for the input pin.
+	locAcceptMediaType = NULL;
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
+
 	locAcceptMediaType->subtype = MEDIASUBTYPE_FLAC;
 	locAcceptMediaType->formattype = FORMAT_FLAC;
-	mInputPin = new FLACDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);			//Pin destroyed in base class, media type destroyed in base.
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+	
+	mInputPin = new FLACDecodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;
+
 }
 
 CUnknown* WINAPI FLACDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
