@@ -42,18 +42,28 @@ public:
 	C_MetaTagList(void);
 	virtual ~C_MetaTagList(void);
 
+	/// Empties the list.
 	void emptyList();
-	void addTag(C_MetaTag* inTag);
-	void addTag(wstring inName, wstring inContent);
-	//void removeTag ???
-	//unsigned long numTags();
 
+	/// Adds a tag to the list. You give away your pointer.
+	void addTag(C_MetaTag* inTag);
+
+	/// Adds a tag to this list by specifying name and content.
+	void addTag(wstring inName, wstring inContent);
+
+	/// Gets the indexed tag from the list. You can modify but not delete the pointer.
 	C_MetaTag* getTag(unsigned long inTagNo);
+
+	/// Returns a pointer to the tag with this name. You can modify but not delete.
 	C_MetaTag* getTag(wstring inName);
 
+	/// Gets the matching content from the tag with given name.
 	wstring getContent(wstring inName);
-
+	
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_MetaTagList* clone();
 protected:
 	//Protected Helper Methods

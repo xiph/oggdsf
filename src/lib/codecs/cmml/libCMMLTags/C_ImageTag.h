@@ -49,17 +49,25 @@ public:
 	C_ImageTag(void);
 	virtual ~C_ImageTag(void);
 
-	//Accessors
+	/// Returns the uri which is the source for this image.
 	wstring src();
+
+	/// Returns the alternate text for this image.
 	wstring alt();
 
-	//Mutators
+	/// Sets the uri which is the source for this image.
 	void setSrc(wstring inSrc);
+
+	/// Setss the alternate text for this image.
 	void setAlt(wstring inAlt);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_ImageTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
 protected:
 	//Property Data

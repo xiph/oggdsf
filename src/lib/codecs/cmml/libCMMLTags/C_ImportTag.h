@@ -51,27 +51,55 @@ public:
 	C_ImportTag(void);
 	virtual ~C_ImportTag(void);
 
-	//Accessors
+	/// Returns the granule rate for this imported media
 	wstring granuleRate();
+
+	/// Returns the content type (MIME type) of this imported media.
 	wstring contentType();
+
+	/// Returns the uri of the imported media.
 	wstring src();
+
+	/// Returns the start time for this imported media
 	wstring start();
+
+	/// Returns the end time for this imported media.
 	wstring end();
+
+	/// Returns the title of this imported media.
 	wstring title();
+
+	/// Returns an internal poitner to the param list. Can modify but don't delete.
 	C_ParamTagList* paramList();
 
-	//Mutators
+	/// Sets the granule rate for this imported media
 	void setGranuleRate(wstring inGranuleRate);
+
+	/// Sets the content type (MIME type) of this imported media.
 	void setContentType(wstring inContentType);
+
+	/// Sets the uri of the imported media.
 	void setSrc(wstring inSrc);
+
+	/// Sets the start time for this imported media
 	void setStart(wstring inStart);
+
+	/// Sets the end time for this imported media.
 	void setEnd(wstring inEnd);
+
+	/// Sets the title of this imported media.
 	void setTitle(wstring inTitle);
+
+	/// Sets the internal poitner to the param list. You give away your pointer.
 	void setParamList(C_ParamTagList* inParamList);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_ImportTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
 
 protected:

@@ -49,10 +49,16 @@ public:
 	C_ImportTagList(void);
 	virtual ~C_ImportTagList(void);
 
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	C_ImportTagList* clone();
 
+	/// Adds a tag to the list. You give away your poitner.
 	void addTag(C_ImportTag* inTag);
+
+	/// Gets a tag from the list. You can modify but don't delete.
 	C_ImportTag* getTag(unsigned long inTagNo);
 
 protected:

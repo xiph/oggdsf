@@ -54,35 +54,61 @@ public:
 	//Constructors
 	C_ClipTag(void);
 	virtual ~C_ClipTag(void);
-	
 
-	//Accessors
+	/// Returns the name of the track this clip belongs to.
 	wstring track();
+
+	/// Returns a pointer to the internal metatag list. Don't delete.
 	C_MetaTagList* metaList();
+
+	/// Returns a pointer to the internal anchor element. Don't delete.
 	C_AnchorTag* anchor();
+
+	/// Returns a pointer to the internal image element. Don't delete.
 	C_ImageTag* image();
+
+	/// Returns a pointer to the internal desc element. Don't delete.
 	C_DescTag* desc();
 
+	/// Returns the start time for this clip.
 	wstring start();
+
+	/// Returns the end time for this clip. May be "".
 	wstring end();
 
 
-	//Mutators
+	/// Set the track this clip belongs to.
 	void setTrack(wstring inTrack);
+
+	/// Set the anchor tag for this clip. You give away your pointer.
 	void setAnchor(C_AnchorTag* inAnchor);
+
+	/// Set the image tag for this clip. You give away your pointer.
 	void setImage(C_ImageTag* inImage);
+
+	/// Sets the desc tag for this clip. You give away your pointer.
 	void setDesc(C_DescTag* inDesc);
 
+	/// Sets the start time for this clip.
 	void setStart(wstring inStart);
+
+	/// Sets the end time for this clip. May be "".
 	void setEnd(wstring inEnd);
 
-
-	//Others
+	/// Converts this tag to an xml string.
 	virtual wstring toString();
+
+	/// Performs a deep copy returning a pointer you can keep.
 	C_ClipTag* clone();
+
+	/// Performs a deep copy returning a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
 
 protected:
+	/// Internal deep copy mechanism
+	virtual void privateClone(C_CMMLTag* outTag);
+
+
 	//Property Data
 	wstring mTrack;
 	C_MetaTagList* mMetaList;
@@ -92,10 +118,4 @@ protected:
 
 	wstring mStart;
 	wstring mEnd;
-
-	//Protected Helper Methods
-	virtual void privateClone(C_CMMLTag* outTag);
-
-
-
 };

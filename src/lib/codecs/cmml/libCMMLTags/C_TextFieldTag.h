@@ -49,13 +49,13 @@ public:
 	C_TextFieldTag(void);
 	virtual ~C_TextFieldTag(void);
 
-	//Accessors
+	/// Returns the inner text associated with this tag.
 	wstring text();
 	
-	//Mutators
+	/// Sets the inner text associated with this tag/	
 	void setText(wstring inText);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString() = 0;
 protected:
 	//Property Data

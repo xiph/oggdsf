@@ -50,16 +50,22 @@ public:
 	C_MappedTag(wstring inName, wstring inContent);
 	virtual ~C_MappedTag(void);
 
-	//Accessors
+	/// Returns the name (key) for this mapped pair.
 	wstring name();
+
+	/// Returns the content of this mapped pair.
 	wstring content();
 
-	//Mutators
+	/// Sets the name (key) for this mapped pair.
 	void setName(wstring inName);
+
+	/// Sets the content of this mapped pair.
 	void setContent(wstring inContent);
 
-	//Other
+	/// Pure Virtual :  Returns an xml representation of this tag.
 	virtual wstring toString() = 0;
+
+	/// Pure Virtual : Performs a deep copy of this tag.
 	virtual C_MappedTag* mappedClone() = 0;
 
 protected:

@@ -49,9 +49,13 @@ public:
 	C_TitleTag(void);
 	virtual ~C_TitleTag(void);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_TitleTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
 protected:
 	//Protected Helper Methods

@@ -44,37 +44,31 @@ public:
 	C_CMMLPreamble(void);
 	virtual ~C_CMMLPreamble(void);
 
-
-
-	//Accessors
+	/// Returns the xml version in the preamble.
 	wstring xmlVersion();
+
+	/// Returns the encoding in the preamble.
 	wstring xmlEncoding();
+
+	/// Returns whether this document stands alone.
 	wstring xmlStandAlone();
 	
-	//Mutators
+	/// Sets the xml version for this document.
 	void setXmlVersion(wstring inVersion);
+
+	/// Sets the encoding for this document.
 	void setXmlEncoding(wstring inEncoding);
+
+	/// Sets the standalone property.
 	void setXmlStandAlone(wstring inStandAlone);
 
-	//Others
+	/// Returns an xml string of the preamble.
 	virtual wstring toString();
+
+	/// Performs a deep copy of the preamble returning a pointer you can keep.
 	C_CMMLPreamble* clone();
 
-
 protected:
-	//Original Structure
-	//
-	//typedef struct {
-	//	char *xml_version;      /**< version attribute of xml proc instr */
-	//	char *xml_encoding;     /**< encoding attribute of xml proc instr */
-	//	int   xml_standalone;   /**< standalone attribute of xml proc instr */
-	//	int   doctype_declared; /**< was doctype declared */
-	//	char *cmml_lang;        /**< lang attribute of cmml tag */
-	//	char *cmml_dir;         /**< dir attribute of cmml tag */
-	//	char *cmml_id;          /**< id attribute of cmml tag */
-	//	char *cmml_xmlns;       /**< xmlns attribute of cmml tag */
-	//} CMML_Preamble;
-
 	//Property Data
 	wstring mXmlVersion;
 	wstring mXmlEncoding;

@@ -49,10 +49,16 @@ public:
 	C_ParamTag(void);
 	virtual ~C_ParamTag(void);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_ParamTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
+
+	/// Performs a deep copy and returns a pointer to the base mapped class you can keep.
 	virtual C_MappedTag* mappedClone();
 
 protected:

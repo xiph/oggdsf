@@ -33,12 +33,6 @@
 */
 
 #pragma once
-//These are the original callbacks... need to provide an interface that does not 
-//include the C structs and hopefully no void*
-//
-//typedef int (*CMMLReadStreamCB)  (CMML *cmml, const CMML_Stream *stream, void * user_data);
-//typedef int (*CMMLReadHeadCB)   (CMML *cmml, const CMML_Head *head, void * user_data);
-//typedef int (*CMMLReadClipCB) (CMML *cmml, const CMML_Clip *clip, void * user_data);
 
 //STL Include Files
 #include <string>
@@ -47,12 +41,6 @@ using namespace std;
 //Local Include Files
 #include <libCMMLTags/C_CMMLPreamble.h>
 #include <libCMMLTags/C_CMMLRootTag.h>
-//#include <libCMMLTags/C_CMMLError.h>
-
-
-//typedef int (*CMMLReadStreamCB)  (const C_StreamTag *inStream, void * user_data);
-//typedef int (*CMMLReadHeadCB)   (const C_HeadTag *inHead, void * user_data);
-//typedef int (*CMMLReadClipCB) (const C_ClipTag *inClip, void * user_data);
 
 
 class LIBCMMLTAGS_API C_CMMLDoc
@@ -62,103 +50,22 @@ public:
 	C_CMMLDoc(void);
 	virtual ~C_CMMLDoc(void);
 
+	/// Returns an internal pointer to the preamble element. Can manipulate but not delete.
 	C_CMMLPreamble* preamble();
+
+	/// Returns and internal pointer to the cmml root tag. Can manipulate but not delete.
 	C_CMMLRootTag* root();
 
+	/// Sets the root cmml tag for this document.
 	void setRoot(C_CMMLRootTag* inRootTag);
 
+	/// Returns an xml string representing the complete document.
 	virtual wstring toString();
+
+
 	C_CMMLDoc* clone();
-	
-
-	//Opening files
-	//bool open(wstring inFilename);
-	//bool open(wstring inFilename, CMMLReadStreamCB inStreamCB, CMMLReadHeadCB inHeadCB, CMMLReadClipCB inClipCB);
-	//ISSUE ::: Void pointer on interface...
-	//bool open(wstring inFilename, CMMLReadStreamCB inStreamCB, CMMLReadHeadCB inHeadCB, CMMLReadClipCB inClipCB, void* inUserData);
-	//ISSUE ::: Find a way to allow the passing in of a fstream
-	
-	
-
-	//Close the file. Releases resources but leaves the object capable of handling
-	//another file.
-	//void close();
-
-	//Load all the callbacks if they were unknown at open
-	// or if they have to be changed mid parse.
-	//bool setCallbacks(CMMLReadStreamCB inStreamCB, CMMLReadHeadCB inHeadCB, CMMLReadClipCB inClipCB, void* inUserData);
-
-	//Ask the underlying library to read a certain number of bytes
-	//void read(unsigned long inNumBytes);
-
-	//The the underlying library to read to the end of the file.
-	// This is useful to do initially to read the entire file
-	//void readToEnd();
-
-	//Resets the filestream, removes all stored tag data, but DOES NOT
-	// remove the file stream or the callbacks
-	//void resetFile();
-
-	//Removes the associated file, removes all stored tag data, resets all the
-	// callbacks. This brings it back to it's initial state as it was when
-	// constructed with no parameters before it was attached to any files or callbacks.
-
-	//Currently just clear all tags by deleting them
-	//void clearAll();
-
-	//Accessors
-	//Is the file ready to go. ie has a file been attached and opened.
-	//bool isStreamReady();
-
-	//NO READ OPERATIONS CAN TAKE PLACE WHILE EITHER OF THE TWO FOLLOWING REPORT TRUE
-
-	//Is it at the end of the file
-	//bool isEOF();
-
-	//Is there an error reading the stream.
-	//bool isStreamError();
-
-	//Returns a pointer to the last CMML error. Or NULL if no error.
-	//These are parsing errors. They ARE NOT the same as the stream errors.
-	//They represent badly formatted documents not errors in reading the data.
-	//You shouldn't call this unless CMMLError is true.
-	//C_CMMLError* lastCMMLError();
-
-	//Returns if there is a CMML error pending.
-	//bool isCMMLError();
-
-	//ALL THE FOLLOWING WILL RETURN NULL IF THEY DON"T EXIST OR HAVE NOT BEEN 
-	// READ YET.
-	
-	//Returns a pointer to the list of clips already read. Should never return NULL
-	// As each new clip is read it is appended to the end of the clip list.
-	// The clip list object can tell you about how many clips have been read
-	// and you can access them by number.
-	//ISSUE ::: Should they also be able to be retrieved by id ??
-	//C_ClipTagList* clipList();
-
-	//Returns a pointer to the most recently read clip or if the entire file is
-	// read the last clip in the file
-	//C_ClipTag* lastClip();
-
-	//Returns a pointer to the second last clip that waas read or if the entire file
-	// has been read, the previous clip in the file.
-	//C_ClipTag* previousClip();
-
-
-
 
 protected:
 	C_CMMLPreamble* mPreamble;
 	C_CMMLRootTag* mRoot;
-
-
-	//bool mIsStreamReady;
-	//bool mIsEOF;
-	//bool mIsStreamError;
-
-
-
-	//C_CMMLError* mLastError;
-	
 };

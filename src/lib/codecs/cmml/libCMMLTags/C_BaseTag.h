@@ -49,22 +49,26 @@ public:
 	C_BaseTag(void);
 	virtual ~C_BaseTag(void);
 
-	//Accessors
+	/// Returns the base uri that is used for this cmml document.
 	wstring href();
 
-	//Mutators
+	/// Sets the base uri used for this cmml document.
 	void setHref(wstring inHref);
 
-	//Other
+	/// Converts this tag to an xml string.
 	virtual wstring toString();
+
+	/// Performs a deep copy returning a pointer you can keep.
 	C_BaseTag* clone();
+
+	/// Performs a deep copy returning a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
 
 protected:
 	//Property Data
 	wstring mHref;
 
-	//Protected Helper Methods
+	/// Internal cloning mechanism
 	virtual void privateClone(C_CMMLTag* outTag);
 
 };

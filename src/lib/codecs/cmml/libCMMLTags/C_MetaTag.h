@@ -49,16 +49,22 @@ public:
 	C_MetaTag(void);
 	virtual ~C_MetaTag(void);
 
-	//Accessors
+	/// The uri for the scheme used in this mapping (ie dublin core)
 	wstring scheme();
 
-	//Mutators
+	/// Sets the uri for the scheme used in this meta tag.
 	void setScheme(wstring inScheme);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_MetaTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
+
+	/// Performs a deep copy and returns a pointer to the mapped base class you can keep.
 	virtual C_MappedTag* mappedClone();
 
 protected:

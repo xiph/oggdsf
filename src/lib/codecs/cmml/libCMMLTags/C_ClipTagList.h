@@ -41,7 +41,6 @@ using namespace std;
 #include <libCMMLTags/C_TagList.h>
 #include <libCMMLTags/C_ClipTag.h>
 
-//TO DO:::Make this class !
 class LIBCMMLTAGS_API C_ClipTagList :
 	//Derived Classes
 	public C_TagList
@@ -51,12 +50,18 @@ public:
 	C_ClipTagList(void);
 	virtual ~C_ClipTagList(void);
 
+	/// Adds a tag to the list. You give away your pointer.
+	void addTag(C_ClipTag* inTag);
 
+	/// Gets a pointer to a tag in the list you can manipulate but not delete.
+	C_ClipTag* getTag(unsigned long inTagNo);
+
+	/// Converts the list of clips into an xml string.
 	virtual wstring toString();
+
+	/// Does a deep copy and returns a pointer you can keep.
 	C_ClipTagList* clone();
 
-	void addTag(C_ClipTag* inTag);
-	C_ClipTag* getTag(unsigned long inTagNo);
 
 	virtual void privateClone(C_TagList* outTagList);
 };

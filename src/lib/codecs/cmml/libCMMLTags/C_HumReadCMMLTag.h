@@ -48,15 +48,19 @@ public:
 	C_HumReadCMMLTag(void);
 	virtual ~C_HumReadCMMLTag(void);
 
-	//Accessors
+	/// Returns the language country code for this tag (eg. en or de)
 	wstring lang();
+
+	/// Returns the direction this langauge is read (ltr or rtl)
 	wstring dirn();
 
-	//Mutators
+	/// Sets the language country code for this tag (eg. en or de)
 	void setLang(wstring inLang);
+
+	/// Sets the direction this langauge is read (ltr or rtl)
 	void setDirn(wstring inDirn);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString() = 0;
 
 protected:

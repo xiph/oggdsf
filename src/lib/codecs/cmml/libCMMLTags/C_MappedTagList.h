@@ -47,21 +47,15 @@ public:
 	C_MappedTagList(void);
 	virtual ~C_MappedTagList(void);
 
-	//What to do about this ? **** They are now protected dervied classes implement themselves
-	//void addTag(wstring inName, wstring inContent);
-	
-	//void removeTag ???
+	/// Returns the tags in this list.
 	unsigned long numTags();
 
+	/// Gets the content of a mapped element by name.
 	wstring getContent(wstring mName);
 
-	//Maybe not !
-	//void addTag(wstring inName, wstring inContent);
-
+	/// Returns an xml representation of this tag.
 	virtual wstring toString() = 0;
 	
-
-
 protected:
 	vector<C_MappedTag*> mTagList;
 

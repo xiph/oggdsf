@@ -49,12 +49,10 @@ public:
 	C_TagList(void);
 	virtual ~C_TagList(void);
 	
-	//void removeTag ???
-
-	//Accessors
+	/// Returns the number of tags in this list
 	unsigned long numTags();
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString() = 0;
 
 protected:

@@ -50,22 +50,32 @@ public:
 	C_StreamTag(void);
 	virtual ~C_StreamTag(void);
 
-	//Accessors
+	/// Returns the timebase of this stream
 	wstring timebase();
+
+	/// Returns a utc timebase (if any) of this stream
 	wstring utc();
+
+	/// Returns an internal pointer to the import list. Can modify but not delete.
 	C_ImportTagList* importList();
 
-	//Mutators
+	/// Sets the timebase of this stream
 	void setTimebase(wstring inTimebase);
+
+	/// Sets a utc timebase (if any) of this stream
 	void setUtc(wstring inUtc);
+
+	/// Sets the internal pointer to the import list. You give away your pointer.
 	void setImportList(C_ImportTagList* inTagList);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+	
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_StreamTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.	
 	virtual C_CMMLTag* genericClone();
-
-
 
 protected:
 	//Property Data

@@ -51,15 +51,15 @@ public:
 	C_ParamTagList(void);
 	virtual ~C_ParamTagList(void);
 
-	//Accessors
+	/// Gets the indexed tag.
 	C_ParamTag* getTag(unsigned long inTagNo);
 
-	//Mutators
+	/// Adds a tag to the list. You give away your poitner.
 	void addTag(C_ParamTag* inTag);
 	
-
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_ParamTagList* clone();
-	
 };

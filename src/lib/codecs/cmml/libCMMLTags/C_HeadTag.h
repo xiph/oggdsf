@@ -52,20 +52,34 @@ public:
 	C_HeadTag(void);
 	virtual ~C_HeadTag(void);
 
-	//Accessors
+	/// Returns uri for profile used in meta tags (eg Dublin Core)
 	wstring profile();
+
+	/// Returns an internal pointer to the title element. Can modify but don't delete.
 	C_TitleTag* title();
+
+	/// Returns an internal pointer to the base element. Can modify but don't delete.
 	C_BaseTag* base();
+
+	/// Returns an internal pointer to the meta tag list. Can modify but don't delete.
 	C_MetaTagList* metaList();
 
-	//Mutators
+	/// Sets the uri for the profile used in meta tags.
 	void setProfile(wstring inProfile);
+
+	/// Sets the title tag for this element. You give away your pointer.
 	void setTitle(C_TitleTag* inTitle);
+
+	/// Sets the base tag for this element. You give away your pointer.
 	void setBase(C_BaseTag* inBase);
 
-	//Other
+	/// Returns an xml representation of this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_HeadTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
 protected:
 	//Property Data

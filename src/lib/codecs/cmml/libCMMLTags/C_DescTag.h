@@ -49,14 +49,17 @@ public:
 	C_DescTag(void);
 	virtual ~C_DescTag(void);
 
-	//Other
+	/// Returns an xml strnig representing this tag.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns a pointer you can keep.
 	C_DescTag* clone();
+
+	/// Performs a deep copy and returns a pointer to the base class you can keep.
 	virtual C_CMMLTag* genericClone();
 
 protected:
-	//Protected Helper Methods
-	virtual void privateClone(C_CMMLTag* outTag);
 
-	
+	/// Internal deep copy mechanism.
+	virtual void privateClone(C_CMMLTag* outTag);
 };

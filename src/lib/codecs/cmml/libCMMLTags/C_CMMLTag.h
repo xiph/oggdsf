@@ -70,15 +70,16 @@ public:
 		BAD_TAG = 1000
 	};
 	
-	//Accessors
+	/// Returns the id attribute for this tag.
 	wstring id();
 
-	//Mutators
+	/// Sets the id attribute for this tag.
 	void setId(wstring inId);
 
+	/// Returns the type of tag this really is.
 	eTagType tagType();
 
-	//Other
+	/// Pure Virtual : Returns an xml string representing this tag.
 	virtual wstring toString() = 0;
 protected:
 	//Property Data
@@ -87,7 +88,11 @@ protected:
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);
+
+	/// Makes an attribute of the form name="content" and returns a string.
 	wstring makeElement(wstring inElemName, wstring inElemContent);
-	wstring C_CMMLTag::makeRequiredElement(wstring inElemName, wstring inElemContent);
+
+
+	wstring makeRequiredElement(wstring inElemName, wstring inElemContent);
 	
 };

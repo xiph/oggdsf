@@ -53,30 +53,39 @@ public:
 	C_CMMLRootTag(void);
 	virtual ~C_CMMLRootTag(void);
 
-	//Accessors
-	
+	/// Returns the internal pointer to the stream element. Can modify but don't delete.	
 	C_StreamTag* stream();
+
+	/// Returns the internal pointer to the head element. Can modify but don't delete.
 	C_HeadTag* head();
+
+	/// Returns the internal pointer to the clip list. Can modify but don't delete.
 	C_ClipTagList* clipList();
 
-	//Mutators
+	/// Sets the stream element. You give away your pointer.
 	void setStream(C_StreamTag* inStreamTag);
+
+	/// Sets the head element. You give away your pointer.
 	void setHead(C_HeadTag* inHeadTag);
+
+	/// Sets the clip list. You give away your pointer.
 	void setClipList(C_ClipTagList* inClipList);
 
-	//Other
+	/// Returns an xml string representing the root tag.
 	virtual wstring toString();
-	virtual C_CMMLTag* genericClone();
+
+	/// Does a deep copy of this tag and returns a pointer you can keep.
 	C_CMMLRootTag* clone();
+
+	/// Does a deep copy of this tag and returns a pointer to the base class you can keep.
+	virtual C_CMMLTag* genericClone();
 
 protected:
 	//Property Data
-	
 	C_StreamTag* mStream;
 	C_HeadTag* mHead;
 	C_ClipTagList* mClipList;
 
-	//Protected Helper Methods
+	/// Internal deep copy mechanism.
 	virtual void privateClone(C_CMMLTag* outTag);
-
 };
