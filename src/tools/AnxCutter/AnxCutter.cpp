@@ -77,7 +77,7 @@ unsigned long headerCount(OggPacket* inPacket) {
 
 }
 //This will be called by the callback
-bool pageCB(OggPage* inOggPage, void* inUserData /* ignored */) {
+bool pageCB(OggPage* inOggPage, void* /* ignored */) {
 
 	bool allEmpty = true;
 
@@ -222,7 +222,7 @@ int main(int argc, char * argv[])
 		// Stream-copy everything from the requested timepoint onward to the output file
 		inputFile.open(argv[1], ios_base::in | ios_base::binary);
 		inputFile.seekg(locSeekResult.second);
-		while (true)
+		for (;;)
 		{
 			inputFile.read(locBuff, BUFF_SIZE);
 			unsigned long locBytesRead = inputFile.gcount();
