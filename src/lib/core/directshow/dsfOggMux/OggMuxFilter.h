@@ -33,6 +33,8 @@
 #include "oggmuxdllstuff.h"
 #include "OggMuxInputPin.h"
 #include "BasicSeekable.h"
+#include "OggPageInterleaver.h"
+#include "INotifyComplete.h"
 
 #include <string>
 
@@ -48,6 +50,7 @@ class OggMuxFilter
 	,	public IOggCallback
 	,	public IAMFilterMiscFlags
 	,	public BasicSeekable
+	,	public INotifyComplete
 {
 public:
 	OggMuxFilter(void);
@@ -79,6 +82,7 @@ public:
 
 	//Helpers
 	STDMETHODIMP addAnotherPin();
+	virtual void NotifyComplete();
 
 protected:
 
@@ -87,6 +91,8 @@ protected:
 
 	wstring mFileName;
 	vector<OggMuxInputPin*> mInputPins;
+
+	OggPageInterleaver* mInterleaver;
 
 	fstream mOutputFile;
 	fstream debugLog;

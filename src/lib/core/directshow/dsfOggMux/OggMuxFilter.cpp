@@ -61,6 +61,11 @@ CUnknown* WINAPI OggMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
     return pNewObject;
 } 
 
+void OggMuxFilter::NotifyComplete() {
+	HRESULT locHR = NotifyEvent(EC_COMPLETE, S_OK, NULL);
+
+}
+
 STDMETHODIMP OggMuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
 	if (riid == IID_IFileSinkFilter) {
@@ -88,10 +93,13 @@ ULONG OggMuxFilter::GetMiscFlags(void) {
 
 OggMuxFilter::OggMuxFilter()
 	:	CBaseFilter(NAME("OggMuxFilter"), NULL, m_pLock, CLSID_OggMuxFilter)
+	,	mInterleaver(NULL)
 {
+	mInterleaver = new OggPageInterleaver(this, this);
 	//LEAK CHECK:::Both get deleted in constructor.
+
 	m_pLock = new CCritSec;
-	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR));
+	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 	debugLog.open("C:\\temp\\muxer.log", ios_base::out);
 	
 }
@@ -113,7 +121,7 @@ OggMuxFilter::~OggMuxFilter(void)
 }
 
 STDMETHODIMP OggMuxFilter::addAnotherPin() {
-	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR));
+	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 	return S_OK;
 }
 

@@ -121,6 +121,12 @@
 				RelativePath="FLACMath.cpp">
 			</File>
 			<File
+				RelativePath="INotifyArrival.cpp">
+			</File>
+			<File
+				RelativePath="INotifyComplete.cpp">
+			</File>
+			<File
 				RelativePath="IOggCallback.cpp">
 			</File>
 			<File
@@ -204,6 +210,12 @@
 			</File>
 			<File
 				RelativePath="FLACMath.h">
+			</File>
+			<File
+				RelativePath="INotifyArrival.h">
+			</File>
+			<File
+				RelativePath="INotifyComplete.h">
 			</File>
 			<File
 				RelativePath="IOggCallback.h">

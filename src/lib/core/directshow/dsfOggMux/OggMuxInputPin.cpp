@@ -31,9 +31,10 @@
 #include "StdAfx.h"
 #include "oggmuxinputpin.h"
 
-OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR)
+OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream)
 	:	CBaseInputPin(NAME("OggMuxInputPin"), inParentFilter, inFilterLock, inHR, L"Ogg Packet In")
 	,	mParentFilter(inParentFilter)
+	,	mMuxStream(inMuxStream)
 {
 	OggPaginatorSettings* locSettings = new OggPaginatorSettings;
 	locSettings->mMinPageSize = 4096;
@@ -43,7 +44,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	//locSettings->mSerialNo = 13130;
 	
 	mPaginator.setParameters(locSettings);
-	mPaginator.setPageCallback(inParentFilter);
+	mPaginator.setPageCallback(mMuxStream);
 
 	debugLog.open("C:\\temp\\oggmuxinpin.log", ios_base::out);
 }
@@ -116,7 +117,8 @@ HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 }
 STDMETHODIMP OggMuxInputPin::EndOfStream(void) {
 	mPaginator.finishStream();
-	HRESULT locHR = mParentFilter->NotifyEvent(EC_COMPLETE, S_OK, NULL);
+	mMuxStream->setIsEOS(true);
+	//HRESULT locHR = mParentFilter->NotifyEvent(EC_COMPLETE, S_OK, NULL);
 	return S_OK;
 	
 }

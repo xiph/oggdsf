@@ -32,6 +32,7 @@
 #include "oggmuxdllstuff.h"
 #include "OggMuxFilter.h"
 #include "OggPaginator.h"
+#include "OggMuxStream.h"
 #include <time.h>
 #include <fstream>
 using namespace std;
@@ -42,7 +43,7 @@ class OggMuxInputPin
 	:	public CBaseInputPin
 {
 public:
-	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR);
+	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
 	virtual ~OggMuxInputPin(void);
 
 
@@ -71,5 +72,6 @@ protected:
 	OggMuxFilter* mParentFilter;
 
 	OggPaginator mPaginator;
+	OggMuxStream* mMuxStream;
 	fstream debugLog;
 };

@@ -28,32 +28,14 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#pragma once
-#include "IOggCallback.h"
-#include "INotifyComplete.h"
-#include "OggMuxStream.h"
-#include <vector>
-using namespace std;
-class LIBOOOGG_API OggPageInterleaver
-	:	public INotifyArrival
+#include "StdAfx.h"
+#include "inotifyarrival.h"
+
+INotifyArrival::INotifyArrival(void)
 {
-public:
+}
 
-	OggPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier);
-	virtual ~OggPageInterleaver(void);
+INotifyArrival::~INotifyArrival(void)
+{
+}
 
-	virtual OggMuxStream* newStream();
-	virtual bool isProcessable();
-	virtual bool isAllEOS();
-	virtual bool isAllEmpty();
-	virtual void processData();
-
-	virtual void writeLowest();
-
-	virtual void notifyArrival();
-
-protected:
-	vector<OggMuxStream*> mInputStreams;
-	IOggCallback* mFileWriter;
-	INotifyComplete* mNotifier;
-};

@@ -29,31 +29,12 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-#include "IOggCallback.h"
-#include "INotifyComplete.h"
-#include "OggMuxStream.h"
-#include <vector>
-using namespace std;
-class LIBOOOGG_API OggPageInterleaver
-	:	public INotifyArrival
+
+class LIBOOOGG_API INotifyArrival
 {
 public:
+	INotifyArrival(void);
+	virtual ~INotifyArrival(void);
 
-	OggPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier);
-	virtual ~OggPageInterleaver(void);
-
-	virtual OggMuxStream* newStream();
-	virtual bool isProcessable();
-	virtual bool isAllEOS();
-	virtual bool isAllEmpty();
-	virtual void processData();
-
-	virtual void writeLowest();
-
-	virtual void notifyArrival();
-
-protected:
-	vector<OggMuxStream*> mInputStreams;
-	IOggCallback* mFileWriter;
-	INotifyComplete* mNotifier;
+	virtual void notifyArrival() = 0;
 };
