@@ -45,6 +45,8 @@ FishSkeleton::~FishSkeleton(void)
 OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 												,	unsigned short inVersionMajor
 												,	unsigned short inVersionMinor
+												,	unsigned __int64 inPresentTimeNum
+												,	unsigned __int64 inPresentTimeDenom
 												,	unsigned __int64 inTimebaseNum
 												,	unsigned __int64 inTimebaseDenom
 												,	const unsigned char* inUTC
@@ -56,15 +58,17 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 	OggPage* retPage = NULL;
 	unsigned char* locSegTable = NULL;
 	switch (inVersionMajor) {
-		case 2:
+		case 3:
 			locBuff = new unsigned char[FishSkeleton::FISHEAD_3_0_PACKET_SIZE];
 
 			//	0	-	7		fishead\0
 			//  8	-   9		Version Major
 			// 10	-  11		Version Minor
-			// 12	-  19		Timebase Num
-			// 20	-  27		Timebase Denom
-			// 28	=  48		UTC
+			// 12	-  19		Presentation Num
+			// 20	-  27		Presentation Denom
+			// 28	-  35		Basetime Num
+			// 36	-  43	
+			// 44	-  63		UTC
 			locBuff[0] = 'f';
 			locBuff[1] = 'i';
 			locBuff[2] = 's';
@@ -75,10 +79,12 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 			locBuff[7] = 0;
 			iLE_Math::UShortToCharArr(inVersionMajor, locBuff + 8);
 			iLE_Math::UShortToCharArr(inVersionMinor, locBuff + 10);
-			iLE_Math::Int64ToCharArr(inTimebaseNum, locBuff + 12);
-			iLE_Math::Int64ToCharArr(inTimebaseDenom, locBuff + 20);
+			iLE_Math::Int64ToCharArr(inPresentTimeNum, locBuff + 12);
+			iLE_Math::Int64ToCharArr(inPresentTimeDenom, locBuff + 20);
+			iLE_Math::Int64ToCharArr(inTimebaseNum, locBuff + 28);
+			iLE_Math::Int64ToCharArr(inTimebaseDenom, locBuff + 36);
 			for (int i = 0; i < 20; i++) {
-				locBuff[28 + i] = inUTC[i];
+				locBuff[44 + i] = inUTC[i];
 			}
 			
 			locPack = new StampedOggPacket(locBuff, FishSkeleton::FISHEAD_3_0_PACKET_SIZE, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY);
@@ -107,10 +113,25 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 
 StampedOggPacket* FishSkeleton::makeFishBone_3_0	(		unsigned __int64 inGranuleRateNum
 														,	unsigned __int64 inGranuleDenom
+														,	unsigned __int64 inBaseGranule
 														,	unsigned long inNumSecHeaders
+														,	unsigned long inSerialNo
 														,	unsigned short inGranuleShift
+														,	unsigned char inPreroll
 														,	vector<string> inMessageHeaders
 													) 
 {
+
+	//	0	-	7		:	fisbone/0
+	//	8	-	11		:	Bytes to message headers
+	//	12	-	15		:	Serial NO
+	//	16	-	19		:	Num Headers
+	//	20	-	27		:	Granule Numerator
+	//	28	-	35		:	Granule Denominator
+	//	36	-	43		:	Base granule
+	//	44	-	47		:	Preroll
+	//	48	-	48		:	Granule shift
+	//	49	-	51		:	*** PADDING ***
+	//	52	-			:	Message Headers
 	return NULL;
 }

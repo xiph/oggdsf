@@ -53,6 +53,9 @@ protected:
 	void addAnnodexEOS();
 	bool gotAllHeaders();
 
+	//ANX3:::
+	bool gotAllSecondaryHeaders();
+
 	bool mIsAnxSetup;
 	
 	unsigned long mVersionMajor;

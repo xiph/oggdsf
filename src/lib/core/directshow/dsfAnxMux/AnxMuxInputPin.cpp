@@ -37,6 +37,7 @@
 AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream, unsigned long inAnxVersionMajor, unsigned long inAnxVersionMinor)
 	:	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
 	,	mAnxDataPacket(NULL)
+	,	mFishBonePacket(NULL)
 	,	mAnxVersionMajor(inAnxVersionMajor)
 	,	mAnxVersionMinor(inAnxVersionMinor)
 {
@@ -168,9 +169,10 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 	}
 	if (locWasOK) {
 		//ANX3::: Need to make our fishbone here.
-		//Save the packet, we'll push it into the stream when the connection is established
+		
 		
 		if ((mAnxVersionMajor == 2) && (mAnxVersionMinor == 0)) {
+			//Save the packet, we'll push it into the stream when the connection is established
 			mAnxDataPacket = AnxPacketMaker::makeAnxData_2_0(2, 0, locGranRateNum, locGranRateDenom, locNumHeaders, AnxPacketMaker::makeMessageHeaders(locCodecID));
 		}
         return S_OK;

@@ -57,6 +57,7 @@ protected:
 	fstream debugLog;
 
 	StampedOggPacket* mAnxDataPacket;
+	StampedOggPacket* mFishBonePacket;
 
 	unsigned long mAnxVersionMajor;
 	unsigned long mAnxVersionMinor;

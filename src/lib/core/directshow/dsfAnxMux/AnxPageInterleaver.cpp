@@ -119,8 +119,27 @@ bool AnxPageInterleaver::gotAllHeaders() {
 	}
 
 	return locWasAny && locIsOK;
+}
 
-	
+bool AnxPageInterleaver::gotAllSecondaryHeaders() {
+	//TODO::: The isActive needs to be clarified so we don't start empty streams because wasany goes to true
+
+	bool locWasAny = false;
+	bool locIsOK = true;
+	for (size_t i = 0; i < mInputStreams.size(); i++) {
+		if (mInputStreams[i]->isActive()) {
+			
+			//if ((mInputStreams[i]->peekFront() != NULL) || (!mInputStreams[i]->isActive())) {
+			if (mInputStreams[i]->numAvail() >= mInputStreams[i]->numHeaders()) {
+				locWasAny = true;
+				locIsOK = locIsOK && true;
+			} else {
+				locIsOK = false;
+			}
+		}
+	}
+
+	return locWasAny && locIsOK;
 }
 void AnxPageInterleaver::processData()
 {

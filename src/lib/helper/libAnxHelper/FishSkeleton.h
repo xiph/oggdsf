@@ -40,19 +40,25 @@ public:
 	FishSkeleton(void);
 	~FishSkeleton(void);
 
-	static const int FISHEAD_3_0_PACKET_SIZE = 48;
-	static OggPage* makeFishHeadBOS_3_0	(			unsigned long inSerialNo
+	static const int FISHEAD_3_0_PACKET_SIZE = 64;
+	static OggPage* makeFishHeadBOS_3_0		(		unsigned long inSerialNo
 												,	unsigned short inVersionMajor
 												,	unsigned short inVersionMinor
+												,	unsigned __int64 inPresentTimeNum
+												,	unsigned __int64 inPresentTimeDenom
 												,	unsigned __int64 inTimebaseNum
 												,	unsigned __int64 inTimebaseDenom
 												,	const unsigned char* inUTC
+														
 											);
 
-	static StampedOggPacket* makeFishBone_3_0	(	unsigned __int64 inGranuleRateNum
-												,	unsigned __int64 inGranuleDenom
-												,	unsigned long inNumSecHeaders
-												,	unsigned short inGranuleShift
-												,	vector<string> inMessageHeaders
-											);
+	static StampedOggPacket* makeFishBone_3_0		(		unsigned __int64 inGranuleRateNum
+														,	unsigned __int64 inGranuleDenom
+														,	unsigned __int64 inBaseGranule
+														,	unsigned long inNumSecHeaders
+														,	unsigned long inSerialNo
+														,	unsigned short inGranuleShift
+														,	unsigned char inPreroll
+														,	vector<string> inMessageHeaders
+													);
 };
