@@ -57,7 +57,7 @@ public:
 
 	//Overrides
 	virtual HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType);
-
+	virtual BOOL ShouldSkipFrame(IMediaSample* inSample);
 	//Helpers
 	sTheoraFormatBlock* getTheoraFormatBlock();
 	void setTheoraFormat(sTheoraFormatBlock* inFormatBlock);
