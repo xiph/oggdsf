@@ -1,6 +1,8 @@
 ==============================================================
 *** dsfOggDemux
-*** dsfOggMux			
+*** dsfOggMux	
+*** dsfAnxDemux	
+*** dsfCMMLDecoder	
 *** dsfVorbisDecoder
 *** dsfVorbisEncoder
 *** dsfSpeexDecoder
@@ -10,6 +12,7 @@
 *** dsfAbstractOggAudioDecoder
 *** dsfAbstractAudioEncoder
 *** dsfAbstractVideoDecoder
+*** dsfAbstractVideoEncoder
 *** dsfSeeking
 *** dsfSubtitleVMR9
 *** libOOTheora

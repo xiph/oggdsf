@@ -102,6 +102,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *** libCMMLTags
 *** libWinCMMLParse
 *** dsfAnxDemuxSourceFilter
+*** dsfCMMLDecoder
+*** dsfAnxDemux
 
 Copyright (C) 2003, 2004 Zentaro Kavanagh
 
@@ -144,15 +146,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *** dsfVorbisEncoder
 *** dsfFLACDecoder
 *** dsfTheoraDecoder
+*** dsfTheoraEncoder
 *** dsfAbstractOggAudioDecoder
 *** dsfAbstractAudioEncoder
 *** dsfAbstractVideoDecoder
+*** dsfAbstractVideoEncoder
 *** dsfSubtitleVMR9
 *** libOOTheora
 *** libOOOgg
 *** libOOOggSeek
 *** OOOggDump
 *** OOOggStat
+*** OOOggCommentDump
+*** CLOgg
 
 
 Copyright (C) 2003, 2004 Zentaro Kavanagh
