@@ -108,6 +108,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "frmAddComment.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "frmAddComment.resx"
+                    DependentUpon = "frmAddComment.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "frmMain.cs"
                     SubType = "Form"
                     BuildAction = "Compile"

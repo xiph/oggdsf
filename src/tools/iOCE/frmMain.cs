@@ -31,8 +31,8 @@ namespace iOCE
 		private System.Windows.Forms.Button cmdAdd;
 		private System.Windows.Forms.Button cmdRemove;
 		private System.Windows.Forms.Button cmdEdit;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button cmdApply;
+		private System.Windows.Forms.Button cmdRevert;
 
 
 		private illiminable.Ogg.libVorbisCommentDotNET.DNFileComments mFileComments;
@@ -106,8 +106,8 @@ namespace iOCE
 			this.cmdAdd = new System.Windows.Forms.Button();
 			this.cmdRemove = new System.Windows.Forms.Button();
 			this.cmdEdit = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
+			this.cmdApply = new System.Windows.Forms.Button();
+			this.cmdRevert = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -172,6 +172,7 @@ namespace iOCE
 			this.lsvUserComments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 																							  this.colKey,
 																							  this.colValue});
+			this.lsvUserComments.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.lsvUserComments.FullRowSelect = true;
 			this.lsvUserComments.GridLines = true;
 			this.lsvUserComments.Location = new System.Drawing.Point(16, 48);
@@ -193,6 +194,7 @@ namespace iOCE
 			// 
 			// txtVendorString
 			// 
+			this.txtVendorString.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.txtVendorString.Location = new System.Drawing.Point(104, 20);
 			this.txtVendorString.Name = "txtVendorString";
 			this.txtVendorString.Size = new System.Drawing.Size(512, 20);
@@ -207,6 +209,7 @@ namespace iOCE
 			this.cmdAdd.Size = new System.Drawing.Size(80, 24);
 			this.cmdAdd.TabIndex = 3;
 			this.cmdAdd.Text = "&Add...";
+			this.cmdAdd.Click += new System.EventHandler(this.cmdAdd_Click);
 			// 
 			// cmdRemove
 			// 
@@ -216,7 +219,6 @@ namespace iOCE
 			this.cmdRemove.Size = new System.Drawing.Size(80, 24);
 			this.cmdRemove.TabIndex = 4;
 			this.cmdRemove.Text = "&Remove";
-			this.cmdRemove.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// cmdEdit
 			// 
@@ -227,28 +229,28 @@ namespace iOCE
 			this.cmdEdit.TabIndex = 5;
 			this.cmdEdit.Text = "&Edit...";
 			// 
-			// button1
+			// cmdApply
 			// 
-			this.button1.Location = new System.Drawing.Point(456, 280);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(80, 24);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "A&pply";
+			this.cmdApply.Location = new System.Drawing.Point(456, 280);
+			this.cmdApply.Name = "cmdApply";
+			this.cmdApply.Size = new System.Drawing.Size(80, 24);
+			this.cmdApply.TabIndex = 2;
+			this.cmdApply.Text = "A&pply";
 			// 
-			// button2
+			// cmdRevert
 			// 
-			this.button2.Location = new System.Drawing.Point(552, 280);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(80, 24);
-			this.button2.TabIndex = 3;
-			this.button2.Text = "Re&vert";
+			this.cmdRevert.Location = new System.Drawing.Point(552, 280);
+			this.cmdRevert.Name = "cmdRevert";
+			this.cmdRevert.Size = new System.Drawing.Size(80, 24);
+			this.cmdRevert.TabIndex = 3;
+			this.cmdRevert.Text = "Re&vert";
 			// 
 			// frmMain
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(664, 313);
-			this.Controls.Add(this.button2);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.cmdRevert);
+			this.Controls.Add(this.cmdApply);
 			this.Controls.Add(this.groupBox1);
 			this.Menu = this.mnuMain;
 			this.Name = "frmMain";
@@ -283,9 +285,24 @@ namespace iOCE
 			fillFields();
 		}
 
-		private void button1_Click(object sender, System.EventArgs e)
-		{
 		
+
+		private void cmdAdd_Click(object sender, System.EventArgs e)
+		{
+			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
+			ListViewItem locItem = null;
+
+			frmAddComment locAddForm = new frmAddComment();
+			locAddForm.ShowDialog();
+			if (locAddForm.wasOK == true) 
+			{
+				String[] locSubItems = new String[2];
+				locSubItems[0] = locAddForm.Key;
+				locSubItems[1] = locAddForm.Value;
+				locItem = new ListViewItem(locSubItems);
+				lsvUserComments.Items.Add(locItem);
+			}
+			
 		}
 	}
 }
