@@ -45,6 +45,7 @@ class SpeexEncodeFilter
 public:
 
 	friend class SpeexEncodeOutputPin;
+	friend class SpeexEncodeInputPin;
 	SpeexEncodeFilter(void);
 	virtual ~SpeexEncodeFilter(void);
 
