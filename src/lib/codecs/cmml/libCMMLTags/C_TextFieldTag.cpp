@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_textfieldtag.h"
+#include <libCMMLTags/C_TextFieldTag.h>
 
 C_TextFieldTag::C_TextFieldTag(void)
 {

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include ".\c_cmmltime.h"
+#include <libCMMLTags/C_CMMLTime.h>
 
 C_CMMLTime::C_CMMLTime(void)
 {

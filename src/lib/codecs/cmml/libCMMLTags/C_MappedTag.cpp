@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_mappedtag.h"
+#include <libCMMLTags/C_MappedTag.h>
 
 C_MappedTag::C_MappedTag(void)
 {

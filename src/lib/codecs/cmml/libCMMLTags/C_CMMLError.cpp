@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_cmmlerror.h"
+#include <libCMMLTags/C_CMMLError.h>
 
 C_CMMLError::C_CMMLError(unsigned long inLine, unsigned long inCol, unsigned long inErrorCode)
 {

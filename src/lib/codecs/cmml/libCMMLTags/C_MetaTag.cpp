@@ -32,11 +32,11 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_metatag.h"
+#include <libCMMLTags/C_MetaTag.h>
 
 C_MetaTag::C_MetaTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::META;
+	mTagType = C_CMMLTag::META;
 }
 
 C_MetaTag::~C_MetaTag(void)

@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_importtaglist.h"
+#include <libCMMLTags/C_ImportTagList.h>
 
 C_ImportTagList::C_ImportTagList(void)
 {

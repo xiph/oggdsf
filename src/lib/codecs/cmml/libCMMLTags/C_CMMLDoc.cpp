@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_cmmldoc.h"
+#include <libCMMLTags/C_CMMLDoc.h>
 
 C_CMMLDoc::C_CMMLDoc(void)
 {

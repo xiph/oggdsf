@@ -34,13 +34,13 @@
 
 
 #include "stdafx.h"
-#include ".\c_anchortag.h"
+#include "C_AnchorTag.h"
 
 //Constructors
 C_AnchorTag::C_AnchorTag(void)
 {
 	//Set the tag type
-	mTagType = C_CMMLTag::eTagType::ANCHOR;
+	mTagType = C_CMMLTag::ANCHOR;
 	mCls = L"";
 	mHref = L"";
 }

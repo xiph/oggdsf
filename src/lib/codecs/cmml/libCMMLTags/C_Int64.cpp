@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_int64.h"
+#include <libCMMLTags/C_Int64.h>
 
 C_Int64::C_Int64(void)
 {

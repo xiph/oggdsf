@@ -33,12 +33,15 @@
 */
 
 #pragma once
+
 //STL Include Files
 #include <string>
-using namespace std;
 
 //Local Include Files
+#include <libCMMLTags/config.h>
 #include <libCMMLTags/C_CMMLTag.h>
+
+using namespace std;
 
 class LIBCMMLTAGS_API C_BaseTag
 	//Derived Classes

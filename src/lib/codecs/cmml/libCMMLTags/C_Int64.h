@@ -34,6 +34,8 @@
 
 #pragma once
 
+#include <libCMMLTags/config.h>
+
 class LIBCMMLTAGS_API C_Int64
 {
 public:

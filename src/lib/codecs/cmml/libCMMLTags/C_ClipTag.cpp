@@ -32,12 +32,12 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_cliptag.h"
+#include <libCMMLTags/C_ClipTag.h>
 
 //TO DO ::: track element
 C_ClipTag::C_ClipTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::CLIP;
+	mTagType = C_CMMLTag::CLIP;
 
 	mMetaList = new C_MetaTagList;
 	mAnchor = NULL;

@@ -32,11 +32,11 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_desctag.h"
+#include <libCMMLTags/C_DescTag.h>
 
 C_DescTag::C_DescTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::DESC;
+	mTagType = C_CMMLTag::DESC;
 }
 
 C_DescTag::~C_DescTag(void)

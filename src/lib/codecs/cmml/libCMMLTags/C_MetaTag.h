@@ -35,13 +35,14 @@
 
 //STL Include Files
 #include <string>
-using namespace std;
 
 //Local Include Files
+#include <libCMMLTags/config.h>
 #include <libCMMLTags/C_MappedTag.h>
 
+using namespace std;
+
 class LIBCMMLTAGS_API C_MetaTag
-	//Derived Classes
 	: public C_MappedTag
 {
 public:

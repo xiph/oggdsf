@@ -37,6 +37,8 @@
 #include <string>
 using namespace std;
 
+#include <libCMMLTags/config.h>
+
 class LIBCMMLTAGS_API C_CMMLPreamble
 {
 public:

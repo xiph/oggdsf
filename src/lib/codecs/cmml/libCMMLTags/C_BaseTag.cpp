@@ -33,11 +33,11 @@
 */
 
 #include "stdafx.h"
-#include ".\c_basetag.h"
+#include "libCMMLTags/C_BaseTag.h"
 
 C_BaseTag::C_BaseTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::BASE;
+	mTagType = C_CMMLTag::BASE;
 	mHref = L"";
 }
 

@@ -32,20 +32,21 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-// The following ifdef block is the standard way of creating macros which make exporting 
-// from a DLL simpler. All files within this DLL are compiled with the LIBCMMLTAGS_EXPORTS
-// symbol defined on the command line. this symbol should not be defined on any project
-// that uses this DLL. This way any other project whose source files include this file see 
-// LIBCMMLTAGS_API functions as being imported from a DLL, whereas this DLL sees symbols
-// defined with this macro as being exported.
-#ifdef LIBCMMLTAGS_EXPORTS
-#define LIBCMMLTAGS_API __declspec(dllexport)
+#pragma once
+
+
+#ifdef WIN32
+# ifdef LIBCMMLTAGS_EXPORTS
+#  define LIBCMMLTAGS_API __declspec(dllexport)
+# else
+#  define LIBCMMLTAGS_API __declspec(dllimport)
+# endif
 #else
-#define LIBCMMLTAGS_API __declspec(dllimport)
+# define LIBCMMLTAGS_API
 #endif
 
 
-#include "config.h"
+#include <libCMMLTags/config.h>
 
 // These classes are exported from the cpp_lib_cmml.dll
 #include <libCMMLTags/C_AnchorTag.h>

@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_paramtaglist.h"
+#include <libCMMLTags/C_ParamTagList.h>
 
 C_ParamTagList::C_ParamTagList(void)
 {

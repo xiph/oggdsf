@@ -32,11 +32,11 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_imagetag.h"
+#include <libCMMLTags/C_ImageTag.h>
 
 C_ImageTag::C_ImageTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::IMAGE;
+	mTagType = C_CMMLTag::IMAGE;
 }
 
 C_ImageTag::~C_ImageTag(void)

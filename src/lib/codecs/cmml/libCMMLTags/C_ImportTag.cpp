@@ -32,11 +32,11 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_importtag.h"
+#include <libCMMLTags/C_ImportTag.h>
 
 C_ImportTag::C_ImportTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::IMPORT;
+	mTagType = C_CMMLTag::IMPORT;
 	mStart = L"0";
 	mParamList = new C_ParamTagList;
 }

@@ -32,11 +32,11 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_streamtag.h"
+#include <libCMMLTags/C_StreamTag.h>
 
 C_StreamTag::C_StreamTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::STREAM;
+	mTagType = C_CMMLTag::STREAM;
 	mImportList = new C_ImportTagList;
 	mTimebase = L"0";
 }

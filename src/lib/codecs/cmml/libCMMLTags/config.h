@@ -39,8 +39,16 @@
 // LIBCMMLTAGS_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 
-#ifdef LIBCMMLTAGS_EXPORTS
-#define LIBCMMLTAGS_API __declspec(dllexport)
+#pragma once
+
+
+#ifdef WIN32
+# ifdef LIBCMMLTAGS_EXPORTS
+#  define LIBCMMLTAGS_API __declspec(dllexport)
+# else
+#  define LIBCMMLTAGS_API __declspec(dllimport)
+# endif
 #else
-#define LIBCMMLTAGS_API __declspec(dllimport)
+# define LIBCMMLTAGS_API
 #endif
+

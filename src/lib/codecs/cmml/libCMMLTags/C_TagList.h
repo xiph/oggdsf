@@ -39,6 +39,7 @@
 using namespace std;
 
 //Local Include Files
+#include <libCMMLTags/config.h>
 #include <libCMMLTags/C_CMMLTag.h>
 
 

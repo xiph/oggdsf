@@ -35,6 +35,9 @@
 
 //STL Include Files
 #include <string>
+
+#include <libCMMLTags/config.h>
+
 using namespace std;
 
 //DESCRIPTION:

@@ -32,11 +32,11 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_headtag.h"
+#include <libCMMLTags/C_HeadTag.h>
 
 C_HeadTag::C_HeadTag(void)
 {
-	mTagType = C_CMMLTag::eTagType::HEAD;
+	mTagType = C_CMMLTag::HEAD;
 	mMetaList  = new C_MetaTagList;
 	mTitle = new C_TitleTag;
 	mBase = NULL;

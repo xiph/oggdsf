@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_cmmlpreamble.h"
+#include <libCMMLTags/C_CMMLPreamble.h>
 
 C_CMMLPreamble::C_CMMLPreamble(void)
 {

@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_humreadcmmltag.h"
+#include <libCMMLTags/C_HumReadCMMLTag.h>
 
 C_HumReadCMMLTag::C_HumReadCMMLTag(void)
 {

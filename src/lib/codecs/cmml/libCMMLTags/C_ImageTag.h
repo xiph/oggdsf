@@ -38,7 +38,8 @@
 using namespace std;
 
 //Local Include Files
-#include "c_humreadcmmltag.h"
+#include <libCMMLTags/config.h>
+#include <libCMMLTags/C_HumReadCMMLTag.h>
 
 class LIBCMMLTAGS_API C_ImageTag :
 	//Derived Classes
