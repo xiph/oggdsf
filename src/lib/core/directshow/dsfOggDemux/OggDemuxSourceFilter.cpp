@@ -115,7 +115,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
-	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out | ios_base::ate | ios_base::app);
+	debugLog.open("d:\\zen\\logs\\sourcelog.log", ios_base::out);
 	//debugLog<<"Test..."<<endl;
 	//debugLog.seekp(0, ios_base::end);
 	//debugLog<<"Test2..."<<endl;
@@ -137,7 +137,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 
-	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
+	debugLog.open("d:\\zen\\logs\\anx_base_sourcelog.log", ios_base::out);
 	//When it is derived, it's up to the superclass to set this.
 	//mStreamMapper = new OggStreamMapper(this);
 
@@ -158,7 +158,7 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 	mDataSource->close();
 	delete mDataSource;
 
-	//debugLog.close();
+	debugLog.close();
 	
 	//Selete the stream mapper
 	delete mStreamMapper;
@@ -247,7 +247,6 @@ STDMETHODIMP OggDemuxSourceFilter::GetDuration(LONGLONG* outDuration)
 	}
 
 }
-
 	 
 STDMETHODIMP OggDemuxSourceFilter::CheckCapabilities(DWORD *pCapabilities)
 {
@@ -447,12 +446,17 @@ DWORD OggDemuxSourceFilter::ThreadProc(void) {
 
 void OggDemuxSourceFilter::resetStream() {
 	{
+		debugLog<<"Reset stream pre-lock"<<endl;
 		CAutoLock locDemuxLock(mDemuxLock);
 		CAutoLock locSourceLock(mSourceFileLock);
+		debugLog<<"RestStream post-lock"<<endl;
 
 		//Close up the data source
 		mDataSource->clear();
+
+		debugLog<<"Pre close"<<endl;
 		mDataSource->close();
+		debugLog<<"Post close"<<endl;
 
 		//After closing kill the interface
 		delete mDataSource;
@@ -466,7 +470,9 @@ void OggDemuxSourceFilter::resetStream() {
 		//Before opening make the interface
 		mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
 
+		debugLog<<"Pre open"<<endl;
 		mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
+		debugLog<<"Post open"<<endl;
 		mDataSource->seek(mStreamMapper->startOfData());   //Should always be zero for now.
 
 		//TODO::: Should be doing stuff with the demux state here ? or packetiser ?>?
@@ -483,7 +489,7 @@ void OggDemuxSourceFilter::DeliverBeginFlush()
 {
 	CAutoLock locLock(m_pLock);
 	
-	//debugLog << "Delivering Begin Flush"<<endl;
+	debugLog << "Delivering Begin Flush"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverBeginFlush();
 		//mStreamMapper->getOggStream(i)->flush();
@@ -491,13 +497,14 @@ void OggDemuxSourceFilter::DeliverBeginFlush()
 
 	//Should this be here or endflush or neither ?
 	//mOggBuffer.debugWrite("%%%%%% Reset calling from DeliverBegingFlush");
+	debugLog<<"Calling reset stream from begin flush"<<endl;
 	resetStream();
 }
 
 void OggDemuxSourceFilter::DeliverEndFlush() 
 {
 	CAutoLock locLock(m_pLock);
-	//debugLog << "Delivering End Flush"<<endl;
+	debugLog << "Delivering End Flush"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->flush();
 		mStreamMapper->getOggStream(i)->getPin()->DeliverEndFlush();
@@ -512,12 +519,13 @@ void OggDemuxSourceFilter::DeliverEOS()
 		
 	}
 	//mOggBuffer.debugWrite("%%%%%% Reset calling from DeliverEOS");
+	debugLog<<"Calling reset stream from DeliverEOS"<<endl;
 	resetStream();
 }
 
 void OggDemuxSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate) 
 {
-	//debugLog<<"DeliverNewSegment : Delivering start = "<<tStart<<" end = "<< tStop<<"rate = "<<dRate<<endl;
+	debugLog<<"DeliverNewSegment : Delivering start = "<<tStart<<" end = "<< tStop<<"rate = "<<dRate<<endl;
 	
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverNewSegment(tStart, tStop, dRate);
@@ -636,7 +644,7 @@ STDMETHODIMP OggDemuxSourceFilter::Run(REFERENCE_TIME tStart)
 {
 	const REFERENCE_TIME A_LONG_TIME = UNITS * 1000;
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"Run  :  time = "<<tStart<<endl;
+	debugLog<<"Run  :  time = "<<tStart<<endl;
 	//DeliverNewSegment(tStart, tStart + A_LONG_TIME, 1.0);
 	return CBaseFilter::Run(tStart);
 	
@@ -645,7 +653,7 @@ STDMETHODIMP OggDemuxSourceFilter::Run(REFERENCE_TIME tStart)
 STDMETHODIMP OggDemuxSourceFilter::Pause(void) 
 {
 	CAutoLock locLock(m_pLock);
-	//debugLog << "** Pause called **"<<endl;
+	debugLog << "** Pause called **"<<endl;
 	if (m_State == State_Stopped) {
 		//debugLog << "Was in stopped state... starting thread"<<endl;
 		if (ThreadExists() == FALSE) {
@@ -663,7 +671,7 @@ STDMETHODIMP OggDemuxSourceFilter::Pause(void)
 STDMETHODIMP OggDemuxSourceFilter::Stop(void) 
 {
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"** Stop Called ** "<<endl;
+	debugLog<<"** Stop Called ** "<<endl;
 	CallWorker(THREAD_EXIT);
 	Close();
 	DeliverBeginFlush();

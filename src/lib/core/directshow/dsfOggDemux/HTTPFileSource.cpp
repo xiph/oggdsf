@@ -263,7 +263,7 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 	//Close the socket down
 	//Open up a new one to the same place.
 	//Make the partial content request.
-	//debugLog<<"Seeking to "<<inPos<<endl;
+	debugLog<<"Seeking to "<<inPos<<endl;
 	if (mFileCache.readSeek(inPos)) {
 		return inPos;
 	} else {
@@ -275,7 +275,7 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 
 void HTTPFileSource::close() {
 	//Killing thread
-	//debugLog<<"HTTPFileSource::close()"<<endl;
+	debugLog<<"HTTPFileSource::close()"<<endl;
 	if (ThreadExists() == TRUE) {
 		//debugLog<<"Calling Thread to EXIT"<<endl;
 		CallWorker(THREAD_EXIT);
@@ -301,7 +301,7 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	//
 	mSeenResponse = false;
 	mLastResponse = "";
-	//debugLog<<"Open: "<<inSourceLocation<<endl;
+	debugLog<<"Open: "<<inSourceLocation<<endl;
 
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
@@ -355,7 +355,7 @@ bool HTTPFileSource::isEOF() {
 	
 		//debugLog<<"isEOF : Amount Buffered avail = "<<locSizeBuffed<<endl;
 		if ((locSizeBuffed == 0) && mIsEOF) {
-			//debugLog<<"isEOF : It is EOF"<<endl;
+			debugLog<<"isEOF : It is EOF"<<endl;
 			return true;
 		} else {
 			//debugLog<<"isEOF : It's not EOF"<<endl;

@@ -53,7 +53,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 {
 	//TODO::: Something about this is causing a COM reference leak.
 
-	//debugLog.open("G:\\logs\\sourcefilterpin.log", ios_base::out);
+	debugLog.open("d:\\zen\\logs\\sourcefilterpin.log", ios_base::out);
 	IMediaSeeking* locSeeker = NULL;
 	//if (inAllowSeek) {
 		//debugLog<<"Allowing seek"<<endl;
@@ -73,7 +73,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 
 OggDemuxSourcePin::~OggDemuxSourcePin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	
 	delete mDataQueue;
 	mDataQueue = NULL;
@@ -98,15 +98,15 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inPacket->startTime();
 	REFERENCE_TIME locStop = inPacket->endTime();
-	//debugLog<<"Start   : "<<locStart<<endl;
-	//debugLog<<"End     : "<<locStop<<endl;
-	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
+	debugLog<<"Delivering packet : "<<locStart<< " - "<<locStop<<endl;
+
+
 	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
 	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));
 	//Error checks
 	if (locHR != S_OK) {
 		//Stopping, fluching or error
-		//debugLog<<"Failure... No buffer"<<endl;
+		debugLog<<"Failure... No buffer"<<endl;
 		return false;
 	}
 
@@ -134,7 +134,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 		locHR = mDataQueue->Receive(locSample);
 
 		if (locHR != S_OK) {
-			//debugLog << "Failure... Queue rejected sample..."<<endl;
+			debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
 			return false;
 		} else {
@@ -147,6 +147,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 }
 HRESULT OggDemuxSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
+	debugLog<<"Delivering new segment"<<endl;
 	NewSegment(tStart, tStop, dRate);
 
 	mPartialPacket = NULL;
@@ -163,12 +164,14 @@ HRESULT OggDemuxSourcePin::DeliverEndOfStream(void)
 
 HRESULT OggDemuxSourcePin::DeliverEndFlush(void)
 {
+	debugLog<<"Delivering End flush"<<endl;
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
 HRESULT OggDemuxSourcePin::DeliverBeginFlush(void)
 {
+	debugLog<<"Delivering begin flush"<<endl;
 	mPartialPacket = NULL;
 	mDataQueue->BeginFlush();
     return S_OK;
