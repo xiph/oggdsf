@@ -120,20 +120,15 @@ LOOG_INT64 OggMuxStream::convertTime(LOOG_INT64 inGranulePos) {
 			retTime = (inGranulePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
 		} else {
 			//Timestamp hacks start here...
-			unsigned long locMod = (unsigned long)pow((double) 2, (double) mConvTheoraLogKeyFrameInterval);
-			
-			unsigned long locInterFrameNo = (unsigned long)((inGranulePos) % locMod);
-	
+			LOOG_INT64 locMod = (LOOG_INT64)pow((double) 2, (double) mConvTheoraLogKeyFrameInterval);
+			LOOG_INT64 locInterFrameNo = ((inGranulePos) % locMod);
+
 			LOOG_INT64 locAbsFramePos = (inGranulePos >> mConvTheoraLogKeyFrameInterval) + locInterFrameNo;
 	
 			retTime = (locAbsFramePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
-			
-			
 		}
 	} 
 	return retTime;
-		
-	
 }
 
 bool OggMuxStream::setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor) {
