@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="dsfTheoraEncoder"
 	ProjectGUID="{8C91066F-5C96-48BB-BD1F-D30FFD2A57A1}"
 	Keyword="Win32Proj">
@@ -56,7 +56,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -113,24 +119,23 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
 				RelativePath="PropsTheoraEncoder.cpp">
-			</File>
-			<File
-				RelativePath="TheoraEncodeFilter.cpp">
-			</File>
-			<File
-				RelativePath="TheoraEncodeInputPin.cpp">
-			</File>
-			<File
-				RelativePath="TheoraEncodeOutputPin.cpp">
 			</File>
 			<File
 				RelativePath="stdafx.cpp">
@@ -146,6 +151,15 @@
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="TheoraEncodeFilter.cpp">
+			</File>
+			<File
+				RelativePath="TheoraEncodeInputPin.cpp">
+			</File>
+			<File
+				RelativePath="TheoraEncodeOutputPin.cpp">
 			</File>
 			<File
 				RelativePath="theoraencoder.def">
@@ -164,6 +178,12 @@
 				RelativePath="PropsTheoraEncoder.h">
 			</File>
 			<File
+				RelativePath="resource.h">
+			</File>
+			<File
+				RelativePath="stdafx.h">
+			</File>
+			<File
 				RelativePath="TheoraEncodeFilter.h">
 			</File>
 			<File
@@ -171,12 +191,6 @@
 			</File>
 			<File
 				RelativePath="TheoraEncodeOutputPin.h">
-			</File>
-			<File
-				RelativePath="resource.h">
-			</File>
-			<File
-				RelativePath="stdafx.h">
 			</File>
 			<File
 				RelativePath="theoraencoderdllstuff.h">

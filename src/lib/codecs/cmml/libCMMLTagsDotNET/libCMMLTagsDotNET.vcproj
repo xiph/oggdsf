@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="libCMMLTagsDotNET"
 	ProjectGUID="{9B83D147-AFE7-46EF-A3FF-EBEC65F00BA6}"
 	Keyword="ManagedCProj">
@@ -49,7 +49,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -87,9 +93,17 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
@@ -104,6 +118,12 @@
 				RelativePath="BaseTag.cpp">
 			</File>
 			<File
+				RelativePath="ClipTag.cpp">
+			</File>
+			<File
+				RelativePath="ClipTagList.cpp">
+			</File>
+			<File
 				RelativePath="CMMLDoc.cpp">
 			</File>
 			<File
@@ -114,12 +134,6 @@
 			</File>
 			<File
 				RelativePath="CMMLTag.cpp">
-			</File>
-			<File
-				RelativePath="ClipTag.cpp">
-			</File>
-			<File
-				RelativePath="ClipTagList.cpp">
 			</File>
 			<File
 				RelativePath="DescTag.cpp">
@@ -138,6 +152,9 @@
 			</File>
 			<File
 				RelativePath="ImportTagList.cpp">
+			</File>
+			<File
+				RelativePath="libCMMLTagsDotNET.cpp">
 			</File>
 			<File
 				RelativePath="MappedTag.cpp">
@@ -172,9 +189,6 @@
 			<File
 				RelativePath="TitleTag.cpp">
 			</File>
-			<File
-				RelativePath="libCMMLTagsDotNET.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -184,6 +198,12 @@
 			</File>
 			<File
 				RelativePath="BaseTag.h">
+			</File>
+			<File
+				RelativePath="ClipTag.h">
+			</File>
+			<File
+				RelativePath="ClipTagList.h">
 			</File>
 			<File
 				RelativePath="CMMLDoc.h">
@@ -196,12 +216,6 @@
 			</File>
 			<File
 				RelativePath="CMMLTag.h">
-			</File>
-			<File
-				RelativePath="ClipTag.h">
-			</File>
-			<File
-				RelativePath="ClipTagList.h">
 			</File>
 			<File
 				RelativePath="DescTag.h">
@@ -222,6 +236,9 @@
 				RelativePath="ImportTagList.h">
 			</File>
 			<File
+				RelativePath="libCMMLTagsDotNET.h">
+			</File>
+			<File
 				RelativePath="MappedTag.h">
 			</File>
 			<File
@@ -240,6 +257,9 @@
 				RelativePath="ParamTagList.h">
 			</File>
 			<File
+				RelativePath="resource.h">
+			</File>
+			<File
 				RelativePath="Stdafx.h">
 			</File>
 			<File
@@ -253,12 +273,6 @@
 			</File>
 			<File
 				RelativePath="TitleTag.h">
-			</File>
-			<File
-				RelativePath="libCMMLTagsDotNET.h">
-			</File>
-			<File
-				RelativePath="resource.h">
 			</File>
 		</Filter>
 		<Filter

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="dsfAnxDemux"
 	ProjectGUID="{F9F22B14-22FE-4651-81B8-5AE267A6B189}"
 	Keyword="Win32Proj">
@@ -56,7 +56,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -112,9 +118,17 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
@@ -126,6 +140,9 @@
 				RelativePath="AnxDemuxSourceFilter.cpp">
 			</File>
 			<File
+				RelativePath="anxdllstuff.cpp">
+			</File>
+			<File
 				RelativePath="AnxStreamMapper.cpp">
 			</File>
 			<File
@@ -133,9 +150,6 @@
 			</File>
 			<File
 				RelativePath="CMMLStream.cpp">
-			</File>
-			<File
-				RelativePath="anxdllstuff.cpp">
 			</File>
 			<File
 				RelativePath="stdafx.cpp">
@@ -160,6 +174,9 @@
 				RelativePath="AnxDemuxSourceFilter.h">
 			</File>
 			<File
+				RelativePath="anxdllstuff.h">
+			</File>
+			<File
 				RelativePath="AnxStreamMapper.h">
 			</File>
 			<File
@@ -167,9 +184,6 @@
 			</File>
 			<File
 				RelativePath="CMMLStream.h">
-			</File>
-			<File
-				RelativePath="anxdllstuff.h">
 			</File>
 			<File
 				RelativePath="stdafx.h">

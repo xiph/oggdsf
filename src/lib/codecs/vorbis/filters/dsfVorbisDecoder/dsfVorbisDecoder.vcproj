@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="dsfVorbisDecoder"
 	ProjectGUID="{C2B7DBC0-5AB3-46F5-90E9-05EF1B230AE2}"
 	Keyword="Win32Proj">
@@ -56,7 +56,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -113,22 +119,21 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
-			<File
-				RelativePath="VorbisDecodeFilter.cpp">
-			</File>
-			<File
-				RelativePath="VorbisDecodeInputPin.cpp">
-			</File>
-			<File
-				RelativePath="VorbisDecodeOutputPin.cpp">
-			</File>
 			<File
 				RelativePath="stdafx.cpp">
 				<FileConfiguration
@@ -145,6 +150,15 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="VorbisDecodeFilter.cpp">
+			</File>
+			<File
+				RelativePath="VorbisDecodeInputPin.cpp">
+			</File>
+			<File
+				RelativePath="VorbisDecodeOutputPin.cpp">
+			</File>
+			<File
 				RelativePath="vorbisdecoder.def">
 			</File>
 			<File
@@ -155,6 +169,12 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
+				RelativePath="fish_cdecl.h">
+			</File>
+			<File
+				RelativePath="stdafx.h">
+			</File>
+			<File
 				RelativePath="VorbisDecodeFilter.h">
 			</File>
 			<File
@@ -162,12 +182,6 @@
 			</File>
 			<File
 				RelativePath="VorbisDecodeOutputPin.h">
-			</File>
-			<File
-				RelativePath="fish_cdecl.h">
-			</File>
-			<File
-				RelativePath="stdafx.h">
 			</File>
 			<File
 				RelativePath="vorbisdecoderdllstuff.h">

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="libiWrapper"
 	ProjectGUID="{FCFE729D-EADE-45BA-9506-7E82A46403F7}"
 	Keyword="ManagedCProj">
@@ -48,7 +48,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -87,15 +93,26 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
 				RelativePath="AssemblyInfo.cpp">
+			</File>
+			<File
+				RelativePath="libiWrapper.cpp">
 			</File>
 			<File
 				RelativePath="Stdafx.cpp">
@@ -115,21 +132,18 @@
 			<File
 				RelativePath="Wrappers.cpp">
 			</File>
-			<File
-				RelativePath="libiWrapper.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
+				RelativePath="libiWrapper.h">
+			</File>
+			<File
 				RelativePath="Stdafx.h">
 			</File>
 			<File
 				RelativePath="Wrappers.h">
-			</File>
-			<File
-				RelativePath="libiWrapper.h">
 			</File>
 		</Filter>
 		<Filter

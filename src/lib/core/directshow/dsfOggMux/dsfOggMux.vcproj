@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="dsfOggMux"
 	ProjectGUID="{2EBA839A-CE6E-406E-9A43-CC6FB25A78CB}"
 	Keyword="Win32Proj">
@@ -56,7 +56,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -113,27 +119,35 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
+				RelativePath="dsfOggMux.cpp">
+			</File>
+			<File
 				RelativePath="OggMux.def">
+			</File>
+			<File
+				RelativePath="oggmuxdllstuff.cpp">
 			</File>
 			<File
 				RelativePath="OggMuxFilter.cpp">
 			</File>
 			<File
 				RelativePath="OggMuxInputPin.cpp">
-			</File>
-			<File
-				RelativePath="dsfOggMux.cpp">
-			</File>
-			<File
-				RelativePath="oggmuxdllstuff.cpp">
 			</File>
 			<File
 				RelativePath="stdafx.cpp">
@@ -155,13 +169,13 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
+				RelativePath="oggmuxdllstuff.h">
+			</File>
+			<File
 				RelativePath="OggMuxFilter.h">
 			</File>
 			<File
 				RelativePath="OggMuxInputPin.h">
-			</File>
-			<File
-				RelativePath="oggmuxdllstuff.h">
 			</File>
 			<File
 				RelativePath="stdafx.h">

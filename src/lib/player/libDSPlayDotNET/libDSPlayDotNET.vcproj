@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="libDSPlayDotNET"
 	ProjectGUID="{E274665B-12E3-4C7F-A749-FAB0C0A73522}"
 	Keyword="ManagedCProj">
@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags"
+				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include"
 				AdditionalUsingDirectories="..\..\helper\libiWrapper\Debug;..\..\codecs\cmml\libCMMLTagsDotNET\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
@@ -52,7 +52,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -95,9 +101,17 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
@@ -107,6 +121,9 @@
 			</File>
 			<File
 				RelativePath="DSPlay.cpp">
+			</File>
+			<File
+				RelativePath="libDSPlayDotNET.cpp">
 			</File>
 			<File
 				RelativePath="Stdafx.cpp">
@@ -123,9 +140,6 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="libDSPlayDotNET.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -140,10 +154,10 @@
 				RelativePath="IDNMediaEvent.h">
 			</File>
 			<File
-				RelativePath="Stdafx.h">
+				RelativePath="libDSPlayDotNET.h">
 			</File>
 			<File
-				RelativePath="libDSPlayDotNET.h">
+				RelativePath="Stdafx.h">
 			</File>
 		</Filter>
 		<Filter

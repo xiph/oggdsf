@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="dsfOggDemux"
 	ProjectGUID="{AE32588D-2807-4796-9E68-C9104817BC1A}"
 	Keyword="Win32Proj">
@@ -61,7 +61,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -121,9 +127,17 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
@@ -135,10 +149,10 @@
 				RelativePath="FFDShowVideoStream.cpp">
 			</File>
 			<File
-				RelativePath="FLACStream.cpp">
+				RelativePath="FilterFileSource.cpp">
 			</File>
 			<File
-				RelativePath="FilterFileSource.cpp">
+				RelativePath="FLACStream.cpp">
 			</File>
 			<File
 				RelativePath="HTTPFileSource.cpp">
@@ -151,6 +165,9 @@
 			</File>
 			<File
 				RelativePath="OggDemuxSourcePin.cpp">
+			</File>
+			<File
+				RelativePath="oggdllstuff.cpp">
 			</File>
 			<File
 				RelativePath="OggStream.cpp">
@@ -171,18 +188,6 @@
 				RelativePath="SpeexStream.cpp">
 			</File>
 			<File
-				RelativePath="StreamHeaders.cpp">
-			</File>
-			<File
-				RelativePath="TheoraStream.cpp">
-			</File>
-			<File
-				RelativePath="VorbisStream.cpp">
-			</File>
-			<File
-				RelativePath="oggdllstuff.cpp">
-			</File>
-			<File
 				RelativePath="stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -197,6 +202,15 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="StreamHeaders.cpp">
+			</File>
+			<File
+				RelativePath="TheoraStream.cpp">
+			</File>
+			<File
+				RelativePath="VorbisStream.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -208,10 +222,10 @@
 				RelativePath="FFDShowVideoStream.h">
 			</File>
 			<File
-				RelativePath="FLACStream.h">
+				RelativePath="FilterFileSource.h">
 			</File>
 			<File
-				RelativePath="FilterFileSource.h">
+				RelativePath="FLACStream.h">
 			</File>
 			<File
 				RelativePath="HTTPFileSource.h">
@@ -224,6 +238,9 @@
 			</File>
 			<File
 				RelativePath="OggDemuxSourcePin.h">
+			</File>
+			<File
+				RelativePath="oggdllstuff.h">
 			</File>
 			<File
 				RelativePath="OggStream.h">
@@ -241,7 +258,13 @@
 				RelativePath="RegWrap.h">
 			</File>
 			<File
+				RelativePath="resource.h">
+			</File>
+			<File
 				RelativePath="SpeexStream.h">
+			</File>
+			<File
+				RelativePath="stdafx.h">
 			</File>
 			<File
 				RelativePath="StreamHeaders.h">
@@ -251,15 +274,6 @@
 			</File>
 			<File
 				RelativePath="VorbisStream.h">
-			</File>
-			<File
-				RelativePath="oggdllstuff.h">
-			</File>
-			<File
-				RelativePath="resource.h">
-			</File>
-			<File
-				RelativePath="stdafx.h">
 			</File>
 		</Filter>
 		<Filter

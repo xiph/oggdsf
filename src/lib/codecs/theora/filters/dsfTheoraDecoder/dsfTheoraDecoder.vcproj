@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="dsfTheoraDecoder"
 	ProjectGUID="{11CBDFD6-0D73-40C0-95DF-997C5FD873F2}"
 	Keyword="Win32Proj">
@@ -56,7 +56,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -113,22 +119,21 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
-			<File
-				RelativePath="TheoraDecodeFilter.cpp">
-			</File>
-			<File
-				RelativePath="TheoraDecodeInputPin.cpp">
-			</File>
-			<File
-				RelativePath="TheoraDecodeOutputPin.cpp">
-			</File>
 			<File
 				RelativePath="stdafx.cpp">
 				<FileConfiguration
@@ -148,12 +153,24 @@
 				RelativePath="theoradecodedllstuff.cpp">
 			</File>
 			<File
+				RelativePath="TheoraDecodeFilter.cpp">
+			</File>
+			<File
+				RelativePath="TheoraDecodeInputPin.cpp">
+			</File>
+			<File
+				RelativePath="TheoraDecodeOutputPin.cpp">
+			</File>
+			<File
 				RelativePath="theoradecoder.def">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath="stdafx.h">
+			</File>
 			<File
 				RelativePath="TheoraDecodeFilter.h">
 			</File>
@@ -162,9 +179,6 @@
 			</File>
 			<File
 				RelativePath="TheoraDecodeOutputPin.h">
-			</File>
-			<File
-				RelativePath="stdafx.h">
 			</File>
 			<File
 				RelativePath="theoradecoderdllstuff.h">

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="dsfCMMLDecoder"
 	ProjectGUID="{6B269BA6-6A18-41EF-A82C-03B6B5D4BCA7}"
 	Keyword="Win32Proj">
@@ -56,7 +56,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -113,9 +119,17 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
@@ -152,6 +166,9 @@
 				RelativePath="CMMLDecodeFilter.h">
 			</File>
 			<File
+				RelativePath="cmmldecoderdllstuff.h">
+			</File>
+			<File
 				RelativePath="CMMLDecoderIIDs.h">
 			</File>
 			<File
@@ -159,9 +176,6 @@
 			</File>
 			<File
 				RelativePath="ICMMLCallbacks.h">
-			</File>
-			<File
-				RelativePath="cmmldecoderdllstuff.h">
 			</File>
 			<File
 				RelativePath="stdafx.h">

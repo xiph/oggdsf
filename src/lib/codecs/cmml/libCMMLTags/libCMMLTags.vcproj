@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="libCMMLTags"
 	ProjectGUID="{AD38DCC6-B431-4B32-8569-74F3376EF2DA}"
 	Keyword="Win32Proj">
@@ -52,7 +52,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -105,9 +111,17 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
@@ -117,6 +131,12 @@
 			</File>
 			<File
 				RelativePath="C_BaseTag.cpp">
+			</File>
+			<File
+				RelativePath="C_ClipTag.cpp">
+			</File>
+			<File
+				RelativePath="C_ClipTagList.cpp">
 			</File>
 			<File
 				RelativePath="C_CMMLDoc.cpp">
@@ -135,12 +155,6 @@
 			</File>
 			<File
 				RelativePath="C_CMMLTime.cpp">
-			</File>
-			<File
-				RelativePath="C_ClipTag.cpp">
-			</File>
-			<File
-				RelativePath="C_ClipTagList.cpp">
 			</File>
 			<File
 				RelativePath="C_DescTag.cpp">
@@ -222,6 +236,12 @@
 				RelativePath="C_BaseTag.h">
 			</File>
 			<File
+				RelativePath="C_ClipTag.h">
+			</File>
+			<File
+				RelativePath="C_ClipTagList.h">
+			</File>
+			<File
 				RelativePath="C_CMMLDoc.h">
 			</File>
 			<File
@@ -238,12 +258,6 @@
 			</File>
 			<File
 				RelativePath="C_CMMLTime.h">
-			</File>
-			<File
-				RelativePath="C_ClipTag.h">
-			</File>
-			<File
-				RelativePath="C_ClipTagList.h">
 			</File>
 			<File
 				RelativePath="C_DescTag.h">
