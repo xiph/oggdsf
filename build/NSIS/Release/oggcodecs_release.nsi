@@ -746,6 +746,10 @@ Section Uninstall
   Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
 
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
+
+  ; Need to change the working directory to something else (anything) besides
+  ; the output directory, so we can rmdir it
+  SetOutPath "$TEMP"
   RMDir "$INSTDIR"
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
