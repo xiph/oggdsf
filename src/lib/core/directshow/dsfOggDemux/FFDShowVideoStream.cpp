@@ -42,12 +42,12 @@ FFDShowVideoStream::FFDShowVideoStream(OggPage* inBOSPage, OggDemuxSourceFilter*
 	,	mGranuleOffset(0)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
-	debugLog.open("g:\\downloads\\ffd_dump.out", ios_base::out|ios_base::binary);
+	//debugLog.open("g:\\downloads\\ffd_dump.out", ios_base::out|ios_base::binary);
 }
 
 FFDShowVideoStream::~FFDShowVideoStream(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	delete mFFDShowVideoFormatBlock;
 }
 
@@ -204,7 +204,7 @@ bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 	mLastTimeStamp = (locEnd >= mLastTimeStamp)		?	locEnd
 													:	mLastTimeStamp;
 
-	debugLog << "Packet :    Start   =   "<<locStart<<"     -   End   =   "<<locEnd<<endl;
+	//debugLog << "Packet :    Start   =   "<<locStart<<"     -   End   =   "<<locEnd<<endl;
 	StampedOggPacket* locPack = new StampedOggPacket(locBuff, inPacket->packetSize() - 1, true, locStart, locEnd, StampedOggPacket::DIRECTSHOW);
 	return OggStream::dispatchPacket(locPack);
 }

@@ -37,11 +37,11 @@ AbstractVideoDecodeOutputPin::AbstractVideoDecodeOutputPin(AbstractVideoDecodeFi
 		mParentFilter(inParentFilter)
 	,	mDataQueue(NULL)
 {
-	debugLog.open("g:\\logs\\absvidlog.log", ios_base::out|ios_base::binary);
+	//debugLog.open("g:\\logs\\absvidlog.log", ios_base::out|ios_base::binary);
 }
 AbstractVideoDecodeOutputPin::~AbstractVideoDecodeOutputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	delete mDataQueue;
 }
 
@@ -150,14 +150,14 @@ HRESULT AbstractVideoDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocato
 }
 HRESULT AbstractVideoDecodeOutputPin::CheckMediaType(const CMediaType *inMediaType) {
 	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_YV12) && (inMediaType->formattype == FORMAT_VideoInfo)) {
-		debugLog << "CheckMediaType : Accepting..."<<endl;
+		//debugLog << "CheckMediaType : Accepting..."<<endl;
 	
 		VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inMediaType->Format();
-		debugLog << "CheckMediaType : Height = " << locVideoHeader->bmiHeader.biHeight<<endl;
-		debugLog << "CheckMediaType : Width  = " << locVideoHeader->bmiHeader.biWidth<<endl<<endl;
+		//debugLog << "CheckMediaType : Height = " << locVideoHeader->bmiHeader.biHeight<<endl;
+		//debugLog << "CheckMediaType : Width  = " << locVideoHeader->bmiHeader.biWidth<<endl<<endl;
 		
-		debugLog << "CheckMediaType : mHeight was = " << mParentFilter->mInputPin->mHeight<<endl;
-		debugLog << "CheckMediaType : mWidth  was = " << mParentFilter->mInputPin->mWidth<<endl<<endl;
+		//debugLog << "CheckMediaType : mHeight was = " << mParentFilter->mInputPin->mHeight<<endl;
+		//debugLog << "CheckMediaType : mWidth  was = " << mParentFilter->mInputPin->mWidth<<endl<<endl;
 		mParentFilter->mInputPin->mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
 		mParentFilter->mInputPin->mWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
 

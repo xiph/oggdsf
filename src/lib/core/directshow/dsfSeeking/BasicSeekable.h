@@ -76,7 +76,7 @@ protected:
 	REFERENCE_TIME mSeekTimeBase;
 	HRESULT mHR;
 
-	fstream seekDebug;
+	//fstream seekDebug;
 
 	DWORD mSeekingCap;
 

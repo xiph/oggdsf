@@ -46,7 +46,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 		mPartialPacket(NULL)
 		
 {
-	debugLog.open("C:\\sourcefilterpin.log", ios_base::out);
+	//debugLog.open("C:\\sourcefilterpin.log", ios_base::out);
 	IMediaSeeking* locSeeker = NULL;
 	inParentFilter->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 
@@ -55,7 +55,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 
 OggDemuxSourcePin::~OggDemuxSourcePin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	delete mDataQueue;
 }
 
@@ -74,15 +74,15 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inPacket->startTime();
 	REFERENCE_TIME locStop = inPacket->endTime();
-	debugLog<<"Start   : "<<locStart<<endl;
-	debugLog<<"End     : "<<locStop<<endl;
+	//debugLog<<"Start   : "<<locStart<<endl;
+	//debugLog<<"End     : "<<locStop<<endl;
 	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
 	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
 	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));
 	//Error checks
 	if (locHR != S_OK) {
 		//Stopping, fluching or error
-		debugLog<<"Failure... No buffer"<<endl;
+		//debugLog<<"Failure... No buffer"<<endl;
 		return false;
 	}
 	//TIMESTAMP FIXING !
@@ -103,7 +103,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 		locHR = mDataQueue->Receive(locSample);
 		
 		if (locHR != S_OK) {
-			debugLog << "Failure... Queue rejected sample..."<<endl;
+			//debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
 			return false;
 			

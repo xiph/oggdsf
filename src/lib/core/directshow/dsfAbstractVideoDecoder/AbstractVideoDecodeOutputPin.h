@@ -70,7 +70,7 @@ protected:
 	AbstractVideoDecodeFilter* mParentFilter;
 	void FillMediaType(CMediaType* inMediaType);
 
-	fstream debugLog;
+	//fstream debugLog;
 
 	
 

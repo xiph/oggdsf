@@ -98,7 +98,7 @@ void TheoraStream::setLastEndGranPos(__int64 inPos) {
 	//LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> locFilter->mTheoraFormatInfo->maxKeyframeInterval) * locMod) + locInterFrameNo;
 	//REFERENCE_TIME locTimeBase = ((locAbsFramePos * mFrameDuration) - locThis->mSeekTimeBase;
 	//mLastEndGranulePos = (inPos * (__int64)mSpeexFormatBlock->samplesPerSec)/ UNITS;
-	osDebug<<"Theora sets End Gran : "<<mLastEndGranulePos<<endl;
+	//osDebug<<"Theora sets End Gran : "<<mLastEndGranulePos<<endl;
 }
 BYTE* TheoraStream::getFormatBlock() {
 

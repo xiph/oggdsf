@@ -44,7 +44,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
 	,	mLastEndGranulePos(0)
 	,	mLastStartGranulePos(0)
 {
-	osDebug.open("C:\\ostream.log", ios_base::out);
+	//osDebug.open("C:\\ostream.log", ios_base::out);
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
 	
@@ -57,7 +57,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
 
 OggStream::~OggStream(void)
 {
-	osDebug.close();
+	//osDebug.close();
 	delete mSourcePin;
 	delete mCodecHeaders;
 	delete mPartialPacket;
@@ -211,14 +211,14 @@ bool OggStream::AddPin() {
 }
 
 void OggStream::setLastEndGranPos(__int64 inGranPos) {
-	osDebug<<"*************************** ERROR ERROR ERROR **********************"<<endl;
+	//osDebug<<"*************************** ERROR ERROR ERROR **********************"<<endl;
 	mLastEndGranulePos = inGranPos;
 }
 bool OggStream::acceptOggPage(OggPage* inOggPage) {
 	//FIX::: Add proper error checking.
 
 	StampedOggPacket* locPacket = NULL;
-	osDebug<<"New page sets start gran to "<<mLastEndGranulePos<<endl;
+	//osDebug<<"New page sets start gran to "<<mLastEndGranulePos<<endl;
 	mLastStartGranulePos = mLastEndGranulePos;
 	mLastEndGranulePos = inOggPage->header()->GranulePos()->value();
 
@@ -296,7 +296,7 @@ bool OggStream::deliverCodecHeaders() {
 	return true;
 }
 bool OggStream::dispatchPacket(StampedOggPacket* inPacket) {
-	osDebug<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
+	//osDebug<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
 	return mSourcePin->deliverOggPacket(inPacket);
 }
 

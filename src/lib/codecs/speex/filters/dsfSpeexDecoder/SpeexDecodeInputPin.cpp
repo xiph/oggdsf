@@ -116,11 +116,11 @@ int SpeexDecodeInputPin::SpeexDecoded (FishSound* inFishSound, float** inPCM, lo
 	REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 
 
-	locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
-	locThis->aadDebug<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
-	locThis->aadDebug<<"Time Base  : " << locTimeBase << endl;
-	locThis->aadDebug<<"FrameCount : " <<locThis->mUptoFrame<<endl;
-	locThis->aadDebug<<"Seek TB    : " <<locThis->mSeekTimeBase<<endl;
+	//locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
+	//locThis->aadDebug<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
+	//locThis->aadDebug<<"Time Base  : " << locTimeBase << endl;
+	//locThis->aadDebug<<"FrameCount : " <<locThis->mUptoFrame<<endl;
+	//locThis->aadDebug<<"Seek TB    : " <<locThis->mSeekTimeBase<<endl;
 
 	//TO DO::: Move this somewhere else
 	unsigned long locActualSize = inFrames * locThis->mFrameSize;

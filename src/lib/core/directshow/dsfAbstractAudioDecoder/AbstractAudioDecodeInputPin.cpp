@@ -46,7 +46,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mLastSeenStartGranPos(0)
 {
 	//ConstructCodec();
-	aadDebug.open("c:\\aadec.log", ios_base::out);
+	//aadDebug.open("c:\\aadec.log", ios_base::out);
 	mAcceptableMediaType = inAcceptMediaType;
 	mStreamLock = new CCritSec;
 	IMediaSeeking* locSeeker = NULL;
@@ -77,7 +77,7 @@ HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
 AbstractAudioDecodeInputPin::~AbstractAudioDecodeInputPin(void)
 {
 	//DestroyCodec();
-	aadDebug.close();
+	//aadDebug.close();
 	delete mStreamLock;
 }
 
@@ -118,7 +118,7 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 		REFERENCE_TIME locEnd = 0;
 		inSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
-		aadDebug<<"Receive : Start = "<<locStart<<endl;
+		//aadDebug<<"Receive : Start = "<<locStart<<endl;
 		if (mLastSeenStartGranPos != locStart) {
 			ResetFrameCount();
 		}
@@ -128,10 +128,10 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 		long locResult = decodeData(locBuff, inSample->GetActualDataLength());
 		if (locResult == 0) {
 
-			aadDebug<<"Receive Decode : OK"<<endl;
+			//aadDebug<<"Receive Decode : OK"<<endl;
 			return S_OK;
 		} else {
-			aadDebug<<"Receive Decode : *** FAILED *** "<<locResult<<endl;
+			//aadDebug<<"Receive Decode : *** FAILED *** "<<locResult<<endl;
 			return S_FALSE;
 		}
 	}

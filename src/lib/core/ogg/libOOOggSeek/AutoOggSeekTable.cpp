@@ -80,12 +80,14 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 		} else {
 			mEnabled = false;
 			mSampleRate = 1;
+			
 		}
 	}
 
 
 	if (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) {
 		if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
+		//if ((mPacketCount > mNumHeaders) && (inOggPage->header()->HeaderFlags() & 1 != 1)) {
 			addSeekPoint(mLastSeekTime, mFilePos);
 			
 		}
@@ -104,17 +106,17 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mLastSeekTime = ((((inOggPage->header()->GranulePos()->value()) >> mGranulePosShift) + locInterFrameNo) * DS_UNITS) / mSampleRate;
 		} else {
 			mLastSeekTime = ((inOggPage->header()->GranulePos()->value()) * DS_UNITS) / mSampleRate;
-			stDebug<<"Last Seek Time : "<<mLastSeekTime;
+			//stDebug<<"Last Seek Time : "<<mLastSeekTime;
 		}
 		if ((inOggPage->header()->HeaderFlags() & 1 == 1)) {
-			stDebug <<"    NOT SEEKABLE";
+			//stDebug <<"    NOT SEEKABLE";
 			mLastIsSeekable = false;
 		}
-		stDebug<<endl;
+		//stDebug<<endl;
 		mFileDuration = mLastSeekTime;
 	}
 	mFilePos += inOggPage->pageSize();
-	stDebug<<"File Pos : "<<mFilePos<<endl;
+	//stDebug<<"File Pos : "<<mFilePos<<endl;
 	return true;
 }
 

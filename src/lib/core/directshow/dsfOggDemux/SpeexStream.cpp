@@ -76,7 +76,7 @@ BYTE* SpeexStream::getFormatBlock() {
 void SpeexStream::setLastEndGranPos(__int64 inPos) {
 	
 	mLastEndGranulePos = (inPos * (__int64)mSpeexFormatBlock->samplesPerSec)/ UNITS;
-	osDebug<<"Speex sets End Gran : "<<mLastEndGranulePos<<endl;
+	//osDebug<<"Speex sets End Gran : "<<mLastEndGranulePos<<endl;
 }
 unsigned long SpeexStream::getFormatBlockSize() {
 	//Do something

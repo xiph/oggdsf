@@ -97,7 +97,7 @@ protected:
 	//VorbisDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;
 
-	fstream debugLog;
+	//fstream debugLog;
 
 	FishSound* mFishSound;
 	FishSoundInfo mFishInfo; 

@@ -65,5 +65,5 @@ protected:
 	//LONGLONG mLastGranulePos;
 	LONGLONG mGranuleOffset;
 
-	fstream debugLog;
+	//fstream debugLog;
 };

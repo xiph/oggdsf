@@ -102,5 +102,5 @@ protected:
 	OggDemuxSourcePin* mSourcePin;
 	OggDemuxSourceFilter* mOwningFilter;
 
-	fstream osDebug;
+	//fstream osDebug;
 };

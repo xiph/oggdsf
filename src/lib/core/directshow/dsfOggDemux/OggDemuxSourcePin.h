@@ -86,7 +86,7 @@ protected:
 	StampedOggPacket* mPartialPacket;
 	HRESULT mFilterHR;
 	COutputQueue* mDataQueue;
-	fstream debugLog;
+	//fstream debugLog;
 	bool mFirstRun;
 
 

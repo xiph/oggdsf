@@ -133,7 +133,7 @@ protected:
 	OggStreamMapper* mStreamMapper;
 
 	//DEBUG
-	fstream debugLog;
+	//fstream debugLog;
 
 	
 };

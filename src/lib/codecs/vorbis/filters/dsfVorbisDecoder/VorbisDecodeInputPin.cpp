@@ -39,7 +39,7 @@ VorbisDecodeInputPin::VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, 
 		mBegun(false)
 		
 {
-	debugLog.open("C:\\vorbislog.log", ios_base::out);
+	//debugLog.open("C:\\vorbislog.log", ios_base::out);
 	ConstructCodec();
 }
 
@@ -70,7 +70,7 @@ void VorbisDecodeInputPin::DestroyCodec() {
 }
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	DestroyCodec();
 }
 
@@ -110,11 +110,11 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 	//Start time hacks
 	REFERENCE_TIME locTimeBase = ((locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate) - locThis->mSeekTimeBase;
-	locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
-	locThis->debugLog<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
-	locThis->debugLog<<"Time Base  : " << locTimeBase << endl;
-	locThis->debugLog<<"FrameCount : " <<locThis->mUptoFrame<<endl;
-	locThis->debugLog<<"Seek TB    : " <<locThis->mSeekTimeBase<<endl;
+	//locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
+	//locThis->debugLog<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
+	//locThis->debugLog<<"Time Base  : " << locTimeBase << endl;
+	//locThis->debugLog<<"FrameCount : " <<locThis->mUptoFrame<<endl;
+	//locThis->debugLog<<"Seek TB    : " <<locThis->mSeekTimeBase<<endl;
 
 	//Temp - this will break seeking
 	REFERENCE_TIME locFrameStart = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
@@ -126,9 +126,9 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 	REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 
 
-	locThis->debugLog<<"Start      : "<<locFrameStart<<endl;
-	locThis->debugLog<<"End        : "<<locFrameEnd<<endl;
-	locThis->debugLog<<"=================================================="<<endl;
+	//locThis->debugLog<<"Start      : "<<locFrameStart<<endl;
+	//locThis->debugLog<<"End        : "<<locFrameEnd<<endl;
+	//locThis->debugLog<<"=================================================="<<endl;
 	IMediaSample* locSample;
 	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
 
@@ -200,14 +200,14 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 long VorbisDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes) 
 {
-	debugLog << "Decode called... Last Gran Pos : "<<mLastSeenStartGranPos<<endl;
+	//debugLog << "Decode called... Last Gran Pos : "<<mLastSeenStartGranPos<<endl;
 	DbgLog((LOG_TRACE,1,TEXT("decodeData")));
 	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
 	//FIX::: Do something here ?
 	if (locErr < 0) {
-		debugLog <<"** Fish Sound error **"<<endl;
+		//debugLog <<"** Fish Sound error **"<<endl;
 	} else {
-		debugLog << "Fish Sound OK >=0 "<<endl;
+		//debugLog << "Fish Sound OK >=0 "<<endl;
 	}
 	return locErr;
 }
