@@ -57,6 +57,18 @@ OggMuxInputPin::~OggMuxInputPin(void)
 	//debugLog.close();
 }
 
+STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+
+	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
+}
+
+
 HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_Theora)) {
 		//Theora
@@ -136,6 +148,12 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 }
 
 HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
+	
+	//Set our delegate to the pin that is connecting to us... we'll send them our seek messages.
+	IMediaSeeking* locSeeker = NULL;
+	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
+	
 	mMuxStream->setIsActive(true);
 	return mParentFilter->addAnotherPin();
 }

@@ -33,6 +33,7 @@
 #include "OggMuxFilter.h"
 #include "OggPaginator.h"
 #include "OggMuxStream.h"
+#include "BasicSeekable.h"
 #include <time.h>
 #include <fstream>
 #include <windows.h>
@@ -42,13 +43,15 @@ class OggMuxFilter;
 
 class OggMuxInputPin
 	:	public CBaseInputPin
-	//,	public BasicSeekable
+	,	public BasicSeekable
 {
 public:
 	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
 	virtual ~OggMuxInputPin(void);
 
-
+	//COM Setup
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
 	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
