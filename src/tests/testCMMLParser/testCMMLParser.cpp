@@ -165,7 +165,7 @@ bool testCMMLClone(wstring inFilename)
 }
 
 #ifdef WIN32
-int __cdecl _tmain(int argc, _TCHAR* argv[])
+int __cdecl _tmain(int, _TCHAR**)
 #else
 int main(int, char **)
 #endif
