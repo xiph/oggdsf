@@ -101,15 +101,30 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 	////FIX:::Abstract this calculation
 	DbgLog((LOG_TRACE,1,TEXT("Frame Count = %d"), mFrameCount));
 	//REFERENCE_TIME locFrameStart = CurrentStartTime() + (mFrameCount * mFrameDuration);
-	REFERENCE_TIME locFrameStart = (mFrameCount * mFrameDuration);
+
+	//Timestamp hacks start here...
+	unsigned long locMod = (unsigned long)pow(2, locFilter->mTheoraFormatInfo->maxKeyframeInterval);
+	DbgLog((LOG_TRACE,1,TEXT("locSeenGranPos = %d"), mLastSeenStartGranPos));
+	DbgLog((LOG_TRACE,1,TEXT("locMod = %d"), locMod));
+	unsigned long locInterFrameNo = (mLastSeenStartGranPos) % locMod;
+	DbgLog((LOG_TRACE,1,TEXT("InterFrameNo = %d"), locInterFrameNo));
+	LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> locFilter->mTheoraFormatInfo->maxKeyframeInterval)) + locInterFrameNo;
+	DbgLog((LOG_TRACE,1,TEXT("AbsFrameNo = %d"), locAbsFramePos));
+	DbgLog((LOG_TRACE,1,TEXT("mSeekTimeBase = %d"), mSeekTimeBase));
+	REFERENCE_TIME locTimeBase = (locAbsFramePos * mFrameDuration) - mSeekTimeBase;
+	DbgLog((LOG_TRACE,1,TEXT("locTimeBase = %d"), locTimeBase));
+	//
+	//
+
+	REFERENCE_TIME locFrameStart = locTimeBase + (mFrameCount * mFrameDuration);
 	//Increment the frame counter
 	mFrameCount++;
 	
 	//Make the end frame counter
 	//REFERENCE_TIME locFrameEnd = CurrentStartTime() + (mFrameCount * mFrameDuration);
-	REFERENCE_TIME locFrameEnd = (mFrameCount * mFrameDuration);
+	REFERENCE_TIME locFrameEnd = locTimeBase + (mFrameCount * mFrameDuration);
 
-	DbgLog((LOG_TRACE,1,TEXT("Frame Runs From %d"), locFrameStart, locFrameEnd));
+	DbgLog((LOG_TRACE,1,TEXT("Frame Runs From %d"), locFrameStart));
 	DbgLog((LOG_TRACE,1,TEXT("Frame Runs To %d"), locFrameEnd));
 
 	IMediaSample* locSample;
@@ -220,7 +235,7 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 long TheoraDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes, LONGLONG inStart, LONGLONG inEnd) 
 {
 	DbgLog((LOG_TRACE,1,TEXT("decodeData")));
-	StampedOggPacket* locPacket = new StampedOggPacket(inBuf, inNumBytes, true, 0, inEnd, StampedOggPacket::OGG_END_ONLY);
+	StampedOggPacket* locPacket = new StampedOggPacket(inBuf, inNumBytes, true, inStart, inEnd, StampedOggPacket::OGG_END_ONLY);
 	yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
 	if (locYUV != NULL) {
 		TheoraDecoded(locYUV);

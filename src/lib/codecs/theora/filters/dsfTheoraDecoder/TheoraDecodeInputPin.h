@@ -37,6 +37,7 @@
 
 //#include "TheoraDecodeFilter.h"
 #include "TheoraDecoder.h"
+#include <math.h>
 
 
 class TheoraDecodeOutputPin;
