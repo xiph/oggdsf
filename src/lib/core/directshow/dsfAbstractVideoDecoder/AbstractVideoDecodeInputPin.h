@@ -79,7 +79,7 @@ protected:
 	bool mBegun;
 	AbstractVideoDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;
-	__int64 mLastSeenGranPos;
+	__int64 mLastSeenStartGranPos;
 	AbstractVideoDecodeFilter* mParentFilter;
 	CMediaType* mAcceptableMediaType;
 

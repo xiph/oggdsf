@@ -46,7 +46,7 @@ AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilt
 	,	mFrameSize(0)
 	,	mFrameCount(0)
 	,	mStreamLock(NULL)
-	,	mLastSeenGranPos(0)
+	,	mLastSeenStartGranPos(0)
 		
 {
 	//ConstructCodec();
@@ -109,6 +109,20 @@ STDMETHODIMP AbstractVideoDecodeInputPin::Receive(IMediaSample* inSample) {
 		
 		return locHR;
 	} else {
+		//New start time hacks
+		REFERENCE_TIME locStart = 0;
+		REFERENCE_TIME locEnd = 0;
+		inSample->GetTime(&locStart, &locEnd);
+		//Error chacks needed here
+		
+		if (mLastSeenStartGranPos != locStart) {
+			ResetFrameCount();
+		}
+		mLastSeenStartGranPos = locStart;
+		//End of additions
+
+
+
 		AM_MEDIA_TYPE* locMediaType = NULL;
 		inSample->GetMediaType(&locMediaType);
 		//if (locMediaType != NULL) {
@@ -118,9 +132,7 @@ STDMETHODIMP AbstractVideoDecodeInputPin::Receive(IMediaSample* inSample) {
 			//mWidth =  384; //locVideoHeader->bmiHeader.biWidth;
 		//}
 
-		LONGLONG locStart;
-		LONGLONG locEnd;
-		inSample->GetTime(&locStart, &locEnd);
+		
 		long locResult = decodeData(locBuff, inSample->GetActualDataLength(), locStart, locEnd);
 		if (locResult == 0) {
 			return S_OK;
