@@ -14,5 +14,6 @@ bool OggPageFileWriter::acceptOggPage(OggPage* inOggPage) {
 
 	unsigned char* locPageBytes = inOggPage->createRawPageData();
 	mFile.write((const char*) locPageBytes, inOggPage->pageSize());
+	delete [] locPageBytes;
 	return true;
 }

@@ -51,7 +51,7 @@ public:
 	
 	//Constructors
 	OggPage(void);
-	~OggPage(void);
+	virtual ~OggPage(void);
 	//
 
 	//Cloning
@@ -65,8 +65,8 @@ public:
 	//
 
 	//IOggPackSource Implementation
-	OggPacket* getPacket(unsigned long inPacketNo);
-	unsigned long numPackets();
+	virtual OggPacket* getPacket(unsigned long inPacketNo);
+	virtual unsigned long numPackets();
 	//
 
 	//Packet access
@@ -87,4 +87,8 @@ protected:
 	vector<StampedOggPacket*> mPacketList;
 	OggPageHeader* mHeader;
 	//
+
+private:
+	OggPage& operator=(const OggPage& other);  /* Don't assign me */
+	OggPage(const OggPage& other); /* Don't copy me */
 };

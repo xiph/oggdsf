@@ -31,7 +31,7 @@
 
 #include "StdAfx.h"
 #include "oggpage.h"
-
+//LEACK CHECKED::: 20041018 - OK.
 OggPage::OggPage(void)
 {
 	mHeader = new OggPageHeader;			//Deleted in destructor.
@@ -45,10 +45,13 @@ OggPage::~OggPage(void)
 		delete mPacketList[i];
 	}
 }
+
+//Retusn a view on the header only
 OggPageHeader* OggPage::header() {
 	return mHeader;
 }
 
+//returns a view on the packet only.
 OggPacket* OggPage::getPacket(unsigned long inPacketNo) {
 	if (inPacketNo < numPackets()) {
 		return mPacketList[inPacketNo];
@@ -56,7 +59,7 @@ OggPacket* OggPage::getPacket(unsigned long inPacketNo) {
 		return NULL;
 	}
 }
-
+//Returns a view on the packet only
 StampedOggPacket* OggPage::getStampedPacket(unsigned long inPacketNo) {
 	if (inPacketNo < numPackets()) {
 		return mPacketList[inPacketNo];
@@ -64,11 +67,13 @@ StampedOggPacket* OggPage::getStampedPacket(unsigned long inPacketNo) {
 		return NULL;
 	}
 }
+
+//Gives away  a pointer to the caller.
 OggPage* OggPage::clone() {
 	OggPage* retClone = new OggPage;
 	retClone->mHeader = mHeader->clone();
 	for (size_t i = 0; i < mPacketList.size(); i++) {
-		retClone->mPacketList.push_back(mPacketList[i]);
+		retClone->mPacketList.push_back((StampedOggPacket*)mPacketList[i]->clone());		//The cloned new packet is deleted in the destructor
 	}
 	
 	return retClone;
@@ -78,8 +83,9 @@ unsigned long OggPage::numPackets() {
 	return (unsigned long)mPacketList.size();
 }
 
+//Gives a pointer to the caller, it must delete it.
 unsigned char* OggPage::createRawPageData() {
-	unsigned char* locPage = new unsigned char[mHeader->pageSize()];
+	unsigned char* locPage = new unsigned char[mHeader->pageSize()];		//Given to the caller
 	mHeader->rawData(locPage, mHeader->pageSize());
 
 	unsigned long locOffset = mHeader->headerSize();
