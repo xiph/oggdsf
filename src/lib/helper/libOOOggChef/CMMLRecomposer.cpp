@@ -157,6 +157,20 @@ bool CMMLRecomposer::recomposeStreamFrom(double inStartingTimeOffset, const vect
 
 		// Indicate success to our callee
 		locReturnValue = true;
+	} else {
+		// The user didn't want CMML, i.e. they'll be wanting media.  We scan the
+		// CMML file for the <stream> tag, to see if it imports any media -- if it
+		// does, we'll have to figure out what MIME types the media files are (and
+		// perhaps mux them) so that the the user gets it in the form they want.
+		//
+		// e.g. if the user requests an application/x-annodex file, the CMML
+		// <stream> tag has an import expression pointing to a Vorbis file, and
+		// another import expression pointing to a Theora file, we need to mux
+		// those two files together, add an empty CMML track (so it's a valid
+		// Annodex file), and then send that to the user -- possibly only from
+		// a particular time offset.  Fun!
+
+
 	}
 
 #if 0

@@ -64,13 +64,16 @@ AnnodexRecomposer::AnnodexRecomposer(string inFilename,
 									 BufferWriter inBufferWriter,
 									 void* inBufferWriterUserData,
 									 string inCachedSeekTableFilename)
-	:	mFilename(inFilename)
-	,	mDemuxState(SEEN_NOTHING)
+	:	mDemuxState(SEEN_NOTHING)
 	,	mDemuxParserState(LOOK_FOR_HEADERS)
 	,	mBufferWriter(inBufferWriter)
 	,	mBufferWriterUserData(inBufferWriterUserData)
-	,	mCachedSeekTableFilename(inCachedSeekTableFilename)
 {
+	// These need to go in the constructor body, because we can't assign
+	// strings in the initialiser list
+	
+	mFilename = inFilename;
+	mCachedSeekTableFilename = inCachedSeekTableFilename;
 }
 
 AnnodexRecomposer::~AnnodexRecomposer(void)

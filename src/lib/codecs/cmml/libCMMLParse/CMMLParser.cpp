@@ -44,8 +44,9 @@
 
 using namespace std;
 
-// TODO: Properly parse preamble
+
 // TODO: i18n?
+
 
 CMMLParser::CMMLParser(void)
 {
@@ -102,7 +103,7 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 
 	// XTag doesn't currently handle preambles, so we'll have to skip until we find
 	// a <cmml> tag which it can handle ... (note that XML is case-sensitive, so
-	// we don't need to scan for "<CMML"
+	// we don't need to scan for "<CMML")
 	size_t locCMMLTagIndex = locCMMLFileWString.find(L"<cmml", 0);
 	if (locCMMLTagIndex != string::npos) {
 		locCMMLFileWString = locCMMLFileWString.substr(locCMMLTagIndex);
@@ -173,7 +174,7 @@ bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip)
 	// Narrow the text given us, so we can pass it to XTag
 	string locClipText = StringHelper::toNarrowStr(inClipText);
 
-	// Look for a <cmml> tag
+	// Look for a <clip> tag
 	XTag *locClipParser = NULL;
 	locClipParser = xtag_new_parse(locClipText.c_str(), (int)locClipText.size());
 	if (locClipParser) {

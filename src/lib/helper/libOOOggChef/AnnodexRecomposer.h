@@ -49,7 +49,7 @@ class LIBOOOGGCHEF_API AnnodexRecomposer : public IRecomposer, public IOggCallba
 {
 public:
 	AnnodexRecomposer(void);
-	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, const string inCachedSeekTableFilename = "");
+	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, string inCachedSeekTableFilename = "");
 	~AnnodexRecomposer(void);
 
 	bool recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
