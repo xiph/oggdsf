@@ -32,62 +32,67 @@
 //===========================================================================
 
 
-#pragma once
+#include "stdafx.h"
 
+#include <libOOOggChef/utils.h>
 
-#include "IRecomposer.h"
-
-#include <libOOOgg/libOOOgg.h>
-#include <libOOOggChef/libOOOggChef.h>
-
+#include <fstream>
 #include <string>
 #include <vector>
 
-using namespace std;
 
-class LIBOOOGGCHEF_API AnnodexRecomposer : public IRecomposer, public IOggCallback
+bool wantOnlyCMML(const vector<string>* inWantedMIMETypes)
 {
-public:
-	AnnodexRecomposer(void);
-	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, const string inCachedSeekTableFilename = "");
-	~AnnodexRecomposer(void);
+	return (	inWantedMIMETypes->size() == 1
+			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
+}
 
-	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
-	bool acceptOggPage(OggPage* inOggPage);
 
-    AnnodexRecomposer(const AnnodexRecomposer&);  // Don't copy me
-    AnnodexRecomposer &operator=(const AnnodexRecomposer&);  // Don't assign men
+bool fileExists(const string inFilename)
+{
+	// Behold, the world's most C++-portable filename-checking mechanism!
 
-protected:
+	fstream locFile;
 
-	typedef pair<unsigned long, unsigned long> tSerial_HeadCountPair;
+	locFile.open(inFilename.c_str(), ios_base::in | ios_base::binary);
+	if (locFile.is_open()) {
+		locFile.close();
+		return true;
+	} else {
+		locFile.close();
+		return false;
+	}
+}
 
-	enum eDemuxState {
-		SEEN_NOTHING,
-		SEEN_ANNODEX_BOS,
-		SEEN_ANNODEX_EOS,
-		SEEN_ALL_CODEC_HEADERS,
-		INVALID = 100,
-	};
 
-	enum eDemuxParserState {
-		LOOK_FOR_HEADERS,
-		LOOK_FOR_BODY,
-	};
 
-	BufferWriter mBufferWriter;
-	void* mBufferWriterUserData;
+bool wantOnlyPacketBody(const vector<string>* inWantedMIMETypes)
+{
+	// TODO: This should check for packet bodies generally, not text/x-cmml
 
-	fstream mDebugFile;
+	return (	inWantedMIMETypes->size() == 1
+			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
+}
 
-	string mFilename;
-	string mCachedSeekTableFilename;
 
-	unsigned long mAnnodexSerialNumber;
+bool sendFile(const string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
+{
+	// If I had a dollar for every single time I've had to write this silly loop ...
 
-	eDemuxState mDemuxState;
-	eDemuxParserState mDemuxParserState;
+	fstream locFile;
 
-	vector<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
-	const vector<string>* mWantedMIMETypes;
-};
+	locFile.open(inFilename.c_str(), ios_base::in | ios_base::binary);
+	
+	const unsigned short BUFFER_SIZE = 8192;
+	unsigned char *locBuffer = new unsigned char[BUFFER_SIZE];
+	while (!locFile.eof()) {
+		locFile.read((char *)locBuffer, BUFFER_SIZE);
+
+		unsigned long locBytesRead = locFile.gcount();
+		inBufferWriter(locBuffer, locBytesRead, inBufferWriterUserData);
+	}
+
+	delete [] locBuffer;
+
+	return true;
+}

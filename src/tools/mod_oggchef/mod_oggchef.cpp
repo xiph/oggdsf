@@ -53,6 +53,7 @@
 #include <libOOOggSeek/AutoAnxSeekTable.h>
 #include <libOOOggSeek/AutoOggSeekTable.h>
 #include <libOOOggChef/AnnodexRecomposer.h>
+#include <libOOOggChef/CMMLRecomposer.h>
 #include <libOOOggChef/IRecomposer.h>
 
 #include <algorithm>
@@ -64,9 +65,23 @@
 #undef DEBUG
 
 
+// Higher-order functional programming 101 (bite me Zen :)
+
+typedef int (C_FUNCTION_POINTER *tIntToInt) (int);
+string transformString (const string &inString, tIntToInt inCFunctionToApply)
+{
+	string locString = inString;
+
+	transform(locString.begin(), locString.end(), locString.begin(), inCFunctionToApply);
+
+	return locString;
+}
+
+
 bool isAnnodexFile (string locFilename)
 {
 	string locExtension = locFilename.substr(locFilename.length() - 4);
+	locExtension = transformString(locExtension, tolower);
 
 	return (locExtension == ".anx" || locExtension == ".axv" || locExtension == ".axa");
 }
@@ -74,8 +89,17 @@ bool isAnnodexFile (string locFilename)
 bool isOggFile (string locFilename)
 {
 	string locExtension = locFilename.substr(locFilename.length() - 4);
+	locExtension = transformString(locExtension, tolower);
 
 	return (locExtension == ".ogg" || locExtension == ".ogm");
+}
+
+bool isCMMLFile (string locFilename)
+{
+	string locExtension = locFilename.substr(locFilename.length() - 5);
+	locExtension = transformString(locExtension, tolower);
+
+	return (locExtension == ".cmml");
 }
 
 typedef pair<float, char *> tQualityPair;
@@ -188,9 +212,11 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	// file according to the user's wishes
 	IRecomposer *locRecomposer = NULL;
 	if (isAnnodexFile(locFilename)) {
-		locRecomposer = new AnnodexRecomposer(locFilename, httpDataSender, inRequest);
+		locRecomposer = new AnnodexRecomposer(locFilename, httpDataSender, inRequest, locCachedSeekTableFilename);
 	} else if (isOggFile(locFilename)) {
 		//locRecomposer = new OggRecomposer(locOutputMIMETypes);
+	} else if (isCMMLFile(locFilename)) {
+		locRecomposer = new CMMLRecomposer(locFilename, httpDataSender, inRequest);
 	} else {
 		// We should never get here
 		ap_log_rerror(APLOG_MARK, APLOG_NOERRNO|APLOG_ERR, 0, inRequest,
@@ -198,7 +224,7 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	}
 
 	if (locRecomposer) {
-		locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes, locCachedSeekTableFilename);
+		locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes);
 		delete locRecomposer;
 	}
 

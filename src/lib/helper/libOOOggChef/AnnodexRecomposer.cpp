@@ -35,6 +35,7 @@
 #include "stdafx.h"
 
 #include <libOOOggChef/AnnodexRecomposer.h>
+#include <libOOOggChef/utils.h>
 
 #include <libOOOgg/libOOOgg.h>
 #include <libOOOggSeek/AutoAnxSeekTable.h>
@@ -51,13 +52,24 @@ using namespace std;
 
 #undef DEBUG
 
-
-AnnodexRecomposer::AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
+/** You may optionally ask
+	AnnodexRecomposer to use a cached representation of the seek table (which is
+	computationally expensive to build) by passing a filename in the
+	inCachedSeekTableFilename parameter.  If the file does not exist,
+	AnnodexRecomposer will write out the constructed seek table to the filename
+	given.  (If the file cannot be written for any reason, you will receive no
+	warning.  Yell at me if this is a serious issue.)
+ */
+AnnodexRecomposer::AnnodexRecomposer(string inFilename,
+									 BufferWriter inBufferWriter,
+									 void* inBufferWriterUserData,
+									 string inCachedSeekTableFilename)
 	:	mFilename(inFilename)
 	,	mDemuxState(SEEN_NOTHING)
 	,	mDemuxParserState(LOOK_FOR_HEADERS)
 	,	mBufferWriter(inBufferWriter)
 	,	mBufferWriterUserData(inBufferWriterUserData)
+	,	mCachedSeekTableFilename(inCachedSeekTableFilename)
 {
 }
 
@@ -65,40 +77,12 @@ AnnodexRecomposer::~AnnodexRecomposer(void)
 {
 }
 
-bool wantOnlyCMML(const vector<string>* inWantedMIMETypes)
-{
-	return (	inWantedMIMETypes->size() == 1
-			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
-}
-
-bool fileExists(const string inFilename)
-{
-	// Behold, the world's most C++-portable filename-checking mechanism!
-
-	fstream locFile;
-
-	locFile.open(inFilename.c_str(), ios_base::in | ios_base::binary);
-	if (locFile.is_open()) {
-		locFile.close();
-		return true;
-	} else {
-		locFile.close();
-		return false;
-	}
-}
-
 /** The starting time offset's units is in seconds, while the wanted MIME types
     is a vector of strings, which will be matched against the MIME type in the
-	AnxData header of the logical bitstream.  You may optionally ask
-	AnnodexRecomposer to use a cached representation of the seek table (which is
-	computationally expensive to build) by passing the a filename in the
-	inCachedSeekTableFilename parameter.  If the file does not exist,
-	AnnodexRecomposer will write out the constructed seek table to the filename
-	given.  (If the file cannot be written for any reason, you will receive no
-	warning.  Yell at me if this is a serious issue.)
+	AnxData header of the logical bitstream.
   */
 void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
-	const vector<string>* inWantedMIMETypes, string inCachedSeekTableFilename)
+	const vector<string>* inWantedMIMETypes)
 {
 	mWantedMIMETypes = inWantedMIMETypes;
 
@@ -117,14 +101,14 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	// the stream headers, and the byte position of the user's requested start
 	// time
 	AutoAnxSeekTable *locSeekTable = new AutoAnxSeekTable(mFilename);
-	if (inCachedSeekTableFilename != "" && fileExists(inCachedSeekTableFilename)) {
-		locSeekTable->buildTableFromFile(inCachedSeekTableFilename);
+	if (mCachedSeekTableFilename != "" && fileExists(mCachedSeekTableFilename)) {
+		locSeekTable->buildTableFromFile(mCachedSeekTableFilename);
 	} else {
 		locSeekTable->buildTable();
 	}
 
-	if (inCachedSeekTableFilename != "" && !fileExists(inCachedSeekTableFilename)) {
-		locSeekTable->serialiseInto(inCachedSeekTableFilename);
+	if (mCachedSeekTableFilename != "" && !fileExists(mCachedSeekTableFilename)) {
+		locSeekTable->serialiseInto(mCachedSeekTableFilename);
 	}
 	
 	// Find out where the non-header packets (i.e. the stream body) starts
@@ -289,14 +273,6 @@ string mimeType(OggPacket* inPacket)
 #ifdef WIN32
 # undef strcasecmp
 #endif
-
-bool wantOnlyPacketBody(const vector<string>* inWantedMIMETypes)
-{
-	// TODO: This should check for packet bodies generally, not text/x-cmml
-
-	return (	inWantedMIMETypes->size() == 1
-			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
-}
 
 bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 {

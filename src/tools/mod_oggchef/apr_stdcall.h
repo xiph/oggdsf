@@ -43,9 +43,12 @@
 
 #ifdef WIN32
 # define AP_MODULE_ENTRY_POINT __cdecl
+# define C_FUNCTION_POINTER __cdecl
 #else
 # define AP_MODULE_ENTRY_POINT
+# define C_FUNCTION_POINTER
 #endif
+
 
 /* We also need to override the function typedefs in the Apache header files,
    because the included Apache headers will think our functions are __stdcall,

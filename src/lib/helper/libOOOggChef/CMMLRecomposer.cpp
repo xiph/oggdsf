@@ -32,62 +32,53 @@
 //===========================================================================
 
 
-#pragma once
+#include "stdafx.h"
 
-
-#include "IRecomposer.h"
+#include <libOOOggChef/AnnodexRecomposer.h>
+#include <libOOOggChef/CMMLRecomposer.h>
+#include <libOOOggChef/utils.h>
 
 #include <libOOOgg/libOOOgg.h>
-#include <libOOOggChef/libOOOggChef.h>
 
+#include <assert.h>
+
+#include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
 
-class LIBOOOGGCHEF_API AnnodexRecomposer : public IRecomposer, public IOggCallback
+CMMLRecomposer::CMMLRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
+	:	mFilename(inFilename)
+	,	mBufferWriter(inBufferWriter)
+	,	mBufferWriterUserData(inBufferWriterUserData)
 {
-public:
-	AnnodexRecomposer(void);
-	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, const string inCachedSeekTableFilename = "");
-	~AnnodexRecomposer(void);
+}
 
-	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
-	bool acceptOggPage(OggPage* inOggPage);
 
-    AnnodexRecomposer(const AnnodexRecomposer&);  // Don't copy me
-    AnnodexRecomposer &operator=(const AnnodexRecomposer&);  // Don't assign men
+CMMLRecomposer::~CMMLRecomposer(void)
+{
+}
 
-protected:
+	
+void CMMLRecomposer::recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes)
+{
+	// If the only wants only CMML, well, just serve out the CMML
+	if (wantOnlyCMML(inWantedMIMETypes)) {
+		sendFile(mFilename, mBufferWriter, mBufferWriterUserData);
+	} else {
+		// TODO: Implement other output types :)
+		const char *locCrapx0r = "NOT IMPLEMENTED YET\r\n";
+		mBufferWriter((unsigned char *) locCrapx0r,
+			(unsigned long) strlen(locCrapx0r),
+			mBufferWriterUserData);
+	}
+}
 
-	typedef pair<unsigned long, unsigned long> tSerial_HeadCountPair;
 
-	enum eDemuxState {
-		SEEN_NOTHING,
-		SEEN_ANNODEX_BOS,
-		SEEN_ANNODEX_EOS,
-		SEEN_ALL_CODEC_HEADERS,
-		INVALID = 100,
-	};
+bool CMMLRecomposer::acceptOggPage(OggPage* inOggPage)
+{
+	return true;
+}
 
-	enum eDemuxParserState {
-		LOOK_FOR_HEADERS,
-		LOOK_FOR_BODY,
-	};
-
-	BufferWriter mBufferWriter;
-	void* mBufferWriterUserData;
-
-	fstream mDebugFile;
-
-	string mFilename;
-	string mCachedSeekTableFilename;
-
-	unsigned long mAnnodexSerialNumber;
-
-	eDemuxState mDemuxState;
-	eDemuxParserState mDemuxParserState;
-
-	vector<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
-	const vector<string>* mWantedMIMETypes;
-};

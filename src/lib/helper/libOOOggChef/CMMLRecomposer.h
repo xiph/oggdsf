@@ -45,35 +45,20 @@
 
 using namespace std;
 
-class LIBOOOGGCHEF_API AnnodexRecomposer : public IRecomposer, public IOggCallback
+class LIBOOOGGCHEF_API CMMLRecomposer : public IRecomposer, public IOggCallback
 {
 public:
-	AnnodexRecomposer(void);
-	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, const string inCachedSeekTableFilename = "");
-	~AnnodexRecomposer(void);
+	CMMLRecomposer(void);
+	CMMLRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
+	~CMMLRecomposer(void);
 
 	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
 	bool acceptOggPage(OggPage* inOggPage);
 
-    AnnodexRecomposer(const AnnodexRecomposer&);  // Don't copy me
-    AnnodexRecomposer &operator=(const AnnodexRecomposer&);  // Don't assign men
+    CMMLRecomposer(const CMMLRecomposer&);  // Don't copy me
+    CMMLRecomposer &operator=(const CMMLRecomposer&);  // Don't assign men
 
 protected:
-
-	typedef pair<unsigned long, unsigned long> tSerial_HeadCountPair;
-
-	enum eDemuxState {
-		SEEN_NOTHING,
-		SEEN_ANNODEX_BOS,
-		SEEN_ANNODEX_EOS,
-		SEEN_ALL_CODEC_HEADERS,
-		INVALID = 100,
-	};
-
-	enum eDemuxParserState {
-		LOOK_FOR_HEADERS,
-		LOOK_FOR_BODY,
-	};
 
 	BufferWriter mBufferWriter;
 	void* mBufferWriterUserData;
@@ -81,13 +66,6 @@ protected:
 	fstream mDebugFile;
 
 	string mFilename;
-	string mCachedSeekTableFilename;
 
-	unsigned long mAnnodexSerialNumber;
-
-	eDemuxState mDemuxState;
-	eDemuxParserState mDemuxParserState;
-
-	vector<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
 	const vector<string>* mWantedMIMETypes;
 };

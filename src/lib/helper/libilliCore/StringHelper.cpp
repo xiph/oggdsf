@@ -60,7 +60,7 @@ string StringHelper::toNarrowStr(wstring inString) {
 
 	//LPCWSTR retPtr = new wchar_t[retVal.length() + 1];
 	for (std::wstring::const_iterator i = inString.begin(); i != inString.end(); i++) {
-		retVal.append(1, *i);
+		retVal.append(1, (char) *i);
 	}
 	
 
