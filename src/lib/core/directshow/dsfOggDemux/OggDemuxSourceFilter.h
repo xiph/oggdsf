@@ -188,6 +188,8 @@ protected:
 
 	bool mJustReset;  //This is pretty dodgy !
 
+	bool mSetIgnorePackets;
+
 	//SOURCE ABSTRACTION::: declaration
 	//fstream mSourceFile;
 	//

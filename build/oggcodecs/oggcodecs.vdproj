@@ -124,12 +124,6 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_27330A8D56F34785A52342ADD956700F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -286,6 +280,12 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_27330A8D56F34785A52342ADD956700F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_14E3067B71584FB5A245A2DA9D65D139"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -359,12 +359,6 @@
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_27330A8D56F34785A52342ADD956700F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -545,6 +539,12 @@
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_27330A8D56F34785A52342ADD956700F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -947,7 +947,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -1107,7 +1107,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{D65F0073-A820-4085-B997-A061171595A7}"
-        "PackageCode" = "8:{727A6F40-2315-4437-B2FB-B06B7E6CF430}"
+        "PackageCode" = "8:{A3F86D80-4BCC-4F1A-8975-B48A0A3236AF}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -3431,7 +3431,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_27330A8D56F34785A52342ADD956700F"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\oooggseekfilequery\\debug\\OOOggSeekFileQuery.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggSeekFileQuery\\Debug\\OOOggSeekFileQuery.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"

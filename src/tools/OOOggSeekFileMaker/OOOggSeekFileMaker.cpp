@@ -34,6 +34,7 @@
 
 #include "stdafx.h"
 #include "AutoOggSeekTable.h"
+#include "AutoAnxSeekTable.h"
 
 
 #include <iostream>
@@ -53,8 +54,13 @@ int main(int argc, char * argv[])
 		cout<<"Usage : OOOggSeekFileMaker <in_ogg_file> <out_seek_table_file>"<<endl;
 	} else {
 
-		
-		AutoOggSeekTable* locSeekTable = new AutoOggSeekTable(argv[1]);
+		string inFileName = argv[1];
+		AutoOggSeekTable* locSeekTable = NULL;
+		if (inFileName.find(".anx") != string::npos) {
+			locSeekTable = new AutoAnxSeekTable(argv[1]);
+		} else {
+			locSeekTable = new AutoOggSeekTable(argv[1]);
+		}
 		locSeekTable->buildTable();
 
 		fstream outputFile;

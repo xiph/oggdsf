@@ -316,7 +316,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 
 	
 		CAutoLock locSourceLock(mSourceFileLock);
-		
+		mSetIgnorePackets = false;
 		DeliverBeginFlush();
 		//debugLog<<"       : Begin flush Delviered."<<endl;
 
@@ -329,6 +329,9 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		//.first is the time in DS units
 		if (locStartPos.second == mStreamMapper->startOfData()) {
 			locSendExcess = true;
+			//GGFF:::
+			//mStreamMapper->toStartOfData();
+			mSetIgnorePackets = true;
 		}
 		
 		
@@ -509,10 +512,21 @@ void OggDemuxSourceFilter::DeliverEndFlush()
 {
 	CAutoLock locLock(m_pLock);
 	debugLog << "Delivering End Flush"<<endl;
-	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-		mStreamMapper->getOggStream(i)->flush();
-		mStreamMapper->getOggStream(i)->getPin()->DeliverEndFlush();
+	if (mSetIgnorePackets == true) {
+		mStreamMapper->toStartOfData();
+		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
+			//mStreamMapper->getOggStream(i)->flush();
+			mStreamMapper->getOggStream(i)->getPin()->DeliverEndFlush();
+		}
+
+	} else {
+	
+		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
+			mStreamMapper->getOggStream(i)->flush();
+			mStreamMapper->getOggStream(i)->getPin()->DeliverEndFlush();
+		}
 	}
+	mSetIgnorePackets = false;
 }
 void OggDemuxSourceFilter::DeliverEOS() 
 {
