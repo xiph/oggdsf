@@ -169,13 +169,13 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 		//Slight optimisation to keep the inner loop tighter
 		//
 		//This branch of the condition does exactly the same as the else branch where mXOffset = 0
-		for (long line = 0; line < mHeight; line++) {
+		for (unsigned long line = 0; line < mHeight; line++) {
 			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth);
 			locSourceUptoPtr += mWidth;
 			locDestUptoPtr += mWidth;
 		}
 	} else {
-		for (long line = 0; line < mHeight; line++) {
+		for (unsigned long line = 0; line < mHeight; line++) {
 			//Pad the start of the line with mXOffset bytes
 			memset((void*)locDestUptoPtr, NULL, mXOffset);
 			locDestUptoPtr += mXOffset;
@@ -229,13 +229,13 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
 	if (mXOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 		}
 	} else {
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			//Pad the start of the line
 			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
 			locDestUptoPtr += (mXOffset / 2);
@@ -289,13 +289,13 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
 	if (mXOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 		}
 	} else {
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			//Pad the start of the line
 			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
 			locDestUptoPtr += (mXOffset / 2);
@@ -402,13 +402,13 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	//Add mHeight lines of data of width mWidth plus padding of mXOffset at each end
 	if (mXOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (long line = 0; line < mHeight; line++) {
+		for (unsigned long line = 0; line < mHeight; line++) {
 			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth);
 			locSourceUptoPtr += mWidth;
 			locDestUptoPtr += mWidth;
 		}
 	} else {
-		for (long line = 0; line < mHeight; line++) {
+		for (unsigned long line = 0; line < mHeight; line++) {
 			//Pad the start of the line with mXOffset bytes
 			memset((void*)locDestUptoPtr, NULL, mXOffset);
 			locDestUptoPtr += mXOffset;
@@ -451,13 +451,13 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
 	if (mXOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 		}
 	} else {
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			//Pad the start of the line
 			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
 			locDestUptoPtr += (mXOffset / 2);
@@ -504,13 +504,13 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
 	if (mXOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 		}
 	} else {
-		for (long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < mHeight / 2; line++) {
 			//Pad the start of the line
 			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
 			locDestUptoPtr += (mXOffset / 2);
@@ -848,7 +848,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	int temp = 0;
 
 	//Process 2 lines at a time
-	for (int line = 0; line < mHeight; line += 2) {
+	for (unsigned long line = 0; line < mHeight; line += 2) {
 		//debugLog<<"Encode AYUV To YV12 : ++ Line = "<<line<<endl;
 		
 		ASSERT (locSourceUptoPtr == (inBuf + (line * (mWidth * PIXEL_BYTE_SIZE))));
@@ -858,7 +858,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 		
 
 		//Columns also done 2 at a time
-		for (int col = 0; col < mWidth; col += 2) {
+		for (unsigned long col = 0; col < mWidth; col += 2) {
 			//debugLog<<"Encode AYUV To YV12 : ++++++ Col = "<<col<<endl;
 
 
@@ -1011,7 +1011,7 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
 
 
-	for (int i = 0; i < mHeight / 2; i++) {
+	for (unsigned long i = 0; i < mHeight / 2; i++) {
 		//TO DO: Draw memory layouts.
 
 		//***Part of the average method... store the pointer to the last of the previous line
@@ -1019,7 +1019,7 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 		//locLastVUpto = locVUpto;
 		//***
 
-		for (int j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < mWidth / 2; j++) {
 			*(locYUpto++) = *(locSourceUptoPtr++);
 			*(locUUpto++) = *(locSourceUptoPtr++);
 			*(locYUpto++) = *(locSourceUptoPtr++);
@@ -1028,7 +1028,7 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 
 		
 		//***Drop line method
-		for (int j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < mWidth / 2; j++) {
 			//Ignore the second line
 			*(locYUpto++) = *(locSourceUptoPtr++);
 			locSourceUptoPtr++;
@@ -1072,12 +1072,12 @@ long TheoraEncodeInputPin::encodeYVYUToYV12(unsigned char* inBuf, long inNumByte
 	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
 
 
-	for (int i = 0; i < mHeight / 2; i++) {
+	for (unsigned long i = 0; i < mHeight / 2; i++) {
 		//TO DO: Draw memory layouts.
 
 	
 
-		for (int j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < mWidth / 2; j++) {
 			*(locYUpto++) = *(locSourceUptoPtr++);				//Y for Yellow
 			*(locVUpto++) = *(locSourceUptoPtr++);				//V for victor
 			
@@ -1087,7 +1087,7 @@ long TheoraEncodeInputPin::encodeYVYUToYV12(unsigned char* inBuf, long inNumByte
 
 		
 		//***Drop line method
-		for (int j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < mWidth / 2; j++) {
 			//Ignore the second line
 			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for Yellow
 			locSourceUptoPtr++;								//V for victor
@@ -1117,11 +1117,11 @@ long TheoraEncodeInputPin::encodeUYVYToYV12(unsigned char* inBuf, long inNumByte
 	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
 
 
-	for (int i = 0; i < mHeight / 2; i++) {
+	for (unsigned long i = 0; i < mHeight / 2; i++) {
 		//TO DO: Draw memory layouts.
 
 	
-		for (int j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < mWidth / 2; j++) {
 			*(locUUpto++) = *(locSourceUptoPtr++);			//U for Ugly
 			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for Yellow
 			
@@ -1132,7 +1132,7 @@ long TheoraEncodeInputPin::encodeUYVYToYV12(unsigned char* inBuf, long inNumByte
 
 		
 		//***Drop line method
-		for (int j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < mWidth / 2; j++) {
 			//Ignore the second line
 			
 			locSourceUptoPtr++;								//U for ugly
@@ -1348,8 +1348,8 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.colourSpace = OC_CS_UNSPECIFIED;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameHeight = mTheoraInfo.height;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameWidth = mTheoraInfo.width;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = mXOffset;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = mYOffset;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = (unsigned char)mXOffset;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = (unsigned char)mYOffset;
 
 	//TODO ::: DO something about aspect ratios
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.aspectDenominator = 0;
@@ -1387,9 +1387,6 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 	ConstructCodec();
 	return CBaseInputPin::SetMediaType(inMediaType);
 
-
-
-	return S_OK;
 	
 }
 

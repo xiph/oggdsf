@@ -389,9 +389,9 @@ bool AnxStreamMapper::toStartOfData() {
 			//Flush each stream, then ignore the codec headers.
 			if (mAnxVersion == ANX_VERSION_2_0) {
 				//debugLog<<"Flushing stream "<<i<<" for "<<mStreamList[i]->numCodecHeaders() + 1<<endl;
-				mStreamList[i]->flush(mStreamList[i]->numCodecHeaders() + 1);  //+1 = AnxData Header...
+				mStreamList[i]->flush((unsigned short)(mStreamList[i]->numCodecHeaders() + 1));  //+1 = AnxData Header...
 			} else {
-				mStreamList[i]->flush(mStreamList[i]->numCodecHeaders());
+				mStreamList[i]->flush((unsigned short)(mStreamList[i]->numCodecHeaders()));
 			}
 		}	
 		return true;

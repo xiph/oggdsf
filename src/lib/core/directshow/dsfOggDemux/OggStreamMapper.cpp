@@ -130,7 +130,7 @@ bool OggStreamMapper::toStartOfData() {
 	if (isReady()) {  //CHECK::: Should check for allow dsipatch ???
 		for (unsigned long i = 0; i < mStreamList.size(); i++) {
 			//Flush each stream, then ignore the codec headers.
-			mStreamList[i]->flush(mStreamList[i]->numCodecHeaders());
+			mStreamList[i]->flush((unsigned short)mStreamList[i]->numCodecHeaders());
 		}	
 		return true;
 	} else {

@@ -37,7 +37,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib Strmiids.lib  Quartz.lib wsock32.lib shlwapi.lib"
-				ShowProgress="2"
+				ShowProgress="0"
 				OutputFile="$(OutDir)/dsfOggDemux.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Debug&quot;"

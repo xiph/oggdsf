@@ -45,7 +45,7 @@
 
 unsigned long streamNo;
 
-bool pageCB(OggPage* inOggPage, void *inUserData /* ignored */)
+bool pageCB(OggPage* inOggPage, void*  /* inUserData  ignored */)
 {
 	if ((inOggPage->numPackets() > 0) && (inOggPage->header()->isBOS())) {
 		streamNo++;

@@ -65,7 +65,7 @@ bool pageCB(OggPage* inOggPage, void* inUserData /* ignored */) {
 		
 		if (locSerialNo == streamSerials[i]) {
 			locFoundPos = i;
-			cout << "Stream "<<i<<"  : Granule = "<<inOggPage->header()->GranulePos()<<"   - ";
+			cout << "Stream "<<(unsigned long)i<<"  : Granule = "<<inOggPage->header()->GranulePos()<<"   - ";
 			locNumPacks = 0;
 			if (inOggPage->numPackets() == 0) {
 				cout<<"EMPTY PAGE"<<endl;
@@ -152,7 +152,7 @@ int main (int argc, char * argv[])
 		cout<<endl;
 
 		for (size_t i = 0; i < maxPacks.size(); i++) {
-			cout<<"Stream "<<i<<" max Packets = "<<*maxPacks[i]<<endl;
+			cout<<"Stream "<<(unsigned long)i<<" max Packets = "<<*maxPacks[i]<<endl;
 		}
 
 

@@ -33,7 +33,7 @@ OggStreamValidationState* OggValidationState::getStreamBySerialNo(unsigned long 
 	return retStream;
 }
 unsigned long OggValidationState::numStreams() {
-	return mStreams.size();
+	return (unsigned long)mStreams.size();
 }
 
 OggStreamValidationState* OggValidationState::getStream(unsigned long inIndex) {
@@ -91,7 +91,7 @@ bool OggValidationState::notify(bool isBOS, bool isEOS) {
 	
 				if (mStreams.size() != 0) {
 					mIsValid = true;
-					for (int i = 0; i < mStreams.size(); i++) {
+					for (size_t i = 0; i < mStreams.size(); i++) {
 						mIsValid &= (mStreams[i]->mState == OggStreamValidationState::VS_FULLY_VALID);
 					}
 				}
@@ -278,7 +278,7 @@ bool OggValidationState::acceptOggPage(OggPage* inOggPage) {			//AOP:::Needs val
 		if (inOggPage->getPacket(inOggPage->numPackets() - 1)->isTruncated() == true)  {
 			//Valid case
 			//If the last packet is incomplete.
-			if (OggStreamValidationState::VS_SEEN_BOS) {
+			if (OggStreamValidationState::VS_SEEN_BOS) {			//TODO::: Bug ????
 				//...And we've seen a BOS page
 
 				//Now we wait for the continuation

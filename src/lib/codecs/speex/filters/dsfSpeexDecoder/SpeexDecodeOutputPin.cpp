@@ -59,9 +59,9 @@ HRESULT SpeexDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType
 	if (inPosition == 0) {
 		WAVEFORMATEX* locWaveFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
 		locWaveFormat->wFormatTag = WAVE_FORMAT_PCM;
-		locWaveFormat->nChannels = ((SpeexDecodeFilter*)m_pFilter)->mSpeexFormatInfo->numChannels;
+		locWaveFormat->nChannels = (WORD)(((SpeexDecodeFilter*)m_pFilter)->mSpeexFormatInfo->numChannels);
 		locWaveFormat->nSamplesPerSec =  ((SpeexDecodeFilter*)m_pFilter)->mSpeexFormatInfo->samplesPerSec;
-		locWaveFormat->wBitsPerSample = 16;
+		locWaveFormat->wBitsPerSample = 16;		//TODO ::: Is this correct ?
 		locWaveFormat->nBlockAlign = (locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3);
 		locWaveFormat->nAvgBytesPerSec = ((locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3)) * locWaveFormat->nSamplesPerSec;
 		locWaveFormat->cbSize = 0;
