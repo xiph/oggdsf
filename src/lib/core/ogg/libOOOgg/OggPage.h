@@ -52,26 +52,32 @@ public:
 	OggPage(void);
 	virtual ~OggPage(void);
 
-	//Cloning
+	/// Doa deep copy of the page and return one you can keep.
 	OggPage* clone();
 	
-	//Size functions
+	//// Returns the total byte size of the current page.
 	unsigned long pageSize();
+
+	/// Returns the size of the header including segment table.
 	unsigned long headerSize();
+
+	/// Returns the size of the data part of the page.
 	unsigned long dataSize();
 
 	//IOggPackSource Implementation
 	virtual OggPacket* getPacket(unsigned long inPacketNo);
 	virtual unsigned long numPackets();
 
-	//Packet access
+	/// Get the numbers stamped packet from the page.
 	StampedOggPacket* getStampedPacket(unsigned long inPacketNo);
+
+	//TODO::: This really shouldn't be ehere.
 	bool addPacket(StampedOggPacket* inPacket);
 	
-	//Header access
+	/// Returns a pointer to the internal header.
 	OggPageHeader* header();
 	
-	//Serialise
+	/// Creates a buffer of size pageSize and returns you a pointer to keep.
 	unsigned char* createRawPageData();
 
 protected:
