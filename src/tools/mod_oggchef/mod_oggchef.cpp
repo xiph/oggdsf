@@ -86,7 +86,7 @@ bool qualityPairComparator (const tQualityPair &p1, const tQualityPair &p2)
 	return (p2.first < p1.first);
 }
 
-const vector<const string> *preferredOutputMIMETypes(request_rec *inRequest)
+const vector<string> *preferredOutputMIMETypes(request_rec *inRequest)
 {
 
 	// If the user requested the application/ mime type (i.e. the entire
@@ -101,9 +101,9 @@ const vector<const string> *preferredOutputMIMETypes(request_rec *inRequest)
 			)
 		)
 	{
-		vector<const string>* locAcceptAllMimeTypes = new vector<const string>;
+		vector<string>* locAcceptAllMimeTypes = new vector<string>;
 		locAcceptAllMimeTypes->push_back("*/*");
-		return const_cast<const vector<const string>*> (locAcceptAllMimeTypes);
+		return const_cast<const vector<string>*> (locAcceptAllMimeTypes);
 	}
 
 	vector<tQualityPair> locQualityList;
@@ -129,12 +129,12 @@ const vector<const string> *preferredOutputMIMETypes(request_rec *inRequest)
 
 	// Since we have a quality rating now, output only the first (preferred)
 	// MIME type that we want
-	vector<const string>* locMIMETypes = new vector<const string>;
+	vector<string>* locMIMETypes = new vector<string>;
 	tQualityPair locElement = locQualityList[0];
-	const string locMIMEType = locElement.second;
+	string locMIMEType = locElement.second;
 	locMIMETypes->push_back(locMIMEType);
 
-	return const_cast<const vector<const string>*> (locMIMETypes);
+	return const_cast<const vector<string>*> (locMIMETypes);
 }
 
 bool httpDataSender (unsigned char *inBuffer, unsigned long inBufferLength, void *inUserData)
@@ -165,7 +165,7 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 		anx_parse_time(locRequestedStartTimeAsCString);
 
 	// What's the output MIME type requested?
-	const vector<const string>* locOutputMIMETypes = preferredOutputMIMETypes(inRequest);
+	const vector<string>* locOutputMIMETypes = preferredOutputMIMETypes(inRequest);
 
 #ifdef DEBUG
 	for (unsigned int i = 0; i < locOutputMIMETypes->size(); i++) {
@@ -218,3 +218,6 @@ module AP_MODULE_DECLARE_DATA oggchef_module = {
 };
 
 } /* extern "C" */
+
+// vi:ts=4
+

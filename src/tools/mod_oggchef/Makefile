@@ -39,7 +39,7 @@ MOD_LINK = $(LIBTOOL) --mode=link $(CXX_COMPILE) -module $(LT_LDFLAGS) $(ALL_LDF
 #   additional defines, includes and libraries
 #DEFS=-Dmy_define=my_value
 #INCLUDES=-Imy/include/dir
-LIBS=-lOOOgg -lOOOggSeek
+SH_LIBS=-lOOOgg -lOOOggSeek -lOOOggChef
 CXXFLAGS=-w
 CFLAGS=-w
 
