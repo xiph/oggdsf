@@ -52,6 +52,8 @@ public:
 	virtual GUID getMajorTypeGUID();
 	virtual LONGLONG getCurrentPos();
 
+	virtual void setLastEndGranPos(__int64 inPos);
+
 protected:
 	sSpeexFormatBlock* mSpeexFormatBlock;
 };
