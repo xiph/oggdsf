@@ -78,10 +78,17 @@ bool OggValidationState::notify(bool isBOS, bool isEOS) {
 			
 			if (mNumBOS == mNumEOS) {
 				//Valid case. Chain.
+				//We are here because we've seen an equal number of EOS and BOS and at least 1 EOS(this one)
+				// This happens whenever a complete chain of streams complete and/or the end of a complete physical bitstream.
+				// 
+				//This is the only place it's possible for isValid to become true.
+				// It is true when an equal number of eos and bos pages are seen,
+				//  and all streams are also considered fully valid.
+
 				//If this EOS balanced the eos = bos then we can accept bos pages again.
 				mState = FVS_AWAITING_BOS;
 				
-				
+	
 				if (mStreams.size() != 0) {
 					mIsValid = true;
 					for (int i = 0; i < mStreams.size(); i++) {
@@ -182,7 +189,7 @@ bool OggValidationState::acceptOggPage(OggPage* inOggPage) {
 	//Verify BOS integrity.
 	
 	if (locHeader->isBOS()) {
-		//Add a BOS to the tally.
+		
 		
 
 		if (locStreamState->mState == OggStreamValidationState::VS_SEEN_NOTHING) {
@@ -210,7 +217,7 @@ bool OggValidationState::acceptOggPage(OggPage* inOggPage) {
 	//----------------------------------------------------------------------
 	//Verify EOS integrity
 	if (locHeader->isEOS()) {
-		//Add a BOS to the tally.
+		
 		
 		
 		if (locStreamState->mState == OggStreamValidationState::VS_SEEN_BOS) {

@@ -52,7 +52,7 @@ public:
 		AWAITING_BASE_HEADER = 32,
 		AWAITING_SEG_TABLE,
 		AWAITING_DATA,
-		LOST_PAGE_SYNC = 128
+		LOST_PAGE_SYNC
 	};
 
 	enum eFeedResult {
@@ -61,13 +61,20 @@ public:
 		FEED_BUFFER_WRITE_ERROR
 	};
 
+	enum eDispatchResult {
+		DISPATCH_OK,
+		DISPATCH_NO_CALLBACK = 512,
+		DISPATCH_FALSE
+
+	};
+
 	enum eProcessResult {
 		PROCESS_OK,
 		PROCESS_UNKNOWN_INTERNAL_ERROR = 256,
 		PROCESS_STREAM_READ_ERROR,
 		PROCESS_DISPATCH_FAILED,
 		PROCESS_FAILED_TO_SET_HEADER,
-		PROCESS_LOST_SYNC
+		PROCESS_LOST_SYNC = 4096
 
 	};
 
@@ -82,17 +89,14 @@ public:
 	//
 	~OggDataBuffer(void);
 
-	bool registerPageCallback(OggCallbackRego* inPageCB);
-	bool registerSerialNo(SerialNoRego* inSerialRego);
-	bool registerVirtualCallback(IOggCallback* inCBInterface);
+	bool registerStaticCallback(fPageCallback inPageCallback);
+	bool registerVirtualCallback(IOggCallback* inPageCallback);
 	
+	//bool registerSerialNo(SerialNoRego* inSerialRego);
 	void clearData();
 	
-	OggDataBuffer::eFeedResult feed(const unsigned char* inData, unsigned long inNumBytes);
+	eFeedResult feed(const unsigned char* inData, unsigned long inNumBytes);
 	
-	//FIX ::: Add later
-	//void unRegisterSerialNo(unsigned long inSerialNo);
-
 	unsigned long numBytesAvail();
 
 	eState state();
@@ -108,21 +112,26 @@ protected:
 	eState mState;
 	
 	eProcessResult processBuffer();
-	virtual bool dispatch(OggPage* inOggPage);
+	virtual eDispatchResult dispatch(OggPage* inOggPage);
 
 	unsigned long mNumBytesNeeded;
 
 	OggPage* pendingPage;
 
-	vector<OggCallbackRego*> mAlwaysCallList;
-	vector<SerialNoRego*> mSerialNoCallList;
-	vector<IOggCallback*> mVirtualCallbackList;
+	IOggCallback* mVirtualCallback;
+	fPageCallback mStaticCallback;
+
+	
+	//vector<OggCallbackRego*> mAlwaysCallList;
+	//vector<SerialNoRego*> mSerialNoCallList;
+	//vector<IOggCallback*> mVirtualCallbackList;
 
 	//DEBUG
 	fstream debugLog;
 	//
 
 private:
+
 	eProcessResult processBaseHeader();
 	eProcessResult processSegTable();
 	eProcessResult processDataSegment();

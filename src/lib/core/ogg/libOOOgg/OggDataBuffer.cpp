@@ -63,30 +63,26 @@ OggDataBuffer::~OggDataBuffer(void)
 	delete pendingPage;
 }
 
-bool OggDataBuffer::registerPageCallback(OggCallbackRego* inPageCB) {
-	if (inPageCB != NULL) {
-		mAlwaysCallList.push_back(inPageCB);
-		return true;
-	} else {
-		return false;
-	}
+bool OggDataBuffer::registerStaticCallback(fPageCallback inPageCallback) {
+	mStaticCallback = inPageCallback;
+	mVirtualCallback = NULL;
+	
+	return true;
 }
-bool OggDataBuffer::registerSerialNo(SerialNoRego* inSerialRego) {
-	if (inSerialRego != NULL) {
-		mSerialNoCallList.push_back(inSerialRego);
-		return true;
-	} else {
-		return false;
-	}
-}
+//bool OggDataBuffer::registerSerialNo(SerialNoRego* inSerialRego) {
+//	if (inSerialRego != NULL) {
+//		mSerialNoCallList.push_back(inSerialRego);
+//		return true;
+//	} else {
+//		return false;
+//	}
+//}
 
-bool OggDataBuffer::registerVirtualCallback(IOggCallback* inCBInterface) {
-	if (inCBInterface != NULL) {
-		mVirtualCallbackList.push_back(inCBInterface);
-		return true;
-	} else {
-		return false;
-	}
+bool OggDataBuffer::registerVirtualCallback(IOggCallback* inPageCallback) {
+	mVirtualCallback = inPageCallback;
+	mStaticCallback = NULL;
+	return true;
+	
 }
 
 
@@ -94,7 +90,7 @@ unsigned long OggDataBuffer::numBytesAvail() {
 	//Returns how many bytes are available in the buffer
 
 	unsigned long locBytesAvail = mBuffer->numBytesAvail();				//mStream.tellp() - mStream.tellg();
-	debugLog<<"Bytes avail = "<<locBytesAvail<<endl;
+	//debugLog<<"Bytes avail = "<<locBytesAvail<<endl;
 	return locBytesAvail;
 }
 
@@ -102,35 +98,52 @@ OggDataBuffer::eState OggDataBuffer::state() {
 	//returns the state of the stream
 	return mState;
 }
-bool OggDataBuffer::dispatch(OggPage* inOggPage) {
-	debugLog<<"Dispatching page..."<<endl;
+OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
+	//TODO::: Who owns this pointer inOggPage ?
+	debugLog<<"Dispatching page..."<<endl<<endl;
 	bool locIsOK;
 
 	//Fire off the oggpage to whoever is registered to get it
 
-	for (unsigned long i = 0; i < mAlwaysCallList.size(); i++) {
-		mAlwaysCallList[i]->dispatch(inOggPage);
-	}
-
-	//Fire off the oggpage to those that registered for a particular seriao number.
-	//CHECK::: Does this actually even check for serial number matches ??
-	for (unsigned long i = 0; i < mSerialNoCallList.size(); i++) {
-		mSerialNoCallList[i]->dispatch(inOggPage);
-	}
-
-	//The above callbacks will only call back to global functions or static members. They won't match the callback
-	// function specification if they are bound memebr functions
-	
-	//Any class that implements the IOggCallback interface can pass a point to themselves into this class
-	// and then a call back can be delivered to a function in a specific instance of an object.
-	for (unsigned long i = 0; i < mVirtualCallbackList.size(); i++) {
-		locIsOK = mVirtualCallbackList[i]->acceptOggPage(inOggPage);
-		if (!locIsOK) {
-			debugLog<<"Dispatch : **************** acceptOggPage returned false."<<endl;
-			//Somethings happened deeper in the stack like we are being asked to stop.
-			return false;
+	if (mVirtualCallback != NULL) {
+		if (mVirtualCallback->acceptOggPage(inOggPage) == true) {
+			return DISPATCH_OK;
+		} else {
+			return DISPATCH_FALSE;
 		}
+	} else if (mStaticCallback != NULL) {
+		if (mStaticCallback(inOggPage) == true) {
+			return DISPATCH_OK;	
+		} else {
+			return DISPATCH_FALSE;
+		}
+	} else (
+		return DISPATCH_NO_CALLBACK;
 	}
+
+	//for (unsigned long i = 0; i < mAlwaysCallList.size(); i++) {
+	//	mAlwaysCallList[i]->dispatch(inOggPage);
+	//}
+
+	////Fire off the oggpage to those that registered for a particular seriao number.
+	////CHECK::: Does this actually even check for serial number matches ??
+	//for (unsigned long i = 0; i < mSerialNoCallList.size(); i++) {
+	//	mSerialNoCallList[i]->dispatch(inOggPage);
+	//}
+
+	////The above callbacks will only call back to global functions or static members. They won't match the callback
+	//// function specification if they are bound memebr functions
+	//
+	////Any class that implements the IOggCallback interface can pass a point to themselves into this class
+	//// and then a call back can be delivered to a function in a specific instance of an object.
+	//for (unsigned long i = 0; i < mVirtualCallbackList.size(); i++) {
+	//	locIsOK = mVirtualCallbackList[i]->acceptOggPage(inOggPage);
+	//	if (!locIsOK) {
+	//		debugLog<<"Dispatch : **************** acceptOggPage returned false."<<endl;
+	//		//Somethings happened deeper in the stack like we are being asked to stop.
+	//		return false;
+	//	}
+	//}
 
 	//Delete the page... if the called functions wanted a copy they should have taken one for themsselves.
 	delete inOggPage;
@@ -143,7 +156,7 @@ OggDataBuffer::eFeedResult OggDataBuffer::feed(const unsigned char* inData, unsi
 		if (inData != NULL) {
 			//Buffer is not null and there is at least 1 byte of data.
 			
-			debugLog<<"********** Fed "<<inNumBytes<<" bytes..."<<endl;
+			debugLog<<"Fed "<<inNumBytes<<" bytes..."<<endl;
 		
 			unsigned long locNumWritten = mBuffer->write(inData, inNumBytes);
 
@@ -171,7 +184,7 @@ OggDataBuffer::eFeedResult OggDataBuffer::feed(const unsigned char* inData, unsi
 	
 }
 OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
-		debugLog<<"ProcessBaseHeader : "<<endl;
+		debugLog<<"Processing base header..."<<endl;
 		
 		//Delete the previous page
 		delete pendingPage;
@@ -182,7 +195,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		//Make a local buffer for the header
 		unsigned char* locBuff = new unsigned char[OggPageHeader::OGG_BASE_HEADER_SIZE];
 		
-		debugLog<<"ProcessBaseHeader : Reading from stream..."<<endl;
+		//debugLog<<"ProcessBaseHeader : Reading from stream..."<<endl;
 		
 		//STREAM ACCESS::: Read
 		unsigned long locNumRead = mBuffer->read(locBuff, OggPageHeader::OGG_BASE_HEADER_SIZE);
@@ -201,12 +214,12 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		//Set the number of bytes we want for next time
 		mNumBytesNeeded = pendingPage->header()->NumPageSegments();
 
-		debugLog<<"ProcessBaseHeader : Setting state to AWAITING_SEG_TABLE"<<endl;
+		debugLog<<"Setting state to AWAITING_SEG_TABLE"<<endl;
 		//Change the state.
 		mState = AWAITING_SEG_TABLE;
 
 
-		debugLog<<"ProcessBaseHeader : Bytes needed for seg table = "<<mNumBytesNeeded<<endl;	
+		debugLog<<"Bytes needed for seg table = "<<mNumBytesNeeded<<endl;	
 		return PROCESS_OK;
 }
 OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
@@ -214,19 +227,19 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 	//Assumes a valid pending page, with numPagesegments set in the header already.
 	//creates a chunk of memory size numpagesegments and stores it,.
 
-	debugLog<<"ProcessSegTable : "<<endl;
+	debugLog<<"Processing Segment Table..."<<endl;
 
 	//TODAY::: What happens when numpage segments is zero.
 
 	//Save a local copy of the number of page segments - Get this from the already set header.
 	unsigned char locNumSegs = pendingPage->header()->NumPageSegments();
 
-	debugLog<<"ProcessSegTable : Num segs = "<<(int)locNumSegs<<endl;
+	debugLog<<"Num segments = "<<(int)locNumSegs<<endl;
 
 	//Make a local buffer the size of the segment table. 0 - 255
 	unsigned char* locBuff = new unsigned char[locNumSegs];
 	
-	debugLog<<"ProcessSegTable : Reading from buffer..."<<endl;
+	//debugLog<<"ProcessSegTable : Reading from buffer..."<<endl;
 
 	//Read the segment table from the buffer to locBuff
 	//mStream.read((char*)locBuff, (std::streamsize)locNumSegs);
@@ -248,9 +261,9 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 	
 	mNumBytesNeeded = pendingPage->header()->calculateDataSize();
 
-	debugLog<<"ProcessSegTable : Num bytes needed for data = "<< mNumBytesNeeded<<endl;
+	debugLog<<"Num bytes needed for data = "<< mNumBytesNeeded<<endl;
 
-	debugLog<<"ProcessSegTable : Transition to AWAITING_DATA"<<endl;
+	debugLog<<"Transition to AWAITING_DATA"<<endl;
 	
 	mState = AWAITING_DATA;
 	return PROCESS_OK;
@@ -259,7 +272,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 
 OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 	
-	debugLog<<"ProcessDataSegment : "<<endl;
+	debugLog<<"Processing Data Segment..."<<endl;
 	//Make a local buffer
 	
 	unsigned long locPageDataSize = pendingPage->header()->dataSize();
@@ -318,7 +331,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 
 			//FIX::: check for stream failure.
 
-			debugLog<<"ProcessDataSegment : Adding packet size = "<<locCurrPackSize<<endl;
+			debugLog<<"Adding packet - size = "<<locCurrPackSize<<endl;
 			
 			//A packet ends when a lacing value is not 255. So the check for != 255 means the isComplete property of the packet is not set unless the
 			// lacing value is not equal to 255.
@@ -358,13 +371,13 @@ void OggDataBuffer::clearData() {
 	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	mState = eState::AWAITING_BASE_HEADER;
 
-	debugLog<<"ClearData : Num bytes needed = "<<mNumBytesNeeded<<endl;
+	//debugLog<<"ClearData : Num bytes needed = "<<mNumBytesNeeded<<endl;
 }
 
 OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 		
 	while (numBytesAvail() >= mNumBytesNeeded) {
-		debugLog<<"ProcessBuffer : Bytes Needed = "<<mNumBytesNeeded<<" --- "<<"Bytes avail = "<<numBytesAvail()<<endl;
+		//debugLog<<"ProcessBuffer : Bytes Needed = "<<mNumBytesNeeded<<" --- "<<"Bytes avail = "<<numBytesAvail()<<endl;
 		switch (mState) {
 
 			//QUERY:::	Should it be a bug when the if state inside the switch falls through,... potential for infinite loop.
