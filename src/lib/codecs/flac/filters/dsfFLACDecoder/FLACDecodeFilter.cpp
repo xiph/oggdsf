@@ -60,17 +60,18 @@ FLACDecodeFilter::~FLACDecodeFilter(void)
 {
 	//DestroyPins();
 	delete mFLACFormatBlock;
+	mFLACFormatBlock = NULL;
 }
 
 bool FLACDecodeFilter::ConstructPins() 
 {
 	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new FLACDecodeOutputPin(this, m_pLock);
+	mOutputPin = new FLACDecodeOutputPin(this, m_pLock);				//Deleted in destroy pins in base class.
 
-	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);
+	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Given to Input pin... it's responsible (deletes in base constructor of pin)
 	locAcceptMediaType->subtype = MEDIASUBTYPE_FLAC;
 	locAcceptMediaType->formattype = FORMAT_FLAC;
-	mInputPin = new FLACDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);
+	mInputPin = new FLACDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);			//Pin destroyed in base class, media type destroyed in base.
 	return true;
 }
 
@@ -91,6 +92,6 @@ sFLACFormatBlock* FLACDecodeFilter::getFLACFormatBlock()
 void FLACDecodeFilter::setFLACFormatBlock(sFLACFormatBlock* inFormatBlock) 
 {
 	delete mFLACFormatBlock;
-	mFLACFormatBlock = new sFLACFormatBlock;
+	mFLACFormatBlock = new sFLACFormatBlock;		//Deleted in destructor.
 	*mFLACFormatBlock = *inFormatBlock;
 }

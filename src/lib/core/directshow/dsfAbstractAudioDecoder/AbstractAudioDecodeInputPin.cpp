@@ -108,6 +108,8 @@ AbstractAudioDecodeInputPin::~AbstractAudioDecodeInputPin(void)
 	//DestroyCodec();
 	//debugLog.close();
 	delete mStreamLock;
+	delete mAcceptableMediaType;
+	mAcceptableMediaType = NULL;
 }
 
 

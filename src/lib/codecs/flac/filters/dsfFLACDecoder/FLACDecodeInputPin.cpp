@@ -40,7 +40,7 @@ FLACDecodeInputPin::FLACDecodeInputPin(AbstractAudioDecodeFilter* inParentFilter
 	//,	mNumPacksBuffered(0)
 {
 	//debugLog.open("G:\\logs\\flacfilter.log", ios_base::out);
-	mCodecLock = new CCritSec;
+	mCodecLock = new CCritSec;			//Deleted in destructor.
 	ConstructCodec();
 }
 
@@ -83,7 +83,7 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 	//delete mPendingPacket;
 	//debugLog<<"decodeData : "<<endl;
 	if(!m_bFlushing) {
-		unsigned char* locBuff = new unsigned char[inNumBytes];
+		unsigned char* locBuff = new unsigned char[inNumBytes];			//Given to packet.
 		memcpy((void*)locBuff, (const void*)inBuf, inNumBytes);
 
 		OggPacket* locPacket = new OggPacket(locBuff, inNumBytes, false, false);	//We give this away.
@@ -93,7 +93,7 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 			{
 				CAutoLock locCodecLock(mCodecLock);
 				//for(unsigned long i = 0; i < mPendingPackets.size(); i++) {
-				 locStamped = (StampedOggPacket*)mFLACDecoder.decodeFLAC(locPacket)->clone();
+				 locStamped = (StampedOggPacket*)mFLACDecoder.decodeFLAC(locPacket)->clone();			//clone deleted below, locpacket accepted by decoder.
 			}
 
 			if (locStamped != NULL) {
@@ -106,7 +106,8 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 				if (FAILED(locHR)) {
 					//debugLog<<"Write_Callback : Get deliverybuffer failed. returning abort code."<<endl;
 					//		//We get here when the application goes into stop mode usually.
-						return -1;
+					delete locStamped;
+					return -1;
 				}	
 
 
@@ -140,6 +141,7 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 						//debugLog<<"Write_Callback : Delivery of sample succeeded"<<endl;
 					}
 				} else {
+					delete locStamped;
 					throw 0;		//SAMPLE SIZE IS TOO SMALL TO FIT DATA
 				}
 
@@ -153,7 +155,7 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 		} else {
 			{
 				CAutoLock locCodecLock(mCodecLock);
-				mGotMetaData = mFLACDecoder.acceptMetadata(locPacket);
+				mGotMetaData = mFLACDecoder.acceptMetadata(locPacket);		//Accepts the packet.
 			}
 			if (mGotMetaData) {
 				return 0;
@@ -209,7 +211,7 @@ HRESULT FLACDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 		
 		//Keep the format block
 		
-		((FLACDecodeFilter*)mParentFilter)->setFLACFormatBlock((sFLACFormatBlock*)inMediaType->pbFormat);
+		((FLACDecodeFilter*)mParentFilter)->setFLACFormatBlock((sFLACFormatBlock*)inMediaType->pbFormat);		//Copies the format in the mutator
 
 	} else {
 		throw 0;
