@@ -8,6 +8,7 @@
 #include <libilliCore/StringHelper.h>
 #include <libTemporalURI/C_TimeStamp.h>
 #include <libWinCMMLParse/CMMLParser.h>
+#include <libWinCMMLParse/CMMLTagUtils.h>
 
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
@@ -35,7 +36,8 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 
 	// n.b. No error checking done to see whether the <cmml> and <clip> tags exist, so
 	// make sure they exist in the given CMML file!
-	C_ClipTagList *locClipTagList = locCMMLDoc->root()->clipList()->getClipsFrom(locTime);
+	C_ClipTagList *locClipTagList =
+		CMMLTagUtils::getClipsFrom(locCMMLDoc->root()->clipList(), locTime);
 	
 	locCMMLDoc->root()->setClipList(locClipTagList);
 	string locCMMLDocString = StringHelper::toNarrowStr(locCMMLDoc->toString());
