@@ -12,7 +12,7 @@ TestPatternOggPageChecker::~TestPatternOggPageChecker(void)
 bool TestPatternOggPageChecker::acceptOggPage(OggPage* inOggPage) 
 {
 	bool locIsOK = true;
-	for (int i = 0; i < inOggPage->numPackets(); i++) {
+	for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
 		locIsOK = locIsOK && (mPacketChecker.acceptStampedOggPacket( (StampedOggPacket*)(inOggPage->getStampedPacket(i)->clone()) ) );
 	}
 

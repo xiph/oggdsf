@@ -144,6 +144,8 @@ bool OggPaginator::acceptStampedOggPacket(StampedOggPacket* inOggPacket)
 	//debugLog<<"Accepting packet"<<endl;
 	addPacketToPage(inOggPacket);
 
+	delete inOggPacket;
+
 	return true;
 }
 bool OggPaginator::finishStream() 
@@ -281,6 +283,8 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 		debugLog<<"addPacketToPage : Packet remaining = "<<locPacketRemaining<<endl;
 		debugLog<<"addPacketToPage : Packet part start at = "<<locPacketStartPoint<<endl;
 	}
+
+
 
 
 	//This will ensure that any header packet appears on it's own page...
