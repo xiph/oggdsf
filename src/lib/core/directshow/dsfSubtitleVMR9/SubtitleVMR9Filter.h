@@ -72,7 +72,8 @@ public:
 	HRESULT CheckMediaType(const CMediaType* inMediaType);
 	HRESULT DoRenderSample(IMediaSample *pMediaSample);
 
-
+	//IMediaFilter OVerride - This lets us tell the graph we may not produce data in pause state so don't block.
+	virtual STDMETHODIMP GetState(DWORD dw, FILTER_STATE *pState);
 
 
 

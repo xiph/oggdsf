@@ -73,6 +73,16 @@ SubtitleVMR9Filter::~SubtitleVMR9Filter(void)
 	debugLog.close();
 }
 
+STDMETHODIMP SubtitleVMR9Filter::GetState(DWORD dw, FILTER_STATE *pState)
+{
+    CheckPointer(pState, E_POINTER);
+    *pState = m_State;
+	if (m_State == State_Paused) {
+        return VFW_S_CANT_CUE;
+	} else {
+        return S_OK;
+	}
+}
 int SubtitleVMR9Filter::GetPinCount(void) {
 	return 1;
 }
@@ -151,6 +161,7 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
 			debugLog<<"DoRenderSample : SetSubtitle Returns"<<endl<<endl;
 			delete locStr;
 		} else {
+			debugLog<<"DoRenderSample : Clearing Subtitle..."<<endl;
 			SetSubtitle("");
 		}
 

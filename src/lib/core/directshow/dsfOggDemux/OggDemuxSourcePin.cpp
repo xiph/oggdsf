@@ -51,7 +51,11 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 	IMediaSeeking* locSeeker = NULL;
 	if (inAllowSeek) {
 
-		inParentFilter->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+		//Subvert COM and do this directly... this way, the source filter won't expose the interface to the
+		// graph but we can still delegate to it.
+		
+		//inParentFilter->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+		locSeeker = (IMediaSeeking*)mParentFilter;
 
 	
 	}

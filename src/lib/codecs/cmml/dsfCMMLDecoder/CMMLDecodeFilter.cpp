@@ -286,7 +286,15 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 	} else {
 		//Zero length Sample... Blank out... Don't send.
 		debugLog<<"Zero length sample..."<<endl;
-		return S_FALSE;
+		outSample->SetActualDataLength(0);
+		//debugLog<<"Setting Sample time "<<locClipTag.start()<<endl;
+		//LONGLONG locSampleTime = ;
+		outSample->SetTime(&locSampleTime, &locSampleTime);
+		outSample->SetMediaTime(NULL, NULL);
+		outSample->SetSyncPoint(TRUE);
+		outSample->SetDiscontinuity(FALSE);
+		outSample->SetPreroll(FALSE);
+		return S_OK;
 	}
 }
 

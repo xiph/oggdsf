@@ -92,8 +92,10 @@ bool CMMLStream::createFormatBlock() {
 }
 
 void CMMLStream::setLastEndGranPos(__int64 inPos) {
-	
+	debugLog<<"CMML Stream Reset : inPos = "<<inPos<<"   --  last end gran = ";
+	debugLog<<"gran rate = "<<mCMMLFormatBlock->granuleNumerator<<" / "<<mCMMLFormatBlock->granuleDenominator<<endl;
 	mLastEndGranulePos = ((inPos * mCMMLFormatBlock->granuleNumerator) / mCMMLFormatBlock->granuleDenominator)/ UNITS;
+	debugLog<<mLastEndGranulePos<<endl;
 	//osDebug<<"Vorbis sets End Gran : "<<mLastEndGranulePos<<endl;
 }
 unsigned long CMMLStream::getFormatBlockSize() {

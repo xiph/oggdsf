@@ -1117,10 +1117,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libannodex", "..\..\src\lib
 		{FB373486-0E6E-4BB6-8BF2-1F92EACA1468} = {FB373486-0E6E-4BB6-8BF2-1F92EACA1468}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcmml", "..\..\src\lib\codecs\cmml\libcmml\Win32\libcmml\libcmml.vcproj", "{42D02294-4A6B-47E3-8202-751F74165FB0}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -1674,16 +1670,6 @@ Global
 		{13BFE1FF-00A7-4741-B550-95445D9E0561}.Release.Build.0 = Release|Win32
 		{13BFE1FF-00A7-4741-B550-95445D9E0561}.Release Unicode.ActiveCfg = Release|Win32
 		{13BFE1FF-00A7-4741-B550-95445D9E0561}.Release Unicode.Build.0 = Release|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Debug.ActiveCfg = Debug|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Debug.Build.0 = Debug|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Debug Unicode.ActiveCfg = Debug|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Debug Unicode.Build.0 = Debug|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.MakeFile.ActiveCfg = Release|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.MakeFile.Build.0 = Release|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Release.ActiveCfg = Release|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Release.Build.0 = Release|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Release Unicode.ActiveCfg = Release|Win32
-		{42D02294-4A6B-47E3-8202-751F74165FB0}.Release Unicode.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
