@@ -48,6 +48,11 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = inTag;
 		mDeleteBase = inDeleteBase;
 	}
+
+	ClipTag* ClipTag::clone()
+	{
+		return new ClipTag(getMe()->clone(), true);
+	}
 	ClipTag::~ClipTag(void)
 	{
 		delete mBaseClass;

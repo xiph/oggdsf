@@ -84,6 +84,8 @@ namespace libCMMLTagsDotNET {
 		//Others
 		virtual String* toString();
 
+		virtual ClipTag* clone();
+
 	
 		C_ClipTag* getMe();
 	};
