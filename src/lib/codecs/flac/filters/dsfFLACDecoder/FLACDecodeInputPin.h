@@ -59,7 +59,8 @@ public:
 	//FIX:::These should be protected.
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
-	virtual STDMETHODIMP EndFlush();
+	//virtual STDMETHODIMP EndFlush();
+	virtual STDMETHODIMP BeginFlush();
 	virtual STDMETHODIMP EndOfStream(void);
 
 	long decodeData(unsigned char* inBuf, long inNumBytes);

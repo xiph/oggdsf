@@ -41,6 +41,8 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 	,	mNumHeaders(0)
 	,	mSerialNoToTrack(LINT_MAX)
 	,	isTheora(false)
+	,	isFLAC(false)
+	,	mFoundStreamInfo(false)
 	,	mGranulePosShift(0)
 	,	mLastIsSeekable(false)
 
@@ -61,15 +63,17 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 	mPacketCount += inOggPage->numPackets();
 
 	//TODO ::: Some of this could be shared from other places.
-	if (mPacketCount == 1) {
+	if (!mFoundStreamInfo) {
 		if (strncmp((const char*)inOggPage->getPacket(0)->packetData(), "\001vorbis", 7) == 0) {
 			mSampleRate = OggMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 12);
 			mNumHeaders = 3;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
+			mFoundStreamInfo = true;
 		} else if (strncmp((const char*)inOggPage->getPacket(0)->packetData(), "Speex   ", 8) == 0) {
 			mSampleRate = OggMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 36);
 			mNumHeaders = 2;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
+			mFoundStreamInfo = true;
 		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(), "\200theora", 7)) == 0){
 			//FIX ::: Dunno what this is... do something better than this later !!
 			//mEnabled = false;
@@ -79,9 +83,20 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mGranulePosShift = (((inOggPage->getPacket(0)->packetData()[40]) % 4) << 3) + ((inOggPage->getPacket(0)->packetData()[41]) >> 5);
 			mSampleRate = FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 22) / FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 26);
 			mNumHeaders = 3;
+			mFoundStreamInfo = true;
 			//Need denominators
 			//mTheoraFormatBlock->frameRateDenominator = FLACMath::charArrToULong(locIdentHeader + 26);
-		} else {
+		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(),  "fLaC", 4) == 0)) {
+			//mPacketCount--;
+			mNumHeaders = 2;
+			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
+			isFLAC = true;
+		} else if (isFLAC && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo())) {
+			//Catch the second flac packet.
+			mSampleRate = FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 14) >> 12;
+			mFoundStreamInfo = true;
+		}else {
+			mFoundStreamInfo = true;
 			mEnabled = false;
 			mSampleRate = 1;
 			
@@ -89,7 +104,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 	}
 
 
-	if ((mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) && (inOggPage->header()->GranulePos()->value() != -1)) {
+	if ((mFoundStreamInfo) && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) && (inOggPage->header()->GranulePos()->value() != -1)) {
 		//if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
 		if ((mPacketCount > mNumHeaders) && ((inOggPage->header()->HeaderFlags() & 1) != 1)) {
 			addSeekPoint(mLastSeekTime, mFilePos);

@@ -66,6 +66,8 @@ protected:
 	unsigned long mGranulePosShift;
 	bool mLastIsSeekable;
 	bool isTheora;
+	bool isFLAC;
+	bool mFoundStreamInfo;
 	__int64 mLastSeekTime;
 	__int64 mFileDuration;
 	fstream mFile;

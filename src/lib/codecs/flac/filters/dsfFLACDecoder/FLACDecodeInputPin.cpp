@@ -136,12 +136,18 @@ void FLACDecodeInputPin::DestroyCodec()
 	//Make the start timestamp
 	//FIX:::Abstract this calculation
 	//REFERENCE_TIME locFrameStart = CurrentStartTime() + (((__int64)(mUptoFrame * UNITS)) / mSampleRate);
-	REFERENCE_TIME locFrameStart = (((__int64)(mUptoFrame * UNITS)) / mSampleRate);
+
+
+	//ADDING TIMEBASE INFO.
+	REFERENCE_TIME locTimeBase = ((mLastSeenStartGranPos * UNITS) / mSampleRate) - mSeekTimeBase;
+
+
+	REFERENCE_TIME locFrameStart = locTimeBase + (((__int64)(mUptoFrame * UNITS)) / mSampleRate);
 	//Increment the frame counter
 	mUptoFrame += locNumFrames;
 	//Make the end frame counter
 	//REFERENCE_TIME locFrameEnd = CurrentStartTime() + (((__int64)(mUptoFrame * UNITS)) / mSampleRate);
-	REFERENCE_TIME locFrameEnd = (((__int64)(mUptoFrame * UNITS)) / mSampleRate);
+	REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(mUptoFrame * UNITS)) / mSampleRate);
 
 	//Get a pointer to a new sample stamped with our time
 	IMediaSample* locSample;
@@ -242,7 +248,11 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 			int locRet = 0;
 			//for(unsigned long i = 0; i < mPendingPackets.size(); i++) {
 			ASSERT((locBuff[0] == 255) && (locBuff[1] == 248));
+			if (mPendingPackets.size() == 1) {
 				locRet = process_single();
+			} else {
+				//Shouldn't be possible to get here !
+			}
 			//}
 			//mNumPacksBuffered = 0;
 		} else {
@@ -256,14 +266,25 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 	
 }
 
-STDMETHODIMP FLACDecodeInputPin::EndFlush() {
+//STDMETHODIMP FLACDecodeInputPin::EndFlush() {
+//	flush();
+//	unsigned long locSize = mPendingPackets.size();
+//	for (unsigned long i = 0; i < locSize; i++) {
+//		delete mPendingPackets.front();
+//		mPendingPackets.pop();
+//	}
+//	return AbstractAudioDecodeInputPin::EndFlush();
+//	
+//}
+
+STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
 	flush();
 	unsigned long locSize = mPendingPackets.size();
 	for (unsigned long i = 0; i < locSize; i++) {
 		delete mPendingPackets.front();
 		mPendingPackets.pop();
 	}
-	return AbstractAudioDecodeInputPin::EndFlush();
+	return AbstractAudioDecodeInputPin::BeginFlush();
 	
 }
 
