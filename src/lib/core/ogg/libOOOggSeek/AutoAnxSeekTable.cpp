@@ -17,10 +17,12 @@ AutoAnxSeekTable::~AutoAnxSeekTable(void)
 
 //IOggCallback interface
 bool AutoAnxSeekTable::acceptOggPage(OggPage* inOggPage) {
+	//FIX::: This is serious mess !
 	if (mSeenAnything == false) {
 		if (strncmp((const char*)inOggPage->getPacket(0)->packetData(), "Annodex", 7) == 0) {
 			mAnnodexSerialNo = inOggPage->header()->StreamSerialNo();
 			mSeenAnything = true;
+			mFilePos += inOggPage->pageSize();
 			return true;
 			//Need to grab other info here.
 		} else {
@@ -31,6 +33,7 @@ bool AutoAnxSeekTable::acceptOggPage(OggPage* inOggPage) {
 	if ((mAnnodexSerialNo == inOggPage->header()->StreamSerialNo()) && ((inOggPage->header()->HeaderFlags() & 4) != 0)) {
 		//This is the EOS o the annodex section... everything that follows is ogg like
 		mReadyForOgg = true;
+		mFilePos += inOggPage->pageSize();
 		return true;
 	}
 
@@ -46,10 +49,13 @@ bool AutoAnxSeekTable::acceptOggPage(OggPage* inOggPage) {
 	if (mReadyForOgg) {
 		if (mSkippedCMML == false) {
 			mSkippedCMML = true;
+			mFilePos += inOggPage->pageSize();
 			return true;
 		} else {
 			return AutoOggSeekTable::acceptOggPage(inOggPage);
 		}
+	} else {
+		mFilePos += inOggPage->pageSize();
 	}
 	
 	return true;
