@@ -5,12 +5,107 @@
   <meta name="description" content="Directshow Ogg demuxer/muxer with vorbis, speex, FLAC and theora decoders and vorbis, speex encoders.">
   <meta name="keywords" content="directshow, theora, vorbis, speex, ogg, media player, flac, codec, windows, audio, video, wmp, directX, plugin, plug-in, decoder, encoder, demux, mux, demuxer">
 </head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#DD0000" alink="#FF0000">
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#DDDDDD" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=15%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><a href="http://www.xiph.org">Xiph.org</a></DIV>
+</FONT>
+</TD>
+
+<TD width=15%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><a href="http://www.vorbis.com">Vorbis</a></DIV>
+</FONT>
+</TD>
+
+<TD width=15%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><a href="http://www.speex.org">Speex</a></DIV>
+</FONT>
+</TD>
+
+<TD width=15%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><a href="http://www.theora.org">Theora</a></DIV>
+</FONT>
+</TD>
+
+<TD width=15%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><a href="http://flac.sourceforge.net/">FLAC</a></DIV>
+</FONT>
+</TD>
+
+<TD width=15%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><a href="http://www.annodex.net">Annodex</a></DIV>
+</FONT>
+</TD>
+
+<TD width=10%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>ogg@illiminable.com</b></DIV>
+</FONT>
+</TD>
+
+</TR>
+
+
+</TABLE>
+</DIV>
+</FONT>
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right"><b><font size="+2">History of Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC</font></b></DIV>
+</FONT>
+</TD>
+</TR>
+
+</TABLE>
+</DIV>
+</FONT>
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#070707" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"></DIV>
+</FONT>
+</TD>
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 <a href="http://www.illiminable.com/ogg">Main Page</a><br>
 <br>
-<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#FF00FF" alink="#FF0000">
-<b><u><font size="+2">History of Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC</font></u></b><br>
-<br>
-<b><u><font size="+1">History</font></u></b><br>
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>How it started...</b></DIV>
+</FONT>
+</TD>
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
 I first began working on ogg media directshow filters whilst under contract to CSIRO's <a href="http://www.annodex.net">annodex.net</a> project group. Much of the knowledge I needed to write these filters was gained through my work with this project.My initial implementation was for a specific annodex (which uses the ogg encapsulation format)demuxer. Part of my aim of this project was to use the knowledge gained to create a set of filters that works with generic ogg physical streams rather than just a particular physical bitstream format and to release these back to the open source community. There were several limitations to the approach taken to the original annodex filters which is why I decided to start from scratch to design the filter architecture over again with the experience of the first attempt.<br>
 <br>
 Another of my aims of this project is to rewrite the annodex demuxer to use this new design in order for it to be more extensible and easier to work with. This time writing the generic ogg case first and then basing the annodex demuxer on this new design it will increase the consistency of the code between the two modules and provide less trouble integrating new codecs, with the aim of making annodex technology available in the standard applications that come default with windows.<br>
@@ -19,14 +114,47 @@ I encourage you all to go and check out the <a href="http://www.annodex.net">ann
 <br>
 Thankyou to CSIRO's annodex.net project group (Silvia Pfeiffer, Conrad Parker and André Pang) for the opportunity to work on this exciting new technology and sparking my interest in directshow and the <a href="http://xiph.org">xiph.org</a> range of codecs.<br>
 <br>
-<br>
 On the 1st of May 2004, this project began to be maintained in the <a href="http://www.xiph.org">xiph.org</a> subversion repository. It can be found at <a href="http://svn.xiph.org/trunk/oggdsf/">svn.xiph.org/trunk/oggdsf/</a><br>
 <br>
 <br>
-<b><u><font size="+1">Previous Versions</font></u></b><br>
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Versions</b></DIV>
+</FONT>
+</TD>
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
 <b><font size="+1">Only download these if you have problems with the <a href="http://www.illiminable.com/ogg/">new version</a>.</font></b><br>
 <br>
-<b><u>Previous Version (0.62.7673) - 01/09/2004</u></b><br>
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.62.7673) - 01/09/2004</b></DIV>
+</FONT>
+</TD>
+
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 To stop people unnecessarily downloading the windows installer over and over, the packages will no longer include the installer. If you have a pre-XP 
 windows, and don't already have the windows installer on your system (almost everyone who has ever installed something should have it already) you can
 download the installer seperately from the links at the top of the page.<br>
@@ -61,14 +189,35 @@ Changed the installer a bit so people realise when they download via download "s
 </DIV>
 </FONT>
 <br>
-<b><u>Changes this version</u></b><br>
 	<li>Fixed a few memory leaks... there are still more left though.</li>
 	<li>Removed all the .NET sample applications to avoid those without .NET being forced to install it.</li>
 	<li>Streaming greatly improved. Will now cache a file as it streams in the TEMP directory as specified in environment variables.</li>
 	<li>Made experimental SSE/SSE2 optimised builds of all libraries.</li>
 	<li>Changed the installer so that you have to click through the BSD licenses, and to show where the software came from as many sites are linking directly to the .zip files so users are not getting the opportunity to read about known issues, or even know if they are getting the current version.</li>
 <br>
-<b><u>Previous Version (0.61.7571) - 16/08/2004</u></b><br>
+
+
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.61.7571) - 16/08/2004</b></DIV>
+</FONT>
+</TD>
+
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
+
+
 To stop people unnecessarily downloading the windows installer over and over, the packages will no longer include the installer. If you have a pre-XP 
 windows, and don't already have the windows installer on your system (almost everyone who has ever installed something should have it already) you can
 download the installer seperately from the links at the top of the page.<br>
@@ -76,6 +225,9 @@ download the installer seperately from the links at the top of the page.<br>
 Fixed a few bugs in theora, seeking almost never crashes now. FLAC playback and seeking now works properly, though not extensively tested. Includes a FLAC encoder filter. Starting from the
 next release I will start offering different build configurations, ie minimal decode only installation, builds with SSE2 optimisations etc.<br>
 <br>
+
+
+
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
 <TR valign=top>
@@ -103,7 +255,7 @@ next release I will start offering different build configurations, ie minimal de
 </DIV>
 </FONT>
 <br>
-<b><u>Changes this version</u></b><br>
+
 	<li>Fixed seeking crash problems with theora</li>
 	<li>Fixed FLAC playback</li>
 	<li>Added a FLAC encoder filter</li>
@@ -111,7 +263,28 @@ next release I will start offering different build configurations, ie minimal de
 	<li>Added a .NET directshow playback library</li>
 	<li>Added a validation program for ogg files OOOggValidate</li>
 <br>
-<b><u>Previous Version (0.60.7043) - 08/07/2004</u></b><br>
+
+
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.60.7043) - 08/07/2004</b></DIV>
+</FONT>
+</TD>
+
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
+
 Quite a fair bit added this time, most notably an encoder for theora... see <a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">Encoding theora</a><br>
 Only a few encoding parameters are currently exposed via a filter property page. Also modified the demuxer so it can handle http streams though there are some issues. The buffering is very simple, it doesn't optimise buffer based on bandwidth. Network steams are currently non-seekable. Also only non-chained
 files should be streamed. Most encoded files are not chained. However some icecast streams, Which are not continuous, have breaks where songs change, this type of stream will likely crash the media player. However continuous live streams... such as radio broadcasts etc generally work fine. The network streaming has only recently be added, so i expect it to still be fairly buggy.<br>
@@ -138,6 +311,8 @@ This release has a lot of new code added, I'd really appreciate feedback on the 
 
 <br>
 <br>
+
+
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
 <TR valign=top>
@@ -173,7 +348,25 @@ This release has a lot of new code added, I'd really appreciate feedback on the 
 </DIV>
 </FONT>
 <br>
-<b><u>Previous Version (0.57.6744) - 22/05/2004</u></b><br>
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.57.6744) - 22/05/2004</b></DIV>
+</FONT>
+</TD>
+
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 Previous release a few hours ago had hundreds of debug statements in the release build. It may have created log files in your C:\ Root directory as well as C:\temp and possibly in G:\ if you have a writable G drive. Sorry if you got this a few hours ago.
 <br>
 	<li>Removed a whole heap of debugging code.</li>
@@ -216,7 +409,24 @@ Previous release a few hours ago had hundreds of debug statements in the release
 </DIV>
 </FONT>
 
-<b><u>Previous Version (0.56.6741) - 21/05/2004</u></b><br>
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.56.6741) - 21/05/2004</b></DIV>
+</FONT>
+</TD>
+
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 Most of the changes in this build are internal modifications to better deal with the need to determine start times of all samples in order to properly synchronise multi-stream files. The main externally visible change is the limited ability to seek in theora files without total loss of synch. There are still a few issues to be ironed out though.
 <br>
 	<li>Modified internal timestamping mechanism, to allow resynch easier in theora.</li>
@@ -225,7 +435,28 @@ Most of the changes in this build are internal modifications to better deal with
 	<li>Added simple new tool called OOOggStat, to give info on contained streams.</li>
 
 <br>
-<b><u>Previous Version (0.55.0115) - 27/04/2004</u></b><br>
+
+
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.55.0115) - 27/04/2004</b></DIV>
+</FONT>
+</TD>
+
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
+
 Vorbis and speex playback are now pretty much finished bar the very rare bug I mention below. I've played dozens of speex and vorbis files and they all seem just fine. Pretty much fully functional.<br>
 The track duration shows up incorrectly in all codecs besides speex and vorbis because I haven't coded it yet !<br>
 A seek table is built as the file is loaded... this is currently done by basicly processing the entire file... so there may be a small delay loading large files. When I get time I'll replace this with a better method that doesn't try and process the entire file, but can skip through to the relevant parts.<br>
@@ -235,7 +466,27 @@ A seek table is built as the file is loaded... this is currently done by basicly
 	<li>Fixed a few internal errors with regards to timestamping</li>
 	<li>Added a seek table for rapid seeking</li>
 <br>
-<b><u>Previous Version (0.52.0093) - 18/04/2004</u></b><br>
+
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.52.0093) - 18/04/2004</b></DIV>
+</FONT>
+</TD>
+
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
+
 	<li>NOTE: I suggest you don't distribute files encoded with these codecs yet... there may still be problems with them</li>
 	<li>See version 0.50.0090 for information</li>
 	<li>Now checksums pages properly.</li>
@@ -243,12 +494,43 @@ A seek table is built as the file is loaded... this is currently done by basicly
 	
 
 <br>
-<b><u>Previous Version (0.51.0092) - 18/04/2004</u></b><br>
+
+
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.51.0092) - 18/04/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 	<li>See version 0.50.0090 for information</li>
 	<li>Stuffed up some packaging and linking in the last version... probably won't affect it, but just to be safe, did rebuild and package. Sorry if you got it 5 minutes ago !</li>
 	
 <br>
-<b><u>Previous Version (0.50.0090) - 18/04/2004</u></b><br>
+
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.50.0090) - 18/04/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 Start of encoding support has been added... see <a href="http://www.illiminable.com/ogg/graphedit.html">example filter graphs</a>. Use graphedit (<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en">DirectX9 SDK</a>)</li>
 	<li>Added support for OGM style video encapsulation *decode only*, requires <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>. Should recognise any format ffdshow can handle. (Video quite clumpy at the moment)</li>
 	<li>Added single stream Ogg Muxer... for muxing theora, speex and vorbis</li>
@@ -257,7 +539,23 @@ Start of encoding support has been added... see <a href="http://www.illiminable.
 	<li>Included Abstract Audio Encoder library</li>
 	
 <br>
-<b><u>Previous Version (0.40.0069) - 08/04/2004</u></b><br>
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.40.0069) - 08/04/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
+
+
 This new release completes the basic functionality for the four major codecs, though there are still bugs. Theora hasn't been extensively tested
 as I don't have many test files to work with. FLAC is still pretty buggy... theora less so... but still buggy.
 	<li>NOTE: Untested with DirectX 8 or lower. I'm pretty sure theora will only play with DX9. Others *should* work with DX8.</li>
@@ -266,7 +564,24 @@ as I don't have many test files to work with. FLAC is still pretty buggy... theo
 	<li>Included Abstract Video Decoder library</li>
 <br>
 <br>
-<b><u>Previous Version (0.30.0058) - 31/03/2004</u></b><br>
+
+
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.30.0058) - 31/03/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
+
 Just thought I'd release this update. It includes some FLAC support but it's very buggy, I suggest you don't use FLAC just yet.<br>
 Vorbis and speex are the same as before but with below changes. Vorbis and Speex won't crash<br>
 	<li>Fixed bug in stream recogniser which defaulted unknown to speex.</li>
@@ -279,24 +594,77 @@ Vorbis and speex are the same as before but with below changes. Vorbis and Speex
 	<li>Included one of my basic debugging tools. OOOggDump. Usage : OOOggDump filename, be sure to redirect output to a file</li>
 <br>
 
-<b><u>Previous Version (0.22.0035) - 24/03/2004</u></b><br>
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.22.0035) - 24/03/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 	<li>Updated libfishsound to 0.6.0</li>
 	<li>Changes to attribution text files.</li>
 	<li>Release builds with compiler optimisations.</li>
 <br>
 <br>
-<b><u>Previous Version (0.21.0032) - 24/03/2004</u></b><br>
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.21.0032) - 24/03/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 	<li>Fixed audio defects.</li>
 	<li>Added clipping to account for out of range floats from vorbis</li>
 	<li>Updated vorbis to 1.0.1 and speex to 1.0.3</li><br>
 <br>
 
-<b><u>Previous Version (0.20.0022) - 23/03/2004</u></b><br>
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.20.0022) - 23/03/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 	<li>Added support for speex.</li>
 	<li>Recognises speex files with .ogg .spx or .speex extensions</li><br>
 <br>
 
-<b><u>Previous Version (0.11.0020) - 22/03/2004</u></b><br>
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.11.0020) - 22/03/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
+
 	<li>Removed several memory leaks.</li>
 	<li>Media Player doesn't make the error sound on exiting any more.</li>
 	<li>Fixed a few crashing bugs that only show up in graphedit by doing stupid things.</li>
@@ -304,7 +672,20 @@ Vorbis and speex are the same as before but with below changes. Vorbis and Speex
 	<li>Fixed a crashing bug in libfishsound</li><br>
 <br>
 
-<b><u>Previous Version (0.10.0019) - 22/03/2004</u></b><br>
+
+
+<FONT size=2 color="#101010" face="Arial">
+<DIV><TABLE width=100% bgcolor="#CCCCCC" border=0 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=100%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="left"><b>Previous Version (0.10.0019) - 22/03/2004</b></DIV>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+
 	<li>Initial binary release.</li><br>
 <br>
 <a href="http://www.illiminable.com/ogg">Main Page</a><br>

@@ -94,7 +94,7 @@ protected:
 	unsigned long mYOffset;
 
 	//DEBUG ONLY
-	fstream debugLog;
+	//fstream debugLog;
 	//
 
 	

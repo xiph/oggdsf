@@ -39,7 +39,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 	
 
 {
-	debugLog.open("g:\\logs\\theoencfiltinput.log", ios_base::out);
+	//debugLog.open("g:\\logs\\theoencfiltinput.log", ios_base::out);
 	mYUV.y = NULL;
 	mYUV.u = NULL;
 	mYUV.v = NULL;
@@ -48,7 +48,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 
 TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	DestroyCodec();
 	delete mYUV.y;
 	delete mYUV.u;
@@ -610,22 +610,57 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 	//DEST: v u y a
 
 	unsigned char* locSourceEnds = inBuf + (locNumPixels * 3);
-	for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 3) {
-		locB = locSourcePtr[0];					//Blue
-		locL = KB * (locB);						//Blue
-		
-		locL += G_FACTOR * (locSourcePtr[1]);	//Green
 
-		locR = locSourcePtr[2];					//Red
-		locL += KR * (locR);					//Red
+	//Upside down... Upside down !
+	//for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 3) {
+	//	locB = locSourcePtr[0];					//Blue
+	//	locL = KB * (locB);						//Blue
+	//	
+	//	locL += G_FACTOR * (locSourcePtr[1]);	//Green
 
-		
-		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
-		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
-		*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
-		*(locDestPtr++) = 255;																		//A for alpha
-	}
+	//	locR = locSourcePtr[2];					//Red
+	//	locL += KR * (locR);					//Red
+
+	//	
+	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
+	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
+	//	*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
+	//	*(locDestPtr++) = 255;																		//A for alpha
+	//}
 	
+
+	unsigned char* locColSourcePtr = NULL;
+	unsigned char* locColEndPtr = NULL;
+	unsigned long locLineLength = mWidth * 3;
+	unsigned long col = 0;
+	for (unsigned char* locSourcePtr = locSourceEnds - locLineLength; locSourcePtr >= inBuf; locSourcePtr -= locLineLength) {
+		//
+		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < mWidth; i++, locColSourcePtr +=4) {
+		//
+		locColSourcePtr = locSourcePtr;
+		locColEndPtr = locColSourcePtr + locLineLength;
+		while (locColSourcePtr < locColEndPtr) {
+			locB = locColSourcePtr[0];					//Blue
+			locL = KB * (locB);							//Blue
+		
+			locL += G_FACTOR * (locColSourcePtr[1]);	//Green
+
+			locR = locColSourcePtr[2];					//Red
+			locL += KR * (locR);						//Red
+
+		
+			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
+			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
+			*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
+			*(locDestPtr++) = 255;																		//A for alpha
+
+			//debugCount++;		
+			locColSourcePtr+=3;
+
+		}
+
+
+	}
 
 
 	//Still need to pass through to the AYUV conversion.
@@ -640,15 +675,15 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 
 long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumBytes) {
 	//Blue Green Red Alpha Blue Green Red Alpha
-	debugLog<<"EncodeRGB32 To YV12 :"<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 :"<<endl;
 
 	unsigned long locNumPixels = (inNumBytes/4);
 	
-	debugLog<<"EncodeRGB32 To YV12 : Num pixels = "<<locNumPixels<<endl;
-	debugLog<<"EncodeRGB32 To YV12 : Num BYtes = "<<inNumBytes<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 : Num pixels = "<<locNumPixels<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 : Num BYtes = "<<inNumBytes<<endl;
 	unsigned char* locAYUVBuf = new unsigned char[inNumBytes];   //4 bytes per pixel
 
-	debugLog<<"EncodeRGB32 To YV12 :"<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 :"<<endl;
 
 	//Scaled by factor of 65536 to integerise.
 	const int KR = 19596;
@@ -671,13 +706,14 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 	//DEST: v u y a
 
 	unsigned char* locSourceEnds = inBuf + (inNumBytes);
-	debugLog<<"EncodeRGB32 To YV12 : Source Starts = "<<(int)inBuf<<endl;
-	debugLog<<"EncodeRGB32 To YV12 : Source Ends = "<<(int)locSourceEnds<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 : Source Starts = "<<(int)inBuf<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 : Source Ends = "<<(int)locSourceEnds<<endl;
 
 	//Debugging only... all refs to debugCount remove later
-	unsigned long debugCount = 0;
+	//unsigned long debugCount = 0;
 	//
 
+	//Upside down !!
 	//for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 4) {
 	//	locB = locSourcePtr[0];					//Blue
 	//	locL = KB * (locB);						//Blue
@@ -707,20 +743,20 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 		locColEndPtr = locColSourcePtr + locLineLength;
 		while (locColSourcePtr < locColEndPtr) {
 			locB = locColSourcePtr[0];					//Blue
-			locL = KB * (locB);						//Blue
+			locL = KB * (locB);							//Blue
 		
 			locL += G_FACTOR * (locColSourcePtr[1]);	//Green
 
 			locR = locColSourcePtr[2];					//Red
-			locL += KR * (locR);					//Red
+			locL += KR * (locR);						//Red
 
 		
 			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
 			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
 			*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
-			*(locDestPtr++) = locColSourcePtr[3];																		//A for alpha
+			*(locDestPtr++) = locColSourcePtr[3];														//A for alpha
 
-			debugCount++;		
+			//debugCount++;		
 			locColSourcePtr+=4;
 
 		}
@@ -728,13 +764,13 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 
 	}
 
-	debugLog<<"EncodeRGB32 To YV12 : debugCount = "<<debugCount<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 : debugCount = "<<debugCount<<endl;
 
 	ASSERT(debugCount == locNumPixels);
 	
 	ASSERT(locDestPtr == (locAYUVBuf + inNumBytes));
 
-	debugLog<<"EncodeRGB32 To YV12 : Calling AYUV to YV12 conversion"<<endl;
+	//debugLog<<"EncodeRGB32 To YV12 : Calling AYUV to YV12 conversion"<<endl;
 	//Still need to pass through to the AYUV conversion.
 
 	encodeAYUVtoYV12(locAYUVBuf, inNumBytes);
@@ -757,7 +793,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	//Strategy : Process two lines and 2 cols at a time averaging 4 U and V around the position where a
 	// YV12 chroma sample will be... leave luminance samples... ignore alpha samples
 
-	debugLog<<"Encode AYUV To YV12 :"<<endl;
+	//debugLog<<"Encode AYUV To YV12 :"<<endl;
 	
 	const int PIXEL_BYTE_SIZE = 4;
 	ASSERT (mHeight % 2 == 0);
