@@ -64,4 +64,5 @@ public:
 protected:
 	//unsigned long mNumHeaderPackets;
 	sFLACFormatBlock* mFLACFormatBlock;
+	bool mIsFixedNumHeaders;
 };

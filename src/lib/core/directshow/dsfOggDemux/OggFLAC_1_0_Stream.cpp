@@ -36,6 +36,7 @@
 OggFLAC_1_0_Stream::OggFLAC_1_0_Stream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
 	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mFLACFormatBlock(NULL)
+	,	mIsFixedNumHeaders(false)
 	//,	mNumHeaderPackets(0)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
@@ -54,7 +55,19 @@ bool OggFLAC_1_0_Stream::InitCodec(StampedOggPacket* inOggPacket) {
 	//What to do with commment fields ??
 	//We set this to 1... and we override the header processor
 	//When we see the last header packet ie starts with 1xxxxxxx then we decrement it.
-	mNumHeadersNeeded = 1;
+	
+	//NEW::: Since the ogg flac 1.0 mapping there's now another option... if the new first header
+	// specifies the number of headers, we can count directly, otherwise we stll use the old
+	// method for maximum compatability.
+	mNumHeadersNeeded = iBE_Math::charArrToUShort(inOggPacket->packetData() + 7);
+	if (mNumHeadersNeeded == 0) {
+		//Variable number
+		// Use the old method of setting this to 1, and then decrementing it when we see the last one.
+		mNumHeadersNeeded = 1;
+		mIsFixedNumHeaders = false;
+	} else {
+		mIsFixedNumHeaders = true;
+	}
 	return true;
 }
 
@@ -70,11 +83,11 @@ bool OggFLAC_1_0_Stream::createFormatBlock() {
 	mFLACFormatBlock = new sFLACFormatBlock;
 	//Fix the format block data... use header version and other version.
 	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
-	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(1)->packetData()[16]) & FLAC_CHANNEL_MASK) >> 1) + 1;
-	mFLACFormatBlock->sampleRate = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 14)) >> 12;
+	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(1)->packetData()[25]) & FLAC_CHANNEL_MASK) >> 1) + 1;
+	mFLACFormatBlock->sampleRate = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 23)) >> 12;
 	
-	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(1)->packetData()[16] & FLAC_BPS_START_MASK) << 4)	|
-											((mCodecHeaders->getPacket(1)->packetData()[17] & FLAC_BPS_END_MASK) >> 4)) + 1;	
+	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(1)->packetData()[25] & FLAC_BPS_START_MASK) << 4)	|
+											((mCodecHeaders->getPacket(1)->packetData()[26] & FLAC_BPS_END_MASK) >> 4)) + 1;	
 	return true;
 }
 BYTE* OggFLAC_1_0_Stream::getFormatBlock() {
@@ -106,9 +119,13 @@ bool OggFLAC_1_0_Stream::processHeaderPacket(StampedOggPacket* inPacket) {
 	if (inPacket != NULL) {
 		//We got a comlpete packet
 		mCodecHeaders->addPacket(inPacket);
-		if ((inPacket->packetData()[0] & MORE_HEADERS_MASK) != 0) {
+		if (mIsFixedNumHeaders) {
 			mNumHeadersNeeded--;
-			//mNumHeaderPackets++;
+		} else {
+			if ((inPacket->packetData()[0] & MORE_HEADERS_MASK) != 0) {
+				mNumHeadersNeeded--;
+				//mNumHeaderPackets++;
+			}
 		}
 	}
 	return true;
