@@ -23,9 +23,8 @@ lib_LTLIBRARIES = \
 	$(NULL)
 
 INCLUDES = \
-	   -I@top_srcdir@/../src/lib/helper/libilliCore \
-	   -I@top_srcdir@/../src/lib/core/ogg/libOOOgg \
-	   -I@top_srcdir@/../src/lib/core/ogg/libOOOggSeek \
+	   -I@top_srcdir@/../src/lib/helper \
+	   -I@top_srcdir@/../src/lib/core/ogg \
 	   -I@top_srcdir@/../src/lib/core/ogg/libVorbisComment \
 	   $(NULL)
 
@@ -78,6 +77,7 @@ libilliCore_HEADERS = \
 	../src/lib/helper/libilliCore/illicoreconfig.h \
 	../src/lib/helper/libilliCore/libilliCore.h \
 	../src/lib/helper/libilliCore/StringHelper.h \
+	../src/lib/helper/libilliCore/stdafx.h \
 	$(NULL)
 
 libOOOgg_la_LIBADD = libilliCore.la
@@ -117,6 +117,7 @@ libOOOgg_HEADERS = \
 	../src/lib/core/ogg/libOOOgg/OggPaginatorSettings.h \
 	../src/lib/core/ogg/libOOOgg/OggTypeDefs.h \
 	../src/lib/core/ogg/libOOOgg/StampedOggPacket.h \
+	../src/lib/core/ogg/libOOOgg/stdafx.h \
 	$(NULL)
 
 
