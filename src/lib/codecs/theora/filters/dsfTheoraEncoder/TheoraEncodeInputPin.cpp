@@ -678,22 +678,54 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 	unsigned long debugCount = 0;
 	//
 
-	for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 4) {
-		locB = locSourcePtr[0];					//Blue
-		locL = KB * (locB);						//Blue
+	//for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 4) {
+	//	locB = locSourcePtr[0];					//Blue
+	//	locL = KB * (locB);						//Blue
+	//	
+	//	locL += G_FACTOR * (locSourcePtr[1]);	//Green
+
+	//	locR = locSourcePtr[2];					//Red
+	//	locL += KR * (locR);					//Red
+
+	//	
+	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
+	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
+	//	*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
+	//	*(locDestPtr++) = locSourcePtr[3];																		//A for alpha
+
+	//	debugCount++;
+	//}
+	unsigned char* locColSourcePtr = NULL;
+	unsigned char* locColEndPtr = NULL;
+	unsigned long locLineLength = mWidth * 4;
+	unsigned long col = 0;
+	for (unsigned char* locSourcePtr = locSourceEnds - locLineLength; locSourcePtr >= inBuf; locSourcePtr -= locLineLength) {
+		//
+		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < mWidth; i++, locColSourcePtr +=4) {
+		//
+		locColSourcePtr = locSourcePtr;
+		locColEndPtr = locColSourcePtr + locLineLength;
+		while (locColSourcePtr < locColEndPtr) {
+			locB = locColSourcePtr[0];					//Blue
+			locL = KB * (locB);						//Blue
 		
-		locL += G_FACTOR * (locSourcePtr[1]);	//Green
+			locL += G_FACTOR * (locColSourcePtr[1]);	//Green
 
-		locR = locSourcePtr[2];					//Red
-		locL += KR * (locR);					//Red
+			locR = locColSourcePtr[2];					//Red
+			locL += KR * (locR);					//Red
 
 		
-		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
-		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
-		*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
-		*(locDestPtr++) = locSourcePtr[3];																		//A for alpha
+			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
+			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
+			*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
+			*(locDestPtr++) = locColSourcePtr[3];																		//A for alpha
 
-		debugCount++;
+			debugCount++;		
+			locColSourcePtr+=4;
+
+		}
+
+
 	}
 
 	debugLog<<"EncodeRGB32 To YV12 : debugCount = "<<debugCount<<endl;
