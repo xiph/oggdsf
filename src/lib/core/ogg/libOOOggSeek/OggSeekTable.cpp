@@ -57,11 +57,7 @@ bool OggSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos) {
 
 }
 
-//LOOG_INT64 OggSeekTable::getRealStartPos() {
-//	
-//	return mRealStartPos;
-//
-//}
+
 /** Returns a tSeekPair whose first element is the
     actual closest possible time that can be seeked to (which will always be either before or at
     the requested seek position).  The second element is the number of bytes into the stream where

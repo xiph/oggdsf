@@ -1,6 +1,6 @@
 #pragma once
-#include "libOOOgg.h"
-#include "IStampedOggPacketSink.h"
+#include <libOOOgg/libOOOgg.h>
+#include <libOOOgg/IStampedOggPacketSink.h>
 class OOOggPacketDumper
 	:	public IStampedOggPacketSink
 {

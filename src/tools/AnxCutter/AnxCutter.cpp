@@ -217,7 +217,7 @@ int main(int argc, char * argv[])
 		// Seek to the user's requested start time
 		LOOG_UINT64 locStartTime = StringHelper::stringToNum(argv[3]);
 		OggSeekTable::tSeekPair locSeekResult = locSeekTable->getStartPos(locStartTime);
-		cout << "Seek result for " << locStartTime << " nanoseconds: " << locSeekResult.first << " at " << locSeekResult.second << " bytes" << endl;
+		cout << "Seek result for " << locStartTime << " * 100 nanoseconds: " << locSeekResult.first << " at " << locSeekResult.second << " bytes" << endl;
 
 		// Stream-copy everything from the requested timepoint onward to the output file
 		inputFile.open(argv[1], ios_base::in | ios_base::binary);

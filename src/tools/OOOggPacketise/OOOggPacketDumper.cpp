@@ -10,7 +10,7 @@ OOOggPacketDumper::~OOOggPacketDumper(void)
 }
 bool OOOggPacketDumper::acceptStampedOggPacket(StampedOggPacket* inPacket) {
 
-	cout << "------ Packet : Gran Pos =  "<<inPacket->endTime()<<", Size = "<< inPacket->packetSize() << " bytes -------";
+	cout << "------ Packet : Gran Pos =  "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<", Size = "<< inPacket->packetSize() << " bytes -------";
 	
 	if (inPacket->isContinuation()) {
 		cout<<"  ** CONT **";			///These should be here if you use the packetiser

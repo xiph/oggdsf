@@ -33,55 +33,85 @@
 //
 
 #include "stdafx.h"
-#include <libOOOgg.h>
-#include <dllstuff.h>
-#include "OggPacketiser.h"
+#include <libOOOgg/libOOOgg.h>
+#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/OggPacketiser.h>
 #include "OOOggPacketDumper.h"
 #include <iostream>
 
-
+#include <map>
 #include <fstream>
 
 //This will be called by the callback
 
-unsigned long streamNo;
+//OggPacketiser* testPacketiser  = new OggPacketiser(&testPacketDumper);
 
-bool pageCB(OggPage* inOggPage) {
-	//if (inOggPage->header()->isBOS()) {
-	//	streamNo++;
-	//}
+typedef map<unsigned long, OggPacketiser*> tStreamMap;
 
-	
+tStreamMap streamMap;
+OOOggPacketDumper testPacketDumper;
 
 
-	
+
+bool pageCB(OggPage* inOggPage, void *inUserData /* ignored */) {
+
+	tStreamMap::iterator locIt = streamMap.find(inOggPage->header()->StreamSerialNo());
+
+	if (locIt == streamMap.end()) {
+		//Not found
+		OggPacketiser* locPacketiser = new OggPacketiser(&testPacketDumper);
+
+		streamMap.insert(tStreamMap::value_type(inOggPage->header()->StreamSerialNo(), locPacketiser));
+		locIt = streamMap.find(inOggPage->header()->StreamSerialNo());
+	}
+
+	if (locIt == streamMap.end()) {
+		cout<<"FAILED !!!!!!!!"<<endl;
+	}
+
+	//Assume we have a valid packetiser...
+
+	cout<<"======================================="<<endl;
+	cout	<< "Stream : "<<inOggPage->header()->StreamSerialNo()
+		<< "   Gran : "<<inOggPage->header()->GranulePos()<<endl<<endl;
+
+	(*locIt).second->acceptOggPage(inOggPage);
+
 	return true;
+
+
+
+
+
 }
 
-
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else
+int main (int argc, char * argv[])
+#endif
 {
 
 
 	int x;
 	cin>>x;
-	//This program just dumps the packets out of a file in ogg format.
+	//This program just dumps the packets of the first stream out of a file in ogg format.
 	// Currently does not error checking. Check your command line carefully !
 	// USAGE :: OOOggPacketise <OggFile>
 	//
 	if (argc < 2) {
 		cout<<"Usage : OOOggPacketise <filename>"<<endl;
 	} else {
-		streamNo = 0;
+
 		OggDataBuffer testOggBuff;
-		OOOggPacketDumper testPacketDumper;
-		OggPacketiser* testPacketiser  = new OggPacketiser(&testPacketDumper);
+		
+		
 	
-		testOggBuff.registerVirtualCallback(testPacketiser);
+		//testOggBuff.registerVirtualCallback(testPacketiser);
 		
 
 		const BUFF_SIZE = 8092;
-		//testOggBuff.registerStaticCallback(&pageCB);
+		testOggBuff.registerStaticCallback(&pageCB, NULL);
 
 		fstream testFile;
 		testFile.open(argv[1], ios_base::in | ios_base::binary);

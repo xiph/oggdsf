@@ -28,6 +28,12 @@
         "Entry"
         {
         "MsmKey" = "8:_08F41A479D744DC3928D5928DFE72E6F"
+        "OwnerKey" = "8:_E6B7C1CA6BF74C998B68B4C3379FB830"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_08F41A479D744DC3928D5928DFE72E6F"
         "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -513,8 +519,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E6B7C1CA6BF74C998B68B4C3379FB830"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E95ADEAD396A4EDC9DA91E553455B90B"
         "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E95ADEAD396A4EDC9DA91E553455B90B"
+        "OwnerKey" = "8:_E6B7C1CA6BF74C998B68B4C3379FB830"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1115,7 +1133,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{D65F0073-A820-4085-B997-A061171595A7}"
-        "PackageCode" = "8:{FF11F55E-2DA3-46C8-92E9-2FA3DDA90C7D}"
+        "PackageCode" = "8:{89D97255-B269-4080-A244-C8926444E905}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -4300,6 +4318,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{AE0ABDB0-AE3B-4C38-843B-3408A6B87BA4}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_E6B7C1CA6BF74C998B68B4C3379FB830"
+            {
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggPacketise\\Release\\OOOggPacketise.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{463B5ED7-C6A3-4343-BA67-B324580BEC70}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

@@ -99,8 +99,10 @@ public:
 	eFeedResult feed(const unsigned char* inData, unsigned long inNumBytes);
 	void clearData();
 	
-	//Buffer state
+	/// Returns the number of bytes available for processing in the buffer.
 	unsigned long numBytesAvail();
+
+	/// Returns the current demux state.
 	eState state();
 
 protected:
