@@ -96,11 +96,12 @@ StampedOggPacket* TheoraEncoder::oldToNewPacket(ogg_packet* inOldPacket) {
 StampedOggPacket* TheoraEncoder::encodeTheora(yuv_buffer* inYUVBuffer) {
 	const int NOT_LAST_FRAME = 0;
 	const int IS_LAST_FRAME = 1;
+	int retVal = 0;
 
 	ogg_packet locOldOggPacket;
-	theora_encode_YUVin(&mTheoraState, inYUVBuffer);
+	retVal = theora_encode_YUVin(&mTheoraState, inYUVBuffer);
 	
-	theora_encode_packetout(&mTheoraState, NOT_LAST_FRAME, &locOldOggPacket);
+	retVal = theora_encode_packetout(&mTheoraState, NOT_LAST_FRAME, &locOldOggPacket);
 
 	return oldToNewPacket(&locOldOggPacket);
 	

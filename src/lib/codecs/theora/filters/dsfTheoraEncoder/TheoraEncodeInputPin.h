@@ -33,10 +33,11 @@
 #include "theoraencoderdllstuff.h"
 #include "TheoraEncoder.h"
 #include "theora/theora.h"
-//#include "AbstractVideoEncodeInputPin.h"
-//#include "TheoraEncodeInputPin.h"
 
-//#include "TheoraEncodeFilter.h"
+//DEBUG ONLY
+#include <fstream>
+using namespace std;
+//
 
 class TheoraEncodeOutputPin;
 class TheoraEncodeInputPin
@@ -67,6 +68,10 @@ protected:
 	TheoraEncoder mTheoraEncoder;
 	theora_info mTheoraInfo;
 	yuv_buffer mYUV;
+
+	//DEBUG ONLY
+	fstream debugLog;
+	//
 
 	
 };
