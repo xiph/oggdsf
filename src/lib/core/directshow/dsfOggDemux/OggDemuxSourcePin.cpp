@@ -37,7 +37,9 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
 										wstring inPinName,
-										bool inAllowSeek )
+										bool inAllowSeek,
+										unsigned long inNumBuffers,
+										unsigned long inBufferSize)
 	:	CBaseOutputPin(			NAME("Ogg Demux Output Pin")
 							,	inParentFilter
 							,	inFilterLock
@@ -49,11 +51,15 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 	,	mDataQueue(NULL)
 	,	mFirstRun(true)
 	,	mPartialPacket(NULL)
+	,	mBufferSize(inBufferSize)
+	,	mNumBuffers(inNumBuffers)
 		
 {
 	//TODO::: Something about this is causing a COM reference leak.
-
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("d:\\zen\\logs\\sourcefilterpin.log", ios_base::out);
+#endif
+
 	IMediaSeeking* locSeeker = NULL;
 	//if (inAllowSeek) {
 		//debugLog<<"Allowing seek"<<endl;
@@ -228,9 +234,9 @@ HRESULT OggDemuxSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOC
 	ALLOCATOR_PROPERTIES locActualAlloc;
 
 	locReqAlloc.cbAlign = 1;
-	locReqAlloc.cbBuffer = BUFFER_SIZE;
+	locReqAlloc.cbBuffer = mBufferSize; //BUFFER_SIZE;
 	locReqAlloc.cbPrefix = 0;
-	locReqAlloc.cBuffers = NUM_BUFFERS;
+	locReqAlloc.cBuffers = mNumBuffers; //NUM_BUFFERS;
 
 	locHR = inoutAllocator->SetProperties(&locReqAlloc, &locActualAlloc);
 

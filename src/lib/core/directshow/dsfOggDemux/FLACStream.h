@@ -53,6 +53,9 @@ public:
 	virtual GUID getMajorTypeGUID();
 	virtual LONGLONG getCurrentPos();
 
+	virtual unsigned long getNumBuffers();
+	virtual unsigned long getBufferSize();
+
 	//Override from oggstream to handle dynamic number of headers.
 	virtual bool FLACStream::processHeaderPacket(StampedOggPacket* inPacket);
 	virtual bool deliverCodecHeaders();
@@ -62,6 +65,8 @@ public:
 	virtual void setLastEndGranPos(__int64 inPos);
 
 protected:
+	static const unsigned long FLAC_NUM_BUFFERS = 75;
+	static const unsigned long FLAC_BUFFER_SIZE = 65536; //Possibly should be higher... could even be dynamicly checked from header
 	//unsigned long mNumHeaderPackets;
 	sFLACFormatBlock* mFLACFormatBlock;
 };

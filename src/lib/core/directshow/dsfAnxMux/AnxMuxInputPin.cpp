@@ -42,7 +42,9 @@ AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterL
 	,	mAnxVersionMajor(inAnxVersionMajor)
 	,	mAnxVersionMinor(inAnxVersionMinor)
 {
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("g:\\logs\\anxmuxinputpin.log", ios_base::out);
+#endif
 	mExtraPackets.clear();
 }
 

@@ -209,7 +209,10 @@ bool OggStream::AddPin() {
 																mCodecHeaders, 
 																locMediaType, 
 																getPinName(),
-																mAllowSeek);
+																mAllowSeek,
+																getNumBuffers(),
+																getBufferSize()
+															);
 	mStreamReady = true;
 	mSourcePin = locSourcePin;
 	

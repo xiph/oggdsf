@@ -111,6 +111,13 @@ GUID OggFLAC_1_0_Stream::getMajorTypeGUID() {
 	return MEDIATYPE_Audio;
 }
 
+unsigned long OggFLAC_1_0_Stream::getNumBuffers() {
+	return OGG_FLAC_1_0_NUM_BUFFERS;
+}
+unsigned long OggFLAC_1_0_Stream::getBufferSize() {
+	return OGG_FLAC_1_0_BUFFER_SIZE;
+}
+
 //Need to override from oggstream because we have variable number of headers
 bool OggFLAC_1_0_Stream::processHeaderPacket(StampedOggPacket* inPacket) {
 	//FIX::: Return values

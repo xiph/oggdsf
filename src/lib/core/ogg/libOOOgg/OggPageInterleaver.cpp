@@ -37,12 +37,17 @@ OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComple
 	,	mProgressTime(0)
 	,	mBytesWritten(0)
 {
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
+#endif
 }
 
 OggPageInterleaver::~OggPageInterleaver(void)
 {
+#ifdef OGGCODECS_LOGGING
 	debugLog.close();
+#endif
+
 
 	//Need to delete stream objects
 }
@@ -54,8 +59,10 @@ OggMuxStream* OggPageInterleaver::newStream() {
 }
 
 void OggPageInterleaver::notifyArrival() {
+#ifdef OGGCODECS_LOGGING
 	debugLog<<endl;
 	debugLog<<"notifyArrival : "<<endl;
+#endif
 	processData();
 }
 void OggPageInterleaver::processData() {
@@ -85,28 +92,30 @@ void OggPageInterleaver::processData() {
 	*/
 	//
 	//Temp
-
+#ifdef OGGCODECS_LOGGING
 	debugLog<<endl;
 	debugLog<<"ProcessData : "<<endl;
+#endif
 	
 	if (isAllEOS()) {
-		debugLog<<"ProcessData : All Streams EOS."<<endl;
+		//debugLog<<"ProcessData : All Streams EOS."<<endl;
+
 		//Finish up
 		while (!isAllEmpty()) {
-			debugLog<<"ProcessData : All Streams EOS : Flushing."<<endl;
+			//debugLog<<"ProcessData : All Streams EOS : Flushing."<<endl;
 			writeLowest();
 		}
-		debugLog<<"ProcessData : All Streams EOS : Notify complete."<<endl;
+		//debugLog<<"ProcessData : All Streams EOS : Notify complete."<<endl;
 		mNotifier->NotifyComplete();
 	} else {
-		debugLog<<"ProcessData : All Streams *NOT* EOS."<<endl;
+		//debugLog<<"ProcessData : All Streams *NOT* EOS."<<endl;
 		while (isProcessable()) {
-			debugLog<<"ProcessData : Writing lowest"<<endl;
+			//debugLog<<"ProcessData : Writing lowest"<<endl;
 			writeLowest();
 		}
-		debugLog<<"ProcessData : No more processable data"<<endl;
+		//debugLog<<"ProcessData : No more processable data"<<endl;
 		if (isAllEOS() && isAllEmpty()) {
-			debugLog<<"ProcessData : All EOS and all Empty... Notifying complete..."<<endl;
+			//debugLog<<"ProcessData : All EOS and all Empty... Notifying complete..."<<endl;
 			mNotifier->NotifyComplete();
 		}
 	}
@@ -133,12 +142,12 @@ void OggPageInterleaver::writeLowest() {
 					LOOG_INT64 locTestLowTime = mInputStreams[i]->scaledFrontTime();
 
 					//debuging
-					LOOG_INT64 locCurrLowTimeUNS = locLowestStream->frontTime();
-					LOOG_INT64 locTestLowTimeUNS = mInputStreams[i]->frontTime();
+					//LOOG_INT64 locCurrLowTimeUNS = locLowestStream->frontTime();
+					//LOOG_INT64 locTestLowTimeUNS = mInputStreams[i]->frontTime();
 					//debugging end
 
-					debugLog<<"writeLowest : Scaled : Curr = "<<locCurrLowTime<<" -- Test["<<(unsigned long)i<<"] = "<<locTestLowTime<<endl;
-					debugLog<<"writeLowest : UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<(unsigned long)i<<"] = "<<locTestLowTimeUNS<<endl;
+					//debugLog<<"writeLowest : Scaled : Curr = "<<locCurrLowTime<<" -- Test["<<(unsigned long)i<<"] = "<<locTestLowTime<<endl;
+					//debugLog<<"writeLowest : UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<(unsigned long)i<<"] = "<<locTestLowTimeUNS<<endl;
 
 					
 					//ASSERT (all header packets have granule pos 0)
@@ -171,27 +180,27 @@ void OggPageInterleaver::writeLowest() {
 						//DeBUGGIN BLOCK
 						if (	(mInputStreams[i]->peekFront() != NULL) && 
 								(mInputStreams[i]->peekFront()->header()->isBOS()) ) {
-							debugLog<<"WriteLowest : Selecting because BOS"<<endl;
+							//debugLog<<"WriteLowest : Selecting because BOS"<<endl;
 						}
 						if		(	(mInputStreams[i]->peekFront() != NULL) && 
 									((mInputStreams[i]->peekFront()->header()->GranulePos()) == -1) ) {
-							debugLog<<"WriteLowest : Selecting because gran pos = -1"<<endl;
+							//debugLog<<"WriteLowest : Selecting because gran pos = -1"<<endl;
 						}
 
 						if	((mInputStreams[i]->peekFront() != NULL) && 
 							(!mInputStreams[i]->sentAllHeaders()) &&
 							(mInputStreams[i]->packetsSent() < locLowestStream->packetsSent()) ) {
 
-									debugLog<<"WriteLowest : Selecting because hasn't sent all headers"<<endl;
+									//debugLog<<"WriteLowest : Selecting because hasn't sent all headers"<<endl;
 						}
 
 						if (locTestLowTime < locCurrLowTime) {
 						
-							debugLog<<"WriteLowest : Selecting because test time "<<locTestLowTime<<" less than "<<locCurrLowTime<<endl;
+							//debugLog<<"WriteLowest : Selecting because test time "<<locTestLowTime<<" less than "<<locCurrLowTime<<endl;
 						}
 						//END BEBUGGING BLOCK
 						locLowestStream = mInputStreams[i];
-						debugLog<<"writeLowest : Selecting stream "<<(unsigned long)i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
+						//debugLog<<"writeLowest : Selecting stream "<<(unsigned long)i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
 					}
 				}
 			}
@@ -199,12 +208,12 @@ void OggPageInterleaver::writeLowest() {
 		if (locLowestStream == NULL) {
 			throw 0;
 		} else {
-			debugLog<<"writeLowest : Writing..."<<endl;
+			//debugLog<<"writeLowest : Writing..."<<endl;
 			if (locLowestStream->scaledFrontTime() != -1) {
 				mProgressTime = locLowestStream->scaledFrontTime();
 			}
 		
-			debugLog<<"writeLowest : Progress Time = "<<mProgressTime<<endl;
+			//debugLog<<"writeLowest : Progress Time = "<<mProgressTime<<endl;
 
 			OggPage* locPageToWrite = locLowestStream->popFront();
 			mBytesWritten += locPageToWrite->pageSize();
@@ -229,29 +238,29 @@ bool OggPageInterleaver::isProcessable() {
 	for (size_t i = 0; i < mInputStreams.size(); i++) {
 		retVal = retVal && (mInputStreams[i]->isProcessable());
 	}
-	if (retVal) {
-		debugLog<<"isPRocessable : TRUE"<<endl;
-	} else {
-		debugLog<<"isPRocessable : FALSE"<<endl;
-	}
+	//if (retVal) {
+	//	debugLog<<"isPRocessable : TRUE"<<endl;
+	//} else {
+	//	debugLog<<"isPRocessable : FALSE"<<endl;
+	//}
 	return retVal;
 }
 bool OggPageInterleaver::isAllEOS() {
 	bool retVal = true;
 	//ASSERT(mInputStreams.size() >= 1)
 	for (size_t i = 0; i < mInputStreams.size(); i++) {
-		if (mInputStreams[i]->isEOS()) {
-			debugLog<<"isAllEOS : *****                  Stream "<<(unsigned long)i<<" is EOS"<<endl;
-		} else {
-			debugLog<<"isAllEOS : *****                  Stream "<<(unsigned long)i<<" not EOS"<<endl;
-		}
+		//if (mInputStreams[i]->isEOS()) {
+		//	debugLog<<"isAllEOS : *****                  Stream "<<(unsigned long)i<<" is EOS"<<endl;
+		//} else {
+		//	debugLog<<"isAllEOS : *****                  Stream "<<(unsigned long)i<<" not EOS"<<endl;
+		//}
 		retVal = retVal && (mInputStreams[i]->isEOS() || !mInputStreams[i]->isActive());
 	}
-	if (retVal) {
-		debugLog<<"isAllEOS : TRUE"<<endl;
-	} else {
-		debugLog<<"isAllEOS : FALSE"<<endl;
-	}
+	//if (retVal) {
+	//	debugLog<<"isAllEOS : TRUE"<<endl;
+	//} else {
+	//	debugLog<<"isAllEOS : FALSE"<<endl;
+	//}
 	return retVal;
 }
 

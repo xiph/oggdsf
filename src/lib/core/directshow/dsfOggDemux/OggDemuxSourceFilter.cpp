@@ -115,11 +115,10 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
+
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
-	//debugLog<<"Test..."<<endl;
-	//debugLog.seekp(0, ios_base::end);
-	//debugLog<<"Test2..."<<endl;
-	//debugLog << "**************** Starting LOg ********************"<<endl;
+#endif
 
 }
 
@@ -136,8 +135,10 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 	mSourceFileLock = new CCritSec;
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
-
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("d:\\zen\\logs\\anx_base_sourcelog.log", ios_base::out);
+#endif
+
 	//When it is derived, it's up to the superclass to set this.
 	//mStreamMapper = new OggStreamMapper(this);
 

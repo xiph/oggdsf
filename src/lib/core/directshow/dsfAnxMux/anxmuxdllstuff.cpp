@@ -47,8 +47,7 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 //The folowing two functions do the registration and deregistration of the dll and it's contained com objects.
 STDAPI DllRegisterServer()
 {
-	fstream debugLog;
-	debugLog.open("G:\\logs\\anxmuxreg.log", ios_base::out);
+	
 	//TO DO::: Should we be releasing the filter mapper even when we return early ?
     HRESULT hr;
     IFilterMapper2* locFilterMapper = NULL;
@@ -60,16 +59,16 @@ STDAPI DllRegisterServer()
 	}
 	
 	
-	debugLog<<"Pre - create"<<endl;
+	
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
-	debugLog<<"Post - create"<<endl;
+	
 	
 	if (FAILED(hr)) {
-		debugLog<<"Failed Create"<<endl;
+		
         return hr;
 	}
 	
-	debugLog<<"Pre reg"<<endl;
+	
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_AnxMuxFilter,						// Filter CLSID. 
 		L"Annodex Mux Filter",							// Filter name.
@@ -78,8 +77,8 @@ STDAPI DllRegisterServer()
         L"Annodex Mux Filter",							// Instance data. ???????
         &AnxMuxFilterReg								// Pointer to filter information.
     );
-	debugLog<<"Post reg - "<< hr<<endl;
-	debugLog.close();
+	
+	
 
 
     locFilterMapper->Release();

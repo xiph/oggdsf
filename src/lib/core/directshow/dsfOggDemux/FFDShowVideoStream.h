@@ -52,12 +52,16 @@ public:
 	virtual GUID getMajorTypeGUID();
 	virtual LONGLONG getCurrentPos();
 
+	virtual unsigned long getNumBuffers();
+	virtual unsigned long getBufferSize();
 
 	//Override
 	virtual bool dispatchPacket(StampedOggPacket* inPacket);
 	virtual bool deliverCodecHeaders();
 
 protected:
+	static const unsigned long FFDSHOW_VIDEO_NUM_BUFFERS = 50;
+	static const unsigned long FFDSHOW_VIDEO_BUFFER_SIZE = 1024*512*3;
 	VIDEOINFOHEADER* mFFDShowVideoFormatBlock;
 	DWORD mFourCCCode;
 	GUID mMediaSubTypeGUID;

@@ -96,3 +96,10 @@ GUID VorbisStream::getMajorTypeGUID() {
 LONGLONG VorbisStream::getCurrentPos() {
 	return (mLastEndGranulePos * UNITS) / mVorbisFormatBlock->samplesPerSec;
 }
+
+unsigned long VorbisStream::getNumBuffers() {
+	return VORBIS_NUM_BUFFERS;
+}
+unsigned long VorbisStream::getBufferSize() {
+	return VORBIS_BUFFER_SIZE;
+}

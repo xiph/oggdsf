@@ -55,7 +55,9 @@ public:
 							StreamHeaders* inHeaderSource, 
 							CMediaType* inMediaType,
 							wstring inPinName,
-							bool inAllowSeek);
+							bool inAllowSeek,
+							unsigned long inNumBuffers,
+							unsigned long inBufferSize);
 	
 
 
@@ -92,4 +94,7 @@ protected:
 	COutputQueue* mDataQueue;
 	fstream debugLog;
 	bool mFirstRun;
+
+	unsigned long mBufferSize;
+	unsigned long mNumBuffers;
 };

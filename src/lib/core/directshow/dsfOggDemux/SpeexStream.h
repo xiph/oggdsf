@@ -52,8 +52,13 @@ public:
 	virtual GUID getMajorTypeGUID();
 	virtual LONGLONG getCurrentPos();
 
+	virtual unsigned long getNumBuffers();
+	virtual unsigned long getBufferSize();
+
 	virtual void setLastEndGranPos(__int64 inPos);
 
 protected:
+	static const unsigned long SPEEX_NUM_BUFFERS = 75;
+	static const unsigned long SPEEX_BUFFER_SIZE = 65536;
 	sSpeexFormatBlock* mSpeexFormatBlock;
 };

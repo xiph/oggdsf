@@ -127,8 +127,10 @@ OggMuxFilter::OggMuxFilter()
 	m_pLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
-	debugLog.open("g:\\logs\\muxer.log", ios_base::out);
 
+#ifdef OGGCODECS_LOGGING
+	debugLog.open("g:\\logs\\muxer.log", ios_base::out);
+#endif
 	////Make our delegate pin[0], the top pin... we send all out requests there.
 	//IMediaSeeking* locSeeker = NULL;
 	//mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);

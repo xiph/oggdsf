@@ -51,7 +51,9 @@ public:
 										CCritSec* inFilterLock,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
-										wstring inPinName);
+										wstring inPinName,
+										unsigned long inNumBuffers,
+										unsigned long inBufferSize);
 	virtual ~CMMLSourcePin(void);
 
 	//Implements IStreamBuilder to force the pin tothe cmml filter

@@ -141,3 +141,14 @@ GUID TheoraStream::getSubtypeGUID() {
 LONGLONG TheoraStream::getCurrentPos() {
 	return 0; //(mLastGranulePos * UNITS) / mVorbisFormatBlock->samplesPerSec;
 }
+
+unsigned long TheoraStream::getNumBuffers() {
+	return THEORA_NUM_BUFFERS;
+}
+unsigned long TheoraStream::getBufferSize() {
+	unsigned long locBuffSize = ((unsigned long)mTheoraFormatBlock->outerFrameHeight * (unsigned long)mTheoraFormatBlock->outerFrameWidth * 3) >> 3;
+	if (locBuffSize < 65536) {
+		locBuffSize = 65536;
+	}
+	return locBuffSize;
+}

@@ -124,15 +124,15 @@ OggPaginator::~OggPaginator(void)
 {
 	delete mHeaderBuff;
 	mHeaderBuff = NULL;
-	debugLog.close();
+	//debugLog.close();
 }
 
 //Calling this after you have fed in packets will cause lost data and memory leak (mPending page)
 bool OggPaginator::setParameters(OggPaginatorSettings* inSettings) {
 	delete mSettings;
     mSettings = inSettings;
-	string x= "G:\\logs\\paginator" + StringHelper::numToString(inSettings->mSerialNo) + ".log";
-	debugLog.open(x.c_str(), ios_base::out);
+	//string x= "G:\\logs\\paginator" + StringHelper::numToString(inSettings->mSerialNo) + ".log";
+	//debugLog.open(x.c_str(), ios_base::out);
 	createFreshPage();
 	return true;
 }
@@ -157,12 +157,12 @@ bool OggPaginator::finishStream()
 	//When we get a signal to finish a stream, we set the EOS Flag on the current page pending
 	// which may be empty, and then deliver it.
 
-	debugLog<<endl;
-	debugLog<<"finishStream : ";
+	//debugLog<<endl;
+	//debugLog<<"finishStream : ";
 	//This makes sure if our last page is empty and we want to send the EOS page, we stamp it with the previous granule pos
 	//	since if this page has no packets it must be the same. Makes it easier to find the stream duration.
 	if (mPendingPage->numPackets() == 0) {
-		debugLog<<"finishStream : Setting gran pos on 0 pack last page to "<<mLastGranulePos<<endl;
+		//debugLog<<"finishStream : Setting gran pos on 0 pack last page to "<<mLastGranulePos<<endl;
 		mPendingPage->header()->setGranulePos(mLastGranulePos);
 
 	}
@@ -220,8 +220,8 @@ bool OggPaginator::setChecksum()
 
 }
 bool OggPaginator::deliverCurrentPage() {
-	debugLog<<endl;
-	debugLog<<"deliverCurrentPage : "<<endl;
+	//debugLog<<endl;
+	//debugLog<<"deliverCurrentPage : "<<endl;
 	mPendingPage->header()->setSegmentTable((const unsigned char*)mSegmentTable, mSegmentTableSize);
 
 	mPendingPage->header()->setDataSize(mCurrentPageSize - mPendingPage->headerSize());  //This is odd
@@ -239,8 +239,8 @@ bool OggPaginator::deliverCurrentPage() {
 
 }
 bool OggPaginator::createFreshPage() {
-	debugLog<<endl;
-	debugLog<<"createFreshPage : "<<endl;
+	//debugLog<<endl;
+	//debugLog<<"createFreshPage : "<<endl;
 	mPendingPage = new OggPage;			//Potential for leak here if setsettings called. Otherwise deleted in destructor or dispatched
 	mCurrentPageSize = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	mPendingPageHasData = false;
@@ -251,10 +251,10 @@ bool OggPaginator::createFreshPage() {
 	
 	//If it's the first page it gets the BOS Flag
 	if (mSequenceNo == 0) {
-		debugLog<<"createFreshPage : Setting as BOS"<<endl;
+		//debugLog<<"createFreshPage : Setting as BOS"<<endl;
 		mPendingPage->header()->setHeaderFlags(OggPageHeader::BOS);
 	} else {
-		debugLog<<"createFreshPage : Setting NO FLAGS"<<endl;
+		//debugLog<<"createFreshPage : Setting NO FLAGS"<<endl;
 		mPendingPage->header()->setHeaderFlags(OggPageHeader::NO_FLAGS);
 	}
 
@@ -265,8 +265,8 @@ bool OggPaginator::createFreshPage() {
 }
 bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 
-	debugLog<<endl;
-	debugLog<<"addPacketToPage : "<<endl;
+	//debugLog<<endl;
+	//debugLog<<"addPacketToPage : "<<endl;
 	mPendingPageHasData = true;
 	//while some packet left
 	//	add as much as possible
@@ -285,7 +285,7 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 	unsigned long locPacketStartPoint = 0;
 	unsigned long locConsumed = 0;
 
-	debugLog<<"addPacketToPage : Packet size = "<<locPacketRemaining<<endl;
+	//debugLog<<"addPacketToPage : Packet size = "<<locPacketRemaining<<endl;
 
 	//While there is still more packet not added to the page add as much as it will take.
 	while (locPacketRemaining > 0) {
@@ -293,12 +293,12 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 
 		locConsumed = addAsMuchPacketAsPossible(inOggPacket, locPacketStartPoint, locPacketRemaining);
 
-		debugLog<<"addPacketToPage : Packet consumed = "<<locPacketRemaining<<endl;
+		//debugLog<<"addPacketToPage : Packet consumed = "<<locPacketRemaining<<endl;
 
 		locPacketStartPoint += locConsumed;
 		locPacketRemaining -= locConsumed;
-		debugLog<<"addPacketToPage : Packet remaining = "<<locPacketRemaining<<endl;
-		debugLog<<"addPacketToPage : Packet part start at = "<<locPacketStartPoint<<endl;
+		//debugLog<<"addPacketToPage : Packet remaining = "<<locPacketRemaining<<endl;
+		//debugLog<<"addPacketToPage : Packet part start at = "<<locPacketStartPoint<<endl;
 	}
 
 
@@ -309,9 +309,9 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 
 	//Every header gets it's own page.
 	if (((mPacketCount < mSettings->mNumHeaders) || ((mSettings->mMaxPacksPerPage != 0) && (mPacketCount >= mSettings->mMaxPacksPerPage))) && (mPendingPageHasData)) {
-		debugLog<<"addPacketToPage : Cond Deliv : Packet Count = "<<mPacketCount<<endl;
-		debugLog<<"addPacketToPage : Cond Deliv : Num Headers = "<<mSettings->mNumHeaders<<endl;
-		debugLog<<"addPacketToPage : Cond Deliv : Max Pack per page = "<<mSettings->mMaxPacksPerPage<<endl;
+		//debugLog<<"addPacketToPage : Cond Deliv : Packet Count = "<<mPacketCount<<endl;
+		//debugLog<<"addPacketToPage : Cond Deliv : Num Headers = "<<mSettings->mNumHeaders<<endl;
+		//debugLog<<"addPacketToPage : Cond Deliv : Max Pack per page = "<<mSettings->mMaxPacksPerPage<<endl;
 		
 		deliverCurrentPage();
 	}
@@ -328,12 +328,12 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//debugLog<<"Max page size = "<<mSettings->mMaxPageSize<<endl;
 	//debugLog<<"Current page size = "<<mCurrentPageSize<<endl;
 
-	debugLog<<endl;
-	debugLog<<"addAsMuchPacketAsPossible : "<<endl;
-	debugLog<<"addAsMuchPacketAsPossible : Start At = "<<inStartAt<<endl;
-	debugLog<<"addAsMuchPacketAsPossible : Remaining = "<<inRemaining<<endl;
-	debugLog<<"addAsMuchPacketAsPossible : Segtable size = "<<mSegmentTableSize<<endl;
-	debugLog<<"addAsMuchPacketAsPossible : Current Page Size = "<<mCurrentPageSize<<endl;
+	//debugLog<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : "<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : Start At = "<<inStartAt<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : Remaining = "<<inRemaining<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : Segtable size = "<<mSegmentTableSize<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : Current Page Size = "<<mCurrentPageSize<<endl;
 	
 	
 	//The amount of space left in the page is the minimum of
@@ -346,7 +346,7 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//Take 1 so when it adds the packet it doesn't try to consume one extra segment which doesn't exist.
     unsigned long locSpaceLeft =	MIN(((255 - mSegmentTableSize) * 255) - 1, mSettings->mMaxPageSize - mCurrentPageSize);
 
-	debugLog<<"addAsMuchPacketAsPossible : Space left = "<<locSpaceLeft<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : Space left = "<<locSpaceLeft<<endl;
 	//debugLog<<"Space left = "<<locSpaceLeft<<endl;
 	//debugLog<<"Space left = "<<locSpaceLeft<<endl;
 	//Round down to nearest multiple of 255
@@ -355,7 +355,7 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//This is important when the packet gets broken because inRemaining is gt locSpace left
 	// In this case where the packet gets broken the final segment on the page must be 255.
 	locSpaceLeft -= (locSpaceLeft % 255);
-	debugLog<<"addAsMuchPacketAsPossible : Space left = "<<locSpaceLeft<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : Space left = "<<locSpaceLeft<<endl;
 	//ASSERT(locSpaceLeft >=0);
 
 	//debugLog<<"Adjust space left = "<<locSpaceLeft<<endl;
@@ -368,24 +368,24 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//If (a) is the minimum then we know that the how much we are adding is a multiple of 255.
 	unsigned long locHowMuchToAdd = MIN(locSpaceLeft, inRemaining);
 
-	debugLog<<"addAsMuchPacketAsPossible : How much to add = "<<locHowMuchToAdd<<endl;
+	//debugLog<<"addAsMuchPacketAsPossible : How much to add = "<<locHowMuchToAdd<<endl;
 	
 	//mPending page has data is useless, it was set before this function is called... need to fix that. maybe move into add part of pack into apge
 	if ((!mPendingPageHasData) && (inStartAt != 0)) {
-		debugLog<<"addAsMuchPacketAsPossible : Setting continuation flag"<<endl;
+		//debugLog<<"addAsMuchPacketAsPossible : Setting continuation flag"<<endl;
 		mPendingPage->header()->setHeaderFlags((unsigned char)(mPendingPage->header()->HeaderFlags() | OggPageHeader::CONTINUATION));	
 		
 	}
 
 	if (locHowMuchToAdd > 0) {
-		debugLog<<"addAsMuchPacketAsPossible : Adding from "<<inStartAt<<" for "<<locHowMuchToAdd<<endl;
+		//debugLog<<"addAsMuchPacketAsPossible : Adding from "<<inStartAt<<" for "<<locHowMuchToAdd<<endl;
 		addPartOfPacketToPage(inOggPacket, inStartAt, locHowMuchToAdd);
 	}
 
 
 	//This puts only a single packet on the first page...
 	if ((mCurrentPageSize >= mSettings->mMinPageSize) || (mPendingPage->header()->PageSequenceNo() == 0) || (locHowMuchToAdd == 0)) {
-		debugLog<<"addAsMuchPacketAsPossible : Cond Deliv : Probably shouldn't be ehre."<<endl;
+		//debugLog<<"addAsMuchPacketAsPossible : Cond Deliv : Probably shouldn't be ehre."<<endl;
 		deliverCurrentPage();
 	}
 	return locHowMuchToAdd;
@@ -393,9 +393,9 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 }
 
 bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned long inStartFrom, unsigned long inLength) {
-	debugLog<<endl;
-	debugLog<<"addPartOfPacketToPage : "<<endl;
-	debugLog<<"addPartOfPacketToPage : Add from "<<inStartFrom<< " to "<<inLength<<endl;
+	//debugLog<<endl;
+	//debugLog<<"addPartOfPacketToPage : "<<endl;
+	//debugLog<<"addPartOfPacketToPage : Add from "<<inStartFrom<< " to "<<inLength<<endl;
 	
 	//Buffer the amount of the packet we are going to add.
 	unsigned char* locBuff = new unsigned char[inLength];			//Given to constructor of stampedpacket.
@@ -409,7 +409,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 	// as the total packet size.
 	bool locIsLastOfPacket = (inStartFrom + inLength == inOggPacket->packetSize());
 
-	debugLog<<"addPartOfPacketToPage : This is the last bit of the packet..."<<endl;
+	//debugLog<<"addPartOfPacketToPage : This is the last bit of the packet..."<<endl;
 	//Create a new packet
 	StampedOggPacket* locPartialPacket = new StampedOggPacket(	locBuff, 
 																inLength, 
@@ -419,7 +419,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 																inOggPacket->endTime(), 
 																inOggPacket->mStampType);		//Given to page.
 
-	debugLog<<"addPartOfPacketToPage : Adding Partial Packet to page"<<endl;
+	//debugLog<<"addPartOfPacketToPage : Adding Partial Packet to page"<<endl;
 	//Add the packet to the page.
 	mPendingPage->addPacket(locPartialPacket);
 
@@ -435,7 +435,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 
 	//Now do the segment table bookkeeping.
 	unsigned long locNumSegsNeeded = (inLength / 255);
-	debugLog<<"addPartOfPacketToPage : Num 255 segs to add = "<<locNumSegsNeeded<<" ("<<inLength<<")"<<endl;
+	//debugLog<<"addPartOfPacketToPage : Num 255 segs to add = "<<locNumSegsNeeded<<" ("<<inLength<<")"<<endl;
 
 	//Always do one less than the total... the last segment is a special case
 	//We fill all but the last segemnt with 255
@@ -450,7 +450,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 		//Its the last part of the packet... so we need one extra segemnt... to hold the last part.
 		// The last part will be between 0-254
 		
-		debugLog<<"addPartOfPacketToPage : Adding last seg = "<<(unsigned long)(inLength % 255)<<endl;
+		//debugLog<<"addPartOfPacketToPage : Adding last seg = "<<(unsigned long)(inLength % 255)<<endl;
 		mSegmentTable[mSegmentTableSize] = (unsigned char)(inLength % 255);
 		mSegmentTableSize++;
 
@@ -462,7 +462,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 
 		//ASSERT((inLength % 255) == 0);
 		if ((inLength % 255) != 0) {
-			debugLog<<"addPartOfPacketToPage : ASSERTION FAILED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
+			//debugLog<<"addPartOfPacketToPage : ASSERTION FAILED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
 		}
 		//mSegmentTable[mSegmentTableSize] = (unsigned char)(255);
 		//mSegmentTableSize++;
@@ -473,11 +473,11 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 
 
 	mCurrentPageSize += (locNumSegsNeeded + inLength);
-	debugLog<<"addPartOfPacketToPage : Current Page Size = "<<mCurrentPageSize<<endl;
+	//debugLog<<"addPartOfPacketToPage : Current Page Size = "<<mCurrentPageSize<<endl;
 
 
 	if (locIsLastOfPacket) {
-		debugLog<<"addPartOfPacketToPage : Updating gran pos to : "<<inOggPacket->endTime()<<endl;
+		//debugLog<<"addPartOfPacketToPage : Updating gran pos to : "<<inOggPacket->endTime()<<endl;
 		mPendingPage->header()->setGranulePos(inOggPacket->endTime());
 	}
 

@@ -82,7 +82,9 @@ DSPlay::DSPlay(void)
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
 	debugLog = new fstream;
+#ifdef OGGCODECS_LOGGING
 	debugLog->open("G:\\logs\\dsplay.log", ios_base::out | ios_base::app);
+#endif
 	*debugLog<<"Starting new log"<<endl;
 }
 

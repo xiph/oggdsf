@@ -57,7 +57,13 @@ public:
 	virtual GUID getMajorTypeGUID();
 	virtual LONGLONG getCurrentPos();
 
+	virtual unsigned long getNumBuffers();
+	virtual unsigned long getBufferSize();
+
 
 protected:
+	static const unsigned long VORBIS_NUM_BUFFERS = 75;
+	static const unsigned long VORBIS_BUFFER_SIZE = 65536;		//Should be plenty... wouldn't hurt to find out !!
+
 	sVorbisFormatBlock* mVorbisFormatBlock;
 };

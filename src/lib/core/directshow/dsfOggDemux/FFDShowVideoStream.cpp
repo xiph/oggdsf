@@ -253,3 +253,10 @@ GUID FFDShowVideoStream::getSubtypeGUID() {
 LONGLONG FFDShowVideoStream::getCurrentPos() {
 	return 0;
 }
+
+unsigned long FFDShowVideoStream::getNumBuffers() {
+	return FFDSHOW_VIDEO_NUM_BUFFERS;
+}
+unsigned long FFDShowVideoStream::getBufferSize() {
+	return FFDSHOW_VIDEO_BUFFER_SIZE;
+}

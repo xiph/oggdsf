@@ -59,6 +59,7 @@ public:
 	unsigned long serialNo();
 	void setSerialNo(unsigned long inSerialNo);
 	//virtual bool IdentifyCodec(OggPacket* inOggPacket) = 0;
+	
 	virtual bool InitCodec(StampedOggPacket* inOggPacket) = 0;
 	virtual BYTE* getFormatBlock() = 0;
 	virtual unsigned long getFormatBlockSize() = 0;
@@ -70,6 +71,9 @@ public:
 	virtual bool createFormatBlock() = 0;
 
 	virtual LONGLONG getCurrentPos() = 0;
+
+	virtual unsigned long getNumBuffers() = 0;
+	virtual unsigned long getBufferSize() = 0;
 
 	virtual unsigned long numCodecHeaders();
 	void setSendExcess(bool inSendExcess);

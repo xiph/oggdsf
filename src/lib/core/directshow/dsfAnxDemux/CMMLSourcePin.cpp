@@ -40,8 +40,10 @@ CMMLSourcePin::CMMLSourcePin(	TCHAR* inObjectName,
 										CCritSec* inFilterLock,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
-										wstring inPinName) 
-											:	OggDemuxSourcePin(inObjectName, inParentFilter, inFilterLock, inHeaderSource, inMediaType, inPinName, true)
+										wstring inPinName,
+										unsigned long inNumBuffers,
+										unsigned long inBufferSize) 
+		:	OggDemuxSourcePin(inObjectName, inParentFilter, inFilterLock, inHeaderSource, inMediaType, inPinName, true, inNumBuffers, inBufferSize)
 {
 	//debugLog.open("G:\\logs\\cmml_source_pin.log", ios_base::out);
 }

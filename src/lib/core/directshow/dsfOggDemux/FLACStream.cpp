@@ -97,6 +97,13 @@ GUID FLACStream::getMajorTypeGUID() {
 	return MEDIATYPE_Audio;
 }
 
+unsigned long FLACStream::getNumBuffers() {
+	return FLAC_NUM_BUFFERS;
+}
+unsigned long FLACStream::getBufferSize() {
+	return FLAC_BUFFER_SIZE;
+}
+
 //Need to override from oggstream because we have variable number of headers
 bool FLACStream::processHeaderPacket(StampedOggPacket* inPacket) {
 	//FIX::: Return values

@@ -10,8 +10,9 @@ CMMLRawSourcePin::CMMLRawSourcePin(CMMLRawSourceFilter* inParentFilter, CCritSec
 {
 	mCMMLFormatBlock.granuleDenominator = 1;
 	mCMMLFormatBlock.granuleNumerator = 1000;
-
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("G:\\logs\\cmmlrawsource.log", ios_base::out);
+#endif
 }
 
 CMMLRawSourcePin::~CMMLRawSourcePin(void)

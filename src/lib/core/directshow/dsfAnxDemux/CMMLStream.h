@@ -59,10 +59,15 @@ public:
 
 	virtual LONGLONG getCurrentPos();
 
+	virtual unsigned long getNumBuffers();
+	virtual unsigned long getBufferSize();
+
 	//Override
 	virtual bool AddPin();
 
 protected:
+	static const unsigned long CMML_NUM_BUFFERS = 25;
+	static const unsigned long CMML_BUFFER_SIZE = 65536;
 	OggPacket* mAnxDataPacket;
 	sCMMLFormatBlock* mCMMLFormatBlock;
 };

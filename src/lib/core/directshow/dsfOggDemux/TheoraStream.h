@@ -54,8 +54,14 @@ public:
 	virtual GUID getMajorTypeGUID();
 	virtual LONGLONG getCurrentPos();
 
+	virtual unsigned long getNumBuffers();
+	virtual unsigned long getBufferSize();
+
 
 	virtual void setLastEndGranPos(__int64 inPos);
 protected:
+	static const unsigned long THEORA_NUM_BUFFERS = 50;
+	static const unsigned long THEORA_BUFFER_SIZE = 1024*512;
+
 	sTheoraFormatBlock* mTheoraFormatBlock;
 };

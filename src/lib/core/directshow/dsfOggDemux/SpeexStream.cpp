@@ -96,3 +96,10 @@ GUID SpeexStream::getMajorTypeGUID() {
 LONGLONG SpeexStream::getCurrentPos() {
 	return (mLastEndGranulePos * UNITS) / mSpeexFormatBlock->samplesPerSec;
 }
+
+unsigned long SpeexStream::getNumBuffers() {
+	return SPEEX_NUM_BUFFERS;
+}
+unsigned long SpeexStream::getBufferSize() {
+	return SPEEX_BUFFER_SIZE;
+}

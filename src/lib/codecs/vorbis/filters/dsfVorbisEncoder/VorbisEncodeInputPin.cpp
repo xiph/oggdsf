@@ -41,8 +41,9 @@ VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	mUptoFrame(0)
 	,	mVorbisQuality(0.6f)
 {
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("G:\\logs\\vorbisenc.logs", ios_base::out);
-
+#endif
 }
 
 VorbisEncodeInputPin::~VorbisEncodeInputPin(void)

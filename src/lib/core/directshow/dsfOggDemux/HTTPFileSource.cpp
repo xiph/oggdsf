@@ -39,11 +39,11 @@ HTTPFileSource::HTTPFileSource(void)
 	,	mNumLeftovers(0)
 {
 	mBufferLock = new CCritSec;
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("d:\\zen\\logs\\htttp.log", ios_base::out);
-	//debugLog<<"==========================================="<<endl;
 	fileDump.open("d:\\zen\\logs\\filedump.ogg", ios_base::out|ios_base::binary);
 	rawDump.open("D:\\zen\\logs\\rawdump.out", ios_base::out|ios_base::binary);
-
+#endif
 	mInterBuff = new unsigned char[RECV_BUFF_SIZE* 2];
 
 }
@@ -53,9 +53,11 @@ HTTPFileSource::~HTTPFileSource(void)
 	//debugLog<<"About to close socket"<<endl;
 	close();
 	//debugLog<<"Winsock ended"<<endl;
+#ifdef OGGCODECS_LOGGING
 	debugLog.close();
 	fileDump.close();
 	rawDump.close();
+#endif
 	delete mBufferLock;
 	delete mInterBuff;
 }
@@ -66,7 +68,7 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 	//This method is a bit rough and ready !!
 	ASSERT(inNumBytes > 2);
 	rawDump.write((char*)inBuff, inNumBytes);
-	debugLog<<"UnChunk"<<endl;
+	//debugLog<<"UnChunk"<<endl;
 	unsigned long locNumBytesLeft = inNumBytes;
 
 	memcpy((void*)(mInterBuff + mNumLeftovers), (const void*)inBuff, inNumBytes);
@@ -74,26 +76,26 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 	mNumLeftovers = 0;
 	unsigned char* locWorkingBuffPtr = mInterBuff;
 
-	debugLog<<"inNumBytes = "<<inNumBytes<<endl;
+	//debugLog<<"inNumBytes = "<<inNumBytes<<endl;
 
 	while (locNumBytesLeft > 8) {
-		debugLog<<"---"<<endl;
-		debugLog<<"Bytes left = "<<locNumBytesLeft<<endl;
-		debugLog<<"ChunkRemaining = "<<mChunkRemains<<endl;
+		//debugLog<<"---"<<endl;
+		//debugLog<<"Bytes left = "<<locNumBytesLeft<<endl;
+		//debugLog<<"ChunkRemaining = "<<mChunkRemains<<endl;
 
 		if (mChunkRemains == 0) {
-			debugLog<<"Zero bytes of chunk remains"<<endl;
+			//debugLog<<"Zero bytes of chunk remains"<<endl;
 
 			//Assign to a string for easy manipulation of the hex size
 			string locTemp;
 		
 			if (mIsFirstChunk) {
-				debugLog<<"It's the first chunk"<<endl;
+				//debugLog<<"It's the first chunk"<<endl;
 				mIsFirstChunk = false;
 				locTemp = (char*)locWorkingBuffPtr;
 			} else {
-				debugLog<<"Not the first chunk"<<endl;
-				debugLog<<"Skip bytes = "<<(int)locWorkingBuffPtr[0]<<(int)locWorkingBuffPtr[1]<<endl;
+				//debugLog<<"Not the first chunk"<<endl;
+				//debugLog<<"Skip bytes = "<<(int)locWorkingBuffPtr[0]<<(int)locWorkingBuffPtr[1]<<endl;
 				locTemp = (char*)(locWorkingBuffPtr + 2);
 				locWorkingBuffPtr+=2;
 				locNumBytesLeft -= 2;
@@ -109,22 +111,22 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 			
 			
 			if (locChunkSizePos != string::npos) {
-				debugLog<<"Found the size bytes "<<endl;
+				//debugLog<<"Found the size bytes "<<endl;
 				//Get a string representation of the hex string that tells us the size of the chunk
 				string locChunkSizeStr = locTemp.substr(0, locChunkSizePos);
-				debugLog<<"Sizingbuytes " << locChunkSizeStr<<endl;
+				//debugLog<<"Sizingbuytes " << locChunkSizeStr<<endl;
 				char* locDummyPtr = NULL;
 
 				//Convert it to a number
 				mChunkRemains = strtol(locChunkSizeStr.c_str(), &locDummyPtr, 16);
 
-				debugLog<<"Chunk reamining "<<mChunkRemains<<endl;
+				//debugLog<<"Chunk reamining "<<mChunkRemains<<endl;
 				//The size of the crlf 's and the chunk size value
 				unsigned long locGuffSize = (unsigned long)(locChunkSizeStr.size() + 2);
 				locWorkingBuffPtr +=  locGuffSize;
 				locNumBytesLeft -= locGuffSize;
 			} else {
-				debugLog<<"************************************** "<<endl;
+				//debugLog<<"************************************** "<<endl;
 			
 
 			}
@@ -132,13 +134,13 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 
 		//This is the end of file
 		if (mChunkRemains == 0) {
-			debugLog<<"EOF"<<endl;
+			//debugLog<<"EOF"<<endl;
 			return;
 		}
 
 		//If theres less bytes than the remainder of the chunk
 		if (locNumBytesLeft < mChunkRemains) {
-			debugLog<<"less bytes remain than the chunk needs"<<endl;
+			//debugLog<<"less bytes remain than the chunk needs"<<endl;
 			
 			mFileCache.write((const unsigned char*)locWorkingBuffPtr, locNumBytesLeft );
 			fileDump.write((char*)locWorkingBuffPtr, locNumBytesLeft);
@@ -146,7 +148,7 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 			mChunkRemains -= locNumBytesLeft;
 			locNumBytesLeft = 0;
 		} else {
-			debugLog<<"more bytes remain than the chunk needs"<<endl;
+			//debugLog<<"more bytes remain than the chunk needs"<<endl;
 			mFileCache.write((const unsigned char*)locWorkingBuffPtr, mChunkRemains );
 			fileDump.write((char*)locWorkingBuffPtr, mChunkRemains);
 			locWorkingBuffPtr += mChunkRemains;
@@ -157,7 +159,7 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 	}
 
 	if (locNumBytesLeft != 0) {
-		debugLog<<"There is a non- zero amount of bytes leftover... buffer them up for next time..."<<endl;
+		//debugLog<<"There is a non- zero amount of bytes leftover... buffer them up for next time..."<<endl;
 		memcpy((void*)mInterBuff, (const void*)locWorkingBuffPtr, locNumBytesLeft);
 		mNumLeftovers = locNumBytesLeft;
 	}
@@ -263,7 +265,7 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 	//Close the socket down
 	//Open up a new one to the same place.
 	//Make the partial content request.
-	debugLog<<"Seeking to "<<inPos<<endl;
+	//debugLog<<"Seeking to "<<inPos<<endl;
 	if (mFileCache.readSeek(inPos)) {
 		return inPos;
 	} else {
@@ -275,7 +277,7 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 
 void HTTPFileSource::close() {
 	//Killing thread
-	debugLog<<"HTTPFileSource::close()"<<endl;
+	//debugLog<<"HTTPFileSource::close()"<<endl;
 	if (ThreadExists() == TRUE) {
 		//debugLog<<"Calling Thread to EXIT"<<endl;
 		CallWorker(THREAD_EXIT);
@@ -301,7 +303,7 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	//
 	mSeenResponse = false;
 	mLastResponse = "";
-	debugLog<<"Open: "<<inSourceLocation<<endl;
+	//debugLog<<"Open: "<<inSourceLocation<<endl;
 
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
@@ -355,7 +357,7 @@ bool HTTPFileSource::isEOF() {
 	
 		//debugLog<<"isEOF : Amount Buffered avail = "<<locSizeBuffed<<endl;
 		if ((locSizeBuffed == 0) && mIsEOF) {
-			debugLog<<"isEOF : It is EOF"<<endl;
+			//debugLog<<"isEOF : It is EOF"<<endl;
 			return true;
 		} else {
 			//debugLog<<"isEOF : It's not EOF"<<endl;

@@ -67,8 +67,9 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	,	mLastSeenStartGranPos(0)
 	,	mTheoraFormatInfo(NULL)
 {
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("G:\\logs\\newtheofilter.log", ios_base::out);
-
+#endif
 	mTheoraDecoder = new TheoraDecoder;
 	mTheoraDecoder->initCodec();
 

@@ -62,7 +62,9 @@ bool CMMLStream::AddPin() {
 																mOwningFilter->theLock(), 
 																mCodecHeaders, 
 																locMediaType, 
-																getPinName());
+																getPinName(),
+																getNumBuffers(),
+																getBufferSize());
 	mStreamReady = true;
 	mSourcePin = locSourcePin;
 	
@@ -118,4 +120,11 @@ GUID CMMLStream::getMajorTypeGUID() {
 
 LONGLONG CMMLStream::getCurrentPos() {
 	return (mLastEndGranulePos * UNITS * mCMMLFormatBlock->granuleDenominator) / mCMMLFormatBlock->granuleNumerator;
+}
+
+unsigned long CMMLStream::getNumBuffers() {
+	return CMML_NUM_BUFFERS;
+}
+unsigned long CMMLStream::getBufferSize() {
+	return CMML_BUFFER_SIZE;
 }

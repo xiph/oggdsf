@@ -45,8 +45,9 @@ AnxStreamMapper::AnxStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 	,	mAnxVersion(0)
 	,	mAnnodexHeader(NULL)
 {
-
+#ifdef OGGCODECS_LOGGING
 	debugLog.open("G:\\logs\\anxmapper.log", ios_base::out);
+#endif
 }
 
 AnxStreamMapper::~AnxStreamMapper(void)
