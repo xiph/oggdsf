@@ -93,5 +93,28 @@ Add a generic class class called DSPlayer... steal all the internal code from DS
 Change all the managed code parts back to unmanaged equivalents.
 
 
+Create an unmanaged interface for media event notifications.
 
 
+Code to embed windows in the control... (This is in DSPLayer now)
+
+	//CHANGES HERE FOR EMBEDDED WINDOW
+	IVideoWindow* locVW = NULL;
+	locHR = locGraphBuilder->QueryInterface(IID_IVideoWindow, (void **)&locVW);
+
+	if (locHR == S_OK) {
+
+		locVW->put_MessageDrain((OAHWND)inWindow);
+
+
+		locVW->put_Owner((OAHWND)inWindow);
+	
+		locVW->SetWindowPosition(inLeft, inTop, inWidth, inHeight);
+		locVW->Release();
+	}
+
+	//
+
+
+Read this for registering an activeX control as the player for an extension in IE
+http://msdn.microsoft.com/workshop/components/activex/registration.asp

@@ -164,7 +164,7 @@ wstring DSPlayer::toWStr(string inString) {
 	return retVal;
 }
 
-bool DSPlayer::loadFile(string inFileName, HWND inWindow, int inLeft, int inTop, int inWidth, int inHeight) {
+bool DSPlayer::loadFile(wstring inFileName, HWND inWindow, int inLeft, int inTop, int inWidth, int inHeight) {
 	//Debugging only
 	ULONG numRef = 0;
 	//
@@ -174,8 +174,8 @@ bool DSPlayer::loadFile(string inFileName, HWND inWindow, int inLeft, int inTop,
 	HRESULT locHR = S_OK;
 
 	
-	debugLog<<"File = "<<inFileName<<endl;
-	wstring locWFileName = toWStr(inFileName);
+	//debugLog<<"File = "<<inFileName<<endl;
+	wstring locWFileName = inFileName; //toWStr(inFileName);
 	
 	
 	
@@ -313,7 +313,7 @@ bool DSPlayer::loadFile(string inFileName, HWND inWindow, int inLeft, int inTop,
 
 	return true;
 }
-bool DSPlayer::loadFile(string inFileName) {
+bool DSPlayer::loadFile(wstring inFileName) {
 
 	//Debugging only
 	ULONG numRef = 0;
@@ -324,8 +324,8 @@ bool DSPlayer::loadFile(string inFileName) {
 	HRESULT locHR = S_OK;
 
 	
-	debugLog<<"File = "<<inFileName<<endl;
-	wstring locWFileName = toWStr(inFileName);
+	//debugLog<<"File = "<<inFileName<<endl;
+	wstring locWFileName = inFileName; //toWStr(inFileName);
 	
 	
 	
@@ -532,12 +532,12 @@ __int64 DSPlayer::fileDuration() {
 	}
 }
 
-bool DSPlayer::isFileAnnodex(string inFilename)
+bool DSPlayer::isFileAnnodex(wstring inFilename)
 {
 	//BUG::: Case sensitive
-	string locExt = inFilename.substr(inFilename.size() - 4, 4);
+	wstring locExt = inFilename.substr(inFilename.size() - 4, 4);
 	
-	if (locExt == ".anx") {
+	if (locExt == L".anx") {
 		return true;
 	} else {
 		return false;

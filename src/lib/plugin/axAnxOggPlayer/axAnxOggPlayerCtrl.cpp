@@ -222,6 +222,12 @@ int CaxAnxOggPlayerCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (COleControl::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
+
+	// TODO:  Add your specialized creation code here
+	mDialog.Create(IDD_DIALOG1, this);
+	mDialog.ShowWindow(TRUE);
+
+
 	IServiceProvider* locISP = NULL;
 	IWebBrowser2* locBrowser = NULL;
 
@@ -234,8 +240,5 @@ int CaxAnxOggPlayerCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 		locISP->Release();
 	}
-	// TODO:  Add your specialized creation code here
-	mDialog.Create(IDD_DIALOG1, this);
-	mDialog.ShowWindow(TRUE);
 	return 0;
 }

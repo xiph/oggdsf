@@ -36,8 +36,8 @@ public:
 	~DSPlayer(void);
 	
 
-		bool loadFile(string inFileName);
-		bool loadFile(string inFileName, HWND inWindow, int inLeft, int inTop, int inWidth, int inHeight);
+		bool loadFile(wstring inFileName);
+		bool loadFile(wstring inFileName, HWND inWindow, int inLeft, int inTop, int inWidth, int inHeight);
 		bool play();
 		bool pause();
 		bool stop();
@@ -70,7 +70,7 @@ public:
 		HANDLE mEventHandle;
 
 		bool mIsLoaded;
-		bool isFileAnnodex(string inFilename);
+		bool isFileAnnodex(wstring inFilename);
 
 		wstring toWStr(string inString);
 

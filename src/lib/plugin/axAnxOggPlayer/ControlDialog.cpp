@@ -44,7 +44,7 @@ void CControlDialog::OnBnClickedButton1()
 {
 	//PLay button.
 	debugLog<<"Play button pushed"<<endl;
-	mPlayer.loadFile("G:\\a.ogg", this->m_hWnd, 10, 100, 384, 240);
+	mPlayer.loadFile(L"G:\\a.ogg", this->m_hWnd, 10, 100, 384, 240);
 	//mPlayer.loadFile("G:\\h.ogv");
 	mPlayer.play();
 }
@@ -52,6 +52,13 @@ void CControlDialog::OnBnClickedButton1()
 void CControlDialog::setBrowser(IWebBrowser2* inBrowser) {
 	debugLog<<"Setting browser instance to "<<(int)inBrowser<<endl;
 	mBrowser = inBrowser;
+
+	BSTR locURL = NULL;
+	mBrowser->get_LocationURL(&locURL);
+	wstring locS = locURL;
+	SysFreeString(locURL);
+	mPlayer.loadFile(locS);
+	mPlayer.play();
 
 }
 
