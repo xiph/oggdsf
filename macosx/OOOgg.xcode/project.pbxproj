@@ -22,8 +22,6 @@
 		7B06049107719FA500DC2D2E = {
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DSTROOT = /;
-				SYMROOT = "";
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -31,7 +29,6 @@
 		7B06049207719FA500DC2D2E = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				DSTROOT = "";
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
