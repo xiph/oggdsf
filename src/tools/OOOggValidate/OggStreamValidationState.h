@@ -6,6 +6,15 @@ public:
 	OggStreamValidationState(void);
 	~OggStreamValidationState(void);
 
+	enum eValidationState {
+		VS_FULLY_VALID,
+
+		VS_SEEN_NOTHING,
+		VS_SEEN_BOS,
+		VS_SEEN_EOS,
+		VS_INVALID
+
+	};
 	unsigned long mSerialNo;
 	__int64 mGranulePosUpto;
 	unsigned long mSequenceNoUpto;
@@ -16,5 +25,7 @@ public:
 
 	unsigned long mErrorCount;
 	unsigned long mWarningCount;
+
+	eValidationState mState;
 
 };

@@ -17,6 +17,8 @@ enum eOggValidationErrors {
 	
 	OVE_MORE_THEN_ONE_EOS,
 	OVE_EOS_BEFORE_BOS,
+
+	OVE_DATA_AFTER_VALID_STREAM,
 	
 	OVE_SEQUENCE_NO_REPEATED,
 	OVE_SEQUENCE_NO_DECREASED
@@ -48,6 +50,9 @@ void error_write(short int inErrNo, OggPage* inOggPage, OggStreamValidationState
 		case OVE_EOS_BEFORE_BOS:
 			locErrorString = "EOS page found before BOS page";
 			break;
+		case OVE_DATA_AFTER_VALID_STREAM:
+			locErrorString = "More data was received for a stream that was previously complete and valid.";
+			break;
 
 
 
@@ -72,14 +77,17 @@ void error_write(short int inErrNo, OggPage* inOggPage, OggStreamValidationState
 bool pageCB(OggPage* inOggPage) {
 	//Validate the page header
 
+	
 	OggStreamValidationState* locStreamState = gValidationState.getStreamBySerialNo(inOggPage->header()->StreamSerialNo());
-
-	if (locStreamState == NULL) {
-		locStreamState = new OggStreamValidationState;
-	}
 
 	OggPageHeader* locHeader = inOggPage->header();
 
+	//If this stream previously was valid, it should have no more data... so it's no longer valid.
+	if (locStreamState->mState == OggStreamValidationState::VS_FULLY_VALID) {
+		error_write(OVE_DATA_AFTER_VALID_STREAM,inOggPage,  locStreamState);
+		isValid = false;
+		locStreamState->mState = OggStreamValidationState::VS_INVALID;
+	}
 	
 	
 	//----------------------------------------------------------------------
@@ -92,6 +100,13 @@ bool pageCB(OggPage* inOggPage) {
 	//Verify BOS integrity.
 	
 	if (locHeader->isBOS()) {
+		if (locStreamState->mState == OggStreamValidationState::VS_SEEN_NOTHING) {
+			//Valid case.
+			locStreamState->mState = OggStreamValidationState::VS_SEEN_BOS;
+		}
+
+
+
 		//Check is BOS is first page in stream
 		if (locStreamState->mSeenAnything == true) {
 			error_write(OVE_BOS_PAGE_NOT_AT_START,inOggPage,  locStreamState);
@@ -110,6 +125,13 @@ bool pageCB(OggPage* inOggPage) {
 	//----------------------------------------------------------------------
 	//Verify EOS integrity
 	if (locHeader->isEOS()) {
+		
+		if (locStreamState->mState == OggStreamValidationState::VS_SEEN_BOS) {
+			//Valid case.
+			locStreamState->mState = OggStreamValidationState::VS_FULLY_VALID;
+		}
+
+
 		//Check is BOS has been seen before this EOS
 		if (locStreamState->mSeenBOS == false) {
 			error_write(OVE_EOS_BEFORE_BOS,inOggPage, locStreamState);
