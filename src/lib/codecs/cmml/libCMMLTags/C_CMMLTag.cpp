@@ -74,4 +74,7 @@ void C_CMMLTag::privateClone(C_CMMLTag* outTag) {
 	outTag->setId(mId);	
 }
 
+C_CMMLTag::eTagType C_CMMLTag::tagType() {
+	return mTagType;
+}
 

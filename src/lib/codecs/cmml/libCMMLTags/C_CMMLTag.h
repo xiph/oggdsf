@@ -76,6 +76,8 @@ public:
 	//Mutators
 	void setId(wstring inId);
 
+	eTagType tagType();
+
 	//Other
 	virtual wstring toString() = 0;
 protected:
