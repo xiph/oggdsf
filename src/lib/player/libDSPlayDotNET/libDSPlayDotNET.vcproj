@@ -21,6 +21,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\helper\libiWrapper"
+				AdditionalUsingDirectories="..\..\helper\libiWrapper\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"

@@ -44,12 +44,39 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	HRESULT locHR;
 	CoInitialize(NULL);
 	locHR = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&locGraphBuilder);
-	locHR = locGraphBuilder->RenderFile(L"http://www.illiminable.com/th/m.mp3", NULL);
+	locHR = locGraphBuilder->RenderFile(L"g:\\m.ogg", NULL);
 
 	locHR = locGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&locMediaControl);
 
 	locHR = locMediaControl->Run();
 
+	IMediaEvent* locMediaEvent = NULL;
+	locHR = locGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&locMediaEvent);
+
+	HANDLE  hEvent; 
+	long    evCode, param1, param2;
+	BOOLEAN bDone = FALSE;
+	HRESULT hr = S_OK;
+	hr = locMediaEvent->GetEventHandle((OAEVENT*)&hEvent);
+	if (FAILED(hr))
+	{
+	    /* Insert failure-handling code here. */
+	}
+	while(true) //!bDone) 
+	{
+	    if (WAIT_OBJECT_0 == WaitForSingleObject(hEvent, 100))
+	    { 
+			while (hr = locMediaEvent->GetEvent(&evCode, &param1, &param2, 0), SUCCEEDED(hr)) 
+			{
+	            //printf("Event code: %#04x\n Params: %d, %d\n", evCode, param1, param2);
+				cout<<"Event : "<<evCode<<" Params : "<<param1<<", "<<param2<<endl;
+				locMediaEvent->FreeEventParams(evCode, param1, param2);
+				bDone = (EC_COMPLETE == evCode);
+			}
+		}
+	} 
+
+	cout<<"Finished..."<<endl;
 	int x;
 	cin>>x;
 	locMediaControl->Release();
