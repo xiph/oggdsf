@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ogg_dynamic", "..\..\src\lib\core\ogg\libogg\win32\ogg_dynamic.vcproj", "{FB373486-0E6E-4BB6-8BF2-1F92EACA1468}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libogg", "..\..\src\lib\core\ogg\libogg\win32\ogg_dynamic.vcproj", "{FB373486-0E6E-4BB6-8BF2-1F92EACA1468}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -74,7 +74,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfFLACDecoder", "..\..\src
 		{BE48BAC3-F0DE-47AA-8192-C2A52798E0E5} = {BE48BAC3-F0DE-47AA-8192-C2A52798E0E5}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vorbis_dynamic", "..\..\src\lib\codecs\vorbis\libs\libvorbis\win32\vorbis_dynamic.vcproj", "{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvorbis", "..\..\src\lib\codecs\vorbis\libs\libvorbis\win32\vorbis_dynamic.vcproj", "{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FB373486-0E6E-4BB6-8BF2-1F92EACA1468} = {FB373486-0E6E-4BB6-8BF2-1F92EACA1468}
 	EndProjectSection
@@ -1082,6 +1082,10 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "oggcodecsDirectshowOnly", "
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "oggcodecsDirectshowDecodeOnly", "..\..\build\oggcodecsDirectshowDecodeOnly\oggcodecsDirectshowDecodeOnly.vdproj", "{0176E805-7F0B-4144-9A31-2CE1DD228AC5}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -1603,6 +1607,12 @@ Global
 		{E2A342FB-F183-4076-88D4-06F109CA5415}.Release.ActiveCfg = Release
 		{E2A342FB-F183-4076-88D4-06F109CA5415}.Release.Build.0 = Release
 		{E2A342FB-F183-4076-88D4-06F109CA5415}.Release Unicode.ActiveCfg = Release
+		{0176E805-7F0B-4144-9A31-2CE1DD228AC5}.Debug.ActiveCfg = Debug
+		{0176E805-7F0B-4144-9A31-2CE1DD228AC5}.Debug Unicode.ActiveCfg = Debug
+		{0176E805-7F0B-4144-9A31-2CE1DD228AC5}.MakeFile.ActiveCfg = Release
+		{0176E805-7F0B-4144-9A31-2CE1DD228AC5}.Release.ActiveCfg = Release
+		{0176E805-7F0B-4144-9A31-2CE1DD228AC5}.Release.Build.0 = Release
+		{0176E805-7F0B-4144-9A31-2CE1DD228AC5}.Release Unicode.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

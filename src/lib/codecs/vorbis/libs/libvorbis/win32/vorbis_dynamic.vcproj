@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="vorbis_dynamic"
+	Name="libvorbis"
 	ProjectGUID="{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
 	SccProjectName=""
 	SccLocalPath="">

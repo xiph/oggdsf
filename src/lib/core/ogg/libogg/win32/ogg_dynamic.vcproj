@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="ogg_dynamic"
+	Name="libogg"
 	ProjectGUID="{FB373486-0E6E-4BB6-8BF2-1F92EACA1468}"
 	SccProjectName=""
 	SccLocalPath="">
@@ -68,7 +68,7 @@
 			Name="Release|Win32"
 			OutputDirectory=".\Dynamic_Release"
 			IntermediateDirectory=".\Dynamic_Release"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2"
@@ -101,17 +101,7 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLinkerTool"
-				OutputFile="Dynamic_Release\ogg.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				ModuleDefinitionFile=".\ogg.def"
-				ProgramDatabaseFile=".\Dynamic_Release/ogg.pdb"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
-				ImportLibrary=".\Dynamic_Release/ogg.lib"/>
+				Name="VCLibrarianTool"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -134,8 +124,6 @@
 			<Tool
 				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
 				Name="VCManagedWrapperGeneratorTool"/>
 			<Tool
 				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
@@ -144,7 +132,7 @@
 			Name="Debug|Win32"
 			OutputDirectory=".\Dynamic_Debug"
 			IntermediateDirectory=".\Dynamic_Debug"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
@@ -169,15 +157,7 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLinkerTool"
-				OutputFile="Dynamic_Debug\ogg_d.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				ModuleDefinitionFile=".\ogg.def"
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Dynamic_Debug/ogg_d.pdb"
-				SubSystem="2"
-				ImportLibrary=".\Dynamic_Debug/ogg_d.lib"/>
+				Name="VCLibrarianTool"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -199,8 +179,6 @@
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
 			<Tool
 				Name="VCManagedWrapperGeneratorTool"/>
 			<Tool

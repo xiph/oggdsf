@@ -213,6 +213,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_24A1793CB89A464FB683A8A3BDA774DB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2C5F38B64D1B4026848AEB8788C27EFC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -357,12 +363,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_65EFE52655DF4119A626446C8F593760"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -382,12 +382,6 @@
         "Entry"
         {
         "MsmKey" = "8:_72A8CAFC6236498AA2DE5E1CBCAFC91B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7508A3C0459B47439D67D2C7249DD169"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -454,12 +448,6 @@
         "Entry"
         {
         "MsmKey" = "8:_AC8962A7F212481095173AB7C8C89025"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AFF84F5FBA224F8A8D4BB3ACA539DC8B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -622,6 +610,18 @@
         "Entry"
         {
         "MsmKey" = "8:_FE8A2AF2D5104901A52511539C63A765"
+        "OwnerKey" = "8:_24A1793CB89A464FB683A8A3BDA774DB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE8A2AF2D5104901A52511539C63A765"
+        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE8A2AF2D5104901A52511539C63A765"
         "OwnerKey" = "8:_8B196B598C8B4033B13B43E0E7A63185"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -694,12 +694,6 @@
         "Entry"
         {
         "MsmKey" = "8:_FE8A2AF2D5104901A52511539C63A765"
-        "OwnerKey" = "8:_AFF84F5FBA224F8A8D4BB3ACA539DC8B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE8A2AF2D5104901A52511539C63A765"
         "OwnerKey" = "8:_AC8962A7F212481095173AB7C8C89025"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -737,12 +731,6 @@
         {
         "MsmKey" = "8:_FE8A2AF2D5104901A52511539C63A765"
         "OwnerKey" = "8:_79FF0B1DD62A45B4AC907B30008DA5D2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE8A2AF2D5104901A52511539C63A765"
-        "OwnerKey" = "8:_7508A3C0459B47439D67D2C7249DD169"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -976,9 +964,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libiWrapper, Version=1.0.1670.22699, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libiWrapper, Version=1.0.1670.25585, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_47225549A24F5D369822BE937CA1B1ED"
+                    {
+                    "Name" = "8:libiwrapper.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libiwrapper.dll"
             "TargetName" = "8:"
@@ -1042,32 +1035,17 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libCMMLTagsDotNET, Version=1.0.1670.22715, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libCMMLTagsDotNET, Version=1.0.1670.25611, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_585CCFE6D7240D5E8FE18F714EBE7445"
+                    {
+                    "Name" = "8:libcmmltagsdotnet.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libcmmltagsdotnet.dll"
             "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_655D5383153A6AB10D15352A7EABCC7A"
-            {
-            "SourcePath" = "8:MSVCR71D.dll"
-            "TargetName" = "8:MSVCR71D.dll"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
             "Condition" = "8:"
@@ -1108,9 +1086,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libDSPlayDotNET, Version=1.0.1670.22721, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libDSPlayDotNET, Version=1.0.1670.25615, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_AA7CFEB795610E8A0A36E21EE484E892"
+                    {
+                    "Name" = "8:libDSPlayDotNET.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libDSPlayDotNET.dll"
             "TargetName" = "8:"
@@ -1174,9 +1157,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:libVorbisCommentDotNET, Version=1.0.1670.22937, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:libVorbisCommentDotNET, Version=1.0.1670.25592, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_ED6FE6CF465CB58CEF4CEC2211C5BC52"
+                    {
+                    "Name" = "8:libVorbisCommentDotNET.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:libVorbisCommentDotNET.dll"
             "TargetName" = "8:"
@@ -1252,7 +1240,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{EF61A700-92D2-4817-8244-5F788156D2F0}"
-        "PackageCode" = "8:{41A4A4AB-6412-41F5-A6CC-B04313C292DD}"
+        "PackageCode" = "8:{019990F6-ACF9-4D1C-A6ED-6E4EDF9E2177}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -2810,6 +2798,34 @@
                 {
                 }
             }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_24A1793CB89A464FB683A8A3BDA774DB"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Release\\vorbis.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_3C7C3E6B832E481C8A36701A33FF3721"
             {
             "SourcePath" = "8:..\\..\\src\\tools\\OOOggStat\\Release\\OOOggStat.exe"
@@ -3146,34 +3162,6 @@
                 {
                 }
             }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_7508A3C0459B47439D67D2C7249DD169"
-            {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libogg\\win32\\Dynamic_Release\\ogg.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{FB373486-0E6E-4BB6-8BF2-1F92EACA1468}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_79FF0B1DD62A45B4AC907B30008DA5D2"
             {
             "SourcePath" = "8:..\\..\\src\\lib\\player\\libDSPlayDotNET\\Release\\libDSPlayDotNET.dll"
@@ -3421,34 +3409,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{8C91066F-5C96-48BB-BD1F-D30FFD2A57A1}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_AFF84F5FBA224F8A8D4BB3ACA539DC8B"
-            {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Release\\vorbis.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

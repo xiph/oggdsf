@@ -15,20 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_749EF4AFA0164B8DADBBC2739830D3E1"
+        "MsmKey" = "8:_28CCE3E286304EA1AFE50DB7B2DE97F8"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_85C3DECF7FF24BC4B5F089BAF0497E6F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_93E659412413F18081860F16DA3C466B"
-        "OwnerKey" = "8:_96E8D4E9AC634EBDA2A61EB30C4FC497"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -39,20 +27,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B2CBB39FD40D4BEF8D2D22B5B65BBDE4"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_FB6E4BEAFF4D41B091A7389DAEAAF741"
+        "OwnerKey" = "8:_96E8D4E9AC634EBDA2A61EB30C4FC497"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FB6E4BEAFF4D41B091A7389DAEAAF741"
-        "OwnerKey" = "8:_85C3DECF7FF24BC4B5F089BAF0497E6F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FB6E4BEAFF4D41B091A7389DAEAAF741"
-        "OwnerKey" = "8:_B2CBB39FD40D4BEF8D2D22B5B65BBDE4"
+        "OwnerKey" = "8:_28CCE3E286304EA1AFE50DB7B2DE97F8"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -113,26 +95,6 @@
         }
         "File"
         {
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_93E659412413F18081860F16DA3C466B"
-            {
-            "SourcePath" = "8:MSVCR71D.dll"
-            "TargetName" = "8:MSVCR71D.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_398A5F7D291247B7826810E37F282369"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -189,7 +151,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:libFishSoundWithToolsAndTests"
         "ProductCode" = "8:{8CE1C2CF-1CA0-4F56-A747-9BB39148679E}"
-        "PackageCode" = "8:{09686F7F-4F77-4AA4-B64C-9AA6D627AFFE}"
+        "PackageCode" = "8:{74C4120C-2A39-4F51-A60D-1FDBC7AC257E}"
         "UpgradeCode" = "8:{BCA6D0D8-7EA9-4FD7-B52C-D74BFD19F45D}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -703,9 +665,9 @@
         }
         "ProjectOutput"
         {
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_749EF4AFA0164B8DADBBC2739830D3E1"
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_28CCE3E286304EA1AFE50DB7B2DE97F8"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\libs\\libspeex\\win32\\libspeex\\Release\\libspeex.lib"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Release\\vorbis.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_398A5F7D291247B7826810E37F282369"
@@ -725,35 +687,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{6D653C6F-8722-4B10-9C3A-CB7094DD159F}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_85C3DECF7FF24BC4B5F089BAF0497E6F"
-            {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libogg\\win32\\Dynamic_Release\\ogg.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_398A5F7D291247B7826810E37F282369"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{FB373486-0E6E-4BB6-8BF2-1F92EACA1468}"
+            "OutputProjectGuid" = "8:{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -782,34 +716,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{AE0ABDB0-AE3B-4C38-843B-3408A6B87BA4}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_B2CBB39FD40D4BEF8D2D22B5B65BBDE4"
-            {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Release\\vorbis.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_398A5F7D291247B7826810E37F282369"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
