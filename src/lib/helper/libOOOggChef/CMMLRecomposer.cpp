@@ -38,7 +38,11 @@
 #include <libOOOggChef/CMMLRecomposer.h>
 #include <libOOOggChef/utils.h>
 
+#include <libilliCore/StringHelper.h>
 #include <libOOOgg/libOOOgg.h>
+#include <libCMMLTags/libCMMLTags.h>
+#include <libTemporalURI/C_TimeStamp.h>
+#include <libWinCMMLParse/CMMLParser.h>
 
 #include <assert.h>
 
@@ -49,8 +53,10 @@
 
 using namespace std;
 
+#undef DEBUG
+
 CMMLRecomposer::CMMLRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
-	:	mFilename(inFilename)
+	:	mCMMLFilename(inFilename)
 	,	mBufferWriter(inBufferWriter)
 	,	mBufferWriterUserData(inBufferWriterUserData)
 {
@@ -62,18 +68,116 @@ CMMLRecomposer::~CMMLRecomposer(void)
 }
 
 	
-void CMMLRecomposer::recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes)
+bool CMMLRecomposer::recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes)
 {
-	// If the only wants only CMML, well, just serve out the CMML
-	if (wantOnlyCMML(inWantedMIMETypes)) {
-		sendFile(mFilename, mBufferWriter, mBufferWriterUserData);
-	} else {
-		// TODO: Implement other output types :)
-		const char *locCrapx0r = "NOT IMPLEMENTED YET\r\n";
-		mBufferWriter((unsigned char *) locCrapx0r,
-			(unsigned long) strlen(locCrapx0r),
-			mBufferWriterUserData);
+	// If the only wants just zee basic CMML, well, just serve out the CMML
+	if (wantOnlyCMML(inWantedMIMETypes) && inStartingTimeOffset == 0) {
+		sendFile(mCMMLFilename, mBufferWriter, mBufferWriterUserData);
+		return true;
 	}
+
+#ifdef DEBUG
+	mDebugFile.open("G:\\Logs\\CMMLRecomposer.log", ios_base::out);
+	mDebugFile << "CMMLRecomposer 1 " << endl;
+#endif
+
+	// Parse in the CMML into a C_CMMLDoc class
+	C_CMMLDoc *locCMML = new C_CMMLDoc;
+	CMMLParser locCMMLParser;
+	locCMMLParser.parseDocFromFile(StringHelper::toWStr(mCMMLFilename), locCMML);
+
+	// We assume that CMML recomposition fails unless explicitly set otherwise
+	bool locReturnValue = false;
+
+	// We need to declare and initialise all our variables here, because
+	// in the presence of errors, we may be deleting variables which haven't
+	// been initialised yet ...
+	C_CMMLRootTag *locCMMLRoot = NULL;
+	C_StreamTag *locStream = NULL;
+
+	if (locCMML == NULL) {
+		goto cleanup;
+	}
+
+	// No matter what the output type is, we always have to read & parse the stream
+	// and head tags anyway, so do that now
+
+	// If we don't have a root tag at all, we're pretty screwed: fail with prejudice
+	locCMMLRoot = locCMML->root();
+	if (locCMMLRoot == NULL) {
+		goto cleanup;
+	}
+
+	// It's not catastrophic if we don't have <stream>, <head>, or even <clip> tags
+	locStream = locCMMLRoot->stream();
+#if 0
+	C_HeadTag *locHead = locCMMLRoot->head();
+	C_ClipTagList *locClipList = locCMMLRoot->clipList();
+#endif
+
+	// If our final output type is CMML, we deal with it (otherwise we hand off the
+	// recomposition to AnnodexRecomposer -- see below)
+
+	// XXX: Checking for * / * is a pretty dodgy hack ...
+	if (wantOnlyCMML(inWantedMIMETypes) || inWantedMIMETypes->at(0) == "*/*") {
+		C_CMMLDoc* locCMMLDoc = locCMML->clone();
+
+		// If the clip list exists ...
+		if (locCMMLDoc && locCMMLDoc->root() && locCMMLDoc->root()->clipList()) {
+			// ... we need to replace it with only the clips during or after
+			// the user's requested time
+
+#ifdef DEBUG
+			mDebugFile << "Got here 1" << endl;
+#endif
+
+			// Convert the requested time from a double to an int64
+			C_TimeStamp locTimeStamp;
+			locTimeStamp.parseTimeStamp(inStartingTimeOffset);
+			LOOG_INT64 locTime = locTimeStamp.toHunNanos();
+
+#ifdef DEBUG
+			mDebugFile << "locTime: " << locTime << endl;
+#endif
+
+			// Get the clip tags during or after the wanted time
+			C_ClipTagList *locRequestedClips =
+				locCMMLDoc->root()->clipList()->getClipsFrom(locTime);
+
+			// Replace the clip list in our new CMML document.  We don't need to
+			// delete the old clip list before doing this, since the setClipList()
+			// method takes care of that for us.
+			locCMMLDoc->root()->setClipList(locRequestedClips);
+		}
+
+		// Pump out the newly created CMML document
+		string locCMMLDocString =
+			StringHelper::toNarrowStr(locCMMLDoc->toString());
+		mBufferWriter((unsigned char *) locCMMLDocString.c_str(),
+			(unsigned long) locCMMLDocString.size(), mBufferWriterUserData);
+
+		// Indicate success to our callee
+		locReturnValue = true;
+	}
+
+#if 0
+	C_ImportTagList *locImportTagList = locStream->importList();
+	if (locImportTagList == NULL) {
+		goto cleanup;
+	}
+#endif
+
+cleanup:
+	if (locCMML) {
+		delete locCMML;
+		locCMML = NULL;
+	}
+
+#ifdef DEBUG
+	mDebugFile.close();
+#endif
+
+	return locReturnValue;
 }
 
 

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="testCMMLParser"
-	ProjectGUID="{BF72BA81-0735-46FB-8C8C-E36758477756}"
+	Name="testOOOggChef"
+	ProjectGUID="{1D3F3520-FD46-4C72-B2AA-A917AB368053}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -19,13 +19,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\lib\codecs\cmml;..\..\lib\helper"
+				AdditionalIncludeDirectories="..\..\..\src\lib\helper;..\..\..\src\lib\codecs\cmml"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="3"
-				WarningLevel="4"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"
 				CallingConvention="2"/>
@@ -33,10 +33,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/testCMMLParser.exe"
+				OutputFile="$(OutDir)/testOOOggChef.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/testCMMLParser.pdb"
+				ProgramDatabaseFile="$(OutDir)/testOOOggChef.pdb"
 				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
@@ -68,10 +68,10 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\lib\codecs\cmml;..\..\lib\helper"
+				AdditionalIncludeDirectories="..\..\..\src\lib\helper;..\..\..\src\lib\codecs\cmml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
@@ -80,7 +80,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/testCMMLParser.exe"
+				OutputFile="$(OutDir)/testOOOggChef.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="1"
@@ -132,7 +132,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\testCMMLParser.cpp">
+				RelativePath=".\testOOOggChef.cpp">
 			</File>
 		</Filter>
 		<Filter

@@ -202,6 +202,21 @@ LOOG_INT64 C_TimeStamp::toHunNanos() {
 	};
 }
 
+bool C_TimeStamp::parseTimeStamp(double inTimeStampInSeconds)
+{
+	char *locTimeCString = new char[64];
+	if (sprintf(locTimeCString, "%lf", inTimeStampInSeconds) < 0) {
+		delete [] locTimeCString;
+		return false;
+	}
+
+	bool locReturnValue = parseTimeStamp(locTimeCString);
+
+	delete [] locTimeCString;
+
+	return locReturnValue;
+}
+
 bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 {
 	try {

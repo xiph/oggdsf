@@ -32,7 +32,14 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "stdafx.h"
-#include ".\c_cliptaglist.h"
+
+#include <libCMMLTags/C_ClipTagList.h>
+#include <libilliCore/StringHelper.h>
+#include <libTemporalURI/C_TimeStamp.h>
+
+#include <fstream>
+
+#include <assert.h>
 
 C_ClipTagList::C_ClipTagList(void)
 {
@@ -70,4 +77,55 @@ C_ClipTagList* C_ClipTagList::clone() {
 	C_ClipTagList* retList = new C_ClipTagList;
 	privateClone(retList);
 	return retList;
+}
+
+/** Note that the returned C_ClipTagList must be deleted by you.
+  */
+C_ClipTagList *C_ClipTagList::getClipsFrom(LOOG_INT64 inTimeInDirectShowUnits)
+{
+	C_ClipTagList *locClipTagList = new C_ClipTagList;
+
+	bool locAlreadyEncounteredClipInTimeRange = false;
+
+	for (unsigned long i = 0; i < numTags(); i++) {
+		C_ClipTag *locTag = getTag(i);
+		
+		// Convert the time stamp from a string to time in DirectSeconds(TM)
+		wstring locStart = locTag->start();
+		C_TimeStamp locTimeStamp;
+		if (!locTimeStamp.parseTimeStamp(StringHelper::toNarrowStr(locStart))) {
+			// Mmm, couldn't parse the time stamp for this clip ... so, err,
+			// let's just skip it.  Yeah, that's a grreeeeat idea ...
+			continue;
+		}
+		LOOG_INT64 locStartTime = locTimeStamp.toHunNanos();
+
+		if (locStartTime >= inTimeInDirectShowUnits) {
+			if (!locAlreadyEncounteredClipInTimeRange) {
+				// Only add the previous clip to the clip list if its end time
+				// is beyond the requested time
+				{
+					wstring locEnd = locTag->end();
+					C_TimeStamp locEndTimeStamp;
+					if (locEndTimeStamp.parseTimeStamp(StringHelper::toNarrowStr(locEnd))) {
+						// Clip has an end time: check if it's before the requested time
+						LOOG_INT64 locEndTime = locEndTimeStamp.toHunNanos();
+						if (locEndTime < inTimeInDirectShowUnits) {
+							continue;
+						}
+					}
+				}
+
+				// If we're not the very first clip ...
+				if (i > 0) {
+					C_ClipTag *locClipInTimeRange = getTag(i - 1);
+					locClipTagList->addTag(locClipInTimeRange->clone());
+				}
+				locAlreadyEncounteredClipInTimeRange = true;
+			}
+			locClipTagList->addTag(locTag->clone());
+		}
+	}
+
+	return locClipTagList;
 }

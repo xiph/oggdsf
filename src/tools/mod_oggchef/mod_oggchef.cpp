@@ -122,6 +122,9 @@ const vector<string> *preferredOutputMIMETypes(request_rec *inRequest)
 				&& (	get_accept_quality(inRequest, "application/ogg")   == 1.0
 					||	get_accept_quality(inRequest, "application/x-ogg") == 1.0)
 			)
+		||	(		isCMMLFile(locFilename)
+				&& (	get_accept_quality(inRequest, "text/x-cmml")   == 1.0)
+			)
 		)
 	{
 		vector<string>* locAcceptAllMimeTypes = new vector<string>;
@@ -224,7 +227,16 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	}
 
 	if (locRecomposer) {
-		locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes);
+		bool locRecompositionWasSuccessful = 
+			locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes);
+		if (!locRecompositionWasSuccessful) {
+			// TODO: This really isn't the most ideal error handling, but what the hey ...
+			delete locRecomposer;
+			delete locOutputMIMETypes;
+			
+			// XXX: Is this a legal return value for this function?
+			return HTTP_INTERNAL_SERVER_ERROR;
+		}
 		delete locRecomposer;
 	}
 

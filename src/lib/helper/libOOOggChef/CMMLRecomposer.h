@@ -49,10 +49,10 @@ class LIBOOOGGCHEF_API CMMLRecomposer : public IRecomposer, public IOggCallback
 {
 public:
 	CMMLRecomposer(void);
-	CMMLRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
+	CMMLRecomposer(string inCMMLFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
 	~CMMLRecomposer(void);
 
-	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
+	bool recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
 	bool acceptOggPage(OggPage* inOggPage);
 
     CMMLRecomposer(const CMMLRecomposer&);  // Don't copy me
@@ -65,7 +65,7 @@ protected:
 
 	fstream mDebugFile;
 
-	string mFilename;
+	string mCMMLFilename;
 
 	const vector<string>* mWantedMIMETypes;
 };

@@ -37,6 +37,8 @@
 #include <string>
 using namespace std;
 
+#include <libilliCore/illicoreconfig.h>
+
 //Local Include Files
 #include <libCMMLTags/C_TagList.h>
 #include <libCMMLTags/C_ClipTag.h>
@@ -57,6 +59,9 @@ public:
 
 	void addTag(C_ClipTag* inTag);
 	C_ClipTag* getTag(unsigned long inTagNo);
+
+	/// Returns a new C_ClipTagList, which contains clips occuring during or after the time given via inTimeInDirectShowUnits
+	C_ClipTagList *getClipsFrom(LOOG_INT64 inTimeInDirectShowUnits);
 
 	virtual void privateClone(C_TagList* outTagList);
 };

@@ -81,7 +81,7 @@ AnnodexRecomposer::~AnnodexRecomposer(void)
     is a vector of strings, which will be matched against the MIME type in the
 	AnxData header of the logical bitstream.
   */
-void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
+bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	const vector<string>* inWantedMIMETypes)
 {
 	mWantedMIMETypes = inWantedMIMETypes;
@@ -212,6 +212,7 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	mDebugFile.close();
 #endif
 
+	return true;
 }
 
 bool isAnnodexBOSPage (OggPage *inOggPage)
@@ -290,8 +291,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 
 					if (!wantOnlyPacketBody(mWantedMIMETypes)) {
 						// Send out the page
-						mBufferWriter(inOggPage->createRawPageData(),
+						unsigned char *locRawPageData = inOggPage->createRawPageData();
+						mBufferWriter(locRawPageData,
 							inOggPage->pageSize(), mBufferWriterUserData);
+						delete locRawPageData;
 					}
 				} else {
 					// The Annodex BOS page should always be the very first page of
@@ -319,16 +322,20 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 							mWantedStreamSerialNumbers.push_back(locMap);
 
 							if (!wantOnlyPacketBody(mWantedMIMETypes)) {
-								mBufferWriter(inOggPage->createRawPageData(),
+								unsigned char *locRawPageData = inOggPage->createRawPageData();
+								mBufferWriter(locRawPageData,
 									inOggPage->pageSize(), mBufferWriterUserData);
+								delete locRawPageData;
 							}
 						}
 					}
 				} else if (isAnnodexEOSPage(inOggPage, mAnnodexSerialNumber)) {
 					mDemuxState = SEEN_ANNODEX_EOS;
 					if (!wantOnlyPacketBody(mWantedMIMETypes)) {
-						mBufferWriter(inOggPage->createRawPageData(),
+						unsigned char *locRawPageData = inOggPage->createRawPageData();
+						mBufferWriter(locRawPageData,
 							inOggPage->pageSize(), mBufferWriterUserData);
+						delete locRawPageData;
 					}
 				} else {
 					// We didn't spot either an AnxData page or the Annodex EOS: WTF?
@@ -349,8 +356,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 									mBufferWriter(locPacket->packetData(),
 										locPacket->packetSize(), mBufferWriterUserData);
 								} else {
-									mBufferWriter(inOggPage->createRawPageData(),
+									unsigned char *locRawPageData = inOggPage->createRawPageData();
+									mBufferWriter(locRawPageData,
 										inOggPage->pageSize(), mBufferWriterUserData);
+									delete locRawPageData;
 								}
 							} 
 #if 0
@@ -457,8 +466,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 									}
 								}
 							} else {
-								mBufferWriter(inOggPage->createRawPageData(),
+								unsigned char *locRawPageData = inOggPage->createRawPageData();								
+								mBufferWriter(locRawPageData,
 									inOggPage->pageSize(), mBufferWriterUserData);
+								delete locRawPageData;
 							}
 						}
 					}

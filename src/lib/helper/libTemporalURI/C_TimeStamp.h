@@ -26,6 +26,7 @@ public:
 		short seconds;
 		LOOG_UINT64 partials;
 	};
+	bool parseTimeStamp(double inTimeStampInSeconds);
 	bool parseTimeStamp(string inTimeStamp);
 
 	string toString();

@@ -52,7 +52,7 @@ public:
 	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, const string inCachedSeekTableFilename = "");
 	~AnnodexRecomposer(void);
 
-	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
+	bool recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
 	bool acceptOggPage(OggPage* inOggPage);
 
     AnnodexRecomposer(const AnnodexRecomposer&);  // Don't copy me
