@@ -39,6 +39,13 @@ NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter,
 {
 
 	debugLog.open("G:\\logs\\flacsourcepin_.log", ios_base::out);
+
+
+	//Subvert COM and do this directly... this way, the source filter won't expose the interface to the
+	// graph but we can still delegate to it.
+	IMediaSeeking* locSeeker = NULL;
+	locSeeker = (IMediaSeeking*)mParentFilter;
+	SetDelegate(locSeeker);
 }
 
 NativeFLACSourcePin::~NativeFLACSourcePin(void)
@@ -48,7 +55,11 @@ NativeFLACSourcePin::~NativeFLACSourcePin(void)
 
 STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 

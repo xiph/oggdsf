@@ -69,7 +69,7 @@ const REGFILTERPINS FLACSourcePinReg[] = {
 
 const REGFILTER2 NativeFLACSourceFilterReg = {
 		1,
-		MERIT_DO_NOT_USE,
+		MERIT_NORMAL,
 		0,
         FLACSourcePinReg
 		
