@@ -215,7 +215,7 @@ void *sb_encoder_init(SpeexMode *m)
    st->relative_quality=0;
 
    st->complexity=2;
-   speex_decoder_ctl(st->st_low, SPEEX_GET_SAMPLING_RATE, &st->sampling_rate);
+   speex_encoder_ctl(st->st_low, SPEEX_GET_SAMPLING_RATE, &st->sampling_rate);
    st->sampling_rate*=2;
 
    return st;
@@ -1206,6 +1206,10 @@ int sb_encoder_ctl(void *state, int request, void *ptr)
          for (i=0;i<QMF_ORDER;i++)
             st->h0_mem[i]=st->h1_mem[i]=st->g0_mem[i]=st->g1_mem[i]=0;
       }
+      break;
+   case SPEEX_GET_LOOKAHEAD:
+      speex_encoder_ctl(st->st_low, SPEEX_GET_LOOKAHEAD, ptr);
+      (*(int*)ptr) = 2*(*(int*)ptr) + QMF_ORDER - 1;
       break;
    case SPEEX_GET_PI_GAIN:
       {

@@ -34,7 +34,7 @@
 #include "ltp.h"
 #include "stack_alloc.h"
 #include "filters.h"
-#include "speex_bits.h"
+#include <speex/speex_bits.h>
 
 #ifdef _USE_SSE
 #include "ltp_sse.h"
@@ -84,6 +84,7 @@ void open_loop_nbest_pitch(float *sw, int start, int end, int len, int *pitch, f
    {
         best_score[i]=-1;
         gain[i]=0;
+        pitch[i]=start;
    }
    energy[0]=inner_prod(sw-start, sw-start, len);
    e0=inner_prod(sw, sw, len);
@@ -91,6 +92,8 @@ void open_loop_nbest_pitch(float *sw, int start, int end, int len, int *pitch, f
    {
       /* Update energy for next pitch*/
       energy[i-start+1] = energy[i-start] + sw[-i-1]*sw[-i-1] - sw[-i+len-1]*sw[-i+len-1];
+      if (energy[i-start+1] < 1)
+         energy[i-start+1]=1; 
    }
    for (i=start;i<=end;i++)
    {

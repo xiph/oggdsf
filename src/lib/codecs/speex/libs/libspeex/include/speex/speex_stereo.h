@@ -1,7 +1,9 @@
-/* Copyright (C) 2002 Jean-Marc Valin 
-   File: quant_lsp.h
-   LSP vector quantization
-
+/* Copyright (C) 2002 Jean-Marc Valin*/
+/**
+   @file speex_stereo.h
+   @brief Describes the handling for intensity stereo
+*/
+/*
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
    are met:
@@ -30,42 +32,40 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef QUANT_LSP_H
-#define QUANT_LSP_H
+#ifndef STEREO_H
+#define STEREO_H
 
-#include <speex/speex_bits.h>
+#include "speex_bits.h"
 
-#define MAX_LSP_SIZE 20
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#define NB_CDBK_SIZE 64
-#define NB_CDBK_SIZE_LOW1 64
-#define NB_CDBK_SIZE_LOW2 64
-#define NB_CDBK_SIZE_HIGH1 64
-#define NB_CDBK_SIZE_HIGH2 64
+/** State used for decoding (intensity) stereo information */
+typedef struct SpeexStereoState {
+   float balance;      /**< Left/right balance info */
+   float e_ratio;      /**< Ratio of energies: E(left+right)/[E(left)+E(right)]  */
+   float smooth_left;  /**< Smoothed left channel gain */
+   float smooth_right; /**< Smoothed right channel gain */
+   float reserved1;    /**< Reserved for future use */
+   float reserved2;    /**< Reserved for future use */
+} SpeexStereoState;
 
-/*Narrowband codebooks*/
-extern signed char cdbk_nb[];
-extern signed char cdbk_nb_low1[];
-extern signed char cdbk_nb_low2[];
-extern signed char cdbk_nb_high1[];
-extern signed char cdbk_nb_high2[];
+/** Initialization value for a stereo state */
+#define SPEEX_STEREO_STATE_INIT {1,.5,1,1}
 
-/* Quantizes narrowband LSPs with 30 bits */
-void lsp_quant_nb(float *lsp, float *qlsp, int order, SpeexBits *bits);
+/** Transforms a stereo frame into a mono frame and stores intensity stereo info in 'bits' */
+void speex_encode_stereo(float *data, int frame_size, SpeexBits *bits);
 
-/* Decodes quantized narrowband LSPs */
-void lsp_unquant_nb(float *lsp, int order, SpeexBits *bits);
+/** Transforms a mono frame into a stereo frame using intensity stereo info */
+void speex_decode_stereo(float *data, int frame_size, SpeexStereoState *stereo);
 
-/* Quantizes low bit-rate narrowband LSPs with 18 bits */
-void lsp_quant_lbr(float *lsp, float *qlsp, int order, SpeexBits *bits);
+/** Callback handler for intensity stereo info */
+int speex_std_stereo_request_handler(SpeexBits *bits, void *state, void *data);
 
-/* Decodes quantized low bit-rate narrowband LSPs */
-void lsp_unquant_lbr(float *lsp, int order, SpeexBits *bits);
+#ifdef __cplusplus
+}
+#endif
 
-/* Quantizes high-band LSPs with 12 bits */
-void lsp_quant_high(float *lsp, float *qlsp, int order, SpeexBits *bits);
-
-/* Decodes high-band LSPs */
-void lsp_unquant_high(float *lsp, int order, SpeexBits *bits);
 
 #endif
