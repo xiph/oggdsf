@@ -55,7 +55,7 @@ public:
 	~AnnodexRecomposer(void);
 
 	/// Recompose a stream from a particular time offset and/or only selecting certain logical bitstreams (specified as MIME types)
-	void recomposeStreamFrom(double inStartingTimeOffset, const vector<const string>* inWantedMIMETypes);
+	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
 	bool acceptOggPage(OggPage* inOggPage);
 
     AnnodexRecomposer(const AnnodexRecomposer&);  // Don't copy me
@@ -93,5 +93,5 @@ protected:
 	eDemuxParserState mDemuxParserState;
 
 	vector<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
-	const vector<const string>* mWantedMIMETypes;
+	const vector<string>* mWantedMIMETypes;
 };

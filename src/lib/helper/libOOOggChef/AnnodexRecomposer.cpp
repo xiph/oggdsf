@@ -70,7 +70,7 @@ AnnodexRecomposer::~AnnodexRecomposer(void)
     is a vector of strings, which will be matched against the MIME type in the
 	AnxData header of the logical bitstream. */
 void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
-	const vector<const string>* inWantedMIMETypes)
+	const vector<string>* inWantedMIMETypes)
 {
 	mWantedMIMETypes = inWantedMIMETypes;
 
@@ -212,12 +212,15 @@ unsigned long secondaryHeaders(OggPacket* inPacket)
 
 }
 
+#ifdef WIN32
+# define strncasecmp _strnicmp
+#endif /* will be undef'ed below */
 string mimeType(OggPacket* inPacket)
 {
 	const unsigned short CONTENT_TYPE_OFFSET = 28;
 
-	if (_strnicmp((char *) inPacket->packetData() + CONTENT_TYPE_OFFSET,
-		          "Content-Type: ", 14) == 0)
+	if (strncasecmp((char *) inPacket->packetData() + CONTENT_TYPE_OFFSET,
+		        "Content-Type: ", 14) == 0)
 	{
 		const unsigned short MIME_TYPE_OFFSET = 28 + 14;
 		const unsigned short MAX_MIME_TYPE_LENGTH = 256;
@@ -228,8 +231,11 @@ string mimeType(OggPacket* inPacket)
 		return NULL;
 	}
 }
+#ifdef WIN32
+# undef strcasecmp
+#endif
 
-bool wantOnlyPacketBody(const vector<const string>* inWantedMIMETypes)
+bool wantOnlyPacketBody(const vector<string>* inWantedMIMETypes)
 {
 	// TODO: This should check for packet bodies generally, not text/x-cmml
 

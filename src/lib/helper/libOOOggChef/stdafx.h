@@ -8,7 +8,9 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
-#include <windows.h>
+#ifdef WIN32
+# include <windows.h>
+#endif
 
 // TODO: reference additional headers your program requires here
 #include <libOOOgg/libOOOgg.h>

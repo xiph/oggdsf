@@ -47,6 +47,6 @@ public:
 	IRecomposer(void);
 	virtual ~IRecomposer(void);
 
-	virtual void recomposeStreamFrom(double inStartingTimeOffset, const vector<const string>* inWantedMIMETypes) = 0;
+	virtual void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes) = 0;
 
 };
