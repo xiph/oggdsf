@@ -55,6 +55,7 @@
 #include <libOOOggChef/AnnodexRecomposer.h>
 #include <libOOOggChef/CMMLRecomposer.h>
 #include <libOOOggChef/IRecomposer.h>
+#include <libOOOggChef/utils.h>
 
 #include <algorithm>
 #include <iostream>
@@ -215,6 +216,15 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 			"Wanted MIMEs %d: %s", i, locMIMEType.c_str());
 	}
 #endif
+
+	// Check to see if the filename exists; if it doesn't, return a 404 error.
+	// Note that we should remove this check later when e.g. we want to be able
+	// to dynamically compose an Annodex file from an existing CMML file, but
+	// since we don't do that yet, we don't have to worry about it :).
+	if (!fileExists(locFilename)) {
+		delete locOutputMIMETypes;
+		return HTTP_NOT_FOUND;
+	}
 
 	// Poor man's factory: create a new class to dynamically generate the Ogg
 	// file according to the user's wishes

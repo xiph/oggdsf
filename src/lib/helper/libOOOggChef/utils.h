@@ -34,20 +34,25 @@
 #pragma once
 
 
+#include <libOOOggChef/libOOOggChef.h>
+
 #include <string>
 #include <vector>
+
+// TODO: Wrap this up in a static class or a namespace or something, to prevent
+// identifier clashes
 
 /// Often used by IRecomposer's subclasses' constructor, and elsewhere
 typedef bool (*BufferWriter) (unsigned char *buffer, unsigned long bufferSize, void *userData);
 
 /// Check whether the user requested only CMML in the list of MIME types
-bool wantOnlyCMML(const vector<string>* inWantedMIMETypes);
+bool LIBOOOGGCHEF_API wantOnlyCMML(const vector<string>* inWantedMIMETypes);
 
 /// Check whether we should serve out only the packet bodies given the list of MIME types
-bool wantOnlyPacketBody(const vector<string>* inWantedMIMETypes);
+bool LIBOOOGGCHEF_API wantOnlyPacketBody(const vector<string>* inWantedMIMETypes);
 
 /// a.k.a. World's most stupid stat() function
-bool fileExists(const string inFilename);
+bool LIBOOOGGCHEF_API fileExists(const string inFilename);
 
 /// Push out the entire contents of file to the inBufferWriter function
-bool sendFile(const string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
+bool LIBOOOGGCHEF_API sendFile(const string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);

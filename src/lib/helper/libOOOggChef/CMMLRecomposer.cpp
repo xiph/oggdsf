@@ -194,7 +194,7 @@ cleanup:
 }
 
 
-bool CMMLRecomposer::acceptOggPage(OggPage* inOggPage)
+bool CMMLRecomposer::acceptOggPage(OggPage*)
 {
 	return true;
 }
