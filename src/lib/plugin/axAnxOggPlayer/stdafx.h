@@ -39,4 +39,5 @@
 //  database classes
 #include <afxdb.h>			// MFC database classes
 #include <afxdao.h>			// MFC DAO database classes
+#include <afxwin.h>
 

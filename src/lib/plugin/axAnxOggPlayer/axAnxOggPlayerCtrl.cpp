@@ -4,6 +4,7 @@
 #include "axAnxOggPlayer.h"
 #include "axAnxOggPlayerCtrl.h"
 #include "axAnxOggPlayerPropPage.h"
+#include ".\axanxoggplayerctrl.h"
 
 
 #ifdef _DEBUG
@@ -20,6 +21,7 @@ IMPLEMENT_DYNCREATE(CaxAnxOggPlayerCtrl, COleControl)
 BEGIN_MESSAGE_MAP(CaxAnxOggPlayerCtrl, COleControl)
 	ON_MESSAGE(OCM_COMMAND, OnOcmCommand)
 	ON_OLEVERB(AFX_IDS_VERB_PROPERTIES, OnProperties)
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 
@@ -214,3 +216,14 @@ LRESULT CaxAnxOggPlayerCtrl::OnOcmCommand(WPARAM wParam, LPARAM lParam)
 
 
 // CaxAnxOggPlayerCtrl message handlers
+
+int CaxAnxOggPlayerCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (COleControl::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+	mDialog.Create(IDD_DIALOG1, this);
+	mDialog.ShowWindow(TRUE);
+	return 0;
+}

@@ -1,4 +1,5 @@
 #pragma once
+#include "controldialog.h"
 
 // axAnxOggPlayerCtrl.h : Declaration of the CaxAnxOggPlayerCtrl ActiveX Control class.
 
@@ -48,5 +49,9 @@ protected:
 public:
 	enum {
 	};
+protected:
+	CControlDialog mDialog;
+public:
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };
 

@@ -153,6 +153,9 @@
 				RelativePath=".\axAnxOggPlayerPropPage.cpp">
 			</File>
 			<File
+				RelativePath=".\ControlDialog.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -182,6 +185,9 @@
 				RelativePath=".\axAnxOggPlayerPropPage.h">
 			</File>
 			<File
+				RelativePath=".\ControlDialog.h">
+			</File>
+			<File
 				RelativePath=".\Resource.h">
 			</File>
 			<File
@@ -207,5 +213,8 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="axAnxOggPlayer.rc"/>
 	</Globals>
 </VisualStudioProject>
