@@ -61,14 +61,20 @@ DSPlay::DSPlay(void)
 	,	mCMMLAppControl(NULL)
 	,	mWindowHandle(NULL)
 	,	mVideoWindow(NULL)
+	,	mVideoRenderFilter(NULL)
 	,	mVMR7Window(NULL)
 	,	mVMR9Window(NULL)
+	,	mVideoFrameStep(NULL)
 	,	mLeft(0)
 	,	mTop(0)
 	,	mWidth(0)
 	,	mHeight(0)
 	,	mFileSize(0)
 	,	mVideoRenderType(VR_NONE)
+
+	,	mAvgTimePerFrame(0)
+	,	mVideoWidth(0)
+	,	mVideoHeight(0)
 	
 
 
@@ -85,20 +91,27 @@ DSPlay::DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, 
 	,	mMediaControl(NULL)
 	,	mMediaSeeking(NULL)
 	,	mMediaEvent(NULL)
+	,	mBasicAudio(NULL)
 	,	mEventHandle(INVALID_HANDLE_VALUE)
 	//,	mDNCMMLCallbacks(NULL)
 	,	mDNMediaEvent(NULL)
 	,	mCMMLAppControl(NULL)
 	,	mWindowHandle(inWindowHandle)
 	,	mVideoWindow(NULL)
+	,	mVideoRenderFilter(NULL)
 	,	mVMR7Window(NULL)
 	,	mVMR9Window(NULL)
+	,	mVideoFrameStep(NULL)
 	,	mLeft(inLeft)
 	,	mTop(inTop)
 	,	mWidth(inWidth)
 	,	mHeight(inHeight)
 	,	mFileSize(0)
 	,	mVideoRenderType(VR_NONE)
+
+	,	mAvgTimePerFrame(0)
+	,	mVideoWidth(0)
+	,	mVideoHeight(0)
 {
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
@@ -248,6 +261,13 @@ void DSPlay::releaseInterfaces() {
 		mCMMLAppControl = NULL;
 	}
 
+	if(mVideoRenderFilter != NULL) {
+		numRef =
+            mVideoRenderFilter->Release();
+
+		*debugLog<<"Video Render Filter count = "<<numRef<<endl;
+		mVideoRenderFilter = NULL;
+	}
 
 
 	if (mVideoWindow != NULL) {
@@ -256,6 +276,14 @@ void DSPlay::releaseInterfaces() {
 
 		*debugLog<<"Video Window count = "<<numRef<<endl;
 		mVideoWindow = NULL;
+	}
+
+	if (mVideoFrameStep != NULL) {
+		numRef =
+            mVideoFrameStep->Release();
+
+		*debugLog<<"Video Frame Step count = "<<numRef<<endl;
+		mVideoFrameStep = NULL;
 	}
 
 	if (mVMR9Window != NULL) {
@@ -288,6 +316,65 @@ void DSPlay::releaseInterfaces() {
 
 	mIsLoaded = false;
 	//TODO::: Release everything !
+}
+
+void DSPlay::GetVideoInformation() {
+	//Check there's even a video renderer.
+	if (mVideoRenderFilter != NULL) {
+		//Get an enumerator for the pins
+		IEnumPins* locEnumPins = NULL;
+		HRESULT locHR = mVideoRenderFilter->EnumPins(&locEnumPins);
+		if (locHR == S_OK) {
+			//Get the first pin
+			IPin* locPin = NULL;
+			ULONG locHowMany = 0;
+			locHR = locEnumPins->Next(1, &locPin, &locHowMany);
+			if (locHR == S_OK) {
+				//Get the media type for the connection
+				AM_MEDIA_TYPE locMediaType;
+				locHR = locPin->ConnectionMediaType(&locMediaType);
+				if (locHR == S_OK) {
+					//Make sure it's video
+					if (locMediaType.formattype == FORMAT_VideoInfo) {
+						VIDEOINFOHEADER* locVideoInfo = (VIDEOINFOHEADER*)locMediaType.pbFormat;
+
+						//Get the info we need
+						mAvgTimePerFrame = locVideoInfo->AvgTimePerFrame;
+						mVideoWidth = locVideoInfo->bmiHeader.biWidth;
+						mVideoHeight = locVideoInfo->bmiHeader.biHeight;
+
+					}
+
+					//Free the format block
+					if ((locMediaType.cbFormat != 0) && (locMediaType.pbFormat != NULL)) {
+						CoTaskMemFree(locMediaType.pbFormat);
+					}
+
+					locPin->Release();
+					locEnumPins->Release();
+					return;
+
+				} else {
+					//Failed to get media type or not conencted
+					locPin->Release();
+					locEnumPins->Release();
+					
+				}
+			} else {
+				//Failed to get pin
+				locEnumPins->Release();
+			}
+		} else {
+			//Failed to get enumerator
+		}
+	} else {
+		//There is no video renderer
+	}
+
+	mAvgTimePerFrame = 0;
+	mVideoWidth = 0;
+	mVideoHeight = 0;
+
 }
 
 bool DSPlay::loadFile(String* inFileName) {
@@ -385,9 +472,10 @@ bool DSPlay::loadFile(String* inFileName) {
 
 		}
 		
-		numRef =
-			locVMR9->Release();
-		*debugLog<<"VMR9 ref count = "<<numRef<<endl;
+		//numRef =
+		//	locVMR9->Release();
+		//*debugLog<<"VMR9 ref count = "<<numRef<<endl;
+		mVideoRenderFilter = locVMR9;
 	}
 
 	if (mVideoRenderType == VR_NONE) {
@@ -419,9 +507,11 @@ bool DSPlay::loadFile(String* inFileName) {
 
 			}
 			
-			numRef =
-				locVMR7->Release();
-			*debugLog<<"VMR7 ref count = "<<numRef<<endl;
+			//numRef =
+			//	locVMR7->Release();
+			//*debugLog<<"VMR7 ref count = "<<numRef<<endl;
+
+			mVideoRenderFilter = locVMR7;
 		}
 	}
 
@@ -495,6 +585,9 @@ bool DSPlay::loadFile(String* inFileName) {
 		return false;
 	}
 
+	//CHANGES::: Use this to get information about the video, once it's been rendered.
+	GetVideoInformation();
+
 	*debugLog<<"Render must have been ok"<<endl;
 	if (isFileAnnodex(inFileName)) {
 		*debugLog<<"Is annodex"<<endl;
@@ -555,6 +648,15 @@ bool DSPlay::loadFile(String* inFileName) {
 		mBasicAudio = locBasicAudio;
 	} else {
 		mBasicAudio = NULL;
+	}
+
+	//Get the IVideFrameStep if ity exists
+	IVideoFrameStep* locVideoStep = NULL;
+	locHR = mGraphBuilder->QueryInterface(IID_IVideoFrameStep, (void**)&locVideoStep);
+	if (locHR == S_OK) {
+		mVideoFrameStep = locVideoStep;
+	} else {
+		mVideoFrameStep = NULL;
 	}
 
 
@@ -681,6 +783,26 @@ Int64 DSPlay::seek(Int64 inTime) {
 	
 }
 
+bool DSPlay::canStepFrame() {
+	if (mVideoFrameStep != NULL) {
+		HRESULT locHR = mVideoFrameStep->CanStep(0, NULL);
+		if (locHR == S_OK) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool DSPlay::stepFrame() {
+	if (mVideoFrameStep != NULL) {
+		HRESULT locHR = mVideoFrameStep->Step(1, NULL);
+		if (locHR == S_OK) {
+			return true;
+		}
+	}
+	return false;
+}
+
 Int64 DSPlay::seekStart() {
 	return seek(0);
 }
@@ -727,6 +849,34 @@ bool DSPlay::setMediaEventCallback(IDNMediaEvent* inMediaEventCallback) {
 }
 IDNMediaEvent* DSPlay::getMediaEventCallback() {
 	return mDNMediaEvent;
+}
+
+
+		/// Gets the average time per frame in ds units. Returns 0 if unknown or no video.
+Int64 DSPlay::averageTimePerFrame() {
+	return mAvgTimePerFrame;
+}
+
+		/// Gets the average frame rate in fps*100 (ie 29.97 fps = 2997)
+Int64 DSPlay::averageFrameRate() {
+
+	if (mAvgTimePerFrame != 0) {
+		Int64 locFrameRate = (10000000 * 100);
+		locFrameRate /= mAvgTimePerFrame;
+		return locFrameRate;
+	} else {
+		return 0;
+	}
+}
+
+		/// Gets the width of the video data. Not necessarily the same as the display size.
+Int32 DSPlay::videoWidth() {
+	return mVideoWidth;
+}
+
+		/// Gets the height of the video data. Not necessarily the same as the display size.
+Int32 DSPlay::videoHeight() {
+	return mVideoHeight;
 }
 
 

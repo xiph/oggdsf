@@ -105,6 +105,24 @@ namespace libDSPlayDotNET
 		///Sets the current balance (-10,000 to 10,000)
 		bool setBalance(long inBalance);
 
+		/// Gets the average time per frame in ds units. Returns 0 if unknown or no video.
+		Int64 averageTimePerFrame();
+
+		/// Gets the average frame rate in fps*100 (ie 29.97 fps = 2997)
+		Int64 averageFrameRate();
+
+		/// Gets the width of the video data. Not necessarily the same as the display size.
+		Int32 videoWidth();
+
+		/// Gets the height of the video data. Not necessarily the same as the display size.
+		Int32 videoHeight();
+
+		/// Steps forward a single video frame. Check canStepFrame() to see if this is possible
+		bool stepFrame();
+
+		/// Checks if the graph can step forward frame by frame.
+		bool canStepFrame();
+
 		/// Seek to the specified time in 100 nanoseconds units. ie 10 000 000 per second.
 		Int64 seek(Int64 inTime);
 
@@ -143,6 +161,9 @@ namespace libDSPlayDotNET
 		void releaseInterfaces();
 
 	protected:
+
+		/// Internal method to get video information from the video renderer.
+		void GetVideoInformation();
 		//static wstring toWStr(std::string inString);
 		IGraphBuilder* mGraphBuilder;
 		IMediaControl* mMediaControl;
@@ -151,6 +172,8 @@ namespace libDSPlayDotNET
 		IBasicAudio* mBasicAudio;
 		ICMMLAppControl* mCMMLAppControl;
 		IVideoWindow* mVideoWindow;
+		IBaseFilter* mVideoRenderFilter;
+		IVideoFrameStep* mVideoFrameStep;
 
 		IVMRWindowlessControl* mVMR7Window;
 		IVMRWindowlessControl9* mVMR9Window;
@@ -181,6 +204,11 @@ namespace libDSPlayDotNET
 		eVideoRenderer mVideoRenderType;
 
 		fstream* debugLog;
+
+		__int64 mAvgTimePerFrame;
+		int mVideoWidth;
+		int mVideoHeight;
+		
 		
 
 	};
