@@ -33,6 +33,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/dsfFLACEncoder.dll"
 				LinkIncremental="2"
+				ModuleDefinitionFile="flacencoder.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/dsfFLACEncoder.pdb"
 				SubSystem="2"
@@ -79,6 +80,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/dsfFLACEncoder.dll"
 				LinkIncremental="1"
+				ModuleDefinitionFile="flacencoder.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -127,6 +129,12 @@
 				RelativePath=".\FLACEncodeOutputPin.cpp">
 			</File>
 			<File
+				RelativePath=".\flacencoder.def">
+			</File>
+			<File
+				RelativePath=".\flacencoderdllstuff.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -154,6 +162,9 @@
 			</File>
 			<File
 				RelativePath=".\FLACEncodeOutputPin.h">
+			</File>
+			<File
+				RelativePath=".\flacencoderdllstuff.h">
 			</File>
 			<File
 				RelativePath=".\stdafx.h">
