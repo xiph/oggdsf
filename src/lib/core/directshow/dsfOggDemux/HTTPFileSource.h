@@ -31,18 +31,18 @@
 #pragma once
 #include "oggdllstuff.h"
 #include <winsock.h>
-//#include <stdlib.h>
 #include "HTTPSocket.h"
 #include "SingleMediaFileCache.h"
 #include <string>
 #include <sstream>
 #include <fstream>
+
 using namespace std;
+
 class OGG_DEMUX_API HTTPFileSource
 	:	public IFilterDataSource
 	,	public CAMThread
-	,	protected HTTPSocket
-	
+	,	protected HTTPSocket	
 {
 public:
 	HTTPFileSource(void);
@@ -51,7 +51,6 @@ public:
 	//Thread commands
 	static const int THREAD_RUN = 0;
 	static const int THREAD_EXIT = 1;
-	//
 
 	//IFilterDataSource Interface
 	virtual unsigned long seek(unsigned long inPos);
@@ -60,19 +59,15 @@ public:
 	virtual void clear();
 	virtual bool isEOF();
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
-	//
 
 	//CAMThread pure virtuals
 	DWORD HTTPFileSource::ThreadProc();
-	//
-
 
 protected:
-	void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes);
-	bool HTTPFileSource::startThread();
+	void unChunk(unsigned char* inBuff, unsigned long inNumBytes);
+	bool startThread();
 	void DataProcessLoop();
 
-	//stringstream mStreamBuffer;
 	SingleMediaFileCache mFileCache;
 
 	bool mIsChunked;
@@ -87,7 +82,6 @@ protected:
 	unsigned char* mInterBuff;
 	unsigned long mNumLeftovers;
 	static	const unsigned long RECV_BUFF_SIZE = 1024;
-
 
 	CCritSec* mBufferLock;
 };

@@ -49,13 +49,13 @@ public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	OggDemuxSourcePin(	TCHAR* inObjectName, 
-										OggDemuxSourceFilter* inParentFilter,
-										CCritSec* inFilterLock,
-										StreamHeaders* inHeaderSource, 
-										CMediaType* inMediaType,
-										wstring inPinName,
-										bool inAllowSeek);
+	OggDemuxSourcePin(		TCHAR* inObjectName, 
+							OggDemuxSourceFilter* inParentFilter,
+							CCritSec* inFilterLock,
+							StreamHeaders* inHeaderSource, 
+							CMediaType* inMediaType,
+							wstring inPinName,
+							bool inAllowSeek);
 	
 
 
