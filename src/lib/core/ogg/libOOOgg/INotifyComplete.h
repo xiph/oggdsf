@@ -37,6 +37,6 @@ public:
 	INotifyComplete(void)					{}
 	virtual ~INotifyComplete(void)			{}
 
-
+	/// Implement this to be notified when "something" completes.
 	virtual void NotifyComplete() = 0;
 };
