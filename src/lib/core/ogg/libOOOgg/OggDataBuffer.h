@@ -56,6 +56,16 @@ public:
 		AWAITING_DATA
 	};
 
+	enum eFeedResult {
+		FEED_OK,
+		FEED_NULL_POINTER = 64,
+		
+
+	};
+
+	enum eProcessResult {
+		PROCESS_OK,
+	};
 	OggDataBuffer(void);
 	//Debug only
 	OggDataBuffer::OggDataBuffer(bool x);
@@ -101,7 +111,7 @@ protected:
 	//
 
 private:
-	void processBaseHeader();
-	void processSegTable();
-	bool processDataSegment();
+	eProcessResult processBaseHeader();
+	eProcessResult processSegTable();
+	eProcessResult processDataSegment();
 };

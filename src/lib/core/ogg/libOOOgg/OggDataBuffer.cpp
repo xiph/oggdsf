@@ -112,6 +112,7 @@ bool OggDataBuffer::dispatch(OggPage* inOggPage) {
 
 	//The above callbacks will only call back to global functions or static members. They won't match the callback
 	// function specification if they are bound memebr functions
+	
 	//Any class that implements the IOggCallback interface can pass a point to themselves into this class
 	// and then a call back can be delivered to a function in a specific instance of an object.
 	for (unsigned long i = 0; i < mVirtualCallbackList.size(); i++) {
@@ -128,16 +129,37 @@ bool OggDataBuffer::dispatch(OggPage* inOggPage) {
 	return true;
 }
 
-bool OggDataBuffer::feed(const char* inData, unsigned long inNumBytes) {
+OggDataBuffer::eFeedResult OggDataBuffer::feed(const char* inData, unsigned long inNumBytes) {
+
+	
 	if (inNumBytes != 0) {
-		debugLog<<"********** Fed "<<inNumBytes<<" bytes..."<<endl;
-		mStream.write(inData, inNumBytes);
-		//FIX ::: Need error checking.
-		bool retVal = processBuffer();
-		debugLog<<"########## End feed - After process buffer"<<endl;
-		return retVal;
+		if (inData != NULL) {
+			//Buffer is not null and there is at least 1 byte of data.
+			debugLog<<"********** Fed "<<inNumBytes<<" bytes..."<<endl;
+		
+			mStream.write(inData, inNumBytes);
+		
+			//DEBUGGING_FIX:::
+			//FIX ::: Need error checking.
+			bool retVal = processBuffer();
+			debugLog<<"########## End feed - After process buffer"<<endl;
+			if (retVal == true) {
+				return FEED_OK;
+			} else {
+				ret:::::::
+			}
+			return retVal;
+		} else {
+			//Numbytes not equal to zero but inData point is NULL
+			return FEED_NULL_POINTER;
+		}
 	} else {
-		debugLog<<"Fed *zero* bytes..."<<endl;
+		//numbytes was zero... we do nothing and it's not an error.
+		return FEED_OK;
+	}
+		
+	} else {
+		debugLog<<"Fed *zero* bytes or inData was NULL..."<<endl;
 		return true;
 	}
 
@@ -145,31 +167,40 @@ bool OggDataBuffer::feed(const char* inData, unsigned long inNumBytes) {
 }
 void OggDataBuffer::processBaseHeader() {
 		debugLog<<"ProcessBaseHeader : "<<endl;
+		
 		//Delete the previous page
 		delete pendingPage;
+		
 		//make a fresh one
+		
+		//TODAY::: verify OggPage initialises properly.
 		pendingPage = new OggPage;
 
-		//Make a local buffer
+		//Make a local buffer for the header
 		unsigned char* locBuff = new unsigned char[OggPageHeader::OGG_BASE_HEADER_SIZE];
 		
 		debugLog<<"ProcessBaseHeader : Reading from stream..."<<endl;
+		
 		//Read from the stream buffer to it
 		mStream.read((char*)locBuff, OggPageHeader::OGG_BASE_HEADER_SIZE);
 
 		if(mStream.fail()) {
-			debugLog<<"ProcessBaseHeader : Read FAILED"<<endl;
+			debugLog<<"ProcessBaseHeader : File Read FAILED"<<endl;
+			return PROCESS_FILE_READ_ERROR;
 		}
+
 		//Set the base header into the pending page
 		pendingPage->header()->setBaseHeader((unsigned char*)locBuff);
+		
 		//NOTE ::: The page will delete the buffer when it's done. Don't delete it here
+
+		//Set the number of bytes we want for next time
+		mNumBytesNeeded = pendingPage->header()->NumPageSegments();
 
 		debugLog<<"ProcessBaseHeader : Setting state to AWAITING_SEG_TABLE"<<endl;
 		//Change the state.
 		mState = AWAITING_SEG_TABLE;
 
-		//Set the number of bytes we want for next time
-		mNumBytesNeeded = pendingPage->header()->NumPageSegments();
 
 		debugLog<<"ProcessBaseHeader : Bytes needed for seg table = "<<mNumBytesNeeded<<endl;	
 }
@@ -177,20 +208,27 @@ void OggDataBuffer::processSegTable() {
 
 	debugLog<<"ProcessSegTable : "<<endl;
 
-	unsigned long locNumSegs = pendingPage->header()->NumPageSegments();
+	//TODAY::: What happens when numpage segments is zero.
 
-	debugLog<<"ProcessSegTable : Num segs = "<<locNumSegs<<endl;
+	//Save a local copy of the number of page segments.
+	unsigned char locNumSegs = pendingPage->header()->NumPageSegments();
 
-	//Make a local buffer
+	debugLog<<"ProcessSegTable : Num segs = "<<(int)locNumSegs<<endl;
+
+	//Make a local buffer the size of the segment table. 0 - 255
 	unsigned char* locBuff = new unsigned char[locNumSegs];
 	
 	debugLog<<"ProcessSegTable : Reading from buffer..."<<endl;
+
 	//Read from the stream buffer to it
-	mStream.read((char*)locBuff, locNumSegs);
+	mStream.read((char*)locBuff, (size_t)locNumSegs);
 	if(mStream.fail()) {
 		debugLog<<"ProcessSegTable : Read FAILED"<<endl;
 	}
 
+	//TODAY::: Check out the page header class.
+
+	//TODAY::: Needs a return value.
 	//Set the data into the pending pages segtable
 	pendingPage->header()->setSegmentTable(locBuff);
 	//NOTE ::: The seg table will delete the buffer itself. Don't delete here.
@@ -272,6 +310,7 @@ bool OggDataBuffer::processBuffer() {
 		switch (mState) {
 			case eState::AWAITING_BASE_HEADER:
 				debugLog<<"ProcessBuffer : State = AWAITING_BASE_HEADER"<<endl;
+				
 				//If theres enough data to form the base header
 				if (numBytesAvail() >= OggPageHeader::OGG_BASE_HEADER_SIZE) {
 					debugLog<<"ProcessBuffer : Enough to process..."<<endl;
