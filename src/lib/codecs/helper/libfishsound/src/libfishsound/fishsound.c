@@ -75,7 +75,12 @@ fish_sound_set_format (FishSound * fsound, int format)
 FishSound *
 fish_sound_new (int mode, FishSoundInfo * fsinfo)
 {
+
   FishSound * fsound;
+
+  	/* Zen's hackination for quality settings - PART C */
+	fs_vorbis_quality_setting_variable = 0.3;
+	/* End hackination */
 
   if (!FS_DECODE && mode == FISH_SOUND_DECODE) return NULL;
 
@@ -245,6 +250,9 @@ fish_sound_delete (FishSound * fsound)
   return NULL;
 }
 
+
+
+
 int
 fish_sound_command (FishSound * fsound, int command, void * data, int datasize)
 {
@@ -263,6 +271,12 @@ fish_sound_command (FishSound * fsound, int command, void * data, int datasize)
   case FISH_SOUND_SET_INTERLEAVE:
     fsound->interleave = (*pi ? 1 : 0);
     break;
+  /* Zen's hackination for quality settings - PART B */
+  case FISH_SOUND_VORBIS_SET_QUALITY:
+	fs_vorbis_quality_setting_variable = *((float*)(data));
+	break;
+  /* End hackination */
+
   default:
     if (fsound->codec && fsound->codec->command)
       return fsound->codec->command (fsound, command, data, datasize);
