@@ -37,40 +37,42 @@
 #include <libOOOgg.h>
 #include <dllstuff.h>
 #include <VorbisComments.h>
+#include "FileComments.h"
+#include "StreamCommentInfo.h"
 
 #include <iostream>
 
 
 #include <fstream>
 
-//This will be called by the callback
-unsigned long bytePos;
-VorbisComments gComments;
+////This will be called by the callback
+//unsigned long bytePos;
+//VorbisComments gComments;
+//
+//bool pageCB(OggPage* inOggPage) {
+//
+//	for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
+//		OggPacket* locPacket = NULL;
+//		locPacket = inOggPage->getPacket(i);
+//		if (strncmp((const char*)locPacket->packetData(), "\003vorbis", 7) == 0) {
+//			//Comment Packet
+//
+//			bool locIsOK = gComments.parseOggPacket(locPacket, 7);
+//			cout<<"Vorbis Comments"<<endl;
+//			cout<<gComments.toString();
+//		} else if ((strncmp((char*)locPacket->packetData(), "\201theora", 7)) == 0) {
+//			bool locIsOK = gComments.parseOggPacket(locPacket, 7);
+//			cout<<"Theora Comments"<<endl;
+//			cout<<gComments.toString();
+//
+//		}
+//	}
+//	
+//	return true;
+//}
 
-bool pageCB(OggPage* inOggPage) {
 
-	for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
-		OggPacket* locPacket = NULL;
-		locPacket = inOggPage->getPacket(i);
-		if (strncmp((const char*)locPacket->packetData(), "\003vorbis", 7) == 0) {
-			//Comment Packet
-
-			bool locIsOK = gComments.parseOggPacket(locPacket, 7);
-			cout<<"Vorbis Comments"<<endl;
-			cout<<gComments.toString();
-		} else if ((strncmp((char*)locPacket->packetData(), "\201theora", 7)) == 0) {
-			bool locIsOK = gComments.parseOggPacket(locPacket, 7);
-			cout<<"Theora Comments"<<endl;
-			cout<<gComments.toString();
-
-		}
-	}
-	
-	return true;
-}
-
-
-int _tmain(int argc, _TCHAR* argv[])
+int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 
 
@@ -80,25 +82,22 @@ int _tmain(int argc, _TCHAR* argv[])
 	//
 	
 	
-	bytePos = 0;
+	
 	if (argc < 2) {
 		cout<<"Usage : OOOggCommentDump <filename>"<<endl;
 	} else {
-		OggDataBuffer testOggBuff;
-		OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
-		const BUFF_SIZE = 8092;
-		testOggBuff.registerPageCallback(locCBRego);
 
-		fstream testFile;
-		testFile.open(argv[1], ios_base::in | ios_base::binary);
-		char* locBuff = new char[BUFF_SIZE];
-		while (!testFile.eof()) {
-			testFile.read(locBuff, BUFF_SIZE);
-			unsigned long locBytesRead = testFile.gcount();
-    		testOggBuff.feed(locBuff, locBytesRead);
+		FileComments locFileComments;
+		StreamCommentInfo* locStreamInfo = NULL;
+		locFileComments.loadFile(argv[1]);
+		for (int i = 0; i < locFileComments.streamCount(); i++) {
+			locStreamInfo = locFileComments.getStreamComment(i);
+
+			cout<<"Stream "<<locStreamInfo->majorStreamNo()<<":"<<locStreamInfo->minorStreamNo()<<endl;
+			cout<<"Starts "<<locStreamInfo->pageStart()<<endl;
+			cout<<locStreamInfo->comments()->toString()<<endl<<endl;
+
 		}
-
-		delete locBuff;
 	}
 
 
