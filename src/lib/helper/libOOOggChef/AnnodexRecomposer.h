@@ -40,6 +40,7 @@
 #include <libOOOgg/libOOOgg.h>
 #include <libOOOggChef/libOOOggChef.h>
 
+#include <set>
 #include <string>
 #include <vector>
 
@@ -88,8 +89,10 @@ protected:
 	eDemuxState mDemuxState;
 	eDemuxParserState mDemuxParserState;
 
-	vector<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
+	set<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
 	const vector<string>* mWantedMIMETypes;
 
 	LOOG_UINT64 mRequestedStartTime;
+
+	unsigned short mAnnodexMajorVersion;
 };

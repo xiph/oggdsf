@@ -189,8 +189,8 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	}
 
 #ifdef DEBUG
-	for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
-		mDebugFile << "Serialno: " << mWantedStreamSerialNumbers[i].first << endl;
+	for (set<tSerial_HeadCountPair>::iterator i = mWantedStreamSerialNumbers.begin(); i != mWantedStreamSerialNumbers.end(); i++) {
+		mDebugFile << "Serialno: " << i->first << endl;
 	}
 
 	mDebugFile << "mDemuxState before LOOK_FOR_BODY is " << mDemuxState << endl;
@@ -240,6 +240,16 @@ bool isAnnodexBOSPage (OggPage *inOggPage)
 		   );
 }
 
+bool isFisheadPage (OggPage *inOggPage)
+{
+	return (
+			inOggPage->numPackets() == 1
+		&&	inOggPage->header()->isBOS()
+		&&	strncmp((char*)inOggPage->getPacket(0)->packetData(),
+		            "fishead\0", 8) == 0
+		   );
+}
+
 bool isAnxDataPage (OggPage *inOggPage)
 {
 	return (
@@ -258,32 +268,76 @@ bool isAnnodexEOSPage (OggPage *inOggPage, unsigned long locAnnodexSerialNumber)
 		   );
 }
 
-unsigned long secondaryHeaders(OggPacket* inPacket)
+unsigned long secondaryHeaders(OggPacket* inPacket, const unsigned short inAnnodexMajorVersion)
 {
-	const unsigned short NUM_SEC_HEADERS_OFFSET = 24;
+	if (inAnnodexMajorVersion == 2) {
 
-	return iLE_Math::charArrToULong(inPacket->packetData() +
-									NUM_SEC_HEADERS_OFFSET);
+		const unsigned short NUM_SEC_HEADERS_OFFSET = 24;
 
+		return iLE_Math::charArrToULong(inPacket->packetData() +
+										NUM_SEC_HEADERS_OFFSET);
+
+	} else if (inAnnodexMajorVersion == 3) {
+
+		// We're hardcoding the codec types in here for now: see the comment
+		// above the mimeType function for why.
+
+		unsigned long locSecondaryHeaders = 0;
+
+		char* locPacketData = (char*) inPacket->packetData();
+		if (memcmp(locPacketData, "\001vorbis", 7) == 0) {
+			locSecondaryHeaders = 3;
+		} else if (memcmp(locPacketData, "\200theora", 7) == 0) {
+			locSecondaryHeaders = 3;
+		} else if (memcmp(locPacketData, "CMML\0\0\0\0", 8) == 0) {
+			locSecondaryHeaders = 3;
+		} else {
+			locSecondaryHeaders = 3;
+		}
+
+		return locSecondaryHeaders;
+
+	} else {
+		// Neither V2 nor V3: ack!
+		return 0;
+	}
 }
 
-void setPresentationTimeOnAnnodexBOSPage (OggPage *inOggPage, LOOG_UINT64 inPresentationTime)
+void setPresentationTimeOnAnnodexHeaderPage (OggPage *inOggPage, LOOG_UINT64 inPresentationTime)
 {
-	// Sanity check that this is actually an Annodex BOS page
-	if (!isAnnodexBOSPage(inOggPage)) {
+	// Offsets for Annodex v2 (the "timebase" field)
+	const unsigned short V2_PRESENTATION_TIME_NUMERATOR_OFFSET = 12;
+	const unsigned short V2_PRESENTATION_TIME_DENOMINATOR_OFFSET =
+		V2_PRESENTATION_TIME_NUMERATOR_OFFSET + 8;
+
+	// Offsets for Annodex v3 (the "presentation time" field)
+	const unsigned short V3_PRESENTATION_TIME_NUMERATOR_OFFSET = 12;
+	const unsigned short V3_PRESENTATION_TIME_DENOMINATOR_OFFSET =
+		V3_PRESENTATION_TIME_NUMERATOR_OFFSET + 8;
+
+	// Figure out whether we're dealing with V2 or V3 and set the presentation
+	// time offsets appropriately
+	unsigned short locPresentationTimeNumeratorOffset = 0;
+	unsigned short locPresentationTimeDenominatorOffset = 0;
+	if (isAnnodexBOSPage(inOggPage)) {
+		// Annodex V2
+		locPresentationTimeNumeratorOffset = V2_PRESENTATION_TIME_NUMERATOR_OFFSET;
+		locPresentationTimeDenominatorOffset = V2_PRESENTATION_TIME_DENOMINATOR_OFFSET;
+	} else if (isFisheadPage(inOggPage)) {
+		// Annodex V3
+		locPresentationTimeNumeratorOffset = V3_PRESENTATION_TIME_NUMERATOR_OFFSET;
+		locPresentationTimeDenominatorOffset = V3_PRESENTATION_TIME_DENOMINATOR_OFFSET;
+	} else {
+		// We don't recognise this page: return early before we do anything
+		// harmful
 		return;
 	}
-
-	// Offsets for Annodex v2 (the "timebase" field)
-	const unsigned short PRESENTATION_TIME_NUMERATOR_OFFSET = 12;
-	const unsigned short PRESENTATION_TIME_DENOMINATOR_OFFSET =
-		PRESENTATION_TIME_NUMERATOR_OFFSET + 8;
 
 	unsigned char* locPacketData = inOggPage->getPacket(0)->packetData();
 
 	// Get pointers for the offsets into the packet
-	unsigned char* locNumeratorPointer = locPacketData + PRESENTATION_TIME_NUMERATOR_OFFSET;
-	unsigned char* locDenominatorPointer = locPacketData + PRESENTATION_TIME_DENOMINATOR_OFFSET;
+	unsigned char* locNumeratorPointer = locPacketData + locPresentationTimeNumeratorOffset;
+	unsigned char* locDenominatorPointer = locPacketData + locPresentationTimeDenominatorOffset;
 	
 	// Set the presentation time on the packet in DirectSeconds (using the
 	// denominator to indicate that the units are in DirectSeconds)
@@ -297,19 +351,47 @@ void setPresentationTimeOnAnnodexBOSPage (OggPage *inOggPage, LOOG_UINT64 inPres
 #ifdef WIN32
 # define strncasecmp _strnicmp
 #endif /* will be undef'ed below */
-string mimeType(OggPacket* inPacket)
+string mimeType(OggPacket* inPacket, const unsigned short inAnnodexMajorVersion)
 {
-	const unsigned short CONTENT_TYPE_OFFSET = 28;
+	if (inAnnodexMajorVersion == 2) {
+		const unsigned short CONTENT_TYPE_OFFSET = 28;
 
-	if (strncasecmp((char *) inPacket->packetData() + CONTENT_TYPE_OFFSET,
-	    "Content-Type: ", 14) == 0)
-	{
-		const unsigned short MIME_TYPE_OFFSET = 28 + 14;
-		const unsigned short MAX_MIME_TYPE_LENGTH = 256;
-		char *locMimeType = new char[MAX_MIME_TYPE_LENGTH];
-		sscanf((char *) inPacket->packetData() + MIME_TYPE_OFFSET, "%s\r\n", locMimeType);
+		if (strncasecmp((char *) inPacket->packetData() + CONTENT_TYPE_OFFSET,
+			"Content-Type: ", 14) == 0)
+		{
+			const unsigned short MIME_TYPE_OFFSET = 28 + 14;
+			const unsigned short MAX_MIME_TYPE_LENGTH = 256;
+			char *locMimeType = new char[MAX_MIME_TYPE_LENGTH];
+			sscanf((char *) inPacket->packetData() + MIME_TYPE_OFFSET, "%s\r\n", locMimeType);
+			return locMimeType;
+		} else {
+			return NULL;
+		}
+	} else if (inAnnodexMajorVersion == 3) {
+		// Ahem, we should _really_ peek into the fisbone track to do this
+		// properly, but considering that you need to understand the codecs to
+		// build the seek table anyway, yet another codec dependency here
+		// isn't going to kill us.  Obviously this is a very bad long-term
+		// solution since the V3 Annodex skeleton is meant to be completely
+		// codec-independent, but too much of this framework is currently
+		// littered with codec knowledge.
+		string locMimeType;
+
+		char* locPacketData = (char*) inPacket->packetData();
+		if (memcmp(locPacketData, "\001vorbis", 7) == 0) {
+			locMimeType = "audio/x-vorbis";
+		} else if (memcmp(locPacketData, "\200theora", 7) == 0) {
+			locMimeType = "video/x-theora";
+		} else if (memcmp(locPacketData, "CMML\0\0\0\0", 8) == 0) {
+			locMimeType = "text/x-cmml";
+		} else if (memcmp(locPacketData, "fisbone\0", 8) == 0) {
+			locMimeType = "_skeleton";
+		}
+
 		return locMimeType;
+
 	} else {
+		// Neither V2 nor V3: exit with extreme prejudice
 		return NULL;
 	}
 }
@@ -324,17 +406,30 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 		switch (mDemuxState) {
 
 			case SEEN_NOTHING:
-				if (isAnnodexBOSPage(inOggPage)) {
+				if (isAnnodexBOSPage(inOggPage) || isFisheadPage(inOggPage)) {
 					mDemuxState = SEEN_ANNODEX_BOS;
+
+					// Do we have a V2 or V3 Annodex file?
+					if (isAnnodexBOSPage(inOggPage)) {
+#ifdef DEBUG
+						mDebugFile << "Found Annodex v2 file" << endl;
+#endif
+						mAnnodexMajorVersion = 2;
+					} else if (isFisheadPage(inOggPage)) {
+#ifdef DEBUG
+						mDebugFile << "Found Annodex v3 file" << endl;
+#endif
+						mAnnodexMajorVersion = 3;
+					}
 
 					// Remember the Annodex stream's serial number, so we can output it later
 					mAnnodexSerialNumber = inOggPage->header()->StreamSerialNo();
-					mWantedStreamSerialNumbers.push_back(make_pair<unsigned long, unsigned long>(mAnnodexSerialNumber, 0));
+					mWantedStreamSerialNumbers.insert(make_pair<unsigned long, unsigned long>(mAnnodexSerialNumber, 0));
 
 					// Fix up the presentation time of the Annodex BOS page if we're not
 					// serving out the data from time 0
 					if (mRequestedStartTime != 0) {
-						setPresentationTimeOnAnnodexBOSPage(inOggPage, mRequestedStartTime);
+						setPresentationTimeOnAnnodexHeaderPage(inOggPage, mRequestedStartTime);
 					}
 
 					if (!wantOnlyPacketBody(mWantedMIMETypes)) {
@@ -345,16 +440,28 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 						delete locRawPageData;
 					}
 				} else {
-					// The Annodex BOS page should always be the very first page of
+					// The Annodex/Fishead BOS page should always be the very first page of
 					// the stream, so if we don't see it, the stream's invalid
 					mDemuxState = INVALID;
 				}
 				break;
 
 			case SEEN_ANNODEX_BOS:
-				if (isAnxDataPage(inOggPage)) {
+				if (isAnnodexEOSPage(inOggPage, mAnnodexSerialNumber)) {
+#ifdef DEBUG
+					mDebugFile << "Seen Annodex skeleton EOS" << endl;
+#endif
+					mDemuxState = SEEN_ANNODEX_EOS;
+					if (!wantOnlyPacketBody(mWantedMIMETypes)) {
+						unsigned char *locRawPageData = inOggPage->createRawPageData();
+						mBufferWriter(locRawPageData,
+							inOggPage->pageSize(), mBufferWriterUserData);
+						delete locRawPageData;
+					}
+				} else if ((	mAnnodexMajorVersion == 2 && isAnxDataPage(inOggPage))
+							||	mAnnodexMajorVersion == 3) {
 					unsigned long locSerialNumber = inOggPage->header()->StreamSerialNo();
-					string locMimeType = mimeType(inOggPage->getPacket(0));
+					string locMimeType = mimeType(inOggPage->getPacket(0), mAnnodexMajorVersion);
 
 					for (unsigned int i = 0; i < mWantedMIMETypes->size(); i++) {
 						const string locWantedMIMEType = mWantedMIMETypes->at(i);
@@ -364,13 +471,14 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 							// Create an association of serial no and num headers
 							tSerial_HeadCountPair locMap;
 							locMap.first = locSerialNumber;
-							locMap.second = secondaryHeaders(inOggPage->getPacket(0));
+							locMap.second = secondaryHeaders(inOggPage->getPacket(0), mAnnodexMajorVersion);
 
 							// Add the association to our stream list
-							mWantedStreamSerialNumbers.push_back(locMap);
+							if ((mWantedStreamSerialNumbers.insert(locMap)).second) {
 #ifdef DEBUG
-							mDebugFile << "Added serialno " << locSerialNumber << " to mWantedStreamSerialNumbers" << endl;
+								mDebugFile << "Added " << locSerialNumber << " with " << locMap.second << " to mWantedStreamSerialNumbers" << endl;
 #endif
+							}
 
 							if (!wantOnlyPacketBody(mWantedMIMETypes)) {
 								unsigned char *locRawPageData = inOggPage->createRawPageData();
@@ -380,28 +488,21 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 							}
 						}
 					}
-				} else if (isAnnodexEOSPage(inOggPage, mAnnodexSerialNumber)) {
-					mDemuxState = SEEN_ANNODEX_EOS;
-					if (!wantOnlyPacketBody(mWantedMIMETypes)) {
-						unsigned char *locRawPageData = inOggPage->createRawPageData();
-						mBufferWriter(locRawPageData,
-							inOggPage->pageSize(), mBufferWriterUserData);
-						delete locRawPageData;
-					}
 				} else {
-					// We didn't spot either an AnxData page or the Annodex EOS: WTF?
+					// We didn't spot either an AnxData page or the Annodex
+					// EOS (v2), or a fisbone/header page (v3).  WTF?
 					mDemuxState = INVALID;
 				}
 				break;
 
 			case SEEN_ANNODEX_EOS:
-				{
+				if (mAnnodexMajorVersion == 2) {
 					// Only output headers for the streams that the user wants
 					// in their request
-					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
-						if (mWantedStreamSerialNumbers[i].first == inOggPage->header()->StreamSerialNo()) {
-							if (mWantedStreamSerialNumbers[i].second >= 1) {
-								mWantedStreamSerialNumbers[i].second--;
+					for (set<tSerial_HeadCountPair>::iterator i = mWantedStreamSerialNumbers.begin(); i != mWantedStreamSerialNumbers.end(); i++) {
+						if (i->first == inOggPage->header()->StreamSerialNo()) {
+							if (i->second >= 1) {
+								i->second--;
 								if (wantOnlyPacketBody(mWantedMIMETypes)) {
 									OggPacket* locPacket = inOggPage->getPacket(0);
 									mBufferWriter(locPacket->packetData(),
@@ -413,17 +514,12 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 									delete locRawPageData;
 								}
 							} 
-#if 0
-							else {
-								mDemuxState = INVALID;
-							}
-#endif
 						}
 					}
 
 					bool allEmpty = true;
-					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
-						if (mWantedStreamSerialNumbers[i].second != 0) {
+					for (set<tSerial_HeadCountPair>::iterator i = mWantedStreamSerialNumbers.begin(); i != mWantedStreamSerialNumbers.end(); i++) {
+						if (i->second != 0) {
 							allEmpty = false;
 						}
 					}
@@ -431,6 +527,9 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 					if (allEmpty) {
 						mDemuxState = SEEN_ALL_CODEC_HEADERS;
 					}
+				} else if (mAnnodexMajorVersion == 3) {
+					// Annodex V3: once we hit the Annodex EOS, all the page headers are done
+					mDemuxState = SEEN_ALL_CODEC_HEADERS;
 				}
 				break;
 			case SEEN_ALL_CODEC_HEADERS:
@@ -447,7 +546,7 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 		switch (mDemuxState) {
 
 			case SEEN_NOTHING:
-				if (isAnnodexBOSPage(inOggPage)) {
+				if (isAnnodexBOSPage(inOggPage) || isFisheadPage(inOggPage)) {
 					mDemuxState = SEEN_ANNODEX_BOS;
 				} else {
 					// The Annodex BOS page should always be the very first page of
@@ -457,10 +556,11 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 				break;
 
 			case SEEN_ANNODEX_BOS:
-				if (isAnxDataPage(inOggPage)) {
-					// Do nothing
-				} else if (isAnnodexEOSPage(inOggPage, mAnnodexSerialNumber)) {
+				if (isAnnodexEOSPage(inOggPage, mAnnodexSerialNumber)) {
 					mDemuxState = SEEN_ANNODEX_EOS;
+				} else if (		(mAnnodexMajorVersion == 2 && isAnxDataPage(inOggPage))
+							||	 mAnnodexMajorVersion == 3) {
+					// Do nothing
 				} else {
 					// We didn't spot either an AnxData page or the Annodex EOS: WTF?
 					mDemuxState = INVALID;
@@ -470,7 +570,6 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 			case SEEN_ANNODEX_EOS:
 				mDemuxState = SEEN_ALL_CODEC_HEADERS;
 				// Fallthrough!
-
 			case SEEN_ALL_CODEC_HEADERS:
 				{
 					// Ignore any header packets which we may encounter
@@ -479,14 +578,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 					}
 
 					// Only output streams which the user requested
-					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
+					for (set<tSerial_HeadCountPair>::iterator i = mWantedStreamSerialNumbers.begin(); i != mWantedStreamSerialNumbers.end(); i++) {
+						if (i->first ==	inOggPage->header()->StreamSerialNo()) {
 #ifdef DEBUG
-						mDebugFile << "Encountered page with serialno " << inOggPage->header()->StreamSerialNo() << endl;
-#endif
-						if (	mWantedStreamSerialNumbers[i].first
-							==	inOggPage->header()->StreamSerialNo()) {
-#ifdef DEBUG
-							mDebugFile << "Outputting page for serialno " << mWantedStreamSerialNumbers[i].first << endl;
+							mDebugFile << "Outputting page for serialno " << i->first << endl;
 #endif
 							if (wantOnlyPacketBody(mWantedMIMETypes)) {
 								for (unsigned long j = 0; j < inOggPage->numPackets(); j++) {

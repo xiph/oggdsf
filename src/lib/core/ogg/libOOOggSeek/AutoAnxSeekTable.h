@@ -27,5 +27,11 @@ protected:
 	bool mReadyForOgg;
 	bool mSkippedCMML;
 
-	
+	unsigned short mAnnodexMajorVersion;
+
+	// V3-related member variables
+	unsigned long mCMMLSerialNo;
+	unsigned long mCMMLPacketsToSkip;
+
+	fstream mDebugFile;
 };
