@@ -174,7 +174,7 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 
 
 	const unsigned long MIN_BUFFER_SIZE = 16*16;			//What should this be ????
-	const unsigned long DEFAULT_BUFFER_SIZE = 1024*1024;
+	const unsigned long DEFAULT_BUFFER_SIZE = 1024*1024 * 2;
 	const unsigned long MIN_NUM_BUFFERS = 1;
 	const unsigned long DEFAULT_NUM_BUFFERS = 1;
 

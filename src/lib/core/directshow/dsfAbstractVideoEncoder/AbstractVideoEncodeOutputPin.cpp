@@ -66,7 +66,7 @@ HRESULT AbstractVideoEncodeOutputPin::DecideBufferSize(IMemAllocator* inAllocato
 	ALLOCATOR_PROPERTIES locActualAlloc;
 
 	const unsigned long MIN_BUFFER_SIZE = 65536;			//What should this be ????
-	const unsigned long DEFAULT_BUFFER_SIZE = 131072;
+	const unsigned long DEFAULT_BUFFER_SIZE = 1024*1024;
 	const unsigned long MIN_NUM_BUFFERS = 3;
 	const unsigned long DEFAULT_NUM_BUFFERS = 5;
 

@@ -49,10 +49,15 @@ SpeexEncodeInputPin::~SpeexEncodeInputPin(void)
 //PURE VIRTUALS
 long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
-
+	//TODO::: There is a problem when we get 8 bit samples.
+	//=====================================================
 	//debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
 	
-	float* locFloatBuf = new float[inNumBytes/2 + (inNumBytes % 2)];
+
+	//************************************ Check this line... the +(inNumBytes%2) is new
+	//Note the 2 is because a float is twice the width of a short.
+	float* locFloatBuf = new float[inNumBytes/2];   // + (inNumBytes % 2)];
+	//************************************ 
 	short locTempShort = 0;
 	float locTempFloat = 0;
 
@@ -151,6 +156,9 @@ int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* in
 
 			//Add a reference so it isn't deleted en route.
 			//locSample->AddRef();
+			//NO - It alrady has a ref on it.
+
+			//TODO::: Need to propagate error states.
 			HRESULT locHR = locThis->mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 			if (locHR != S_OK) {
 				//locThis->debugLog<<"Sample rejected"<<endl;

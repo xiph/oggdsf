@@ -115,6 +115,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 	BYTE* locBuffer = NULL;
 	locSample->GetPointer(&locBuffer);
 
+	//DbgLog((LOG_TRACE, 2, "* Packet size is %d"));
 	if (locSample->GetSize() >= inPacket->packetSize()) {
 
 		memcpy((void*)locBuffer, (const void*)inPacket->packetData(), inPacket->packetSize());
@@ -131,6 +132,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 			return true;
 		}
 	} else {
+		DbgLog((LOG_TRACE, 2, "* BUFFER TOO SMALL... FATALITY !!"));
 		throw 0;
 	}
 }
