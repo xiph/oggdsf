@@ -41,11 +41,13 @@ VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	mUptoFrame(0)
 	,	mVorbisQuality(0.6f)
 {
-	
+	debugLog.open("G:\\logs\\vorbisenc.logs", ios_base::out);
+
 }
 
 VorbisEncodeInputPin::~VorbisEncodeInputPin(void)
 {
+	debugLog.close();
 	DestroyCodec();
 }
 
@@ -81,6 +83,15 @@ bool VorbisEncodeInputPin::ConstructCodec() {
 	mFishInfo.samplerate = mWaveFormat->nSamplesPerSec;
     
 	mFishInfo.format = FISH_SOUND_VORBIS;
+	
+	//This has to be done before fishsound new... otherwise, wy the time we get to setting it later... it's too late.
+	debugLog<<"Setting quality with fs command to "<<mVorbisQuality<<endl;
+	
+	//Evil bit of hackery to trick the check for null.
+	int I_AM_NOT_NULL = 1;
+
+	fish_sound_command((FishSound*)I_AM_NOT_NULL, FISH_SOUND_VORBIS_SET_QUALITY, &mVorbisQuality, sizeof(float));
+
 	mFishSound = fish_sound_new (FISH_SOUND_ENCODE, &mFishInfo);
 
 	//Change to fill in vorbis format block so muxer can work
@@ -92,8 +103,7 @@ bool VorbisEncodeInputPin::ConstructCodec() {
 	//FIX::: Use new API for interleave setting
 	fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
 
-	
-	fish_sound_command(mFishSound, FISH_SOUND_VORBIS_SET_QUALITY, &mVorbisQuality, sizeof(float));
+
 
 	fish_sound_set_encoded_callback (mFishSound, VorbisEncodeInputPin::VorbisEncoded, this);
 	//FIX::: Proper return value

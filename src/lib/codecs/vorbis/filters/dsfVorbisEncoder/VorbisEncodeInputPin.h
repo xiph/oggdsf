@@ -35,7 +35,8 @@
 #include "VorbisEncodeInputPin.h"
 
 #include "VorbisEncodeFilter.h"
-
+#include <fstream>
+using namespace std;
 extern "C" {
 //#include <fishsound/fishsound.h>
 #include "fish_cdecl.h"
@@ -74,46 +75,8 @@ protected:
 
 	float mVorbisQuality;
 
+	fstream debugLog;
+
 	
 };
 
-
-//Old imp
-//****************************************************
-//#pragma once
-//
-//#include "AbstractAudioEncodeInputPin.h"
-//#include "VorbisEncodeInputPin.h"
-//
-//#include "VorbisEncodeFilter.h"
-//
-//extern "C" {
-//#include <fishsound/fishsound.h>
-////#include <../src/libfishsound/private.h>
-//}
-//
-//class VorbisEncodeInputPin
-//	:	public AbstractAudioEncodeInputPin
-//{
-//public:
-//	VorbisEncodeInputPin(AbstractAudioEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin);
-//	virtual ~VorbisEncodeInputPin(void);
-//
-//	static int VorbisEncodeInputPin::VorbisEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
-//	//PURE VIRTUALS
-//	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
-//	virtual bool ConstructCodec();
-//	virtual void DestroyCodec();
-//	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
-//
-//protected:
-//	HRESULT mHR;
-//	bool mBegun;
-//	//VorbisDecodeOutputPin* mOutputPin;
-//	//__int64 mUptoFrame;
-//
-//	FishSound* mFishSound;
-//	FishSoundInfo mFishInfo; 
-//
-//	
-//};

@@ -119,10 +119,14 @@ STDMETHODIMP_(signed char) VorbisEncodeFilter::quality() {
 
 
 STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(signed char inQuality) {
+	
 	if ((inQuality >= 0) && (inQuality < 100)) {
+		
 		((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality = (float)inQuality/(float)100;
+		
 		return true;
 	} else {
+		
 		return false;
 	}
 }

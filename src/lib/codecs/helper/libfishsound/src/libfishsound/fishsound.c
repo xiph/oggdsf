@@ -79,7 +79,7 @@ fish_sound_new (int mode, FishSoundInfo * fsinfo)
   FishSound * fsound;
 
   	/* Zen's hackination for quality settings - PART C */
-	fs_vorbis_quality_setting_variable = 0.3;
+	//fs_vorbis_quality_setting_variable = 0.3;
 	/* End hackination */
 
   if (!FS_DECODE && mode == FISH_SOUND_DECODE) return NULL;
