@@ -99,7 +99,7 @@ unsigned long OggPageHeader::calculateDataSize() {
 bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 	//This now does not delete the buffer
 	
-	unsigned long locOffset = 0;
+	//unsigned long locOffset = 0;  // unused
 
 	//Check if the page has the correct capture pattern
 	if (strncmp((const char*)inBaseHeader, "OggS", OGG_CAPTURE_PATTERN_SIZE) == 0) {
@@ -107,6 +107,7 @@ bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 		mHeaderFlags = inBaseHeader[HEADER_FLAGS];
 		mGranulePos = iLE_Math::CharArrToInt64(inBaseHeader + GRANULE_POS);
 		mStreamSerialNo = iLE_Math::charArrToULong(inBaseHeader + SERIAL_NO);
+		mPageSequenceNo = iLE_Math::charArrToULong(inBaseHeader + SEQUENCE_NO);
 		mCRCChecksum = iLE_Math::charArrToULong(inBaseHeader + OGG_CHECKSUM);
 		mNumPageSegments = inBaseHeader[NUM_SEGMENTS];
 		mHeaderSize = OGG_BASE_HEADER_SIZE + mNumPageSegments;
