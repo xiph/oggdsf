@@ -41,6 +41,8 @@ public:
 	AnxPacketMaker(void);
 	~AnxPacketMaker(void);
 
+
+
 	static const ANX_2_0_ANNODEX_BOS_SIZE = 48;
 
 	static OggPage* makeAnnodexBOS_2_0	(				unsigned long inSerialNo
@@ -65,5 +67,7 @@ public:
 	//static StreamHeaders::eCodecType AnxPacketMaker::IdentifyCodec(OggPacket* inOggPacket);
 	//static vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream);
 	static vector<string> AnxPacketMaker::makeMessageHeaders(StreamHeaders::eCodecType inCodecType);
+
+	static bool setChecksum(OggPage* inOggPage);
 
 };

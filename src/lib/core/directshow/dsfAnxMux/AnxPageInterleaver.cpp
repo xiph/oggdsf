@@ -95,6 +95,7 @@ void AnxPageInterleaver::addAnnodexEOS() {
 	locEOSPage->header()->setHeaderFlags(4);
 	locEOSPage->header()->setHeaderSize(27);
 
+	AnxPacketMaker::setChecksum(locEOSPage);
 	mBytesWritten += locEOSPage->pageSize();
 	mFileWriter->acceptOggPage(locEOSPage);
 }
