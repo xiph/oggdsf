@@ -137,7 +137,19 @@ bool OggFLAC_1_0_Stream::deliverCodecHeaders() {
 	StampedOggPacket* locPacket = NULL;
 	for (unsigned long i = 0; i < mCodecHeaders->numPackets(); i++) {
 		if (i==0) {
-			locPacket = (StampedOggPacket*)mCodecHeaders->getPacket(0)->clone();
+			//Need to reconstruct what the meta-data blocks look like in naked flac,
+			// so strip away most of the new header.
+			//
+			//New part of ogg header is 9 bytes
+			//old flac ident is 4 bytes
+			//StreamInfoHeader is 38 bytes
+			//
+			//So we discard the first 9 bytes, and keep the next 42 bytes.
+			unsigned char* locPackBuf = new unsigned char[42];
+			
+			//locPacket = (StampedOggPacket*)mCodecHeaders->getPacket(0)->clone();
+			memcpy((void*)locPackBuf, (const void*)mCodecHeaders->getPacket(0)->packetData() + 9, 42);
+			locPacket = new StampedOggPacket(locPackBuf, 42, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY);
 		} else {
 			locPacket->merge(mCodecHeaders->getPacket(i));
 		}
