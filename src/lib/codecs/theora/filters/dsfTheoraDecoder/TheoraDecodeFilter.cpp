@@ -57,9 +57,15 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	:	CVideoTransformFilter( NAME("Theora Decode Filter"), NULL, CLSID_TheoraDecodeFilter)
 {
 	debugLog.open("G:\\logs\\newtheofilter.log", ios_base::out);
+
+	mTheoraDecoder = new TheoraDecoder;
+	mTheoraDecoder->initCodec();
+
 }
 
 TheoraDecodeFilter::~TheoraDecodeFilter() {
+	delete mTheoraDecoder;
+	mTheoraDecoder = NULL;
 	debugLog.close();
 
 }
@@ -288,11 +294,306 @@ HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMe
 		return VFW_S_NO_MORE_ITEMS;
 	}
 }
+
+void TheoraDecodeFilter::ResetFrameCount() {
+	mFrameCount = 0;
+	
+}
 HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) {
 
-	return S_OK;
+	//CAutoLock locLock(mStreamLock);
+	debugLog<<"Transform "<<endl;
+	
+	HRESULT locHR;
+	BYTE* locBuff = NULL;
+	locHR = inInputSample->GetPointer(&locBuff);
+
+
+	if (FAILED(locHR)) {
+		debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
+		return locHR;
+	} else {
+		debugLog<<"Receive : Get pointer succeeds..."<<endl;	
+		//New start time hacks
+		REFERENCE_TIME locStart = 0;
+		REFERENCE_TIME locEnd = 0;
+		inInputSample->GetTime(&locStart, &locEnd);
+		//Error chacks needed here
+		
+		//More work arounds for that stupid granule pos scheme in theora!
+		REFERENCE_TIME locTimeBase = 0;
+		REFERENCE_TIME locDummy = 0;
+		inInputSample->GetMediaTime(&locTimeBase, &locDummy);
+		mSeekTimeBase = locTimeBase;
+		//
+		
+		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
+			ResetFrameCount();
+			mLastSeenStartGranPos = locStart;
+		}
+		
+		//End of additions
+
+
+
+		AM_MEDIA_TYPE* locMediaType = NULL;
+		inInputSample->GetMediaType(&locMediaType);
+		if (locMediaType == NULL) {
+			debugLog<<"No dynamic change..."<<endl;
+		} else {
+			debugLog<<"Attempting dynamic change..."<<endl;
+		}
+				
+		StampedOggPacket* locPacket = new StampedOggPacket(locBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
+		yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
+		if (locYUV != NULL) {
+			if (TheoraDecoded(locYUV, outOutputSample) != 0) {
+				return S_FALSE;
+			}
+		}
+
+		return S_OK;
+		
+	}
+	
 }
 
+int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample) 
+{
+	debugLog<<"TheoraDecoded... "<<endl;
+	
+		
+	if (!mBegun) {
+	
+		mBegun = true;
+		
+		//How many UNITS does one frame take.
+		mFrameDuration = (UNITS * mTheoraFormatInfo->frameRateDenominator) / (mTheoraFormatInfo->frameRateNumerator);
+		mFrameSize = (mHeight * mWidth * 3) / 2;
+		mFrameCount = 0;
+	}
+
+
+
+	////FIX::: Most of this will be obselete... the demux does it all.
+	//
+
+	////TO DO::: Fix this up... needs to move around order and some only needs to be done once, move it into the block aboce and use member data
+
+	////Make the start timestamp
+	////FIX:::Abstract this calculation
+	DbgLog((LOG_TRACE,1,TEXT("Frame Count = %d"), mFrameCount));
+	//REFERENCE_TIME locFrameStart = CurrentStartTime() + (mFrameCount * mFrameDuration);
+
+	//Timestamp hacks start here...
+	unsigned long locMod = (unsigned long)pow(2, mTheoraFormatInfo->maxKeyframeInterval);
+	
+	DbgLog((LOG_TRACE,1,TEXT("locSeenGranPos = %d"), mLastSeenStartGranPos));
+	DbgLog((LOG_TRACE,1,TEXT("locMod = %d"), locMod));
+	
+	unsigned long locInterFrameNo = (mLastSeenStartGranPos) % locMod;
+	
+	DbgLog((LOG_TRACE,1,TEXT("InterFrameNo = %d"), locInterFrameNo));
+	
+	LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> mTheoraFormatInfo->maxKeyframeInterval)) + locInterFrameNo;
+	
+	DbgLog((LOG_TRACE,1,TEXT("AbsFrameNo = %d"), locAbsFramePos));
+	DbgLog((LOG_TRACE,1,TEXT("mSeekTimeBase = %d"), mSeekTimeBase));
+	
+	REFERENCE_TIME locTimeBase = (locAbsFramePos * mFrameDuration) - mSeekTimeBase;
+	
+	DbgLog((LOG_TRACE,1,TEXT("locTimeBase = %d"), locTimeBase));
+	//
+	//
+
+	REFERENCE_TIME locFrameStart = locTimeBase + (mFrameCount * mFrameDuration);
+	//Increment the frame counter
+	mFrameCount++;
+	
+	//Make the end frame counter
+	//REFERENCE_TIME locFrameEnd = CurrentStartTime() + (mFrameCount * mFrameDuration);
+	REFERENCE_TIME locFrameEnd = locTimeBase + (mFrameCount * mFrameDuration);
+
+	DbgLog((LOG_TRACE,1,TEXT("Frame Runs From %d"), locFrameStart));
+	DbgLog((LOG_TRACE,1,TEXT("Frame Runs To %d"), locFrameEnd));
+
+	
+	debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<endl;
+	
+	FILTER_STATE locFS;
+	GetState(0, &locFS);
+	debugLog<<"State Before = "<<locFS<<endl;
+	//HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, locFlags);
+	GetState(0, &locFS);
+	debugLog<<"State After = "<<locFS<<endl;
+	//if (locHR != S_OK) {
+	//	debugLog<<"Get DeliveryBuffer FAILED with "<<locHR<<endl;
+	//	debugLog<<"locSample is "<<(unsigned long)locSample<<endl;
+	//	//We get here when the application goes into stop mode usually.
+
+	//	switch (locHR) {
+	//		case VFW_E_SIZENOTSET:
+	//			debugLog<<"SIZE NOT SET"<<endl;
+	//			break;
+	//		case VFW_E_NOT_COMMITTED:
+	//			debugLog<<"NOT COMMITTED"<<endl;
+	//			break;
+	//		case VFW_E_TIMEOUT:
+	//			debugLog<<"TIMEOUT"<<endl;
+	//			break;
+	//		case VFW_E_STATE_CHANGED:
+	//			debugLog<<"STATE CHANGED"<<endl;
+	//			return S_OK;
+	//		default:
+	//			debugLog<<"SOMETHING ELSE !!!"<<endl;
+	//			break;
+	//	}
+	//	return locHR;
+	//}	
+	
+	
+
+	//Debuggin code
+	AM_MEDIA_TYPE* locMediaType = NULL;
+	outSample->GetMediaType(&locMediaType);
+	if (locMediaType == NULL) {
+		debugLog<<"No dynamic change..."<<endl;
+	} else {
+		debugLog<<"Attempting dynamic change..."<<endl;
+		if (locMediaType->majortype == MEDIATYPE_Video) {
+			debugLog<<"Still MEDIATYPE_Video"<<endl;
+		}
+
+		if (locMediaType->subtype == MEDIASUBTYPE_YV12) {
+			debugLog<<"Still MEDIASUBTYPE_YV12"<<endl;
+		}
+
+		if (locMediaType->formattype == FORMAT_VideoInfo) {
+			debugLog<<"Still FORMAT_VideoInfo"<<endl;
+			VIDEOINFOHEADER* locVF = (VIDEOINFOHEADER*)locMediaType->pbFormat;
+			debugLog<<"Size = "<<locVF->bmiHeader.biSizeImage<<endl;
+			debugLog<<"Dim   = "<<locVF->bmiHeader.biWidth<<" x " <<locVF->bmiHeader.biHeight<<endl;
+		}
+
+		debugLog<<"Major  : "<<DSStringer::GUID2String(&locMediaType->majortype);
+		debugLog<<"Minor  : "<<DSStringer::GUID2String(&locMediaType->subtype);
+		debugLog<<"Format : "<<DSStringer::GUID2String(&locMediaType->formattype);
+		debugLog<<"Form Sz: "<<locMediaType->cbFormat;
+
+
+	}
+	//
+
+	////Create pointers for the samples buffer to be assigned to
+	BYTE* locBuffer = NULL;
+	
+	//
+	////Make our pointers set to point to the samples buffer
+	outSample->GetPointer(&locBuffer);
+	
+
+
+	//Fill the buffer with yuv data...
+	//	
+
+
+
+	//Set up the pointers
+	unsigned char* locDestUptoPtr = locBuffer;
+	char* locSourceUptoPtr = inYUVBuffer->y;
+
+	//
+	//Y DATA
+	//
+
+	//NEW WAY with offsets Y Data
+	long locTopPad = inYUVBuffer->y_height - mHeight - mYOffset;
+	ASSERT(locTopPad >= 0);
+	if (locTopPad < 0) {
+		locTopPad = 0;
+	}
+
+	//Skip the top padding
+	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+
+	for (long line = 0; line < mHeight; line++) {
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + mXOffset), mWidth);
+		locSourceUptoPtr += inYUVBuffer->y_stride;
+		locDestUptoPtr += mWidth;
+	}
+
+	locSourceUptoPtr += (mYOffset * inYUVBuffer->y_stride);
+
+	//Source advances by (y_height * y_stride)
+	//Dest advances by (mHeight * mWidth)
+
+	//
+	//V DATA
+	//
+
+	//Half the padding for uv planes... is this correct ? 
+	locTopPad = locTopPad /2;
+	
+	locSourceUptoPtr = inYUVBuffer->v;
+
+	//Skip the top padding
+	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+
+	for (long line = 0; line < mHeight / 2; line++) {
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+		locSourceUptoPtr += inYUVBuffer->uv_stride;
+		locDestUptoPtr += (mWidth / 2);
+	}
+	locSourceUptoPtr += ((mYOffset/2) * inYUVBuffer->uv_stride);
+
+	//Source advances by (locTopPad + mYOffset/2 + mHeight /2) * uv_stride
+	//where locTopPad for uv = (inYUVBuffer->y_height - mHeight - mYOffset) / 2
+	//						=	(inYUVBuffer->yheight/2 - mHeight/2 - mYOffset/2)
+	// so source advances by (y_height/2) * uv_stride
+	//Dest advances by (mHeight * mWidth) /4
+
+
+	//
+	//U DATA
+	//
+
+	locSourceUptoPtr = inYUVBuffer->u;
+
+	//Skip the top padding
+	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+
+	for (long line = 0; line < mHeight / 2; line++) {
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+		locSourceUptoPtr += inYUVBuffer->uv_stride;
+		locDestUptoPtr += (mWidth / 2);
+	}
+	locSourceUptoPtr += ((mYOffset/2) * inYUVBuffer->uv_stride);
+
+
+
+	//Set the sample parameters.
+	BOOL locIsKeyFrame = TRUE;
+	SetSampleParams(outSample, mFrameSize, &locFrameStart, &locFrameEnd, locIsKeyFrame);
+
+	
+	
+	return 0;
+
+
+}
+
+
+
+bool TheoraDecodeFilter::SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync) 
+{
+	outMediaSample->SetTime(inStartTime, inEndTime);
+	outMediaSample->SetMediaTime(NULL, NULL);
+	outMediaSample->SetActualDataLength(inDataSize);
+	outMediaSample->SetPreroll(FALSE);
+	outMediaSample->SetDiscontinuity(FALSE);
+	outMediaSample->SetSyncPoint(inIsSync);
+	return true;
+}
 
 
 //---------------------------------------

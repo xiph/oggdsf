@@ -32,7 +32,9 @@
 #pragma once
 
 #include "Theoradecoderdllstuff.h"
-
+#include <math.h>
+#include "DSStringer.h"
+#include "TheoraDecoder.h"
 #include <fstream>
 using namespace std;
 class TheoraDecodeFilter 
@@ -54,11 +56,26 @@ public:
 	virtual HRESULT Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample);
 
 protected:
+	virtual void ResetFrameCount();
 	void FillMediaType(CMediaType* outMediaType, unsigned long inSampleSize);
 	bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
+	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
 	unsigned long mHeight;
 	unsigned long mWidth;
 	unsigned long mFrameSize;
+	unsigned long mFrameCount;
+	unsigned long mYOffset;
+	unsigned long mXOffset;
+	__int64 mFrameDuration;
+	bool mBegun;
+	TheoraDecoder* mTheoraDecoder;
+	
+
+	int TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample);
+
+
+	__int64 mSeekTimeBase;
+	__int64 mLastSeenStartGranPos;
 	//Format Block
 	sTheoraFormatBlock* mTheoraFormatInfo;
 	fstream debugLog;
