@@ -134,6 +134,7 @@ DWORD CMMLRawSourceFilter::ThreadProc(void) {
 
 HRESULT CMMLRawSourceFilter::DataProcessLoop() 
 {
+	C_ClipTag* locClip = NULL;
 	DWORD locCommand = 0;
 	while(true) {
 		if(CheckRequest(&locCommand) == TRUE) {
@@ -142,9 +143,51 @@ HRESULT CMMLRawSourceFilter::DataProcessLoop()
 		}
 		
 		if (mUptoTag == -1) {
+			//Deliver the head tag
 			mCMMLSourcePin->deliverTag(mCMMLDoc->root()->head());
 		} else if (mUptoTag < mCMMLDoc->root()->clipList()->numTags()) {
-			mCMMLSourcePin->deliverTag(mCMMLDoc->root()->clipList()->getTag(mUptoTag));
+
+			locClip = mCMMLDoc->root()->clipList()->getTag(mUptoTag);
+
+			wstring locTrackName = locClip->track();
+
+			if (locTrackName == L"") {
+				locTrackName = L"default";
+			}
+
+			//Check if we have a pending end time in this track.
+			tTrackMap::iterator locIt = mTrackMap.find(locTrackName);
+			if (locIt != mTrackMap.end()) {
+				//There's an entry for this track in the map.
+				__int64 locStartTime = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start()));
+				
+				if (locStartTime <= locIt->second) {
+					//The start time of this clip is before the potential end time we saved.
+					// This means the end time means nothing, and we can ignore it and remove from the map.
+					mTrackMap.erase(locIt);
+
+				} else {
+					//The start time of this clip is after the saved end time...
+					// We send an empty clip marked with the end time.
+					C_ClipTag* locEndTag = new C_ClipTag;
+					locEndTag->setStart(StringHelper::toWStr(StringHelper::numToString(locIt->second)));
+					locEndTag->setTrack(locTrackName);
+					mCMMLSourcePin->deliverTag(locEndTag);
+
+					//Now remove it from the map.
+					mTrackMap.erase(locIt);
+				}
+			}
+
+
+			//If this clip has an end time we can add it's end time to the map
+			if (locClip->end() != L"") {
+				//There's a specified end time on this clip, so hold on to it
+				__int64 locEndTime = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->end()));
+				mTrackMap.insert(tTrackMap::value_type(locTrackName, locEndTime));
+			}
+			
+			mCMMLSourcePin->deliverTag(locClip);
 		} else {
 			mCMMLSourcePin->DeliverEndOfStream();
 			return S_OK;

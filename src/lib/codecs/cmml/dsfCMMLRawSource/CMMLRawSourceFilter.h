@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 #include <libWinCMMLParse/libWinCMMLParse.h>
 #include <libWinCMMLParse/CMMLParser.h>
 #include "CMMLRawSourcePin.h"
@@ -23,6 +24,7 @@ public:
 		THREAD_PAUSE = 1,
 		THREAD_RUN = 2
 	};
+	
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
@@ -54,11 +56,17 @@ public:
 protected:
 	virtual HRESULT DataProcessLoop();
 
+
 	CMMLRawSourcePin* mCMMLSourcePin;
 	CMMLParser mCMMLParser;
 
 	C_CMMLDoc* mCMMLDoc;
 	wstring mFileName;
+
+
+	typedef map<wstring, __int64> tTrackMap;
+
+	tTrackMap mTrackMap;
 
 	long mUptoTag;
 };
