@@ -101,7 +101,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ------------------------------------------------------------------------ 
 *** libCMMLTags
 *** libWinCMMLParse
-*** dsfAnxDemuxSourceFilter
 *** dsfCMMLDecoder
 *** dsfAnxDemux
 
@@ -147,7 +146,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *** dsfFLACDecoder
 *** dsfTheoraDecoder
 *** dsfTheoraEncoder
-*** dsfAbstractOggAudioDecoder
+*** dsfAbstractAudioDecoder
 *** dsfAbstractAudioEncoder
 *** dsfAbstractVideoDecoder
 *** dsfAbstractVideoEncoder
@@ -155,6 +154,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *** libOOTheora
 *** libOOOgg
 *** libOOOggSeek
+*** libVorbisComment
 *** OOOggDump
 *** OOOggStat
 *** OOOggCommentDump

@@ -36,29 +36,45 @@ Also, if you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</
 Also any other windows application that uses directshow will also be vorbis/speex/flac/theora compatible.
 <br>
 <br>
-<b><u>Current Version (0.57.6744) - 22/05/2004</u></b><br>
-Previous release a few hours ago had hundreds of debug statements in the release build. It may have created log files in your C:\ Root directory as well as C:\temp and possibly in G:\ if you have a writable G drive. Sorry if you got this a few hours ago.
+<b><u>Current Version (0.60.6744) - 06/07/2004</u></b><br>
+Quite a fair bit added this time, most notably an encoder for theora... see <a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">Encoding theora</a><br>
+Only a few encoding parameters are currently exposed via a filter property page. Also modified the demuxer so it can handle http streams though there are some issues. The buffering is very simple, it doesn't optimise buffer based on bandwidth. Network steams are currently non-seekable. Also only non-chained
+files should be streamed. Most encoded files are not chained. However some icecast streams, which are not continuous, have breaks where songs change, this type of stream will likely crash the media player. However continuous live streams... such as radio broadcasts etc generally work fine. The network streaming has only recently be added, so i expect it to still be fairly buggy.<br>
+
 <br>
-	<li>Removed a whole heap of debugging code.</li>
-	<li>See 0.56.6741 release below for latest changes.</li>
+	<li>Added <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a> Decoder filter</li>
+	<li>Added a simple subtitle renderer based on VMR 9</li>
+	<li>Added an OO vorbis comment parsing library</li>
+	<li>Added an example tool called OOOggCommentDump which dumps comment information from the first stream in a file</li>
+	<li>Added container class library for <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a></li>
+	<li>Added minimal <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a> parsing library based on MSXML</a>
+	<li>Added a demuxer filter for <a href="http://www.annodex.net/">Annodex</a>, will only play in graphedit currently, and needs to manually build graphs to include the VMR9 as video renderer</li>
+	<li>Added network support for demuxer to stream .ogg files</li>
+	<li>Fixed the speex encoder (I think)</li>
+	<li>Ogg Mux filter now supports multiple stream muxing</li>
+	<li>Added a theora encode filter, with a minimal configurable property page</li>
+	<li>Theora encode filter supports YUY2 input (generally from mpeg) or YV12 (generally from avi codecs, in particular those decoded by ffdshow)</li>
+	<li>Fixed some bad implementation of frame offsets in the theora decoder</li>
 
 <br>
 <b><u>Known issues.</u></b><br>
+	<li>There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3</li>
 	<li>Seeking in theora occasionally seg faults</li>
-	<li>Seeking in speex and vorbis seeking is sometimes not as responsive as it previously was.</li>
 	<li>Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback</li>
-	<li>Speex encoder is currently broken. Vorbis works but is buggy. <b>No produced encoded files should be distributed.</b></li>
+	<li>When transcoding theora, if a media decoder (WMV usually) doesn't advertise its framerate, output may be tmie distorted</li>
+	<li>Created files are not yet gauranteed to be correct. <b>No produced encoded files should be distributed.</b></li>
 	<li>I think there may be a little memory leak in the encoders... nothing too serious.</li>
-	<li>Issues with Windows Media Player 9</li>
-	<li>Theora playback requires directX 9.</li>
-	<li>Muxer only does a single stream... won't interleave yet. This is fine for encoding speex and vorbis, or splitting theora+vorbis into component parts</li>
-	<li>Some black bordering when frame size changes mid-stream</li>
+	<li>Theora will not playback with Windows Media Player 9 or 10, but will in previous WMP's and other DS players like BSPlayer</li>
+	<li>Theora and annodex playback requires directX 9.</li>
+	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
 	<li>DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.</li>
 	<li>FLAC will make media player do the error sound or crash on exit</li>
 	<li>Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.</li>
 	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
-	<li><strike>Theora sometimes gets out of sync if you stop and restart. Running to end seems ok.</strike> - 0.56.6741</li>
-	<li><strike>Rare threading bug can seg fault if you seek very rapidly in speex or vorbis.</strike> - 0.56.6741</li>
+	<li><strike>Muxer only does a single stream... won't interleave yet. This is fine for encoding speex and vorbis, or splitting theora+vorbis into component parts</strike></li>
+	<li><strike>Speex encoder is currently broken. Vorbis works but is buggy.</strike></li>
+	<li><strike>Seeking in speex and vorbis seeking is sometimes not as responsive as it previously was.</strike></li>
+	<li><strike>Some black bordering when frame size changes mid-stream</strike></li>
 <br>
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
@@ -94,6 +110,13 @@ Previous release a few hours ago had hundreds of debug statements in the release
 </TABLE>
 </DIV>
 </FONT>
+<br>
+<b><u>Previous Version (0.57.6744) - 22/05/2004</u></b><br>
+Previous release a few hours ago had hundreds of debug statements in the release build. It may have created log files in your C:\ Root directory as well as C:\temp and possibly in G:\ if you have a writable G drive. Sorry if you got this a few hours ago.
+<br>
+	<li>Removed a whole heap of debugging code.</li>
+	<li>See 0.56.6741 release below for latest changes.</li>
+
 <br>
 <b><u>Previous Version (0.56.6741) - 21/05/2004</u></b><br>
 Most of the changes in this build are internal modifications to better deal with the need to determine start times of all samples in order to properly synchronise multi-stream files. The main externally visible change is the limited ability to seek in theora files without total loss of synch. There are still a few issues to be ironed out though.

@@ -9,7 +9,8 @@
 *** dsfSpeexEncoder
 *** dsfFLACDecoder
 *** dsfTheoraDecoder
-*** dsfAbstractOggAudioDecoder
+*** dsfTheoraEncoder
+*** dsfAbstractAudioDecoder
 *** dsfAbstractAudioEncoder
 *** dsfAbstractVideoDecoder
 *** dsfAbstractVideoEncoder
@@ -20,11 +21,11 @@
 *** libOOOggSeek
 *** libCMMLTags
 *** libWinCMMLParse
+*** libVorbisComment
 *** OOOggDump
 *** OOOggStat
 *** OOOggCommentDump
 *** CLOgg
-
 	Zentaro Kavanagh <ogg@illiminable.com>
 		- Design and coding.
 ==============================================================

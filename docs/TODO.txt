@@ -1,6 +1,18 @@
+BUGS
+====
 * Figure out why the graph hangs at the end of lpayback sometimes. see debugging.txt
 * Fix flac decoder
 * Fix wmp 9 issues, probably by rewriting the decoder :(
 * Add seeking to annodex
 * Add application cmml interface
 * I don't think non-renderer filters should expose the seeking interface.
+* Fix up the seeking interface to provide choice of seek method.
+
+NEXT FEATURES
+=============
+* CMML Application interface
+* Annodex seeking
+* flac encoder
+* Raw flac support
+* Annodex Muxer
+* WMP Ripping plug-in for vorbis and flac.
