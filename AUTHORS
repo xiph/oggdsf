@@ -11,11 +11,14 @@
 *** dsfAbstractAudioEncoder
 *** dsfAbstractVideoDecoder
 *** dsfSeeking
+*** dsfSubtitleVMR9
 *** libOOTheora
 *** libOOOgg
 *** libOOOggSeek
+*** libCMMLTags
 *** OOOggDump
 *** OOOggStat
+
 	Zentaro Kavanagh <ogg@illiminable.com>
 		- Design and coding.
 ==============================================================

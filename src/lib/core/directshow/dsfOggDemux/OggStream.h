@@ -43,7 +43,7 @@ class OggDemuxSourceFilter;
 class OggDemuxSourcePin;
 class StreamHeaders;
 
-class OggStream
+class OGG_DEMUX_API OggStream
 	:	public IOggCallback
 {
 public:

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OggStreamMapper.h"
+#include "CMMLStream.h"
 class AnxStreamMapper
 	:	public OggStreamMapper
 {
@@ -11,9 +12,11 @@ public:
 
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
+	virtual bool AnxStreamMapper::isReady();
 protected:
 	vector<unsigned long> mSeenStreams;
 	bool mSeenAnnodexBOS;
 	bool mReadyForCodecs;
+	bool mSeenCMML;
 	unsigned long mAnnodexSerial;
 };

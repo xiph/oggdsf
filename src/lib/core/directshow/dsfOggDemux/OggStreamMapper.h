@@ -55,7 +55,7 @@ public:
 	//IOggCalback INterface
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
-	bool isReady();
+	virtual bool isReady();
 
 	
 protected:

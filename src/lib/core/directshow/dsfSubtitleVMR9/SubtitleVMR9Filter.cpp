@@ -55,7 +55,8 @@ HRESULT SubtitleVMR9Filter::CheckMediaType(const CMediaType* inMediaType) {
 	return S_OK;
 }
 HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample *pMediaSample) {
-	
+	static int c = 0;
+	const int hm = 50;
 	if (mBitmapMixer == NULL) {
 		IFilterGraph* locFilterGraph = NULL;
 		locFilterGraph = GetFilterGraph();
@@ -70,8 +71,31 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample *pMediaSample) {
 			return S_OK;
 		}
 	} else {
-		wstring x = L"blah";
-		SetSubtitle(x);
+		c++;
+		string x;
+		switch ((c / hm) % 4) {
+			case 0:
+                x = "One";
+				SetSubtitle(x);
+				break;
+			case 1:
+                x = "Two";
+				SetSubtitle(x);
+				break;
+
+			case 2:
+                x = "Three";
+				SetSubtitle(x);
+				break;
+			case 3:
+                x = "Four";
+				SetSubtitle(x);
+				break;
+			default:
+				break;
+		}
+
+
 		return S_OK;
 	}
 }
@@ -79,7 +103,7 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample *pMediaSample) {
 
 
 
-HRESULT SubtitleVMR9Filter::SetSubtitle(wstring inSubtitle) {
+HRESULT SubtitleVMR9Filter::SetSubtitle(string inSubtitle) {
  //   LONG cx, cy;
  //   HRESULT locHR;
 
@@ -212,7 +236,7 @@ HRESULT SubtitleVMR9Filter::SetSubtitle(wstring inSubtitle) {
     int nLength, nTextBmpWidth, nTextBmpHeight;
     SIZE sz={0};
     
-	TCHAR* szNewText = _T("Annodex Me Baby !");//inSubtitle.c_str();
+	TCHAR* szNewText = (TCHAR*)inSubtitle.c_str();//_T("Annodex Me Baby !");//inSubtitle.c_str();
 	nLength = _tcslen(szNewText); ;//(int) inSubtitle.size();
 
     GetTextExtentPoint32(hdcBmp, szNewText, nLength, &sz);

@@ -6,6 +6,7 @@ AnxStreamMapper::AnxStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 	,	mAnnodexSerial(0)
 	,	mSeenAnnodexBOS(false)
 	,	mReadyForCodecs(false)
+	,	mSeenCMML(false)
 {
 }
 
@@ -13,6 +14,17 @@ AnxStreamMapper::~AnxStreamMapper(void)
 {
 }
 
+bool AnxStreamMapper::isReady() {
+	bool retVal = true;
+	bool locWasAny = false;
+	//Use 1 instead of 0... cmml is always ready and terminates the graph creation early.
+	//We want to know when everything else is ready.
+	for (unsigned long i = 1; i < mStreamList.size(); i++) {
+		locWasAny = true;
+		retVal = retVal && mStreamList[i]->streamReady();
+	}
+	return locWasAny && retVal;
+}
 bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage) 
 {
 	
@@ -31,9 +43,22 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 				//Need to save the data from the header here.
 			} else {
 				//This is anxdata
+				
 
+				if ( (mSeenCMML == false) ) {
+					//This is a really nasty way to do it ! Fix this up properly later.
+					char* locStr = (char*)(inOggPage->getPacket(0)->packetData() + 28);
+					if (strstr(locStr, "text/x-cmml") != NULL) {
+						mSeenCMML = true;
+						OggStream* locStream = new CMMLStream(inOggPage, mOwningFilter);//OggStreamFactory::CreateStream(inOggPage, mOwningFilter);
+						if (locStream != NULL) {
+							mStreamList.push_back(locStream);
+						}
+					}
+				} else {
 				//Need to save header data here.
-				mSeenStreams.push_back(inOggPage->header()->StreamSerialNo());
+					mSeenStreams.push_back(inOggPage->header()->StreamSerialNo());
+				}
 			}
 		}
 

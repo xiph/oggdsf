@@ -44,7 +44,7 @@
 
 //If the codec needs them again... you have to sort it out from the output pin. The codec should remember !
 
-class StreamHeaders
+class OGG_DEMUX_API StreamHeaders
 	:	public IOggPackSource
 {
 public:
@@ -57,6 +57,7 @@ public:
 		SPEEX = 2,
 		FLAC = 3,
 		THEORA = 4,
+		CMML = 20,
 		FFDSHOW_VIDEO = 100
 	};
 	//IOggPacketSource
