@@ -65,6 +65,10 @@ struct sFLACFormatBlock {
 DEFINE_GUID(MEDIASUBTYPE_FLAC, 
 0x3913f0ab, 0xe7ed, 0x41c4, 0x97, 0x9b, 0x1d, 0x1f, 0xdd, 0x98, 0x3c, 0x7);
 
+// {2C409DB0-95BF-47ba-B0F5-587256F1EDCF}
+DEFINE_GUID(MEDIASUBTYPE_OggFLAC_1_0, 
+0x2c409db0, 0x95bf, 0x47ba, 0xb0, 0xf5, 0x58, 0x72, 0x56, 0xf1, 0xed, 0xcf);
+
 // {77E3A6A3-2A24-43fa-B929-00747E4B560B}
 DEFINE_GUID(CLSID_FLACEncodeFilter, 
 0x77e3a6a3, 0x2a24, 0x43fa, 0xb9, 0x29, 0x0, 0x74, 0x7e, 0x4b, 0x56, 0xb);
@@ -76,6 +80,7 @@ DEFINE_GUID(FORMAT_FLAC,
 
 
 
+
 const REGPINTYPES FLACEncodeInputTypes = {
     &MEDIATYPE_Audio,
 	&MEDIASUBTYPE_PCM
@@ -83,7 +88,7 @@ const REGPINTYPES FLACEncodeInputTypes = {
 
 const REGPINTYPES FLACEncodeOutputTypes = {
 	&MEDIATYPE_Audio,
-	&MEDIASUBTYPE_FLAC
+	&MEDIASUBTYPE_OggFLAC_1_0
 };
 
 const REGFILTERPINS FLACEncodePinReg[] = {

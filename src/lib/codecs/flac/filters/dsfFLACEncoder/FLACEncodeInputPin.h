@@ -71,6 +71,8 @@ public:
 protected:
 	HRESULT mHR;
 	
+	bool mTweakedHeaders;
+	unsigned long mHeadersSeen;
 	//bool mBegun;
 	//SpeexDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;

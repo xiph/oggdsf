@@ -34,6 +34,8 @@
 
 FLACEncodeInputPin::FLACEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)
 	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACEncodeInputPin"), L"PCM In")
+	,	mTweakedHeaders(false)
+	,	mHeadersSeen(0)
 	
 {
 	//debugLog.open("C:\\temp\\FLACenc.log", ios_base::out);
@@ -203,6 +205,40 @@ void FLACEncodeInputPin::DestroyCodec() {
 
 	//This is called back with encoded data after raw data is fed in by stream_encoder_process or
 	// stream_encoder_process_interleaved.
+
+	//if (mHeadersSeen == 0) {
+	//	//We haven't converted the headers yet
+	//	//This should be a 4 byte fLaC
+	//	ASSERT (inNumBytes == 4);
+	//	mHeadersSeen ++;
+	//	//Do nothing.
+	//	return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
+	//} else if (mHeadersSeen == 1) {
+	//	//This should be the stream info header
+
+	//	//Get a pointer to a new sample stamped with our time
+	//	IMediaSample* locSample;
+	//	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
+
+	//	if (FAILED(locHR)) {
+	//		//We get here when the application goes into stop mode usually.
+	//		//locThis->debugLog<<"Getting buffer failed"<<endl;
+	//		return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
+	//	}	
+	//	
+	//	BYTE* locBuffer = NULL;
+
+	//	//Make our pointers set to point to the samples buffer
+	//	locSample->GetPointer(&locBuffer);
+
+	//	locBuffer[0] = '\177';
+	//	locBuffer[1] = 'F';
+	//	locBuffer[2] = 'L';
+	//	locBuffer[3] = 'A';
+	//	locBuffer[4] = 'C';
+	//	locBuffer[5] = 1;
+	//	locBuffer[6] = 0;
+
 
 	LONGLONG locFrameStart = mUptoFrame;
 	if (inNumSamples != 0) {

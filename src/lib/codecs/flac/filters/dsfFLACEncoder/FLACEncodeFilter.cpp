@@ -75,7 +75,7 @@ bool FLACEncodeFilter::ConstructPins()
 {
 
 	CMediaType* locOutputMediaType = new CMediaType(&MEDIATYPE_Audio);
-	locOutputMediaType->subtype = MEDIASUBTYPE_FLAC;
+	locOutputMediaType->subtype = MEDIASUBTYPE_OggFLAC_1_0;
 	locOutputMediaType->formattype = FORMAT_FLAC;
 	//Output pin must be done first because it's passed to the input pin.
 	mOutputPin = new FLACEncodeOutputPin(this, m_pLock, locOutputMediaType);

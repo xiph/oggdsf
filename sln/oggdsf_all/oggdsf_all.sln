@@ -1189,6 +1189,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfDiracEncodeFilter", "..\
 		{AD2DC5BB-AC7B-482D-9472-19BB98A833CE} = {AD2DC5BB-AC7B-482D-9472-19BB98A833CE}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libFLACHelper", "..\..\src\lib\codecs\flac\libs\libFLACHelper\libFLACHelper.vcproj", "{7F213248-16F2-4AAE-B941-C402670082BC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2316,6 +2320,22 @@ Global
 		{190C8AE5-75B0-4714-BC0A-4992F3524F35}.Release_SSE.Build.0 = Release|Win32
 		{190C8AE5-75B0-4714-BC0A-4992F3524F35}.Release_SSE2.ActiveCfg = Release|Win32
 		{190C8AE5-75B0-4714-BC0A-4992F3524F35}.Release_SSE2.Build.0 = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Debug.ActiveCfg = Debug|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Debug.Build.0 = Debug|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Debug Unicode.ActiveCfg = Debug|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Debug Unicode.Build.0 = Debug|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.MakeFile.ActiveCfg = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.MakeFile.Build.0 = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release.ActiveCfg = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release.Build.0 = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release Unicode.ActiveCfg = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release Unicode.Build.0 = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release_NoDotNET.Build.0 = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release_SSE.ActiveCfg = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release_SSE.Build.0 = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release_SSE2.ActiveCfg = Release|Win32
+		{7F213248-16F2-4AAE-B941-C402670082BC}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
