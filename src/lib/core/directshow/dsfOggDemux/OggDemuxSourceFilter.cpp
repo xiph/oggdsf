@@ -463,9 +463,9 @@ DWORD OggDemuxSourceFilter::ThreadProc(void) {
 
 void OggDemuxSourceFilter::resetStream() {
 	{
-
-		CAutoLock locSourceLock(mSourceFileLock);
 		CAutoLock locDemuxLock(mDemuxLock);
+		CAutoLock locSourceLock(mSourceFileLock);
+		
 
 		//SOURCE ABSTRACTION::: clear, close, open, seek
 		//mSourceFile.clear();
@@ -613,9 +613,9 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 
 //ANX:::Perhaps override here. Provide a different set-up function.
 HRESULT OggDemuxSourceFilter::SetUpPins() {
-	
-	CAutoLock locSourceLock(mSourceFileLock);
 	CAutoLock locDemuxLock(mDemuxLock);
+	CAutoLock locSourceLock(mSourceFileLock);
+	
 
 	//SOURCE ABSTRACTION::: open
 	//mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
