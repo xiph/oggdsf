@@ -16,6 +16,10 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
+	IWebBrowser2* mBrowser;
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedButton1();
+
+	void setBrowser(IWebBrowser2* inBrowser);
 };
