@@ -1126,6 +1126,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libTemporalURI", "..\..\src
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testTemporal", "..\..\src\tests\testTemporal\testTemporal.vcproj", "{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC} = {37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2475,6 +2480,26 @@ Global
 		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_SSE.Build.0 = Release|Win32
 		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_SSE2.ActiveCfg = Release|Win32
 		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_SSE2.Build.0 = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Debug.ActiveCfg = Debug|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Debug.Build.0 = Debug|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Debug Unicode.ActiveCfg = Debug|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Debug Unicode.Build.0 = Debug|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Debug__cdecl.ActiveCfg = Debug|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Debug__cdecl.Build.0 = Debug|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.MakeFile.ActiveCfg = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.MakeFile.Build.0 = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release.ActiveCfg = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release.Build.0 = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release Unicode.ActiveCfg = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release Unicode.Build.0 = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release__cdecl.ActiveCfg = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release__cdecl.Build.0 = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_NoDotNET.Build.0 = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_SSE.ActiveCfg = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_SSE.Build.0 = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_SSE2.ActiveCfg = Release|Win32
+		{DCABCE43-DCF2-4F31-85D3-BEA3163B32D2}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
