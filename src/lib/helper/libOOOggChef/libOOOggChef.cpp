@@ -31,8 +31,6 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-// libOOOggChef.cpp : Defines the entry point for the DLL application.
-//
 
 #include "stdafx.h"
 
