@@ -86,4 +86,6 @@ protected:
 	//unsigned long mSampleRate;
 
 	VIDEOINFOHEADER* mVideoFormat;
+	long mHeight;
+	long mWidth;
 };

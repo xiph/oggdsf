@@ -30,13 +30,15 @@
 //===========================================================================
 
 #pragma once
+#include "theoraencoderdllstuff.h"
+#include "TheoraEncoder.h"
+#include "theora/theora.h"
+//#include "AbstractVideoEncodeInputPin.h"
+//#include "TheoraEncodeInputPin.h"
 
-#include "AbstractVideoEncodeInputPin.h"
-#include "TheoraEncodeInputPin.h"
+//#include "TheoraEncodeFilter.h"
 
-#include "TheoraEncodeFilter.h"
-
-
+class TheoraEncodeOutputPin;
 class TheoraEncodeInputPin
 	:	public AbstractVideoEncodeInputPin
 {
@@ -44,7 +46,7 @@ public:
 	TheoraEncodeInputPin(AbstractVideoEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractVideoEncodeOutputPin* inOutputPin);
 	virtual ~TheoraEncodeInputPin(void);
 
-	//static int TheoraEncodeInputPin::VorbisEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
+
 	//PURE VIRTUALS
 	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
 	virtual bool ConstructCodec();
@@ -54,11 +56,17 @@ public:
 protected:
 	HRESULT mHR;
 	bool mBegun;
-	//VorbisDecodeOutputPin* mOutputPin;
-	//__int64 mUptoFrame;
 
-	//FishSound* mFishSound;
-	//FishSoundInfo mFishInfo; 
+	HRESULT deliverData(LONGLONG inStart, LONGLONG inEnd, unsigned char* inBuf, unsigned long inNumBytes);
+	//
+//	bool fillTheoraInfo(theora_info* outTheora, sTheoraFormatBlock* inTheoraFormatBlock); 		
+	//
+	TheoraEncodeOutputPin* mOutputPin;
+	__int64 mUptoFrame;
+
+	TheoraEncoder mTheoraEncoder;
+	theora_info mTheoraInfo;
+	yuv_buffer mYUV;
 
 	
 };

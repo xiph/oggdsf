@@ -32,10 +32,10 @@
 #pragma once
 
 #include "theoraencoderdllstuff.h"
-#include "AbstractVideoEncodeFilter.h"
+//#include "AbstractVideoEncodeFilter.h"
 
 //Forward Declarations
-struct sTheoraFormatBlock;
+//struct sTheoraFormatBlock;
 class TheoraEncodeInputPin;
 class TheoraEncodeOutputPin;
 

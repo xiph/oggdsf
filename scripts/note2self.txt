@@ -18,3 +18,9 @@ Media Player
 ============
 
 Need to do all the registry keys to get the media types in the drop boxes of ds apps.
+
+=========================================
+
+The encoder don't properly fill out their format blocks... this is no
+problem for the muxer, but if you try to chain an encoder to a decoder,
+bad things will happen !

@@ -31,8 +31,8 @@
 
 #pragma once
 
-#include "Theoraencoderdllstuff.h"
-#include "AbstractVideoEncodeOutputPin.h"
+#include "theoraencoderdllstuff.h"
+//#include "AbstractVideoEncodeOutputPin.h"
 
 class TheoraEncodeFilter;
 struct sTheoraFormatBlock;

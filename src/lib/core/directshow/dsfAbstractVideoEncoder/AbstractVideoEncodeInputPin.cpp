@@ -37,6 +37,8 @@ AbstractVideoEncodeInputPin::AbstractVideoEncodeInputPin(AbstractVideoEncodeFilt
 		mUptoFrame(0),
 		mBegun(false),
 		mParentFilter(inParentFilter)
+	,	mHeight(0)
+	,	mWidth(0)
 	
 {
 	//debugLog.open("C:\\temp\\aaein.log", ios_base::out);

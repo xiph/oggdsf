@@ -33,13 +33,11 @@
 
 
 
+#include <streams.h>
+#include <pullpin.h>
+#include <initguid.h>
 
-#include "AbstractVideoEncodeFilter.h"
-#include "AbstractVideoEncodeInputPin.h"
-#include "AbstractVideoEncodeOutputPin.h"
-#include "TheoraEncodeInputPin.h"
-#include "TheoraEncodeOutputPin.h"
-#include "TheoraEncodeFilter.h"
+
 
 #ifdef LIBOOOGG_EXPORTS
 #define LIBOOOGG_API __declspec(dllexport)
