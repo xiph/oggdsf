@@ -35,6 +35,9 @@
 #include <vmr9.h>
 #include <tchar.h>
 #include <string>
+//Debug only
+#include <fstream>
+//
 using namespace std;
 
 #define TRANSPARENCY_VALUE   (0.8f)
@@ -83,4 +86,8 @@ protected:
 	IVMRMixerBitmap9* mBitmapMixer;
 	IVMRWindowlessControl9* mWindowLess; 
 	VMR9AlphaBitmap mAlphaBitmap;
+
+	//debug only
+	fstream debugLog;
+	//
 };

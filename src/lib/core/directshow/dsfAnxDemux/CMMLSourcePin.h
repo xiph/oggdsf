@@ -35,6 +35,8 @@
 #pragma once
 #include "anxdllstuff.h"
 #include "OggDemuxSourcePin.h"
+#include <fstream>
+using namespace std;
 class CMMLSourcePin
 	:	public OggDemuxSourcePin
 	,	public IStreamBuilder
@@ -57,4 +59,7 @@ public:
 	STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
 
 	virtual bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket);
+
+protected:
+	fstream debugLog;
 };

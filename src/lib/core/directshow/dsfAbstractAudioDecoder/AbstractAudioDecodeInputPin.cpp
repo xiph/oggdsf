@@ -178,8 +178,9 @@ STDMETHODIMP AbstractAudioDecodeInputPin::BeginFlush() {
 }
 STDMETHODIMP AbstractAudioDecodeInputPin::EndFlush() {
 	CAutoLock locLock(mFilterLock);
-	CBaseInputPin::EndFlush();
-	return mParentFilter->mOutputPin->DeliverEndFlush();
+	mParentFilter->mOutputPin->DeliverEndFlush();
+	
+	return CBaseInputPin::EndFlush();
 }
 
 STDMETHODIMP AbstractAudioDecodeInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate) {

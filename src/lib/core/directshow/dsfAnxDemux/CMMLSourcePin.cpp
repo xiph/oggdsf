@@ -43,7 +43,7 @@ CMMLSourcePin::CMMLSourcePin(	TCHAR* inObjectName,
 										wstring inPinName) 
 											:	OggDemuxSourcePin(inObjectName, inParentFilter, inFilterLock, inHeaderSource, inMediaType, inPinName, true)
 {
-	
+	debugLog.open("G:\\logs\\cmml_source_pin.log", ios_base::out);
 }
 
 CMMLSourcePin::~CMMLSourcePin(void)
@@ -148,22 +148,25 @@ STDMETHODIMP CMMLSourcePin::Backout(IPin* inOutputPin, IGraphBuilder* inGraphBui
 
 bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 
-	//Modified from the base class so that the times are multiplied by a scaling factor... curently 1000.
+	//Modified from the base class so that the times are multiplied by a scaling factor... curently 10000.
 	//TODO::: When you properly save annodex header information, you need to account for other time schemes.
 	//Probably issues for -1 gran pos here too.
 	CAutoLock locStreamLock(mParentFilter->mStreamLock);
 	IMediaSample* locSample = NULL;
-	REFERENCE_TIME locStart = inPacket->startTime() * 1000;   //CMML Changes here.
-	REFERENCE_TIME locStop = inPacket->endTime() * 1000;
-	//debugLog<<"Start   : "<<locStart<<endl;
-	//debugLog<<"End     : "<<locStop<<endl;
+	REFERENCE_TIME locStart = inPacket->endTime() * 10000;   //CMML Changes here.
+	REFERENCE_TIME locStop = inPacket->endTime() * 10000;
+	debugLog<<"Start   : "<<locStart<<endl;
+	debugLog<<"End     : "<<locStop<<endl;
 	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
+	//DbgLog((LOG_TRACE, 2, ""));
+
 	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
 	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));
 	//Error checks
 	if (locHR != S_OK) {
+		DbgLog((LOG_TRACE, 2, "Getting Delivery Buff FAILED"));
 		//Stopping, fluching or error
-		//debugLog<<"Failure... No buffer"<<endl;
+		debugLog<<"Failure... No buffer"<<endl;
 		return false;
 	}
 
@@ -190,11 +193,12 @@ bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 		locHR = mDataQueue->Receive(locSample);
 		
 		if (locHR != S_OK) {
-			//debugLog << "Failure... Queue rejected sample..."<<endl;
+			debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
 			return false;
 			
 		} else {
+			debugLog<<"Delivery OK"<<endl;
 			return true;
 		}
 	} else {

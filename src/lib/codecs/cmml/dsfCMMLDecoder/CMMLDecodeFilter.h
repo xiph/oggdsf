@@ -36,6 +36,7 @@
 #include "cmmldecoderdllstuff.h"
 #include <string>
 #include <fstream>
+#include "StringHelper.h"
 #include "libWinCMMLParse.h"
 #include "CMMLParser.h"
 #include "libCMMLTags.h"
@@ -70,7 +71,7 @@ protected:
 	C_HeadTag* mHeadTag;
 	ICMMLCallbacks* mCMMLCallbacks;
 
-	//fstream debugLog;
+	fstream debugLog;
 	
 
 };

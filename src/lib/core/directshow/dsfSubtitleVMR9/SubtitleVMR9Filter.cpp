@@ -64,11 +64,13 @@ SubtitleVMR9Filter::SubtitleVMR9Filter(void)
 	,	mVideoWindow(NULL)
 	,	mWindowLess(NULL)
 {
+	debugLog.open("G:\\logs\\vmr9_subs.log", ios_base::out);
 	//mOutputPin = new SubtitleVMR9OutputPin(this, m_pLock, NAME("SubtitleVMR9OutputPin"), L"Subtitle Out");
 }
 
 SubtitleVMR9Filter::~SubtitleVMR9Filter(void)
 {
+	debugLog.close();
 }
 
 int SubtitleVMR9Filter::GetPinCount(void) {
@@ -86,6 +88,12 @@ HRESULT SubtitleVMR9Filter::CheckMediaType(const CMediaType* inMediaType) {
 	return S_OK;
 }
 HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
+	debugLog<<"DoRenderSample : "<<endl;
+	LONGLONG locStart, locEnd;
+	inMediaSample->GetTime(&locStart, &locEnd);
+	debugLog<<"DoRenderSample : Time = "<<locStart<<" to "<<locEnd<<endl;
+	inMediaSample->GetMediaTime(&locStart, &locEnd);
+	debugLog<<"DoRenderSample : Media Time = "<<locStart<<" to "<<locEnd<<endl;
 	static int c = 0;
 	const int hm = 50;
 	if (mBitmapMixer == NULL) {
@@ -96,6 +104,7 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
 		IBaseFilter* locVMR9 = NULL;
 		HRESULT locHR = locFilterGraph->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
 		if (locVMR9 != NULL) {
+			debugLog<<"DoRenderSample : Getting VMR9 pointer..."<<endl;
 			HRESULT locHR = locVMR9->QueryInterface(IID_IVMRMixerBitmap9, (void**)&mBitmapMixer);
 			locHR = locVMR9->QueryInterface(IID_IVMRWindowlessControl9, (void**)&mWindowLess);
 
@@ -137,13 +146,18 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
 			locStr = new char[inMediaSample->GetActualDataLength()];
 			memcpy((void*)locStr, (const void*) locBuff, inMediaSample->GetActualDataLength());
 			string x = locStr;
+			debugLog<<"DoRenderSample : Subtile = "<<x<<endl;
 			SetSubtitle(x);
+			debugLog<<"DoRenderSample : SetSubtitle Returns"<<endl<<endl;
 			delete locStr;
+		} else {
+			SetSubtitle("");
 		}
 
 
 		return S_OK;
 	}
+	debugLog<<"DoRenderSample : NEVER SHOULD BE HERE !!!!!!"<<endl;
 }
 
 
@@ -350,7 +364,7 @@ HRESULT SubtitleVMR9Filter::SetSubtitle(string inSubtitle) {
 
     // Give the bitmap to the VMR for display
     hr = mBitmapMixer->SetAlphaBitmap(&bmpInfo);
-    if (FAILED(hr))
+    //if (FAILED(hr))
         //Msg(TEXT("SetAlphaBitmap FAILED!  hr=0x%x\r\n\r\n%s\0"), hr,
           //  STR_VMR_DISPLAY_WARNING);
 
@@ -362,6 +376,7 @@ HRESULT SubtitleVMR9Filter::SetSubtitle(string inSubtitle) {
     DeleteObject(hbm);
     DeleteDC(hdcBmp);
 
+	debugLog<<"SetSubtitle : End of method: hr = "<<hr<<endl;
     return hr;
 }
 

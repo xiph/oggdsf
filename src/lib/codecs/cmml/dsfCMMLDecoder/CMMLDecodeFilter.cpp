@@ -33,6 +33,7 @@
 //===========================================================================
 
 #include "StdAfx.h"
+
 #include "cmmldecodefilter.h"
 
 //COM Factory Template
@@ -60,7 +61,8 @@ CMMLDecodeFilter::CMMLDecodeFilter(void)
 	,	mHeadTag(NULL)
 	,	mCMMLCallbacks(NULL)
 {
-	mCMMLParser = new CMMLParser;
+	debugLog.open("G:\\logs\\cmml_decode.logs", ios_base::out);
+		mCMMLParser = new CMMLParser;
 	//debugLog.open("C:\\Temp\\cmmlfilter.log", ios_base::out);
 	//debugLog<<"*** Log Begins ***"<<endl;
 }
@@ -68,7 +70,7 @@ CMMLDecodeFilter::CMMLDecodeFilter(void)
 CMMLDecodeFilter::~CMMLDecodeFilter(void)
 {
 	//debugLog<<"*** Log Ends ***"<<endl;
-	//debugLog.close();
+	debugLog.close();
 	delete mCMMLParser;
 }
 
@@ -97,7 +99,7 @@ HRESULT CMMLDecodeFilter::CheckInputType(const CMediaType* inInputMediaType) {
 			(inInputMediaType->subtype == MEDIASUBTYPE_CMML) &&
 			(inInputMediaType->formattype == FORMAT_CMML) ){
 
-		//debugLog<<"Input Type Accepted"<<endl;
+		debugLog<<"Input Type Accepted"<<endl;
 		return S_OK;
 	} else {
 		return VFW_E_TYPE_NOT_ACCEPTED;
@@ -110,7 +112,7 @@ HRESULT CMMLDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, con
 			(inOutputMediaType->majortype == MEDIATYPE_Text) &&
 			(inOutputMediaType->subtype == MEDIASUBTYPE_SubtitleVMR9) ){
 
-		//debugLog << "Transform Accepted"<<endl;
+		debugLog << "Transform Accepted"<<endl;
 		return S_OK;
 	} else {
 		return VFW_E_TYPE_NOT_ACCEPTED;
@@ -183,6 +185,12 @@ HRESULT CMMLDecodeFilter::GetMediaType(int inPosition, CMediaType* outMediaType)
 	}
 }
 HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSample) {
+	inSample->AddRef();
+	debugLog<<"In sample ref count = "<<inSample->Release();
+
+	outSample->AddRef();
+	debugLog<<"Out sample ref count = "<<outSample->Release();
+
 	unsigned long locSize = inSample->GetActualDataLength();
 	char* locCMML = NULL;
 	BYTE* locInBuff = NULL;
@@ -192,9 +200,17 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 	char* locText = NULL;
 	string locTextStr;
 	unsigned long locTextSize = 0;
-	outSample->SetMediaTime(NULL, NULL);
+	//outSample->SetMediaTime(NULL, NULL);
 
-	//debugLog<<"Transform : Input Sample Size = "<<locSize<<endl;
+	LONGLONG locStart, locEnd;
+	inSample->GetTime(&locStart, &locEnd);
+	debugLog<<"Input Sample Time : "<<locStart<<" to "<<locEnd<<endl;
+	LONGLONG locSampleTime = locStart;
+	inSample->GetMediaTime(&locStart, &locEnd);
+	debugLog<<"Input Sample Media Time : "<<locStart<<" to "<<locEnd<<endl;
+	locSampleTime -= locStart;
+	debugLog<<"Corrected Sample time = "<<locSampleTime<<endl;
+	debugLog<<"Transform : Input Sample Size = "<<locSize<<endl;
 	if (locSize > 0) {
 		locCMML = new char[locSize+1];
 		locCMML[locSize] = '\0';
@@ -241,25 +257,36 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 				locTextStr = locClipTag.anchor()->text();
 				memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
 				
-				//debugLog << "               : Clip Text = "<<locTextStr<<endl;
+				debugLog << "               : Clip Text = "<<locTextStr<<endl;
 				locOutBuff[locTextSize] = '\0';
 				outSample->SetActualDataLength(locTextSize + 1);
+				//debugLog<<"Setting Sample time "<<locClipTag.start()<<endl;
+				//LONGLONG locSampleTime = ;
+				outSample->SetTime(&locSampleTime, &locSampleTime);
+				outSample->SetMediaTime(NULL, NULL);
+				outSample->SetSyncPoint(TRUE);
+				outSample->SetDiscontinuity(FALSE);
+				outSample->SetPreroll(FALSE);
 
 				if (mCMMLCallbacks != NULL) {
 					mCMMLCallbacks->clipCallback(locClipTag.clone());
 				}
 
 			} else {
-				//debugLog<<"          : Parse FAILED"<<endl;
+				debugLog<<"          : Parse FAILED"<<endl;
+				delete locCMML;
+				return S_FALSE;
 			}
 		}
 
+		debugLog<<"Returning... "<<endl<<endl;
 		delete locCMML;
 		return S_OK;
 
 	} else {
-		//This is dumb !!
-		return S_OK;
+		//Zero length Sample... Blank out... Don't send.
+		debugLog<<"Zero length sample..."<<endl;
+		return S_FALSE;
 	}
 }
 

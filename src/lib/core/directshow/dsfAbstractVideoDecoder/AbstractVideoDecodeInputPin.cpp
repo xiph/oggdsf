@@ -179,8 +179,9 @@ STDMETHODIMP AbstractVideoDecodeInputPin::BeginFlush() {
 }
 STDMETHODIMP AbstractVideoDecodeInputPin::EndFlush() {
 	CAutoLock locLock(m_pLock);
-	CBaseInputPin::EndFlush();
-	return mParentFilter->mOutputPin->DeliverEndFlush();
+	mParentFilter->mOutputPin->DeliverEndFlush();
+	
+	return CBaseInputPin::EndFlush();
 
 }
 
