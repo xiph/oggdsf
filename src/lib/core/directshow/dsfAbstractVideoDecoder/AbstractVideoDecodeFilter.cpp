@@ -36,13 +36,14 @@ AbstractVideoDecodeFilter::AbstractVideoDecodeFilter(TCHAR* inFilterName, REFCLS
 	:	CBaseFilter(inFilterName, NULL,m_pLock, inFilterGUID),
 		mVideoFormat(inVideoFormat)
 {
-
+	debugLog.open("G:\\logs\\avdFitler.log", ios_base::out);
 	m_pLock = new CCritSec;
 	
 }
 
 AbstractVideoDecodeFilter::~AbstractVideoDecodeFilter(void)
 {
+	debugLog.close();
 	delete m_pLock;
 	DestroyPins();
 }
@@ -53,6 +54,7 @@ void AbstractVideoDecodeFilter::DestroyPins() {
 }
 
 STDMETHODIMP AbstractVideoDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -69,8 +71,21 @@ CBasePin* AbstractVideoDecodeFilter::GetPin(int inPinNo) {
 
 STDMETHODIMP AbstractVideoDecodeFilter::Stop() {
 	CAutoLock locLock(m_pLock);
+	debugLog<<"**** STOP ****"<<endl;
 	mInputPin->ResetFrameCount();
 	return CBaseFilter::Stop();
+}
+
+STDMETHODIMP AbstractVideoDecodeFilter::Pause() {
+	CAutoLock locLock(m_pLock);
+	debugLog<<"**** PAUSE ****"<<endl;
+	return CBaseFilter::Pause();
+}
+
+STDMETHODIMP AbstractVideoDecodeFilter::Run(REFERENCE_TIME tStart) {
+	CAutoLock locLock(m_pLock);
+	debugLog<<"**** RUN ****"<<endl;
+	return CBaseFilter::Run(tStart);
 }
 int AbstractVideoDecodeFilter::GetPinCount(void) {
 	//TO DO::: Move this somewhere better

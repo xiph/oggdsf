@@ -56,8 +56,14 @@ public:
 	
 	virtual HRESULT GetMediaType(int inPosition, CMediaType *outMediaType);
 
+	//Testing.,..
+	virtual HRESULT InitAllocator(IMemAllocator **ppAlloc);
+	virtual HRESULT SetMediaType(const CMediaType *pmt);
 
+
+	virtual HRESULT BreakConnect(void);
 	//Virtuals for data queue
+
 	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 	virtual HRESULT DeliverEndOfStream(void);
@@ -70,7 +76,7 @@ protected:
 	AbstractVideoDecodeFilter* mParentFilter;
 	void FillMediaType(CMediaType* inMediaType);
 
-	//fstream debugLog;
+	fstream debugLog;
 
 	
 

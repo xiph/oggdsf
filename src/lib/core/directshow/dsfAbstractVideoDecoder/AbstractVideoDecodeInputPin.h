@@ -75,6 +75,7 @@ protected:
 
 	virtual bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime);
 
+	fstream debugLog;
 
 	HRESULT mHR;
 	bool mBegun;

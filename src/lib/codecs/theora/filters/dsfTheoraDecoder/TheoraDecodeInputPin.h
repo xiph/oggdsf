@@ -36,8 +36,11 @@
 //#include "TheoraDecodeInputPin.h"
 
 //#include "TheoraDecodeFilter.h"
+#include "DSStringer.h"
 #include "TheoraDecoder.h"
 #include <math.h>
+#include <fstream>
+using namespace std;
 
 
 class TheoraDecodeOutputPin;
@@ -63,7 +66,7 @@ public:
 	long decodeData(BYTE* inBuf, long inNumBytes, LONGLONG inStart, LONGLONG inEnd) ;
 
 protected:
-
+	fstream debugLog;
 	//FishSound* mFishSound;
 	//FishSoundInfo mFishInfo; 
 	TheoraDecoder* mTheoraDecoder;

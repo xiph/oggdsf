@@ -39,6 +39,7 @@ TheoraDecodeInputPin::TheoraDecodeInputPin(AbstractVideoDecodeFilter* inFilter, 
 	,	mYOffset(0)
 
 {
+	debugLog.open("G:\\logs\\theoInputPin.log", ios_base::out);
 	ConstructCodec();
 }
 
@@ -64,6 +65,7 @@ void TheoraDecodeInputPin::DestroyCodec() {
 }
 TheoraDecodeInputPin::~TheoraDecodeInputPin(void)
 {
+	debugLog.close();
 	DestroyCodec();
 	
 }
@@ -73,10 +75,8 @@ TheoraDecodeInputPin::~TheoraDecodeInputPin(void)
 int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer) 
 {
 	DbgLog((LOG_TRACE,1,TEXT("Decoded... Sending...")));
-	////Do we need to delete the pcm structure ???? 
-	////More of this can go to the abstract class.
-
-	////For convenience we do all these cast once and for all here.
+	
+	debugLog<<"TheoraDecoded... "<<endl;
 	
 	TheoraDecodeFilter* locFilter = reinterpret_cast<TheoraDecodeFilter*>(m_pFilter);
 	//
@@ -129,14 +129,73 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 	DbgLog((LOG_TRACE,1,TEXT("Frame Runs From %d"), locFrameStart));
 	DbgLog((LOG_TRACE,1,TEXT("Frame Runs To %d"), locFrameEnd));
 
-	IMediaSample* locSample;
-	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-	
+	IMediaSample* locSample = NULL;
+	debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<endl;
+	DWORD locFlags = 0;//AM_GBF_PREVFRAMESKIPPED | AM_GBF_NOTASYNCPOINT;
+
+	FILTER_STATE locFS;
+	mParentFilter->GetState(0, &locFS);
+	debugLog<<"State Before = "<<locFS<<endl;
+	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, locFlags);
+	mParentFilter->GetState(0, &locFS);
+	debugLog<<"State After = "<<locFS<<endl;
 	if (locHR != S_OK) {
+		debugLog<<"Get DeliveryBuffer FAILED with "<<locHR<<endl;
+		debugLog<<"locSample is "<<(unsigned long)locSample<<endl;
 		//We get here when the application goes into stop mode usually.
+
+		switch (locHR) {
+			case VFW_E_SIZENOTSET:
+				debugLog<<"SIZE NOT SET"<<endl;
+				break;
+			case VFW_E_NOT_COMMITTED:
+				debugLog<<"NOT COMMITTED"<<endl;
+				break;
+			case VFW_E_TIMEOUT:
+				debugLog<<"TIMEOUT"<<endl;
+				break;
+			case VFW_E_STATE_CHANGED:
+				debugLog<<"STATE CHANGED"<<endl;
+				return S_OK;
+			default:
+				debugLog<<"SOMETHING ELSE !!!"<<endl;
+				break;
+		}
 		return locHR;
 	}	
 	
+	debugLog<<"GetDeliveryBuffer &** SUCCEEDED **"<<endl;
+
+	//Debuggin code
+	AM_MEDIA_TYPE* locMediaType = NULL;
+	locSample->GetMediaType(&locMediaType);
+	if (locMediaType == NULL) {
+		debugLog<<"No dynamic change..."<<endl;
+	} else {
+		debugLog<<"Attempting dynamic change..."<<endl;
+		if (locMediaType->majortype == MEDIATYPE_Video) {
+			debugLog<<"Still MEDIATYPE_Video"<<endl;
+		}
+
+		if (locMediaType->subtype == MEDIASUBTYPE_YV12) {
+			debugLog<<"Still MEDIASUBTYPE_YV12"<<endl;
+		}
+
+		if (locMediaType->formattype == FORMAT_VideoInfo) {
+			debugLog<<"Still FORMAT_VideoInfo"<<endl;
+			VIDEOINFOHEADER* locVF = (VIDEOINFOHEADER*)locMediaType->pbFormat;
+			debugLog<<"Size = "<<locVF->bmiHeader.biSizeImage<<endl;
+			debugLog<<"Dim   = "<<locVF->bmiHeader.biWidth<<" x " <<locVF->bmiHeader.biHeight<<endl;
+		}
+
+		debugLog<<"Major  : "<<DSStringer::GUID2String(&locMediaType->majortype);
+		debugLog<<"Minor  : "<<DSStringer::GUID2String(&locMediaType->subtype);
+		debugLog<<"Format : "<<DSStringer::GUID2String(&locMediaType->formattype);
+		debugLog<<"Form Sz: "<<locMediaType->cbFormat;
+
+
+	}
+	//
 
 	////Create pointers for the samples buffer to be assigned to
 	BYTE* locBuffer = NULL;
@@ -288,6 +347,7 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 		//locSample->AddRef();
 		HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 		if (locHR != S_OK) {
+			debugLog<<"Data Q rejects sample... with "<<locHR<<endl;
 			return -1;
 
 		}

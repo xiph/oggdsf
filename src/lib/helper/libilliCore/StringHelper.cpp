@@ -119,6 +119,5 @@ string StringHelper::charToHexString(unsigned char inChar) {
 
 	retStr+= digitToHex(inChar % 16);
 	return retStr;
-
-
 }
+

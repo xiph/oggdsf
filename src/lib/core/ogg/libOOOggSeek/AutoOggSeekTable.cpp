@@ -151,6 +151,10 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 	}
 	mFilePos += inOggPage->pageSize();
 	//stDebug<<"File Pos : "<<mFilePos<<endl;
+
+	//Memory leak ::: Need to delete the page.
+	delete inOggPage;
+
 	return true;
 }
 

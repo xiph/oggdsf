@@ -34,6 +34,10 @@
 #include "abstractvideodllstuff.h"
 #include "BasicSeekable.h"
 
+#include <fstream>
+
+using namespace std;
+
 class AbstractVideoDecodeInputPin;
 class AbstractVideoDecodeOutputPin;
 
@@ -66,10 +70,15 @@ public:
 	int GetPinCount(void);
 
 	virtual STDMETHODIMP Stop();
+	virtual STDMETHODIMP Pause();
+	virtual STDMETHODIMP Run(REFERENCE_TIME tStart);
+
 	
 	unsigned short mVideoFormat;
 
 protected:
+
+	fstream debugLog;
 
 	AbstractVideoDecodeInputPin* mInputPin;
 	AbstractVideoDecodeOutputPin* mOutputPin;

@@ -60,7 +60,9 @@ public:
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	
+	//IMediaFilter OVerride - This lets us tell the graph we may not produce data in pause state so don't block.
+	virtual STDMETHODIMP GetState(DWORD dw, FILTER_STATE *pState);
+
 	
 
 	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter

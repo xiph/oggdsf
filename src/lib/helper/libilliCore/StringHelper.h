@@ -51,4 +51,6 @@ public:
 	static wstring StringHelper::toWStr(string inString);
 	static string StringHelper::toNarrowStr(wstring inString);
 
+	//static string numToHexString(unsigned __int64 inNum, unsigned char inWidth);
+
 };

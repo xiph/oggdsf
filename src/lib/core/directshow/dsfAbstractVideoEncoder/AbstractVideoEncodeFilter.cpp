@@ -35,7 +35,7 @@ AbstractVideoEncodeFilter::AbstractVideoEncodeFilter(TCHAR* inFilterName, REFCLS
 	:	CBaseFilter(inFilterName, NULL,m_pLock, inFilterGUID),
 		mVideoFormat(inVideoFormat)
 {
-
+	
 	m_pLock = new CCritSec;
 	
 }
@@ -71,6 +71,8 @@ STDMETHODIMP AbstractVideoEncodeFilter::Stop() {
 	mInputPin->ResetFrameCount();
 	return CBaseFilter::Stop();
 }
+
+
 int AbstractVideoEncodeFilter::GetPinCount(void) {
 	const long NUM_PINS = 2;
 	return NUM_PINS;

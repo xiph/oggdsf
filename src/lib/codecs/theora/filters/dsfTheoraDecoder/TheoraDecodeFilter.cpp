@@ -91,7 +91,16 @@ CUnknown* WINAPI TheoraDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 	return pNewObject;
 } 
 
-
+STDMETHODIMP TheoraDecodeFilter::GetState(DWORD dw, FILTER_STATE *pState)
+{
+    CheckPointer(pState, E_POINTER);
+    *pState = m_State;
+	if (m_State == State_Paused) {
+        return VFW_S_CANT_CUE;
+	} else {
+        return S_OK;
+	}
+}
 
 //QUERY::: Do we need these ? Aren't we all friedns here ??
 //RESULT::: Keep them, set function must be kept... get could go... but keep for consistency

@@ -65,6 +65,7 @@ public:
 
 	virtual STDMETHODIMP Stop();
 	
+	
 	unsigned short mVideoFormat;
 
 protected:
