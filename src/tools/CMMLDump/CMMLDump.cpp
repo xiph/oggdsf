@@ -120,7 +120,7 @@ bool OggDataBufferProcessor::acceptOggPage (OggPage* inOggPage)
 
 					// Get the packet's time in seconds
 					LOOG_INT64 locPacketGranulePos = inOggPage->header()->GranulePos();
-					float locPacketStartTimeInSeconds = (float) locPacketGranulePos/ (float) 1000;
+					float locPacketStartTimeInSeconds = (float) locPacketGranulePos / (float) 1000;
 
 					// Let's make the CMML parsing library decide whether it's a <head>
 					// or <clip> tag -- after all, that's what it's there for :)
@@ -157,9 +157,6 @@ bool OggDataBufferProcessor::acceptOggPage (OggPage* inOggPage)
 						wcout << locPacketDataWString << endl;
 					}
 
-					if (locDidParseClip) {
-						cout << locPacketStartTimeInSeconds << " seconds:" << endl;
-					}
 					wcout << locCMMLTag->toString() << endl;
 
 					delete locCMMLTag;
@@ -197,6 +194,10 @@ int main(int argc, char * argv[])
 	locDataBuffer.registerVirtualCallback(locDataBufferProcessor);
 
 	fstream locInputFile;
+
+	// Output XML preabmel
+	cout << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" << endl;
+	cout << "<!DOCTYPE cmml SYSTEM \"cmml.dtd\">" << endl;
 
 	// Let's go!
 

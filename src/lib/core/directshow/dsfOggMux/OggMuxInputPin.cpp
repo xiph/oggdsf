@@ -31,6 +31,8 @@
 #include "stdafx.h"
 #include "oggmuxinputpin.h"
 
+#define OGGCODECS_LOGGING
+
 OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream)
 	:	CBaseInputPin(NAME("OggMuxInputPin"), inParentFilter, inFilterLock, inHR, L"Ogg Packet In")
 	,	mParentFilter(inParentFilter)
@@ -58,6 +60,12 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	//debugLog.open(x.c_str(), ios_base::out);
 	//locSettings->mSerialNo = 13130;
 	
+#ifdef OGGCODECS_LOGGING
+	debugLog.open("G:\\logs\\oggmuxinputpin.log", ios_base::out);
+#endif
+
+	debugLog << "OggMuxInputPin constructed" << endl;
+
 	mPaginator.setParameters(locSettings);
 	mPaginator.setPageCallback(mMuxStream);
 
@@ -66,7 +74,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 
 OggMuxInputPin::~OggMuxInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 }
 
 STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -84,6 +92,9 @@ STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv
 HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 	//debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
 	//debugLog<<"Set media type..."<<endl;
+	
+	debugLog << "OggMuxInputPin::SetMediaType called" << endl;
+
 	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_Theora)) {
 		//Theora
 		
@@ -127,6 +138,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 		
 	} else if (inMediaType->majortype == MEDIATYPE_Text) {
 		if (inMediaType->subtype == MEDIASUBTYPE_CMML) {
+			debugLog << "OggMuxInputPin::SetMediaType got to CMML" << endl;
 			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locCMML->granuleNumerator,locCMML->granuleDenominator, 10000000);
 			mMuxStream->setNumHeaders(1);

@@ -70,7 +70,7 @@ CUnknown* WINAPI AnxMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
 } 
 AnxMuxFilter::AnxMuxFilter(void)
 	:	OggMuxFilter(CLSID_AnxMuxFilter)
-	,	mAnxVersionMajor(2)
+	,	mAnxVersionMajor(3)
 	,	mAnxVersionMinor(0)
 {
 

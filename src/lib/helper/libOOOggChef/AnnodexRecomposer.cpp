@@ -35,6 +35,7 @@
 #include "stdafx.h"
 
 #include <libOOOggChef/AnnodexRecomposer.h>
+#include <libOOOggChef/CMMLRecomposer.h>
 #include <libOOOggChef/utils.h>
 
 #include <libOOOgg/libOOOgg.h>
@@ -50,7 +51,7 @@
 using namespace std;
 
 
-#undef DEBUG
+#define DEBUG
 
 /** You may optionally ask
 	AnnodexRecomposer to use a cached representation of the seek table (which is
@@ -95,6 +96,20 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 #endif
 
 	static const size_t BUFF_SIZE = 8192;
+
+	// Optimisation: If the client only wants CMML, and a file with .cmml
+	// exists, recompose from that instead of the original .anx file, which
+	// will be orders of magnitudes faster!
+	string locCMMLFilename = mFilename + ".cmml";
+	if (wantOnlyCMML(mWantedMIMETypes) && fileExists(locCMMLFilename)) {
+#ifdef DEBUG
+		mDebugFile << "Client wants CMML: " + locCMMLFilename + " exists" << endl;
+#endif
+		CMMLRecomposer *locCMMLRecomposer = new CMMLRecomposer(locCMMLFilename,
+			mBufferWriter, mBufferWriterUserData);
+		return locCMMLRecomposer->recomposeStreamFrom(inStartingTimeOffset,
+			inWantedMIMETypes);
+	}
 
 	// Turn the starting time offset into DirectSeconds
 	mRequestedStartTime = (LOOG_UINT64) inStartingTimeOffset * 10000000;

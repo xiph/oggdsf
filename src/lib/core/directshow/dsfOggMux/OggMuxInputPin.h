@@ -86,5 +86,5 @@ protected:
 	
 	OggPaginator mPaginator;
 	OggMuxStream* mMuxStream;
-	//fstream debugLog;
+	fstream debugLog;
 };

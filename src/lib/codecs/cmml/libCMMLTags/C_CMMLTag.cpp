@@ -93,11 +93,13 @@ wstring C_CMMLTag::escapeEntities(wstring inString)
 {
 	wstring retStr = inString;
 	//Do the ampersand first !!
+#if 0
 	retStr = replaceAll(retStr, L'&', L"&amp;");
 	retStr = replaceAll(retStr, L'<', L"&lt;");
 	retStr = replaceAll(retStr, L'>', L"&gt;");
 	retStr = replaceAll(retStr, L'"', L"&quot;");
 	retStr = replaceAll(retStr, L'\'', L"&apos;");
+#endif
 
 	return retStr;
 
