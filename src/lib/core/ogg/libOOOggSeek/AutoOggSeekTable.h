@@ -57,14 +57,18 @@ public:
 	static const LOOG_INT64 DS_UNITS = 10000000;
 	static const unsigned long LINT_MAX = 4294967295UL;
 
+	/// Builds the actual seek table: only works if we have random access to the file
 	virtual bool buildTable();
 
 	//IOggCallback interface
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
+	/// The duration of the file, in DirectShow time units
 	LOOG_INT64 fileDuration();
 
 	unsigned long serialisedSize();
+
+	/// Serialise the seek table into a memory buffer, which may be useful for e.g. caching
 	bool serialiseInto(unsigned char* inBuff, unsigned long inBuffSize);
 
 protected:

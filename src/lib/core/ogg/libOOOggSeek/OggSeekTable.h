@@ -48,6 +48,8 @@ public:
 	typedef pair<LOOG_INT64, unsigned long> tSeekPair;
 
 	bool addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos);
+
+	/// Given a requested seek time in nanoseconds, returns the closest time and byte to the seek time.
 	tSeekPair getStartPos(LOOG_INT64 inTime);
 	//LOOG_INT64 getRealStartPos();
 

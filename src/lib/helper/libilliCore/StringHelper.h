@@ -32,7 +32,9 @@
 #pragma once
 
 #include "illicoreconfig.h"
+
 #include <string>
+
 using namespace std;
 
 class StringHelper

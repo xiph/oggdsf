@@ -245,10 +245,13 @@ bool AutoOggSeekTable::serialiseInto(unsigned char* inBuff, unsigned long inBuff
 	}
 }
 
-LOOG_INT64 AutoOggSeekTable::fileDuration() {
+LOOG_INT64 AutoOggSeekTable::fileDuration()
+{
 	return mFileDuration;
 }
-bool AutoOggSeekTable::buildTable() {
+
+bool AutoOggSeekTable::buildTable()
+{
 	//HACK::: To ensure we don't try and build a table on the network file.
 	//debugLog<<"Anx Build table : "<<mFileName<<endl;
 	if (mFileName.find("http") != 0) {
