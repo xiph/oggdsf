@@ -110,12 +110,15 @@ FISHSOUND_LIBS = $(FISHSOUNDDIR)/libfishsound.la $(VORBIS_LIBS) $(SPEEX_LIBS)
 
 @FS_ENCODE_TRUE@encode_tests = comment-test
 
-@FS_DECODE_TRUE@@FS_ENCODE_TRUE@encdec_tests = encdec-comments encdec-audio
+@FS_DECODE_TRUE@@FS_ENCODE_TRUE@encdec_tests = noop encdec-comments encdec-audio
 
-TESTS = $(encode_tests) $(decode_tests) $(encdec_tests)
+TESTS = $(encode_tests) $(encdec_tests)
 
 noinst_PROGRAMS = $(TESTS)
 noinst_HEADERS = fs_tests.h
+
+noop_SOURCES = noop.c
+noop_LDADD = $(FISHSOUND_LIBS)
 
 comment_test_SOURCES = comment-test.c
 comment_test_LDADD = $(FISHSOUND_LIBS)
@@ -132,6 +135,7 @@ CONFIG_CLEAN_FILES =
 @FS_DECODE_FALSE@@FS_ENCODE_TRUE@noinst_PROGRAMS = comment-test$(EXEEXT)
 @FS_DECODE_FALSE@@FS_ENCODE_FALSE@noinst_PROGRAMS =
 @FS_DECODE_TRUE@@FS_ENCODE_TRUE@noinst_PROGRAMS = comment-test$(EXEEXT) \
+@FS_DECODE_TRUE@@FS_ENCODE_TRUE@	noop$(EXEEXT) \
 @FS_DECODE_TRUE@@FS_ENCODE_TRUE@	encdec-comments$(EXEEXT) \
 @FS_DECODE_TRUE@@FS_ENCODE_TRUE@	encdec-audio$(EXEEXT)
 @FS_DECODE_TRUE@@FS_ENCODE_FALSE@noinst_PROGRAMS =
@@ -149,6 +153,10 @@ am_encdec_comments_OBJECTS = encdec-comments.$(OBJEXT)
 encdec_comments_OBJECTS = $(am_encdec_comments_OBJECTS)
 encdec_comments_DEPENDENCIES = $(FISHSOUNDDIR)/libfishsound.la
 encdec_comments_LDFLAGS =
+am_noop_OBJECTS = noop.$(OBJEXT)
+noop_OBJECTS = $(am_noop_OBJECTS)
+noop_DEPENDENCIES = $(FISHSOUNDDIR)/libfishsound.la
+noop_LDFLAGS =
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -159,7 +167,7 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/comment-test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/encdec-audio.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/encdec-comments.Po
+@AMDEP_TRUE@	./$(DEPDIR)/encdec-comments.Po ./$(DEPDIR)/noop.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
@@ -169,11 +177,11 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 DIST_SOURCES = $(comment_test_SOURCES) $(encdec_audio_SOURCES) \
-	$(encdec_comments_SOURCES)
+	$(encdec_comments_SOURCES) $(noop_SOURCES)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
-SOURCES = $(comment_test_SOURCES) $(encdec_audio_SOURCES) $(encdec_comments_SOURCES)
+SOURCES = $(comment_test_SOURCES) $(encdec_audio_SOURCES) $(encdec_comments_SOURCES) $(noop_SOURCES)
 
 all: all-am
 
@@ -200,6 +208,9 @@ encdec-audio$(EXEEXT): $(encdec_audio_OBJECTS) $(encdec_audio_DEPENDENCIES)
 encdec-comments$(EXEEXT): $(encdec_comments_OBJECTS) $(encdec_comments_DEPENDENCIES) 
 	@rm -f encdec-comments$(EXEEXT)
 	$(LINK) $(encdec_comments_LDFLAGS) $(encdec_comments_OBJECTS) $(encdec_comments_LDADD) $(LIBS)
+noop$(EXEEXT): $(noop_OBJECTS) $(noop_DEPENDENCIES) 
+	@rm -f noop$(EXEEXT)
+	$(LINK) $(noop_LDFLAGS) $(noop_OBJECTS) $(noop_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -210,6 +221,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/comment-test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/encdec-audio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/encdec-comments.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/noop.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

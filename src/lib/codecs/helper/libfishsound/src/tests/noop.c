@@ -32,26 +32,56 @@
 
 #include "config.h"
 
-/* WINDOWS */
-#ifdef _WIN32
-#define inline __inline
-#define alloca _alloca
-#define strncasecmp _strnicmp
-#define snprintf _snprintf
-#ifndef __SYMBIAN32__
-#define strcasecmp _stricmp
-#endif /* ! __SYMBIAN32__ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <fishsound/fishsound.h>
+
+#include "fs_tests.h"
+
+static FishSound * fsound;
+
+static int
+noop_test (int format)
+{
+  FishSoundInfo fsinfo;
+
+  fsinfo.samplerate = 16000;
+  fsinfo.channels = 1;
+  fsinfo.format = format;
+
+#if FS_ENCODE
+  INFO ("+ Creating new FishSound (encode)");
+  fsound = fish_sound_new (FISH_SOUND_ENCODE, &fsinfo);
+
+  INFO ("+ Deleting FishSound (encode)");
+  fish_sound_delete (fsound);
+#endif /* FS_ENCODE */
+
+#if FS_DECODE
+  INFO ("+ Creating new FishSound (decode)");
+  fsound = fish_sound_new (FISH_SOUND_DECODE, &fsinfo);
+
+  INFO ("+ Deleteing FishSound (decode)");
+  fish_sound_delete (fsound);
 #endif
 
-/* malloc/realloc/free macros */
-#ifndef fs_malloc
-#define fs_malloc malloc
+  return 0;
+}
+
+int
+main (int argc, char * argv[])
+{
+#if HAVE_VORBIS
+  INFO ("Testing new/delete for Vorbis");
+  noop_test (FISH_SOUND_VORBIS);
 #endif
 
-#ifndef fs_realloc
-#define fs_realloc realloc
+#if HAVE_SPEEX
+  INFO ("Testing new/delete for Speex");
+  noop_test (FISH_SOUND_SPEEX);
 #endif
 
-#ifndef fs_free
-#define fs_free free
-#endif
+  exit (0);
+}

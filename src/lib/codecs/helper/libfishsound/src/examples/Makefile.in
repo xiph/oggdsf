@@ -110,14 +110,16 @@ INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/src/libfishsound \
 FISHSOUNDDIR = ../libfishsound
 FISHSOUND_LIBS = $(FISHSOUNDDIR)/libfishsound.la $(VORBIS_LIBS) $(SPEEX_LIBS)
 
-@HAVE_OGGZ_TRUE@oggz_examples = fishsound-identify fishsound-info
+@HAVE_OGGZ_TRUE@oggz_examples = fishsound-identify fishsound-info fishsound-decenc
+
+@HAVE_LIBSNDFILE1_TRUE@sndfile_examples = fishsound-encdec
 
 @HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@oggz_sndfile_examples = fishsound-decode fishsound-encode
 
 # Programs to build
-noinst_PROGRAMS = $(oggz_examples) $(oggz_sndfile_examples)
+noinst_PROGRAMS = $(oggz_examples) $(sndfile_examples) $(oggz_sndfile_examples)
 
-#bin_PROGRAMS = $(oggz_examples) $(oggz_sndfile_examples)
+#bin_PROGRAMS = $(oggz_examples) $(sndfile_examples) $(oggz_sndfile_examples)
 fishsound_identify_SOURCES = fishsound-identify.c
 fishsound_identify_LDADD = $(FISHSOUND_LIBS) $(OGGZ_LIBS)
 
@@ -129,26 +131,44 @@ fishsound_decode_LDADD = $(FISHSOUND_LIBS) $(OGGZ_LIBS) $(SNDFILE_LIBS)
 
 fishsound_encode_SOURCES = fishsound-encode.c
 fishsound_encode_LDADD = $(FISHSOUND_LIBS) $(OGGZ_LIBS) $(SNDFILE_LIBS)
+
+fishsound_decenc_SOURCES = fishsound-decenc.c
+fishsound_decenc_LDADD = $(FISHSOUND_LIBS) $(OGGZ_LIBS)
+
+fishsound_encdec_SOURCES = fishsound-encdec.c
+fishsound_encdec_LDADD = $(FISHSOUND_LIBS) $(SNDFILE_LIBS)
 subdir = src/examples
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 @HAVE_LIBSNDFILE1_FALSE@@HAVE_OGGZ_TRUE@noinst_PROGRAMS = \
 @HAVE_LIBSNDFILE1_FALSE@@HAVE_OGGZ_TRUE@	fishsound-identify$(EXEEXT) \
-@HAVE_LIBSNDFILE1_FALSE@@HAVE_OGGZ_TRUE@	fishsound-info$(EXEEXT)
+@HAVE_LIBSNDFILE1_FALSE@@HAVE_OGGZ_TRUE@	fishsound-info$(EXEEXT) \
+@HAVE_LIBSNDFILE1_FALSE@@HAVE_OGGZ_TRUE@	fishsound-decenc$(EXEEXT)
 @HAVE_LIBSNDFILE1_FALSE@@HAVE_OGGZ_FALSE@noinst_PROGRAMS =
 @HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@noinst_PROGRAMS = \
 @HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@	fishsound-identify$(EXEEXT) \
 @HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@	fishsound-info$(EXEEXT) \
+@HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@	fishsound-decenc$(EXEEXT) \
+@HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@	fishsound-encdec$(EXEEXT) \
 @HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@	fishsound-decode$(EXEEXT) \
 @HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_TRUE@	fishsound-encode$(EXEEXT)
-@HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_FALSE@noinst_PROGRAMS =
+@HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_FALSE@noinst_PROGRAMS = \
+@HAVE_LIBSNDFILE1_TRUE@@HAVE_OGGZ_FALSE@	fishsound-encdec$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
+am_fishsound_decenc_OBJECTS = fishsound-decenc.$(OBJEXT)
+fishsound_decenc_OBJECTS = $(am_fishsound_decenc_OBJECTS)
+fishsound_decenc_DEPENDENCIES = $(FISHSOUNDDIR)/libfishsound.la
+fishsound_decenc_LDFLAGS =
 am_fishsound_decode_OBJECTS = fishsound-decode.$(OBJEXT)
 fishsound_decode_OBJECTS = $(am_fishsound_decode_OBJECTS)
 fishsound_decode_DEPENDENCIES = $(FISHSOUNDDIR)/libfishsound.la
 fishsound_decode_LDFLAGS =
+am_fishsound_encdec_OBJECTS = fishsound-encdec.$(OBJEXT)
+fishsound_encdec_OBJECTS = $(am_fishsound_encdec_OBJECTS)
+fishsound_encdec_DEPENDENCIES = $(FISHSOUNDDIR)/libfishsound.la
+fishsound_encdec_LDFLAGS =
 am_fishsound_encode_OBJECTS = fishsound-encode.$(OBJEXT)
 fishsound_encode_OBJECTS = $(am_fishsound_encode_OBJECTS)
 fishsound_encode_DEPENDENCIES = $(FISHSOUNDDIR)/libfishsound.la
@@ -169,7 +189,9 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/fishsound-decode.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/fishsound-decenc.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fishsound-decode.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fishsound-encdec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fishsound-encode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fishsound-identify.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fishsound-info.Po
@@ -181,10 +203,11 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = $(fishsound_decode_SOURCES) $(fishsound_encode_SOURCES) \
+DIST_SOURCES = $(fishsound_decenc_SOURCES) $(fishsound_decode_SOURCES) \
+	$(fishsound_encdec_SOURCES) $(fishsound_encode_SOURCES) \
 	$(fishsound_identify_SOURCES) $(fishsound_info_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(fishsound_decode_SOURCES) $(fishsound_encode_SOURCES) $(fishsound_identify_SOURCES) $(fishsound_info_SOURCES)
+SOURCES = $(fishsound_decenc_SOURCES) $(fishsound_decode_SOURCES) $(fishsound_encdec_SOURCES) $(fishsound_encode_SOURCES) $(fishsound_identify_SOURCES) $(fishsound_info_SOURCES)
 
 all: all-am
 
@@ -202,9 +225,15 @@ clean-noinstPROGRAMS:
 	  echo " rm -f $$p $$f"; \
 	  rm -f $$p $$f ; \
 	done
+fishsound-decenc$(EXEEXT): $(fishsound_decenc_OBJECTS) $(fishsound_decenc_DEPENDENCIES) 
+	@rm -f fishsound-decenc$(EXEEXT)
+	$(LINK) $(fishsound_decenc_LDFLAGS) $(fishsound_decenc_OBJECTS) $(fishsound_decenc_LDADD) $(LIBS)
 fishsound-decode$(EXEEXT): $(fishsound_decode_OBJECTS) $(fishsound_decode_DEPENDENCIES) 
 	@rm -f fishsound-decode$(EXEEXT)
 	$(LINK) $(fishsound_decode_LDFLAGS) $(fishsound_decode_OBJECTS) $(fishsound_decode_LDADD) $(LIBS)
+fishsound-encdec$(EXEEXT): $(fishsound_encdec_OBJECTS) $(fishsound_encdec_DEPENDENCIES) 
+	@rm -f fishsound-encdec$(EXEEXT)
+	$(LINK) $(fishsound_encdec_LDFLAGS) $(fishsound_encdec_OBJECTS) $(fishsound_encdec_LDADD) $(LIBS)
 fishsound-encode$(EXEEXT): $(fishsound_encode_OBJECTS) $(fishsound_encode_DEPENDENCIES) 
 	@rm -f fishsound-encode$(EXEEXT)
 	$(LINK) $(fishsound_encode_LDFLAGS) $(fishsound_encode_OBJECTS) $(fishsound_encode_LDADD) $(LIBS)
@@ -221,7 +250,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fishsound-decenc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fishsound-decode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fishsound-encdec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fishsound-encode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fishsound-identify.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fishsound-info.Po@am__quote@

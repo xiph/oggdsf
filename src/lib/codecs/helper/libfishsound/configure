@@ -1808,7 +1808,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=libfishsound
- VERSION=0.6.2
+ VERSION=0.6.3
 
 
 cat >>confdefs.h <<_ACEOF
@@ -19299,6 +19299,16 @@ _ACEOF
     VORBIS_SUPPORT="decode only"
   fi
 else
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_VORBIS 0
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_VORBISENC 0
+_ACEOF
+
   VORBIS_SUPPORT="disabled"
 fi
 
@@ -19757,6 +19767,11 @@ _ACEOF
 
   fi
 else
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_SPEEX 0
+_ACEOF
+
   SPEEX_SUPPORT=disabled
 fi
 
