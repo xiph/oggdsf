@@ -4,7 +4,7 @@
 
 using namespace std;
 #include "IFilterDataSource.h"
-class FilterFileSource
+class OGG_DEMUX_API FilterFileSource
 	:	public IFilterDataSource
 {
 public:

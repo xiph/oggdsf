@@ -1,6 +1,6 @@
 #pragma once
 
-class IFilterDataSource
+class OGG_DEMUX_API IFilterDataSource
 {
 public:
 	virtual unsigned long seek(unsigned long inPos) = 0;

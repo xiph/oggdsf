@@ -36,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib Strmiids.lib  Quartz.lib"
+				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib Strmiids.lib  Quartz.lib wsock32.lib"
 				ShowProgress="2"
 				OutputFile="$(OutDir)/dsfOggDemux.dll"
 				LinkIncremental="2"

@@ -6,6 +6,7 @@ adding seeking to theora.
 
 In order to build these...
 
+
 You need visual studio 2002 or 2003. There are no VC6 files.
 
 You need NASM for FLAC to build. (lifes easier if it's at C:\NASM)
