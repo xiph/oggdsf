@@ -93,6 +93,7 @@ protected:
 	bool mSendExcess;
 
 	__int64 mLastEndGranulePos;
+	__int64 mLastStartGranulePos;
 
 	OggDemuxSourcePin* mSourcePin;
 	OggDemuxSourceFilter* mOwningFilter;
