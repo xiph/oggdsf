@@ -48,18 +48,18 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 	,	mLastIsSeekable(false)
 
 {
-	
+
 	mFileName = inFileName;
 	mOggDemux = new OggDataBuffer(true);			//Deleted in destructor.
 	mOggDemux->registerVirtualCallback(this);
-	debugLog.open("G:\\logs\\seektable.log", ios_base::out);
-	debugLog<<"Constructing seek table for "<<inFileName<<endl;
+	//debugLog.open("G:\\logs\\seektable.log", ios_base::out);
+	//debugLog<<"Constructing seek table for "<<inFileName<<endl;
 }
 
 AutoOggSeekTable::~AutoOggSeekTable(void)
 {
-	debugLog<<"Closing file (Constructor)..."<<endl;
-	debugLog.close();
+	//debugLog<<"Closing file (Constructor)..."<<endl;
+	//debugLog.close();
 	mFile.close();
 	delete mOggDemux;
 }
@@ -117,19 +117,19 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 				}
 			}
 		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(),  "\177FLAC", 5) == 0)) {
-			debugLog<<"Identified new flac..."<<endl;
+			//debugLog<<"Identified new flac..."<<endl;
 			//mPacketCount--;
 			//POTENTIAL BUG::: Only looks at low order byte
 			mNumHeaders = inOggPage->getPacket(0)->packetData()[8] + 1;
-			debugLog<<"Header says there are this many headers "<<mNumHeaders<<endl;
+			//debugLog<<"Header says there are this many headers "<<mNumHeaders<<endl;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			if (mNumHeaders == 0) {
 				//Variable number of headers... need to pick it up again...
-				debugLog<<"Variable number of headers... 1 so far..."<<endl;
+				//debugLog<<"Variable number of headers... 1 so far..."<<endl;
 				mNumHeaders = 1;
                 isOggFLAC_1_0 = true;
 			} else {
-				debugLog<<"Fixed number of headers..."<<endl;
+				//debugLog<<"Fixed number of headers..."<<endl;
 				mFoundStreamInfo = true;
 			}
 			mSampleRate = iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 27) >> 12;
@@ -171,11 +171,11 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 
 	if ((mFoundStreamInfo) && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) && (inOggPage->header()->GranulePos() != -1)) {
 		//if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
-		debugLog<<"Stream headers complete..."<<endl;
-		debugLog<<"Num Headers = "<<mNumHeaders<<endl;
-		debugLog<<"Packet COunt = "<<mPacketCount<<endl;
+		//debugLog<<"Stream headers complete..."<<endl;
+		//debugLog<<"Num Headers = "<<mNumHeaders<<endl;
+		//debugLog<<"Packet COunt = "<<mPacketCount<<endl;
 		if ((mPacketCount > mNumHeaders) && ((inOggPage->header()->HeaderFlags() & 1) != 1)) {
-			debugLog<<"Adding seek point Time = "<<mLastSeekTime<<"  --  File pos = "<<mFilePos<<endl;
+			//debugLog<<"Adding seek point Time = "<<mLastSeekTime<<"  --  File pos = "<<mFilePos<<endl;
 			addSeekPoint(mLastSeekTime, mFilePos);
 			
 		}
@@ -220,7 +220,7 @@ bool AutoOggSeekTable::buildTable() {
 	//debugLog<<"Anx Build table : "<<mFileName<<endl;
 	if (mFileName.find("http") != 0) {
 		
-		debugLog<<"Opening file... "<<endl;
+		//debugLog<<"Opening file... "<<endl;
 		mFile.open(mFileName.c_str(), ios_base::in | ios_base::binary);
 		const unsigned long BUFF_SIZE = 4096;
 		unsigned char* locBuff = new unsigned char[BUFF_SIZE];		//Deleted this function.
@@ -229,11 +229,11 @@ bool AutoOggSeekTable::buildTable() {
 			mOggDemux->feed((const unsigned char*)locBuff, mFile.gcount());
 		}
 		delete[] locBuff;
-		debugLog<<"Closing File..."<<endl;
+		//debugLog<<"Closing File..."<<endl;
 		mFile.close();
 		
 	} else {
-		debugLog<<"Not SEEKABLE"<<endl;
+		//debugLog<<"Not SEEKABLE"<<endl;
 		mEnabled = false;
 		mSampleRate = 1;
 	}

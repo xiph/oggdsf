@@ -41,7 +41,7 @@ OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	,	mConvScaleFactor(1)
 	,	mConvTheoraLogKeyFrameInterval(0)
 {
-	debugLog.open("G:\\logs\\oggmuxstream.log", ios_base::out);
+	//debugLog.open("G:\\logs\\oggmuxstream.log", ios_base::out);
 }
 
 OggMuxStream::~OggMuxStream(void)

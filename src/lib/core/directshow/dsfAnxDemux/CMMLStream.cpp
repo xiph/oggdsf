@@ -40,7 +40,7 @@ CMMLStream::CMMLStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter,
 	,	mCMMLFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
-	debugLog.open("G:\\logs\\cmmlstream.log", ios_base::out);
+	//debugLog.open("G:\\logs\\cmmlstream.log", ios_base::out);
 }
 
 CMMLStream::~CMMLStream(void)

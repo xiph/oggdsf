@@ -50,8 +50,8 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
-	string locLogName = "G:\\logs\\oggstream" + StringHelper::numToString(mSerialNo) + ".log";
-	debugLog.open(locLogName.c_str(), ios_base::out);
+	//string locLogName = "G:\\logs\\oggstream" + StringHelper::numToString(mSerialNo) + ".log";
+	//debugLog.open(locLogName.c_str(), ios_base::out);
 	mStreamLock = new CCritSec;
 	//This may need to be moved to derived class
 	//Yep, Sure did !
@@ -65,7 +65,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 OggStream::~OggStream(void)
 {
 	//debugLog<<"Destructor..."<<endl;
-	debugLog.close();
+	//debugLog.close();
 	delete mSourcePin;
 	delete mCodecHeaders;
 	//delete mPartialPacket;
@@ -101,7 +101,7 @@ bool OggStream::acceptStampedOggPacket(StampedOggPacket* inPacket) {
 		if (mAllowDispatch) {
 			if (mFirstRun) {
 				mFirstRun = false;
-				debugLog<<"Delviering codec headers..."<<endl;
+				//debugLog<<"Delviering codec headers..."<<endl;
 				//Deliver the header data
 				deliverCodecHeaders();
 			}		
@@ -125,10 +125,10 @@ bool OggStream::processHeaderPacket(StampedOggPacket* inPacket) {
 	//StampedOggPacket* locPacket = processPacket(inPacket);
 	if (inPacket != NULL) {
 		//We got a comlpete packet
-		debugLog<<"Adding codec header..."<<endl;
+		//debugLog<<"Adding codec header..."<<endl;
 		mCodecHeaders->addPacket(inPacket);
 		mNumHeadersNeeded--;
-		debugLog<<"Headers still needed = "<<mNumHeadersNeeded<<endl;
+		//debugLog<<"Headers still needed = "<<mNumHeadersNeeded<<endl;
 	}
 	return true;
 }
@@ -168,7 +168,7 @@ CMediaType* OggStream::createMediaType(GUID inMajorType, GUID inSubType, GUID in
 
 unsigned long OggStream::numCodecHeaders() {
 	//TODO::: Check for null.
-	debugLog<<"Num codec headers = "<<mCodecHeaders->numPackets()<<endl;
+	//debugLog<<"Num codec headers = "<<mCodecHeaders->numPackets()<<endl;
 	return mCodecHeaders->numPackets();
 }
 void OggStream::flush() {
@@ -184,7 +184,7 @@ void OggStream::flush(unsigned short inNumPacketsToIgnore) {
 	//delete mPartialPacket;
 	//TODO::: Tell the packetiser to flush.
 	//mPartialPacket = NULL;
-	debugLog<<"Flush and ignore "<<inNumPacketsToIgnore<<endl;
+	//debugLog<<"Flush and ignore "<<inNumPacketsToIgnore<<endl;
 	mPacketiser.reset();
 	mPacketiser.setNumIgnorePackets(inNumPacketsToIgnore);
 }
@@ -219,10 +219,10 @@ void OggStream::setLastEndGranPos(__int64 inGranPos) {
 }
 bool OggStream::acceptOggPage(OggPage* inOggPage) {		//Gives away page.
 	
-	debugLog<<"Accepting ogg page..."<<endl;
+	//debugLog<<"Accepting ogg page..."<<endl;
 	//Chaining hack for icecast.
 	if ( (!mAllowSeek) && (inOggPage->header()->isBOS() )) {
-		debugLog<<"ice case hack"<<endl;
+		//debugLog<<"ice case hack"<<endl;
 		//A BOS page can only be sent here if it's a chain... otherwise
 		// it would have already been stripped by the demux if it was at the
 		// start of the file.
@@ -260,7 +260,7 @@ bool OggStream::deliverCodecHeaders() {
 
 //ANX::: Maybe also needs override. ??
 bool OggStream::dispatchPacket(StampedOggPacket* inPacket) {
-	debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
+	//debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
 	return mSourcePin->deliverOggPacket(inPacket);
 }
 

@@ -60,7 +60,7 @@ bool OggFLAC_1_0_Stream::InitCodec(StampedOggPacket* inOggPacket) {
 	// specifies the number of headers, we can count directly, otherwise we stll use the old
 	// method for maximum compatability.
 	mNumHeadersNeeded = iBE_Math::charArrToUShort(inOggPacket->packetData() + 7);
-	debugLog<<"Num FLAC Headers needed = "<<mNumHeadersNeeded<<endl;
+	//debugLog<<"Num FLAC Headers needed = "<<mNumHeadersNeeded<<endl;
 	if (mNumHeadersNeeded == 0) {
 		//Variable number
 		// Use the old method of setting this to 1, and then decrementing it when we see the last one.
@@ -135,7 +135,7 @@ void OggFLAC_1_0_Stream::setLastEndGranPos(__int64 inPos) {
 	mLastEndGranulePos = (inPos * (__int64)mFLACFormatBlock->samplesPerSec)/ UNITS;
 }
 bool OggFLAC_1_0_Stream::deliverCodecHeaders() {
-	debugLog<<"Delivering Codec Headers... "<<mCodecHeaders->numPackets()<<endl;
+	//debugLog<<"Delivering Codec Headers... "<<mCodecHeaders->numPackets()<<endl;
 	StampedOggPacket* locPacket = NULL;
 	for (unsigned long i = 0; i < mCodecHeaders->numPackets(); i++) {
 		if (i==0) {

@@ -78,6 +78,6 @@ protected:
 	//Changed for debugging to *
 	OggDataBuffer* mOggDemux;
 
-	fstream debugLog;
+	//fstream debugLog;
 
 };

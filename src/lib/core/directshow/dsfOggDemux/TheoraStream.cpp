@@ -36,7 +36,7 @@ TheoraStream::TheoraStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFil
 	,	mTheoraFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
-	debugLog.open("G:\\logs\\theorastream.log", ios_base::out);
+	//debugLog.open("G:\\logs\\theorastream.log", ios_base::out);
 }
 
 TheoraStream::~TheoraStream(void)

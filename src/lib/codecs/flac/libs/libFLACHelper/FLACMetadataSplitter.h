@@ -61,5 +61,5 @@ protected:
 
 	bool splitMetadata();
 
-	fstream debugLog;
+	//fstream debugLog;
 };

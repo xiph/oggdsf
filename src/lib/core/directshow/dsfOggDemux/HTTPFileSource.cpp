@@ -35,8 +35,8 @@ HTTPFileSource::HTTPFileSource(void)
 	:	mBufferLock(NULL)
 {
 	mBufferLock = new CCritSec;
-	debugLog.open("G:\\logs\\httpdebug.log", ios_base::out | ios_base::ate | ios_base::app);
-	debugLog<<"==========================================="<<endl;
+	//debugLog.open("G:\\logs\\httpdebug.log", ios_base::out | ios_base::ate | ios_base::app);
+	//debugLog<<"==========================================="<<endl;
 	//fileDump.open("G:\\filedump.ogg", ios_base::out|ios_base::binary);
 
 
@@ -46,10 +46,10 @@ HTTPFileSource::HTTPFileSource(void)
 
 HTTPFileSource::~HTTPFileSource(void)
 {
-	debugLog<<"About to close socket"<<endl;
+	//debugLog<<"About to close socket"<<endl;
 	close();
-	debugLog<<"Winsock ended"<<endl;
-	debugLog.close();
+	//debugLog<<"Winsock ended"<<endl;
+	//debugLog.close();
 	//fileDump.close();
 	delete mBufferLock;
 	
@@ -64,7 +64,7 @@ void HTTPFileSource::DataProcessLoop() {
 	locBuff = new char[RECV_BUFF_SIZE];
 	while(true) {
 		if(CheckRequest(&locCommand) == TRUE) {
-			debugLog<<"Thread Data Process loop received breakout signal..."<<endl;
+			//debugLog<<"Thread Data Process loop received breakout signal..."<<endl;
 			delete[] locBuff;
 			return;
 		}
@@ -73,13 +73,13 @@ void HTTPFileSource::DataProcessLoop() {
 		//debugLog<<"recv complete"<<endl;
 		if (locNumRead == SOCKET_ERROR) {
 			int locErr = WSAGetLastError();
-			debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
+			//debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
 			mWasError = true;
 			break;
 		}
 
 		if (locNumRead == 0) {
-			debugLog<<"Read last bytes..."<<endl;
+			//debugLog<<"Read last bytes..."<<endl;
 			mIsEOF = true;
 			delete[] locBuff;
 			return;
@@ -180,16 +180,16 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 
 void HTTPFileSource::close() {
 	//Killing thread
-	debugLog<<"HTTPFileSource::close()"<<endl;
+	//debugLog<<"HTTPFileSource::close()"<<endl;
 	if (ThreadExists() == TRUE) {
-		debugLog<<"Calling Thread to EXIT"<<endl;
+		//debugLog<<"Calling Thread to EXIT"<<endl;
 		CallWorker(THREAD_EXIT);
-		debugLog<<"Killing thread..."<<endl;
+		//debugLog<<"Killing thread..."<<endl;
 		Close();
-		debugLog<<"After Close called on CAMThread"<<endl;
+		//debugLog<<"After Close called on CAMThread"<<endl;
 	}
 	
-	debugLog<<"Closing socket..."<<endl;
+	//debugLog<<"Closing socket..."<<endl;
 	//Close the socket down.
 	closeSocket();
 }
@@ -206,7 +206,7 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	//
 	mSeenResponse = false;
 	mLastResponse = "";
-	debugLog<<"Open: "<<inSourceLocation<<endl;
+	//debugLog<<"Open: "<<inSourceLocation<<endl;
 
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
@@ -232,7 +232,7 @@ bool HTTPFileSource::open(string inSourceLocation) {
 		
 		locCacheFileName += StringHelper::numToString(locRand);
 		locCacheFileName += ".ogg";
-		debugLog<<"Cache file  = "<<locCacheFileName<<endl;
+		//debugLog<<"Cache file  = "<<locCacheFileName<<endl;
 		if(mFileCache.open(locCacheFileName)) {
 			//debugLog<<"OPEN : Cach file opened"<<endl;
 		}
@@ -241,16 +241,16 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	bool locIsOK = setupSocket(inSourceLocation);
 
 	if (!locIsOK) {
-		debugLog<<"Setup socket FAILED"<<endl;
+		//debugLog<<"Setup socket FAILED"<<endl;
 		closeSocket();
 		return false;
 	}
 
-	debugLog<<"Sending request..."<<endl;
+	//debugLog<<"Sending request..."<<endl;
 
 	//How is filename already set ??
 	httpRequest(assembleRequest(mFileName));
-	debugLog<<"Socket ok... starting thread"<<endl;
+	//debugLog<<"Socket ok... starting thread"<<endl;
 	locIsOK = startThread();
 
 
@@ -269,7 +269,7 @@ bool HTTPFileSource::isEOF() {
 
 		//debugLog<<"isEOF : Amount Buffered avail = "<<locSizeBuffed<<endl;
 		if ((locSizeBuffed == 0) && mIsEOF) {
-			debugLog<<"isEOF : It is EOF"<<endl;
+			//debugLog<<"isEOF : It is EOF"<<endl;
 			return true;
 		} else {
 			//debugLog<<"isEOF : It's not EOF"<<endl;

@@ -67,12 +67,12 @@ AnxDemuxSourceFilter::AnxDemuxSourceFilter(void)
 	:	OggDemuxSourceFilter(CLSID_AnxDemuxSourceFilter)
 {
 	mStreamMapper = new AnxStreamMapper(this);
-	anxDebug.open("G:\\logs\\anxdemux.log", ios_base::out);
+	//anxDebug.open("G:\\logs\\anxdemux.log", ios_base::out);
 }
 
 AnxDemuxSourceFilter::~AnxDemuxSourceFilter(void)
 {
-	anxDebug<<"Deconstructing anx filter"<<endl;
+	//anxDebug<<"Deconstructing anx filter"<<endl;
 }
 
 
@@ -81,13 +81,13 @@ STDMETHODIMP AnxDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
-	anxDebug<<"Anx opens : "<<StringHelper::toNarrowStr(mFileName)<<endl;
+	//anxDebug<<"Anx opens : "<<StringHelper::toNarrowStr(mFileName)<<endl;
 
 	//ANX::: Needs to override ??? Or just modify the seeker.
 	mSeekTable = new AutoAnxSeekTable(StringHelper::toNarrowStr(mFileName));
 	
-	anxDebug<<"After seek table instantiation"<<endl;
+	//anxDebug<<"After seek table instantiation"<<endl;
 	mSeekTable->buildTable();
-	anxDebug<<"After build table..."<<endl;
+	//anxDebug<<"After build table..."<<endl;
 	return SetUpPins();
 }

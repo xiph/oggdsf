@@ -65,6 +65,8 @@ CBasePin* AbstractAudioEncodeFilter::GetPin(int inPinNo) {
 		return mInputPin;
 	} else if (inPinNo == 1) {
 		return mOutputPin;
+	} else {
+		return NULL;
 	}
 }
 

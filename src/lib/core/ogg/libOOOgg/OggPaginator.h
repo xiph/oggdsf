@@ -84,7 +84,7 @@ protected:
 	OggPage* mPendingPage;
 
 	unsigned char* mHeaderBuff;
-	fstream debugLog;
+	//fstream debugLog;
 
 private:
 	OggPaginator& operator=(const OggPaginator& other);  /* Don't assign me */

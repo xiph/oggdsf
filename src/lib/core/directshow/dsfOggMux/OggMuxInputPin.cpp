@@ -58,7 +58,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 
 OggMuxInputPin::~OggMuxInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 }
 
 STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -74,20 +74,20 @@ STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv
 
 
 HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
-	debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
-	debugLog<<"Set media type..."<<endl;
+	//debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
+	//debugLog<<"Set media type..."<<endl;
 	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_Theora)) {
 		//Theora
 		
 		sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
-		debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
+		//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
 		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
 		mPaginator.setNumHeaders(3);
 	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
 			//Vorbis
 			sVorbisFormatBlock* locVorbis = (sVorbisFormatBlock*)inMediaType->pbFormat;
-			debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
+			//debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
 			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
 			mPaginator.setNumHeaders(3);
 			
@@ -100,7 +100,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			//We are connected to the encoder nd getting individual metadata packets.
 			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
-			debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
+			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			//mNeedsFLACHeaderTweak = true;
 			mNeedsFLACHeaderCount = true;
 		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
@@ -108,7 +108,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			// Need to use the header splitter class.
 			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
-			debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
+			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			mNeedsFLACHeaderTweak = true;
 		} 
 
@@ -214,17 +214,17 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 		//This could be to mux multi stream flac.
 		//Alternatively this configuration could be used to convert the old format to the new.
 
-		debugLog<<"In the header tweak section..."<<endl;
+		//debugLog<<"In the header tweak section..."<<endl;
 		FLACMetadataSplitter* locFLACSplitter = new FLACMetadataSplitter;
 
-		debugLog<<"Feeding metadata..."<<endl;
+		//debugLog<<"Feeding metadata..."<<endl;
 		locFLACSplitter->loadMetadata(locPacket->clone());
 		
 		//delete locPacket;		//Don't delete the splitter will delete when it's done.
 
 		for (int i = 0; i < locFLACSplitter->numHeaders(); i++) {
-			debugLog<<"Giving pager, packet "<<i<<endl;
-			debugLog<<locFLACSplitter->getHeader(i)->toPackDumpString()<<endl;		//This is a leak !!
+			//debugLog<<"Giving pager, packet "<<i<<endl;
+			//debugLog<<locFLACSplitter->getHeader(i)->toPackDumpString()<<endl;		//This is a leak !!
 			if (i==0) {
 				//Set the number of headers in the paginator for FLAC classic.
 				StampedOggPacket* locHeadPack = locFLACSplitter->getHeader(i);
@@ -232,17 +232,17 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 				delete locHeadPack;
 			}
 			mPaginator.acceptStampedOggPacket(locFLACSplitter->getHeader(i));		//This get function returns our copy which we give away.
-			debugLog<<"After paginator feed..."<<endl;
+			//debugLog<<"After paginator feed..."<<endl;
 		}
 		mNeedsFLACHeaderTweak = false;
-		debugLog<<"Pre delete of splitter..."<<endl;
+		//debugLog<<"Pre delete of splitter..."<<endl;
 		delete locFLACSplitter;
-		debugLog<<"Post delete of splitter"<<endl;
+		//debugLog<<"Post delete of splitter"<<endl;
 
 	} else {
 		//Not truncated or contuned... its a full packet.
 		
-		debugLog<<"Normal add packet..."<<endl;
+		//debugLog<<"Normal add packet..."<<endl;
 		mPaginator.acceptStampedOggPacket(locPacket);
 	}
 

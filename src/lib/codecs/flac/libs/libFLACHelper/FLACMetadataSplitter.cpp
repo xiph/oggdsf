@@ -35,14 +35,14 @@
 FLACMetadataSplitter::FLACMetadataSplitter(void)
 	:	mMetadataBlock(NULL)
 {
-	debugLog.open("G:\\logs\\flacsplitter.log", ios_base::out);
+	//debugLog.open("G:\\logs\\flacsplitter.log", ios_base::out);
 }
 
 FLACMetadataSplitter::~FLACMetadataSplitter(void)
 {
 	delete mMetadataBlock;
 	//Delete stuff !!
-	debugLog.close();
+	//debugLog.close();
 }
 StampedOggPacket* FLACMetadataSplitter::convertToStampedPacket(OggPacket* inPacket) {
 	//Convert the old packet to the new one.
@@ -58,7 +58,7 @@ StampedOggPacket* FLACMetadataSplitter::convertToStampedPacket(OggPacket* inPack
 }
 
 bool FLACMetadataSplitter::loadMetadata(OggPacket* inMetadata) {
-	debugLog<<"Load Metadata"<<endl;
+	//debugLog<<"Load Metadata"<<endl;
 	delete mMetadataBlock;
 	mMetadataBlock = inMetadata;
 	return splitMetadata();
@@ -79,7 +79,7 @@ void FLACMetadataSplitter::emptyList() {
 
 }
 bool FLACMetadataSplitter::splitMetadata() {
-	debugLog<<"Splitmetadata"<<endl;
+	//debugLog<<"Splitmetadata"<<endl;
 	//emptyList();
 	//OggPacket* locPacket = NULL;
 	unsigned char* locBuff = NULL;
@@ -87,11 +87,11 @@ bool FLACMetadataSplitter::splitMetadata() {
 		return false;
 	} else {
 		if (verifyCodecID()) {
-			debugLog<<"Start adding packets..."<<endl;
+			//debugLog<<"Start adding packets..."<<endl;
 			addCodecIdent();
 			addStreamInfo();
 			addOtherHeaders();
-			debugLog<<"Done adding packets..."<<endl;
+			//debugLog<<"Done adding packets..."<<endl;
 		} else {
 			return false;
 		}
@@ -101,7 +101,7 @@ bool FLACMetadataSplitter::splitMetadata() {
 }
 
 bool FLACMetadataSplitter::addOtherHeaders() {
-	debugLog<<"Add other headers..."<<endl;
+	//debugLog<<"Add other headers..."<<endl;
 	unsigned long locUpto = 42;
 	unsigned long locMetaSize = mMetadataBlock->packetSize();
 	unsigned char* locSourceBuff = mMetadataBlock->packetData();	//Don't delete !
@@ -109,23 +109,23 @@ bool FLACMetadataSplitter::addOtherHeaders() {
 	unsigned long locPacketSize = 0;
 	OggPacket* locPacket = NULL;
 
-	debugLog<<"Metadata size = "<<locMetaSize<<endl;
+	//debugLog<<"Metadata size = "<<locMetaSize<<endl;
 	while ( locUpto < locMetaSize) {
-		debugLog<<"Add others loop... upto = "<<locUpto<<endl;
+		//debugLog<<"Add others loop... upto = "<<locUpto<<endl;
 		for (int i = 1; i < 4; i++) {
 			locPacketSize <<=8;
 			locPacketSize += locSourceBuff[locUpto+i];
 		}
 		locPacketSize += 4;
-		debugLog<<"Packet size = "<<locPacketSize<<endl;
+		//debugLog<<"Packet size = "<<locPacketSize<<endl;
 		//locUpto += 4;
 
 		locNewBuff = new unsigned char[locPacketSize];
 		memcpy((void*)locNewBuff, (const void*)(locSourceBuff + locUpto), locPacketSize);
 
 		locPacket = new OggPacket(locNewBuff, locPacketSize, false, false);
-		debugLog<<"Adding other packet..."<<endl;
-		debugLog<<locPacket->toPackDumpString()<<endl;
+		//debugLog<<"Adding other packet..."<<endl;
+		//debugLog<<locPacket->toPackDumpString()<<endl;
 		mHeaderTweaker.acceptHeader(locPacket);
 		locPacket = NULL;
 
@@ -137,19 +137,19 @@ bool FLACMetadataSplitter::addOtherHeaders() {
 	return true;
 }
 bool FLACMetadataSplitter::addStreamInfo() {
-	debugLog<<"addstreaminfo..."<<endl;
+	//debugLog<<"addstreaminfo..."<<endl;
 	OggPacket* locPacket = NULL;
 	unsigned char* locBuff = new unsigned char[38];
 	
 	memcpy((void*)locBuff, (const void*)(mMetadataBlock->packetData()+4), 38);
 	locPacket = new OggPacket(locBuff, 38, false, false);		//No need to delete
-	debugLog<<"Adding stream info packet..."<<endl;
-	debugLog<<locPacket->toPackDumpString()<<endl;
+	//debugLog<<"Adding stream info packet..."<<endl;
+	//debugLog<<locPacket->toPackDumpString()<<endl;
 	mHeaderTweaker.acceptHeader(locPacket);
 	return true;
 }
 bool FLACMetadataSplitter::addCodecIdent() {
-	debugLog<<"Add codec ident"<<endl;
+	//debugLog<<"Add codec ident"<<endl;
 	OggPacket* locPacket = NULL;
 	unsigned char* locBuff = new unsigned char[4];
 	locBuff[0] = 'f';
@@ -163,10 +163,10 @@ bool FLACMetadataSplitter::addCodecIdent() {
 
 bool FLACMetadataSplitter::verifyCodecID() {
 	if ((strncmp((char*)mMetadataBlock->packetData(), "fLaC\000\000\000\042", 8)) == 0) {
-		debugLog<<"Codec verified"<<endl;
+		//debugLog<<"Codec verified"<<endl;
 		return true;
 	} else {
-		debugLog<<"Codec NOT VERIFIED"<<endl;
+		//debugLog<<"Codec NOT VERIFIED"<<endl;
 		return false;
 	}
 

@@ -56,5 +56,5 @@ public:
 	STDMETHODIMP Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
 
 protected:
-	fstream anxDebug;
+	//fstream anxDebug;
 };

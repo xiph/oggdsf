@@ -62,6 +62,6 @@ protected:
 	vector<OggPacket*> mNewHeaderList;
 
 
-	fstream debugLog;
+	//fstream debugLog;
 	bool mSeenAllHeaders;
 };

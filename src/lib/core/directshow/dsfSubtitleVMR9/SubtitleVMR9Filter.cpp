@@ -64,14 +64,14 @@ SubtitleVMR9Filter::SubtitleVMR9Filter(void)
 	,	mVideoWindow(NULL)
 	,	mWindowLess(NULL)
 {
-	debugLog.open("G:\\logs\\vmr9_subs.log", ios_base::out);
+	//debugLog.open("G:\\logs\\vmr9_subs.log", ios_base::out);
 	//mOutputPin = new SubtitleVMR9OutputPin(this, m_pLock, NAME("SubtitleVMR9OutputPin"), L"Subtitle Out");
 }
 
 SubtitleVMR9Filter::~SubtitleVMR9Filter(void)
 {
-	debugLog<<"Destructor for subtitle renderer"<<endl;
-	debugLog.close();
+	//debugLog<<"Destructor for subtitle renderer"<<endl;
+	//debugLog.close();
 
 	if (mBitmapMixer != NULL) {
 		mBitmapMixer->Release();

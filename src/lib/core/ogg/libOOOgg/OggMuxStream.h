@@ -81,7 +81,7 @@ protected:
 	__int64 mConvScaleFactor;
 	__int64 mConvTheoraLogKeyFrameInterval;
 
-	fstream debugLog;
+	//fstream debugLog;
 	deque<OggPage*> mPageQueue;
 private:
 	OggMuxStream& operator=(const OggMuxStream& other);  /* Don't assign me */
