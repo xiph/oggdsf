@@ -549,8 +549,9 @@ void OggDemuxSourceFilter::DeliverEndFlush() {
 void OggDemuxSourceFilter::DeliverEOS() {
 	
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-		mStreamMapper->getOggStream(i)->getPin()->DeliverEndOfStream();
 		mStreamMapper->getOggStream(i)->flush();
+		mStreamMapper->getOggStream(i)->getPin()->DeliverEndOfStream();
+		
 	}
 	//mOggBuffer.debugWrite("%%%%%% Reset calling from DeliverEOS");
 	resetStream();
