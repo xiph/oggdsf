@@ -28,6 +28,11 @@ namespace iOCE
 		private System.ComponentModel.Container components = null;
 		private System.Windows.Forms.OpenFileDialog dlgOpenFile;
 		private System.Windows.Forms.ListView lsvUserComments;
+		private System.Windows.Forms.Button cmdAdd;
+		private System.Windows.Forms.Button cmdRemove;
+		private System.Windows.Forms.Button cmdEdit;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button button2;
 
 
 		private illiminable.Ogg.libVorbisCommentDotNET.DNFileComments mFileComments;
@@ -98,6 +103,11 @@ namespace iOCE
 			this.colValue = new System.Windows.Forms.ColumnHeader();
 			this.txtVendorString = new System.Windows.Forms.TextBox();
 			this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
+			this.cmdAdd = new System.Windows.Forms.Button();
+			this.cmdRemove = new System.Windows.Forms.Button();
+			this.cmdEdit = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
+			this.button2 = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -134,6 +144,7 @@ namespace iOCE
 			// 
 			// lblVendor
 			// 
+			this.lblVendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.lblVendor.Location = new System.Drawing.Point(16, 24);
 			this.lblVendor.Name = "lblVendor";
 			this.lblVendor.Size = new System.Drawing.Size(88, 16);
@@ -142,12 +153,16 @@ namespace iOCE
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.cmdEdit);
+			this.groupBox1.Controls.Add(this.cmdRemove);
+			this.groupBox1.Controls.Add(this.cmdAdd);
 			this.groupBox1.Controls.Add(this.lsvUserComments);
 			this.groupBox1.Controls.Add(this.txtVendorString);
 			this.groupBox1.Controls.Add(this.lblVendor);
-			this.groupBox1.Location = new System.Drawing.Point(16, 72);
+			this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.groupBox1.Location = new System.Drawing.Point(16, 48);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(632, 192);
+			this.groupBox1.Size = new System.Drawing.Size(632, 224);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Vorbis Comments";
@@ -157,8 +172,10 @@ namespace iOCE
 			this.lsvUserComments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 																							  this.colKey,
 																							  this.colValue});
+			this.lsvUserComments.FullRowSelect = true;
 			this.lsvUserComments.GridLines = true;
 			this.lsvUserComments.Location = new System.Drawing.Point(16, 48);
+			this.lsvUserComments.MultiSelect = false;
 			this.lsvUserComments.Name = "lsvUserComments";
 			this.lsvUserComments.Size = new System.Drawing.Size(600, 128);
 			this.lsvUserComments.TabIndex = 2;
@@ -172,20 +189,66 @@ namespace iOCE
 			// colValue
 			// 
 			this.colValue.Text = "Value";
-			this.colValue.Width = 430;
+			this.colValue.Width = 433;
 			// 
 			// txtVendorString
 			// 
-			this.txtVendorString.Location = new System.Drawing.Point(120, 16);
+			this.txtVendorString.Location = new System.Drawing.Point(104, 20);
 			this.txtVendorString.Name = "txtVendorString";
-			this.txtVendorString.Size = new System.Drawing.Size(496, 20);
+			this.txtVendorString.Size = new System.Drawing.Size(512, 20);
 			this.txtVendorString.TabIndex = 1;
 			this.txtVendorString.Text = "";
+			// 
+			// cmdAdd
+			// 
+			this.cmdAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.cmdAdd.Location = new System.Drawing.Point(344, 192);
+			this.cmdAdd.Name = "cmdAdd";
+			this.cmdAdd.Size = new System.Drawing.Size(80, 24);
+			this.cmdAdd.TabIndex = 3;
+			this.cmdAdd.Text = "&Add...";
+			// 
+			// cmdRemove
+			// 
+			this.cmdRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.cmdRemove.Location = new System.Drawing.Point(536, 192);
+			this.cmdRemove.Name = "cmdRemove";
+			this.cmdRemove.Size = new System.Drawing.Size(80, 24);
+			this.cmdRemove.TabIndex = 4;
+			this.cmdRemove.Text = "&Remove";
+			this.cmdRemove.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// cmdEdit
+			// 
+			this.cmdEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.cmdEdit.Location = new System.Drawing.Point(440, 192);
+			this.cmdEdit.Name = "cmdEdit";
+			this.cmdEdit.Size = new System.Drawing.Size(80, 24);
+			this.cmdEdit.TabIndex = 5;
+			this.cmdEdit.Text = "&Edit...";
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(456, 280);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(80, 24);
+			this.button1.TabIndex = 2;
+			this.button1.Text = "A&pply";
+			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(552, 280);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(80, 24);
+			this.button2.TabIndex = 3;
+			this.button2.Text = "Re&vert";
 			// 
 			// frmMain
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(664, 281);
+			this.ClientSize = new System.Drawing.Size(664, 313);
+			this.Controls.Add(this.button2);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.groupBox1);
 			this.Menu = this.mnuMain;
 			this.Name = "frmMain";
@@ -218,6 +281,11 @@ namespace iOCE
 			mFileComments.loadFile(dlgOpenFile.FileName);
 
 			fillFields();
+		}
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+		
 		}
 	}
 }
