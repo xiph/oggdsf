@@ -31,48 +31,74 @@
 
 #pragma once
 
-//Include Files
 #include "Theoradecoderdllstuff.h"
-#include "AbstractVideoDecodeFilter.h"
 
-//Forward Declarations
-struct sTheoraFormatBlock;
-class TheoraDecodeInputPin;
-class TheoraDecodeOutputPin;
+class TheoraDecodeFilter 
+	:	public CVideoTransformFilter
 
-//Class Interface
-class TheoraDecodeFilter
-	//Base Classes
-	:	public AbstractVideoDecodeFilter
 {
 public:
-	//Friends
-	friend class TheoraDecodeInputPin;
-	friend class TheoraDecodeOutputPin;
-
-	
-	
-
-	//Constructors and Destructors
 	TheoraDecodeFilter(void);
 	virtual ~TheoraDecodeFilter(void);
 
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//IMediaFilter OVerride - This lets us tell the graph we may not produce data in pause state so don't block.
-	virtual STDMETHODIMP GetState(DWORD dw, FILTER_STATE *pState);
+	//CTransfrom filter pure virtuals
+	virtual HRESULT CheckInputType(const CMediaType* inMediaType);
+	virtual HRESULT CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType);
+	virtual HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest);
+	virtual HRESULT GetMediaType(int inPosition, CMediaType* outOutputMediaType);
+	virtual HRESULT Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample);
 
-	
 
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
-	virtual bool ConstructPins();
 
-	//FIX::: Do we need these ? Aren't they all friends ??
-	virtual sTheoraFormatBlock* getTheoraFormatBlock();
-	virtual void setTheoraFormat(sTheoraFormatBlock* inFormatBlock);
-
-protected:
-	//Format Block
-	sTheoraFormatBlock* mTheoraFormatInfo;
 };
+//---------------------------------------
+//OLD IMPLOEMENTATION....
+//---------------------------------------
+////Include Files
+//#include "Theoradecoderdllstuff.h"
+//#include "AbstractVideoDecodeFilter.h"
+//
+////Forward Declarations
+//struct sTheoraFormatBlock;
+//class TheoraDecodeInputPin;
+//class TheoraDecodeOutputPin;
+//
+////Class Interface
+//class TheoraDecodeFilter
+//	//Base Classes
+//	:	public AbstractVideoDecodeFilter
+//{
+//public:
+//	//Friends
+//	friend class TheoraDecodeInputPin;
+//	friend class TheoraDecodeOutputPin;
+//
+//	
+//	
+//
+//	//Constructors and Destructors
+//	TheoraDecodeFilter(void);
+//	virtual ~TheoraDecodeFilter(void);
+//
+//	//COM Creator Function
+//	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+//
+//	//IMediaFilter OVerride - This lets us tell the graph we may not produce data in pause state so don't block.
+//	virtual STDMETHODIMP GetState(DWORD dw, FILTER_STATE *pState);
+//
+//	
+//
+//	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
+//	virtual bool ConstructPins();
+//
+//	//FIX::: Do we need these ? Aren't they all friends ??
+//	virtual sTheoraFormatBlock* getTheoraFormatBlock();
+//	virtual void setTheoraFormat(sTheoraFormatBlock* inFormatBlock);
+//
+//protected:
+//	//Format Block
+//	sTheoraFormatBlock* mTheoraFormatInfo;
+//};

@@ -30,7 +30,8 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include "theoradecodefilter.h"
+
+#include "TheoraDecodeFilter.h"
 
 
 
@@ -52,33 +53,15 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 
 
-//Theora Decode Filter Implementation
-//==================================
-TheoraDecodeFilter::TheoraDecodeFilter()
-	:	AbstractVideoDecodeFilter(NAME("Ogg Video Decoder"), CLSID_TheoraDecodeFilter, THEORA)
-	,	mTheoraFormatInfo(NULL)
+TheoraDecodeFilter::TheoraDecodeFilter() 
+	:	CVideoTransformFilter( NAME("Theora Decode Filter"), NULL, CLSID_TheoraDecodeFilter)
 {
 
-	bool locWasConstructed = ConstructPins();
 }
 
-bool TheoraDecodeFilter::ConstructPins() 
-{
-	
-	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new TheoraDecodeOutputPin(this, m_pLock);
+TheoraDecodeFilter::~TheoraDecodeFilter() {
 
-	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);
-	locAcceptMediaType->subtype = MEDIASUBTYPE_Theora;
-	locAcceptMediaType->formattype = FORMAT_Theora;
-	mInputPin = new TheoraDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);
-	return true;
-}
 
-TheoraDecodeFilter::~TheoraDecodeFilter(void)
-{
-	//DestroyPins();
-	delete mTheoraFormatInfo;
 }
 
 CUnknown* WINAPI TheoraDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
@@ -91,26 +74,109 @@ CUnknown* WINAPI TheoraDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 	return pNewObject;
 } 
 
-STDMETHODIMP TheoraDecodeFilter::GetState(DWORD dw, FILTER_STATE *pState)
-{
-    CheckPointer(pState, E_POINTER);
-    *pState = m_State;
-	if (m_State == State_Paused) {
-        return VFW_S_CANT_CUE;
-	} else {
-        return S_OK;
-	}
+
+HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType) {
+
+}
+HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType) {
+
+}
+HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
+
+}
+HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMediaType) {
+
+}
+HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) {
+
 }
 
-//QUERY::: Do we need these ? Aren't we all friedns here ??
-//RESULT::: Keep them, set function must be kept... get could go... but keep for consistency
-sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock() 
-{
-	return mTheoraFormatInfo;
-}
-void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock) 
-{
-	delete mTheoraFormatInfo;
-	mTheoraFormatInfo = new sTheoraFormatBlock;
-	*mTheoraFormatInfo = *inFormatBlock;
-}
+
+
+//---------------------------------------
+//OLD IMPLOEMENTATION....
+//---------------------------------------
+//#include "theoradecodefilter.h"
+//
+//
+//
+////COM Factory Template
+//CFactoryTemplate g_Templates[] = 
+//{
+//    { 
+//		L"Theora Decode Filter",					// Name
+//	    &CLSID_TheoraDecodeFilter,				// CLSID
+//	    TheoraDecodeFilter::CreateInstance,		// Method to create an instance of Theora Decoder
+//        NULL,									// Initialization function
+//        NULL									// Set-up information (for filters)
+//    }
+//
+//};
+//
+//// Generic way of determining the number of items in the template
+//int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
+//
+//
+//
+////Theora Decode Filter Implementation
+////==================================
+//TheoraDecodeFilter::TheoraDecodeFilter()
+//	:	AbstractVideoDecodeFilter(NAME("Ogg Video Decoder"), CLSID_TheoraDecodeFilter, THEORA)
+//	,	mTheoraFormatInfo(NULL)
+//{
+//
+//	bool locWasConstructed = ConstructPins();
+//}
+//
+//bool TheoraDecodeFilter::ConstructPins() 
+//{
+//	
+//	//Output pin must be done first because it's passed to the input pin.
+//	mOutputPin = new TheoraDecodeOutputPin(this, m_pLock);
+//
+//	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);
+//	locAcceptMediaType->subtype = MEDIASUBTYPE_Theora;
+//	locAcceptMediaType->formattype = FORMAT_Theora;
+//	mInputPin = new TheoraDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);
+//	return true;
+//}
+//
+//TheoraDecodeFilter::~TheoraDecodeFilter(void)
+//{
+//	//DestroyPins();
+//	delete mTheoraFormatInfo;
+//}
+//
+//CUnknown* WINAPI TheoraDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
+//{
+//	//This routine is the COM implementation to create a new Filter
+//	TheoraDecodeFilter *pNewObject = new TheoraDecodeFilter();
+//    if (pNewObject == NULL) {
+//        *pHr = E_OUTOFMEMORY;
+//    }
+//	return pNewObject;
+//} 
+//
+//STDMETHODIMP TheoraDecodeFilter::GetState(DWORD dw, FILTER_STATE *pState)
+//{
+//    CheckPointer(pState, E_POINTER);
+//    *pState = m_State;
+//	if (m_State == State_Paused) {
+//        return VFW_S_CANT_CUE;
+//	} else {
+//        return S_OK;
+//	}
+//}
+//
+////QUERY::: Do we need these ? Aren't we all friedns here ??
+////RESULT::: Keep them, set function must be kept... get could go... but keep for consistency
+//sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock() 
+//{
+//	return mTheoraFormatInfo;
+//}
+//void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock) 
+//{
+//	delete mTheoraFormatInfo;
+//	mTheoraFormatInfo = new sTheoraFormatBlock;
+//	*mTheoraFormatInfo = *inFormatBlock;
+//}

@@ -41,10 +41,14 @@
 #include <windows.h>
 
 
+
+
+
+//OLD
 // TODO: reference additional headers your program requires here
-#include "AbstractVideoDecodeFilter.h"
-#include "AbstractVideoDecodeInputPin.h"
-#include "AbstractVideoDecodeOutputPin.h"
-#include "TheoraDecodeInputPin.h"
-#include "TheoraDecodeOutputPin.h"
-#include "TheoraDecodeFilter.h"
+//#include "AbstractVideoDecodeFilter.h"
+//#include "AbstractVideoDecodeInputPin.h"
+//#include "AbstractVideoDecodeOutputPin.h"
+//#include "TheoraDecodeInputPin.h"
+//#include "TheoraDecodeOutputPin.h"
+//#include "TheoraDecodeFilter.h"
