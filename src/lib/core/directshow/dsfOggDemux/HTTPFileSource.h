@@ -84,6 +84,8 @@ protected:
 	fstream fileDump;
 	fstream rawDump;
 
+	string mLeftOver;
+
 
 	CCritSec* mBufferLock;
 };

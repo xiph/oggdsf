@@ -92,6 +92,12 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
 				locNumBytesLeft -= 2;
 			}
 
+			if (mLeftOver != "") {
+				debugLog<<"Sticking the leftovers back together..."<<endl;
+				locTemp = mLeftOver + locTemp;
+				mLeftOver = "";
+			}
+
 			size_t locChunkSizePos = locTemp.find("\r\n");
 			
 			if (locChunkSizePos != string::npos) {
@@ -109,6 +115,10 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
 				unsigned long locGuffSize = (locChunkSizeStr.size() + 2);
 				locWorkingBuffPtr +=  locGuffSize;
 				locNumBytesLeft -= locGuffSize;
+			} else {
+				debugLog<<"Setting leftovers to "<<mLeftOver<<endl;
+				mLeftOver = locTemp;
+
 			}
 		}
 
