@@ -68,7 +68,7 @@ var ICONS_GROUP
 !insertmacro MUI_LANGUAGE "Japanese"
 !insertmacro MUI_LANGUAGE "Korean"
 !insertmacro MUI_LANGUAGE "Polish"
-!insertmacro MUI_LANGUAGE "Russian"
+; !insertmacro MUI_LANGUAGE "Russian"
 !insertmacro MUI_LANGUAGE "SimpChinese"
 !insertmacro MUI_LANGUAGE "Spanish"
 !insertmacro MUI_LANGUAGE "TradChinese"
