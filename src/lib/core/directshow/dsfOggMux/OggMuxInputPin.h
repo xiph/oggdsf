@@ -50,29 +50,18 @@ public:
 	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
 	virtual ~OggMuxInputPin(void);
 
-
 	//COM Setup
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
 	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
-	//virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
-
-
-	//IOggCallback
-	//virtual bool acceptOggPage(OggPage* inOggPage);
-
-
 	STDMETHODIMP Receive(IMediaSample* inSample);
-	//IPin
-	//virtual HRESULT CompleteConnect (IPin *inReceivePin);
-	//virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 	virtual STDMETHODIMP EndOfStream(void);
 	virtual HRESULT CompleteConnect(IPin* inReceivePin);
-
+	virtual HRESULT BreakConnect();
 	
 	//virtual HRESULT DeliverEndFlush(void);
 	//virtual HRESULT DeliverBeginFlush(void);

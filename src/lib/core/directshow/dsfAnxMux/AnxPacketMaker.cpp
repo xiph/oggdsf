@@ -125,9 +125,9 @@ StampedOggPacket* AnxPacketMaker::makeAnxData_2_0	(			unsigned short inVersionMa
 			//THere has to be a content type field.
 
 			locPacketSize = 28;  //Base header size
-			for (int i = 0; i < inMessageHeaders.size(); i++) {
+			for (size_t i = 0; i < inMessageHeaders.size(); i++) {
 				//2 is the crlf
-				locPacketSize += inMessageHeaders[i].size() + 2;
+				locPacketSize += (unsigned long)(inMessageHeaders[i].size() + 2);
 			}
 
 			//terminating crlf
@@ -148,9 +148,9 @@ StampedOggPacket* AnxPacketMaker::makeAnxData_2_0	(			unsigned short inVersionMa
 			iLE_Math::Int64ToCharArr(inGranuleRateDenom, locBuff + 16);
 			iLE_Math::ULongToCharArr(inNumSecHeaders, locBuff + 24);
 			locUpto = 28;
-			for (int i = 0; i < inMessageHeaders.size(); i++) {
+			for (size_t i = 0; i < inMessageHeaders.size(); i++) {
 				memcpy((void*)(locBuff + locUpto), (const void*)(inMessageHeaders[i].c_str()), inMessageHeaders[i].size());
-				locUpto += inMessageHeaders[i].size();
+				locUpto += (unsigned long)(inMessageHeaders[i].size());
 				//TODO::: How terminated ??
 				locBuff[locUpto++] = '\r';	
 				locBuff[locUpto++] = '\n';

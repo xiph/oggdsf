@@ -254,10 +254,10 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 		
 		//delete locPacket;		//Don't delete the splitter will delete when it's done.
 
-		for (int i = 0; i < locFLACSplitter->numHeaders(); i++) {
+		for (unsigned long i = 0; i < locFLACSplitter->numHeaders(); i++) {
 			//debugLog<<"Giving pager, packet "<<i<<endl;
 			//debugLog<<locFLACSplitter->getHeader(i)->toPackDumpString()<<endl;		//This is a leak !!
-			if (i==0) {
+			if (i == 0) {
 				//Set the number of headers in the paginator for FLAC classic.
 				StampedOggPacket* locHeadPack = locFLACSplitter->getHeader(i);
 				mPaginator.setNumHeaders((locHeadPack->packetData()[8]) + 1);
@@ -293,7 +293,21 @@ HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 	
 	mMuxStream->setIsActive(true);
 	return mParentFilter->addAnotherPin();
+
+
 }
+
+HRESULT OggMuxInputPin::BreakConnect() 
+{
+	CAutoLock locLock(m_pLock);
+	//Release the seeking delegate
+	ReleaseDelegate();
+	return CBaseInputPin::BreakConnect();
+}
+
+
+
+
 STDMETHODIMP OggMuxInputPin::EndOfStream(void) {
 	
 	mPaginator.finishStream();

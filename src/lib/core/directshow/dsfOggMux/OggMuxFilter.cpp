@@ -242,7 +242,7 @@ int OggMuxFilter::GetPinCount() {
 }
 CBasePin* OggMuxFilter::GetPin(int inPinNo) {
 
-	if ((inPinNo < mInputPins.size()) && (inPinNo >= 0)) {
+	if ((inPinNo >= 0) && ((size_t)inPinNo < mInputPins.size()) ) {
 		return mInputPins[inPinNo];
 	} else {
 		return NULL;

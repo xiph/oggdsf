@@ -42,14 +42,14 @@ FishSkeleton::FishSkeleton(void)
 FishSkeleton::~FishSkeleton(void)
 {
 }
-OggPage* FishSkeleton::makeFishHeadBOS_3_0	(			unsigned long inSerialNo
-														,	unsigned short inVersionMajor
-														,	unsigned short inVersionMinor
-														,	unsigned __int64 inTimebaseNum
-														,	unsigned __int64 inTimebaseDenom
-														,	const unsigned char* inUTC
+OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
+												,	unsigned short inVersionMajor
+												,	unsigned short inVersionMinor
+												,	unsigned __int64 inTimebaseNum
+												,	unsigned __int64 inTimebaseDenom
+												,	const unsigned char* inUTC
 														
-													)
+											)
 {
 	unsigned char* locBuff = NULL;
 	StampedOggPacket* locPack = NULL;
@@ -105,11 +105,12 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(			unsigned long inSerialNo
 	}
 }
 
-	static StampedOggPacket* makeFishBone_3_0	(	unsigned __int64 inGranuleRateNum
-												,	unsigned __int64 inGranuleDenom
-												,	unsigned long inNumSecHeaders
-												,	unsigned short inGranuleShift
-												,	vector<string> inMessageHeaders
-												) {
-
-	}
+StampedOggPacket* FishSkeleton::makeFishBone_3_0	(		unsigned __int64 inGranuleRateNum
+														,	unsigned __int64 inGranuleDenom
+														,	unsigned long inNumSecHeaders
+														,	unsigned short inGranuleShift
+														,	vector<string> inMessageHeaders
+													) 
+{
+	return NULL;
+}
