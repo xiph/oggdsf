@@ -50,23 +50,53 @@ public:
 	CMMLParser(void);
 	~CMMLParser(void);
 
+	/// Parse a string representation of a clip tag into the provided Clip object.
 	bool parseClipTag(wstring inClipText, C_ClipTag* outClip);
+
+	/// Parse a string representation of a head tag into the provided Head object.
 	bool parseHeadTag(wstring inHeadText, C_HeadTag* outHead);
+
+	/// Parse a string representation of a cmml root tag into the provided CMMLRoot object.
 	bool parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot);
+
+	/// Parse a string representation of a cmml document into the provided CMMLDoc object.
 	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
 
 protected:
+	/// Parse an XTag representation of a cmml root tag into the provided CMMLRoot object.
 	bool parseRootTag(XTag* inCMMLRootParser, C_CMMLRootTag* outCMMLRoot);
+
+	/// Parse an XTag representation of a stream tag into the provided Stream object.
 	bool parseStreamTag(XTag* inStreamParser, C_StreamTag* outStream);
+
+	/// Parse an XTag representation of a head tag into the provided Head object.
 	bool parseHeadTag(XTag* inHeadParser, C_HeadTag* outHead);
+
+	/// Parse an XTag representation of a clip tag into the provided Clip object.
 	bool parseClipTag(XTag* inClipParser, C_ClipTag* outClip);
+
+	/// Parse an XTag representation of an import tag into the provided Import object.
 	bool parseImportTag(XTag* inImportParser, C_ImportTag* outImport);
+
+	/// Parse an XTag representation of a base tag into the provided Base object.
 	bool parseBaseTag(XTag* inBaseParser, C_BaseTag* outBase);
+
+	/// Parse an XTag representation of a title tag into the provided Title object.
 	bool parseTitleTag(XTag* inTitleParser, C_TitleTag* outTitle);
+
+	/// Parse an XTag representation of a meta tag into the provided MetaTag object.
 	bool parseMetaTag(XTag* inMetaParser, C_MetaTag* outMeta);
+
+	/// Parse an XTag representation of an anchor tag into the provided Anchor object.
 	bool parseAnchorTag(XTag* inAnchorParser, C_AnchorTag* outAnchor);
+
+	/// Parse an XTag representation of an image tag into the provided Image object.
 	bool parseImageTag(XTag* inImageParser, C_ImageTag* outImage);
+
+	/// Parse an XTag representation of a desc tag into the provided Desc object.
 	bool parseDescTag(XTag* inDescParser, C_DescTag* outDesc);
+
+	/// Parse an XTag representation of a param tag into the provided ParamTag object.
 	bool parseParamTag(XTag* inParamParser, C_ParamTag* outParam);
 
 };

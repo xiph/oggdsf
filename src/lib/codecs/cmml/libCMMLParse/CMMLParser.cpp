@@ -129,7 +129,7 @@ bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMML
 
 	// Look for a tag, any tag
 	XTag *locRootParser = NULL;
-	locRootParser = xtag_new_parse(locCMMLRootText.c_str(), locCMMLRootText.size());
+	locRootParser = xtag_new_parse(locCMMLRootText.c_str(), (int)locCMMLRootText.size());
 	if (locRootParser) {
 		// Is it a <cmml> tag?
 		if (strcmp(xtag_get_name(locRootParser), "cmml") == 0) {
@@ -162,7 +162,7 @@ bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip)
 
 	// Look for a <cmml> tag
 	XTag *locClipParser = NULL;
-	locClipParser = xtag_new_parse(locClipText.c_str(), locClipText.size());
+	locClipParser = xtag_new_parse(locClipText.c_str(), (int)locClipText.size());
 	if (locClipParser) {
 		// Found some sort of tag
 		if (strcmp(xtag_get_name(locClipParser), "clip") == 0) {
@@ -195,7 +195,7 @@ bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead)
 
 	// Set up an XTag parser
 	XTag *locHeadParser = NULL;
-	locHeadParser = xtag_new_parse(locHeadText.c_str(), locHeadText.size());
+	locHeadParser = xtag_new_parse(locHeadText.c_str(), (int)locHeadText.size());
 	if (locHeadParser) {
 		if (strcmp(xtag_get_name(locHeadParser), "head") == 0) {
 			locReturnValue = parseHeadTag(locHeadParser, outHead);
