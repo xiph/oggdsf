@@ -127,6 +127,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
+				RelativePath=".\FileComments.cpp">
+			</File>
+			<File
 				RelativePath="libVorbisComment.cpp">
 			</File>
 			<File
@@ -148,12 +151,18 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\StreamCommentInfo.cpp">
+			</File>
+			<File
 				RelativePath="VorbisComments.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\FileComments.h">
+			</File>
 			<File
 				RelativePath="libVorbisComment.h">
 			</File>
@@ -162,6 +171,9 @@
 			</File>
 			<File
 				RelativePath="stdafx.h">
+			</File>
+			<File
+				RelativePath=".\StreamCommentInfo.h">
 			</File>
 			<File
 				RelativePath="VorbisComments.h">
