@@ -28,40 +28,28 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-
 #pragma once
 #include "dllstuff.h"
-#include "OggPacket.h"
-#include <vector>
-#include <fstream>
-using namespace std;
-class FLACHeaderTweaker
+#include "StampedOggPacket.h"
+#include "FLACHeaderTweaker.h"
+class FLACMetadataSplitter
 {
 public:
-	FLACHeaderTweaker(void);
-	~FLACHeaderTweaker(void);
+	FLACMetadataSplitter(void);
+	~FLACMetadataSplitter(void);
 
-	enum eFLACAcceptHeaderResult {
-		HEADER_ACCEPTED = 0,
-		LAST_HEADER_ACCEPTED = 1,
-		HEADER_ERROR = 100,
-		ALL_HEADERS_ALREADY_SEEN = 101
-	};
-
-	 eFLACAcceptHeaderResult acceptHeader(OggPacket* inHeader);
-
-	 unsigned long numNewHeaders();
-	 OggPacket* getHeader(unsigned long inHeaderNo);
+	bool loadMetadata(OggPacket* inMetadata);
+	unsigned long numHeaders();
+	StampedOggPacket* getHeader(unsigned long inIndex);
 protected:
-	 bool createNewHeaderList();
-	 void deleteOldHeaders();
-	 void deleteNewHeaders();
+	OggPacket* mMetadataBlock;
+	FLACHeaderTweaker mHeaderTweaker;
 
+	void emptyList();
+	bool addOtherHeaders();
+	bool addStreamInfo();
+	bool verifyCodecID();
+	bool addCodecIdent();
 
-	vector<OggPacket*> mOldHeaderList;
-	vector<OggPacket*> mNewHeaderList;
-
-
-	fstream debugLog;
-	bool mSeenAllHeaders;
+	bool splitMetadata();
 };

@@ -105,6 +105,9 @@
 				RelativePath=".\FLACHeaderTweaker.cpp">
 			</File>
 			<File
+				RelativePath=".\FLACMetadataSplitter.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -126,6 +129,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath=".\FLACHeaderTweaker.h">
+			</File>
+			<File
+				RelativePath=".\FLACMetadataSplitter.h">
 			</File>
 			<File
 				RelativePath=".\stdafx.h">
