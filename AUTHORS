@@ -1,5 +1,13 @@
+*** libilliCore
 *** libOOOgg
+*** libOOOggSeek
+*** libVorbisComment
+*** OOOggChainSplitter
+*** OOOggCommentDump
 *** OOOggDump
+*** OOOggSeekFileMaker
+*** OOOggSeekFileReader
+*** OOOggStat
 *** OOOggValidate
 
 	Zentaro Kavanagh <ogg@illiminable.com>
@@ -8,39 +16,46 @@
 	Andre Pang <Andre.Pang@csiro.au>
 		- Mac OS X porting.
 ==============================================================
-*** dsfOggDemux
-*** dsfOggMux	
-*** dsfAnxDemux	
-*** dsfCMMLDecoder	
-*** dsfVorbisDecoder
-*** dsfVorbisEncoder
-*** dsfSpeexDecoder
-*** dsfSpeexEncoder
-*** dsfFLACDecoder
-*** dsfFLACEncoder
-*** dsfTheoraDecoder
-*** dsfTheoraEncoder
+*** AnxCutter
+*** axAnxOggPlayer
+*** CLOgg
+*** DNPlay
 *** dsfAbstractAudioDecoder
 *** dsfAbstractAudioEncoder
 *** dsfAbstractVideoDecoder
 *** dsfAbstractVideoEncoder
+*** dsfAnxDemux
+*** dsfAnxMux
+*** dsfCMMLDecoder	
+*** dsfCMMLRawSource
+*** dsfDiracDecodeSource
+*** dsfDiracEncodeFilter
+*** dsfFLACDecoder
+*** dsfFLACEncoder
+*** dsfNativeFLACSource
+*** dsfOggDemux
+*** dsfOggMux	
 *** dsfSeeking
+*** dsfSpeexDecoder
+*** dsfSpeexEncoder
 *** dsfSubtitleVMR9
-*** libiWrapper
-*** libilliCore
-*** libOOTheora
-*** libOOOggSeek
+*** dsfTheoraDecoder
+*** dsfTheoraEncoder
+*** dsfVorbisDecoder
+*** dsfVorbisEncoder
+*** iDSHelper
+*** iOCE
+*** iTranscode
+*** libCDROM
 *** libCMMLTags
 *** libCMMLTagsDotNET
-*** libWinCMMLParse
-*** libVorbisComment
-*** libVorbisCommentDotNET
+*** libDirectshowAbstracts
 *** libDSPlayDotNET
-*** OOOggStat
-*** OOOggCommentDump
-*** CLOgg
-*** DNPlay
-*** iOCE
+*** libFLACHelper
+*** libiWrapper
+*** libOOTheora
+*** libVorbisCommentDotNET
+*** libWinCMMLParse
 
 	Zentaro Kavanagh <ogg@illiminable.com>
 		- Design and coding.
