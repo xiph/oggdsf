@@ -79,7 +79,8 @@ namespace libCMMLTagsDotNET {
 		return Wrappers::WStrToNetStr( getMe()->title().c_str() );
 	}
 	ParamTagList* ImportTag::paramList() {
-		return new ParamTagList(getMe()->paramList()->clone());
+		return new ParamTagList(getMe()->paramList(), false);
+		
 
 	}
 

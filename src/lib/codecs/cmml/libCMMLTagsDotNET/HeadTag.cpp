@@ -64,7 +64,7 @@ namespace libCMMLTagsDotNET {
 	}
 	TitleTag* HeadTag::title() {
 		//Title is gauranteed to exist.
-		return new TitleTag(getMe()->title()->clone());
+		return new TitleTag(getMe()->title(), false);
 	}
 	BaseTag* HeadTag::base() {
 		if (getMe()->base() != NULL) {

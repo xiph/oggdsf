@@ -48,7 +48,12 @@ namespace libCMMLTagsDotNET {
 	}
 
 	CMMLPreamble::~CMMLPreamble(void)
+		
 	{
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
 

@@ -53,7 +53,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		ParamTag(void);
-		ParamTag(C_ParamTag* inTag);
+		ParamTag(C_ParamTag* inTag, bool inDeleteBase);
 		virtual ~ParamTag(void);
 
 		//Other

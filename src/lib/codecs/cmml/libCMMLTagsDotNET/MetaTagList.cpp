@@ -85,12 +85,12 @@ namespace libCMMLTagsDotNET {
 	}
 
 	MetaTag* MetaTagList::getTag(unsigned long inTagNo) {
-		return new MetaTag(getMe()->getTag(inTagNo));
+		return new MetaTag(getMe()->getTag(inTagNo), false);
 	}
 	MetaTag* MetaTagList::getTag(String* inName) {
 		wchar_t* tc = Wrappers::netStrToWStr( inName );
 		wstring locStr = tc;
-		MetaTag* retVal = new MetaTag(getMe()->getTag(locStr));
+		MetaTag* retVal = new MetaTag(getMe()->getTag(locStr), false);
 		Wrappers::releaseWStr( tc );
 		return retVal;
 

@@ -52,7 +52,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		MetaTag(void);
-		MetaTag(C_MetaTag* inTag);
+		MetaTag(C_MetaTag* inTag, bool inDeleteBase);
 		virtual ~MetaTag(void);
 
 		//Accessors

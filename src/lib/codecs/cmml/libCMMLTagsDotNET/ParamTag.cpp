@@ -43,12 +43,16 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_ParamTag;
 	}
 
-	ParamTag::ParamTag(C_ParamTag* inTag) {
+	ParamTag::ParamTag(C_ParamTag* inTag, bool inDeleteBase) {
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 	ParamTag::~ParamTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
 	C_ParamTag* ParamTag::getMe() {

@@ -43,15 +43,19 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_TitleTag;
 	}
 
-	TitleTag::TitleTag(C_TitleTag* inTag)
+	TitleTag::TitleTag(C_TitleTag* inTag, bool inDeleteBase)
 	{
+		mDeleteBase = inDeleteBase;
 		mBaseClass = inTag;
 	}
 
 
 	TitleTag::~TitleTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 	String* TitleTag::toString() {
 		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );

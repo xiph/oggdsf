@@ -55,7 +55,10 @@ namespace libCMMLTagsDotNET {
 	}
 	ClipTag::~ClipTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 	
 	C_ClipTag* ClipTag::getMe() {

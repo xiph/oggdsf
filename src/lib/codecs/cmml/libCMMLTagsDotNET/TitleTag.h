@@ -59,7 +59,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		TitleTag(void);
-		TitleTag(C_TitleTag* inTag);
+		TitleTag(C_TitleTag* inTag, bool inDeleteBase);
 		virtual ~TitleTag(void);
 		//Other
 		virtual String* toString();

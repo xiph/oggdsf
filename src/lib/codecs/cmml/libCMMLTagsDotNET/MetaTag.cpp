@@ -43,12 +43,16 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_MetaTag;
 	}
 
-	MetaTag::MetaTag(C_MetaTag* inTag) {
+	MetaTag::MetaTag(C_MetaTag* inTag, bool inDeleteBase) {
+		mDeleteBase = inDeleteBase;
 		mBaseClass = inTag;
 	}
 	MetaTag::~MetaTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
 	C_MetaTag* MetaTag::getMe() {
