@@ -29,7 +29,8 @@
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				CallingConvention="2"/>
+				CallingConvention="2"
+				DisableSpecificWarnings="4251"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -77,7 +78,8 @@
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				CallingConvention="2"/>
+				CallingConvention="2"
+				DisableSpecificWarnings="4251"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
