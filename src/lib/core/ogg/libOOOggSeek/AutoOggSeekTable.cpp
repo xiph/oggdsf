@@ -211,6 +211,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 		}
 		//stDebug<<endl;
 		mFileDuration = mLastSeekTime;
+		
 	}
 	mFilePos += inOggPage->pageSize();
 	//stDebug<<"File Pos : "<<mFilePos<<endl;

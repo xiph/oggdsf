@@ -1121,6 +1121,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testVideoImageGrab", "..\..
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libTemporalURI", "..\..\src\lib\helper\libTemporalURI\libTemporalURI.vcproj", "{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2450,6 +2455,26 @@ Global
 		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_SSE.Build.0 = Release|.NET
 		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_SSE2.ActiveCfg = Release|.NET
 		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_SSE2.Build.0 = Release|.NET
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Debug.ActiveCfg = Debug|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Debug.Build.0 = Debug|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Debug Unicode.ActiveCfg = Debug|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Debug Unicode.Build.0 = Debug|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Debug__cdecl.ActiveCfg = Debug|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Debug__cdecl.Build.0 = Debug|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.MakeFile.ActiveCfg = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.MakeFile.Build.0 = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release.ActiveCfg = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release.Build.0 = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release Unicode.ActiveCfg = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release Unicode.Build.0 = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release__cdecl.ActiveCfg = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release__cdecl.Build.0 = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_NoDotNET.Build.0 = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_SSE.ActiveCfg = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_SSE.Build.0 = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_SSE2.ActiveCfg = Release|Win32
+		{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

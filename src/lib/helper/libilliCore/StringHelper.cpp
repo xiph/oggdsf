@@ -83,6 +83,31 @@ string StringHelper::numToString(LOOG_UINT64 inNum) {
 	return retStr;
 }
 
+//Returns a value between 0 and 9 999 999 to represent a fraction / 10 000 000
+LOOG_UINT64 StringHelper::stringToFractNum(string inString) {
+	int locDigit = 0;
+	LOOG_UINT64 retVal = 0;
+
+	LOOG_UINT64 locMult = 1000000;
+
+	size_t locStrLen = inString.length();
+
+	for (unsigned long i = 0; i < locStrLen; i++) {
+		locDigit = inString[i] - '0';
+		//If it's not in the range 0-9 we bail out
+		if ( !((locDigit >= 0) && (locDigit <=9)) ) {
+			//FIX::: throw exception
+			throw 0;
+		}
+		//retVal *= 10;
+		retVal += (locDigit * locMult);
+		locMult /= 10;
+
+	}
+	return retVal;
+
+}
+
 LOOG_UINT64 StringHelper::stringToNum(string inString) {
 	int locDigit = 0;
 	LOOG_UINT64 retVal = 0;

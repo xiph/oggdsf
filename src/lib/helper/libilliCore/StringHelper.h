@@ -50,8 +50,9 @@ public:
 	
 	static string numToString(LOOG_UINT64 inNum);
 	static LOOG_UINT64 stringToNum(string inString);
-	static wstring StringHelper::toWStr(string inString);
-	static string StringHelper::toNarrowStr(wstring inString);
+	static LOOG_UINT64 stringToFractNum(string inString);
+	static wstring toWStr(string inString);
+	static string toNarrowStr(wstring inString);
 
 	//static string numToHexString(unsigned __int64 inNum, unsigned char inWidth);
 
