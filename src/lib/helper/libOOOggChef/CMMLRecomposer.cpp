@@ -52,7 +52,7 @@
 
 using namespace std;
 
-#define DEBUG
+#undef DEBUG
 
 CMMLRecomposer::CMMLRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
 	:	mCMMLFilename(inFilename)

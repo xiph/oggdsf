@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include ".\cmmlrawsourcepin.h"
 
-#define OGGCODECS_LOGGING
-
 CMMLRawSourcePin::CMMLRawSourcePin(CMMLRawSourceFilter* inParentFilter, CCritSec* inFilterLock)
 	:	CBaseOutputPin(NAME("CMML Raw Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"CMML Source")
 	,	mDataQueue(NULL)
@@ -85,9 +83,6 @@ HRESULT CMMLRawSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType)
 	//NOTE::: May have missed some fields ????
 	//NOTE::: May want to check for null pointers
 	//outMediaType->SetFormat(mMediaType->Format(), mMediaType->FormatLength());
-
-	debugLog << "CMMLRawSourcePin::GetMediaType called" << endl;
-	
 	if (inPosition == 0) {
 		CMediaType locMediaType;
 
@@ -108,10 +103,8 @@ HRESULT CMMLRawSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType)
 }
 HRESULT CMMLRawSourcePin::CheckMediaType(const CMediaType* inMediaType) {
 	if ((inMediaType->majortype == MEDIATYPE_Text) && (inMediaType->subtype == MEDIASUBTYPE_CMML) && (inMediaType->formattype == FORMAT_CMML)) {
-		debugLog << "CheckMediaType returned S_OK" << endl;
 		return S_OK;
 	} else {
-		debugLog << "CheckMediaType returned E_FAIL" << endl;
 		return E_FAIL;
 	}
 }
@@ -165,7 +158,6 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 
 	wstring locStr = inTag->toString();
 
-	debugLog << "ANX_VERSION_MAJOR == " << ANX_VERSION_MAJOR << ", " << ANX_VERSION_MINOR << endl;
 	
 	//TODO::: For now, this narrowfies the string... to ascii, instead of sending
 	// 2 byte chars.
@@ -182,9 +174,6 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		if ((ANX_VERSION_MAJOR == 2) && (ANX_VERSION_MINOR == 0)) {
 			locStart = locStartStamp.toHunNanos() / 10000;
 		} else if ((ANX_VERSION_MAJOR == 3) && (ANX_VERSION_MINOR == 0)) {
-#ifdef OGGCODECS_LOGGING
-			debugLog << "mLastTime pre-locStart: " << mLastTime << endl;
-#endif
 			locStart = (mLastTime << 32) + ((locStartStamp.toHunNanos() - mLastTime) / 10000);
 			
 		} else {
@@ -200,9 +189,6 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		if ((ANX_VERSION_MAJOR == 2) && (ANX_VERSION_MINOR == 0)) {
 			locStop = locEndStamp.toHunNanos() / 10000;
 		} else if ((ANX_VERSION_MAJOR == 3) && (ANX_VERSION_MINOR == 0)) {
-#ifdef OGGCODECS_LOGGING
-			debugLog << "mLastTime pre-locStop: " << mLastTime << endl;
-#endif
 			locStop = (mLastTime << 32) + ((locEndStamp.toHunNanos() - mLastTime) / 10000);
 		} else {
 			//If you are here you set the constants in the header file wrong
@@ -210,9 +196,6 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		}
 
 		mLastTime = locStartStamp.toHunNanos() / 10000;
-#ifdef OGGCODECS_LOGGING
-		debugLog << "mLastTime after setup: " << mLastTime << endl;
-#endif
 		//locStop = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
 		
 

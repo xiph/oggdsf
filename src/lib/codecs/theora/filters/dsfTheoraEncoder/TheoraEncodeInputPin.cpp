@@ -1345,7 +1345,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	mTheoraInfo.aspect_denominator=0;
 	
 	mTheoraInfo.colorspace=OC_CS_UNSPECIFIED;		//YV12
-	mTheoraInfo.target_bitrate=200000; //mVideoFormat->dwBitRate;
+	mTheoraInfo.target_bitrate=400000; //mVideoFormat->dwBitRate;
 
 	//Hard code for now
 	mTheoraInfo.quality=30; //video_q;
