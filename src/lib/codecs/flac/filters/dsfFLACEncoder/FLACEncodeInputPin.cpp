@@ -50,8 +50,9 @@ FLACEncodeInputPin::~FLACEncodeInputPin(void)
 long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
 	FLAC__int32* locFLACBuff = NULL;
-	unsigned long locFLACBuffSize = (inNumBytes * 8) / mWaveFormat->wBitsPerSample;
-	unsigned long locNumSamplesPerChannel = locFLACBuffSize / mWaveFormat->nChannels;
+	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;	//View only don't delete.
+	unsigned long locFLACBuffSize = (inNumBytes * 8) / locParentFilter->mFLACFormatBlock.numBitsPerSample;
+	unsigned long locNumSamplesPerChannel = locFLACBuffSize / locParentFilter->mFLACFormatBlock.numChannels;
 
 	locFLACBuff = new FLAC__int32[locFLACBuffSize];
 
@@ -201,9 +202,6 @@ void FLACEncodeInputPin::DestroyCodec() {
 	LONGLONG locFrameStart = mUptoFrame;
 	if (inNumSamples != 0) {
 		mUptoFrame += inNumSamples;
-	} else {
-		//??????
-		throw 0;
 	}
 	LONGLONG locFrameEnd = mUptoFrame;
 

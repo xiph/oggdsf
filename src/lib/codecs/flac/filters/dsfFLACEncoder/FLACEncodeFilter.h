@@ -43,7 +43,7 @@ class FLACEncodeFilter
 	:	public AbstractAudioEncodeFilter
 {
 public:
-
+	friend class FLACEncodeInputPin;
 	friend class FLACEncodeOutputPin;
 	FLACEncodeFilter(void);
 	virtual ~FLACEncodeFilter(void);
