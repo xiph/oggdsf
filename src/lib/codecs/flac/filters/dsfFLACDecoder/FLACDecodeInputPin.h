@@ -31,20 +31,22 @@
 
 #pragma once
 #include "FLACdecoderdllstuff.h"
-#include "FLAC++/decoder.h"
+//#include "FLAC++/decoder.h"
+#include "FLACPushDecoder.h"
 #include "OggPacket.h"
-#include <queue>
+#include "StampedOggPacket.h"
+//#include <queue>
 
 //debug only
 #include <fstream>
 //
 
 using namespace std;
-using namespace FLAC::Decoder;
+//using namespace FLAC::Decoder;
 
 class FLACDecodeInputPin
 	:	public AbstractAudioDecodeInputPin
-	,	public Stream
+	//,	public Stream
 {
 public:
 
@@ -56,10 +58,10 @@ public:
 
 	HRESULT SetMediaType(const CMediaType* inMediaType);
 
-	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte buffer[], unsigned *bytes);
-	virtual ::FLAC__StreamDecoderWriteStatus write_callback(const ::FLAC__Frame *frame, const FLAC__int32 * const buffer[]);
-	virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
-	virtual void error_callback(::FLAC__StreamDecoderErrorStatus status);
+	//virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte buffer[], unsigned *bytes);
+	//virtual ::FLAC__StreamDecoderWriteStatus write_callback(const ::FLAC__Frame *frame, const FLAC__int32 * const buffer[]);
+	//virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
+	//virtual void error_callback(::FLAC__StreamDecoderErrorStatus status);
 
 	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
 	//FIX:::These should be protected.
@@ -73,12 +75,13 @@ public:
 
 protected:
 	bool mGotMetaData;
+	FLACPushDecoder mFLACDecoder;
 	
 	//debug only
 	//fstream debugLog;
 	//
 
 	CCritSec* mCodecLock;
-	queue<OggPacket*> mPendingPackets;
-	unsigned long mNumPacksBuffered;
+	//queue<OggPacket*> mPendingPackets;
+	//unsigned long mNumPacksBuffered;
 };
