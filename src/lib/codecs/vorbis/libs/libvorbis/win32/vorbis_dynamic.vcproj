@@ -34,8 +34,8 @@
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
 				CallingConvention="0"
-				CompileAs="0"
-				DisableSpecificWarnings="4244;4305"/>
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -109,8 +109,8 @@
 				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
 				CallingConvention="0"
-				CompileAs="0"
-				DisableSpecificWarnings="4244"/>
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -187,8 +187,8 @@
 				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
 				CallingConvention="0"
-				CompileAs="0"
-				DisableSpecificWarnings="4244"/>
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -265,8 +265,8 @@
 				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
 				CallingConvention="0"
-				CompileAs="0"
-				DisableSpecificWarnings="4244"/>
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
