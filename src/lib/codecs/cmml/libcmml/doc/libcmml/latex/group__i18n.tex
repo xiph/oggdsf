@@ -1,0 +1,55 @@
+\section{Internationalisation support in CMML}
+\label{group__i18n}\index{Internationalisation support in CMML@{Internationalisation support in CMML}}
+CMML is designed to provide full internationalisation (i18n) support, covering different character sets as well as languages and their differing directionality. Any tag or attribute that could end up containing text in a different language to the other tags may specify their own language.
+
+As a CMML file is an XML file by definition, the xml processing instruction provides for a file-specific specification of the encoding format in its \char`\"{}encoding\char`\"{} tag. A potentially differing character set for an INPUT media file will be specified in the \char`\"{}contenttype\char`\"{} attribute of the {\bf source} tag as a parameter to the MIME type.
+
+Different languages and their directionality for display purposes are given for every tag that contains human-readable text as a value of either an attribute or a tag. They are specified in the {\bf lang} and {\bf dir} attributes.
+
+The root {\bf cmml} tag's \char`\"{}lang\char`\"{} and \char`\"{}dir\char`\"{} attributes provide the default language for the whole CMML file.
+
+The {\bf source} tag in the stream tag has i18n support as its \char`\"{}title\char`\"{} attribute may contain human readable text.
+
+The {\bf head} tag has i18n support to provide a default language to its contained tags such as the {\bf title} and {\bf meta} tags. Both of them may incidentally overrun the defaults by having a language specification of their own.
+
+The {\bf clip} tag again contains a default language for the clip itself. The {\bf a}, {\bf img}, {\bf desc}, and {\bf meta} tags may each override the default language.
+
+Here is an example of a multi-lingual CMML file:
+
+
+
+\footnotesize\begin{verbatim}<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="pl">
+
+<stream timebase="npt:0">
+  <import contenttype="video/mpeg" src="fish.mpg" start="npt:0"/>
+</stream>
+
+<head lang="en">
+  <title>Types of fish</title>
+  <meta name="Producer" content="Joe Ordinary"/>
+  <meta name="DC.Author" content="Joe's friend"/>
+</head>
+
+<clip lang="de" id="intro" start="npt:0">
+  <a href="http://www.blah.au/fish.html">Lesen Sie mehr &#252;ber Fische.</a>
+  <desc lang="en">This is the introduction to the film Joe made about fish.</desc>
+</clip>
+
+<clip lang="en" id="goldfish" start="npt:5:5.9">
+  <a href="http://www.blah.au/morefish.anx?id=goldfish">More video clips on goldfish.</a>
+  <img src="http://www.blah.au/goldfish.jpg"/>
+  <desc>Joe has a fishtank at home with many colourful fish. The common goldfish is one of them and Joe's favourite. Here are some fabulous pictures he has taken of them.</desc>
+  <meta name="Location" content="Joe's fishtank"/>
+  <meta name="Subject" content="goldfish"/>
+  <meta lang="fr" name="sujet" content="poisson d'or"/>
+</clip>
+
+</cmml>
+\end{verbatim}
+\normalsize
+
+
+The document is generally in Polish (see lang attribute of cmml tag). The lang atttribute of the head tag makes all head tags and attributes be English. The lang attribute of the first clip tag makes all of them be German, though this is overrun by the lang attribute of the desc tag, making that one English. The last clip tag is in English, but it has a meta tag in French. 

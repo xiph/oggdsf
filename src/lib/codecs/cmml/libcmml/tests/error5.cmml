@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<stream id="a" timebase="npt:29.69" utc="20030517T155030.000Z">
+<import id="flim" contenttype="video/quicktime" src="rtsp://my.location.com/flim.anx#@npt=20-30" start="npt:12"/>
+<import id="flim2" contenttype="video/mpeg" src="http://www.flim.com/flam.anx" start="npt:0" end="npt:12"/>
+</stream>
+
+<head>
+<title>
+I have five projects on sourceforge.
+</title>
+<base id="ids_are_everywhere" href="http://large-organ.info/"/>
+<meta id="foo" name="crank_it_louder" content="utter_shite" scheme="i_prefer_clisp"/>
+<meta id="com" name="yowie" content="I_wish_simon_was_here" scheme="bugger_off"/>
+</head>
+
+<clip id="b" track="default" start="npt:35.43" end="36.0">
+<a href="http://hrefs.are.falling.on.my.head.info/">
+tired</a>
+<desc>
+What desc?
+</desc>
+</clip>
+
+<clip id="c" track="default" start="59.690001">
+<a href="http://whatever.com/">
+</a>
+<desc>
+This is the cmml tag test
+</desc>
+</clip>

@@ -1,0 +1,137 @@
+LIBRARY  libannodex.dll
+;DESCRIPTION "Provides Annodex file handling routines"
+EXPORTS		
+
+
+anx_parse_time		@1
+;
+; Error handling
+;
+anx_last_error		@2
+anx_strerror		@3
+
+
+;
+; Annodex file and track handling
+;
+anx_open		@5
+anx_open_stdio	@6
+anx_new			@7
+anx_flush		@8
+anx_close		@9
+;anx_destroy		@10
+anx_ready		@11
+anx_eos			@12
+anx_set_head		@13
+anx_get_head		@14
+anx_tell		@15
+;anx_seek		@14 deprecated
+anx_seek_id		@16
+anx_get_timebase	@17
+anx_set_timebase	@18
+anx_tell_time		@19
+anx_seek_time		@20
+
+;
+;anxtracks.h
+;
+anx_get_track_list		@21
+anx_track_get_content_type	@22
+anx_track_get_nr_headers	@23
+anx_track_get_granule_rate	@24
+anx_track_time_to_granules	@25
+anx_track_granules_to_time	@26
+
+;
+;anx_write.h
+;
+
+anx_init_importers		@30
+;What's up with this ????????????
+;anx_write_get_next_page_size	@31
+anx_write_import		@32
+anx_write_set_anno_callbacks	@33
+anx_write_get_anno_user_data	@34
+anx_write_set_ii_callback	@35
+anx_write_get_ii_user_data	@36
+anx_insert_clip			@37
+anx_write			@38
+anx_write_output		@39
+;anx_schedule_query		@40
+;anx_schedule_remove		@41
+;anx_schedule_first		@42
+;anx_schedule_next		@43
+;anx_schedule_prev		@44
+
+
+
+;
+; Annodex Params
+;
+anx_params_new_parse		@50
+anx_params_snprint		@51
+anx_params_get			@52
+anx_params_replace		@53
+anx_params_append		@54
+anx_params_remove		@55
+anx_params_merge		@56
+anx_params_clone		@57
+anx_params_free			@58
+
+;
+; CMML element handling in Annodex
+;
+
+anx_head_snprint		@60
+anx_clip_snprint		@61
+anx_head_free			@62
+anx_clip_free			@63
+anx_head_clone			@64
+anx_clip_clone			@65
+anx_meta_element_clone		@66
+
+;
+; Callback and importer handling
+;
+
+anx_importer_register		@70
+anx_importer_unregister		@71
+
+
+
+anx_set_read_stream_callback	@80
+anx_get_read_stream_user_data	@81
+anx_set_read_track_callback	@82
+anx_get_read_track_user_data	@83
+
+anx_set_read_head_callback	@84
+anx_get_read_head_user_data	@85
+
+anx_set_read_clip_callback	@86
+anx_get_read_clip_user_data	@87
+
+anx_set_read_raw_callback	@88
+anx_get_read_raw_user_data	@89
+	
+anx_read					@90
+anx_read_input				@91
+
+
+;
+; List handling, e.g. meta tag lists
+;
+anx_list_new			@100
+anx_list_clone			@101
+anx_list_clone_with		@102
+anx_list_tail			@103
+anx_list_prepend		@104
+anx_list_append			@105
+anx_list_add_before		@106
+anx_list_add_after		@107
+anx_list_find			@108
+anx_list_remove			@109
+anx_list_length			@110
+anx_list_is_empty		@111
+anx_list_is_singleton		@112
+anx_list_free_with		@113
+anx_list_free			@114

@@ -1,0 +1,24 @@
+\section{Reading from Annodex media}
+\label{group__reading}\index{Reading from Annodex media@{Reading from Annodex media}}
+
+
+\subsection{Detailed Description}
+libannodex provides a convenient callback based framework for reading Annodex media. 
+
+After opening an annodex for reading, you can attach various callbacks relevant to the parts of the file you are interested in, including the stream header, track headers, head element, anchors and media data. Then, as bytes are read, libannodex will call your callbacks as appropriate.
+
+\begin{itemize}
+\item General functions related to opening, closing and seeking are located in {\bf anx\_\-general.h }{\rm (p.\,\pageref{anx__general_8h})}.\item Functions directly related to reading are located in {\bf anx\_\-read.h }{\rm (p.\,\pageref{anx__read_8h})}\end{itemize}
+
+
+The following modules contain descriptions and example code for various methods of reading Annodex media. 
+
+\subsection*{Modules}
+\begin{CompactItemize}
+\item 
+{\bf Reading from files and file descriptors}
+\item 
+{\bf Reading from memory buffers}
+\item 
+{\bf Advanced management of Anx\-Read callbacks}
+\end{CompactItemize}

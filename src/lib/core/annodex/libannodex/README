@@ -1,0 +1,19 @@
+libannodex is a library to provide reading and writing of Annodex
+files and streams.
+
+The src/ directory contains the source code for the library itself.
+
+The include/ directory contains the annodex include files that will
+be installed into the system include directory.
+ 
+The doc/ directory contains some documentation for ANNODEX. The
+subdirectory libannodex is autocreated by doxygen from comments contained
+in the source code.
+ 
+The win32/ directory contains the files necessary to compile the
+library for MS Windows using nmake.
+ 
+This library is installed using the standard configure, make, make
+install sequence. Full details in the file INSTALL.
+ 
+Read the file README.win32 for installing under MS Windows.

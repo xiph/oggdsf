@@ -1,0 +1,18 @@
+error4.cmml:17:0: Error parsing CMML file
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<stream timebase="npt:0">
+<import id="a1" contenttype="video/mpeg" src="cleaner.mpg" start="npt:0"/>
+</stream>
+
+<head>
+<title>
+Australia Advances Series - Cleaner Power Stations
+</title>
+<meta name="DESCRIPTION" content="A power station in New South Wales is using a new system of filter bags that remove the coal dust from the emitted fumes"/>
+<meta name="KEYWORDS" content="Polution, Power Station"/>
+</head>
+

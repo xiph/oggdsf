@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<head><title>This is a test file</title></head>
+<clip start=" 0:00:00.600" end=" 0:00:03.500"><a href="http://www.annodex.net/">hyperlink to annodex.net</a><desc>This is a clip</desc></clip>
+</cmml>

@@ -1,0 +1,116 @@
+LIBRARY  libcmml.dll
+;DESCRIPTION "Provides CMML parsing and validation"
+EXPORTS
+
+;
+; open, close, command
+;
+cmml_open			@1
+cmml_new			@2
+cmml_destroy			@3
+cmml_close			@4
+
+;
+; parsing callbacks
+;
+cmml_set_read_callbacks		@5
+cmml_read			@6
+cmml_set_sloppy                 @7
+
+;
+; parsing results
+;
+cmml_get_preamble		@10
+cmml_get_last_stream		@11
+cmml_get_last_head		@12
+cmml_get_last_clip		@13
+cmml_get_previous_clip		@14
+
+;
+; error functions
+;
+cmml_get_last_error		@16
+cmml_error_clear		@17
+
+;
+; seeking
+;
+cmml_set_window			@20
+cmml_skip_to_secs		@21
+cmml_skip_to_utc		@22
+cmml_skip_to_id			@23
+cmml_skip_to_offset		@24
+
+;
+; element parsing
+;
+cmml_preamble_new		@25
+cmml_element_new		@26
+cmml_stream_new			@27
+cmml_head_new			@28
+cmml_clip_new			@29
+cmml_error_new			@30
+
+cmml_preamble_clone		@31
+cmml_element_clone		@32
+cmml_stream_clone		@33
+cmml_head_clone			@34
+cmml_clip_clone			@35
+
+cmml_preamble_destroy		@36
+cmml_element_destroy		@37
+cmml_stream_destroy		@38
+cmml_head_destroy		@39
+cmml_clip_destroy		@40
+cmml_error_destroy		@41
+
+;
+; printing
+;
+cmml_preamble_snprint		@42
+cmml_element_snprint		@43
+cmml_stream_snprint		@44
+cmml_stream_pretty_snprint	@45
+cmml_head_snprint		@46
+cmml_head_pretty_snprint	@47
+cmml_clip_snprint		@48
+cmml_clip_pretty_snprint	@49
+cmml_error_snprint		@50
+
+;
+; list handling
+;
+cmml_list_new			@52
+cmml_list_clone			@53
+cmml_list_clone_with		@54
+cmml_list_tail			@55
+cmml_list_prepend		@56
+cmml_list_append		@57
+cmml_list_add_before		@58
+cmml_list_add_after		@59
+cmml_list_find			@60
+cmml_list_remove		@61
+cmml_list_length		@62
+cmml_list_is_empty		@63
+cmml_list_is_singleton		@64
+cmml_list_free_with		@65
+cmml_list_free			@66
+
+;
+; time handling
+;
+cmml_time_new			@70
+cmml_sec_new			@71
+cmml_utc_new			@72
+cmml_time_interval_new		@73
+cmml_time_new_in_sec		@74
+cmml_time_utc_to_sec		@75
+cmml_time_free			@76
+cmml_time_clone			@77
+cmml_sec_parse			@78
+cmml_utc_parse			@79
+cmml_utc_clone			@80
+cmml_utc_diff			@81
+cmml_npt_snprint		@82
+cmml_utc_snprint		@83
+cmml_utc_pretty_snprint		@84

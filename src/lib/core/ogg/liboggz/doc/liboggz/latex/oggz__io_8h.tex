@@ -1,0 +1,305 @@
+\section{oggz\_\-io.h File Reference}
+\label{oggz__io_8h}\index{oggz_io.h@{oggz\_\-io.h}}
+
+
+\subsection{Detailed Description}
+Overriding the functions used for input and output of raw data. 
+
+Oggz\-IO provides a way of overriding the functions Oggz uses to access its raw input or output data. This is required in many situations where the raw stream cannot be accessed via stdio, but can be accessed by other means. This is typically useful within media frameworks, where accessing and moving around in the data is possible only using methods provided by the framework.
+
+The functions you provide for overriding IO will be used by Oggz whenever you call {\bf oggz\_\-read()}{\rm (p.\,\pageref{group__read__api_ga2})} or {\bf oggz\_\-write()}{\rm (p.\,\pageref{group__write__api_ga4})}. They will also be used repeatedly by Oggz when you call {\bf oggz\_\-seek()}{\rm (p.\,\pageref{group__seek__api_ga8})}.
+
+\begin{Desc}
+\item[Note:]Opening a file with {\bf oggz\_\-open()}{\rm (p.\,\pageref{oggz_8h_a5})} or {\bf oggz\_\-open\_\-stdio()}{\rm (p.\,\pageref{oggz_8h_a6})} is equivalent to calling {\bf oggz\_\-new()}{\rm (p.\,\pageref{oggz_8h_a4})} and setting stdio based functions for data IO.\end{Desc}
+
+
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef size\_\-t($\ast$ {\bf Oggz\-IORead} )(void $\ast$user\_\-handle, void $\ast$buf, size\_\-t n)
+\begin{CompactList}\small\item\em This is the signature of a function which you provide for Oggz to call when it needs to acquire raw input data. \item\end{CompactList}\item 
+typedef size\_\-t($\ast$ {\bf Oggz\-IOWrite} )(void $\ast$user\_\-handle, void $\ast$buf, size\_\-t n)
+\begin{CompactList}\small\item\em This is the signature of a function which you provide for Oggz to call when it needs to output raw data. \item\end{CompactList}\item 
+typedef int($\ast$ {\bf Oggz\-IOSeek} )(void $\ast$user\_\-handle, long offset, int whence)
+\begin{CompactList}\small\item\em This is the signature of a function which you provide for Oggz to call when it needs to seek on the raw input or output data. \item\end{CompactList}\item 
+typedef long($\ast$ {\bf Oggz\-IOTell} )(void $\ast$user\_\-handle)
+\begin{CompactList}\small\item\em This is the signature of a function which you provide for Oggz to call when it needs to determine the current offset of the raw input or output data. \item\end{CompactList}\item 
+typedef int($\ast$ {\bf Oggz\-IOFlush} )(void $\ast$user\_\-handle)
+\begin{CompactList}\small\item\em This is the signature of a function which you provide for Oggz to call when it needs to flush the output data. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int {\bf oggz\_\-io\_\-set\_\-read} ({\bf OGGZ} $\ast$oggz, {\bf Oggz\-IORead} read, void $\ast$user\_\-handle)
+\begin{CompactList}\small\item\em Set a function for Oggz to call when it needs to read input data. \item\end{CompactList}\item 
+void $\ast$ {\bf oggz\_\-io\_\-get\_\-read\_\-user\_\-handle} ({\bf OGGZ} $\ast$oggz)
+\begin{CompactList}\small\item\em Retrieve the user\_\-handle associated with the function you have provided for reading input data. \item\end{CompactList}\item 
+int {\bf oggz\_\-io\_\-set\_\-write} ({\bf OGGZ} $\ast$oggz, {\bf Oggz\-IOWrite} write, void $\ast$user\_\-handle)
+\begin{CompactList}\small\item\em Set a function for Oggz to call when it needs to write output data. \item\end{CompactList}\item 
+void $\ast$ {\bf oggz\_\-io\_\-get\_\-write\_\-user\_\-handle} ({\bf OGGZ} $\ast$oggz)
+\begin{CompactList}\small\item\em Retrieve the user\_\-handle associated with the function you have provided for writing output data. \item\end{CompactList}\item 
+int {\bf oggz\_\-io\_\-set\_\-seek} ({\bf OGGZ} $\ast$oggz, {\bf Oggz\-IOSeek} seek, void $\ast$user\_\-handle)
+\begin{CompactList}\small\item\em Set a function for Oggz to call when it needs to seek on its raw data. \item\end{CompactList}\item 
+void $\ast$ {\bf oggz\_\-io\_\-get\_\-seek\_\-user\_\-handle} ({\bf OGGZ} $\ast$oggz)
+\begin{CompactList}\small\item\em Retrieve the user\_\-handle associated with the function you have provided for seeking on input or output data. \item\end{CompactList}\item 
+int {\bf oggz\_\-io\_\-set\_\-tell} ({\bf OGGZ} $\ast$oggz, {\bf Oggz\-IOTell} tell, void $\ast$user\_\-handle)
+\begin{CompactList}\small\item\em Set a function for Oggz to call when it needs to determine the offset within its input data (if OGGZ\_\-READ) or output data (if OGGZ\_\-WRITE). \item\end{CompactList}\item 
+void $\ast$ {\bf oggz\_\-io\_\-get\_\-tell\_\-user\_\-handle} ({\bf OGGZ} $\ast$oggz)
+\begin{CompactList}\small\item\em Retrieve the user\_\-handle associated with the function you have provided for determining the current offset in input or output data. \item\end{CompactList}\item 
+int {\bf oggz\_\-io\_\-set\_\-flush} ({\bf OGGZ} $\ast$oggz, {\bf Oggz\-IOFlush} flush, void $\ast$user\_\-handle)
+\begin{CompactList}\small\item\em Set a function for Oggz to call when it needs to flush its output. \item\end{CompactList}\item 
+void $\ast$ {\bf oggz\_\-io\_\-get\_\-flush\_\-user\_\-handle} ({\bf OGGZ} $\ast$oggz)
+\begin{CompactList}\small\item\em Retrieve the user\_\-handle associated with the function you have provided for flushing output. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{oggz_io.h@{oggz\_\-io.h}!OggzIOFlush@{OggzIOFlush}}
+\index{OggzIOFlush@{OggzIOFlush}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Oggz\-IOFlush})(void $\ast$ user\_\-handle)}\label{oggz__io_8h_a4}
+
+
+This is the signature of a function which you provide for Oggz to call when it needs to flush the output data. 
+
+The behaviour of this function is similar to that of fflush() in stdio.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em user\_\-handle}]A generic pointer you have provided earlier \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em $<$  0}]An error condition \end{description}
+\end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!OggzIORead@{OggzIORead}}
+\index{OggzIORead@{OggzIORead}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef size\_\-t($\ast$ {\bf Oggz\-IORead})(void $\ast$ user\_\-handle, void $\ast$ buf, size\_\-t n)}\label{oggz__io_8h_a0}
+
+
+This is the signature of a function which you provide for Oggz to call when it needs to acquire raw input data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em user\_\-handle}]A generic pointer you have provided earlier \item[{\em n}]The length in bytes that Oggz wants to read \item[{\em buf}]The buffer that you read data into \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em $>$  0}]The number of bytes successfully read into the buffer \item[{\em 0}]to indicate that there is no more data to read (End of file) \item[{\em $<$  0}]An error condition \end{description}
+\end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!OggzIOSeek@{OggzIOSeek}}
+\index{OggzIOSeek@{OggzIOSeek}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Oggz\-IOSeek})(void $\ast$ user\_\-handle, long offset, int whence)}\label{oggz__io_8h_a2}
+
+
+This is the signature of a function which you provide for Oggz to call when it needs to seek on the raw input or output data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em user\_\-handle}]A generic pointer you have provided earlier \item[{\em offset}]The offset in bytes to seek to \item[{\em whence}]SEEK\_\-SET, SEEK\_\-CUR or SEEK\_\-END (as for stdio.h) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em $>$= 0}]The offset seeked to \item[{\em $<$  0}]An error condition\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Note:]If you provide an Oggz\-IOSeek function, you MUST also provide an Oggz\-IOTell function, or else all your seeks will fail. \end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!OggzIOTell@{OggzIOTell}}
+\index{OggzIOTell@{OggzIOTell}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef long($\ast$ {\bf Oggz\-IOTell})(void $\ast$ user\_\-handle)}\label{oggz__io_8h_a3}
+
+
+This is the signature of a function which you provide for Oggz to call when it needs to determine the current offset of the raw input or output data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em user\_\-handle}]A generic pointer you have provided earlier \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em $>$= 0}]The offset \item[{\em $<$  0}]An error condition \end{description}
+\end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!OggzIOWrite@{OggzIOWrite}}
+\index{OggzIOWrite@{OggzIOWrite}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef size\_\-t($\ast$ {\bf Oggz\-IOWrite})(void $\ast$ user\_\-handle, void $\ast$ buf, size\_\-t n)}\label{oggz__io_8h_a1}
+
+
+This is the signature of a function which you provide for Oggz to call when it needs to output raw data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em user\_\-handle}]A generic pointer you have provided earlier \item[{\em n}]The length in bytes of the data \item[{\em buf}]A buffer containing data to write \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em $>$= 0}]The number of bytes successfully written (may be less than {\em n\/} if a write error has occurred) \item[{\em $<$  0}]An error condition \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_get_flush_user_handle@{oggz\_\-io\_\-get\_\-flush\_\-user\_\-handle}}
+\index{oggz_io_get_flush_user_handle@{oggz\_\-io\_\-get\_\-flush\_\-user\_\-handle}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ oggz\_\-io\_\-get\_\-flush\_\-user\_\-handle ({\bf OGGZ} $\ast$ {\em oggz})}\label{oggz__io_8h_a14}
+
+
+Retrieve the user\_\-handle associated with the function you have provided for flushing output. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-handle \end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_get_read_user_handle@{oggz\_\-io\_\-get\_\-read\_\-user\_\-handle}}
+\index{oggz_io_get_read_user_handle@{oggz\_\-io\_\-get\_\-read\_\-user\_\-handle}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ oggz\_\-io\_\-get\_\-read\_\-user\_\-handle ({\bf OGGZ} $\ast$ {\em oggz})}\label{oggz__io_8h_a6}
+
+
+Retrieve the user\_\-handle associated with the function you have provided for reading input data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-handle \end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_get_seek_user_handle@{oggz\_\-io\_\-get\_\-seek\_\-user\_\-handle}}
+\index{oggz_io_get_seek_user_handle@{oggz\_\-io\_\-get\_\-seek\_\-user\_\-handle}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ oggz\_\-io\_\-get\_\-seek\_\-user\_\-handle ({\bf OGGZ} $\ast$ {\em oggz})}\label{oggz__io_8h_a10}
+
+
+Retrieve the user\_\-handle associated with the function you have provided for seeking on input or output data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-handle \end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_get_tell_user_handle@{oggz\_\-io\_\-get\_\-tell\_\-user\_\-handle}}
+\index{oggz_io_get_tell_user_handle@{oggz\_\-io\_\-get\_\-tell\_\-user\_\-handle}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ oggz\_\-io\_\-get\_\-tell\_\-user\_\-handle ({\bf OGGZ} $\ast$ {\em oggz})}\label{oggz__io_8h_a12}
+
+
+Retrieve the user\_\-handle associated with the function you have provided for determining the current offset in input or output data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-handle \end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_get_write_user_handle@{oggz\_\-io\_\-get\_\-write\_\-user\_\-handle}}
+\index{oggz_io_get_write_user_handle@{oggz\_\-io\_\-get\_\-write\_\-user\_\-handle}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ oggz\_\-io\_\-get\_\-write\_\-user\_\-handle ({\bf OGGZ} $\ast$ {\em oggz})}\label{oggz__io_8h_a8}
+
+
+Retrieve the user\_\-handle associated with the function you have provided for writing output data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-handle \end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_set_flush@{oggz\_\-io\_\-set\_\-flush}}
+\index{oggz_io_set_flush@{oggz\_\-io\_\-set\_\-flush}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int oggz\_\-io\_\-set\_\-flush ({\bf OGGZ} $\ast$ {\em oggz}, {\bf Oggz\-IOFlush} {\em flush}, void $\ast$ {\em user\_\-handle})}\label{oggz__io_8h_a13}
+
+
+Set a function for Oggz to call when it needs to flush its output. 
+
+The meaning of this is similar to that of fflush() in stdio.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \item[{\em flush}]Your flushing function \item[{\em user\_\-handle}]Any arbitrary data you wish to pass to the function \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em OGGZ\_\-ERR\_\-BAD\_\-OGGZ}]{\em oggz\/} does not refer to an existing OGGZ \item[{\em OGGZ\_\-ERR\_\-INVALID}]Operation not suitable for this OGGZ; {\em oggz\/} not open for writing. \end{description}
+\end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_set_read@{oggz\_\-io\_\-set\_\-read}}
+\index{oggz_io_set_read@{oggz\_\-io\_\-set\_\-read}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int oggz\_\-io\_\-set\_\-read ({\bf OGGZ} $\ast$ {\em oggz}, {\bf Oggz\-IORead} {\em read}, void $\ast$ {\em user\_\-handle})}\label{oggz__io_8h_a5}
+
+
+Set a function for Oggz to call when it needs to read input data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \item[{\em read}]Your reading function \item[{\em user\_\-handle}]Any arbitrary data you wish to pass to the function \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em OGGZ\_\-ERR\_\-BAD\_\-OGGZ}]{\em oggz\/} does not refer to an existing OGGZ \item[{\em OGGZ\_\-ERR\_\-INVALID}]Operation not suitable for this OGGZ; {\em oggz\/} not open for reading. \end{description}
+\end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_set_seek@{oggz\_\-io\_\-set\_\-seek}}
+\index{oggz_io_set_seek@{oggz\_\-io\_\-set\_\-seek}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int oggz\_\-io\_\-set\_\-seek ({\bf OGGZ} $\ast$ {\em oggz}, {\bf Oggz\-IOSeek} {\em seek}, void $\ast$ {\em user\_\-handle})}\label{oggz__io_8h_a9}
+
+
+Set a function for Oggz to call when it needs to seek on its raw data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \item[{\em seek}]Your seeking function \item[{\em user\_\-handle}]Any arbitrary data you wish to pass to the function \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em OGGZ\_\-ERR\_\-BAD\_\-OGGZ}]{\em oggz\/} does not refer to an existing OGGZ \item[{\em OGGZ\_\-ERR\_\-INVALID}]Operation not suitable for this OGGZ\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Note:]If you provide an Oggz\-IOSeek function, you MUST also provide an Oggz\-IOTell function, or else all your seeks will fail. \end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_set_tell@{oggz\_\-io\_\-set\_\-tell}}
+\index{oggz_io_set_tell@{oggz\_\-io\_\-set\_\-tell}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int oggz\_\-io\_\-set\_\-tell ({\bf OGGZ} $\ast$ {\em oggz}, {\bf Oggz\-IOTell} {\em tell}, void $\ast$ {\em user\_\-handle})}\label{oggz__io_8h_a11}
+
+
+Set a function for Oggz to call when it needs to determine the offset within its input data (if OGGZ\_\-READ) or output data (if OGGZ\_\-WRITE). 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \item[{\em tell}]Your tell function \item[{\em user\_\-handle}]Any arbitrary data you wish to pass to the function \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em OGGZ\_\-ERR\_\-BAD\_\-OGGZ}]{\em oggz\/} does not refer to an existing OGGZ \item[{\em OGGZ\_\-ERR\_\-INVALID}]Operation not suitable for this OGGZ \end{description}
+\end{Desc}
+\index{oggz_io.h@{oggz\_\-io.h}!oggz_io_set_write@{oggz\_\-io\_\-set\_\-write}}
+\index{oggz_io_set_write@{oggz\_\-io\_\-set\_\-write}!oggz_io.h@{oggz\_\-io.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int oggz\_\-io\_\-set\_\-write ({\bf OGGZ} $\ast$ {\em oggz}, {\bf Oggz\-IOWrite} {\em write}, void $\ast$ {\em user\_\-handle})}\label{oggz__io_8h_a7}
+
+
+Set a function for Oggz to call when it needs to write output data. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oggz}]An OGGZ handle \item[{\em write}]Your writing function \item[{\em user\_\-handle}]Any arbitrary data you wish to pass to the function \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em 0}]Success \item[{\em OGGZ\_\-ERR\_\-BAD\_\-OGGZ}]{\em oggz\/} does not refer to an existing OGGZ \item[{\em OGGZ\_\-ERR\_\-INVALID}]Operation not suitable for this OGGZ; {\em oggz\/} not open for writing. \end{description}
+\end{Desc}

@@ -1,0 +1,10 @@
+error6.cmml:10:0: head tag missing
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="en">
+
+<stream timebase="npt:0">
+<import src="matrix.mpg" start="npt:0"/>
+</stream>
+

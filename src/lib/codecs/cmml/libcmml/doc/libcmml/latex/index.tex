@@ -1,0 +1,82 @@
+\section{Introduction}\label{intro}
+{\bf libcmml} is a library that provides a complete programming interface including functions, data structures, and sloppy or strict error handling to parse a XML file in CMML. CMML is the Continuous Media Markup Language defined as part of the Continuous Media Web project (see {\tt http://www.annodex.net/software/libcmml/}).
+
+libcmml also includes the following command-line tools:\begin{itemize}
+\item {\tt cmml-validate}, which takes as input a CMML file and tests it against the {\tt cmml.dtd}\item {\tt cmml-fix}, which fixes a sloppily written input CMML and creates a valid one if possible\item {\tt cmml-fortune}, which creates a valid CMML file with random content\end{itemize}
+\section{Features of CMML}\label{features}
+The version of CMML that this version of libcmml supports is CMML 2.0 . It has the following features:
+
+\begin{itemize}
+\item html-like markup language for audio, video, and other time-continuous data files (call them \char`\"{}media files\char`\"{})\item provides markup to structure an input media file into clips by identification of time intervals\item URI hyperlinking to clips is possible\item provides structured annotations (meta tags) and unstructed annotations (free text) both for the complete media file and each clips\item URI hyperlinks from clips to other Web resources possible\item URI hyperlinks from clips to representative images (keyframes) possible\item internationalisation (i18n) support for markup\item multi-track composition directions for media files from several input media files possible\item several tracks of annotations (multi-track annotations) possible\item arbitrarily high temporal resolution for annotation and media tracks\item non-zero timbase association with media files possible\item wall-clock time association with media files possible\end{itemize}
+
+
+To learn more about CMML and how to write a CMML file, check out the {\tt Modules} documentation.\section{Compiling and Installing libcmml}\label{install}
+libcmml is developed in C under Linux and OS X but is easily portable. A Visual C++ MS Windows port is included in the tarball.
+
+libcmml uses expat for parsing XML. Get the appropriate version for your OS from {\tt http://expat.sourceforge.net/}.
+
+libcmml uses {\tt doxygen} to create documentation and {\tt docbook} to create manpages.
+
+To install on Linux, OS X, and other Unix-like OSs run the usual configure, make, make install sequence. Full details in the INSTALL file.
+
+To install on MS Windows you have the choice between a MS Visual Studio version 6 workspace file, a MS Visual Studio version 7 solution, and using nmake with the Win32/Makefile file. Full details in the README.win32 file.\section{Programming with libcmml}\label{begin}
+The libcmml {\bf API documentation} can be found {\tt here}. The API of libcmml is based on a convenient callback based framework for parsing CMML files. This enables activation of actions for the stream, head and clip tags while reading a CMML file. After opening a CMML file for reading, you attach callbacks to each of these types of tags. Then, as bytes are read, libcmml will call your callbacks as appropriate. Check out the {\tt code examples} to gain a better understanding.\section{The CMML DTD}\label{dtd}
+The DTD for CMML can be found here: {\tt here}.\section{Licensing}\label{license}
+libcmml is provided under the following BSD-style open source license:
+
+
+
+\footnotesize\begin{verbatim}   Copyright (C) 2003 CSIRO Australia
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions
+   are met:
+   
+   - Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+   
+   - Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+   
+   - Neither the name of the CSIRO nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+   
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+   PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE ORGANISATION OR
+   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+\end{verbatim}
+\normalsize
+\section{Acknowledgements}\label{ack}
+
+
+\footnotesize\begin{verbatim}Software was developed by CSIRO, Australia,
+Analytic Audio Systems research group in
+Division of Mathematical and Information Sciences,
+later Continuous Media Web research group in
+ICT Research Centre.
+(c) Copyright CSIRO 2002-
+
+Authors:
+Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+Conrad Parker <Conrad.Parker@csiro.au>
+Andre Pang <Andre.Pang@csiro.au>
+
+Contributions:
+Zen Kavanagh <Zen@illiminable.com>
+Andrew Nesbit <alnesbit@students.cs.mu.OZ.AU>
+Ben Leslie <benno@benno.id.au>
+Jamie Wilkinson <jaq@spacepants.org>
+\end{verbatim}
+\normalsize
+ 

@@ -1,0 +1,106 @@
+2004-03-11  Silvia Pfeiffer <silvia.pfeiffer@csiro.au>
+	* Version 0.8.2
+	* took CVS out of tarball
+	* little fixes
+2003-12-31  Zen Kavanagh <Zen@illiminable.com>
+	* Version 0.8.1
+	* fixed Windows port ('b' flag into fopens, getopt)
+2003-12-06  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.8.0
+	* adapted to CMML 2.0
+	* fixed up much error handling, e.g. no stream tag,
+	  head or anchor before stream, missing required attributes,
+	  param outside source tag, track default value
+	* created an error model of sloppy and non-sloppy errors
+	* extended documentation, all in doxygen
+	* included manpages
+	* change from file descriptors to FILE *, changing API 
+	  functions cmml_new & cmml_destroy
+	* added cmml-fortune (contributed by Conrad Parker)
+	* added cmml-fix (thanks to Conrad Parker)
+	* included getot_long for cmml-validate, cmml-fix, cmml-fortune
+	* included stdin for cmml-validate, cmml-fix, cmml-fortune
+	* added several API functions for preamble handling
+2003-10-21  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.7.7
+	* fixed up character escaping when printing attribute and 
+	  element values
+2003-10-19  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.7.6
+	* fixed up example code and documentation
+	* included Version_script
+	* included some more testing using the example programs
+	* fixed some bugs in cmml.c on seeking and added a function
+2003-10-18  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.7.5
+	* fixed up "make distcheck" and also added "make test"
+	* included Doxygen documentation
+	* fixed some memory holes in cmml_element.c
+2003-09-25  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.7.4
+	* a negative timebase gets now flagged as a proper error
+2003-09-23  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.7.3
+	* fixed a bug for anchors without start time
+2003-09-22  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.7.2
+	* adapted time specification to "npt:12.5" from "npt=12.5" etc.
+2003-09-15  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.7.0
+	* windows port (subdirectory Win32)
+2003-06-22  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.8
+	* bug fixes & added ignoring of multiple stream & head tags
+	  into cmml-transform
+2003-06-22  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.7
+	* changed seeking structure, deleted "seek" functions, added
+	  cmml_set and cmml_skip_to functions
+2003-06-21  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.6
+	* added support for seeking ranges
+2003-06-20  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.5
+	* added tool to demonstrate a server's implementation of cmml parsing
+	* bug fixes
+2003-06-01  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.4
+	* added a "end" attribute to the "media" tag in "stream"
+2003-06-01  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.3
+	* deleted all amml support
+	* deleted "seekoffset" and "seekend" attribute
+	  in "media" tag as the "location" attribute can handle them
+2003-06-01  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.2
+	* added "seekend" attribute to "media" tag
+2003-05-27  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.1
+	* added a test file for amml testing
+	* fixed up the dtds
+2003-05-25  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.6.0 contains major changes in the cmml
+	* supporting multiple mimetype input bitstream multiplexing
+	* supporting variable bitrate in ANNODEX
+	* supporting several more smpte specifications
+2003-05-25  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.5.10
+	* adds a cmml-transcode-dtd function to transcode cmml files
+	  from the dtd of version 0.5.9 to the one in 0.6.10; this
+	  function is deleted in 0.6.10 again
+2003-05-21  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.5.9
+	* fixed up utc support in head, anchors and for seeking
+2003-04-05  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.5.8
+	* supports changed media mapping, i.e. deleted packetrate
+	* corrected time support to use absolute times in attributes
+	  instead of relative ones; deleted support for start/end/now
+2003-03-21  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.5.6 includes initial utc support
+2003-02-08  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.5.5 includes seeking support
+2002-12-21  Silvia Pfeiffer <Silvia.Pfeiffer@csiro.au>
+	* Version 0.5.0 including AMML and CMML support
+2002-02-21  Andrew Nesbit  <Andrew.Nesbit@CSIRO.AU>
+	* Initial version: libcmml-0.1.0

@@ -1,0 +1,62 @@
+\section{CMML\_\-Time Struct Reference}
+\label{structCMML__Time}\index{CMML_Time@{CMML\_\-Time}}
+{\tt \#include $<$cmml.h$>$}
+
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+char $\ast$ {\bf tstr}
+\item 
+{\bf CMML\_\-Time\_\-Type} {\bf type}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>{\bf CMML\_UTC} $\ast$ {\bf utc}\\
+\>double {\bf sec}\\
+\} {\bf t}\\
+
+\end{tabbing}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+CMML\_\-Time: a time specification in CMML: either seconds or utc time; keeps the orininal time string for reuse, too \begin{Desc}
+\item[Examples: ]\par
+
+
+{\bf cmml-write.c}.\end{Desc}
+
+
+
+
+\subsection{Field Documentation}
+\index{CMML_Time@{CMML\_\-Time}!tstr@{tstr}}
+\index{tstr@{tstr}!CMML_Time@{CMML\_\-Time}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ {\bf CMML\_\-Time::tstr}}\label{structCMML__Time_o0}
+
+
+copy of original time string for reuse in printing \index{CMML_Time@{CMML\_\-Time}!type@{type}}
+\index{type@{type}!CMML_Time@{CMML\_\-Time}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf CMML\_\-Time\_\-Type} {\bf CMML\_\-Time::type}}\label{structCMML__Time_o1}
+
+
+the type of time for selecting the union content \index{CMML_Time@{CMML\_\-Time}!utc@{utc}}
+\index{utc@{utc}!CMML_Time@{CMML\_\-Time}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf CMML\_\-UTC}$\ast$ {\bf CMML\_\-Time::utc}}\label{structCMML__Time_o2}
+
+
+actual time in utc \index{CMML_Time@{CMML\_\-Time}!sec@{sec}}
+\index{sec@{sec}!CMML_Time@{CMML\_\-Time}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double {\bf CMML\_\-Time::sec}}\label{structCMML__Time_o3}
+
+
+actual time in seconds \index{CMML_Time@{CMML\_\-Time}!t@{t}}
+\index{t@{t}!CMML_Time@{CMML\_\-Time}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}union \{ ... \}   {\bf CMML\_\-Time::t}}\label{structCMML__Time_o4}
+
+
+holds either a utc or a sec time 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf cmml.h}\end{CompactItemize}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="en">
+
+<stream timebase="npt:0">
+<import src="matrix.mpg" start="npt:0"/>
+</stream>
+
+<clip id="no_spoon" lang="en" start="npt:46:5.9" end="npt:51:3.4">
+<meta name="Actor" content="Keanu Reeves"/>
+<meta name="Actor" content="Rowan Witt"/>
+<meta name="Cast.Reeves" content="Thomas A. Anderson/Neo"/>
+<meta name="Cast.Witt" content="Spoon boy"/>
+<meta name="Scene" content="Oracle"/>
+<a href="http://www.blah.au/spoons.anx#@bent">
+More images of the bent spoon
+</a>
+<img src="no_spoon.jpg"/>
+<desc>
+There is no spoon: Neo is waiting to see the Oracle in a room full of
+children doing seemingly impossible things. One is making spoons bend
+through telekenesis. Neo tries to do it himself, but fails. Spoon boy:
+"Do not try and bend the spoon that's impossible, instead only try to
+realize the truth." Neo: "What truth?" Spoon boy: "There is no spoon." 
+Neo: "There is no spoon?" Spoon boy: "Then you'll see that it is not
+the spoon that bends, it is only yourself." Neo tries again...
+</desc>
+</clip>
+
+</cmml>

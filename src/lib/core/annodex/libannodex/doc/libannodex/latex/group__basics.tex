@@ -1,0 +1,17 @@
+\section{Annodex format basics}
+\label{group__basics}\index{Annodex format basics@{Annodex format basics}}
+\subsection{Terminology}\label{Terminology}
+libannodex introduces terminology directly related to Annodex format, and also borrows some terminology from the underlying Ogg framework. Ogg is a non-heirarchical container format developed by Monty at Xiph.Org, originally for the Ogg Vorbis audio codec.\subsubsection{Managing multitrack data}\label{multitrack}
+Annodex format allows time-synchronous interleaving of multiple data tracks such as audio, video and annotations. Each track is uniquely identified by a serial number or {\em serialno\/} in Ogg terminology.
+
+\begin{itemize}
+\item {\em serialno\/}: an integer identifying a track\end{itemize}
+
+
+A random serial number will be assigned to each track automatically.\subsubsection{Time: video frames, sampling rates etc.}\label{time}
+All data contained within Annodex tracks must be timed. Annodex format introduces the generic concept of {\em granulerate\/} to describe such things as framerates and sampling rates.
+
+\begin{itemize}
+\item {\em granule\/}: a generic unit of time, specified per track\item {\em granulerate\/}: granules per second \end{itemize}
+
+

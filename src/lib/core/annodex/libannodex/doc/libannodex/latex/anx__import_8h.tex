@@ -1,0 +1,165 @@
+\section{anx\_\-import.h File Reference}
+\label{anx__import_8h}\index{anx_import.h@{anx\_\-import.h}}
+
+
+\subsection{Detailed Description}
+Specification of Anx\-Importer. 
+
+\begin{itemize}
+\item When read requires starting a new frame or GOP, check the need\_\-sync flag. If this is set, output a sync frame.\end{itemize}
+
+
+\begin{Desc}
+\item[Note:]Always check not to seek before start\_\-packet and not to seek or read past end\_\-packet.\end{Desc}
+\begin{itemize}
+\item seek should return the actual position after seeking (as the backend may not be able to seek exactly to the requested position).\end{itemize}
+
+
+Backends must implement the following function:
+
+\begin{itemize}
+\item Anx\-Importer $\ast$ anx\_\-importer\_\-init (int i);\end{itemize}
+
+
+Importers are accessed by index i using values from 0 upwards. For out of range indexes, this function must return NULL.
+
+No other symbols in a backend should be visible (ie. declare all other globals and functions as static).
+
+{\tt \#include $<$annodex/anx\_\-types.h$>$}\par
+{\tt \#include $<$annodex/anx\_\-core.h$>$}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct {\bf \_\-Anx\-Importer}
+\item 
+struct {\bf \_\-Anx\-Source}
+\item 
+struct {\bf \_\-Anx\-Source\-Track}
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef \_\-Anx\-Importer {\bf Anx\-Importer}\label{anx__import_8h_a0}
+
+\begin{CompactList}\small\item\em An Anx\-Importer implements generic functions for retrieving data from sources of a particular content type. \item\end{CompactList}\item 
+typedef \_\-Anx\-Source\-Track {\bf Anx\-Source\-Track}\label{anx__import_8h_a1}
+
+\begin{CompactList}\small\item\em An Anx\-Source\-Track contains one track of data. \item\end{CompactList}\item 
+typedef \_\-Anx\-Source {\bf Anx\-Source}\label{anx__import_8h_a2}
+
+\begin{CompactList}\small\item\em An Anx\-Source contains an instance of an active source object, which may in turn contain several tracks. \item\end{CompactList}\item 
+typedef {\bf Anx\-Source} $\ast$($\ast$ {\bf Anx\-Importer\-Open\-Func} )(const char $\ast$path, const char $\ast$id, int ignore\_\-raw, double start\_\-time, double end\_\-time, Anx\-Import\-Callbacks $\ast$import\_\-callbacks)
+\begin{CompactList}\small\item\em Signature of a function for opening a source object by filename. \item\end{CompactList}\item 
+typedef {\bf Anx\-Source} $\ast$($\ast$ {\bf Anx\-Importer\-Open\-FDFunc} )(int fd, const char $\ast$id, int ignore\_\-raw, double start\_\-time, double end\_\-time, Anx\-Import\-Callbacks $\ast$import\_\-callbacks)
+\begin{CompactList}\small\item\em Signature of a function for opening a source object attached to an open file descriptor. \item\end{CompactList}\item 
+typedef long($\ast$ {\bf Anx\-Importer\-Read\-Func} )({\bf Anx\-Source} $\ast$source, unsigned char $\ast$buf, long n, long bound)
+\begin{CompactList}\small\item\em Signature of a function for reading bytes from a source object. \item\end{CompactList}\item 
+typedef long($\ast$ {\bf Anx\-Importer\-Sizeof\-Next\-Read\-Func} )({\bf Anx\-Source} $\ast$source, long bound)
+\begin{CompactList}\small\item\em Signature of a function to return the preferred next read size. \item\end{CompactList}\item 
+typedef int($\ast$ {\bf Anx\-Importer\-Close\-Func} )({\bf Anx\-Source} $\ast$source)
+\begin{CompactList}\small\item\em Signature of a function to close a source object. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int {\bf anx\_\-importer\_\-register} ({\bf Anx\-Importer} $\ast$importer)
+\begin{CompactList}\small\item\em Register an Anx\-Importer object with libannodex. \item\end{CompactList}\item 
+int {\bf anx\_\-importer\_\-unregister} ({\bf Anx\-Importer} $\ast$importer)
+\begin{CompactList}\small\item\em Unregister an Anx\-Importer previously registered with libannodex. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{anx_import.h@{anx\_\-import.h}!AnxImporterCloseFunc@{AnxImporterCloseFunc}}
+\index{AnxImporterCloseFunc@{AnxImporterCloseFunc}!anx_import.h@{anx\_\-import.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Anx\-Importer\-Close\-Func})({\bf Anx\-Source} $\ast$ source)}\label{anx__import_8h_a7}
+
+
+Signature of a function to close a source object. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em source}]an Anx\-Source$\ast$ handle \end{description}
+\end{Desc}
+\index{anx_import.h@{anx\_\-import.h}!AnxImporterOpenFDFunc@{AnxImporterOpenFDFunc}}
+\index{AnxImporterOpenFDFunc@{AnxImporterOpenFDFunc}!anx_import.h@{anx\_\-import.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Anx\-Source}$\ast$($\ast$ {\bf Anx\-Importer\-Open\-FDFunc})(int fd, const char $\ast$ id, int ignore\_\-raw, double start\_\-time, double end\_\-time, Anx\-Import\-Callbacks $\ast$ import\_\-callbacks)}\label{anx__import_8h_a4}
+
+
+Signature of a function for opening a source object attached to an open file descriptor. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fd}]an open file descriptor \item[{\em id}]the id of this \item[{\em ignore\_\-raw}]a flag to indicate that the importer should ignore any raw source read requests, ie. just deliver clips \item[{\em start\_\-time}]the start time to initially seek to \item[{\em end\_\-time}]a time bound to end on \item[{\em import\_\-callbacks}]callbacks to call when further importing or anchor inserting is required. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a new Anx\-Source $\ast$ handle \end{Desc}
+\index{anx_import.h@{anx\_\-import.h}!AnxImporterOpenFunc@{AnxImporterOpenFunc}}
+\index{AnxImporterOpenFunc@{AnxImporterOpenFunc}!anx_import.h@{anx\_\-import.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Anx\-Source}$\ast$($\ast$ {\bf Anx\-Importer\-Open\-Func})(const char $\ast$ path, const char $\ast$ id, int ignore\_\-raw, double start\_\-time, double end\_\-time, Anx\-Import\-Callbacks $\ast$ import\_\-callbacks)}\label{anx__import_8h_a3}
+
+
+Signature of a function for opening a source object by filename. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em path}]the path to the source file \item[{\em id}]the id of this \item[{\em ignore\_\-raw}]a flag to indicate that the importer should ignore any raw source read requests, ie. just deliver clips \item[{\em start\_\-time}]the start time to initially seek to \item[{\em end\_\-time}]a time bound to end on \item[{\em import\_\-callbacks}]callbacks to call when further importing or anchor inserting is required. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a new Anx\-Source $\ast$ handle \end{Desc}
+\index{anx_import.h@{anx\_\-import.h}!AnxImporterReadFunc@{AnxImporterReadFunc}}
+\index{AnxImporterReadFunc@{AnxImporterReadFunc}!anx_import.h@{anx\_\-import.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef long($\ast$ {\bf Anx\-Importer\-Read\-Func})({\bf Anx\-Source} $\ast$ source, unsigned char $\ast$ buf, long n, long bound)}\label{anx__import_8h_a5}
+
+
+Signature of a function for reading bytes from a source object. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em source}]an Anx\-Source $\ast$ handle \item[{\em buf}]a buffer to read data into \item[{\em n}]a maximum number of bytes to read \item[{\em bound}]a maximum granulecount to read \end{description}
+\end{Desc}
+\index{anx_import.h@{anx\_\-import.h}!AnxImporterSizeofNextReadFunc@{AnxImporterSizeofNextReadFunc}}
+\index{AnxImporterSizeofNextReadFunc@{AnxImporterSizeofNextReadFunc}!anx_import.h@{anx\_\-import.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef long($\ast$ {\bf Anx\-Importer\-Sizeof\-Next\-Read\-Func})({\bf Anx\-Source} $\ast$ source, long bound)}\label{anx__import_8h_a6}
+
+
+Signature of a function to return the preferred next read size. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em source}]an Anx\-Source $\ast$ handle \item[{\em bound}]a maximum granulecount to read \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\index{anx_import.h@{anx\_\-import.h}!anx_importer_register@{anx\_\-importer\_\-register}}
+\index{anx_importer_register@{anx\_\-importer\_\-register}!anx_import.h@{anx\_\-import.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-importer\_\-register ({\bf Anx\-Importer} $\ast$ {\em importer})}\label{anx__import_8h_a8}
+
+
+Register an Anx\-Importer object with libannodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em importer}]the importer \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{anx_import.h@{anx\_\-import.h}!anx_importer_unregister@{anx\_\-importer\_\-unregister}}
+\index{anx_importer_unregister@{anx\_\-importer\_\-unregister}!anx_import.h@{anx\_\-import.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-importer\_\-unregister ({\bf Anx\-Importer} $\ast$ {\em importer})}\label{anx__import_8h_a9}
+
+
+Unregister an Anx\-Importer previously registered with libannodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em importer}]the importer \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<stream id="a1" timebase="0">
+<media contenttype="audio/x-wav" src="00-3-18.wav" start="npt:0"/>
+</stream>
+
+<head lang="en">
+<title>Buried dams of water</title>
+</head>
+
+<clip id="Introduction" start="npt:0:00:06.20">
+<a href="99-5-8.anx#Introduction">
+A related project that studies the bacteria growing in this stored water</a>
+<desc>
+Water storage research: Storing water underground! It's
+like a dam that contains excess water which can then be used at
+times of high demand. Simon Toze of CSIRO Land and Water says
+it's being done using existing aquifers, but it has to be
+carefully planned.
+</desc>
+</clip>
+
+</cmml>

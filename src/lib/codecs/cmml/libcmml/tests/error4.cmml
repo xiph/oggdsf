@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<stream timebase="npt:0">
+<import id="a1" contenttype="video/mpeg" src="cleaner.mpg" start="npt:0"/>
+</stream>
+
+<head>
+<title>
+Australia Advances Series - Cleaner Power Stations
+</title>
+<meta name="DESCRIPTION" content="A power station in New South Wales is using a new system of filter bags that remove the coal dust from the emitted fumes"/>
+<meta name="KEYWORDS" content="Polution, Power Station"/>
+</head>
+<meta name="TYPE" content="video"/>
+
+<clip id="intro" start="npt:0">
+<a href="http://www.csiro.au/promos/ozadvances/">
+http://www.csiro.au/promos/ozadvances/</a>
+<desc>
+Introduction to 'Cleaner Power Stations - Australia Advances video'.
+</desc>
+</clip>
+
+<clip id="startspeech" start="npt:10">
+<a href="00-5-4.anx#startspeech">
+A way in which scientists are finding out the effects of these fumes is through this box simulation</a>
+<desc>
+Modern living means fast transportation, rapid
+      communications and heat, light and power at the flick of a
+      switch. But it doesn't come without cost... and one of the
+      highest costs is pollution. One of the worse offenders used to
+      be coal fired power stations, but with government's tight
+      environmental laws, and scientific research, stations like this
+      one at Eraring in New South Wales are leaving the skies almost
+      spotless.
+      
+</desc>
+</clip>
+
+</cmml>

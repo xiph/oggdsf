@@ -1,0 +1,107 @@
+#
+# Export file for libannodex
+#
+# Only the symbols listed in the global section will be callable from
+# applications linking to libannodex.
+#
+
+@PACKAGE@.so
+{
+        global:
+		anx_last_error;
+		anx_strerror;
+
+		anx_new;
+		anx_open;
+		anx_open_stdio;
+		anx_flush;
+		anx_close;
+		anx_set_head;
+		anx_get_head;
+		anx_tell;
+		anx_seek;
+		anx_tell_time;
+		anx_seek_time;
+		anx_seek_id;
+		anx_ready;
+		anx_eos;
+		anx_get_timebase;
+		anx_set_timebase;
+		anx_insert_clip;
+
+		anx_get_track_list;
+		anx_track_get_granule_rate;
+		anx_track_get_nr_headers;
+		anx_track_get_content_type;
+		anx_track_granules_to_time;
+		anx_track_time_to_granules;
+
+		anx_parse_time;
+
+		anx_head_clone;
+		anx_head_free;
+		anx_head_snprint;
+
+		anx_clip_clone;
+		anx_clip_free;
+		anx_clip_snprint;
+
+		anx_meta_element_clone;
+		anx_meta_element_free;
+
+		anx_set_read_stream_callback;
+		anx_set_read_track_callback;
+		anx_set_read_head_callback;
+		anx_set_read_clip_callback;
+		anx_set_read_raw_callback;
+
+		anx_get_read_stream_user_data;
+		anx_get_read_track_user_data;
+		anx_get_read_head_user_data;
+		anx_get_read_clip_user_data;
+		anx_get_read_raw_user_data;
+
+		anx_read;
+		anx_read_input;
+
+		anx_init_importers;
+		anx_importer_register;
+		anx_importer_unregister;
+
+		anx_write_import;
+		anx_write_set_anno_callbacks;
+		anx_write_get_anno_user_data;
+		anx_write_set_ii_callback;
+		anx_write_get_ii_user_data;
+		anx_write;
+		anx_write_output;
+
+		anx_list_new;
+		anx_list_clone;	
+		anx_list_clone_with;
+		anx_list_tail;
+		anx_list_prepend;
+		anx_list_append;
+		anx_list_add_before;
+		anx_list_add_after;
+		anx_list_find;
+		anx_list_remove;
+		anx_list_length;
+		anx_list_is_empty;
+		anx_list_is_singleton;
+		anx_list_free_with;	
+		anx_list_free;
+
+		anx_params_new_parse;	
+		anx_params_snprint;
+		anx_params_get;
+		anx_params_replace;
+		anx_params_append;
+		anx_params_remove;
+		anx_params_merge;
+		anx_params_clone;
+		anx_params_free;
+
+        local:
+                *;
+};

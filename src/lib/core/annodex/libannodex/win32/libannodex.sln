@@ -1,0 +1,53 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libannodex", "libannodex\libannodex.vcproj", "{13BFE1FF-00A7-4741-B550-95445D9E0561}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libOggz", "..\..\liboggz\win32\C_libOGGZ.vcproj", "{A8D30F09-A16C-49E2-ACBA-A4876D8E0925}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "anxenc", "anxenc\anxenc.vcproj", "{3FB03FDD-D678-4FD6-BC30-AF85CCF4B7E6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cmml_importer", "cmmlimporter\cmmlimporter.vcproj", "{0A761EEA-71EB-44FE-93DE-7645678DF92A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ogg_importer", "ogg_importer\ogg_importer.vcproj", "{DB342CAF-B391-4625-8E3E-857EB65FAADB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{13BFE1FF-00A7-4741-B550-95445D9E0561}.Debug.ActiveCfg = Debug|Win32
+		{13BFE1FF-00A7-4741-B550-95445D9E0561}.Debug.Build.0 = Debug|Win32
+		{13BFE1FF-00A7-4741-B550-95445D9E0561}.Release.ActiveCfg = Release|Win32
+		{13BFE1FF-00A7-4741-B550-95445D9E0561}.Release.Build.0 = Release|Win32
+		{A8D30F09-A16C-49E2-ACBA-A4876D8E0925}.Debug.ActiveCfg = Debug|Win32
+		{A8D30F09-A16C-49E2-ACBA-A4876D8E0925}.Debug.Build.0 = Debug|Win32
+		{A8D30F09-A16C-49E2-ACBA-A4876D8E0925}.Release.ActiveCfg = Release|Win32
+		{A8D30F09-A16C-49E2-ACBA-A4876D8E0925}.Release.Build.0 = Release|Win32
+		{3FB03FDD-D678-4FD6-BC30-AF85CCF4B7E6}.Debug.ActiveCfg = Debug|Win32
+		{3FB03FDD-D678-4FD6-BC30-AF85CCF4B7E6}.Debug.Build.0 = Debug|Win32
+		{3FB03FDD-D678-4FD6-BC30-AF85CCF4B7E6}.Release.ActiveCfg = Release|Win32
+		{3FB03FDD-D678-4FD6-BC30-AF85CCF4B7E6}.Release.Build.0 = Release|Win32
+		{0A761EEA-71EB-44FE-93DE-7645678DF92A}.Debug.ActiveCfg = Debug|Win32
+		{0A761EEA-71EB-44FE-93DE-7645678DF92A}.Debug.Build.0 = Debug|Win32
+		{0A761EEA-71EB-44FE-93DE-7645678DF92A}.Release.ActiveCfg = Release|Win32
+		{0A761EEA-71EB-44FE-93DE-7645678DF92A}.Release.Build.0 = Release|Win32
+		{DB342CAF-B391-4625-8E3E-857EB65FAADB}.Debug.ActiveCfg = Debug|Win32
+		{DB342CAF-B391-4625-8E3E-857EB65FAADB}.Debug.Build.0 = Debug|Win32
+		{DB342CAF-B391-4625-8E3E-857EB65FAADB}.Release.ActiveCfg = Release|Win32
+		{DB342CAF-B391-4625-8E3E-857EB65FAADB}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

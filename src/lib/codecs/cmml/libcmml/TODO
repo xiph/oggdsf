@@ -1,0 +1,9 @@
+* include parsing of time intervals in URIs properly
+
+* extend test cases (e.g. check sloppy mode, stdin)
+
+* include warning reporting for sloppy errors when in sloppy mode
+
+* printing of escaped characters (e.g. u umlaut) has a bug
+
+* internationalisation of error/warning messages

@@ -1,0 +1,56 @@
+\section{CMML\_\-Element Struct Reference}
+\label{structCMML__Element}\index{CMML_Element@{CMML\_\-Element}}
+{\tt \#include $<$cmml.h$>$}
+
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+{\bf CMML\_\-Element\_\-Type} {\bf type}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>{\bf CMML\_Stream} $\ast$ {\bf stream}\\
+\>{\bf CMML\_Head} $\ast$ {\bf head}\\
+\>{\bf CMML\_Clip} $\ast$ {\bf clip}\\
+\} {\bf e}\\
+
+\end{tabbing}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+CMML\_\-Element: wrapper type for any of the three elements which can occur in a CMML document (and are stored in CMML\_\-Status). Memory freed by cmml\_\-destroy\_\-element() 
+
+
+
+\subsection{Field Documentation}
+\index{CMML_Element@{CMML\_\-Element}!type@{type}}
+\index{type@{type}!CMML_Element@{CMML\_\-Element}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf CMML\_\-Element\_\-Type} {\bf CMML\_\-Element::type}}\label{structCMML__Element_o0}
+
+
+type of element to select in union \index{CMML_Element@{CMML\_\-Element}!stream@{stream}}
+\index{stream@{stream}!CMML_Element@{CMML\_\-Element}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf CMML\_\-Stream}$\ast$ {\bf CMML\_\-Element::stream}}\label{structCMML__Element_o1}
+
+
+the stream tag \index{CMML_Element@{CMML\_\-Element}!head@{head}}
+\index{head@{head}!CMML_Element@{CMML\_\-Element}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf CMML\_\-Head}$\ast$ {\bf CMML\_\-Element::head}}\label{structCMML__Element_o2}
+
+
+the head tag \index{CMML_Element@{CMML\_\-Element}!clip@{clip}}
+\index{clip@{clip}!CMML_Element@{CMML\_\-Element}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf CMML\_\-Clip}$\ast$ {\bf CMML\_\-Element::clip}}\label{structCMML__Element_o3}
+
+
+the clip tag \index{CMML_Element@{CMML\_\-Element}!e@{e}}
+\index{e@{e}!CMML_Element@{CMML\_\-Element}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}union \{ ... \}   {\bf CMML\_\-Element::e}}\label{structCMML__Element_o4}
+
+
+holds either the stream, head or clip tag 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf cmml.h}\end{CompactItemize}

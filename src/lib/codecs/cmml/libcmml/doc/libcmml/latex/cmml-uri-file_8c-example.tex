@@ -1,0 +1,93 @@
+\section{cmml-uri-file.c}
+{\bf Parse a CMML file given through a file uri (optionally with a fragment offset)}
+
+This example program demonstrates how a CMML file that is given through a file uri and optionally contains a fragment offset can be interpreted. The example can be extended to other schemes such as http and to cover uri queries, too.
+
+The procedure is illustrated in cmml-uri-file.c, which opens a file given through a file uri, and optionally seeks to an offset given the uri fragment specifier. It then prints out the descriptions of all the following clips: 
+
+\footnotesize\begin{verbatim}
+#include <stdio.h>
+
+#include <cmml.h>
+#include <string.h>
+
+#define BUFSIZE 100000
+
+typedef struct {
+  char *scheme;    
+  char *authority; 
+  char *path;      
+  char *querystr;  
+  char *fragstr;   
+} URI;
+ 
+
+static URI *
+parse_file_uri (const char *uri_string)
+{
+  const char *location;
+  const char *locbegin;
+  int length;
+  URI *result;
+  locbegin = uri_string;
+  result = (URI*) calloc(sizeof(URI), sizeof(char));
+
+  /* ignore file:// and authority parts to get path */
+  location = strstr (locbegin, "://");
+  locbegin = location+3;
+  length = strlen(locbegin);
+  location = strchr(locbegin, '#'); /* XXX: ignore queries for the moment */
+  if (location != NULL) length = location - locbegin;
+  result->path = (char*) calloc (length+1, sizeof(char));
+  result->path = strncpy(result->path, locbegin, length);
+  result->path[length] = '\0';
+
+  if (location != NULL) { 
+    /* fragment given */
+    length = strlen(location);
+    result->fragstr = NULL;
+    result->fragstr = (char*) calloc (length, sizeof(char));
+    result->fragstr = strncpy(result->fragstr, location+1, length);
+  } else {
+    result->fragstr = NULL;
+  }
+  return result;
+}
+
+static int
+read_clip (CMML * cmml, const CMML_Clip * clip, void * user_data) {
+  puts(clip->desc_text);
+  return 0;
+}
+
+int main(int argc, char *argv[])
+{
+  char *uri_string = NULL;
+  URI * uri;
+  CMML * doc;
+  long n = 0;
+
+  if (argc < 2) {
+    fprintf (stderr, "Usage: %s <file://filename#fragment>\n", argv[0]);
+    exit (1);
+  }
+  uri_string = argv[1];
+ 
+  uri = parse_file_uri(uri_string);
+
+  doc = cmml_open(uri->path);
+
+  /* if fragment given, forward to that */
+  if (uri->fragstr != NULL) cmml_skip_to_offset(doc, uri->fragstr);
+
+  cmml_set_read_callbacks (doc, NULL, NULL, read_clip, NULL);
+
+  while (((n = cmml_read (doc, BUFSIZE)) > 0));
+  
+  cmml_close(doc);
+
+  exit(0);
+}
+\end{verbatim}
+\normalsize
+ 

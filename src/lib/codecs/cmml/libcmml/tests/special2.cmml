@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<stream id="a1" timebase="npt:100.3" utc="20021222T221005Z">
+<import id="a2" granulerate="1000" contenttype="audio/x-wav" src="00-3-10.wav" start="npt:100.3"/>
+</stream>
+
+<head lang="en">
+<title>
+Do we take water for granted?
+</title>
+<base href="http://www.cmis.csiro.au/cmweb/media/"/>
+<meta name="DESCRIPTION" content="A project studying the impact of urban water usage on the environment"/>
+<meta name="KEYWORDS" content="Water, Environment"/>
+<meta name="TYPE" content="audio interview"/>
+<meta name="DATE.PUBLISHED" content="2000-03"/>
+<meta name="INTERVIEWEE" content="Mike Young"/>
+</head>
+
+<clip id="Introduction" start="npt:0:01:46.20">
+<a href="00-3-18.anx#Introduction">
+A way we can store water so that water supplies will not be stressed during hot dry periods</a>
+<desc>
+Urban water usage research:
+Australia is a dry continent and urban communities use a
+     lot of the available water. CSIRO has been working on an urban
+     water program. The objective is to find out how much water use is
+     costing the environment and what are the opportunities to improve
+     its use. Mike Young from CSIRO Land and Water believes we take
+     water for granted.
+     
+</desc>
+</clip>
+
+<clip id="Mike_Young_Interview" start="npt:00:02:06.40">
+<meta name="SPEAKER" content="Mike Young"/>
+<desc>
+Mike Young: "Something which we all see: we turn on a tap
+     let it flow out without thinking through what happens when we
+     do. Important things like think about how wide a street should
+     be. If you have a wide street out going past your house you have
+     a lot more run-off and that run-off flows actually though changes
+     all of the ground-water systems and can cause lots of
+     pollution. Changing the way these streets are laid out, the way
+     they're designed can bring about some pretty important
+     improvements in water use." 
+     
+</desc>
+</clip>
+
+<clip id="Question_Alternatives" start="npt:00:02:35.90">
+<desc>
+Question: "Should we be looking at alternatives to
+     centralised treatment systems?"
+     
+</desc>
+</clip>
+
+<clip id="Mike_Young_Answer1" start="npt:00:02:39.40" end="npt:190">
+<desc>
+Mike Young: "A lovely example of the alternative approach
+     is in South Australia and Adelaide at Morthorn Lakes where the
+     community is moving towards a system where every house
+     has actually two pipes coming in. One is the fresh water that is
+     being treated in the normal way. The second is recycled
+     water. And the quality of that is very very good. It can be used
+     for flushing toilets, for watering gardens, and a lot of the
+     things that we normally pay a lot to get clean water
+     for. Changing the way we think about water and how we actually
+     use it is an important step forward. We don't have a lot of it in
+     Australia. And as we've said in the past we are taking it for
+     granted and we shouldn't."
+     
+</desc>
+</clip>
+
+<clip id="Question_Storm_Water" start="npt:00:03:16.0">
+<desc>
+Question: "Does storm water have an economic value?"
+     
+</desc>
+</clip>
+
+<clip id="Mike_Young_Answer2" start="npt:00:03:18.20">
+<desc>
+Mike Young: "The economic side of which, which actually
+     fascinates me, is that people in the past thought the storm water
+     wasn't a useful resource. And suddenly people are finding that it
+     has actually value and they're starting to hold it and claim it
+     as theirs. With tradeable water taken into the equation and with
+     high water prices ariving, people are starting to argue over
+     who actually owns the storm water and that is a fascinating
+     debate. You can imagine the local council saying: 'it's ours' and
+     the sewerage treatment authority saying: 'no, it's ours'. There's
+     a lot of detail been actually sorted out in law as well as in the
+     environmental management bill. A fascinating area.
+     
+</desc>
+</clip>
+
+<clip id="Ending" start="npt:00:03:56.20">
+<desc>
+And that was Mike Young from CSIRO Land and Water. For more
+     information on that story call the CSIRO on 1300 363 400.
+     
+</desc>
+</clip>
+
+</cmml>

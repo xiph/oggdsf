@@ -1,0 +1,326 @@
+\section{anx\_\-read.h File Reference}
+\label{anx__read_8h}\index{anx_read.h@{anx\_\-read.h}}
+
+
+\subsection{Detailed Description}
+libannodex provides a convenient callback based framework for reading Annodex media. 
+
+After opening an annodex for reading, you can attach various callbacks relevant to the parts of the file you are interested in, including the stream header, track headers, head element, clips and media data. Then, as bytes are read, libannodex will call your callbacks as appropriate.
+
+For tutorial information and examples, refer to the following:
+
+\begin{itemize}
+\item {\bf Reading from files and file descriptors }{\rm (p.\,\pageref{group__reading__files})}\item {\bf Reading from memory buffers }{\rm (p.\,\pageref{group__reading__memory})}\item {\bf Advanced management of Anx\-Read$\ast$ callbacks }{\rm (p.\,\pageref{group__reading__callbacks})}\end{itemize}
+
+
+{\tt \#include $<$annodex/anx\_\-types.h$>$}\par
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef int($\ast$ {\bf Anx\-Read\-Stream} )({\bf ANNODEX} $\ast$annodex, double timebase, char $\ast$utc, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Signature for a callback called when the 'Annodex' stream header is parsed. \item\end{CompactList}\item 
+typedef int($\ast$ {\bf Anx\-Read\-Track} )({\bf ANNODEX} $\ast$annodex, long serialno, char $\ast$id, char $\ast$content\_\-type, {\bf anx\_\-int64\_\-t} granule\_\-rate\_\-n, {\bf anx\_\-int64\_\-t} granule\_\-rate\_\-d, int nr\_\-header\_\-packets, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Signature for a callback called each time an 'Anx\-Data' track header is parsed. \item\end{CompactList}\item 
+typedef int($\ast$ {\bf Anx\-Read\-Head} )({\bf ANNODEX} $\ast$annodex, const Anx\-Head $\ast$head, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Signature for a callback called when the head element is parsed. \item\end{CompactList}\item 
+typedef int($\ast$ {\bf Anx\-Read\-Clip} )({\bf ANNODEX} $\ast$annodex, const Anx\-Clip $\ast$clip, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Signature for a callback called each time a clip element is parsed. \item\end{CompactList}\item 
+typedef int($\ast$ {\bf Anx\-Read\-Raw} )({\bf ANNODEX} $\ast$annodex, unsigned char $\ast$data, long n, long serialno, {\bf anx\_\-int64\_\-t} granulepos, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Signature for a callback called each time a raw data packet is found. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int {\bf anx\_\-set\_\-read\_\-stream\_\-callback} ({\bf ANNODEX} $\ast$annodex, {\bf Anx\-Read\-Stream} read\_\-stream, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Set the function to call each time an 'Annodex' stream header is parsed. \item\end{CompactList}\item 
+void $\ast$ {\bf anx\_\-get\_\-read\_\-stream\_\-user\_\-data} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Retrieve the user\_\-data associated with an attached Anx\-Read\-Stream callback. \item\end{CompactList}\item 
+int {\bf anx\_\-set\_\-read\_\-track\_\-callback} ({\bf ANNODEX} $\ast$annodex, {\bf Anx\-Read\-Track} read\_\-track, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Set the function to call each time an 'Anx\-Data' track header is parsed. \item\end{CompactList}\item 
+void $\ast$ {\bf anx\_\-get\_\-read\_\-track\_\-user\_\-data} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Retrieve the user\_\-data associated with an attached Anx\-Read\-Track callback. \item\end{CompactList}\item 
+int {\bf anx\_\-set\_\-read\_\-head\_\-callback} ({\bf ANNODEX} $\ast$annodex, {\bf Anx\-Read\-Head} read\_\-head, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Set the function to call when the head element is read. \item\end{CompactList}\item 
+void $\ast$ {\bf anx\_\-get\_\-read\_\-head\_\-user\_\-data} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Retrieve the user\_\-data associated with an attached Anx\-Read\-Head callback. \item\end{CompactList}\item 
+int {\bf anx\_\-set\_\-read\_\-clip\_\-callback} ({\bf ANNODEX} $\ast$annodex, {\bf Anx\-Read\-Clip} read\_\-clip, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Set the function to call each time a clip is parsed. \item\end{CompactList}\item 
+void $\ast$ {\bf anx\_\-get\_\-read\_\-clip\_\-user\_\-data} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Retrieve the user\_\-data associated with an attached Anx\-Read\-Clip callback. \item\end{CompactList}\item 
+int {\bf anx\_\-set\_\-read\_\-raw\_\-callback} ({\bf ANNODEX} $\ast$annodex, {\bf Anx\-Read\-Raw} read\_\-raw, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Set the function to call each time a raw data packet is read. \item\end{CompactList}\item 
+void $\ast$ {\bf anx\_\-get\_\-read\_\-raw\_\-user\_\-data} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Retrieve the user\_\-data associated with an attached Anx\-Read\-Raw callback. \item\end{CompactList}\item 
+int {\bf anx\_\-set\_\-user\_\-data} ({\bf ANNODEX} $\ast$annodex, void $\ast$user\_\-data)
+\begin{CompactList}\small\item\em Associate arbitrary data with read callbacks. \item\end{CompactList}\item 
+long {\bf anx\_\-read} ({\bf ANNODEX} $\ast$annodex, long n)
+\begin{CompactList}\small\item\em Read from an annodex opened with {\bf anx\_\-open()}{\rm (p.\,\pageref{anx__general_8h_a3})} or {\bf anx\_\-open\_\-stdio()}{\rm (p.\,\pageref{anx__general_8h_a4})}. \item\end{CompactList}\item 
+long {\bf anx\_\-read\_\-input} ({\bf ANNODEX} $\ast$annodex, unsigned char $\ast$buf, long n)
+\begin{CompactList}\small\item\em Input data from a memory buffer into an annodex. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{anx_read.h@{anx\_\-read.h}!AnxReadClip@{AnxReadClip}}
+\index{AnxReadClip@{AnxReadClip}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Anx\-Read\-Clip})({\bf ANNODEX} $\ast$ annodex, const Anx\-Clip $\ast$ clip, void $\ast$ user\_\-data)}\label{anx__read_8h_a3}
+
+
+Signature for a callback called each time a clip element is parsed. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]the ANNODEX$\ast$ handle in use \item[{\em clip}]the clip element \item[{\em user\_\-data}]A generic pointer you have provided earlier \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]\begin{itemize}
+\item ANX\_\-CONTINUE on success, and to inform anx\_\-read$\ast$() functions to continue on to the next packet\item ANX\_\-STOP\_\-OK on success, to inform anx\_\-read$\ast$() functions to return without further processing\item ANX\_\-STOP\_\-ERR on error, to inform anx\_\-read$\ast$() functions to return without further processing \end{itemize}
+\end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!AnxReadHead@{AnxReadHead}}
+\index{AnxReadHead@{AnxReadHead}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Anx\-Read\-Head})({\bf ANNODEX} $\ast$ annodex, const Anx\-Head $\ast$ head, void $\ast$ user\_\-data)}\label{anx__read_8h_a2}
+
+
+Signature for a callback called when the head element is parsed. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]the ANNODEX$\ast$ handle in use \item[{\em head}]the head element \item[{\em user\_\-data}]A generic pointer you have provided earlier \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]\begin{itemize}
+\item ANX\_\-CONTINUE on success, and to inform anx\_\-read$\ast$() functions to continue on to the next packet\item ANX\_\-STOP\_\-OK on success, to inform anx\_\-read$\ast$() functions to return without further processing\item ANX\_\-STOP\_\-ERR on error, to inform anx\_\-read$\ast$() functions to return without further processing \end{itemize}
+\end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!AnxReadRaw@{AnxReadRaw}}
+\index{AnxReadRaw@{AnxReadRaw}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Anx\-Read\-Raw})({\bf ANNODEX} $\ast$ annodex, unsigned char $\ast$ data, long n, long serialno, {\bf anx\_\-int64\_\-t} granulepos, void $\ast$ user\_\-data)}\label{anx__read_8h_a4}
+
+
+Signature for a callback called each time a raw data packet is found. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]the ANNODEX$\ast$ handle in use \item[{\em data}]a pointer to the data read from the packet \item[{\em n}]the length in bytes of the data \item[{\em serialno}]the track serial number of the packet \item[{\em granulepos}]the granule position of the packet \item[{\em user\_\-data}]A generic pointer you have provided earlier \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]\begin{itemize}
+\item ANX\_\-CONTINUE on success, and to inform anx\_\-read$\ast$() functions to continue on to the next packet\item ANX\_\-STOP\_\-OK on success, to inform anx\_\-read$\ast$() functions to return without further processing\item ANX\_\-STOP\_\-ERR on error, to inform anx\_\-read$\ast$() functions to return without further processing \end{itemize}
+\end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!AnxReadStream@{AnxReadStream}}
+\index{AnxReadStream@{AnxReadStream}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Anx\-Read\-Stream})({\bf ANNODEX} $\ast$ annodex, double timebase, char $\ast$ utc, void $\ast$ user\_\-data)}\label{anx__read_8h_a0}
+
+
+Signature for a callback called when the 'Annodex' stream header is parsed. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]the ANNODEX$\ast$ handle in use \item[{\em timebase}]the timebase of the annodex \item[{\em utc}]the UTC timebase of the annodex \item[{\em user\_\-data}]A generic pointer you have provided earlier \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]\begin{itemize}
+\item ANX\_\-CONTINUE on success, and to inform anx\_\-read$\ast$() functions to continue on to the next packet\item ANX\_\-STOP\_\-OK on success, to inform anx\_\-read$\ast$() functions to return without further processing\item ANX\_\-STOP\_\-ERR on error, to inform anx\_\-read$\ast$() functions to return without further processing \end{itemize}
+\end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!AnxReadTrack@{AnxReadTrack}}
+\index{AnxReadTrack@{AnxReadTrack}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf Anx\-Read\-Track})({\bf ANNODEX} $\ast$ annodex, long serialno, char $\ast$ id, char $\ast$ content\_\-type, {\bf anx\_\-int64\_\-t} granule\_\-rate\_\-n, {\bf anx\_\-int64\_\-t} granule\_\-rate\_\-d, int nr\_\-header\_\-packets, void $\ast$ user\_\-data)}\label{anx__read_8h_a1}
+
+
+Signature for a callback called each time an 'Anx\-Data' track header is parsed. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]the ANNODEX$\ast$ handle in use \item[{\em serialno}]the track serial number \item[{\em id}]the id attribute of the track \item[{\em content\_\-type}]the content type of the track \item[{\em granule\_\-rate\_\-n}]the numerator of the granule rate \item[{\em granule\_\-rate\_\-d}]the denominator of the granule rate \item[{\em nr\_\-header\_\-packets}]the number of header packets of the track \item[{\em user\_\-data}]A generic pointer you have provided earlier \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]\begin{itemize}
+\item ANX\_\-CONTINUE on success, and to inform anx\_\-read$\ast$() functions to continue on to the next packet\item ANX\_\-STOP\_\-OK on success, to inform anx\_\-read$\ast$() functions to return without further processing\item ANX\_\-STOP\_\-ERR on error, to inform anx\_\-read$\ast$() functions to return without further processing \end{itemize}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\index{anx_read.h@{anx\_\-read.h}!anx_get_read_clip_user_data@{anx\_\-get\_\-read\_\-clip\_\-user\_\-data}}
+\index{anx_get_read_clip_user_data@{anx\_\-get\_\-read\_\-clip\_\-user\_\-data}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ anx\_\-get\_\-read\_\-clip\_\-user\_\-data ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__read_8h_a12}
+
+
+Retrieve the user\_\-data associated with an attached Anx\-Read\-Clip callback. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-data \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_get_read_head_user_data@{anx\_\-get\_\-read\_\-head\_\-user\_\-data}}
+\index{anx_get_read_head_user_data@{anx\_\-get\_\-read\_\-head\_\-user\_\-data}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ anx\_\-get\_\-read\_\-head\_\-user\_\-data ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__read_8h_a10}
+
+
+Retrieve the user\_\-data associated with an attached Anx\-Read\-Head callback. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-data \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_get_read_raw_user_data@{anx\_\-get\_\-read\_\-raw\_\-user\_\-data}}
+\index{anx_get_read_raw_user_data@{anx\_\-get\_\-read\_\-raw\_\-user\_\-data}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ anx\_\-get\_\-read\_\-raw\_\-user\_\-data ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__read_8h_a14}
+
+
+Retrieve the user\_\-data associated with an attached Anx\-Read\-Raw callback. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-data \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_get_read_stream_user_data@{anx\_\-get\_\-read\_\-stream\_\-user\_\-data}}
+\index{anx_get_read_stream_user_data@{anx\_\-get\_\-read\_\-stream\_\-user\_\-data}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ anx\_\-get\_\-read\_\-stream\_\-user\_\-data ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__read_8h_a6}
+
+
+Retrieve the user\_\-data associated with an attached Anx\-Read\-Stream callback. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-data \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_get_read_track_user_data@{anx\_\-get\_\-read\_\-track\_\-user\_\-data}}
+\index{anx_get_read_track_user_data@{anx\_\-get\_\-read\_\-track\_\-user\_\-data}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ anx\_\-get\_\-read\_\-track\_\-user\_\-data ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__read_8h_a8}
+
+
+Retrieve the user\_\-data associated with an attached Anx\-Read\-Track callback. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the associated user\_\-data \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_read@{anx\_\-read}}
+\index{anx_read@{anx\_\-read}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}long anx\_\-read ({\bf ANNODEX} $\ast$ {\em annodex}, long {\em n})}\label{anx__read_8h_a16}
+
+
+Read from an annodex opened with {\bf anx\_\-open()}{\rm (p.\,\pageref{anx__general_8h_a3})} or {\bf anx\_\-open\_\-stdio()}{\rm (p.\,\pageref{anx__general_8h_a4})}. 
+
+The annodex is automatically parsed and relevant read callbacks are called, stopping when the required number of bytes have been read, or earlier if any of the read callbacks returned other than ANX\_\-CONTINUE. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em n}]count of bytes to read \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the count of bytes actually read \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_read_input@{anx\_\-read\_\-input}}
+\index{anx_read_input@{anx\_\-read\_\-input}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}long anx\_\-read\_\-input ({\bf ANNODEX} $\ast$ {\em annodex}, unsigned char $\ast$ {\em buf}, long {\em n})}\label{anx__read_8h_a17}
+
+
+Input data from a memory buffer into an annodex. 
+
+Usually the annodex would have been created with {\bf anx\_\-new()}{\rm (p.\,\pageref{anx__general_8h_a5})}. The annodex is automatically parsed and relevant read callbacks are called, stopping when the required number of bytes have been read, or earlier if any of the read callbacks returned other than ANX\_\-CONTINUE. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em buf}]a memory buffer containing data to input \item[{\em n}]count of bytes to input \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the count of bytes actually input \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_set_read_clip_callback@{anx\_\-set\_\-read\_\-clip\_\-callback}}
+\index{anx_set_read_clip_callback@{anx\_\-set\_\-read\_\-clip\_\-callback}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-set\_\-read\_\-clip\_\-callback ({\bf ANNODEX} $\ast$ {\em annodex}, {\bf Anx\-Read\-Clip} {\em read\_\-clip}, void $\ast$ {\em user\_\-data})}\label{anx__read_8h_a11}
+
+
+Set the function to call each time a clip is parsed. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em read\_\-clip}]the callback to call \item[{\em user\_\-data}]Arbitrary data you wish to pass to your callback \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_set_read_head_callback@{anx\_\-set\_\-read\_\-head\_\-callback}}
+\index{anx_set_read_head_callback@{anx\_\-set\_\-read\_\-head\_\-callback}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-set\_\-read\_\-head\_\-callback ({\bf ANNODEX} $\ast$ {\em annodex}, {\bf Anx\-Read\-Head} {\em read\_\-head}, void $\ast$ {\em user\_\-data})}\label{anx__read_8h_a9}
+
+
+Set the function to call when the head element is read. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em read\_\-head}]the callback to call \item[{\em user\_\-data}]Arbitrary data you wish to pass to your callback \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_set_read_raw_callback@{anx\_\-set\_\-read\_\-raw\_\-callback}}
+\index{anx_set_read_raw_callback@{anx\_\-set\_\-read\_\-raw\_\-callback}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-set\_\-read\_\-raw\_\-callback ({\bf ANNODEX} $\ast$ {\em annodex}, {\bf Anx\-Read\-Raw} {\em read\_\-raw}, void $\ast$ {\em user\_\-data})}\label{anx__read_8h_a13}
+
+
+Set the function to call each time a raw data packet is read. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em read\_\-raw}]the callback to call \item[{\em user\_\-data}]Arbitrary data you wish to pass to your callback \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_set_read_stream_callback@{anx\_\-set\_\-read\_\-stream\_\-callback}}
+\index{anx_set_read_stream_callback@{anx\_\-set\_\-read\_\-stream\_\-callback}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-set\_\-read\_\-stream\_\-callback ({\bf ANNODEX} $\ast$ {\em annodex}, {\bf Anx\-Read\-Stream} {\em read\_\-stream}, void $\ast$ {\em user\_\-data})}\label{anx__read_8h_a5}
+
+
+Set the function to call each time an 'Annodex' stream header is parsed. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em read\_\-stream}]the callback to call \item[{\em user\_\-data}]Arbitrary data you wish to pass to your callback \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_set_read_track_callback@{anx\_\-set\_\-read\_\-track\_\-callback}}
+\index{anx_set_read_track_callback@{anx\_\-set\_\-read\_\-track\_\-callback}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-set\_\-read\_\-track\_\-callback ({\bf ANNODEX} $\ast$ {\em annodex}, {\bf Anx\-Read\-Track} {\em read\_\-track}, void $\ast$ {\em user\_\-data})}\label{anx__read_8h_a7}
+
+
+Set the function to call each time an 'Anx\-Data' track header is parsed. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em read\_\-track}]the callback to call \item[{\em user\_\-data}]Arbitrary data you wish to pass to your callback \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{anx_read.h@{anx\_\-read.h}!anx_set_user_data@{anx\_\-set\_\-user\_\-data}}
+\index{anx_set_user_data@{anx\_\-set\_\-user\_\-data}!anx_read.h@{anx\_\-read.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-set\_\-user\_\-data ({\bf ANNODEX} $\ast$ {\em annodex}, void $\ast$ {\em user\_\-data})}\label{anx__read_8h_a15}
+
+
+Associate arbitrary data with read callbacks. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em user\_\-data}]a pointer to a user defined object to be passed to each of the read callbacks. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}

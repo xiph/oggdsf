@@ -1,0 +1,10 @@
+error9.cmml:10:0: Multiple stream tags not allowed
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="en">
+
+<stream timebase="npt:0">
+<import contenttype="video/mpeg" src="fish.mpg" start="npt:0"/>
+</stream>
+

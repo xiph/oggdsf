@@ -1,0 +1,421 @@
+\section{anx\_\-general.h File Reference}
+\label{anx__general_8h}\index{anx_general.h@{anx\_\-general.h}}
+
+
+\subsection{Detailed Description}
+General functions related to Annodex media. 
+
+
+
+{\tt \#include $<$annodex/anx\_\-types.h$>$}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+double {\bf anx\_\-parse\_\-time} (const char $\ast$str)\label{anx__general_8h_a0}
+
+\begin{CompactList}\small\item\em Time parsing. \item\end{CompactList}\item 
+int {\bf anx\_\-last\_\-error} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Retrieve the error code of the most recent error on an annodex. \item\end{CompactList}\item 
+const char $\ast$ {\bf anx\_\-strerror} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Retrieve a printable error string corresponding to the most recent error on annodex. \item\end{CompactList}\item 
+{\bf ANNODEX} $\ast$ {\bf anx\_\-open} (char $\ast$filename, int flags)
+\begin{CompactList}\small\item\em Open a file containing Annodex media. \item\end{CompactList}\item 
+{\bf ANNODEX} $\ast$ {\bf anx\_\-open\_\-stdio} (FILE $\ast$file, int flags)
+\begin{CompactList}\small\item\em Attach to an existing file descriptor. \item\end{CompactList}\item 
+{\bf ANNODEX} $\ast$ {\bf anx\_\-new} (int flags)
+\begin{CompactList}\small\item\em Create a managed Annodex handle This is an alternative interface for non-file annodexes. \item\end{CompactList}\item 
+int {\bf anx\_\-flush} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Flush any unwritten data associated with an annodex. \item\end{CompactList}\item 
+{\bf ANNODEX} $\ast$ {\bf anx\_\-close} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Close an annodex. \item\end{CompactList}\item 
+int {\bf anx\_\-destroy} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Forcefully close an annodex without flushing any file descriptors. \item\end{CompactList}\item 
+int {\bf anx\_\-ready} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Query if an annodex is ready. \item\end{CompactList}\item 
+int {\bf anx\_\-eos} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Query if an annodex has reached its 'End Of Stream' markers. \item\end{CompactList}\item 
+Anx\-Head $\ast$ {\bf anx\_\-set\_\-head} ({\bf ANNODEX} $\ast$annodex, Anx\-Head $\ast$head)
+\begin{CompactList}\small\item\em Set the head element of the Annodex. \item\end{CompactList}\item 
+Anx\-Head $\ast$ {\bf anx\_\-get\_\-head} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Get a copy of the head element of an annodex. \item\end{CompactList}\item 
+{\bf anx\_\-int64\_\-t} {\bf anx\_\-tell} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Query the current byte offset of an annodex. \item\end{CompactList}\item 
+int {\bf anx\_\-seek\_\-id} ({\bf ANNODEX} $\ast$annodex, const char $\ast$id)
+\begin{CompactList}\small\item\em Seek to an anchor identified by id. \item\end{CompactList}\item 
+double {\bf anx\_\-get\_\-timebase} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Query the timebase of an annodex. \item\end{CompactList}\item 
+double {\bf anx\_\-set\_\-timebase} ({\bf ANNODEX} $\ast$annodex, double seconds)
+\item 
+double {\bf anx\_\-tell\_\-time} ({\bf ANNODEX} $\ast$annodex)
+\begin{CompactList}\small\item\em Query the current offset of an annodex expressed as time in seconds. \item\end{CompactList}\item 
+double {\bf anx\_\-seek\_\-time} ({\bf ANNODEX} $\ast$annodex, double seconds, int whence)
+\begin{CompactList}\small\item\em Seek to a time point in an annodex. \item\end{CompactList}\item 
+int {\bf anx\_\-head\_\-snprint} (char $\ast$buf, int n, Anx\-Head $\ast$h)
+\begin{CompactList}\small\item\em Print an Anx\-Head structure to a memory buffer. \item\end{CompactList}\item 
+int {\bf anx\_\-clip\_\-snprint} (char $\ast$buf, int n, Anx\-Clip $\ast$a, double start, double end)
+\begin{CompactList}\small\item\em Print an Anx\-Anchor structure to a memory buffer. \item\end{CompactList}\item 
+Anx\-Head $\ast$ {\bf anx\_\-head\_\-free} (Anx\-Head $\ast$head)
+\begin{CompactList}\small\item\em Free an Anx\-Head structure. \item\end{CompactList}\item 
+Anx\-Clip $\ast$ {\bf anx\_\-clip\_\-free} (Anx\-Clip $\ast$clip)
+\begin{CompactList}\small\item\em Free an Anx\-Clip structure. \item\end{CompactList}\item 
+Anx\-Head $\ast$ {\bf anx\_\-head\_\-clone} (Anx\-Head $\ast$head)
+\begin{CompactList}\small\item\em Clone an Anx\-Head structure. \item\end{CompactList}\item 
+Anx\-Clip $\ast$ {\bf anx\_\-clip\_\-clone} (Anx\-Clip $\ast$clip)
+\begin{CompactList}\small\item\em Clone an Anx\-Clip structure. \item\end{CompactList}\item 
+Anx\-Meta\-Element $\ast$ {\bf anx\_\-meta\_\-element\_\-clone} (Anx\-Meta\-Element $\ast$meta)
+\begin{CompactList}\small\item\em Clone an Anx\-Meta\-Element structure. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{anx_general.h@{anx\_\-general.h}!anx_clip_clone@{anx\_\-clip\_\-clone}}
+\index{anx_clip_clone@{anx\_\-clip\_\-clone}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Anx\-Clip$\ast$ anx\_\-clip\_\-clone (Anx\-Clip $\ast$ {\em clip})}\label{anx__general_8h_a24}
+
+
+Clone an Anx\-Clip structure. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em clip}]the clip to clone \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a new clip structure \end{Desc}
+\begin{Desc}
+\item[Note:]All components of the original clip are cloned, including all strings and its list of meta tags. \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_clip_free@{anx\_\-clip\_\-free}}
+\index{anx_clip_free@{anx\_\-clip\_\-free}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Anx\-Clip$\ast$ anx\_\-clip\_\-free (Anx\-Clip $\ast$ {\em clip})}\label{anx__general_8h_a22}
+
+
+Free an Anx\-Clip structure. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em clip}]the structure to free \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]NULL on success \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_clip_snprint@{anx\_\-clip\_\-snprint}}
+\index{anx_clip_snprint@{anx\_\-clip\_\-snprint}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-clip\_\-snprint (char $\ast$ {\em buf}, int {\em n}, Anx\-Clip $\ast$ {\em a}, double {\em start}, double {\em end})}\label{anx__general_8h_a20}
+
+
+Print an Anx\-Anchor structure to a memory buffer. 
+
+The head is serialized to XML conformant with the anxa DTD. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em buf}]a buffer to print into \item[{\em n}]the maximum number of characters to print \item[{\em a}]the anchor to print \item[{\em start}]the value of the 'start' attribute, as a time in seconds. If start is negative, the 'start' attribute is not printed. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the number of characters printed, -1 on potential overrun \end{Desc}
+\begin{Desc}
+\item[{\bf Bug}]This should follow C99 semantics \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_close@{anx\_\-close}}
+\index{anx_close@{anx\_\-close}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf ANNODEX}$\ast$ anx\_\-close ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a7}
+
+
+Close an annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]NULL on success; returns the unchanged annodex on failure (eg. due to system close() failing) \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_destroy@{anx\_\-destroy}}
+\index{anx_destroy@{anx\_\-destroy}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-destroy ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a8}
+
+
+Forcefully close an annodex without flushing any file descriptors. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_eos@{anx\_\-eos}}
+\index{anx_eos@{anx\_\-eos}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-eos ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a10}
+
+
+Query if an annodex has reached its 'End Of Stream' markers. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 if annodex is not at eos, 1 if it is \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_flush@{anx\_\-flush}}
+\index{anx_flush@{anx\_\-flush}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-flush ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a6}
+
+
+Flush any unwritten data associated with an annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]An ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 on success, -1 on failure \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_get_head@{anx\_\-get\_\-head}}
+\index{anx_get_head@{anx\_\-get\_\-head}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Anx\-Head$\ast$ anx\_\-get\_\-head ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a12}
+
+
+Get a copy of the head element of an annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a copy of the head element \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_get_timebase@{anx\_\-get\_\-timebase}}
+\index{anx_get_timebase@{anx\_\-get\_\-timebase}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double anx\_\-get\_\-timebase ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a15}
+
+
+Query the timebase of an annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the timebase of the annodex \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_head_clone@{anx\_\-head\_\-clone}}
+\index{anx_head_clone@{anx\_\-head\_\-clone}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Anx\-Head$\ast$ anx\_\-head\_\-clone (Anx\-Head $\ast$ {\em head})}\label{anx__general_8h_a23}
+
+
+Clone an Anx\-Head structure. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em head}]the head to clone \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a new head structure \end{Desc}
+\begin{Desc}
+\item[Note:]All components of the original head are cloned, including all strings and its list of meta tags. \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_head_free@{anx\_\-head\_\-free}}
+\index{anx_head_free@{anx\_\-head\_\-free}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Anx\-Head$\ast$ anx\_\-head\_\-free (Anx\-Head $\ast$ {\em head})}\label{anx__general_8h_a21}
+
+
+Free an Anx\-Head structure. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em head}]the structure to free \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]NULL on success \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_head_snprint@{anx\_\-head\_\-snprint}}
+\index{anx_head_snprint@{anx\_\-head\_\-snprint}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-head\_\-snprint (char $\ast$ {\em buf}, int {\em n}, Anx\-Head $\ast$ {\em h})}\label{anx__general_8h_a19}
+
+
+Print an Anx\-Head structure to a memory buffer. 
+
+The head is serialized to XML conformant with the anxhead DTD. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em buf}]a buffer to print into \item[{\em n}]the maximum number of characters to print \item[{\em h}]the head to print \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the number of characters printed, -1 on potential overrun \end{Desc}
+\begin{Desc}
+\item[{\bf Bug}]This should follow C99 semantics \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_last_error@{anx\_\-last\_\-error}}
+\index{anx_last_error@{anx\_\-last\_\-error}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-last\_\-error ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a1}
+
+
+Retrieve the error code of the most recent error on an annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the error code of the most recent error \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_meta_element_clone@{anx\_\-meta\_\-element\_\-clone}}
+\index{anx_meta_element_clone@{anx\_\-meta\_\-element\_\-clone}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Anx\-Meta\-Element$\ast$ anx\_\-meta\_\-element\_\-clone (Anx\-Meta\-Element $\ast$ {\em meta})}\label{anx__general_8h_a25}
+
+
+Clone an Anx\-Meta\-Element structure. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em meta}]the meta tag structure to clone \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]a new meta tag structure \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_new@{anx\_\-new}}
+\index{anx_new@{anx\_\-new}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf ANNODEX}$\ast$ anx\_\-new (int {\em flags})}\label{anx__general_8h_a5}
+
+
+Create a managed Annodex handle This is an alternative interface for non-file annodexes. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em flags}]ANX\_\-READ or ANX\_\-WRITE \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]an ANNODEX$\ast$ handle \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_open@{anx\_\-open}}
+\index{anx_open@{anx\_\-open}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf ANNODEX}$\ast$ anx\_\-open (char $\ast$ {\em filename}, int {\em flags})}\label{anx__general_8h_a3}
+
+
+Open a file containing Annodex media. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em filename}]path to the file \item[{\em flags}]ANX\_\-READ or ANX\_\-WRITE \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]an ANNODEX$\ast$ handle \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_open_stdio@{anx\_\-open\_\-stdio}}
+\index{anx_open_stdio@{anx\_\-open\_\-stdio}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf ANNODEX}$\ast$ anx\_\-open\_\-stdio (FILE $\ast$ {\em file}, int {\em flags})}\label{anx__general_8h_a4}
+
+
+Attach to an existing file descriptor. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fd}]an open file descriptor \item[{\em flags}]ANX\_\-READ or ANX\_\-WRITE \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]an ANNODEX$\ast$ handle \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_ready@{anx\_\-ready}}
+\index{anx_ready@{anx\_\-ready}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-ready ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a9}
+
+
+Query if an annodex is ready. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 if annodex is not ready, 1 if it is \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_seek_id@{anx\_\-seek\_\-id}}
+\index{anx_seek_id@{anx\_\-seek\_\-id}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int anx\_\-seek\_\-id ({\bf ANNODEX} $\ast$ {\em annodex}, const char $\ast$ {\em id})}\label{anx__general_8h_a14}
+
+
+Seek to an anchor identified by id. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em id}]The id of the anchor to seek to \end{description}
+\end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_seek_time@{anx\_\-seek\_\-time}}
+\index{anx_seek_time@{anx\_\-seek\_\-time}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double anx\_\-seek\_\-time ({\bf ANNODEX} $\ast$ {\em annodex}, double {\em seconds}, int {\em whence})}\label{anx__general_8h_a18}
+
+
+Seek to a time point in an annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em seconds}]the time to seek to \item[{\em whence}]whence parameter (defined in {\bf anx\_\-constants.h}{\rm (p.\,\pageref{anx__constants_8h})}) \end{description}
+\end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_set_head@{anx\_\-set\_\-head}}
+\index{anx_set_head@{anx\_\-set\_\-head}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Anx\-Head$\ast$ anx\_\-set\_\-head ({\bf ANNODEX} $\ast$ {\em annodex}, Anx\-Head $\ast$ {\em head})}\label{anx__general_8h_a11}
+
+
+Set the head element of the Annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em head}]a complete Anx\-Head structure to set \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the head if successful, NULL on failure \end{Desc}
+\begin{Desc}
+\item[Note:]libannodex makes a copy of the head; it can be safely freed after returning from this call. \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_set_timebase@{anx\_\-set\_\-timebase}}
+\index{anx_set_timebase@{anx\_\-set\_\-timebase}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double anx\_\-set\_\-timebase ({\bf ANNODEX} $\ast$ {\em annodex}, double {\em seconds})}\label{anx__general_8h_a16}
+
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \item[{\em seconds}]the new timebase \end{description}
+\end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_strerror@{anx\_\-strerror}}
+\index{anx_strerror@{anx\_\-strerror}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ anx\_\-strerror ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a2}
+
+
+Retrieve a printable error string corresponding to the most recent error on annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]an error string \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_tell@{anx\_\-tell}}
+\index{anx_tell@{anx\_\-tell}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf anx\_\-int64\_\-t} anx\_\-tell ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a13}
+
+
+Query the current byte offset of an annodex. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the current byte offset XXX: Deprecated? \end{Desc}
+\index{anx_general.h@{anx\_\-general.h}!anx_tell_time@{anx\_\-tell\_\-time}}
+\index{anx_tell_time@{anx\_\-tell\_\-time}!anx_general.h@{anx\_\-general.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double anx\_\-tell\_\-time ({\bf ANNODEX} $\ast$ {\em annodex})}\label{anx__general_8h_a17}
+
+
+Query the current offset of an annodex expressed as time in seconds. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em annodex}]an ANNODEX$\ast$ handle \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]the current time offset \end{Desc}

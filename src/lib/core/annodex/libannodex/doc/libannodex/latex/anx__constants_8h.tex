@@ -1,0 +1,99 @@
+\section{anx\_\-constants.h File Reference}
+\label{anx__constants_8h}\index{anx_constants.h@{anx\_\-constants.h}}
+
+
+\subsection{Detailed Description}
+Named constants used by the libannodex C API. 
+
+
+
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define {\bf ANX\_\-READ}\ 00\label{anx__constants_8h_a0}
+
+\item 
+\#define {\bf ANX\_\-WRITE}\ 01\label{anx__constants_8h_a1}
+
+\item 
+\#define {\bf ANX\_\-CONTINUE}\ 0\label{anx__constants_8h_a2}
+
+\item 
+\#define {\bf ANX\_\-STOP\_\-OK}\ 1\label{anx__constants_8h_a3}
+
+\item 
+\#define {\bf ANX\_\-STOP\_\-ERR}\ -1\label{anx__constants_8h_a4}
+
+\item 
+\#define {\bf ANX\_\-IGNORE\_\-ANNO}\ 0x1\label{anx__constants_8h_a5}
+
+\item 
+\#define {\bf ANX\_\-IGNORE\_\-MEDIA}\ 0x2\label{anx__constants_8h_a6}
+
+\item 
+\#define {\bf ANX\_\-IGNORE\_\-IMPORT\_\-IMPORT}\ 0x4\label{anx__constants_8h_a7}
+
+\item 
+\#define {\bf ANX\_\-ALLOW\_\-RECURSIVE\_\-IMPORT}\ 0x8\label{anx__constants_8h_a8}
+
+\item 
+\#define {\bf ANX\_\-SEEK\_\-SET}\ 0\label{anx__constants_8h_a9}
+
+\item 
+\#define {\bf ANX\_\-SEEK\_\-CUR}\ 1\label{anx__constants_8h_a10}
+
+\item 
+\#define {\bf ANX\_\-SEEK\_\-END}\ 2\label{anx__constants_8h_a11}
+
+\item 
+\#define {\bf ANX\_\-SEEK\_\-HEAD}\ 3\label{anx__constants_8h_a12}
+
+\item 
+\#define {\bf ANX\_\-SEEK\_\-PREV}\ 4\label{anx__constants_8h_a13}
+
+\item 
+\#define {\bf ANX\_\-SEEK\_\-NEXT}\ 5\label{anx__constants_8h_a14}
+
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum {\bf Anx\-Error} \{ \par
+{\bf ANX\_\-ERR\_\-OK} =  0, 
+{\bf ANX\_\-ERR\_\-SYSTEM} =  -1, 
+{\bf ANX\_\-ERR\_\-INVALID} =  -2, 
+{\bf ANX\_\-ERR\_\-NOTSUPPORTED} =  -3, 
+\par
+{\bf ANX\_\-ERR\_\-DISABLED} =  -4, 
+{\bf ANX\_\-ERR\_\-NOTREADY} =  -10, 
+{\bf ANX\_\-ERR\_\-NOSEEK} =  -11, 
+{\bf ANX\_\-ERR\_\-EOF} =  -12, 
+\par
+{\bf ANX\_\-ERR\_\-NOIMPORTER} =  -13, 
+{\bf ANX\_\-ERR\_\-NOTIMPLEMENTED} =  -99
+ \}
+\end{CompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\index{anx_constants.h@{anx\_\-constants.h}!AnxError@{AnxError}}
+\index{AnxError@{AnxError}!anx_constants.h@{anx\_\-constants.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Anx\-Error}}\label{anx__constants_8h_a25}
+
+
+\begin{Desc}
+\item[Enumeration values: ]\par
+\begin{description}
+\index{ANX_ERR_OK@{ANX\_\-ERR\_\-OK}!anx_constants.h@{anx\_\-constants.h}}\index{anx_constants.h@{anx\_\-constants.h}!ANX_ERR_OK@{ANX\_\-ERR\_\-OK}}\item[{\em 
+ANX\_\-ERR\_\-OK\label{anx__constants_8h_a25a15}
+}]No error. \index{ANX_ERR_SYSTEM@{ANX\_\-ERR\_\-SYSTEM}!anx_constants.h@{anx\_\-constants.h}}\index{anx_constants.h@{anx\_\-constants.h}!ANX_ERR_SYSTEM@{ANX\_\-ERR\_\-SYSTEM}}\item[{\em 
+ANX\_\-ERR\_\-SYSTEM\label{anx__constants_8h_a25a16}
+}]System specific error; check errno for details. \index{ANX_ERR_INVALID@{ANX\_\-ERR\_\-INVALID}!anx_constants.h@{anx\_\-constants.h}}\index{anx_constants.h@{anx\_\-constants.h}!ANX_ERR_INVALID@{ANX\_\-ERR\_\-INVALID}}\item[{\em 
+ANX\_\-ERR\_\-INVALID\label{anx__constants_8h_a25a17}
+}]The requested operation is not suitable for this ANNODEX. \index{ANX_ERR_NOTSUPPORTED@{ANX\_\-ERR\_\-NOTSUPPORTED}!anx_constants.h@{anx\_\-constants.h}}\index{anx_constants.h@{anx\_\-constants.h}!ANX_ERR_NOTSUPPORTED@{ANX\_\-ERR\_\-NOTSUPPORTED}}\item[{\em 
+ANX\_\-ERR\_\-NOTSUPPORTED\label{anx__constants_8h_a25a18}
+}]Not supported. \index{ANX_ERR_DISABLED@{ANX\_\-ERR\_\-DISABLED}!anx_constants.h@{anx\_\-constants.h}}\index{anx_constants.h@{anx\_\-constants.h}!ANX_ERR_DISABLED@{ANX\_\-ERR\_\-DISABLED}}\item[{\em 
+ANX\_\-ERR\_\-DISABLED\label{anx__constants_8h_a25a19}
+}]Functionality disabled at build time. \end{description}
+\end{Desc}
+

@@ -1,0 +1,52 @@
+The /Win32 directory contains everything necessary to compile libcmml under windows and create
+
+- libcmml.dll
+- cmml-validate.exe
+- cmml-fix.exe
+[- cmml-fortune.exe - not ported]
+
+
+Building with the Makefile
+==========================
+
+Here's what you need to do:
+
+1) Install libexpat.dll and the include file expat.h
+ (you can get it from http://expat.sourceforge.net/)
+
+2) cd Win32 subdirectory
+
+3) Use "nmake" to create library and executable.
+
+4) Install cmml-validate, cmml-fix, libcmml.dll and the include file cmml.h
+
+
+Visual Studio.NET 2003 Installation
+===================================
+
+The VS.NET solution can be found in the Win32 subdirectory.
+
+IMPORTANT: The solution files were built for VS.NET 2003 and can't be
+opened by VS.NET 2002. If you use VS.NET 2002 you should use the VS6
+workspace files and they will be automatically converted to the new
+format.
+
+Also included in the solution is a setup and deployment project that
+will package and create an installer for the binary output of this
+project.
+
+You will need to install the expat libraries separately. If you wish
+to create a debug build and wish to have the debugger load the symbols
+for expat libraries, you should also include the expat project source
+files that come with the expat package into the solution. By default
+the compiler and linker will look for expat in the same parent
+directory as libcmml. ie parent\expat\libs (for the library files) and
+parent\expat\Source\lib (for the header files). However you can
+install it wherever you choose and must modify the include directories
+for the linker and compiler in your projects properties.
+
+Visual Studio Version 6 Installation
+====================================
+
+There is also a Visual C++ V 6.0 workspace file in the Win32 subdirectory
+in case you have not upgraded to Visual Studio.NET.

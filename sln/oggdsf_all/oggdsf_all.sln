@@ -1106,6 +1106,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libilliCore", "..\..\src\li
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liboggz", "..\..\src\lib\core\ogg\liboggz\win32\liboggz\liboggz.vcproj", "{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FB373486-0E6E-4BB6-8BF2-1F92EACA1468} = {FB373486-0E6E-4BB6-8BF2-1F92EACA1468}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -1639,6 +1644,16 @@ Global
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}.Release.Build.0 = Release|Win32
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}.Release Unicode.ActiveCfg = Release|Win32
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}.Release Unicode.Build.0 = Release|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Debug.ActiveCfg = Debug|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Debug.Build.0 = Debug|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Debug Unicode.ActiveCfg = Debug|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Debug Unicode.Build.0 = Debug|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.MakeFile.ActiveCfg = Release|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.MakeFile.Build.0 = Release|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Release.ActiveCfg = Release|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Release.Build.0 = Release|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Release Unicode.ActiveCfg = Release|Win32
+		{16CBAA0F-A6A5-40DA-8C50-393AFEE7B1F4}.Release Unicode.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

@@ -1,0 +1,4 @@
+LIBRARY	ogg_importer
+EXPORTS
+
+anx_importer_init		@10

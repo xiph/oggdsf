@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="en">
+
+<stream timebase="npt:0">
+<import contenttype="video/x-theora" src="series1Air_t.ogg" start="npt:0"/>
+<import contenttype="audio/x-vorbis" src="series1Air_v.ogg" start="npt:0"/>
+<import contenttype="audio/x-speex" src="series1Air.spx" start="npt:7"/>
+<import contenttype="video/mpeg" src="series1Air.mpg" start="npt:0"/>
+</stream>
+
+<head>
+<title>
+Australia Advances Series - Personal Air Monitor
+</title>
+</head>
+
+<clip id="intro_ge" lang="de" track="german" start="npt:0">
+<a href="http://www.csiro.au/promos/ozadvances/">
+Mehr Australia Advances Videos</a>
+<desc>
+Einf$#252;hrung zum 'Personal Air Monitor - Australia Advances video'.
+</desc>
+</clip>
+
+<clip id="intro_en" track="default" start="npt:0">
+<a href="http://www.csiro.au/promos/ozadvances/">
+More Australia Advances Videos</a>
+<desc>
+Introduction to 'Personal Air Monitor - Australia Advances video'.
+</desc>
+</clip>
+
+<clip id="startspeech_ge" lang="de" track="german" start="npt:10">
+<a href="99-3-20.anx#startspeech">Auswirkungen dieser Verschmutzung auf die Atmosphýre umfaþt Beschýdigung der Ozonschicht</a>
+<desc>
+Luftverschmutzung ist überall. Sie strÿmot aus
+Autoauspuffen, Fabriken und Verbrennungsanlagen. Āberwachung der
+Luftverschmutzung wird grāþtenteils im Freien
+durchgeführt. Aber Statistiken zeigen, daþ Australier
+eigentlich 95 Prozent ihrer Zeit im Haus verbringen ... und hier
+kÿnnten Giftgase im Stillen Probleme erzeugen.
+</desc>
+</clip>
+
+<clip id="startspeech_en" track="default" start="npt:10">
+<a href="99-3-20.anx#startspeech">
+Effects of this pollution of the atmosphere include damage to the ozone layer</a>
+<desc>
+Air pollution is everywhere.  Pouring out of car exhausts, factories
+and from burnoffs. Most monitoring of air pollution is conducted
+outside, but statistics show in fact that Australians spend 95 per
+cent of their time inside... and this is where pollutants could be
+silently causing problems.
+</desc>
+</clip>
+
+</cmml>

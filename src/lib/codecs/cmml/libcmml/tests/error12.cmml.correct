@@ -1,0 +1,6 @@
+error12.cmml:7:0: Skipped unknown tag
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+

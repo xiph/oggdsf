@@ -1,0 +1,16 @@
+error10.cmml:16:0: Multiple head tags not allowed
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="pl">
+
+<stream timebase="npt:0">
+<import contenttype="video/mpeg" src="fish.mpg" start="npt:0"/>
+</stream>
+
+<head lang="en">
+<title>Types of fish</title>
+<meta name="Producer" content="Joe Ordinary"/>
+<meta name="DC.Author" content="Joe's friend"/>
+</head>
+

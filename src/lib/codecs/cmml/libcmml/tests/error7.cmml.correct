@@ -1,0 +1,23 @@
+error7.cmml:23:0: head or clip tag before stream tag not allowed
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<head>
+<title>
+Australia Advances - Grim News on the Ozone Layer
+</title>
+<meta name="DESCRIPTION" content="The recovery of the ozone layer is being slowed dramatically by the presence and production of the gas, halon"/>
+<meta name="KEYWORDS" content="Ozone, Halon"/>
+<meta name="TYPE" content="video"/>
+</head>
+
+<clip id="intro" track="default" start="npt:0">
+<a href="http://www.csiro.au/promos/ozadvances/">
+http://www.csiro.au/promos/ozadvances/</a>
+<desc>
+Introduction to 'Grim News on the Ozone Layer - Australia Advances video'.
+</desc>
+</clip>
+
