@@ -77,6 +77,9 @@ public:
 	/// Serialise the seek table into a memory buffer, which may be useful for e.g. caching.
 	bool serialiseInto(unsigned char* inBuff, unsigned long inBuffSize);
 
+	/// Serialise the seek table into a file, which may be useful for e.g. caching.
+	bool serialiseInto(const string inSeekTableFilename);
+
 	/// Build a seek table from a buffer previously written to with serialiseInto().
 	virtual bool buildTableFromBuffer(const unsigned char *inBuffer, const unsigned long inBufferSize);
 

@@ -59,17 +59,8 @@ int main(int argc, char * argv[])
 		}
 		locSeekTable->buildTable();
 
-		fstream outputFile;
-		outputFile.open(argv[2], ios_base::out | ios_base::binary);
+		locSeekTable->serialiseInto(argv[2]);
 
-		unsigned char* locBuff = new unsigned char[locSeekTable->serialisedSize()];
-		locSeekTable->serialiseInto(locBuff, locSeekTable->serialisedSize());
-
-		outputFile.write((char*)locBuff, locSeekTable->serialisedSize());
-
-		outputFile.close();
-
-		delete [] locBuff;
 		delete locSeekTable;
 	}
 

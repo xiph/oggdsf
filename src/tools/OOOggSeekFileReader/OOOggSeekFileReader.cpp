@@ -24,32 +24,6 @@ int main(int argc, char *argv[])
 		cout << "Usage : OOOggSeekFileReader <seek_table_file>"<<endl;
 
 	} else {
-#if 0
-		LOOG_INT64 timePoint;
-		unsigned long bytePos;
-
-		fstream seekFile;
-		seekFile.open(argv[1], ios_base::in | ios_base::binary);
-	
-		unsigned char* buff = new unsigned char[16];
-		unsigned long pointCount = 0;
-		while (!seekFile.eof()) {
-			//Read the time
-			seekFile.read((char*)buff, 8);
-			if (seekFile.gcount() == 8) {
-				timePoint = iLE_Math::CharArrToInt64(buff);
-
-
-				seekFile.read((char*)buff, 4);
-				bytePos = iLE_Math::charArrToULong(buff);
-
-				cout << "Seek point "<<pointCount<<" : Time = "<<timePoint<<", Byte Offset = "<<bytePos<<endl;
-				pointCount++;
-			}
-		}
-
-		delete [] buff;
-#else
 		AutoOggSeekTable *locSeekTable = new AutoOggSeekTable("foo");  // Filename doesn't matter
 		locSeekTable->buildTableFromFile(argv[1]);
 		OggSeekTable::tSeekMap locSeekMap = locSeekTable->getSeekMap();
@@ -62,8 +36,6 @@ int main(int argc, char *argv[])
 		}
 
 		delete [] locSeekTable;
-
-#endif
 	}
 	return 0;
 }
