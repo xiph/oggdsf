@@ -68,9 +68,15 @@ OggDataBuffer::~OggDataBuffer(void)
 	
 }
 
-/** The inUserData parameter is a pointer of any type.  This pointer is passed to the callback when it
-    is called, enabling the user to save any custom information in its callback.
+
+/** The inUserData parameter is a pointer of any type.  This pointer is passed
+    to the callback when it is called, enabling the user to save any custom
+    information in its callback.  Note that your callback function is
+    responsible for deleting the OggPage passed to it (and NULL the OggPage
+    pointer after deletion): see IOggCallback::acceptOggPage() for more
+    information.
   */
+
 bool OggDataBuffer::registerStaticCallback(fPageCallback inPageCallback, void* inUserData)
 {
 	//Holds the static callback and nulls the virtual one.
@@ -80,6 +86,7 @@ bool OggDataBuffer::registerStaticCallback(fPageCallback inPageCallback, void* i
 	
 	return true;
 }
+
 //bool OggDataBuffer::registerSerialNo(SerialNoRego* inSerialRego) {
 //	if (inSerialRego != NULL) {
 //		mSerialNoCallList.push_back(inSerialRego);
@@ -88,6 +95,12 @@ bool OggDataBuffer::registerStaticCallback(fPageCallback inPageCallback, void* i
 //		return false;
 //	}
 //}
+
+
+/** Note that your callback function is responsible for deleting the OggPage
+    passed to it (and NULL the OggPage pointer after deletion): see the
+    IOggCallback class for more information.
+  */
 
 bool OggDataBuffer::registerVirtualCallback(IOggCallback* inPageCallback) {
 	//Holds the virtual callback and nulls the static one.

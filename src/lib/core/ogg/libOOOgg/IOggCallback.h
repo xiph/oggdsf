@@ -40,11 +40,11 @@ public:
 	virtual ~IOggCallback(void)			{}
 
 
-	//All callers to acceptOggPage give away their pointer
-	// to this function. All methods implementing this interface
-	// are responsible for deleting this page. All callers
-	// should NULL their pointer immediately after calling
-	// to avoid reusing them.
-	// 
+	/** All callers to acceptOggPage give away their pointer to this
+	    function.  All methods implementing this interface are responsible
+	    for deleting this page.  All callers should NULL their pointer
+	    immediately after calling to avoid reusing them.
+	  */
+
 	virtual bool acceptOggPage(OggPage* inOggPage) = 0;
 };
