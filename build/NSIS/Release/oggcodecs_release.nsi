@@ -773,11 +773,16 @@ Section Uninstall
   Delete "$INSTDIR\uninst.exe"
 
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
+  ; Remove the "illiminable" start menu group (but only if it's empty)
+  RMDir "$SMPROGRAMS\$ICONS_GROUP\.."
 
   ; Need to change the working directory to something else (anything) besides
   ; the output directory, so we can rmdir it
   SetOutPath "$TEMP"
   RMDir "$INSTDIR"
+
+  ; Remove the "illiminable" parent directory (but only if it's empty)
+  RMDir "$INSTDIR\.."
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
