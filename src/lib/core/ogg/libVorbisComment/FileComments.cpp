@@ -59,21 +59,25 @@ bool FileComments::acceptOggPage(OggPage* inOggPage) {
 			locStreamInfo->setComments(locVorbisComments);
 			locStreamInfo->setMajorStreamNo(0);   //Temp... increase for chaining
 			locStreamInfo->setMinorStreamNo(mMinorStreamCount);
-			
+			mStreams.push_back(locStreamInfo);
 			mMinorStreamCount++;
 
 
 		} else if ((strncmp((char*)locPacket->packetData(), "\201theora", 7)) == 0) {
+			locVorbisComments = new VorbisComments;
+			locStreamInfo = new StreamCommentInfo;
 			bool locIsOK = locVorbisComments->parseOggPacket(locPacket, 7);
 			locStreamInfo->setCodecID(StreamCommentInfo::THEORA);
 			locStreamInfo->setPageStart(mBytePos);
 			locStreamInfo->setComments(locVorbisComments);
 			locStreamInfo->setMajorStreamNo(0);   //Temp... increase for chaining
 			locStreamInfo->setMinorStreamNo(mMinorStreamCount);
+			mStreams.push_back(locStreamInfo);
 
 			mMinorStreamCount++;
 		}
 	}
+	mBytePos += inOggPage->pageSize();
 	
 	return true;
 
