@@ -188,6 +188,9 @@
 				RelativePath="RegWrap.cpp">
 			</File>
 			<File
+				RelativePath=".\SingleMediaFileCache.cpp">
+			</File>
+			<File
 				RelativePath="SpeexStream.cpp">
 			</File>
 			<File
@@ -265,6 +268,9 @@
 			</File>
 			<File
 				RelativePath="resource.h">
+			</File>
+			<File
+				RelativePath=".\SingleMediaFileCache.h">
 			</File>
 			<File
 				RelativePath="SpeexStream.h">
