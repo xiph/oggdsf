@@ -39,6 +39,7 @@ VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	mFishSound(NULL)
 	,	mWaveFormat(NULL)
 	,	mUptoFrame(0)
+	,	mVorbisQuality(0.6)
 {
 	
 }
@@ -90,6 +91,9 @@ bool VorbisEncodeInputPin::ConstructCodec() {
 	int i = 1;
 	//FIX::: Use new API for interleave setting
 	fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
+
+	
+	fish_sound_command(mFishSound, FISH_SOUND_VORBIS_SET_QUALITY, &mVorbisQuality, sizeof(float));
 
 	fish_sound_set_encoded_callback (mFishSound, VorbisEncodeInputPin::VorbisEncoded, this);
 	//FIX::: Proper return value

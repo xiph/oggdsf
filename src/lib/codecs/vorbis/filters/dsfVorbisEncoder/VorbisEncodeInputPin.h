@@ -69,6 +69,8 @@ protected:
 	FishSound* mFishSound;
 	FishSoundInfo mFishInfo; 	
 
+	float mVorbisQuality;
+
 	
 };
 
