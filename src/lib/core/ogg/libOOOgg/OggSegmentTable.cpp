@@ -33,9 +33,10 @@
 #include "oggsegmenttable.h"
 
 OggSegmentTable::OggSegmentTable()
+	:	mSegmentTable(NULL)
+	,	mNumSegments(0)
 {	
-	mSegmentTable = NULL;
-	mNumSegments = 0;
+
 }
 
 OggSegmentTable::~OggSegmentTable(void)
@@ -44,53 +45,88 @@ OggSegmentTable::~OggSegmentTable(void)
 }
 
 OggSegmentTable* OggSegmentTable::clone() {
+
+	//Creates a new Segment table which is a deep copy of this one.
 	OggSegmentTable* retVal = new OggSegmentTable;
 	if ( (mSegmentTable != NULL) && (mNumSegments > 0)) {
+		//Make a new buffer in the returning class
 		retVal->mSegmentTable = new unsigned char[mNumSegments];
+
+		//Copy this segment table into the ne one.
 		memcpy((void*)retVal->mSegmentTable, (const void*) mSegmentTable, mNumSegments);
 		retVal->mNumSegments = mNumSegments;
+
+		return retVal;
 	} else {
 		//Error ??
+		delete retVal;
+		return NULL;
 	}
-	return retVal;
 }
 
+unsigned long OggSegmentTable::calculateDataSize() {
 
-unsigned long OggSegmentTable::setSegmentTable(unsigned char* inSegTable, unsigned char inNumSegments) 
+		//Sums the bytes in the segment table to calculate the size of data.
+		//FIX::: ??? No checks on pointers.
+
+		unsigned long retDataSize = 0;
+		for (int i = 0; i < mNumSegments; i++) {
+			retDataSize += mSegmentTable[i];
+		}
+
+		return retDataSize;
+}
+unsigned long OggSegmentTable::setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegments) 
 {
-	//Delete any previous table
-	delete mSegmentTable;
+	if (inNumSegments != 0) {
+		if (inSegTable == NULL) {
+			//do nothing if pointer was null and numsegments is not 0.
+			return 0;
+		}
 
-	mSegmentTable = inSegTable;
-	//No longer making copy, assuming the pointer passed in is ours
-	//
-	////Assign the segment table
-	//mSegmentTable = new unsigned char[inNumSegments];
-	////Copy the data across
-	//memcpy((void*) mSegmentTable, (const void*)inSegTable, inNumSegments);
-	mNumSegments = inNumSegments;
+		//Delete any previous table
+		delete mSegmentTable;
+		mSegmentTable = NULL;
 
+		//Make a new buffer.
+		unsigned char* locSegTablePtr = new unsigned char[inNumSegments];
+		
+		//Copy the incoming data into the new segemnt buffer
+		memcpy((void*)locSegTablePtr, (const void*)inSegTable, inNumSegments);
+		mSegmentTable = locSegTablePtr;
+		
+		mNumSegments = inNumSegments;
+        
+		//Return the size of the data the segment represents
+		return calculateDataSize();
+	} else {
+		//Numsegments is zero.
 
-	//REVISION:::13/03/04 - Also calculate the number and offsets of packets in this page.
-	//Determine the amount of data the segment table represents
-	unsigned long retDataSize = 0;
-	for (int i = 0; i < inNumSegments; i++) {
-		retDataSize += inSegTable[i];
+		if (inSegTable == NULL) {
+			//If num segments is null and the segtable is null we set delete the classes segment table and null it.
+			delete mSegmentTable;
+			mSegmentTable = NULL;
+			return 0;
+		} else {
+			//Do nothing if inNumSegments is 0
+			return 0;
+		}
+		
 	}
-
-	//Return the size of the data the segment represents
-	return retDataSize;
 
 }
 
 void OggSegmentTable::rawData(unsigned char* outData) {
+	//Must be a preprepared buffer at least mNumSegments. Does no error chceking.
 	for( unsigned char i = 0; i < mNumSegments; i++) {
 		outData[i] = mSegmentTable[i];
 	}
 }
 unsigned char* OggSegmentTable::segmentTable() {
+	//Returns a pointer to the internal segment table... 
 	return mSegmentTable;
 }
 unsigned char OggSegmentTable::numSegments() {
+	//Number off segments in the table.
 	return mNumSegments;
 }

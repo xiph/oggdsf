@@ -39,14 +39,13 @@ public:
 	~OggSegmentTable(void);
 	OggSegmentTable* clone();
 
-	unsigned long setSegmentTable(unsigned char* inSegTable, unsigned char inNumSegments);
+	unsigned long setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegments);
 	unsigned char* segmentTable();
 	unsigned char numSegments();
 	void rawData(unsigned char* outData);
 
-
-
 private:
+	unsigned long calculateDataSize();
 	unsigned char* mSegmentTable;
 	unsigned char mNumSegments;
 
