@@ -38,7 +38,8 @@
 				OutputFile="$(OutDir)/libDSPlayDotNET.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\helper\libiWrapper\Debug;C:\DXSDK\Lib"
-				GenerateDebugInformation="TRUE"/>
+				GenerateDebugInformation="TRUE"
+				ResourceOnlyDLL="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -120,6 +121,9 @@
 				RelativePath="AssemblyInfo.cpp">
 			</File>
 			<File
+				RelativePath=".\CMMLCallbackProxy.cpp">
+			</File>
+			<File
 				RelativePath="DSPlay.cpp">
 			</File>
 			<File
@@ -144,6 +148,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\CMMLCallbackProxy.h">
+			</File>
 			<File
 				RelativePath="DSPlay.h">
 			</File>

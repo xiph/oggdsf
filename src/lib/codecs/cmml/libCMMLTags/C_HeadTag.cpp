@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -68,9 +68,11 @@ void C_HeadTag::setProfile(string inProfile) {
 	mProfile = inProfile;
 }
 void C_HeadTag::setTitle(C_TitleTag* inTitle) {
+	delete mTitle;
 	mTitle = inTitle;
 }
 void C_HeadTag::setBase(C_BaseTag* inBase) {
+	delete mBase;
 	mBase = inBase;
 }
 //Other
@@ -78,9 +80,11 @@ void C_HeadTag::setBase(C_BaseTag* inBase) {
 void C_HeadTag::privateClone(C_CMMLTag* outTag) {
 	C_HumReadCMMLTag::privateClone(outTag);
 	C_HeadTag* locTag = reinterpret_cast<C_HeadTag*>(outTag);
-	locTag->mProfile = mProfile;
-	locTag->mTitle = mTitle;
-	locTag->setBase(mBase->clone());
+	locTag->setProfile(mProfile);
+	//locTag->mTitle = mTitle;
+	if (mBase != NULL) {
+		locTag->setBase(mBase->clone());
+	}
 	locTag->setTitle(mTitle->clone());
 }
 C_CMMLTag* C_HeadTag::genericClone() {

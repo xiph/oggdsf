@@ -14,16 +14,20 @@ namespace libDSPlayDotNET {
 	//		Int64 queryPosition();
 	//};
 
+
+
 DSPlay::DSPlay(void) 
 	:	mGraphBuilder(NULL)
 	,	mMediaControl(NULL)
 	,	mMediaSeeking(NULL)
 	,	mMediaEvent(NULL)
 	,	mEventHandle(INVALID_HANDLE_VALUE)
-	,	mDNCMMLCallbacks(NULL)
+	//,	mDNCMMLCallbacks(NULL)
 	,	mDNMediaEvent(NULL)
+	,	mCMMLAppControl(NULL)
 {
 	CoInitialize(NULL);
+	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
 }
 
 bool DSPlay::checkEvents() {
@@ -101,6 +105,11 @@ void DSPlay::releaseInterfaces() {
 		mMediaEvent = NULL;
 	}
 
+	if (mCMMLAppControl != NULL) {
+		mCMMLAppControl->Release();
+		mCMMLAppControl = NULL;
+	}
+
 	//TODO::: Release everything !
 }
 
@@ -144,6 +153,8 @@ bool DSPlay::loadFile(String* inFileName) {
 			}
 		}
 
+		
+
 	}
 
 	//Build the graph
@@ -153,6 +164,24 @@ bool DSPlay::loadFile(String* inFileName) {
 		mIsLoaded = false;
 		return false;
 	}
+
+	if (isFileAnnodex(inFileName)) {
+		//Get the app control interface for CMML.
+		IBaseFilter* locCMMLFilter = NULL;
+		locHR = mGraphBuilder->FindFilterByName(L"CMML Decode Filter", &locCMMLFilter);
+
+		if (locCMMLFilter != NULL) {
+			ICMMLAppControl* locCMMLAppControl = NULL;
+			
+			locHR = locCMMLFilter->QueryInterface(X_IID_ICMMLAppControl, (void**)&locCMMLAppControl);
+			if (locCMMLAppControl != NULL) {
+				mCMMLAppControl = locCMMLAppControl;
+				mCMMLAppControl->setCallbacks(mCMMLProxy);
+			}
+		}
+
+	}
+
 
 	//Get the media control interface
 	IMediaControl* locMediaControl = NULL;
@@ -189,13 +218,17 @@ bool DSPlay::loadFile(String* inFileName) {
 
 }
 
+bool DSPlay::setCMMLCallbacks(IDNCMMLCallbacks* inCMMLCallbacks) {
+	return mCMMLProxy->setManagedDelegate(inCMMLCallbacks);
+}
+
 bool DSPlay::isLoaded() {
 	return mIsLoaded;
 }
 bool DSPlay::play() {
 	if (mIsLoaded) {
 		HRESULT locHR = mMediaControl->Run();
-		if (locHR != S_OK) {
+		if (SUCCEEDED(locHR)) {
 			return false;
 		} else {
 			return true;

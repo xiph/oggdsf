@@ -1,17 +1,22 @@
 #pragma once
 #pragma unmanaged
+//#include "CMMLDecoderIIDs.h"
 #include <uuids.h>
 #include <dshow.h>
 
 #include <d3d9.h>
 #include <vmr9.h>
 #include <string>
+
 #include "ICMMLCallbacks.h"
+#include "ICMMLAppControl.h"
 #include "libCMMLTags.h"
+#include "CMMLCallbackProxy.h"
+
 
 #pragma managed
 #using "libCMMLTagsDotNET.dll"
-using namespace CSIRO::libCMMLTagsDotNET;
+using namespace illiminable::libCMMLTagsDotNET;
 #include "libDSPlayDotNet.h"
 #include "IDNCMMLCallbacks.h"
 #include "IDNMediaEvent.h"
@@ -22,6 +27,7 @@ using namespace std;
 namespace illiminable {
 namespace libDSPlayDotNET
 {
+
 	public __gc class DSPlay 
 	{
 	public:
@@ -43,6 +49,8 @@ namespace libDSPlayDotNET
 
 		bool setMediaEventCallback(IDNMediaEvent* inMediaEventCallback);
 		IDNMediaEvent* getMediaEventCallback();
+
+		bool setCMMLCallbacks(IDNCMMLCallbacks* inCMMLCallbacks);
 		bool checkEvents();
 
 		void releaseInterfaces();
@@ -52,14 +60,19 @@ namespace libDSPlayDotNET
 		IMediaControl* mMediaControl;
 		IMediaSeeking* mMediaSeeking;
 		IMediaEvent* mMediaEvent;
+		ICMMLAppControl* mCMMLAppControl;
 
 		HANDLE mEventHandle;
 
-		IDNCMMLCallbacks* mDNCMMLCallbacks;
+		//IDNCMMLCallbacks* mDNCMMLCallbacks;
+		CMMLCallbackProxy* mCMMLProxy;
 		IDNMediaEvent* mDNMediaEvent;
 
 		bool mIsLoaded;
 		bool isFileAnnodex(String* inFilename);
+		
+		
+
 	};
 }
 }

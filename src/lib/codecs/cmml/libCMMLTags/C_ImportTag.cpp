@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -100,12 +100,12 @@ void C_ImportTag::privateClone(C_CMMLTag* outTag) {
 
 	C_HumReadCMMLTag::privateClone(outTag);
 	C_ImportTag* locTag = reinterpret_cast<C_ImportTag*>(outTag);
-	locTag->mGranuleRate = mGranuleRate;
-	locTag->mContentType = mContentType;
-	locTag->mSrc = mSrc;
-	locTag->mStart = mStart;
-	locTag->mEnd = mEnd;
-	locTag->mTitle = mTitle;
+	locTag->setGranuleRate(mGranuleRate);
+	locTag->setContentType(mContentType);
+	locTag->setSrc(mSrc );
+	locTag->setStart(mStart);
+	locTag->setEnd(mEnd);
+	locTag->setTitle(mTitle);
 	locTag->setParamList(mParamList->clone());
 }
 C_ImportTag* C_ImportTag::clone() {

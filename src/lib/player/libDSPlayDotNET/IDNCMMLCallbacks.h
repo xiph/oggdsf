@@ -4,11 +4,11 @@
 
 #pragma managed
 #using "libCMMLTagsDotNET.dll"
-using namespace CSIRO::libCMMLTagsDotNET;
+using namespace illiminable::libCMMLTagsDotNET;
 
 namespace illiminable {
 namespace libDSPlayDotNET {
-public __gc interface IDNCMMLCallbacks {
+public __gc __interface IDNCMMLCallbacks {
 	//class ICMMLCallbacks
 	//{
 	//public:
@@ -16,10 +16,10 @@ public __gc interface IDNCMMLCallbacks {
 	//	virtual bool headCallback(C_HeadTag* inHeadTag) = 0;
 	//};
 public:
-	//virtual bool clipCallback(ClipTag* inClipTag) = 0;
-	//bool headCallback(HeadTag* inHeadTag);
+	virtual bool clipCallback(ClipTag* inClipTag) = 0;
+	virtual bool headCallback(HeadTag* inHeadTag) = 0;
 
-private:
+
 	
 	
 

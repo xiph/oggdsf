@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ string C_CMMLTag::makeElement(string inElemName, string inElemContent) {
 
 
 void C_CMMLTag::privateClone(C_CMMLTag* outTag) {
-	outTag->mId = mId;	
+	outTag->setId(mId);	
 }
 
 

@@ -94,6 +94,11 @@
                     Project = "{E274665B-12E3-4C7F-A749-FAB0C0A73522}"
                     Package = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
                 />
+                <Reference
+                    Name = "libCMMLTagsDotNET"
+                    Project = "{9B83D147-AFE7-46EF-A3FF-EBEC65F00BA6}"
+                    Package = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
+                />
             </References>
         </Build>
         <Files>

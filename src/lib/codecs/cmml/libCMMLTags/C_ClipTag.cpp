@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -82,12 +82,15 @@ void C_ClipTag::setTrack(string inTrack) {
 	mTrack = inTrack;
 }
 void C_ClipTag::setAnchor(C_AnchorTag* inAnchor) {
+	delete mAnchor;
 	mAnchor = inAnchor;
 }
 void C_ClipTag::setImage(C_ImageTag* inImage) {
+	delete mImage;
 	mImage = inImage;
 }
 void C_ClipTag::setDesc(C_DescTag* inDesc) {
+	delete mDesc;
 	mDesc = inDesc;
 }
 
@@ -116,11 +119,11 @@ void C_ClipTag::privateClone(C_CMMLTag* outTag) {
 	C_HumReadCMMLTag::privateClone(outTag);
 	C_ClipTag* locTag = reinterpret_cast<C_ClipTag*>(outTag);
 	locTag->mTrack = mTrack;
-	locTag->mAnchor = mAnchor;
-	locTag->mImage = mImage;
-	locTag->mDesc = mDesc;
-	locTag->mStart = mStart;
-	locTag->mEnd = mEnd;
+	locTag->setAnchor(mAnchor->clone());
+	locTag->setImage(mImage->clone());
+	locTag->setDesc(mDesc->clone());
+	locTag->setStart(mStart);
+	locTag->setEnd(mEnd);
 }
 string C_ClipTag::toString() {
 	string retStr = "<clip";

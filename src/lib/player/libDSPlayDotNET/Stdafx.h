@@ -10,4 +10,6 @@
 #include <dshow.h>
 //#include <windows.h>
 
+//#include <guiddef.h>
+// {6188AD0C-62CB-4658-A14E-CD23CF84EC31}
 #pragma managed

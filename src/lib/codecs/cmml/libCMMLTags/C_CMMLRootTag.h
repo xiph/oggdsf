@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ public:
 	//Mutators
 	void setStream(C_StreamTag* inStreamTag);
 	void setHead(C_HeadTag* inHeadTag);
-	void C_CMMLRootTag::setClipList(C_ClipTagList* inClipList);
+	void setClipList(C_ClipTagList* inClipList);
 
 	//Other
 	virtual string toString();

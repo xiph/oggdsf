@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -75,8 +75,8 @@ void C_StreamTag::setImportList(C_ImportTagList* inTagList) {
 void C_StreamTag::privateClone(C_CMMLTag* outTag) {
 	C_CMMLTag::privateClone(outTag);
 	C_StreamTag* locTag = reinterpret_cast<C_StreamTag*>(outTag);
-	locTag->mUtc = mUtc;
-	locTag->mTimebase = mTimebase;
+	locTag->setUtc(mUtc);
+	locTag->setTimebase(mTimebase);
 
 }
 

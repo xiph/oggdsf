@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -64,8 +64,8 @@ void C_ImageTag::setAlt(string inAlt) {
 void C_ImageTag::privateClone(C_CMMLTag* outTag) {
 	C_HumReadCMMLTag::privateClone(outTag);
 	C_ImageTag* locTag = reinterpret_cast<C_ImageTag*>(outTag);
-	locTag->mSrc = mSrc;
-	locTag->mAlt = mAlt;
+	locTag->setSrc(mSrc);
+	locTag->setAlt(mAlt);
 }
 
 C_ImageTag* C_ImageTag::clone() {

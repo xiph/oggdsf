@@ -7,7 +7,7 @@
 #pragma managed
 #using "libiWrapper.dll"
 #using "libCMMLTagsDotNET.dll"
-using namespace CSIRO::libCMMLTagsDotNET;
+using namespace illiminable::libCMMLTagsDotNET;
 using namespace std;
 
 using namespace System;
@@ -24,6 +24,8 @@ namespace libDSPlayDotNET {
 //			Int64 queryPosition();
 //	}*/
 
+	static const GUID X_IID_ICMMLAppControl = {0x6188ad0c, 0x62cb, 0x4658, {0xa1, 0x4e, 0xcd, 0x23, 0xcf, 0x84, 0xec, 0x31}};
+	//DEFINE_GUID(IID_ICMMLAppControl, 0x6188ad0c, 0x62cb, 0x4658, 0xa1, 0x4e, 0xcd, 0x23, 0xcf, 0x84, 0xec, 0x31);
 	static wstring toWStr(std::string inString) {
 
 		//This is frmo the String Helper class.

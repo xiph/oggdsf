@@ -34,7 +34,8 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/libiWrapper.dll"
 				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"/>
+				GenerateDebugInformation="TRUE"
+				ResourceOnlyDLL="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

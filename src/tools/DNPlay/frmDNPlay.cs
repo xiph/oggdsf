@@ -5,13 +5,15 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 using illiminable.libDSPlayDotNET;
+using illiminable.libCMMLTagsDotNET;
+
 
 namespace DNPlay
 {
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public class frmDNPlay : System.Windows.Forms.Form, IDNMediaEvent
+	public class frmDNPlay : System.Windows.Forms.Form, IDNMediaEvent, IDNCMMLCallbacks
 	{
 		private System.Windows.Forms.MainMenu mainMenu1;
 		private System.Windows.Forms.MenuItem menuItem1;
@@ -38,6 +40,9 @@ namespace DNPlay
 		protected Int64 mLastSync;
 		private System.Windows.Forms.Timer tmrEventCheck;
 		protected Int64 mNumTicks;
+		protected ClipTag mCurrentClip;
+		private System.Windows.Forms.Label lblClipDesc;
+		protected HeadTag mHeadTag;
 
 		enum eEventCodes 
 		{
@@ -91,6 +96,19 @@ namespace DNPlay
 				tmrUpdateDuration.Enabled = false;
 				mPlayer.stop();
 			}
+			return true;
+		}
+
+		//Implementing IDNCMMLCallbacks
+		public bool clipCallback(ClipTag inClipTag) 
+		{
+			mCurrentClip = inClipTag;
+			lblClipDesc.Text = inClipTag.desc().text();
+			return true;
+		}
+		public bool headCallback(HeadTag inHeadTag) 
+		{
+			mHeadTag = inHeadTag;
 			return true;
 		}
 		//
@@ -153,6 +171,7 @@ namespace DNPlay
 			this.lblProgressBkgd = new System.Windows.Forms.Label();
 			this.lblProgressFgnd = new System.Windows.Forms.Label();
 			this.tmrEventCheck = new System.Windows.Forms.Timer(this.components);
+			this.lblClipDesc = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -285,18 +304,26 @@ namespace DNPlay
 			this.tmrEventCheck.Interval = 250;
 			this.tmrEventCheck.Tick += new System.EventHandler(this.tmrEventCheck_Tick);
 			// 
+			// lblClipDesc
+			// 
+			this.lblClipDesc.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblClipDesc.Location = new System.Drawing.Point(8, 96);
+			this.lblClipDesc.Name = "lblClipDesc";
+			this.lblClipDesc.Size = new System.Drawing.Size(400, 104);
+			this.lblClipDesc.TabIndex = 10;
+			// 
 			// frmDNPlay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(416, 87);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.lblProgressFgnd,
-																		  this.lblProgressBkgd,
-																		  this.lblDuration,
-																		  this.cmdPause,
-																		  this.cmdStop,
-																		  this.lblFileLocation,
-																		  this.cmdPlay});
+			this.ClientSize = new System.Drawing.Size(416, 207);
+			this.Controls.Add(this.lblClipDesc);
+			this.Controls.Add(this.lblProgressFgnd);
+			this.Controls.Add(this.lblProgressBkgd);
+			this.Controls.Add(this.lblDuration);
+			this.Controls.Add(this.cmdPause);
+			this.Controls.Add(this.cmdStop);
+			this.Controls.Add(this.lblFileLocation);
+			this.Controls.Add(this.cmdPlay);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.MaximizeBox = false;
 			this.Menu = this.mainMenu1;
@@ -340,7 +367,7 @@ namespace DNPlay
 				updateProgressBar();
 
 				mPlayer.setMediaEventCallback(this);
-
+				mPlayer.setCMMLCallbacks(this);
 				cmdPlay.Enabled = true;
 			}
 			

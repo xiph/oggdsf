@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2003 Zentaro Kavanagh
+   Copyright (C) 2003, 2004 Zentaro Kavanagh
    
-   Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+   Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
    Organisation (CSIRO) Australia
 
    Redistribution and use in source and binary forms, with or without
@@ -62,6 +62,6 @@ void C_HumReadCMMLTag::setDirn(string inDirn) {
 void C_HumReadCMMLTag::privateClone(C_CMMLTag* outTag) {
 	C_CMMLTag::privateClone(outTag);
 	C_HumReadCMMLTag* locTag = reinterpret_cast<C_HumReadCMMLTag*>(outTag);
-	locTag->mLang = mLang;
-	locTag->mDirn = mDirn;
+	locTag->setLang(mLang);
+	locTag->setDirn(mDirn);
 }
