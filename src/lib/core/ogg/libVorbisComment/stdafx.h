@@ -38,11 +38,18 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
-#include <windows.h>
+#ifdef WIN32
+# include <windows.h>
+#endif
 
 // TODO: reference additional headers your program requires here
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
-#else
-#define LIBOOOGG_API __declspec(dllimport)
+#ifdef WIN32
+# ifdef LIBOOOGG_EXPORTS
+#  define LIBOOOGG_API __declspec(dllexport)
+# else
+#  define LIBOOOGG_API __declspec(dllimport)
+# endif
+#else  /* assume POSIX */
+# define LIBOOOGG_API
 #endif
+

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include ".\streamcommentinfo.h"
+#include "streamcommentinfo.h"
 
 StreamCommentInfo::StreamCommentInfo(void)
 	:	mIsDirty(false)
@@ -52,11 +52,11 @@ VorbisComments* StreamCommentInfo::comments() {
 void StreamCommentInfo::setComments(VorbisComments* inComments) {
 	mComments = inComments;
 }
-__int64 StreamCommentInfo::pageStart() {
+LOOG_INT64 StreamCommentInfo::pageStart() {
 	return mPageStart;
 	
 }
-void StreamCommentInfo::setPageStart(__int64 inPageStart) {
+void StreamCommentInfo::setPageStart(LOOG_INT64 inPageStart) {
 	mPageStart = inPageStart;
 }
 unsigned short StreamCommentInfo::codecID() {

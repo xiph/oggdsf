@@ -66,5 +66,5 @@ protected:
 	vector<StreamCommentInfo*> mStreams;
 	string mFileName;
 	unsigned long mMinorStreamCount;
-	__int64 mBytePos;
+	LOOG_INT64 mBytePos;
 };

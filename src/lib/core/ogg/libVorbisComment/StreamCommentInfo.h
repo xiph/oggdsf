@@ -46,8 +46,8 @@ public:
 	VorbisComments* comments();
 	void setComments(VorbisComments* inComments);
 
-	__int64 pageStart();
-	void setPageStart(__int64 inPageStart);
+	LOOG_INT64 pageStart();
+	void setPageStart(LOOG_INT64 inPageStart);
 
 	unsigned short codecID();
 	void setCodecID(unsigned short inCodecID);
@@ -63,7 +63,7 @@ public:
 
 protected:
 	VorbisComments* mComments;
-	__int64 mPageStart;
+	LOOG_INT64 mPageStart;
 	unsigned short mCodecID;
 
 	bool mIsDirty;

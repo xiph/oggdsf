@@ -80,7 +80,11 @@ bool renameCurrentFile() {
 		string locNewName = outFileName.substr(0,locSlashPos + 1) + locPartialName + outFileName.substr(locDotPos);
 		cout<<"After subst."<<endl;
 		cout<<"Renaming "<<outFileName<<" to "<<locNewName<<endl;
+#ifdef WIN32
 		MoveFile(outFileName.c_str(), locNewName.c_str());
+#else  /* assume POSIX */
+		rename(outFileName.c_str(), locNewName.c_str());
+#endif                
 	}
 
 	return true;
@@ -104,7 +108,8 @@ bool pageCB(OggPage* inOggPage) {
 		if (inOggPage->header()->isBOS()) {
 			//Case 1 : Not in the middle of a stream and we found a BOS... start a new file.
 			char* locNum = new char[32];
-			itoa(chainCount, locNum, 10);
+                        sprintf(locNum, "%d", chainCount);
+			// ^ is the same as: itoa(chainCount, locNum, 10);
 			outFileName = inFileName + "__" + locNum + ".ogg";
 			cout<<"New output file "<<outFileName<<endl;
 		
@@ -147,8 +152,11 @@ bool pageCB(OggPage* inOggPage) {
 
 }
 
-
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int argc, char * argv[])
+#endif
 {
 	//This program just dumps the pages out of a file in ogg format.
 	// Currently does not error checking. Check your command line carefully !

@@ -91,8 +91,11 @@ bool pageCB(OggPage* inOggPage) {
 	return true;
 }
 
-
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int argc, char * argv[])
+#endif
 {
 
 

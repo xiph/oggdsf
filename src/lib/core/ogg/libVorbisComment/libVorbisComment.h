@@ -35,9 +35,12 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // LIBVORBISCOMMENT_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifdef LIBVORBISCOMMENT_EXPORTS
-#define LIBVORBISCOMMENT_API __declspec(dllexport)
+#ifdef WIN32
+# ifdef LIBVORBISCOMMENT_EXPORTS
+#  define LIBVORBISCOMMENT_API __declspec(dllexport)
+# else
+#  define LIBVORBISCOMMENT_API __declspec(dllimport)
+# endif
 #else
-#define LIBVORBISCOMMENT_API __declspec(dllimport)
+# define LIBVORBISCOMMENT_API
 #endif
-

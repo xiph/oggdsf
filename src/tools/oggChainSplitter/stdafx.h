@@ -5,9 +5,9 @@
 
 #pragma once
 
-
 #include <iostream>
-#include <tchar.h>
 
-// TODO: reference additional headers your program requires here
-#include "windows.h"
+#ifdef WIN32
+# include <tchar.h>
+# include "windows.h"
+#endif
