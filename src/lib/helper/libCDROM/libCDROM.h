@@ -10,13 +10,3 @@
 #define LIBCDROM_API __declspec(dllimport)
 #endif
 
-// This class is exported from the libCDROM.dll
-class LIBCDROM_API ClibCDROM {
-public:
-	ClibCDROM(void);
-	// TODO: add your methods here.
-};
-
-extern LIBCDROM_API int nlibCDROM;
-
-LIBCDROM_API int fnlibCDROM(void);

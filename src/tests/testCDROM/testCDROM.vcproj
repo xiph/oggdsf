@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="libCDROM"
-	ProjectGUID="{53C3466C-6107-41CD-80D2-5F1D423D66F3}"
+	Name="testCDROM"
+	ProjectGUID="{EC2EA6AA-3DD1-490B-A439-C44F8C1C2D15}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -14,12 +14,13 @@
 			Name="Debug|Win32"
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBCDROM_EXPORTS"
+				AdditionalIncludeDirectories="..\..\lib\helper\libCDROM"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -32,12 +33,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/libCDROM.dll"
+				OutputFile="$(OutDir)/testCDROM.exe"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/libCDROM.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/libCDROM.lib"
+				ProgramDatabaseFile="$(OutDir)/testCDROM.pdb"
+				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -58,16 +59,16 @@
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBCDROM_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
@@ -77,13 +78,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/libCDROM.dll"
+				OutputFile="$(OutDir)/testCDROM.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/libCDROM.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -106,12 +106,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath="CDROM.cpp">
-			</File>
-			<File
-				RelativePath="libCDROM.cpp">
-			</File>
-			<File
 				RelativePath="stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -126,19 +120,13 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="testCDROM.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
-			<File
-				RelativePath="CDROM.h">
-			</File>
-			<File
-				RelativePath="cdwin32api.h">
-			</File>
-			<File
-				RelativePath="libCDROM.h">
-			</File>
 			<File
 				RelativePath="stdafx.h">
 			</File>

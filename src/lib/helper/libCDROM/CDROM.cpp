@@ -12,29 +12,32 @@ CDROM::~CDROM(void)
 
 //IOCTL_CDROM_GET_DRIVE_GEOMETRY
 
-//DISK_GEOMETRY CDROM::getDiskGeom() {
-//	if (mDriveHandle == INVALID_HANDLE_VALUE) {
-//		return NO_DRIVE_HANDLE;
-//	}
-//
-//	DWORD locBytesRead = 0;
-//	DISK_GEOMETRY locGeom;
-//	BOOL locRet = DeviceIoControl(	mDriveHandle,
-//									IOCTL_CDROM_GET_DRIVE_GEOMETRY,
-//									NULL,
-//									0,
-//									&locGeom,
-//									sizeof(locGeom),
-//									&locBytesRead,
-//									NULL);
-//
-//	if (locRet == FALSE) {
-//		CloseHandle(mDriveHandle);
-//		mDriveHandle = INVALID_HANDLE_VALUE;
-//		return READ_TOC_FAILED;
-//	}
-//
-//}
+DISK_GEOMETRY* CDROM::getDiskGeom() {
+	
+	if (mDriveHandle == INVALID_HANDLE_VALUE) {
+		return NULL;
+	}
+
+	DWORD locBytesRead = 0;
+	
+	BOOL locRet = DeviceIoControl(	mDriveHandle,
+									IOCTL_CDROM_GET_DRIVE_GEOMETRY,
+									NULL,
+									0,
+									&mGeom,
+									sizeof(mGeom),
+									&locBytesRead,
+									NULL);
+
+	if (locRet == FALSE) {
+		CloseHandle(mDriveHandle);
+		mDriveHandle = INVALID_HANDLE_VALUE;
+		return NULL;
+	}
+
+	return &mGeom;
+
+}
 int CDROM::ejectDraw() {
 	if (mDriveHandle == INVALID_HANDLE_VALUE) {
 		return NO_DRIVE_HANDLE;
@@ -148,5 +151,11 @@ int CDROM::readTOC() {
 
 	return 0;
 									
+
+}
+
+CDROM_TOC* CDROM::getTOC() {
+	return &mTOC;
+
 
 }

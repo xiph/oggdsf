@@ -5,7 +5,7 @@ using namespace std;
 //#include <ntddcdrm.h>
 #include "cdwin32api.h"
 #include <winioctl.h>
-class CDROM
+class LIBCDROM_API CDROM
 {
 public:
 	CDROM(void);
@@ -26,7 +26,7 @@ public:
 	int readTOC();
 	CDROM_TOC* getTOC();
 
-	//DISK_GEOMETRY getDiskGeom();
+	DISK_GEOMETRY* getDiskGeom();
 
 	int ejectDraw();
 	int closeDraw();
@@ -35,4 +35,5 @@ public:
 protected:
 	HANDLE mDriveHandle;
 	CDROM_TOC mTOC;
+	DISK_GEOMETRY mGeom;
 };

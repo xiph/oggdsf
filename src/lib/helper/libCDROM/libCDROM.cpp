@@ -19,18 +19,3 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return TRUE;
 }
 
-// This is an example of an exported variable
-LIBCDROM_API int nlibCDROM=0;
-
-// This is an example of an exported function.
-LIBCDROM_API int fnlibCDROM(void)
-{
-	return 42;
-}
-
-// This is the constructor of a class that has been exported.
-// see libCDROM.h for the class definition
-ClibCDROM::ClibCDROM()
-{ 
-	return; 
-}
