@@ -556,6 +556,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	//FIXED
 	
 	//return value ??
+	return S_OK;
 }
 
 //ANX:::Perhaps override here. Provide a different set-up function.

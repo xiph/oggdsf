@@ -42,6 +42,7 @@ AbstractVideoDecodeOutputPin::AbstractVideoDecodeOutputPin(AbstractVideoDecodeFi
 AbstractVideoDecodeOutputPin::~AbstractVideoDecodeOutputPin(void)
 {
 	//debugLog.close();
+	
 	delete mDataQueue;
 }
 

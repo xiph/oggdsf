@@ -40,7 +40,7 @@ TheoraEncoder::~TheoraEncoder(void)
 {
 }
 
-
+//Not happy about exposing this here... should abstract it later.
 StampedOggPacket** TheoraEncoder::initCodec(theora_info inTheoraInfo) {
 	mTheoraInfo = inTheoraInfo;
 	theora_encode_init(&mTheoraState,&mTheoraInfo);

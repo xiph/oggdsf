@@ -248,14 +248,14 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	mTheoraInfo.fps_numerator = locNum;
 	mTheoraInfo.fps_denominator = 1;
 	//I don't think this is right !
-	mTheoraInfo.aspect_numerator=1;//mVideoFormat->bmiHeader.biWidth;//video_an;
-	mTheoraInfo.aspect_denominator=1;//mVideoFormat->bmiHeader.biHeight;//video_ad;
+	mTheoraInfo.aspect_numerator=0;//mVideoFormat->bmiHeader.biWidth;//video_an;
+	mTheoraInfo.aspect_denominator=0;//mVideoFormat->bmiHeader.biHeight;//video_ad;
 	//
 	mTheoraInfo.colorspace=OC_CS_UNSPECIFIED;
-	mTheoraInfo.target_bitrate=1500000; //mVideoFormat->dwBitRate;
+	mTheoraInfo.target_bitrate=400000; //mVideoFormat->dwBitRate;
 
 	//Hard code for now
-	mTheoraInfo.quality=63; //video_q;
+	mTheoraInfo.quality=30; //video_q;
 
 	mTheoraInfo.dropframes_p=0;
 	mTheoraInfo.quick_p=1;

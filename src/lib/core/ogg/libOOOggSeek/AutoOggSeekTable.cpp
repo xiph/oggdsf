@@ -86,7 +86,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 	}
 
 
-	if (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) {
+	if ((mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) && (inOggPage->header()->GranulePos()->value() != -1)) {
 		//if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
 		if ((mPacketCount > mNumHeaders) && ((inOggPage->header()->HeaderFlags() & 1) != 1)) {
 			addSeekPoint(mLastSeekTime, mFilePos);
