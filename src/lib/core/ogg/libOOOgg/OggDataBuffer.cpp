@@ -32,11 +32,13 @@
 #include "StdAfx.h"
 #include ".\oggdatabuffer.h"
 
+
+//LEAK CHECKED - 2004/10/17		-	OK.
 OggDataBuffer::OggDataBuffer(void)
 	:	mBuffer(NULL)
 	,	mPrevGranPos(0)
 {
-	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);
+	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);			//Deleted in destructor
 
 	//debugLog.open("G:\\logs\\OggDataBuffer.log", ios_base::out);
 	pendingPage = NULL;
@@ -49,7 +51,7 @@ OggDataBuffer::OggDataBuffer(bool x)
 	:	mBuffer(NULL)
 	,	mPrevGranPos(0)
 {
-	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);
+	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);			//Deleted in destructor
 
 	//debugLog.open("G:\\logs\\OggDataBufferSeek.log", ios_base::out);
 	pendingPage = NULL;
@@ -60,7 +62,7 @@ OggDataBuffer::OggDataBuffer(bool x)
 
 OggDataBuffer::~OggDataBuffer(void)
 {
-	delete[] mBuffer;
+	delete mBuffer;
 	//debugLog.close();
 	delete pendingPage;
 }
@@ -100,6 +102,7 @@ OggDataBuffer::eState OggDataBuffer::state() {
 	//returns the state of the stream
 	return mState;
 }
+//This function accepts the responsibility for the incoming page.
 OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
 	//TODO::: Who owns this pointer inOggPage ?
 	//debugLog<<"Dispatching page..."<<endl<<endl;
@@ -167,10 +170,10 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		delete pendingPage;
 		
 		//Make a fresh ogg page
-		pendingPage = new OggPage;
+		pendingPage = new OggPage;			//Either deleted in destructor, or given away by virtue of dispatch method.
 
 		//Make a local buffer for the header
-		unsigned char* locBuff = new unsigned char[OggPageHeader::OGG_BASE_HEADER_SIZE];
+		unsigned char* locBuff = new unsigned char[OggPageHeader::OGG_BASE_HEADER_SIZE];		//deleted before this function returns
 		
 		//debugLog<<"ProcessBaseHeader : Reading from stream..."<<endl;
 		
@@ -183,8 +186,9 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 			locNumRead = locNumRead;
 		}
 
-		bool locRetVal = pendingPage->header()->setBaseHeader((unsigned char*)locBuff);
+		bool locRetVal = pendingPage->header()->setBaseHeader((unsigned char*)locBuff);		//Views pointer only.
 		if (locRetVal == false) {
+			delete[] locBuff;
 			return PROCESS_FAILED_TO_SET_HEADER;
 		}
 	
@@ -195,7 +199,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		//Change the state.
 		mState = AWAITING_SEG_TABLE;
 
-
+		delete[] locBuff;
 		//debugLog<<"Bytes needed for seg table = "<<mNumBytesNeeded<<endl;	
 		return PROCESS_OK;
 }
@@ -214,7 +218,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 	//debugLog<<"Num segments = "<<(int)locNumSegs<<endl;
 
 	//Make a local buffer the size of the segment table. 0 - 255
-	unsigned char* locBuff = new unsigned char[locNumSegs];
+	unsigned char* locBuff = new unsigned char[locNumSegs];				//Given to setSegmentTable. Not deleted here.
 	
 	////debugLog<<"ProcessSegTable : Reading from buffer..."<<endl;
 
@@ -230,7 +234,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 
 
 	//Make a new segment table from the bufferd data.
-	pendingPage->header()->setSegmentTable(locBuff);
+	pendingPage->header()->setSegmentTable(locBuff);			//This function accepts responsibility for the pointer.
 	locBuff = NULL;
 
 	
@@ -255,11 +259,11 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 	unsigned long locPageDataSize = pendingPage->header()->dataSize();
 	
 	//debugLog<<"ProcessDataSegment : Page data size = "<<locPageDataSize<<endl;
-	unsigned char* locBuff = NULL;// = new unsigned char[locPageDataSize];
+	unsigned char* locBuff = NULL;
 	//unsigned long locPacketOffset = 0;
 
 	//THis is a raw pointer into the segment table, don't delete it.
-	unsigned char* locSegTable = pendingPage->header()->SegmentTable();
+	unsigned char* locSegTable = pendingPage->header()->SegmentTable();			//View only don't delete.
 	unsigned int locNumSegs = pendingPage->header()->NumPageSegments();
 	
 	//debugLog<<"ProcessDataSegment : Num segs = "<<locNumSegs<<endl;
@@ -292,7 +296,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 			//If its the last lacing value or the the lacing value is not 255 (ie packet boundry)
 			
 			//This pointer is given to the packet... it deletes it.
-			locBuff = new unsigned char[locCurrPackSize];
+			locBuff = new unsigned char[locCurrPackSize];				//Given away to constructor of StampedOggPacket.
 
 			//STREAM ACCESS:::
 			//Read data from the stream into the local buffer.
@@ -322,9 +326,10 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 					locIsContinuation = true;
 				}
 			}
-
+			//locBuff is given to the constructor of Stamped Ogg Packet... it deletes it.
+			//The new StampedPacket is given to the page... it deletes it
 			pendingPage->addPacket( new StampedOggPacket(locBuff, locCurrPackSize, (locSegTable[i] == 255), locIsContinuation, locPrevGranPos, pendingPage->header()->GranulePos(), StampedOggPacket::OGG_BOTH ) );
-			
+			locBuff = NULL;				//We've given this away.
 			//Reset the packet size counter.
 			locCurrPackSize = 0;
 		}
@@ -337,7 +342,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 	//debugLog<<"ProcessDataSegment : num bytes needed = "<<mNumBytesNeeded<<endl;
 
 	//Dispatch the finished pagbve
-	eDispatchResult locRet = dispatch(pendingPage);
+	eDispatchResult locRet = dispatch(pendingPage);			//The dispatch function takes responsibility for this page.
 	pendingPage = NULL;   //We give away the pointer
 	
 	if (locRet == DISPATCH_OK) {

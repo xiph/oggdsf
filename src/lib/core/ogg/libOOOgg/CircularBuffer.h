@@ -116,4 +116,8 @@ protected:
 
 	void bufASSERT(bool inBool) {	if (!inBool) throw 0; };
 	unsigned char* mBuffer;
+
+private:
+	CircularBuffer& operator=(const CircularBuffer& other);  /* Don't assign me */
+	CircularBuffer(const CircularBuffer& other); /* Don't copy me */
 };

@@ -163,6 +163,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					if ((locFindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0) {
 						locNumFound++;
 						cout<<"Found "<<locNumFound << " : "<< locFindData.cFileName<<endl;;
+						bool locTransOK = transcodeToVorbis(locFileName);
 					}
 				}
 	

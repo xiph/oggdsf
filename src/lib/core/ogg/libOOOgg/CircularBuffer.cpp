@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include ".\circularbuffer.h"
 
+//Leak checked : 20041017 - OK
 CircularBuffer::CircularBuffer(unsigned long inBufferSize)
 	:	mBufferSize(inBufferSize)
 	,	mBuffer(NULL)
@@ -8,7 +9,7 @@ CircularBuffer::CircularBuffer(unsigned long inBufferSize)
 	,	mWritePtr(0)
 
 {
-	mBuffer = new unsigned char[inBufferSize + 1];
+	mBuffer = new unsigned char[inBufferSize + 1];			//Deleted in destructor.
 }
 
 CircularBuffer::~CircularBuffer(void)

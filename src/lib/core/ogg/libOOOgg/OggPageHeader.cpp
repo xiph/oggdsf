@@ -94,7 +94,7 @@ unsigned long OggPageHeader::calculateDataSize() {
 	setDataSize(retDataSize);
 	return retDataSize;
 }
-
+//Views pointer data only
 bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 	//This now does not delete the buffer
 	
@@ -138,9 +138,7 @@ bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 
 		mPageState = BASE_HEAD_SET;
 
-		//We are passed our own copy of this so we can delete it now.
-		//delete inBaseHeader;
-		
+				
 		return true;
 	} else {
 		return false;
@@ -242,7 +240,7 @@ void OggPageHeader::setNumPageSegments(unsigned char inVal)
 		mNumPageSegments = inVal;
 	}
 }
-
+//Copies the data from the pointer it is given.
 void OggPageHeader::setSegmentTable(const unsigned char* inPtr, unsigned char inNumSegs) {
 	unsigned char* locSegTable = new unsigned char[inNumSegs];
 	memcpy((void*)locSegTable, (const void*)inPtr, inNumSegs);

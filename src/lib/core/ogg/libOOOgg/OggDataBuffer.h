@@ -127,4 +127,7 @@ protected:
 	//DEBUG
 	//fstream debugLog;
 	//
+private:
+	OggDataBuffer& operator=(const OggDataBuffer& other);  /* Don't assign me */
+	OggDataBuffer(const OggDataBuffer& other); /* Don't copy me */
 };

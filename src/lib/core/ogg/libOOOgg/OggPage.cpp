@@ -34,7 +34,7 @@
 
 OggPage::OggPage(void)
 {
-	mHeader = new OggPageHeader;
+	mHeader = new OggPageHeader;			//Deleted in destructor.
 	
 	
 }
