@@ -20,7 +20,6 @@ namespace iOCE
 		private System.Windows.Forms.Label lblVendor;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.TextBox txtVendorString;
-		private System.Windows.Forms.ListView listView1;
 		private System.Windows.Forms.ColumnHeader colKey;
 		private System.Windows.Forms.ColumnHeader colValue;
 		/// <summary>
@@ -28,6 +27,7 @@ namespace iOCE
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 		private System.Windows.Forms.OpenFileDialog dlgOpenFile;
+		private System.Windows.Forms.ListView lsvUserComments;
 
 
 		private illiminable.Ogg.libVorbisCommentDotNET.DNFileComments mFileComments;
@@ -35,6 +35,22 @@ namespace iOCE
 		private void fillFields() 
 		{
 			txtVendorString.Text = mFileComments.getStreamComment(0).comments().vendorString();
+			String[] locSubItems = null; 
+			ListViewItem locItem = null;
+			
+			for (int i = 0; i < mFileComments.getStreamComment(0).comments().numUserComments(); i++) 
+			{
+				locSubItems = new String[2];
+				
+				locSubItems[0] = mFileComments.getStreamComment(0).comments().getUserComment(i).key();
+				locSubItems[1] = mFileComments.getStreamComment(0).comments().getUserComment(i).value();
+				locItem = new ListViewItem(locSubItems);
+				lsvUserComments.Items.Add(locItem);
+			}
+			
+			
+
+
 		}
 		public frmMain()
 		{
@@ -77,10 +93,10 @@ namespace iOCE
 			this.mnuFileExit = new System.Windows.Forms.MenuItem();
 			this.lblVendor = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.txtVendorString = new System.Windows.Forms.TextBox();
-			this.listView1 = new System.Windows.Forms.ListView();
+			this.lsvUserComments = new System.Windows.Forms.ListView();
 			this.colKey = new System.Windows.Forms.ColumnHeader();
 			this.colValue = new System.Windows.Forms.ColumnHeader();
+			this.txtVendorString = new System.Windows.Forms.TextBox();
 			this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -126,7 +142,7 @@ namespace iOCE
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.listView1);
+			this.groupBox1.Controls.Add(this.lsvUserComments);
 			this.groupBox1.Controls.Add(this.txtVendorString);
 			this.groupBox1.Controls.Add(this.lblVendor);
 			this.groupBox1.Location = new System.Drawing.Point(16, 72);
@@ -136,25 +152,17 @@ namespace iOCE
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Vorbis Comments";
 			// 
-			// txtVendorString
+			// lsvUserComments
 			// 
-			this.txtVendorString.Location = new System.Drawing.Point(120, 16);
-			this.txtVendorString.Name = "txtVendorString";
-			this.txtVendorString.Size = new System.Drawing.Size(496, 20);
-			this.txtVendorString.TabIndex = 1;
-			this.txtVendorString.Text = "";
-			// 
-			// listView1
-			// 
-			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-																						this.colKey,
-																						this.colValue});
-			this.listView1.GridLines = true;
-			this.listView1.Location = new System.Drawing.Point(16, 48);
-			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(600, 128);
-			this.listView1.TabIndex = 2;
-			this.listView1.View = System.Windows.Forms.View.Details;
+			this.lsvUserComments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+																							  this.colKey,
+																							  this.colValue});
+			this.lsvUserComments.GridLines = true;
+			this.lsvUserComments.Location = new System.Drawing.Point(16, 48);
+			this.lsvUserComments.Name = "lsvUserComments";
+			this.lsvUserComments.Size = new System.Drawing.Size(600, 128);
+			this.lsvUserComments.TabIndex = 2;
+			this.lsvUserComments.View = System.Windows.Forms.View.Details;
 			// 
 			// colKey
 			// 
@@ -165,6 +173,14 @@ namespace iOCE
 			// 
 			this.colValue.Text = "Value";
 			this.colValue.Width = 430;
+			// 
+			// txtVendorString
+			// 
+			this.txtVendorString.Location = new System.Drawing.Point(120, 16);
+			this.txtVendorString.Name = "txtVendorString";
+			this.txtVendorString.Size = new System.Drawing.Size(496, 20);
+			this.txtVendorString.TabIndex = 1;
+			this.txtVendorString.Text = "";
 			// 
 			// frmMain
 			// 

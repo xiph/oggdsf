@@ -21,7 +21,8 @@ DNFileComments::~DNFileComments(void)
 
 bool DNFileComments::loadFile(String* inFileName) {
 	char* locCS = Wrappers::netStrToCStr(inFileName);
-	bool locRet = mNativeClass->loadFile(locCS);
+	string locStr = locCS;
+	bool locRet = mNativeClass->loadFile(locStr);
 	Wrappers::releaseCStr(locCS);
 	return locRet;
 }
