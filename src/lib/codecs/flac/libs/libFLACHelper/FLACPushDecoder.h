@@ -12,6 +12,7 @@ public:
 	virtual ~FLACPushDecoder(void);
 
 	StampedOggPacket* decodeFLAC(OggPacket* inPacket);
+	bool acceptMetadata(OggPacket* inPacket);
 
 	void initCodec();
 	void flushCodec();
@@ -30,5 +31,6 @@ protected:
 	OggPacket* mInPacket;
 	StampedOggPacket* mOutPacket;
 	bool mBegun;
+	bool mGotMetaData;
 	
 };

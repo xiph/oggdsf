@@ -8,6 +8,7 @@ FLACPushDecoder::FLACPushDecoder(void)
 	,	mFrameSize(0)
 	,	mSampleRate(0)
 	,	mBegun(false)
+	,	mGotMetaData(false)
 {
 
 }
@@ -23,6 +24,17 @@ void FLACPushDecoder::initCodec() {
 }
 void FLACPushDecoder::flushCodec() {
 	flush();
+}
+
+bool FLACPushDecoder::acceptMetadata(OggPacket* inPacket) {
+	delete mInPacket;
+	mInPacket = inPacket;
+	bool locMetaOK = process_until_end_of_metadata();
+	delete mInPacket;
+	mInPacket = NULL;
+	delete mOutPacket;
+	mOutPacket = NULL;
+	return locMetaOK;
 }
 StampedOggPacket* FLACPushDecoder::decodeFLAC(OggPacket* inPacket) {
 	//Basically puts the incoming packet into the member variable.
