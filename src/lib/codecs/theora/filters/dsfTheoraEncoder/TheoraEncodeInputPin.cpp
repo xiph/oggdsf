@@ -307,21 +307,52 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 	char* locUUpto = mYUV.u;
 	char* locVUpto = mYUV.v;
 
+	
+
 	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
-	// which are the average of the 2 samples that were present in the block.
-	for (int i = 0; i < inNumBytes; i+=8) {
-		for (int j = 0; j < 4; j++) {
-			locYUpto[j] = locSourceUptoPtr[2 * j];
+
+
+	for (int i = 0; i < mHeight / 2; i++) {
+		//TO DO: Draw memory layouts.
+
+		//***Part of the average method... store the pointer to the last of the previous line
+		//locLastUUpto = locUUpto;
+		//locLastVUpto = locVUpto;
+		//***
+
+		for (int j = 0; j < mWidth / 2; j++) {
+			*(locYUpto++) = *(locSourceUptoPtr++);
+			*(locUUpto++) = *(locSourceUptoPtr++);
+			*(locYUpto++) = *(locSourceUptoPtr++);
+			*(locVUpto++) = *(locSourceUptoPtr++);
 		}
-		locYUpto += 4;
+
 		
-		*locUUpto = (((short) locSourceUptoPtr[1]) + ((short) locSourceUptoPtr[5])) / 2;
-		locUUpto++;
+		//***Drop line method
+		for (int j = 0; j < mWidth / 2; j++) {
+			//Ignore the second line
+			*(locYUpto++) = *(locSourceUptoPtr++);
+			locSourceUptoPtr++;
+			*(locYUpto++) = *(locSourceUptoPtr++);
+			locSourceUptoPtr++;
+		}
+		//***
 
-		*locVUpto = (((short) locSourceUptoPtr[3]) + ((short) locSourceUptoPtr[7])) / 2;
-		locVUpto++;
+		//*** PArt of the Alternate method to average...
+		//for (int j = 0; j < mWidth / 2; j++) {
+		//	//Ignore the second line
+		//	*(locYUpto++) = *(locSourceUptoPtr++);
+		//	*(locLastUUpto++) = ((short)(*locLastUUpto) + ((short)(*locUUpto))) / 2;
+		//	
+		//	*(locYUpto++) = *(locSourceUptoPtr++);
+		//	*(locLastVUpto++) = ((short)(*locLastVUpto) + ((short)(*locVUpto))) / 2;
+		//	
+		//}
+		//***
+
+
+
 	}
-
 	return 0;
 }
 //PURE VIRTUALS
@@ -349,7 +380,12 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 		}
 	}
 
-	encodeYV12ToYV12(inBuf, inNumBytes);
+	if (mPinInputType.subtype == MEDIASUBTYPE_YUY2) {
+		encodeYUY2ToYV12(inBuf, inNumBytes);
+	} else {
+		//Should be more specifc.
+		encodeYV12ToYV12(inBuf, inNumBytes);
+	}
 	
 
 	StampedOggPacket* locPacket = mTheoraEncoder.encodeTheora(&mYUV);
