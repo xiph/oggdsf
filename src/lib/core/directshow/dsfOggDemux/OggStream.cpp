@@ -258,7 +258,7 @@ bool OggStream::deliverCodecHeaders() {
 
 //ANX::: Maybe also needs override. ??
 bool OggStream::dispatchPacket(StampedOggPacket* inPacket) {
-	//debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
+	debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
 	return mSourcePin->deliverOggPacket(inPacket);
 }
 

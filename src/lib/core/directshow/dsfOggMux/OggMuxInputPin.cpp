@@ -44,6 +44,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	QueryPerformanceCounter(&locTicks);
 	srand((unsigned int)locTicks.LowPart);
 	locSettings->mSerialNo = ((unsigned long)(rand() + 1)) * ((unsigned long)(rand() + 1));
+
 	//locSettings->mSerialNo = 13130;
 	
 	mPaginator.setParameters(locSettings);

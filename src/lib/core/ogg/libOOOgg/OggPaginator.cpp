@@ -113,13 +113,13 @@ OggPaginator::OggPaginator(void)
 	,	mSequenceNo(0)
 	,	mPacketCount(0)
 {
-	//debugLog.open("G:\\logs\\paginator.log", ios_base::out);
+	debugLog.open("G:\\logs\\paginator.log", ios_base::out);
 	
 }
 
 OggPaginator::~OggPaginator(void)
 {
-	//debugLog.close();
+	debugLog.close();
 }
 
 
@@ -169,7 +169,7 @@ bool OggPaginator::acceptStampedOggPacket(StampedOggPacket* inOggPacket) {
 	//	}
 	//}
 
-	//debugLog<<"Accepting packet"<<endl;
+	debugLog<<"Accepting packet"<<endl;
 	addPacketToPage(inOggPacket);
 
 	return true;
@@ -235,7 +235,7 @@ bool OggPaginator::setChecksum() {
 
 }
 bool OggPaginator::deliverCurrentPage() {
-	//debugLog<<"Delivering page"<<endl;
+	debugLog<<"Delivering page"<<endl;
 	mPendingPage->header()->setSegmentTable((const unsigned char*)mSegmentTable, mSegmentTableSize);
 	mPendingPage->header()->setDataSize(mCurrentPageSize - mPendingPage->headerSize());  //This is odd
 
@@ -255,7 +255,7 @@ bool OggPaginator::deliverCurrentPage() {
 
 }
 bool OggPaginator::createFreshPage() {
-	//debugLog<<"Creating fresh page"<<endl;
+	debugLog<<"Creating fresh page"<<endl;
 	mPendingPage = new OggPage;
 	mCurrentPageSize = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	mPendingPageHasData = false;
@@ -278,7 +278,7 @@ bool OggPaginator::createFreshPage() {
 }
 bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 
-	//debugLog<<"Add packet to page"<<endl;
+	debugLog<<"Add packet to page"<<endl;
 	mPendingPageHasData = true;
 	//while some packet left
 	//	add as much as possible
@@ -299,15 +299,28 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 
 	//While there is still more packet not added to the page
 	while (locPacketRemaining > 0) {
-		//debugLog<<"Packet remaining = "<<locPacketRemaining<<endl;
+		debugLog<<"Packet remaining = "<<locPacketRemaining<<endl;
 		locConsumed = addAsMuchPacketAsPossible(inOggPacket, locPacketStartPoint, locPacketRemaining);
-		//debugLog<<"Consumed = "<<locConsumed<<endl;
+		debugLog<<"Consumed = "<<locConsumed<<endl;
 		locPacketStartPoint += locConsumed;
 		locPacketRemaining -= locConsumed;
 	}
 
 	//To ensure you get vorbis comments and codebook ending a page.
-	if ((mPacketCount == 2) && (mPendingPageHasData)) {
+	//if ((mPacketCount == 2) && (mPendingPageHasData)) {
+	//	deliverCurrentPage();
+	//}
+
+	//This will ensure that any packet that has a 0 time stamp appears on it's own page...
+	// For codecs with fixed number of headers, it's easy to put several of these packets on a page
+	// But it's more difficult to do it generically for variable numbers of headers.
+	// Just ensuring that any packet with 0 gran pos (which is usually only headers, or possibly
+	// the first packet in a non-continuous codec) has it's own page is the simplest solution
+	// An added benefit, is that comment packets appear on their own page, this makes it
+	// significantly easier to add/modify comments without bumping data across a page which could
+	// require changing of all the headers in all the pages.
+	if ((inOggPacket->endTime() == 0) && (mPendingPageHasData)) {
+		debugLog<<"Flushing a 0 gran pos page..."<<endl;
 		deliverCurrentPage();
 	}
 	mPacketCount++;
@@ -346,6 +359,7 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	addPartOfPacketToPage(inOggPacket, inStartAt, locHowMuchToAdd);
 
 
+	//This puts only a single packet on the first page...
 	if ((mCurrentPageSize >= mSettings->mMinPageSize) || (mPendingPage->header()->PageSequenceNo() == 0)) {
 		deliverCurrentPage();
 	}

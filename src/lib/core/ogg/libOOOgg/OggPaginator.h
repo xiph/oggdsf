@@ -78,6 +78,6 @@ protected:
 	OggPaginatorSettings* mSettings;
 	OggPage* mPendingPage;
 
-	//fstream debugLog;
+	fstream debugLog;
 	
 };
