@@ -532,6 +532,7 @@ namespace DNPlay
 			mPlayer.setMediaEventCallback(this);
 			mPlayer.setCMMLCallbacks(this);
 			cmdPlay.Enabled = true;
+			StartPlayback();
 		}
 
 	}
