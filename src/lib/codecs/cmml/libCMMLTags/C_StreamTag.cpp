@@ -77,6 +77,7 @@ void C_StreamTag::privateClone(C_CMMLTag* outTag) {
 	C_StreamTag* locTag = reinterpret_cast<C_StreamTag*>(outTag);
 	locTag->setUtc(mUtc);
 	locTag->setTimebase(mTimebase);
+	locTag->setImportList(mImportList->clone());
 
 }
 

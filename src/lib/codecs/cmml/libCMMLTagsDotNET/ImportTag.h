@@ -53,7 +53,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		ImportTag(void);
-		ImportTag(C_ImportTag* inTag);
+		ImportTag(C_ImportTag* inTag, bool inDeleteBase);
 		virtual ~ImportTag(void);
 
 

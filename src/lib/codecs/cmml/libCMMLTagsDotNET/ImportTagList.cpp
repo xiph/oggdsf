@@ -43,12 +43,18 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_ImportTagList;
 	}
 
-	ImportTagList::ImportTagList(C_ImportTagList* inTagList) {
+	ImportTagList::ImportTagList(C_ImportTagList* inTagList, bool inDeleteBase) {
+
 		mBaseClass = inTagList;
+		mDeleteBase = inDeleteBase;
 	}
 	ImportTagList::~ImportTagList(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;	
+		}
+
+		mBaseClass = NULL;
 	}
 
 
@@ -61,7 +67,7 @@ namespace libCMMLTagsDotNET {
 
 	}
 	ImportTag* ImportTagList::getTag(unsigned long inTagNo) {
-		return new ImportTag( getMe()->getTag(inTagNo)->clone());
+		return new ImportTag( getMe()->getTag(inTagNo), false);
 	}
 
 	C_ImportTagList* ImportTagList::getMe() {

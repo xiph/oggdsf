@@ -44,14 +44,19 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_ImportTag;
 	}
 
-	ImportTag::ImportTag(C_ImportTag* inTag)
+	ImportTag::ImportTag(C_ImportTag* inTag, bool inDeleteBase)
 	{
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 
 	ImportTag::~ImportTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+
+		mBaseClass = NULL;
 	}
 
 	//Accessors

@@ -53,7 +53,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		ImportTagList(void);
-		ImportTagList(C_ImportTagList* inTagList);
+		ImportTagList(C_ImportTagList* inTagList, bool inDeleteBase);
 		~ImportTagList(void);
 
 		virtual String* toString();

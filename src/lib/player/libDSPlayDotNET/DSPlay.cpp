@@ -334,6 +334,7 @@ bool DSPlay::stop() {
 		if (locHR != S_OK) {
 			return false;
 		} else {
+			seek(0);
 			return true;
 		}
 	} else {

@@ -66,7 +66,7 @@ namespace libCMMLTagsDotNET {
 		return Wrappers::WStrToNetStr( getMe()->utc().c_str() );
 	}
 	ImportTagList* StreamTag::importList() {
-		return new ImportTagList( getMe()->importList()->clone());
+		return new ImportTagList( getMe()->importList(), false);
 
 	}
 

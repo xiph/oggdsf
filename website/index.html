@@ -116,7 +116,7 @@ Then Windows Media Player or any other directshow application (eg. BSPlayer) wil
 <DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
 <TR valign=top>
 <TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.67.8171) - 05/11/2004</b></DIV>
+<DIV><div align="left"><b>Current Version (0.68.8333) - 06/12/2004</b></DIV>
 </FONT>
 </TD>
 </TR>
@@ -125,8 +125,7 @@ Then Windows Media Player or any other directshow application (eg. BSPlayer) wil
 </FONT>
 
 <br>
-Added support for playing native flac files (.flac). No major bufixes in this release, I'm quite busy at the moment, but a new version which addresses many of 
- the outstanding bugs will be ready in 2-3 weeks. Thanks for being patient.</br>
+Mainly bugfixes.
 <br>
 <br>
 
@@ -143,10 +142,10 @@ Added support for playing native flac files (.flac). No major bufixes in this re
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">969,047 bytes</div></DIV></FONT>
+<DIV><div align="right">994,706 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.67.8171.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.68.8333.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -162,10 +161,10 @@ Added support for playing native flac files (.flac). No major bufixes in this re
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,751,504 bytes</div></DIV></FONT>
+<DIV><div align="right">2,777,163 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.67.8171.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.68.8333.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -182,10 +181,10 @@ Added support for playing native flac files (.flac). No major bufixes in this re
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,636,610 bytes</div></DIV></FONT>
+<DIV><div align="right">2,662,269 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.67.8171.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.68.8333.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -209,7 +208,9 @@ Added support for playing native flac files (.flac). No major bufixes in this re
 </DIV>
 </FONT>
 <b><u></u></b><br>
-	<li>Now supports native FLAC (.flac files) without ogg container.</li>
+	<li>Fixed playback from windows network drives.</li>
+	<li>Fixed bug where audio would stop if you seek really close to the end.</li>
+	<li>Seeking performance back to almost instant</li>
 <br>
 <br>
 
@@ -227,8 +228,7 @@ Added support for playing native flac files (.flac). No major bufixes in this re
 </TABLE>
 </DIV>
 </FONT>
-	<li><b>Please confirm this bug either way for your language : </b>Can't play file with names that use extended character sets (ie Japanese) (Thanks Liisachan)</li>
-	<li>Can't play files from a Windows network share drive (Thanks Hannes Kaesermann and Frazer McCormack)</li>
+	<li><b>Unconfirmed - Can't be reproduced : </b>Can't play file with names that use extended character sets (ie Japanese) (Thanks Liisachan)</li>
 	<li>Can't seek in WMP 6.4 (Thanks RadicalEd)</li>
 	<li>AVI Video files encoded with non-integral framerates (ie 29.97) may lose sync, due to rounding bug (Thanks RadicalEd)</li>
 	<li>Make the installer properly detect if it's already installed. If you don't uninstall the old version you will get multiple identical file masks in WMP</li>
@@ -237,16 +237,15 @@ Added support for playing native flac files (.flac). No major bufixes in this re
 		I am working on something to "clean up" all these remnants from the registry. You can also apparently an option to disable the inbuilt demuxer (Thanks Bond)</li>
 	<li>Cannot handle any chained multiplexed files or streams, except vorbis icecast streams.</li>
 	<li>Old Ogg FLAC seems to lose the first 1/2 second of audio if you stop then play again</li>
-	<li>Seeking is slightly less responsive in this latest version. Most noticable in speex.</li>
-	<li>Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.</li>
 	<li>There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3</li>
 	<li>When transcoding theora, if a media decoder (WMV usually) doesn't advertise its framerate, output may be time distorted</li>
 	<li>Created files are not yet gauranteed to be correct. <b>No produced encoded files should be distributed.</b></li>
 	<li>I think there may be a little memory leak in the encoders... nothing too serious, but if you try and encode really large files it may be a problem.</li>
 	<li>Theora and annodex playback requires directX 9.</li>
 	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
-	<li><strike>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</strike></li>
-	<li><strike>Core Media Player stalls if you add more than 510 ogg files (Not sure if this is a bug with my codecs or not, as it has a problem trying to add my large mp3 directory too) (Thanks OpenSource 4ever)</strike></li>
+	<li><strike>Seeking is slightly less responsive in this latest version. Most noticable in speex.</strike></li>
+	<li><strike>Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.</strike></li>
+	<li><strike>Can't play files from a Windows network share drive (Thanks Hannes Kaesermann and Frazer McCormack)</strike></li>
 
 <br>
 <br>
@@ -272,7 +271,7 @@ Added support for playing native flac files (.flac). No major bufixes in this re
 <li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
 <li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
 <li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.67.8171.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.68.8333.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
 <li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
 <li><a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a></li>
 <li>Some basic <a href="http://www.illiminable.com/ogg/docs/index.html">API documentation</a> for developers</li>
