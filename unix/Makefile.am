@@ -18,6 +18,7 @@ bin_PROGRAMS = \
 lib_LTLIBRARIES = \
 	libilliCore.la \
 	libOOOgg.la \
+	libOOOggChef.la
 	libOOOggSeek.la \
 	libVorbisComment.la \
 	$(NULL)
@@ -32,6 +33,20 @@ INCLUDES = \
 #
 # libraries
 #
+
+libOOOggChef_la_LIBADD = libOOOgg.la libOOOggSeek.la
+libOOOggChef_la_SOURCES = \
+	../src/lib/helper/libOOOggChef/AnnodexRecomposer.cpp \
+	../src/lib/helper/libOOOggChef/IRecomposer.cpp \
+	$(NULL)
+
+libOOOggChefdir = $(includedir)/libOOOggChef
+libOOOggChef_HEADERS = \
+	../src/lib/helper/libOOOggChef/AnnodexRecomposer.h \
+	../src/lib/helper/libOOOggChef/IRecomposer.h \
+	../src/lib/helper/libOOOggChef/libOOOggChef.h \
+	../src/lib/helper/libOOOggChef/stdafx.h \
+	$(NULL)
 
 libOOOggSeek_la_LIBADD = libOOOgg.la
 libOOOggSeek_la_SOURCES = \
