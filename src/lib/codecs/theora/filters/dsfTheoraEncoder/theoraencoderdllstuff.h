@@ -70,6 +70,7 @@ const REGPINTYPES TheoraEncodeInputTypes = {
 	&MEDIASUBTYPE_YV12
 };
 
+
 const REGPINTYPES TheoraEncodeOutputTypes = {
 	&MEDIATYPE_Video,
 	&MEDIASUBTYPE_Theora
