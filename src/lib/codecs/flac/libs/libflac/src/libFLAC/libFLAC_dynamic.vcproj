@@ -26,7 +26,7 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
-				OptimizeForProcessor="2"
+				OptimizeForProcessor="3"
 				AdditionalIncludeDirectories=".\include,..\..\include"
 				PreprocessorDefinitions="NDEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
 				StringPooling="TRUE"

@@ -67,11 +67,16 @@
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
 			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			ManagedExtensions="TRUE"
+			WholeProgramOptimization="TRUE">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="3"
 				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include"
 				AdditionalUsingDirectories="..\..\helper\libiWrapper\Release;..\..\codecs\cmml\libCMMLTagsDotNET\Release"
 				PreprocessorDefinitions="WIN32;NDEBUG"
@@ -88,7 +93,10 @@
 				OutputFile="$(OutDir)/libDSPlayDotNET.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\helper\libiWrapper\Release;G:\Dev\oggdsf\src\lib\helper\libiWrapper\Release;C:\DXSDK\Lib"
-				GenerateDebugInformation="TRUE"/>
+				GenerateDebugInformation="TRUE"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

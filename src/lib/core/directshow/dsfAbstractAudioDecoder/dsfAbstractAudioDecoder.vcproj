@@ -79,7 +79,7 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="2"
+				OptimizeForProcessor="3"
 				AdditionalIncludeDirectories="&quot;c:\dxsdk\Samples\C++\DirectShow\BaseClasses&quot;;c:\dxsdk\Include;..\dsfSeeking"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFABSTRACOGGAUDIODECODER_EXPORTS"
 				StringPooling="TRUE"

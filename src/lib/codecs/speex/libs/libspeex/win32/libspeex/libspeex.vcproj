@@ -77,7 +77,7 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="2"
+				OptimizeForProcessor="3"
 				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"

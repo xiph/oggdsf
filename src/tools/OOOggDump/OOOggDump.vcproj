@@ -76,7 +76,7 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="2"
+				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;."
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
