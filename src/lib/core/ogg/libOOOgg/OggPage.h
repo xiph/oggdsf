@@ -80,6 +80,9 @@ public:
 	/// Creates a buffer of size pageSize and returns you a pointer to keep.
 	unsigned char* createRawPageData();
 
+	/// (Re-)compute the page's checksum and set it
+	void computeAndSetCRCChecksum();
+
 protected:
 	//Member data of packets and header.
 	vector<StampedOggPacket*> mPacketList;

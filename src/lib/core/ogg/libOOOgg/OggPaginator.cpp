@@ -174,8 +174,21 @@ bool OggPaginator::finishStream()
 
 bool OggPaginator::setChecksum() 
 {
-		unsigned long locChecksum = 0;
-		unsigned long locTemp = 0;
+	unsigned long locChecksum = 0;
+	unsigned long locTemp = 0;
+
+	/* Note: now that there's a OggPage::computeAndSetCRCChecksum() function,
+	   we can just use that instead of setting the checksum ourselves.  i.e.
+
+		if (mPendingPage != NULL) {
+			mPendingPage->computeAndSetCRCChecksum();
+			return true;
+		} else {
+			return false;
+		}
+
+	   Zen, if you'd like to make the changes here, feel free.
+	 */
 
 	if (mPendingPage != NULL) {
 		//Set the checksum to NULL for the checksumming process.
