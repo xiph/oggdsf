@@ -131,6 +131,9 @@
 				RelativePath="CallbackRego.cpp">
 			</File>
 			<File
+				RelativePath=".\CircularBuffer.cpp">
+			</File>
+			<File
 				RelativePath="FLACMath.cpp">
 			</File>
 			<File
@@ -220,6 +223,9 @@
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
 				RelativePath="CallbackRego.h">
+			</File>
+			<File
+				RelativePath=".\CircularBuffer.h">
 			</File>
 			<File
 				RelativePath="dllstuff.h">

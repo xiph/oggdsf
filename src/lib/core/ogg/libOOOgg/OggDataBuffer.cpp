@@ -176,6 +176,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		
 		debugLog<<"ProcessBaseHeader : Reading from stream..."<<endl;
 		
+		//STREAM ACCESS::: Read
 		//Read from the stream buffer to it
 		mStream.read((char*)locBuff, OggPageHeader::OGG_BASE_HEADER_SIZE);
 
