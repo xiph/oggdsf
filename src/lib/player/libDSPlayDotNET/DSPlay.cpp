@@ -64,6 +64,7 @@ DSPlay::DSPlay(void)
 	,	mTop(0)
 	,	mWidth(0)
 	,	mHeight(0)
+	,	mFileSize(0)
 
 {
 	CoInitialize(NULL);
@@ -87,6 +88,7 @@ DSPlay::DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, 
 	,	mTop(inTop)
 	,	mWidth(inWidth)
 	,	mHeight(inHeight)
+	,	mFileSize(0)
 {
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
@@ -188,6 +190,10 @@ bool DSPlay::loadFile(String* inFileName) {
 	//Debugging only
 	ULONG numRef = 0;
 	//
+
+	FileInfo* locFileInfo = new FileInfo(inFileName);
+	mFileSize = locFileInfo->Length;
+
 
 
 	releaseInterfaces();
@@ -391,15 +397,19 @@ Int64 DSPlay::seek(Int64 inTime) {
 }
 
 Int64 DSPlay::seekStart() {
-	return 0;
+	return seek(0);
 }
 
 Int64 DSPlay::queryPosition() {
-	return 0;
+	return -1;
 }
 
 Int64 DSPlay::fileSize() {
-	return -1;
+	if (mIsLoaded) {
+		return mFileSize;	
+	} else {
+		return -1;
+	}
 }
 Int64 DSPlay::fileDuration() {
 	if (mIsLoaded && (mMediaSeeking != NULL)) {

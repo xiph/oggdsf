@@ -200,7 +200,10 @@ void OggPageInterleaver::writeLowest() {
 			throw 0;
 		} else {
 			debugLog<<"writeLowest : Writing..."<<endl;
-			mProgressTime = locLowestStream->scaledFrontTime();
+			if (locLowestStream->scaledFrontTime() != -1) {
+				mProgressTime = locLowestStream->scaledFrontTime();
+			}
+		
 			debugLog<<"writeLowest : Progress Time = "<<mProgressTime<<endl;
 
 			OggPage* locPageToWrite = locLowestStream->popFront();

@@ -51,6 +51,7 @@
 #include <fstream>
 
 #pragma managed
+using namespace System::IO;
 #using "libCMMLTagsDotNET.dll"
 using namespace illiminable::libCMMLTagsDotNET;
 #include "libDSPlayDotNet.h"
@@ -113,6 +114,7 @@ namespace libDSPlayDotNET
 		IDNMediaEvent* mDNMediaEvent;
 
 		bool mIsLoaded;
+		__int64 mFileSize;
 		bool isFileAnnodex(String* inFilename);
 
 
