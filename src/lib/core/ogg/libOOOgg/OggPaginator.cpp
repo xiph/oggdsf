@@ -342,6 +342,7 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	// a) How much space is left
 	// b) The amount of packet remaining.
 
+	//TODO::: Are we sure inRemaining can never be < 0
 	//If (a) is the minimum then we know that the how much we are adding is a multiple of 255.
 	unsigned long locHowMuchToAdd = MIN(locSpaceLeft, inRemaining);
 
@@ -350,7 +351,7 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//mPending page has data is useless, it was set before this function is called... need to fix that. maybe move into add part of pack into apge
 	if ((!mPendingPageHasData) && (inStartAt != 0)) {
 		debugLog<<"addAsMuchPacketAsPossible : Setting continuation flag"<<endl;
-		mPendingPage->header()->setHeaderFlags(mPendingPage->header()->HeaderFlags() | (unsigned char)OggPageHeader::CONTINUATION);	
+		mPendingPage->header()->setHeaderFlags((unsigned char)(mPendingPage->header()->HeaderFlags() | OggPageHeader::CONTINUATION));	
 		
 	}
 

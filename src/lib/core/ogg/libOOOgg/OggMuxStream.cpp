@@ -58,7 +58,7 @@ LOOG_INT64 OggMuxStream::granuleDenominator() {
 	return mConvDenominator;
 }
 unsigned long OggMuxStream::numAvail() {
-	return mPageQueue.size();
+	return (unsigned long)mPageQueue.size();
 }
 bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later... still needs deleting in destructor
 //	mIsEOS = false;
@@ -122,7 +122,7 @@ LOOG_INT64 OggMuxStream::convertTime(LOOG_INT64 inGranulePos) {
 			//Timestamp hacks start here...
 			unsigned long locMod = (unsigned long)pow((double) 2, (double) mConvTheoraLogKeyFrameInterval);
 			
-			unsigned long locInterFrameNo = (inGranulePos) % locMod;
+			unsigned long locInterFrameNo = (unsigned long)((inGranulePos) % locMod);
 	
 			LOOG_INT64 locAbsFramePos = (inGranulePos >> mConvTheoraLogKeyFrameInterval) + locInterFrameNo;
 	

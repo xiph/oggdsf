@@ -137,8 +137,8 @@ void OggPageInterleaver::writeLowest() {
 					LOOG_INT64 locTestLowTimeUNS = mInputStreams[i]->frontTime();
 					//debugging end
 
-					debugLog<<"writeLowest : Scaled : Curr = "<<locCurrLowTime<<" -- Test["<<i<<"] = "<<locTestLowTime<<endl;
-					debugLog<<"writeLowest : UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<i<<"] = "<<locTestLowTimeUNS<<endl;
+					debugLog<<"writeLowest : Scaled : Curr = "<<locCurrLowTime<<" -- Test["<<(unsigned long)i<<"] = "<<locTestLowTime<<endl;
+					debugLog<<"writeLowest : UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<(unsigned long)i<<"] = "<<locTestLowTimeUNS<<endl;
 
 					
 					//ASSERT (all header packets have granule pos 0)
@@ -191,7 +191,7 @@ void OggPageInterleaver::writeLowest() {
 						}
 						//END BEBUGGING BLOCK
 						locLowestStream = mInputStreams[i];
-						debugLog<<"writeLowest : Selecting stream "<<i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
+						debugLog<<"writeLowest : Selecting stream "<<(unsigned long)i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
 					}
 				}
 			}
@@ -241,9 +241,9 @@ bool OggPageInterleaver::isAllEOS() {
 	//ASSERT(mInputStreams.size() >= 1)
 	for (size_t i = 0; i < mInputStreams.size(); i++) {
 		if (mInputStreams[i]->isEOS()) {
-			debugLog<<"isAllEOS : *****                  Stream "<<i<<" is EOS"<<endl;
+			debugLog<<"isAllEOS : *****                  Stream "<<(unsigned long)i<<" is EOS"<<endl;
 		} else {
-			debugLog<<"isAllEOS : *****                  Stream "<<i<<" not EOS"<<endl;
+			debugLog<<"isAllEOS : *****                  Stream "<<(unsigned long)i<<" not EOS"<<endl;
 		}
 		retVal = retVal && (mInputStreams[i]->isEOS() || !mInputStreams[i]->isActive());
 	}
