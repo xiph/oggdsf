@@ -74,7 +74,7 @@ OggPage* OggMuxStream::peekFront() {
 __int64 OggMuxStream::frontTime() {
 	__int64 retTime = INT64_MAX;
 	if (!mPageQueue.empty()) {
-		retTime = mPageQueue.front()->header()->GranulePos()->value();
+		retTime = mPageQueue.front()->header()->GranulePos();;
 	}
 	return retTime;
 }

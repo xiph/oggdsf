@@ -72,30 +72,8 @@ OggPage* OggPage::clone() {
 	}
 	
 	return retClone;
-
 }
-//OggPage* OggPage::clone() {
-	//OggPage* retVal = new OggPage;
-	//retVal->mPageState = mPageState;
-	//retVal->mStructureVersion = mStructureVersion;
-	//retVal->mHeaderFlags = mHeaderFlags;
-	//retVal->mGranulePos = mGranulePos->clone();
-	//retVal->mStreamSerialNo = mStreamSerialNo;
-	//retVal->mPageSequenceNo = mPageSequenceNo;
-	//retVal->mCRCChecksum = mCRCChecksum;
-	//retVal->mNumPageSegments = mNumPageSegments;
-	//retVal->mSegmentTable = mSegmentTable->clone();
 
-	//retVal->mPageSize = mPageSize;
-	//retVal->mHeaderSize = mHeaderSize;
-	//retVal->mDataSize = mDataSize;
-	////CHECK ::: Check for datasize == 0
-	//retVal->mPageData = new unsigned char[mDataSize];
-	////Check memory allocated
-	//memcpy((void*) retVal->mPageData, (const void*) mPageData, mDataSize);
-	//return retVal;
-
-//}
 unsigned long OggPage::numPackets() {
 	return (unsigned long)mPacketList.size();
 }

@@ -207,7 +207,7 @@ bool OggPaginator::setChecksum() {
 		unsigned char* locBuff = new unsigned char[300];
 		mPendingPage->header()->rawData(locBuff, 300);
 
-		for(int i = 0; i < mPendingPage->headerSize(); i++) {
+		for(unsigned long i = 0; i < mPendingPage->headerSize(); i++) {
 			//Create the index we use for the lookup
 			locTemp = ((locChecksum >> 24) & 0xff) ^ locBuff[i];
 			//XOR the lookup value with the the current checksum shifted left 8 bits.
@@ -217,10 +217,10 @@ bool OggPaginator::setChecksum() {
 		delete locBuff;
 		locBuff = NULL;
 
-		for(int i = 0; i < mPendingPage->numPackets(); i++) {
+		for(unsigned long i = 0; i < mPendingPage->numPackets(); i++) {
 			locBuff = mPendingPage->getPacket(i)->packetData();
 
-			for (int j = 0; j < mPendingPage->getPacket(i)->packetSize(); j++) {
+			for (unsigned long j = 0; j < mPendingPage->getPacket(i)->packetSize(); j++) {
 				locTemp = ((locChecksum >> 24) & 0xff) ^ locBuff[j];
                 locChecksum = (locChecksum << 8) ^ crc_lookup[locTemp];
 			}
@@ -234,8 +234,8 @@ bool OggPaginator::setChecksum() {
 bool OggPaginator::deliverCurrentPage() {
 	mPendingPage->header()->setDataSize(mCurrentPageSize);
 	mPendingPage->header()->setHeaderSize(OggPageHeader::OGG_BASE_HEADER_SIZE + mSegmentTableSize);
-	mPendingPage->header()->setNumPageSegments(mSegmentTableSize);
-	mPendingPage->header()->setSegmentTable(mSegmentTable);
+	//mPendingPage->header()->setNumPageSegments(mSegmentTableSize);
+	mPendingPage->header()->setSegmentTable((const unsigned char*)mSegmentTable, mSegmentTableSize);
 	//if (mPendingPage->header()->GranulePos()->value() == -1) {
 	//	mPendingPage->header()->setHeaderFlags(mPendingPage->header()->HeaderFlags() | 1);	
 	//}
@@ -262,9 +262,8 @@ bool OggPaginator::createFreshPage() {
 	} else {
 		mPendingPage->header()->setHeaderFlags(0);
 	}
-	OggInt64* locGranulePos = new OggInt64;
-	locGranulePos->setValue(-1);
-	mPendingPage->header()->setGranulePos(locGranulePos);
+
+	mPendingPage->header()->setGranulePos(-1);
 	mSequenceNo++;
 	return true;
 
@@ -349,7 +348,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 																inOggPacket->mStampType);
 	mPendingPage->addPacket(locPartialPacket);
 	unsigned long locNumSegsNeeded = (inLength / 255) + 1;
-	for (int i = 0; i < locNumSegsNeeded - 1; i++) {
+	for (unsigned long i = 0; i < locNumSegsNeeded - 1; i++) {
 		mSegmentTable[mSegmentTableSize] = 255;
 		mSegmentTableSize++;
 	}
@@ -362,9 +361,8 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 	}
 	mCurrentPageSize += (locNumSegsNeeded + inLength);
 	if (locIsLastOfPacket) {
-		OggInt64* locGranulePos = new OggInt64;
-		locGranulePos->setValue(inOggPacket->endTime());
-		mPendingPage->header()->setGranulePos(locGranulePos);
+		
+		mPendingPage->header()->setGranulePos(inOggPacket->endTime());
 	}
 
 	return true;

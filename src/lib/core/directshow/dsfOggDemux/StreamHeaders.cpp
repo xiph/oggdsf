@@ -53,7 +53,7 @@ StampedOggPacket* StreamHeaders::getPacket(unsigned long inPacketNo) {
 }
 
 unsigned long StreamHeaders::numPackets() {
-	return mPacketList.size();
+	return (unsigned long)mPacketList.size();
 }
 
 
@@ -62,7 +62,7 @@ bool StreamHeaders::addPacket(StampedOggPacket* inPacket) {
 		mPacketList.push_back(inPacket);
 
 		StampedOggPacket* loc = NULL;
-		for (int i = 0; i < mPacketList.size(); i++) {
+		for (size_t i = 0; i < mPacketList.size(); i++) {
 			loc = mPacketList[i];
 		}
 

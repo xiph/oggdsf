@@ -41,7 +41,7 @@ OggStreamMapper::OggStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 
 OggStreamMapper::~OggStreamMapper(void)
 {
-	for (int i = 0; i < mStreamList.size(); i++) {
+	for (size_t i = 0; i < mStreamList.size(); i++) {
 		delete mStreamList[i];
 	}
 }
@@ -50,7 +50,7 @@ bool OggStreamMapper::dispatchPage(OggPage* inOggPage)
 	for (unsigned long i = 0; i < mStreamList.size(); i++) {
 		if (mStreamList[i]->serialNo() == inOggPage->header()->StreamSerialNo()) {
 			//This is the correct stream
-			DbgLog((LOG_TRACE, 2, TEXT("Mapper : Dispatching page to serial %u",inOggPage->header()->StreamSerialNo())));
+			//DbgLog((LOG_TRACE, 2, TEXT("Mapper : Dispatching page to serial %u",inOggPage->header()->StreamSerialNo())));
 			return mStreamList[i]->acceptOggPage(inOggPage);
 			
 		}
@@ -101,7 +101,7 @@ bool OggStreamMapper::isReady() {
 }
 
 unsigned long OggStreamMapper::numStreams() {
-	return mStreamList.size();
+	return (unsigned long)mStreamList.size();
 }
 
 OggStream* OggStreamMapper::getOggStream(unsigned long inPinNo) {

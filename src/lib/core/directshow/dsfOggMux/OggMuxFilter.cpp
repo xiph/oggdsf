@@ -187,7 +187,7 @@ bool OggMuxFilter::CloseOutput() {
 //BaseFilter Interface
 int OggMuxFilter::GetPinCount() {
 	//TO DO::: Change this for multiple streams
-	return mInputPins.size();
+	return (int)mInputPins.size();
 }
 CBasePin* OggMuxFilter::GetPin(int inPinNo) {
 

@@ -181,7 +181,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 
 		if(mStream.fail()) {
 			debugLog<<"ProcessBaseHeader : File Read FAILED"<<endl;
-			return PROCESS_FILE_READ_ERROR;
+			return PROCESS_STREAM_READ_ERROR;
 		}
 
 		//Set the base header into the pending page
@@ -198,6 +198,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 
 
 		debugLog<<"ProcessBaseHeader : Bytes needed for seg table = "<<mNumBytesNeeded<<endl;	
+		return PROCESS_OK;
 }
 OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 
@@ -219,11 +220,11 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 	debugLog<<"ProcessSegTable : Reading from buffer..."<<endl;
 
 	//Read from the stream buffer to it
-	mStream.read((char*)locBuff, (size_t)locNumSegs);
+	mStream.read((char*)locBuff, (std::streamsize)locNumSegs);
 	if(mStream.fail()) {
 		debugLog<<"ProcessSegTable : Read FAILED"<<endl;
 		delete locBuff;
-		return false;
+		return PROCESS_STREAM_READ_ERROR;
 	}
 
 	//TODAY::: Check out the page header class.
@@ -243,7 +244,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 
 	debugLog<<"ProcessSegTable : Transition to AWAITING_DATA"<<endl;
 	mState = AWAITING_DATA;
-	return true;
+	return PROCESS_OK;
 
 }
 
@@ -302,7 +303,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 			
 			//A packet ends when a lacing value is not 255. So the check for != 255 means the isComplete property of the packet is not set unless the
 			// lacing value is not equal to 255.
-			pendingPage->addPacket( new StampedOggPacket(locBuff, locCurrPackSize, (locSegTable[i] != 255), 0, pendingPage->header()->GranulePos()->value(), StampedOggPacket::OGG_END_ONLY ) );
+			//ERROR CHECK:::
+			pendingPage->addPacket( new StampedOggPacket(locBuff, locCurrPackSize, (locSegTable[i] != 255), 0, pendingPage->header()->GranulePos(), StampedOggPacket::OGG_END_ONLY ) );
 			
 			//Reset the packet size counter.
 			locCurrPackSize = 0;
@@ -319,10 +321,10 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 	if (locRet == true) {
         debugLog<<"ProcessDataSegment : Transition to AWAITING_BASE_HEADER"<<endl;
 		mState = AWAITING_BASE_HEADER;
-		return true;
+		return PROCESS_OK;;
 	} else {
 		debugLog<<"ProcessDataSegment : Dispatch failed."<<endl;
-		return false;
+		return PROCESS_DISPATCH_FAILED;
 	}
 		
 }
@@ -332,40 +334,51 @@ void OggDataBuffer::clearData() {
 	mStream.seekg(0, ios_base::beg);
 	mStream.seekp(0, ios_base::beg);
 
-	//if (numBytesAvail() != 0) {
-	//	int i = i;
-	//}
-
 	debugLog<<"ClearData : Transition back to AWAITING_BASE_HEADER"<<endl;
+	
 	mState = eState::AWAITING_BASE_HEADER;
 	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
+	
 	debugLog<<"ClearData : Num bytes needed = "<<mNumBytesNeeded<<endl;
 }
+
 OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 	debugLog<<"ProcessBuffer :"<<endl;
-	bool locErr;
-	eProcessResult locProcessResult = PROCESS_OK;
 	
 	while (numBytesAvail() >= mNumBytesNeeded) {
 		debugLog<<"ProcessBuffer : Bytes Needed = "<<mNumBytesNeeded<<" --- "<<"Bytes avail = "<<numBytesAvail()<<endl;
 		switch (mState) {
+
+			//QUERY:::	Should it be a bug when the if state inside the switch falls through,... potential for infinite loop.
 			case eState::AWAITING_BASE_HEADER:
 				debugLog<<"ProcessBuffer : State = AWAITING_BASE_HEADER"<<endl;
 				
 				//If theres enough data to form the base header
 				if (numBytesAvail() >= OggPageHeader::OGG_BASE_HEADER_SIZE) {
 					debugLog<<"ProcessBuffer : Enough to process..."<<endl;
-					return processBaseHeader();
+					
+					eProcessResult locResult = processBaseHeader();
+                    
+					if (locResult != PROCESS_OK) {
+						//Base header process failed
+						return locResult;
 					}
 				}
 				break;
 			
 			case eState::AWAITING_SEG_TABLE:
 				debugLog<<"ProcessBuffer : State = AWAITING_SEG_TABLE"<<endl;
+				
 				//If there is enough data to get the segt table
 				if (numBytesAvail() >= pendingPage->header()->NumPageSegments()) {
 					debugLog<<"ProcessBuffer : Enough to process..."<<endl;
-					return processSegTable();
+					
+					eProcessResult locResult = processSegTable();
+               
+					if (locResult != PROCESS_OK) {
+						//segment table process failed
+						return locResult;
+					}
 				}
 				break;
 
@@ -384,6 +397,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				break;
 		}
 	}
+
+	//There wasn't enough data to progress if we are here.
 	return PROCESS_OK;
 
 }

@@ -90,7 +90,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 		FileComments locFileComments;
 		StreamCommentInfo* locStreamInfo = NULL;
 		locFileComments.loadFile(argv[1]);
-		for (int i = 0; i < locFileComments.streamCount(); i++) {
+		for (unsigned long i = 0; i < locFileComments.streamCount(); i++) {
 			locStreamInfo = locFileComments.getStreamComment(i);
 
 			cout<<"Stream "<<locStreamInfo->majorStreamNo()<<":"<<locStreamInfo->minorStreamNo()<<endl;

@@ -45,7 +45,7 @@ class LIBOOOGG_API OggPageHeader
 public:
 	OggPageHeader(void);
 	~OggPageHeader(void);
-
+	OggPageHeader* clone();
 	//0-3			CapPattern						"Oggs"
 	//4				Struct Ver
 	//5				Head Flags
@@ -70,30 +70,31 @@ public:
 		BOS = 2,
 		EOS = 4
 	};
-	OggPageHeader* clone();
+	
 
 	bool rawData(unsigned char* outData, unsigned long inBuffSize);
-	//ACCESSORS
+	
+	//State variables
 	ePageState pageState();
 	void setPageState(ePageState inPageState);
 
+	//Access header flags
 	bool isBOS();
 	bool isEOS();	
 
-	string toString();
-
+	//Size variables	
 	unsigned long pageSize();
 	unsigned long headerSize();
 	unsigned long dataSize();
 	
 	//Bulk Mutators
-	bool setBaseHeader(unsigned char* inBaseHeader);
-	bool setSegmentTable(unsigned char* inSegTable);
+	bool setBaseHeader(const unsigned char* inBaseHeader);
+	bool setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegs);
 
 
 	unsigned char StructureVersion();
 	unsigned char HeaderFlags();
-	OggInt64* GranulePos();
+	__int64 GranulePos();
 	unsigned long StreamSerialNo();
 	unsigned long PageSequenceNo();
 	unsigned long CRCChecksum();
@@ -104,14 +105,14 @@ public:
 
 	void setStructureVersion(unsigned char inVal);
 	void setHeaderFlags(unsigned char inVal);
-	void setGranulePos(OggInt64* inPtr);
-	void setGranulePos(unsigned char* inPtr);
+	void setGranulePos(__int64 inPtr);
+	void setGranulePos(const unsigned char* inPtr);
 	void setStreamSerialNo(unsigned long inVal);
-	void setStreamSerialNo(unsigned char* inPtr);
+	void setStreamSerialNo(const unsigned char* inPtr);
 	void setPageSequenceNo(unsigned long inVal);
-	void setPageSequenceNo(unsigned char* inPtr);
+	void setPageSequenceNo(const unsigned char* inPtr);
 	void setCRCChecksum(unsigned long inVal);
-	void setCRCChecksum(unsigned char* inPtr);
+	void setCRCChecksum(const unsigned char* inPtr);
 	void setNumPageSegments(unsigned char inVal);
 	void setSegmentTable(OggSegmentTable* inPtr);
 
@@ -119,6 +120,7 @@ public:
 	void setDataSize(unsigned long inVal);
 
 
+	string toString();
 protected:
 	
 
@@ -129,7 +131,7 @@ protected:
 
 	unsigned char mStructureVersion;
 	unsigned char mHeaderFlags;
-	OggInt64* mGranulePos;
+	__int64 mGranulePos;
 	unsigned long mStreamSerialNo;
 	unsigned long mPageSequenceNo;
 	unsigned long mCRCChecksum;

@@ -40,7 +40,7 @@ OggMath::~OggMath(void)
 {
 }
 
-unsigned long OggMath::charArrToULong(unsigned char* inCharArray)
+unsigned long OggMath::charArrToULong(const unsigned char* inCharArray)
 {
 	//Turns the next four bytes from the pointer in a long LSB (least sig. byte first/leftmost)
 	unsigned long locVal = 0;
@@ -53,7 +53,7 @@ unsigned long OggMath::charArrToULong(unsigned char* inCharArray)
 void OggMath::ULongToCharArr(unsigned long inLong, unsigned char* outCharArray)
 {
 	//Writes a long LSB (least sig. byte first/leftmost) out to the char arr
-	unsigned long locLong = inLong;
+	
 	outCharArray[3] = (unsigned char) (inLong >> 24);
 	outCharArray[2] = (unsigned char) ((inLong << 8) >> 24);
 	outCharArray[1] = (unsigned char) ((inLong << 16) >> 24);
@@ -61,3 +61,19 @@ void OggMath::ULongToCharArr(unsigned long inLong, unsigned char* outCharArray)
 
 }
 
+__int64 OggMath::CharArrToInt64(const unsigned char* inCharArray) {
+	__int64 locData = 0;
+
+	for (int i = 7; i >= 0; i--) {
+		locData <<= 8;
+		locData += inCharArray[i];
+	}
+	return locData;
+}
+
+void OggMath::Int64ToCharArr(__int64 inInt64, unsigned char* outCharArray) {
+	for (unsigned char i = 0; i < 8; i++) {
+		//This way sux !
+		outCharArray[i] = (unsigned char)((inInt64 << ((7 - i) * 8)) >> 56);
+	}
+}

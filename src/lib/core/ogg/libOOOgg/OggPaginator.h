@@ -70,7 +70,7 @@ protected:
 
 	unsigned long mCurrentPageSize;
 	unsigned char mSegmentTable[255];
-	unsigned long mSegmentTableSize;
+	unsigned char mSegmentTableSize;
 	unsigned long mSequenceNo;
 	bool mPendingPageHasData;
 

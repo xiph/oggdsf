@@ -112,7 +112,7 @@ string FileComments::fileName() {
 bool FileComments::writeOutAll(string inFileName) {
 
 	fstream locFile;
-	locFile.open(inFileName, ios_base::out | ios_base::in | ios_base::binary);
+	locFile.open(inFileName.c_str(), ios_base::out | ios_base::in | ios_base::binary);
 
 	if (locFile.is_open()) {
 				
@@ -137,5 +137,5 @@ StreamCommentInfo* FileComments::getStreamComment(unsigned long inIndex) {
 }
 
 unsigned long FileComments::streamCount() {
-	return mStreams.size();
+	return (unsigned long)mStreams.size();
 }

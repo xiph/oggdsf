@@ -50,7 +50,7 @@ bool VorbisComments::setVendorString(string inVendorString) {
 }
 
 unsigned long VorbisComments::numUserComments() {
-	return mCommentList.size();
+	return (unsigned long)mCommentList.size();
 }
 SingleVorbisComment* VorbisComments::getUserComment(unsigned long inIndex) {
 	//FIX::: Bounds checking
@@ -62,7 +62,7 @@ vector<SingleVorbisComment*> VorbisComments::getCommentsByKey(string inKey) {
 	vector<SingleVorbisComment*> retComments;
 	SingleVorbisComment* locCurrComment = NULL;
 
-	for (int i = 0; i < mCommentList.size(); i++) {
+	for (size_t i = 0; i < mCommentList.size(); i++) {
 		locCurrComment = mCommentList[i];
 		//FIX::: Need to upcase everything
 		if (locCurrComment->key() == inKey) {
@@ -188,7 +188,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 		
 		mCommentList.empty();
 		mCommentList.clear();
-		for (int j = 0; j < locCommentList.size(); j++) {
+		for (size_t j = 0; j < locCommentList.size(); j++) {
 			mCommentList.push_back(locCommentList[j]);	
 		}
 	} else {
@@ -211,7 +211,7 @@ string VorbisComments::toString() {
 	retStr = "VENDOR : " + mVendorString + "\n\n";
 	retStr +="USER COMMENTS\n";
 	retStr +="=============\n";
-	for (int i = 0; i < mCommentList.size(); i++) {
+	for (size_t i = 0; i < mCommentList.size(); i++) {
 		retStr += mCommentList[i]->toString() + "\n";
 	}
 	return retStr;
@@ -220,9 +220,9 @@ string VorbisComments::toString() {
 unsigned long VorbisComments::size() {
 	unsigned long locPackSize = 0;
 
-	locPackSize = mVendorString.size() + 4;
+	locPackSize = (unsigned long)mVendorString.size() + 4;
 
-	for (int i = 0; i < mCommentList.size(); i++) {
+	for (size_t i = 0; i < mCommentList.size(); i++) {
 		locPackSize += mCommentList[i]->length() + 4;
 	}
 
@@ -246,16 +246,16 @@ OggPacket* VorbisComments::toOggPacket(unsigned char* inPrefixBuff, unsigned lon
 		locPackData = new unsigned char[locPackSize];
 	}
 	
-	OggMath::ULongToCharArr(mVendorString.length(), locPackData + locUpto);
+	OggMath::ULongToCharArr((unsigned long)mVendorString.length(), locPackData + locUpto);
 	locUpto += 4;
 
 	memcpy((void*)(locPackData + locUpto), (const void*)mVendorString.c_str(), mVendorString.length());
-	locUpto += mVendorString.length();
+	locUpto += (unsigned long)mVendorString.length();
 
-	OggMath::ULongToCharArr(mCommentList.size(), locPackData + locUpto);
+	OggMath::ULongToCharArr((unsigned long)mCommentList.size(), locPackData + locUpto);
 	locUpto += 4;
 
-	for (int i = 0; i < mCommentList.size(); i++) {
+	for (size_t i = 0; i < mCommentList.size(); i++) {
 		OggMath::ULongToCharArr(mCommentList[i]->length(), locPackData + locUpto);
 		locUpto += 4;
 

@@ -24,7 +24,7 @@ namespace illiminable {
 //	bool loadFile(string inFileName);
 //	string fileName();
 //
-//	bool writeOutAll();
+//	bool writeOutAll(string inFileName);
 //	bool writeOutStream(unsigned long inIndex);
 //
 //	bool addStreamComment(StreamCommentInfo* inStreamComment);
@@ -54,7 +54,7 @@ public:
 	bool loadFile(String* inFileName);
 	String* fileName();
 
-	bool writeOutAll();
+	bool writeOutAll(String* inFileName);
 	bool writeOutStream(Int64 inIndex);
 
 	//bool addStreamComment(DNStreamCommentInfo* inStreamComment);

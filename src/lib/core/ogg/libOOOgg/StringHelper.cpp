@@ -86,7 +86,7 @@ string StringHelper::numToString(unsigned __int64 inNum) {
 unsigned __int64 StringHelper::stringToNum(string inString) {
 	int locDigit = 0;
 	unsigned __int64 retVal = 0;
-	unsigned long locStrLen = inString.length();
+	size_t locStrLen = inString.length();
 
 	for (unsigned long i = 0; i < locStrLen; i++) {
 		locDigit = inString[i] - '0';

@@ -33,18 +33,40 @@
 #include "oggpageheader.h"
 
 
+	//unsigned long mPageSize;
+	//unsigned long mHeaderSize;
+	//unsigned long mDataSize;
+
+	//unsigned char mStructureVersion;
+	//unsigned char mHeaderFlags;
+	//__int64 mGranulePos;
+	//unsigned long mStreamSerialNo;
+	//unsigned long mPageSequenceNo;
+	//unsigned long mCRCChecksum;
+	//unsigned char mNumPageSegments;
+	//OggSegmentTable* mSegmentTable;
+
+	//ePageState mPageState;
 OggPageHeader::OggPageHeader(void)
-	:	mPageState(BLANK),
-		mGranulePos(NULL),
-		mSegmentTable(NULL),
-		mDataSize(0)
+	:	mPageSize(0)
+	,	mHeaderSize(0)
+	,	mDataSize(0)
+	,	mStructureVersion(0)
+	,	mHeaderFlags(0)
+	,	mStreamSerialNo(0)
+	,	mPageSequenceNo(0)
+	,	mCRCChecksum(0)
+	,	mPageState(BLANK)
+	,	mGranulePos(0)
+	,	mSegmentTable(NULL)
+		
 {
 
 }
 
 OggPageHeader::~OggPageHeader(void)
 {
-	delete mGranulePos;
+
 	delete mSegmentTable;
 
 }
@@ -70,10 +92,10 @@ OggPageHeader* OggPageHeader::clone() {
 	OggPageHeader* retClone = new OggPageHeader();
 	retClone->mCRCChecksum = mCRCChecksum;
 	retClone->mDataSize = mDataSize;
-	retClone->mGranulePos = mGranulePos->clone();
+	retClone->mGranulePos = mGranulePos;
 	retClone->mHeaderFlags = mHeaderFlags;
 	retClone->mHeaderSize = mHeaderSize;
-	retClone->mNumPageSegments = mNumPageSegments;
+	//retClone->mNumPageSegments = mNumPageSegments;
 	retClone->mPageSequenceNo = mPageSequenceNo;
 	retClone->mPageSize = mPageSize;
 	retClone->mPageState = mPageState;
@@ -105,11 +127,11 @@ bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 	outData[3] = 'S';
 	outData[4] = mStructureVersion;
 	outData[5] = mHeaderFlags;
-	mGranulePos->rawData(&outData[6]);
+	OggMath::Int64ToCharArr(mGranulePos, &outData[6]);
 	OggMath::ULongToCharArr(mStreamSerialNo, &outData[14]);
 	OggMath::ULongToCharArr(mPageSequenceNo, &outData[18]);
 	OggMath::ULongToCharArr(mCRCChecksum, &outData[22]);
-	outData[26] = mNumPageSegments;
+	outData[26] = mSegmentTable->numSegments();;
 	mSegmentTable->rawData(&outData[27]);
 
 	//EXIT POINT
@@ -139,11 +161,11 @@ string OggPageHeader::toString() {
 
 	string retStr =	"Ver No      : " + StringHelper::numToString((unsigned int)mStructureVersion) + "\n";
 	retStr +=		"Head Flags  : " + StringHelper::numToString((unsigned int)mHeaderFlags) +"\n";
-	retStr +=		"Granule Pos : " + StringHelper::numToString(mGranulePos->value()) + "\n";
+	retStr +=		"Granule Pos : " + StringHelper::numToString(mGranulePos) + "\n";
 	retStr +=		"Serial No   : " + StringHelper::numToString(mStreamSerialNo) + "\n";
 	retStr +=		"Seq No      : " + StringHelper::numToString(mPageSequenceNo) + "\n";
 	retStr +=		"Checksum    : " + StringHelper::numToString(mCRCChecksum) + "\n";
-	retStr +=		"Num Segs    : " + StringHelper::numToString((unsigned int)mNumPageSegments) + "\n";
+	retStr +=		"Num Segs    : " + StringHelper::numToString((unsigned int)mSegmentTable->numSegments()) + "\n";
 	retStr +=		"------------------------\n";
 	retStr +=		"Head Size   : " + StringHelper::numToString(mHeaderSize) + "\n";
 	retStr +=		"Data Size   : " + StringHelper::numToString(mDataSize) + "\n";
@@ -166,7 +188,7 @@ unsigned char OggPageHeader::HeaderFlags()
 	return mHeaderFlags;
 }
 
-OggInt64* OggPageHeader::GranulePos()
+__int64 OggPageHeader::GranulePos()
 {
 	return mGranulePos;
 }
@@ -186,7 +208,11 @@ unsigned long OggPageHeader::CRCChecksum()
 
 unsigned char OggPageHeader::NumPageSegments()
 {
-	return mNumPageSegments;
+	if (mSegmentTable == NULL) {
+		return mNumPageSegments;
+	} else {
+		return mSegmentTable->numSegments();
+	}
 }
 OggSegmentTable* OggPageHeader::SegmentTable()
 {
@@ -195,28 +221,15 @@ OggSegmentTable* OggPageHeader::SegmentTable()
 
 
 
-
-
-
-
-
-//MUTATORS
-
-bool OggPageHeader::setBaseHeader(unsigned char* inBaseHeader) {
+bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
+	//This now does not delete the buffer
 	bool locIsValidPage = true;
 	unsigned long locOffset = 0;
 
 	//Check if the page has the correct capture pattern
 	if (strncmp((const char*)inBaseHeader, "OggS", OGG_CAPTURE_PATTERN_SIZE) == 0) {
 		locIsValidPage = true;
-	} else {
-		locIsValidPage = false;
-	}
 
-	if (!locIsValidPage) {
-		//EXIT POINT
-		return false;
-	} else {
 		if (mPageState == BLANK) {
 			locOffset += OGG_CAPTURE_PATTERN_SIZE;
 
@@ -229,11 +242,11 @@ bool OggPageHeader::setBaseHeader(unsigned char* inBaseHeader) {
 			locOffset++;
 
 			//Assign the granule pos	
-			setGranulePos(inBaseHeader + locOffset);
+			setGranulePos((const unsigned char*)(inBaseHeader + locOffset));
 			locOffset += 8;
 
 			//Assign Serial No
-			setStreamSerialNo(inBaseHeader + locOffset);
+			setStreamSerialNo((const unsigned char*)(inBaseHeader + locOffset));
 			locOffset += 4;
 
 			//Assign Page Seq No	
@@ -249,12 +262,12 @@ bool OggPageHeader::setBaseHeader(unsigned char* inBaseHeader) {
 			locOffset++;
 
 			//Set the size of the header
-			setHeaderSize(OGG_BASE_HEADER_SIZE + mNumPageSegments);
+			setHeaderSize(OGG_BASE_HEADER_SIZE + mSegmentTable->numSegments());
 
 			mPageState = BASE_HEAD_SET;
 
 			//We are passed our own copy of this so we can delete it now.
-			delete inBaseHeader;
+			//delete inBaseHeader;
 			
 			//EXIT POINT
 			return true;
@@ -268,12 +281,16 @@ bool OggPageHeader::setBaseHeader(unsigned char* inBaseHeader) {
 
 		}
 		
-		
+	} else {
+		locIsValidPage = false;
+		return false;
 	}
+
+
 
 }
 
-bool OggPageHeader::setSegmentTable(unsigned char* inSegTable) {
+bool OggPageHeader::setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegs) {
 
 	//This assumes that mNumPageSegments is set.
 	//ISSUE ::: What happens when numPageSegments is zero ?
@@ -282,7 +299,7 @@ bool OggPageHeader::setSegmentTable(unsigned char* inSegTable) {
 		OggSegmentTable* locSegTable = new OggSegmentTable;
 
 		//Put the data in it and set the pagedata size
-		unsigned long locDataSize = locSegTable->setSegmentTable(inSegTable, mNumPageSegments);
+		unsigned long locDataSize = locSegTable->setSegmentTable(inSegTable, inNumSegs);
 		setDataSize( locDataSize );
 		
 		//Assign the segtable into the page, the page header will look after deleing the memory.
@@ -309,21 +326,20 @@ void OggPageHeader::setHeaderFlags(unsigned char inVal)
 	mHeaderFlags = inVal;
 }
 
-void OggPageHeader::setGranulePos(OggInt64* inPtr)
+void OggPageHeader::setGranulePos(__int64 inGranulePos)
 {
-	mGranulePos = inPtr;
+	mGranulePos = inGranulePos;
 }
-void OggPageHeader::setGranulePos(unsigned char* inPtr)
+void OggPageHeader::setGranulePos(const unsigned char* inPtr)
 {
-	mGranulePos = new OggInt64();
-	mGranulePos->setData(inPtr);
+	mGranulePos = OggMath::CharArrToInt64(inPtr);
 }
 
 void OggPageHeader::setStreamSerialNo(unsigned long inVal)
 {
 	mStreamSerialNo = inVal;
 }
-void OggPageHeader::setStreamSerialNo(unsigned char* inPtr)
+void OggPageHeader::setStreamSerialNo(const unsigned char* inPtr)
 {
 	mStreamSerialNo = OggMath::charArrToULong(inPtr);
 }
@@ -331,7 +347,7 @@ void OggPageHeader::setPageSequenceNo(unsigned long inVal)
 {
 	mPageSequenceNo = inVal;
 }
-void OggPageHeader::setPageSequenceNo(unsigned char* inPtr)
+void OggPageHeader::setPageSequenceNo(const unsigned char* inPtr)
 {
 	mPageSequenceNo = OggMath::charArrToULong(inPtr);;
 }
@@ -339,7 +355,7 @@ void OggPageHeader::setCRCChecksum(unsigned long inVal)
 {
 	mCRCChecksum = inVal;
 }
-void OggPageHeader::setCRCChecksum(unsigned char* inPtr)
+void OggPageHeader::setCRCChecksum(const unsigned char* inPtr)
 {
 	
 	mCRCChecksum = OggMath::charArrToULong(inPtr);;
@@ -347,11 +363,14 @@ void OggPageHeader::setCRCChecksum(unsigned char* inPtr)
 
 void OggPageHeader::setNumPageSegments(unsigned char inVal)
 {
-	mNumPageSegments = inVal;
+	if (mSegmentTable == NULL) {
+		mNumPageSegments = inVal;
+	}
 }
 void OggPageHeader::setSegmentTable(OggSegmentTable* inPtr)
 {
 	//Keeps your pointer !
+	delete mSegmentTable;
 	mSegmentTable = inPtr;
 	
 }

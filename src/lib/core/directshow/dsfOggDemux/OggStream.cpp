@@ -231,7 +231,7 @@ bool OggStream::acceptOggPage(OggPage* inOggPage) {
 	StampedOggPacket* locPacket = NULL;
 	//osDebug<<"New page sets start gran to "<<mLastEndGranulePos<<endl;
 	mLastStartGranulePos = mLastEndGranulePos;
-	mLastEndGranulePos = inOggPage->header()->GranulePos()->value();
+	mLastEndGranulePos = inOggPage->header()->GranulePos();
 
 	if (!mStreamReady) {
 
@@ -266,7 +266,7 @@ bool OggStream::acceptOggPage(OggPage* inOggPage) {
 		//On the first run and after stop/restart resend excess packets.
 		if (mSendExcess) {
 			mSendExcess = false;
-			unsigned long locNumExcess = mExcessPackets.size();
+			unsigned long locNumExcess = (unsigned long)mExcessPackets.size();
 
 			//for (unsigned long i = 0; i < locNumExcess; i++) {
 			//	dispatchPacket(mExcessPackets[i]);

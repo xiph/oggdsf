@@ -104,7 +104,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 	}
 
 
-	if ((mFoundStreamInfo) && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) && (inOggPage->header()->GranulePos()->value() != -1)) {
+	if ((mFoundStreamInfo) && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) && (inOggPage->header()->GranulePos() != -1)) {
 		//if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
 		if ((mPacketCount > mNumHeaders) && ((inOggPage->header()->HeaderFlags() & 1) != 1)) {
 			addSeekPoint(mLastSeekTime, mFilePos);
@@ -115,16 +115,16 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 		
 		if (isTheora) {
 			unsigned long locMod = (unsigned long)pow(2, mGranulePosShift);
-			unsigned long locInterFrameNo = ((inOggPage->header()->GranulePos()->value()) % locMod);
+			unsigned long locInterFrameNo = ((inOggPage->header()->GranulePos()) % locMod);
 			
 			//if (locInterFrameNo == 0) {
 			//	mLastIsSeekable = true;
 			//} else {
 			//	mLastIsSeekable = false;
 			//}
-			mLastSeekTime = ((((inOggPage->header()->GranulePos()->value()) >> mGranulePosShift) + locInterFrameNo) * DS_UNITS) / mSampleRate;
+			mLastSeekTime = ((((inOggPage->header()->GranulePos()) >> mGranulePosShift) + locInterFrameNo) * DS_UNITS) / mSampleRate;
 		} else {
-			mLastSeekTime = ((inOggPage->header()->GranulePos()->value()) * DS_UNITS) / mSampleRate;
+			mLastSeekTime = ((inOggPage->header()->GranulePos()) * DS_UNITS) / mSampleRate;
 			//stDebug<<"Last Seek Time : "<<mLastSeekTime;
 		}
 		if (((inOggPage->header()->HeaderFlags() & 1) == 1)) {

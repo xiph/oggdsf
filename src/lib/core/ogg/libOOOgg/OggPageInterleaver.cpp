@@ -110,7 +110,7 @@ void OggPageInterleaver::processData() {
 
 void OggPageInterleaver::writeLowest() {
 		OggMuxStream* locLowestStream = NULL;
-		for (int i = 0; i < mInputStreams.size(); i++) {
+		for (size_t i = 0; i < mInputStreams.size(); i++) {
 			if (!mInputStreams[i]->isEmpty() && mInputStreams[i]->isActive()) {
 				if (locLowestStream == NULL) {
 					locLowestStream = mInputStreams[i];
@@ -128,7 +128,7 @@ void OggPageInterleaver::writeLowest() {
 							(mInputStreams[i]->peekFront()->header()->isBOS()) ) ||
 						
 						(	(mInputStreams[i]->peekFront() != NULL) && 
-							((mInputStreams[i]->peekFront()->header()->GranulePos()->value()) == -1) ) ||
+							((mInputStreams[i]->peekFront()->header()->GranulePos()) == -1) ) ||
 						(locTestLowTime < locCurrLowTime)
 						) 
 					{
@@ -150,7 +150,7 @@ void OggPageInterleaver::writeLowest() {
 bool OggPageInterleaver::isProcessable() {
 	bool retVal = true;
 	//ASSERT(mInputStreams.size() >= 1)
-	for (int i = 0; i < mInputStreams.size(); i++) {
+	for (size_t i = 0; i < mInputStreams.size(); i++) {
 		retVal = retVal && (mInputStreams[i]->isProcessable());
 	}
 	return retVal;
@@ -158,7 +158,7 @@ bool OggPageInterleaver::isProcessable() {
 bool OggPageInterleaver::isAllEOS() {
 	bool retVal = true;
 	//ASSERT(mInputStreams.size() >= 1)
-	for (int i = 0; i < mInputStreams.size(); i++) {
+	for (size_t i = 0; i < mInputStreams.size(); i++) {
 		if (mInputStreams[i]->isEOS()) {
 			//debugLog<<"*****                  Stream "<<i<<" is EOS"<<endl;
 		} else {
@@ -172,7 +172,7 @@ bool OggPageInterleaver::isAllEOS() {
 bool OggPageInterleaver::isAllEmpty() {
 	bool retVal = true;
 	//ASSERT(mInputStreams.size() >= 1)
-	for (int i = 0; i < mInputStreams.size(); i++) {
+	for (size_t i = 0; i < mInputStreams.size(); i++) {
 		retVal = retVal && (mInputStreams[i]->isEmpty());
 	}
 	return retVal;

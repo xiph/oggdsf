@@ -36,8 +36,11 @@ class LIBOOOGG_API OggMath
 public:
 	OggMath(void);
 	~OggMath(void);
-	static 	unsigned long charArrToULong(unsigned char* inCharArray);
+	static 	unsigned long charArrToULong(const unsigned char* inCharArray);
 	static void ULongToCharArr(unsigned long inLong, unsigned char* outCharArray);
+	static __int64 CharArrToInt64(const unsigned char* inCharArray);
+	static void Int64ToCharArr(__int64 inInt64, unsigned char* outCharArray);
 	
+
 
 };

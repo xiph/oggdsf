@@ -111,7 +111,7 @@ void HTTPFileSource::DataProcessLoop() {
 					char* locBuff2 = locBuff + locPos + 4;  //View only - don't delete.
 					locTemp = locBuff2;
 					//debugLog<<"Start of data follows"<<endl<<locTemp<<endl;
-					mStreamBuffer.write(locBuff2, locNumRead - (locPos + 4));
+					mStreamBuffer.write(locBuff2, (std::streamsize)(locNumRead - (locPos + 4)));
 					//Dump to file
 					//fileDump.write(locBuff2, locNumRead - (locPos + 4));
 					
@@ -212,7 +212,7 @@ string HTTPFileSource::assembleRequest(string inFilePath) {
 
 bool HTTPFileSource::httpRequest(string inRequest) {
 	//debugLog<<"Http Request:"<<endl;
-	int locRetVal = send(mSocket, inRequest.c_str(), inRequest.length(), 0);
+	int locRetVal = send(mSocket, inRequest.c_str(), (int)inRequest.length(), 0);
 
 	if (locRetVal == SOCKET_ERROR) {
 		//debugLog<<"Socket error on send"<<endl;
@@ -296,6 +296,7 @@ bool HTTPFileSource::splitURL(string inURL) {
 	mServerName = locServerName;
 	mFileName = locPath;
 	if (locPort != "") {
+		//Error checking needed
 		mPort = atoi(locPort.c_str());
 	} else {
 		mPort = 0;

@@ -92,6 +92,7 @@ unsigned long OggSegmentTable::setSegmentTable(const unsigned char* inSegTable, 
 		//Make a new buffer.
 		unsigned char* locSegTablePtr = new unsigned char[inNumSegments];
 		
+		//SLOW:::
 		//Copy the incoming data into the new segemnt buffer
 		memcpy((void*)locSegTablePtr, (const void*)inSegTable, inNumSegments);
 		mSegmentTable = locSegTablePtr;

@@ -425,7 +425,7 @@ CBasePin* OggDemuxSourceFilter::GetPin(int inPinNo) {
 	//	return NULL;
 	//}
 
-	if (inPinNo >= 0 && inPinNo < mStreamMapper->numStreams()) {
+	if ((inPinNo >= 0) && (inPinNo < mStreamMapper->numStreams())) {
 		return mStreamMapper->getOggStream(inPinNo)->getPin();
 	} else {
 		return NULL;
@@ -589,7 +589,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 			if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
 				continue;
 			}
-			locKeepGoing = mOggBuffer.feed(locBuff, locBytesRead);
+			locKeepGoing = ((mOggBuffer.feed(locBuff, locBytesRead)) == (OggDataBuffer::FEED_OK));;
 		}
 		if (!locKeepGoing) {
 			//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;

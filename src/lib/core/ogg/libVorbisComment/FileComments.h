@@ -51,7 +51,7 @@ public:
 	bool loadFile(string inFileName);
 	string fileName();
 
-	bool writeOutAll();
+	bool writeOutAll(string inFileName);
 	bool writeOutStream(unsigned long inIndex);
 
 	bool addStreamComment(StreamCommentInfo* inStreamComment);

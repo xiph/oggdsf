@@ -33,7 +33,7 @@
 
 #include "StampedOggPacket.h"
 
-class IStampedOggPacketSink
+class LIBOOOGG_API IStampedOggPacketSink
 {
 public:
 	IStampedOggPacketSink(void);

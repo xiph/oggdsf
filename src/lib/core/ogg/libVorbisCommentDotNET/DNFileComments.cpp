@@ -30,18 +30,23 @@ String* DNFileComments::fileName() {
 	return Wrappers::CStrToNetStr(mNativeClass->fileName().c_str());
 }
 
-bool DNFileComments::writeOutAll() {
-	return mNativeClass->writeOutAll();
+bool DNFileComments::writeOutAll(String* inFileName) {
+	char* locCS = Wrappers::netStrToCStr(inFileName);
+	string locStr = locCS;
+	bool locRet = mNativeClass->writeOutAll(locStr);
+	Wrappers::releaseCStr(locCS);
+	return locRet;
+	
 }
 bool DNFileComments::writeOutStream(Int64 inIndex) {
-	return mNativeClass->writeOutStream(inIndex);
+	return mNativeClass->writeOutStream((unsigned long)inIndex);
 }
 
 //bool DNFileComments::addStreamComment(DNStreamCommentInfo* inStreamComment) {
 //
 //}
 DNStreamCommentInfo* DNFileComments::getStreamComment(Int64 inIndex) {
-	return new illiminable::Ogg::libVorbisCommentDotNET::DNStreamCommentInfo(mNativeClass->getStreamComment(inIndex));
+	return new illiminable::Ogg::libVorbisCommentDotNET::DNStreamCommentInfo(mNativeClass->getStreamComment((unsigned long)inIndex));
 }
 
 Int64 DNFileComments::streamCount() {
