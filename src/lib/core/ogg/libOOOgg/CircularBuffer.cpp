@@ -64,10 +64,7 @@ unsigned long CircularBuffer::numBytesAvail() {
 		////
 
 		
-		return (mBufferSize + mWritePtr - mReadPtr);
-
-
-
+		return  (mBufferSize + mWritePtr - mReadPtr);
 	} else {
 		//if (mReadPtr <= mWritePtr)
 		return mWritePtr - mReadPtr;

@@ -1,3 +1,5 @@
+#pragma once
+#include "dllstuff.h"
 class LIBOOOGG_API IFIFOBuffer {
 public:
 	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead) = 0;

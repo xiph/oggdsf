@@ -115,7 +115,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 		while (!testFile.eof()) {
 			testFile.read(locBuff, BUFF_SIZE);
 			unsigned long locBytesRead = testFile.gcount();
-    		testOggBuff.feed(locBuff, locBytesRead);
+    		testOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 		}
 
 		delete locBuff;

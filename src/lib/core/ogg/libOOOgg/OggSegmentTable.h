@@ -35,6 +35,11 @@ class LIBOOOGG_API OggSegmentTable
 	
 {
 public:
+
+	static const int MAX_NUM_SEGMENTS = 255;
+	static const int MAX_SEGMENT_SIZE = 255;
+	static const int SEGMENT_WIDTH = 1;
+
 	OggSegmentTable();
 	~OggSegmentTable(void);
 	OggSegmentTable* clone();

@@ -190,7 +190,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 		while (!testFile.eof()) {
 			testFile.read(locBuff, BUFF_SIZE);
 			unsigned long locBytesRead = testFile.gcount();
-    		locResult = testOggBuff.feed(locBuff, locBytesRead);
+    		locResult = testOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 			switch(locResult) {
 				case OVE_OK:
 					break;

@@ -136,7 +136,9 @@ protected:
 	unsigned long mPageSequenceNo;
 	unsigned long mCRCChecksum;
 	unsigned char mNumPageSegments;
-	OggSegmentTable* mSegmentTable;
+
+	unsigned char[255] mSegmentTable;
+	//OggSegmentTable* mSegmentTable;
 
 	ePageState mPageState;
 

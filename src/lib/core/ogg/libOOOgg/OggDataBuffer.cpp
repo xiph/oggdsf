@@ -33,7 +33,10 @@
 #include ".\oggdatabuffer.h"
 
 OggDataBuffer::OggDataBuffer(void)
+	:	mBuffer(NULL)
 {
+	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);
+
 	debugLog.open("G:\\logs\\OggDataBuffer.log", ios_base::out);
 	pendingPage = NULL;
 	mState = AWAITING_BASE_HEADER;
@@ -42,7 +45,10 @@ OggDataBuffer::OggDataBuffer(void)
 
 //Debug only
 OggDataBuffer::OggDataBuffer(bool x)
+	:	mBuffer(NULL)
 {
+	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);
+
 	debugLog.open("G:\\logs\\OggDataBufferSeek.log", ios_base::out);
 	pendingPage = NULL;
 	mState = AWAITING_BASE_HEADER;
@@ -52,6 +58,7 @@ OggDataBuffer::OggDataBuffer(bool x)
 
 OggDataBuffer::~OggDataBuffer(void)
 {
+	delete mBuffer;
 	debugLog.close();
 	delete pendingPage;
 }
@@ -85,7 +92,8 @@ bool OggDataBuffer::registerVirtualCallback(IOggCallback* inCBInterface) {
 
 unsigned long OggDataBuffer::numBytesAvail() {
 	//Returns how many bytes are available in the buffer
-	unsigned long locBytesAvail = mStream.tellp() - mStream.tellg();
+
+	unsigned long locBytesAvail = mBuffer->numBytesAvail();				//mStream.tellp() - mStream.tellg();
 	debugLog<<"Bytes avail = "<<locBytesAvail<<endl;
 	return locBytesAvail;
 }
@@ -129,7 +137,7 @@ bool OggDataBuffer::dispatch(OggPage* inOggPage) {
 	return true;
 }
 
-OggDataBuffer::eFeedResult OggDataBuffer::feed(const char* inData, unsigned long inNumBytes) {
+OggDataBuffer::eFeedResult OggDataBuffer::feed(const unsigned char* inData, unsigned long inNumBytes) {
 	if (inNumBytes != 0) {
 		if (inData != NULL) {
 			//Buffer is not null and there is at least 1 byte of data.
@@ -138,12 +146,15 @@ OggDataBuffer::eFeedResult OggDataBuffer::feed(const char* inData, unsigned long
 		
 			///STREAM ACCESS::: WRite
 			//Write the data into the stream buffer
-			mStream.write(inData, inNumBytes);
+			
+			//mStream.write(inData, inNumBytes);
+			mBuffer->write(inData, inNumBytes);
 
-			if(mStream.fail()) {
-				debugLog<<"ProcessBaseHeader : Buffer write Write FAILED"<<endl;
-				return FEED_BUFFER_WRITE_ERROR;
-			}
+
+			//if(mStream.fail()) {
+			//	debugLog<<"ProcessBaseHeader : Buffer write Write FAILED"<<endl;
+			//	return FEED_BUFFER_WRITE_ERROR;
+			//}
 		
 			return (eFeedResult)processBuffer();
 			
@@ -178,13 +189,14 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		
 		//STREAM ACCESS::: Read
 		//Read from the stream buffer to it
-		mStream.read((char*)locBuff, OggPageHeader::OGG_BASE_HEADER_SIZE);
+		//mStream.read((char*)locBuff, OggPageHeader::OGG_BASE_HEADER_SIZE);
+		mBuffer->read(locBuff, OggPageHeader::OGG_BASE_HEADER_SIZE);
 
-		if(mStream.fail()) {
-			debugLog<<"ProcessBaseHeader : File Read FAILED"<<endl;
-			delete locBuff;
-			return PROCESS_STREAM_READ_ERROR;
-		}
+		//if(mStream.fail()) {
+		//	debugLog<<"ProcessBaseHeader : File Read FAILED"<<endl;
+		//	delete locBuff;
+		//	return PROCESS_STREAM_READ_ERROR;
+		//}
 
 		//Set the base header into the pending page
 
@@ -225,13 +237,14 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() {
 	
 	debugLog<<"ProcessSegTable : Reading from buffer..."<<endl;
 
-	//Read from the stream buffer to it
-	mStream.read((char*)locBuff, (std::streamsize)locNumSegs);
-	if(mStream.fail()) {
-		debugLog<<"ProcessSegTable : Read FAILED"<<endl;
-		delete locBuff;
-		return PROCESS_STREAM_READ_ERROR;
-	}
+	//Read the segment table from the buffer to locBuff
+	//mStream.read((char*)locBuff, (std::streamsize)locNumSegs);
+	mBuffer->read(locBuff, (std::streamsize)locNumSegs);
+	//if(mStream.fail()) {
+	//	debugLog<<"ProcessSegTable : Read FAILED"<<endl;
+	//	delete locBuff;
+	//	return PROCESS_STREAM_READ_ERROR;
+	//}
 
 	//TODAY::: Check out the page header class.
 
@@ -303,7 +316,9 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 
 			//STREAM ACCESS:::
 			//Read data from the stream into the local buffer.
-			mStream.read((char*)(locBuff), locCurrPackSize);
+			//mStream.read((char*)(locBuff), locCurrPackSize);
+			mBuffer->read(locBuff, locCurrPackSize);
+
 
 			//FIX::: check for stream failure.
 
@@ -337,16 +352,18 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 		
 }
 void OggDataBuffer::clearData() {
-	mStream.clear();
-	mStream.flush();
-	mStream.seekg(0, ios_base::beg);
-	mStream.seekp(0, ios_base::beg);
+	mBuffer->reset();
+	//mStream.clear();
+	//mStream.flush();
+	//mStream.seekg(0, ios_base::beg);
+	//mStream.seekp(0, ios_base::beg);
 
 	debugLog<<"ClearData : Transition back to AWAITING_BASE_HEADER"<<endl;
 	
-	mState = eState::AWAITING_BASE_HEADER;
-	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	
+	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
+	mState = eState::AWAITING_BASE_HEADER;
+
 	debugLog<<"ClearData : Num bytes needed = "<<mNumBytesNeeded<<endl;
 }
 

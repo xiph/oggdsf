@@ -30,10 +30,12 @@
 //===========================================================================
 
 #pragma once
-#include <sstream>
+//#include <sstream>
+#include "CircularBuffer.h"
 #include "OggPage.h"
 #include "SerialNoRego.h"
 #include "IOggCallback.h"
+#include "IFIFOBuffer.h"
 
 //Only needed for debugging
 #include <fstream>
@@ -68,6 +70,12 @@ public:
 		PROCESS_LOST_SYNC
 
 	};
+
+	static const int MAX_OGG_PAGE_SIZE =	OggPageHeader::OGG_BASE_HEADER_SIZE +											//Header
+											(OggSegmentTable::MAX_NUM_SEGMENTS * OggSegmentTable::MAX_SEGMENT_SIZE) +		//Page Data
+											(OggSegmentTable::SEGMENT_WIDTH * OggSegmentTable::MAX_NUM_SEGMENTS);			//Segment table
+
+
 	OggDataBuffer(void);
 	//Debug only
 	OggDataBuffer::OggDataBuffer(bool x);
@@ -80,7 +88,7 @@ public:
 	
 	void clearData();
 	
-	OggDataBuffer::eFeedResult feed(const char* inData, unsigned long inNumBytes);
+	OggDataBuffer::eFeedResult feed(const unsigned char* inData, unsigned long inNumBytes);
 	
 	//FIX ::: Add later
 	//void unRegisterSerialNo(unsigned long inSerialNo);
@@ -94,7 +102,9 @@ public:
 	//
 
 protected:
-	stringstream mStream;
+	
+	//stringstream mStream;
+	IFIFOBuffer* mBuffer;
 	eState mState;
 	
 	eProcessResult processBuffer();
