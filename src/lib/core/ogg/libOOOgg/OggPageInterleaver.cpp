@@ -154,7 +154,8 @@ void OggPageInterleaver::writeLowest() {
 						//Only choose a stream which hasn't sent all it's headers if the best one so far isn't a BOS
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							(!mInputStreams[i]->sentAllHeaders()) &&
-							(!locLowestStream->peekFront()->header()->isBOS()) ) ||
+							//(!locLowestStream->peekFront()->header()->isBOS()) ) ||
+							(mInputStreams[i]->packetsSent() < locLowestStream->packetsSent()) ) ||
 						
 							(locTestLowTime < locCurrLowTime)
 						) 
