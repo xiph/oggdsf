@@ -31,13 +31,18 @@
 
 #pragma once
 
+#include "BasicSeekable.h"
 class AbstractAudioEncodeFilter;
 
 class ABS_AUDIO_ENC_API AbstractAudioEncodeOutputPin 
 	:	public CBaseOutputPin
+	,	public BasicSeekable
 	
 {
 public:
+	//COM Setup
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	AbstractAudioEncodeOutputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, CMediaType* inOutputMediaType);
 	virtual ~AbstractAudioEncodeOutputPin(void);

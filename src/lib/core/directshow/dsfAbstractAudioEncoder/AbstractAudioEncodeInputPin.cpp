@@ -43,9 +43,33 @@ AbstractAudioEncodeInputPin::AbstractAudioEncodeInputPin(AbstractAudioEncodeFilt
 {
 	//debugLog.open("C:\\temp\\aaein.log", ios_base::out);
 	//ConstructCodec();
-	
+
+	//Set the seek delegate... make the outpin pin send stuff to this pin.
+	IMediaSeeking* locSeeker = NULL;
+	this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	mOutputPin->SetDelegate(locSeeker);
+
 }
 
+STDMETHODIMP AbstractAudioEncodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+
+	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
+}
+
+HRESULT AbstractAudioEncodeInputPin::CompleteConnect (IPin *inReceivePin) {
+	//CAutoLock locLock(mFilterLock);
+	
+	IMediaSeeking* locSeeker = NULL;
+	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
+	return CBaseInputPin::CompleteConnect(inReceivePin);
+}
 AbstractAudioEncodeInputPin::~AbstractAudioEncodeInputPin(void)
 {
 	//debugLog.close();

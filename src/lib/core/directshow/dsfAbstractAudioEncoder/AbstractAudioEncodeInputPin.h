@@ -37,13 +37,14 @@
 //#include <fstream>
 //
 //using namespace std;
+#include "BasicSeekable.h"
 
 class AbstractAudioEncodeOutputPin;
 class AbstractAudioEncodeFilter;
 
 class ABS_AUDIO_ENC_API AbstractAudioEncodeInputPin 
 	:	public CBaseInputPin
-	//,	public BasicSeekable
+	,	public BasicSeekable
 {
 public:
 		
@@ -55,7 +56,9 @@ public:
 	static const signed short SINT_MAX = 32767;
 	static const signed short SINT_MIN = -32768;
 
-	
+	//COM Setup
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	
 
 	//PURE VIRTUALS
@@ -64,6 +67,7 @@ public:
 	virtual void DestroyCodec() = 0;
 	
 
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	STDMETHODIMP Receive(IMediaSample *pSample);
 	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
 	virtual HRESULT GetMediaType(int inPosition, CMediaType *outMediaType);

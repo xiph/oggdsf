@@ -49,10 +49,9 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	//aadDebug.open("c:\\aadec.log", ios_base::out);
 	mAcceptableMediaType = inAcceptMediaType;
 	mStreamLock = new CCritSec;
+
 	IMediaSeeking* locSeeker = NULL;
 	this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
-	
-
 	mOutputPin->SetDelegate(locSeeker);
 }
 
