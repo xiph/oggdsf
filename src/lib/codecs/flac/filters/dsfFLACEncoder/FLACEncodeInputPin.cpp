@@ -49,7 +49,30 @@ FLACEncodeInputPin::~FLACEncodeInputPin(void)
 //PURE VIRTUALS
 long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
+	FLAC__int32* locFLACBuff = NULL;
+	unsigned long locFLACBuffSize = (inNumBytes * 8) / mWaveFormat->wBitsPerSample;
+	unsigned long locNumSamplesPerChannel = locFLACBuffSize / mWaveFormat->nChannels;
 
+	locFLACBuff = new FLAC__int32[locFLACBuffSize];
+
+	//QUERY::: Are the flac buffers supposed to stretch the data to 32 bits ?
+	//Assuming No for now, otherwise whats the point of set_sample_size.
+
+	//POTENTIAL BUG::: This assumes 16 bit samples !!
+
+	short locTempShort = 0;
+	for (int i = 0; i < inNumBytes; i += 2) {
+		locTempShort = *((short*)(inBuf + i));
+		locFLACBuff[i/2] = locTempShort;
+	}
+
+	bool locRetVal = process_interleaved(locFLACBuff, locNumSamplesPerChannel);
+
+	if (locRetVal == true) {
+		return 0;
+	} else {
+		return -1;
+	}
 	////debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
 	//
 	//float* locFloatBuf = new float[inNumBytes/2];
@@ -80,13 +103,17 @@ long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	//
 	//}
 	//return locErr;
-	return -1;
+	
 }
 bool FLACEncodeInputPin::ConstructCodec() {
 	//mFishInfo.channels = mWaveFormat->nChannels;
 	//mFishInfo.format = FISH_SOUND_FLAC;
 	//mFishInfo.samplerate = mWaveFormat->nSamplesPerSec;
 
+	set_channels(mWaveFormat->nChannels);
+	set_sample_rate(mWaveFormat->nSamplesPerSec);
+	set_bits_per_sample(mWaveFormat->wBitsPerSample);
+	init();
 
 	//
 	//mFishSound = fish_sound_new (FISH_SOUND_ENCODE, &mFishInfo);
