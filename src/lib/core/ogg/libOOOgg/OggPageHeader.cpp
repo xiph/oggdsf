@@ -56,6 +56,7 @@ OggPageHeader::~OggPageHeader(void)
 	delete[] mSegmentTable;
 }
 
+//Gives a pointer to the caller.
 OggPageHeader* OggPageHeader::clone() {
 
 	OggPageHeader* retClone = new OggPageHeader();
@@ -72,10 +73,10 @@ OggPageHeader* OggPageHeader::clone() {
 	retClone->mStructureVersion = mStructureVersion;
 
 	//Copy the segment table.
-	unsigned char* locBuff = new unsigned char[mNumPageSegments];
+	unsigned char* locBuff = new unsigned char[mNumPageSegments];			//Stored in the returned classes member variable, deleted in it's destructor
 	memcpy((void*)locBuff, (const void*)mSegmentTable, mNumPageSegments);
 	retClone->mSegmentTable = locBuff;
-	locBuff = NULL;
+	locBuff = NULL;		//Given away.
 	//
 
 	return retClone;
@@ -242,7 +243,7 @@ void OggPageHeader::setNumPageSegments(unsigned char inVal)
 }
 //Copies the data from the pointer it is given.
 void OggPageHeader::setSegmentTable(const unsigned char* inPtr, unsigned char inNumSegs) {
-	unsigned char* locSegTable = new unsigned char[inNumSegs];
+	unsigned char* locSegTable = new unsigned char[inNumSegs];		//This is stored in the member variable and deleted in the destructor.
 	memcpy((void*)locSegTable, (const void*)inPtr, inNumSegs);
 	delete[] mSegmentTable;
 	mSegmentTable = locSegTable;

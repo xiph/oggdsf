@@ -40,7 +40,7 @@
 using namespace std;
 
 #define OGG_CAPTURE_PATTERN "Oggs"
-class LIBOOOGG_API OggPageHeader
+class LIBOOOGG_API OggPageHeader			//Do not derive - or needs virtual destructor.
 {
 public:
 	OggPageHeader(void);
@@ -149,5 +149,7 @@ protected:
 	//OggSegmentTable* mSegmentTable;
 
 	ePageState mPageState;
-
+private:
+	OggPageHeader& operator=(const OggPageHeader& other);  /* Don't assign me */
+	OggPageHeader(const OggPageHeader& other); /* Don't copy me */
 };
