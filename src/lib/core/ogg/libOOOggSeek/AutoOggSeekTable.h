@@ -51,25 +51,37 @@ class LIBOOOGGSEEK_API AutoOggSeekTable
 	,	public IOggCallback
 {
 public:
+
+	// TODO: We really should modify AutoOggSeekTable so that passing in a
+	// filename isn't required, if all we want is a seek table with no
+	// associated file ...
+
+	/// Create a new AutoOggSeekTable associated with the filename passed into inFileName.
 	AutoOggSeekTable(string inFileName);
 	virtual ~AutoOggSeekTable(void);
 
 	static const LOOG_INT64 DS_UNITS = 10000000;
 	static const unsigned long LINT_MAX = 4294967295UL;
 
-	/// Builds the actual seek table: only works if we have random access to the file
+	/// Builds the actual seek table: only works if we have random access to the file.
 	virtual bool buildTable();
 
 	//IOggCallback interface
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
-	/// The duration of the file, in DirectShow time units
+	/// The duration of the file, in DirectShow time units.
 	LOOG_INT64 fileDuration();
 
 	unsigned long serialisedSize();
 
-	/// Serialise the seek table into a memory buffer, which may be useful for e.g. caching
+	/// Serialise the seek table into a memory buffer, which may be useful for e.g. caching.
 	bool serialiseInto(unsigned char* inBuff, unsigned long inBuffSize);
+
+	/// Build a seek table from a buffer previously written to with serialiseInto().
+	virtual bool buildTableFromBuffer(const unsigned char *inBuffer, const unsigned long inBufferSize);
+
+	/// Build a seek table from a file previously serialised into with serialiseInto().
+	virtual bool buildTableFromFile(const string inCachedSeekTableFilename);
 
 protected:
 	unsigned long mFilePos;

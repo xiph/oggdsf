@@ -49,7 +49,8 @@ OggSeekTable::~OggSeekTable(void)
 bool OggSeekTable::enabled() {
 	return mEnabled;
 }
-bool OggSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos) {
+bool OggSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos)
+{
 	//stDebug<< "Add Point :  Time = "<<inTime<<"   --   Byte Pos : "<<mStartPos<<endl;
 	mSeekMap.insert(tSeekMap::value_type(inTime, mStartPos));
 
@@ -61,12 +62,24 @@ bool OggSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos) {
 /** Returns a tSeekPair whose first element is the
     actual closest possible time that can be seeked to (which will always be either before or at
     the requested seek position).  The second element is the number of bytes into the stream where
-    the first page of the actual seek time occurs. */
-OggSeekTable::tSeekPair OggSeekTable::getStartPos(LOOG_INT64 inTime) {
+    the first page of the actual seek time occurs.
+  */
+OggSeekTable::tSeekPair OggSeekTable::getStartPos(LOOG_INT64 inTime)
+{
 	// Finds the upper bound of the requested time in mSeekMap, which will always be in the range
 	// (0, maxItems], and return the element _before_ the upper bound
     return *(--(mSeekMap.upper_bound(inTime)));
 	 //mRealStartPos = locValue.first;
 	 //stDebug<<"Get Point : Time Req = "<<inTime<<"   --   Time Given = "<<mRealStartPos<<"   --   Byte Pos : "<<locValue.second<<endl;
 	 //return locValue.second;
+}
+
+/** Note that this method returns a copy of the seek table, not the actual seek table used by
+    the class.  So, feel free to corrupt your copy to your heart's leisure.
+  */
+OggSeekTable::tSeekMap OggSeekTable::getSeekMap()
+{
+	tSeekMap locSeekMap = mSeekMap;
+
+	return locSeekMap;
 }

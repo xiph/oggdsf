@@ -46,10 +46,15 @@ public:
 	virtual ~OggSeekTable(void);
 
 	typedef pair<LOOG_INT64, unsigned long> tSeekPair;
+	typedef map<LOOG_INT64, unsigned long> tSeekMap;
 
-	bool addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos);
+	/// Returns a copy of the seek table.
+	tSeekMap getSeekMap();
 
-	/// Given a requested seek time in nanoseconds, returns the closest time and byte to the seek time.
+	/// Add a seek point (which consists of a time in DirectShow units, and a byte offset corresponding to that time) to the seek table.
+	bool addSeekPoint(LOOG_INT64 inTime, unsigned long inStartPos);
+
+	/// Given a requested seek time in DirectShow units, returns the closest time and byte to the seek time.
 	tSeekPair getStartPos(LOOG_INT64 inTime);
 	//LOOG_INT64 getRealStartPos();
 
@@ -59,7 +64,6 @@ public:
     OggSeekTable &operator=(const OggSeekTable&);  // Don't assign men
 
 protected:
-	typedef map<LOOG_INT64, unsigned long> tSeekMap;
 	tSeekMap mSeekMap;
 	tSeekMap::value_type mSeekValue;
 	LOOG_INT64 mRealStartPos;

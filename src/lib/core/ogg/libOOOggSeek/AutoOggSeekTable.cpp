@@ -279,3 +279,60 @@ bool AutoOggSeekTable::buildTable()
 
 	return true;
 }
+
+bool AutoOggSeekTable::buildTableFromBuffer(const unsigned char *inBuffer, const unsigned long inBufferSize)
+{
+	for (const unsigned char *locBufferPosition = inBuffer; locBufferPosition < inBuffer + inBufferSize; ) {
+		LOOG_INT64 locTimePoint = iLE_Math::CharArrToInt64(locBufferPosition);
+		locBufferPosition += 8;
+
+		unsigned long locBytePosition = iLE_Math::charArrToULong(locBufferPosition);
+		locBufferPosition += 4;
+
+		addSeekPoint(locTimePoint, locBytePosition);
+	}
+
+	return true;
+}
+
+/** Note that this method does not do any verification that the file is
+    up-to-date or valid (i.e. if you are using the serialised seek table
+	as a cache, you must check yourself that the cached seek table is not
+	out of date).
+  */
+bool AutoOggSeekTable::buildTableFromFile(const string inCachedSeekTableFilename)
+{
+	LOOG_INT64 locTimePoint;
+	unsigned long locBytePosition;
+
+	fstream locSeekFile;
+	locSeekFile.open(inCachedSeekTableFilename.c_str(), ios_base::in | ios_base::binary);
+
+	// Look ma, we got us zergling-size buffer
+	unsigned char* locBuffer = new unsigned char[16];
+
+	while (!locSeekFile.eof()) {
+		locSeekFile.read((char*)locBuffer, 8);
+		if (locSeekFile.gcount() == 8) {
+			locTimePoint = iLE_Math::CharArrToInt64(locBuffer);
+
+			locSeekFile.read((char*)locBuffer, 4);
+			if (locSeekFile.gcount() == 4) {
+				locBytePosition = iLE_Math::charArrToULong(locBuffer);
+			} else {
+				delete[] locBuffer;
+				return false;
+			}
+
+			addSeekPoint(locTimePoint, locBytePosition);
+		} else {
+			delete [] locBuffer;
+			return false;
+		}
+	}
+
+	delete [] locBuffer;
+
+	return true;
+}
+

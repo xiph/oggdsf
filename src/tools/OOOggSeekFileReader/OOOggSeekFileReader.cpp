@@ -5,8 +5,12 @@
 
 #include <libilliCore/illicoreconfig.h>
 #include <libilliCore/iLE_Math.h>
+
+#include <libOOOggSeek/AutoOggSeekTable.h>
+
 #include <iostream>
 #include <fstream>
+
 using namespace std;
 
 #ifdef WIN32
@@ -20,6 +24,7 @@ int main(int argc, char *argv[])
 		cout << "Usage : OOOggSeekFileReader <seek_table_file>"<<endl;
 
 	} else {
+#if 0
 		LOOG_INT64 timePoint;
 		unsigned long bytePos;
 
@@ -44,6 +49,21 @@ int main(int argc, char *argv[])
 		}
 
 		delete [] buff;
+#else
+		AutoOggSeekTable *locSeekTable = new AutoOggSeekTable("foo");  // Filename doesn't matter
+		locSeekTable->buildTableFromFile(argv[1]);
+		OggSeekTable::tSeekMap locSeekMap = locSeekTable->getSeekMap();
+
+		for (map<LOOG_INT64, unsigned long>::iterator i = locSeekMap.begin(); i != locSeekMap.end(); i++) {
+			OggSeekTable::tSeekPair locSeekPair = *i;
+			LOOG_UINT64 locTimePoint = locSeekPair.first;
+			unsigned long locBytePosition = locSeekPair.second;
+			cout << "Seek point: time " << locTimePoint << " at byte offset " << locBytePosition << endl;
+		}
+
+		delete [] locSeekTable;
+
+#endif
 	}
 	return 0;
 }
