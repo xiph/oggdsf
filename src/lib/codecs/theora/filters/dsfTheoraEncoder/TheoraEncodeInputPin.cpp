@@ -735,6 +735,76 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 	}
 	return 0;
 }
+
+
+long TheoraEncodeInputPin::encodeUYVYToYV12(unsigned char* inBuf, long inNumBytes) {
+	//UYVY :: U0 Y0 V0 Y1   - Ugly Yellow Victor Yello
+	unsigned char* locSourceUptoPtr = inBuf;  //View only... don't delete locUptoPtr
+
+	//UYVY is U0 Y0 V0 Y1 U0 Y2 V0 Y3
+	//YUY2 is Y0 U0 Y1 V0 Y2 U1 Y3 V1
+	// it has twice as much sampling height as YV12 so downsample it.
+
+	char* locYUpto = mYUV.y;
+	char* locUUpto = mYUV.u;
+	char* locVUpto = mYUV.v;
+
+	
+
+	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
+
+
+	for (int i = 0; i < mHeight / 2; i++) {
+		//TO DO: Draw memory layouts.
+
+		//***Part of the average method... store the pointer to the last of the previous line
+		//locLastUUpto = locUUpto;
+		//locLastVUpto = locVUpto;
+		//***
+
+		for (int j = 0; j < mWidth / 2; j++) {
+			*(locUUpto++) = *(locSourceUptoPtr++);			//U for Ugly
+			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for Yellow
+			
+			*(locVUpto++) = *(locSourceUptoPtr++);			//V for Victor
+			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for Yellow
+			
+		}
+
+		
+		//***Drop line method
+		for (int j = 0; j < mWidth / 2; j++) {
+			//Ignore the second line
+			
+			locSourceUptoPtr++;								//U for ugly
+			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for yellow
+
+			locSourceUptoPtr++;								//V for victor
+			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for yellow
+			
+		}
+		//***
+
+		//*** PArt of the Alternate method to average...
+		//for (int j = 0; j < mWidth / 2; j++) {
+		//	//Ignore the second line
+		//	*(locYUpto++) = *(locSourceUptoPtr++);
+		//	*(locLastUUpto++) = ((short)(*locLastUUpto) + ((short)(*locUUpto))) / 2;
+		//	
+		//	*(locYUpto++) = *(locSourceUptoPtr++);
+		//	*(locLastVUpto++) = ((short)(*locLastVUpto) + ((short)(*locVUpto))) / 2;
+		//	
+		//}
+		//***
+
+
+
+	}
+	return 0;
+}
+
+
+
 //PURE VIRTUALS
 long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
@@ -777,6 +847,10 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 		//Should be more specifc.
 		//debugLog<<"About to encode YV12 to YV12"<<endl;
 		encodeYV12ToYV12(inBuf, inNumBytes);
+	} else if (mPinInputType.subtype == MEDIASUBTYPE_UYVY) {
+		
+		
+		encodeUYVYToYV12(inBuf, inNumBytes);
 	} else {
 
 		//FATAL ERROR

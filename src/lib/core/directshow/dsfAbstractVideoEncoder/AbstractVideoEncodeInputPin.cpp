@@ -123,6 +123,7 @@ HRESULT AbstractVideoEncodeInputPin::CheckMediaType(const CMediaType *inMediaTyp
 	if	( (inMediaType->majortype == MEDIATYPE_Video) &&
 			(	inMediaType->subtype == MEDIASUBTYPE_YV12 ||	
 				inMediaType->subtype == MEDIASUBTYPE_YUY2 ||
+				inMediaType->subtype == MEDIASUBTYPE_UYVY ||
 				inMediaType->subtype == MEDIASUBTYPE_AYUV ||
 				inMediaType->subtype == MEDIASUBTYPE_RGB32 ||
 				inMediaType->subtype == MEDIASUBTYPE_RGB24
@@ -162,6 +163,7 @@ HRESULT AbstractVideoEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 
 	if  (	inMediaType->subtype == MEDIASUBTYPE_YV12 || 
 			inMediaType->subtype == MEDIASUBTYPE_YUY2 ||
+			inMediaType->subtype == MEDIASUBTYPE_UYVY ||
 			inMediaType->subtype == MEDIASUBTYPE_AYUV ||
 			inMediaType->subtype == MEDIASUBTYPE_RGB32 ||
 			inMediaType->subtype == MEDIASUBTYPE_RGB24
@@ -201,6 +203,10 @@ HRESULT AbstractVideoEncodeInputPin::GetMediaType(int inPosition, CMediaType *ou
 		case 4:
 			outMediaType->SetType(&MEDIATYPE_Video);
 			outMediaType->SetSubtype(&MEDIASUBTYPE_AYUV);
+		case 5:
+			outMediaType->SetType(&MEDIATYPE_Video);
+			outMediaType->SetSubtype(&MEDIASUBTYPE_UYVY);
+
 		default:
 			return VFW_S_NO_MORE_ITEMS;
 	}
