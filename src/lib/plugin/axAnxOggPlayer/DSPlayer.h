@@ -13,7 +13,7 @@
 
 #include "ICMMLCallbacks.h"
 #include "ICMMLAppControl.h"
-#include "libCMMLTags.h"
+#include "libCMMLTags/libCMMLTags.h"
 #include "IMediaEventNotification.h"
 
 

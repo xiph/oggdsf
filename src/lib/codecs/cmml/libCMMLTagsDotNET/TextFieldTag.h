@@ -40,7 +40,7 @@ using namespace illiminable::libiWrapper;
 #include "HumReadCMMLTag.h"
 
 #pragma unmanaged
-#include <config.h>
+#include <libCMMLTags/config.h>
 #include <libCMMLTags/C_TextFieldTag.h>
 #pragma managed
 

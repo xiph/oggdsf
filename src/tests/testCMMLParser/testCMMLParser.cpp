@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-#include "libCMMLTags.h"
+#include "libCMMLTags/libCMMLTags.h"
 
 #include <libWinCMMLParse/libWinCMMLParse.h>
 #include <libWinCMMLParse/CMMLParser.h>

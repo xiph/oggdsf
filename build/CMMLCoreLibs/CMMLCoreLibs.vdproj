@@ -15,20 +15,44 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_02A6D003A9754449A6987629196555CE"
-        "OwnerKey" = "8:_27F6232758E74242B76F5586E7EE0639"
+        "MsmKey" = "8:_0948829C26A0484E8DDD2D3FADDC8C09"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_02A6D003A9754449A6987629196555CE"
+        "MsmKey" = "8:_0AE58BDA03564EF1B5D5C089B3243B58"
+        "OwnerKey" = "8:_0948829C26A0484E8DDD2D3FADDC8C09"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0AE58BDA03564EF1B5D5C089B3243B58"
         "OwnerKey" = "8:_F97BA7EB0FE647F783C69DF80743AD47"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_0948829C26A0484E8DDD2D3FADDC8C09"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_0AE58BDA03564EF1B5D5C089B3243B58"
+        "OwnerKey" = "8:_27F6232758E74242B76F5586E7EE0639"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_11925F7F92B34228859A2D964C35946C"
+        "OwnerKey" = "8:_0948829C26A0484E8DDD2D3FADDC8C09"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_11925F7F92B34228859A2D964C35946C"
+        "OwnerKey" = "8:_F950B6FCF2DE412DA30583EF02B72C2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_11925F7F92B34228859A2D964C35946C"
+        "OwnerKey" = "8:_FDD9BCF2DF46C3C7EE8839F22E3C3D3A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -39,14 +63,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_949599D1230B4117A6CDF2291529006A"
-        "OwnerKey" = "8:_27F6232758E74242B76F5586E7EE0639"
+        "MsmKey" = "8:_C6501200498A403DBB3D9E5CFB82C05E"
+        "OwnerKey" = "8:_0948829C26A0484E8DDD2D3FADDC8C09"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_949599D1230B4117A6CDF2291529006A"
+        "MsmKey" = "8:_C6501200498A403DBB3D9E5CFB82C05E"
         "OwnerKey" = "8:_F97BA7EB0FE647F783C69DF80743AD47"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C6501200498A403DBB3D9E5CFB82C05E"
+        "OwnerKey" = "8:_F950B6FCF2DE412DA30583EF02B72C2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C6501200498A403DBB3D9E5CFB82C05E"
+        "OwnerKey" = "8:_27F6232758E74242B76F5586E7EE0639"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -65,6 +101,12 @@
         {
         "MsmKey" = "8:_F97BA7EB0FE647F783C69DF80743AD47"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FDD9BCF2DF46C3C7EE8839F22E3C3D3A"
+        "OwnerKey" = "8:_0948829C26A0484E8DDD2D3FADDC8C09"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -180,7 +222,38 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:4"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{FB480208-1853-44D0-9ABD-A3B734C3FAAA}:_FDD9BCF2DF46C3C7EE8839F22E3C3D3A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:libiWrapper, Version=1.0.1824.20566, Culture=neutral"
+                "ScatterAssemblies"
+                {
+                    "_FDD9BCF2DF46C3C7EE8839F22E3C3D3A"
+                    {
+                    "Name" = "8:libiwrapper.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:libiwrapper.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BF4397A716F8470183C478AC3C8212AE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -240,7 +313,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CMMLCoreLibs"
         "ProductCode" = "8:{70380BBA-3AED-4B2A-8ED9-7780121A14EC}"
-        "PackageCode" = "8:{FD2D25B0-9656-4B36-A69D-8B1E59F9A0E4}"
+        "PackageCode" = "8:{73CC1394-40E8-4B2F-88E8-8AFFCBE1EF19}"
         "UpgradeCode" = "8:{8CF88D2D-140C-4417-8111-CFBCD9F49792}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -737,11 +810,11 @@
         }
         "MergeModule"
         {
-            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_02A6D003A9754449A6987629196555CE"
+            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_0AE58BDA03564EF1B5D5C089B3243B58"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:vc_user_crt71_rtl_x86_---.msm"
+            "SourcePath" = "8:vc_user_stl71_rtl_x86_---.msm"
                 "Properties"
                 {
                 }
@@ -751,11 +824,25 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_949599D1230B4117A6CDF2291529006A"
+            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_11925F7F92B34228859A2D964C35946C"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:vc_user_stl71_rtl_x86_---.msm"
+            "SourcePath" = "8:dotnetfxredist_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:1033"
+            "Exclude" = "11:TRUE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_C6501200498A403DBB3D9E5CFB82C05E"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:vc_user_crt71_rtl_x86_---.msm"
                 "Properties"
                 {
                 }
@@ -770,7 +857,7 @@
         {
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_0948829C26A0484E8DDD2D3FADDC8C09"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libcmmltagsdotnet\\release_sse\\libCMMLTagsDotNET.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libCMMLTagsDotNET\\Release\\libCMMLTagsDotNET.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BF4397A716F8470183C478AC3C8212AE"
@@ -798,7 +885,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_27F6232758E74242B76F5586E7EE0639"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libcmmltags\\release_sse\\libCMMLTags.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libCMMLTags\\Release\\libCMMLTags.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BF4397A716F8470183C478AC3C8212AE"
@@ -826,7 +913,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_F950B6FCF2DE412DA30583EF02B72C2D"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\helper\\libiwrapper\\release_sse\\libiWrapper.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\helper\\libiWrapper\\Release\\libiWrapper.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BF4397A716F8470183C478AC3C8212AE"
@@ -854,7 +941,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_F97BA7EB0FE647F783C69DF80743AD47"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libwincmmlparse\\release_sse\\libWinCMMLParse.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libWinCMMLParse\\Release\\libWinCMMLParse.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BF4397A716F8470183C478AC3C8212AE"

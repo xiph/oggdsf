@@ -41,7 +41,7 @@ using namespace illiminable::libiWrapper;
 #include "ParamTag.h"
 
 #pragma unmanaged
-#include <config.h>
+#include <libCMMLTags/config.h>
 #include <libCMMLTags/C_ParamTagList.h>
 #pragma managed
 

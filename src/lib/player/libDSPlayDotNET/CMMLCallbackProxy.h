@@ -34,7 +34,7 @@
 
 #pragma once
 #include "ICMMLCallbacks.h"
-#include "libCMMLTags.h"
+#include "libCMMLTags/libCMMLTags.h"
 #include "IDNCMMLCallbacks.h"
 #include <vcclr.h>
 

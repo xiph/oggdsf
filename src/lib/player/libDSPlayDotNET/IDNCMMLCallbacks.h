@@ -34,7 +34,7 @@
 
 #pragma once
 #pragma unmanaged
-#include "libCMMLTags.h"
+#include "libCMMLTags/libCMMLTags.h"
 
 #pragma managed
 #using "libCMMLTagsDotNET.dll"

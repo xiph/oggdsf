@@ -99,6 +99,7 @@
 				AdditionalDependencies="strmiids.lib"
 				OutputFile="$(OutDir)/axAnxOggPlayer.ocx"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="C:\DXSDK\Lib"
 				ModuleDefinitionFile=".\axAnxOggPlayer.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"

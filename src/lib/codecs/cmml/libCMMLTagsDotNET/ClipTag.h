@@ -44,7 +44,7 @@ using namespace illiminable::libiWrapper;
 #include "DescTag.h"
 
 #pragma unmanaged
-#include <config.h>
+#include <libCMMLTags/config.h>
 #include <libCMMLTags/C_ClipTag.h>
 #pragma managed
 
