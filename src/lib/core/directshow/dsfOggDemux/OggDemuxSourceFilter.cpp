@@ -42,6 +42,14 @@ CFactoryTemplate g_Templates[] =
 	    OggDemuxSourceFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
+    },
+
+	{ 
+		L"illiminable About Page",				// Name
+	    &CLSID_PropsAbout,						// CLSID
+	    PropsAbout::CreateInstance,				// Method to create an instance of MyComponent
+        NULL,									// Initialization function
+        NULL									// Set-up information (for filters)
     }
 
 };
@@ -70,8 +78,10 @@ STDMETHODIMP OggDemuxSourceFilter::NonDelegatingQueryInterface(REFIID riid, void
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
-
-
+	} else if (riid == IID_ISpecifyPropertyPages) {
+		*ppv = (ISpecifyPropertyPages*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
 	}
 
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
@@ -83,6 +93,7 @@ STDMETHODIMP OggDemuxSourceFilter::NonDelegatingQueryInterface(REFIID riid, void
 //ANX::: This needs to be changed so these details are passed into the constructor. Or add another parametised constructo
 OggDemuxSourceFilter::OggDemuxSourceFilter()
 	:	CBaseFilter(NAME("OggDemuxSourceFilter"), NULL, m_pLock, CLSID_OggDemuxSourceFilter)
+	
 	,	mSeekTable(NULL)
 	,	mDataSource(NULL)
 {
@@ -131,6 +142,23 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 
 }
 
+//ISpecifyPropertyPgaes Interface
+STDMETHODIMP OggDemuxSourceFilter::GetPages(CAUUID* outPropPages) {
+	if (outPropPages == NULL) return E_POINTER;
+
+	const int NUM_PROP_PAGES = 1;
+    outPropPages->cElems = NUM_PROP_PAGES;
+    outPropPages->pElems = (GUID*)(CoTaskMemAlloc(sizeof(GUID) * NUM_PROP_PAGES));
+    if (outPropPages->pElems == NULL) 
+    {
+        return E_OUTOFMEMORY;
+    }
+
+	outPropPages->pElems[0] = CLSID_PropsAbout;
+    
+    return S_OK;
+
+}
 
 	//IFileSource Interface
 STDMETHODIMP OggDemuxSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) {

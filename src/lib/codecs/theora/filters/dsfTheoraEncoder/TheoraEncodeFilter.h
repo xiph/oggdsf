@@ -32,6 +32,8 @@
 #pragma once
 
 #include "theoraencoderdllstuff.h"
+#include "ITheoraEncodeSettings.h"
+#include "PropsTheoraEncoder.h"
 //#include "AbstractVideoEncodeFilter.h"
 
 //Forward Declarations
@@ -40,20 +42,43 @@ class TheoraEncodeInputPin;
 class TheoraEncodeOutputPin;
 
 class TheoraEncodeFilter
+	//Base classes
 	:	public AbstractVideoEncodeFilter
+	,	public ITheoraEncodeSettings
+	,	public ISpecifyPropertyPages
 {
 public:
+	//Friends classes
 	friend class TheoraEncodeInputPin;
 	friend class TheoraEncodeOutputPin;
+
+	//Constructors and Destructors
 	TheoraEncodeFilter(void);
 	virtual ~TheoraEncodeFilter(void);
 
+	//COM Functions
+	DECLARE_IUNKNOWN
 	static CUnknown* WINAPI TheoraEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	//PURE VIRTUAL IMPLEMENTATION
+	//ITheoraEncodeSettings Implementation
+	unsigned long targetBitrate();
+	unsigned char quality();
+	unsigned long keyframeFreq();
+
+	bool setTargetBitrate(unsigned long inBitrate);
+	bool setQuality(unsigned char inQuality);
+	bool setKeyframeFreq(unsigned long inKeyframeFreq);
+	//
+
+	//AbstractVideoEncodeFilter pure virtuals
 	virtual bool ConstructPins();
+	
+	//SpecifyPropertyPages Implementation
+	STDMETHODIMP TheoraEncodeFilter::GetPages(CAUUID* outPropPages);
 
 protected:
+	//Member data
 	sTheoraFormatBlock mTheoraFormatBlock;
 	
 };

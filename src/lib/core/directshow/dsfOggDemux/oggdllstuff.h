@@ -52,6 +52,10 @@
 #endif
 
 
+// {4BB64C4A-1674-436b-A49D-D6B3B64DBD60}
+DEFINE_GUID(CLSID_PropsAbout, 
+0x4bb64c4a, 0x1674, 0x436b, 0xa4, 0x9d, 0xd6, 0xb3, 0xb6, 0x4d, 0xbd, 0x60);
+
 //New section
 // {31CA0186-1FF0-4181-AA38-3CA4040BD260}
 DEFINE_GUID(CLSID_OggDemuxSourceFilter, 

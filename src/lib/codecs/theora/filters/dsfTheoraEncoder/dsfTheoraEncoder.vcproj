@@ -20,14 +20,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\dsfAbstractVideoEncoder;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libOOTheora;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS;__cplusplus"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="4"
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -112,6 +113,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
+				RelativePath="PropsTheoraEncoder.cpp">
+			</File>
+			<File
 				RelativePath="TheoraEncodeFilter.cpp">
 			</File>
 			<File
@@ -146,6 +150,12 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
+				RelativePath="ITheoraEncodeSettings.h">
+			</File>
+			<File
+				RelativePath="PropsTheoraEncoder.h">
+			</File>
+			<File
 				RelativePath="TheoraEncodeFilter.h">
 			</File>
 			<File
@@ -153,6 +163,9 @@
 			</File>
 			<File
 				RelativePath="TheoraEncodeOutputPin.h">
+			</File>
+			<File
+				RelativePath="resource.h">
 			</File>
 			<File
 				RelativePath="stdafx.h">
@@ -164,6 +177,9 @@
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="dsfTheoraEncoder.rc">
+			</File>
 		</Filter>
 		<File
 			RelativePath="ReadMe.txt">

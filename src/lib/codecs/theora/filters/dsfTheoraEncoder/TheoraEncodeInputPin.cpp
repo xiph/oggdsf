@@ -289,3 +289,7 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 	return S_OK;
 	
 }
+
+theora_info* TheoraEncodeInputPin::theoraInfo() {
+	return &mTheoraInfo;
+}

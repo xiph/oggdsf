@@ -37,6 +37,7 @@
 #include <OggDataBuffer.h>
 #include "IFilterDataSource.h"
 #include "DataSourceFactory.h"
+#include "PropsAbout.h"
 //#include <fstream>
 using namespace std;
 
@@ -49,6 +50,8 @@ class OGG_DEMUX_API OggDemuxSourceFilter
 		public IFileSourceFilter,
 		public IOggCallback
 	,	public BasicSeekable
+	,	public ISpecifyPropertyPages
+	
 		
 {
 public:
@@ -79,6 +82,9 @@ public:
 
 	//IOggCallback Interface
 	virtual bool acceptOggPage(OggPage* inOggPage);
+
+	//ISpecifyPropertyPages
+	virtual STDMETHODIMP GetPages(CAUUID* outPropPages);
 
 	//Streaming MEthods
 	STDMETHODIMP Run(REFERENCE_TIME tStart);

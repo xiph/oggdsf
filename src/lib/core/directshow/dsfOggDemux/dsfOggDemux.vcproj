@@ -162,6 +162,9 @@
 				RelativePath="OggStreamMapper.cpp">
 			</File>
 			<File
+				RelativePath="PropsAbout.cpp">
+			</File>
+			<File
 				RelativePath="SpeexStream.cpp">
 			</File>
 			<File
@@ -229,6 +232,9 @@
 				RelativePath="OggStreamMapper.h">
 			</File>
 			<File
+				RelativePath="PropsAbout.h">
+			</File>
+			<File
 				RelativePath="SpeexStream.h">
 			</File>
 			<File
@@ -244,12 +250,18 @@
 				RelativePath="oggdllstuff.h">
 			</File>
 			<File
+				RelativePath="resource.h">
+			</File>
+			<File
 				RelativePath="stdafx.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="dsfOggDemux.rc">
+			</File>
 		</Filter>
 		<File
 			RelativePath="ReadMe.txt">

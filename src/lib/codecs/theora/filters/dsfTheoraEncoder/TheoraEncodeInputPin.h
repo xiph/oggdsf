@@ -32,7 +32,11 @@
 #pragma once
 #include "theoraencoderdllstuff.h"
 #include "TheoraEncoder.h"
-#include "theora/theora.h"
+
+extern "C" {
+#include "theora_cdecl.h"
+}
+
 
 //DEBUG ONLY
 #include <fstream>
@@ -53,6 +57,9 @@ public:
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+	//
+
+	theora_info* theoraInfo();
 
 protected:
 	HRESULT mHR;

@@ -50,12 +50,18 @@ public:
 	friend class TheoraDecodeInputPin;
 	friend class TheoraDecodeOutputPin;
 
+	
+	
+
 	//Constructors and Destructors
 	TheoraDecodeFilter(void);
 	virtual ~TheoraDecodeFilter(void);
 
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+
+	
+	
 
 	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
 	virtual bool ConstructPins();

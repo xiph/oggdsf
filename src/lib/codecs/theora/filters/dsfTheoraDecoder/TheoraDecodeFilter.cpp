@@ -91,6 +91,8 @@ CUnknown* WINAPI TheoraDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 	return pNewObject;
 } 
 
+
+
 //QUERY::: Do we need these ? Aren't we all friedns here ??
 //RESULT::: Keep them, set function must be kept... get could go... but keep for consistency
 sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock() 

@@ -42,7 +42,15 @@ CFactoryTemplate g_Templates[] =
 	    TheoraEncodeFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
+    },
+    { 
+		L"Theora Encode Properties",						// Name
+	    &CLSID_PropsTheoraEncoder,            // CLSID
+	    PropsTheoraEncoder::CreateInstance,	// Method to create an instance of MyComponent
+        NULL,									// Initialization function
+        NULL									// Set-up information (for filters)
     }
+
 
 };
 
@@ -58,6 +66,20 @@ CUnknown* WINAPI TheoraEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
     }
 	return pNewObject;
 } 
+STDMETHODIMP TheoraEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+	if (riid == IID_ITheoraEncodeSettings) {
+		*ppv = (ITheoraEncodeSettings*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	} else if (riid == IID_ISpecifyPropertyPages) {
+		*ppv = (ISpecifyPropertyPages*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+
+
+	return AbstractVideoEncodeFilter::NonDelegatingQueryInterface(riid, ppv);
+}
 
 TheoraEncodeFilter::TheoraEncodeFilter(void)
 	:	AbstractVideoEncodeFilter(NAME("Theora Encoder"), CLSID_TheoraEncodeFilter, AbstractVideoEncodeFilter::THEORA)
@@ -81,4 +103,50 @@ bool TheoraEncodeFilter::ConstructPins()
 	
 	mInputPin = new TheoraEncodeInputPin(this, m_pLock, mOutputPin);
 	return true;
+}
+
+//Implementation of ITheoraEncodeSEttings
+unsigned long TheoraEncodeFilter::targetBitrate() {
+	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_data_target_bitrate;
+}
+unsigned char TheoraEncodeFilter::quality() {
+	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality;
+}
+unsigned long TheoraEncodeFilter::keyframeFreq() {
+	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency;
+}
+
+bool TheoraEncodeFilter::setTargetBitrate(unsigned long inBitrate) {
+	//Needs error checking
+	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_data_target_bitrate = inBitrate;
+	return true;
+
+}
+bool TheoraEncodeFilter::setQuality(unsigned char inQuality) {
+	//Needs error checking
+	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality = inQuality;
+	return true;
+}
+bool TheoraEncodeFilter::setKeyframeFreq(unsigned long inKeyframeFreq) {
+	//Needs error checking
+	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency = inKeyframeFreq;
+	return true;
+}
+
+//SpecifyPropertyPages Implementation
+STDMETHODIMP TheoraEncodeFilter::GetPages(CAUUID* outPropPages) {
+	if (outPropPages == NULL) return E_POINTER;
+
+	const int NUM_PROP_PAGES = 1;
+    outPropPages->cElems = NUM_PROP_PAGES;
+    outPropPages->pElems = (GUID*)(CoTaskMemAlloc(sizeof(GUID) * NUM_PROP_PAGES));
+    if (outPropPages->pElems == NULL) 
+    {
+        return E_OUTOFMEMORY;
+    }
+
+	outPropPages->pElems[0] = CLSID_PropsTheoraEncoder;
+    
+    return S_OK;
+
 }

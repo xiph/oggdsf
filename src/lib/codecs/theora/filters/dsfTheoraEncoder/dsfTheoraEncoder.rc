@@ -1,0 +1,175 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_THEORA_ENCODE_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 189
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 120
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_THEORA_ENCODE_SETTINGS DIALOGEX 0, 0, 196, 127
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_BORDER
+FONT 8, "MS Sans Serif", 400, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_COMBO_BITRATE,93,18,83,17,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Target Bitrate",IDC_STATIC_TBR,23,20,69,12
+    GROUPBOX        "Quality",IDC_GROUP_QUALITY,14,71,167,34
+    CONTROL         "",IDC_SLIDER_QUALITY,"msctls_trackbar32",TBS_AUTOTICKS | 
+                    TBS_BOTH | WS_TABSTOP,19,86,159,12
+    LTEXT           "Keyframe Freq log2",IDC_STATIC,23,42,64,11
+    COMBOBOX        IDC_COMBO_KEYFRAME_FREQ,94,38,82,14,CBS_DROPDOWN | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_THEORA_ENCODE_SETTINGS DLGINIT
+BEGIN
+    IDC_COMBO_BITRATE, 0x403, 6, 0
+0x3631, 0x3030, 0x0030, 
+    IDC_COMBO_BITRATE, 0x403, 6, 0
+0x3233, 0x3030, 0x0030, 
+    IDC_COMBO_BITRATE, 0x403, 6, 0
+0x3436, 0x3030, 0x0030, 
+    IDC_COMBO_BITRATE, 0x403, 7, 0
+0x3231, 0x3038, 0x3030, "\000" 
+    IDC_COMBO_BITRATE, 0x403, 7, 0
+0x3532, 0x3036, 0x3030, "\000" 
+    IDC_COMBO_BITRATE, 0x403, 7, 0
+0x3135, 0x3032, 0x3030, "\000" 
+    IDC_COMBO_BITRATE, 0x403, 8, 0
+0x3031, 0x3432, 0x3030, 0x0030, 
+    IDC_COMBO_BITRATE, 0x403, 8, 0
+0x3032, 0x3030, 0x3030, 0x0030, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 2, 0
+0x0031, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 2, 0
+0x0032, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 2, 0
+0x0034, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 2, 0
+0x0038, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 4, 0
+0x3135, 0x0032, 
+    IDC_COMBO_KEYFRAME_FREQ, 0x403, 5, 0
+0x3031, 0x3432, "\000" 
+    0
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_THEORA_ENC_PROPS_STRING "Encoder Settings"
+END
+
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
