@@ -205,7 +205,7 @@ bool CMMLParser::parseClipTag(MSXML2::IXMLDOMNode* inClipNode, C_ClipTag* outCli
 
 	bool retVal	=		(locNum_a <= 1)
 					&&	(locNum_img <= 1)
-					&&	(locNum_desc <=1);
+					&&	(locNum_desc <= 1);
 
 	SysFreeString(locBStr);
 	if (locAttribMap != NULL)					locAttribMap->Release();

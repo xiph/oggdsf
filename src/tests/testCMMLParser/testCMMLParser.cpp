@@ -72,21 +72,30 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	testHeadParse(head_6);
 
 
-
+	//Valid minimal
 	wstring clip_1 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
 	testClipParse(clip_1);
 
+	//INVALID: Random data
 	wstring clip_2 = L"asdjhaskdljfhksladf";
 	testClipParse(clip_2);
 
+	//INVALID: valid xml but invalid cmml
 	wstring clip_3 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
 	testClipParse(clip_3);
 
+	//Valid
 	wstring clip_4 = L"<clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
 	testClipParse(clip_4);
 
+	//INVALID: Missing equals on href=
 	wstring clip_5 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><a href\"http:\\linktome.com\" class=\"someClass\">Random anchor text</a><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
 	testClipParse(clip_5);
+
+	//VALID
+	wstring clip_6 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><a href=\"http:\\linktome.com\" class=\"someClass\">Random anchor text</a><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
+	testClipParse(clip_6);
+
 	return 0;
 }
 
