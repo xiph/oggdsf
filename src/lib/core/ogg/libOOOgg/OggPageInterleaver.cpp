@@ -139,7 +139,8 @@ void OggPageInterleaver::writeLowest() {
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							((mInputStreams[i]->peekFront()->header()->GranulePos()) == -1) ) ||
 							
-							(	(mInputStreams[i]->sentAllHeaders()) ) ||
+						(	(mInputStreams[i]->peekFront() != NULL) && 
+							(!mInputStreams[i]->sentAllHeaders()) ) ||
 						
 							(locTestLowTime < locCurrLowTime)
 						) 
@@ -155,6 +156,8 @@ void OggPageInterleaver::writeLowest() {
 			throw 0;
 		} else {
 			//debugLog<<"writeLowest : Writing..."<<endl;
+
+			//TODO::: Handle case where the popped page is a null pointer.
 			mFileWriter->acceptOggPage(locLowestStream->popFront());		//Gives away page
 		}
 
