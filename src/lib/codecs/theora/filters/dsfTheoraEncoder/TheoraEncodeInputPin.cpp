@@ -48,7 +48,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 
 TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	DestroyCodec();
 	delete mYUV.y;
 	delete mYUV.u;

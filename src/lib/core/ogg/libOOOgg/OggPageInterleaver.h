@@ -62,6 +62,6 @@ protected:
 	INotifyComplete* mNotifier;
 
 	//DEBUG ONLY
-	fstream debugLog;
+	//fstream debugLog;
 	//
 };
