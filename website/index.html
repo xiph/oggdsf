@@ -116,7 +116,7 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 <DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
 <TR valign=top>
 <TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.64.7878) - 25/09/2004</b></DIV>
+<DIV><div align="left"><b>Current Version (0.65.7923) - 07/10/2004</b></DIV>
 </FONT>
 </TD>
 </TR>
@@ -125,14 +125,17 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 </FONT>
 
 <br>
-Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added more colour space conversions for the encoder.
+Added support for icecast vorbis streams. Works for most streams, though there is a limitation that the stream can't change codebooks, or audio settings mid-stream, but 
+this shouldn't be a problem for most streams. Also an internal fix on the format blocks of the filters.
 <br>
+<br>
+Most of the major functionality bugs are sorted out now, I'm quite happy with this release and the previous one, though still a way to go.
 <br>
 <br>
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
-<TR valign=top>
 
+<TR valign=top>
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
 <DIV>Ogg Codecs for windows</DIV>
 </FONT>
@@ -141,21 +144,17 @@ Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added
 <DIV>Windows XP</DIV>
 </FONT>
 </TD>
-
-
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">948,458 bytes</div></DIV></FONT>
+<DIV><div align="right">938,166 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.64.7878.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.65.7923.zip">Download Now</a></div></DIV></FONT>
 </TD>
-
 </TR>
 
 
 
 <TR valign=top>
-
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
 <DIV>Ogg Codecs for windows</DIV>
 </FONT>
@@ -164,23 +163,18 @@ Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added
 <DIV>Windows NT/2000</DIV>
 </FONT>
 </TD>
-
-
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,730,915 bytes</div></DIV></FONT>
+<DIV><div align="right">2,720,623 bytes</div></DIV></FONT>
 </TD>
-
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.64.7878.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.65.7923.zip">Download Now</a></div></DIV></FONT>
 </TD>
-
 </TR>
 
 
 
 
 <TR valign=top>
-
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
 <DIV>Ogg Codecs for windows</DIV>
 </FONT>
@@ -189,17 +183,14 @@ Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added
 <DIV>Windows 98/ME</DIV>
 </FONT>
 </TD>
-
-
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,616,021 bytes</div></DIV></FONT>
+<DIV><div align="right">2,605,729 bytes</div></DIV></FONT>
 </TD>
-
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.64.7878.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.65.7923.zip">Download Now</a></div></DIV></FONT>
 </TD>
-
 </TR>
+
 </TABLE>
 </DIV>
 </FONT>
@@ -220,9 +211,8 @@ Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added
 </DIV>
 </FONT>
 <b><u></u></b><br>
-	<li>Fixed seeking in WMP 9 and 10.</li>
-	<li>Fixed a bug using the WMP activeX control.</li>
-	<li>Theora encoder accepts new media types ie RGB24, RGB32, AYUV, IYUV, UYVY, YVYU... only RGB32 has been tested, as i don't have any source of the other types.</li>
+	<li>Can now play most vorbis icecast streams.</li>
+	<li>Fixed some random values in the format blocks (Thanks to Robert Huitl for reporting this.)</li>
 <br>
 <br>
 
@@ -244,7 +234,7 @@ Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added
 	<li>If you are getting codec problems, there appears to be a conflict with something in Media Player Classic... it tries to enforce the use of another ogg demultiplexer, either by design or accident.If you see in MPC it complaining about a media subtype with a 
 		GUID {CDDCA2D5-6D75-4F98-840E-737BEDD5C63B}. This is the guid of the old tobias vorbis filter, and this one {8D2FD10B-5841-4a6b-8905-588FEC1ADED9} is CoreVorbis. This is most likely due to the fact that these filters don't clean up the registry when they uninstall.
 		I am working on something to "clean up" all these remnants from the registry.</li>
-	<li>Cannot handle any chained multiplexed files or streams</li>
+	<li>Cannot handle any chained multiplexed files or streams, except vorbis icecast streams.</li>
 	<li>FLAC seems to lose the first 1/2 second of audio if you stop then play again</li>
 	<li>Seeking is slightly less responsive in this latest version. Most noticable in speex.</li>
 	<li>Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.</li>
@@ -255,7 +245,6 @@ Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added
 	<li>Theora and annodex playback requires directX 9.</li>
 	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
 	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
-	<li><strike>Theora won't seek in WMP 9 or 10</strike></li>
 
 <br>
 <br>
