@@ -319,7 +319,8 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	// a) The (number of segments left * 255) take 1.
 	// b) The number of bytes less than the desired maximum page size.
 
-	//TODO::: What happens when mSegmentTableSize is 255 ?
+	
+	//***** WARNING 4018!!!!!! ::: TODO::: What happens when mSegmentTableSize is 255 ?
 
 	//Take 1 so when it adds the packet it doesn't try to consume one extra segment which doesn't exist.
     unsigned long locSpaceLeft =	MIN(((255 - mSegmentTableSize) * 255) - 1, mSettings->mMaxPageSize - mCurrentPageSize);
@@ -342,7 +343,7 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	// a) How much space is left
 	// b) The amount of packet remaining.
 
-	//TODO::: Are we sure inRemaining can never be < 0
+	//**** WARING 4018 !!!! TODO::: Are we sure inRemaining can never be < 0
 	//If (a) is the minimum then we know that the how much we are adding is a multiple of 255.
 	unsigned long locHowMuchToAdd = MIN(locSpaceLeft, inRemaining);
 

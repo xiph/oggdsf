@@ -42,19 +42,22 @@ public:
 	TheoraDecoder(void);
 	~TheoraDecoder(void);
 
+	/// Initialise the internal theora decoder.
 	bool initCodec();
+
 	//bool resetPackCount();
 	//bool clearAll();
+
 	yuv_buffer* decodeTheora(StampedOggPacket* inPacket);
-	bool decodeHeader(StampedOggPacket* inHeaderPacket);
+
+	bool isKeyFrame(StampedOggPacket* inPacket);
+
+	theora_info mTheoraInfo;
+protected:
 
 	ogg_packet* simulateOldOggPacket(StampedOggPacket* inPacket);
 
-
-	bool isKeyFrame(StampedOggPacket* inPacket);
-	//unsigned char* convertYUV(yuv_buffer* inBuffer, unsigned long inFormat);
-		theora_info mTheoraInfo;
-protected:
+	bool decodeHeader(StampedOggPacket* inHeaderPacket);
 	//theora_info mTheoraInfo;
 	theora_comment mTheoraComment;
 	theora_state mTheoraState;
