@@ -433,30 +433,6 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	//HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, locFlags);
 	GetState(0, &locFS);
 	debugLog<<"State After = "<<locFS<<endl;
-	//if (locHR != S_OK) {
-	//	debugLog<<"Get DeliveryBuffer FAILED with "<<locHR<<endl;
-	//	debugLog<<"locSample is "<<(unsigned long)locSample<<endl;
-	//	//We get here when the application goes into stop mode usually.
-
-	//	switch (locHR) {
-	//		case VFW_E_SIZENOTSET:
-	//			debugLog<<"SIZE NOT SET"<<endl;
-	//			break;
-	//		case VFW_E_NOT_COMMITTED:
-	//			debugLog<<"NOT COMMITTED"<<endl;
-	//			break;
-	//		case VFW_E_TIMEOUT:
-	//			debugLog<<"TIMEOUT"<<endl;
-	//			break;
-	//		case VFW_E_STATE_CHANGED:
-	//			debugLog<<"STATE CHANGED"<<endl;
-	//			return S_OK;
-	//		default:
-	//			debugLog<<"SOMETHING ELSE !!!"<<endl;
-	//			break;
-	//	}
-	//	return locHR;
-	//}	
 	
 	
 
