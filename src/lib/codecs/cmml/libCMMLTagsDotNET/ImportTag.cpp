@@ -56,22 +56,22 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* ImportTag::granuleRate() {
-		return Wrappers::CStrToNetStr( getMe()->granuleRate().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->granuleRate().c_str() );
 	}
 	String* ImportTag::contentType() {
-		return Wrappers::CStrToNetStr( getMe()->contentType().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->contentType().c_str() );
 	}
 	String* ImportTag::src() {
-		return Wrappers::CStrToNetStr( getMe()->src().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->src().c_str() );
 	}
 	String* ImportTag::start() {
-		return Wrappers::CStrToNetStr( getMe()->start().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->start().c_str() );
 	}
 	String* ImportTag::end() {
-		return Wrappers::CStrToNetStr( getMe()->end().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->end().c_str() );
 	}
 	String* ImportTag::title() {
-		return Wrappers::CStrToNetStr( getMe()->title().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->title().c_str() );
 	}
 	ParamTagList* ImportTag::paramList() {
 		return new ParamTagList(getMe()->paramList()->clone());
@@ -80,34 +80,34 @@ namespace libCMMLTagsDotNET {
 
 	//Mutators
 	void ImportTag::setGranuleRate(String* inGranuleRate) {
-		char* tc = Wrappers::netStrToCStr( inGranuleRate );
+		wchar_t* tc = Wrappers::netStrToWStr( inGranuleRate );
 		getMe()->setGranuleRate( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void ImportTag::setContentType(String* inContentType) {
-		char* tc = Wrappers::netStrToCStr( inContentType );
+		wchar_t* tc = Wrappers::netStrToWStr( inContentType );
 		getMe()->setContentType( tc );
-		Wrappers::releaseCStr( tc );		
+		Wrappers::releaseWStr( tc );		
 	}
 	void ImportTag::setSrc(String* inSrc) {
-		char* tc = Wrappers::netStrToCStr( inSrc );
+		wchar_t* tc = Wrappers::netStrToWStr( inSrc );
 		getMe()->setSrc( tc );
-		Wrappers::releaseCStr( tc );		
+		Wrappers::releaseWStr( tc );		
 	}
 	void ImportTag::setStart(String* inStart) {
-		char* tc = Wrappers::netStrToCStr( inStart );
+		wchar_t* tc = Wrappers::netStrToWStr( inStart );
 		getMe()->setStart( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void ImportTag::setEnd(String* inEnd) {
-		char* tc = Wrappers::netStrToCStr( inEnd );
+		wchar_t* tc = Wrappers::netStrToWStr( inEnd );
 		getMe()->setEnd( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void ImportTag::setTitle(String* inTitle) {
-		char* tc = Wrappers::netStrToCStr( inTitle );
+		wchar_t* tc = Wrappers::netStrToWStr( inTitle );
 		getMe()->setTitle( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void ImportTag::setParamList(ParamTagList* inParamList) {
 		getMe()->setParamList(inParamList->getMe()->clone());
@@ -115,7 +115,7 @@ namespace libCMMLTagsDotNET {
 
 	//Other
 	String* ImportTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
 		
 	}
 

@@ -58,19 +58,19 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* MetaTag::scheme() {
-		return Wrappers::CStrToNetStr( getMe()->scheme().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->scheme().c_str() );
 	}
 
 	//Mutators
 	void MetaTag::setScheme(String* inScheme) {
-		char* tc = Wrappers::netStrToCStr( inScheme );
+		wchar_t* tc = Wrappers::netStrToWStr( inScheme );
 		getMe()->setScheme( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 
 	//Other
 	String* MetaTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
 	}
 	
 }

@@ -164,19 +164,19 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
 		}*/
 		
 		if (inMediaSample->GetActualDataLength() > 0) {
-			char* locStr = NULL;
+			wchar_t* locStr = NULL;
 			BYTE* locBuff = NULL;
 			inMediaSample->GetPointer(&locBuff);
-			locStr = new char[inMediaSample->GetActualDataLength()];
+			locStr = new wchar_t[inMediaSample->GetActualDataLength() / sizeof(wchar_t)];
 			memcpy((void*)locStr, (const void*) locBuff, inMediaSample->GetActualDataLength());
-			string x = locStr;
+			wstring x = locStr;
 			//debugLog<<"DoRenderSample : Subtile = "<<x<<endl;
 			SetSubtitle(x);
 			//debugLog<<"DoRenderSample : SetSubtitle Returns"<<endl<<endl;
 			delete locStr;
 		} else {
 			//debugLog<<"DoRenderSample : Clearing Subtitle..."<<endl;
-			SetSubtitle("");
+			SetSubtitle(L"");
 		}
 
 
@@ -188,7 +188,7 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
 
 
 
-HRESULT SubtitleVMR9Filter::SetSubtitle(string inSubtitle) {
+HRESULT SubtitleVMR9Filter::SetSubtitle(wstring inSubtitle) {
  //   LONG cx, cy;
  //   HRESULT locHR;
 

@@ -52,22 +52,22 @@ namespace libCMMLTagsDotNET {
 	}
 	//Accessors
 	String* HumReadCMMLTag::lang() {
-		return Wrappers::CStrToNetStr( getMe()->lang().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->lang().c_str() );
 	}
 	String* HumReadCMMLTag::dirn() {
-		return Wrappers::CStrToNetStr( getMe()->dirn().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->dirn().c_str() );
 	}
 
 	//Mutators
 	void HumReadCMMLTag::setLang(String* inLang) {
-		char* tc = Wrappers::netStrToCStr( inLang );
+		wchar_t* tc = Wrappers::netStrToWStr( inLang );
 		getMe()->setLang( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void HumReadCMMLTag::setDirn(String* inDirn) {
-		char* tc = Wrappers::netStrToCStr( inDirn );
+		wchar_t* tc = Wrappers::netStrToWStr( inDirn );
 		getMe()->setDirn( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 
 }

@@ -57,9 +57,24 @@ namespace illiminable {
 	void Wrappers::releaseCStr(char* inCStr) {
 		Marshal::FreeHGlobal((int)inCStr);
 	}
+
+	wchar_t* Wrappers::netStrToWStr(String* inNetString) {
+		wchar_t* locWStr = (wchar_t*)Marshal::StringToHGlobalUni(inNetString).ToPointer();
+		return locWStr;
+	}
+
+	void Wrappers::releaseWStr(wchar_t* inWStr) {
+		Marshal::FreeHGlobal((int)inWStr);
+	}
 	String* Wrappers::CStrToNetStr(const char* inCStr) {
 		String* retStr;
 		retStr = Marshal::PtrToStringAnsi((char*)inCStr);
+		return retStr;
+	}
+
+	String* Wrappers::WStrToNetStr(const wchar_t* inWStr) {
+		String* retStr;
+		retStr = Marshal::PtrToStringUni((wchar_t*)inWStr);
 		return retStr;
 	}
 

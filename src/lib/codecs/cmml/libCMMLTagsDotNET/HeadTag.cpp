@@ -56,7 +56,7 @@ namespace libCMMLTagsDotNET {
 	}
 
 	String* HeadTag::profile() {
-		return Wrappers::CStrToNetStr( getMe()->profile().c_str());
+		return Wrappers::WStrToNetStr( getMe()->profile().c_str());
 	}
 	TitleTag* HeadTag::title() {
 		return new TitleTag(getMe()->title()->clone());
@@ -76,9 +76,9 @@ namespace libCMMLTagsDotNET {
 
 			//Mutators
 	void HeadTag::setProfile(String* inProfile) {
-		char* tc = Wrappers::netStrToCStr( inProfile );
+		wchar_t* tc = Wrappers::netStrToWStr( inProfile );
 		getMe()->setProfile( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 
 	}	
 	void HeadTag::setTitle(TitleTag* inTitle){
@@ -91,7 +91,7 @@ namespace libCMMLTagsDotNET {
 			//Other
 	String* HeadTag::toString() {
 
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str());
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str());
 		
 
 	}

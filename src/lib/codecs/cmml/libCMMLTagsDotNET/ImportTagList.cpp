@@ -53,7 +53,7 @@ namespace libCMMLTagsDotNET {
 
 
 	String* ImportTagList::toString() {
-		return Wrappers::CStrToNetStr (getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr (getMe()->toString().c_str() );
 	}
 			
 	void ImportTagList::addTag(ImportTag* inTag) {

@@ -82,7 +82,7 @@ protected:
 	void SetColorRef(VMR9AlphaBitmap& bmpInfo);
 	HRESULT mHR;
 	//SubtitleVMR9OutputPin* mOutputPin;
-	virtual HRESULT SetSubtitle(string inSubtitle);
+	virtual HRESULT SetSubtitle(wstring inSubtitle);
 	IVideoWindow* mVideoWindow;
 	IVMRMixerBitmap9* mBitmapMixer;
 	IVMRWindowlessControl9* mWindowLess; 

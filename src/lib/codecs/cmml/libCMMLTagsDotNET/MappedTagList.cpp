@@ -51,9 +51,9 @@ namespace libCMMLTagsDotNET {
 	}
 
 	String* MappedTagList::getContent(String* inName) {
-		char* tc = Wrappers::netStrToCStr( inName );
-		String* ts = Wrappers::CStrToNetStr( mBaseClass->getContent(tc).c_str() );
-		Wrappers::releaseCStr( tc );
+		wchar_t* tc = Wrappers::netStrToWStr( inName );
+		String* ts = Wrappers::WStrToNetStr( mBaseClass->getContent(tc).c_str() );
+		Wrappers::releaseWStr( tc );
 		return ts;
 	}
 

@@ -60,29 +60,29 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* AnchorTag::cls() {
-		return Wrappers::CStrToNetStr( getMe()->cls().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->cls().c_str() );
 
 	}
 	String* AnchorTag::href() {
-		return Wrappers::CStrToNetStr( getMe()->href().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->href().c_str() );
 	}
 
 	//Mutators
 	void AnchorTag::setCls(String* inCls) {
-		char* tc = Wrappers::netStrToCStr( inCls );
+		wchar_t* tc = Wrappers::netStrToWStr( inCls );
 		getMe()->setCls( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void AnchorTag::setHref(String* inHref) {
-		char* tc = Wrappers::netStrToCStr( inHref );
+		wchar_t* tc = Wrappers::netStrToWStr( inHref );
 		getMe()->setHref( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 
 	}
 
 	//Other
 	String* AnchorTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
 
 	}
 

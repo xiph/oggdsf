@@ -49,35 +49,35 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* CMMLPreamble::xmlVersion() {
-		return Wrappers::CStrToNetStr( mBaseClass->xmlVersion().c_str() );
+		return Wrappers::WStrToNetStr( mBaseClass->xmlVersion().c_str() );
 	}
 	String* CMMLPreamble::xmlEncoding() {
-		return Wrappers::CStrToNetStr( mBaseClass->xmlEncoding().c_str() );
+		return Wrappers::WStrToNetStr( mBaseClass->xmlEncoding().c_str() );
 	}
 	String* CMMLPreamble::xmlStandAlone() {
-		return Wrappers::CStrToNetStr( mBaseClass->xmlStandAlone().c_str() );
+		return Wrappers::WStrToNetStr( mBaseClass->xmlStandAlone().c_str() );
 	}
 		
 	//Mutators
 	void CMMLPreamble::setXmlVersion(String* inVersion) {
-		char* tc = Wrappers::netStrToCStr( inVersion );
+		wchar_t* tc = Wrappers::netStrToWStr( inVersion );
 		mBaseClass->setXmlVersion( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void CMMLPreamble::setXmlEncoding(String* inEncoding) {
-		char* tc = Wrappers::netStrToCStr( inEncoding );
+		wchar_t* tc = Wrappers::netStrToWStr( inEncoding );
 		mBaseClass->setXmlEncoding( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void CMMLPreamble::setXmlStandAlone(String* inStandAlone) {
-		char* tc = Wrappers::netStrToCStr( inStandAlone );
+		wchar_t* tc = Wrappers::netStrToWStr( inStandAlone );
 		mBaseClass->setXmlStandAlone( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 
 	//Others
 	String* CMMLPreamble::toString() {
-		return Wrappers::CStrToNetStr( mBaseClass->toString().c_str() );
+		return Wrappers::WStrToNetStr( mBaseClass->toString().c_str() );
 	}
 
 }

@@ -56,10 +56,10 @@ namespace libCMMLTagsDotNET {
 
 			//Accessors
 	String* StreamTag::timebase() {
-		return Wrappers::CStrToNetStr( getMe()->timebase().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->timebase().c_str() );
 	}
 	String* StreamTag::utc() {
-		return Wrappers::CStrToNetStr( getMe()->utc().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->utc().c_str() );
 	}
 	ImportTagList* StreamTag::importList() {
 		return new ImportTagList( getMe()->importList()->clone());
@@ -68,15 +68,15 @@ namespace libCMMLTagsDotNET {
 
 			//Mutators
 	void StreamTag::setTimebase(String* inTimebase) {
-		char* tc = Wrappers::netStrToCStr( inTimebase );
+		wchar_t* tc = Wrappers::netStrToWStr( inTimebase );
 		getMe()->setTimebase( tc );
-		Wrappers::releaseCStr( tc );		
+		Wrappers::releaseWStr( tc );		
 
 	}
 	void StreamTag::setUtc(String* inUtc) {
-		char* tc = Wrappers::netStrToCStr( inUtc );
+		wchar_t* tc = Wrappers::netStrToWStr( inUtc );
 		getMe()->setUtc( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void StreamTag::setImportList(ImportTagList* inTagList) {
 		getMe()->setImportList(inTagList->getMe()->clone());
@@ -84,7 +84,7 @@ namespace libCMMLTagsDotNET {
 
 			//Other
 	String* StreamTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str());
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str());
 
 	}
 	C_StreamTag* StreamTag::getMe() {

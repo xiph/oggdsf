@@ -50,14 +50,14 @@ namespace libCMMLTagsDotNET {
 	}
 	//Accessors
 	String* CMMLTag::id() {
-		return Wrappers::CStrToNetStr( mBaseClass->id().c_str() );
+		return Wrappers::WStrToNetStr( mBaseClass->id().c_str() );
 	}
 
 	//Mutators
 	void CMMLTag::setId(String* inId) {
-		char* tc = Wrappers::netStrToCStr( inId );
+		wchar_t* tc = Wrappers::netStrToWStr( inId );
 		mBaseClass->setId( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 
 	}
 

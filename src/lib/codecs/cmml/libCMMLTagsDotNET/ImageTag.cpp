@@ -54,27 +54,27 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* ImageTag::src() {
-		return Wrappers::CStrToNetStr( getMe()->src().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->src().c_str() );
 	}
 	String* ImageTag::alt() {
-		return Wrappers::CStrToNetStr( getMe()->alt().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->alt().c_str() );
 	}
 
 	//Mutators
 	void ImageTag::setSrc(String* inSrc) {
-		char* tc = Wrappers::netStrToCStr( inSrc );
+		wchar_t* tc = Wrappers::netStrToWStr( inSrc );
 		getMe()->setSrc( tc );
-		Wrappers::releaseCStr( tc );		
+		Wrappers::releaseWStr( tc );		
 	}
 	void ImageTag::setAlt(String* inAlt) {
-		char* tc = Wrappers::netStrToCStr( inAlt );
+		wchar_t* tc = Wrappers::netStrToWStr( inAlt );
 		getMe()->setAlt( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 
 	//Other
 	String* ImageTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
 	}
 
 

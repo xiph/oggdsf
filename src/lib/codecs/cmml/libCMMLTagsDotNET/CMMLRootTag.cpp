@@ -75,7 +75,7 @@ void CMMLRootTag::setClipList(ClipTagList* inClipList) {
 
 	//Other
 String* CMMLRootTag::toString() {
-	return Wrappers::CStrToNetStr( getMe()->toString().c_str());
+	return Wrappers::WStrToNetStr( getMe()->toString().c_str());
 }
 
 C_CMMLRootTag* CMMLRootTag::getMe() {

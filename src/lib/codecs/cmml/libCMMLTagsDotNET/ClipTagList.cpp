@@ -54,7 +54,7 @@ namespace libCMMLTagsDotNET {
 
 
 	String* ClipTagList::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str());
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str());
 	}
 			
 	void ClipTagList::addTag(ClipTag* inTag) {

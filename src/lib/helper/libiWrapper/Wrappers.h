@@ -51,6 +51,9 @@ namespace libiWrapper {
 			
 			static void releaseCStr(char* inCStr);
 			static String* CStrToNetStr(const char* inCStr);
+			static String* WStrToNetStr(const wchar_t* inWStr);
+			static wchar_t* netStrToWStr(String* inNetString);
+			static void releaseWStr(wchar_t* inWStr);
 
 	};
 }

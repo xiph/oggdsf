@@ -58,13 +58,13 @@ namespace libCMMLTagsDotNET {
 
 	}
 	void MetaTagList::addTag(String* inName, String* inContent) {
-		char* tc1 = Wrappers::netStrToCStr( inName );
-		char* tc2 = Wrappers::netStrToCStr( inContent );
+		wchar_t* tc1 = Wrappers::netStrToWStr( inName );
+		wchar_t* tc2 = Wrappers::netStrToWStr( inContent );
 		
 		getMe()->addTag(tc1, tc2);
 
-		Wrappers::releaseCStr( tc2 );
-		Wrappers::releaseCStr( tc1 );
+		Wrappers::releaseWStr( tc2 );
+		Wrappers::releaseWStr( tc1 );
 	}
 	//void removeTag ???
 	unsigned long MetaTagList::numTags() {
@@ -76,23 +76,23 @@ namespace libCMMLTagsDotNET {
 		return new MetaTag(getMe()->getTag(inTagNo));
 	}
 	MetaTag* MetaTagList::getTag(String* inName) {
-		char* tc = Wrappers::netStrToCStr( inName );
+		wchar_t* tc = Wrappers::netStrToWStr( inName );
 		
 		MetaTag* retVal = new MetaTag(getMe()->getTag(tc));
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 		return retVal;
 
 	}
 
 	String* MetaTagList::getContent(String* inName) {
-		char* tc = Wrappers::netStrToCStr( inName );
-		String* ts = Wrappers::CStrToNetStr(getMe()->getContent(tc).c_str());
-		Wrappers::releaseCStr( tc );
+		wchar_t* tc = Wrappers::netStrToWStr( inName );
+		String* ts = Wrappers::WStrToNetStr(getMe()->getContent(tc).c_str());
+		Wrappers::releaseWStr( tc );
 		return ts;
 	}
 
 	String* MetaTagList::toString() {
-		return Wrappers::CStrToNetStr(getMe()->toString().c_str());
+		return Wrappers::WStrToNetStr(getMe()->toString().c_str());
 	}
 
 

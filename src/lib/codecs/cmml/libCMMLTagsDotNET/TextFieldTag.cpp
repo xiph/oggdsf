@@ -51,14 +51,14 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* TextFieldTag::text() {
-		return Wrappers::CStrToNetStr( getMe()->text().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->text().c_str() );
 	}
 	
 	//Mutators
 	void TextFieldTag::setText(String* inText) {
-		char* tc = Wrappers::netStrToCStr( inText );
+		wchar_t* tc = Wrappers::netStrToWStr( inText );
 		getMe()->setText( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 }
 }

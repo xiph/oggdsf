@@ -57,7 +57,7 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* ClipTag::track() {
-		return Wrappers::CStrToNetStr( getMe()->track().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->track().c_str() );
 	}
 	MetaTagList* ClipTag::metaList() {
 		return new MetaTagList(getMe()->metaList()->clone());
@@ -73,20 +73,20 @@ namespace libCMMLTagsDotNET {
 	}
 
 	String* ClipTag::start() {
-		return Wrappers::CStrToNetStr( getMe()->start().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->start().c_str() );
 
 	}
 	String* ClipTag::end() {
-		return Wrappers::CStrToNetStr( getMe()->end().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->end().c_str() );
 
 	}
 
 
 	//Mutators
 	void ClipTag::setTrack(String* inTrack) {
-		char* tc = Wrappers::netStrToCStr( inTrack );
+		wchar_t* tc = Wrappers::netStrToWStr( inTrack );
 		getMe()->setTrack( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void ClipTag::setAnchor(AnchorTag* inAnchor) {
 		getMe()->setAnchor(inAnchor->getMe()->clone());
@@ -99,20 +99,20 @@ namespace libCMMLTagsDotNET {
 	}
 
 	void ClipTag::setStart(String* inStart) {
-		char* tc = Wrappers::netStrToCStr( inStart );
+		wchar_t* tc = Wrappers::netStrToWStr( inStart );
 		getMe()->setStart( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 	void ClipTag::setEnd(String* inEnd) {
-		char* tc = Wrappers::netStrToCStr( inEnd );
+		wchar_t* tc = Wrappers::netStrToWStr( inEnd );
 		getMe()->setEnd( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 
 
 	//Others
 	String* ClipTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
 
 	}
 

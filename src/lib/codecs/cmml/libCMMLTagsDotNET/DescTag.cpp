@@ -56,7 +56,7 @@ namespace libCMMLTagsDotNET {
 		return (C_DescTag*)mBaseClass;
 	}
 	String* DescTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
 	}
 }
 }

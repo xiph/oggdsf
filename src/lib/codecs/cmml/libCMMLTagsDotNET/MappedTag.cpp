@@ -56,24 +56,24 @@ namespace libCMMLTagsDotNET {
 	}
 	//Accessors
 	String* MappedTag::name() {
-		return Wrappers::CStrToNetStr( getMe()->name().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->name().c_str() );
 
 	}
 	String* MappedTag::content() {
-		return Wrappers::CStrToNetStr( getMe()->content().c_str() );	
+		return Wrappers::WStrToNetStr( getMe()->content().c_str() );	
 	}
 
 	//Mutators
 	void MappedTag::setName(String* inName) {
-		char* tc = Wrappers::netStrToCStr( inName );
+		wchar_t* tc = Wrappers::netStrToWStr( inName );
 		getMe()->setName( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 
 	}
 	void MappedTag::setContent(String* inContent) {
-		char* tc = Wrappers::netStrToCStr( inContent );
+		wchar_t* tc = Wrappers::netStrToWStr( inContent );
 		getMe()->setContent( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 
 	

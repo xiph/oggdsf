@@ -57,19 +57,19 @@ namespace libCMMLTagsDotNET {
 
 	//Accessors
 	String* BaseTag::href() {
-		return Wrappers::CStrToNetStr( getMe()->href().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->href().c_str() );
 	}
 
 	//Mutators
 	void BaseTag::setHref(String* inHref) {
-		char* tc = Wrappers::netStrToCStr( inHref );
+		wchar_t* tc = Wrappers::netStrToWStr( inHref );
 		getMe()->setHref( tc );
-		Wrappers::releaseCStr( tc );
+		Wrappers::releaseWStr( tc );
 	}
 
 	//Other
 	String* BaseTag::toString() {
-		return Wrappers::CStrToNetStr( getMe()->toString().c_str() );
+		return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
 	}
 
 
