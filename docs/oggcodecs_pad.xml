@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<XML_DIZ_INFO>
+	<MASTER_PAD_VERSION_INFO>
+		<MASTER_PAD_VERSION>2.01</MASTER_PAD_VERSION>
+		<MASTER_PAD_EDITOR>PADGen 2.0.1.22 http://www.padgen.org</MASTER_PAD_EDITOR>
+		<MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by shareware authors to disseminate information to anyone interested in their software products. To find out more go to http://www.asp-shareware.org/pad</MASTER_PAD_INFO>
+	</MASTER_PAD_VERSION_INFO>
+	<Company_Info>
+		<Company_Name>illiminable.com</Company_Name>
+		<Address_1 />
+		<Address_2 />
+		<City_Town>Perth</City_Town>
+		<State_Province />
+		<Zip_Postal_Code />
+		<Country>Australia</Country>
+		<Company_WebSite_URL>http://www.illiminable.com/ogg/</Company_WebSite_URL>
+		<Contact_Info>
+			<Author_First_Name>Zentaro</Author_First_Name>
+			<Author_Last_Name>Kavanagh</Author_Last_Name>
+			<Author_Email>ogg@illiminable.com</Author_Email>
+			<Contact_First_Name>Zentaro</Contact_First_Name>
+			<Contact_Last_Name>Kavanagh</Contact_Last_Name>
+			<Contact_Email>ogg@illiminable.com</Contact_Email>
+		</Contact_Info>
+		<Support_Info>
+			<Sales_Email>ogg@illiminable.com</Sales_Email>
+			<Support_Email>ogg@illiminable.com</Support_Email>
+			<General_Email>ogg@illiminable.com</General_Email>
+			<Sales_Phone />
+			<Support_Phone />
+			<General_Phone />
+			<Fax_Phone />
+		</Support_Info>
+	</Company_Info>
+	<Program_Info>
+		<Program_Name>oggcodecs</Program_Name>
+		<Program_Version>0.66.8063</Program_Version>
+		<Program_Release_Month>10</Program_Release_Month>
+		<Program_Release_Day>21</Program_Release_Day>
+		<Program_Release_Year>2004</Program_Release_Year>
+		<Program_Cost_Dollars />
+		<Program_Cost_Other_Code />
+		<Program_Cost_Other />
+		<Program_Type>Freeware</Program_Type>
+		<Program_Release_Status>New Release</Program_Release_Status>
+		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
+		<Program_OS_Support>Win98,WinME,WinNT 4.x,Windows2000,WinXP,Windows2003</Program_OS_Support>
+		<Program_Language>English</Program_Language>
+		<Program_Change_Info />
+		<Program_Specific_Category>Audio</Program_Specific_Category>
+		<Program_Category_Class>Audio &amp; Multimedia::Audio Encoders/Decoders</Program_Category_Class>
+		<Program_Categories>Codecs, utilities</Program_Categories>
+		<Program_System_Requirements />
+		<Includes_JAVA_VM>N</Includes_JAVA_VM>
+		<Includes_VB_Runtime>N</Includes_VB_Runtime>
+		<Includes_DirectX>N</Includes_DirectX>
+		<File_Info>
+			<Filename_Versioned />
+			<Filename_Previous />
+			<Filename_Generic />
+			<Filename_Long>oggcodecs_winall_0.66.8063.zip</Filename_Long>
+			<File_Size_Bytes>4402538</File_Size_Bytes>
+			<File_Size_K>4299</File_Size_K>
+			<File_Size_MB>4.20</File_Size_MB>
+		</File_Info>
+		<Expire_Info>
+			<Has_Expire_Info>N</Has_Expire_Info>
+			<Expire_Count />
+			<Expire_Based_On>Days</Expire_Based_On>
+			<Expire_Other_Info />
+			<Expire_Month />
+			<Expire_Day />
+			<Expire_Year />
+		</Expire_Info>
+	</Program_Info>
+	<Program_Descriptions>
+		<English>
+			<Keywords>ogg,vorbis,speex,theora,flac,directshow</Keywords>
+			<Char_Desc_45>Codecs for Ogg Theora, Vorbis, Speex and FLAC</Char_Desc_45>
+			<Char_Desc_80>Directshow filters for Ogg Theora, Vorbis, Speex and FLAC</Char_Desc_80>
+			<Char_Desc_250>Directshow filters for Ogg Theora, Vorbis, Speex and FLAC. Installing these codecs allows these files to be played in Windows Media Player or any other Directshow application, like Core Media Player, BSPlayer and others.</Char_Desc_250>
+			<Char_Desc_450 />
+			<Char_Desc_2000 />
+		</English>
+	</Program_Descriptions>
+	<Web_Info>
+		<Application_URLs>
+			<Application_Info_URL>http://www.illiminable.com/ogg/</Application_Info_URL>
+			<Application_Order_URL>http://www.illiminable.com/ogg/</Application_Order_URL>
+			<Application_Screenshot_URL />
+			<Application_Icon_URL />
+			<Application_XML_File_URL>http://www.illiminable.com/ogg/oggcodecs_pad.xml</Application_XML_File_URL>
+		</Application_URLs>
+		<Download_URLs>
+			<Primary_Download_URL>http://www.illiminable.com/ogg/oggcodecs_winall_0.66.8063.zip</Primary_Download_URL>
+			<Secondary_Download_URL />
+			<Additional_Download_URL_1 />
+			<Additional_Download_URL_2 />
+		</Download_URLs>
+	</Web_Info>
+	<Permissions>
+		<Distribution_Permissions />
+		<EULA />
+	</Permissions>
+</XML_DIZ_INFO>

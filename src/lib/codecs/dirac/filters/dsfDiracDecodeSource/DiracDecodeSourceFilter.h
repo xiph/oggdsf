@@ -51,4 +51,7 @@ protected:
 	HRESULT DataProcessLoop();
 	DiracDecodeSourcePin* mDiracSourcePin;
 	wstring mFileName;
+	wstring mHDRFileName;
+
+	dirac_decoder_t* mDecoder;
 };

@@ -116,7 +116,7 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 <DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
 <TR valign=top>
 <TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.65.7923) - 07/10/2004</b></DIV>
+<DIV><div align="left"><b>Current Version (0.66.8063) - 21/10/2004</b></DIV>
 </FONT>
 </TD>
 </TR>
@@ -125,17 +125,10 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 </FONT>
 
 <br>
-Added support for icecast vorbis streams. Works for most streams, though there is a limitation that the stream can't change codebooks, or audio settings mid-stream, but 
-this shouldn't be a problem for most streams. Also an internal fix on the format blocks of the filters. To use icecast streams in WMP you need paste the url in to the 
-Open Url dialog box (File->Open URL...). WMP doesn't support .pls files... so if this is what form the stream takes, for now, you need to save the .pls file, and copy-paste 
-the link that is inside it into WMP.
+Added support for the new Ogg FLAC format and fixed that Explorer problem with locked files. A fair bit of internal shuffling, but mainly a whole lot of memory leaks have been eliminated.<br>
+<br>
+<br>
 
-
-<br>
-<br>
-Most of the major functionality bugs are sorted out now, I'm quite happy with this release and the previous one, though still a way to go.
-<br>
-<br>
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
 
@@ -149,10 +142,10 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">938,166 bytes</div></DIV></FONT>
+<DIV><div align="right">952,518 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.65.7923.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.66.8063.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -168,10 +161,10 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,720,623 bytes</div></DIV></FONT>
+<DIV><div align="right">2,734,975 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.65.7923.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.66.8063.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -188,10 +181,10 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,605,729 bytes</div></DIV></FONT>
+<DIV><div align="right">2,620,081 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.65.7923.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.66.8063.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -215,8 +208,12 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 </DIV>
 </FONT>
 <b><u></u></b><br>
-	<li>Can now play most vorbis icecast streams.</li>
-	<li>Fixed some random values in the format blocks (Thanks to Robert Huitl for reporting this.)</li>
+	<li>FLAC can now be muxed into a multi-stream file.</li>
+	<li>Now supports both the new Ogg FLAC (1.1.1) and the old Ogg FLAC (still not native FLAC)</li>
+	<li>Fixed the explorer problem by removing the offending registry key at installation</li>
+	<li>Removed a heap of memory leaks, WMP should run a fair bit leaner now</li>
+	<li>Some internal changes to the queueing mechanism</li>
+	<li>There's some skeleton <a href="http://www.illiminable.com/ogg/docs/index.html">API documentation</a> for developers. It's pretty sparse on info still though.</li>
 <br>
 <br>
 
@@ -234,20 +231,16 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 </TABLE>
 </DIV>
 </FONT>
-	<li>Core Media Player crashes if you add more than 510 ogg files (Thanks OpenSource 4ever)</li>
+	<li>Core Media Player stalls if you add more than 510 ogg files (Not sure if this is a bug with my codecs or not, as it has a problem trying to add my large mp3 directory too) (Thanks OpenSource 4ever)</li>
 	<li>Can't play files from a Windows network share drive (Thanks Hannes Kaesermann and Frazer McCormack)</li>
 	<li>Can't seek in WMP 6.4 (Thanks RadicalEd)</li>
-	<li>You can't delete .ogg files in explorer because they are locked/in use. To fix this until the next version, run regedit and go to the registry key [HKEY_CLASSES_ROOT\.OGG\ShellEx] 
-		and delete it. This is left over from the Tobias filters, if you ever reinstall them, even if you uninstall, you'll have to do this again. (Thanks RadicalEd for reporting this)</li>
-	<li>Video files encoded with non-integral framerates (ie 29.97) lose sync, due to rounding bug (Thanks RadicalEd)</li>
-	<li>Doesn't play the new ogg flac files produced by FLAC 1.1.1</li>
-	<li>FLAC can't be muxed in a multi-stream file sucessfully (Thanks Bond)</li>
+	<li>AVI Video files encoded with non-integral framerates (ie 29.97) may lose sync, due to rounding bug (Thanks RadicalEd)</li>
 	<li>Make the installer properly detect if it's already installed. If you don't uninstall the old version you will get multiple identical file masks in WMP</li>
 	<li>If you are getting codec problems, there appears to be a conflict with something in Media Player Classic... it tries to enforce the use of another ogg demultiplexer, either by design or accident.If you see in MPC it complaining about a media subtype with a 
 		GUID {CDDCA2D5-6D75-4F98-840E-737BEDD5C63B}. This is the guid of the old tobias vorbis filter, and this one {8D2FD10B-5841-4a6b-8905-588FEC1ADED9} is CoreVorbis. This is most likely due to the fact that these filters don't clean up the registry when they uninstall.
 		I am working on something to "clean up" all these remnants from the registry. You can also apparently an option to disable the inbuilt demuxer (Thanks Bond)</li>
 	<li>Cannot handle any chained multiplexed files or streams, except vorbis icecast streams.</li>
-	<li>FLAC seems to lose the first 1/2 second of audio if you stop then play again</li>
+	<li>Old Ogg FLAC seems to lose the first 1/2 second of audio if you stop then play again</li>
 	<li>Seeking is slightly less responsive in this latest version. Most noticable in speex.</li>
 	<li>Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.</li>
 	<li>There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3</li>
@@ -257,6 +250,11 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 	<li>Theora and annodex playback requires directX 9.</li>
 	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
 	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
+	<li><strike>FLAC can't be muxed in a multi-stream file sucessfully (Thanks Bond)</strike></li>
+	<li><strike>Doesn't play the new ogg flac files produced by FLAC 1.1.1</strike></li>
+	<li><strike>You can't delete .ogg files in explorer because they are locked/in use. To fix this until the next version, run regedit and go to the registry key [HKEY_CLASSES_ROOT\.OGG\ShellEx] 
+		and delete it. This is left over from the Tobias filters, if you ever reinstall them, even if you uninstall, you'll have to do this again. (Thanks RadicalEd for reporting this)</strike></li>
+	
 
 <br>
 <br>
@@ -282,9 +280,10 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 <li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
 <li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
 <li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.65.7923.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.66.8063.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
 <li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
 <li><a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a></li>
+<li>Some basic <a href="http://www.illiminable.com/ogg/docs/index.html">API documentation</a> for developers</li>
 <br>
 </body>
 </html>

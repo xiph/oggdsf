@@ -28,11 +28,15 @@ CUnknown* WINAPI DiracDecodeSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT
 
 DiracDecodeSourceFilter::DiracDecodeSourceFilter(void)
 	:	CBaseFilter(NAME("DiracDecodeSourceFilter"), NULL, m_pLock, CLSID_DiracDecodeSourceFilter)
+	,	mDecoder(NULL)
 {
+	mDiracSourcePin = new DiracDecodeSourcePin(this, m_pLock);
 }
 
 DiracDecodeSourceFilter::~DiracDecodeSourceFilter(void)
 {
+	delete mDiracSourcePin;
+	mDiracSourcePin = NULL;
 }
 
 //BaseFilter Interface
@@ -69,6 +73,21 @@ STDMETHODIMP DiracDecodeSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
+
+	//Strip the extension...
+	//size_t locDotPos = mFileName.find_last_of('.');
+	//if (locDotPos != ios_base::npos) {
+	//	mHDRFileName = mFileName.substr(0, locDotPos);
+	//	mHDRFileName += ".hdr";
+	//} else {
+	//	return S_FALSE;
+	//}
+
+	mInputFile.open(StringHelper::toNarrowStr(mFileName), ios_base::in | ios_base::binary);
+
+	if (!mInputFile.is_open()) {
+		return S_FALSE;
+	}
 
 
 	
@@ -120,6 +139,121 @@ STDMETHODIMP DiracDecodeSourceFilter::Stop(void) {
 }
 
 HRESULT DiracDecodeSourceFilter::DataProcessLoop() {
+
+    do 
+    {
+        /* parse the input data */
+        state = dirac_parse(decoder);
+        
+        switch (state)
+        {
+        case STATE_BUFFER:
+            /*
+            * parser is out of data. Read data from input stream and pass it
+            * on to the parser
+            */
+            bytes = fread (buffer, 1, sizeof(buffer), ifp);
+            if (bytes)
+                dirac_buffer (decoder, buffer, buffer + bytes);
+            break;
+
+        case STATE_SEQUENCE:
+            {
+            /*
+            * Start of sequence detected. Allocate for the frame buffers and
+            * pass this buffer to the parser
+            */
+            unsigned char *buf[3];
+
+            if (verbose)
+            {
+                fprintf (stderr, "SEQUENCE : width=%d height=%d chroma=%s chroma_width=%d chroma_height=%d num_frames=%d frame_rate=%d, interlace=%s topfieldfirst=%s\n", 
+                decoder->seq_params.width,
+                decoder->seq_params.height,
+                chroma2string(decoder->seq_params.chroma),
+                decoder->seq_params.chroma_width,
+                decoder->seq_params.chroma_height,
+                decoder->seq_params.num_frames,
+                decoder->seq_params.frame_rate,
+                decoder->seq_params.interlace ? "yes" : "no",
+                decoder->seq_params.interlace ? "yes" : "no");
+            }
+
+            FreeFrameBuffer(decoder);
+
+            buf[0] = buf[1] = buf[2] = 0;
+
+            buf[0] = (unsigned char *)malloc (decoder->seq_params.width * decoder->seq_params.height);
+            if (decoder->seq_params.chroma != Yonly)
+            {
+                buf[1] = (unsigned char *)malloc (decoder->seq_params.chroma_width * decoder->seq_params.chroma_height);
+                buf[2] = (unsigned char *)malloc (decoder->seq_params.chroma_width * decoder->seq_params.chroma_height);
+            }
+            dirac_set_buf (decoder, buf, NULL);
+
+            /* write the header file */
+            WritePicHeader(decoder, fphdr);
+            }
+            break;
+
+        case STATE_SEQUENCE_END:
+            /*
+            * End of Sequence detected. Free the frame buffers
+            */
+            if (verbose)
+                fprintf (stderr, "SEQUENCE_END\n");
+            
+            FreeFrameBuffer(decoder);
+            break;
+        
+        case STATE_PICTURE_START:
+            /*
+            * Start of frame detected. If decoder is too slow and frame can be
+            * skipped, inform the parser to skip decoding the frame
+            */
+            num_frames++;
+            if (verbose)
+            {
+                fprintf (stderr, "PICTURE_START : frame_type=%s frame_num=%d\n",
+                    ftype2string(decoder->frame_params.ftype),
+                    decoder->frame_params.fnum);
+            }
+            /* Just for testing skip every L2_frame */
+            if (skip && decoder->frame_params.ftype == L2_frame)
+            {
+                if (verbose)
+                    fprintf (stderr, "              : Skipping frame\n");
+
+                dirac_skip (decoder, 1);
+            }
+            else
+                dirac_skip (decoder, 0);
+            break;
+
+        case STATE_PICTURE_AVAIL:
+            if (verbose)
+            {
+                fprintf (stderr, "PICTURE_AVAIL : frame_type=%s frame_num=%d\n",
+                    ftype2string(decoder->frame_params.ftype),
+                    decoder->frame_params.fnum);
+            }
+            /* picture available for display */
+            WritePicData(decoder, fpdata);
+            break;
+
+        case STATE_INVALID:
+            /* Invalid state. Stop all processing */
+            fprintf (stderr, "Error processing file %s\n", iname);
+            break;
+
+        default:
+            continue;
+        }
+    } while (bytes > 0 && state != STATE_INVALID);
+
+
+
+
 
 	return S_OK;
 }

@@ -1205,6 +1205,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iTranscode", "..\..\src\too
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "axAnxOggPlayer", "..\..\src\lib\plugin\axAnxOggPlayer\axAnxOggPlayer.vcproj", "{117EA911-505B-4D0B-A1A1-E12AB7F967E6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2372,6 +2376,22 @@ Global
 		{493C1F66-0516-466C-A91C-73C8BB84D3CB}.Release_SSE.Build.0 = Release|Win32
 		{493C1F66-0516-466C-A91C-73C8BB84D3CB}.Release_SSE2.ActiveCfg = Release|Win32
 		{493C1F66-0516-466C-A91C-73C8BB84D3CB}.Release_SSE2.Build.0 = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Debug.ActiveCfg = Debug|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Debug.Build.0 = Debug|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Debug Unicode.ActiveCfg = Debug|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Debug Unicode.Build.0 = Debug|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.MakeFile.ActiveCfg = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.MakeFile.Build.0 = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release.ActiveCfg = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release.Build.0 = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release Unicode.ActiveCfg = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release Unicode.Build.0 = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release_NoDotNET.Build.0 = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release_SSE.ActiveCfg = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release_SSE.Build.0 = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release_SSE2.ActiveCfg = Release|Win32
+		{117EA911-505B-4D0B-A1A1-E12AB7F967E6}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
