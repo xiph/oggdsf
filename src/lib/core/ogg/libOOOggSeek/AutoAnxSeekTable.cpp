@@ -13,6 +13,7 @@ AutoAnxSeekTable::AutoAnxSeekTable(string inFileName)
 
 AutoAnxSeekTable::~AutoAnxSeekTable(void)
 {
+	mFile.close();
 }
 
 //IOggCallback interface

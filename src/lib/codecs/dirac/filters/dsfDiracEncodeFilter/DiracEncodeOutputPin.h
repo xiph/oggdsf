@@ -28,28 +28,27 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #pragma once
 
-#include <fstream>
+#include "dsfDiracEncodeFilter.h"
+//#include "AbstractVideoEncodeOutputPin.h"
 
-using namespace std;
-#include "IFilterDataSource.h"
-class OGG_DEMUX_API FilterFileSource
-	:	public IFilterDataSource
+class DiracEncodeFilter;
+struct sDiracFormatBlock;
+
+class DiracEncodeOutputPin
+	:	public	AbstractVideoEncodeOutputPin
 {
 public:
-	FilterFileSource(void);
-	virtual ~FilterFileSource(void);
+	DiracEncodeOutputPin(DiracEncodeFilter* inParentFilter, CCritSec* inFilterLock, CMediaType* inOutputMediaType);
+	virtual ~DiracEncodeOutputPin(void);
 
-	//IFilterDataSource Interface
-	virtual unsigned long seek(unsigned long inPos);
-	virtual void close();
-	virtual bool open(string inSourceLocation);
-	virtual void clear();
-	virtual bool isEOF();
-	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
-	//
+	//PURE VIRTUAL IMPLEMENTATION
+	virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
+	virtual unsigned long FormatBufferSize();
+
 
 protected:
-	fstream mSourceFile;
+	
 };

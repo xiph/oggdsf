@@ -34,8 +34,6 @@
 #include <initguid.h>
 
 
-
-
 #ifdef LIBOOOGG_EXPORTS
 #define LIBOOOGG_API __declspec(dllexport)
 #else

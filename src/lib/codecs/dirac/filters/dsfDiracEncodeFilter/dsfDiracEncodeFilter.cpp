@@ -28,36 +28,73 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #include "StdAfx.h"
-#include "filterfilesource.h"
 
-FilterFileSource::FilterFileSource(void)
+#include "dsfDiracEncodeFilter.h"
+
+extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
+BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
+    return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
 }
 
-FilterFileSource::~FilterFileSource(void)
+
+//The folowing two functions do the registration and deregistration of the dll and it's contained com objects.
+STDAPI DllRegisterServer()
 {
-	mSourceFile.close();
+
+	//TO DO::: Should we be releasing the filter mapper even when we return early ?
+    HRESULT hr;
+    IFilterMapper2* locFilterMapper = NULL;
+
+    hr = AMovieDllRegisterServer2(TRUE);
+
+
+	
+
+    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
+
+
+	hr = locFilterMapper->RegisterFilter(
+		CLSID_DiracEncodeFilter,						// Filter CLSID. 
+		L"Dirac Encode Filter",							// Filter name.
+        NULL,										// Device moniker. 
+        &CLSID_LegacyAmFilterCategory,				// Direct Show general category
+        L"Dirac Encode Filter",							// Instance data. ???????
+        &DiracEncodeFilterReg								// Pointer to filter information.
+    );
+
+    locFilterMapper->Release();
+
+    return hr;
+
 }
 
-unsigned long FilterFileSource::seek(unsigned long inPos) {
-	mSourceFile.seekg(inPos, ios_base::beg);
-	return mSourceFile.tellg();
-}
-void FilterFileSource::close() {
-	mSourceFile.close();
-}
-bool FilterFileSource::open(string inSourceLocation) {
-	mSourceFile.open(inSourceLocation.c_str(), ios_base::in|ios_base::binary);
-	return mSourceFile.is_open();
-}
-void FilterFileSource::clear() {
-	mSourceFile.clear();
-}
-bool FilterFileSource::isEOF() {
-	return mSourceFile.eof();
-}
-unsigned long FilterFileSource::read(char* outBuffer, unsigned long inNumBytes) {
-	mSourceFile.read(outBuffer, inNumBytes);
-	return mSourceFile.gcount();
+STDAPI DllUnregisterServer()
+{
+   HRESULT hr;
+    IFilterMapper2* locFilterMapper = NULL;
+
+    hr = AMovieDllRegisterServer2(FALSE);
+	if (FAILED(hr)) {
+		
+        return hr;
+	}
+ 
+    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
+            IID_IFilterMapper2, (void **)&locFilterMapper);
+
+	if (FAILED(hr)) {
+        return hr;
+	}
+	
+
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Dirac Encode Filter", CLSID_DiracEncodeFilter);
+
+
+	//
+    locFilterMapper->Release();
+    return hr;
+
 }

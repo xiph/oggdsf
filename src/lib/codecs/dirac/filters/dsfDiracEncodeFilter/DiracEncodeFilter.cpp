@@ -29,49 +29,64 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#pragma once
-#include "abstractvideoencoderdllstuff.h"
-#include "AbstractVideoEncodeInputPin.h"
-#include "AbstractVideoEncodeOutputPin.h"
-class ABS_VIDEO_ENC_API AbstractVideoEncodeFilter
-	:	public CBaseFilter
+#include "StdAfx.h"
+#include "Diracencodefilter.h"
 
+
+//COM Factory Template
+CFactoryTemplate g_Templates[] = 
 {
-public:
-	friend class AbstractVideoEncodeInputPin;
-	friend class AbstractVideoEncodeOutputPin;
+    { 
+		L"Dirac Encode Filter",						// Name
+	    &CLSID_DiracEncodeFilter,            // CLSID
+	    DiracEncodeFilter::CreateInstance,	// Method to create an instance of MyComponent
+        NULL,									// Initialization function
+        NULL									// Set-up information (for filters)
+    }
 
-	AbstractVideoEncodeFilter(TCHAR* inFilterName, REFCLSID inFilterGUID, unsigned short inVideoFormat );
-	virtual ~AbstractVideoEncodeFilter(void);
-
-	static const long NUM_PINS = 2;
-	enum eVideoFormat {
-		NONE = 0,
-		THEORA = 100,
-		DIRAC = 101,
-		OTHER_VIDEO = 2000
-	};
-
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-
-	//PURE VIRTUALS
-	virtual bool ConstructPins() = 0;
-	virtual void DestroyPins();
-
-
-	//CBaseFilter overrides
-	CBasePin* GetPin(int n);
-	int GetPinCount(void);
-
-	virtual STDMETHODIMP Stop();
-	
-	
-	unsigned short mVideoFormat;
-
-protected:
-
-	AbstractVideoEncodeInputPin* mInputPin;
-	AbstractVideoEncodeOutputPin* mOutputPin;
 
 };
+
+// Generic way of determining the number of items in the template
+int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
+
+CUnknown* WINAPI DiracEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
+{
+	//This routine is the COM implementation to create a new Filter
+	DiracEncodeFilter *pNewObject = new DiracEncodeFilter();
+    if (pNewObject == NULL) {
+        *pHr = E_OUTOFMEMORY;
+    }
+	return pNewObject;
+} 
+STDMETHODIMP DiracEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+
+
+
+	return AbstractVideoEncodeFilter::NonDelegatingQueryInterface(riid, ppv);
+}
+
+DiracEncodeFilter::DiracEncodeFilter(void)
+	:	AbstractVideoEncodeFilter(NAME("Dirac Encoder"), CLSID_DiracEncodeFilter, AbstractVideoEncodeFilter::DIRAC)
+{
+	bool locWasConstructed = ConstructPins();
+}
+
+DiracEncodeFilter::~DiracEncodeFilter(void)
+{
+}
+
+bool DiracEncodeFilter::ConstructPins() 
+{
+
+	CMediaType* locOutputMediaType = new CMediaType(&MEDIATYPE_Video);
+	locOutputMediaType->subtype = MEDIASUBTYPE_Dirac;
+	locOutputMediaType->formattype = FORMAT_Dirac;
+	//Output pin must be done first because it's passed to the input pin.
+	mOutputPin = new DiracEncodeOutputPin(this, m_pLock, locOutputMediaType);
+
+	
+	mInputPin = new DiracEncodeInputPin(this, m_pLock, mOutputPin);
+	return true;
+}
+

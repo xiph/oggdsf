@@ -28,28 +28,53 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #pragma once
 
-#include <fstream>
+#include "dsfDiracEncodeFilter.h"
+//#include "AbstractVideoEncodeFilter.h"
 
-using namespace std;
-#include "IFilterDataSource.h"
-class OGG_DEMUX_API FilterFileSource
-	:	public IFilterDataSource
+//Forward Declarations
+
+class DiracEncodeInputPin;
+class DiracEncodeOutputPin;
+
+class DiracEncodeFilter
+	//Base classes
+	:	public AbstractVideoEncodeFilter
 {
 public:
-	FilterFileSource(void);
-	virtual ~FilterFileSource(void);
+	//Friends classes
+	friend class DiracEncodeInputPin;
+	friend class DiracEncodeOutputPin;
 
-	//IFilterDataSource Interface
-	virtual unsigned long seek(unsigned long inPos);
-	virtual void close();
-	virtual bool open(string inSourceLocation);
-	virtual void clear();
-	virtual bool isEOF();
-	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
-	//
+	//Constructors and Destructors
+	DiracEncodeFilter(void);
+	virtual ~DiracEncodeFilter(void);
+
+	//COM Functions
+	DECLARE_IUNKNOWN
+	static CUnknown* WINAPI DiracEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+
+	////IDiracEncodeSettings Implementation
+	//STDMETHODIMP_(unsigned long) targetBitrate();
+	//STDMETHODIMP_(unsigned char) quality();
+	//STDMETHODIMP_(unsigned long) keyframeFreq();
+
+	//STDMETHODIMP_(bool) setTargetBitrate(unsigned long inBitrate);
+	//STDMETHODIMP_(bool) setQuality(unsigned char inQuality);
+	//STDMETHODIMP_(bool) setKeyframeFreq(unsigned long inKeyframeFreq);
+	////
+
+	//AbstractVideoEncodeFilter pure virtuals
+	virtual bool ConstructPins();
+	
+	//SpecifyPropertyPages Implementation
+	//STDMETHODIMP DiracEncodeFilter::GetPages(CAUUID* outPropPages);
 
 protected:
-	fstream mSourceFile;
+	//Member data
+	sDiracFormatBlock mDiracFormatBlock;
+	
 };

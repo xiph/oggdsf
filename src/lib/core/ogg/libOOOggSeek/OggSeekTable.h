@@ -39,7 +39,7 @@ class LIBOOOGGSEEK_API OggSeekTable
 {
 public:
 	OggSeekTable(void);
-	~OggSeekTable(void);
+	virtual ~OggSeekTable(void);
 
 	bool addSeekPoint(__int64 inTime, unsigned long mStartPos);
 	unsigned long getStartPos(__int64 inTime);

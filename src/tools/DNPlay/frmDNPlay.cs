@@ -42,6 +42,8 @@ namespace DNPlay
 		protected Int64 mNumTicks;
 		protected ClipTag mCurrentClip;
 		private System.Windows.Forms.Label lblClipDesc;
+		private System.Windows.Forms.Button cmdFollowLink;
+		private System.Windows.Forms.Label lblAnchorLink;
 		protected HeadTag mHeadTag;
 
 		enum eEventCodes 
@@ -104,6 +106,7 @@ namespace DNPlay
 		{
 			mCurrentClip = inClipTag;
 			lblClipDesc.Text = inClipTag.desc().text();
+			lblAnchorLink.Text = inClipTag.anchor().href();
 			return true;
 		}
 		public bool headCallback(HeadTag inHeadTag) 
@@ -172,6 +175,8 @@ namespace DNPlay
 			this.lblProgressFgnd = new System.Windows.Forms.Label();
 			this.tmrEventCheck = new System.Windows.Forms.Timer(this.components);
 			this.lblClipDesc = new System.Windows.Forms.Label();
+			this.cmdFollowLink = new System.Windows.Forms.Button();
+			this.lblAnchorLink = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -312,10 +317,28 @@ namespace DNPlay
 			this.lblClipDesc.Size = new System.Drawing.Size(400, 104);
 			this.lblClipDesc.TabIndex = 10;
 			// 
+			// cmdFollowLink
+			// 
+			this.cmdFollowLink.Location = new System.Drawing.Point(312, 208);
+			this.cmdFollowLink.Name = "cmdFollowLink";
+			this.cmdFollowLink.Size = new System.Drawing.Size(96, 24);
+			this.cmdFollowLink.TabIndex = 11;
+			this.cmdFollowLink.Text = "Follow Link";
+			this.cmdFollowLink.Click += new System.EventHandler(this.cmdFollowLink_Click);
+			// 
+			// lblAnchorLink
+			// 
+			this.lblAnchorLink.Location = new System.Drawing.Point(56, 208);
+			this.lblAnchorLink.Name = "lblAnchorLink";
+			this.lblAnchorLink.Size = new System.Drawing.Size(248, 24);
+			this.lblAnchorLink.TabIndex = 12;
+			// 
 			// frmDNPlay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(416, 207);
+			this.ClientSize = new System.Drawing.Size(416, 247);
+			this.Controls.Add(this.lblAnchorLink);
+			this.Controls.Add(this.cmdFollowLink);
 			this.Controls.Add(this.lblClipDesc);
 			this.Controls.Add(this.lblProgressFgnd);
 			this.Controls.Add(this.lblProgressBkgd);
@@ -452,6 +475,26 @@ namespace DNPlay
 				}
 				
 			}
+		}
+
+		private void cmdFollowLink_Click(object sender, System.EventArgs e)
+		{
+			String locFilename = mCurrentClip.anchor().href();
+			tmrUpdateDuration.Enabled = false;
+			lblFileLocation.Text = locFilename;
+			bool locRes = mPlayer.loadFile("G:\\downloads\\firefox\\manufacturing_surveys.anx");
+			//Error check
+			mFileDuration = mPlayer.fileDuration();
+			setDurationText(mFileDuration);
+			//lblDuration.Text = mFileDuration.ToString();
+
+			mNumTicks = 0;
+			mLastSync = 0;
+			updateProgressBar();
+
+			mPlayer.setMediaEventCallback(this);
+			mPlayer.setCMMLCallbacks(this);
+			cmdPlay.Enabled = true;
 		}
 
 	}

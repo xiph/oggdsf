@@ -28,28 +28,24 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#pragma once
 
-#include <fstream>
+#include "StdAfx.h"
+#include "Diracencodeoutputpin.h"
 
-using namespace std;
-#include "IFilterDataSource.h"
-class OGG_DEMUX_API FilterFileSource
-	:	public IFilterDataSource
+DiracEncodeOutputPin::DiracEncodeOutputPin(DiracEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)
+	:	AbstractVideoEncodeOutputPin(inParentFilter, inFilterLock,NAME("DiracDecodeOutputPin"), L"Dirac Out", inOutputMediaType)
 {
-public:
-	FilterFileSource(void);
-	virtual ~FilterFileSource(void);
+}
 
-	//IFilterDataSource Interface
-	virtual unsigned long seek(unsigned long inPos);
-	virtual void close();
-	virtual bool open(string inSourceLocation);
-	virtual void clear();
-	virtual bool isEOF();
-	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
-	//
+DiracEncodeOutputPin::~DiracEncodeOutputPin(void)
+{
+}
 
-protected:
-	fstream mSourceFile;
-};
+bool DiracEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
+	DiracEncodeFilter* locParentFilter = (DiracEncodeFilter*)mParentFilter;
+	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mDiracFormatBlock), sizeof(sDiracFormatBlock));
+	return true;
+}
+unsigned long DiracEncodeOutputPin::FormatBufferSize() {
+	return sizeof(sDiracFormatBlock);
+}

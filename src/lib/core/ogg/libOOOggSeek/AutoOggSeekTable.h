@@ -46,7 +46,7 @@ class LIBOOOGGSEEK_API AutoOggSeekTable
 {
 public:
 	AutoOggSeekTable(string inFileName);
-	~AutoOggSeekTable(void);
+	virtual ~AutoOggSeekTable(void);
 
 	static const __int64 DS_UNITS = 10000000;
 	static const LINT_MAX = 4294967295;
@@ -76,5 +76,7 @@ protected:
 	string mFileName;
 	//Changed for debugging to *
 	OggDataBuffer* mOggDemux;
+
+	fstream debugLog;
 
 };

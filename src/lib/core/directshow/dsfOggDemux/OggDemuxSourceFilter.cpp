@@ -114,7 +114,10 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
-	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
+	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out | ios_base::ate | ios_base::app);
+	//debugLog<<"Test..."<<endl;
+	//debugLog.seekp(0, ios_base::end);
+	debugLog<<"Test2..."<<endl;
 	//debugLog << "**************** Starting LOg ********************"<<endl;
 
 }
@@ -149,10 +152,12 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 	//delete mStreamLock;
 	//delete mSourceFileLock;
 	//delete mDemuxLock;
-	
-	
+	debugLog<<"Deleting Data Source : "<<(int)mDataSource<<endl;
+	delete mDataSource;
+	debugLog.close();
 	
 	delete mStreamMapper;
+	
 	mStreamMapper = NULL;
 
 	
@@ -200,6 +205,8 @@ STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
+
+	debugLog<<"Loading : "<<StringHelper::toNarrowStr(mFileName)<<endl;
 
 	//debugLog << "Opening source file : "<<StringHelper::toNarrowStr(mFileName)<<endl;
 	mSeekTable = new AutoOggSeekTable(StringHelper::toNarrowStr(mFileName));

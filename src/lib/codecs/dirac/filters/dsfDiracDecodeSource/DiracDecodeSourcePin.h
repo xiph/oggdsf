@@ -1,6 +1,9 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
 //
+//Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
+//   Organisation (CSIRO) Australia
+//
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
 //are met:
@@ -28,28 +31,43 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #pragma once
-
+#include "dsfDiracDecodeSource.h"
+#include "DiracDecodeSourceFilter.h"
 #include <fstream>
-
 using namespace std;
-#include "IFilterDataSource.h"
-class OGG_DEMUX_API FilterFileSource
-	:	public IFilterDataSource
+class DiracDecodeSourcePin
+	:	public CBaseOutputPin
 {
 public:
-	FilterFileSource(void);
-	virtual ~FilterFileSource(void);
 
-	//IFilterDataSource Interface
-	virtual unsigned long seek(unsigned long inPos);
-	virtual void close();
-	virtual bool open(string inSourceLocation);
-	virtual void clear();
-	virtual bool isEOF();
-	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
-	//
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
+	DiracDecodeSourcePin(	DiracDecodeSourceFilter* inParentFilter, CCritSec* inFilterLock);
+					
+	virtual ~DiracDecodeSourcePin(void);
+
+	static const unsigned long BUFFER_SIZE = 65536;			//What should this be ????
+	static const unsigned long NUM_BUFFERS = 10;
+
+	//CBaseOutputPin virtuals
+	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
+	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
+	virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
+
+
+	//IPin
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
+	virtual HRESULT BreakConnect(void);
+	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	virtual HRESULT DeliverEndOfStream(void);
+	virtual HRESULT DeliverEndFlush(void);
+	virtual HRESULT DeliverBeginFlush(void);
 protected:
-	fstream mSourceFile;
+	//fstream debugLog;
+	HRESULT mFilterHR;
+	COutputQueue* mDataQueue;
+	
 };
