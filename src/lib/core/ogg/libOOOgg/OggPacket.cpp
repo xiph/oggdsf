@@ -121,8 +121,6 @@ string OggPacket::toPackDumpString() {
 	return retStr;
 }
 
-
-
 string OggPacket::padField(string inString, unsigned long inPadWidth, unsigned char inPadChar) {
 	//NOTE::: Need check for string being  bigger than pad space
 	string retStr = "";
@@ -144,8 +142,6 @@ string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long 
 	
 	string retStr = padField("    ", locPadding, ' ');   
 	
-
-
 	//Loop through the characters
 	for (unsigned long i = 0; i < inNumChars; i++) {
 
@@ -166,7 +162,7 @@ string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long 
 
 
 
-unsigned long OggPacket::packetSize() {
+unsigned long OggPacket::packetSize() const {
 	return mPacketSize;
 }
 
@@ -175,7 +171,7 @@ unsigned char* OggPacket::packetData() {
 }
 
 
-bool OggPacket::isComplete() {
+bool OggPacket::isComplete() const {
 	return mIsComplete;
 }
 

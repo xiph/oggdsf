@@ -31,44 +31,16 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
-
-class LIBOOOGG_API OggPacket
+class LIBILLICORE_API iLE_Math
 {
 public:
-	//Constructors
-	OggPacket(void);
-	OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete);
-	virtual ~OggPacket(void);
-	virtual OggPacket* clone();
-
-	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
-					
-	//Packet accessors
-	unsigned long packetSize() const;
-	unsigned char* packetData();
-	bool isComplete() const;
-
-	//Packet Mutators
-	void setIsComplete (bool inIsComplete );
-	void setPacketSize (unsigned long inPacketSize );
-	void setPacketData (unsigned char* inPacketData );
-
-	//Merge function
-	virtual void merge(OggPacket* inMorePacket);
-
-	//TODO::: Should this be here ?
-	string toPackDumpString();
+	iLE_Math(void);
+	~iLE_Math(void);
+	static 	unsigned long charArrToULong(const unsigned char* inCharArray);
+	static void ULongToCharArr(unsigned long inLong, unsigned char* outCharArray);
+	static __int64 CharArrToInt64(const unsigned char* inCharArray);
+	static void Int64ToCharArr(__int64 inInt64, unsigned char* outCharArray);
 	
-protected:
-	//Packet member data
-	unsigned long mPacketSize;
-	unsigned char* mPacketData;
-	bool mIsComplete;
 
-	//TODO::Should these be here ?
-	string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long inNumChars) ;
-	string OggPacket::padField(string inString, unsigned long inPadWidth, unsigned char inPadChar);
-	
+
 };

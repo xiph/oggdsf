@@ -105,9 +105,9 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	} else {
 		streamNo = 0;
 		OggDataBuffer testOggBuff;
-		OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
+		//OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
 		const BUFF_SIZE = 8092;
-		testOggBuff.registerPageCallback(locCBRego);
+		testOggBuff.registerStaticCallback(&pageCB);
 
 		fstream testFile;
 		testFile.open(argv[1], ios_base::in | ios_base::binary);

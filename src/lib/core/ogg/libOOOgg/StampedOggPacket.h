@@ -36,27 +36,33 @@ class LIBOOOGG_API StampedOggPacket
 	:	public OggPacket
 {
 public:
+	//Constructors
 	StampedOggPacket(void);
-	//StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete);
 	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete, __int64 inStartTime, __int64 inEndTime, unsigned short inStampType);
 	virtual ~StampedOggPacket(void);
+	virtual OggPacket* clone();
 
+	//Public Constants and Enums
 	enum eStampType {
 		NONE = 0,
 		OGG_END_ONLY = 1,
 		OGG_BOTH = 2,
 		DIRECTSHOW = 3
 	};
+	//TODO::: should not be global.
 	unsigned short mStampType;
-	virtual OggPacket* clone();
-	
-	virtual void merge(StampedOggPacket* inMorePacket);
+
+	//Time stamp access
 	__int64 startTime();
 	__int64 endTime();
 
 	void setStartTime(__int64 inStartTime);
 	void setEndTime(__int64 inEndTime);
 	void StampedOggPacket::setTimeStamp(__int64 inStartTime, __int64 inEndTime, StampedOggPacket::eStampType inStampType);
+
+	//Merge function
+	virtual void merge(StampedOggPacket* inMorePacket);
+
 protected:
 	__int64 mStartTime;
 	__int64 mEndTime;

@@ -29,25 +29,41 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#pragma once
+#include "StdAfx.h"
+#include "iBE_Math.h"
 
-#include "dllstuff.h"
-#include <string.h>
-using namespace std;
-class LIBOOOGG_API StringHelper
+iBE_Math::iBE_Math(void)
 {
-public:
-	StringHelper(void);
-	~StringHelper(void);
-	static const unsigned char A_BASE = 65;			//A in ASCII
-	static const unsigned char ZERO_BASE = 48;
+}
 
-	static unsigned char digitToHex(unsigned char inChar);
-	static string charToHexString(unsigned char inChar);
-	
-	static string numToString(unsigned __int64 inNum);
-	static unsigned __int64 stringToNum(string inString);
-	static wstring StringHelper::toWStr(string inString);
-	static string StringHelper::toNarrowStr(wstring inString);
+iBE_Math::~iBE_Math(void)
+{
+}
 
-};
+unsigned long iBE_Math::charArrToULong(unsigned char* inCharArray)
+{
+	//Turns the next four bytes from the pointer in a long MSB (most sig. byte first/leftmost)
+	unsigned long locVal = 0;
+	for (int i = 0; i < 4; i++) {
+		locVal <<= 8;
+		locVal += inCharArray[i];
+	}
+	return locVal;
+}
+void iBE_Math::ULongToCharArr(unsigned long inLong, unsigned char* outCharArray)
+{
+	//Writes a long MSB (Most sig. byte first/leftmost) out to the char arr
+	unsigned long locLong = inLong;
+	outCharArray[0] = (unsigned char) (inLong >> 24);
+	outCharArray[1] = (unsigned char) ((inLong << 8) >> 24);
+	outCharArray[2] = (unsigned char) ((inLong << 16) >> 24);
+	outCharArray[3] = (unsigned char) ((inLong << 24) >> 24);
+
+}
+
+unsigned short iBE_Math::charArrToUShort(unsigned char* inCharArray) {
+	unsigned short retShort = inCharArray[0];
+	retShort = (retShort << 8) + inCharArray[1];
+	return retShort;
+
+}

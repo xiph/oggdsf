@@ -31,19 +31,13 @@
 
 #pragma once
 
-class LIBOOOGG_API OggInt64
+class LIBILLICORE_API iBE_Math
 {
 public:
-	OggInt64(void);
-	~OggInt64(void);
-	OggInt64* clone();
+	iBE_Math(void);
+	~iBE_Math(void);
+	static 	unsigned long charArrToULong(unsigned char* inCharArray);
+	static void ULongToCharArr(unsigned long inLong, unsigned char* outCharArray);
+	static unsigned short charArrToUShort(unsigned char* inCharArray);
 
-	void rawData(unsigned char* outData);
-	void setData(unsigned char* inData);
-	__int64 value();
-	void setValue(__int64 inValue);
-
-private:
-	__int64 mData;
-	
 };

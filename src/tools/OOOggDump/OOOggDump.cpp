@@ -37,13 +37,11 @@
 #include <dllstuff.h>
 
 #include <iostream>
-
-
 #include <fstream>
 
-//This will be called by the callback
 unsigned long bytePos;
 
+//This will be called by the callback
 bool pageCB(OggPage* inOggPage) {
 	cout<<"Page Location : "<<bytePos;
 	bytePos += inOggPage->pageSize();
@@ -53,8 +51,7 @@ bool pageCB(OggPage* inOggPage) {
 	cout << "Num Packets : " << inOggPage->numPackets() << endl;;
 	for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
 		locPack = inOggPage->getPacket(i);
-		cout << "------ Packet  "<< i <<" (";
-		cout<<locPack->packetSize()<< " bytes) -------";
+		cout << "------ Packet  " << i << " (" << locPack->packetSize() << " bytes) -------";
 		
 		if (!locPack->isComplete()) {
 			cout<<"  ** INCOMPLETE **";
@@ -69,23 +66,24 @@ bool pageCB(OggPage* inOggPage) {
 
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
-
-
 	//This program just dumps the pages out of a file in ogg format.
 	// Currently does not error checking. Check your command line carefully !
 	// USAGE :: OggDump <OggFile>
 	//
+
 	bytePos = 0;
+
 	if (argc < 2) {
 		cout<<"Usage : OOOggDump <filename>"<<endl;
 	} else {
 		OggDataBuffer testOggBuff;
-		OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
-		const BUFF_SIZE = 8092;
-		testOggBuff.registerPageCallback(locCBRego);
+		
+		testOggBuff.registerStaticCallback(&pageCB);
 
 		fstream testFile;
 		testFile.open(argv[1], ios_base::in | ios_base::binary);
+		
+		const unsigned short BUFF_SIZE = 8092;
 		char* locBuff = new char[BUFF_SIZE];
 		while (!testFile.eof()) {
 			testFile.read(locBuff, BUFF_SIZE);

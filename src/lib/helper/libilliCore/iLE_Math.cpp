@@ -30,44 +30,50 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include "oggint64.h"
+#include ".\iLE_Math.h"
 
-OggInt64::OggInt64(void)
-{
-	mData = 0;
-}
-
-OggInt64::~OggInt64(void)
+iLE_Math::iLE_Math(void)
 {
 }
-OggInt64* OggInt64::clone() {
-	OggInt64* retVal = new OggInt64;
-	retVal->mData = mData;
-	return retVal;
 
+iLE_Math::~iLE_Math(void)
+{
 }
-void OggInt64::rawData(unsigned char* outData) {
-	for (unsigned char i = 0; i < 8; i++) {
-		outData[i] = (unsigned char)((mData << ((7 - i) * 8)) >> 56);
+
+unsigned long iLE_Math::charArrToULong(const unsigned char* inCharArray)
+{
+	//Turns the next four bytes from the pointer in a long LSB (least sig. byte first/leftmost)
+	unsigned long locVal = 0;
+	for (int i = 3; i >= 0; i--) {
+		locVal <<= 8;
+		locVal += inCharArray[i];
 	}
+	return locVal;
 }
-void OggInt64::setData(unsigned char* inData)
+void iLE_Math::ULongToCharArr(unsigned long inLong, unsigned char* outCharArray)
 {
+	//Writes a long LSB (least sig. byte first/leftmost) out to the char arr
+	
+	outCharArray[3] = (unsigned char) (inLong >> 24);
+	outCharArray[2] = (unsigned char) ((inLong << 8) >> 24);
+	outCharArray[1] = (unsigned char) ((inLong << 16) >> 24);
+	outCharArray[0] = (unsigned char) ((inLong << 24) >> 24);
+
+}
+
+__int64 iLE_Math::CharArrToInt64(const unsigned char* inCharArray) {
 	__int64 locData = 0;
 
 	for (int i = 7; i >= 0; i--) {
 		locData <<= 8;
-		locData += inData[i];
+		locData += inCharArray[i];
 	}
-	mData = locData;
+	return locData;
 }
 
-__int64 OggInt64::value()
-{
-	return mData;
-
-}
-
-void OggInt64::setValue(__int64 inValue) {
-	mData = inValue;
+void iLE_Math::Int64ToCharArr(__int64 inInt64, unsigned char* outCharArray) {
+	for (unsigned char i = 0; i < 8; i++) {
+		//This way sux !
+		outCharArray[i] = (unsigned char)((inInt64 << ((7 - i) * 8)) >> 56);
+	}
 }

@@ -31,44 +31,23 @@
 
 #pragma once
 
-#include <string>
+#include "dllstuff.h"
+#include <string.h>
 using namespace std;
-
-class LIBOOOGG_API OggPacket
+class LIBILLICORE_API StringHelper
 {
 public:
-	//Constructors
-	OggPacket(void);
-	OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete);
-	virtual ~OggPacket(void);
-	virtual OggPacket* clone();
+	StringHelper(void);
+	~StringHelper(void);
+	static const unsigned char A_BASE = 65;			//A in ASCII
+	static const unsigned char ZERO_BASE = 48;
 
-	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
-					
-	//Packet accessors
-	unsigned long packetSize() const;
-	unsigned char* packetData();
-	bool isComplete() const;
-
-	//Packet Mutators
-	void setIsComplete (bool inIsComplete );
-	void setPacketSize (unsigned long inPacketSize );
-	void setPacketData (unsigned char* inPacketData );
-
-	//Merge function
-	virtual void merge(OggPacket* inMorePacket);
-
-	//TODO::: Should this be here ?
-	string toPackDumpString();
+	static unsigned char digitToHex(unsigned char inChar);
+	static string charToHexString(unsigned char inChar);
 	
-protected:
-	//Packet member data
-	unsigned long mPacketSize;
-	unsigned char* mPacketData;
-	bool mIsComplete;
+	static string numToString(unsigned __int64 inNum);
+	static unsigned __int64 stringToNum(string inString);
+	static wstring StringHelper::toWStr(string inString);
+	static string StringHelper::toNarrowStr(wstring inString);
 
-	//TODO::Should these be here ?
-	string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long inNumChars) ;
-	string OggPacket::padField(string inString, unsigned long inPadWidth, unsigned char inPadChar);
-	
 };

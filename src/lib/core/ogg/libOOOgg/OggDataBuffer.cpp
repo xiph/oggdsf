@@ -101,7 +101,7 @@ OggDataBuffer::eState OggDataBuffer::state() {
 OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
 	//TODO::: Who owns this pointer inOggPage ?
 	debugLog<<"Dispatching page..."<<endl<<endl;
-	bool locIsOK;
+
 
 	//Fire off the oggpage to whoever is registered to get it
 
@@ -117,38 +117,12 @@ OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
 		} else {
 			return DISPATCH_FALSE;
 		}
-	} else (
-		return DISPATCH_NO_CALLBACK;
 	}
-
-	//for (unsigned long i = 0; i < mAlwaysCallList.size(); i++) {
-	//	mAlwaysCallList[i]->dispatch(inOggPage);
-	//}
-
-	////Fire off the oggpage to those that registered for a particular seriao number.
-	////CHECK::: Does this actually even check for serial number matches ??
-	//for (unsigned long i = 0; i < mSerialNoCallList.size(); i++) {
-	//	mSerialNoCallList[i]->dispatch(inOggPage);
-	//}
-
-	////The above callbacks will only call back to global functions or static members. They won't match the callback
-	//// function specification if they are bound memebr functions
-	//
-	////Any class that implements the IOggCallback interface can pass a point to themselves into this class
-	//// and then a call back can be delivered to a function in a specific instance of an object.
-	//for (unsigned long i = 0; i < mVirtualCallbackList.size(); i++) {
-	//	locIsOK = mVirtualCallbackList[i]->acceptOggPage(inOggPage);
-	//	if (!locIsOK) {
-	//		debugLog<<"Dispatch : **************** acceptOggPage returned false."<<endl;
-	//		//Somethings happened deeper in the stack like we are being asked to stop.
-	//		return false;
-	//	}
-	//}
 
 	//Delete the page... if the called functions wanted a copy they should have taken one for themsselves.
 	delete inOggPage;
 	pendingPage = NULL;
-	return true;
+	return DISPATCH_NO_CALLBACK;
 }
 
 OggDataBuffer::eFeedResult OggDataBuffer::feed(const unsigned char* inData, unsigned long inNumBytes) {
@@ -350,12 +324,12 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 	debugLog<<"ProcessDataSegment : num bytes needed = "<<mNumBytesNeeded<<endl;
 
 	//Dispatch the finished pagbve
-	bool locRet = dispatch(pendingPage);
+	eDispatchResult locRet = dispatch(pendingPage);
 	
-	if (locRet == true) {
+	if (locRet == DISPATCH_OK) {
         debugLog<<"ProcessDataSegment : Transition to AWAITING_BASE_HEADER"<<endl;
 		mState = AWAITING_BASE_HEADER;
-		return PROCESS_OK;;
+		return PROCESS_OK;
 	} else {
 		debugLog<<"ProcessDataSegment : Dispatch failed."<<endl;
 		return PROCESS_DISPATCH_FAILED;

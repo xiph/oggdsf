@@ -42,11 +42,9 @@
 //
 using namespace std;
 
-class LIBOOOGG_API OggDataBuffer 
-	
-	
-{
+class LIBOOOGG_API OggDataBuffer {
 public:
+	//Public Constants and enums
 	enum eState {
 		EOS,
 		AWAITING_BASE_HEADER = 32,
@@ -65,7 +63,6 @@ public:
 		DISPATCH_OK,
 		DISPATCH_NO_CALLBACK = 512,
 		DISPATCH_FALSE
-
 	};
 
 	enum eProcessResult {
@@ -82,57 +79,50 @@ public:
 											(OggPageHeader::MAX_NUM_SEGMENTS * OggPageHeader::MAX_SEGMENT_SIZE) +		//Page Data
 											(OggPageHeader::SEGMENT_WIDTH * OggPageHeader::MAX_NUM_SEGMENTS);			//Segment table
 
-
-	OggDataBuffer(void);
 	//Debug only
 	OggDataBuffer::OggDataBuffer(bool x);
-	//
-	~OggDataBuffer(void);
-
-	bool registerStaticCallback(fPageCallback inPageCallback);
-	bool registerVirtualCallback(IOggCallback* inPageCallback);
-	
-	//bool registerSerialNo(SerialNoRego* inSerialRego);
-	void clearData();
-	
-	eFeedResult feed(const unsigned char* inData, unsigned long inNumBytes);
-	
-	unsigned long numBytesAvail();
-
-	eState state();
-
-	//Debug only
 	void debugWrite(string inString);
 	//
 
+	//Constructors
+	OggDataBuffer(void);
+	~OggDataBuffer(void);
+
+	//Setting callbacks
+	bool registerStaticCallback(fPageCallback inPageCallback);
+	bool registerVirtualCallback(IOggCallback* inPageCallback);
+	
+	//Buffer Control
+	eFeedResult feed(const unsigned char* inData, unsigned long inNumBytes);
+	void clearData();
+	
+	//Buffer state
+	unsigned long numBytesAvail();
+	eState state();
+
 protected:
-	
-	//stringstream mStream;
+	//FIFO Buffer
 	IFIFOBuffer* mBuffer;
-	eState mState;
 	
-	eProcessResult processBuffer();
-	virtual eDispatchResult dispatch(OggPage* inOggPage);
-
+	//Buffer State
 	unsigned long mNumBytesNeeded;
-
+	eState mState;	
 	OggPage* pendingPage;
 
+	//Callback pointers
 	IOggCallback* mVirtualCallback;
 	fPageCallback mStaticCallback;
 
-	
-	//vector<OggCallbackRego*> mAlwaysCallList;
-	//vector<SerialNoRego*> mSerialNoCallList;
-	//vector<IOggCallback*> mVirtualCallbackList;
+	//Internal processing
+	eProcessResult processBuffer();
+	eProcessResult processBaseHeader();
+	eProcessResult processSegTable();
+	eProcessResult processDataSegment();
+
+	//Internal dispatch
+	virtual eDispatchResult dispatch(OggPage* inOggPage);
 
 	//DEBUG
 	fstream debugLog;
 	//
-
-private:
-
-	eProcessResult processBaseHeader();
-	eProcessResult processSegTable();
-	eProcessResult processDataSegment();
 };
