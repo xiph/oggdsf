@@ -35,14 +35,14 @@
 #include "dsfNativeFLACSource.h"
 
 //Library Includes
-#include "BasicSeekable.h"
+#include "BasicSeekPassThrough.h"
 
 //Forward Declararions.
 class NativeFLACSourceFilter;
 class NativeFLACSourcePin
 	//Base classes.
 	:	public CBaseOutputPin
-	,	public BasicSeekable
+	,	public BasicSeekPassThrough
 {
 public:
 	//COM Stuff
