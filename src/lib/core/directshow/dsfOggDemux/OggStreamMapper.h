@@ -36,6 +36,7 @@
 #include "OggDemuxSourceFilter.h"
 
 #include <vector>
+#include <fstream>
 using namespace std;
 
 class OGG_DEMUX_API OggStreamMapper
@@ -65,4 +66,5 @@ protected:
 	vector<OggStream*> mStreamList;
 
 	OggDemuxSourceFilter* mOwningFilter;
+	fstream debugLog;
 };

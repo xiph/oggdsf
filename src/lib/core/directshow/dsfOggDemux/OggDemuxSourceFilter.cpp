@@ -114,7 +114,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
-	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out | ios_base::ate | ios_base::app);
+	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out | ios_base::ate | ios_base::app);
 	//debugLog<<"Test..."<<endl;
 	//debugLog.seekp(0, ios_base::end);
 	//debugLog<<"Test2..."<<endl;
@@ -136,7 +136,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 
-	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
+	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
 	//When it is derived, it's up to the superclass to set this.
 	//mStreamMapper = new OggStreamMapper(this);
 
@@ -299,7 +299,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 
 
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"Set Positions"<<endl;
+	debugLog<<"Set Positions"<<endl;
 	if (mSeekTable->enabled())  {
 		//debugLog<<"SetPos : Current = "<<*pCurrent<<" Flags = "<<dwCurrentFlags<<" Stop = "<<*pStop<<" dwStopFlags = "<<dwStopFlags<<endl;
 		//debugLog<<"       : Delivering begin flush..."<<endl;
@@ -578,7 +578,7 @@ void OggDemuxSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TI
 	}
 }
 HRESULT OggDemuxSourceFilter::DataProcessLoop() {
-	//debugLog<<"Starting DataProcessLoop :"<<endl;
+	debugLog<<"Starting DataProcessLoop :"<<endl;
 	DWORD locCommand = 0;
 	char* locBuff = new  char[4096];			//Deleted before function returns...
 	//TODO::: Make this a member variable ^^^^^
@@ -595,11 +595,11 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	}
 	while (!locIsEOF && locKeepGoing) {
 		if(CheckRequest(&locCommand) == TRUE) {
-			//debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
+			debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
 			delete[] locBuff;
 			return S_OK;
 		}
-
+		debugLog<<"Looping..."<<endl;
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
 			//CAutoLock locDemuxLock(mDemuxLock);
@@ -623,7 +623,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 			locKeepGoing = ((mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead)) == (OggDataBuffer::FEED_OK));;
 		}
 		if (!locKeepGoing) {
-			//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
+			debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
 		}
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
@@ -690,6 +690,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	mDataSource->seek(0);			//TODO::: This is bad for streams.
 	//Memory leak
 	//FIXED
+	debugLog<<"COMPLETED SETUP"<<endl;
 	delete[] locBuff;
 	return S_OK;
 }
@@ -703,7 +704,7 @@ bool OggDemuxSourceFilter::acceptOggPage(OggPage* inOggPage) {		//Gives away pag
 STDMETHODIMP OggDemuxSourceFilter::Run(REFERENCE_TIME tStart) {
 	const REFERENCE_TIME A_LONG_TIME = UNITS * 1000;
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"Run  :  time = "<<tStart<<endl;
+	debugLog<<"Run  :  time = "<<tStart<<endl;
 	//DeliverNewSegment(tStart, tStart + A_LONG_TIME, 1.0);
 	return CBaseFilter::Run(tStart);
 	
@@ -711,15 +712,15 @@ STDMETHODIMP OggDemuxSourceFilter::Run(REFERENCE_TIME tStart) {
 }
 STDMETHODIMP OggDemuxSourceFilter::Pause(void) {
 	CAutoLock locLock(m_pLock);
-	//debugLog << "** Pause called **"<<endl;
+	debugLog << "** Pause called **"<<endl;
 	if (m_State == State_Stopped) {
-		//debugLog << "Was in stopped state... starting thread"<<endl;
+		debugLog << "Was in stopped state... starting thread"<<endl;
 		if (ThreadExists() == FALSE) {
 			Create();
 		}
 		CallWorker(THREAD_RUN);
 	}
-	//debugLog<<"Was NOT is stopped state, not doing much at all..."<<endl;
+	debugLog<<"Was NOT is stopped state, not doing much at all..."<<endl;
 	
 	HRESULT locHR = CBaseFilter::Pause();
 	

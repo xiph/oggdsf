@@ -41,7 +41,7 @@
 #include "IFilterDataSource.h"
 #include "DataSourceFactory.h"
 #include "PropsAbout.h"
-//#include <fstream>
+#include <fstream>
 using namespace std;
 
 
@@ -196,7 +196,7 @@ protected:
 	OggStreamMapper* mStreamMapper;
 
 	//DEBUG
-	//fstream debugLog;
+	fstream debugLog;
 
 	
 };

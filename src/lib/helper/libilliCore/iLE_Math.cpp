@@ -60,7 +60,9 @@ void iLE_Math::ULongToCharArr(unsigned long inLong, unsigned char* outCharArray)
 	outCharArray[0] = (unsigned char) ((inLong << 24) >> 24);
 
 }
-
+unsigned short iLE_Math::charArrToUShort(const unsigned char* inCharArray) {
+	return (inCharArray[1] << 8) + inCharArray[0];
+}
 __int64 iLE_Math::CharArrToInt64(const unsigned char* inCharArray) {
 	__int64 locData = 0;
 

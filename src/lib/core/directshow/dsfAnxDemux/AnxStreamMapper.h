@@ -36,22 +36,55 @@
 
 #include "OggStreamMapper.h"
 #include "CMMLStream.h"
+#include "iLE_Math.h"
+
+#include <fstream>
+using namespace std;
 class AnxStreamMapper
 	:	public OggStreamMapper
 {
 public:
+	//Constructors
 	AnxStreamMapper(void);
 	AnxStreamMapper(OggDemuxSourceFilter* inOwningFilter);
 	virtual ~AnxStreamMapper(void);
 
+	//Constants and Enumerations
+	enum eAnxDemuxState {
+		SEEN_NOTHING,
+		SEEN_ANNODEX_BOS,
+		SEEN_AN_ANXDATA,
+		OGG_STATE,
+		INVALID_STATE = 1000
+	};
+
+	enum eAnxVersions {
+		ANX_VERSION_2_0 = 2 << 16,
+		ANX_VERSION_3_0 = 3 << 16
+	};
+
+	//Public Methods.
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
 	virtual bool isReady();
 	virtual bool toStartOfData();
 protected:
+	//Helper Methods
+	bool isAnnodexEOS(OggPage* inOggPage);
+	bool isAnnodexBOS(OggPage* inOggPage);
+	bool isAnxDataPage(OggPage* inOggPage, bool inAnxDataAreBOS);
+	unsigned long getAnxVersion(OggPage* inOggPage);
+	bool handleAnxVersion_2_0(OggPage* inOggPage);
+	bool handleAnxVersion_3_0(OggPage* inOggPage);
+	//Member Data
 	vector<unsigned long> mSeenStreams;
 	bool mSeenAnnodexBOS;
 	bool mReadyForCodecs;
 	bool mSeenCMML;
-	unsigned long mAnnodexSerial;
+	unsigned long mAnnodexSerial;		//TODO::: May not need this anymore
+	OggPacket* mAnnodexHeader;
+	vector<OggPacket*> mAnxDataHeaders;
+	unsigned long mAnxVersion;
+	eAnxDemuxState mDemuxState;
+	
 };

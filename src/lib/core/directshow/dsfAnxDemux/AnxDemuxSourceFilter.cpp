@@ -89,5 +89,6 @@ STDMETHODIMP AnxDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	//anxDebug<<"After seek table instantiation"<<endl;
 	mSeekTable->buildTable();
 	//anxDebug<<"After build table..."<<endl;
+	debugLog<<"After build table"<<endl;
 	return SetUpPins();
 }
