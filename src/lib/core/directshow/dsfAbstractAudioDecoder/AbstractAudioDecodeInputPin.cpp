@@ -47,7 +47,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mSeekTimeBase(0)
 {
 	//ConstructCodec();
-	debugLog.open("g:\\logs\\aad.log", ios_base::out);
+	//debugLog.open("g:\\logs\\aad.log", ios_base::out);
 	mAcceptableMediaType = inAcceptMediaType;
 	mStreamLock = new CCritSec;
 
@@ -77,7 +77,7 @@ HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
 AbstractAudioDecodeInputPin::~AbstractAudioDecodeInputPin(void)
 {
 	//DestroyCodec();
-	debugLog.close();
+	//debugLog.close();
 	delete mStreamLock;
 }
 
@@ -126,15 +126,15 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 
 		inSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
-		debugLog<<"Receive : Start    = "<<locStart<<endl;
-		debugLog<<"Receive : End      = "<<locEnd<<endl;
-		debugLog<<"Receive : Timebase = "<<locTimeBase<<endl;
+		//debugLog<<"Receive : Start    = "<<locStart<<endl;
+		//debugLog<<"Receive : End      = "<<locEnd<<endl;
+		//debugLog<<"Receive : Timebase = "<<locTimeBase<<endl;
 		
 		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
-			debugLog<<"Receive : RESETTING FRAME COUNT !!"<<endl;
+			//debugLog<<"Receive : RESETTING FRAME COUNT !!"<<endl;
 			ResetFrameCount();
 		}
-		debugLog<<endl;
+		//debugLog<<endl;
 		mLastSeenStartGranPos = locStart;
 		//End of additions
 		

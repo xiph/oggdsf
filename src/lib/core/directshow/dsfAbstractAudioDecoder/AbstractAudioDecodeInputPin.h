@@ -96,7 +96,7 @@ protected:
 	AbstractAudioDecodeFilter* mParentFilter;
 	CMediaType* mAcceptableMediaType;
 
-	fstream debugLog;
+	//fstream debugLog;
 	CCritSec* mStreamLock;
 	CCritSec* mFilterLock;
 
