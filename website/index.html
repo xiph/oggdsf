@@ -108,7 +108,7 @@
 <li>Make sure media player or any directshow applications are closed.</li>
 <li>Unzip the setup package(download below) to a temp directory then run setup.</li>
 <br>
-Then media player or any other directshow application (ie BSPlayer) will be able to play Ogg Vorbis, Ogg Speex, Ogg Theora and Ogg FLAC.<br>
+Then Windows Media Player or any other directshow application (eg. BSPlayer) will be able to play Ogg Vorbis, Ogg Speex, Ogg Theora, Ogg FLAC and native FLAC.<br>
 <br>
 
 
@@ -116,7 +116,7 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 <DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
 <TR valign=top>
 <TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.66.8063) - 21/10/2004</b></DIV>
+<DIV><div align="left"><b>Current Version (0.67.8171) - 05/11/2004</b></DIV>
 </FONT>
 </TD>
 </TR>
@@ -125,7 +125,8 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 </FONT>
 
 <br>
-Added support for the new Ogg FLAC format and fixed that Explorer problem with locked files. A fair bit of internal shuffling, but mainly a whole lot of memory leaks have been eliminated.<br>
+Added support for playing native flac files (.flac). No major bufixes in this release, I'm quite busy at the moment, but a new version which addresses many of 
+ the outstanding bugs will be ready in 2-3 weeks. Thanks for being patient.</br>
 <br>
 <br>
 
@@ -142,10 +143,10 @@ Added support for the new Ogg FLAC format and fixed that Explorer problem with l
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">952,518 bytes</div></DIV></FONT>
+<DIV><div align="right">969,047 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.66.8063.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.67.8171.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -161,10 +162,10 @@ Added support for the new Ogg FLAC format and fixed that Explorer problem with l
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,734,975 bytes</div></DIV></FONT>
+<DIV><div align="right">2,751,504 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.66.8063.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.67.8171.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -181,10 +182,10 @@ Added support for the new Ogg FLAC format and fixed that Explorer problem with l
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,620,081 bytes</div></DIV></FONT>
+<DIV><div align="right">2,636,610 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.66.8063.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.67.8171.zip">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -208,12 +209,7 @@ Added support for the new Ogg FLAC format and fixed that Explorer problem with l
 </DIV>
 </FONT>
 <b><u></u></b><br>
-	<li>FLAC can now be muxed into a multi-stream file.</li>
-	<li>Now supports both the new Ogg FLAC (1.1.1) and the old Ogg FLAC (still not native FLAC)</li>
-	<li>Fixed the explorer problem by removing the offending registry key at installation</li>
-	<li>Removed a heap of memory leaks, WMP should run a fair bit leaner now</li>
-	<li>Some internal changes to the queueing mechanism</li>
-	<li>There's some skeleton <a href="http://www.illiminable.com/ogg/docs/index.html">API documentation</a> for developers. It's pretty sparse on info still though.</li>
+	<li>Now supports native FLAC (.flac files) without ogg container.</li>
 <br>
 <br>
 
@@ -231,8 +227,7 @@ Added support for the new Ogg FLAC format and fixed that Explorer problem with l
 </TABLE>
 </DIV>
 </FONT>
-	<li>Can't play file with names that use extended character sets (ie Japanese) (Thanks Liisachan)</li>
-	<li>Core Media Player stalls if you add more than 510 ogg files (Not sure if this is a bug with my codecs or not, as it has a problem trying to add my large mp3 directory too) (Thanks OpenSource 4ever)</li>
+	<li><b>Please confirm this bug either way for your language : </b>Can't play file with names that use extended character sets (ie Japanese) (Thanks Liisachan)</li>
 	<li>Can't play files from a Windows network share drive (Thanks Hannes Kaesermann and Frazer McCormack)</li>
 	<li>Can't seek in WMP 6.4 (Thanks RadicalEd)</li>
 	<li>AVI Video files encoded with non-integral framerates (ie 29.97) may lose sync, due to rounding bug (Thanks RadicalEd)</li>
@@ -250,12 +245,8 @@ Added support for the new Ogg FLAC format and fixed that Explorer problem with l
 	<li>I think there may be a little memory leak in the encoders... nothing too serious, but if you try and encode really large files it may be a problem.</li>
 	<li>Theora and annodex playback requires directX 9.</li>
 	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
-	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
-	<li><strike>FLAC can't be muxed in a multi-stream file sucessfully (Thanks Bond)</strike></li>
-	<li><strike>Doesn't play the new ogg flac files produced by FLAC 1.1.1</strike></li>
-	<li><strike>You can't delete .ogg files in explorer because they are locked/in use. To fix this until the next version, run regedit and go to the registry key [HKEY_CLASSES_ROOT\.OGG\ShellEx] 
-		and delete it. This is left over from the Tobias filters, if you ever reinstall them, even if you uninstall, you'll have to do this again. (Thanks RadicalEd for reporting this)</strike></li>
-	
+	<li><strike>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</strike></li>
+	<li><strike>Core Media Player stalls if you add more than 510 ogg files (Not sure if this is a bug with my codecs or not, as it has a problem trying to add my large mp3 directory too) (Thanks OpenSource 4ever)</strike></li>
 
 <br>
 <br>
@@ -281,7 +272,7 @@ Added support for the new Ogg FLAC format and fixed that Explorer problem with l
 <li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
 <li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
 <li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.66.8063.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.67.8171.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
 <li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
 <li><a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a></li>
 <li>Some basic <a href="http://www.illiminable.com/ogg/docs/index.html">API documentation</a> for developers</li>

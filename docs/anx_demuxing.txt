@@ -1,0 +1,90 @@
+Annodex Demuxing
+================
+
+Now there is two annodex versions... basic difference is the newer one has annodex and anxdata
+headers in the same stream, and then codecs follow on. The old one the annodex headers
+are in their own stream, but the anxdata headers are the first header in each stream.
+
+SWITCH (version)
+	CASE oldversion:
+		handleOldVersion()
+	CASE newVersion:
+		handleNewVersion()
+	CASE versionXXXXXX:
+		etc...
+	CASE unknown:
+		bitch and moan
+END SWITCH
+
+Old Version header layout
+=========================
+Annodex BOS Header (id = 0)
+AnxData Header 1 (id = 1)  //Must be CMML
+AnxData Header 2 (id = 2)
+....
+AnxData Header n (id = n)
+Annodex EOS (id = 0)
+
+CMML Head Tag 	 (id = 1)	
+Codec BOS Header 2 (id = 2)	}
+...				}	Not necessarily in this order.
+Codec BOS Header n (id = n)	}
+---------------
+Interleaved header and data for streams 1-->n
+EOS Pages for streams 1-->n
+
+
+
+New version header layout
+=========================
+Annodex BOS Header (id = 0)
+AnxData Header 1 (id = 0)  //Must be CMML (CHECK THIS !!)
+AnxData Header 2 (id = 0)
+....
+AnxData Header n (id = 0)
+Annodex EOS (id = 0)
+
+CMML Head Tag (id = 1)
+Codec BOS Header 2 (id=2)
+...
+Codec BOS Header n (id = n)
+------
+Interleaved header and data for streams 1-->n
+EOS Pages for streams 1-->n
+
+
+This implies with the new version, players that don't understand annodex can just safely ignore streams
+they don't recognise (ie id=0) and after the initial block of anxdata and annodex headers the result
+will be just a normal ogg file, but with a CMML stream (which can be ignored).
+
+*** Need to check if CMML BOS must come first... if it does, this could impact some players ability to
+recognise files as theora or vorbis as the media mappings will not match. (ie theora is supposed to have
+the first header)
+
+
+State Machine
+=============
+
+States
+------
+
+SEEN_NOTHING
+SEEN_ANNODEX_BOS
+SEEN_AN_ANXDATA
+PROCEEDING_AS_OGG
+INVALID_STATE
+
+Transitions
+-----------
+
+t(currentState, condition, newState)
+------------------------------------
+t(SEEN_NOTHING, annodex BOS arrives, SEEN_ANNODEX_BOS)
+t(SEEN_NOTHING, !(annodex BOS arrives), INVALID_STATE)
+t(SEEN_ANNODEX_BOS, anxdata arrives, SEEN_AN_ANXDATA)
+t(SEEN_ANNODEX_BOS, !(anxdata arrives), INVALID_STATE)
+t(SEEN_AN_ANXDATA, anxdata arrives, SEEN_AN_ANXDATA)
+t(SEEN_AN_ANXDATA, annodex EOS arrives, PROCEEDING_AS_OGG)
+t(SEEN_AN_ANXDATA, !(anxdata arrives || annodex EOS arrives), INVALID_STATE)
+
+Then proceed as ogg if state is PROCEEDING_AS_OGG otherwise FAIL.
