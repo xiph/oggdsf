@@ -83,4 +83,7 @@ protected:
 
 	fstream debugLog;
 	deque<OggPage*> mPageQueue;
+private:
+	OggMuxStream& operator=(const OggMuxStream& other);  /* Don't assign me */
+	OggMuxStream(const OggMuxStream& other); /* Don't copy me */
 };

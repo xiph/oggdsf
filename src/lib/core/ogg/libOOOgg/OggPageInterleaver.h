@@ -64,4 +64,7 @@ protected:
 	//DEBUG ONLY
 	//fstream debugLog;
 	//
+private:
+	OggPageInterleaver& operator=(const OggPageInterleaver& other);  /* Don't assign me */
+	OggPageInterleaver(const OggPageInterleaver& other); /* Don't copy me */
 };

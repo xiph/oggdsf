@@ -53,4 +53,7 @@ protected:
 	ePacketiserState mPacketiserState;
 
 	//fstream debugLog;
+private:
+	OggPacketiser& operator=(const OggPacketiser& other);  /* Don't assign me */
+	OggPacketiser(const OggPacketiser& other); /* Don't copy me */
 };
