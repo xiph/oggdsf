@@ -81,7 +81,7 @@
 				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;."
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				WarningLevel="4"

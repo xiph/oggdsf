@@ -45,6 +45,7 @@ OggPageHeader::OggPageHeader(void)
 	,	mPageState(BLANK)
 	,	mGranulePos(0)
 	,	mSegmentTable(NULL)
+	,	mNumPageSegments(0)
 		
 {
 

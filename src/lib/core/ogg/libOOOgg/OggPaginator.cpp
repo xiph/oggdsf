@@ -232,16 +232,17 @@ bool OggPaginator::setChecksum() {
 
 }
 bool OggPaginator::deliverCurrentPage() {
-	mPendingPage->header()->setDataSize(mCurrentPageSize);
-	mPendingPage->header()->setHeaderSize(OggPageHeader::OGG_BASE_HEADER_SIZE + mSegmentTableSize);
-	//mPendingPage->header()->setNumPageSegments(mSegmentTableSize);
 	mPendingPage->header()->setSegmentTable((const unsigned char*)mSegmentTable, mSegmentTableSize);
+	mPendingPage->header()->setDataSize(mCurrentPageSize - mPendingPage->headerSize());
+	//mPendingPage->header()->setHeaderSize(OggPageHeader::OGG_BASE_HEADER_SIZE + mSegmentTableSize);
+	//mPendingPage->header()->setNumPageSegments(mSegmentTableSize);
+	
 	//if (mPendingPage->header()->GranulePos()->value() == -1) {
 	//	mPendingPage->header()->setHeaderFlags(mPendingPage->header()->HeaderFlags() | 1);	
 	//}
 	setChecksum();
 	
-
+	//Should catch and propagate return value.
 	mPageCallback->acceptOggPage(mPendingPage);
 	createFreshPage();
 	return true;
@@ -252,11 +253,11 @@ bool OggPaginator::createFreshPage() {
 	mCurrentPageSize = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	mPendingPageHasData = false;
 	mSegmentTableSize = 0;
-	mPendingPage->header()->setStructureVersion(0);
+	//mPendingPage->header()->setStructureVersion(0);
 	mPendingPage->header()->setStreamSerialNo(mSettings->mSerialNo);
-	mPendingPage->header()->setDataSize(0);
+	//mPendingPage->header()->setDataSize(0);
 	mPendingPage->header()->setPageSequenceNo(mSequenceNo);
-	mPendingPage->header()->setCRCChecksum((unsigned long)0);
+	//mPendingPage->header()->setCRCChecksum((unsigned long)0);
 	if (mSequenceNo == 0) {
 		mPendingPage->header()->setHeaderFlags(2);
 	} else {

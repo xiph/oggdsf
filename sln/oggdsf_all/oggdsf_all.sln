@@ -1059,6 +1059,27 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggValidate", "..\..\src\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testCircleBuffer", "..\..\src\tests\testCircleBuffer\testCircleBuffer.vcproj", "{191217F4-1F30-426D-A2AB-A9E613D9A401}"
 	ProjectSection(ProjectDependencies) = postProject
+		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "libOOOggWithToolsAndTests", "..\..\build\libOOOggWithToolsAndTests\libOOOggWithToolsAndTests.vdproj", "{10F62E34-7F7E-415B-A0F4-9E1AE9704282}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "libFishSoundWithToolsAndTests", "..\..\build\libFishSoundWithToolsAndTests\libFishSoundWithToolsAndTests.vdproj", "{100109AA-F219-4934-9B21-0FCD25244860}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "XiphCoreLibs", "..\..\build\XiphCoreLibs\XiphCoreLibs.vdproj", "{41CF6297-C38A-44E3-A564-25DB7E2904FC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CMMLCoreLibs", "..\..\build\CMMLCoreLibs\CMMLCoreLibs.vdproj", "{A8FB902E-7246-46D2-9916-6DAFDB67E22B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "oggcodecsDirectshowOnly", "..\..\build\oggcodecsDirectshowOnly\oggcodecsDirectshowOnly.vdproj", "{E2A342FB-F183-4076-88D4-06F109CA5415}"
+	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Global
@@ -1540,6 +1561,48 @@ Global
 		{191217F4-1F30-426D-A2AB-A9E613D9A401}.Release.Build.0 = Release|Win32
 		{191217F4-1F30-426D-A2AB-A9E613D9A401}.Release Unicode.ActiveCfg = Release|Win32
 		{191217F4-1F30-426D-A2AB-A9E613D9A401}.Release Unicode.Build.0 = Release|Win32
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Debug.ActiveCfg = Debug
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Debug.Build.0 = Debug
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Debug Unicode.ActiveCfg = Debug
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Debug Unicode.Build.0 = Debug
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.MakeFile.ActiveCfg = Release
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.MakeFile.Build.0 = Release
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Release.ActiveCfg = Release
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Release.Build.0 = Release
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Release Unicode.ActiveCfg = Release
+		{10F62E34-7F7E-415B-A0F4-9E1AE9704282}.Release Unicode.Build.0 = Release
+		{100109AA-F219-4934-9B21-0FCD25244860}.Debug.ActiveCfg = Debug
+		{100109AA-F219-4934-9B21-0FCD25244860}.Debug.Build.0 = Debug
+		{100109AA-F219-4934-9B21-0FCD25244860}.Debug Unicode.ActiveCfg = Debug
+		{100109AA-F219-4934-9B21-0FCD25244860}.Debug Unicode.Build.0 = Debug
+		{100109AA-F219-4934-9B21-0FCD25244860}.MakeFile.ActiveCfg = Release
+		{100109AA-F219-4934-9B21-0FCD25244860}.MakeFile.Build.0 = Release
+		{100109AA-F219-4934-9B21-0FCD25244860}.Release.ActiveCfg = Release
+		{100109AA-F219-4934-9B21-0FCD25244860}.Release.Build.0 = Release
+		{100109AA-F219-4934-9B21-0FCD25244860}.Release Unicode.ActiveCfg = Release
+		{100109AA-F219-4934-9B21-0FCD25244860}.Release Unicode.Build.0 = Release
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Debug.ActiveCfg = Debug
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Debug.Build.0 = Debug
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Debug Unicode.ActiveCfg = Debug
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Debug Unicode.Build.0 = Debug
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.MakeFile.ActiveCfg = Release
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.MakeFile.Build.0 = Release
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Release.ActiveCfg = Release
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Release.Build.0 = Release
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Release Unicode.ActiveCfg = Release
+		{41CF6297-C38A-44E3-A564-25DB7E2904FC}.Release Unicode.Build.0 = Release
+		{A8FB902E-7246-46D2-9916-6DAFDB67E22B}.Debug.ActiveCfg = Debug
+		{A8FB902E-7246-46D2-9916-6DAFDB67E22B}.Debug Unicode.ActiveCfg = Debug
+		{A8FB902E-7246-46D2-9916-6DAFDB67E22B}.MakeFile.ActiveCfg = Release
+		{A8FB902E-7246-46D2-9916-6DAFDB67E22B}.Release.ActiveCfg = Release
+		{A8FB902E-7246-46D2-9916-6DAFDB67E22B}.Release.Build.0 = Release
+		{A8FB902E-7246-46D2-9916-6DAFDB67E22B}.Release Unicode.ActiveCfg = Release
+		{E2A342FB-F183-4076-88D4-06F109CA5415}.Debug.ActiveCfg = Debug
+		{E2A342FB-F183-4076-88D4-06F109CA5415}.Debug Unicode.ActiveCfg = Debug
+		{E2A342FB-F183-4076-88D4-06F109CA5415}.MakeFile.ActiveCfg = Release
+		{E2A342FB-F183-4076-88D4-06F109CA5415}.Release.ActiveCfg = Release
+		{E2A342FB-F183-4076-88D4-06F109CA5415}.Release.Build.0 = Release
+		{E2A342FB-F183-4076-88D4-06F109CA5415}.Release Unicode.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

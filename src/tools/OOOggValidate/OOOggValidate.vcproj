@@ -78,7 +78,7 @@
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"

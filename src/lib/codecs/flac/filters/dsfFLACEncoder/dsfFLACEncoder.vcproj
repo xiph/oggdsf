@@ -74,7 +74,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\dsfAbstractAudioEncoder;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\directshow\dsfSeeking;..\..\libs\libflac\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFFLACENCODER_EXPORTS"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
@@ -83,6 +83,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Strmbase.lib Winmm.lib Strmiids.lib  Quartz.lib"
 				OutputFile="$(OutDir)/dsfFLACEncoder.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"
