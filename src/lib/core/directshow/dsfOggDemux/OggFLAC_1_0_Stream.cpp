@@ -148,7 +148,7 @@ bool OggFLAC_1_0_Stream::deliverCodecHeaders() {
 			unsigned char* locPackBuf = new unsigned char[42];
 			
 			//locPacket = (StampedOggPacket*)mCodecHeaders->getPacket(0)->clone();
-			memcpy((void*)locPackBuf, (const void*)mCodecHeaders->getPacket(0)->packetData() + 9, 42);
+			memcpy((void*)locPackBuf, (const void*)(mCodecHeaders->getPacket(0)->packetData() + 9), 42);
 			locPacket = new StampedOggPacket(locPackBuf, 42, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY);
 		} else {
 			locPacket->merge(mCodecHeaders->getPacket(i));

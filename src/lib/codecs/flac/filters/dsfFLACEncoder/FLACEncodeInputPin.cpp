@@ -35,7 +35,7 @@
 FLACEncodeInputPin::FLACEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)
 	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACEncodeInputPin"), L"PCM In")
 	,	mTweakedHeaders(false)
-	,	mHeadersSeen(0)
+	
 	
 {
 	//debugLog.open("C:\\temp\\FLACenc.log", ios_base::out);
@@ -141,65 +141,7 @@ void FLACEncodeInputPin::DestroyCodec() {
 }
 
 
-//Encoded callback
-//int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) 
-//{
-//
-//	//For convenience we do all these cast once and for all here.
-//	FLACEncodeInputPin* locThis = reinterpret_cast<FLACEncodeInputPin*> (inThisPointer);
-//	FLACEncodeFilter* locFilter = reinterpret_cast<FLACEncodeFilter*>(locThis->m_pFilter);
-//	//locThis->debugLog << "FLACEncoded called with "<<inNumBytes<< " byte of data"<<endl;
-//
-//	//Time stamps are granule pos not directshow times
-//	LONGLONG locFrameStart = locThis->mUptoFrame;
-//	LONGLONG locFrameEnd	= locThis->mUptoFrame
-//							= fish_sound_get_frameno(locThis->mFishSound);
-//
-//	
-//	//locThis->debugLog << "Stamping packet "<<locFrameStart<< " to "<<locFrameEnd<<endl;
-//	//Get a pointer to a new sample stamped with our time
-//	IMediaSample* locSample;
-//	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-//
-//	if (FAILED(locHR)) {
-//		//We get here when the application goes into stop mode usually.
-//		//locThis->debugLog<<"Getting buffer failed"<<endl;
-//		return locHR;
-//	}	
-//	
-//	BYTE* locBuffer = NULL;
-//
-//	
-//	//Make our pointers set to point to the samples buffer
-//	locSample->GetPointer(&locBuffer);
-//
-//	
-//
-//	if (locSample->GetSize() >= inNumBytes) {
-//
-//		memcpy((void*)locBuffer, (const void*)inPacketData, inNumBytes);
-//		
-//		//Set the sample parameters.
-//		locThis->SetSampleParams(locSample, inNumBytes, &locFrameStart, &locFrameEnd);
-//
-//		{
-//			CAutoLock locLock(locThis->m_pLock);
-//
-//			//Add a reference so it isn't deleted en route.
-//			//locSample->AddRef();
-//			HRESULT locHR = locThis->mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
-//			if (locHR != S_OK) {
-//				//locThis->debugLog<<"Sample rejected"<<endl;
-//			} else {
-//				//locThis->debugLog<<"Sample Delivered"<<endl;
-//			}
-//		}
-//
-//		return 0;
-//	} else {
-//		throw 0;
-//	}
-//}
+
 
 ::FLAC__StreamEncoderWriteStatus FLACEncodeInputPin::write_callback(const FLAC__byte inBuffer[], unsigned inNumBytes, unsigned inNumSamples, unsigned inCurrentFrame) {
 
@@ -239,12 +181,75 @@ void FLACEncodeInputPin::DestroyCodec() {
 	//	locBuffer[5] = 1;
 	//	locBuffer[6] = 0;
 
+	LONGLONG locFrameStart = 0;
+	LONGLONG locFrameEnd = 0;
 
-	LONGLONG locFrameStart = mUptoFrame;
+
+	if (!mTweakedHeaders) {
+		//Still handling headers...
+		unsigned char* locBuf = new unsigned char[inNumBytes];
+		memcpy((void*)locBuf, (const void*) inBuffer, inNumBytes);
+		FLACHeaderTweaker::eFLACAcceptHeaderResult locResult = mHeaderTweaker.acceptHeader(new OggPacket(locBuf, inNumBytes, false, false));
+		if (locResult == FLACHeaderTweaker::LAST_HEADER_ACCEPTED) {
+			//Send all the headers
+			mTweakedHeaders = true;
+
+			for (int i = 0; i < mHeaderTweaker.numNewHeaders(); i++) {
+				//Loop through firing out all the headers.
+
+
+				//Get a pointer to a new sample stamped with our time
+				IMediaSample* locSample;
+				HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
+
+				if (FAILED(locHR)) {
+					//We get here when the application goes into stop mode usually.
+					//locThis->debugLog<<"Getting buffer failed"<<endl;
+					return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
+				}	
+				
+				BYTE* locBuffer = NULL;
+
+				//Make our pointers set to point to the samples buffer
+				locSample->GetPointer(&locBuffer);
+
+				memcpy((void*)locBuffer, (const void*)mHeaderTweaker.getHeader(i)->packetData(), mHeaderTweaker.getHeader(i)->packetSize());
+				
+				//Set the sample parameters. (stamps will be 0)
+				SetSampleParams(locSample, mHeaderTweaker.getHeader(i)->packetSize(), &locFrameStart, &locFrameEnd);
+
+				{
+					CAutoLock locLock(m_pLock);
+
+					
+					HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+					if (locHR != S_OK) {
+						//locThis->debugLog<<"Sample rejected"<<endl;
+					} else {
+						//locThis->debugLog<<"Sample Delivered"<<endl;
+					}
+				}
+
+				return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
+
+
+			}
+
+			return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
+		} else if (locResult == FLACHeaderTweaker::HEADER_ACCEPTED) {
+			//Another header added.
+			return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
+		} else {
+			return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
+		}
+
+	}
+
+	locFrameStart = mUptoFrame;
 	if (inNumSamples != 0) {
 		mUptoFrame += inNumSamples;
 	}
-	LONGLONG locFrameEnd = mUptoFrame;
+	locFrameEnd = mUptoFrame;
 
 
 	//Get a pointer to a new sample stamped with our time

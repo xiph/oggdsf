@@ -36,6 +36,7 @@
 #include "FLACEncodeInputPin.h"
 
 #include "FLACEncodeFilter.h"
+#include "FLACHeaderTweaker.h"
 
 //extern "C" {
 //#include <fishsound/fishsound.h>
@@ -72,7 +73,8 @@ protected:
 	HRESULT mHR;
 	
 	bool mTweakedHeaders;
-	unsigned long mHeadersSeen;
+	FLACHeaderTweaker mHeaderTweaker;
+	//unsigned long mHeadersSeen;
 	//bool mBegun;
 	//SpeexDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;
