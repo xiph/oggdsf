@@ -172,6 +172,9 @@ OggMuxFilter::~OggMuxFilter(void)
 	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
 
 	//ReleaseDelegate();
+
+	//This is not a leak !! We just don't want it to be released... we never addreffed it.. see constructor.
+	SetDelegate(NULL);
 	
 	delete mInterleaver;
 	for (size_t i = 0; i < mInputPins.size(); i++) {

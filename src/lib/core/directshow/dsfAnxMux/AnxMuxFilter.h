@@ -41,7 +41,7 @@ class AnxMuxFilter
 {
 public:
 	AnxMuxFilter(void);
-	~AnxMuxFilter(void);
+	virtual ~AnxMuxFilter(void);
 
 	//Com Stuff
 	DECLARE_IUNKNOWN

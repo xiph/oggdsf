@@ -75,9 +75,14 @@ AnxMuxFilter::AnxMuxFilter(void)
 	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 
 
-		//Make our delegate pin[0], the top pin... we send all out requests there.
-	IMediaSeeking* locSeeker = NULL;
-	mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	//	//Make our delegate pin[0], the top pin... we send all out requests there.
+	//IMediaSeeking* locSeeker = NULL;
+	//mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	//SetDelegate(locSeeker);
+	
+	//To avoid a circular reference... we do this without the addref.
+	// This is safe because we control the lifetime of this pin, and it won't be deleted until we are.
+	IMediaSeeking* locSeeker = (IMediaSeeking*)mInputPins[0];
 	SetDelegate(locSeeker);
 }
 
