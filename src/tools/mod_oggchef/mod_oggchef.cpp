@@ -179,7 +179,12 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	apr_uri_t *locURI = &(inRequest->parsed_uri);
 
 	// Ignore the request if it's not directed at this module
-	if (strcmp(inRequest->handler, "mod_oggchef") != 0) {
+	if (	strcmp(inRequest->handler, "mod_oggchef") != 0
+		&&	strcmp(inRequest->handler, "oggchef") != 0) {
+#ifdef DEBUG
+		ap_log_rerror(APLOG_MARK, APLOG_NOERRNO|APLOG_ERR, 0, inRequest,
+			"mod_oggchef ignoring request: %s", inRequest->handler);
+#endif
 		return DECLINED;
 	}
 
