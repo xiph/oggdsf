@@ -33,6 +33,8 @@
 
 NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock)
 	:	CBaseOutputPin(NAME("Native FLAC Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"PCM Out")
+	,	mParentFilter(inParentFilter)
+
 {
 }
 
@@ -101,15 +103,24 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
 	//NOTE::: May want to check for null pointers
 	//outMediaType->SetFormat(mMediaType->Format(), mMediaType->FormatLength());
 	if (inPosition == 0) {
-		CMediaType locMediaType;
+		
 
-		locMediaType.majortype = MEDIATYPE_Audio;
-		locMediaType.subtype = MEDIASUBTYPE_PCM;
-		locMediaType.formattype = FORMAT_WaveFormatEx;
-		locMediaType.cbFormat = sizeof(WAVEFORMATEX);
-		locMediaType.pbFormat = NULL; //(BYTE*)mCMMLFormatBlock; //(BYTE*)locSpeexFormatInfo;
-		locMediaType.pUnk = NULL;
-		*outMediaType = locMediaType;
+		outMediaType->majortype = MEDIATYPE_Audio;
+		outMediaType->subtype = MEDIASUBTYPE_PCM;
+		outMediaType->formattype = FORMAT_WaveFormatEx;
+		outMediaType->cbFormat = sizeof(WAVEFORMATEX);
+
+		WAVEFORMATEX* locFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
+			locFormat->wFormatTag = WAVE_FORMAT_PCM;
+
+		locFormat->nChannels = mParentFilter->mNumChannels;
+		locFormat->nSamplesPerSec =  mParentFilter->mSampleRate;
+		locFormat->wBitsPerSample = mParentFilter->mBitsPerSample;
+		locFormat->nBlockAlign = (mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3);
+		locFormat->nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
+		locFormat->cbSize = 0;
+		
+		
 		return S_OK;
 	} else {
 		return VFW_S_NO_MORE_ITEMS;
@@ -147,4 +158,60 @@ HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALL
 
 }
 
+HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) {
+	//Locks !!
+	
+	IMediaSample* locSample = NULL;
+	REFERENCE_TIME locStart = inStart;
+	REFERENCE_TIME locStop = inEnd;
+	//debugLog<<"Start   : "<<locStart<<endl;
+	//debugLog<<"End     : "<<locStop<<endl;
+	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
+	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
+	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));
+	//Error checks
+	if (locHR != S_OK) {
+		//Stopping, fluching or error
+		//debugLog<<"Failure... No buffer"<<endl;
+		return locHR;
+	}
 
+	//More hacks so we can send a timebase after a seek, since granule pos in theora
+	// is not convertible in both directions to time.
+	
+	//TIMESTAMP FIXING !
+	locSample->SetTime(&locStart, &locStop);
+	
+	//Yes this is way dodgy !
+	//locSample->SetMediaTime(&mParentFilter->mSeekTimeBase, &mParentFilter->mSeekTimeBase);
+	locSample->SetSyncPoint(TRUE);
+	
+
+	// Create a pointer for the samples buffer
+	BYTE* locBuffer = NULL;
+	locSample->GetPointer(&locBuffer);
+
+	//DbgLog((LOG_TRACE, 2, "* Packet size is %d"));
+	if (locSample->GetSize() >= inBuffSize) {
+
+		memcpy((void*)locBuffer, (const void*)inBuff, inBuffSize);
+		locSample->SetActualDataLength(inBuffSize);
+
+		locHR = mDataQueue->Receive(locSample);
+
+		//REF_CHECK::: In theory should release here.
+		//The sample has ref_count of 1 by virtue of it's creation... we should release that 1 ref count here.
+		
+		if (locHR != S_OK) {
+			//debugLog << "Failure... Queue rejected sample..."<<endl;
+			//Stopping ??
+			return locHR;
+			
+		} else {
+			return S_OK;
+		}
+	} else {
+		DbgLog((LOG_TRACE, 2, "* BUFFER TOO SMALL... FATALITY !!"));
+		throw 0;
+	}
+}

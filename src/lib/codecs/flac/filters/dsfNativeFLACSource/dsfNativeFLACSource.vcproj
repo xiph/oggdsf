@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libflac\include"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libflac\include;..\..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -37,6 +37,7 @@
 				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Debug&quot;"
+				ModuleDefinitionFile="NativeFLACSource.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb"
 				SubSystem="2"
@@ -71,7 +72,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libflac\include"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libflac\include;..\..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
@@ -87,6 +88,7 @@
 				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"
+				ModuleDefinitionFile="NativeFLACSource.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -124,6 +126,9 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
 				RelativePath=".\dsfNativeFLACSource.cpp">
+			</File>
+			<File
+				RelativePath=".\NativeFLACSource.def">
 			</File>
 			<File
 				RelativePath=".\NativeFLACSourceFilter.cpp">

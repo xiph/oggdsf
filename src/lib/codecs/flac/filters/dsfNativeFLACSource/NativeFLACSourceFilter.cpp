@@ -58,14 +58,21 @@ CUnknown* WINAPI NativeFLACSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT 
 
 NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	:	CBaseFilter(NAME("NativeFLACSourceFilter"), NULL, m_pLock, CLSID_NativeFLACSourceFilter)
+	,	mNumChannels(0)
+	,	mSampleRate(0)
+	,	mBitsPerSample(0)
+	,	mBegun(false)
+	,	mUpto(0)
 	
 	//,	mDecoder(NULL)
 {
+	debugLog.open("G:\\logs\\NativeFLAC.log", ios_base::out);
 	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
 }
 
 NativeFLACSourceFilter::~NativeFLACSourceFilter(void)
 {
+	debugLog.close();
 	delete mFLACSourcePin;
 	mFLACSourcePin = NULL;
 }
@@ -104,6 +111,33 @@ STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_T
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
+
+	mInputFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in | ios_base::binary);
+
+	mInputFile.seekg(0, ios_base::end);
+	mFileSize = mInputFile.tellg();
+	mInputFile.seekg(0, ios_base::beg);
+	debugLog<<"File size is = "<<mFileSize<<endl;
+
+	unsigned char locBuff[64];
+	mInputFile.read((char*)&locBuff, 64);
+	const unsigned char FLAC_CHANNEL_MASK = 14;  //00001110
+	const unsigned char FLAC_BPS_START_MASK = 1; //00000001
+	const unsigned char FLAC_BPS_END_MASK = 240;  //11110000
+
+	//Fix the format block data... use header version and other version.
+	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
+	mNumChannels = (((locBuff[20]) & FLAC_CHANNEL_MASK) >> 1) + 1;
+	mSampleRate = (iBE_Math::charArrToULong(&locBuff[18])) >> 12;
+	
+	mBitsPerSample =	(((locBuff[20] & FLAC_BPS_START_MASK) << 4)	|
+											((locBuff[21] & FLAC_BPS_END_MASK) >> 4)) + 1;	
+
+
+	debugLog<<mNumChannels<<" channels with "<<mSampleRate<<" Hz @ "<<mBitsPerSample<<" bits per sample"<<endl;
+	mInputFile.seekg(0, ios_base::beg);
+
+
 
 	//Strip the extension...
 	//size_t locDotPos = mFileName.find_last_of('.');
@@ -207,27 +241,91 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 
 
 ::FLAC__SeekableStreamDecoderReadStatus NativeFLACSourceFilter::read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes) {
+	const unsigned long BUFF_SIZE = 8192;
+	mInputFile.read((char*)outBuffer, BUFF_SIZE);
+	*outNumBytes = mInputFile.gcount();
+	debugLog<<"Read num bytes = "<<*outNumBytes<<endl;
 	return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK;
 }
 ::FLAC__SeekableStreamDecoderSeekStatus NativeFLACSourceFilter::seek_callback(FLAC__uint64 inSeekPos) {
+	debugLog<<"Seeking to "<<inSeekPos<<endl;
+	mInputFile.seekg(inSeekPos);
 	return FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_OK;
 }
 ::FLAC__SeekableStreamDecoderTellStatus NativeFLACSourceFilter::tell_callback(FLAC__uint64* outTellPos) {
+	*outTellPos = mInputFile.tellg();
+	debugLog<<"Tell = "<<*outTellPos<<endl;
 	return FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_OK;
 }
 ::FLAC__SeekableStreamDecoderLengthStatus NativeFLACSourceFilter::length_callback(FLAC__uint64* outLength) {
+	*outLength = mFileSize;
+	debugLog<<"Requested length = "<<mFileSize<<endl;
 	return FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_OK;
 }
-::FLAC__StreamDecoderWriteStatus NativeFLACSourceFilter::write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]) {
+::FLAC__StreamDecoderWriteStatus NativeFLACSourceFilter::write_callback(const FLAC__Frame* inFrame,const FLAC__int32 *const inBuffer[]) {
+	//Do the magic !
+	if (! mBegun) {
+	
+		mBegun = true;
+		const int SIZE_16_BITS = 2;
+		mNumChannels = inFrame->header.channels;
+		mFrameSize = mNumChannels * SIZE_16_BITS;
+		mSampleRate = inFrame->header.sample_rate;
+		
+	}
+	unsigned long locNumFrames = inFrame->header.blocksize;
+	unsigned long locActualSize = locNumFrames * mFrameSize;
+	unsigned long locTotalFrameCount = locNumFrames * mNumChannels;
+
+	//BUG::: There's a bug here. Implicitly assumes 2 channels.
+	unsigned char* locBuff = new unsigned char[locActualSize];
+
+
+	signed short* locShortBuffer = (signed short*)locBuff;		//Don't delete this.
+	
+	signed short tempInt = 0;
+	int tempLong = 0;
+	float tempFloat = 0;
+	
+	//FIX:::Move the clipping to the abstract function
+	//Make sure our sample buffer is big enough
+
+	//Modified for FLAC int32 not float
+
+		
+	//Must interleave and convert sample size.
+	for(unsigned long i = 0; i < locNumFrames; i++) {
+		for (unsigned long j = 0; j < mNumChannels; j++) {
+			
+			
+				//No clipping required for ints
+				//FIX:::Take out the unnescessary variable.
+			tempLong = inBuffer[j][i];
+				//Convert 32 bit to 16 bit
+
+			//FIX::: Why on earth are you dividing by 2 ? It does not make sense !
+			tempInt = (signed short)(tempLong/2);
+		
+			*locShortBuffer = tempInt;
+			locShortBuffer++;
+		}
+	}
+
+
+
+	
+	mFLACSourcePin->deliverData(locBuff, locActualSize, (mUpto*UNITS) / mSampleRate, ((mUpto+locNumFrames)*UNITS) / mSampleRate);
+	mUpto += locNumFrames;
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
 void NativeFLACSourceFilter::metadata_callback(const FLAC__StreamMetadata* inMetaData) {
-
+	debugLog<<"Meta callback..."<<endl;
 }
 void NativeFLACSourceFilter::error_callback(FLAC__StreamDecoderErrorStatus inStatus) {
-
+	debugLog<<"Error callback..."<<endl;
 }
 
 bool NativeFLACSourceFilter::eof_callback(void) {
-	return false;
+	debugLog<<"EOF Req"<<endl;
+	return mInputFile.eof();
 }

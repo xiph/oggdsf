@@ -32,6 +32,8 @@
 #include "dsfNativeFLACSource.h"
 #include "NativeFLACSourcePin.h"
 #include "FLAC++/decoder.h"
+#include "StringHelper.h"
+#include "iBE_Math.h"
 #include <string>
 using namespace std;
 using namespace FLAC::Decoder;
@@ -46,6 +48,7 @@ class NativeFLACSourceFilter
 	,	protected FLAC::Decoder::SeekableStream
 {
 public:
+	friend class NativeFLACSourcePin;
 	enum eThreadCommands {
 		THREAD_EXIT = 0,
 		THREAD_PAUSE = 1,
@@ -102,5 +105,19 @@ protected:
 	wstring mFileName;
 	wstring mHDRFileName;
 
+	fstream mInputFile;
+
+	unsigned long mFileSize;
+
+	fstream debugLog;
+
+	bool mBegun;
+
+	unsigned long mUpto;
+
+	unsigned long mNumChannels;
+	unsigned long mFrameSize;
+	unsigned long mSampleRate;
+	unsigned long mBitsPerSample;
 
 };

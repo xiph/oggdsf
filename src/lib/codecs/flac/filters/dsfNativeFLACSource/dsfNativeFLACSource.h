@@ -43,3 +43,36 @@ DEFINE_GUID(CLSID_NativeFLACSourceFilter,
 
 
 
+
+
+const REGPINTYPES FLACSourceOutputTypes = {
+	&MEDIATYPE_Audio,
+	&MEDIASUBTYPE_PCM
+};
+
+const REGFILTERPINS FLACSourcePinReg[] = {
+	{
+	L"PCM Output",						//Name (obsoleted)
+	FALSE,								//Renders from this pin ?? Not sure about this.
+	TRUE,								//Is an output pin
+	FALSE,								//Cannot have zero instances of this pin
+	FALSE,								//Cannot have more than one instance of this pin
+	NULL,								//Connects to filter (obsoleted)
+	NULL,								//Connects to pin (obsoleted)
+	1,									//Only support one media type
+	&FLACSourceOutputTypes					//Pointer to media type (Audio/PCM)
+
+	}
+};
+
+
+
+const REGFILTER2 FLACEncodeFilterReg = {
+		1,
+		MERIT_DO_NOT_USE,
+		0,
+        FLACSourcePinReg
+		
+};
+	   
+

@@ -64,9 +64,14 @@ public:
 	virtual HRESULT DeliverEndOfStream(void);
 	virtual HRESULT DeliverEndFlush(void);
 	virtual HRESULT DeliverBeginFlush(void);
+
+	//
+	HRESULT deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd);
 protected:
 	//fstream debugLog;
 	HRESULT mFilterHR;
 	COutputQueue* mDataQueue;
+
+	NativeFLACSourceFilter* mParentFilter;
 	
 };
