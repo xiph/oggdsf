@@ -33,7 +33,7 @@
 #include "StreamHeaders.h"
 #include <OggPage.h>
 #include <IOggCallback.h>
-#include "BasicSeekable.h"
+#include "BasicSeekPassThrough.h"
 #include <fstream>
 #include "OggDemuxSourceFilter.h"
 using namespace std;
@@ -42,7 +42,7 @@ class OggDemuxSourceFilter;
 
 class OGG_DEMUX_API OggDemuxSourcePin
 	:	public CBaseOutputPin
-	,	public BasicSeekable
+	,	public BasicSeekPassThrough
 		
 {
 public:

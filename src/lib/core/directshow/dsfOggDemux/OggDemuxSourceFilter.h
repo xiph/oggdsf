@@ -52,7 +52,7 @@ class OGG_DEMUX_API OggDemuxSourceFilter
 		public CAMThread,
 		public IFileSourceFilter,
 		public IOggCallback
-	,	public BasicSeekable
+	,	public BasicSeekPassThrough
 	,	public ISpecifyPropertyPages
 	,	public IAMFilterMiscFlags
 	,	public IAMMediaContent
