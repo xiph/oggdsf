@@ -32,28 +32,13 @@
 #include "httpfilesource.h"
 
 HTTPFileSource::HTTPFileSource(void)
-	:	mWasError(false)
-	,	mIsEOF(false)
-	,	mIsOpen(false)
-	,	mSeenResponse(false)
+	:	HTTPSocket()
 	,	mBufferLock(NULL)
 {
 	mBufferLock = new CCritSec;
 	debugLog.open("G:\\logs\\httpdebug.log", ios_base::out);
 	//fileDump.open("G:\\filedump.ogg", ios_base::out|ios_base::binary);
-	WORD locWinsockVersion = MAKEWORD(1,1);
-	WSADATA locWinsockData;
-	int locRet= 0;
 
-	locRet = WSAStartup(locWinsockVersion, &locWinsockData);
-	if ((locRet != 0) || (locWinsockData.wVersion != locWinsockVersion)) {
-		//Failed to setup.
-		debugLog<<"Failed to start winsock V "<<locWinsockData.wVersion<<endl;
-		WSACleanup();
-		throw 0;
-	}
-
-	debugLog<<"Winsock started"<<endl;
 
 
 
@@ -65,7 +50,7 @@ HTTPFileSource::~HTTPFileSource(void)
 	debugLog.close();
 	//fileDump.close();
 	delete mBufferLock;
-	WSACleanup();
+	
 }
 
 void HTTPFileSource::DataProcessLoop() {
@@ -136,91 +121,7 @@ void HTTPFileSource::DataProcessLoop() {
 
 }
 
-bool HTTPFileSource::setupSocket(string inSourceLocation) {
-	
-	debugLog<<"Setup Socket:"<<endl;
-	IN_ADDR locAddress;  //iaHost
-	LPHOSTENT locHostData;;  //lpHost
 
-	bool locValidURL = splitURL(inSourceLocation);
-
-	locAddress.S_un.S_addr = inet_addr(mServerName.c_str());
-	
-
-	if (locAddress.S_un.S_addr == INADDR_NONE) {
-		locHostData = gethostbyname(mServerName.c_str());
-	} else {
-		locHostData = gethostbyaddr((const char*)&locAddress, sizeof(struct in_addr), AF_INET);
-	}
-
-
-
-	if (locHostData == NULL) {
-		debugLog<<"LocHostData is NULL"<<endl;
-		//Failed
-		return false;
-	}
-
-	mSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (mSocket == INVALID_SOCKET) {
-		debugLog<<"Socket Invalid"<<endl;
-		//Failed
-		return false;
-	}
-
-
-	LPSERVENT locServiceData; //lpServEnt
-	SOCKADDR_IN locServiceSocketAddr; //saServer
-	
-	if (mPort == 0) {
-		locServiceData = getservbyname("http", "tcp");
-		if (locServiceData == NULL) {
-			locServiceSocketAddr.sin_port = htons(80);
-		} else {
-			locServiceSocketAddr.sin_port = locServiceData->s_port;
-		}
-	} else {
-		//Explicit port
-		locServiceSocketAddr.sin_port = htons(mPort);
-	}
-
-
-
-	locServiceSocketAddr.sin_family = AF_INET;
-	locServiceSocketAddr.sin_addr = *((LPIN_ADDR)*locHostData->h_addr_list);
-
-
-	int locRetVal = 0;
-	locRetVal = connect(mSocket, (LPSOCKADDR)&locServiceSocketAddr, sizeof(SOCKADDR_IN));
-	if (locRetVal == SOCKET_ERROR) {
-		debugLog<<"Failed to connect..."<<endl;
-		closesocket(mSocket);
-		return false;
-	}
-
-	return true;
-
-
-}
-
-string HTTPFileSource::assembleRequest(string inFilePath) {
-	string retRequest;
-	retRequest = "GET " + inFilePath+ " HTTP/1.1\n" + "Host: " + mServerName+ "\n\n";
-	debugLog<<"Assembled Req : "<<endl<<retRequest<<endl;
-	return retRequest;
-}
-
-bool HTTPFileSource::httpRequest(string inRequest) {
-	debugLog<<"Http Request:"<<endl;
-	int locRetVal = send(mSocket, inRequest.c_str(), (int)inRequest.length(), 0);
-
-	if (locRetVal == SOCKET_ERROR) {
-		debugLog<<"Socket error on send"<<endl;
-		closesocket(mSocket);
-		return false;
-	}
-	return true;
-}
 DWORD HTTPFileSource::ThreadProc(void) {
 	//debugLog<<"ThreadProc:"<<endl;
 	while(true) {
@@ -253,62 +154,7 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 	return 0;
 }
 
-bool HTTPFileSource::splitURL(string inURL) {
-	debugLog<<"Split url:"<<endl;
-	string locProtocol;
-	string locServerName;
-	string locPath;
-	string locPort;
-	string locTemp;
-	size_t locPos2;
-	size_t locPos = inURL.find(':');
-	if (locPos == string::npos) {
-		//No colon... not a url or file... failure.
-		return false;
-	} else {
-		locProtocol = inURL.substr(0, locPos);
-		locTemp = inURL.substr(locPos+1);
-		locPos = locTemp.find("//");
-		if ((locPos == string::npos) || (locPos != 0)) {
-			return false;
-		} else {
-            locTemp = locTemp.substr(locPos+2);
-			locPos = locTemp.find('/');
-			if (locPos == string::npos) {
-				return false;
-			} else {
-				locPos2 = locTemp.find(':');
-				if (locPos2 == string::npos) {
-					locServerName = locTemp.substr(0, locPos);
-					locPath = locTemp.substr(locPos);
-				} else if (locPos2 < locPos) {
-					//Explicit port specification
-					locPort = locTemp.substr(locPos2 + 1, locPos - locPos2 - 1);
-					locServerName = locTemp.substr(0, locPos2);
-					locPath = locTemp.substr(locPos);
-				}
 
-			}
-		}
-		
-	}
-
-	mServerName = locServerName;
-	mFileName = locPath;
-	if (locPort != "") {
-		//Error checking needed
-		mPort = atoi(locPort.c_str());
-	} else {
-		mPort = 0;
-	}
-	debugLog<<"Proto : "<<locProtocol<<endl<<"Server : "<<locServerName<<endl<<" Path : "<<mFileName<<" Port : "<<mPort<<endl;
-	return true;
-
-}
-void HTTPFileSource::closeSocket() {
-	debugLog<<"Close Socket:"<<endl;
-	closesocket(mSocket);
-}
 void HTTPFileSource::close() {
 	//Close the socket down.
 	closeSocket();

@@ -158,6 +158,9 @@
 				RelativePath="HTTPFileSource.cpp">
 			</File>
 			<File
+				RelativePath=".\HTTPSocket.cpp">
+			</File>
+			<File
 				RelativePath="OggDemux.def">
 			</File>
 			<File
@@ -229,6 +232,9 @@
 			</File>
 			<File
 				RelativePath="HTTPFileSource.h">
+			</File>
+			<File
+				RelativePath=".\HTTPSocket.h">
 			</File>
 			<File
 				RelativePath="IFilterDataSource.h">

@@ -32,12 +32,14 @@
 #include "oggdllstuff.h"
 #include <winsock.h>
 //#include <stdlib.h>
+#include "HTTPSocket.h"
 #include <string>
 #include <sstream>
 #include <fstream>
 using namespace std;
 class OGG_DEMUX_API HTTPFileSource
-	:	public IFilterDataSource
+	:	protected HTTPSocket
+	,	public IFilterDataSource
 	,	public CAMThread
 {
 public:
@@ -64,26 +66,15 @@ public:
 
 
 protected:
-	virtual bool setupSocket(string inSourceLocation);
-	virtual void closeSocket();
-	virtual bool splitURL(string inURL);
-	virtual string assembleRequest(string inFilePath);
-	bool httpRequest(string inRequest);
+
 	bool HTTPFileSource::startThread();
 	void DataProcessLoop();
-	string mServerName;
-	string mFileName;
-	unsigned short mPort;
-	string mLastResponse;
-	SOCKET mSocket;
+
 	stringstream mStreamBuffer;
 
 	fstream debugLog;
 	//fstream fileDump;
-	bool mIsEOF;
-	bool mWasError;
-	bool mIsOpen;
-	bool mSeenResponse;
+
 
 	CCritSec* mBufferLock;
 };
