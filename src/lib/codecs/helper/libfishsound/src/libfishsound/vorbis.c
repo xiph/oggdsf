@@ -423,6 +423,8 @@ fs_vorbis_encode_n (FishSound * fsound, float * pcm[], long frames)
   return 0;
 }
 
+
+
 static FishSound *
 fs_vorbis_enc_init (FishSound * fsound)
 {
@@ -435,7 +437,7 @@ fs_vorbis_enc_init (FishSound * fsound)
 
 
   vorbis_encode_init_vbr (&fsv->vi, fsound->info.channels,
-			  fsound->info.samplerate, (float)0.3 /* quality */);
+			  fsound->info.samplerate, (float)fs_vorbis_quality_setting_variable /* quality */);
 
   vorbis_encode_setup_init (&fsv->vi);
 
