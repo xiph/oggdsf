@@ -1,7 +1,8 @@
 #include "StdAfx.h"
 #include ".\anxmuxinputpin.h"
-
-AnxMuxInputPin::AnxMuxInputPin(void)
+#include "AnxMuxFilter.h"
+AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream)
+:	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
 {
 }
 
@@ -16,7 +17,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 
 	if (locHR == S_OK) {
 
-		mPaginator.addPacketToPage(AnxPacketMaker::makeAnxData(mMuxStream));
+		mPaginator.acceptStampedOggPacket(AnxPacketMaker::makeAnxData_2_0(mMuxStream, &mPaginator));
 	}
 
 	return locHR;

@@ -16,6 +16,9 @@ public:
 
 protected:
 	void addAnnodex_2_0_BOS();
+	void addAllAnxData_2_0_BOS();
+	void addAnnodexEOS();
+	bool gotAllHeaders();
 
 	bool mIsAnxSetup;
 	

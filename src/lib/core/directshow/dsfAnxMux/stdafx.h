@@ -10,5 +10,9 @@
 // Windows Header Files:
 #include <windows.h>
 
+#include <streams.h>
+#include <initguid.h>
+
 // TODO: reference additional headers your program requires here
 #include "libOOOgg.h"
+#include "anxmuxdllstuff.h"

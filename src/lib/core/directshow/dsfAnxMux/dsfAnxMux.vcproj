@@ -19,21 +19,24 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="4"
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib Strmiids.lib  Quartz.lib"
 				OutputFile="$(OutDir)/dsfAnxMux.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Debug&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/dsfAnxMux.pdb"
 				SubSystem="2"
@@ -68,19 +71,22 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Strmbase.lib Winmm.lib Strmiids.lib  Quartz.lib"
 				OutputFile="$(OutDir)/dsfAnxMux.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"

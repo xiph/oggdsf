@@ -58,9 +58,14 @@ void AnxPageInterleaver::addAnnodexEOS() {
 
 	mFileWriter->acceptOggPage(locEOSPage);
 }
+
+bool AnxPageInterleaver::gotAllHeaders() {
+	//TODO::: Fill this in.
+	return false;
+}
 void AnxPageInterleaver::processData()
 {
-	if ((mVersionMajor == 2) && (mVersionMinor == 0))) {
+	if ((mVersionMajor == 2) && (mVersionMinor == 0)) {
 		//IF seen all headers
 		//		CREATE ANNODEX BOS
 		//		CREATE ANXDATA BOS's
@@ -70,9 +75,9 @@ void AnxPageInterleaver::processData()
 		//ENDIF
 		//
 	
-		if (!isAnxSetup) {
+		if (!mIsAnxSetup) {
 			if (gotAllHeaders()) {
-				isAnxSetup = true;
+				mIsAnxSetup = true;
 				addAnnodex_2_0_BOS();
 				addAllAnxData_2_0_BOS();
 				addAnnodexEOS();	
@@ -81,5 +86,7 @@ void AnxPageInterleaver::processData()
 		} else {
 			OggPageInterleaver::processData();
 		}
-
+	} else {
+		throw 0;
+	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "libOOOgg.h"
-#include "OggStreamFactory.h"
+#include "StreamHeaders.h"
+
 class AnxPacketMaker
 {
 public:
@@ -15,7 +15,7 @@ public:
 												,	unsigned short inVersionMinor
 												,	unsigned __int64 inTimebaseNum
 												,	unsigned __int64 inTimebaseDenom
-												,	const char* inUTC
+												,	const unsigned char* inUTC
 											);
 
 	static StampedOggPacket* makeAnxData	(		unsigned short inVersionMajor
@@ -29,7 +29,7 @@ public:
 	static StampedOggPacket* makeAnxData_2_0 (OggMuxStream* inMuxStream, OggPaginator* inPaginator);
 	static StampedOggPacket* makeAnxData (OggMuxStream* inMuxStream, OggPaginator* inPaginator);
 
-	
+	static StreamHeaders::eCodecType AnxPacketMaker::IdentifyCodec(OggPacket* inOggPacket);
 	static vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream);
 
 };

@@ -1,12 +1,14 @@
 #pragma once
-
+#include "anxmuxdllstuff.h"
 #include "OggMuxFilter.h"
 class AnxMuxFilter
-	:	public OggMuxFitler
+	:	public OggMuxFilter
 {
 public:
 	AnxMuxFilter(void);
 	~AnxMuxFilter(void);
+
+	static CUnknown* WINAPI AnxMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
 	enum eAnxMuxState {
 		ANX_START_STATE = 0,

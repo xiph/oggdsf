@@ -1,13 +1,16 @@
 #pragma once
 
+#include "oggmuxdllstuff.h"
 #include "OggMuxInputPin.h"
+#include "AnxMuxFilter.h"
+#include "AnxPacketMaker.h"
 class AnxMuxInputPin
 	:	public OggMuxInputPin
 {
 public:
-	AnxMuxInputPin(void);
+	AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
 	~AnxMuxInputPin(void);
 
 
-	virtual HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType);
+	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 };

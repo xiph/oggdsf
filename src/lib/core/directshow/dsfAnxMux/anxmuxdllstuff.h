@@ -1,11 +1,11 @@
 #pragma once
 
-#include "oggdllstuff.h"
+
 
 
 
 // {6C5746D3-D309-4988-8694-D435AB86460D}
-DEFINE_GUID(CLASSID_AnxMuxFilter, 
+DEFINE_GUID(CLSID_AnxMuxFilter, 
 0x6c5746d3, 0xd309, 0x4988, 0x86, 0x94, 0xd4, 0x35, 0xab, 0x86, 0x46, 0xd);
 
 
@@ -22,7 +22,7 @@ DEFINE_GUID(MEDIASUBTYPE_CMML,
 DEFINE_GUID(CLSID_CMMLDecodeFilter, 
 0xbf1121d1, 0x8739, 0x45e1, 0xbc, 0xd8, 0x90, 0xb8, 0x28, 0xf6, 0x43, 0xab);
 
-const REGFILTER2 AnxMuxSourceFilterReg = {
+const REGFILTER2 AnxMuxFilterReg = {
 		1,
 		MERIT_NORMAL,
 		0,

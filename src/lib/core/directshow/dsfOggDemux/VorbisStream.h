@@ -31,7 +31,7 @@
 #pragma once
 
 #include "oggdllstuff.h"
-
+#include "ds_guids.h"
 #include "OggPacket.h"
 #include "OggPage.h"
 #include "OggStream.h"

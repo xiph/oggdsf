@@ -23,7 +23,7 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 CUnknown* WINAPI AnxMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
-	AnxDemuxSourceFilter *pNewObject = new AnxDMuxFilter();
+	AnxMuxFilter *pNewObject = new AnxMuxFilter();
     if (pNewObject == NULL) {
         *pHr = E_OUTOFMEMORY;
     }

@@ -14,7 +14,7 @@ OggPage* AnxPacketMaker::makeAnnodexBOS	(					unsigned long inSerialNo
 														,	unsigned short inVersionMinor
 														,	unsigned __int64 inTimebaseNum
 														,	unsigned __int64 inTimebaseDenom
-														,	const char* inUTC
+														,	const unsigned char* inUTC
 														
 													)
 {
@@ -147,10 +147,28 @@ StampedOggPacket* AnxPacketMaker::makeAnxData_2_0 (OggMuxStream* inMuxStream, Og
 							,	makeMessageHeaders(inMuxStream));
 }
 
+StreamHeaders::eCodecType AnxPacketMaker::IdentifyCodec(OggPacket* inOggPacket) {
+	if (strncmp((char*)inOggPacket->packetData(), "\001vorbis", 7) == 0) {
+		return StreamHeaders::VORBIS;
+	} else if (strncmp((char*)inOggPacket->packetData(), "Speex   ", 8) == 0) {
+		return StreamHeaders::SPEEX;
+	} else if ((strncmp((char*)inOggPacket->packetData(), "fLaC", 4)) == 0) {
+		return StreamHeaders::FLAC;
+	} else if ((strncmp((char*)inOggPacket->packetData(), "\177FLAC", 5)) == 0) {
+		return StreamHeaders::OGG_FLAC_1_0;
+	} else if ((strncmp((char*)inOggPacket->packetData(), "\200theora", 7)) == 0) {
+		return StreamHeaders::THEORA;
+	} else if ((strncmp((char*)inOggPacket->packetData(), "\001video\000\000\000", 9)) == 0) {
+		return StreamHeaders::FFDSHOW_VIDEO;
+	}
+	
+	return StreamHeaders::NONE;
+	
+}
 vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream) {
 	string locTempString = "";
 	vector<string> retVector;
-	switch(OggStreamFactory::IdentifyCodec(inMuxStream->peekFront()->getPacket(0))) {
+	switch(IdentifyCodec(inMuxStream->peekFront()->getPacket(0))) {
 		case StreamHeaders::VORBIS:
 			locTempString = "Content-type: audio/x-vorbis";
 			retVector.push_back(locTempString);
@@ -177,7 +195,7 @@ vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream) {
 			break;
 		case StreamHeaders::NONE:
 		default:
-			return NULL;
+			break;
 	}
 
 	return retVector;

@@ -374,6 +374,9 @@
 				RelativePath="DataSourceFactory.h">
 			</File>
 			<File
+				RelativePath=".\ds_guids.h">
+			</File>
+			<File
 				RelativePath="FFDShowVideoStream.h">
 			</File>
 			<File
