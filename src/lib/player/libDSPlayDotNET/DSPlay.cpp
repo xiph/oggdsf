@@ -1,6 +1,9 @@
 //===========================================================================
 //Copyright (C) 2004 Zentaro Kavanagh
 //
+//Copyright (C) 2004 Commonwealth Scientific and Industrial Research
+// Orgainisation (CSIRO) Australia
+//
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
 //are met:
@@ -55,6 +58,35 @@ DSPlay::DSPlay(void)
 	//,	mDNCMMLCallbacks(NULL)
 	,	mDNMediaEvent(NULL)
 	,	mCMMLAppControl(NULL)
+	,	mWindowHandle(NULL)
+	,	mVideoWindow(NULL)
+	,	mLeft(0)
+	,	mTop(0)
+	,	mWidth(0)
+	,	mHeight(0)
+
+{
+	CoInitialize(NULL);
+	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
+	debugLog = new fstream;
+	debugLog->open("G:\\logs\\dsplay.log", ios_base::out);
+}
+
+DSPlay::DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, Int32 inHeight) 
+	:	mGraphBuilder(NULL)
+	,	mMediaControl(NULL)
+	,	mMediaSeeking(NULL)
+	,	mMediaEvent(NULL)
+	,	mEventHandle(INVALID_HANDLE_VALUE)
+	//,	mDNCMMLCallbacks(NULL)
+	,	mDNMediaEvent(NULL)
+	,	mCMMLAppControl(NULL)
+	,	mWindowHandle(inWindowHandle)
+	,	mVideoWindow(NULL)
+	,	mLeft(inLeft)
+	,	mTop(inTop)
+	,	mWidth(inWidth)
+	,	mHeight(inHeight)
 {
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
@@ -85,31 +117,7 @@ bool DSPlay::checkEvents() {
 	}
 	return true;
 }
-//IMediaEvent* locMediaEvent = NULL;
-//	locHR = locGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&locMediaEvent);
-//	
-//	HANDLE  hEvent; 
-//	long    evCode, param1, param2;
-//	BOOLEAN bDone = FALSE;
-//	HRESULT hr = S_OK;
-//	hr = locMediaEvent->GetEventHandle((OAEVENT*)&hEvent);
-//	if (FAILED(hr))
-//	{
-//	    /* Insert failure-handling code here. */
-//	}
-//	while(true) //!bDone) 
-//	{
-//	    if (WAIT_OBJECT_0 == WaitForSingleObject(hEvent, 100))
-//	    { 
-//			while (hr = locMediaEvent->GetEvent(&evCode, &param1, &param2, 0), SUCCEEDED(hr)) 
-//			{
-//	            //printf("Event code: %#04x\n Params: %d, %d\n", evCode, param1, param2);
-//				cout<<"Event : "<<evCode<<" Params : "<<param1<<", "<<param2<<endl;
-//				locMediaEvent->FreeEventParams(evCode, param1, param2);
-//				bDone = (EC_COMPLETE == evCode);
-//			}
-//		}
-//	} 
+
 
 DSPlay::~DSPlay(void) {
 	*debugLog<<"Killing DSPlay"<<endl;
@@ -160,6 +168,14 @@ void DSPlay::releaseInterfaces() {
 
 		*debugLog<<"Graph Builder count = "<<numRef<<endl;
 		mGraphBuilder = NULL;
+	}
+
+	if (mVideoWindow != NULL) {
+		numRef =
+            mVideoWindow->Release();
+
+		*debugLog<<"Video Window count = "<<numRef<<endl;
+		mVideoWindow = NULL;
 	}
 
 
@@ -287,6 +303,20 @@ bool DSPlay::loadFile(String* inFileName) {
 		locHR = locMediaEvent->GetEventHandle((OAEVENT*)&locEventHandle);
 		mEventHandle = locEventHandle;
 	}
+
+	if (mWindowHandle != NULL) {
+		//Get the IVideoWindow interface.
+		IVideoWindow* locVideoWindow = NULL;
+		locHR = mGraphBuilder->QueryInterface(IID_IVideoWindow, (void**)&locVideoWindow);
+
+		if (locHR == S_OK) {
+			mVideoWindow = locVideoWindow;
+			mVideoWindow->put_Owner((int)mWindowHandle);
+			mVideoWindow->SetWindowPosition(mLeft, mTop, mWidth, mHeight);
+			mVideoWindow->put_WindowStyle(WS_CHILD | WS_CLIPCHILDREN);
+		}
+	}
+
 
 //	if (FAILED(hr))
 

@@ -54,6 +54,16 @@ void C_CMMLTag::setId(wstring inId) {
 
 //Protected Helper Methods
 wstring C_CMMLTag::makeElement(wstring inElemName, wstring inElemContent) {
+	if (inElemContent != L"") {
+		wstring retStr;
+		retStr = L" " + inElemName + L"=\"" + inElemContent + L"\"";
+		return retStr;
+	} else {
+		return L"";
+	}
+}
+
+wstring C_CMMLTag::makeRequiredElement(wstring inElemName, wstring inElemContent) {
 	wstring retStr;
 	retStr = L" " + inElemName + L"=\"" + inElemContent + L"\"";
 	return retStr;

@@ -63,6 +63,7 @@ namespace libCMMLTagsDotNET {
 		return Wrappers::WStrToNetStr( getMe()->profile().c_str());
 	}
 	TitleTag* HeadTag::title() {
+		//Title is gauranteed to exist.
 		return new TitleTag(getMe()->title()->clone());
 	}
 	BaseTag* HeadTag::base() {
@@ -87,6 +88,7 @@ namespace libCMMLTagsDotNET {
 
 	}	
 	void HeadTag::setTitle(TitleTag* inTitle){
+		//TODO::: Maybe this needs code to handle a null pointer being passed in.
 		getMe()->setTitle(inTitle->getMe()->clone());
 	}
 	void HeadTag::setBase(BaseTag* inBase) {

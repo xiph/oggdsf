@@ -65,13 +65,28 @@ namespace libCMMLTagsDotNET {
 		return new MetaTagList(getMe()->metaList(), false);
 	}
 	AnchorTag* ClipTag::anchor() {
-		return new AnchorTag(getMe()->anchor(),false);
+		C_AnchorTag* locAnchor = getMe()->anchor();
+		if (locAnchor != NULL) {
+			return new AnchorTag(locAnchor,false);
+		} else {
+			return NULL;
+		}
 	}
 	ImageTag* ClipTag::image() {
-		return new ImageTag(getMe()->image(), false);
+		C_ImageTag* locImage = getMe()->image();
+		if (locImage != NULL) {
+			return new ImageTag(locImage, false);
+		} else {
+			return NULL;
+		}
 	}
 	DescTag* ClipTag::desc() {
-		return new DescTag(getMe()->desc(), false);
+		C_DescTag* locDesc = getMe()->desc();
+		if (locDesc != NULL) {
+			return new DescTag(locDesc, false);
+		} else {
+			return NULL;
+		}
 	}
 
 	String* ClipTag::start() {

@@ -86,5 +86,6 @@ protected:
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);
 	wstring makeElement(wstring inElemName, wstring inElemContent);
+	wstring C_CMMLTag::makeRequiredElement(wstring inElemName, wstring inElemContent);
 	
 };

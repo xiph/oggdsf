@@ -42,6 +42,7 @@ public:
 	C_MetaTagList(void);
 	virtual ~C_MetaTagList(void);
 
+	void emptyList();
 	void addTag(C_MetaTag* inTag);
 	void addTag(wstring inName, wstring inContent);
 	//void removeTag ???

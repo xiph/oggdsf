@@ -121,9 +121,23 @@ void C_ClipTag::privateClone(C_CMMLTag* outTag) {
 	C_HumReadCMMLTag::privateClone(outTag);
 	C_ClipTag* locTag = reinterpret_cast<C_ClipTag*>(outTag);
 	locTag->mTrack = mTrack;
-	locTag->setAnchor(mAnchor->clone());
-	locTag->setImage(mImage->clone());
-	locTag->setDesc(mDesc->clone());
+	if (mAnchor != NULL) {
+		locTag->setAnchor(mAnchor->clone());
+	} else {
+		locTag->setAnchor(NULL);
+	}
+
+	if (mImage != NULL) {
+		locTag->setImage(mImage->clone());
+	} else {
+		locTag->setImage(NULL);
+	}
+
+	if (mDesc != NULL) {
+		locTag->setDesc(mDesc->clone());
+	} else {
+		locTag->setDesc(NULL);
+	}
 	locTag->setStart(mStart);
 	locTag->setEnd(mEnd);
 	//locTag->mMetaList = mMetaList->clone();

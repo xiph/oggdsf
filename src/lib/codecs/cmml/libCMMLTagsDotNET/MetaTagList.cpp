@@ -57,6 +57,10 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = NULL;
 	}
 
+	void MetaTagList::emptyList() {
+		getMe()->emptyList();
+	}
+
 
 	void MetaTagList::addTag(MetaTag* inTag) {
 		getMe()->addTag(inTag->getMe()->clone());

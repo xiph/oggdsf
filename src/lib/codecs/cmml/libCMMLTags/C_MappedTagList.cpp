@@ -40,6 +40,10 @@ C_MappedTagList::C_MappedTagList(void)
 
 C_MappedTagList::~C_MappedTagList(void)
 {
+	emptyList();
+}
+
+void C_MappedTagList::emptyList() {
 	for (unsigned long i = 0; i < mTagList.size(); i++) {
 		delete mTagList[i];
 	}

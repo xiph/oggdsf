@@ -101,11 +101,11 @@ C_CMMLRootTag* C_CMMLRootTag::clone() {
 wstring C_CMMLRootTag::toString() {
 	wstring retStr;
 	retStr = L"<cmml";
-	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
-	}
 
+	retStr += makeElement(L"id", mId);
 	retStr += makeLangElements();
+	//TODO::: This shouldn't be hardcoded here !
+	retStr += makeElement(L"xmlns", L"http://www.annodex.net/cmml");
 
 	
 	retStr += L">\n";

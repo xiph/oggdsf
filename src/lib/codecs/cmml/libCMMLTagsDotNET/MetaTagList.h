@@ -57,6 +57,7 @@ namespace libCMMLTagsDotNET {
 		MetaTagList(C_MetaTagList* inTag, bool inDeleteBase);
 		virtual ~MetaTagList(void);
 
+		void emptyList();
 		void addTag(MetaTag* inTag);
 		void addTag(String* inName, String* inContent);
 		//void removeTag ???

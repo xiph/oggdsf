@@ -48,6 +48,11 @@ void C_MetaTagList::addTag(C_MetaTag* inTag) {
 	C_MappedTagList::addTag(inTag);
 }
 
+void C_MetaTagList::emptyList() {
+	C_MappedTagList::emptyList();
+
+}
+
 
 void C_MetaTagList::addTag(wstring inName, wstring inContent) {
 	C_MetaTag* retTag = new C_MetaTag;

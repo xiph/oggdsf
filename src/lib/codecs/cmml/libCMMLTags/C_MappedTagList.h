@@ -68,6 +68,7 @@ protected:
 	C_MappedTag* getTag(unsigned long inTagNo);
 	C_MappedTag* getTag(wstring mName);
 	void addTag(C_MappedTag* inTag);
+	void emptyList();
 
 
 	//Protected Helper Methods

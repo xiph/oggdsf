@@ -79,18 +79,11 @@ wstring C_AnchorTag::toString()  {
 	 
 
 	wstring retStr =	L"<a";
-	//Put in the id element if there is one
-	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
-	}
 
+	retStr += makeElement(L"id", mId);
 	retStr += makeLangElements();
-
-	if (mCls.size() != 0) {
-		retStr += makeElement(L"class", mCls);
-	}
-
-	retStr += makeElement(L"href", mHref);
+	retStr += makeElement(L"class", mCls);
+	retStr += makeRequiredElement(L"href", mHref);
 
 	retStr += L">";
 	retStr += mText;

@@ -1,6 +1,9 @@
 //===========================================================================
 //Copyright (C) 2004 Zentaro Kavanagh
 //
+//Copyright (C) 2004 Commonwealth Scientific and Industrial Research
+// Orgainisation (CSIRO) Australia
+//
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
 //are met:
@@ -65,6 +68,7 @@ namespace libDSPlayDotNET
 	{
 	public:
 		DSPlay(void);
+		DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, Int32 inHeight);
 		~DSPlay(void);
 
 		bool loadFile(String* inFileName);
@@ -94,8 +98,15 @@ namespace libDSPlayDotNET
 		IMediaSeeking* mMediaSeeking;
 		IMediaEvent* mMediaEvent;
 		ICMMLAppControl* mCMMLAppControl;
+		IVideoWindow* mVideoWindow;
+
+		Int32 mLeft;
+		Int32 mTop;
+		Int32 mWidth;
+		Int32 mHeight;
 
 		HANDLE mEventHandle;
+		IntPtr mWindowHandle;
 
 		//IDNCMMLCallbacks* mDNCMMLCallbacks;
 		CMMLCallbackProxy* mCMMLProxy;
