@@ -375,23 +375,43 @@ namespace DNPlay
 			DialogResult locResult = dlgOpenFile.ShowDialog();
 			if (locResult == DialogResult.OK) 
 			{
-				tmrUpdateDuration.Enabled = false;
-				lblFileLocation.Text = dlgOpenFile.FileName;
-				bool locRes = mPlayer.loadFile(dlgOpenFile.FileName);
-				//Error check
-				mFileDuration = mPlayer.fileDuration();
-				setDurationText(mFileDuration);
-				//lblDuration.Text = mFileDuration.ToString();
-
-				mNumTicks = 0;
-				mLastSync = 0;
-				updateProgressBar();
-
-				mPlayer.setMediaEventCallback(this);
-				mPlayer.setCMMLCallbacks(this);
-				cmdPlay.Enabled = true;
+				LoadFile(dlgOpenFile.FileName);
+//				tmrUpdateDuration.Enabled = false;
+//				lblFileLocation.Text = dlgOpenFile.FileName;
+//				bool locRes = mPlayer.loadFile(dlgOpenFile.FileName);
+//				//Error check
+//				mFileDuration = mPlayer.fileDuration();
+//				setDurationText(mFileDuration);
+//				//lblDuration.Text = mFileDuration.ToString();
+//
+//				mNumTicks = 0;
+//				mLastSync = 0;
+//				updateProgressBar();
+//
+//				mPlayer.setMediaEventCallback(this);
+//				mPlayer.setCMMLCallbacks(this);
+//				cmdPlay.Enabled = true;
 			}
 
+		}
+
+		private void LoadFile(String inFileName) 
+		{
+			tmrUpdateDuration.Enabled = false;
+			lblFileLocation.Text = inFileName;
+			bool locRes = mPlayer.loadFile(inFileName);
+			//Error check
+			mFileDuration = mPlayer.fileDuration();
+			setDurationText(mFileDuration);
+			//lblDuration.Text = mFileDuration.ToString();
+
+			mNumTicks = 0;
+			mLastSync = 0;
+			updateProgressBar();
+
+			mPlayer.setMediaEventCallback(this);
+			mPlayer.setCMMLCallbacks(this);
+			cmdPlay.Enabled = true;
 		}
 		
 		private void menuItem3_Click(object sender, System.EventArgs e)
@@ -495,6 +515,7 @@ namespace DNPlay
 
 		private void cmdFollowLink_Click(object sender, System.EventArgs e)
 		{
+
 			String locFilename = mCurrentClip.anchor().href();
 			tmrUpdateDuration.Enabled = false;
 			lblFileLocation.Text = locFilename;
