@@ -41,7 +41,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CallingConvention="0"
-				CompileAs="0"/>
+				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -108,7 +108,7 @@
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
 				CallingConvention="0"
-				CompileAs="0"/>
+				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"
 				Description="Performing Custom Build Ste"/>
@@ -182,7 +182,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CallingConvention="0"
-				CompileAs="0"/>
+				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -257,7 +257,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CallingConvention="0"
-				CompileAs="0"/>
+				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
