@@ -278,6 +278,9 @@ void setPresentationTimeOnAnnodexBOSPage (OggPage *inOggPage, LOOG_UINT64 inPres
 	// denominator to indicate that the units are in DirectSeconds)
 	iLE_Math::Int64ToCharArr(inPresentationTime, locNumeratorPointer);
 	iLE_Math::Int64ToCharArr(10000000, locDenominatorPointer);
+
+	// Recompute the Ogg page's checksum
+	inOggPage->computeAndSetCRCChecksum();
 }
 
 #ifdef WIN32
