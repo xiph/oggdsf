@@ -57,6 +57,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C0BA320CDA794057812E2CF28F5EA94C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
         "OwnerKey" = "8:_9061237CE81A4BAC9A988D1713DCE01A"
         "MsmSig" = "8:_UNDEFINED"
@@ -239,7 +245,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:libOOOggWithToolsAndTests"
         "ProductCode" = "8:{E213AA75-8F79-4E6E-A8AE-A131AA8B4058}"
-        "PackageCode" = "8:{F715599B-15C0-4FB2-A8FF-A61AC3488477}"
+        "PackageCode" = "8:{B7230D86-C4A7-4B42-A043-CE625A26690C}"
         "UpgradeCode" = "8:{EC58A5EB-BA29-4AA6-B91D-26DFDB021492}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -818,6 +824,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{223ACC19-608E-4E1B-A054-067F0CACB272}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_C0BA320CDA794057812E2CF28F5EA94C"
+            {
+            "SourcePath" = "8:..\\..\\src\\tests\\testcirclebuffer\\debug\\testCircleBuffer.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{191217F4-1F30-426D-A2AB-A9E613D9A401}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

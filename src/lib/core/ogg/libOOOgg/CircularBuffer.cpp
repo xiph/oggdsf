@@ -39,7 +39,7 @@ unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytes
 		mReadPtr = (mReadPtr + locBytesToRead) % mBufferSize;
 	}
 
-	mReadPtr = (mReadPtr + locBytesToRead) % mBufferSize;
+	
 	
 	return locBytesToRead;
 }
@@ -66,6 +66,11 @@ unsigned long CircularBuffer::numBytesAvail() {
 		//if (mReadPtr <= mWritePtr)
 		return mWritePtr - mReadPtr;
 	}
+}
+
+void CircularBuffer::reset() {
+	mWritePtr = 0;
+	mReadPtr = 0;
 }
 
 unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long inBytesToWrite) {

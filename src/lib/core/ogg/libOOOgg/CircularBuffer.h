@@ -1,6 +1,6 @@
 #pragma once
-
-class CircularBuffer
+#include "dllstuff.h"
+class LIBOOOGG_API CircularBuffer
 {
 public:
 	CircularBuffer(unsigned long inBufferSize);
@@ -12,6 +12,7 @@ public:
 	unsigned long numBytesAvail();
 	unsigned long spaceLeft();
 
+	void reset();
 protected:
 	unsigned long mBufferSize;
 	unsigned long mReadPtr;
