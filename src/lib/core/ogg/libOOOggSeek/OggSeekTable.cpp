@@ -57,11 +57,11 @@ bool OggSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos) {
 
 }
 
-LOOG_INT64 OggSeekTable::getRealStartPos() {
-	
-	return mRealStartPos;
-
-}
+//LOOG_INT64 OggSeekTable::getRealStartPos() {
+//	
+//	return mRealStartPos;
+//
+//}
 OggSeekTable::tSeekPair OggSeekTable::getStartPos(LOOG_INT64 inTime) {
 	 return *(--(mSeekMap.upper_bound(inTime)));
 	 //mRealStartPos = locValue.first;

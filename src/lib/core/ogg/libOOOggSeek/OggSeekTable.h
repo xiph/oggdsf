@@ -49,7 +49,7 @@ public:
 
 	bool addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos);
 	tSeekPair getStartPos(LOOG_INT64 inTime);
-	LOOG_INT64 getRealStartPos();
+	//LOOG_INT64 getRealStartPos();
 
 	bool enabled();
     

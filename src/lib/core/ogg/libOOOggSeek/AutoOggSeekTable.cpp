@@ -159,6 +159,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 			LOOG_INT64 locTimePerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 17);
 			LOOG_INT64 locSamplesPerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 25);
 
+			//TODO::: The division is the wrong way round !!
 			mSampleRate = (unsigned long) ( (10000000 / locTimePerBlock) * locSamplesPerBlock );
 			mFoundStreamInfo = true;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();

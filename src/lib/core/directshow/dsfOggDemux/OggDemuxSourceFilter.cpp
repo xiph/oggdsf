@@ -115,7 +115,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
-	debugLog.open("d:\\zen\\logs\\sourcelog.log", ios_base::out);
+	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
 	//debugLog<<"Test..."<<endl;
 	//debugLog.seekp(0, ios_base::end);
 	//debugLog<<"Test2..."<<endl;
