@@ -36,6 +36,9 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	wstring head_2 = L"asdfasdfasdfasdf";
 	testHeadParse(head_2);
 
+	wstring head_3 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
+	testHeadParse(head_3);
+
 	return 0;
 }
 

@@ -1,0 +1,131 @@
+ELEMENT HIERARCHY
+=================
+
+cmml element
+	FIRST 		OPTIONALLY ONE 		stream element
+	SECOND 		EXACTLY ONE 		head element
+	THIRD 		ZERO OR MORE 		clip elements
+
+stream element
+			ZERO OR MORE		import elements
+
+
+import element
+			ZERO OR MORE		param elements
+
+param element
+	EMPTY
+
+head element
+	ANY ORDER	EXACTLY ONE		title element
+	ANY ORDER	EXACTLY ONE		base element
+	ANY ORDER	ZERO OR MORE		meta elements
+
+title element
+	TEXT STRING
+
+base element
+	EMPTY
+
+meta element
+	EMPTY
+
+clip element
+	ANY ORDER	OPTIONALLY ONE		a element
+	ANY ORDER	OPTIONALLY ONE		img element
+	ANY ORDER	OPTIONALLY ONE		desc element
+	ANY ORDER	ZERO OR MORE		meta elements
+
+a element
+	TEXT STRING (URI)
+
+img element
+	EMPTY
+
+
+desc element
+	TEXT STRING
+
+
+----------------------------------------------------------------
+
+ATTRIBUTES
+==========
+cmml element
+				lang		A language code
+				dir		A language direction.
+	IMPLIED			id		An identifier for the element
+	REQUIRED		xmlns		"http://www.annodex.net/cmml"
+
+stream element
+	IMPLIED			id		An identifier for the element
+	DEFAULT="0"		timebase	The time at which the stream starts relative to cmml
+	OPTIONAL		utc		A 20 byte UTC string	
+
+import element
+	IMPLIED			id		An identifier for the element
+	IMPLIED			granulerate	An a/b string, can be determined from media.
+	IMPLIED			contenttype	A mime type. Can be determined from media.
+	REQUIRED		src		A URI for the source of the media.
+	DEFAULT="0"		start		The relative start time.
+	IMPLIED			end		Relative end time, can be inferred from media.
+	OPTIONAL		title		Free text for rough notes on stream.
+
+param element
+	IMPLIED			id		An identifier for the element
+	REQUIRED		name		Key for a mapped name/value pair.
+	REQUIRED		value		Value for a mapped name/value pair.
+
+head element
+	IMPLIED			id		An identifier for the element
+				lang		A language code
+				dir		A language direction.
+	OPTIONAL		profile		Space seperated URI for meta tag schemes.
+	
+
+title element
+	IMPLIED			id		An identifier for the element
+				lang		A language code
+				dir		A language direction.
+
+base element
+	IMPLIED			id		An identifier for the element
+	REQUIRED		href		Base URI for stream. If base tag omitted, inferred.
+	
+meta element
+	IMPLIED			id		An identifier for the element
+				lang		A language code
+				dir		A language direction.
+	REQUIRED		name		Key for key/value pair
+	REQUIRED		content		Value for key/value pair
+	IMPLIED			scheme		Scheme for meta tag. Can be inferred from profile.
+
+
+clip element
+	IMPLIED			id		An identifier for the element
+				lang		A language code
+				dir		A language direction.
+	DEFAULT="default"	track		The track of data it belongs to
+	REQUIRED		start		The time to start this clip
+	OPTIONAL		end		The time to end this clip
+
+a element
+	IMPLIED			id		An identifier for the element
+				lang		A language code
+				dir		A language direction.
+	OPTIONAL		class		Style sheets
+	REQUIRED		href		The link for this clip.
+
+
+img element
+	IMPLIED			id		An identifier for the element
+				lang		A language code
+				dir		A language direction.
+	REQUIRED		src		URI of image.
+	OPTIONAL		alt		Alternate image text.
+
+
+desc element
+	IMPLIED			id		An identifier for the element
+				lang		A language code
+				dir		A language direction.

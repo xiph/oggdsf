@@ -418,10 +418,11 @@ bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead) {
 
 	if (retVal) {
 		locHeadNode = getNamedNode(L"head", locXMLHeadFrag);
-		//Check return
+		if (locHeadNode != NULL) {
 
-		//Now we have a node representing the clip tag and it's children.
-		retVal = parseHeadTag(locHeadNode, outHead);
+			//Now we have a node representing the clip tag and it's children.
+			retVal = parseHeadTag(locHeadNode, outHead);
+		}
 	}
 
 	if (locXMLHeadFrag != NULL)					locXMLHeadFrag->Release();
