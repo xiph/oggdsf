@@ -67,7 +67,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mSampleRate = OggMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 36);
 			mNumHeaders = 2;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
-		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(), "\200theora", 4)) == 0){
+		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(), "\200theora", 7)) == 0){
 			//FIX ::: Dunno what this is... do something better than this later !!
 			//mEnabled = false;
 			//mPacketCount == 0;
@@ -104,13 +104,17 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mLastSeekTime = ((((inOggPage->header()->GranulePos()->value()) >> mGranulePosShift) + locInterFrameNo) * DS_UNITS) / mSampleRate;
 		} else {
 			mLastSeekTime = ((inOggPage->header()->GranulePos()->value()) * DS_UNITS) / mSampleRate;
+			stDebug<<"Last Seek Time : "<<mLastSeekTime;
 		}
 		if ((inOggPage->header()->HeaderFlags() & 1 == 1)) {
+			stDebug <<"    NOT SEEKABLE";
 			mLastIsSeekable = false;
 		}
+		stDebug<<endl;
 		mFileDuration = mLastSeekTime;
 	}
 	mFilePos += inOggPage->pageSize();
+	stDebug<<"File Pos : "<<mFilePos<<endl;
 	return true;
 }
 

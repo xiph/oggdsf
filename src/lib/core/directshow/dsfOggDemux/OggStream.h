@@ -35,6 +35,8 @@
 #include "IOggCallback.h"
 
 #include "OggPage.h"
+#include <fstream>
+using namespace std;
 
 
 class OggDemuxSourceFilter;
@@ -99,4 +101,6 @@ protected:
 
 	OggDemuxSourcePin* mSourcePin;
 	OggDemuxSourceFilter* mOwningFilter;
+
+	fstream osDebug;
 };

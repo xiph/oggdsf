@@ -110,6 +110,7 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 	//Start time hacks
 	REFERENCE_TIME locTimeBase = ((locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate) - locThis->mSeekTimeBase;
+	locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
 	locThis->debugLog<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
 	locThis->debugLog<<"Time Base  : " << locTimeBase << endl;
 	locThis->debugLog<<"FrameCount : " <<locThis->mUptoFrame<<endl;
@@ -199,13 +200,14 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 long VorbisDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes) 
 {
+	debugLog << "Decode called... Last Gran Pos : "<<mLastSeenStartGranPos<<endl;
 	DbgLog((LOG_TRACE,1,TEXT("decodeData")));
 	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
 	//FIX::: Do something here ?
 	if (locErr < 0) {
-	
+		debugLog <<"** Fish Sound error **"<<endl;
 	} else {
-	
+		debugLog << "Fish Sound OK >=0 "<<endl;
 	}
 	return locErr;
 }

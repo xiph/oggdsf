@@ -255,6 +255,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		} else {
 			debugLog<<"NO"<<endl;
 		}
+		debugLog << "Setting GranPos : "<<mSeekTable->getRealStartPos()<<endl;
 		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 			mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);
 			mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getRealStartPos());

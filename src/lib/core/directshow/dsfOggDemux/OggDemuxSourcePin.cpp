@@ -80,6 +80,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 	//Error checks
 	if (locHR != S_OK) {
 		//Stopping, fluching or error
+		debugLog<<"Failure... No buffer"<<endl;
 		return false;
 	}
 	//TIMESTAMP FIXING !
@@ -99,7 +100,8 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 
 		locHR = mDataQueue->Receive(locSample);
 		
-		if (FAILED(locHR)) {
+		if (locHR != S_OK) {
+			debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
 			return false;
 			

@@ -38,16 +38,19 @@ OggSeekTable::OggSeekTable(void)
 {
 	mSeekMap.clear();
 	mSeekMap.empty();
+	stDebug.open("C:\\sktable.log", ios_base::out);
 }
 
 OggSeekTable::~OggSeekTable(void)
 {
+	stDebug.close();
 }
 
 bool OggSeekTable::enabled() {
 	return mEnabled;
 }
 bool OggSeekTable::addSeekPoint(__int64 inTime, unsigned long mStartPos) {
+	stDebug<< "Add Point :  Time = "<<inTime<<"   --   Byte Pos : "<<mStartPos<<endl;
 	mSeekMap.insert(tSeekMap::value_type(inTime, mStartPos));
 	return true;
 
@@ -61,6 +64,7 @@ __int64 OggSeekTable::getRealStartPos() {
 unsigned long OggSeekTable::getStartPos(__int64 inTime) {
 	 pair<__int64, unsigned long> locValue = *(mSeekMap.lower_bound(inTime));
 	 mRealStartPos = locValue.first;
+	 stDebug<<"Get Point : Time Req = "<<inTime<<"   --   Time Given = "<<mRealStartPos<<"   --   Byte Pos : "<<locValue.second<<endl;
 	 return locValue.second;
 	
 }

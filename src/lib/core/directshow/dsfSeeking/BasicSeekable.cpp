@@ -210,10 +210,12 @@ STDMETHODIMP BasicSeekable::ConvertTimeFormat(LONGLONG* outTarget, const GUID* i
 }	
 STDMETHODIMP BasicSeekable::SetPositions(LONGLONG* inoutCurrent, DWORD inCurrentFlags, LONGLONG* inStop, DWORD inStopFlags) {
 	if (mSeekDelegate != NULL) {
-		seekDebug<<"Set pos : Passed on..."<<endl;
+		seekDebug<<"Set pos : Requested Time : "<<*inoutCurrent<<endl;
 		HRESULT locHR = mSeekDelegate->SetPositions(inoutCurrent, inCurrentFlags, inStop, inStopFlags);
 		if (locHR == S_OK) {
 			mSeekTimeBase = *inoutCurrent;
+			seekDebug<<"Set Pos : Actual Time   : "<<mSeekTimeBase<<endl;
+			
 		}
 		return locHR;
 	} else {

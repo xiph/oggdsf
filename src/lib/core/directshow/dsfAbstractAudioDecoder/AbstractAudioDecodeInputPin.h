@@ -34,7 +34,8 @@
 //Local Includes
 #include "abstractaudiodllstuff.h"
 #include "BasicSeekable.h"
-
+#include <fstream>
+using namespace std;
 //Forward Declarations
 class AbstractAudioDecodeOutputPin;
 class AbstractAudioDecodeFilter;
@@ -95,7 +96,7 @@ protected:
 	AbstractAudioDecodeFilter* mParentFilter;
 	CMediaType* mAcceptableMediaType;
 
-
+	fstream aadDebug;
 	CCritSec* mStreamLock;
 	CCritSec* mFilterLock;
 

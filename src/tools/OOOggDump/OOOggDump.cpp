@@ -42,9 +42,12 @@
 #include <fstream>
 
 //This will be called by the callback
-
+unsigned long bytePos;
 
 bool pageCB(OggPage* inOggPage) {
+	cout<<"Page Location : "<<bytePos;
+	bytePos += inOggPage->pageSize();
+	cout<<" to "<<bytePos<<endl;
 	OggPacket* locPack = NULL;
 	cout << inOggPage->header()->toString();
 	cout << "Num Packets : " << inOggPage->numPackets() << endl;;
@@ -72,6 +75,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	// Currently does not error checking. Check your command line carefully !
 	// USAGE :: OggDump <OggFile>
 	//
+	bytePos = 0;
 	if (argc < 2) {
 		cout<<"Usage : OOOggDump <filename>"<<endl;
 	} else {
