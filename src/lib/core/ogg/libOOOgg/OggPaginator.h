@@ -50,26 +50,43 @@ public:
 	OggPaginator(void);
 	virtual ~OggPaginator(void);
 
+	/// Set the pagination options.
 	bool setParameters(OggPaginatorSettings* inSettings);
 	
-	//IStampedOggPacketSink
+	/// Feed your packets in here.
 	virtual bool acceptStampedOggPacket(StampedOggPacket* inOggPacket);
 
+	/// Set the callback where your finished pages will go.
 	bool setPageCallback(IOggCallback* inPageCallback);
+
+	/// Finish stream flushed left over data into a page and EOS marks it.
 	bool finishStream();
 
+	/// Sets the number of headers. This is important to make sure they aren't on the same page as data packets.
 	void setNumHeaders(unsigned long inNumHeaders);
+
+	/// Returns the number of headers set for this paginator.
 	unsigned long numHeaders();
 
 protected:
+	/// Internal delivery to the callback.
 	bool deliverCurrentPage();
+
+	/// Calculates and sets the checksum on the page.
 	bool setChecksum();
+
+	/// Creates a new oggpage to start filling.
 	bool createFreshPage();
 
+	/// Adds the packet to the page
 	bool addPacketToPage(StampedOggPacket* inOggPacket);
+
+	/// Adds as much packet as the settings dicate.
 	unsigned long addAsMuchPacketAsPossible(StampedOggPacket* inOggPacket, unsigned long inStartAt, long inRemaining);
+
+	/// Add a part of a packet to a page.
 	bool addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned long inStartFrom, unsigned long inLength);
-	//bool addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned long inStartFrom);
+	
 
 	unsigned long mPacketCount;
 	unsigned long mNumHeaders;
