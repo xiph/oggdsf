@@ -34,6 +34,7 @@
 #include "OggPaginator.h"
 #include "OggMuxStream.h"
 #include "BasicSeekable.h"
+#include "FLACMetadataSplitter.h"
 #include <time.h>
 #include <fstream>
 #include <windows.h>
@@ -78,6 +79,8 @@ public:
 protected:
 	OggMuxFilter* mParentFilter;
 
+	bool mNeedsFLACHeaderTweak;
+	FLACMetadataSplitter* mFLACSplitter;
 	OggPaginator mPaginator;
 	OggMuxStream* mMuxStream;
 	//fstream debugLog;

@@ -184,7 +184,7 @@ unsigned long FLACHeaderTweaker::numNewHeaders() {
 }
 OggPacket* FLACHeaderTweaker::getHeader(unsigned long inHeaderNo) {
 	if (inHeaderNo < mNewHeaderList.size() ) {
-		return mNewHeaderList[inHeaderNo];
+		return mNewHeaderList[inHeaderNo]->clone();
 	} else {
 		return NULL;
 	}

@@ -30,18 +30,26 @@
 //===========================================================================
 #pragma once
 #include "dllstuff.h"
+#include "OggPacket.h"
 #include "StampedOggPacket.h"
 #include "FLACHeaderTweaker.h"
+
+#include <fstream>
+
+using namespace std;
+
 class FLACMetadataSplitter
 {
 public:
 	FLACMetadataSplitter(void);
 	~FLACMetadataSplitter(void);
 
+	
 	bool loadMetadata(OggPacket* inMetadata);
 	unsigned long numHeaders();
 	StampedOggPacket* getHeader(unsigned long inIndex);
 protected:
+	static StampedOggPacket* convertToStampedPacket(OggPacket* inPacket);
 	OggPacket* mMetadataBlock;
 	FLACHeaderTweaker mHeaderTweaker;
 
@@ -52,4 +60,6 @@ protected:
 	bool addCodecIdent();
 
 	bool splitMetadata();
+
+	fstream debugLog;
 };

@@ -35,6 +35,8 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	:	CBaseInputPin(NAME("OggMuxInputPin"), inParentFilter, inFilterLock, inHR, L"Ogg Packet In")
 	,	mParentFilter(inParentFilter)
 	,	mMuxStream(inMuxStream)
+	,	mNeedsFLACHeaderTweak(false)
+	,	mFLACSplitter(NULL)
 {
 	OggPaginatorSettings* locSettings = new OggPaginatorSettings;
 	locSettings->mMinPageSize = 4096;
@@ -87,9 +89,19 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			sSpeexFormatBlock* locSpeex = (sSpeexFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
 		} else if (inMediaType->subtype == MEDIASUBTYPE_OggFLAC_1_0) {
+			//We are connected to the encoder nd getting individual metadata packets.
 			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
+			//mNeedsFLACHeaderTweak = true;
+		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
+			//We are connected directly to the mux and are getting metadata in one block
+			// Need to use the header splitter class.
+			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
+			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
+			mNeedsFLACHeaderTweak = true;
 		} 
+
+		
 	}
 	return S_OK;
 }
@@ -152,10 +164,46 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	long locBuffSize = inSample->GetActualDataLength();
 	unsigned char* locBuff = new unsigned char[locBuffSize];
 	memcpy((void*)locBuff, (const void*)locSampleBuff, inSample->GetActualDataLength());
-																								//Not truncated or contuned... its a full packet.
 	StampedOggPacket* locPacket = new StampedOggPacket(locBuff, inSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 	
-	mPaginator.acceptStampedOggPacket(locPacket);
+	if ((mNeedsFLACHeaderTweak)) {
+		//The first packet in FLAC has all the metadata in one block...
+		// It needs to be broken up for correct muxing....
+
+		//A note about the header formats used for flac in directshow.
+		//
+		//MEDIASUBTYPE_FLAC
+		//	The first packet is all the meta data in one block.
+		//	The only filter to output this is the demux.
+		//	The demux never outputs type MEDIASUBTYPE_OGG_FLAC_1_0
+		//	Even if the input is a new FLAC stream, it is translated before leaving the filter.
+		//
+		//MEDIASUBTYPE_OggFLAC_1_0
+		//	The metadata packets are all seperated.
+		//	This is the only format outputted by the encoder
+		//
+		//
+
+		//If we are in this section of code... it means that the demux has
+		// been connected directly to the mux.
+		//This could be to mux multi stream flac.
+		//Alternatively this configuration could be used to convert the old format to the new.
+
+		mFLACSplitter = new FLACMetadataSplitter;
+
+		mFLACSplitter->loadMetadata(locPacket->clone());
+		delete locPacket;
+
+		for (int i = 0; i < mFLACSplitter->numHeaders(); i++) {
+			mPaginator.acceptStampedOggPacket(mFLACSplitter->getHeader(i));
+		}
+		mNeedsFLACHeaderTweak = false;
+	} else {
+		//Not truncated or contuned... its a full packet.
+		
+	
+		mPaginator.acceptStampedOggPacket(locPacket);
+	}
 
 	return S_OK;
 }
