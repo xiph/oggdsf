@@ -31,8 +31,11 @@
 
 #pragma once
 
+//Local Includes
 #include "vorbisencoderdllstuff.h"
-#include "AbstractAudioEncodeFilter.h"
+
+//External Includes
+#include "AbstractTransformFilter.h"
 
 //Forward Declarations
 struct sVorbisFormatBlock;
@@ -40,20 +43,58 @@ class VorbisEncodeInputPin;
 class VorbisEncodeOutputPin;
 
 class VorbisEncodeFilter
-	:	public AbstractAudioEncodeFilter
+	:	public AbstractTransformFilter
 {
 public:
+	//Friend Classes
 	friend class VorbisEncodeInputPin;
 	friend class VorbisEncodeOutputPin;
+
+	//Constructors
 	VorbisEncodeFilter(void);
 	virtual ~VorbisEncodeFilter(void);
 
+	//COM Creator function
 	static CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//PURE VIRTUAL IMPLEMENTATION
+protected:
+
+	//Implementation of pure virtuals from AbstractTransformFilter
 	virtual bool ConstructPins();
 
-protected:
+	//Member data
 	sVorbisFormatBlock mVorbisFormatBlock;
 	
 };
+
+
+//Old imp
+//*************************************
+//#pragma once
+//
+//#include "vorbisencoderdllstuff.h"
+//#include "AbstractAudioEncodeFilter.h"
+//
+////Forward Declarations
+//struct sVorbisFormatBlock;
+//class VorbisEncodeInputPin;
+//class VorbisEncodeOutputPin;
+//
+//class VorbisEncodeFilter
+//	:	public AbstractAudioEncodeFilter
+//{
+//public:
+//	friend class VorbisEncodeInputPin;
+//	friend class VorbisEncodeOutputPin;
+//	VorbisEncodeFilter(void);
+//	virtual ~VorbisEncodeFilter(void);
+//
+//	static CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+//
+//	//PURE VIRTUAL IMPLEMENTATION
+//	virtual bool ConstructPins();
+//
+//protected:
+//	sVorbisFormatBlock mVorbisFormatBlock;
+//	
+//};

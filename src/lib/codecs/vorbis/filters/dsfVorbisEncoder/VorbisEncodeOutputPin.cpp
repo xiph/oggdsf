@@ -29,11 +29,12 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
-#include "vorbisencodeoutputpin.h"
 
-VorbisEncodeOutputPin::VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)
-	:	AbstractAudioEncodeOutputPin(inParentFilter, inFilterLock,NAME("VorbisDecodeOutputPin"), L"Vorbis Out", inOutputMediaType)
+#include "StdAfx.h"
+#include "VorbisEncodeOutputPin.h"
+
+VorbisEncodeOutputPin::VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("VorbisDecodeOutputPin"), L"Vorbis Out", 65536, 5, inAcceptableMediaTypes)
 {
 }
 
@@ -41,11 +42,51 @@ VorbisEncodeOutputPin::~VorbisEncodeOutputPin(void)
 {
 }
 
-bool VorbisEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
-	VorbisEncodeFilter* locParentFilter = (VorbisEncodeFilter*)mParentFilter;
-	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mVorbisFormatBlock), sizeof(sVorbisFormatBlock));
-	return true;
+HRESULT VorbisEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+{
+	if (inPosition == 0) {
+		sVorbisFormatBlock* locVorbisFormat = (sVorbisFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sVorbisFormatBlock));
+		//TODO::: Check for null ?
+
+		memcpy((void*)locVorbisFormat, (const void*) &(((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock), sizeof(sVorbisFormatBlock));
+		return S_OK;
+	} else {
+        return S_FALSE;
+	}
 }
-unsigned long VorbisEncodeOutputPin::FormatBufferSize() {
-	return sizeof(sVorbisFormatBlock);
-}
+
+
+//bool VorbisEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
+//	VorbisEncodeFilter* locParentFilter = (VorbisEncodeFilter*)mParentFilter;
+//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mVorbisFormatBlock), sizeof(sVorbisFormatBlock));
+//	return true;
+//}
+//unsigned long VorbisEncodeOutputPin::FormatBufferSize() {
+//	return sizeof(sVorbisFormatBlock);
+//}
+
+
+
+
+//Old imp
+//*********************************************
+//#include "StdAfx.h"
+//#include "vorbisencodeoutputpin.h"
+//
+//VorbisEncodeOutputPin::VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)
+//	:	AbstractAudioEncodeOutputPin(inParentFilter, inFilterLock,NAME("VorbisDecodeOutputPin"), L"Vorbis Out", inOutputMediaType)
+//{
+//}
+//
+//VorbisEncodeOutputPin::~VorbisEncodeOutputPin(void)
+//{
+//}
+//
+//bool VorbisEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
+//	VorbisEncodeFilter* locParentFilter = (VorbisEncodeFilter*)mParentFilter;
+//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mVorbisFormatBlock), sizeof(sVorbisFormatBlock));
+//	return true;
+//}
+//unsigned long VorbisEncodeOutputPin::FormatBufferSize() {
+//	return sizeof(sVorbisFormatBlock);
+//}

@@ -31,13 +31,13 @@
 
 #pragma once
 
-#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
-#pragma message("----> Exporting from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllexport)
-#else
-#pragma message("<---- Importing from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllimport)
-#endif
+//#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
+//#pragma message("----> Exporting from Abstract Library...")
+//#define ABS_AUDIO_DEC_API __declspec(dllexport)
+//#else
+//#pragma message("<---- Importing from Abstract Library...")
+//#define ABS_AUDIO_DEC_API __declspec(dllimport)
+//#endif
 
 struct sVorbisFormatBlock {
 	unsigned long vorbisVersion;
@@ -48,9 +48,9 @@ struct sVorbisFormatBlock {
 	unsigned char numChannels;
 };
 
-#include "AbstractAudioEncodeFilter.h"
-#include "AbstractAudioEncodeInputPin.h"
-#include "AbstractAudioEncodeOutputPin.h"
+#include "AbstractTransformFilter.h"
+#include "AbstractTransformInputPin.h"
+#include "AbstractTransformOutputPin.h"
 #include "VorbisEncodeInputPin.h"
 #include "VorbisEncodeOutputPin.h"
 #include "VorbisEncodeFilter.h"

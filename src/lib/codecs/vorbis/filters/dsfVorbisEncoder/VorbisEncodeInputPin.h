@@ -31,38 +31,84 @@
 
 #pragma once
 
-#include "AbstractAudioEncodeInputPin.h"
+#include "AbstractTransformInputPin.h"
 #include "VorbisEncodeInputPin.h"
 
 #include "VorbisEncodeFilter.h"
 
 extern "C" {
-#include <fishsound/fishsound.h>
-//#include <../src/libfishsound/private.h>
+//#include <fishsound/fishsound.h>
+#include "fish_cdecl.h"
 }
 
 class VorbisEncodeInputPin
-	:	public AbstractAudioEncodeInputPin
+	:	public AbstractTransformInputPin
 {
 public:
-	VorbisEncodeInputPin(AbstractAudioEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin);
+	VorbisEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~VorbisEncodeInputPin(void);
 
-	static int VorbisEncodeInputPin::VorbisEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
-	//PURE VIRTUALS
-	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
+	static int __cdecl VorbisEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
+	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
 protected:
+
+	//Implementation of codec specific pure virtuals from AbstractTransformInputPin
+	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
+	virtual bool ConstructCodec();
+	virtual void DestroyCodec();
+
+	//Member data
 	HRESULT mHR;
 	bool mBegun;
-	//VorbisDecodeOutputPin* mOutputPin;
-	//__int64 mUptoFrame;
+	WAVEFORMATEX* mWaveFormat;
+	__int64 mUptoFrame;
 
+	//Fishsound member data
 	FishSound* mFishSound;
-	FishSoundInfo mFishInfo; 
+	FishSoundInfo mFishInfo; 	
 
 	
 };
+
+
+//Old imp
+//****************************************************
+//#pragma once
+//
+//#include "AbstractAudioEncodeInputPin.h"
+//#include "VorbisEncodeInputPin.h"
+//
+//#include "VorbisEncodeFilter.h"
+//
+//extern "C" {
+//#include <fishsound/fishsound.h>
+////#include <../src/libfishsound/private.h>
+//}
+//
+//class VorbisEncodeInputPin
+//	:	public AbstractAudioEncodeInputPin
+//{
+//public:
+//	VorbisEncodeInputPin(AbstractAudioEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin);
+//	virtual ~VorbisEncodeInputPin(void);
+//
+//	static int VorbisEncodeInputPin::VorbisEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
+//	//PURE VIRTUALS
+//	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
+//	virtual bool ConstructCodec();
+//	virtual void DestroyCodec();
+//	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+//
+//protected:
+//	HRESULT mHR;
+//	bool mBegun;
+//	//VorbisDecodeOutputPin* mOutputPin;
+//	//__int64 mUptoFrame;
+//
+//	FishSound* mFishSound;
+//	FishSoundInfo mFishInfo; 
+//
+//	
+//};

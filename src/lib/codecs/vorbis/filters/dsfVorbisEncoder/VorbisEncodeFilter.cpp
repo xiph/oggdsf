@@ -60,9 +60,10 @@ CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 } 
 
 VorbisEncodeFilter::VorbisEncodeFilter(void)
-	:	AbstractAudioEncodeFilter(NAME("Vorbis Encoder"), CLSID_VorbisEncodeFilter, AbstractAudioEncodeFilter::VORBIS)
+	:	AbstractTransformFilter(NAME("Vorbis Encoder"), CLSID_VorbisEncodeFilter)
 {
 	bool locWasConstructed = ConstructPins();
+	//Error checks ??
 }
 
 VorbisEncodeFilter::~VorbisEncodeFilter(void)
@@ -71,14 +72,34 @@ VorbisEncodeFilter::~VorbisEncodeFilter(void)
 
 bool VorbisEncodeFilter::ConstructPins() 
 {
+	//Inputs Audio / PCM / WaveFormatEx
+	//Outputs Audio / Vorbis / Vorbis
 
-	CMediaType* locOutputMediaType = new CMediaType(&MEDIATYPE_Audio);
-	locOutputMediaType->subtype = MEDIASUBTYPE_Vorbis;
-	locOutputMediaType->formattype = FORMAT_Vorbis;
-	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new VorbisEncodeOutputPin(this, m_pLock, locOutputMediaType);
+	//Vector to hold our set of media types we want to accept.
+	vector<CMediaType*> locAcceptableTypes;
 
+	//Setup the media types for the output pin.
+	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_Vorbis;
+	locAcceptMediaType->formattype = FORMAT_Vorbis;
 	
-	mInputPin = new VorbisEncodeInputPin(this, m_pLock, mOutputPin);
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//Output pin must be done first because it's passed to the input pin.
+	mOutputPin = new VorbisEncodeOutputPin(this, m_pLock, locAcceptableTypes);			//Deleted in base class destructor
+
+	//Clear out the vector, now we've already passed it to the output pin.
+	locAcceptableTypes.clear();
+
+	//Setup the media Types for the input pin.
+	locAcceptMediaType = NULL;
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
+
+	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
+	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+	
+	mInputPin = new VorbisEncodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;
 }

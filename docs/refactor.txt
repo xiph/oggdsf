@@ -2,8 +2,6 @@ Filters crash if you try to right click and view props in graphedit on the outpu
 
 Fix the hardcoded buffer parameters in the decoders
 
-Fix the leaks caused by the accept media types.
-
 Move dsfSeeking to the Abstract DS library for all
 
 Finish converting the encoders to new abstraacts
@@ -14,3 +12,27 @@ Make some of the small libraries static (libilliCore, libOOOggSeeking
 , libVorbisComment, libOOOgg??, libCMMLTags, winCMMLParse)
 
 Check the size by making the runtimes static
+
+Check return values for TransformData (should be HRESULTS now... but won't cause compile error
+  because previously was long which is equivalent)
+
+Why is the vorbis encoder still on __cdecl... that's a sure fire way for stack corruption.
+
+Check case of includes in all libs that may be cross platform
+
+Check magic number usage.
+
+Check exposure of IMediaSeeking on Filters, input pins and encoders... should only be on
+  render filters that wish to seek and output pins.
+
+Do something with the various _cdecl.h files floating around to consolidate them (ie fishsound and theora)
+
+Sort all the GUIDs and format blocks to a common place.
+
+DONE::::
+
+Fix the leaks caused by the accept media types.
+
+Change type of mUptoFrame everywhere to __int64
+
+Check use of mHR which is scattered about the enc/dec filters.
