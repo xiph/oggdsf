@@ -155,7 +155,10 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 	//debugLog<<"Deleting Data Source : "<<(int)mDataSource<<endl;
 
 	//Close down the data source and delete it
-	mDataSource->close();
+
+	if (mDataSource != NULL) {
+		mDataSource->close();
+	}
 	delete mDataSource;
 
 	debugLog.close();
@@ -171,6 +174,7 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 	}
 	//Delete the seektable
 	delete mSeekTable;
+	mSeekTable = NULL;
 }
 
 //IAMFilterMiscFlags Interface
