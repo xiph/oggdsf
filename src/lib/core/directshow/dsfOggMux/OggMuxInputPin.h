@@ -54,13 +54,25 @@ public:
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
+	/// Gets an indexed media type, that this pin will accept.
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
+
+	/// Checks whether this pin will accepted the proposed media type.
 	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
+
+	/// Notification that this media type has been selected for the connection.
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
+	/// Receives a sample from an upstream filter.
 	STDMETHODIMP Receive(IMediaSample* inSample);
-	virtual STDMETHODIMP EndOfStream(void);
+
+	/// Notification that the stream has ended
+	virtual STDMETHODIMP EndOfStream();
+
+	/// Notification that the output pin of an upstream filter has connected.
 	virtual HRESULT CompleteConnect(IPin* inReceivePin);
+
+	/// Notification the output pin of an upstream filter has been disconnected.
 	virtual HRESULT BreakConnect();
 	
 	//virtual HRESULT DeliverEndFlush(void);

@@ -69,19 +69,44 @@ public:
 	//IAMFilterMiscFlags Implementation
 	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
 
-	//IOggCallback Implementation
+	// ***************************************
+	// ***** IOggCallback Implementation *****
+	// ***************************************
+
+	/// Takes an incoming page, usually from the interleaver.
 	virtual bool acceptOggPage(OggPage* inOggPage);
-	//IFileSinkFilter Implementation
+	
+	// ******************************************
+	// ***** IFileSinkFilter Implementation *****
+	// ******************************************
+
+	/// Sets the filename to be used to output to
 	STDMETHODIMP SetFileName(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
+
+	/// Gets the output filename this filter is currently using.
 	STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
 
-	//IPin Interface (i Think ?? From CBAseFilter)
+	// *************************************
+	// ***** CBaseFilter Pure Virtuals *****
+	// *************************************
+
+	/// Returns the number of pins this filter has
 	virtual int GetPinCount();
+
+	/// Returns the indexed pin or NULL.
 	virtual CBasePin* GetPin(int inPinNo);
 
-	//Streaming MEthods
+	// **********************************
+	// ***** IMediaFilter Overrides *****
+	// **********************************
+
+	/// Called when the graph starts playing
 	STDMETHODIMP Run(REFERENCE_TIME tStart);
+
+	/// Called when the graph pauses
 	STDMETHODIMP Pause(void);
+
+	/// Called when the graph stops
 	STDMETHODIMP Stop(void);
 
 	//Helpers
