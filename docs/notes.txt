@@ -1,0 +1,11 @@
+How is the header set in OggPage ??  - There is only one, it is set through the accessor.
+
+Check all clone function callers for memory leaks.
+
+Check all acceptOggPacge imlpementations for leaks.
+
+OggStreams should pass page as constant.
+
+
+Line 60 TheoEnInputPin... make the piointer const.
+Line 1186 - Memory leak in encoder.

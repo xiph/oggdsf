@@ -82,6 +82,12 @@
         "Entry"
         {
         "MsmKey" = "8:_3E5A4B5CB934468E9D8242C01D222CF4"
+        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3E5A4B5CB934468E9D8242C01D222CF4"
         "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -329,12 +335,6 @@
         {
         "MsmKey" = "8:_65015192414F476999A68339F89BEA57"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -829,26 +829,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_655D5383153A6AB10D15352A7EABCC7A"
-            {
-            "SourcePath" = "8:MSVCR71D.dll"
-            "TargetName" = "8:MSVCR71D.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{A582A373-4685-4296-BEFE-614B80A702C3}:_81A3CDB604B64763884C387192BE6771"
             {
             "SourcePath" = "8:..\\..\\COPYRIGHTS"
@@ -984,13 +964,13 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
-        "ProductCode" = "8:{12EFE710-1B55-47BC-B557-4D0DB0689D4E}"
-        "PackageCode" = "8:{FF14E14D-0E0B-4330-B58D-CEC5A01CD9F1}"
+        "ProductCode" = "8:{8B293B74-0CD8-4A4C-83E5-5ACC37268265}"
+        "PackageCode" = "8:{EEFA3C5B-9071-4404-8B02-8488D7D9D7A3}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "ProductVersion" = "8:0.66.8060"
+        "ProductVersion" = "8:0.66.8061"
         "Manufacturer" = "8:illiminable"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:www.illiminable.com/ogg/"
