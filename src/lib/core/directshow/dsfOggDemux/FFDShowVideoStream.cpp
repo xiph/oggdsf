@@ -73,7 +73,7 @@ bool FFDShowVideoStream::InitCodec(StampedOggPacket* inOggPacket) {
 	mPinName = StringHelper::toWStr(locPinName);
 
 	//What to do with commment fields ??
-	mNumHeadersNeeded = 3;
+	mNumHeadersNeeded = 1;
 	//mFirstRun = false;
 	return true;
 }

@@ -345,6 +345,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 		mState = AWAITING_BASE_HEADER;
 		return PROCESS_OK;
 	} else if (locRet == DISPATCH_FALSE) {
+		mState = AWAITING_BASE_HEADER;
 		return PROCESS_DISPATCH_FALSE;	
 	} else {
 		//debugLog<<"ProcessDataSegment : Dispatch failed."<<endl;
@@ -366,6 +367,8 @@ void OggDataBuffer::clearData() {
 
 OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 		
+	eProcessResult locResult = PROCESS_OK;
+
 	while (numBytesAvail() >= mNumBytesNeeded) {
 		////debugLog<<"ProcessBuffer : Bytes Needed = "<<mNumBytesNeeded<<" --- "<<"Bytes avail = "<<numBytesAvail()<<endl;
 		switch (mState) {
@@ -378,7 +381,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				if (numBytesAvail() >= OggPageHeader::OGG_BASE_HEADER_SIZE) {
 					//debugLog<<"ProcessBuffer : Enough to process..."<<endl;
 					
-					eProcessResult locResult = processBaseHeader();
+					locResult = processBaseHeader();
                     
 					if (locResult != PROCESS_OK) {
 						mState = LOST_PAGE_SYNC;
@@ -395,7 +398,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				if (numBytesAvail() >= pendingPage->header()->NumPageSegments()) {
 					//debugLog<<"ProcessBuffer : Enough to process..."<<endl;
 					
-					eProcessResult locResult = processSegTable();
+					locResult = processSegTable();
                
 					if (locResult != PROCESS_OK) {
 						mState = LOST_PAGE_SYNC;
@@ -412,9 +415,9 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 					//debugLog<<"ProcessBuffer : Enough to process..."<<endl;
 
 					//FIX::: Need error check.
-					eProcessResult locResult = processDataSegment();
+					locResult = processDataSegment();
 					
-					if (locResult != PROCESS_OK) {
+					if (locResult == PROCESS_DISPATCH_FAILED) {
 						mState = LOST_PAGE_SYNC;
 						//segment table process failed
 						return locResult;
@@ -434,7 +437,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 	}
 
 	//There wasn't enough data to progress if we are here.
-	return PROCESS_OK;
+	return locResult;
 
 }
 

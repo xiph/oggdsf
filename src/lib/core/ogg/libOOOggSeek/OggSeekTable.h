@@ -53,6 +53,6 @@ protected:
 	tSeekMap::value_type mSeekValue;
 	__int64 mRealStartPos;
 
-	fstream stDebug;
+	//fstream stDebug;
 	bool mEnabled;
 };
