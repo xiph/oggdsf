@@ -70,6 +70,7 @@ public:
 
 	virtual LONGLONG getCurrentPos() = 0;
 
+	virtual unsigned long numCodecHeaders();
 	void setSendExcess(bool inSendExcess);
 
 	virtual CMediaType* createMediaType(GUID inMajorType, GUID inSubType, GUID inFormatType, unsigned long inFormatSize, BYTE* inFormatBlock);
@@ -85,7 +86,7 @@ public:
 
 	void setAllowDispatch(bool inAllowDispatch);
 	bool streamReady();
-	unsigned long numCodecHeaders();
+	
 	
 	void flush();
 	void flush(unsigned short inNumPacketsToIgnore);

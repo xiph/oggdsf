@@ -61,10 +61,12 @@ bool StreamHeaders::addPacket(StampedOggPacket* inPacket) {
 	if (inPacket != NULL) {
 		mPacketList.push_back(inPacket);
 
+		//This is debugging code !
 		StampedOggPacket* loc = NULL;
 		for (size_t i = 0; i < mPacketList.size(); i++) {
 			loc = mPacketList[i];
 		}
+		//
 
 		return true;
 	} else {

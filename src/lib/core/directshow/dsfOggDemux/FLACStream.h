@@ -57,8 +57,11 @@ public:
 	virtual bool FLACStream::processHeaderPacket(StampedOggPacket* inPacket);
 	virtual bool deliverCodecHeaders();
 
+//	virtual unsigned long numCodecHeaders();
+
 	virtual void setLastEndGranPos(__int64 inPos);
 
 protected:
+	//unsigned long mNumHeaderPackets;
 	sFLACFormatBlock* mFLACFormatBlock;
 };

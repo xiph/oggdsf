@@ -258,6 +258,8 @@ void FLACDecodeInputPin::error_callback(::FLAC__StreamDecoderErrorStatus inStatu
 
 long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes) 
 {
+	//TODO::: Locks ???
+
 	//What happens when another packet arrives and the other one is still there ?
 	//delete mPendingPacket;
 	debugLog<<"decodeData : "<<endl;

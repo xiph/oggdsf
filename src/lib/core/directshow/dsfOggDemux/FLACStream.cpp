@@ -36,6 +36,7 @@
 FLACStream::FLACStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
 	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mFLACFormatBlock(NULL)
+	//,	mNumHeaderPackets(0)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
 }
@@ -107,6 +108,7 @@ bool FLACStream::processHeaderPacket(StampedOggPacket* inPacket) {
 		mCodecHeaders->addPacket(inPacket);
 		if ((inPacket->packetData()[0] & MORE_HEADERS_MASK) != 0) {
 			mNumHeadersNeeded--;
+			//mNumHeaderPackets++;
 		}
 	}
 	return true;
@@ -132,3 +134,7 @@ bool FLACStream::deliverCodecHeaders() {
 LONGLONG FLACStream::getCurrentPos() {
 	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->sampleRate;
 }
+
+//unsigned long FLACStream::numCodecHeaders() {
+//	return mNumHeaderPackets;  //is this even needed ?
+//}
