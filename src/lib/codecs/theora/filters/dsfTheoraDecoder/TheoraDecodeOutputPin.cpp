@@ -74,23 +74,23 @@ bool TheoraDecodeOutputPin::FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer)
 	inFormatBuffer->bmiHeader.biClrImportant = 0;   //All colours important
 	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
 	inFormatBuffer->bmiHeader.biCompression = MAKEFOURCC('Y','V','1','2');
-	inFormatBuffer->bmiHeader.biHeight = locFilter->mTheoraFormatInfo->height;   //Not sure
+	inFormatBuffer->bmiHeader.biHeight = locFilter->mTheoraFormatInfo->frameHeight;   //Not sure
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);    //????? Size of what ?
-	inFormatBuffer->bmiHeader.biSizeImage = ((locFilter->mTheoraFormatInfo->height * locFilter->mTheoraFormatInfo->width) * 3)/2;    //Size in bytes of image ??
-	inFormatBuffer->bmiHeader.biWidth = locFilter->mTheoraFormatInfo->width;
+	inFormatBuffer->bmiHeader.biSizeImage = ((locFilter->mTheoraFormatInfo->frameHeight * locFilter->mTheoraFormatInfo->frameWidth) * 3)/2;    //Size in bytes of image ??
+	inFormatBuffer->bmiHeader.biWidth = locFilter->mTheoraFormatInfo->frameWidth;
 	inFormatBuffer->bmiHeader.biXPelsPerMeter = 2000;   //Fuck knows
 	inFormatBuffer->bmiHeader.biYPelsPerMeter = 2000;   //" " " " " 
 	
 	inFormatBuffer->rcSource.top = 0;
-	inFormatBuffer->rcSource.bottom = locFilter->mTheoraFormatInfo->height;
+	inFormatBuffer->rcSource.bottom = locFilter->mTheoraFormatInfo->frameHeight;
 	inFormatBuffer->rcSource.left = 0;
-	inFormatBuffer->rcSource.right = locFilter->mTheoraFormatInfo->width;
+	inFormatBuffer->rcSource.right = locFilter->mTheoraFormatInfo->frameWidth;
 
 	inFormatBuffer->rcTarget.top = 0;
-	inFormatBuffer->rcTarget.bottom = locFilter->mTheoraFormatInfo->height;
+	inFormatBuffer->rcTarget.bottom = locFilter->mTheoraFormatInfo->frameHeight;
 	inFormatBuffer->rcTarget.left = 0;
-	inFormatBuffer->rcTarget.right = locFilter->mTheoraFormatInfo->width;
+	inFormatBuffer->rcTarget.right = locFilter->mTheoraFormatInfo->frameWidth;
 
 	inFormatBuffer->dwBitErrorRate=0;
 	return true;

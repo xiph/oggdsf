@@ -96,7 +96,7 @@ HRESULT PropsTheoraEncoder::OnActivate(void)
     SendDlgItemMessage(m_Dlg, IDC_SLIDER_QUALITY, TBM_SETTICFREQ, 1, 0);
     SendDlgItemMessage(m_Dlg, IDC_SLIDER_QUALITY, TBM_SETPOS, 1, mTheoraEncodeSettings->quality());
 
-	SendDlgItemMessage(m_Dlg, IDC_SLIDER_LOG_KEYFRAME, TBM_SETRANGE, TRUE, MAKELONG(0, 6));
+	SendDlgItemMessage(m_Dlg, IDC_SLIDER_LOG_KEYFRAME, TBM_SETRANGE, TRUE, MAKELONG(0, 13));
     SendDlgItemMessage(m_Dlg, IDC_SLIDER_LOG_KEYFRAME, TBM_SETTICFREQ, 1, 0);
     SendDlgItemMessage(m_Dlg, IDC_SLIDER_LOG_KEYFRAME, TBM_SETPOS, 1, log2(mTheoraEncodeSettings->keyframeFreq()));
 

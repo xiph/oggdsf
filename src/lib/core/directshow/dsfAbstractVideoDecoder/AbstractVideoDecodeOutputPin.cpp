@@ -151,6 +151,9 @@ HRESULT AbstractVideoDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocato
 }
 HRESULT AbstractVideoDecodeOutputPin::CheckMediaType(const CMediaType *inMediaType) {
 	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_YV12) && (inMediaType->formattype == FORMAT_VideoInfo)) {
+		
+		//FIX::: SHould this stuff be in a check routine ??? Shouldn't it be in set mediatype ?
+
 		//debugLog << "CheckMediaType : Accepting..."<<endl;
 	
 		VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inMediaType->Format();

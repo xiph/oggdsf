@@ -106,29 +106,29 @@ bool TheoraEncodeFilter::ConstructPins()
 }
 
 //Implementation of ITheoraEncodeSEttings
-unsigned long TheoraEncodeFilter::targetBitrate() {
+STDMETHODIMP_(unsigned long) TheoraEncodeFilter::targetBitrate() {
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->target_bitrate;
 }
-unsigned char TheoraEncodeFilter::quality() {
+STDMETHODIMP_(unsigned char) TheoraEncodeFilter::quality() {
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality;
 }
-unsigned long TheoraEncodeFilter::keyframeFreq() {
+STDMETHODIMP_(unsigned long) TheoraEncodeFilter::keyframeFreq() {
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency;
 }
 
-bool TheoraEncodeFilter::setTargetBitrate(unsigned long inBitrate) {
+STDMETHODIMP_(bool) TheoraEncodeFilter::setTargetBitrate(unsigned long inBitrate) {
 	//Needs error checking
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->target_bitrate = inBitrate;
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_data_target_bitrate = (inBitrate * 3)/2;
 	return true;
 
 }
-bool TheoraEncodeFilter::setQuality(unsigned char inQuality) {
+STDMETHODIMP_(bool) TheoraEncodeFilter::setQuality(unsigned char inQuality) {
 	//Needs error checking
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality = inQuality;
 	return true;
 }
-bool TheoraEncodeFilter::setKeyframeFreq(unsigned long inKeyframeFreq) {
+STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeFreq(unsigned long inKeyframeFreq) {
 	//Needs error checking
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency = inKeyframeFreq;
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency_force = inKeyframeFreq;

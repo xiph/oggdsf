@@ -58,7 +58,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CTEXT           "illiminable Directshow Filter Package 0.60",
                     IDC_ABOUT_HEADER,13,15,183,11,WS_BORDER
-    LTEXT           "This filter package provides support for various ogg based media types, including vorbis, speex, theora, cmml, annodex and ogm. This package of filters was written by Zentaro Kavanagh, however several libraries by various other authors are used. Please see the AUTHORS file that accompanies this package for detailed information. The source of these filters is released under a BSD license, please read the COPYRIGHTS files which accompanied this package for detailed license information. Sorry these things are so damn ugly, I hate using MFC. I'll spend some time prettying later !",
+    LTEXT           "This filter package provides support for various ogg based media types, including vorbis, speex, theora, cmml, annodex and ogm. Read AUTHORS and COPYRIGHTS for details.",
                     IDC_STATIC,13,33,183,106,WS_BORDER
 END
 

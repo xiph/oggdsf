@@ -62,13 +62,13 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//ITheoraEncodeSettings Implementation
-	unsigned long targetBitrate();
-	unsigned char quality();
-	unsigned long keyframeFreq();
+	STDMETHODIMP_(unsigned long) targetBitrate();
+	STDMETHODIMP_(unsigned char) quality();
+	STDMETHODIMP_(unsigned long) keyframeFreq();
 
-	bool setTargetBitrate(unsigned long inBitrate);
-	bool setQuality(unsigned char inQuality);
-	bool setKeyframeFreq(unsigned long inKeyframeFreq);
+	STDMETHODIMP_(bool) setTargetBitrate(unsigned long inBitrate);
+	STDMETHODIMP_(bool) setQuality(unsigned char inQuality);
+	STDMETHODIMP_(bool) setKeyframeFreq(unsigned long inKeyframeFreq);
 	//
 
 	//AbstractVideoEncodeFilter pure virtuals

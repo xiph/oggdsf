@@ -67,6 +67,8 @@ protected:
 	//FishSound* mFishSound;
 	//FishSoundInfo mFishInfo; 
 	TheoraDecoder* mTheoraDecoder;
+	unsigned long mXOffset;
+	unsigned long mYOffset;
 	
 
 

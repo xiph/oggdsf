@@ -35,6 +35,8 @@
 
 TheoraDecodeInputPin::TheoraDecodeInputPin(AbstractVideoDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractVideoDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType)
 	:	AbstractVideoDecodeInputPin(inFilter, inFilterLock, inOutputPin, NAME("TheoraDecodeInputPin"), L"Theora In", inAcceptMediaType)
+	,	mXOffset(0)
+	,	mYOffset(0)
 
 {
 	ConstructCodec();
@@ -148,66 +150,135 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 	//Fill the buffer with yuv data...
 	//	
 
-	//Y Data.
-	for ( long line = 0; line < inYUVBuffer->y_height; line++) {
-		memcpy((void*)locBuffer, (const void*)(inYUVBuffer->y + (inYUVBuffer->y_stride * (line))), inYUVBuffer->y_width);
-		locBuffer += inYUVBuffer->y_width;
 
-		if (mWidth > inYUVBuffer->y_width) {
-			memset((void*)locBuffer, 0, mWidth - inYUVBuffer->y_width);
-		}
-		locBuffer += mWidth - inYUVBuffer->y_width;
+
+	//Set up the pointers
+	unsigned char* locDestUptoPtr = locBuffer;
+	char* locSourceUptoPtr = inYUVBuffer->y;
+
+	//
+	//Y DATA
+	//
+
+	//NEW WAY with offsets Y Data
+	long locTopPad = inYUVBuffer->y_height - mHeight - mYOffset;
+	ASSERT(locTopPad >= 0);
+	if (locTopPad < 0) {
+		locTopPad = 0;
 	}
 
-	//Pad height...
-	for ( long line = 0; line < mHeight - inYUVBuffer->y_height; line++) {
-		memset((void*)locBuffer, 0, mWidth);
-		locBuffer += mWidth;
+	//Skip the top padding
+	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+
+	for (long line = 0; line < mHeight; line++) {
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + mXOffset), mWidth);
+		locSourceUptoPtr += inYUVBuffer->y_stride;
+		locDestUptoPtr += mWidth;
 	}
 
-	//V Data
-	for ( long line = 0; line < inYUVBuffer->uv_height; line++) {
-		memcpy((void*)locBuffer, (const void*)(inYUVBuffer->v + (inYUVBuffer->uv_stride * (line))), inYUVBuffer->uv_width);
-		locBuffer += inYUVBuffer->uv_width;
+	locSourceUptoPtr += (mYOffset * inYUVBuffer->y_stride);
 
-		if (mWidth/2 > inYUVBuffer->uv_width) {
-			memset((void*)locBuffer, 0, (mWidth/2) - inYUVBuffer->uv_width);
-		}
-		locBuffer += (mWidth/2) - inYUVBuffer->uv_width;
+	//Source advances by (y_height * y_stride)
+	//Dest advances by (mHeight * mWidth)
+
+	//
+	//V DATA
+	//
+
+	//Half the padding for uv planes... is this correct ? 
+	locTopPad = locTopPad /2;
+	
+	locSourceUptoPtr = inYUVBuffer->v;
+
+	//Skip the top padding
+	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+
+	for (long line = 0; line < mHeight / 2; line++) {
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+		locSourceUptoPtr += inYUVBuffer->uv_stride;
+		locDestUptoPtr += (mWidth / 2);
 	}
+	locSourceUptoPtr += ((mYOffset/2) * inYUVBuffer->uv_stride);
 
-	//Pad height...
-	for ( long line = 0; line < (mHeight/2) - inYUVBuffer->uv_height; line++) {
-		memset((void*)locBuffer, 0, mWidth/2);
-		locBuffer += mWidth/2;
+	//Source advances by (locTopPad + mYOffset/2 + mHeight /2) * uv_stride
+	//where locTopPad for uv = (inYUVBuffer->y_height - mHeight - mYOffset) / 2
+	//						=	(inYUVBuffer->yheight/2 - mHeight/2 - mYOffset/2)
+	// so source advances by (y_height/2) * uv_stride
+	//Dest advances by (mHeight * mWidth) /4
+
+
+	//
+	//U DATA
+	//
+
+	locSourceUptoPtr = inYUVBuffer->u;
+
+	//Skip the top padding
+	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+
+	for (long line = 0; line < mHeight / 2; line++) {
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+		locSourceUptoPtr += inYUVBuffer->uv_stride;
+		locDestUptoPtr += (mWidth / 2);
 	}
-
-	//U Data
-	for (long line = 0; line < inYUVBuffer->uv_height; line++) {
-		memcpy((void*)locBuffer, (const void*)(inYUVBuffer->u + (inYUVBuffer->uv_stride * (line))), inYUVBuffer->uv_width);
-		locBuffer += inYUVBuffer->uv_width;
-
-		if (mWidth/2 > inYUVBuffer->uv_width) {
-			memset((void*)locBuffer, 0, (mWidth/2) - inYUVBuffer->uv_width);
-		}
-		locBuffer += (mWidth/2) - inYUVBuffer->uv_width;
-	}
-
-	//Pad height...
-	for ( long line = 0; line < (mHeight/2) - inYUVBuffer->uv_height; line++) {
-		memset((void*)locBuffer, 0, mWidth/2);
-		locBuffer += mWidth/2;
-	}
+	locSourceUptoPtr += ((mYOffset/2) * inYUVBuffer->uv_stride);
 
 
+	////Y Data.
+	//for ( long line = 0; line < inYUVBuffer->y_height; line++) {
+	//	memcpy((void*)locBuffer, (const void*)(inYUVBuffer->y + (inYUVBuffer->y_stride * (line))), inYUVBuffer->y_width);
+	//	locBuffer += inYUVBuffer->y_width;
+
+	//	if (mWidth > inYUVBuffer->y_width) {
+	//		memset((void*)locBuffer, 0, mWidth - inYUVBuffer->y_width);
+	//	}
+	//	locBuffer += mWidth - inYUVBuffer->y_width;
+	//}
+
+	////Pad height...
+	//for ( long line = 0; line < mHeight - inYUVBuffer->y_height; line++) {
+	//	memset((void*)locBuffer, 0, mWidth);
+	//	locBuffer += mWidth;
+	//}
+
+	////V Data
+	//for ( long line = 0; line < inYUVBuffer->uv_height; line++) {
+	//	memcpy((void*)locBuffer, (const void*)(inYUVBuffer->v + (inYUVBuffer->uv_stride * (line))), inYUVBuffer->uv_width);
+	//	locBuffer += inYUVBuffer->uv_width;
+
+	//	if (mWidth/2 > inYUVBuffer->uv_width) {
+	//		memset((void*)locBuffer, 0, (mWidth/2) - inYUVBuffer->uv_width);
+	//	}
+	//	locBuffer += (mWidth/2) - inYUVBuffer->uv_width;
+	//}
+
+	////Pad height...
+	//for ( long line = 0; line < (mHeight/2) - inYUVBuffer->uv_height; line++) {
+	//	memset((void*)locBuffer, 0, mWidth/2);
+	//	locBuffer += mWidth/2;
+	//}
+
+	////U Data
+	//for (long line = 0; line < inYUVBuffer->uv_height; line++) {
+	//	memcpy((void*)locBuffer, (const void*)(inYUVBuffer->u + (inYUVBuffer->uv_stride * (line))), inYUVBuffer->uv_width);
+	//	locBuffer += inYUVBuffer->uv_width;
+
+	//	if (mWidth/2 > inYUVBuffer->uv_width) {
+	//		memset((void*)locBuffer, 0, (mWidth/2) - inYUVBuffer->uv_width);
+	//	}
+	//	locBuffer += (mWidth/2) - inYUVBuffer->uv_width;
+	//}
+
+	////Pad height...
+	//for ( long line = 0; line < (mHeight/2) - inYUVBuffer->uv_height; line++) {
+	//	memset((void*)locBuffer, 0, mWidth/2);
+	//	locBuffer += mWidth/2;
+	//}
 
 
 
-	//memcpy((void*)locBuffer, (const void*)(inYUVBuffer->y + (inYUVBuffer->y_stride * (inYUVBuffer->y_height - 1))), inYUVBuffer->y_height* inYUVBuffer->y_width);
-	//locBuffer += inYUVBuffer->y_height* inYUVBuffer->y_width;
-	//memcpy((void*)locBuffer, (const void*)(inYUVBuffer->u + (inYUVBuffer->y_stride * (inYUVBuffer->y_height - 1))), inYUVBuffer->uv_height* inYUVBuffer->uv_width);
-	//locBuffer += inYUVBuffer->uv_height* inYUVBuffer->uv_width;
-	//memcpy((void*)locBuffer, (const void*)(inYUVBuffer->v + (inYUVBuffer->y_stride * (inYUVBuffer->y_height - 1))), inYUVBuffer->uv_height* inYUVBuffer->uv_width);
+
+
 	//Set the sample parameters.
 	SetSampleParams(locSample, mFrameSize, &locFrameStart, &locFrameEnd);
 
@@ -251,6 +322,10 @@ HRESULT TheoraDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 	if (inMediaType->subtype == MEDIASUBTYPE_Theora) {
 		((TheoraDecodeFilter*)mParentFilter)->setTheoraFormat((sTheoraFormatBlock*)inMediaType->pbFormat);
 		mParentFilter->mVideoFormat = AbstractVideoDecodeFilter::THEORA;
+		//Set some other stuff here too...
+		mXOffset = ((sTheoraFormatBlock*)inMediaType->pbFormat)->xOffset;
+		mYOffset = ((sTheoraFormatBlock*)inMediaType->pbFormat)->yOffset;
+
 	} else {
 		//Failed... should never be here !
 		throw 0;
