@@ -37,12 +37,6 @@ class LIBOOOGG_API StampedOggPacket
 	:	public OggPacket
 {
 public:
-	//Constructors
-	StampedOggPacket(void);
-	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, unsigned short inStampType);
-	virtual ~StampedOggPacket(void);
-	virtual OggPacket* clone();
-
 	//Public Constants and Enums
 	enum eStampType {
 		NONE = 0,
@@ -50,18 +44,34 @@ public:
 		OGG_BOTH = 2,
 		DIRECTSHOW = 3
 	};
+
+	//Constructors
+	StampedOggPacket(void);
+	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, unsigned short inStampType);
+	virtual ~StampedOggPacket(void);
+
+	/// Does a deep copy of the packet a returns you a new one you can keep.
+	virtual OggPacket* clone();
+
 	//TODO::: should not be global.
 	unsigned short mStampType;
 
-	//Time stamp access
+	/// Returns the start time of the packet. (Check stamp type)
 	LOOG_INT64 startTime();
+
+	/// Returns the end time of the packet (Check stamp type)
 	LOOG_INT64 endTime();
 
+	/// Sets the start time of the packet (You need to set stamp type appropriately)
 	void setStartTime(LOOG_INT64 inStartTime);
-	void setEndTime(LOOG_INT64 inEndTime);
-	void StampedOggPacket::setTimeStamp(LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, StampedOggPacket::eStampType inStampType);
 
-	//Merge function
+	/// Sets the end time of the packet (You need to set stamp type appropriately)
+	void setEndTime(LOOG_INT64 inEndTime);
+
+	/// Sets the time stamp in one hit.
+	void setTimeStamp(LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, StampedOggPacket::eStampType inStampType);
+
+	/// Merges two packets together.
 	virtual void merge(const StampedOggPacket* inMorePacket);
 
 protected:
