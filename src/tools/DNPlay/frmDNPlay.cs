@@ -45,9 +45,8 @@ namespace DNPlay
 		private System.Windows.Forms.Button cmdFollowLink;
 		private System.Windows.Forms.Label lblAnchorLink;
 		private System.Windows.Forms.Label lblTitle;
-		private System.Windows.Forms.Label label1;
 		protected HeadTag mHeadTag;
-		private Int64 evCount;
+		//private Int64 evCount;
 		private Uri mBaseURI; 
 		private String mFileName;
 
@@ -107,8 +106,8 @@ namespace DNPlay
 		}
 		public bool eventNotification(Int32 inEventCode, Int32 inParam1, Int32 inParam2) 
 		{
-			evCount++;
-			label1.Text = evCount.ToString();
+			//evCount++;
+			//label1.Text = evCount.ToString();
 			if (inEventCode == (long)eEventCodes.EC_COMPLETE) 
 			{
 				tmrUpdateDuration.Enabled = false;
@@ -120,6 +119,7 @@ namespace DNPlay
 		//Implementing IDNCMMLCallbacks
 		public bool clipCallback(ClipTag inClipTag) 
 		{
+			MessageBox.Show("Clip Callback");
 			mCurrentClip = inClipTag;
 			lblClipDesc.Text = inClipTag.desc().text();
 			lblAnchorLink.Text = inClipTag.anchor().href();
@@ -127,7 +127,7 @@ namespace DNPlay
 		}
 		public bool headCallback(HeadTag inHeadTag) 
 		{
-			//MessageBox.Show("Head callback");
+			MessageBox.Show("Head callback");
 			mHeadTag = inHeadTag;
 			if (mHeadTag != null) 
 			{
@@ -180,7 +180,7 @@ namespace DNPlay
 			cmdPlay.Enabled = false;
 			cmdPause.Enabled = false;
 
-			evCount = 0;
+			//evCount = 0;
 		}
 
 		/// <summary>
@@ -228,7 +228,6 @@ namespace DNPlay
 			this.cmdFollowLink = new System.Windows.Forms.Button();
 			this.lblAnchorLink = new System.Windows.Forms.Label();
 			this.lblTitle = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -381,9 +380,9 @@ namespace DNPlay
 			// 
 			// lblAnchorLink
 			// 
-			this.lblAnchorLink.Location = new System.Drawing.Point(56, 232);
+			this.lblAnchorLink.Location = new System.Drawing.Point(16, 232);
 			this.lblAnchorLink.Name = "lblAnchorLink";
-			this.lblAnchorLink.Size = new System.Drawing.Size(248, 24);
+			this.lblAnchorLink.Size = new System.Drawing.Size(288, 24);
 			this.lblAnchorLink.TabIndex = 12;
 			// 
 			// lblTitle
@@ -394,19 +393,10 @@ namespace DNPlay
 			this.lblTitle.Size = new System.Drawing.Size(400, 16);
 			this.lblTitle.TabIndex = 13;
 			// 
-			// label1
-			// 
-			this.label1.Location = new System.Drawing.Point(8, 264);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(112, 32);
-			this.label1.TabIndex = 14;
-			this.label1.Text = "label1";
-			// 
 			// frmDNPlay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(416, 295);
-			this.Controls.Add(this.label1);
+			this.ClientSize = new System.Drawing.Size(416, 271);
 			this.Controls.Add(this.lblTitle);
 			this.Controls.Add(this.lblAnchorLink);
 			this.Controls.Add(this.cmdFollowLink);
@@ -476,6 +466,9 @@ namespace DNPlay
 			{
 				mFileName = inFileName;
 				lblFileLocation.Text = inFileName;
+				lblAnchorLink.Text = "";
+				lblClipDesc.Text = "";
+
 
 				
 				//Set the base URI from the current file.
