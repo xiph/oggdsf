@@ -36,11 +36,18 @@ public:
 	IFIFOBuffer(void)				{}
 	virtual ~IFIFOBuffer(void)		{}
 
+	/// Read bytes from the internal buffer. Returns how many actually read.
 	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead) = 0;
+
+	/// Write bytes into the internal buffer. Returns how many written.
 	virtual unsigned long write(const unsigned char* inData, unsigned long inBytesToWrite) = 0;
 
+	/// Returns how many bytes are available in the buffer.
 	virtual  unsigned long numBytesAvail() = 0;
+
+	/// Returns how much space is left in the buffer.
 	virtual unsigned long spaceLeft() = 0;
 
+	/// Resets the buffer.
 	virtual void reset() = 0;
 };
