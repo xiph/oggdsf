@@ -64,6 +64,7 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	,	mBegun(false)
 	,	mUpto(0)
 	,	mJustStopped(true)
+	,	mTotalNumSamples(0)
 	
 	//,	mDecoder(NULL)
 {
@@ -136,7 +137,12 @@ STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_T
 											((locBuff[21] & FLAC_BPS_END_MASK) >> 4)) + 1;	
 
 
+	mTotalNumSamples = (((__int64)(locBuff[21] % 16)) << 32) + ((__int64)(iBE_Math::charArrToULong(&locBuff[22])));
 	debugLog<<mNumChannels<<" channels with "<<mSampleRate<<" Hz @ "<<mBitsPerSample<<" bits per sample"<<endl;
+	debugLog<<"Total num samples = "<<mTotalNumSamples<<endl;
+
+
+	//TODO::: NEed to handle the case where the number of samples is zero by making it non-seekable.
 	mInputFile.seekg(0, ios_base::beg);
 
 	debugLog<<"Pre init"<<endl;
@@ -375,4 +381,99 @@ void NativeFLACSourceFilter::error_callback(FLAC__StreamDecoderErrorStatus inSta
 bool NativeFLACSourceFilter::eof_callback(void) {
 	debugLog<<"EOF Req"<<endl;
 	return mInputFile.eof();
+}
+
+
+
+STDMETHODIMP NativeFLACSourceFilter::GetCapabilities(DWORD* inCapabilities) {
+	*inCapabilities = AM_SEEKING_CanSeekAbsolute |
+						AM_SEEKING_CanSeekForwards |
+						AM_SEEKING_CanSeekBackwards |
+						AM_SEEKING_CanGetCurrentPos |
+						AM_SEEKING_CanGetStopPos |
+						AM_SEEKING_CanGetDuration;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::CheckCapabilities(DWORD *pCapabilities) {
+	return E_NOTIMPL;
+}
+STDMETHODIMP NativeFLACSourceFilter::IsFormatSupported(const GUID *pFormat) {
+	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
+		//debugLog<<"IsFormatSupported	: TRUE"<<endl;
+		return S_OK;
+	} else {
+		//debugLog<<"IsFormatSupported	: FALSE !!!"<<endl;
+		return S_FALSE;
+	}
+}
+STDMETHODIMP NativeFLACSourceFilter::QueryPreferredFormat(GUID *pFormat) {
+	*pFormat = TIME_FORMAT_MEDIA_TIME;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::SetTimeFormat(const GUID *pFormat) {
+	return E_NOTIMPL;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetTimeFormat( GUID *pFormat) {
+	*pFormat = TIME_FORMAT_MEDIA_TIME;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetDuration(LONGLONG *pDuration) {
+	*pDuration = (mTotalNumSamples * UNITS) / mSampleRate;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetStopPosition(LONGLONG *pStop) {
+	*pStop = (mTotalNumSamples * UNITS) / mSampleRate;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetCurrentPosition(LONGLONG *pCurrent){
+	return E_NOTIMPL;
+}
+STDMETHODIMP NativeFLACSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat){
+	return E_NOTIMPL;
+}
+STDMETHODIMP NativeFLACSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags){
+	debugLog<<"Request seek to "<<*pCurrent<<endl;
+	mUpto = 0;
+	unsigned __int64 locSampleToSeek = (*pCurrent) * mSampleRate/ UNITS;
+	debugLog<<"W**** Which is sample no = "<<locSampleToSeek<<endl;
+	mFLACSourcePin->DeliverBeginFlush();
+	mFLACSourcePin->DeliverEndFlush();
+	bool locRes = seek_absolute(locSampleToSeek);
+	if (locRes) {
+		debugLog<<"Seek suceeded"<<endl;
+	} else {
+		debugLog<<"Seek failed"<<endl;
+	}
+	
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop){
+	debugLog<<"Calling get positions _ NOTIMPL"<<endl;
+	return E_NOTIMPL;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest){
+	*pEarliest = 0;
+	*pLatest = (mTotalNumSamples * UNITS) / mSampleRate;
+	debugLog<<"Get available"<<endl;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::SetRate(double dRate){
+	return E_NOTIMPL;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetRate(double *dRate){
+	*dRate = 1.0;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::GetPreroll(LONGLONG *pllPreroll){
+	*pllPreroll = 0;
+	return S_OK;
+}
+STDMETHODIMP NativeFLACSourceFilter::IsUsingTimeFormat(const GUID *pFormat){
+	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
+		//debugLog<<"IsFormatSupported	: TRUE"<<endl;
+		return S_OK;
+	} else {
+		//debugLog<<"IsFormatSupported	: FALSE !!!"<<endl;
+		return S_FALSE;
+	}
 }

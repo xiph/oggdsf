@@ -44,6 +44,7 @@ class NativeFLACSourceFilter
 	:	public CBaseFilter
 	,	public IFileSourceFilter
 	,	public IAMFilterMiscFlags
+	,	public IMediaSeeking
 	,	public CAMThread
 	,	protected FLAC::Decoder::SeekableStream
 {
@@ -94,7 +95,26 @@ public:
 
 
 	bool eof_callback(void);
-
+	//
+	//IMediaSeeking Interface
+	 virtual STDMETHODIMP GetCapabilities(DWORD *pCapabilities);
+	 virtual STDMETHODIMP CheckCapabilities(DWORD *pCapabilities);
+	 virtual STDMETHODIMP IsFormatSupported(const GUID *pFormat);
+	 virtual STDMETHODIMP QueryPreferredFormat(GUID *pFormat);
+	 virtual STDMETHODIMP SetTimeFormat(const GUID *pFormat);
+	 virtual STDMETHODIMP GetTimeFormat( GUID *pFormat);
+	 virtual STDMETHODIMP GetDuration(LONGLONG *pDuration);
+	 virtual STDMETHODIMP GetStopPosition(LONGLONG *pStop);
+	 virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
+	 virtual STDMETHODIMP ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat);
+	 virtual STDMETHODIMP SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags);
+	 virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
+	 virtual STDMETHODIMP GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest);
+	 virtual STDMETHODIMP SetRate(double dRate);
+	 virtual STDMETHODIMP GetRate(double *dRate);
+	 virtual STDMETHODIMP GetPreroll(LONGLONG *pllPreroll);
+	 virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
+	//
 
 
 
@@ -120,5 +140,6 @@ protected:
 	unsigned long mFrameSize;
 	unsigned long mSampleRate;
 	unsigned long mBitsPerSample;
+	__int64 mTotalNumSamples;
 
 };
