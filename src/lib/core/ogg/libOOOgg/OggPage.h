@@ -47,46 +47,37 @@ class LIBOOOGG_API OggPage
 public:
 	//Constants
 	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
-	//
 	
 	//Constructors
 	OggPage(void);
 	virtual ~OggPage(void);
-	//
 
 	//Cloning
 	OggPage* clone();
-	//
 	
 	//Size functions
 	unsigned long pageSize();
 	unsigned long headerSize();
 	unsigned long dataSize();
-	//
 
 	//IOggPackSource Implementation
 	virtual OggPacket* getPacket(unsigned long inPacketNo);
 	virtual unsigned long numPackets();
-	//
 
 	//Packet access
 	StampedOggPacket* getStampedPacket(unsigned long inPacketNo);
 	bool addPacket(StampedOggPacket* inPacket);
-	//
 	
 	//Header access
 	OggPageHeader* header();
-	//
 	
 	//Serialise
 	unsigned char* createRawPageData();
-	//
 
 protected:
 	//Member data of packets and header.
 	vector<StampedOggPacket*> mPacketList;
 	OggPageHeader* mHeader;
-	//
 
 private:
 	OggPage& operator=(const OggPage& other);  /* Don't assign me */

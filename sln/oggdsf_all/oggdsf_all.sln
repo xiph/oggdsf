@@ -1218,6 +1218,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libDirectshowAbstracts", ".
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testLibOOOgg", "..\..\src\tests\testLibOOOgg\testLibOOOgg.vcproj", "{6B993E86-7283-4324-B4C4-F047930FB5FF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2449,6 +2453,22 @@ Global
 		{EA7091BB-9906-41DF-9738-F4858A136086}.Release_SSE.Build.0 = Release|Win32
 		{EA7091BB-9906-41DF-9738-F4858A136086}.Release_SSE2.ActiveCfg = Release|Win32
 		{EA7091BB-9906-41DF-9738-F4858A136086}.Release_SSE2.Build.0 = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Debug.ActiveCfg = Debug|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Debug.Build.0 = Debug|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Debug Unicode.ActiveCfg = Debug|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Debug Unicode.Build.0 = Debug|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.MakeFile.ActiveCfg = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.MakeFile.Build.0 = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release.ActiveCfg = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release.Build.0 = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release Unicode.ActiveCfg = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release Unicode.Build.0 = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_NoDotNET.Build.0 = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_SSE.ActiveCfg = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_SSE.Build.0 = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_SSE2.ActiveCfg = Release|Win32
+		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

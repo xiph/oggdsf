@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="iTranscode"
-	ProjectGUID="{493C1F66-0516-466C-A91C-73C8BB84D3CB}"
+	Name="testLibOOOgg"
+	ProjectGUID="{6B993E86-7283-4324-B4C4-F047930FB5FF}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -31,10 +31,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/iTranscode.exe"
+				OutputFile="$(OutDir)/testLibOOOgg.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/iTranscode.pdb"
+				ProgramDatabaseFile="$(OutDir)/testLibOOOgg.pdb"
 				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
@@ -67,7 +67,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="4"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
@@ -76,7 +76,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/iTranscode.exe"
+				OutputFile="$(OutDir)/testLibOOOgg.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="1"
@@ -113,9 +113,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\iTranscode.cpp">
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -129,6 +126,9 @@
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\testLibOOOgg.cpp">
 			</File>
 		</Filter>
 		<Filter

@@ -103,41 +103,52 @@ bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 
 	//Check if the page has the correct capture pattern
 	if (strncmp((const char*)inBaseHeader, "OggS", OGG_CAPTURE_PATTERN_SIZE) == 0) {
+		mStructureVersion = inBaseHeader[STRUCTURE_VERSION];
+		mHeaderFlags = inBaseHeader[HEADER_FLAGS];
+		mGranulePos = iLE_Math::CharArrToInt64(inBaseHeader + GRANULE_POS);
+		mStreamSerialNo = iLE_Math::charArrToULong(inBaseHeader + SERIAL_NO);
+		mCRCCheckSum = iLE_Math::charArrToULong(inBaseHeader + OGG_CHECKSUM);
+		mNumPageSegments = inBaseHeader[NUM_SEGMENTS];
+		mHeaderSize = OGG_BASE_HEADER_SIZE + mNumPageSegments;
 		
-		locOffset += OGG_CAPTURE_PATTERN_SIZE;
-
-		//Assign the structure version
-		setStructureVersion(inBaseHeader[locOffset]);
-		locOffset++;
-
-		//Assign the header flags
-		setHeaderFlags(inBaseHeader[locOffset]);
-		locOffset++;
-
-		//Assign the granule pos	
-		setGranulePos((const unsigned char*)(inBaseHeader + locOffset));
-		locOffset += 8;
-
-		//Assign Serial No
-		setStreamSerialNo((const unsigned char*)(inBaseHeader + locOffset));
-		locOffset += 4;
-
-		//Assign Page Seq No	
-		setPageSequenceNo(inBaseHeader + locOffset);
-		locOffset += 4;
-
-		//Assign CheckSum
-		setCRCChecksum(inBaseHeader + locOffset);
-		locOffset += 4;
-
-		//Assign Num Page Segments
-		setNumPageSegments(inBaseHeader[locOffset]);
-		locOffset++;
-
-		//Set the size of the header
-		setHeaderSize(OGG_BASE_HEADER_SIZE + mNumPageSegments);
-
+		mPageSize = mHeaderSize + mDataSize;
 		mPageState = BASE_HEAD_SET;
+		return true;
+
+	}
+
+		////Assign the structure version
+		//setStructureVersion(inBaseHeader[locOffset]);
+		//locOffset++;
+
+		////Assign the header flags
+		//setHeaderFlags(inBaseHeader[locOffset]);
+		//locOffset++;
+
+		////Assign the granule pos	
+		//setGranulePos((const unsigned char*)(inBaseHeader + locOffset));
+		//locOffset += 8;
+
+		////Assign Serial No
+		//setStreamSerialNo((const unsigned char*)(inBaseHeader + locOffset));
+		//locOffset += 4;
+
+		////Assign Page Seq No	
+		//setPageSequenceNo(inBaseHeader + locOffset);
+		//locOffset += 4;
+
+		////Assign CheckSum
+		//setCRCChecksum(inBaseHeader + locOffset);
+		//locOffset += 4;
+
+		////Assign Num Page Segments
+		//setNumPageSegments(inBaseHeader[locOffset]);
+		//locOffset++;
+
+		////Set the size of the header
+		//setHeaderSize(OGG_BASE_HEADER_SIZE + mNumPageSegments);
+
+		//mPageState = BASE_HEAD_SET;
 
 				
 		return true;
@@ -148,7 +159,8 @@ bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 }
 
 
-void OggPageHeader::setPageState(ePageState inPageState) {
+void OggPageHeader::setPageState(ePageState inPageState) 
+{
 	mPageState = inPageState;
 }
 unsigned char OggPageHeader::StructureVersion() 
@@ -231,7 +243,6 @@ void OggPageHeader::setCRCChecksum(unsigned long inVal)
 }
 void OggPageHeader::setCRCChecksum(const unsigned char* inPtr)
 {
-	
 	mCRCChecksum = iLE_Math::charArrToULong(inPtr);;
 }
 
@@ -241,8 +252,11 @@ void OggPageHeader::setNumPageSegments(unsigned char inVal)
 		mNumPageSegments = inVal;
 	}
 }
-//Copies the data from the pointer it is given.
-void OggPageHeader::setSegmentTable(const unsigned char* inPtr, unsigned char inNumSegs) {
+///
+//	Copies the data from the pointer it is given.
+//	
+void OggPageHeader::setSegmentTable(const unsigned char* inPtr, unsigned char inNumSegs) 
+{
 	unsigned char* locSegTable = new unsigned char[inNumSegs];		//This is stored in the member variable and deleted in the destructor.
 	memcpy((void*)locSegTable, (const void*)inPtr, inNumSegs);
 	delete[] mSegmentTable;
@@ -273,7 +287,7 @@ unsigned long OggPageHeader::dataSize()
 }
 bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 	
-	//0-3			CapPattern						"Oggs"
+	//0-3			CapPattern						"OggS"
 	//4				Struct Ver
 	//5				Head Flags
 	//6-13			Granule Pos
@@ -282,8 +296,9 @@ bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 	//22-25			CheckSum
 	//26			Num Segments
 	//27...			SegmentTable
+	//
+
 	if (mHeaderSize > inBuffSize) {
-		//EXIT POINT
 		return false;
 	}
 	outData[0] = 'O';
@@ -335,7 +350,7 @@ string OggPageHeader::toString() {
 }
 
 
-
+//This could be unsigned short.
 void OggPageHeader::setHeaderSize(unsigned long inVal)
 {
 	mHeaderSize = inVal;

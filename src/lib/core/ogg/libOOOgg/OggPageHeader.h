@@ -75,6 +75,19 @@ public:
 		BOS = 2,
 		EOS = 4
 	};
+
+	
+	enum eFieldOffsets {
+		CAPTURE_PATTURN = 0,
+		STRUCTURE_VERSION = 4,
+		HEADER_FLAGS = 5,
+		GRANULE_POS = 6,
+		SERIAL_NO = 14,
+		SEQUENCE_NO = 18,
+		OGG_CHECKSUM = 22,
+		NUM_SEGMENTS = 26,
+		SEGMENT_TABLE = 27
+	};
 	
 
 	bool rawData(unsigned char* outData, unsigned long inBuffSize);
