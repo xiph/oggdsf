@@ -12,8 +12,11 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 
 	string locStr;
 
+	int x;
+	cin>>x;
+
 	do {
-		cout<<" : "<<endl;
+		cout<<" : ";
 		cin>>locStr;
 
 		if (locStr != "x") {

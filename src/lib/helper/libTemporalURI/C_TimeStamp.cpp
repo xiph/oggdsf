@@ -21,7 +21,10 @@ bool C_TimeStamp::parseNPT(string inTimeStamp, sFourPartTime* inFPT) {
 
 	if (locWasOK) {
 		if ( (locLeftOver.find(".") == 0) || (locLeftOver == "")) {
-			locLeftOver = locLeftOver.substr(1);
+			if (locLeftOver != "" ) {
+				locLeftOver = locLeftOver.substr(1);
+			}
+
 			if (locLeftOver == "") {
 				inFPT->partials = 0;
 				return true;
@@ -153,6 +156,7 @@ bool C_TimeStamp::parseSecsOnly(string inTimeStamp) {
 	if (locDotPos == string::npos) {
 		//No dot here
 		locSS = StringHelper::stringToNum(inTimeStamp);
+		locNN = 0;
 	} else {
 		//Dotted time
 
@@ -182,6 +186,8 @@ LOOG_INT64 C_TimeStamp::toHunNanos() {
 	switch (mStampType) {
 		case TS_NPT_SECS:
 			return (mSecs * 10000000) + (mHuns);
+		case TS_NPT_FULL:
+			return (mFPT.hours * 3600 * 10000000) + (mFPT.minutes * 60 * 10000000) + (mFPT.seconds * 10000000) + (mFPT.partials);
 		default:
 			return  -1;
 
@@ -209,7 +215,7 @@ bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 			return parseSecsOnly(inTimeStamp);
 		}
 
-	} else if (inTimeStamp.find("smpte-" == 0)) {
+	} else if (inTimeStamp.find("smpte-") == 0) {
 		//One of the smpt stamps
 		inTimeStamp = inTimeStamp.substr(6);
 
