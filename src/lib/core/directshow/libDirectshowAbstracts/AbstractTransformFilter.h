@@ -35,8 +35,6 @@
 //Local Includes
 #include "directshowabstractsdllstuff.h"
 
-//External Includes
-#include "BasicSeekable.h"
 
 //Forward Declarations
 class AbstractTransformInputPin;

@@ -54,6 +54,10 @@ AbstractTransformOutputPin::~AbstractTransformOutputPin(void)
 	ReleaseDelegate();
 	delete mDataQueue;
 	mDataQueue = NULL;
+
+	for (int i = 0; i < mAcceptableMediaTypes.size(); i++) {
+		delete mAcceptableMediaTypes[i];
+	}
 }
 
 STDMETHODIMP AbstractTransformOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) 

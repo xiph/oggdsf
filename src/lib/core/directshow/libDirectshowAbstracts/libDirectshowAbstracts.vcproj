@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;c:\dxsdk\Samples\C++\DirectShow\BaseClasses&quot;;..\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;c:\dxsdk\Samples\C++\DirectShow\BaseClasses&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;c:\dxsdk\Samples\C++\DirectShow\BaseClasses&quot;;..\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;c:\dxsdk\Samples\C++\DirectShow\BaseClasses&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
@@ -111,6 +111,9 @@
 				RelativePath=".\AbstractTransformOutputPin.cpp">
 			</File>
 			<File
+				RelativePath=".\BasicSeekPassThrough.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -138,6 +141,9 @@
 			</File>
 			<File
 				RelativePath=".\AbstractTransformOutputPin.h">
+			</File>
+			<File
+				RelativePath=".\BasicSeekPassThrough.h">
 			</File>
 			<File
 				RelativePath=".\directshowabstractsdllstuff.h">

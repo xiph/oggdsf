@@ -33,9 +33,7 @@
 
 //Local Includes
 #include "directshowabstractsdllstuff.h"
-
-//External Includes
-#include "BasicSeekable.h"
+#include "BasicSeekPassThrough.h"
 
 //STL Includes
 #include <vector>
@@ -54,7 +52,7 @@ class AbstractTransformInputPin
 	//Base Classes
 	:	public CBaseInputPin
 			//http://msdn.microsoft.com/library/default.asp?url=/library/en-us/directshow/htm/cbaseinputpinclass.asp
-	,	public BasicSeekable
+	,	public BasicSeekPassThrough
 {
 public:
 	//Friend Classes

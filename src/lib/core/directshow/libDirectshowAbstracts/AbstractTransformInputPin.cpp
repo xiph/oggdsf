@@ -78,6 +78,10 @@ AbstractTransformInputPin::~AbstractTransformInputPin(void)
 {
 
 	delete mStreamLock;
+	for (int i = 0; i < mAcceptableMediaTypes.size(); i++) {
+		delete mAcceptableMediaTypes[i];
+	}
+
 }
 
 
