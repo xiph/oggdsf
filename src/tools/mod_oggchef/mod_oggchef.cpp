@@ -191,8 +191,8 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes);
 
 	// Clean up
-	//delete locOutputMIMETypes;
-	//delete locRecomposer;
+	delete locOutputMIMETypes;
+	delete locRecomposer;
 
 	return OK;
 }
