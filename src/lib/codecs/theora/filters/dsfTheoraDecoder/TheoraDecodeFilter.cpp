@@ -55,6 +55,16 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 TheoraDecodeFilter::TheoraDecodeFilter() 
 	:	CVideoTransformFilter( NAME("Theora Decode Filter"), NULL, CLSID_TheoraDecodeFilter)
+	,	mHeight(0)
+	,	mWidth(0)
+	,	mFrameSize(0)
+	,	mFrameCount(0)
+	,	mYOffset(0)
+	,	mXOffset(0)
+	,	mFrameDuration(0)
+	,	mBegun(false)
+	,	mSeekTimeBase(0)
+	,	mLastSeenStartGranPos(0)
 {
 	debugLog.open("G:\\logs\\newtheofilter.log", ios_base::out);
 
