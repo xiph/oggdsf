@@ -37,7 +37,7 @@
 using namespace std;
 class TheoraDecodeOutputPin 
 	:	public CTransformOutputPin
-	//,	public BasicSeekable
+	,	public BasicSeekable
 {
 public:
 	//COnstructors
@@ -45,14 +45,14 @@ public:
 	virtual ~TheoraDecodeOutputPin();
 
 	//COM Guff
-	//DECLARE_IUNKNOWN
-	//STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//Overrides
-	//virtual HRESULT BreakConnect();
-	//virtual HRESULT CompleteConnect (IPin *inReceivePin);
+	virtual HRESULT BreakConnect();
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 
-	//fstream debugLog;
+	fstream debugLog;
 };
 //----------------------
 //OLD IMPLEMENTATION

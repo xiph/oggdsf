@@ -322,7 +322,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			mStreamMapper->getOggStream(i)->setLastEndGranPos(*pCurrent);
 		}
 		{
-//			CAutoLock locStreamLock(mStreamLock);
+			//			CAutoLock locStreamLock(mStreamLock);
 			//debugLog<<"       : Delivering End Flush..."<<endl;
 			DeliverEndFlush();
 			//debugLog<<"       : End flush Delviered."<<endl;
@@ -537,13 +537,15 @@ void OggDemuxSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TI
 	//debugLog<<"DeliverNewSegment : Delivering start = "<<tStart<<" end = "<< tStop<<"rate = "<<dRate<<endl;
 
 
-	IReferenceClock* locRefClock = NULL;
-	HRESULT locHR = GetSyncSource(&locRefClock);
-	LONGLONG locCurrentTime;
-	locRefClock->GetTime(&locCurrentTime);
+	//Testing
+	//IReferenceClock* locRefClock = NULL;
+	//HRESULT locHR = GetSyncSource(&locRefClock);
+	//LONGLONG locCurrentTime;
+	//locRefClock->GetTime(&locCurrentTime);
 
 	
-	m_tStart = locCurrentTime;
+	//m_tStart = locCurrentTime;
+	//end testing... uncomment lines after test.
 	
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverNewSegment(tStart, tStop, dRate);
