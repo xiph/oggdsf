@@ -70,8 +70,8 @@ protected:
 
 	//CCritSec* mFilterLock;
 
-	static const int BUFF_SIZE = 65536;	static const int BUFF_COUNT = 5;
+	static const int BUFF_SIZE = 65536;
+	static const int BUFF_COUNT = 5;
 	
 };
-
 

@@ -58,7 +58,11 @@ STDMETHODIMP AbstractVideoDecodeOutputPin::NonDelegatingQueryInterface(REFIID ri
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 HRESULT AbstractVideoDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
-		//debugLog<<endl;		//FIX::: Abstract this out properly	
+	
+	//debugLog<<endl;
+	
+	
+	//FIX::: Abstract this out properly	
 
 	//debugLog<<"Allocator is "<<(unsigned long)inAllocator<<endl;
 	//Our error variable

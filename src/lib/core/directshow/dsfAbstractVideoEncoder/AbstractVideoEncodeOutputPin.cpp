@@ -57,7 +57,9 @@ STDMETHODIMP AbstractVideoEncodeOutputPin::NonDelegatingQueryInterface(REFIID ri
 }
 
 HRESULT AbstractVideoEncodeOutputPin::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
-		//FIX::: Abstract this out properly	
+	
+	
+	//FIX::: Abstract this out properly	
 
 	HRESULT locHR = S_OK;
 

@@ -58,7 +58,8 @@ STDMETHODIMP AbstractAudioDecodeOutputPin::NonDelegatingQueryInterface(REFIID ri
 }
 
 HRESULT AbstractAudioDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
-		//FIX::: Abstract this out properly	
+	
+	//FIX::: Abstract this out properly	
 
 	HRESULT locHR = S_OK;
 

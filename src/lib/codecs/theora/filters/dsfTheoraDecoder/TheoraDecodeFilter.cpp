@@ -159,7 +159,9 @@ HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, c
 	}
 }
 HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
-	//debugLog<<endl;	//debugLog<<"DecideBufferSize :"<<endl;	//FIX::: Abstract this out properly	
+	//debugLog<<endl;
+	//debugLog<<"DecideBufferSize :"<<endl;
+	//FIX::: Abstract this out properly	
 
 	//debugLog<<"Allocator is "<<(unsigned long)inAllocator<<endl;
 	//Our error variable
