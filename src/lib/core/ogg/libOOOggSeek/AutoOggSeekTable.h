@@ -30,7 +30,7 @@
 //===========================================================================
 
 #pragma once
-#include "oggseektable.h"
+#include "OggSeekTable.h"
 #include "dllstuff.h"
 #include "IOggCallback.h"
 #include "OggDataBuffer.h"

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "autooggseektable.h"
+#include "AutoOggSeekTable.h"
 
 AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 	:	mFilePos(0)

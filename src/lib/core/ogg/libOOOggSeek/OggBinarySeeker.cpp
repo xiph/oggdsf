@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "oggbinaryseeker.h"
+#include "OggBinarySeeker.h"
 
 OggBinarySeeker::OggBinarySeeker(void)
 {

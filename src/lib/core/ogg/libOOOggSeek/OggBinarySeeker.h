@@ -1,5 +1,5 @@
 #pragma once
-#include "oggseektable.h"
+#include "OggSeekTable.h"
 
 class OggBinarySeeker :
 	public OggSeekTable

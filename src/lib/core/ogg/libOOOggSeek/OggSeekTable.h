@@ -30,7 +30,7 @@
 //===========================================================================
 
 #pragma once
-#include "libillicore.h"
+#include "libilliCore.h"
 #include "libOOOggSeek.h"
 #include <fstream>
 #include <map>

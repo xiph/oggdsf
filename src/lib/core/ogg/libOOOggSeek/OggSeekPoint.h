@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "libillicore.h"
+#include "libilliCore.h"
 
 class OggSeekPoint
 {

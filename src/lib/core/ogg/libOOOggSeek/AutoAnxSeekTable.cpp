@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "autoanxseektable.h"
+#include "AutoAnxSeekTable.h"
 
 AutoAnxSeekTable::AutoAnxSeekTable(string inFileName)
 	:	AutoOggSeekTable(inFileName)
