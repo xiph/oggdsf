@@ -1047,6 +1047,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libVorbisCommentDotNET", ".
 		{DC4D86E2-72C1-4995-8FB1-0F08655E620A} = {DC4D86E2-72C1-4995-8FB1-0F08655E620A}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iOCE", "..\..\src\tools\iOCE\iOCE.csproj", "{8BFD6626-7D04-4DB8-836C-767DBD256F33}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -1496,6 +1500,16 @@ Global
 		{CD8398F5-6FF7-4BDA-9E48-ADF6C64A4747}.Release.Build.0 = Release|Win32
 		{CD8398F5-6FF7-4BDA-9E48-ADF6C64A4747}.Release Unicode.ActiveCfg = Release|Win32
 		{CD8398F5-6FF7-4BDA-9E48-ADF6C64A4747}.Release Unicode.Build.0 = Release|Win32
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Debug.ActiveCfg = Debug|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Debug.Build.0 = Debug|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Debug Unicode.ActiveCfg = Debug|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Debug Unicode.Build.0 = Debug|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.MakeFile.ActiveCfg = Release|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.MakeFile.Build.0 = Release|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Release.ActiveCfg = Release|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Release.Build.0 = Release|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Release Unicode.ActiveCfg = Release|.NET
+		{8BFD6626-7D04-4DB8-836C-767DBD256F33}.Release Unicode.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
