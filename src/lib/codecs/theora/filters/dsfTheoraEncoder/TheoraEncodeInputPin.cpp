@@ -300,6 +300,126 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 
 }
 
+long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumBytes) {
+	//Blue Green Red Blue Green Red.
+	unsigned long locNumPixels = (inNumBytes/3);
+	unsigned char* locAYUVBuf = new unsigned char[locNumPixels<<2];   //4 bytes per pixel
+
+	/*
+
+
+
+
+	Conversion from RGB to YUV is defined by starting with the following:
+
+	L = Kr * R + Kb * B + (1 – Kr – Kb) * G
+
+	The YUV values are then obtained as follows:
+
+	Y =                 floor(2^(M-8) * (219*(L–Z)/S + 16) + 0.5)
+	U = clip3(0, 2^M-1, floor(2^(M-8) * (112*(B-L) / ((1-Kb)*S) + 128) + 0.5))
+	V = clip3(0, 2^M-1, floor(2^(M-8) * (112*(R-L) / ((1-Kr)*S) + 128) + 0.5))
+
+	where Z = 16
+	S = 219
+	M = 8 bits per sample.
+
+	==>
+	Y =					floor(L + 0.5)
+	U =					(112*(B-L) / ((1-Kb)*S) + 128)		
+
+
+	Kr'			= Kr * 65536
+	Kb'			= Kb * 65536
+	G_FACTOR	= (1 - Kr - Kb) * 65536
+
+	L'			= (Kr' * R)  +  (Kb' * B) + (G_FACTOR * G)
+				= 65536 * ( (Kr * R) + (Kb * B) + ((1 - Kr - Kb) * G) )
+				= 65536 * L
+
+	Y			= round( 219 * (L-Z)/S + 16 )
+				= round ( L-Z + 16 )
+				= round( L )
+
+	Y'			= L'
+				= 65536 * L
+				
+	Y			= L' >> 16
+
+	U_FACTOR	= ( 1 - Kb) * S
+	U_FACTOR'	= 12716213
+	
+				= 65536 * U_FACTOR
+
+	V_FACTOR'	= 10061022
+	
+	B'			= 65536 * B
+	R'			= 65536 * R
+
+	_U_			= round( 112 * (B-L) / ( (1-Kb)*S ) + 128 )
+				= round( (112 * (B-L) / U_FACTOR) + 128 )
+				= (112 * (B' - L') / U_FACTOR') + 128
+				= (112 * 65536 * (B - L) / (U_FACTOR * 65536)) + 128
+				= (112 * (B - L) / U_FACTOR) + 128
+
+	Hence integerisation scaling cancels
+	==>
+	_U_			= (112 * (B' - L') / U_FACTOR') + 128
+	
+	_V_			= (112 * (R' - L') / V_FACTOR') + 128
+		
+	*/
+
+	/*
+	Kr = 0.299
+	Kb = 0.114
+
+
+	*/
+
+	//Scaled by factor of 65536 to integerise.
+	const int KR = 19596;
+	const int KB = 7472;
+	
+	const int ROUNDER = 32768;
+
+	const int G_FACTOR = 38470;
+	const int U_FACTOR = 12716213;
+	const int V_FACTOR = 10061022;
+
+	int locL = 0;
+	int locB = 0;
+	int locR = 0;
+
+	//unsigned char* locSourcePtr = inBuf;
+	unsigned char* locDestPtr = locAYUVBuf;
+
+    //SOURCE: Blue Green Red Blue Green Red.
+	//DEST: v u y a
+
+	unsigned char* locSourceEnds = inBuf + (locNumPixels * 3);
+	for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 3) {
+		locB = locSourcePtr[0];					//Blue
+		locL = KB * (locB);						//Blue
+		
+		locL += G_FACTOR * (locSourcePtr[1]);	//Green
+
+		locR = locSourcePtr[2];					//Red
+		locL += KR * (locR);					//Red
+
+		
+		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (65536*locR) - locL)) / V_FACTOR) + 128);			//V for Victor
+		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (65536*locB) - locL)) / U_FACTOR) + 128);			//U for ugly
+		*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
+		*(locDestPtr++) = 255;																		//A for alpha
+	}
+	
+
+
+	//Still need to pass through to the AYUV conversion.
+
+	return 0;
+}
 long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumBytes) {
 
 	//Victor Ugly Yellow Alpha --fonts are fuzzy late at night-- (Yellow is not colour yellow)

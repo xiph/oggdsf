@@ -38,6 +38,11 @@ extern "C" {
 }
 
 
+//Mmmmm macrolicious !
+//#define INT_FLOOR(num,scale) (num - (num % scale))
+#define CLIP3(x,y,z) ((z < x) ? x : ((z > y) ? y : z))
+//
+
 //DEBUG ONLY
 #include <fstream>
 using namespace std;
@@ -70,6 +75,7 @@ protected:
 	long encodeYV12ToYV12(unsigned char* inBuf, long inNumBytes);
 	long encodeYUY2ToYV12(unsigned char* inBuf, long inNumBytes);
 	long encodeAYUVtoYV12(unsigned char* inBuf, long inNumBytes);
+	long encodeRGB24toYV12(unsigned char* inBuf, long inNumBytes);
 	//
 //	bool fillTheoraInfo(theora_info* outTheora, sTheoraFormatBlock* inTheoraFormatBlock); 		
 	//

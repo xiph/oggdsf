@@ -43,10 +43,12 @@
 
 const BUFF_SIZE = 8092;
 
+
 int testPagination(string inOutputFileName) {
 	int NUM_PACKS = 100;
 	int PACK_BUFF_SIZE = 100000;
 	unsigned char* locBuff = NULL;
+
 
 	OggPaginatorSettings sets;
 	sets.mMaxPageSize = 8192;
