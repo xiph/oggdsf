@@ -36,7 +36,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	,	mParentFilter(inParentFilter)
 	,	mMuxStream(inMuxStream)
 	,	mNeedsFLACHeaderTweak(false)
-	,	mFLACSplitter(NULL)
+
 {
 	OggPaginatorSettings* locSettings = new OggPaginatorSettings;
 	locSettings->mMinPageSize = 4096;
@@ -52,7 +52,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	mPaginator.setParameters(locSettings);
 	mPaginator.setPageCallback(mMuxStream);
 
-	//debugLog.open("C:\\temp\\oggmuxinpin.log", ios_base::out);
+	debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
 }
 
 OggMuxInputPin::~OggMuxInputPin(void)
@@ -124,6 +124,10 @@ HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_OggFLAC_1_0;
 			return S_OK;
+		case 4:
+			outMediaType->majortype = MEDIATYPE_Audio;
+			outMediaType->subtype = MEDIASUBTYPE_FLAC;
+
 
 		default:
 			return VFW_S_NO_MORE_ITEMS;
@@ -146,6 +150,11 @@ HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
 			(inMediaType->majortype == MEDIATYPE_Audio
 				&&	inMediaType->subtype == MEDIASUBTYPE_OggFLAC_1_0
 				&&	inMediaType->formattype == FORMAT_FLAC)
+			||
+			(inMediaType->majortype == MEDIATYPE_Audio
+				&&	inMediaType->subtype == MEDIASUBTYPE_FLAC
+				&&	inMediaType->formattype == FORMAT_FLAC)
+
 		) {
 		return S_OK;
 	} else {
@@ -189,19 +198,29 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 		//This could be to mux multi stream flac.
 		//Alternatively this configuration could be used to convert the old format to the new.
 
-		mFLACSplitter = new FLACMetadataSplitter;
+		debugLog<<"In the header tweak section..."<<endl;
+		FLACMetadataSplitter* locFLACSplitter = new FLACMetadataSplitter;
 
-		mFLACSplitter->loadMetadata(locPacket->clone());
-		delete locPacket;
+		debugLog<<"Feeding metadata..."<<endl;
+		locFLACSplitter->loadMetadata(locPacket->clone());
+		
+		//delete locPacket;		//Don't delete the splitter will delete when it's done.
 
-		for (int i = 0; i < mFLACSplitter->numHeaders(); i++) {
-			mPaginator.acceptStampedOggPacket(mFLACSplitter->getHeader(i));
+		for (int i = 0; i < locFLACSplitter->numHeaders(); i++) {
+			debugLog<<"Giving pager, packet "<<i<<endl;
+			debugLog<<locFLACSplitter->getHeader(i)->toPackDumpString()<<endl;		//This is a leak !!
+			mPaginator.acceptStampedOggPacket(locFLACSplitter->getHeader(i));
+			debugLog<<"After paginator feed..."<<endl;
 		}
 		mNeedsFLACHeaderTweak = false;
+		debugLog<<"Pre delete of splitter..."<<endl;
+		delete locFLACSplitter;
+		debugLog<<"Post delete of splitter"<<endl;
+
 	} else {
 		//Not truncated or contuned... its a full packet.
 		
-	
+		debugLog<<"Normal add packet..."<<endl;
 		mPaginator.acceptStampedOggPacket(locPacket);
 	}
 

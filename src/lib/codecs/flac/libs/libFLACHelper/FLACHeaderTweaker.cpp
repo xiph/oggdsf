@@ -42,10 +42,13 @@ FLACHeaderTweaker::FLACHeaderTweaker(void)
 
 FLACHeaderTweaker::~FLACHeaderTweaker(void)
 {
-	debugLog.close();
-
+	
+	debugLog<<"Pre delete old..."<<endl;
 	deleteOldHeaders();
+	debugLog<<"Pre delete new..."<<endl;
 	deleteNewHeaders();
+	debugLog<<"Post delete..."<<endl;
+	debugLog.close();
 }
 
 FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPacket* inHeader) {
@@ -163,20 +166,24 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 
 void FLACHeaderTweaker::deleteOldHeaders() {
 	int locSize = mOldHeaderList.size();
+	debugLog<<"Num old headers... = "<<locSize<<endl;
 	for (int i = 0; i < locSize; i++) {
 		delete mOldHeaderList[i];		
 	}
-
-	mOldHeaderList.empty();
+	debugLog<<"Post old delete loop..."<<endl;
+	mOldHeaderList.clear();
+	
 }
 
 void FLACHeaderTweaker::deleteNewHeaders() {
 	int locSize = mNewHeaderList.size();
+	debugLog<<"Num new headers... = "<<locSize<<endl;
 	for (int i = 0; i < locSize; i++) {
 		delete mNewHeaderList[i];		
 	}
+	debugLog<<"Post new delete loop"<<endl;
 
-	mNewHeaderList.empty();
+	mNewHeaderList.clear();
 }
 
 unsigned long FLACHeaderTweaker::numNewHeaders() {

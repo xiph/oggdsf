@@ -80,8 +80,8 @@ protected:
 	OggMuxFilter* mParentFilter;
 
 	bool mNeedsFLACHeaderTweak;
-	FLACMetadataSplitter* mFLACSplitter;
+	
 	OggPaginator mPaginator;
 	OggMuxStream* mMuxStream;
-	//fstream debugLog;
+	fstream debugLog;
 };
