@@ -45,6 +45,8 @@
 #include "CMMLCallbackProxy.h"
 
 
+#include <fstream>
+
 #pragma managed
 #using "libCMMLTagsDotNET.dll"
 using namespace illiminable::libCMMLTagsDotNET;
@@ -101,7 +103,9 @@ namespace libDSPlayDotNET
 
 		bool mIsLoaded;
 		bool isFileAnnodex(String* inFilename);
-		
+
+
+		fstream* debugLog;
 		
 
 	};

@@ -58,6 +58,8 @@ DSPlay::DSPlay(void)
 {
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
+	debugLog = new fstream;
+	debugLog->open("G:\\logs\\dsplay.log", ios_base::out);
 }
 
 bool DSPlay::checkEvents() {
@@ -110,42 +112,65 @@ bool DSPlay::checkEvents() {
 //	} 
 
 DSPlay::~DSPlay(void) {
+	delete debugLog;
 	releaseInterfaces();
 	CoUninitialize();
 }
 
 void DSPlay::releaseInterfaces() {
-	if (mGraphBuilder != NULL) {
-		mGraphBuilder->Release();
-		mGraphBuilder = NULL;
-	}
-
+	*debugLog<<"Releasing interfaces"<<endl;
+	ULONG numRef = 0;
 	if (mMediaControl != NULL) {
-		mMediaControl->Release();
+		numRef = 
+			mMediaControl->Release();
+		*debugLog<<"Media Control count = "<<numRef<<endl;
 		mMediaControl = NULL;
 	}
 
 	if (mMediaSeeking != NULL) {
-		mMediaSeeking->Release();
+		numRef = 
+			mMediaSeeking->Release();
+
+		*debugLog<<"Media Seeking count = "<<numRef<<endl;
 		mMediaSeeking = NULL;
 	}
 
 	if (mMediaEvent != NULL) {
-		mMediaEvent->Release();
+		numRef = 
+			mMediaEvent->Release();
+
+		*debugLog<<"Media Event count = "<<numRef<<endl;
 		mMediaEvent = NULL;
 	}
 
 	if (mCMMLAppControl != NULL) {
-		mCMMLAppControl->Release();
+		numRef = 
+			mCMMLAppControl->Release();
+
+		*debugLog<<"CMML App control count = "<<numRef<<endl;
 		mCMMLAppControl = NULL;
 	}
+
+	if (mGraphBuilder != NULL) {
+		numRef =
+            mGraphBuilder->Release();
+
+		*debugLog<<"Graph Builder count = "<<numRef<<endl;
+		mGraphBuilder = NULL;
+	}
+
+
 
 	//TODO::: Release everything !
 }
 
 bool DSPlay::loadFile(String* inFileName) {
 
-	
+	//Debugging only
+	ULONG numRef = 0;
+	//
+
+
 	releaseInterfaces();
 	HRESULT locHR = S_OK;
 
@@ -160,6 +185,7 @@ bool DSPlay::loadFile(String* inFileName) {
 	IGraphBuilder* locGraphBuilder = NULL;
 	locHR = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&locGraphBuilder);
 	mGraphBuilder = locGraphBuilder;
+	
 	if (locHR != S_OK) {
 		mIsLoaded = false;
 		return false;
@@ -171,17 +197,24 @@ bool DSPlay::loadFile(String* inFileName) {
 	
 		IBaseFilter* locVMR9 = NULL;
 
-		HRESULT locHR = S_OK;
-		locHR = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
+		HRESULT locHR2 = S_OK;
+		locHR2 = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
 		if (locVMR9 == NULL) {
 			locHR= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
-			if (locHR == S_OK) {
-				locHR = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
-				if (locHR != S_OK) {
+			if (locHR2 == S_OK) {
+				locHR2 = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
+				numRef =
 					locVMR9->Release();
-				}
+				*debugLog<<"VMR9 ref count = "<<numRef<<endl;
+				
 			}
+		} else {
+			numRef =
+				locVMR9->Release();
+
+			*debugLog<<"VMR9 ref count = "<<numRef<<endl;
 		}
+
 
 		
 
@@ -199,6 +232,7 @@ bool DSPlay::loadFile(String* inFileName) {
 		//Get the app control interface for CMML.
 		IBaseFilter* locCMMLFilter = NULL;
 		locHR = mGraphBuilder->FindFilterByName(L"CMML Decode Filter", &locCMMLFilter);
+		
 
 		if (locCMMLFilter != NULL) {
 			ICMMLAppControl* locCMMLAppControl = NULL;
@@ -208,6 +242,10 @@ bool DSPlay::loadFile(String* inFileName) {
 				mCMMLAppControl = locCMMLAppControl;
 				mCMMLAppControl->setCallbacks(mCMMLProxy);
 			}
+			numRef = 
+                locCMMLFilter->Release();
+
+			*debugLog<<"CMML Filter ref Count = "<<numRef<<endl;
 		}
 
 	}

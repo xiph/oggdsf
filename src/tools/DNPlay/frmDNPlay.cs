@@ -516,23 +516,26 @@ namespace DNPlay
 		private void cmdFollowLink_Click(object sender, System.EventArgs e)
 		{
 
-			String locFilename = mCurrentClip.anchor().href();
-			tmrUpdateDuration.Enabled = false;
-			lblFileLocation.Text = locFilename;
-			bool locRes = mPlayer.loadFile("G:\\downloads\\firefox\\manufacturing_surveys.anx");
-			//Error check
-			mFileDuration = mPlayer.fileDuration();
-			setDurationText(mFileDuration);
-			//lblDuration.Text = mFileDuration.ToString();
-
-			mNumTicks = 0;
-			mLastSync = 0;
-			updateProgressBar();
-
-			mPlayer.setMediaEventCallback(this);
-			mPlayer.setCMMLCallbacks(this);
-			cmdPlay.Enabled = true;
+			String locFilename = "G:\\downloads\\firefox\\manufacturing_surveys.anx"; //mCurrentClip.anchor().href();
+			LoadFile(locFilename);
 			StartPlayback();
+			
+//			tmrUpdateDuration.Enabled = false;
+//			lblFileLocation.Text = locFilename;
+//			bool locRes = mPlayer.loadFile("G:\\downloads\\firefox\\manufacturing_surveys.anx");
+//			//Error check
+//			mFileDuration = mPlayer.fileDuration();
+//			setDurationText(mFileDuration);
+//			//lblDuration.Text = mFileDuration.ToString();
+//
+//			mNumTicks = 0;
+//			mLastSync = 0;
+//			updateProgressBar();
+//
+//			mPlayer.setMediaEventCallback(this);
+//			mPlayer.setCMMLCallbacks(this);
+//			cmdPlay.Enabled = true;
+//			StartPlayback();
 		}
 
 	}
