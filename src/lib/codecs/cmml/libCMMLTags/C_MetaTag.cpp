@@ -76,15 +76,15 @@ wstring C_MetaTag::toString() {
 	wstring retStr = L"<meta";
 
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
 	retStr += makeLangElements();
-	retStr += makeElement(L"name", mName);
-	retStr += makeElement(L"content", mContent);
+	retStr += makeAttribute(L"name", mName);
+	retStr += makeAttribute(L"content", mContent);
 
 	if (mScheme != L"") {
-		retStr += makeElement(L"scheme", mScheme);
+		retStr += makeAttribute(L"scheme", mScheme);
 	}
 
 	retStr += L"/>\n";

@@ -70,11 +70,11 @@ wstring C_HumReadCMMLTag::makeLangElements() {
 	wstring retStr = L"";
 
 	if (mLang.size() != 0) {
-		retStr += makeElement(L"lang", mLang);
+		retStr += makeAttribute(L"lang", mLang);
 	}
 
 	if (mDirn.size() != 0) {
-		retStr += makeElement(L"dir", mDirn);
+		retStr += makeAttribute(L"dir", mDirn);
 	}
 
 	return retStr;

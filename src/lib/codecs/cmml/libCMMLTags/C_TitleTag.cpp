@@ -48,7 +48,7 @@ wstring C_TitleTag::toString() {
 	wstring retStr = L"<title";
 
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
 	retStr += makeLangElements();

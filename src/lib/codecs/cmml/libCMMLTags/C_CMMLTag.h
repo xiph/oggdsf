@@ -93,9 +93,14 @@ protected:
 	virtual void privateClone(C_CMMLTag* outTag);
 
 	/// Makes an attribute of the form name="content" and returns a string.
-	wstring makeElement(wstring inElemName, wstring inElemContent);
+	wstring makeAttribute(wstring inElemName, wstring inElemContent);
 
+	wstring makeRequiredAttribute(wstring inElemName, wstring inElemContent);
 
-	wstring makeRequiredElement(wstring inElemName, wstring inElemContent);
+	/// Escapes out & " < > ' and turns it into an entity reference
+	wstring escapeEntities(wstring inString);
+
+	/// Implements the missing functionality from an stl string... ie replace
+	wstring replaceAll(wstring inOriginal, wchar_t inReplaceThis, wstring inWithThis);
 	
 };

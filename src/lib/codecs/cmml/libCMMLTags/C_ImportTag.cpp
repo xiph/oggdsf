@@ -128,27 +128,27 @@ wstring C_ImportTag::toString() {
 	retStr = L"<import";
 	
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
 	retStr += makeLangElements();
 
 	if (mGranuleRate.size() != 0) {
-		retStr += makeElement(L"granulerate", mGranuleRate);
+		retStr += makeAttribute(L"granulerate", mGranuleRate);
 	}
 
 	if (mContentType.size() != 0) {
-		retStr += makeElement(L"contenttype", mContentType);
+		retStr += makeAttribute(L"contenttype", mContentType);
 	}
 
-	retStr += makeElement(L"src", mSrc);
-	retStr += makeElement(L"start", mStart);
+	retStr += makeAttribute(L"src", mSrc);
+	retStr += makeAttribute(L"start", mStart);
 	if (mEnd.size() != 0) {
-		retStr += makeElement(L"end", mEnd);
+		retStr += makeAttribute(L"end", mEnd);
 	}
 
 	if (mTitle.size() != 0) {
-		retStr += makeElement(L"title", mTitle);
+		retStr += makeAttribute(L"title", mTitle);
 	}
 
 	retStr += L">\n";

@@ -103,10 +103,10 @@ wstring C_CMMLRootTag::toString() {
 	wstring retStr;
 	retStr = L"<cmml";
 
-	retStr += makeElement(L"id", mId);
+	retStr += makeAttribute(L"id", mId);
 	retStr += makeLangElements();
 	//TODO::: This shouldn't be hardcoded here !
-	retStr += makeElement(L"xmlns", L"http://www.annodex.net/cmml");
+	retStr += makeAttribute(L"xmlns", L"http://www.annodex.net/cmml");
 
 	
 	retStr += L">\n";

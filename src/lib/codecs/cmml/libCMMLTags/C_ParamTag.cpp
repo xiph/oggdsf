@@ -46,12 +46,12 @@ wstring C_ParamTag::toString() {
 	wstring retStr;
 	retStr = L"<param";
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
 	retStr += makeLangElements();
-	retStr += makeElement(L"name", mName);
-	retStr += makeElement(L"value", mContent);
+	retStr += makeAttribute(L"name", mName);
+	retStr += makeAttribute(L"value", mContent);
 	retStr += L"/>\n";
 	return retStr;
 

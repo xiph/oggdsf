@@ -53,7 +53,7 @@ void C_CMMLTag::setId(wstring inId) {
 }
 
 //Protected Helper Methods
-wstring C_CMMLTag::makeElement(wstring inElemName, wstring inElemContent) {
+wstring C_CMMLTag::makeAttribute(wstring inElemName, wstring inElemContent) {
 	if (inElemContent != L"") {
 		wstring retStr;
 		retStr = L" " + inElemName + L"=\"" + inElemContent + L"\"";
@@ -63,10 +63,44 @@ wstring C_CMMLTag::makeElement(wstring inElemName, wstring inElemContent) {
 	}
 }
 
-wstring C_CMMLTag::makeRequiredElement(wstring inElemName, wstring inElemContent) {
+wstring C_CMMLTag::makeRequiredAttribute(wstring inElemName, wstring inElemContent) {
 	wstring retStr;
 	retStr = L" " + inElemName + L"=\"" + inElemContent + L"\"";
 	return retStr;
+}
+
+
+wstring C_CMMLTag::replaceAll(wstring inOriginal, wchar_t inReplaceThis, wstring inWithThis)
+{
+    size_t locPos = 0;
+	
+	while ((locPos = inOriginal.find(inReplaceThis,locPos)) != wstring::npos)
+    {
+        inOriginal.replace( locPos++, 1, inWithThis );
+    }
+	return inOriginal;
+
+}
+
+//Character Name 				Entity Reference 	
+//Ampersand (&)		 			&amp; 				
+//Left angle bracket (<)	 	&lt; 				
+//Right angle bracket (>)	 	&gt; 	
+//Straight quotation mark (")	&quot;
+//Apostrophe (')				&apos;
+
+wstring C_CMMLTag::escapeEntities(wstring inString)
+{
+	wstring retStr = inString;
+	//Do the ampersand first !!
+	retStr = replaceAll(retStr, L'&', L"&amp;");
+	retStr = replaceAll(retStr, L'<', L"&lt;");
+	retStr = replaceAll(retStr, L'>', L"&gt;");
+	retStr = replaceAll(retStr, L'"', L"&quot;");
+	retStr = replaceAll(retStr, L'\'', L"&apos;");
+
+	return retStr;
+
 }
 
 

@@ -96,11 +96,11 @@ wstring C_StreamTag::toString() {
 
 	retStr = L"<stream";
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
-	retStr += makeElement(L"timebase", mTimebase);
+	retStr += makeAttribute(L"timebase", mTimebase);
 	if (mUtc.size() != 0) {
-		retStr += makeElement(L"utc", mUtc);
+		retStr += makeAttribute(L"utc", mUtc);
 	}
 	retStr += L">\n";
 	retStr += mImportList->toString();

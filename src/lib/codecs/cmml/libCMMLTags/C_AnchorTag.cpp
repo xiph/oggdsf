@@ -80,10 +80,10 @@ wstring C_AnchorTag::toString()  {
 
 	wstring retStr =	L"<a";
 
-	retStr += makeElement(L"id", mId);
+	retStr += makeAttribute(L"id", mId);
 	retStr += makeLangElements();
-	retStr += makeElement(L"class", mCls);
-	retStr += makeRequiredElement(L"href", mHref);
+	retStr += makeAttribute(L"class", mCls);
+	retStr += makeRequiredAttribute(L"href", mHref);
 
 	retStr += L">";
 	retStr += mText;

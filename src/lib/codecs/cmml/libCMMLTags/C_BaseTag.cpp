@@ -70,10 +70,10 @@ wstring C_BaseTag::toString() {
 	wstring retStr = L"<base";
 
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
-	retStr += makeElement(L"href", mHref);
+	retStr += makeAttribute(L"href", mHref);
 	retStr += L"/>\n";
 	return retStr;
 }

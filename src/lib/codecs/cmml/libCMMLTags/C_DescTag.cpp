@@ -49,7 +49,7 @@ wstring C_DescTag::toString() {
 	//FIX ::: Make this do something
 	wstring retStr = L"<desc";
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
 	retStr += makeLangElements();

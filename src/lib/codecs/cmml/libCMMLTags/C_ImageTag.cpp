@@ -80,15 +80,15 @@ C_CMMLTag* C_ImageTag::genericClone() {
 wstring C_ImageTag::toString() {
 	wstring retStr = L"<img";
 	if (mId.size() != 0) {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
 	retStr += makeLangElements();
 
-	retStr += makeElement(L"src", mSrc);
+	retStr += makeAttribute(L"src", mSrc);
 
 	if (mAlt.size() != 0) {
-		retStr += makeElement(L"alt", mAlt);
+		retStr += makeAttribute(L"alt", mAlt);
 	}
 	
 	retStr += L"/>\n";

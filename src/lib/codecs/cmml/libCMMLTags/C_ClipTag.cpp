@@ -152,21 +152,21 @@ wstring C_ClipTag::toString() {
 
 	//Id element
 	if (mId != L"") {
-		retStr += makeElement(L"id", mId);
+		retStr += makeAttribute(L"id", mId);
 	}
 
 	retStr += makeLangElements();
 
 	//track Element
 	if (mTrack != L"") {
-		retStr += makeElement(L"track", mTrack);
+		retStr += makeAttribute(L"track", mTrack);
 	}
 
 	//TO DO::: Sort out what to do about start and end
-	retStr += makeElement(L"start", mStart);
+	retStr += makeAttribute(L"start", mStart);
 
 	if (mEnd != L"") {
-		retStr += makeElement(L"end", mEnd);
+		retStr += makeAttribute(L"end", mEnd);
 	}
 
 	retStr += L">\n";
