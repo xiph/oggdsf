@@ -22,10 +22,12 @@ namespace libDSPlayDotNET
 		bool play();
 		bool pause();
 		bool stop();
-		bool seek(Int64 inTime);
+		Int64 seek(Int64 inTime);
 		Int64 queryPosition();
 
 		bool isLoaded();
+		Int64 fileSize();
+		Int64 fileDuration();
 	
 
 		void releaseInterfaces();
@@ -33,6 +35,7 @@ namespace libDSPlayDotNET
 		//static wstring toWStr(std::string inString);
 		IGraphBuilder* mGraphBuilder;
 		IMediaControl* mMediaControl;
+		IMediaSeeking* mMediaSeeking;
 		bool mIsLoaded;
 	};
 }

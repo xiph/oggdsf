@@ -17,6 +17,7 @@ namespace libDSPlayDotNET {
 DSPlay::DSPlay(void) 
 	:	mGraphBuilder(NULL)
 	,	mMediaControl(NULL)
+	,	mMediaSeeking(NULL)
 {
 	CoInitialize(NULL);
 }
@@ -76,8 +77,14 @@ bool DSPlay::loadFile(String* inFileName) {
 		return false;
 	} else {
 		mIsLoaded = true;
-		return true;
 	}
+
+	IMediaSeeking* locMediaSeeking = NULL;
+	locHR = mGraphBuilder->QueryInterface(IID_IMediaSeeking, (void**)&locMediaSeeking);
+	mMediaSeeking = locMediaSeeking;
+
+	return true;
+
 
 }
 
@@ -123,12 +130,33 @@ bool DSPlay::stop() {
 	}
 }
 
-bool DSPlay::seek(Int64 inTime) {
-	return true;
+Int64 DSPlay::seek(Int64 inTime) {
+	/*if (mIsLoaded && (mMediaSeeking != NULL) {
+		HRESULT locHR = mMediaSeeking->SetPositions(
+	}*/
+	return 0;
 }
 
 Int64 DSPlay::queryPosition() {
 	return 0;
+}
+
+Int64 DSPlay::fileSize() {
+	return -1;
+}
+Int64 DSPlay::fileDuration() {
+	if (mIsLoaded && (mMediaSeeking != NULL)) {
+		LONGLONG locDuration = 0;
+		HRESULT locHR = mMediaSeeking->GetDuration(&locDuration);
+
+		if (locHR != S_OK) {
+			return -1;
+		} else {
+			return locDuration;
+		}
+	} else {
+		return -1;
+	}
 }
 
 } //end namespace libDSPlayDotNET
