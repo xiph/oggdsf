@@ -17,14 +17,18 @@ bin_PROGRAMS = \
 
 lib_LTLIBRARIES = \
 	libilliCore.la \
+	libCMMLTags.la \
+	libCMMLParse.la \
 	libOOOgg.la \
-	libOOOggChef.la
+	libOOOggChef.la \
 	libOOOggSeek.la \
 	libVorbisComment.la \
 	$(NULL)
+#libOOOggChef.la
 
 INCLUDES = \
 	   -I@top_srcdir@/../src/lib/helper \
+	   -I@top_srcdir@/../src/lib/codecs/cmml \
 	   -I@top_srcdir@/../src/lib/core/ogg \
 	   -I@top_srcdir@/../src/lib/core/ogg/libVorbisComment \
 	   $(NULL)
@@ -33,6 +37,87 @@ INCLUDES = \
 #
 # libraries
 #
+
+libCMMLTags_la_SOURCES = \
+	../src/lib/codecs/cmml/libCMMLTags/C_AnchorTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_BaseTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLDoc.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLError.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLPreamble.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLRootTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLTime.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_ClipTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_ClipTagList.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_DescTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_HeadTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_HumReadCMMLTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_ImageTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_ImportTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_ImportTagList.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_Int64.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_MappedTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_MappedTagList.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_MetaTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_MetaTagList.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_ParamTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_ParamTagList.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_StreamTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_TagList.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_TextFieldTag.cpp \
+	../src/lib/codecs/cmml/libCMMLTags/C_TitleTag.cpp \
+	$(NULL)
+
+libCMMLTagsdir = $(includedir)/libCMMLTags
+libCMMLTags_HEADERS = \
+	../src/lib/codecs/cmml/libCMMLTags/C_AnchorTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_BaseTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLDoc.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLError.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLPreamble.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLRootTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_CMMLTime.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_ClipTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_ClipTagList.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_DescTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_HeadTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_HumReadCMMLTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_ImageTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_Import.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_ImportTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_ImportTagList.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_Int64.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_MappedTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_MappedTagList.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_MetaTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_MetaTagList.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_ParamTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_ParamTagList.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_StreamTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_TagList.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_TextFieldTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/C_TitleTag.h \
+	../src/lib/codecs/cmml/libCMMLTags/config.h \
+	../src/lib/codecs/cmml/libCMMLTags/libCMMLTags.h \
+	$(NULL)
+
+libCMMLParse_la_SOURCES = \
+	../src/lib/codecs/cmml/libCMMLParse/CMMLParser.cpp \
+	../src/lib/codecs/cmml/libCMMLParse/ConvertUTF.c \
+	../src/lib/codecs/cmml/libCMMLParse/xlist.c \
+	../src/lib/codecs/cmml/libCMMLParse/xtag.c \
+	$(NULL)
+
+libCMMLParsedir = $(includedir)/libCMMLParse
+libCMMLParse_HEADERS = \
+	../src/lib/codecs/cmml/libCMMLParse/CMMLParser.h \
+	../src/lib/codecs/cmml/libCMMLParse/ConvertUTF.h \
+	../src/lib/codecs/cmml/libCMMLParse/libCMMLParse.h \
+	../src/lib/codecs/cmml/libCMMLParse/stdafx.h \
+	../src/lib/codecs/cmml/libCMMLParse/xlist.h \
+	../src/lib/codecs/cmml/libCMMLParse/xtag.h \
+	$(NULL)
 
 libOOOggChef_la_LIBADD = libOOOgg.la libOOOggSeek.la
 libOOOggChef_la_SOURCES = \
