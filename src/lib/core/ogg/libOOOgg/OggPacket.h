@@ -42,9 +42,11 @@ public:
 	OggPacket(void);
 	OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation);
 	virtual ~OggPacket(void);
-	virtual OggPacket* clone();
 
 	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
+
+	/// Does a deep copy of this packet and returns a new one for you to keep.
+	virtual OggPacket* clone();
 					
 	/// Returns the size of the contained packet.
 	unsigned long packetSize() const;

@@ -55,18 +55,22 @@ public:
 	OggPacketiser(IStampedOggPacketSink* inPacketSink);
 	virtual ~OggPacketiser(void);
 
-	//IOggCallback implementation
+	/// Takes incoming pages, and fires the packets to the packet sink.
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
-	//Packet sink control
+	/// Set the callback interface where generated packets will go.
 	void setPacketSink(IStampedOggPacketSink* inPacketSink);
+
+	/// Returns a pointer to the interface recieving packets.
 	IStampedOggPacketSink* packetSink();
 
-	//Ignore packets controls.
+	/// Tell the packetiser to ignore this many following packets.
 	void setNumIgnorePackets(unsigned long inNumIgnorePackets);
+
+	/// How many packets we are ignoring.
 	unsigned long numIgnorePackets();
 
-	//Packetiser state control
+	/// Reset the packetiser.
 	bool reset();
 
 protected:
