@@ -33,6 +33,8 @@
 
 #include "Theoradecoderdllstuff.h"
 
+#include <fstream>
+using namespace std;
 class TheoraDecodeFilter 
 	:	public CVideoTransformFilter
 
@@ -51,8 +53,12 @@ public:
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outOutputMediaType);
 	virtual HRESULT Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample);
 
-
-
+protected:
+	void FillMediaType(CMediaType* outMediaType, unsigned long inSampleSize);
+	bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
+	//Format Block
+	sTheoraFormatBlock* mTheoraFormatInfo;
+	fstream debugLog;
 };
 //---------------------------------------
 //OLD IMPLOEMENTATION....
