@@ -34,7 +34,8 @@
 #include <OggPage.h>
 #include <IOggCallback.h>
 #include "BasicSeekable.h"
-
+#include <fstream>
+using namespace std;
 
 class OggDemuxSourcePin
 	:	public CBaseOutputPin
@@ -84,7 +85,7 @@ protected:
 	StampedOggPacket* mPartialPacket;
 	HRESULT mFilterHR;
 	COutputQueue* mDataQueue;
-
+	fstream debugLog;
 	bool mFirstRun;
 
 

@@ -219,7 +219,7 @@ bool OggStream::acceptOggPage(OggPage* inOggPage) {
 		for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
 			locPacket = inOggPage->getStampedPacket(i);
 			//Add a start stamp.
-			locPacket->setStartTime(mLastStartGranulePos);
+			
 			if (mNumHeadersNeeded > 0) {
 				//We are still getting headers
 				processHeaderPacket(locPacket);
@@ -263,7 +263,10 @@ bool OggStream::acceptOggPage(OggPage* inOggPage) {
 
 		//Process the data packets.
 		for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
-			locPacket = inOggPage->getStampedPacket(i);
+            locPacket = inOggPage->getStampedPacket(i);
+			//Timestamp hack
+			locPacket->setStartTime(mLastStartGranulePos);
+			//
 			processDataPacket(locPacket);
 			locPacket = NULL;
 		}

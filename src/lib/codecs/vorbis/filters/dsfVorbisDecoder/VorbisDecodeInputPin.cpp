@@ -39,7 +39,7 @@ VorbisDecodeInputPin::VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, 
 		mBegun(false)
 		
 {
-
+	debugLog.open("C:\\vorbislog.log", ios_base::out);
 	ConstructCodec();
 }
 
@@ -70,6 +70,7 @@ void VorbisDecodeInputPin::DestroyCodec() {
 }
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
+	debugLog.close();
 	DestroyCodec();
 }
 
@@ -106,15 +107,25 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 	unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
 	
 	//REFERENCE_TIME locFrameStart = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-	REFERENCE_TIME locFrameStart = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
+
+	//Start time hacks
+	REFERENCE_TIME locTimeBase = (locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate;
+	locThis->debugLog<<"Time Base  : " << locTimeBase << endl;
+	locThis->debugLog<<"FrameCount : " <<locThis->mUptoFrame<<endl;
+
+	//Temp - this will break seeking
+	REFERENCE_TIME locFrameStart = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 	//Increment the frame counter
 	locThis->mUptoFrame += inFrames;
 	//Make the end frame counter
 
 	//REFERENCE_TIME locFrameEnd = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-	REFERENCE_TIME locFrameEnd = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
+	REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 
 
+	locThis->debugLog<<"Start      : "<<locFrameStart<<endl;
+	locThis->debugLog<<"End        : "<<locFrameEnd<<endl;
+	locThis->debugLog<<"=================================================="<<endl;
 	IMediaSample* locSample;
 	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
 

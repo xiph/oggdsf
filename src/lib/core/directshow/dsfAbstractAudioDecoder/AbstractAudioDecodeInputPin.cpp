@@ -109,10 +109,15 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 		return locHR;
 	} else {
 		//New start time hacks
-		//REFERENCE_TIME locStart = 0;
-		//REFERENCE_TIME locEnd = 0;
-		//inSample->GetTime(&locStart, &locEnd);
+		REFERENCE_TIME locStart = 0;
+		REFERENCE_TIME locEnd = 0;
+		inSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
+		if (mLastSeenStartGranPos != locStart) {
+			ResetFrameCount();
+		}
+		mLastSeenStartGranPos = locStart;
+		//End of additions
 		
 		long locResult = decodeData(locBuff, inSample->GetActualDataLength());
 		if (locResult == 0) {

@@ -30,6 +30,8 @@
 //===========================================================================
 
 #pragma once
+#include <fstream>
+using namespace std;
 #include "vorbisdecoderdllstuff.h"
 #include "AbstractAudioDecodeInputPin.h"
 #include "VorbisDecodeInputPin.h"
@@ -94,6 +96,8 @@ protected:
 	bool mBegun;
 	//VorbisDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;
+
+	fstream debugLog;
 
 	FishSound* mFishSound;
 	FishSoundInfo mFishInfo; 
