@@ -2,7 +2,8 @@
 #include ".\anxmuxinputpin.h"
 #include "AnxMuxFilter.h"
 AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream)
-:	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
+	:	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
+	,	mAnxDataPacket(NULL)
 {
 	debugLog.open("g:\\logs\\anxmuxinputpin.log", ios_base::out);
 }
@@ -10,6 +11,26 @@ AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterL
 AnxMuxInputPin::~AnxMuxInputPin(void)
 {
 }
+
+
+HRESULT AnxMuxInputPin::CompleteConnect(IPin* inReceivePin) {
+	
+	//Set our delegate to the pin that is connecting to us... we'll send them our seek messages.
+	IMediaSeeking* locSeeker = NULL;
+	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
+	
+	mMuxStream->setIsActive(true);
+
+	HRESULT locHR = mParentFilter->addAnotherPin();
+	if ((locHR == S_OK) && (mAnxDataPacket != NULL)) {
+		mPaginator.acceptStampedOggPacket(mAnxDataPacket);
+		return S_OK;
+	} else {
+		return S_FALSE;
+	}
+}
+
 
 HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType) 
 {
@@ -87,7 +108,8 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		
 	}
 	if (locWasOK) {
-		mPaginator.acceptStampedOggPacket(AnxPacketMaker::makeAnxData_2_0(2,0, locGranRateNum, locGranRateDenom, locNumHeaders, AnxPacketMaker::makeMessageHeaders(locCodecID)));
+		//Save the packet, we'll push it into the stream when the connection is established
+		mAnxDataPacket = AnxPacketMaker::makeAnxData_2_0(2,0, locGranRateNum, locGranRateDenom, locNumHeaders, AnxPacketMaker::makeMessageHeaders(locCodecID));
         return S_OK;
 	} else {
 		return S_FALSE;

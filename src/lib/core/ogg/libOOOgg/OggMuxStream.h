@@ -53,6 +53,8 @@ public:
 
 	virtual OggPage* popFront();
 	virtual OggPage* peekFront();
+
+	virtual unsigned long numAvail();
 	
 	virtual __int64 frontTime();
 	virtual __int64 scaledFrontTime();

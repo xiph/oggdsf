@@ -60,16 +60,20 @@ void AnxPageInterleaver::addAnnodexEOS() {
 }
 
 bool AnxPageInterleaver::gotAllHeaders() {
-	//TODO::: Fill this in.
+	//TODO::: The isActive needs to be clarified so we don't start empty streams because wasany goes to true
 
 	bool locWasAny = false;
 	bool locIsOK = true;
 	for (int i = 0; i < mInputStreams.size(); i++) {
-		locWasAny = true;
-		if ((mInputStreams[i]->peekFront() != NULL) || (!mInputStreams[i]->isActive())) {
-			locIsOK = locIsOK && true;
-		} else {
-			locIsOK = false;
+		if (mInputStreams[i]->isActive()) {
+			locWasAny = true;
+			//if ((mInputStreams[i]->peekFront() != NULL) || (!mInputStreams[i]->isActive())) {
+			if (mInputStreams[i]->numAvail() > 1) {
+			
+				locIsOK = locIsOK && true;
+			} else {
+				locIsOK = false;
+			}
 		}
 	}
 

@@ -55,7 +55,9 @@ __int64 OggMuxStream::granuleNumerator() {
 __int64 OggMuxStream::granuleDenominator() {
 	return mConvDenominator;
 }
-
+unsigned long OggMuxStream::numAvail() {
+	return mPageQueue.size();
+}
 bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later... still needs deleting in destructor
 	mIsEOS = false;
 	mPageQueue.push_back(inOggPage);		//AOP::: Clone not required.

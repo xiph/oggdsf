@@ -17,9 +17,11 @@ public:
 	AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
 	~AnxMuxInputPin(void);
 
-
+	virtual HRESULT CompleteConnect(IPin* inReceivePin);
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
 protected:
 	fstream debugLog;
+
+	StampedOggPacket* mAnxDataPacket;
 };
