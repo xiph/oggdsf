@@ -70,6 +70,7 @@ protected:
 	__int64 mFileDuration;
 	fstream mFile;
 	string mFileName;
-	OggDataBuffer mOggDemux;
+	//Changed for debugging to *
+	OggDataBuffer* mOggDemux;
 
 };

@@ -278,8 +278,8 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		CAutoLock locSourceLock(mSourceFileLock);
 		
 		
-
-		DeliverBeginFlush();
+			DeliverBeginFlush();
+		
 		//debugLog<<"       : Begin flush Delviered."<<endl;
 		//debugLog<<"       : Delivering new segemnt"<<endl;
 
@@ -303,8 +303,10 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		}
 		//debugLog<<"       : Seeking to position "<<mSeekTable->getStartPos(*pCurrent)<<endl;
 		{
-			CAutoLock locDemuxLock(mDemuxLock);
-			mOggBuffer.clearData();
+			//Unneeded... this is done in deliver begin flush
+			//CAutoLock locDemuxLock(mDemuxLock);
+			//mOggBuffer.debugWrite("%%%%%% Clear calling from SetPos");
+			//mOggBuffer.clearData();
 		}
 	
 		//debugLog << "Setting GranPos : "<<mSeekTable->getRealStartPos()<<endl;
@@ -466,6 +468,7 @@ void OggDemuxSourceFilter::resetStream() {
 		mDataSource = NULL;
 		//
 
+		mOggBuffer.debugWrite("%%%%%% Clear calling from ResetStream");
 		mOggBuffer.clearData();
 
 		//SOURCE ABSTRACTION::: clear, close, open, seek
@@ -494,6 +497,7 @@ void OggDemuxSourceFilter::DeliverBeginFlush() {
 
 	//Should this be here or endflush or neither ?
 	//debugLog << "Calling Reset Stream"<<endl;
+	mOggBuffer.debugWrite("%%%%%% Reset calling from DeliverBegingFlush");
 	resetStream();
 
 }
@@ -511,7 +515,7 @@ void OggDemuxSourceFilter::DeliverEOS() {
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverEndOfStream();
 	}
-
+	mOggBuffer.debugWrite("%%%%%% Reset calling from DeliverEOS");
 	resetStream();
 }
 
@@ -553,6 +557,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
+			//CAutoLock locDemuxLock(mDemuxLock);
 			//debugLog << "DataProcessLoop : Getpointer = "<<mSourceFile.tellg()<<endl;
 
 			//SOURCE ABSTRACTION::: read, numbytes read

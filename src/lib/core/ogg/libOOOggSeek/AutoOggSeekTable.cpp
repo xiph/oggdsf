@@ -47,11 +47,14 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 {
 	
 	mFileName = inFileName;
-	mOggDemux.registerVirtualCallback(this);
+	mOggDemux = new OggDataBuffer(true);
+	mOggDemux->registerVirtualCallback(this);
+	
 }
 
 AutoOggSeekTable::~AutoOggSeekTable(void)
 {
+	delete mOggDemux;
 }
 
 bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
@@ -132,7 +135,7 @@ bool AutoOggSeekTable::buildTable() {
 		unsigned char* locBuff = new unsigned char[BUFF_SIZE];
 		while (!mFile.eof()) {
 			mFile.read((char*)locBuff, BUFF_SIZE);
-			mOggDemux.feed((const char*)locBuff, mFile.gcount());
+			mOggDemux->feed((const char*)locBuff, mFile.gcount());
 		}
 		mFile.close();
 		

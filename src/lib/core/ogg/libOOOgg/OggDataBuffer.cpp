@@ -40,6 +40,16 @@ OggDataBuffer::OggDataBuffer(void)
 	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
 }
 
+//Debug only
+OggDataBuffer::OggDataBuffer(bool x)
+{
+	debugLog.open("G:\\logs\\OggDataBufferSeek.log", ios_base::out);
+	pendingPage = NULL;
+	mState = AWAITING_BASE_HEADER;
+	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
+}
+//
+
 OggDataBuffer::~OggDataBuffer(void)
 {
 	debugLog.close();
@@ -120,11 +130,12 @@ bool OggDataBuffer::dispatch(OggPage* inOggPage) {
 
 bool OggDataBuffer::feed(const char* inData, unsigned long inNumBytes) {
 	if (inNumBytes != 0) {
-		debugLog<<"Fed "<<inNumBytes<<" bytes..."<<endl;
+		debugLog<<"********** Fed "<<inNumBytes<<" bytes..."<<endl;
 		mStream.write(inData, inNumBytes);
 		//FIX ::: Need error checking.
-
-		return processBuffer();
+		bool retVal = processBuffer();
+		debugLog<<"########## End feed - After process buffer"<<endl;
+		return retVal;
 	} else {
 		debugLog<<"Fed *zero* bytes..."<<endl;
 		return true;
@@ -296,4 +307,9 @@ bool OggDataBuffer::processBuffer() {
 	}
 	return true;
 
+}
+
+//Debug Only
+void OggDataBuffer::debugWrite(string inString) {
+	debugLog<<inString<<endl;
 }

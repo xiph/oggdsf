@@ -57,6 +57,9 @@ public:
 	};
 
 	OggDataBuffer(void);
+	//Debug only
+	OggDataBuffer::OggDataBuffer(bool x);
+	//
 	~OggDataBuffer(void);
 
 	bool registerPageCallback(OggCallbackRego* inPageCB);
@@ -73,6 +76,10 @@ public:
 	unsigned long numBytesAvail();
 
 	eState state();
+
+	//Debug only
+	void debugWrite(string inString);
+	//
 
 protected:
 	stringstream mStream;
