@@ -9,14 +9,3 @@
 #else
 #define LIBTEMPORALURI_API __declspec(dllimport)
 #endif
-
-// This class is exported from the libTemporalURI.dll
-class LIBTEMPORALURI_API ClibTemporalURI {
-public:
-	ClibTemporalURI(void);
-	// TODO: add your methods here.
-};
-
-extern LIBTEMPORALURI_API int nlibTemporalURI;
-
-LIBTEMPORALURI_API int fnlibTemporalURI(void);

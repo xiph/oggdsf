@@ -8,6 +8,7 @@ C_TimeStamp::C_TimeStamp(void)
 {
 }
 
+
 C_TimeStamp::~C_TimeStamp(void)
 {
 }

@@ -1,14 +1,15 @@
 #pragma once
 
+#include "libTemporalURI.h"
 #include <string>
 using namespace std;
 
 #include "libilliCore/StringHelper.h"
-class C_TimeStamp
+class LIBTEMPORALURI_API C_TimeStamp
 {
 public:
 	C_TimeStamp(void);
-	C_TimeStamp(string inTimeStamp);
+	
 	virtual ~C_TimeStamp(void);
 
 
