@@ -93,7 +93,21 @@ void AnxPageInterleaver::addAnnodexEOS() {
 
 	locEOSPage->header()->setStreamSerialNo(mAnxSerialNo);
 	locEOSPage->header()->setHeaderFlags(4);
-	locEOSPage->header()->setHeaderSize(27);
+	
+
+	StampedOggPacket* locDudPacket = new StampedOggPacket(NULL, 0, false, false, 0, 0, StampedOggPacket::OGG_BOTH);
+
+	locEOSPage->header()->setNumPageSegments(1);
+	unsigned char* locSegTable = new unsigned char[1];
+
+	locSegTable[0] = 0;
+	
+	
+	locEOSPage->header()->setSegmentTable(locSegTable, 1);
+	locEOSPage->header()->setHeaderSize(28);
+	locEOSPage->header()->setDataSize(0);
+	
+	locEOSPage->addPacket(locDudPacket);
 
 	AnxPacketMaker::setChecksum(locEOSPage);
 	mBytesWritten += locEOSPage->pageSize();
