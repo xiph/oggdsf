@@ -47,10 +47,10 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 		mPartialPacket(NULL)
 		
 {
-	//debugLog.open("C:\\sourcefilterpin.log", ios_base::out);
+	debugLog.open("G:\\logs\\sourcefilterpin.log", ios_base::out);
 	IMediaSeeking* locSeeker = NULL;
 	if (inAllowSeek) {
-
+		debugLog<<"Allowing seek"<<endl;
 		//Subvert COM and do this directly... this way, the source filter won't expose the interface to the
 		// graph but we can still delegate to it.
 		
@@ -67,7 +67,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 
 OggDemuxSourcePin::~OggDemuxSourcePin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	
 	delete mDataQueue;
 	mDataQueue = NULL;
@@ -76,6 +76,7 @@ OggDemuxSourcePin::~OggDemuxSourcePin(void)
 STDMETHODIMP OggDemuxSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
 	if (riid == IID_IMediaSeeking) {
+		debugLog<<"Pin queried for IMediaSeeking"<<endl;
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
@@ -88,8 +89,8 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inPacket->startTime();
 	REFERENCE_TIME locStop = inPacket->endTime();
-	//debugLog<<"Start   : "<<locStart<<endl;
-	//debugLog<<"End     : "<<locStop<<endl;
+	debugLog<<"Start   : "<<locStart<<endl;
+	debugLog<<"End     : "<<locStop<<endl;
 	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
 	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
 	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));

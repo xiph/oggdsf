@@ -52,6 +52,9 @@ public:
 	virtual HRESULT BreakConnect();
 	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 
+	//Quality control
+	virtual STDMETHODIMP Notify(IBaseFilter* inMessageSource, Quality inQuality);
+
 	fstream debugLog;
 };
 //----------------------

@@ -43,7 +43,7 @@ class AbstractAudioDecodeOutputPin;
 class ABS_AUDIO_DEC_API AbstractAudioDecodeFilter
 	//Parent Classes
 	:	public CBaseFilter
-	,	public BasicSeekable
+	//,	public BasicSeekable
 {
 public:
 	//Friends

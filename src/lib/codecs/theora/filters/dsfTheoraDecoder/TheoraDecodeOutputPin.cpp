@@ -51,9 +51,11 @@ STDMETHODIMP TheoraDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, voi
 		((IUnknown*)*ppv)->AddRef();
 		
 		return NOERROR;
+	} else if (riid == IID_IMediaPosition) {
+		debugLog<<"Asking for OLD SEEKER"<<endl;
 	}
-
-	return CTransformOutputPin::NonDelegatingQueryInterface(riid, ppv); 
+	debugLog<<"Trying base output pin"<<endl;
+	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
 HRESULT TheoraDecodeOutputPin::BreakConnect() {
@@ -75,6 +77,10 @@ HRESULT TheoraDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 	}
 	SetDelegate(locSeeker);
 	return CTransformOutputPin::CompleteConnect(inReceivePin);
+}
+
+STDMETHODIMP TheoraDecodeOutputPin::Notify(IBaseFilter* inMessageSource, Quality inQuality) {
+	return E_NOTIMPL;
 }
 //----------------------
 //OLD IMPLEMENTATION

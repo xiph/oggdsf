@@ -70,6 +70,8 @@ public:
 	virtual HRESULT DeliverEndFlush(void);
 	virtual HRESULT DeliverBeginFlush(void);
 
+
+
 	COutputQueue* mDataQueue;
 protected:
 	HRESULT mHR;

@@ -52,7 +52,7 @@ STDMETHODIMP TheoraDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void
 		return NOERROR;
 	}
 
-	return CTransformInputPin::NonDelegatingQueryInterface(riid, ppv); 
+	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
 HRESULT TheoraDecodeInputPin::BreakConnect() {
