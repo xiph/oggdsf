@@ -159,8 +159,16 @@ HRESULT CMMLRawSourceFilter::DataProcessLoop()
 			tTrackMap::iterator locIt = mTrackMap.find(locTrackName);
 			if (locIt != mTrackMap.end()) {
 				//There's an entry for this track in the map.
-				__int64 locStartTime = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start()));
 				
+				
+				//__int64 locStartTime = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start()));
+				//Temporal URI Changes :::
+				
+				C_TimeStamp locStamp;
+				locStamp.parseTimeStamp(StringHelper::toNarrowStr(locClip->start()));
+				__int64 locStartTime = locStamp.toHunNanos();
+				//
+
 				if (locStartTime <= locIt->second) {
 					//The start time of this clip is before the potential end time we saved.
 					// This means the end time means nothing, and we can ignore it and remove from the map.
@@ -183,7 +191,14 @@ HRESULT CMMLRawSourceFilter::DataProcessLoop()
 			//If this clip has an end time we can add it's end time to the map
 			if (locClip->end() != L"") {
 				//There's a specified end time on this clip, so hold on to it
-				__int64 locEndTime = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->end()));
+				
+				//Temporal changes...
+				//__int64 locEndTime = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->end()));
+				C_TimeStamp locStamp;
+				locStamp.parseTimeStamp(StringHelper::toNarrowStr(locClip->end()));
+				__int64 locEndTime = locStamp.toHunNanos();
+				//
+
 				mTrackMap.insert(tTrackMap::value_type(locTrackName, locEndTime));
 			}
 			

@@ -4,6 +4,7 @@
 #include <map>
 #include <libCMMLParse/libCMMLParse.h>
 #include <libCMMLParse/CMMLParser.h>
+#include <libTemporalURI/C_TimeStamp.h>
 #include "CMMLRawSourcePin.h"
 using namespace std;
 

@@ -165,11 +165,17 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 
 	if (inTag->tagType() == C_CMMLTag::CLIP) {
 		C_ClipTag* locClip = (C_ClipTag*)inTag;
-		locStart = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
+		C_TimeStamp locStartStamp;
+		locStartStamp.parseTimeStamp(StringHelper::toNarrowStr(locClip->start()));
+		//locStart = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
+		locStart = locStartStamp.toHunNanos() / 10000;
 		
 		//TODO::: Do something better for handling of end times !!!!!!!!!!!!!!!!!!!!!!
 
-		locStop = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
+		C_TimeStamp locEndStamp;
+		locEndStamp.parseTimeStamp(StringHelper::toNarrowStr(locClip->start()));
+		locStop = locEndStamp.toHunNanos() / 10000;
+		//locStop = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start())) * 1000ULL;
 		
 
 	}
