@@ -171,7 +171,7 @@ unsigned char OggPageHeader::HeaderFlags()
 	return mHeaderFlags;
 }
 
-__int64 OggPageHeader::GranulePos()
+LOOG_INT64 OggPageHeader::GranulePos()
 {
 	return mGranulePos;
 }
@@ -210,7 +210,7 @@ void OggPageHeader::setHeaderFlags(unsigned char inVal)
 	mHeaderFlags = inVal;
 }
 
-void OggPageHeader::setGranulePos(__int64 inGranulePos)
+void OggPageHeader::setGranulePos(LOOG_INT64 inGranulePos)
 {
 	mGranulePos = inGranulePos;
 }
@@ -325,14 +325,14 @@ bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 
 
 bool OggPageHeader::isBOS() {
-	return ((mHeaderFlags & eHeadFlags::BOS) != 0 );
+	return ((mHeaderFlags & BOS) != 0 );
 }
 bool OggPageHeader::isEOS() {
-	return ((mHeaderFlags & eHeadFlags::EOS) != 0 );
+	return ((mHeaderFlags & EOS) != 0 );
 }
 
 bool OggPageHeader::isContinuation() {
-	return ((mHeaderFlags & eHeadFlags::CONTINUATION) != 0 );
+	return ((mHeaderFlags & CONTINUATION) != 0 );
 }
 
 

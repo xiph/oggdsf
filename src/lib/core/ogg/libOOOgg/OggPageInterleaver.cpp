@@ -119,8 +119,8 @@ void OggPageInterleaver::writeLowest() {
 					//debugLog<<"writeLowest : Defaulting stream "<<i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
 					//debugLog<<"writeLowest : Defaulting stream "<<i<<endl;
 				} else {
-					__int64 locCurrLowTime = locLowestStream->scaledFrontTime();
-					__int64 locTestLowTime = mInputStreams[i]->scaledFrontTime();
+					LOOG_INT64 locCurrLowTime = locLowestStream->scaledFrontTime();
+					LOOG_INT64 locTestLowTime = mInputStreams[i]->scaledFrontTime();
 
 					//__int64 locCurrLowTimeUNS = locLowestStream->frontTime();
 					//__int64 locTestLowTimeUNS = mInputStreams[i]->frontTime();

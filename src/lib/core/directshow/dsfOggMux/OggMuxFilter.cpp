@@ -146,7 +146,7 @@ OggMuxFilter::~OggMuxFilter(void)
 
 }
 
-STDMETHODIMP OggMuxFilter::addAnotherPin() {
+HRESULT OggMuxFilter::addAnotherPin() {
 	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 	return S_OK;
 }

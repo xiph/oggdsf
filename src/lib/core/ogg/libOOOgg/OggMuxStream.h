@@ -44,7 +44,7 @@ public:
 	OggMuxStream(INotifyArrival* inNotifier);
 	virtual ~OggMuxStream(void);
 	
-	static const __int64 INT64_MAX = 9223372036854775807;
+	static const LOOG_INT64 INT64_MAX = 9223372036854775807;
 
 	//IOggCallback implementaion.
 	virtual bool acceptOggPage(OggPage* inOggPage);
@@ -56,8 +56,8 @@ public:
 
 	virtual unsigned long numAvail();
 	
-	virtual __int64 frontTime();
-	virtual __int64 scaledFrontTime();
+	virtual LOOG_INT64 frontTime();
+	virtual LOOG_INT64 scaledFrontTime();
 	
 	virtual bool isEmpty();
 	virtual bool isEOS();
@@ -66,25 +66,25 @@ public:
 	virtual bool isActive();
 	virtual void setIsActive(bool inIsActive);
 
-	virtual bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor, __int64 inTheoraLogKFI);
-	bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor);
+	virtual bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor, __int64 inTheoraLogKFI);
+	bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor);
 
 
-	__int64 granuleNumerator();
-	__int64 granuleDenominator();
+	LOOG_INT64 granuleNumerator();
+	LOOG_INT64 granuleDenominator();
 	
 protected:
 	INotifyArrival* mNotifier;
-	__int64 convertTime(__int64 inGranulePos);
+	LOOG_INT64 convertTime(__int64 inGranulePos);
 
 	bool mIsEOS;
 	bool mIsActive;
 	bool mIsSensibleTime;
 
-	__int64 mConvNumerator;
-	__int64 mConvDenominator;
-	__int64 mConvScaleFactor;
-	__int64 mConvTheoraLogKeyFrameInterval;
+	LOOG_INT64 mConvNumerator;
+	LOOG_INT64 mConvDenominator;
+	LOOG_INT64 mConvScaleFactor;
+	LOOG_INT64 mConvTheoraLogKeyFrameInterval;
 
 	//fstream debugLog;
 	deque<OggPage*> mPageQueue;

@@ -49,11 +49,10 @@ public:
 												,	const unsigned char* inUTC
 											);
 
-	static StampedOggPacket* makeFishBone_3_0	(		unsigned short inVersionMajor
-												,	unsigned short inVersionMinor
-												,	unsigned __int64 inGranuleRateNum
+	static StampedOggPacket* makeFishBone_3_0	(	unsigned __int64 inGranuleRateNum
 												,	unsigned __int64 inGranuleDenom
 												,	unsigned long inNumSecHeaders
+												,	unsigned short inGranuleShift
 												,	vector<string> inMessageHeaders
 											);
 };

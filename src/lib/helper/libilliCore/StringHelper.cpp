@@ -65,7 +65,7 @@ string StringHelper::toNarrowStr(wstring inString) {
 	return retVal;
 }
 
-string StringHelper::numToString(unsigned __int64 inNum) {
+string StringHelper::numToString(LOOG_UINT64 inNum) {
 	char locDigit = 0;
 	string retStr = "";
 	string temp = "";
@@ -83,9 +83,9 @@ string StringHelper::numToString(unsigned __int64 inNum) {
 	return retStr;
 }
 
-unsigned __int64 StringHelper::stringToNum(string inString) {
+LOOG_UINT64 StringHelper::stringToNum(string inString) {
 	int locDigit = 0;
-	unsigned __int64 retVal = 0;
+	LOOG_UINT64 retVal = 0;
 	size_t locStrLen = inString.length();
 
 	for (unsigned long i = 0; i < locStrLen; i++) {

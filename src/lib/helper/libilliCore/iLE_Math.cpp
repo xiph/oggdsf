@@ -29,8 +29,8 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
-#include ".\iLE_Math.h"
+#include "stdafx.h"
+#include "iLE_Math.h"
 
 iLE_Math::iLE_Math(void)
 {
@@ -68,8 +68,8 @@ void iLE_Math::UShortToCharArr(unsigned short inShort, unsigned char* outCharArr
 unsigned short iLE_Math::charArrToUShort(const unsigned char* inCharArray) {
 	return (inCharArray[1] << 8) + inCharArray[0];
 }
-__int64 iLE_Math::CharArrToInt64(const unsigned char* inCharArray) {
-	__int64 locData = 0;
+LOOG_INT64 iLE_Math::CharArrToInt64(const unsigned char* inCharArray) {
+	LOOG_INT64 locData = 0;
 
 	for (int i = 7; i >= 0; i--) {
 		locData <<= 8;
@@ -78,7 +78,7 @@ __int64 iLE_Math::CharArrToInt64(const unsigned char* inCharArray) {
 	return locData;
 }
 
-void iLE_Math::Int64ToCharArr(__int64 inInt64, unsigned char* outCharArray) {
+void iLE_Math::Int64ToCharArr(LOOG_INT64 inInt64, unsigned char* outCharArray) {
 	for (unsigned char i = 0; i < 8; i++) {
 		//This way sux !
 		outCharArray[i] = (unsigned char)((inInt64 << ((7 - i) * 8)) >> 56);

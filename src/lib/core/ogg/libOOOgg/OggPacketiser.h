@@ -47,8 +47,8 @@ protected:
 
 	bool mLooseMode;
 	unsigned long mNumIgnorePackets;
-	__int64 mPrevGranPos;
-	__int64 mCurrentGranPos;
+	LOOG_INT64 mPrevGranPos;
+	LOOG_INT64 mCurrentGranPos;
 	bool processPage(OggPage* inOggPage, bool inIncludeFirst, bool inIncludeLast);
 	ePacketiserState mPacketiserState;
 

@@ -45,7 +45,7 @@ StampedOggPacket::~StampedOggPacket(void)
 {
 }
 
-StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, __int64 inStartTime = 0, __int64 inEndTime = 0, unsigned short inStampType = 0)
+StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime = 0, __int64 inEndTime = 0, unsigned short inStampType = 0)
 	:	OggPacket(inPackData, inPacketSize, inIsTruncated, inIsContinuation)
 	,	mStartTime(inStartTime)
 	,	mEndTime(inEndTime)
@@ -103,21 +103,21 @@ OggPacket* StampedOggPacket::clone() {
 	StampedOggPacket* retPack = new StampedOggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation, mStartTime, mEndTime, mStampType);		//Caller takes responsibiility for this.
 	return retPack;
 }
-__int64 StampedOggPacket::startTime() {
+LOOG_INT64 StampedOggPacket::startTime() {
 	return mStartTime;
 }
-__int64 StampedOggPacket::endTime() {
+LOOG_INT64 StampedOggPacket::endTime() {
 	return mEndTime;
 }
 
-void StampedOggPacket::setStartTime(__int64 inStartTime) {
+void StampedOggPacket::setStartTime(LOOG_INT64 inStartTime) {
 	mStartTime = inStartTime;
 }
-void StampedOggPacket::setEndTime(__int64 inEndTime) {
+void StampedOggPacket::setEndTime(LOOG_INT64 inEndTime) {
 	mEndTime = inEndTime;
 }
 
-void StampedOggPacket::setTimeStamp(__int64 inStartTime, __int64 inEndTime, StampedOggPacket::eStampType inStampType) {
+void StampedOggPacket::setTimeStamp(LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, StampedOggPacket::eStampType inStampType) {
 	mStartTime = inStartTime;
 	mEndTime = inEndTime;
 	mStampType = inStampType;

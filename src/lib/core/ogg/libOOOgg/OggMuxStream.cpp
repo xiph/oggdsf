@@ -49,10 +49,10 @@ OggMuxStream::~OggMuxStream(void)
 	//LEAK::: Need to delete the contents of the queue later.
 }
 
-__int64 OggMuxStream::granuleNumerator() {
+LOOG_INT64 OggMuxStream::granuleNumerator() {
 	return mConvNumerator;
 }
-__int64 OggMuxStream::granuleDenominator() {
+LOOG_INT64 OggMuxStream::granuleDenominator() {
 	return mConvDenominator;
 }
 unsigned long OggMuxStream::numAvail() {
@@ -88,21 +88,21 @@ OggPage* OggMuxStream::peekFront() {
 	}
 	return retPage;
 }
-__int64 OggMuxStream::frontTime() {
-	__int64 retTime = INT64_MAX;
+LOOG_INT64 OggMuxStream::frontTime() {
+	LOOG_INT64 retTime = INT64_MAX;
 	if (!mPageQueue.empty()) {
 		retTime = mPageQueue.front()->header()->GranulePos();;
 	}
 	return retTime;
 }
 
-__int64 OggMuxStream::scaledFrontTime() {
+LOOG_INT64 OggMuxStream::scaledFrontTime() {
 
 	return convertTime(frontTime());
 }
 
-__int64 OggMuxStream::convertTime(__int64 inGranulePos) {
-	__int64 retTime = INT64_MAX;
+LOOG_INT64 OggMuxStream::convertTime(__int64 inGranulePos) {
+	LOOG_INT64 retTime = INT64_MAX;
 	if (inGranulePos != INT64_MAX) {
 		if (mIsSensibleTime) {
 			retTime = (inGranulePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
@@ -112,7 +112,7 @@ __int64 OggMuxStream::convertTime(__int64 inGranulePos) {
 			
 			unsigned long locInterFrameNo = (inGranulePos) % locMod;
 	
-			__int64 locAbsFramePos = (inGranulePos >> mConvTheoraLogKeyFrameInterval) + locInterFrameNo;
+			LOOG_INT64 locAbsFramePos = (inGranulePos >> mConvTheoraLogKeyFrameInterval) + locInterFrameNo;
 	
 			retTime = (locAbsFramePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
 			
@@ -124,7 +124,7 @@ __int64 OggMuxStream::convertTime(__int64 inGranulePos) {
 	
 }
 
-bool OggMuxStream::setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor) {
+bool OggMuxStream::setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor) {
 	mConvNumerator = inNumerator;
 	mConvDenominator = inDenominator;
 	mConvScaleFactor = inScaleFactor;
@@ -132,7 +132,7 @@ bool OggMuxStream::setConversionParams(__int64 inNumerator, __int64 inDenominato
 	return true;
 }
 
-bool OggMuxStream::setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor, __int64 inTheoraLogKFI) {
+bool OggMuxStream::setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor, LOOG_INT64 inTheoraLogKFI) {
 	mConvNumerator = inNumerator;
 	mConvDenominator = inDenominator;
 	mConvScaleFactor = inScaleFactor;

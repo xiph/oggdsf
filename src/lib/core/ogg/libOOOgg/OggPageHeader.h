@@ -62,7 +62,7 @@ public:
 
 	static const unsigned char OGG_CAPTURE_PATTERN_SIZE = 4;
 	static const unsigned char OGG_BASE_HEADER_SIZE = 27;
-	static const __int64 UNKNOWN_GRANULE_POS = -1;
+	static const LOOG_INT64 UNKNOWN_GRANULE_POS = -1;
 	enum ePageState {
 		INVALID,
 		BLANK,
@@ -115,7 +115,7 @@ public:
 	//Accesors
 	unsigned char StructureVersion();
 	unsigned char HeaderFlags();
-	__int64 GranulePos();
+	LOOG_INT64 GranulePos();
 	unsigned long StreamSerialNo();
 	unsigned long PageSequenceNo();
 	unsigned long CRCChecksum();
@@ -125,7 +125,7 @@ public:
 	//Mutators
 	void setStructureVersion(unsigned char inVal);
 	void setHeaderFlags(unsigned char inVal);
-	void setGranulePos(__int64 inPtr);
+	void setGranulePos(LOOG_INT64 inPtr);
 	void setGranulePos(const unsigned char* inPtr);
 	void setStreamSerialNo(unsigned long inVal);
 	void setStreamSerialNo(const unsigned char* inPtr);
@@ -152,7 +152,7 @@ protected:
 	//Header fields
 	unsigned char mStructureVersion;
 	unsigned char mHeaderFlags;
-	__int64 mGranulePos;
+	LOOG_INT64 mGranulePos;
 	unsigned long mStreamSerialNo;
 	unsigned long mPageSequenceNo;
 	unsigned long mCRCChecksum;

@@ -46,8 +46,8 @@ public:
 	static unsigned char digitToHex(unsigned char inChar);
 	static string charToHexString(unsigned char inChar);
 	
-	static string numToString(unsigned __int64 inNum);
-	static unsigned __int64 stringToNum(string inString);
+	static string numToString(LOOG_UINT64 inNum);
+	static LOOG_UINT64 stringToNum(string inString);
 	static wstring StringHelper::toWStr(string inString);
 	static string StringHelper::toNarrowStr(wstring inString);
 

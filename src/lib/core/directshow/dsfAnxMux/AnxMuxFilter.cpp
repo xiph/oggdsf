@@ -79,3 +79,8 @@ AnxMuxFilter::AnxMuxFilter(void)
 AnxMuxFilter::~AnxMuxFilter(void)
 {
 }
+
+HRESULT AnxMuxFilter::addAnotherPin() {
+	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
+	return S_OK;
+}

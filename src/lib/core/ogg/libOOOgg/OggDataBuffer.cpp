@@ -281,7 +281,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment()
 
 	unsigned long locCurrPackSize = 0;
 	bool locIsFirstPacket = true;
-	__int64 locPrevGranPos = 0;
+	LOOG_INT64 locPrevGranPos = 0;
 
 	for (unsigned long i = 0; i < locNumSegs; i++) {
 		//Packet sums the lacing values of the segment table.
@@ -336,7 +336,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment()
 				mPrevGranPos = pendingPage->header()->GranulePos();
 				
 				//First packet, check if the continuation flag is set.
-				if ((pendingPage->header()->HeaderFlags() & OggPageHeader::eHeadFlags::CONTINUATION) == OggPageHeader::eHeadFlags::CONTINUATION) {
+				if ((pendingPage->header()->HeaderFlags() & OggPageHeader::CONTINUATION) == OggPageHeader::CONTINUATION) {
 					//Continuation flag is set.
 					locIsContinuation = true;
 				}
@@ -380,7 +380,7 @@ void OggDataBuffer::clearData() {
 	
 	
 	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
-	mState = eState::AWAITING_BASE_HEADER;
+	mState = AWAITING_BASE_HEADER;
 
 	////debugLog<<"ClearData : Num bytes needed = "<<mNumBytesNeeded<<endl;
 }
@@ -394,7 +394,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 		switch (mState) {
 
 			//QUERY:::	Should it be a bug when the if state inside the switch falls through,... potential for infinite loop.
-			case eState::AWAITING_BASE_HEADER:
+			case AWAITING_BASE_HEADER:
 				//debugLog<<"ProcessBuffer : State = AWAITING_BASE_HEADER"<<endl;
 				
 				//If theres enough data to form the base header
@@ -411,7 +411,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				}
 				break;
 			
-			case eState::AWAITING_SEG_TABLE:
+			case AWAITING_SEG_TABLE:
 				//debugLog<<"ProcessBuffer : State = AWAITING_SEG_TABLE"<<endl;
 				
 				//If there is enough data to get the segt table
@@ -428,7 +428,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				}
 				break;
 
-			case eState::AWAITING_DATA:
+			case AWAITING_DATA:
 				//debugLog<<"ProcessBuffer : State = AWAITING_DATA"<<endl;
 				//If all the data segment is available
 				if (numBytesAvail() >= pendingPage->header()->dataSize()) {
@@ -445,7 +445,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 
 				}	
 				break;
-			case eState::LOST_PAGE_SYNC:
+			case LOST_PAGE_SYNC:
 				//TODO::: Insert resync code here.
 
 				//debugLog<<"ProcessBuffer : State = LOST_PAGE_SYNC"<<endl;

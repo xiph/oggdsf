@@ -109,7 +109,7 @@ protected:
 	unsigned long mNumBytesNeeded;
 	eState mState;	
 	OggPage* pendingPage;
-	__int64 mPrevGranPos;
+	LOOG_INT64 mPrevGranPos;
 
 	//Callback pointers
 	IOggCallback* mVirtualCallback;

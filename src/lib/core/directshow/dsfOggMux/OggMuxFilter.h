@@ -82,7 +82,7 @@ public:
 	STDMETHODIMP Stop(void);
 
 	//Helpers
-	STDMETHODIMP addAnotherPin();
+	virtual HRESULT addAnotherPin();
 	virtual void NotifyComplete();
 
 protected:

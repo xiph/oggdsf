@@ -104,3 +104,12 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(			unsigned long inSerialNo
 
 	}
 }
+
+	static StampedOggPacket* makeFishBone_3_0	(	unsigned __int64 inGranuleRateNum
+												,	unsigned __int64 inGranuleDenom
+												,	unsigned long inNumSecHeaders
+												,	unsigned short inGranuleShift
+												,	vector<string> inMessageHeaders
+												) {
+
+	}

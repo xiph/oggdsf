@@ -38,7 +38,7 @@ class LIBOOOGG_API StampedOggPacket
 public:
 	//Constructors
 	StampedOggPacket(void);
-	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, __int64 inStartTime, __int64 inEndTime, unsigned short inStampType);
+	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime, __int64 inEndTime, unsigned short inStampType);
 	virtual ~StampedOggPacket(void);
 	virtual OggPacket* clone();
 
@@ -53,19 +53,19 @@ public:
 	unsigned short mStampType;
 
 	//Time stamp access
-	__int64 startTime();
-	__int64 endTime();
+	LOOG_INT64 startTime();
+	LOOG_INT64 endTime();
 
-	void setStartTime(__int64 inStartTime);
-	void setEndTime(__int64 inEndTime);
-	void StampedOggPacket::setTimeStamp(__int64 inStartTime, __int64 inEndTime, StampedOggPacket::eStampType inStampType);
+	void setStartTime(LOOG_INT64 inStartTime);
+	void setEndTime(LOOG_INT64 inEndTime);
+	void StampedOggPacket::setTimeStamp(LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, StampedOggPacket::eStampType inStampType);
 
 	//Merge function
 	virtual void merge(const StampedOggPacket* inMorePacket);
 
 protected:
-	__int64 mStartTime;
-	__int64 mEndTime;
+	LOOG_INT64 mStartTime;
+	LOOG_INT64 mEndTime;
 
 private:
 	StampedOggPacket& operator=(const StampedOggPacket& other);  /* Don't assign me */
