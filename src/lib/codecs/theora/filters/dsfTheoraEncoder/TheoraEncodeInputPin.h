@@ -76,6 +76,9 @@ protected:
 	theora_info mTheoraInfo;
 	yuv_buffer mYUV;
 
+	unsigned long mXOffset;
+	unsigned long mYOffset;
+
 	//DEBUG ONLY
 	fstream debugLog;
 	//
