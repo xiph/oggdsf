@@ -45,6 +45,5 @@ public:
 	    for deleting this page.  All callers should NULL their pointer
 	    immediately after calling to avoid reusing them.
 	  */
-
 	virtual bool acceptOggPage(OggPage* inOggPage) = 0;
 };
