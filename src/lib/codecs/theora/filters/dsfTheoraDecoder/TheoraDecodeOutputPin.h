@@ -30,7 +30,8 @@
 //===========================================================================
 
 #pragma once
-
+#include <d3d9.h>
+#include <vmr9.h>
 #include "Theoradecoderdllstuff.h"
 #include "AbstractVideoDecodeOutputPin.h"
 
@@ -38,7 +39,7 @@
 class TheoraDecodeFilter;
 class TheoraDecodeOutputPin 
 	:	public AbstractVideoDecodeOutputPin
-	,	public IStreamBuilder
+	//,	public IStreamBuilder
 {
 public:
 	friend class TheoraDecodeInputPin;
@@ -51,8 +52,8 @@ public:
 	STDMETHODIMP Notify(IBaseFilter *pSelf, Quality q);
 
 	//Implements IStreamBuilder to force the pin to connect to VMR9
-	STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
-	STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+	//STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+	//STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
 
 
 
