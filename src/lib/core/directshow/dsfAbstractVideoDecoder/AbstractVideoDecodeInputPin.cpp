@@ -52,7 +52,7 @@ AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilt
 {
 	//debugLog.open("G:\\logs\\avdInputPin.log", ios_base::out);
 	//ConstructCodec();
-	mStreamLock = new CCritSec;
+	mStreamLock = new CCritSec;				//Deleted in destructor
 	mAcceptableMediaType = inAcceptMediaType;
 
 	//IMediaSeeking* locSeeker = NULL;

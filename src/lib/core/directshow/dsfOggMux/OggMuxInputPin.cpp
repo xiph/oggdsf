@@ -39,6 +39,8 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	,	mNeedsFLACHeaderCount(false)
 
 {
+
+	
 	OggPaginatorSettings* locSettings = new OggPaginatorSettings;
 	locSettings->mMinPageSize = 4096;
 	locSettings->mMaxPageSize = 8192;
@@ -47,7 +49,13 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	QueryPerformanceCounter(&locTicks);
 	srand((unsigned int)locTicks.LowPart);
 	locSettings->mSerialNo = ((unsigned long)(rand() + 1)) * ((unsigned long)(rand() + 1));
+	//string x = "G:\\logs\\muxinput_";
+	//char* ser = new char[10];
+	//itoa(locSettings->mSerialNo, ser, 10);
+	//x = x + ser;
+	//x = x +".log";
 
+	//debugLog.open(x.c_str(), ios_base::out);
 	//locSettings->mSerialNo = 13130;
 	
 	mPaginator.setParameters(locSettings);
@@ -81,6 +89,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 		
 		sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
 		//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
+		//debugLog<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
 		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
 		mPaginator.setNumHeaders(3);
 	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
@@ -247,6 +256,9 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	}
 
 	return S_OK;
+	 
+
+
 }
 
 HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {

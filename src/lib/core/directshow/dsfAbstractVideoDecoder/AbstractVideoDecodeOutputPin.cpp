@@ -294,7 +294,7 @@ HRESULT AbstractVideoDecodeOutputPin::CompleteConnect (IPin *inReceivePin)
 	//
 	//This may cause issue if pins are disconnected and reconnected
 	//DELETE in DEStructor
-	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 15);
+	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 15);			//deleted in destructor
 	if (FAILED(locHR)) {
 		//debugLog<<"Creating Output Q failed."<<endl;
 		locHR = locHR;

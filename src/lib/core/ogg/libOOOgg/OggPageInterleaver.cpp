@@ -121,7 +121,14 @@ void OggPageInterleaver::writeLowest() {
 				} else {
 					__int64 locCurrLowTime = locLowestStream->scaledFrontTime();
 					__int64 locTestLowTime = mInputStreams[i]->scaledFrontTime();
-					//debugLog<<"writeLowest : Curr = "<<locCurrLowTime<<" -- Test["<<i<<"] = "<<locTestLowTime<<endl;
+
+					//__int64 locCurrLowTimeUNS = locLowestStream->frontTime();
+					//__int64 locTestLowTimeUNS = mInputStreams[i]->frontTime();
+
+
+					//debugLog<<"writeLowest Scaled : Curr = "<<locCurrLowTime<<" -- Test["<<i<<"] = "<<locTestLowTime<<endl;
+					//debugLog<<"writeLowest UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<i<<"] = "<<locTestLowTimeUNS<<endl;
+
 					
 					//In english this means... any bos pages go first... then any no gran pos pages (-1 gran pos).. then
 					// whoevers got the lowest time.

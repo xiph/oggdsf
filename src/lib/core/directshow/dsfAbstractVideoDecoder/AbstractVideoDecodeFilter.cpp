@@ -37,7 +37,7 @@ AbstractVideoDecodeFilter::AbstractVideoDecodeFilter(TCHAR* inFilterName, REFCLS
 		mVideoFormat(inVideoFormat)
 {
 	//debugLog.open("G:\\logs\\avdFitler.log", ios_base::out);
-	m_pLock = new CCritSec;
+	m_pLock = new CCritSec;			//Deleted in destructor
 	
 }
 

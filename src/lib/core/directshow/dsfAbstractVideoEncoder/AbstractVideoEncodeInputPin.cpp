@@ -102,7 +102,10 @@ STDMETHODIMP AbstractVideoEncodeInputPin::Receive(IMediaSample* inSample) {
 		//debugLog << "Failed to get pointer... bailing out"<<endl;
 		return locHR;
 	} else {
-		
+		__int64 locTimeStart;
+		__int64 locTimeEnd;
+		inSample->GetTime(&locTimeStart, &locTimeEnd);
+		inSample->GetMediaTime(&locTimeStart, &locTimeEnd);
 		long locResult = encodeData(locBuff, inSample->GetActualDataLength());
 		if (locResult >= 0) {
 			//debugLog << "Encode Data returns 0... OK"<<endl;
