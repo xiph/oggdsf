@@ -24,13 +24,13 @@ bool&nbsp;</td><td valign=bottom><b>is_valid</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a4" doxytag="OggFLAC::Decoder::Stream::set_serial_number"></a>
 bool&nbsp;</td><td valign=bottom><b>set_serial_number</b> (long value)</td></tr>
 <tr><td nowrap align=right valign=top><a name="a5" doxytag="OggFLAC::Decoder::Stream::set_metadata_respond"></a>
-bool&nbsp;</td><td valign=bottom><b>set_metadata_respond</b> (::<a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> type)</td></tr>
+bool&nbsp;</td><td valign=bottom><b>set_metadata_respond</b> (::<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top><a name="a6" doxytag="OggFLAC::Decoder::Stream::set_metadata_respond_application"></a>
 bool&nbsp;</td><td valign=bottom><b>set_metadata_respond_application</b> (const FLAC__byte id[4])</td></tr>
 <tr><td nowrap align=right valign=top><a name="a7" doxytag="OggFLAC::Decoder::Stream::set_metadata_respond_all"></a>
 bool&nbsp;</td><td valign=bottom><b>set_metadata_respond_all</b> ()</td></tr>
 <tr><td nowrap align=right valign=top><a name="a8" doxytag="OggFLAC::Decoder::Stream::set_metadata_ignore"></a>
-bool&nbsp;</td><td valign=bottom><b>set_metadata_ignore</b> (::<a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> type)</td></tr>
+bool&nbsp;</td><td valign=bottom><b>set_metadata_ignore</b> (::<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top><a name="a9" doxytag="OggFLAC::Decoder::Stream::set_metadata_ignore_application"></a>
 bool&nbsp;</td><td valign=bottom><b>set_metadata_ignore_application</b> (const FLAC__byte id[4])</td></tr>
 <tr><td nowrap align=right valign=top><a name="a10" doxytag="OggFLAC::Decoder::Stream::set_metadata_ignore_all"></a>
@@ -42,15 +42,14 @@ FLAC::Decoder::Stream::State&nbsp;</td><td valign=bottom><b>get_FLAC_stream_deco
 <tr><td nowrap align=right valign=top><a name="a13" doxytag="OggFLAC::Decoder::Stream::get_channels"></a>
 unsigned&nbsp;</td><td valign=bottom><b>get_channels</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a14" doxytag="OggFLAC::Decoder::Stream::get_channel_assignment"></a>
-::<a class="el" href="group__flac__format.html#a91">FLAC__ChannelAssignment</a>&nbsp;</td><td valign=bottom><b>get_channel_assignment</b> () const</td></tr>
+::<a class="el" href="group__flac__format.html#a92">FLAC__ChannelAssignment</a>&nbsp;</td><td valign=bottom><b>get_channel_assignment</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a15" doxytag="OggFLAC::Decoder::Stream::get_bits_per_sample"></a>
 unsigned&nbsp;</td><td valign=bottom><b>get_bits_per_sample</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a16" doxytag="OggFLAC::Decoder::Stream::get_sample_rate"></a>
 unsigned&nbsp;</td><td valign=bottom><b>get_sample_rate</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a17" doxytag="OggFLAC::Decoder::Stream::get_blocksize"></a>
 unsigned&nbsp;</td><td valign=bottom><b>get_blocksize</b> () const</td></tr>
-<tr><td nowrap align=right valign=top><a name="a18" doxytag="OggFLAC::Decoder::Stream::init"></a>
-State&nbsp;</td><td valign=bottom><b>init</b> ()</td></tr>
+<tr><td nowrap align=right valign=top>State&nbsp;</td><td valign=bottom><a class="el" href="classOggFLAC_1_1Decoder_1_1Stream.html#a18">init</a> ()</td></tr>
 <tr><td nowrap align=right valign=top><a name="a19" doxytag="OggFLAC::Decoder::Stream::finish"></a>
 void&nbsp;</td><td valign=bottom><b>finish</b> ()</td></tr>
 <tr><td nowrap align=right valign=top><a name="a20" doxytag="OggFLAC::Decoder::Stream::flush"></a>
@@ -65,13 +64,13 @@ bool&nbsp;</td><td valign=bottom><b>process_until_end_of_metadata</b> ()</td></t
 bool&nbsp;</td><td valign=bottom><b>process_until_end_of_stream</b> ()</td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="b0" doxytag="OggFLAC::Decoder::Stream::read_callback"></a>
-<a class="el" href="group__flac__stream__decoder.html#a35">virtual::FLAC__StreamDecoderReadStatus</a>&nbsp;</td><td valign=bottom><b>read_callback</b> (FLAC__byte buffer[], unsigned *bytes)=0</td></tr>
+<a class="el" href="group__flac__stream__decoder.html#a37">virtual::FLAC__StreamDecoderReadStatus</a>&nbsp;</td><td valign=bottom><b>read_callback</b> (FLAC__byte buffer[], unsigned *bytes)=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b1" doxytag="OggFLAC::Decoder::Stream::write_callback"></a>
-<a class="el" href="group__flac__stream__decoder.html#a36">virtual::FLAC__StreamDecoderWriteStatus</a>&nbsp;</td><td valign=bottom><b>write_callback</b> (const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</td></tr>
+<a class="el" href="group__flac__stream__decoder.html#a38">virtual::FLAC__StreamDecoderWriteStatus</a>&nbsp;</td><td valign=bottom><b>write_callback</b> (const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b2" doxytag="OggFLAC::Decoder::Stream::metadata_callback"></a>
 virtual void&nbsp;</td><td valign=bottom><b>metadata_callback</b> (const::FLAC__StreamMetadata *metadata)=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b3" doxytag="OggFLAC::Decoder::Stream::error_callback"></a>
-virtual void&nbsp;</td><td valign=bottom><b>error_callback</b> (::<a class="el" href="group__flac__stream__decoder.html#a37">FLAC__StreamDecoderErrorStatus</a> status)=0</td></tr>
+virtual void&nbsp;</td><td valign=bottom><b>error_callback</b> (::<a class="el" href="group__flac__stream__decoder.html#a39">FLAC__StreamDecoderErrorStatus</a> status)=0</td></tr>
 <tr><td colspan=2><br><h2>Protected Attributes</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="n0" doxytag="OggFLAC::Decoder::Stream::decoder_"></a>
 ::<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *&nbsp;</td><td valign=bottom><b>decoder_</b></td></tr>
@@ -79,9 +78,38 @@ virtual void&nbsp;</td><td valign=bottom><b>error_callback</b> (::<a class="el" 
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This class wraps the OggFLAC__StreamDecoder. 
 <p>
+<hr><h2>Member Function Documentation</h2>
+<a name="a18" doxytag="OggFLAC::Decoder::Stream::init"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> State OggFLAC::Decoder::Stream::init </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Initialize the instance; as with the C interface, <a class="el" href="classOggFLAC_1_1Decoder_1_1Stream.html#a18">init</a>() should be called after construction and 'set' calls but before any of the 'process' calls.     </td>
+  </tr>
+</table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>include/OggFLAC++/<a class="el" href="OggFLAC++_2decoder_8h-source.html">decoder.h</a></ul>
-<hr><address><small>Generated on Sat Jan 25 10:45:04 2003 for FLAC by
+<hr><address><small>Generated on Tue Sep 28 21:19:47 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ FLAC__bool do_shorthand_operation__add_seekpoints(const char *filename, FLAC__Me
 		while(FLAC__metadata_iterator_prev(iterator))
 			;
 		if(!FLAC__metadata_iterator_insert_block_after(iterator, block)) {
-			fprintf(stderr, "%s: ERROR: adding new SEEKTABLE block to metadata, status =\"%s\"\n", filename, FLAC__Metadata_ChainStatusString[FLAC__metadata_chain_status(chain)]);
+			print_error_with_chain_status(chain, "%s: ERROR: adding new SEEKTABLE block to metadata", filename);
 			FLAC__metadata_object_delete(block);
 			return false;
 		}

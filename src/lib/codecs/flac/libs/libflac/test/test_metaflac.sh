@@ -1,21 +1,21 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2002,2003  Josh Coalson
+#  Copyright (C) 2002,2003,2004  Josh Coalson
 #
-#  This program is part of FLAC; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License
-#  as published by the Free Software Foundation; either version 2
-#  of the License, or (at your option) any later version.
+#  This file is part the FLAC project.  FLAC is comprised of several
+#  components distributed under difference licenses.  The codec libraries
+#  are distributed under Xiph.Org's BSD-like license (see the file
+#  COPYING.Xiph in this distribution).  All other programs, libraries, and
+#  plugins are distributed under the GPL (see COPYING.GPL).  The documentation
+#  is distributed under the Gnu FDL (see COPYING.FDL).  Each file in the
+#  FLAC distribution contains at the top the terms under which it may be
+#  distributed.
 #
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#  Since this particular file is relevant to all components of FLAC,
+#  it may be distributed under the Xiph.Org license, which is the least
+#  restrictive of those mentioned above.  See the file COPYING.Xiph in this
+#  distribution.
 
 die ()
 {
@@ -56,7 +56,7 @@ if [ -f /bin/sh.exe ] ; then
 else
 	inputfile=/bin/sh
 fi
-if run_flac --verify -0 --output-name=$flacfile --force-raw-format --endian=big --sign=signed --channels=1 --bps=8 --sample-rate=44100 $inputfile ; then
+if run_flac --force --verify -0 --output-name=$flacfile --force-raw-format --endian=big --sign=signed --channels=1 --bps=8 --sample-rate=44100 $inputfile ; then
 	chmod +w $flacfile
 else
 	die "ERROR during generation"
@@ -98,14 +98,14 @@ check_exit
 check_flac
 
 # some flavors of /bin/sh (e.g. Darwin's) won't even handle quoted spaces, so we underscore:
-(set -x && run_metaflac --set-vc-field="ARTIST=The_artist_formerly_known_as_the_artist..." $flacfile)
+(set -x && run_metaflac --set-tag="ARTIST=The_artist_formerly_known_as_the_artist..." $flacfile)
 check_exit
 check_flac
 
 (set -x && run_metaflac --list --block-type=VORBIS_COMMENT $flacfile)
 check_exit
 
-(set -x && run_metaflac --set-vc-field="ARTIST=Chuck_Woolery" $flacfile)
+(set -x && run_metaflac --set-tag="ARTIST=Chuck_Woolery" $flacfile)
 check_exit
 check_flac
 
@@ -115,31 +115,31 @@ check_exit
 (set -x && run_metaflac --list --block-type=VORBIS_COMMENT $flacfile)
 check_exit
 
-(set -x && run_metaflac --set-vc-field="ARTIST=Vern" $flacfile)
+(set -x && run_metaflac --set-tag="ARTIST=Vern" $flacfile)
 check_exit
 check_flac
 
 (set -x && run_metaflac --list --block-type=VORBIS_COMMENT $flacfile)
 check_exit
 
-(set -x && run_metaflac --set-vc-field="TITLE=He_who_smelt_it_dealt_it" $flacfile)
+(set -x && run_metaflac --set-tag="TITLE=He_who_smelt_it_dealt_it" $flacfile)
 check_exit
 check_flac
 
 (set -x && run_metaflac --list --block-type=VORBIS_COMMENT $flacfile)
 check_exit
 
-(set -x && run_metaflac --show-vc-vendor --show-vc-field=ARTIST $flacfile)
+(set -x && run_metaflac --show-vendor-tag --show-tag=ARTIST $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-firstfield=ARTIST $flacfile)
+(set -x && run_metaflac --remove-first-tag=ARTIST $flacfile)
 check_exit
 check_flac
 
 (set -x && run_metaflac --list --block-type=VORBIS_COMMENT $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-field=ARTIST $flacfile)
+(set -x && run_metaflac --remove-tag=ARTIST $flacfile)
 check_exit
 check_flac
 
@@ -178,7 +178,7 @@ check_flac
 check_exit
 check_flac
 
-(set -x && run_metaflac --remove-vc-all $flacfile)
+(set -x && run_metaflac --remove-all-tags $flacfile)
 check_exit
 check_flac
 
@@ -218,55 +218,55 @@ check_flac
 check_exit
 check_flac
 
-(set -x && run_metaflac --set-vc-field="f=0123456789abcdefghij" $flacfile)
+(set -x && run_metaflac --set-tag="f=0123456789abcdefghij" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-all --set-vc-field="f=0123456789abcdefghi" $flacfile)
+(set -x && run_metaflac --remove-all-tags --set-tag="f=0123456789abcdefghi" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-all --set-vc-field="f=0123456789abcde" $flacfile)
+(set -x && run_metaflac --remove-all-tags --set-tag="f=0123456789abcde" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-all --set-vc-field="f=0" $flacfile)
+(set -x && run_metaflac --remove-all-tags --set-tag="f=0" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-all --set-vc-field="f=0123456789" $flacfile)
+(set -x && run_metaflac --remove-all-tags --set-tag="f=0123456789" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-all --set-vc-field="f=0123456789abcdefghi" $flacfile)
+(set -x && run_metaflac --remove-all-tags --set-tag="f=0123456789abcdefghi" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-all --set-vc-field="f=0123456789" $flacfile)
+(set -x && run_metaflac --remove-all-tags --set-tag="f=0123456789" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && run_metaflac --remove-vc-all --set-vc-field="f=0123456789abcdefghij" $flacfile)
+(set -x && run_metaflac --remove-all-tags --set-tag="f=0123456789abcdefghij" $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --except-block-type=STREAMINFO $flacfile)
 check_exit
 
-(set -x && echo "TITLE=Tittle" | run_metaflac --import-vc-from=- $flacfile)
+(set -x && echo "TITLE=Tittle" | run_metaflac --import-tags-from=- $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --block-type=VORBIS_COMMENT $flacfile)
@@ -276,7 +276,7 @@ cat > vc.txt << EOF
 artist=Fartist
 artist=artits
 EOF
-(set -x && run_metaflac --import-vc-from=vc.txt $flacfile)
+(set -x && run_metaflac --import-tags-from=vc.txt $flacfile)
 check_exit
 check_flac
 (set -x && run_metaflac --list --block-type=VORBIS_COMMENT $flacfile)
@@ -305,6 +305,10 @@ diff $cs_out $cs_out2 || die "ERROR, cuesheets should be identical"
 echo identical
 
 rm -f $cs_out $cs_out2
+
+(set -x && run_metaflac --add-replay-gain $flacfile)
+check_exit
+check_flac
 
 echo -n "Testing FLAC file with unknown metadata... "
 cp -p metaflac.flac.in $flacfile

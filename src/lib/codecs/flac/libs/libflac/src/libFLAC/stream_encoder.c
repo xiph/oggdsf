@@ -1,20 +1,32 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <limits.h>
@@ -332,7 +344,7 @@ typedef struct FLAC__StreamEncoderPrivate {
 	FLAC__StreamMetadata metadata;
 	unsigned current_sample_number;
 	unsigned current_frame_number;
-	struct MD5Context md5context;
+	struct FLAC__MD5Context md5context;
 	FLAC__CPUInfo cpuinfo;
 	unsigned (*local_fixed_compute_best_predictor)(const FLAC__int32 data[], unsigned data_len, FLAC__real residual_bits_per_sample[FLAC__MAX_FIXED_ORDER+1]);
 	void (*local_lpc_compute_autocorrelation)(const FLAC__real data[], unsigned data_len, unsigned lag, FLAC__real autoc[]);
@@ -846,7 +858,7 @@ FLAC_API FLAC__StreamEncoderState FLAC__stream_encoder_init(FLAC__StreamEncoder 
 	encoder->private_->metadata.data.stream_info.bits_per_sample = encoder->protected_->bits_per_sample;
 	encoder->private_->metadata.data.stream_info.total_samples = encoder->protected_->total_samples_estimate; /* we will replace this later with the real total */
 	memset(encoder->private_->metadata.data.stream_info.md5sum, 0, 16); /* we don't know this yet; have to fill it in later */
-	MD5Init(&encoder->private_->md5context);
+	FLAC__MD5Init(&encoder->private_->md5context);
 	if(!FLAC__bitbuffer_clear(encoder->private_->frame))
 		return encoder->protected_->state = FLAC__STREAM_ENCODER_MEMORY_ALLOCATION_ERROR;
 	if(!FLAC__add_metadata_block(&encoder->private_->metadata, encoder->private_->frame))
@@ -868,6 +880,11 @@ FLAC_API FLAC__StreamEncoderState FLAC__stream_encoder_init(FLAC__StreamEncoder 
 	 * Check to see if the supplied metadata contains a VORBIS_COMMENT;
 	 * if not, we will write an empty one (FLAC__add_metadata_block()
 	 * automatically supplies the vendor string).
+	 *
+	 * WATCHOUT: libOggFLAC depends on us to write this block after the
+	 * STREAMINFO since that's what the mapping requires.  (In the case
+	 * that metadata_has_vorbis_comment it true it will have already
+	 * insured that the metadata list is properly ordered.)
 	 */
 	if(!metadata_has_vorbis_comment) {
 		FLAC__StreamMetadata vorbis_comment;
@@ -923,7 +940,7 @@ FLAC_API void FLAC__stream_encoder_finish(FLAC__StreamEncoder *encoder)
 		}
 	}
 
-	MD5Final(encoder->private_->metadata.data.stream_info.md5sum, &encoder->private_->md5context);
+	FLAC__MD5Final(encoder->private_->metadata.data.stream_info.md5sum, &encoder->private_->md5context);
 
 	if(encoder->protected_->state == FLAC__STREAM_ENCODER_OK && !encoder->private_->is_being_deleted) {
 		encoder->private_->metadata_callback(encoder, &encoder->private_->metadata, encoder->private_->client_data);
@@ -1191,7 +1208,7 @@ FLAC_API const char *FLAC__stream_encoder_get_resolved_state_string(const FLAC__
 	if(encoder->protected_->state != FLAC__STREAM_ENCODER_VERIFY_DECODER_ERROR)
 		return FLAC__StreamEncoderStateString[encoder->protected_->state];
 	else
-		return FLAC__StreamDecoderStateString[FLAC__stream_decoder_get_state(encoder->private_->verify.decoder)];
+		return FLAC__stream_decoder_get_resolved_state_string(encoder->private_->verify.decoder);
 }
 
 FLAC_API void FLAC__stream_encoder_get_verify_decoder_error_stats(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)
@@ -1855,7 +1872,7 @@ FLAC__bool process_subframes_(FLAC__StreamEncoder *encoder, FLAC__bool is_last_f
 
 		frame_header.channel_assignment = channel_assignment;
 
-		if(!FLAC__frame_add_header(&frame_header, encoder->protected_->streamable_subset, is_last_frame, encoder->private_->frame)) {
+		if(!FLAC__frame_add_header(&frame_header, encoder->protected_->streamable_subset, encoder->private_->frame)) {
 			encoder->protected_->state = FLAC__STREAM_ENCODER_FRAMING_ERROR;
 			return false;
 		}
@@ -1909,7 +1926,7 @@ FLAC__bool process_subframes_(FLAC__StreamEncoder *encoder, FLAC__bool is_last_f
 			return false;
 	}
 	else {
-		if(!FLAC__frame_add_header(&frame_header, encoder->protected_->streamable_subset, is_last_frame, encoder->private_->frame)) {
+		if(!FLAC__frame_add_header(&frame_header, encoder->protected_->streamable_subset, encoder->private_->frame)) {
 			encoder->protected_->state = FLAC__STREAM_ENCODER_FRAMING_ERROR;
 			return false;
 		}

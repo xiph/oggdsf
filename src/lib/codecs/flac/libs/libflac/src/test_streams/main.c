@@ -1,5 +1,5 @@
 /* test_streams - Simple test pattern generator
- * Copyright (C) 2000,2001,2002,2003  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -141,32 +141,35 @@ static FLAC__bool write_big_endian_int32(FILE *f, FLAC__int32 x)
 #endif
 
 static FLAC__bool write_sane_extended(FILE *f, unsigned val)
+	/* Write to 'f' a SANE extended representation of 'val'.  Return false if
+	* the write succeeds; return true otherwise.
+	*
+	* SANE extended is an 80-bit IEEE-754 representation with sign bit, 15 bits
+	* of exponent, and 64 bits of significand (mantissa).  Unlike most IEEE-754
+	* representations, it does not imply a 1 above the MSB of the significand.
+	*
+	* Preconditions:
+	*  val!=0U
+	*/
 {
-	unsigned i, exponent;
+	unsigned int shift, exponent;
 
-	/* this reasonable limitation make the implementation simpler */
-	FLAC__ASSERT(val < 0x80000000);
+	FLAC__ASSERT(val!=0U); /* handling 0 would require a special case */
 
-	/* we'll use the denormalized form, with no implicit '1' (i bit == 0) */
-
-	for(i = val, exponent = 0; i; i >>= 1, exponent++)
+	for(shift= 0U; (val>>(31-shift))==0U; ++shift)
 		;
-	if(!write_big_endian_uint16(f, (FLAC__uint16)(exponent + 16383)))
-		return false;
+	val<<= shift;
+	exponent= 63U-(shift+32U); /* add 32 for unused second word */
 
-	for(i = 32; i; i--) {
-		if(val & 0x40000000)
-			break;
-		val <<= 1;
-	}
+	if(!write_big_endian_uint16(f, (FLAC__uint16)(exponent+0x3FFF)))
+		return false;
 	if(!write_big_endian_uint32(f, val))
 		return false;
-	if(!write_big_endian_uint32(f, 0))
+	if(!write_big_endian_uint32(f, 0)) /* unused second word */
 		return false;
 
 	return true;
 }
-
 
 /* a mono one-sample 16bps stream */
 static FLAC__bool generate_01()
@@ -609,7 +612,8 @@ foo:
 
 static FLAC__bool generate_wav(const char *filename, unsigned sample_rate, unsigned channels, unsigned bytes_per_sample, unsigned samples)
 {
-	const unsigned size = channels * bytes_per_sample * samples;
+	const unsigned true_size = channels * bytes_per_sample * samples;
+	const unsigned padded_size = (true_size + 1) & (~1u);
 	FILE *f;
 	unsigned i;
 
@@ -617,7 +621,7 @@ static FLAC__bool generate_wav(const char *filename, unsigned sample_rate, unsig
 		return false;
 	if(fwrite("RIFF", 1, 4, f) < 4)
 		goto foo;
-	if(!write_little_endian_uint32(f, size + 36))
+	if(!write_little_endian_uint32(f, padded_size + 36))
 		goto foo;
 	if(fwrite("WAVEfmt \020\000\000\000\001\000", 1, 14, f) < 14)
 		goto foo;
@@ -633,11 +637,14 @@ static FLAC__bool generate_wav(const char *filename, unsigned sample_rate, unsig
 		goto foo;
 	if(fwrite("data", 1, 4, f) < 4)
 		goto foo;
-	if(!write_little_endian_uint32(f, size))
+	if(!write_little_endian_uint32(f, true_size))
 		goto foo;
 
-	for(i = 0; i < size; i++)
+	for(i = 0; i < true_size; i++)
 		if(fputc(i, f) == EOF)
+			goto foo;
+	for( ; i < padded_size; i++)
+		if(fputc(0, f) == EOF)
 			goto foo;
 
 	fclose(f);

@@ -1,5 +1,5 @@
 #  flac - Command-line FLAC encoder/decoder
-#  Copyright (C) 2000,2001,2002,2003  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -31,20 +31,23 @@ flac_SOURCES = \
 	decode.c \
 	encode.c \
 	main.c \
+	local_string_utils.c \
 	utils.c \
 	vorbiscomment.c \
 	analyze.h \
 	decode.h \
 	encode.h \
+	local_string_utils.h \
 	utils.h \
 	vorbiscomment.h
 
 flac_LDADD = \
 	$(NEED_OGGFLAC_LIB) \
-	$(top_builddir)/src/share/grabbag/libgrabbag.a \
-	$(top_builddir)/src/share/gain_analysis/libgain_analysis.a \
+	$(top_builddir)/src/share/grabbag/libgrabbag.la \
 	$(top_builddir)/src/share/getopt/libgetopt.a \
-	$(top_builddir)/src/share/utf8/libutf8.a \
+	$(top_builddir)/src/share/replaygain_analysis/libreplaygain_analysis.la \
+	$(top_builddir)/src/share/replaygain_synthesis/libreplaygain_synthesis.la \
+	$(top_builddir)/src/share/utf8/libutf8.la \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
 	@OGG_LIBS@ \
 	@LIBICONV@ \

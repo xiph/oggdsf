@@ -1,41 +1,44 @@
 /* libFLAC++ - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "FLAC++/encoder.h"
 #include "FLAC/assert.h"
 
+#ifdef _MSC_VER
+// warning C4800: 'int' : forcing to bool 'true' or 'false' (performance warning)
+#pragma warning ( disable : 4800 )
+#endif
+
 namespace FLAC {
 	namespace Encoder {
-
-		const char *SeekableStream::State::resolved_as_cstring(const SeekableStream &encoder) const
-		{
-			if(state_ == ::FLAC__SEEKABLE_STREAM_ENCODER_STREAM_ENCODER_ERROR) {
-				FLAC::Encoder::Stream::State state__ = encoder.get_stream_encoder_state();
-				if(state__ == ::FLAC__STREAM_ENCODER_VERIFY_DECODER_ERROR)
-					return encoder.get_verify_decoder_state().as_cstring();
-				else
-					return state__.as_cstring();
-			}
-			else
-				return as_cstring();
-		}
-
 
 		SeekableStream::SeekableStream():
 		encoder_(::FLAC__seekable_stream_encoder_new())
@@ -160,6 +163,31 @@ namespace FLAC {
 		{
 			FLAC__ASSERT(is_valid());
 			return (bool)::FLAC__seekable_stream_encoder_set_metadata(encoder_, metadata, num_blocks);
+		}
+
+		bool SeekableStream::set_metadata(FLAC::Metadata::Prototype **metadata, unsigned num_blocks)
+		{
+			FLAC__ASSERT(is_valid());
+#ifdef _MSC_VER
+			// MSVC++ can't handle:
+			// ::FLAC__StreamMetadata *m[num_blocks];
+			// so we do this ugly workaround
+			::FLAC__StreamMetadata **m = new ::FLAC__StreamMetadata*[num_blocks];
+#else
+			::FLAC__StreamMetadata *m[num_blocks];
+#endif
+			for(unsigned i = 0; i < num_blocks; i++) {
+				// we can get away with this since we know the encoder will only correct the is_last flags
+				m[i] = const_cast< ::FLAC__StreamMetadata*>((::FLAC__StreamMetadata*)metadata[i]);
+			}
+#ifdef _MSC_VER
+			// complete the hack
+			const bool ok = (bool)::FLAC__seekable_stream_encoder_set_metadata(encoder_, m, num_blocks);
+			delete [] m;
+			return ok;
+#else
+			return (bool)::FLAC__seekable_stream_encoder_set_metadata(encoder_, m, num_blocks);
+#endif
 		}
 
 		SeekableStream::State SeekableStream::get_state() const
@@ -292,6 +320,7 @@ namespace FLAC {
 		{
 			FLAC__ASSERT(is_valid());
 			::FLAC__seekable_stream_encoder_set_seek_callback(encoder_, seek_callback_);
+			::FLAC__seekable_stream_encoder_set_tell_callback(encoder_, tell_callback_);
 			::FLAC__seekable_stream_encoder_set_write_callback(encoder_, write_callback_);
 			::FLAC__seekable_stream_encoder_set_client_data(encoder_, (void*)this);
 			return State(::FLAC__seekable_stream_encoder_init(encoder_));
@@ -322,6 +351,15 @@ namespace FLAC {
 			SeekableStream *instance = reinterpret_cast<SeekableStream *>(client_data);
 			FLAC__ASSERT(0 != instance);
 			return instance->seek_callback(absolute_byte_offset);
+		}
+
+		::FLAC__SeekableStreamEncoderTellStatus SeekableStream::tell_callback_(const ::FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
+		{
+			(void)encoder;
+			FLAC__ASSERT(0 != client_data);
+			SeekableStream *instance = reinterpret_cast<SeekableStream *>(client_data);
+			FLAC__ASSERT(0 != instance);
+			return instance->tell_callback(absolute_byte_offset);
 		}
 
 		::FLAC__StreamEncoderWriteStatus SeekableStream::write_callback_(const ::FLAC__SeekableStreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)

@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -109,7 +109,7 @@ FLAC__bool do_major_operation_on_file(const char *filename, const CommandLineOpt
 		die("out of memory allocating chain");
 
 	if(!FLAC__metadata_chain_read(chain, filename)) {
-		fprintf(stderr, "%s: ERROR: reading metadata, status = \"%s\"\n", filename, FLAC__Metadata_ChainStatusString[FLAC__metadata_chain_status(chain)]);
+		print_error_with_chain_status(chain, "%s: ERROR: reading metadata", filename);
 		return false;
 	}
 
@@ -147,7 +147,7 @@ FLAC__bool do_major_operation_on_file(const char *filename, const CommandLineOpt
 			FLAC__metadata_chain_sort_padding(chain);
 		ok = FLAC__metadata_chain_write(chain, options->use_padding, options->preserve_modtime);
 		if(!ok)
-			fprintf(stderr, "%s: ERROR: writing FLAC file, error = %s\n", filename, FLAC__Metadata_ChainStatusString[FLAC__metadata_chain_status(chain)]);
+			print_error_with_chain_status(chain, "%s: ERROR: writing FLAC file", filename);
 	}
 
 	FLAC__metadata_chain_delete(chain);
@@ -267,7 +267,7 @@ FLAC__bool do_shorthand_operations_on_file(const char *filename, const CommandLi
 		die("out of memory allocating chain");
 
 	if(!FLAC__metadata_chain_read(chain, filename)) {
-		fprintf(stderr, "%s: ERROR: reading metadata, status = \"%s\"\n", filename, FLAC__Metadata_ChainStatusString[FLAC__metadata_chain_status(chain)]);
+		print_error_with_chain_status(chain, "%s: ERROR: reading metadata", filename);
 		return false;
 	}
 
@@ -304,7 +304,7 @@ FLAC__bool do_shorthand_operations_on_file(const char *filename, const CommandLi
 			FLAC__metadata_chain_sort_padding(chain);
 		ok = FLAC__metadata_chain_write(chain, use_padding, options->preserve_modtime);
 		if(!ok)
-			fprintf(stderr, "%s: ERROR: writing FLAC file, error = %s\n", filename, FLAC__Metadata_ChainStatusString[FLAC__metadata_chain_status(chain)]);
+			print_error_with_chain_status(chain, "%s: ERROR: writing FLAC file", filename);
 	}
 
 	FLAC__metadata_chain_delete(chain);
@@ -478,7 +478,7 @@ FLAC__bool do_shorthand_operation__add_padding(const char *filename, FLAC__Metad
 	padding->length = length;
 
 	if(!FLAC__metadata_iterator_insert_block_after(iterator, padding)) {
-		fprintf(stderr, "%s: ERROR: adding new PADDING block to metadata, status =\"%s\"\n", filename, FLAC__Metadata_ChainStatusString[FLAC__metadata_chain_status(chain)]);
+		print_error_with_chain_status(chain, "%s: ERROR: adding new PADDING block to metadata", filename);
 		FLAC__metadata_object_delete(padding);
 		FLAC__metadata_iterator_delete(iterator);
 		return false;
@@ -547,7 +547,11 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 			PPR; printf("  sample_rate: %u Hz\n", block->data.stream_info.sample_rate);
 			PPR; printf("  channels: %u\n", block->data.stream_info.channels);
 			PPR; printf("  bits-per-sample: %u\n", block->data.stream_info.bits_per_sample);
+#ifdef _MSC_VER
+			PPR; printf("  total samples: %I64u\n", block->data.stream_info.total_samples);
+#else
 			PPR; printf("  total samples: %llu\n", block->data.stream_info.total_samples);
+#endif
 			PPR; printf("  MD5 signature: ");
 			for(i = 0; i < 16; i++) {
 				printf("%02x", (unsigned)block->data.stream_info.md5sum[i]);
@@ -574,10 +578,14 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 			PPR; printf("  seek points: %u\n", block->data.seek_table.num_points);
 			for(i = 0; i < block->data.seek_table.num_points; i++) {
 				if(block->data.seek_table.points[i].sample_number != FLAC__STREAM_METADATA_SEEKPOINT_PLACEHOLDER) {
-					PPR; printf("    point %d: sample_number=%llu, stream_offset=%llu, frame_samples=%u\n", i, block->data.seek_table.points[i].sample_number, block->data.seek_table.points[i].stream_offset, block->data.seek_table.points[i].frame_samples);
+#ifdef _MSC_VER
+					PPR; printf("    point %u: sample_number=%I64u, stream_offset=%I64u, frame_samples=%u\n", i, block->data.seek_table.points[i].sample_number, block->data.seek_table.points[i].stream_offset, block->data.seek_table.points[i].frame_samples);
+#else
+					PPR; printf("    point %u: sample_number=%llu, stream_offset=%llu, frame_samples=%u\n", i, block->data.seek_table.points[i].sample_number, block->data.seek_table.points[i].stream_offset, block->data.seek_table.points[i].frame_samples);
+#endif
 				}
 				else {
-					PPR; printf("    point %d: PLACEHOLDER\n", i);
+					PPR; printf("    point %u: PLACEHOLDER\n", i);
 				}
 			}
 			break;
@@ -592,7 +600,11 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 			break;
 		case FLAC__METADATA_TYPE_CUESHEET:
 			PPR; printf("  media catalog number: %s\n", block->data.cue_sheet.media_catalog_number);
+#ifdef _MSC_VER
+			PPR; printf("  lead-in: %I64u\n", block->data.cue_sheet.lead_in);
+#else
 			PPR; printf("  lead-in: %llu\n", block->data.cue_sheet.lead_in);
+#endif
 			PPR; printf("  is CD: %s\n", block->data.cue_sheet.is_cd? "true":"false");
 			PPR; printf("  number of tracks: %u\n", block->data.cue_sheet.num_tracks);
 			for(i = 0; i < block->data.cue_sheet.num_tracks; i++) {
@@ -600,7 +612,11 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 				const FLAC__bool is_last = (i == block->data.cue_sheet.num_tracks-1);
 				const FLAC__bool is_leadout = is_last && track->num_indices == 0;
 				PPR; printf("    track[%u]\n", i);
+#ifdef _MSC_VER
+				PPR; printf("      offset: %I64u\n", track->offset);
+#else
 				PPR; printf("      offset: %llu\n", track->offset);
+#endif
 				if(is_last) {
 					PPR; printf("      number: %u (%s)\n", (unsigned)track->number, is_leadout? "LEAD-OUT" : "INVALID");
 				}
@@ -615,7 +631,11 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 					for(j = 0; j < track->num_indices; j++) {
 						const FLAC__StreamMetadata_CueSheet_Index *index = track->indices+j;
 						PPR; printf("        index[%u]\n", j);
+#ifdef _MSC_VER
+						PPR; printf("          offset: %I64u\n", index->offset);
+#else
 						PPR; printf("          offset: %llu\n", index->offset);
+#endif
 						PPR; printf("          number: %u\n", (unsigned)index->number);
 					}
 				}

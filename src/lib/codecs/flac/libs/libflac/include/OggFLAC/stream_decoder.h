@@ -1,20 +1,32 @@
 /* libOggFLAC - Free Lossless Audio Codec + Ogg library
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef OggFLAC__STREAM_DECODER_H
@@ -43,11 +55,12 @@ extern "C" {
  *  \ingroup oggflac
  *
  *  \brief
- *  This module describes the decoder layers provided by libOggFLAC.
+ *  This module describes the three decoder layers provided by libOggFLAC.
  *
- * libOggFLAC currently provides the same stream layer access as libFLAC;
- * the interface is identical.  See the \link flac_decoder FLAC
- * decoder module \endlink for full documentation.
+ * libOggFLAC currently provides the same three layers of access as
+ * libFLAC; the interfaces are nearly identical, with th addition of a
+ * method for specifying the Ogg serial number.  See the
+ * \link flac_decoder FLAC decoder module \endlink for full documentation.
  */
 
 /** \defgroup oggflac_stream_decoder OggFLAC/stream_decoder.h: stream decoder interface
@@ -57,9 +70,11 @@ extern "C" {
  *  This module contains the functions which implement the stream
  *  decoder.
  *
- * The interface here is identical to FLAC's stream decoder,
- * including the callbacks.  See the \link flac_stream_decoder
- * FLAC stream decoder module \endlink for full documentation.
+ * The interface here is nearly identical to FLAC's stream decoder,
+ * including the callbacks, with the addition of
+ * OggFLAC__stream_decoder_set_serial_number().  See the
+ * \link flac_stream_decoder FLAC stream decoder module \endlink
+ * for full documentation.
  *
  * \{
  */
@@ -74,6 +89,9 @@ typedef enum {
 	OggFLAC__STREAM_DECODER_OK = 0,
 	/**< The decoder is in the normal OK state. */
 
+	OggFLAC__STREAM_DECODER_END_OF_STREAM,
+	/**< The decoder has reached the end of the stream. */
+
 	OggFLAC__STREAM_DECODER_OGG_ERROR,
 	/**< An error occurred in the underlying Ogg layer.  */
 
@@ -85,9 +103,6 @@ typedef enum {
 	 * check OggFLAC__stream_decoder_get_FLAC_stream_decoder_state().
 	 */
 
-	OggFLAC__STREAM_DECODER_INVALID_CALLBACK,
-	/**< The decoder was initialized before setting all the required callbacks. */
-
 	OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR,
 	/**< Memory allocation failed. */
 
@@ -96,6 +111,9 @@ typedef enum {
 	 * already initialized, usually because
 	 * OggFLAC__stream_decoder_finish() was not called.
 	 */
+
+	OggFLAC__STREAM_DECODER_INVALID_CALLBACK,
+	/**< The decoder was initialized before setting all the required callbacks. */
 
 	OggFLAC__STREAM_DECODER_UNINITIALIZED
 	/**< The decoder is in the uninitialized state. */
@@ -134,7 +152,11 @@ typedef struct {
  * \param  decoder  The decoder instance calling the callback.
  * \param  buffer   A pointer to a location for the callee to store
  *                  data to be decoded.
- * \param  bytes    A pointer to the size of the buffer.
+ * \param  bytes    A pointer to the size of the buffer.  On entry
+ *                  to the callback, it contains the maximum number
+ *                  of bytes that may be stored in \a buffer.  The
+ *                  callee must set it to the actual number of bytes
+ *                  stored before returning.
  * \param  client_data  The callee's client data set through
  *                      OggFLAC__stream_decoder_set_client_data().
  * \retval FLAC__StreamDecoderReadStatus
@@ -147,8 +169,14 @@ typedef FLAC__StreamDecoderReadStatus (*OggFLAC__StreamDecoderReadCallback)(cons
  *  and FLAC__StreamDecoderWriteCallback for more info.
  *
  * \param  decoder  The decoder instance calling the callback.
- * \param  frame    The description of the decoded frame.
+ * \param  frame    The description of the decoded frame.  See
+ *                  FLAC__Frame.
  * \param  buffer   An array of pointers to decoded channels of data.
+ *                  Each pointer will point to an array of signed
+ *                  samples of length \a frame->header.blocksize.
+ *                  Currently, the channel order has no meaning
+ *                  except for stereo streams; in this case channel
+ *                  0 is left and 1 is right.
  * \param  client_data  The callee's client data set through
  *                      OggFLAC__stream_decoder_set_client_data().
  * \retval FLAC__StreamDecoderWriteStatus
@@ -293,7 +321,7 @@ OggFLAC_API FLAC__bool OggFLAC__stream_decoder_set_client_data(OggFLAC__StreamDe
 
 /** Set the serial number for the Ogg stream.
  * The default behavior is to use the serial number of the first Ogg
- * page.  Setting a serial number here will explicitly define which
+ * page.  Setting a serial number here will explicitly specify which
  * stream is to be decoded.
  *
  * \default \c use serial number of first page
@@ -415,6 +443,19 @@ OggFLAC_API OggFLAC__StreamDecoderState OggFLAC__stream_decoder_get_state(const 
  *    The FLAC stream decoder state.
  */
 OggFLAC_API FLAC__StreamDecoderState OggFLAC__stream_decoder_get_FLAC_stream_decoder_state(const OggFLAC__StreamDecoder *decoder);
+
+/** Get the current decoder state as a C string.
+ *  This version automatically resolves
+ *  \c OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR
+ *  by getting the FLAC stream decoder's state.
+ *
+ * \param  decoder  A decoder instance to query.
+ * \assert
+ *    \code decoder != NULL \endcode
+ * \retval const char *
+ *    The decoder state as a C string.  Do not modify the contents.
+ */
+OggFLAC_API const char *OggFLAC__stream_decoder_get_resolved_state_string(const OggFLAC__StreamDecoder *decoder);
 
 /** This is inherited from FLAC__StreamDecoder; see FLAC__stream_decoder_get_channels()
  *

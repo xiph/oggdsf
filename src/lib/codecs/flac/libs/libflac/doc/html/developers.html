@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<!-- Copyright (c)  2000,2001,2002,2003  Josh Coalson -->
+<!-- Copyright (c)  2000,2001,2002,2003,2004  Josh Coalson -->
 <!-- Permission is granted to copy, distribute and/or modify this document -->
 <!-- under the terms of the GNU Free Documentation License, Version 1.1 -->
 <!-- or any later version published by the Free Software Foundation; -->
@@ -14,7 +14,7 @@
 
 <TABLE BORDER=0 WIDTH="100%" CELLPADDING=1 CELLSPACING=0>
 	<TR>
-		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo.jpg" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
+		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo130.gif" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
 	</TR>
 </TABLE>
 
@@ -28,6 +28,7 @@
 			<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
 				<TR>
 					<TD HEIGHT=22 BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="index.html">home</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="faq.html">faq</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="news.html">news</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="download.html">download</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="features.html">features</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
@@ -36,6 +37,8 @@
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="id.html">id</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="comparison.html">comparison</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="documentation.html">documentation</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="changelog.html">changelog</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="links.html">links</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;developers&nbsp;&nbsp;</TD>
 				</TR>
 			</TABLE>
@@ -85,12 +88,6 @@
 	<P>
 	<UL>
 		<LI>
-			A Windows installer.
-		</LI>
-		<LI>
-			Improving the compression methods.
-		</LI>
-		<LI>
 			Support in the plugins for using the CUESHEET metadata block.  The plugin should be able to see a CUESHEET in a FLAC file and present the individual tracks in the player, and fetch metadata from CDDB or CDindex by computing the hash from the CUESHEET and looking up either in a local database or over the net.
 		</LI>
 	</UL>
@@ -101,16 +98,13 @@
 	<P>
 	<UL>
 		<LI>
-			FLAC module for <A HREF="http://oss.sgi.com/projects/audiofile/">Audiofile</A>.
+			FLAC module for <A HREF="http://www.68k.org/~michael/audiofile/">Audiofile</A>.
 		</LI>
 		<LI>
 			<A HREF="http://java.sun.com/products/java-media/jmf/">JMF</A> plugin.
 		</LI>
 		<LI>
 			Streaming support in the plugins.
-		</LI>
-		<LI>
-			A better logo!  Gimp jedi I'm not...
 		</LI>
 	</UL>
 	</P>
@@ -134,15 +128,17 @@
 	<TABLE CELLSPACING="0" CELLPADDING="3" WIDTH="100%" BORDER="0" BGCOLOR="#EEEED4">
 	<TR><TD><FONT FACE="Lucida,Verdana,Helvetica,Arial">
 	<P>
-		FLAC is open to third-party developers who want to add support for FLAC into their programs.  All the necessary functionality is contained the libraries libFLAC or libFLAC++ which are licensed under the <A HREF="http://www.gnu.org/copyleft/lesser.html">LGPL</A>.  The relevant documentation here is:
+		FLAC is open to third-party developers who want to add support for FLAC into their programs.  All the necessary functionality is contained the lib*FLAC libraries which are licensed under Xiph.org's BSD license.  The relevant documentation here is:
 		<UL>
-			<LI>The <A HREF="api/index.html">libFLAC and libFLAC++ API documentation</A></LI>
+			<LI>The <A HREF="license.html">license page</A>.</LI>
+			<LI>The <A HREF="api/index.html">API documentation</A>.</LI>
 			<LI>The <A HREF="format.html">formal description</A> of the FLAC format.</LI>
+			<LI>The <A HREF="ogg_mapping.html">Ogg FLAC mapping</A> document.</LI>
 			<LI>The <A HREF="id.html">ID registration page</A> for registering an ID if you need to write custom metadata.</LI>
 		</UL>
 	</P>
 	<P>
-		There also are several examples in the FLAC code base of the use of libFLAC and libFLAC++ that may also be helpful.  Visit the <A HREF="download.html">download page</A> for instructions on how to get the source.
+		There also are several examples in the FLAC code base of API usage that may also be helpful.  Visit the <A HREF="download.html">download page</A> for instructions on how to get the source.
 	</P>
 	</FONT>
 	</TD></TR>
@@ -154,7 +150,7 @@
 
 </CENTER>
 
-<P>&nbsp;Copyright (c) 2000,2001,2002,2003 Josh Coalson</P>
+<P>&nbsp;Copyright (c) 2000,2001,2002,2003,2004 Josh Coalson</P>
 
 </BODY>
 </HTML>

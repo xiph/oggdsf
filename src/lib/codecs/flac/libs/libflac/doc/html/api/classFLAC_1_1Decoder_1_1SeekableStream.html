@@ -24,13 +24,13 @@ bool&nbsp;</td><td valign=bottom><b>is_valid</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a4" doxytag="FLAC::Decoder::SeekableStream::set_md5_checking"></a>
 bool&nbsp;</td><td valign=bottom><b>set_md5_checking</b> (bool value)</td></tr>
 <tr><td nowrap align=right valign=top><a name="a5" doxytag="FLAC::Decoder::SeekableStream::set_metadata_respond"></a>
-bool&nbsp;</td><td valign=bottom><b>set_metadata_respond</b> (::<a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> type)</td></tr>
+bool&nbsp;</td><td valign=bottom><b>set_metadata_respond</b> (::<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top><a name="a6" doxytag="FLAC::Decoder::SeekableStream::set_metadata_respond_application"></a>
 bool&nbsp;</td><td valign=bottom><b>set_metadata_respond_application</b> (const FLAC__byte id[4])</td></tr>
 <tr><td nowrap align=right valign=top><a name="a7" doxytag="FLAC::Decoder::SeekableStream::set_metadata_respond_all"></a>
 bool&nbsp;</td><td valign=bottom><b>set_metadata_respond_all</b> ()</td></tr>
 <tr><td nowrap align=right valign=top><a name="a8" doxytag="FLAC::Decoder::SeekableStream::set_metadata_ignore"></a>
-bool&nbsp;</td><td valign=bottom><b>set_metadata_ignore</b> (::<a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> type)</td></tr>
+bool&nbsp;</td><td valign=bottom><b>set_metadata_ignore</b> (::<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top><a name="a9" doxytag="FLAC::Decoder::SeekableStream::set_metadata_ignore_application"></a>
 bool&nbsp;</td><td valign=bottom><b>set_metadata_ignore_application</b> (const FLAC__byte id[4])</td></tr>
 <tr><td nowrap align=right valign=top><a name="a10" doxytag="FLAC::Decoder::SeekableStream::set_metadata_ignore_all"></a>
@@ -44,7 +44,7 @@ bool&nbsp;</td><td valign=bottom><b>get_md5_checking</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a14" doxytag="FLAC::Decoder::SeekableStream::get_channels"></a>
 unsigned&nbsp;</td><td valign=bottom><b>get_channels</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a15" doxytag="FLAC::Decoder::SeekableStream::get_channel_assignment"></a>
-::<a class="el" href="group__flac__format.html#a91">FLAC__ChannelAssignment</a>&nbsp;</td><td valign=bottom><b>get_channel_assignment</b> () const</td></tr>
+::<a class="el" href="group__flac__format.html#a92">FLAC__ChannelAssignment</a>&nbsp;</td><td valign=bottom><b>get_channel_assignment</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a16" doxytag="FLAC::Decoder::SeekableStream::get_bits_per_sample"></a>
 unsigned&nbsp;</td><td valign=bottom><b>get_bits_per_sample</b> () const</td></tr>
 <tr><td nowrap align=right valign=top><a name="a17" doxytag="FLAC::Decoder::SeekableStream::get_sample_rate"></a>
@@ -65,25 +65,27 @@ bool&nbsp;</td><td valign=bottom><b>process_single</b> ()</td></tr>
 bool&nbsp;</td><td valign=bottom><b>process_until_end_of_metadata</b> ()</td></tr>
 <tr><td nowrap align=right valign=top><a name="a25" doxytag="FLAC::Decoder::SeekableStream::process_until_end_of_stream"></a>
 bool&nbsp;</td><td valign=bottom><b>process_until_end_of_stream</b> ()</td></tr>
-<tr><td nowrap align=right valign=top><a name="a26" doxytag="FLAC::Decoder::SeekableStream::seek_absolute"></a>
+<tr><td nowrap align=right valign=top><a name="a26" doxytag="FLAC::Decoder::SeekableStream::skip_single_frame"></a>
+bool&nbsp;</td><td valign=bottom><b>skip_single_frame</b> ()</td></tr>
+<tr><td nowrap align=right valign=top><a name="a27" doxytag="FLAC::Decoder::SeekableStream::seek_absolute"></a>
 bool&nbsp;</td><td valign=bottom><b>seek_absolute</b> (FLAC__uint64 sample)</td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="b0" doxytag="FLAC::Decoder::SeekableStream::read_callback"></a>
-<a class="el" href="group__flac__seekable__stream__decoder.html#a50">virtual::FLAC__SeekableStreamDecoderReadStatus</a>&nbsp;</td><td valign=bottom><b>read_callback</b> (FLAC__byte buffer[], unsigned *bytes)=0</td></tr>
+<a class="el" href="group__flac__seekable__stream__decoder.html#a51">virtual::FLAC__SeekableStreamDecoderReadStatus</a>&nbsp;</td><td valign=bottom><b>read_callback</b> (FLAC__byte buffer[], unsigned *bytes)=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b1" doxytag="FLAC::Decoder::SeekableStream::seek_callback"></a>
-<a class="el" href="group__flac__seekable__stream__decoder.html#a51">virtual::FLAC__SeekableStreamDecoderSeekStatus</a>&nbsp;</td><td valign=bottom><b>seek_callback</b> (FLAC__uint64 absolute_byte_offset)=0</td></tr>
+<a class="el" href="group__flac__seekable__stream__decoder.html#a52">virtual::FLAC__SeekableStreamDecoderSeekStatus</a>&nbsp;</td><td valign=bottom><b>seek_callback</b> (FLAC__uint64 absolute_byte_offset)=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b2" doxytag="FLAC::Decoder::SeekableStream::tell_callback"></a>
-<a class="el" href="group__flac__seekable__stream__decoder.html#a52">virtual::FLAC__SeekableStreamDecoderTellStatus</a>&nbsp;</td><td valign=bottom><b>tell_callback</b> (FLAC__uint64 *absolute_byte_offset)=0</td></tr>
+<a class="el" href="group__flac__seekable__stream__decoder.html#a53">virtual::FLAC__SeekableStreamDecoderTellStatus</a>&nbsp;</td><td valign=bottom><b>tell_callback</b> (FLAC__uint64 *absolute_byte_offset)=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b3" doxytag="FLAC::Decoder::SeekableStream::length_callback"></a>
-<a class="el" href="group__flac__seekable__stream__decoder.html#a53">virtual::FLAC__SeekableStreamDecoderLengthStatus</a>&nbsp;</td><td valign=bottom><b>length_callback</b> (FLAC__uint64 *stream_length)=0</td></tr>
+<a class="el" href="group__flac__seekable__stream__decoder.html#a54">virtual::FLAC__SeekableStreamDecoderLengthStatus</a>&nbsp;</td><td valign=bottom><b>length_callback</b> (FLAC__uint64 *stream_length)=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b4" doxytag="FLAC::Decoder::SeekableStream::eof_callback"></a>
 virtual bool&nbsp;</td><td valign=bottom><b>eof_callback</b> ()=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b5" doxytag="FLAC::Decoder::SeekableStream::write_callback"></a>
-<a class="el" href="group__flac__stream__decoder.html#a36">virtual::FLAC__StreamDecoderWriteStatus</a>&nbsp;</td><td valign=bottom><b>write_callback</b> (const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</td></tr>
+<a class="el" href="group__flac__stream__decoder.html#a38">virtual::FLAC__StreamDecoderWriteStatus</a>&nbsp;</td><td valign=bottom><b>write_callback</b> (const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b6" doxytag="FLAC::Decoder::SeekableStream::metadata_callback"></a>
 virtual void&nbsp;</td><td valign=bottom><b>metadata_callback</b> (const::FLAC__StreamMetadata *metadata)=0</td></tr>
 <tr><td nowrap align=right valign=top><a name="b7" doxytag="FLAC::Decoder::SeekableStream::error_callback"></a>
-virtual void&nbsp;</td><td valign=bottom><b>error_callback</b> (::<a class="el" href="group__flac__stream__decoder.html#a37">FLAC__StreamDecoderErrorStatus</a> status)=0</td></tr>
+virtual void&nbsp;</td><td valign=bottom><b>error_callback</b> (::<a class="el" href="group__flac__stream__decoder.html#a39">FLAC__StreamDecoderErrorStatus</a> status)=0</td></tr>
 <tr><td colspan=2><br><h2>Protected Attributes</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="n0" doxytag="FLAC::Decoder::SeekableStream::decoder_"></a>
 ::<a class="el" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *&nbsp;</td><td valign=bottom><b>decoder_</b></td></tr>
@@ -93,7 +95,7 @@ This class wraps the FLAC__SeekableStreamDecoder.
 <p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>include/FLAC++/<a class="el" href="FLAC++_2decoder_8h-source.html">decoder.h</a></ul>
-<hr><address><small>Generated on Sat Jan 25 10:44:59 2003 for FLAC by
+<hr><address><small>Generated on Tue Sep 28 21:19:46 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -137,6 +137,7 @@ static FLAC__bool generate_file_()
 static FLAC__StreamDecoderReadStatus stream_decoder_read_callback_(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)
 {
 	stream_decoder_client_data_struct *dcd = (stream_decoder_client_data_struct*)client_data;
+	const unsigned requested_bytes = *bytes;
 
 	(void)decoder;
 
@@ -148,18 +149,19 @@ static FLAC__StreamDecoderReadStatus stream_decoder_read_callback_(const FLAC__S
 	if(dcd->error_occurred)
 		return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
 
-	if(feof(dcd->file))
+	if(feof(dcd->file)) {
+		*bytes = 0;
 		return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
-	else if(*bytes > 0) {
-		unsigned bytes_read = fread(buffer, 1, *bytes, dcd->file);
-		if(bytes_read == 0) {
+	}
+	else if(requested_bytes > 0) {
+		*bytes = fread(buffer, 1, requested_bytes, dcd->file);
+		if(*bytes == 0) {
 			if(feof(dcd->file))
 				return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
 			else
-				return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
+				return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
 		}
 		else {
-			*bytes = bytes_read;
 			return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 		}
 	}
@@ -381,6 +383,11 @@ static FLAC__bool test_stream_decoder()
 
 	printf("testing FLAC__stream_decoder_process_single()... ");
 	if(!FLAC__stream_decoder_process_single(decoder))
+		return die_s_("returned false", decoder);
+	printf("OK\n");
+
+	printf("testing FLAC__stream_decoder_skip_single_frame()... ");
+	if(!FLAC__stream_decoder_skip_single_frame(decoder))
 		return die_s_("returned false", decoder);
 	printf("OK\n");
 
@@ -1091,6 +1098,11 @@ static FLAC__bool test_seekable_stream_decoder()
 		return die_ss_("returned false", decoder);
 	printf("OK\n");
 
+	printf("testing FLAC__seekable_stream_decoder_skip_single_frame()... ");
+	if(!FLAC__seekable_stream_decoder_skip_single_frame(decoder))
+		return die_ss_("returned false", decoder);
+	printf("OK\n");
+
 	printf("testing FLAC__seekable_stream_decoder_flush()... ");
 	if(!FLAC__seekable_stream_decoder_flush(decoder))
 		return die_ss_("returned false", decoder);
@@ -1659,6 +1671,11 @@ static FLAC__bool test_file_decoder()
 
 	printf("testing FLAC__file_decoder_process_single()... ");
 	if(!FLAC__file_decoder_process_single(decoder))
+		return die_f_("returned false", decoder);
+	printf("OK\n");
+
+	printf("testing FLAC__file_decoder_skip_single_frame()... ");
+	if(!FLAC__file_decoder_skip_single_frame(decoder))
 		return die_f_("returned false", decoder);
 	printf("OK\n");
 

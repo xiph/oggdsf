@@ -1,20 +1,32 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -171,7 +183,7 @@ FLAC__bool FLAC__add_metadata_block(const FLAC__StreamMetadata *metadata, FLAC__
 	return true;
 }
 
-FLAC__bool FLAC__frame_add_header(const FLAC__FrameHeader *header, FLAC__bool streamable_subset, FLAC__bool is_last_block, FLAC__BitBuffer *bb)
+FLAC__bool FLAC__frame_add_header(const FLAC__FrameHeader *header, FLAC__bool streamable_subset, FLAC__BitBuffer *bb)
 {
 	unsigned u, blocksize_hint, sample_rate_hint;
 
@@ -184,6 +196,8 @@ FLAC__bool FLAC__frame_add_header(const FLAC__FrameHeader *header, FLAC__bool st
 		return false;
 
 	FLAC__ASSERT(header->blocksize > 0 && header->blocksize <= FLAC__MAX_BLOCK_SIZE);
+	/* when this assertion holds true, any legal blocksize can be expressed in the frame header */
+	FLAC__ASSERT(FLAC__MAX_BLOCK_SIZE <= 65535u);
 	blocksize_hint = 0;
 	switch(header->blocksize) {
 		case   192: u = 1; break;
@@ -200,14 +214,14 @@ FLAC__bool FLAC__frame_add_header(const FLAC__FrameHeader *header, FLAC__bool st
 		case 16384: u = 14; break;
 		case 32768: u = 15; break;
 		default:
-			if(streamable_subset || is_last_block) {
-				if(header->blocksize <= 0x100)
-					blocksize_hint = u = 6;
-				else
-					blocksize_hint = u = 7;
+			if(header->blocksize <= 0x100)
+				blocksize_hint = u = 6;
+			else if(header->blocksize <= 0x10000)
+				blocksize_hint = u = 7;
+			else {
+				FLAC__ASSERT(0);
+				return false;
 			}
-			else
-				u = 0;
 			break;
 	}
 	if(!FLAC__bitbuffer_write_raw_uint32(bb, u, FLAC__FRAME_HEADER_BLOCK_SIZE_LEN))
@@ -225,13 +239,15 @@ FLAC__bool FLAC__frame_add_header(const FLAC__FrameHeader *header, FLAC__bool st
 		case 48000: u = 10; break;
 		case 96000: u = 11; break;
 		default:
-			if(streamable_subset) {
-				if(header->sample_rate % 1000 == 0)
-					sample_rate_hint = u = 12;
-				else if(header->sample_rate % 10 == 0)
-					sample_rate_hint = u = 14;
-				else
-					sample_rate_hint = u = 13;
+			if(header->sample_rate <= 255000 && header->sample_rate % 1000 == 0)
+				sample_rate_hint = u = 12;
+			else if(header->sample_rate % 10 == 0)
+				sample_rate_hint = u = 14;
+			else if(header->sample_rate <= 0xffff)
+				sample_rate_hint = u = 13;
+			else if(streamable_subset) {
+				FLAC__ASSERT(0);
+				return false;
 			}
 			else
 				u = 0;

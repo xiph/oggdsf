@@ -4,7 +4,7 @@
   <!ENTITY dhfirstname "<firstname>Matt</firstname>">
   <!ENTITY dhsurname   "<surname>Zimmerman</surname>">
   <!-- Please adjust the date whenever revising the manpage. -->
-  <!ENTITY dhdate      "<date>January 10, 2003</date>">
+  <!ENTITY dhdate      "<date>July 29, 2004</date>">
   <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
        allowed: see man(7), man(1). -->
   <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
@@ -27,7 +27,7 @@
 	&dhsurname;
       </author>
 	<copyright>
-		    <year>2002,2003</year>
+		    <year>2002,2003,2004</year>
 		    <holder>&dhusername;</holder>
 	</copyright>
 	    &dhdate;
@@ -45,22 +45,35 @@
 	<refsynopsisdiv>
 	  <cmdsynopsis>
 	    <command>flac</command>
-
-	    <arg><option><replaceable>OPTION</replaceable></option></arg>
-	    <arg choice=plain><replaceable>infile</replaceable></arg>
-	    <arg choice=plain><replaceable>...</replaceable></arg>
+	    <arg choice=opt><replaceable>options</replaceable></arg>
+	    <group rep=repeat>
+               <arg><replaceable>infile.wav</replaceable></arg>
+               <arg><replaceable>infile.aiff</replaceable></arg>
+               <arg><replaceable>infile.raw</replaceable></arg>
+               <arg>-</arg>
+            </group>
+	  </cmdsynopsis>
+	  <cmdsynopsis>
+	    <command>flac</command>
+            <group>
+               <arg>-d</arg> <arg>--decode</arg>
+               <arg>-t</arg> <arg>--test</arg>
+               <arg>-a</arg> <arg>--analyze</arg>
+            </group>
+	    <arg choice=opt><replaceable>OPTIONS</replaceable></arg>
+	    <arg choice=opt rep=repeat><replaceable>infile.flac</replaceable></arg>
 	  </cmdsynopsis>
 	</refsynopsisdiv>
 	<refsect1>
 	  <title>DESCRIPTION</title>
 
-	  <para>This manual page documents briefly the
-	    <command>flac</command> command.</para>
+	  <para><command>flac</command> is a command-line tool for
+             encoding, decoding, testing and analyzing FLAC streams.
+          </para>
 
-	  <para>This manual page was written for the &debian;
-	    distribution because the original program does not have a
-	    manual page.  Instead, it has documentation in HTML
-	    format; see below.</para>
+	  <para>This manual page was originally written for the &debian;
+	    distribution because the original program did not have a
+	    manual page.</para>
 
 	</refsect1>
 	<refsect1>
@@ -118,18 +131,18 @@
 		<term><option>-a</option>, <option>--analyze</option>
 		</term>
 		<listitem>
-		  <para>Analyze a flac encoded file (same as -d
+		  <para>Analyze a FLAC encoded file (same as -d
 		    except an analysis file is written)</para>
 		</listitem>
 	      </varlistentry>
 
-              <varlistentry>
-	        <term><option>-c</option>, <option>--stdout</option>
-                </term>
-                <listitem>
-                  <para>Write output to stdout</para>
-                </listitem>
-              </varlistentry>
+	      <varlistentry>
+		<term><option>-c</option>, <option>--stdout</option>
+		</term>
+		<listitem>
+		  <para>Write output to stdout</para>
+		</listitem>
+	      </varlistentry>
 
 	      <varlistentry>
 		<term><option>-s</option>, <option>--silent</option>
@@ -137,6 +150,27 @@
 		<listitem>
 		  <para>Silent mode (do not write runtime
 		    encode/decode statistics to stderr)</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><option>--totally-silent</option>
+		</term>
+		<listitem>
+		  <para>Do not print anything of any kind,
+		    including warnings or errors.  The exit
+		    code will be the only way to determine
+		    successful completion.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><option>-f</option>, <option>--force</option>
+		</term>
+		<listitem>
+		  <para>Force overwriting of output files.  By default,
+		    flac warns that the output file already exists and
+		    continues to the next file.</para>
 		</listitem>
 	      </varlistentry>
 
@@ -202,13 +236,13 @@
 		<term><option>--ogg</option></term>
 
 		<listitem>
-		  <para>When encoding, generate Ogg-FLAC output instead
-		    of native-FLAC.  Ogg-FLAC streams are FLAC streams
+		  <para>When encoding, generate Ogg FLAC output instead
+		    of native FLAC.  Ogg FLAC streams are FLAC streams
 		    wrapped in an Ogg transport layer.  The resulting
 		    file should have an '.ogg' extension and will still
 		    be decodable by flac.</para>
 		  <para>When decoding, force the input to be treated as
-		    Ogg-FLAC.  This is useful when piping input from
+		    Ogg FLAC.  This is useful when piping input from
 		    stdin or when the filename does not end in '.ogg'.</para>
 		</listitem>
 	      </varlistentry>
@@ -217,11 +251,13 @@
 		<term><option>--serial-number</option>=<replaceable>#</replaceable></term>
 
 		<listitem>
-		  <para>When used with --ogg, specifies the serial
-		    number to use for the FLAC stream.  When encoding and
-		    no serial number is given, flac uses '0'.  When
-		    decoding and no number is given, flac uses the serial
-		    number of the first page.</para>
+		  <para>When used with --ogg, specifies the serial number to
+		    use for the first Ogg FLAC stream, which is then
+		    incremented for each additional stream.  When encoding and
+		    no serial number is given, flac uses a random number for
+		    the first stream, then increments it for each additional
+		    stream.  When decoding and no number is given, flac uses
+		    the serial number of the first page.</para>
 		</listitem>
 	      </varlistentry>
 
@@ -260,6 +296,24 @@
 	    <title>Decoding Options</title>
 
 	    <variablelist>
+	      <varlistentry>
+		<term><option>--cue=[<replaceable>#.#</replaceable>][-[<replaceable>#.#</replaceable>]]</option></term>
+		<listitem>
+		  <para>Set the beginning and ending cuepoints to decode.
+		    The optional first #.# is the track and index point at
+		    which decoding will start; the default is the beginning
+		    of the stream.  The optional second #.# is the track
+		    and index point at which decoding will end; the default
+		    is the end of the stream.  If the seekpoint does not
+		    exist, the closest one before it (for the start point)
+		    or after it (for the end point) will be used.  If those
+		    don't exist, the start of the stream (for the start
+		    point) or end of the stream (for the end point) will be
+		    used.  The cuepoints are merely translated into sample
+		    numbers then used as --skip and --until.</para>
+		</listitem>
+	      </varlistentry>
+
 	      <varlistentry>
 		<term><option>-F</option>, <option>--decode-through-errors</option>
 		</term>

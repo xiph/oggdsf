@@ -75,7 +75,7 @@
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a25">FLAC__stream_encoder_set_metadata_callback</a> (<a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder, <a class="el" href="group__flac__stream__encoder.html#a3">FLAC__StreamEncoderMetadataCallback</a> value)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a26">FLAC__stream_encoder_set_client_data</a> (<a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder, void *value)</td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="group__flac__stream__encoder.html#a52">FLAC__StreamEncoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a27">FLAC__stream_encoder_get_state</a> (const <a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder)</td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="group__flac__stream__decoder.html#a34">FLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a28">FLAC__stream_encoder_get_verify_decoder_state</a> (const <a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="group__flac__stream__decoder.html#a36">FLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a28">FLAC__stream_encoder_get_verify_decoder_state</a> (const <a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder)</td></tr>
 <tr><td nowrap align=right valign=top>const char *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a29">FLAC__stream_encoder_get_resolved_state_string</a> (const <a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder)</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a30">FLAC__stream_encoder_get_verify_decoder_error_stats</a> (const <a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__stream__encoder.html#a31">FLAC__stream_encoder_get_verify</a> (const <a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *encoder)</td></tr>
@@ -173,7 +173,7 @@ The callee's client data set through <a class="el" href="group__flac__stream__en
 </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>FLAC__StreamDecoderWriteStatus</em>&nbsp;</td><td>
+<tr><td valign=top><em>FLAC__StreamEncoderWriteStatus</em>&nbsp;</td><td>
 The callee's return status. </td></tr>
 </table>
 </dl>    </td>
@@ -1427,7 +1427,7 @@ Note: </b><dd>
 Note: </b><dd>
  The STREAMINFO block is always written and no STREAMINFO block may occur in the supplied array.</dl><dl compact><dt><b>
 Note: </b><dd>
- By default the encoder does not create a SEEKTABLE. If one is supplied in the <em>metadata</em> array it will be written verbatim. However by itself this is not very useful as the user will not know the stream offsets for the seekpoints ahead of time. You must use the seekable stream encoder to generate a legal seektable (see <a class="el" href="group__flac__seekable__stream__encoder.html#a23">FLAC__seekable_stream_encoder_set_metadata</a>())</dl><dl compact><dt><b>
+ By default the encoder does not create a SEEKTABLE. If one is supplied in the <em>metadata</em> array it will be written verbatim. However by itself this is not very useful as the user will not know the stream offsets for the seekpoints ahead of time. You must use the seekable stream encoder to generate a legal seektable (see <a class="el" href="group__flac__seekable__stream__encoder.html#a25">FLAC__seekable_stream_encoder_set_metadata</a>())</dl><dl compact><dt><b>
 Note: </b><dd>
  A VORBIS_COMMENT block may be supplied. The vendor string in it will be ignored. libFLAC will use it's own vendor string. libFLAC will not modify the passed-in VORBIS_COMMENT's vendor string, it will simply write it's own into the stream. If no VORBIS_COMMENT block is present in the <em>metadata</em> array, libFLAC will write an empty one, containing only the vendor string.</dl><dl compact><dt><b>
 Default Value:</b><dd>
@@ -1686,7 +1686,7 @@ The current encoder state. </td></tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> <a class="el" href="group__flac__stream__decoder.html#a34">FLAC__StreamDecoderState</a> FLAC__stream_encoder_get_verify_decoder_state </td>
+          <td class="md" nowrap valign="top"> <a class="el" href="group__flac__stream__decoder.html#a36">FLAC__StreamDecoderState</a> FLAC__stream_encoder_get_verify_decoder_state </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const <a class="el" href="structFLAC____StreamEncoder.html">FLAC__StreamEncoder</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>encoder</em>          </td>
@@ -2868,7 +2868,7 @@ Maps a FLAC__StreamEncoderWriteStatus to a C string.
 Using a FLAC__StreamEncoderWriteStatus as the index to this array will give the string equivalent. The contents should not be modified.     </td>
   </tr>
 </table>
-<hr><address><small>Generated on Sat Jan 25 10:44:57 2003 for FLAC by
+<hr><address><small>Generated on Tue Sep 28 21:19:45 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

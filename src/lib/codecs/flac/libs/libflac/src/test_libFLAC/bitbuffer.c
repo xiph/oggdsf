@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2000,2001,2002,2003  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +20,13 @@
 #include "private/bitbuffer.h" /* from the libFLAC private include area */
 #include <stdio.h>
 #include <string.h> /* for memcmp() */
+
+/* adjust for compilers that can't understand using LLU suffix for uint64_t literals */
+#ifdef _MSC_VER
+#define FLAC__U64L(x) x
+#else
+#define FLAC__U64L(x) x##LLU
+#endif
 
 /*
  * WATCHOUT!  Since FLAC__BitBuffer is a private structure, we use a copy of
@@ -174,7 +181,7 @@ FLAC__bool test_bitbuffer()
 		FLAC__bitbuffer_write_zeroes(bb, 4) &&
 		FLAC__bitbuffer_write_raw_uint32(bb, 0x3, 2) &&
 		FLAC__bitbuffer_write_zeroes(bb, 8) &&
-		FLAC__bitbuffer_write_raw_uint64(bb, 0xaaaaaaaadeadbeef, 64) &&
+		FLAC__bitbuffer_write_raw_uint64(bb, FLAC__U64L(0xaaaaaaaadeadbeef), 64) &&
 		FLAC__bitbuffer_write_raw_uint32(bb, 0xace, 12)
 	;
 	if(!ok) {
@@ -674,7 +681,7 @@ FLAC__bool test_bitbuffer()
 
 	printf("testing utf8_uint64(0x0000000FFFFFFFFF)... ");
 	FLAC__bitbuffer_clear(bb);
-	FLAC__bitbuffer_write_utf8_uint64(bb, 0x0000000FFFFFFFFF);
+	FLAC__bitbuffer_write_utf8_uint64(bb, FLAC__U64L(0x0000000FFFFFFFFF));
 	ok = bb->total_bits == 56 && bb->buffer[0] == 0xFE && bb->buffer[1] == 0xBF && bb->buffer[2] == 0xBF && bb->buffer[3] == 0xBF && bb->buffer[4] == 0xBF && bb->buffer[5] == 0xBF && bb->buffer[6] == 0xBF;
 	printf("%s\n", ok?"OK":"FAILED");
 	if(!ok) {

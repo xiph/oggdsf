@@ -4,7 +4,7 @@
 dnl AM_PATH_LIBOGGFLAC([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl Test for libOggFLAC, and define LIBOGGFLAC_CFLAGS and LIBOGGFLAC_LIBS
 dnl
-AC_DEFUN(AM_PATH_LIBOGGFLAC,
+AC_DEFUN([AM_PATH_LIBOGGFLAC],
 [dnl 
 dnl Get the cflags and libraries
 dnl
@@ -18,7 +18,7 @@ AC_ARG_ENABLE(libOggFLACtest, [  --disable-libOggFLACtest       Do not try to co
   elif test "x$libOggFLAC_prefix" != "x" ; then
     LIBOGGFLAC_LIBS="-L$libOggFLAC_prefix/lib"
   elif test "x$prefix" != "xNONE" ; then
-    LIBOGGFLAC_LIBS="-L$prefix/lib"
+    LIBOGGFLAC_LIBS="-L$libdir"
   fi
 
   LIBOGGFLAC_LIBS="$LIBOGGFLAC_LIBS -lOggFLAC -lFLAC -lm"

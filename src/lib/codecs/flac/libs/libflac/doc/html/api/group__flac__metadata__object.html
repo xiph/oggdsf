@@ -12,7 +12,7 @@
 </h1>This module contains methods for manipulating FLAC metadata objects. 
 <a href="#_details">More...</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Functions</h2></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a0">FLAC__metadata_object_new</a> (<a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> type)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a0">FLAC__metadata_object_new</a> (<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a1">FLAC__metadata_object_clone</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a2">FLAC__metadata_object_delete</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a3">FLAC__metadata_object_is_equal</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block1, const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block2)</td></tr>
@@ -71,7 +71,7 @@ There is no need to recalculate the length field on metadata blocks you have mod
         <tr>
           <td class="md" nowrap valign="top"> <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a>* FLAC__metadata_object_new </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a>&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>type</em>          </td>
           <td class="md" valign="top">)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -103,7 +103,7 @@ Type of object to create </td></tr>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a></em>&nbsp;</td><td>
-* <code>NULL</code> if there was an error allocating memory, else the new instance. </td></tr>
+* <code>NULL</code> if there was an error allocating memory or the type code is greater than FLAC__MAX_METADATA_TYPE_CODE, else the new instance. </td></tr>
 </table>
 </dl>    </td>
   </tr>
@@ -316,7 +316,7 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a98">FLAC__METADATA_TYPE_APPLICATION</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a99">FLAC__METADATA_TYPE_APPLICATION</a> 
 </pre></div> <div class="fragment"><pre>(data != NULL &amp;&amp; length &gt; 0) ||
  (data == NULL &amp;&amp; length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
 </pre></div> </dl><dl compact><dt><b>
@@ -376,7 +376,7 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.seek_table.points == NULL &amp;&amp; object-&gt;data.seek_table.num_points == 0) ||
  (object-&gt;data.seek_table.points != NULL &amp;&amp; object-&gt;data.seek_table.num_points &gt; 0) 
 </pre></div> </dl><dl compact><dt><b>
@@ -442,7 +442,7 @@ The point to set. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.seek_table.num_points &gt; point_num 
 </pre></div> </dl>    </td>
   </tr>
@@ -501,7 +501,7 @@ The point to set. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.seek_table.num_points &gt;= point_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
@@ -558,7 +558,7 @@ Index into seekpoint array to set. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.seek_table.num_points &gt; point_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
@@ -604,7 +604,7 @@ A pointer to an existing SEEKTABLE object. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -664,7 +664,7 @@ The number of placeholder points to append. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -724,7 +724,7 @@ The sample number of the seek point template. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -792,7 +792,7 @@ The number of seek point templates to append. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -860,7 +860,7 @@ The total number of samples to be encoded; the seekpoints will be spaced approxi
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -916,7 +916,7 @@ If <code>false</code>, behaves like <a class="el" href="group__flac__format.html
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a99">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -982,9 +982,9 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
- (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
+ (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1042,7 +1042,7 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.vorbis_comment.comments == NULL &amp;&amp; object-&gt;data.vorbis_comment.num_comments == 0) ||
  (object-&gt;data.vorbis_comment.comments != NULL &amp;&amp; object-&gt;data.vorbis_comment.num_comments &gt; 0) 
 </pre></div> </dl><dl compact><dt><b>
@@ -1118,10 +1118,10 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>comment_num &lt; object-&gt;data.vorbis_comment.num_comments 
 </pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
- (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
+ (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1195,7 +1195,7 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.vorbis_comment.num_comments &gt;= comment_num 
 </pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
  (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
@@ -1254,7 +1254,7 @@ The index of the comment to delete. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.vorbis_comment.num_comments &gt; comment_num 
 </pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
  (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
@@ -1374,7 +1374,7 @@ Return values: </b><dd>
 <p>
 Find a Vorbis comment with the given field name.
 <p>
-The search begins at entry number <em>offset</em>; use and offset of 0 to search from the beginning of the comment array.<dl compact><dt><b>
+The search begins at entry number <em>offset</em>; use an offset of 0 to search from the beginning of the comment array.<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
@@ -1387,7 +1387,7 @@ The field name of the comment to find. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1443,7 +1443,7 @@ The field name of comment to delete. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1499,7 +1499,7 @@ The field name of comments to delete. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a100">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1685,7 +1685,7 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.cue_sheet.tracks[track_num].indices == NULL &amp;&amp; object-&gt;data.cue_sheet.tracks[track_num].num_indices == 0) ||
  (object-&gt;data.cue_sheet.tracks[track_num].indices != NULL &amp;&amp; object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt; 0) 
@@ -1760,7 +1760,7 @@ The index point to insert. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt;= index_num 
 </pre></div> </dl><dl compact><dt><b>
@@ -1828,7 +1828,7 @@ The index into the track's index array at which to insert the index point. NOTE:
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt;= index_num 
 </pre></div> </dl><dl compact><dt><b>
@@ -1894,7 +1894,7 @@ The index into the track's index array of the index to delete. NOTE: this is not
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt; index_num 
 </pre></div> </dl><dl compact><dt><b>
@@ -1954,7 +1954,7 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.cue_sheet.tracks == NULL &amp;&amp; object-&gt;data.cue_sheet.num_tracks == 0) ||
  (object-&gt;data.cue_sheet.tracks != NULL &amp;&amp; object-&gt;data.cue_sheet.num_tracks &gt; 0) 
 </pre></div> </dl><dl compact><dt><b>
@@ -2030,7 +2030,7 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>track_num &lt; object-&gt;data.cue_sheet.num_tracks 
 </pre></div> <div class="fragment"><pre>(track-&gt;indices != NULL &amp;&amp; track-&gt;num_indices &gt; 0) ||
  (track-&gt;indices == NULL &amp;&amp; track-&gt;num_indices == 0)
@@ -2038,7 +2038,7 @@ Assertions:</b><dd>
     \c <font class="keyword">false</font> <font class="keywordflow">if</font> \a copy is \c <font class="keyword">true</font> and malloc fails, <font class="keywordflow">else</font> \c <font class="keyword">true</font>.
  */
    FLAC__bool FLAC__metadata_object_cuesheet_set_track(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy);
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt;= track_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
@@ -2097,7 +2097,7 @@ The index at which to insert the track. NOTE: this is not necessarily the same a
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt;= track_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
@@ -2154,7 +2154,7 @@ The index into the track array of the track to delete. NOTE: this is not necessa
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
@@ -2219,7 +2219,7 @@ Address of a pointer to a string. If there is a violation, a pointer to a string
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a93a101">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -2229,7 +2229,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<hr><address><small>Generated on Sat Jan 25 10:44:54 2003 for FLAC by
+<hr><address><small>Generated on Tue Sep 28 21:19:44 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

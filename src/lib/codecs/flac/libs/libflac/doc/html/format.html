@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<!-- Copyright (c)  2000,2001,2002,2003  Josh Coalson -->
+<!-- Copyright (c)  2000,2001,2002,2003,2004  Josh Coalson -->
 <!-- Permission is granted to copy, distribute and/or modify this document -->
 <!-- under the terms of the GNU Free Documentation License, Version 1.1 -->
 <!-- or any later version published by the Free Software Foundation; -->
@@ -14,7 +14,7 @@
 
 <TABLE BORDER=0 WIDTH="100%" CELLPADDING=1 CELLSPACING=0>
 	<TR>
-		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo.jpg" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
+		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo130.gif" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
 	</TR>
 </TABLE>
 
@@ -28,6 +28,7 @@
 			<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
 				<TR>
 					<TD HEIGHT=22 BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="index.html">home</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="faq.html">faq</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="news.html">news</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="download.html">download</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="features.html">features</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
@@ -36,6 +37,8 @@
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="id.html">id</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="comparison.html">comparison</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="documentation.html">documentation</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="changelog.html">changelog</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="links.html">links</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="developers.html">developers</A>&nbsp;&nbsp;</TD>
 				</TR>
 			</TABLE>
@@ -77,7 +80,7 @@
 	<TABLE CELLSPACING="0" CELLPADDING="3" WIDTH="100%" BORDER="0" BGCOLOR="#EEEED4">
 	<TR><TD><FONT FACE="Lucida,Verdana,Helvetica,Arial">
 	<P>
-		This is a detailed description of the FLAC format.
+		This is a detailed description of the FLAC format.  There is also a companion document that describes <A HREF="ogg_mapping.html">FLAC-to-Ogg mapping</A>.
 	</P>
 	<P>
 		First, as the original developer I have to say that I am not a compression expert and I feel obligated to give credit where it is due.  FLAC owes a lot to the many people who have advanced the audio compression field so freely.  For instance:
@@ -94,7 +97,89 @@
 			N. Levinson and J. Durbin; the reference encoder uses an algorithm developed and refined by them for determining the LPC coefficients from the autocorrelation coefficients.
 		</LI>
 		<LI>
-			And of course, the main guy, <A HREF="http://www.digitalcentury.com/encyclo/update/shannon.html">Claude Shannon</A>
+			And of course, <A HREF="http://www.digitalcentury.com/encyclo/update/shannon.html">Claude Shannon</A>
+		</LI>
+	</UL>
+	</P>
+	<P>
+		<A NAME="toc"><FONT SIZE="+1"><B><U>Table of Contents</U></B></FONT></A>
+	</P>
+	<P>
+	<UL>
+		<LI><A HREF="#scope">Scope</A></LI>
+		<LI><A HREF="#architecture">Architecture</A></LI>
+		<LI><A HREF="#definitions">Definitions</A></LI>
+		<LI><A HREF="#blocking">Blocking</A></LI>
+		<LI><A HREF="#interchannel">Interchannel Decorrelation</A></LI>
+		<LI><A HREF="#prediction">Prediction</A></LI>
+		<LI><A HREF="#residualcoding">Residual Coding</A></LI>
+		<LI><A HREF="#format_overview">Format</A></LI>
+		<LI><A HREF="#subset">FLAC Subset</A></LI>
+		<LI>Specification
+			<UL>
+				<LI><A HREF="#stream">STREAM</A>
+					<UL>
+						<LI><A HREF="#metadata_block">METADATA_BLOCK</A>
+							<UL>
+								<LI><A HREF="#metadata_block_header">METADATA_BLOCK_HEADER</A></LI>
+								<LI><A HREF="#metadata_block_data">METADATA_BLOCK_DATA</A>
+									<UL>
+										<LI><A HREF="#metadata_block_streaminfo">METADATA_BLOCK_STREAMINFO</A></LI>
+										<LI><A HREF="#metadata_block_padding">METADATA_BLOCK_PADDING</A></LI>
+										<LI><A HREF="#metadata_block_application">METADATA_BLOCK_APPLICATION</A></LI>
+										<LI><A HREF="#metadata_block_seektable">METADATA_BLOCK_SEEKTABLE</A>
+											<UL>
+												<LI><A HREF="#seekpoint">SEEKPOINT</A></LI>
+											</UL>
+										</LI>
+										<LI><A HREF="#metadata_block_vorbis_comment">METADATA_BLOCK_VORBIS_COMMENT</A></LI>
+										<LI><A HREF="#metadata_block_cuesheet">METADATA_BLOCK_CUESHEET</A>
+											<UL>
+												<LI><A HREF="#cuesheet_track">CUESHEET_TRACK</A>
+													<UL>
+														<LI><A HREF="#cuesheet_track_index">CUESHEET_TRACK_INDEX</A></LI>
+													</UL>
+												</LI>
+											</UL>
+										</LI>
+									</UL>
+								</LI>
+							</UL>
+						</LI>
+					</UL>
+				</LI>
+				<LI>
+					<UL>
+						<LI><A HREF="#frame">FRAME</A>
+							<UL>
+								<LI><A HREF="#frame_header">FRAME_HEADER</A></LI>
+								<LI><A HREF="#frame_footer">FRAME_FOOTER</A></LI>
+								<LI><A HREF="#subframe">SUBFRAME</A>
+									<UL>
+										<LI><A HREF="#subframe_header">SUBFRAME_HEADER</A></LI>
+										<LI><A HREF="#subframe_constant">SUBFRAME_CONSTANT</A></LI>
+										<LI><A HREF="#subframe_fixed">SUBFRAME_FIXED</A></LI>
+										<LI><A HREF="#subframe_lpc">SUBFRAME_LPC</A></LI>
+										<LI><A HREF="#subframe_verbatim">SUBFRAME_VERBATIM</A>
+											<UL>
+												<LI><A HREF="#residual">RESIDUAL</A>
+													<UL>
+														<LI><A HREF="#partitioned_rice">RESIDUAL_CODING_METHOD_PARTITIONED_RICE</A>
+															<UL>
+																<LI><A HREF="#rice_partition">RICE_PARTITION</A></LI>
+															</UL>
+														</LI>
+													</UL>
+												</LI>
+											</UL>
+										</LI>
+									</UL>
+								</LI>
+							</UL>
+						</LI>
+					</UL>
+				</LI>
+			</UL>
 		</LI>
 	</UL>
 	</P>
@@ -218,16 +303,13 @@
 		The FLAC format has reserved space for other coding methods.  Some possiblities for volunteers would be to explore better context-modeling of the Rice parameter, or Huffman coding.  See <A HREF="http://www.hpl.hp.com/techreports/98/HPL-98-193.html">LOCO-I</A> and <A HREF="http://www.cs.tut.fi/~albert/Dev/pucrunch/packing.html">pucrunch</A> for descriptions of several universal codes.
 	</P>
 	<P>
-		<FONT SIZE="+1"><B><U>Format</U></B></FONT>
+		<A NAME="format_overview"><FONT SIZE="+1"><B><U>Format</U></B></FONT>
 	</P>
 	<P>
 		This section specifies the FLAC bitstream format.  FLAC has no format version information, but it does contain reserved space in several places.  Future versions of the format may use this reserved space safely without breaking the format of older streams.  Older decoders may choose to abort decoding or skip data encoded with newer methods.  Apart from reserved patterns, in places the format specifies invalid patterns, meaning that the patterns may never appear in any valid bitstream, in any prior, present, or future versions of the format.  These invalid patterns are usually used to make the synchronization mechanism more robust.
 	</P>
 	<P>
 		All numbers used in a FLAC bitstream are integers; there are no floating-point representations.  All numbers are big-endian coded.  All numbers are unsigned unless otherwise specified.
-	</P>
-	<P>
-		<A NAME="overview">A FLAC bitstream may be appended with ID3V1 data or prepended with ID3V2 data.  FLAC has no knowledge of such data, but the reference decoder knows how to skip an ID3 tag.</A>
 	</P>
 	<P>
 		Before the formal description of the stream, an overview might be helpful.
@@ -241,7 +323,7 @@
 			<UL>
 				<LI><A NAME="def_STREAMINFO"><B>STREAMINFO</B>: This block has information about the whole stream, like sample rate, number of channels, total number of samples, etc.  It must be present as the first metadata block in the stream.  Other metadata blocks may follow, and ones that the decoder doesn't understand, it will skip.</LI>
 				<LI><A NAME="def_APPLICATION"><B>APPLICATION</B>: This block is for use by third-party applications.  The only mandatory field is a 32-bit identifier.  This ID is granted upon request to an application by the FLAC maintainers.  The remainder is of the block is defined by the registered application.  Visit the <A HREF="id.html">registration page</A> if you would like to register an ID for your application with FLAC.</LI>
-				<LI><A NAME="def_PADDING"><B>PADDING</B>: This block allows for an arbitrary amount of padding.  The contents of a PADDING block have no meaning.  This block is useful when it is known that an APPLICATION block will be added after encoding; the user can instruct the encoder to reserve a PADDING block of the proper size so that the application may directly write over it later (which is relatively quick) instead of having to insert the APPLICATION block (which would normally require rewriting the entire file).</LI>
+				<LI><A NAME="def_PADDING"><B>PADDING</B>: This block allows for an arbitrary amount of padding.  The contents of a PADDING block have no meaning.  This block is useful when it is known that metadata will be edited after encoding; the user can instruct the encoder to reserve a PADDING block of sufficient size so that when metadata is added, it will simply overwrite the padding (which is relatively quick) instead of having to insert it into the right place in the existing file (which would normally require rewriting the entire file).</LI>
 				<LI><A NAME="def_SEEKTABLE"><B>SEEKTABLE</B>: This is an optional block for storing seek points.  It is possible to seek to any given sample in a FLAC stream without a seek table, but the delay can be unpredictable since the bitrate may vary widely within a stream.  By adding seek points to a stream, this delay can be significantly reduced.  Each seek point takes 18 bytes, so 1% resolution within a stream adds less than 2k.  There can be only one SEEKTABLE in a stream, but the table can have any number of seek points.  There is also a special 'placeholder' seekpoint which will be ignored by decoders but which can be used to reserve space for future seek point insertion.</LI>
 				<LI><A NAME="def_VORBIS_COMMENT"><B>VORBIS_COMMENT</B>: This block is for storing a list of human-readable name/value pairs.  Values are encoded using UTF-8.  It is an implementation of the <A HREF="http://xiph.org/ogg/vorbis/doc/v-comment.html">Vorbis comment specification</A>.  This is the only officially supported tagging mechanism in FLAC.  There may be only one VORBIS_COMMENT block in a stream.</LI>
 				<LI><A NAME="def_CUESHEET"><B>CUESHEET</B>: This block is for storing various information that can be used in a cue sheet.  It supports track and index points, compatible with Red Book CD digital audio discs, as well as other CD-DA metadata such as media catalog number and track ISRCs.  The CUESHEET block is especially useful for backing up CD-DA discs, but it can be used as a general purpose cueing mechanism for playback.</LI>
@@ -398,7 +480,10 @@
 					<TT>5</TT> : CUESHEET
 				</LI>
 				<LI>
-					<TT>6-127</TT> : reserved
+					<TT>6-126</TT> : reserved
+				</LI>
+				<LI>
+					<TT>127</TT> : invalid, to avoid confusion with a frame sync code
 				</LI>
 				</UL>
 			</TD>
@@ -782,7 +867,7 @@
 				&lt;12*8&gt;
 			</TD>
 			<TD>
-				Track ISRC.  This is a 12-digit alphanumeric code; see <A HREF="http://www.ifpi.org/isrc/isrc_handbook.html">here</A> and <A HREF="http://www.discusa.com/cdref/cdaudio/isrc.htm">here</A>.  A value of 12 ASCII NUL characters may be used to denote absence of an ISRC.
+				Track ISRC.  This is a 12-digit alphanumeric code; see <A HREF="http://www.ifpi.org/isrc/isrc_handbook.html">here</A> and <A HREF="http://www.disctronics.co.uk/technology/cdaudio/cdaud_isrc.htm">here</A>.  A value of 12 ASCII NUL characters may be used to denote absence of an ISRC.
 			</TD>
 		</TR>
 		<TR>
@@ -1132,7 +1217,7 @@
 				<FONT SIZE="+1">NOTES</FONT><BR>
 				<UL>
 				<LI>
-					The blocksize bits 0000-0101 and 1000-1111 may only be used if the blocksize is fixed throughout the entire stream.  Blocksize bits 0110-0111 may be used in any case but the decoder will have to pessimistically guess that it is a variable-blocksize stream.  There is only one special case: the encoder may use blocksize bits 0110-0111 on the last frame of a fixed-blocksize stream, as long as the blocksize is not greater than the stream blocksize.
+					The blocksize bits 0000-0101 and 1000-1111 may only be used if the blocksize is fixed throughout the entire stream.  Blocksize bits 0110-0111 may be used in any case but the decoder will have to pessimistically guess that it is a variable-blocksize stream unless it has STREAMINFO metadata and the min_blocksize and max_blocksize values in it match.  There is only one special case: the encoder may use blocksize bits 0110-0111 on the last frame of a fixed-blocksize stream, as long as the blocksize is not greater than the stream blocksize.
 				</LI>
 				<LI>
 					The "UTF-8" coding used for the sample/frame number is the same variable length code used to store compressed UCS-2, extended to handle larger input.
@@ -1250,7 +1335,7 @@
 					<TT>0</TT> : no wasted bits-per-sample in source subblock, k=0
 				</LI>
 				<LI>
-					<TT>1</TT> : k wasted bits-per-sample in source subblock, k-1 follows, unary coded; i.e. k=3 => 001 follows, k=7 => 0000001 follows.
+					<TT>1</TT> : k wasted bits-per-sample in source subblock, k-1 follows, unary coded; e.g. k=3 =&gt; 001 follows, k=7 =&gt; 0000001 follows.
 				</LI>
 			</TD>
 		</TR>
@@ -1486,7 +1571,7 @@
 				Encoded residual.  The number of samples (n) in the partition is determined as follows:<BR>
 				<UL>
 				<LI>
-					if the partition order is zero, n = frame's blocksize
+					if the partition order is zero, n = frame's blocksize - predictor order
 				</LI>
 				<LI>
 					else if this is not the first partition of the subframe, n = (frame's blocksize / (2^partition order))
@@ -1507,7 +1592,7 @@
 
 </CENTER>
 
-<P>&nbsp;Copyright (c) 2000,2001,2002,2003 Josh Coalson</P>
+<P>&nbsp;Copyright (c) 2000,2001,2002,2003,2004 Josh Coalson</P>
 
 </BODY>
 </HTML>

@@ -1,5 +1,5 @@
 #  test_cuesheet - Simple tester for cuesheet routines in grabbag
-#  Copyright (C) 2002,2003  Josh Coalson
+#  Copyright (C) 2002,2003,2004  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -25,8 +25,8 @@ noinst_PROGRAMS = test_cuesheet
 test_cuesheet_SOURCES = \
 	main.c
 test_cuesheet_LDADD = \
-	$(top_builddir)/src/share/grabbag/libgrabbag.a \
-	$(top_builddir)/src/share/gain_analysis/libgain_analysis.a \
+	$(top_builddir)/src/share/grabbag/libgrabbag.la \
+	$(top_builddir)/src/share/replaygain_analysis/libreplaygain_analysis.la \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
 	-lm
 

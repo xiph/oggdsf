@@ -15,11 +15,11 @@
 /* define to run even more tests */
 #undef FLAC__EXHAUSTIVE_TESTS
 
+/* define if you have docbook-to-man or docbook2man */
+#undef FLAC__HAS_DOCBOOK_TO_MAN
+
 /* define if you have Doxygen */
 #undef FLAC__HAS_DOXYGEN
-
-/* define if you have the id3lib library */
-#undef FLAC__HAS_ID3LIB
 
 /* define if you have the NASM assembler */
 #undef FLAC__HAS_NASM
@@ -35,6 +35,9 @@
 
 /* define to enable use of 3Dnow! instructions */
 #undef FLAC__USE_3DNOW
+
+/* define to enable use of Altivec instructions */
+#undef FLAC__USE_ALTIVEC
 
 /* define to enable use of Valgrind in testers */
 #undef FLAC__VALGRIND_TESTING
@@ -78,17 +81,11 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if you have the `wcsdup' function. */
+#undef HAVE_WCSDUP
+
 /* Define as const if the declaration of iconv() needs const. */
 #undef ICONV_CONST
-
-/* define to major version number of id3lib */
-#undef ID3LIB_MAJOR
-
-/* define to minor version number of id3lib */
-#undef ID3LIB_MINOR
-
-/* define to patch level of id3lib */
-#undef ID3LIB_PATCH
 
 /* Name of package */
 #undef PACKAGE
@@ -108,20 +105,13 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* The size of a `int', as computed by sizeof. */
-#undef SIZEOF_INT
-
-/* The size of a `long', as computed by sizeof. */
-#undef SIZEOF_LONG
-
-/* The size of a `long long', as computed by sizeof. */
-#undef SIZEOF_LONG_LONG
-
-/* The size of a `short', as computed by sizeof. */
-#undef SIZEOF_SHORT
-
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
 /* Version number of package */
 #undef VERSION
+
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# undef _GNU_SOURCE
+#endif

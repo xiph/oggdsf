@@ -4,7 +4,7 @@
 dnl AM_PATH_LIBFLAC([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl Test for libFLAC, and define LIBFLAC_CFLAGS and LIBFLAC_LIBS
 dnl
-AC_DEFUN(AM_PATH_LIBFLAC,
+AC_DEFUN([AM_PATH_LIBFLAC],
 [dnl 
 dnl Get the cflags and libraries
 dnl
@@ -18,7 +18,7 @@ AC_ARG_ENABLE(libFLACtest, [  --disable-libFLACtest       Do not try to compile 
   elif test "x$libFLAC_prefix" != "x" ; then
     LIBFLAC_LIBS="-L$libFLAC_prefix/lib"
   elif test "x$prefix" != "xNONE" ; then
-    LIBFLAC_LIBS="-L$prefix/lib"
+    LIBFLAC_LIBS="-L$libdir"
   fi
 
   LIBFLAC_LIBS="$LIBFLAC_LIBS -lFLAC -lm"

@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2000,2001,2002,2003  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,14 +21,23 @@
 
 #include "analyze.h"
 #include "utils.h"
+#include "share/replaygain_synthesis.h"
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 typedef struct {
-	FLAC__bool verbose;
+	FLAC__bool apply;
+	FLAC__bool use_album_gain; /* false => use track gain */
+	enum { RGSS_LIMIT__NONE, RGSS_LIMIT__PEAK, RGSS_LIMIT__HARD} limiter;
+	NoiseShaping noise_shaping;
+	double preamp;
+} replaygain_synthesis_spec_t;
+
+typedef struct {
 	FLAC__bool continue_through_decode_errors;
+	replaygain_synthesis_spec_t replaygain_synthesis_spec;
 #ifdef FLAC__HAS_OGG
 	FLAC__bool is_ogg;
 	FLAC__bool use_first_serial_number;
@@ -36,6 +45,8 @@ typedef struct {
 #endif
 	utils__SkipUntilSpecification skip_specification;
 	utils__SkipUntilSpecification until_specification;
+	FLAC__bool has_cue_specification;
+	utils__CueSpecification cue_specification;
 } decode_options_t;
 
 /* used for AIFF also */

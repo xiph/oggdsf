@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -70,7 +70,11 @@ FLAC__bool do_shorthand_operation__streaminfo(const char *filename, FLAC__bool p
 			printf("%u\n", block->data.stream_info.bits_per_sample);
 			break;
 		case OP__SHOW_TOTAL_SAMPLES:
+#ifdef _MSC_VER
+			printf("%I64u\n", block->data.stream_info.total_samples);
+#else
 			printf("%llu\n", block->data.stream_info.total_samples);
+#endif
 			break;
 		case OP__SET_MD5SUM:
 			memcpy(block->data.stream_info.md5sum, operation->argument.streaminfo_md5.value, 16);

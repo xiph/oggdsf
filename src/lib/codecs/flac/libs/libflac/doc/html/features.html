@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<!-- Copyright (c)  2000,2001,2002,2003  Josh Coalson -->
+<!-- Copyright (c)  2000,2001,2002,2003,2004  Josh Coalson -->
 <!-- Permission is granted to copy, distribute and/or modify this document -->
 <!-- under the terms of the GNU Free Documentation License, Version 1.1 -->
 <!-- or any later version published by the Free Software Foundation; -->
@@ -14,7 +14,7 @@
 
 <TABLE BORDER=0 WIDTH="100%" CELLPADDING=1 CELLSPACING=0>
 	<TR>
-		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo.jpg" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
+		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo130.gif" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
 	</TR>
 </TABLE>
 
@@ -28,6 +28,7 @@
 			<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
 				<TR>
 					<TD HEIGHT=22 BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="index.html">home</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="faq.html">faq</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="news.html">news</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="download.html">download</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;features&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
@@ -36,6 +37,8 @@
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="id.html">id</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="comparison.html">comparison</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="documentation.html">documentation</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="changelog.html">changelog</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="links.html">links</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="developers.html">developers</A>&nbsp;&nbsp;</TD>
 				</TR>
 			</TABLE>
@@ -77,7 +80,13 @@
 	<TABLE CELLSPACING="0" CELLPADDING="3" WIDTH="100%" BORDER="0" BGCOLOR="#EEEED4">
 	<TR><TD><FONT FACE="Lucida,Verdana,Helvetica,Arial">
 	<P>
-	FLAC stands for Free Lossless Audio Codec.  The FLAC project consists of:
+		FLAC stands for Free Lossless Audio Codec.  Grossly oversimplified, FLAC is similar to MP3, but lossless, meaning that audio is compressed in FLAC without any loss in quality.  This is similar to how Zip works, except with FLAC you will get much better compression because it is designed specifically for audio, and you can play back compressed FLAC files in your favorite player (or your car or home stereo, see <A HREF="links.html#hardware">supported devices</A>) just like you would an MP3 file.
+	</P>
+	<P>
+		FLAC is freely available and supported on most operating systems, including Windows, "unix" (Linux, *BSD, Solaris, OS X, IRIX), BeOS, OS/2, and Amiga.  There are build systems for autotools, MSVC, Watcom C, and Project Builder.
+	</P>
+	<P>
+		The FLAC project consists of:
 	</P>
 	<P>
 	<UL>
@@ -89,17 +98,14 @@
 	</UL>
 	</P>
 	<P>
-		"Free" means that the specification of the stream format is fully open to the public to be used for any purpose (the FLAC project reserves the right to set the FLAC specification and certify compliance), and that neither the FLAC format nor any of the implemented encoding/decoding methods are covered by any known patent.  It also means that all the source code is available under open-source licenses.
-	</P>
-	<P>
-		FLAC compiles on many platforms: most Unixes (Linux, *BSD, Solaris, OS X), Windows, BeOS, and OS/2.  There are build systems for autoconf/automake, MSVC, Watcom C, and Project Builder.
+		When we say that FLAC is "Free" it means more than just that it is available at no cost.  It means that the specification of the format is fully open to the public to be used for any purpose (the FLAC project reserves the right to set the FLAC specification and certify compliance), and that neither the FLAC format nor any of the implemented encoding/decoding methods are covered by any known patent.  It also means that all the source code is available under open-source licenses.  It is the first truly open and free lossless audio format.  (For more information, see the <A HREF="license.html">license page</A>.)
 	</P>
 	<P>
 		Notable features of FLAC:
 	</P>
 	<UL>
 		<P><LI>
-			<B>Lossless</B>: The encoding of PCM data incurs no loss of information, and the decoded audio is bit-for-bit identical to what went into the encoder.  Each frame contains a 16-bit CRC of the frame data for detecting transmission errors.  The integrity of the audio data is further insured by storing an <A HREF="http://userpages.umbc.edu/~mabzug1/cs/md5/md5.html">MD5 signature</A> of the original unencoded audio data in the file header, which can be compared against later during decoding or testing.
+			<B>Lossless</B>: The encoding of audio (PCM) data incurs no loss of information, and the decoded audio is bit-for-bit identical to what went into the encoder.  Each frame contains a 16-bit CRC of the frame data for detecting transmission errors.  The integrity of the audio data is further insured by storing an <A HREF="http://userpages.umbc.edu/~mabzug1/cs/md5/md5.html">MD5 signature</A> of the original unencoded audio data in the file header, which can be compared against later during decoding or testing.
 		</LI></P>
 		<P><LI>
 			<B>Fast</B>: FLAC is asymmetric in favor of decode speed.  Decoding requires only integer arithmetic, and is much less compute-intensive than for most perceptual codecs.  Real-time decode performance is easily achievable on even modest hardware.
@@ -131,7 +137,7 @@
 	</P>
 	<UL>
 		<P><LI>
-			Lossy.  FLAC is intended for lossless compression only, as there are many good lossy formats already, such as <A HREF="http://www.xiph.org/ogg/vorbis/index.html">Vorbis</A>, <A HREF="http://musepack.org/">MPC</A>, and <A HREF="http://www.mp3-tech.org/">MP3</A> (see <A HREF="http://www.mp3dev.org/mp3/">LAME</A> for an excellent open-source implementation).
+			Lossy.  FLAC is intended for lossless compression only, as there are many good lossy formats already, such as <A HREF="http://www.xiph.org/ogg/vorbis/index.html">Vorbis</A>, <!-- A HREF="http://musepack.org/" -->MPC<!-- /A -->, and <A HREF="http://www.mp3-tech.org/">MP3</A> (see <A HREF="http://www.mp3dev.org/mp3/">LAME</A> for an excellent open-source implementation).
 		</LI></P>
 		<P><LI>
 			SDMI compliant, et cetera.  There is no intention to support any methods of copy protection, which are, for all practical purposes, a complete waste of bits.  (Another way to look at it is that since copy protection is futile, it really carries no information, so you might say FLAC already losslessly compresses all possible copy protection information down to zero bits!)  Of course, we can't stop what some misguided person does with proprietary metadata blocks, but then again, non-proprietary decoders will skip them anyway.
@@ -147,7 +153,7 @@
 
 </CENTER>
 
-<P>&nbsp;Copyright (c) 2000,2001,2002,2003 Josh Coalson</P>
+<P>&nbsp;Copyright (c) 2000,2001,2002,2003,2004 Josh Coalson</P>
 
 </BODY>
 </HTML>

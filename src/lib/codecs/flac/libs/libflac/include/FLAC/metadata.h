@@ -1,26 +1,39 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2001,2002,2003  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef FLAC__METADATA_H
 #define FLAC__METADATA_H
 
 #include "export.h"
+#include "callback.h"
 #include "format.h"
 
 /******************************************************************************
@@ -51,7 +64,7 @@
  *  There are three metadata interfaces of increasing complexity:
  *
  *  Level 0:
- *  Read-only access to the STREAMINFO block.
+ *  Read-only access to the STREAMINFO and VORBIS_COMMENT blocks.
  *
  *  Level 1:
  *  Read-write access to all metadata blocks.  This level is write-
@@ -64,8 +77,9 @@
  *  the whole file is read into memory and manipulated before writing
  *  out again.
  *
- *  What do we mean by efficient?  When writing metadata back to a FLAC
- *  file it is possible to grow or shrink the metadata such that the entire
+ *  What do we mean by efficient?  Since FLAC metadata appears at the
+ *  beginning of the file, when writing metadata back to a FLAC file
+ *  it is possible to grow or shrink the metadata such that the entire
  *  file must be rewritten.  However, if the size remains the same during
  *  changes or PADDING blocks are utilized, only the metadata needs to be
  *  overwritten, which is much faster.
@@ -79,6 +93,10 @@
  *
  *  All levels know how to skip over and not disturb an ID3v2 tag at the
  *  front of the file.
+ *
+ *  All levels access files via their filenames.  In addition, level 2
+ *  has additional alternative read and write functions that take an I/O
+ *  handle and callbacks, for times when access by filename is not possible.
  *
  *  In addition to the three interfaces, this module defines functions for
  *  creating and manipulating various metadata objects in memory.  As we see
@@ -105,8 +123,8 @@ extern "C" {
  *  \ingroup flac_metadata
  *
  *  \brief
- *  The level 0 interface consists of a single routine to read the
- *  STREAMINFO block.
+ *  The level 0 interface consists of individual routines to read the
+ *  STREAMINFO and VORBIS_COMMENT blocks, requiring only a filename.
  *
  *  It skips any ID3v2 tag at the head of the file.
  *
@@ -117,16 +135,39 @@ extern "C" {
  *  will skip any ID3v2 tag at the head of the file.
  *
  * \param filename    The path to the FLAC file to read.
- * \param streaminfo  A pointer to space for the STREAMINFO block.
+ * \param streaminfo  A pointer to space for the STREAMINFO block.  Since
+ *                    FLAC__StreamMetadata is a simple structure with no
+ *                    memory allocation involved, you pass the address of
+ *                    an existing structure.  It need not be initialized.
  * \assert
  *    \code filename != NULL \endcode
  *    \code streaminfo != NULL \endcode
  * \retval FLAC__bool
  *    \c true if a valid STREAMINFO block was read from \a filename.  Returns
  *    \c false if there was a memory allocation error, a file decoder error,
- *    or the file contained no STREAMINFO block.
+ *    or the file contained no STREAMINFO block.  (A memory allocation error
+ *    is possible because this function must set up a file decoder.)
  */
 FLAC_API FLAC__bool FLAC__metadata_get_streaminfo(const char *filename, FLAC__StreamMetadata *streaminfo);
+
+/** Read the VORBIS_COMMENT metadata block of the given FLAC file.  This
+ *  function will skip any ID3v2 tag at the head of the file.
+ *
+ * \param filename    The path to the FLAC file to read.
+ * \param tags        The address where the returned pointer will be
+ *                    stored.  The \a tags object must be deleted by
+ *                    the caller using FLAC__metadata_object_delete().
+ * \assert
+ *    \code filename != NULL \endcode
+ *    \code streaminfo != NULL \endcode
+ * \retval FLAC__bool
+ *    \c true if a valid VORBIS_COMMENT block was read from \a filename,
+ *    and \a *tags will be set to the address of the tag structure.
+ *    Returns \c false if there was a memory allocation error, a file
+ *    decoder error, or the file contained no VORBIS_COMMENT block, and
+ *    \a *tags will be set to \c NULL.
+ */
+FLAC_API FLAC__bool FLAC__metadata_get_tags(const char *filename, FLAC__StreamMetadata **tags);
 
 /* \} */
 
@@ -174,7 +215,7 @@ FLAC_API FLAC__bool FLAC__metadata_get_streaminfo(const char *filename, FLAC__St
  *
  * \note
  * Do not modify the \a is_last, \a length, or \a type fields of returned
- * FLAC__MetadataType objects.  These are managed automatically.
+ * FLAC__StreamMetadata objects.  These are managed automatically.
  *
  * \note
  * If any of the modification functions
@@ -512,7 +553,7 @@ FLAC_API FLAC__bool FLAC__metadata_simple_iterator_delete_block(FLAC__Metadata_S
  *
  * \note
  * Do not modify the is_last, length, or type fields of returned
- * FLAC__MetadataType objects.  These are managed automatically.
+ * FLAC__StreamMetadata objects.  These are managed automatically.
  *
  * \note
  * The metadata objects returned by FLAC__metadata_iterator_get_block()
@@ -571,8 +612,29 @@ typedef enum {
 	FLAC__METADATA_CHAIN_STATUS_MEMORY_ALLOCATION_ERROR,
 	/**< Memory allocation failed */
 
-	FLAC__METADATA_CHAIN_STATUS_INTERNAL_ERROR
+	FLAC__METADATA_CHAIN_STATUS_INTERNAL_ERROR,
 	/**< The caller violated an assertion or an unexpected error occurred */
+
+	FLAC__METADATA_CHAIN_STATUS_INVALID_CALLBACKS,
+	/**< One or more of the required callbacks was NULL */
+
+	FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH,
+	/**< FLAC__metadata_chain_write() was called on a chain read by
+	 *   FLAC__metadata_chain_read_with_callbacks(), or
+	 *   FLAC__metadata_chain_write_with_callbacks() or
+	 *   FLAC__metadata_chain_write_with_callbacks_and_tempfile() was
+	 *   called on a chain read by FLAC__metadata_chain_read().  Matching
+	 *   read/write methods must always be used. */
+
+	FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL
+	/**< FLAC__metadata_chain_write_with_callbacks() was called when the
+	 *   chain write requires a tempfile; use
+	 *   FLAC__metadata_chain_write_with_callbacks_and_tempfile() instead.
+	 *   Or, FLAC__metadata_chain_write_with_callbacks_and_tempfile() was
+	 *   called when the chain write does not require a tempfile; use
+	 *   FLAC__metadata_chain_write_with_callbacks() instead.
+	 *   Always check FLAC__metadata_chain_check_if_tempfile_needed()
+	 *   before writing via callbacks. */
 
 } FLAC__Metadata_ChainStatus;
 
@@ -626,6 +688,56 @@ FLAC_API FLAC__Metadata_ChainStatus FLAC__metadata_chain_status(FLAC__Metadata_C
  */
 FLAC_API FLAC__bool FLAC__metadata_chain_read(FLAC__Metadata_Chain *chain, const char *filename);
 
+/** Read all metadata from a FLAC stream into the chain via I/O callbacks.
+ *
+ *  The \a handle need only be open for reading, but must be seekable.
+ *  The equivalent minimum stdio fopen() file mode is \c "r" (or \c "rb"
+ *  for Windows).
+ *
+ * \param chain    A pointer to an existing chain.
+ * \param handle   The I/O handle of the FLAC stream to read.  The
+ *                 handle will NOT be closed after the metadata is read;
+ *                 that is the duty of the caller.
+ * \param callbacks
+ *                 A set of callbacks to use for I/O.  The mandatory
+ *                 callbacks are \a read, \a seek, and \a tell.
+ * \assert
+ *    \code chain != NULL \endcode
+ * \retval FLAC__bool
+ *    \c true if a valid list of metadata blocks was read from
+ *    \a handle, else \c false.  On failure, check the status with
+ *    FLAC__metadata_chain_status().
+ */
+FLAC_API FLAC__bool FLAC__metadata_chain_read_with_callbacks(FLAC__Metadata_Chain *chain, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks);
+
+/** Checks if writing the given chain would require the use of a
+ *  temporary file, or if it could be written in place.
+ *
+ *  Under certain conditions, padding can be utilized so that writing
+ *  edited metadata back to the FLAC file does not require rewriting the
+ *  entire file.  If rewriting is required, then a temporary workfile is
+ *  required.  When writing metadata using callbacks, you must check
+ *  this function to know whether to call
+ *  FLAC__metadata_chain_write_with_callbacks() or
+ *  FLAC__metadata_chain_write_with_callbacks_and_tempfile().  When
+ *  writing with FLAC__metadata_chain_write(), the temporary file is
+ *  handled internally.
+ *
+ * \param chain    A pointer to an existing chain.
+ * \param use_padding
+ *                 Whether or not padding will be allowed to be used
+ *                 during the write.  The value of \a use_padding given
+ *                 here must match the value later passed to
+ *                 FLAC__metadata_chain_write_with_callbacks() or
+ *                 FLAC__metadata_chain_write_with_callbacks_with_tempfile().
+ * \assert
+ *    \code chain != NULL \endcode
+ * \retval FLAC__bool
+ *    \c true if writing the current chain would require a tempfile, or
+ *    \c false if metadata can be written in place.
+ */
+FLAC_API FLAC__bool FLAC__metadata_chain_check_if_tempfile_needed(FLAC__Metadata_Chain *chain, FLAC__bool use_padding);
+
 /** Write all metadata out to the FLAC file.  This function tries to be as
  *  efficient as possible; how the metadata is actually written is shown by
  *  the following:
@@ -657,6 +769,9 @@ FLAC_API FLAC__bool FLAC__metadata_chain_read(FLAC__Metadata_Chain *chain, const
  *  If \a preserve_file_stats is \c true, the owner and modification time will
  *  be preserved even if the FLAC file is written.
  *
+ *  For this write function to be used, the chain must have been read with
+ *  FLAC__metadata_chain_read(), not FLAC__metadata_chain_read_with_callbacks().
+ *
  * \param chain               A pointer to an existing chain.
  * \param use_padding         See above.
  * \param preserve_file_stats See above.
@@ -667,6 +782,85 @@ FLAC_API FLAC__bool FLAC__metadata_chain_read(FLAC__Metadata_Chain *chain, const
  *    check the status with FLAC__metadata_chain_status().
  */
 FLAC_API FLAC__bool FLAC__metadata_chain_write(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__bool preserve_file_stats);
+
+/** Write all metadata out to a FLAC stream via callbacks.
+ *
+ *  (See FLAC__metadata_chain_write() for the details on how padding is
+ *  used to write metadata in place if possible.)
+ *
+ *  The \a handle must be open for updating and be seekable.  The
+ *  equivalent minimum stdio fopen() file mode is \c "r+" (or \c "r+b"
+ *  for Windows).
+ *
+ *  For this write function to be used, the chain must have been read with
+ *  FLAC__metadata_chain_read_with_callbacks(), not FLAC__metadata_chain_read().
+ *  Also, FLAC__metadata_chain_check_if_tempfile_needed() must have returned
+ *  \c false.
+ *
+ * \param chain        A pointer to an existing chain.
+ * \param use_padding  See FLAC__metadata_chain_write()
+ * \param handle       The I/O handle of the FLAC stream to write.  The
+ *                     handle will NOT be closed after the metadata is
+ *                     written; that is the duty of the caller.
+ * \param callbacks    A set of callbacks to use for I/O.  The mandatory
+ *                     callbacks are \a write and \a seek.
+ * \assert
+ *    \code chain != NULL \endcode
+ * \retval FLAC__bool
+ *    \c true if the write succeeded, else \c false.  On failure,
+ *    check the status with FLAC__metadata_chain_status().
+ */
+FLAC_API FLAC__bool FLAC__metadata_chain_write_with_callbacks(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks);
+
+/** Write all metadata out to a FLAC stream via callbacks.
+ *
+ *  (See FLAC__metadata_chain_write() for the details on how padding is
+ *  used to write metadata in place if possible.)
+ *
+ *  This version of the write-with-callbacks function must be used when
+ *  FLAC__metadata_chain_check_if_tempfile_needed() returns true.  In
+ *  this function, you must supply an I/O handle corresponding to the
+ *  FLAC file to edit, and a temporary handle to which the new FLAC
+ *  file will be written.  It is the caller's job to move this temporary
+ *  FLAC file on top of the original FLAC file to complete the metadata
+ *  edit.
+ *
+ *  The \a handle must be open for reading and be seekable.  The
+ *  equivalent minimum stdio fopen() file mode is \c "r" (or \c "rb"
+ *  for Windows).
+ *
+ *  The \a temp_handle must be open for writing.  The
+ *  equivalent minimum stdio fopen() file mode is \c "w" (or \c "wb"
+ *  for Windows).  It should be an empty stream, or at least positioned
+ *  at the start-of-file (in which case it is the caller's duty to
+ *  truncate it on return).
+ *
+ *  For this write function to be used, the chain must have been read with
+ *  FLAC__metadata_chain_read_with_callbacks(), not FLAC__metadata_chain_read().
+ *  Also, FLAC__metadata_chain_check_if_tempfile_needed() must have returned
+ *  \c true.
+ *
+ * \param chain        A pointer to an existing chain.
+ * \param use_padding  See FLAC__metadata_chain_write()
+ * \param handle       The I/O handle of the original FLAC stream to read.
+ *                     The handle will NOT be closed after the metadata is
+ *                     written; that is the duty of the caller.
+ * \param callbacks    A set of callbacks to use for I/O on \a handle.
+ *                     The mandatory callbacks are \a read, \a seek, and
+ *                     \a eof.
+ * \param temp_handle  The I/O handle of the FLAC stream to write.  The
+ *                     handle will NOT be closed after the metadata is
+ *                     written; that is the duty of the caller.
+ * \param temp_callbacks
+ *                     A set of callbacks to use for I/O on temp_handle.
+ *                     The only mandatory callback is \a write.
+ * \assert
+ *    \code chain != NULL \endcode
+ * \retval FLAC__bool
+ *    \c true if the write succeeded, else \c false.  On failure,
+ *    check the status with FLAC__metadata_chain_status().
+ */
+FLAC_API FLAC__bool FLAC__metadata_chain_write_with_callbacks_and_tempfile(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks, FLAC__IOHandle temp_handle, FLAC__IOCallbacks temp_callbacks);
 
 /** Merge adjacent PADDING blocks into a single block.
  *
@@ -913,7 +1107,8 @@ FLAC_API FLAC__bool FLAC__metadata_iterator_insert_block_after(FLAC__Metadata_It
  *
  * \param type  Type of object to create
  * \retval FLAC__StreamMetadata*
- *    \c NULL if there was an error allocating memory, else the new instance.
+ *    \c NULL if there was an error allocating memory or the type code is
+ *    greater than FLAC__MAX_METADATA_TYPE_CODE, else the new instance.
  */
 FLAC_API FLAC__StreamMetadata *FLAC__metadata_object_new(FLAC__MetadataType type);
 
@@ -1149,7 +1344,7 @@ FLAC_API FLAC__bool FLAC__metadata_object_seektable_template_sort(FLAC__StreamMe
  *    \code object != NULL \endcode
  *    \code object->type == FLAC__METADATA_TYPE_VORBIS_COMMENT \endcode
  *    \code (entry->entry != NULL && entry->length > 0) ||
- * (entry->entry == NULL && entry->length == 0 && copy == false) \endcode
+ * (entry->entry == NULL && entry->length == 0) \endcode
  * \retval FLAC__bool
  *    \c false if \a copy is \c true and malloc fails, else \c true.
  */
@@ -1187,7 +1382,7 @@ FLAC_API FLAC__bool FLAC__metadata_object_vorbiscomment_resize_comments(FLAC__St
  *    \code object->type == FLAC__METADATA_TYPE_VORBIS_COMMENT \endcode
  *    \code comment_num < object->data.vorbis_comment.num_comments \endcode
  *    \code (entry->entry != NULL && entry->length > 0) ||
- * (entry->entry == NULL && entry->length == 0 && copy == false) \endcode
+ * (entry->entry == NULL && entry->length == 0) \endcode
  * \retval FLAC__bool
  *    \c false if \a copy is \c true and malloc fails, else \c true.
  */
@@ -1251,7 +1446,7 @@ FLAC_API FLAC__bool FLAC__metadata_object_vorbiscomment_entry_matches(const FLAC
 /*@@@@ add to unit tests */
 /** Find a Vorbis comment with the given field name.
  *
- *  The search begins at entry number \a offset; use and offset of 0 to
+ *  The search begins at entry number \a offset; use an offset of 0 to
  *  search from the beginning of the comment array.
  *
  * \param object      A pointer to an existing VORBIS_COMMENT object.

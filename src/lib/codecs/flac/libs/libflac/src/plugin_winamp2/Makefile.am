@@ -1,5 +1,5 @@
 #  in_flac - Winamp2 FLAC input plugin
-#  Copyright (C) 2000,2001,2002,2003  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -24,6 +24,8 @@ EXTRA_DIST = \
 	in_flac.dsp \
 	infobox.c \
 	infobox.h \
+	playback.c \
+	playback.h \
 	resource.h \
 	resource.rc \
 	tagz.cpp \

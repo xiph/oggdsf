@@ -1,28 +1,44 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
 #include <stdlib.h> /* for malloc() */
-#include <string.h> /* for memcpy() */
+#include <string.h> /* for strlen(), strcpy() */
 #include "FLAC/assert.h"
 #include "protected/file_encoder.h"
-#include "protected/seekable_stream_encoder.h"
+
+#ifdef max
+#undef max
+#endif
+#define max(x,y) ((x)>(y)?(x):(y))
 
 /***********************************************************************
  *
@@ -37,6 +53,7 @@ extern FLAC__bool FLAC__seekable_stream_encoder_disable_verbatim_subframes(FLAC_
 
 static void set_defaults_(FLAC__FileEncoder *encoder);
 static FLAC__SeekableStreamEncoderSeekStatus seek_callback_(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data);
+static FLAC__SeekableStreamEncoderTellStatus tell_callback_(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data);
 static FLAC__StreamEncoderWriteStatus write_callback_(const FLAC__SeekableStreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data);
 
 /***********************************************************************
@@ -51,6 +68,7 @@ typedef struct FLAC__FileEncoderPrivate {
 	char *filename;
 	FLAC__uint64 bytes_written;
 	FLAC__uint64 samples_written;
+	unsigned frames_written;
 	unsigned total_frames_estimate;
 	FLAC__SeekableStreamEncoder *seekable_stream_encoder;
 	FILE *file;
@@ -160,8 +178,10 @@ FLAC_API FLAC__FileEncoderState FLAC__file_encoder_init(FLAC__FileEncoder *encod
 
 	encoder->private_->bytes_written = 0;
 	encoder->private_->samples_written = 0;
+	encoder->private_->frames_written = 0;
 
 	FLAC__seekable_stream_encoder_set_seek_callback(encoder->private_->seekable_stream_encoder, seek_callback_);
+	FLAC__seekable_stream_encoder_set_tell_callback(encoder->private_->seekable_stream_encoder, tell_callback_);
 	FLAC__seekable_stream_encoder_set_write_callback(encoder->private_->seekable_stream_encoder, write_callback_);
 	FLAC__seekable_stream_encoder_set_client_data(encoder->private_->seekable_stream_encoder, encoder);
 
@@ -699,6 +719,26 @@ FLAC__SeekableStreamEncoderSeekStatus seek_callback_(const FLAC__SeekableStreamE
 		return FLAC__SEEKABLE_STREAM_ENCODER_SEEK_STATUS_OK;
 }
 
+FLAC__SeekableStreamEncoderTellStatus tell_callback_(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
+{
+	FLAC__FileEncoder *file_encoder = (FLAC__FileEncoder*)client_data;
+	long offset;
+
+	(void)encoder;
+
+	FLAC__ASSERT(0 != file_encoder);
+
+	offset = ftell(file_encoder->private_->file);
+
+	if(offset < 0) {
+		return FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_ERROR;
+	}
+	else {
+		*absolute_byte_offset = (FLAC__uint64)offset;
+		return FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_OK;
+	}
+}
+
 #ifdef FLAC__VALGRIND_TESTING
 static size_t local__fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
@@ -722,8 +762,13 @@ FLAC__StreamEncoderWriteStatus write_callback_(const FLAC__SeekableStreamEncoder
 	if(local__fwrite(buffer, sizeof(FLAC__byte), bytes, file_encoder->private_->file) == bytes) {
 		file_encoder->private_->bytes_written += bytes;
 		file_encoder->private_->samples_written += samples;
+		/* we keep a high watermark on the number of frames written because
+		 * when the encoder goes back to write metadata, 'current_frame'
+		 * will drop back to 0.
+		 */
+		file_encoder->private_->frames_written = max(file_encoder->private_->frames_written, current_frame+1);
 		if(0 != file_encoder->private_->progress_callback && samples > 0)
-			file_encoder->private_->progress_callback(file_encoder, file_encoder->private_->bytes_written, file_encoder->private_->samples_written, current_frame+1, file_encoder->private_->total_frames_estimate, file_encoder->private_->client_data);
+			file_encoder->private_->progress_callback(file_encoder, file_encoder->private_->bytes_written, file_encoder->private_->samples_written, file_encoder->private_->frames_written, file_encoder->private_->total_frames_estimate, file_encoder->private_->client_data);
 		return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
 	}
 	else

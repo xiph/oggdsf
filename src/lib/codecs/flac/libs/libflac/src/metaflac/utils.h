@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@ size_t local_fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 char *local_strdup(const char *source);
 void local_strcat(char **dest, const char *source);
 void hexdump(const char *filename, const FLAC__byte *buf, unsigned bytes, const char *indent);
+void print_error_with_chain_status(FLAC__Metadata_Chain *chain, const char *format, ...);
 
 FLAC__bool parse_vorbis_comment_field(const char *field_ref, char **field, char **name, char **value, unsigned *length, const char **violation);
 

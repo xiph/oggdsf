@@ -1,5 +1,5 @@
 #  test_libFLAC - Unit tester for libFLAC
-#  Copyright (C) 2000,2001,2002,2003  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -24,8 +24,8 @@ INCLUDES = -I$(top_srcdir)/src/libFLAC/include
 
 noinst_PROGRAMS = test_libFLAC
 test_libFLAC_LDADD = \
-	$(top_builddir)/src/share/grabbag/libgrabbag.a \
-	$(top_builddir)/src/share/gain_analysis/libgain_analysis.a \
+	$(top_builddir)/src/share/grabbag/libgrabbag.la \
+	$(top_builddir)/src/share/replaygain_analysis/libreplaygain_analysis.la \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
 	-lm
 test_libFLAC_SOURCES = \

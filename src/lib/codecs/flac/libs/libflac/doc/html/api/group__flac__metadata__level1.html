@@ -41,7 +41,7 @@
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a6">FLAC__metadata_simple_iterator_is_writable</a> (const <a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a7">FLAC__metadata_simple_iterator_next</a> (<a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a8">FLAC__metadata_simple_iterator_prev</a> (<a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator)</td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a>&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a9">FLAC__metadata_simple_iterator_get_block_type</a> (const <a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a>&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a9">FLAC__metadata_simple_iterator_get_block_type</a> (const <a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator)</td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a10">FLAC__metadata_simple_iterator_get_block</a> (<a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a11">FLAC__metadata_simple_iterator_set_block</a> (<a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator, <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block, FLAC__bool use_padding)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__level1.html#a12">FLAC__metadata_simple_iterator_insert_block_after</a> (<a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator, <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block, FLAC__bool use_padding)</td></tr>
@@ -62,7 +62,7 @@ The level 1 interface provides read-write access to FLAC file metadata and opera
 Note: </b><dd>
  The FLAC file remains open the whole time between <a class="el" href="group__flac__metadata__level1.html#a5">FLAC__metadata_simple_iterator_init</a>() and <a class="el" href="group__flac__metadata__level1.html#a3">FLAC__metadata_simple_iterator_delete</a>(), so make sure you are not altering the file during this time.</dl><dl compact><dt><b>
 Note: </b><dd>
- Do not modify the <em>is_last</em>, <em>length</em>, or <em>type</em> fields of returned FLAC__MetadataType objects. These are managed automatically.</dl><dl compact><dt><b>
+ Do not modify the <em>is_last</em>, <em>length</em>, or <em>type</em> fields of returned <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> objects. These are managed automatically.</dl><dl compact><dt><b>
 Note: </b><dd>
  If any of the modification functions (<a class="el" href="group__flac__metadata__level1.html#a11">FLAC__metadata_simple_iterator_set_block</a>(), <a class="el" href="group__flac__metadata__level1.html#a13">FLAC__metadata_simple_iterator_delete_block</a>(), <a class="el" href="group__flac__metadata__level1.html#a12">FLAC__metadata_simple_iterator_insert_block_after</a>(), etc.) return <code>false</code>, you should delete the iterator as it may no longer be valid. </dl><hr><h2>Typedef Documentation</h2>
 <a name="a0" doxytag="metadata.h::FLAC__Metadata_SimpleIterator"></a><p>
@@ -470,7 +470,7 @@ Return values: </b><dd>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> <a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> FLAC__metadata_simple_iterator_get_block_type </td>
+          <td class="md" nowrap valign="top"> <a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> FLAC__metadata_simple_iterator_get_block_type </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const <a class="el" href="group__flac__metadata__level1.html#a0">FLAC__Metadata_SimpleIterator</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>iterator</em>          </td>
@@ -782,7 +782,7 @@ Maps a FLAC__Metadata_SimpleIteratorStatus to a C string.
 Using a FLAC__Metadata_SimpleIteratorStatus as the index to this array will give the string equivalent. The contents should not be modified.     </td>
   </tr>
 </table>
-<hr><address><small>Generated on Sat Jan 25 10:44:54 2003 for FLAC by
+<hr><address><small>Generated on Tue Sep 28 21:19:43 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

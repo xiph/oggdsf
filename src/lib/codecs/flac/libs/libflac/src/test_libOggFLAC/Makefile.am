@@ -1,5 +1,5 @@
 #  test_libOggFLAC - Unit tester for libOggFLAC
-#  Copyright (C) 2002,2003  Josh Coalson
+#  Copyright (C) 2002,2003,2004  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -24,8 +24,8 @@ INCLUDES =
 
 noinst_PROGRAMS = test_libOggFLAC
 test_libOggFLAC_LDADD = \
-	$(top_builddir)/src/share/grabbag/libgrabbag.a \
-	$(top_builddir)/src/share/gain_analysis/libgain_analysis.a \
+	$(top_builddir)/src/share/grabbag/libgrabbag.la \
+	$(top_builddir)/src/share/replaygain_analysis/libreplaygain_analysis.la \
 	$(top_builddir)/src/libOggFLAC/libOggFLAC.la \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
 	@OGG_LIBS@ \

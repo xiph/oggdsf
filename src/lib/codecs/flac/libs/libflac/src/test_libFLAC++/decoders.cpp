@@ -1,5 +1,5 @@
 /* test_libFLAC++ - Unit tester for libFLAC++
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,6 +29,11 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef _MSC_VER
+// warning C4800: 'int' : forcing to bool 'true' or 'false' (performance warning)
+#pragma warning ( disable : 4800 )
+#endif
 
 static ::FLAC__StreamMetadata streaminfo_, padding_, seektable_, application1_, application2_, vorbiscomment_, cuesheet_, unknown_;
 static ::FLAC__StreamMetadata *expected_metadata_sequence_[8];
@@ -340,6 +345,11 @@ static bool test_stream_decoder()
 
 	printf("testing process_single()... ");
 	if(!decoder->process_single())
+		return decoder->die("returned false");
+	printf("OK\n");
+
+	printf("testing skip_single_frame()... ");
+	if(!decoder->skip_single_frame())
 		return decoder->die("returned false");
 	printf("OK\n");
 
@@ -1060,6 +1070,11 @@ static bool test_seekable_stream_decoder()
 		return decoder->die("returned false");
 	printf("OK\n");
 
+	printf("testing skip_single_frame()... ");
+	if(!decoder->skip_single_frame())
+		return decoder->die("returned false");
+	printf("OK\n");
+
 	printf("testing flush()... ");
 	if(!decoder->flush())
 		return decoder->die("returned false");
@@ -1642,7 +1657,7 @@ static bool test_file_decoder()
 	printf("OK\n");
 
 	printf("testing init()... ");
-	if(decoder->init() != ::FLAC__SEEKABLE_STREAM_DECODER_OK)
+	if(decoder->init() != ::FLAC__FILE_DECODER_OK)
 		return decoder->die();
 	printf("OK\n");
 
@@ -1720,6 +1735,11 @@ static bool test_file_decoder()
 
 	printf("testing process_single()... ");
 	if(!decoder->process_single())
+		return decoder->die("returned false");
+	printf("OK\n");
+
+	printf("testing skip_single_frame()... ");
+	if(!decoder->skip_single_frame())
 		return decoder->die("returned false");
 	printf("OK\n");
 

@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -126,8 +126,10 @@ static FLAC__bool test_stream_encoder()
 	FLAC__StreamEncoderState state;
 	FLAC__StreamDecoderState dstate;
 	FLAC__int32 samples[1024];
-	FLAC__int32 *samples_array[1] = { samples };
+	FLAC__int32 *samples_array[1];
 	unsigned i;
+
+	samples_array[0] = samples;
 
 	printf("\n+++ libFLAC unit test: FLAC__StreamEncoder\n\n");
 
@@ -420,6 +422,13 @@ FLAC__SeekableStreamEncoderSeekStatus seekable_stream_encoder_seek_callback_(con
 	return FLAC__SEEKABLE_STREAM_ENCODER_SEEK_STATUS_OK;
 }
 
+FLAC__SeekableStreamEncoderTellStatus seekable_stream_encoder_tell_callback_(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
+{
+	(void)encoder, (void)client_data;
+	*absolute_byte_offset = 0;
+	return FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_OK;
+}
+
 FLAC__StreamEncoderWriteStatus seekable_stream_encoder_write_callback_(const FLAC__SeekableStreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)
 {
 	(void)encoder, (void)buffer, (void)bytes, (void)samples, (void)current_frame, (void)client_data;
@@ -433,8 +442,10 @@ static FLAC__bool test_seekable_stream_encoder()
 	FLAC__StreamEncoderState state_;
 	FLAC__StreamDecoderState dstate;
 	FLAC__int32 samples[1024];
-	FLAC__int32 *samples_array[1] = { samples };
+	FLAC__int32 *samples_array[1];
 	unsigned i;
+
+	samples_array[0] = samples;
 
 	printf("\n+++ libFLAC unit test: FLAC__SeekableStreamEncoder\n\n");
 
@@ -538,6 +549,11 @@ static FLAC__bool test_seekable_stream_encoder()
 
 	printf("testing FLAC__seekable_stream_encoder_set_seek_callback()... ");
 	if(!FLAC__seekable_stream_encoder_set_seek_callback(encoder, seekable_stream_encoder_seek_callback_))
+		return die_ss_("returned false", encoder);
+	printf("OK\n");
+
+	printf("testing FLAC__seekable_stream_encoder_set_tell_callback()... ");
+	if(!FLAC__seekable_stream_encoder_set_tell_callback(encoder, seekable_stream_encoder_tell_callback_))
 		return die_ss_("returned false", encoder);
 	printf("OK\n");
 
@@ -738,8 +754,10 @@ static FLAC__bool test_file_encoder()
 	FLAC__StreamEncoderState state__;
 	FLAC__StreamDecoderState dstate;
 	FLAC__int32 samples[1024];
-	FLAC__int32 *samples_array[1] = { samples };
+	FLAC__int32 *samples_array[1];
 	unsigned i;
+
+	samples_array[0] = samples;
 
 	printf("\n+++ libFLAC unit test: FLAC__FileEncoder\n\n");
 

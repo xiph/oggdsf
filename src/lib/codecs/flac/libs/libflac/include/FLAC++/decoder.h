@@ -1,20 +1,32 @@
 /* libFLAC++ - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef FLACPP__DECODER_H
@@ -83,7 +95,7 @@ namespace FLAC {
 				inline State(::FLAC__StreamDecoderState state): state_(state) { }
 				inline operator ::FLAC__StreamDecoderState() const { return state_; }
 				inline const char *as_cstring() const { return ::FLAC__StreamDecoderStateString[state_]; }
-				const char *resolved_as_cstring(const Stream &) const;
+				inline const char *resolved_as_cstring(const Stream &decoder) const { return ::FLAC__stream_decoder_get_resolved_state_string(decoder.decoder_); }
 			protected:
 				::FLAC__StreamDecoderState state_;
 			};
@@ -122,12 +134,17 @@ namespace FLAC {
 			bool process_single();
 			bool process_until_end_of_metadata();
 			bool process_until_end_of_stream();
+			bool skip_single_frame();
 		protected:
 			virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte buffer[], unsigned *bytes) = 0;
 			virtual ::FLAC__StreamDecoderWriteStatus write_callback(const ::FLAC__Frame *frame, const FLAC__int32 * const buffer[]) = 0;
 			virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata) = 0;
 			virtual void error_callback(::FLAC__StreamDecoderErrorStatus status) = 0;
 
+#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96)))
+			// lame hack: some MSVC/GCC versions can't see a protected decoder_ from nested State::resolved_as_cstring()
+			friend State;
+#endif
 			::FLAC__StreamDecoder *decoder_;
 		private:
 			static ::FLAC__StreamDecoderReadStatus read_callback_(const ::FLAC__StreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data);
@@ -141,7 +158,6 @@ namespace FLAC {
 		};
 
 		/* \} */
-
 
 		// ============================================================
 		//
@@ -169,7 +185,7 @@ namespace FLAC {
 				inline State(::FLAC__SeekableStreamDecoderState state): state_(state) { }
 				inline operator ::FLAC__SeekableStreamDecoderState() const { return state_; }
 				inline const char *as_cstring() const { return ::FLAC__SeekableStreamDecoderStateString[state_]; }
-				const char *resolved_as_cstring(const SeekableStream &) const;
+				inline const char *resolved_as_cstring(const SeekableStream &decoder) const { return ::FLAC__seekable_stream_decoder_get_resolved_state_string(decoder.decoder_); }
 			protected:
 				::FLAC__SeekableStreamDecoderState state_;
 			};
@@ -207,6 +223,7 @@ namespace FLAC {
 			bool process_single();
 			bool process_until_end_of_metadata();
 			bool process_until_end_of_stream();
+			bool skip_single_frame();
 
 			bool seek_absolute(FLAC__uint64 sample);
 		protected:
@@ -219,6 +236,10 @@ namespace FLAC {
 			virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata) = 0;
 			virtual void error_callback(::FLAC__StreamDecoderErrorStatus status) = 0;
 
+#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96)))
+			// lame hack: some MSVC/GCC versions can't see a protected decoder_ from nested State::resolved_as_cstring()
+			friend State;
+#endif
 			::FLAC__SeekableStreamDecoder *decoder_;
 		private:
 			static ::FLAC__SeekableStreamDecoderReadStatus read_callback_(const ::FLAC__SeekableStreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data);
@@ -236,7 +257,6 @@ namespace FLAC {
 		};
 
 		/* \} */
-
 
 		// ============================================================
 		//
@@ -264,7 +284,7 @@ namespace FLAC {
 				inline State(::FLAC__FileDecoderState state): state_(state) { }
 				inline operator ::FLAC__FileDecoderState() const { return state_; }
 				inline const char *as_cstring() const { return ::FLAC__FileDecoderStateString[state_]; }
-				const char *resolved_as_cstring(const File &) const;
+				inline const char *resolved_as_cstring(const File &decoder) const { return ::FLAC__file_decoder_get_resolved_state_string(decoder.decoder_); }
 			protected:
 				::FLAC__FileDecoderState state_;
 			};
@@ -301,6 +321,7 @@ namespace FLAC {
 			bool process_single();
 			bool process_until_end_of_metadata();
 			bool process_until_end_of_file();
+			bool skip_single_frame();
 
 			bool seek_absolute(FLAC__uint64 sample);
 		protected:
@@ -308,6 +329,10 @@ namespace FLAC {
 			virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata) = 0;
 			virtual void error_callback(::FLAC__StreamDecoderErrorStatus status) = 0;
 
+#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96)))
+			// lame hack: some MSVC/GCC versions can't see a protected decoder_ from nested State::resolved_as_cstring()
+			friend State;
+#endif
 			::FLAC__FileDecoder *decoder_;
 		private:
 			static ::FLAC__StreamDecoderWriteStatus write_callback_(const ::FLAC__FileDecoder *decoder, const ::FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data);

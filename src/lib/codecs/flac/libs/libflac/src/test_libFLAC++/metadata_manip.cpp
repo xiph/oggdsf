@@ -1,5 +1,5 @@
 /* test_libFLAC++ - Unit tester for libFLAC++
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,16 @@ extern "C" {
 #include <stdlib.h> /* for malloc() */
 #include <string.h> /* for memcpy()/memset() */
 
+#if defined _MSC_VER || defined __MINGW32__
+#include <sys/utime.h> /* for utime() */
+#include <io.h> /* for chmod() */
+#else
+#include <sys/types.h> /* some flavors of BSD (like OS X) require this to get time_t */
+#include <utime.h> /* for utime() */
+#include <unistd.h> /* for chown(), unlink() */
+#endif
+#include <sys/stat.h> /* for stat(), maybe chmod() */
+
 /******************************************************************************
 	The general strategy of these tests (for interface levels 1 and 2) is
 	to create a dummy FLAC file with a known set of initial metadata
@@ -42,7 +52,7 @@ class OurFileDecoder: public FLAC::Decoder::File {
 public:
 	inline OurFileDecoder(bool ignore_metadata): ignore_metadata_(ignore_metadata), error_occurred_(false) { }
 
-	bool ignore_metadata_;;
+	bool ignore_metadata_;
 	bool error_occurred_;
 protected:
 	::FLAC__StreamDecoderWriteStatus write_callback(const ::FLAC__Frame *frame, const FLAC__int32 * const buffer[]);
@@ -164,6 +174,202 @@ void add_to_padding_length_(unsigned index, int delta)
 	FLAC::Metadata::Padding *padding = dynamic_cast<FLAC::Metadata::Padding *>(our_metadata_.blocks[index]);
 	FLAC__ASSERT(0 != padding);
 	padding->set_length((unsigned)((int)padding->get_length() + delta));
+}
+
+/*
+ * This wad of functions supports filename- and callback-based chain reading/writing.
+ * Everything up to set_file_stats_() is copied from libFLAC/metadata_iterators.c
+ */
+bool open_tempfile_(const char *filename, FILE **tempfile, char **tempfilename)
+{
+	static const char *tempfile_suffix = ".metadata_edit";
+
+	if(0 == (*tempfilename = (char*)malloc(strlen(filename) + strlen(tempfile_suffix) + 1)))
+		return false;
+	strcpy(*tempfilename, filename);
+	strcat(*tempfilename, tempfile_suffix);
+
+	if(0 == (*tempfile = fopen(*tempfilename, "wb")))
+		return false;
+
+	return true;
+}
+
+void cleanup_tempfile_(FILE **tempfile, char **tempfilename)
+{
+	if(0 != *tempfile) {
+		(void)fclose(*tempfile);
+		*tempfile = 0;
+	}
+
+	if(0 != *tempfilename) {
+		(void)unlink(*tempfilename);
+		free(*tempfilename);
+		*tempfilename = 0;
+	}
+}
+
+bool transport_tempfile_(const char *filename, FILE **tempfile, char **tempfilename)
+{
+	FLAC__ASSERT(0 != filename);
+	FLAC__ASSERT(0 != tempfile);
+	FLAC__ASSERT(0 != tempfilename);
+	FLAC__ASSERT(0 != *tempfilename);
+
+	if(0 != *tempfile) {
+		(void)fclose(*tempfile);
+		*tempfile = 0;
+	}
+
+#if defined _MSC_VER || defined __MINGW32__
+	if(unlink(filename) < 0) {
+		cleanup_tempfile_(tempfile, tempfilename);
+		return false;
+	}
+#endif
+
+	if(0 != rename(*tempfilename, filename)) {
+		cleanup_tempfile_(tempfile, tempfilename);
+		return false;
+	}
+
+	cleanup_tempfile_(tempfile, tempfilename);
+
+	return true;
+}
+
+bool get_file_stats_(const char *filename, struct stat *stats)
+{
+	FLAC__ASSERT(0 != filename);
+	FLAC__ASSERT(0 != stats);
+	return (0 == stat(filename, stats));
+}
+
+void set_file_stats_(const char *filename, struct stat *stats)
+{
+	struct utimbuf srctime;
+
+	FLAC__ASSERT(0 != filename);
+	FLAC__ASSERT(0 != stats);
+
+	srctime.actime = stats->st_atime;
+	srctime.modtime = stats->st_mtime;
+	(void)chmod(filename, stats->st_mode);
+	(void)utime(filename, &srctime);
+#if !defined _MSC_VER && !defined __MINGW32__
+	(void)chown(filename, stats->st_uid, (gid_t)(-1));
+	(void)chown(filename, (uid_t)(-1), stats->st_gid);
+#endif
+}
+
+#ifdef FLAC__VALGRIND_TESTING
+static size_t chain_write_cb_(const void *ptr, size_t size, size_t nmemb, ::FLAC__IOHandle handle)
+{
+	FILE *stream = (FILE*)handle;
+	size_t ret = fwrite(ptr, size, nmemb, stream);
+	if(!ferror(stream))
+		fflush(stream);
+	return ret;
+}
+#endif
+
+static int chain_seek_cb_(::FLAC__IOHandle handle, FLAC__int64 offset, int whence)
+{
+	long o = (long)offset;
+	FLAC__ASSERT(offset == o);
+	return fseek((FILE*)handle, o, whence);
+}
+
+static FLAC__int64 chain_tell_cb_(::FLAC__IOHandle handle)
+{
+	return ftell((FILE*)handle);
+}
+
+static int chain_eof_cb_(::FLAC__IOHandle handle)
+{
+	return feof((FILE*)handle);
+}
+
+static bool write_chain_(FLAC::Metadata::Chain &chain, bool use_padding, bool preserve_file_stats, bool filename_based, const char *filename)
+{
+	if(filename_based)
+		return chain.write(use_padding, preserve_file_stats);
+	else {
+		::FLAC__IOCallbacks callbacks;
+
+		memset(&callbacks, 0, sizeof(callbacks));
+		callbacks.read = (::FLAC__IOCallback_Read)fread;
+#ifdef FLAC__VALGRIND_TESTING
+		callbacks.write = chain_write_cb_;
+#else
+		callbacks.write = (::FLAC__IOCallback_Write)fwrite;
+#endif
+		callbacks.seek = chain_seek_cb_;
+		callbacks.eof = chain_eof_cb_;
+
+		if(chain.check_if_tempfile_needed(use_padding)) {
+			struct stat stats;
+			FILE *file, *tempfile;
+			char *tempfilename;
+			if(preserve_file_stats) {
+				if(!get_file_stats_(filename, &stats))
+					return false;
+			}
+			if(0 == (file = fopen(filename, "rb")))
+				return false; /*@@@ chain status still says OK though */
+			if(!open_tempfile_(filename, &tempfile, &tempfilename)) {
+				fclose(file);
+				cleanup_tempfile_(&tempfile, &tempfilename);
+				return false; /*@@@ chain status still says OK though */
+			}
+			if(!chain.write(use_padding, (::FLAC__IOHandle)file, callbacks, (::FLAC__IOHandle)tempfile, callbacks)) {
+				fclose(file);
+				fclose(tempfile);
+				return false;
+			}
+			fclose(file);
+			fclose(tempfile);
+			file = tempfile = 0;
+			if(!transport_tempfile_(filename, &tempfile, &tempfilename))
+				return false;
+			if(preserve_file_stats)
+				set_file_stats_(filename, &stats);
+		}
+		else {
+			FILE *file = fopen(filename, "r+b");
+			if(0 == file)
+				return false; /*@@@ chain status still says OK though */
+			if(!chain.write(use_padding, (::FLAC__IOHandle)file, callbacks))
+				return false;
+			fclose(file);
+		}
+	}
+
+	return true;
+}
+
+static bool read_chain_(FLAC::Metadata::Chain &chain, const char *filename, bool filename_based)
+{
+	if(filename_based)
+		return chain.read(filename);
+	else {
+		::FLAC__IOCallbacks callbacks;
+
+		memset(&callbacks, 0, sizeof(callbacks));
+		callbacks.read = (::FLAC__IOCallback_Read)fread;
+		callbacks.seek = chain_seek_cb_;
+		callbacks.tell = chain_tell_cb_;
+
+		{
+			bool ret;
+			FILE *file = fopen(filename, "rb");
+			if(0 == file)
+				return false; /*@@@ chain status still says OK though */
+			ret = chain.read((::FLAC__IOHandle)file, callbacks);
+			fclose(file);
+			return ret;
+		}
+	}
 }
 
 /* function for comparing our metadata to a FLAC::Metadata::Chain */
@@ -385,6 +591,7 @@ static bool remove_file_(const char *filename)
 static bool test_level_0_()
 {
 	FLAC::Metadata::StreamInfo streaminfo;
+	FLAC::Metadata::VorbisComment *tags = 0;
 
 	printf("\n\n++++++ testing level 0 interface\n");
 
@@ -393,6 +600,8 @@ static bool test_level_0_()
 
 	if(!test_file_(flacfile_, /*ignore_metadata=*/true))
 		return false;
+
+	printf("testing FLAC::Metadata::get_streaminfo()... ");
 
 	if(!FLAC::Metadata::get_streaminfo(flacfile_, streaminfo))
 		return die_("during FLAC::Metadata::get_streaminfo()");
@@ -408,6 +617,21 @@ static bool test_level_0_()
 		return die_("mismatch in streaminfo.get_min_blocksize()");
 	if(streaminfo.get_max_blocksize() != 576)
 		return die_("mismatch in streaminfo.get_max_blocksize()");
+
+	printf("OK\n");
+
+	printf("testing FLAC::Metadata::get_tags()... ");
+
+	if(!FLAC::Metadata::get_tags(flacfile_, tags))
+		return die_("during FLAC::Metadata::get_tags()");
+
+	/* check to see if some basic data matches (c.f. generate_file_()) */
+	if(tags->get_num_comments() != 0)
+		return die_("mismatch in tags->get_num_comments()");
+
+	printf("OK\n");
+
+	delete tags;
 
 	if(!remove_file_(flacfile_))
 		return false;
@@ -1082,7 +1306,7 @@ static bool test_level_1_()
 	return true;
 }
 
-static bool test_level_2_()
+static bool test_level_2_(bool filename_based)
 {
 	FLAC::Metadata::Prototype *block;
 	FLAC::Metadata::StreamInfo *streaminfo;
@@ -1094,7 +1318,7 @@ static bool test_level_2_()
 	// initialize 'data' to avoid Valgrind errors
 	memset(data, 0, sizeof(data));
 
-	printf("\n\n++++++ testing level 2 interface\n");
+	printf("\n\n++++++ testing level 2 interface (%s-based)\n", filename_based? "filename":"callback");
 
 	printf("generate read-only file\n");
 
@@ -1111,7 +1335,7 @@ static bool test_level_2_()
 
 	printf("read chain\n");
 
-	if(!chain.read(flacfile_))
+	if(!read_chain_(chain, flacfile_, filename_based))
 		return die_c_("reading chain", chain.status());
 
 	printf("[S]VP\ttest initial metadata\n");
@@ -1150,7 +1374,7 @@ static bool test_level_2_()
 		return die_("copying object");
 	delete block;
 
-	if(!chain.write(/*use_padding=*/false, /*preserve_file_stats=*/true))
+	if(!write_chain_(chain, /*use_padding=*/false, /*preserve_file_stats=*/true, filename_based, flacfile_))
 		return die_c_("during chain.write(false, true)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1183,7 +1407,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/false, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/false, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(false, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1202,7 +1426,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/false, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/false, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(false, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1221,7 +1445,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/false, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/false, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(false, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1240,7 +1464,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/false, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/false, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(false, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1259,7 +1483,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1283,7 +1507,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1303,7 +1527,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1322,7 +1546,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1342,7 +1566,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1362,7 +1586,7 @@ static bool test_level_2_()
 	if(!iterator.set_block(app))
 		return die_c_("iterator.set_block(app)", chain.status());
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	block = iterator.get_block();
 	if(!compare_chain_(chain, our_current_position, block))
@@ -1489,7 +1713,7 @@ static bool test_level_2_()
 	delete_from_our_metadata_(4);
 	delete_from_our_metadata_(3);
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	if(!compare_chain_(chain, 0, 0))
 		return false;
@@ -1501,7 +1725,7 @@ static bool test_level_2_()
 	add_to_padding_length_(4, FLAC__STREAM_METADATA_HEADER_LENGTH + our_metadata_.blocks[2]->get_length());
 	delete_from_our_metadata_(2);
 
-	if(!chain.write(/*use_padding=*/true, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/true, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(true, false)", chain.status());
 	if(!compare_chain_(chain, 0, 0))
 		return false;
@@ -1605,13 +1829,13 @@ static bool test_level_2_()
 		return false;
 	delete block;
 
-	}
+	} // delete iterator
 	our_current_position = 0;
 
 	printf("SV\tmerge padding\n");
 	chain.merge_padding();
 
-	if(!chain.write(/*use_padding=*/false, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/false, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(false, false)", chain.status());
 	if(!compare_chain_(chain, 0, 0))
 		return false;
@@ -1621,12 +1845,168 @@ static bool test_level_2_()
 	printf("SV\tsort padding\n");
 	chain.sort_padding();
 
-	if(!chain.write(/*use_padding=*/false, /*preserve_file_stats=*/false))
+	if(!write_chain_(chain, /*use_padding=*/false, /*preserve_file_stats=*/false, filename_based, flacfile_))
 		return die_c_("during chain.write(false, false)", chain.status());
 	if(!compare_chain_(chain, 0, 0))
 		return false;
 	if(!test_file_(flacfile_, /*ignore_metadata=*/false))
 		return false;
+
+	if(!remove_file_(flacfile_))
+		return false;
+
+	return true;
+}
+
+static bool test_level_2_misc_()
+{
+	::FLAC__IOCallbacks callbacks;
+
+	memset(&callbacks, 0, sizeof(callbacks));
+	callbacks.read = (::FLAC__IOCallback_Read)fread;
+#ifdef FLAC__VALGRIND_TESTING
+	callbacks.write = chain_write_cb_;
+#else
+	callbacks.write = (::FLAC__IOCallback_Write)fwrite;
+#endif
+	callbacks.seek = chain_seek_cb_;
+	callbacks.tell = chain_tell_cb_;
+	callbacks.eof = chain_eof_cb_;
+
+	printf("\n\n++++++ testing level 2 interface (mismatched read/write protections)\n");
+
+	printf("generate file\n");
+
+	if(!generate_file_())
+		return false;
+
+	printf("create chain\n");
+	FLAC::Metadata::Chain chain;
+	if(!chain.is_valid())
+		return die_("allocating chain");
+
+	printf("read chain (filename-based)\n");
+
+	if(!chain.read(flacfile_))
+		return die_c_("reading chain", chain.status());
+
+	printf("write chain with wrong method Chain::write(with callbacks)\n");
+	{
+		if(chain.write(/*use_padding=*/false, 0, callbacks))
+			return die_c_("mismatched write should have failed", chain.status());
+		if(chain.status() != ::FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH)
+			return die_c_("expected FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH", chain.status());
+		printf("  OK: Chain::write(with callbacks) returned false,FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH like it should\n");
+	}
+
+	printf("read chain (filename-based)\n");
+
+	if(!chain.read(flacfile_))
+		return die_c_("reading chain", chain.status());
+
+	printf("write chain with wrong method Chain::write(with callbacks and tempfile)\n");
+	{
+		if(chain.write(/*use_padding=*/false, 0, callbacks, 0, callbacks))
+			return die_c_("mismatched write should have failed", chain.status());
+		if(chain.status() != ::FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH)
+			return die_c_("expected FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH", chain.status());
+		printf("  OK: Chain::write(with callbacks and tempfile) returned false,FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH like it should\n");
+	}
+
+	printf("read chain (callback-based)\n");
+	{
+		FILE *file = fopen(flacfile_, "rb");
+		if(0 == file)
+			return die_("opening file");
+		if(!chain.read((::FLAC__IOHandle)file, callbacks)) {
+			fclose(file);
+			return die_c_("reading chain", chain.status());
+		}
+		fclose(file);
+	}
+
+	printf("write chain with wrong method write()\n");
+	{
+		if(chain.write(/*use_padding=*/false, /*preserve_file_stats=*/false))
+			return die_c_("mismatched write should have failed", chain.status());
+		if(chain.status() != ::FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH)
+			return die_c_("expected FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH", chain.status());
+		printf("  OK: write() returned false,FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH like it should\n");
+	}
+
+	printf("read chain (callback-based)\n");
+	{
+		FILE *file = fopen(flacfile_, "rb");
+		if(0 == file)
+			return die_("opening file");
+		if(!chain.read((::FLAC__IOHandle)file, callbacks)) {
+			fclose(file);
+			return die_c_("reading chain", chain.status());
+		}
+		fclose(file);
+	}
+
+	printf("testing Chain::check_if_tempfile_needed()... ");
+
+	if(!chain.check_if_tempfile_needed(/*use_padding=*/false))
+		printf("OK: Chain::check_if_tempfile_needed() returned false like it should\n");
+	else
+		return die_("Chain::check_if_tempfile_needed() returned true but shouldn't have");
+
+	printf("write chain with wrong method Chain::write(with callbacks and tempfile)\n");
+	{
+		if(chain.write(/*use_padding=*/false, 0, callbacks, 0, callbacks))
+			return die_c_("mismatched write should have failed", chain.status());
+		if(chain.status() != ::FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL)
+			return die_c_("expected FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL", chain.status());
+		printf("  OK: Chain::write(with callbacks and tempfile) returned false,FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL like it should\n");
+	}
+
+	printf("read chain (callback-based)\n");
+	{
+		FILE *file = fopen(flacfile_, "rb");
+		if(0 == file)
+			return die_("opening file");
+		if(!chain.read((::FLAC__IOHandle)file, callbacks)) {
+			fclose(file);
+			return die_c_("reading chain", chain.status());
+		}
+		fclose(file);
+	}
+
+	printf("create iterator\n");
+	{
+	FLAC::Metadata::Iterator iterator;
+	if(!iterator.is_valid())
+		return die_("allocating memory for iterator");
+
+	iterator.init(chain);
+
+	printf("[S]VP\tnext\n");
+	if(!iterator.next())
+		return die_("iterator ended early\n");
+
+	printf("S[V]P\tdelete VORBIS_COMMENT, write\n");
+	if(!iterator.delete_block(/*replace_with_padding=*/false))
+		return die_c_("block delete failed\n", chain.status());
+
+	printf("testing Chain::check_if_tempfile_needed()... ");
+
+	if(chain.check_if_tempfile_needed(/*use_padding=*/false))
+		printf("OK: Chain::check_if_tempfile_needed() returned true like it should\n");
+	else
+		return die_("Chain::check_if_tempfile_needed() returned false but shouldn't have");
+
+	printf("write chain with wrong method Chain::write(with callbacks)\n");
+	{
+		if(chain.write(/*use_padding=*/false, 0, callbacks))
+			return die_c_("mismatched write should have failed", chain.status());
+		if(chain.status() != ::FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL)
+			return die_c_("expected FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL", chain.status());
+		printf("  OK: Chain::write(with callbacks) returned false,FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL like it should\n");
+	}
+
+	} // delete iterator
 
 	if(!remove_file_(flacfile_))
 		return false;
@@ -1646,7 +2026,11 @@ bool test_metadata_file_manipulation()
 	if(!test_level_1_())
 		return false;
 
-	if(!test_level_2_())
+	if(!test_level_2_(/*filename_based=*/true)) /* filename-based */
+		return false;
+	if(!test_level_2_(/*filename_based=*/false)) /* callback-based */
+		return false;
+	if(!test_level_2_misc_())
 		return false;
 
 	return true;

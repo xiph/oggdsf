@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "in_flac_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /Ox /Og /Oi /Os /Op /Gf /Gy /I "include" /I ".." /I "..\..\include" /D "NDEBUG" /D VERSION=\"1.1.0\" /D "in_flac_EXPORTS" /D "FLAC__NO_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /WX /GX /Ox /Og /Oi /Os /Op /Gf /Gy /I "include" /I ".." /I "..\..\include" /D "NDEBUG" /D VERSION=\"1.1.1\" /D "in_flac_EXPORTS" /D "FLAC__NO_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TAGZ_UNICODE" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 plugin_common_static.lib grabbag_static.lib libFLAC_static.lib gain_analysis_static.lib kernel32.lib user32.lib /nologo /dll /machine:I386 /out:"../../obj/release/bin/in_flac.dll" /libpath:"../../obj/release/lib" /opt:nowin98
+# ADD LINK32 plugin_common_static.lib grabbag_static.lib libFLAC_static.lib replaygain_analysis_static.lib replaygain_synthesis_static.lib kernel32.lib user32.lib /nologo /dll /machine:I386 /out:"../../obj/release/bin/in_flac.dll" /libpath:"../../obj/release/lib" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "in_flac - Win32 Debug"
@@ -70,7 +70,8 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "in_flac_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "include" /I ".." /I "..\..\include" /D "_DEBUG" /D "REAL_STDIO" /D VERSION=\"1.1.0\" /D "in_flac_EXPORTS" /D "FLAC__NO_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "include" /I ".." /I "..\..\include" /D "_DEBUG" /D "REAL_STDIO" /D VERSION=\"1.1.1\" /D "in_flac_EXPORTS" /D "FLAC__NO_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TAGZ_UNICODE" /YX /FD /GZ /c
+# SUBTRACT CPP /WX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -80,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 plugin_common_static.lib grabbag_static.lib libFLAC_static.lib gain_analysis_static.lib kernel32.lib user32.lib /nologo /dll /debug /machine:I386 /out:"../../obj/debug/bin/in_flac.dll" /pdbtype:sept /libpath:"../../obj/debug/lib"
+# ADD LINK32 plugin_common_static.lib grabbag_static.lib libFLAC_static.lib replaygain_analysis_static.lib replaygain_synthesis_static.lib kernel32.lib user32.lib /nologo /dll /debug /machine:I386 /out:"../../obj/debug/bin/in_flac.dll" /pdbtype:sept /libpath:"../../obj/debug/lib"
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
@@ -123,6 +124,14 @@ SOURCE=.\infobox.c
 # Begin Source File
 
 SOURCE=.\infobox.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\playback.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\playback.h
 # End Source File
 # Begin Source File
 

@@ -1,5 +1,5 @@
 /* grabbag - Convenience lib for various routines common to several tools
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -140,8 +140,9 @@ static FLAC__int64 local__parse_msf_(const char *s)
 	return ret;
 }
 
-static char *local__get_field_(char **s)
+static char *local__get_field_(char **s, FLAC__bool allow_quotes)
 {
+	FLAC__bool has_quote = false;
 	char *p;
 
 	FLAC__ASSERT(0 != s);
@@ -153,12 +154,33 @@ static char *local__get_field_(char **s)
 	while(**s && 0 != strchr(" \t\r\n", **s))
 		(*s)++;
 
-	if(**s == 0)
+	if(**s == 0) {
 		*s = 0;
+		return 0;
+	}
+
+	if(allow_quotes && (**s == '"')) {
+		has_quote = true;
+		(*s)++;
+		if(**s == 0) {
+			*s = 0;
+			return 0;
+		}
+	}
 
 	p = *s;
 
-	if(p) {
+	if(has_quote) {
+		*s = strchr(*s, '\"');
+		/* if there is no matching end quote, it's an error */
+		if(0 == *s)
+			p = *s = 0;
+		else {
+			**s = '\0';
+			(*s)++;
+		}
+	}
+	else {
 		while(**s && 0 == strchr(" \t\r\n", **s))
 			(*s)++;
 		if(**s) {
@@ -199,13 +221,13 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 			return false;
 		}
 
-		if(0 != (field = local__get_field_(&line))) {
+		if(0 != (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 			if(0 == FLAC__STRCASECMP(field, "CATALOG")) {
 				if(disc_has_catalog) {
 					*error_message = "found multiple CATALOG commands";
 					return false;
 				}
-				if(0 == (field = local__get_field_(&line))) {
+				if(0 == (field = local__get_field_(&line, /*allow_quotes=*/true))) {
 					*error_message = "CATALOG is missing catalog number";
 					return false;
 				}
@@ -229,7 +251,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 					*error_message = "FLAGS command must come after TRACK but before INDEX";
 					return false;
 				}
-				while(0 != (field = local__get_field_(&line))) {
+				while(0 != (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 					if(0 == FLAC__STRCASECMP(field, "PRE"))
 						cs->tracks[cs->num_tracks-1].pre_emphasis = 1;
 				}
@@ -242,7 +264,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 					*error_message = "found INDEX before any TRACK";
 					return false;
 				}
-				if(0 == (field = local__get_field_(&line))) {
+				if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 					*error_message = "INDEX is missing index number";
 					return false;
 				}
@@ -270,7 +292,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 					return false;
 				}
 				/*@@@ search for duplicate track number? */
-				if(0 == (field = local__get_field_(&line))) {
+				if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 					*error_message = "INDEX is missing an offset after the index number";
 					return false;
 				}
@@ -312,6 +334,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 				track->indices[track->num_indices-1].number = in_index_num;
 			}
 			else if(0 == FLAC__STRCASECMP(field, "ISRC")) {
+				char *l, *r;
 				if(track_has_isrc) {
 					*error_message = "found multiple ISRC commands";
 					return false;
@@ -320,10 +343,16 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 					*error_message = "ISRC command must come after TRACK but before INDEX";
 					return false;
 				}
-				if(0 == (field = local__get_field_(&line))) {
+				if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 					*error_message = "ISRC is missing ISRC number";
 					return false;
 				}
+				/* strip out dashes */
+				for(l = r = field; *r; r++) {
+					if(*r != '-')
+						*l++ = *r;
+				}
+				*l = '\0';
 				if(strlen(field) != 12 || strspn(field, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") < 5 || strspn(field+5, "1234567890") != 7) {
 					*error_message = "invalid ISRC number";
 					return false;
@@ -350,7 +379,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 						return false;
 					}
 				}
-				if(0 == (field = local__get_field_(&line))) {
+				if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 					*error_message = "TRACK is missing track number";
 					return false;
 				}
@@ -372,7 +401,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 					return false;
 				}
 				/*@@@ search for duplicate track number? */
-				if(0 == (field = local__get_field_(&line))) {
+				if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 					*error_message = "TRACK is missing a track type after the track number";
 					return false;
 				}
@@ -387,10 +416,10 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 				track_has_isrc = false;
 			}
 			else if(0 == FLAC__STRCASECMP(field, "REM")) {
-				if(0 != (field = local__get_field_(&line))) {
+				if(0 != (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 					if(0 == strcmp(field, "FLAC__lead-in")) {
 						FLAC__int64 xx;
-						if(0 == (field = local__get_field_(&line))) {
+						if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 							*error_message = "FLAC__lead-in is missing offset";
 							return false;
 						}
@@ -412,7 +441,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 							*error_message = "multiple FLAC__lead-out commands";
 							return false;
 						}
-						if(0 == (field = local__get_field_(&line))) {
+						if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 							*error_message = "FLAC__lead-out is missing track number";
 							return false;
 						}
@@ -423,7 +452,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 						}
 						forced_leadout_track_num = (unsigned)track_num;
 						/*@@@ search for duplicate track number? */
-						if(0 == (field = local__get_field_(&line))) {
+						if(0 == (field = local__get_field_(&line, /*allow_quotes=*/false))) {
 							*error_message = "FLAC__lead-out is missing offset";
 							return false;
 						}
@@ -546,10 +575,19 @@ void grabbag__cuesheet_emit(FILE *file, const FLAC__StreamMetadata *cuesheet, co
 				fprintf(file, "%02u:%02u:%02u\n", m, s, f);
 			}
 			else
+#ifdef _MSC_VER
+				fprintf(file, "%I64u\n", track->offset + index->offset);
+#else
 				fprintf(file, "%llu\n", track->offset + index->offset);
+#endif
 		}
 	}
 
+#ifdef _MSC_VER
+	fprintf(file, "REM FLAC__lead-in %I64u\n", cs->lead_in);
+	fprintf(file, "REM FLAC__lead-out %u %I64u\n", (unsigned)cs->tracks[track_num].number, cs->tracks[track_num].offset);
+#else
 	fprintf(file, "REM FLAC__lead-in %llu\n", cs->lead_in);
 	fprintf(file, "REM FLAC__lead-out %u %llu\n", (unsigned)cs->tracks[track_num].number, cs->tracks[track_num].offset);
+#endif
 }

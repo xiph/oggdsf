@@ -13,7 +13,7 @@
 <a href="#_details">More...</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Modules</h2></td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="group__flac__metadata__level0.html">FLAC/metadata.h: metadata level 0 interface</a></td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>The level 0 interface consists of a single routine to read the STREAMINFO block.</em></font><br><br></td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>The level 0 interface consists of individual routines to read the STREAMINFO and VORBIS_COMMENT blocks, requiring only a filename.</em></font><br><br></td></tr>
 
 <p>
 <tr><td nowrap align=right valign=top><a class="el" href="group__flac__metadata__level1.html">FLAC/metadata.h: metadata level 1 interface</a></td></tr>
@@ -36,23 +36,25 @@ This module provides functions for creating and manipulating FLAC metadata block
 <p>
  There are three metadata interfaces of increasing complexity:
 <p>
-Level 0: Read-only access to the STREAMINFO block.
+Level 0: Read-only access to the STREAMINFO and VORBIS_COMMENT blocks.
 <p>
 Level 1: Read-write access to all metadata blocks. This level is write- efficient in most cases (more on this below), and uses less memory than level 2.
 <p>
 Level 2: Read-write access to all metadata blocks. This level is write- efficient in all cases, but uses more memory since all metadata for the whole file is read into memory and manipulated before writing out again.
 <p>
-What do we mean by efficient? When writing metadata back to a FLAC file it is possible to grow or shrink the metadata such that the entire file must be rewritten. However, if the size remains the same during changes or PADDING blocks are utilized, only the metadata needs to be overwritten, which is much faster.
+What do we mean by efficient? Since FLAC metadata appears at the beginning of the file, when writing metadata back to a FLAC file it is possible to grow or shrink the metadata such that the entire file must be rewritten. However, if the size remains the same during changes or PADDING blocks are utilized, only the metadata needs to be overwritten, which is much faster.
 <p>
 Efficient means the whole file is rewritten at most one time, and only when necessary. Level 1 is not efficient only in the case that you cause more than one metadata block to grow or shrink beyond what can be accomodated by padding. In this case you should probably use level 2, which allows you to edit all the metadata for a file in memory and write it out all at once.
 <p>
 All levels know how to skip over and not disturb an ID3v2 tag at the front of the file.
 <p>
+All levels access files via their filenames. In addition, level 2 has additional alternative read and write functions that take an I/O handle and callbacks, for times when access by filename is not possible.
+<p>
 In addition to the three interfaces, this module defines functions for creating and manipulating various metadata objects in memory. As we see from the Format module, FLAC metadata blocks in memory are very primitive structures for storing information in an efficient way. Reading information from the structures is easy but creating or modifying them directly is more complex. The metadata object routines here facilitate this by taking care of the consistency and memory management drudgery.
 <p>
 Unless you will be using the level 1 or 2 interfaces to modify existing metadata however, you will not probably not need these.
 <p>
-From a dependency standpoint, none of the encoders or decoders require the metadata module. This is so that embedded users can strip out the metadata module from libFLAC to reduce the size and complexity. <hr><address><small>Generated on Sat Jan 25 10:44:53 2003 for FLAC by
+From a dependency standpoint, none of the encoders or decoders require the metadata module. This is so that embedded users can strip out the metadata module from libFLAC to reduce the size and complexity. <hr><address><small>Generated on Tue Sep 28 21:19:43 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

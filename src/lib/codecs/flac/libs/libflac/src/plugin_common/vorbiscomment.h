@@ -1,5 +1,5 @@
 /* plugin_common - Routines common to several plugins
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@
 #include "canonical_tag.h"
 #include "FLAC/ordinals.h"
 
-void FLAC_plugin__vorbiscomment_get(const char *filename, FLAC_Plugin__CanonicalTag *tag);
+void FLAC_plugin__vorbiscomment_get(const char *filename, FLAC_Plugin__CanonicalTag *tag, const char *sep);
 FLAC__bool FLAC_plugin__vorbiscomment_set(const char *filename, FLAC_Plugin__CanonicalTag *tag);
 
 #endif

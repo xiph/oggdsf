@@ -1,5 +1,5 @@
 #  flac - Command-line FLAC encoder/decoder
-#  Copyright (C) 2000,2001,2002,2003  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -24,16 +24,16 @@ topdir = ../..
 PROGRAM_NAME = flac
 ifeq ($(DARWIN_BUILD),yes)
 INCLUDES     = -I./include -I$(topdir)/include
-LIBS         = -lgrabbag -lFLAC -lgain_analysis -lgetopt -lutf8 -lc -lm
+LIBS         = -lgrabbag -lFLAC -lreplaygain_analysis -lreplaygain_synthesis -lgetopt -lutf8 -lc -lm
 else
 #@@@ TODO: conditionalize ogg includes, defines, and -logg
 ifeq ($(SOLARIS_BUILD),yes)
 INCLUDES     = -I./include -I$(topdir)/include -I$(HOME)/local/include -DFLAC__HAS_OGG
-LIBS         = -lgrabbag -lOggFLAC -lFLAC -lgain_analysis -lgetopt -lutf8 -lm -L$(HOME)/local/lib -logg
+LIBS         = -lgrabbag -lOggFLAC -lFLAC -lreplaygain_analysis -lreplaygain_synthesis -lgetopt -lutf8 -lm -L$(HOME)/local/lib -logg
 else
 #@@@ TODO: conditionalize ogg includes, defines, and -logg
 INCLUDES     = -I./include -I$(topdir)/include -I$(HOME)/local/include -DFLAC__HAS_OGG
-LIBS         = -lgrabbag -lOggFLAC -lFLAC -lgain_analysis -lgetopt -lutf8 -lm -L$(HOME)/local/lib -logg
+LIBS         = -lgrabbag -lOggFLAC -lFLAC -lreplaygain_analysis -lreplaygain_synthesis -lgetopt -lutf8 -lm -L$(HOME)/local/lib -logg
 endif
 endif
 
@@ -41,6 +41,7 @@ SRCS_C = \
 	analyze.c \
 	decode.c \
 	encode.c \
+	local_string_utils.c \
 	main.c \
 	utils.c \
 	vorbiscomment.c

@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -502,8 +502,8 @@ void mutils__init_metadata_blocks(
 	unknown->is_last = true;
 	unknown->type = 127;
 	unknown->length = 8;
-	unknown->data.unknown.data = (FLAC__byte*)malloc_or_die_(8);
-	memcpy(unknown->data.unknown.data, "\xfe\xdc\xba\x98\xf0\xe1\xd2\xc3", 8);
+	unknown->data.unknown.data = (FLAC__byte*)malloc_or_die_(unknown->length);
+	memcpy(unknown->data.unknown.data, "\xfe\xdc\xba\x98\xf0\xe1\xd2\xc3", unknown->length);
 }
 
 void mutils__free_metadata_blocks(

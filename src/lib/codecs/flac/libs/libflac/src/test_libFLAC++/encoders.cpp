@@ -1,5 +1,5 @@
 /* test_libFLAC++ - Unit tester for libFLAC++
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -375,6 +375,7 @@ public:
 
 	// from FLAC::Encoder::SeekableStream
 	::FLAC__SeekableStreamEncoderSeekStatus seek_callback(FLAC__uint64 absolute_byte_offset);
+	::FLAC__SeekableStreamEncoderTellStatus tell_callback(FLAC__uint64 *absolute_byte_offset);
 	::FLAC__StreamEncoderWriteStatus write_callback(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame);
 
 	bool die(const char *msg = 0) const;
@@ -385,6 +386,13 @@ public:
 	(void)absolute_byte_offset;
 
 	return ::FLAC__SEEKABLE_STREAM_ENCODER_SEEK_STATUS_OK;
+}
+
+::FLAC__SeekableStreamEncoderTellStatus SeekableStreamEncoder::tell_callback(FLAC__uint64 *absolute_byte_offset)
+{
+	*absolute_byte_offset = 0;
+
+	return ::FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_OK;
 }
 
 ::FLAC__StreamEncoderWriteStatus SeekableStreamEncoder::write_callback(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame)

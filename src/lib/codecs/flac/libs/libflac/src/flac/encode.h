@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2000,2001,2002,2003  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,13 +27,11 @@
 #endif
 
 typedef struct {
-	FLAC__bool verbose;
 	utils__SkipUntilSpecification skip_specification;
 	utils__SkipUntilSpecification until_specification;
 	FLAC__bool verify;
 #ifdef FLAC__HAS_OGG
 	FLAC__bool use_ogg;
-	FLAC__bool has_serial_number;
 	long serial_number;
 #endif
 	FLAC__bool lax;

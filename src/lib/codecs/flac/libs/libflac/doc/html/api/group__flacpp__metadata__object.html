@@ -30,6 +30,7 @@
 <tr><td colspan=2><br><h2>Functions</h2></td></tr>
 <tr><td nowrap align=right valign=top>FLACPP_API Prototype *&nbsp;</td><td valign=bottom><a class="el" href="group__flacpp__metadata__object.html#a0">clone</a> (const Prototype *)</td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="group__flacpp__metadata__object.html#a7">is_valid</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="group__flacpp__metadata__object.html#a8">operator const ::FLAC__StreamMetadata *</a> () const</td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This module contains classes representing FLAC metadata blocks in memory.
@@ -280,7 +281,38 @@ Reimplemented in <a class="el" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z7
 Returns <code>true</code> if the object was correctly constructed (i.e. the underlying FLAC__StreamMetadata object was properly allocated), else <code>false</code>.     </td>
   </tr>
 </table>
-<hr><address><small>Generated on Sat Jan 25 10:44:58 2003 for FLAC by
+<a name="a8" doxytag="FLAC::Metadata::Prototype::operator const ::FLAC__StreamMetadata *"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> FLAC::Metadata::Prototype::operator const ::<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> * </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap> const<code> [inline, inherited]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns a pointer to the underlying FLAC__StreamMetadata object. This can be useful for plugging any holes between the C++ and C interfaces.<dl compact><dt><b>
+Assertions:</b><dd>
+ <div class="fragment"><pre><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a7">is_valid</a>() 
+</pre></div> </dl>    </td>
+  </tr>
+</table>
+<hr><address><small>Generated on Tue Sep 28 21:19:45 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

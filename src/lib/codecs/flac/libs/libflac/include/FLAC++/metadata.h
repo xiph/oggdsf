@@ -1,20 +1,32 @@
 /* libFLAC++ - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef FLACPP__METADATA_H
@@ -185,6 +197,15 @@ namespace FLAC {
 			 *   \code is_valid() \endcode
 			 */
 			void set_is_last(bool);
+
+			/** Returns a pointer to the underlying ::FLAC__StreamMetadata
+			 *  object.  This can be useful for plugging any holes between
+			 *  the C++ and C interfaces.
+			 *
+			 * \assert
+			 *   \code is_valid() \endcode
+			 */
+			inline operator const ::FLAC__StreamMetadata *() const;
 		private:
 			/** Private and undefined so you can't use it. */
 			Prototype();
@@ -194,6 +215,11 @@ namespace FLAC {
 			inline void set_reference(bool x) { is_reference_ = x; }
 		};
 
+#ifdef _MSC_VER
+// warning C4800: 'int' : forcing to bool 'true' or 'false' (performance warning)
+#pragma warning ( disable : 4800 )
+#endif
+
 		inline bool Prototype::operator==(const Prototype &object) const
 		{ return (bool)::FLAC__metadata_object_is_equal(object_, object.object_); }
 
@@ -202,6 +228,11 @@ namespace FLAC {
 
 		inline bool Prototype::operator==(const ::FLAC__StreamMetadata *object) const
 		{ return (bool)::FLAC__metadata_object_is_equal(object_, object); }
+
+#ifdef _MSC_VER
+// @@@ how to re-enable?  the following doesn't work
+// #pragma warning ( enable : 4800 )
+#endif
 
 		inline bool Prototype::operator!=(const Prototype &object) const
 		{ return !operator==(object); }
@@ -214,6 +245,9 @@ namespace FLAC {
 
 		inline bool Prototype::is_valid() const
 		{ return 0 != object_; }
+
+		inline Prototype::operator const ::FLAC__StreamMetadata *() const
+		{ return object_; }
 
 		/** Create a deep copy of an object and return it. */
 		FLACPP_API Prototype *clone(const Prototype *);
@@ -753,7 +787,7 @@ namespace FLAC {
 		 *  \ingroup flacpp_metadata
 		 *
 		 *  \brief
-		 *  Level 0 metadata iterator.
+		 *  Level 0 metadata iterators.
 		 *
 		 *  See the \link flac_metadata_level0 C layer equivalent \endlink
 		 *  for more.
@@ -763,6 +797,9 @@ namespace FLAC {
 
 	 	//! See FLAC__metadata_get_streaminfo().
 		FLACPP_API bool get_streaminfo(const char *filename, StreamInfo &streaminfo);
+		//
+	 	//! See FLAC__metadata_get_tags().
+		FLACPP_API bool get_tags(const char *filename, VorbisComment *&tags);
 
 		/* \} */
 
@@ -896,7 +933,13 @@ namespace FLAC {
 			Status status();
 
 			bool read(const char *filename);
+			bool read(FLAC__IOHandle handle, FLAC__IOCallbacks callbacks);
+
+			bool check_if_tempfile_needed(bool use_padding);
+
 			bool write(bool use_padding = true, bool preserve_file_stats = false);
+			bool write(bool use_padding, ::FLAC__IOHandle handle, ::FLAC__IOCallbacks callbacks);
+			bool write(bool use_padding, ::FLAC__IOHandle handle, ::FLAC__IOCallbacks callbacks, ::FLAC__IOHandle temp_handle, ::FLAC__IOCallbacks temp_callbacks);
 
 			void merge_padding();
 			void sort_padding();

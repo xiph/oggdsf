@@ -24,7 +24,7 @@ Level 2 metadata iterator.
 <li>Create a Chain instance<li>Check Chain::is_valid()<li>Call Chain::read() and check the return<li>Traverse and/or edit with an Iterator or with Chain::merge_padding() or Chain::sort_padding()<li>Write changes back to FLAC file with Chain::write()<li>Destroy the Chain instance</ul>
 The ownership of pointers in the C++ layer is slightly different than in the C layer, i.e.<ul>
 <li>The objects returned by Iterator::get_block() are NOT owned by the iterator and should be deleted by the caller when finished, BUT, when you modify the block, it will directly edit what's in the chain and you do not need to call Iterator::set_block(). However the changes will not be reflected in the FLAC file until the chain is written with Chain::write().<li>When you pass an object to Iterator::set_block(), Iterator::insert_block_before(), or Iterator::insert_block_after(), the iterator takes ownership of the block and it will be deleted by the chain.</ul>
-See the <a class="el" href="group__flac__metadata__level2.html">C layer equivalent</a> for more. <hr><address><small>Generated on Sat Jan 25 10:44:58 2003 for FLAC by
+See the <a class="el" href="group__flac__metadata__level2.html">C layer equivalent</a> for more. <hr><address><small>Generated on Tue Sep 28 21:19:45 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

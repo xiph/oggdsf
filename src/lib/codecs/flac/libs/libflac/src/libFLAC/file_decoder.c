@@ -1,20 +1,32 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -31,7 +43,6 @@
 #include "FLAC/assert.h"
 #include "protected/file_decoder.h"
 #include "protected/seekable_stream_decoder.h"
-#include "private/md5.h"
 
 /***********************************************************************
  *
@@ -494,6 +505,26 @@ FLAC_API FLAC__bool FLAC__file_decoder_process_until_end_of_file(FLAC__FileDecod
 	return ret;
 }
 
+FLAC_API FLAC__bool FLAC__file_decoder_skip_single_frame(FLAC__FileDecoder *decoder)
+{
+	FLAC__bool ret;
+	FLAC__ASSERT(0 != decoder);
+
+	if(decoder->private_->seekable_stream_decoder->protected_->state == FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM)
+		decoder->protected_->state = FLAC__FILE_DECODER_END_OF_FILE;
+
+	if(decoder->protected_->state == FLAC__FILE_DECODER_END_OF_FILE)
+		return true;
+
+	FLAC__ASSERT(decoder->protected_->state == FLAC__FILE_DECODER_OK);
+
+	ret = FLAC__seekable_stream_decoder_skip_single_frame(decoder->private_->seekable_stream_decoder);
+	if(!ret)
+		decoder->protected_->state = FLAC__FILE_DECODER_SEEKABLE_STREAM_DECODER_ERROR;
+
+	return ret;
+}
+
 FLAC_API FLAC__bool FLAC__file_decoder_seek_absolute(FLAC__FileDecoder *decoder, FLAC__uint64 sample)
 {
 	FLAC__ASSERT(0 != decoder);
@@ -558,12 +589,11 @@ FLAC__SeekableStreamDecoderReadStatus read_callback_(const FLAC__SeekableStreamD
 	(void)decoder;
 
 	if(*bytes > 0) {
-		size_t bytes_read = fread(buffer, sizeof(FLAC__byte), *bytes, file_decoder->private_->file);
-		if(bytes_read == 0 && !feof(file_decoder->private_->file)) {
+		*bytes = (unsigned)fread(buffer, sizeof(FLAC__byte), *bytes, file_decoder->private_->file);
+		if(ferror(file_decoder->private_->file)) {
 			return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_ERROR;
 		}
 		else {
-			*bytes = (unsigned)bytes_read;
 			return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK;
 		}
 	}
@@ -615,7 +645,7 @@ FLAC__bool eof_callback_(const FLAC__SeekableStreamDecoder *decoder, void *clien
 	FLAC__FileDecoder *file_decoder = (FLAC__FileDecoder *)client_data;
 	(void)decoder;
 
-	return feof(file_decoder->private_->file);
+	return feof(file_decoder->private_->file)? true : false;
 }
 
 FLAC__StreamDecoderWriteStatus write_callback_(const FLAC__SeekableStreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)

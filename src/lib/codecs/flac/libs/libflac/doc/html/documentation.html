@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<!-- Copyright (c)  2000,2001,2002,2003  Josh Coalson -->
+<!-- Copyright (c)  2000,2001,2002,2003,2004  Josh Coalson -->
 <!-- Permission is granted to copy, distribute and/or modify this document -->
 <!-- under the terms of the GNU Free Documentation License, Version 1.1 -->
 <!-- or any later version published by the Free Software Foundation; -->
@@ -14,7 +14,7 @@
 
 <TABLE BORDER=0 WIDTH="100%" CELLPADDING=1 CELLSPACING=0>
 	<TR>
-		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo.jpg" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
+		<TD ALIGN="CENTER" BGCOLOR="#000000"><A HREF="http://flac.sourceforge.net/"><IMG SRC="images/logo130.gif" ALIGN=CENTER ALT="FLAC Logo" BORDER=0 HSPACE=0></a></TD>
 	</TR>
 </TABLE>
 
@@ -28,6 +28,7 @@
 			<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
 				<TR>
 					<TD HEIGHT=22 BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="index.html">home</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="faq.html">faq</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="news.html">news</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="download.html">download</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="features.html">features</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
@@ -36,6 +37,8 @@
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="id.html">id</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="comparison.html">comparison</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;documentation&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="changelog.html">changelog</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="links.html">links</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="developers.html">developers</A>&nbsp;&nbsp;</TD>
 				</TR>
 			</TABLE>
@@ -186,7 +189,7 @@
 		<B>MISCELLANEOUS</B>
 	</P>
 	<P>
-		In order to support come common types of metadata, the reference decoder knows how to skip <A HREF="http://www.id3.org/">ID3v1 and ID3v2 tags</A>.  Note however that the FLAC specification does not require compliant implementations to support ID3 in any form.  The XMMS and Winamp plugins support them out of convenience but other applications need not.
+		As a convenience, the reference decoder knows how to skip <A HREF="http://www.id3.org/">ID3v1 and ID3v2 tags</A>.  Note however that the FLAC specification does not require compliant implementations to support ID3 in any form and their use is discouraged.
 	</P>
 	<P>
 		<B><TT>flac</TT></B> has a verify option <TT>-V</TT> that verifies the output while encoding.  With this option, a decoder is run in parallel to the encoder and its output is compared against the original input.  If a difference is found <B><TT>flac</TT></B> will stop with an error.
@@ -214,7 +217,7 @@
 		<B><TT>flac</TT></B> is the command-line file encoder/decoder.  The input to the encoder and the output to the decoder must either be RIFF WAVE format, AIFF, or raw interleaved sample data.  <B><TT>flac</TT></B> only supports linear PCM samples (in other words, no A-LAW, uLAW, etc.).  Another restriction (hopefully short-term) is that the input must be 8, 16, or 24 bits per sample.  This is not a limitation of the FLAC format, just the reference encoder/decoder.
 	</P>
 	<P>
-		<B><TT>flac</TT></B> assumes that files ending in ".wav" or that have the RIFF WAVE header present are WAVE files, and files ending in ".aif" or ".aiff" or have the AIFF header present are in AIFF files.  This may be overridden with a command-line option.  It also assumes that files ending in ".ogg" are Ogg-FLAC files.  Other than this, <B><TT>flac</TT></B> makes no assumptions about file extensions, though the convention is that FLAC files have the extension ".flac" (or ".fla" on ancient file systems like FAT-16).
+		<B><TT>flac</TT></B> assumes that files ending in ".wav" or that have the RIFF WAVE header present are WAVE files, and files ending in ".aif" or ".aiff" or have the AIFF header present are in AIFF files.  This may be overridden with a command-line option.  It also assumes that files ending in ".ogg" are Ogg FLAC files.  Other than this, <B><TT>flac</TT></B> makes no assumptions about file extensions, though the convention is that FLAC files have the extension ".flac" (or ".fla" on ancient file systems like FAT-16).
 	</P>
 	<P>
 		Before going into the full command-line description, a few other things help to sort it out: 1) <B><TT>flac</TT></B> encodes by default, so you must use <B>-d</B> to decode; 2) the options <B><TT>-0</TT></B> .. <B><TT>-8</TT></B> (or <B><TT>--fast</B></TT> and <B><TT>--best</B></TT>) that control the compression level actually are just synonyms for different groups of specific encoding options (described later) and you can get the same effect by using the same options; 3) <B><TT>flac</TT></B> behaves similarly to gzip in the way it handles input and output files.
@@ -263,6 +266,14 @@
 	<P>
 		Also, you can force output data to go to stdout using <TT>-c</TT>.
 	</P>
+	<P>
+		To encode or decode files that start with a dash, use <TT>--</TT> to signal the end of options, to keep the filenames themselves from being treated as options:
+		<UL>
+		<LI>
+			<TT>flac -V -- -01-filename.wav</TT>
+		</LI>
+		</UL>
+	</P>
 	<P>The encoding options affect the compression ratio and encoding speed.  The format options are used to tell <B><TT>flac</TT></B> the arrangement of samples if the input file (or output file when decoding) is a raw file.  If it is a RIFF WAVE or AIFF file the format options are not needed since they are read from the AIFF/WAVE header.
 	</P>
 	<P>
@@ -278,6 +289,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_version">
 				<TT>-v</TT>, <TT>--version</TT>
 			</TD>
 			<TD>
@@ -286,6 +298,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_help">
 				<TT>-h</TT>, <TT>--help</TT>
 			</TD>
 			<TD>
@@ -294,6 +307,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_explain">
 				<TT>-H</TT>, <TT>--explain</TT>
 			</TD>
 			<TD>
@@ -302,6 +316,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_decode">
 				<TT>-d</TT>, <TT>--decode</TT>
 			</TD>
 			<TD>
@@ -310,6 +325,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_test">
 				<TT>-t</TT>, <TT>--test</TT>
 			</TD>
 			<TD>
@@ -318,6 +334,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_analyze">
 				<TT>-a</TT>, <TT>--analyze</TT>
 			</TD>
 			<TD>
@@ -326,6 +343,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_stdout">
 				<TT>-c</TT>, <TT>--stdout</TT>
 			</TD>
 			<TD>
@@ -334,6 +352,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_silent">
 				<TT>-s</TT>, <TT>--silent</TT>
 			</TD>
 			<TD>
@@ -342,6 +361,25 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_totally_silent">
+				<TT>--totally-silent</TT>
+			</TD>
+			<TD>
+				Do not print anything of any kind, including warnings or errors.  The exit code will be the only way to determine successful completion.
+			</TD>
+		</TR>
+		<TR>
+			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_force">
+				<TT>-f</TT>, <TT>--force</TT>
+			</TD>
+			<TD>
+				Force overwriting of output files.  By default, <TT><B>flac</B></TT> warns that the output file already exists and continues to the next file.
+			</TD>
+		</TR>
+		<TR>
+			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_output_name">
 				<TT>-o filename</TT>,<BR><TT>--output-name=filename</TT>
 			</TD>
 			<TD>
@@ -350,6 +388,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_output_prefix">
 				<TT>--output-prefix=string</TT>
 			</TD>
 			<TD>
@@ -358,6 +397,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_delete_input_file">
 				<TT>--delete-input-file</TT>
 			</TD>
 			<TD>
@@ -366,6 +406,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_skip">
 				<TT>--skip={#|mm:ss.ss}</TT>
 			</TD>
 			<TD>
@@ -377,6 +418,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_until">
 				<TT>--until={#|[+|-]mm:ss.ss}</TT>
 			</TD>
 			<TD>
@@ -391,19 +433,22 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_ogg">
 				<TT>--ogg</TT>
 			</TD>
 			<TD>
-				When encoding, generate Ogg-FLAC output instead of native-FLAC.  Ogg-FLAC streams are FLAC streams wrapped in an Ogg transport layer.  The resulting file should have an '.ogg' extension and will still be decodable by <TT><B>flac</B></TT>.<P>
-				When decoding, force the input to be treated as Ogg-FLAC.  This is useful when piping input from stdin or when the filename does not end in '.ogg'.
+				When encoding, generate Ogg FLAC output instead of native FLAC.  Ogg FLAC streams are FLAC streams wrapped in an Ogg transport layer.  The resulting file should have an '.ogg' extension and will still be decodable by <TT><B>flac</B></TT>.<P>
+				When decoding, force the input to be treated as Ogg FLAC.  This is useful when piping input from stdin or when the filename does not end in '.ogg'.<P>
+				<B>NOTE:</B> Ogg FLAC files created prior to <B><TT>flac</TT></B> 1.1.1 used an ad-hoc mapping and do not support seeking.  They should be decoded and re-encoded with <B><TT>flac</TT></B> 1.1.1 or later.
 			</TD>
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_serial_number">
 				<TT>--serial-number=#</TT>
 			</TD>
 			<TD>
-				When used with --ogg, specifies the serial number to use the for the FLAC stream.  When encoding and no serial number is given, flac uses '0'.  When decoding and no number is given, flac uses the serial number of the first page.<P>
+				When used with --ogg, specifies the serial number to use for the first Ogg FLAC stream, which is then incremented for each additional stream.  When encoding and no serial number is given, <TT><B>flac</B></TT> uses a random number for the first stream, then increments it for each additional stream.  When decoding and no number is given, <TT><B>flac</B></TT> uses the serial number of the first page.
 			</TD>
 		</TR>
 	</TABLE>
@@ -419,6 +464,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_residual_text">
 				<TT>--residual-text</TT>
 			</TD>
 			<TD>
@@ -427,6 +473,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_residual_gnuplot">
 				<TT>--residual-gnuplot</TT>
 			</TD>
 			<TD>
@@ -446,12 +493,71 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_cue">
+				<TT>--cue=[#.#][-[#.#]]</TT>
+			</TD>
+			<TD>
+				Set the beginning and ending cuepoints to decode.  The optional first <TT>#.#</TT> is the track and index point at which decoding will start; the default is the beginning of the stream.  The optional second <TT>#.#</TT> is the track and index point at which decoding will end; the default is the end of the stream.  If the seekpoint does not exist, the closest one before it (for the start point) or after it (for the end point) will be used.  If those don't exist, the start of the stream (for the start point) or end of the stream (for the end point) will be used.  The cuepoints are merely translated into sample numbers then used as --skip and --until.<P>
+				Examples:<P>
+				<TT>--cue=-</TT> : decode the entire stream<P>
+				<TT>--cue=4.1</TT> : decode from track 4, index 1 to the end of the stream<P>
+				<TT>--cue=4.1-</TT> : decode from track 4, index 1 to the end of the stream<P>
+				<TT>--cue=-4.1</TT> : decode from the beginning of the stream up to, but not including, track 4, index 1<P>
+				<TT>--cue=2.1-2.4</TT> : decode from track 2, index 1, up to, but not including, track 2, index 4<P>
+			</TD>
+		</TR>
+		<TR>
+			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_decode_through_errors">
 				<TT>-F</TT>,<BR><TT>--decode-through-errors</TT>
 			</TD>
 			<TD>
 				By default <B><TT>flac</TT></B> stops decoding with an error and removes the partially decoded file if it encounters a bitstream error.  With <TT>-F</TT>, errors are still printed but <B><TT>flac</TT></B> will continue decoding to completion.  Note that errors may cause the decoded audio to be missing some samples or have silent sections.
 			</TD>
 		</TR>
+		<!-- @@@ undocumented, also not in the man page yet
+		<TR>
+			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_apply_replaygain_which_is_not_lossless">
+				<TT>--apply-replaygain_which_is_not_lossless[=&lt;specification&gt;]</TT>
+			</TD>
+			<TD>
+				Applies ReplayGain values while decoding.
+				<P>
+				<B>WARNING: THIS IS NOT LOSSLESS.  DECODED AUDIO WILL NOT BE IDENTICAL TO THE ORIGINAL WITH THIS OPTION</B>.
+				<P>
+				The equals sign and &lt;specification&gt; is optional.  If omitted, the default is <TT>0aLn1</TT>.
+				<P>
+				The <TT>&lt;specification&gt;</TT> is a shorthand notation for describing how to apply ReplayGain.  All components are optional but order is important.  '<TT>[]</TT>' means 'optional'.  '<TT>|</TT>' means 'or'.  '<TT>{}</TT>' means required.  The format is:<P>
+				&nbsp;&nbsp;<TT>[&lt;preamp&gt;][a|t][l|L][n{0|1|2|3}]</TT>
+				<P>
+				<UL>
+					<LI>
+						<TT>&lt;preamp&gt;</TT><P>
+							&nbsp;&nbsp;A floating point number in dB.  This is added to the existing gain value.
+					</LI>
+					<LI>
+						<TT>a|t</TT><P>
+							&nbsp;&nbsp;Specify '<TT>a</TT>' to use the album gain, or '<TT>t</TT>' to use the track gain
+					</LI>
+					<LI>
+						<TT>l|L</TT><P>
+							&nbsp;&nbsp;Specify '<TT>l</TT>' to peak-limit the output, so that the ReplayGain peak value is full-scale.  Specify '<TT>L</TT>' to use a 6dB hard limiter that kicks in when the signal approaches full-scale.
+					</LI>
+					<LI>
+						<TT>n{0|1|2|3}</TT><P>
+							&nbsp;&nbsp;Specify the amount of noise shaping.  ReplayGain synthesis happens in floating point; the result is dithered before converting back to integer.  This quantization adds noise.  Noise shaping tries to move the noise where you won't hear it as much.  <TT>0</TT> means no noise shaping, <TT>1</TT> means 'low', <TT>2</TT> means 'medium', <TT>3</TT> means 'high'.
+					</LI>
+				</UL>
+				<P>
+				For example, the default of <TT>0aLn1</TT> means 0dB preamp, use album gain, 6dB hard limit, low noise shaping.
+				<P>
+				<TT>--apply-replaygain-which-is-not-lossless=3</TT> means 3dB preamp, use album gain, no limiting, no noise shaping.
+				<P>
+				<B><TT>flac</B></TT> uses the ReplayGain tags for the calculation.  If a stream does not have the required tags or they can't be parsed, decoding will continue with a warning, and no ReplayGain is applied to that stream.
+			</TD>
+		</TR>
+		-->
 	</TABLE>
 	</TD></TR></TABLE>
 	</P>
@@ -465,6 +571,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_verify">
 				<TT>-V</TT>, <TT>--verify</TT>
 			</TD>
 			<TD>
@@ -473,23 +580,26 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_lax">
 				<TT>--lax</TT>
 			</TD>
 			<TD>
-				Allow encoder to generate non-Subset files.  The resulting FLAC file may not be streamable, so you should only use this option in combination with custom encoding options meant for archival.  File decoders will still be able play (and seek in) such files.
+				Allow encoder to generate non-<A HREF="format.html#subset">Subset</A> files.  The resulting FLAC file may not be streamable, so you should only use this option in combination with custom encoding options meant for archival.  File decoders will still be able play (and seek in) such files.
 			</TD>
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_replay_gain">
 				<TT>--replay-gain</TT>
 			</TD>
 			<TD>
-				Calculate <A HREF="http://www.replaygain.org/">ReplayGain</A> values and store in Vorbis comments, similar to <A HREF="http://packages.qa.debian.org/v/vorbisgain.html">VorbisGain</A>.  Title gains/peaks will be computed for each input file, and an album gain/peak will be computed for all files.  All input files must have the same resolution, sample rate, and number of channels.  Only mono and stereo files are allowed, and the sample rate must be one of 8, 11.025, 12, 16, 22.05, 24, 32, 44.1, or 48 kHz.  Also note that this option may leave a few extra bytes in a PADDING block as the exact size of the tags is not known until all files are processed.<P>
+				Calculate <A HREF="http://www.replaygain.org/">ReplayGain</A> values and store in FLAC tags, similar to <A HREF="http://packages.qa.debian.org/v/vorbisgain.html">VorbisGain</A>.  Title gains/peaks will be computed for each input file, and an album gain/peak will be computed for all files.  All input files must have the same resolution, sample rate, and number of channels.  Only mono and stereo files are allowed, and the sample rate must be one of 8, 11.025, 12, 16, 22.05, 24, 32, 44.1, or 48 kHz.  Also note that this option may leave a few extra bytes in a PADDING block as the exact size of the tags is not known until all files are processed.<P>
 				Note that this option cannot be used when encoding to standard output (stdout).
 			</TD>
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_cuesheet">
 				<TT>--cuesheet=FILENAME</TT>
 			</TD>
 			<TD>
@@ -499,6 +609,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_sector_align">
 				<TT>--sector-align</TT>
 			</TD>
 			<TD>
@@ -509,6 +620,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_seekpoint">
 				<TT>-S {#|X|#x|#s}</TT>,<BR><TT>--seekpoint={#|X|#x|#s}</TT>
 			</TD>
 			<TD>
@@ -535,6 +647,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_padding">
 				<TT>-P #</TT>, <TT>--padding=#</TT>
 			</TD>
 			<TD>
@@ -543,14 +656,16 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_tag">
 				<TT>-T FIELD=VALUE</TT>, <TT>--tag=FIELD=VALUE</TT>
 			</TD>
 			<TD>
-				Add a Vorbis comment.  The comment must adhere to the Vorbis comment spec; i.e. the FIELD must contain only legal characters, terminated by an 'equals' sign.  Make sure to quote the comment if necessary.  This option may appear more than once to add several comments.  NOTE: all tags will be added to all encoded files.
+				Add a FLAC tag.  The comment must adhere to the Vorbis comment spec (which FLAC tags implement), i.e. the FIELD must contain only legal characters, terminated by an 'equals' sign.  Make sure to quote the comment if necessary.  This option may appear more than once to add several comments.  NOTE: all tags will be added to all encoded files.
 			</TD>
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_blocksize">
 				<TT>-b #</TT>, <TT>--blocksize=#</TT>
 			</TD>
 			<TD>
@@ -559,6 +674,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_mid_side">
 				<TT>-m</TT>, <TT>--mid-side</TT>
 			</TD>
 			<TD>
@@ -567,6 +683,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_adaptive_mid_side">
 				<TT>-M</TT>, <TT>--adaptive-mid-side</TT>
 			</TD>
 			<TD>
@@ -575,6 +692,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_levels">
 				<TT>-0 .. -8</TT>
 			</TD>
 			<TD>
@@ -583,6 +701,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_0">
 				<TT>-0</TT>, <TT>--compression-level-0</TT>
 			</TD>
 			<TD>
@@ -591,6 +710,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_1">
 				<TT>-1</TT>, <TT>--compression-level-1</TT>
 			</TD>
 			<TD>
@@ -599,6 +719,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_2">
 				<TT>-2</TT>, <TT>--compression-level-2</TT>
 			</TD>
 			<TD>
@@ -607,6 +728,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_3">
 				<TT>-3</TT>, <TT>--compression-level-3</TT>
 			</TD>
 			<TD>
@@ -615,6 +737,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_4">
 				<TT>-4</TT>, <TT>--compression-level-4</TT>
 			</TD>
 			<TD>
@@ -623,6 +746,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_5">
 				<TT>-5</TT>, <TT>--compression-level-5</TT>
 			</TD>
 			<TD>
@@ -631,6 +755,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_6">
 				<TT>-6</TT>, <TT>--compression-level-6</TT>
 			</TD>
 			<TD>
@@ -639,6 +764,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_7">
 				<TT>-7</TT>, <TT>--compression-level-7</TT>
 			</TD>
 			<TD>
@@ -647,6 +773,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_level_8">
 				<TT>-8</TT>, <TT>--compression-level-8</TT>
 			</TD>
 			<TD>
@@ -655,6 +782,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_fast">
 				<TT>--fast</TT>
 			</TD>
 			<TD>
@@ -663,6 +791,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_best">
 				<TT>--best</TT>
 			</TD>
 			<TD>
@@ -671,6 +800,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_exhaustive_model_search">
 				<TT>-e</TT>,<BR><TT>--exhaustive-model-search</TT>
 			</TD>
 			<TD>
@@ -679,6 +809,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_max_lpc_order">
 				<TT>-l #</TT>, <TT>--max-lpc-order=#</TT>
 			</TD>
 			<TD>
@@ -687,6 +818,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_qlp_coeff_precision">
 				<TT>-q #</TT>,<BR><TT>--qlp-coeff-precision=#</TT>
 			</TD>
 			<TD>
@@ -695,6 +827,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_qlp_coeff_precision_search">
 				<TT>-p</TT>,<BR><TT>--qlp-coeff-precision-search</TT>
 			</TD>
 			<TD>
@@ -703,6 +836,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_rice_partition_order">
 				<TT>-r [#,]#</TT>,<BR><TT>--rice-partition-order=[#,]#</TT>
 			</TD>
 			<TD>
@@ -723,6 +857,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_endian">
 				<TT>--endian={big|little}</TT>
 			</TD>
 			<TD>
@@ -731,6 +866,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_channels">
 				<TT>--channels=#</TT>
 			</TD>
 			<TD>
@@ -739,6 +875,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_bps">
 				<TT>--bps=#</TT>
 			</TD>
 			<TD>
@@ -747,6 +884,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_sample_rate">
 				<TT>--sample-rate=#</TT>
 			</TD>
 			<TD>
@@ -755,6 +893,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_sign">
 				<TT>--sign={signed|unsigned}</TT>
 			</TD>
 			<TD>
@@ -763,6 +902,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_force_aiff_format">
 				<TT>--force-aiff-format</TT>
 			</TD>
 			<TD>
@@ -771,6 +911,7 @@
 		</TR>
 		<TR>
 			<TD NOWRAP ALIGN="RIGHT" VALIGN="TOP" BGCOLOR="#F4F4CC">
+				<A NAME="flac_options_force_raw_format">
 				<TT>--force-raw-format</TT>
 			</TD>
 			<TD>
@@ -785,7 +926,7 @@
 	<TABLE WIDTH="100%" BORDER="1" BGCOLOR="#EEEED4">
 		<TR>
 			<TD COLSPAN="2" BGCOLOR="#D3D4C5">
-				<A NAME="format_options"><FONT SIZE="+1"><B>Negative Options</B></FONT></A>
+				<A NAME="negative_options"><FONT SIZE="+1"><B>Negative Options</B></FONT></A>
 			</TD>
 		</TR>
 		<TR>
@@ -882,29 +1023,7 @@
 	<TABLE CELLSPACING="0" CELLPADDING="3" WIDTH="100%" BORDER="0" BGCOLOR="#EEEED4">
 	<TR><TD><FONT FACE="Lucida,Verdana,Helvetica,Arial">
 	<P>
-		There are two Winamp plugins; one for Winamp versions 2.x and one for Winamp versions 3.x.  If you are using Winamp 2.x, all that is necessary is to copy <B><TT>in_flac.dll</TT></B> to the <B><TT>Plugins/</TT></B> directory of your Winamp installation.  There is nothing else to configure.  Make sure to restart Winamp before trying to play any <TT>.flac</TT> files.
-	</P>
-	</FONT>
-	</TD></TR>
-	</TABLE>
-	<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0"><TR BGCOLOR="#000000"><TD><IMG SRC="images/1x1.gif" WIDTH="1" HEIGHT="1" ALT=""></TD></TR></TABLE>
-</TD></TR>
-</TABLE>
-
-
-<TABLE WIDTH="100%" CELLPADDING="5" CELLSPACING="5" BORDER="0">
-<TR><TD>
-	<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0"><TR BGCOLOR="#000000"><TD><IMG SRC="images/1x1.gif" WIDTH="1" HEIGHT="1" ALT=""></TD></TR></TABLE>
-	<TABLE CELLSPACING="0" CELLPADDING="3" WIDTH="100%" BORDER="0" BGCOLOR="#D3D4C5">
-		<TR><TD><FONT FACE="Lucida,Verdana,Helvetica,Arial">
-		<A NAME="winamp3_plugin"><B><FONT SIZE="+2">winamp3 plugin</FONT></B>
-		</FONT></TD></TR>
-	</TABLE>
-	<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0"><TR BGCOLOR="#000000"><TD><IMG SRC="images/1x1.gif" WIDTH="1" HEIGHT="1" ALT=""></TD></TR></TABLE>
-	<TABLE CELLSPACING="0" CELLPADDING="3" WIDTH="100%" BORDER="0" BGCOLOR="#EEEED4">
-	<TR><TD><FONT FACE="Lucida,Verdana,Helvetica,Arial">
-	<P>
-		There are two Winamp plugins; one for Winamp versions 2.x and one for Winamp versions 3.x.  If you are using Winamp 3.x, all that is necessary is to copy <B><TT>cnv_flacpcm.wac</TT></B> to the <B><TT>Wacs/</TT></B> directory of your Winamp installation.  There is nothing else to configure.  Make sure to restart Winamp before trying to play any <TT>.flac</TT> files.
+		The Winamp plugin should work for both Winamp2 and Winamp5.  If you are using Winamp 2.x, all that is necessary is to copy <B><TT>in_flac.dll</TT></B> to the <B><TT>Plugins/</TT></B> directory of your Winamp installation.  There is nothing else to configure.  Make sure to restart Winamp before trying to play any <TT>.flac</TT> files.
 	</P>
 	</FONT>
 	</TD></TR>
@@ -929,7 +1048,17 @@
 		Bug tracking is done on the Sourceforge project page <A HREF="http://sourceforge.net/bugs/?group_id=13478">here</A>.  If you submit a bug, make sure and provide an email contact or use the Monitor feature.
 	</P>
 	<P>
-		The following are major known bugs in the current (1.1.0) release:
+		The following are major known bugs in the current (1.1.1) release:
+	</P>
+	<P>
+		<UL>
+			<LI>
+				(none)
+			</LI>
+		</UL>
+	</P>
+	<P>
+		The following are major known bugs in the 1.1.0 release:
 	</P>
 	<P>
 		<UL>
@@ -939,7 +1068,7 @@
 		</UL>
 	</P>
 	<P>
-		The following are major known bugs in the 1.0.4:
+		The following are major known bugs in the 1.0.4 release:
 	</P>
 	<P>
 		<UL>
@@ -1002,7 +1131,7 @@
 
 </CENTER>
 
-<P>&nbsp;Copyright (c) 2000,2001,2002,2003 Josh Coalson</P>
+<P>&nbsp;Copyright (c) 2000,2001,2002,2003,2004 Josh Coalson</P>
 
 </BODY>
 </HTML>

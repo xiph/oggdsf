@@ -1,20 +1,32 @@
 /* libOggFLAC - Free Lossless Audio Codec + Ogg library
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * - Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA  02111-1307, USA.
+ * - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Xiph.org Foundation nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef OggFLAC__STREAM_ENCODER_H
@@ -43,10 +55,11 @@ extern "C" {
  *  \ingroup oggflac
  *
  *  \brief
- *  This module describes the encoder layers provided by libOggFLAC.
+ *  This module describes the three encoder layers provided by libOggFLAC.
  *
- * libOggFLAC currently provides the same stream layer access as libFLAC;
- * the interface is nearly identical.  See the \link flac_encoder FLAC
+ * libOggFLAC currently provides the same three layers of access as libFLAC;
+ * the interfaces are nearly identical, with the addition of a method for
+ * specifying the Ogg serial number.  See the \link flac_encoder FLAC
  * encoder module \endlink for full documentation.
  */
 
@@ -55,11 +68,14 @@ extern "C" {
  *
  *  \brief
  *  This module contains the functions which implement the stream
- *  encoder.
+ *  encoder.  The Ogg stream encoder is derived
+ *  from the FLAC stream encoder.
  *
  * The interface here is nearly identical to FLAC's stream encoder,
- * including the callbacks.  See the \link flac_stream_encoder
- * FLAC stream encoder module \endlink for full documentation.
+ * including the callbacks, with the addition of
+ * OggFLAC__stream_encoder_set_serial_number().  See the
+ * \link flac_stream_encoder FLAC stream encoder module \endlink
+ * for full documentation.
  *
  * \{
  */
@@ -142,6 +158,17 @@ typedef struct {
  */
 typedef FLAC__StreamEncoderWriteStatus (*OggFLAC__StreamEncoderWriteCallback)(const OggFLAC__StreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data);
 
+/** Signature for the metadata callback.
+ *  See OggFLAC__stream_encoder_set_metadata_callback()
+ *  and FLAC__stream_encoder_set_metadata_callback() for more info.
+ *
+ * \param  encoder      The encoder instance calling the callback.
+ * \param  metadata     The final populated STREAMINFO block.
+ * \param  client_data  The callee's client data set through
+ *                      FLAC__stream_encoder_set_client_data().
+ */
+typedef void (*OggFLAC__StreamEncoderMetadataCallback)(const OggFLAC__StreamEncoder *encoder, const FLAC__StreamMetadata *metadata, void *client_data);
+
 
 /***********************************************************************
  *
@@ -175,7 +202,11 @@ OggFLAC_API void OggFLAC__stream_encoder_delete(OggFLAC__StreamEncoder *encoder)
 
 /** Set the serial number for the FLAC stream.
  *
- * \default \c NULL, 0
+ * \note
+ * It is recommended to set a serial number explicitly as the default of '0'
+ * may collide with other streams.
+ *
+ * \default \c 0
  * \param  encoder        An encoder instance to set.
  * \param  serial_number  See above.
  * \assert
@@ -391,6 +422,19 @@ OggFLAC_API FLAC__bool OggFLAC__stream_encoder_set_total_samples_estimate(OggFLA
 
 /** This is inherited from FLAC__StreamEncoder; see FLAC__stream_encoder_set_metadata()
  *
+ * \note The Ogg FLAC mapping requires that the VORBIS_COMMENT block be
+ * the second metadata block of the stream.  The encoder already supplies
+ * the STREAMINFO block automatically.  If \a metadata does not contain a
+ * VORBIS_COMMENT block, the encoder will supply that too.  Otherwise, if
+ * \a metadata does contain a VORBIS_COMMENT block and it is not the
+ * first, this function will reorder \a metadata by moving the
+ * VORBIS_COMMENT block to the front; the relative ordering of the other
+ * blocks will remain as they were.
+ *
+ * \note The Ogg FLAC mapping limits the number of metadata blocks per
+ * stream to \c 65535.  If \a num_blocks exceeds this the function will
+ * return \c false.
+ *
  * \default \c NULL, 0
  * \param  encoder     An encoder instance to set.
  * \param  metadata    See above.
@@ -398,7 +442,8 @@ OggFLAC_API FLAC__bool OggFLAC__stream_encoder_set_total_samples_estimate(OggFLA
  * \assert
  *    \code encoder != NULL \endcode
  * \retval FLAC__bool
- *    \c false if the encoder is already initialized, else \c true.
+ *    \c false if the encoder is already initialized, or if
+ *    \a num_blocks > 65535, else \c true.
  */
 OggFLAC_API FLAC__bool OggFLAC__stream_encoder_set_metadata(OggFLAC__StreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks);
 
@@ -426,6 +471,24 @@ OggFLAC_API FLAC__bool OggFLAC__stream_encoder_set_metadata(OggFLAC__StreamEncod
  *    \c false if the encoder is already initialized, else \c true.
  */
 OggFLAC_API FLAC__bool OggFLAC__stream_encoder_set_write_callback(OggFLAC__StreamEncoder *encoder, OggFLAC__StreamEncoderWriteCallback value);
+
+/** Set the metadata callback.
+ *  This is inherited from FLAC__StreamEncoder; see
+ *  FLAC__stream_encoder_set_metadata_callback().
+ *
+ * \note
+ * The callback is mandatory and must be set before initialization.
+ *
+ * \default \c NULL
+ * \param  encoder  An encoder instance to set.
+ * \param  value    See above.
+ * \assert
+ *    \code encoder != NULL \endcode
+ *    \code value != NULL \endcode
+ * \retval FLAC__bool
+ *    \c false if the encoder is already initialized, else \c true.
+ */
+OggFLAC_API FLAC__bool OggFLAC__stream_encoder_set_metadata_callback(OggFLAC__StreamEncoder *encoder, OggFLAC__StreamEncoderMetadataCallback value);
 
 /** Set the client data to be passed back to callbacks.
  *  This value will be supplied to callbacks in their \a client_data
@@ -475,6 +538,19 @@ OggFLAC_API FLAC__StreamEncoderState OggFLAC__stream_encoder_get_FLAC_stream_enc
  *    The FLAC verify decoder state.
  */
 OggFLAC_API FLAC__StreamDecoderState OggFLAC__stream_encoder_get_verify_decoder_state(const OggFLAC__StreamEncoder *encoder);
+
+/** Get the current encoder state as a C string.
+ *  This version automatically resolves
+ *  \c OggFLAC__STREAM_ENCODER_FLAC_STREAM_ENCODER_ERROR by getting the
+ *  FLAC stream encoder's state.
+ *
+ * \param  encoder  A encoder instance to query.
+ * \assert
+ *    \code encoder != NULL \endcode
+ * \retval const char *
+ *    The encoder state as a C string.  Do not modify the contents.
+ */
+OggFLAC_API const char *OggFLAC__stream_encoder_get_resolved_state_string(const OggFLAC__StreamEncoder *encoder);
 
 /** Get relevant values about the nature of a verify decoder error.
  *  Inherited from FLAC__stream_encoder_get_verify_decoder_error_stats().

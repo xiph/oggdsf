@@ -1,5 +1,5 @@
 /* libxmms-flac - XMMS FLAC input plugin
- * Copyright (C) 2002  Daisuke Shimamura
+ * Copyright (C) 2002,2003,2004  Daisuke Shimamura
  *
  * Based on mpg123 plugin
  *          and prefs.c - 2000/05/06
@@ -35,6 +35,7 @@
 #include <xmms/plugin.h>
 
 #include "plugin_common/locale_hack.h"
+#include "share/replaygain_synthesis.h" /* for NOISE_SHAPING_LOW */
 #include "charset.h"
 #include "configure.h"
 
@@ -47,7 +48,6 @@ flac_config_t flac_cfg = {
 		FALSE, /* tag_override */
 		NULL, /* tag_format */
 		FALSE, /* convert_char_set */
-		NULL, /* file_char_set */
 		NULL /* user_char_set */
 	},
 	/* output */
@@ -57,7 +57,7 @@ flac_config_t flac_cfg = {
 			FALSE, /* enable */
 			TRUE, /* album_mode */
 			0, /* preamp */
-			TRUE /* hard_limit */
+			FALSE /* hard_limit */
 		},
 		/* resolution */
 		{
@@ -68,7 +68,7 @@ flac_config_t flac_cfg = {
 			/* replaygain */
 			{
 				TRUE, /* dither */
-				1, /* noise_shaping */
+				NOISE_SHAPING_LOW, /* noise_shaping */
 				16 /* bps_out */
 			}
 		}
@@ -107,7 +107,6 @@ static void flac_configurewin_ok(GtkWidget * widget, gpointer data)
 	(void)widget, (void)data; /* unused arguments */
 	g_free(flac_cfg.title.tag_format);
 	flac_cfg.title.tag_format = g_strdup(gtk_entry_get_text(GTK_ENTRY(title_tag_entry)));
-	flac_cfg.title.file_char_set = Charset_Get_Name_From_Title(gtk_entry_get_text_1(fileCharacterSetEntry));
 	flac_cfg.title.user_char_set = Charset_Get_Name_From_Title(gtk_entry_get_text_1(userCharacterSetEntry));
 
 	filename = g_strconcat(g_get_home_dir(), "/.xmms/config", NULL);
@@ -118,7 +117,6 @@ static void flac_configurewin_ok(GtkWidget * widget, gpointer data)
 	xmms_cfg_write_boolean(cfg, "flac", "title.tag_override", flac_cfg.title.tag_override);
 	xmms_cfg_write_string(cfg, "flac", "title.tag_format", flac_cfg.title.tag_format);
 	xmms_cfg_write_boolean(cfg, "flac", "title.convert_char_set", flac_cfg.title.convert_char_set);
-	xmms_cfg_write_string(cfg, "flac", "title.file_char_set", flac_cfg.title.file_char_set);
 	xmms_cfg_write_string(cfg, "flac", "title.user_char_set", flac_cfg.title.user_char_set);
 	/* output */
 	xmms_cfg_write_boolean(cfg, "flac", "output.replaygain.enable", flac_cfg.output.replaygain.enable);
@@ -155,7 +153,7 @@ static void convert_char_set_cb(GtkWidget *widget, gpointer data)
 	(void)widget, (void)data; /* unused arguments */
 	flac_cfg.title.convert_char_set = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(convert_char_set));
 
-	gtk_widget_set_sensitive(fileCharacterSetEntry, flac_cfg.title.convert_char_set);
+	gtk_widget_set_sensitive(fileCharacterSetEntry, FALSE);
 	gtk_widget_set_sensitive(userCharacterSetEntry, flac_cfg.title.convert_char_set);
 }
 
@@ -290,11 +288,10 @@ void FLAC_XMMS__configure(void)
 	gtk_combo_set_value_in_list(GTK_COMBO(userCharacterSetEntry),TRUE,FALSE);
 
 	list = Charset_Create_List();
-	gtk_combo_set_popdown_strings(GTK_COMBO(fileCharacterSetEntry),list);
+	gtk_combo_set_popdown_strings(GTK_COMBO(fileCharacterSetEntry),Charset_Create_List_UTF8_Only());
 	gtk_combo_set_popdown_strings(GTK_COMBO(userCharacterSetEntry),list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(fileCharacterSetEntry)->entry),Charset_Get_Title_From_Name(flac_cfg.title.file_char_set));
 	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(userCharacterSetEntry)->entry),Charset_Get_Title_From_Name(flac_cfg.title.user_char_set));
-	gtk_widget_set_sensitive(fileCharacterSetEntry, flac_cfg.title.convert_char_set);
+	gtk_widget_set_sensitive(fileCharacterSetEntry, FALSE);
 	gtk_widget_set_sensitive(userCharacterSetEntry, flac_cfg.title.convert_char_set);
 
 	/* Override Tagging Format */
@@ -350,9 +347,10 @@ void FLAC_XMMS__configure(void)
 	gtk_container_add(GTK_CONTAINER(replaygain_vbox),hbox);
 	label = gtk_label_new(_("Preamp:"));
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	replaygain_preamp = gtk_adjustment_new(flac_cfg.output.replaygain.preamp, -24.0, +24.0, 1.0, 6.0, 6.0);
+	replaygain_preamp = gtk_adjustment_new(flac_cfg.output.replaygain.preamp, -24.0, +24.0, 1.0, 6.0, 0.0);
 	gtk_signal_connect(GTK_OBJECT(replaygain_preamp), "value-changed", replaygain_preamp_cb, NULL);
 	replaygain_preamp_hscale = gtk_hscale_new(GTK_ADJUSTMENT(replaygain_preamp));
+	gtk_scale_set_draw_value(GTK_SCALE(replaygain_preamp_hscale), FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox),replaygain_preamp_hscale,TRUE,TRUE,0);
 	replaygain_preamp_label = gtk_label_new(_("0 dB"));
 	gtk_box_pack_start(GTK_BOX(hbox),replaygain_preamp_label,FALSE,FALSE,0);

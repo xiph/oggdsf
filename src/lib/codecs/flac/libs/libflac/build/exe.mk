@@ -1,19 +1,19 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
 #
-#  This program is part of FLAC; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License
-#  as published by the Free Software Foundation; either version 2
-#  of the License, or (at your option) any later version.
+#  This file is part the FLAC project.  FLAC is comprised of several
+#  components distributed under difference licenses.  The codec libraries
+#  are distributed under Xiph.Org's BSD-like license (see the file
+#  COPYING.Xiph in this distribution).  All other programs, libraries, and
+#  plugins are distributed under the GPL (see COPYING.GPL).  The documentation
+#  is distributed under the Gnu FDL (see COPYING.FDL).  Each file in the
+#  FLAC distribution contains at the top the terms under which it may be
+#  distributed.
 #
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#  Since this particular file is relevant to all components of FLAC,
+#  it may be distributed under the Xiph.Org license, which is the least
+#  restrictive of those mentioned above.  See the file COPYING.Xiph in this
+#  distribution.
 
 #
 # GNU makefile fragment for building an executable
@@ -45,9 +45,9 @@ PROGRAM         = $(BINPATH)/$(PROGRAM_NAME)
 DEBUG_PROGRAM   = $(DEBUG_BINPATH)/$(PROGRAM_NAME)
 RELEASE_PROGRAM = $(RELEASE_BINPATH)/$(PROGRAM_NAME)
 
-debug   : CFLAGS = -g -O0 -DDEBUG $(DEBUG_CFLAGS) -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
-valgrind: CFLAGS = -g -O0 -DDEBUG $(DEBUG_CFLAGS) -DFLAC__VALGRIND_TESTING -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
-release : CFLAGS = -O3 -fomit-frame-pointer -funroll-loops -finline-functions -DNDEBUG $(RELEASE_CFLAGS) -Wall -W -Winline -DFLaC__INLINE=__inline__ -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
+debug   : CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
+valgrind: CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -DFLAC__VALGRIND_TESTING -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
+release : CFLAGS = -O3 -fomit-frame-pointer -funroll-loops -finline-functions -DNDEBUG $(CONFIG_CFLAGS) $(RELEASE_CFLAGS) -Wall -W -Winline -DFLaC__INLINE=__inline__ -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
 
 LFLAGS  = -L$(LIBPATH)
 

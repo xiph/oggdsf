@@ -1,5 +1,5 @@
 /* plugin_common - Routines common to several plugins
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * Only slightly modified charset.c from:
  *  EasyTAG - Tag editor for MP3 and OGG files
@@ -88,7 +88,7 @@ char* FLAC_plugin__charset_convert_string (const char *string, char *from, char 
 	outptr = out;
 
 retry:
-	if (iconv(cd, &input, &length, &outptr, &outleft) == -1)
+	if (iconv(cd, (char**)&input, &length, &outptr, &outleft) == -1)
 	{
 		int used;
 		switch (errno)

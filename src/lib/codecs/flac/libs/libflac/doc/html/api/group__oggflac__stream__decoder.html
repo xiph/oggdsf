@@ -14,21 +14,23 @@
 <tr><td colspan=2><br><h2>Compounds</h2></td></tr>
 <tr><td nowrap align=right valign=top>struct &nbsp;</td><td valign=bottom><a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a></td></tr>
 <tr><td colspan=2><br><h2>Typedefs</h2></td></tr>
-<tr><td nowrap align=right valign=top>typedef <a class="el" href="group__flac__stream__decoder.html#a35">FLAC__StreamDecoderReadStatus</a>(*&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a1">OggFLAC__StreamDecoderReadCallback</a> )(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</td></tr>
-<tr><td nowrap align=right valign=top>typedef <a class="el" href="group__flac__stream__decoder.html#a36">FLAC__StreamDecoderWriteStatus</a>(*&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a2">OggFLAC__StreamDecoderWriteCallback</a> )(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, const <a class="el" href="structFLAC____Frame.html">FLAC__Frame</a> *frame, const FLAC__int32 *const buffer[], void *client_data)</td></tr>
+<tr><td nowrap align=right valign=top>typedef <a class="el" href="group__flac__stream__decoder.html#a37">FLAC__StreamDecoderReadStatus</a>(*&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a1">OggFLAC__StreamDecoderReadCallback</a> )(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</td></tr>
+<tr><td nowrap align=right valign=top>typedef <a class="el" href="group__flac__stream__decoder.html#a38">FLAC__StreamDecoderWriteStatus</a>(*&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a2">OggFLAC__StreamDecoderWriteCallback</a> )(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, const <a class="el" href="structFLAC____Frame.html">FLAC__Frame</a> *frame, const FLAC__int32 *const buffer[], void *client_data)</td></tr>
 <tr><td nowrap align=right valign=top>typedef void(*&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a3">OggFLAC__StreamDecoderMetadataCallback</a> )(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *metadata, void *client_data)</td></tr>
-<tr><td nowrap align=right valign=top>typedef void(*&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a4">OggFLAC__StreamDecoderErrorCallback</a> )(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__stream__decoder.html#a37">FLAC__StreamDecoderErrorStatus</a> status, void *client_data)</td></tr>
+<tr><td nowrap align=right valign=top>typedef void(*&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a4">OggFLAC__StreamDecoderErrorCallback</a> )(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__stream__decoder.html#a39">FLAC__StreamDecoderErrorStatus</a> status, void *client_data)</td></tr>
 <tr><td colspan=2><br><h2>Enumerations</h2></td></tr>
-<tr><td nowrap align=right valign=top>enum &nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a33">OggFLAC__StreamDecoderState</a> { <br>
-&nbsp;&nbsp;<a class="el" href="group__oggflac__stream__decoder.html#a33a5">OggFLAC__STREAM_DECODER_OK</a> =  0, 
-<a class="el" href="group__oggflac__stream__decoder.html#a33a6">OggFLAC__STREAM_DECODER_OGG_ERROR</a>, 
-<a class="el" href="group__oggflac__stream__decoder.html#a33a7">OggFLAC__STREAM_DECODER_READ_ERROR</a>, 
-<a class="el" href="group__oggflac__stream__decoder.html#a33a8">OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR</a>, 
+<tr><td nowrap align=right valign=top>enum &nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a34">OggFLAC__StreamDecoderState</a> { <br>
+&nbsp;&nbsp;<a class="el" href="group__oggflac__stream__decoder.html#a34a5">OggFLAC__STREAM_DECODER_OK</a> =  0, 
+<a class="el" href="group__oggflac__stream__decoder.html#a34a6">OggFLAC__STREAM_DECODER_END_OF_STREAM</a>, 
+<a class="el" href="group__oggflac__stream__decoder.html#a34a7">OggFLAC__STREAM_DECODER_OGG_ERROR</a>, 
+<a class="el" href="group__oggflac__stream__decoder.html#a34a8">OggFLAC__STREAM_DECODER_READ_ERROR</a>, 
 <br>
-&nbsp;&nbsp;<a class="el" href="group__oggflac__stream__decoder.html#a33a9">OggFLAC__STREAM_DECODER_INVALID_CALLBACK</a>, 
-<a class="el" href="group__oggflac__stream__decoder.html#a33a10">OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</a>, 
-<a class="el" href="group__oggflac__stream__decoder.html#a33a11">OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED</a>, 
-<a class="el" href="group__oggflac__stream__decoder.html#a33a12">OggFLAC__STREAM_DECODER_UNINITIALIZED</a>
+&nbsp;&nbsp;<a class="el" href="group__oggflac__stream__decoder.html#a34a9">OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR</a>, 
+<a class="el" href="group__oggflac__stream__decoder.html#a34a10">OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</a>, 
+<a class="el" href="group__oggflac__stream__decoder.html#a34a11">OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED</a>, 
+<a class="el" href="group__oggflac__stream__decoder.html#a34a12">OggFLAC__STREAM_DECODER_INVALID_CALLBACK</a>, 
+<br>
+&nbsp;&nbsp;<a class="el" href="group__oggflac__stream__decoder.html#a34a13">OggFLAC__STREAM_DECODER_UNINITIALIZED</a>
 <br>
  }</td></tr>
 <tr><td colspan=2><br><h2>Functions</h2></td></tr>
@@ -40,26 +42,27 @@
 <tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a10">OggFLAC__stream_decoder_set_error_callback</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__oggflac__stream__decoder.html#a4">OggFLAC__StreamDecoderErrorCallback</a> value)</td></tr>
 <tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a11">OggFLAC__stream_decoder_set_client_data</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, void *value)</td></tr>
 <tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a12">OggFLAC__stream_decoder_set_serial_number</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, long serial_number)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a13">OggFLAC__stream_decoder_set_metadata_respond</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> type)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a13">OggFLAC__stream_decoder_set_metadata_respond</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a14">OggFLAC__stream_decoder_set_metadata_respond_application</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, const FLAC__byte id[4])</td></tr>
 <tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a15">OggFLAC__stream_decoder_set_metadata_respond_all</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a16">OggFLAC__stream_decoder_set_metadata_ignore</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a> type)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a16">OggFLAC__stream_decoder_set_metadata_ignore</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a17">OggFLAC__stream_decoder_set_metadata_ignore_application</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, const FLAC__byte id[4])</td></tr>
 <tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a18">OggFLAC__stream_decoder_set_metadata_ignore_all</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a33">OggFLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a19">OggFLAC__stream_decoder_get_state</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__flac__stream__decoder.html#a34">FLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a20">OggFLAC__stream_decoder_get_FLAC_stream_decoder_state</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a21">OggFLAC__stream_decoder_get_channels</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__flac__format.html#a91">FLAC__ChannelAssignment</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a22">OggFLAC__stream_decoder_get_channel_assignment</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a23">OggFLAC__stream_decoder_get_bits_per_sample</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a24">OggFLAC__stream_decoder_get_sample_rate</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a25">OggFLAC__stream_decoder_get_blocksize</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a33">OggFLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a26">OggFLAC__stream_decoder_init</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API void&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a27">OggFLAC__stream_decoder_finish</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a28">OggFLAC__stream_decoder_flush</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a29">OggFLAC__stream_decoder_reset</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a30">OggFLAC__stream_decoder_process_single</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a31">OggFLAC__stream_decoder_process_until_end_of_metadata</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
-<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a32">OggFLAC__stream_decoder_process_until_end_of_stream</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a34">OggFLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a19">OggFLAC__stream_decoder_get_state</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__flac__stream__decoder.html#a36">FLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a20">OggFLAC__stream_decoder_get_FLAC_stream_decoder_state</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API const char *&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a21">OggFLAC__stream_decoder_get_resolved_state_string</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a22">OggFLAC__stream_decoder_get_channels</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__flac__format.html#a92">FLAC__ChannelAssignment</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a23">OggFLAC__stream_decoder_get_channel_assignment</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a24">OggFLAC__stream_decoder_get_bits_per_sample</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a25">OggFLAC__stream_decoder_get_sample_rate</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API unsigned&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a26">OggFLAC__stream_decoder_get_blocksize</a> (const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a34">OggFLAC__StreamDecoderState</a>&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a27">OggFLAC__stream_decoder_init</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API void&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a28">OggFLAC__stream_decoder_finish</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a29">OggFLAC__stream_decoder_flush</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a30">OggFLAC__stream_decoder_reset</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a31">OggFLAC__stream_decoder_process_single</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a32">OggFLAC__stream_decoder_process_until_end_of_metadata</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
+<tr><td nowrap align=right valign=top>OggFLAC_API FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a33">OggFLAC__stream_decoder_process_until_end_of_stream</a> (<a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder)</td></tr>
 <tr><td colspan=2><br><h2>Variables</h2></td></tr>
 <tr><td nowrap align=right valign=top>OggFLAC_API const char *const&nbsp;</td><td valign=bottom><a class="el" href="group__oggflac__stream__decoder.html#a0">OggFLAC__StreamDecoderStateString</a> []</td></tr>
 </table>
@@ -68,14 +71,14 @@ This module contains the functions which implement the stream decoder.
 <p>
 
 <p>
- The interface here is identical to FLAC's stream decoder, including the callbacks. See the <a class="el" href="group__flac__stream__decoder.html">FLAC stream decoder module</a> for full documentation. <hr><h2>Typedef Documentation</h2>
+ The interface here is nearly identical to FLAC's stream decoder, including the callbacks, with the addition of <a class="el" href="group__oggflac__stream__decoder.html#a12">OggFLAC__stream_decoder_set_serial_number</a>(). See the <a class="el" href="group__flac__stream__decoder.html">FLAC stream decoder module</a> for full documentation. <hr><h2>Typedef Documentation</h2>
 <a name="a1" doxytag="stream_decoder.h::OggFLAC__StreamDecoderReadCallback"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> typedef <a class="el" href="group__flac__stream__decoder.html#a35">FLAC__StreamDecoderReadStatus</a>(* OggFLAC__StreamDecoderReadCallback)(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)
+          <td class="md" nowrap valign="top"> typedef <a class="el" href="group__flac__stream__decoder.html#a37">FLAC__StreamDecoderReadStatus</a>(* OggFLAC__StreamDecoderReadCallback)(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)
       </table>
     </td>
   </tr>
@@ -96,7 +99,7 @@ The decoder instance calling the callback. </td></tr>
 <tr><td valign=top><em>buffer</em>&nbsp;</td><td>
 A pointer to a location for the callee to store data to be decoded. </td></tr>
 <tr><td valign=top><em>bytes</em>&nbsp;</td><td>
-A pointer to the size of the buffer. </td></tr>
+A pointer to the size of the buffer. On entry to the callback, it contains the maximum number of bytes that may be stored in <em>buffer</em>. The callee must set it to the actual number of bytes stored before returning. </td></tr>
 <tr><td valign=top><em>client_data</em>&nbsp;</td><td>
 The callee's client data set through <a class="el" href="group__oggflac__stream__decoder.html#a11">OggFLAC__stream_decoder_set_client_data</a>(). </td></tr>
 </table>
@@ -115,7 +118,7 @@ The callee's return status. </td></tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> typedef <a class="el" href="group__flac__stream__decoder.html#a36">FLAC__StreamDecoderWriteStatus</a>(* OggFLAC__StreamDecoderWriteCallback)(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, const <a class="el" href="structFLAC____Frame.html">FLAC__Frame</a> *frame, const FLAC__int32 * const buffer[], void *client_data)
+          <td class="md" nowrap valign="top"> typedef <a class="el" href="group__flac__stream__decoder.html#a38">FLAC__StreamDecoderWriteStatus</a>(* OggFLAC__StreamDecoderWriteCallback)(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, const <a class="el" href="structFLAC____Frame.html">FLAC__Frame</a> *frame, const FLAC__int32 * const buffer[], void *client_data)
       </table>
     </td>
   </tr>
@@ -134,9 +137,9 @@ Parameters: </b><dd>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
 The decoder instance calling the callback. </td></tr>
 <tr><td valign=top><em>frame</em>&nbsp;</td><td>
-The description of the decoded frame. </td></tr>
+The description of the decoded frame. See <a class="el" href="structFLAC____Frame.html">FLAC__Frame</a>. </td></tr>
 <tr><td valign=top><em>buffer</em>&nbsp;</td><td>
-An array of pointers to decoded channels of data. </td></tr>
+An array of pointers to decoded channels of data. Each pointer will point to an array of signed samples of length <em>frame-&gt;header.blocksize</em>. Currently, the channel order has no meaning except for stereo streams; in this case channel 0 is left and 1 is right. </td></tr>
 <tr><td valign=top><em>client_data</em>&nbsp;</td><td>
 The callee's client data set through <a class="el" href="group__oggflac__stream__decoder.html#a11">OggFLAC__stream_decoder_set_client_data</a>(). </td></tr>
 </table>
@@ -187,7 +190,7 @@ The callee's client data set through <a class="el" href="group__oggflac__stream_
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> typedef void(* OggFLAC__StreamDecoderErrorCallback)(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__stream__decoder.html#a37">FLAC__StreamDecoderErrorStatus</a> status, void *client_data)
+          <td class="md" nowrap valign="top"> typedef void(* OggFLAC__StreamDecoderErrorCallback)(const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *decoder, <a class="el" href="group__flac__stream__decoder.html#a39">FLAC__StreamDecoderErrorStatus</a> status, void *client_data)
       </table>
     </td>
   </tr>
@@ -214,7 +217,7 @@ The callee's client data set through <a class="el" href="group__oggflac__stream_
   </tr>
 </table>
 <hr><h2>Enumeration Type Documentation</h2>
-<a name="a33" doxytag="stream_decoder.h::OggFLAC__StreamDecoderState"></a><p>
+<a name="a34" doxytag="stream_decoder.h::OggFLAC__StreamDecoderState"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -238,21 +241,23 @@ State values for an <a class="el" href="structOggFLAC____StreamDecoder.html">Ogg
 The decoder's state can be obtained by calling <a class="el" href="group__oggflac__stream__decoder.html#a19">OggFLAC__stream_decoder_get_state</a>(). <dl compact><dt><b>
 Enumeration values:</b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em><a name="a33a5" doxytag="OggFLAC__STREAM_DECODER_OK"></a><em>OggFLAC__STREAM_DECODER_OK</em></em>&nbsp;</td><td>
+<tr><td valign=top><em><a name="a34a5" doxytag="OggFLAC__STREAM_DECODER_OK"></a><em>OggFLAC__STREAM_DECODER_OK</em></em>&nbsp;</td><td>
 The decoder is in the normal OK state. </td></tr>
-<tr><td valign=top><em><a name="a33a6" doxytag="OggFLAC__STREAM_DECODER_OGG_ERROR"></a><em>OggFLAC__STREAM_DECODER_OGG_ERROR</em></em>&nbsp;</td><td>
+<tr><td valign=top><em><a name="a34a6" doxytag="OggFLAC__STREAM_DECODER_END_OF_STREAM"></a><em>OggFLAC__STREAM_DECODER_END_OF_STREAM</em></em>&nbsp;</td><td>
+The decoder has reached the end of the stream. </td></tr>
+<tr><td valign=top><em><a name="a34a7" doxytag="OggFLAC__STREAM_DECODER_OGG_ERROR"></a><em>OggFLAC__STREAM_DECODER_OGG_ERROR</em></em>&nbsp;</td><td>
 An error occurred in the underlying Ogg layer. </td></tr>
-<tr><td valign=top><em><a name="a33a7" doxytag="OggFLAC__STREAM_DECODER_READ_ERROR"></a><em>OggFLAC__STREAM_DECODER_READ_ERROR</em></em>&nbsp;</td><td>
+<tr><td valign=top><em><a name="a34a8" doxytag="OggFLAC__STREAM_DECODER_READ_ERROR"></a><em>OggFLAC__STREAM_DECODER_READ_ERROR</em></em>&nbsp;</td><td>
 The read callback returned an error. </td></tr>
-<tr><td valign=top><em><a name="a33a8" doxytag="OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR"></a><em>OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR</em></em>&nbsp;</td><td>
+<tr><td valign=top><em><a name="a34a9" doxytag="OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR"></a><em>OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR</em></em>&nbsp;</td><td>
 An error occurred in the underlying FLAC stream decoder; check <a class="el" href="group__oggflac__stream__decoder.html#a20">OggFLAC__stream_decoder_get_FLAC_stream_decoder_state</a>(). </td></tr>
-<tr><td valign=top><em><a name="a33a9" doxytag="OggFLAC__STREAM_DECODER_INVALID_CALLBACK"></a><em>OggFLAC__STREAM_DECODER_INVALID_CALLBACK</em></em>&nbsp;</td><td>
-The decoder was initialized before setting all the required callbacks. </td></tr>
-<tr><td valign=top><em><a name="a33a10" doxytag="OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR"></a><em>OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</em></em>&nbsp;</td><td>
+<tr><td valign=top><em><a name="a34a10" doxytag="OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR"></a><em>OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</em></em>&nbsp;</td><td>
 Memory allocation failed. </td></tr>
-<tr><td valign=top><em><a name="a33a11" doxytag="OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED"></a><em>OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED</em></em>&nbsp;</td><td>
-<a class="el" href="group__oggflac__stream__decoder.html#a26">OggFLAC__stream_decoder_init</a>() was called when the decoder was already initialized, usually because <a class="el" href="group__oggflac__stream__decoder.html#a27">OggFLAC__stream_decoder_finish</a>() was not called. </td></tr>
-<tr><td valign=top><em><a name="a33a12" doxytag="OggFLAC__STREAM_DECODER_UNINITIALIZED"></a><em>OggFLAC__STREAM_DECODER_UNINITIALIZED</em></em>&nbsp;</td><td>
+<tr><td valign=top><em><a name="a34a11" doxytag="OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED"></a><em>OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED</em></em>&nbsp;</td><td>
+<a class="el" href="group__oggflac__stream__decoder.html#a27">OggFLAC__stream_decoder_init</a>() was called when the decoder was already initialized, usually because <a class="el" href="group__oggflac__stream__decoder.html#a28">OggFLAC__stream_decoder_finish</a>() was not called. </td></tr>
+<tr><td valign=top><em><a name="a34a12" doxytag="OggFLAC__STREAM_DECODER_INVALID_CALLBACK"></a><em>OggFLAC__STREAM_DECODER_INVALID_CALLBACK</em></em>&nbsp;</td><td>
+The decoder was initialized before setting all the required callbacks. </td></tr>
+<tr><td valign=top><em><a name="a34a13" doxytag="OggFLAC__STREAM_DECODER_UNINITIALIZED"></a><em>OggFLAC__STREAM_DECODER_UNINITIALIZED</em></em>&nbsp;</td><td>
 The decoder is in the uninitialized state. </td></tr>
 </table>
 </dl>
@@ -672,7 +677,7 @@ Return values: </b><dd>
     <td>
 
 <p>
-Set the serial number for the Ogg stream. The default behavior is to use the serial number of the first Ogg page. Setting a serial number here will explicitly define which stream is to be decoded.<dl compact><dt><b>
+Set the serial number for the Ogg stream. The default behavior is to use the serial number of the first Ogg page. Setting a serial number here will explicitly specify which stream is to be decoded.<dl compact><dt><b>
 Default Value:</b><dd>
  <code>use</code> serial number of first page </dl><dl compact><dt><b>
 Parameters: </b><dd>
@@ -708,7 +713,7 @@ Return values: </b><dd>
         <tr>
           <td></td>
           <td></td>
-          <td class="md" nowrap><a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a>&nbsp;</td>
+          <td class="md" nowrap><a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a>&nbsp;</td>
           <td class="mdname" nowrap>&nbsp; <em>type</em></td>
         </tr>
         <tr>
@@ -869,7 +874,7 @@ Return values: </b><dd>
         <tr>
           <td></td>
           <td></td>
-          <td class="md" nowrap><a class="el" href="group__flac__format.html#a93">FLAC__MetadataType</a>&nbsp;</td>
+          <td class="md" nowrap><a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a>&nbsp;</td>
           <td class="mdname" nowrap>&nbsp; <em>type</em></td>
         </tr>
         <tr>
@@ -1022,7 +1027,7 @@ Return values: </b><dd>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a33">OggFLAC__StreamDecoderState</a> OggFLAC__stream_decoder_get_state </td>
+          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a34">OggFLAC__StreamDecoderState</a> OggFLAC__stream_decoder_get_state </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>decoder</em>          </td>
@@ -1066,7 +1071,7 @@ The current decoder state. </td></tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__flac__stream__decoder.html#a34">FLAC__StreamDecoderState</a> OggFLAC__stream_decoder_get_FLAC_stream_decoder_state </td>
+          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__flac__stream__decoder.html#a36">FLAC__StreamDecoderState</a> OggFLAC__stream_decoder_get_FLAC_stream_decoder_state </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>decoder</em>          </td>
@@ -1104,7 +1109,51 @@ The FLAC stream decoder state. </td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a21" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_channels"></a><p>
+<a name="a21" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_resolved_state_string"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> OggFLAC_API const char* OggFLAC__stream_decoder_get_resolved_state_string </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp; <em>decoder</em>          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the current decoder state as a C string. This version automatically resolves <code>OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR</code> by getting the FLAC stream decoder's state.<dl compact><dt><b>
+Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>decoder</em>&nbsp;</td><td>
+A decoder instance to query. </td></tr>
+</table>
+</dl><dl compact><dt><b>
+Assertions:</b><dd>
+ <div class="fragment"><pre>decoder != NULL 
+</pre></div> </dl><dl compact><dt><b>
+Return values: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>const</em>&nbsp;</td><td>
+char * The decoder state as a C string. Do not modify the contents. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a22" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_channels"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1130,7 +1179,7 @@ The FLAC stream decoder state. </td></tr>
     <td>
 
 <p>
-This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a22">FLAC__stream_decoder_get_channels</a>()<dl compact><dt><b>
+This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a23">FLAC__stream_decoder_get_channels</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1148,13 +1197,13 @@ See above. </td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a22" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_channel_assignment"></a><p>
+<a name="a23" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_channel_assignment"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__flac__format.html#a91">FLAC__ChannelAssignment</a> OggFLAC__stream_decoder_get_channel_assignment </td>
+          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__flac__format.html#a92">FLAC__ChannelAssignment</a> OggFLAC__stream_decoder_get_channel_assignment </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const <a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>decoder</em>          </td>
@@ -1174,7 +1223,7 @@ See above. </td></tr>
     <td>
 
 <p>
-This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a23">FLAC__stream_decoder_get_channel_assignment</a>()<dl compact><dt><b>
+This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a24">FLAC__stream_decoder_get_channel_assignment</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1192,7 +1241,7 @@ See above. </td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a23" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_bits_per_sample"></a><p>
+<a name="a24" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_bits_per_sample"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1218,7 +1267,7 @@ See above. </td></tr>
     <td>
 
 <p>
-This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a24">FLAC__stream_decoder_get_bits_per_sample</a>()<dl compact><dt><b>
+This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a25">FLAC__stream_decoder_get_bits_per_sample</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1236,7 +1285,7 @@ See above. </td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a24" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_sample_rate"></a><p>
+<a name="a25" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_sample_rate"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1262,7 +1311,7 @@ See above. </td></tr>
     <td>
 
 <p>
-This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a25">FLAC__stream_decoder_get_sample_rate</a>()<dl compact><dt><b>
+This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a26">FLAC__stream_decoder_get_sample_rate</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1280,7 +1329,7 @@ See above. </td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a25" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_blocksize"></a><p>
+<a name="a26" doxytag="stream_decoder.h::OggFLAC__stream_decoder_get_blocksize"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1306,7 +1355,7 @@ See above. </td></tr>
     <td>
 
 <p>
-This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a26">FLAC__stream_decoder_get_blocksize</a>()<dl compact><dt><b>
+This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a27">FLAC__stream_decoder_get_blocksize</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1324,13 +1373,13 @@ See above. </td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a26" doxytag="stream_decoder.h::OggFLAC__stream_decoder_init"></a><p>
+<a name="a27" doxytag="stream_decoder.h::OggFLAC__stream_decoder_init"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a33">OggFLAC__StreamDecoderState</a> OggFLAC__stream_decoder_init </td>
+          <td class="md" nowrap valign="top"> OggFLAC_API <a class="el" href="group__oggflac__stream__decoder.html#a34">OggFLAC__StreamDecoderState</a> OggFLAC__stream_decoder_init </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="structOggFLAC____StreamDecoder.html">OggFLAC__StreamDecoder</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>decoder</em>          </td>
@@ -1368,7 +1417,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a27" doxytag="stream_decoder.h::OggFLAC__stream_decoder_finish"></a><p>
+<a name="a28" doxytag="stream_decoder.h::OggFLAC__stream_decoder_finish"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1396,7 +1445,7 @@ Return values: </b><dd>
 <p>
 Finish the decoding process. Flushes the decoding buffer, releases resources, resets the decoder settings to their defaults, and returns the decoder state to OggFLAC__STREAM_DECODER_UNINITIALIZED.
 <p>
-In the event of a prematurely-terminated decode, it is not strictly necessary to call this immediately before <a class="el" href="group__oggflac__stream__decoder.html#a6">OggFLAC__stream_decoder_delete</a>() but it is good practice to match every <a class="el" href="group__oggflac__stream__decoder.html#a26">OggFLAC__stream_decoder_init</a>() with an <a class="el" href="group__oggflac__stream__decoder.html#a27">OggFLAC__stream_decoder_finish</a>().<dl compact><dt><b>
+In the event of a prematurely-terminated decode, it is not strictly necessary to call this immediately before <a class="el" href="group__oggflac__stream__decoder.html#a6">OggFLAC__stream_decoder_delete</a>() but it is good practice to match every <a class="el" href="group__oggflac__stream__decoder.html#a27">OggFLAC__stream_decoder_init</a>() with an <a class="el" href="group__oggflac__stream__decoder.html#a28">OggFLAC__stream_decoder_finish</a>().<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1408,7 +1457,7 @@ Assertions:</b><dd>
 </pre></div> </dl>    </td>
   </tr>
 </table>
-<a name="a28" doxytag="stream_decoder.h::OggFLAC__stream_decoder_flush"></a><p>
+<a name="a29" doxytag="stream_decoder.h::OggFLAC__stream_decoder_flush"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1434,7 +1483,7 @@ Assertions:</b><dd>
     <td>
 
 <p>
-This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a29">FLAC__stream_decoder_flush</a>()<dl compact><dt><b>
+This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a30">FLAC__stream_decoder_flush</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1452,7 +1501,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a29" doxytag="stream_decoder.h::OggFLAC__stream_decoder_reset"></a><p>
+<a name="a30" doxytag="stream_decoder.h::OggFLAC__stream_decoder_reset"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1478,7 +1527,7 @@ Return values: </b><dd>
     <td>
 
 <p>
-This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a30">FLAC__stream_decoder_reset</a>()<dl compact><dt><b>
+This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a31">FLAC__stream_decoder_reset</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1496,7 +1545,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a30" doxytag="stream_decoder.h::OggFLAC__stream_decoder_process_single"></a><p>
+<a name="a31" doxytag="stream_decoder.h::OggFLAC__stream_decoder_process_single"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1522,7 +1571,7 @@ Return values: </b><dd>
     <td>
 
 <p>
-Decode one metadata block or audio frame. This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a31">FLAC__stream_decoder_process_single</a>()<dl compact><dt><b>
+Decode one metadata block or audio frame. This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a32">FLAC__stream_decoder_process_single</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1531,7 +1580,7 @@ An initialized decoder instance in the state <code>OggFLAC__STREAM_DECODER_OK</c
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>decoder != NULL 
-</pre></div> <div class="fragment"><pre><a class="code" href="OggFLAC_2stream__decoder_8h.html#a19">OggFLAC__stream_decoder_get_state</a>(decoder) == <a class="code" href="OggFLAC_2stream__decoder_8h.html#a33a5">OggFLAC__STREAM_DECODER_OK</a> 
+</pre></div> <div class="fragment"><pre><a class="code" href="OggFLAC_2stream__decoder_8h.html#a19">OggFLAC__stream_decoder_get_state</a>(decoder) == <a class="code" href="OggFLAC_2stream__decoder_8h.html#a34a5">OggFLAC__STREAM_DECODER_OK</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1541,7 +1590,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a31" doxytag="stream_decoder.h::OggFLAC__stream_decoder_process_until_end_of_metadata"></a><p>
+<a name="a32" doxytag="stream_decoder.h::OggFLAC__stream_decoder_process_until_end_of_metadata"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1567,7 +1616,7 @@ Return values: </b><dd>
     <td>
 
 <p>
-Decode until the end of the metadata. This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a32">FLAC__stream_decoder_process_until_end_of_metadata</a>()<dl compact><dt><b>
+Decode until the end of the metadata. This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a33">FLAC__stream_decoder_process_until_end_of_metadata</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1576,7 +1625,7 @@ An initialized decoder instance in the state <code>OggFLAC__STREAM_DECODER_OK</c
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>decoder != NULL 
-</pre></div> <div class="fragment"><pre><a class="code" href="OggFLAC_2stream__decoder_8h.html#a19">OggFLAC__stream_decoder_get_state</a>(decoder) == <a class="code" href="OggFLAC_2stream__decoder_8h.html#a33a5">OggFLAC__STREAM_DECODER_OK</a> 
+</pre></div> <div class="fragment"><pre><a class="code" href="OggFLAC_2stream__decoder_8h.html#a19">OggFLAC__stream_decoder_get_state</a>(decoder) == <a class="code" href="OggFLAC_2stream__decoder_8h.html#a34a5">OggFLAC__STREAM_DECODER_OK</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1586,7 +1635,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a32" doxytag="stream_decoder.h::OggFLAC__stream_decoder_process_until_end_of_stream"></a><p>
+<a name="a33" doxytag="stream_decoder.h::OggFLAC__stream_decoder_process_until_end_of_stream"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1612,7 +1661,7 @@ Return values: </b><dd>
     <td>
 
 <p>
-Decode until the end of the stream. This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a33">FLAC__stream_decoder_process_until_end_of_stream</a>()<dl compact><dt><b>
+Decode until the end of the stream. This is inherited from <a class="el" href="structFLAC____StreamDecoder.html">FLAC__StreamDecoder</a>; see <a class="el" href="group__flac__stream__decoder.html#a34">FLAC__stream_decoder_process_until_end_of_stream</a>()<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>decoder</em>&nbsp;</td><td>
@@ -1621,7 +1670,7 @@ An initialized decoder instance in the state <code>OggFLAC__STREAM_DECODER_OK</c
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>decoder != NULL 
-</pre></div> <div class="fragment"><pre><a class="code" href="OggFLAC_2stream__decoder_8h.html#a19">OggFLAC__stream_decoder_get_state</a>(decoder) == <a class="code" href="OggFLAC_2stream__decoder_8h.html#a33a5">OggFLAC__STREAM_DECODER_OK</a> 
+</pre></div> <div class="fragment"><pre><a class="code" href="OggFLAC_2stream__decoder_8h.html#a19">OggFLAC__stream_decoder_get_state</a>(decoder) == <a class="code" href="OggFLAC_2stream__decoder_8h.html#a34a5">OggFLAC__STREAM_DECODER_OK</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1656,7 +1705,7 @@ Maps an OggFLAC__StreamDecoderState to a C string.
 Using an OggFLAC__StreamDecoderState as the index to this array will give the string equivalent. The contents should not be modified.     </td>
   </tr>
 </table>
-<hr><address><small>Generated on Sat Jan 25 10:44:58 2003 for FLAC by
+<hr><address><small>Generated on Tue Sep 28 21:19:46 2004 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

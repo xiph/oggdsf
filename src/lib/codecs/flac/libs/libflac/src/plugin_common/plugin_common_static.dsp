@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release_static"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /Ox /Og /Oi /Os /Op /I ".\include" /I "..\..\include" /D "FLAC__NO_DLL" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /WX /GX /Ox /Og /Oi /Os /Op /I ".\include" /I "..\..\include" /D "FLAC__NO_DLL" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -97,32 +97,8 @@ SOURCE=.\dither.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\id3v1.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\id3v2.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\replaygain_synthesis.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\vorbiscomment.c
 # End Source File
-# End Group
-# Begin Group "Private Header Files"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\private\fast_float_math_hack.h
-# End Source File
-# End Group
-# Begin Group "Protected Header Files"
-
-# PROP Default_Filter ""
 # End Group
 # Begin Group "Public Header Files"
 
@@ -145,15 +121,7 @@ SOURCE=.\dither.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\id3v1.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\locale_hack.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\replaygain_synthesis.h
 # End Source File
 # Begin Source File
 

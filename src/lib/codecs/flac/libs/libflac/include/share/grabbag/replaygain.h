@@ -1,5 +1,5 @@
 /* grabbag - Convenience lib for various routines common to several tools
- * Copyright (C) 2002,2003  Josh Coalson
+ * Copyright (C) 2002,2003,2004  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
  */
 
 /*
- * This wraps the gain_analysis lib, which is LGPL.  This wrapper
+ * This wraps the replaygain_analysis lib, which is LGPL.  This wrapper
  * allows analysis of different input resolutions by automatically
  * scaling the input signal
  */
