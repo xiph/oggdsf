@@ -33,7 +33,7 @@
 #include "OggMuxFilter.h"
 #include "OggPaginator.h"
 #include "OggMuxStream.h"
-#include "BasicSeekable.h"
+#include "BasicSeekPassThrough.h"
 #include "FLACMetadataSplitter.h"
 #include <time.h>
 #include <fstream>
@@ -44,7 +44,7 @@ class OggMuxFilter;
 
 class OggMuxInputPin
 	:	public CBaseInputPin
-	,	public BasicSeekable
+	,	public BasicSeekPassThrough
 {
 public:
 	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);

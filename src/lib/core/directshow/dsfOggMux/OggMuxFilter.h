@@ -32,7 +32,7 @@
 #pragma once
 #include "oggmuxdllstuff.h"
 #include "OggMuxInputPin.h"
-#include "BasicSeekable.h"
+#include "BasicSeekPassThrough.h"
 #include "OggPageInterleaver.h"
 #include "INotifyComplete.h"
 
@@ -49,7 +49,7 @@ class OggMuxFilter
 	,	public CBaseFilter
 	,	public IOggCallback
 	,	public IAMFilterMiscFlags
-	,	public BasicSeekable
+	,	public BasicSeekPassThrough
 	,	public INotifyComplete
 {
 public:
