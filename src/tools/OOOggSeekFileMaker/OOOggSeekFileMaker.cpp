@@ -46,10 +46,6 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 int main(int argc, char * argv[])
 #endif
 {
-	int x;
-	cin >> x;
-
-
 	if (argc < 3) {
 		cout<<"Usage : OOOggSeekFileMaker <in_ogg_file> <out_seek_table_file>"<<endl;
 	} else {
