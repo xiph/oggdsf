@@ -136,7 +136,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 
 OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 {
-	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
+	DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
 	delete m_pLock;
 	delete mStreamLock;
 	delete mSourceFileLock;

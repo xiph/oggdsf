@@ -55,6 +55,7 @@ public:
 
 
 		//Virtuals for data queue
+	virtual HRESULT BreakConnect(void);
 	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 	virtual HRESULT DeliverEndOfStream(void);

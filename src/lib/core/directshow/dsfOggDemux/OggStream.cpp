@@ -64,6 +64,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 
 OggStream::~OggStream(void)
 {
+	debugLog<<"Destructor..."<<endl;
 	debugLog.close();
 	delete mSourcePin;
 	delete mCodecHeaders;

@@ -65,6 +65,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 OggDemuxSourcePin::~OggDemuxSourcePin(void)
 {
 	//debugLog.close();
+	Inactive();
 	delete mDataQueue;
 }
 
@@ -169,6 +170,12 @@ HRESULT OggDemuxSourcePin::CompleteConnect (IPin *inReceivePin)
 	}
 	
 	return CBaseOutputPin::CompleteConnect(inReceivePin);
+}
+
+HRESULT OggDemuxSourcePin::BreakConnect(void) {
+	delete mDataQueue;
+	mDataQueue = NULL;
+	return CBaseOutputPin::BreakConnect();
 }
 
 	//CSourceStream virtuals

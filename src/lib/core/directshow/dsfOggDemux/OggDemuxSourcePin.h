@@ -78,6 +78,7 @@ public:
 
 	//IPin
 	virtual HRESULT CompleteConnect (IPin *inReceivePin);
+	virtual HRESULT OggDemuxSourcePin::BreakConnect(void);
 	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 	virtual HRESULT DeliverEndOfStream(void);
 	virtual HRESULT DeliverEndFlush(void);

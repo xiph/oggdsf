@@ -44,7 +44,9 @@ bool BasicSeekable::SetDelegate(IMediaSeeking* inDelegate) {
 }
 BasicSeekable::~BasicSeekable(void)
 {
-	
+	if (mSeekDelegate != NULL) {
+		mSeekDelegate->Release();
+	}
 	//seekDebug.close();
 }
 //IMediaSeeking Interface

@@ -82,6 +82,7 @@ void AbstractAudioDecodeFilter::SetStartToNow() {
 	HRESULT locHR = GetSyncSource(&locRefClock);
 	LONGLONG locCurrentTime;
 	locRefClock->GetTime(&locCurrentTime);
+	locRefClock->Release();
 
 	m_tStart = locCurrentTime;
 }
