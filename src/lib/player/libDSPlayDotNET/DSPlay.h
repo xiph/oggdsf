@@ -74,30 +74,55 @@ namespace libDSPlayDotNET
 		DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, Int32 inHeight);
 		~DSPlay(void);
 
+		/// Load the named file into the player.
 		bool loadFile(String* inFileName);
+
+		/// Start playing the media file.
 		bool play();
+
+		/// Pause the media file.
 		bool pause();
+
+		/// Stop the media file.
 		bool stop();
+
+		/// Seek to the specified time in 100 nanoseconds units. ie 10 000 000 per second.
 		Int64 seek(Int64 inTime);
+
+		/// Seek to the start of the media file.
 		Int64 seekStart();
 		Int64 queryPosition();
 
+		/// Repaints the frame. Only needed for windowless rendering.
 		void repaint();
 
+		/// Returns if there is a file loaded.
 		bool isLoaded();
+
+		/// Returns the file size in bytes of the media file.
 		Int64 fileSize();
+
+		/// Returns the duration of the file in 100 nanosecond units. ie 10 000 000 per second.
 		Int64 fileDuration();
 
+		/// Returns a .NET Bitmap class of the current video frame. Requires Renderless mode.
 		System::Drawing::Bitmap* GetImage();
 	
-
+		/// Sets the callback for media events. Notably EC_COMPLETE.
 		bool setMediaEventCallback(IDNMediaEvent* inMediaEventCallback);
+
+		/// Returns a pointer to the current media event callback.
 		IDNMediaEvent* getMediaEventCallback();
 
+		/// Sets the callback for CMMLTags. Only valid for annodex files.
 		bool setCMMLCallbacks(IDNCMMLCallbacks* inCMMLCallbacks);
+
+		/// Triggers an event check, which if needed will fire the callbacks.
 		bool checkEvents();
 
+		/// Releases all the interfaces in use and unloads the file.
 		void releaseInterfaces();
+
 	protected:
 		//static wstring toWStr(std::string inString);
 		IGraphBuilder* mGraphBuilder;
@@ -125,8 +150,6 @@ namespace libDSPlayDotNET
 		bool mIsLoaded;
 		__int64 mFileSize;
 		bool isFileAnnodex(String* inFilename);
-
-		
 
 		__value enum eVideoRenderer {
 			VR_VIDEO_WINDOW,

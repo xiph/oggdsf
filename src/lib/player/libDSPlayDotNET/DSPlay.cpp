@@ -131,8 +131,9 @@ bool DSPlay::checkEvents() {
 DSPlay::~DSPlay(void) {
 	*debugLog<<"Killing DSPlay"<<endl;
 	debugLog->close();
-	delete debugLog;
+	
 	releaseInterfaces();
+	delete debugLog;
 	CoUninitialize();
 }
 
@@ -150,6 +151,8 @@ void DSPlay::repaint()
 
 }
 void DSPlay::releaseInterfaces() {
+
+	mVideoRenderType = VR_NONE;
 	*debugLog<<"Releasing interfaces"<<endl;
 	ULONG numRef = 0;
 	if (mMediaControl != NULL) {
@@ -183,14 +186,7 @@ void DSPlay::releaseInterfaces() {
 		mCMMLAppControl = NULL;
 	}
 
-	*debugLog<<"Before Graph release..."<<endl;
-	if (mGraphBuilder != NULL) {
-		numRef =
-            mGraphBuilder->Release();
 
-		*debugLog<<"Graph Builder count = "<<numRef<<endl;
-		mGraphBuilder = NULL;
-	}
 
 	if (mVideoWindow != NULL) {
 		numRef =
@@ -216,8 +212,19 @@ void DSPlay::releaseInterfaces() {
 		mVMR7Window = NULL;
 	}
 
+		*debugLog<<"Before Graph release..."<<endl;
+	if (mGraphBuilder != NULL) {
+		numRef =
+            mGraphBuilder->Release();
+
+		*debugLog<<"Graph Builder count = "<<numRef<<endl;
+		mGraphBuilder = NULL;
+	}
+
 
 	*debugLog<<"After graph release>.."<<endl;
+
+	mIsLoaded = false;
 	//TODO::: Release everything !
 }
 
