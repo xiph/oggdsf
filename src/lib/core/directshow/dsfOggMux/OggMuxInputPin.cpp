@@ -39,7 +39,10 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	OggPaginatorSettings* locSettings = new OggPaginatorSettings;
 	locSettings->mMinPageSize = 4096;
 	locSettings->mMaxPageSize = 8192;
-	srand((unsigned int)time(NULL));
+	
+	LARGE_INTEGER locTicks;
+	QueryPerformanceCounter(&locTicks);
+	srand((unsigned int)locTicks.LowPart);
 	locSettings->mSerialNo = ((unsigned long)(rand() + 1)) * ((unsigned long)(rand() + 1));
 	//locSettings->mSerialNo = 13130;
 	

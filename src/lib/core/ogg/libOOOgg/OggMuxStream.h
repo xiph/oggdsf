@@ -45,7 +45,7 @@ public:
 
 	virtual bool acceptOggPage(OggPage* inOggPage);
 	virtual OggPage* popFront();
-	virtual const OggPage* peekfront();
+	virtual OggPage* peekFront();
 	virtual __int64 frontTime();
 	virtual bool isEmpty();
 	virtual bool isEOS();

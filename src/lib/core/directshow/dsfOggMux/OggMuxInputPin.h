@@ -35,6 +35,7 @@
 #include "OggMuxStream.h"
 #include <time.h>
 #include <fstream>
+#include <windows.h>
 using namespace std;
 
 class OggMuxFilter;

@@ -100,7 +100,7 @@ void OggPageInterleaver::writeLowest() {
 			if (!mInputStreams[i]->isEmpty() && mInputStreams[i]->isActive()) {
 				if (locLowestStream == NULL) {
 					locLowestStream = mInputStreams[i];
-				} else if (mInputStreams[i]->frontTime() < locLowestStream->frontTime()) {
+				} else if ((mInputStreams[i]->frontTime() < locLowestStream->frontTime()) || (((mInputStreams[i]->peekFront() != NULL) && (mInputStreams[i]->peekFront()->header()->isBOS())))) {
 					locLowestStream = mInputStreams[i];
 				}
 			}
@@ -124,7 +124,7 @@ bool OggPageInterleaver::isAllEOS() {
 	bool retVal = true;
 	//ASSERT(mInputStreams.size() >= 1)
 	for (int i = 0; i < mInputStreams.size(); i++) {
-		retVal = retVal && (mInputStreams[i]->isEOS());
+		retVal = retVal && (mInputStreams[i]->isEOS() || !mInputStreams[i]->isActive());
 	}
 	return retVal;
 }

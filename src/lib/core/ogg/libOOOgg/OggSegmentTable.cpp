@@ -48,6 +48,7 @@ OggSegmentTable* OggSegmentTable::clone() {
 	if ( (mSegmentTable != NULL) && (mNumSegments > 0)) {
 		retVal->mSegmentTable = new unsigned char[mNumSegments];
 		memcpy((void*)retVal->mSegmentTable, (const void*) mSegmentTable, mNumSegments);
+		retVal->mNumSegments = mNumSegments;
 	} else {
 		//Error ??
 	}

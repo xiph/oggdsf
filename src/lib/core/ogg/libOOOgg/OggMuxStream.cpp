@@ -45,7 +45,7 @@ OggMuxStream::~OggMuxStream(void)
 
 bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {
 	mIsEOS = false;
-	mPageQueue.push_back(inOggPage);
+	mPageQueue.push_back(inOggPage->clone());
 	mNotifier->notifyArrival();
 	return true;
 }
@@ -58,7 +58,7 @@ OggPage* OggMuxStream::popFront() {
 	}
 	return retPage;
 }
-const OggPage* OggMuxStream::peekfront() {
+OggPage* OggMuxStream::peekFront() {
 	OggPage* retPage = NULL;
 	if (!mPageQueue.empty()) {
 		retPage = mPageQueue.front();
