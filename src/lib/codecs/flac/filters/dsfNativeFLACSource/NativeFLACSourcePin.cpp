@@ -29,51 +29,51 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "StdAfx.h"
-#include ".\DiracDecodeSourcePin.h"
+#include ".\NativeFLACSourcePin.h"
 
-DiracDecodeSourcePin::DiracDecodeSourcePin(DiracDecodeSourceFilter* inParentFilter, CCritSec* inFilterLock)
-	:	CBaseOutputPin(NAME("Dirac Video Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"Video Out")
+NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock)
+	:	CBaseOutputPin(NAME("Native FLAC Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"PCM Out")
 {
 }
 
-DiracDecodeSourcePin::~DiracDecodeSourcePin(void)
+NativeFLACSourcePin::~NativeFLACSourcePin(void)
 {
 }
 
-STDMETHODIMP DiracDecodeSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
 	
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-HRESULT DiracDecodeSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
+HRESULT NativeFLACSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	
 	mDataQueue->NewSegment(tStart, tStop, dRate);
 
 	return S_OK;
 }
-HRESULT DiracDecodeSourcePin::DeliverEndOfStream(void)
+HRESULT NativeFLACSourcePin::DeliverEndOfStream(void)
 {
 	
 	mDataQueue->EOS();
     return S_OK;
 }
 
-HRESULT DiracDecodeSourcePin::DeliverEndFlush(void)
+HRESULT NativeFLACSourcePin::DeliverEndFlush(void)
 {
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
-HRESULT DiracDecodeSourcePin::DeliverBeginFlush(void)
+HRESULT NativeFLACSourcePin::DeliverBeginFlush(void)
 {
 	
 	mDataQueue->BeginFlush();
     return S_OK;
 }
 
-HRESULT DiracDecodeSourcePin::CompleteConnect (IPin *inReceivePin)
+HRESULT NativeFLACSourcePin::CompleteConnect (IPin *inReceivePin)
 {
 	mFilterHR = S_OK;
 	//Set the delegate for seeking
@@ -88,14 +88,14 @@ HRESULT DiracDecodeSourcePin::CompleteConnect (IPin *inReceivePin)
 	return CBaseOutputPin::CompleteConnect(inReceivePin);
 }
 
-HRESULT DiracDecodeSourcePin::BreakConnect(void) {
+HRESULT NativeFLACSourcePin::BreakConnect(void) {
 	delete mDataQueue;
 	mDataQueue = NULL;
 	return CBaseOutputPin::BreakConnect();
 }
 
 	//CSourceStream virtuals
-HRESULT DiracDecodeSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) {
+HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 	//Put it in from the info we got in the constructor.
 	//NOTE::: May have missed some fields ????
 	//NOTE::: May want to check for null pointers
@@ -103,10 +103,10 @@ HRESULT DiracDecodeSourcePin::GetMediaType(int inPosition, CMediaType* outMediaT
 	if (inPosition == 0) {
 		CMediaType locMediaType;
 
-		locMediaType.majortype = MEDIATYPE_Video;
-		locMediaType.subtype = MEDIASUBTYPE_YV12;
-		locMediaType.formattype = FORMAT_VideoInfo;
-		locMediaType.cbFormat = sizeof(VIDEOINFOHEADER);
+		locMediaType.majortype = MEDIATYPE_Audio;
+		locMediaType.subtype = MEDIASUBTYPE_PCM;
+		locMediaType.formattype = FORMAT_WaveFormatEx;
+		locMediaType.cbFormat = sizeof(WAVEFORMATEX);
 		locMediaType.pbFormat = NULL; //(BYTE*)mCMMLFormatBlock; //(BYTE*)locSpeexFormatInfo;
 		locMediaType.pUnk = NULL;
 		*outMediaType = locMediaType;
@@ -115,14 +115,14 @@ HRESULT DiracDecodeSourcePin::GetMediaType(int inPosition, CMediaType* outMediaT
 		return VFW_S_NO_MORE_ITEMS;
 	}
 }
-HRESULT DiracDecodeSourcePin::CheckMediaType(const CMediaType* inMediaType) {
-	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_YV12)) {
+HRESULT NativeFLACSourcePin::CheckMediaType(const CMediaType* inMediaType) {
+	if ((inMediaType->majortype == MEDIATYPE_Audio) && (inMediaType->subtype == MEDIASUBTYPE_PCM)) {
 		return S_OK;
 	} else {
 		return E_FAIL;
 	}
 }
-HRESULT DiracDecodeSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) {
+HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) {
 
 	HRESULT locHR = S_OK;
 

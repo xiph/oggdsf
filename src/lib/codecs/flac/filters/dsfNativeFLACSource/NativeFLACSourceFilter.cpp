@@ -29,14 +29,14 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "StdAfx.h"
-#include ".\DiracDecodeSourceFilter.h"
+#include ".\NativeFLACSourceFilter.h"
 
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"DiracDecodeSourceFilter",						// Name
-	    &CLSID_DiracDecodeSourceFilter,            // CLSID
-	    DiracDecodeSourceFilter::CreateInstance,	// Method to create an instance of MyComponent
+		L"NativeFLACSourceFilter",						// Name
+	    &CLSID_NativeFLACSourceFilter,            // CLSID
+	    NativeFLACSourceFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
     }
@@ -47,48 +47,48 @@ CFactoryTemplate g_Templates[] =
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
 
-CUnknown* WINAPI DiracDecodeSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
+CUnknown* WINAPI NativeFLACSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
-	DiracDecodeSourceFilter *pNewObject = new DiracDecodeSourceFilter();
+	NativeFLACSourceFilter *pNewObject = new NativeFLACSourceFilter();
     if (pNewObject == NULL) {
         *pHr = E_OUTOFMEMORY;
     }
     return pNewObject;
 } 
 
-DiracDecodeSourceFilter::DiracDecodeSourceFilter(void)
-	:	CBaseFilter(NAME("DiracDecodeSourceFilter"), NULL, m_pLock, CLSID_DiracDecodeSourceFilter)
+NativeFLACSourceFilter::NativeFLACSourceFilter(void)
+	:	CBaseFilter(NAME("NativeFLACSourceFilter"), NULL, m_pLock, CLSID_NativeFLACSourceFilter)
 	,	mDecoder(NULL)
 {
-	mDiracSourcePin = new DiracDecodeSourcePin(this, m_pLock);
+	mDiracSourcePin = new NativeFLACSourcePin(this, m_pLock);
 }
 
-DiracDecodeSourceFilter::~DiracDecodeSourceFilter(void)
+NativeFLACSourceFilter::~NativeFLACSourceFilter(void)
 {
-	delete mDiracSourcePin;
-	mDiracSourcePin = NULL;
+	delete mFLACSourcePin;
+	mFLACSourcePin = NULL;
 }
 
 //BaseFilter Interface
-int DiracDecodeSourceFilter::GetPinCount() {
+int NativeFLACSourceFilter::GetPinCount() {
 	return 1;
 }
-CBasePin* DiracDecodeSourceFilter::GetPin(int inPinNo) {
+CBasePin* NativeFLACSourceFilter::GetPin(int inPinNo) {
 
 	if (inPinNo == 0) {
-		return mDiracSourcePin;
+		return mFLACSourcePin;
 	} else {
 		return NULL;
 	}
 }
 
 //IAMFilterMiscFlags Interface
-ULONG DiracDecodeSourceFilter::GetMiscFlags(void) {
+ULONG NativeFLACSourceFilter::GetMiscFlags(void) {
 	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
 }
 
 	//IFileSource Interface
-STDMETHODIMP DiracDecodeSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) {
+STDMETHODIMP NativeFLACSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) {
 	//Return the filename and mediatype of the raw data
 
 	 
@@ -99,7 +99,7 @@ STDMETHODIMP DiracDecodeSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA
 }
 
 //ANX::: Seek table will need modifying to handle this.
-STDMETHODIMP DiracDecodeSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) {
+STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) {
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
@@ -124,7 +124,7 @@ STDMETHODIMP DiracDecodeSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_
 	return S_OK;
 }
 
-STDMETHODIMP DiracDecodeSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+STDMETHODIMP NativeFLACSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
 
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
@@ -132,7 +132,7 @@ STDMETHODIMP DiracDecodeSourceFilter::NonDelegatingQueryInterface(REFIID riid, v
 
 
 //IMEdiaStreaming
-STDMETHODIMP DiracDecodeSourceFilter::Run(REFERENCE_TIME tStart) {
+STDMETHODIMP NativeFLACSourceFilter::Run(REFERENCE_TIME tStart) {
 	const REFERENCE_TIME A_LONG_TIME = UNITS * 1000;
 	CAutoLock locLock(m_pLock);
 	//debugLog<<"Run  :  time = "<<tStart<<endl;
@@ -141,7 +141,7 @@ STDMETHODIMP DiracDecodeSourceFilter::Run(REFERENCE_TIME tStart) {
 	
 
 }
-STDMETHODIMP DiracDecodeSourceFilter::Pause(void) {
+STDMETHODIMP NativeFLACSourceFilter::Pause(void) {
 	CAutoLock locLock(m_pLock);
 	//debugLog << "** Pause called **"<<endl;
 	if (m_State == State_Stopped) {
@@ -158,7 +158,7 @@ STDMETHODIMP DiracDecodeSourceFilter::Pause(void) {
 	return locHR;
 	
 }
-STDMETHODIMP DiracDecodeSourceFilter::Stop(void) {
+STDMETHODIMP NativeFLACSourceFilter::Stop(void) {
 	CAutoLock locLock(m_pLock);
 	//debugLog<<"** Stop Called ** "<<endl;
 	CallWorker(THREAD_EXIT);
@@ -168,7 +168,7 @@ STDMETHODIMP DiracDecodeSourceFilter::Stop(void) {
 	return CBaseFilter::Stop();
 }
 
-HRESULT DiracDecodeSourceFilter::DataProcessLoop() {
+HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 
     do 
     {
@@ -289,7 +289,7 @@ HRESULT DiracDecodeSourceFilter::DataProcessLoop() {
 }
 
 //CAMThread Stuff
-DWORD DiracDecodeSourceFilter::ThreadProc(void) {
+DWORD NativeFLACSourceFilter::ThreadProc(void) {
 	//debugLog << "Thread Proc Called..."<<endl;
 	while(true) {
 		DWORD locThreadCommand = GetRequest();

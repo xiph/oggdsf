@@ -29,14 +29,14 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-#include "dsfDiracDecodeSource.h"
+#include "dsfNativeFLACSource.h"
 
 #include <string>
 using namespace std;
 
 
-class DiracDecodeSourcePin;
-class DiracDecodeSourceFilter
+class NativeFLACSourcePin;
+class NativeFLACSourceFilter
 	:	public CBaseFilter
 	,	public IFileSourceFilter
 	,	public IAMFilterMiscFlags
@@ -51,8 +51,8 @@ public:
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	DiracDecodeSourceFilter(void);
-	virtual ~DiracDecodeSourceFilter(void);
+	NativeFLACSourceFilter(void);
+	virtual ~NativeFLACSourceFilter(void);
 
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
@@ -78,9 +78,9 @@ public:
 protected:
 
 	HRESULT DataProcessLoop();
-	DiracDecodeSourcePin* mDiracSourcePin;
+	NativeFLACSourcePin* mFLACSourcePin;
 	wstring mFileName;
 	wstring mHDRFileName;
 
-	dirac_decoder_t* mDecoder;
+
 };

@@ -28,59 +28,43 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #pragma once
-#include "dsfDiracDecodeSource.h"
-
-#include <string>
+#include "dsfNativeFLACSource.h"
+#include "NativeFLACSourceFilter.h"
+#include <fstream>
 using namespace std;
-
-
-class DiracDecodeSourcePin;
-class DiracDecodeSourceFilter
-	:	public CBaseFilter
-	,	public IFileSourceFilter
-	,	public IAMFilterMiscFlags
-	,	public CAMThread
+class NativeFLACSourcePin
+	:	public CBaseOutputPin
 {
 public:
-	enum eThreadCommands {
-		THREAD_EXIT = 0,
-		THREAD_PAUSE = 1,
-		THREAD_RUN = 2
-	};
+
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	DiracDecodeSourceFilter(void);
-	virtual ~DiracDecodeSourceFilter(void);
+	NativeFLACSourcePin(	NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock);
+					
+	virtual ~NativeFLACSourcePin(void);
 
-	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+	static const unsigned long BUFFER_SIZE = 65536;			//What should this be ????
+	static const unsigned long NUM_BUFFERS = 10;
 
-	//IBaseFilter Pure Virtuals
-	virtual int GetPinCount();
-	virtual CBasePin* GetPin(int inPinNo);
+	//CBaseOutputPin virtuals
+	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
+	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
+	virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
 
-	//IAMFilterMiscFlags Interface
-	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
-	//
 
-	//IFileSource Interface
-	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
-	virtual STDMETHODIMP Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
-
-	//Streaming MEthods
-	STDMETHODIMP Run(REFERENCE_TIME tStart);
-	STDMETHODIMP Pause(void);
-	STDMETHODIMP Stop(void);
-
-	//CAMThread
-	virtual DWORD ThreadProc(void);
+	//IPin
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
+	virtual HRESULT BreakConnect(void);
+	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	virtual HRESULT DeliverEndOfStream(void);
+	virtual HRESULT DeliverEndFlush(void);
+	virtual HRESULT DeliverBeginFlush(void);
 protected:
-
-	HRESULT DataProcessLoop();
-	DiracDecodeSourcePin* mDiracSourcePin;
-	wstring mFileName;
-	wstring mHDRFileName;
-
-	dirac_decoder_t* mDecoder;
+	//fstream debugLog;
+	HRESULT mFilterHR;
+	COutputQueue* mDataQueue;
+	
 };
