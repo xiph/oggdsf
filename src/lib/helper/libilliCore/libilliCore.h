@@ -14,7 +14,7 @@
 
 #ifndef LOOG_UINT64
 # ifdef WIN32
-#  define LOOG_INT64 signed __int64
+#  define LOOG_UINT64 unsigned __int64
 # else  /* assume POSIX */
 #  define LOOG_UINT64 uint64_t
 # endif
