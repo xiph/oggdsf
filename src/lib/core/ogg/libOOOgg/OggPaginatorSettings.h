@@ -41,5 +41,6 @@ public:
 	unsigned long mMaxPageSize;
 	unsigned long mTargetPageSize;
 	unsigned long mMinPageSize;
+	unsigned long mNumHeaders;
 
 };

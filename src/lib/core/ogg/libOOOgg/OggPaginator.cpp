@@ -311,16 +311,15 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 	//	deliverCurrentPage();
 	//}
 
-	//This will ensure that any packet that has a 0 time stamp appears on it's own page...
-	// For codecs with fixed number of headers, it's easy to put several of these packets on a page
-	// But it's more difficult to do it generically for variable numbers of headers.
-	// Just ensuring that any packet with 0 gran pos (which is usually only headers, or possibly
-	// the first packet in a non-continuous codec) has it's own page is the simplest solution
+	//This will ensure that any header packet appears on it's own page...
+	//
 	// An added benefit, is that comment packets appear on their own page, this makes it
 	// significantly easier to add/modify comments without bumping data across a page which could
 	// require changing of all the headers in all the pages.
-	if ((inOggPacket->endTime() == 0) && (mPendingPageHasData)) {
-		debugLog<<"Flushing a 0 gran pos page..."<<endl;
+	if ((mPacketCount < mSettings->mNumHeaders) && (mPendingPageHasData)) {
+		debugLog<<"Flushing a header page..."<<endl;
+		debugLog<<"PacketCount = "<<mPacketCount<<endl;
+		debugLog<<"Num Headers = "<<mSettings->mNumHeaders<<endl;
 		deliverCurrentPage();
 	}
 	mPacketCount++;
@@ -507,3 +506,12 @@ bool OggPaginator::setPageCallback(IOggCallback* inPageCallback) {
 	mPageCallback = inPageCallback;
 	return true;
 }
+
+void OggPaginator::setNumHeaders(unsigned long inNumHeaders) {
+	mSettings->mNumHeaders = inNumHeaders;
+}
+unsigned long OggPaginator::numHeaders() {
+	return mSettings->mNumHeaders;
+
+}
+

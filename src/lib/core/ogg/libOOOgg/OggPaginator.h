@@ -50,11 +50,15 @@ public:
 	~OggPaginator(void);
 
 	bool setParameters(OggPaginatorSettings* inSettings);
+	
 
 	bool acceptStampedOggPacket(StampedOggPacket* inOggPacket);
 
 	bool setPageCallback(IOggCallback* inPageCallback);
 	bool finishStream();
+
+	void setNumHeaders(unsigned long inNumHeaders);
+	unsigned long numHeaders();
 
 protected:
 	bool deliverCurrentPage();
@@ -67,6 +71,7 @@ protected:
 	//bool addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned long inStartFrom);
 
 	unsigned long mPacketCount;
+	unsigned long mNumHeaders;
 
 	unsigned long mCurrentPageSize;
 	unsigned char mSegmentTable[255];

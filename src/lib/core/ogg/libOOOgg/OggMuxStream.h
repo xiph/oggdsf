@@ -63,6 +63,9 @@ public:
 
 	virtual bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor, __int64 inTheoraLogKFI);
 	bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor);
+
+
+
 	
 protected:
 	INotifyArrival* mNotifier;
@@ -76,5 +79,6 @@ protected:
 	__int64 mConvDenominator;
 	__int64 mConvScaleFactor;
 	__int64 mConvTheoraLogKeyFrameInterval;
+
 	deque<OggPage*> mPageQueue;
 };

@@ -36,6 +36,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	,	mParentFilter(inParentFilter)
 	,	mMuxStream(inMuxStream)
 	,	mNeedsFLACHeaderTweak(false)
+	,	mNeedsFLACHeaderCount(false)
 
 {
 	OggPaginatorSettings* locSettings = new OggPaginatorSettings;
@@ -79,23 +80,26 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 		sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
 		debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
 		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
-
+		mPaginator.setNumHeaders(3);
 	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
 			//Vorbis
 			sVorbisFormatBlock* locVorbis = (sVorbisFormatBlock*)inMediaType->pbFormat;
 			debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
 			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
+			mPaginator.setNumHeaders(3);
 			
 		} else if (inMediaType->subtype == MEDIASUBTYPE_Speex) {
 			//Speex
 			sSpeexFormatBlock* locSpeex = (sSpeexFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
+			mPaginator.setNumHeaders(2);
 		} else if (inMediaType->subtype == MEDIASUBTYPE_OggFLAC_1_0) {
 			//We are connected to the encoder nd getting individual metadata packets.
 			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
 			//mNeedsFLACHeaderTweak = true;
+			mNeedsFLACHeaderCount = true;
 		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
 			//We are connected directly to the mux and are getting metadata in one block
 			// Need to use the header splitter class.
@@ -178,6 +182,11 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	memcpy((void*)locBuff, (const void*)locSampleBuff, inSample->GetActualDataLength());
 	StampedOggPacket* locPacket = new StampedOggPacket(locBuff, inSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 	
+	if (mNeedsFLACHeaderCount) {
+		mNeedsFLACHeaderCount = false;
+		//This is to set the number of headers on the paginator for OggFLAC_1_0
+		mPaginator.setNumHeaders( locPacket->packetData()[8] );
+	}
 	if ((mNeedsFLACHeaderTweak)) {
 		//The first packet in FLAC has all the metadata in one block...
 		// It needs to be broken up for correct muxing....
@@ -212,6 +221,12 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 		for (int i = 0; i < locFLACSplitter->numHeaders(); i++) {
 			debugLog<<"Giving pager, packet "<<i<<endl;
 			debugLog<<locFLACSplitter->getHeader(i)->toPackDumpString()<<endl;		//This is a leak !!
+			if (i==0) {
+				//Set the number of headers in the paginator for FLAC classic.
+				StampedOggPacket* locHeadPack = locFLACSplitter->getHeader(i);
+				mPaginator.setNumHeaders(locHeadPack->packetData()[8]);
+				delete locHeadPack;
+			}
 			mPaginator.acceptStampedOggPacket(locFLACSplitter->getHeader(i));
 			debugLog<<"After paginator feed..."<<endl;
 		}

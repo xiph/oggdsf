@@ -40,6 +40,7 @@ OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	,	mConvDenominator(1)
 	,	mConvScaleFactor(1)
 	,	mConvTheoraLogKeyFrameInterval(0)
+
 {
 }
 
@@ -150,3 +151,4 @@ bool OggMuxStream::isActive() {
 void OggMuxStream::setIsActive(bool inIsActive) {
 	mIsActive = inIsActive;
 }
+

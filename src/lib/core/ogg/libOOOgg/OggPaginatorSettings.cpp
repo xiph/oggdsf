@@ -33,6 +33,11 @@
 #include "oggpaginatorsettings.h"
 
 OggPaginatorSettings::OggPaginatorSettings(void)
+	:	mSerialNo(0)
+	,	mMaxPageSize(8192)
+	,	mTargetPageSize(4096)
+	,	mMinPageSize(4096)
+	,	mNumHeaders(0)
 {
 }
 

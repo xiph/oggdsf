@@ -80,6 +80,7 @@ protected:
 	OggMuxFilter* mParentFilter;
 
 	bool mNeedsFLACHeaderTweak;
+	bool mNeedsFLACHeaderCount;
 	
 	OggPaginator mPaginator;
 	OggMuxStream* mMuxStream;

@@ -65,7 +65,7 @@ AutoOggSeekTable::~AutoOggSeekTable(void)
 }
 
 bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
-	mPacketCount += inOggPage->numPackets();
+	
 
 	//TODO ::: Some of this could be shared from other places.
 	if (!mFoundStreamInfo) {
@@ -163,10 +163,16 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 		}
 	}
 
+	if (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) {
+		mPacketCount += inOggPage->numPackets();
+	}
+
 
 	if ((mFoundStreamInfo) && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) && (inOggPage->header()->GranulePos() != -1)) {
 		//if ((mPacketCount > 3) && (mLastIsSeekable == true)) {
 		debugLog<<"Stream headers complete..."<<endl;
+		debugLog<<"Num Headers = "<<mNumHeaders<<endl;
+		debugLog<<"Packet COunt = "<<mPacketCount<<endl;
 		if ((mPacketCount > mNumHeaders) && ((inOggPage->header()->HeaderFlags() & 1) != 1)) {
 			debugLog<<"Adding seek point Time = "<<mLastSeekTime<<"  --  File pos = "<<mFilePos<<endl;
 			addSeekPoint(mLastSeekTime, mFilePos);
