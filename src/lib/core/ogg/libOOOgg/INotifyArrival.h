@@ -33,8 +33,5 @@
 class LIBOOOGG_API INotifyArrival
 {
 public:
-	INotifyArrival(void);
-	virtual ~INotifyArrival(void);
-
 	virtual void notifyArrival() = 0;
 };

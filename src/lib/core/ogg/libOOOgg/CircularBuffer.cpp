@@ -18,29 +18,35 @@ CircularBuffer::~CircularBuffer(void)
 
 unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytesToRead) {
 
-	unsigned long locBytesToRead =			(inBytesToRead > numBytesAvail())	?	numBytesAvail()
-																				:	inBytesToRead;
-
+	//If requested less or equal to what we have, read that amount, otherwise read as much as we've got.
+	unsigned long locBytesToRead =			(inBytesToRead <= numBytesAvail())	?	inBytesToRead
+																				:	numBytesAvail();
+	//locBytesToRead = the lower of numBytesAvail() and inBytesToRead
+	bufASSERT(locBytesToRead <= inBytesToRead);
+	bufASSERT(locBytesToRead <= numBytesAvail());
+	
 	unsigned long locEndDistance = mBufferSize - mReadPtr;
+	bufASSERT(locEndDistance <= mBufferSize);
+
 	//Where we will be if in relation to the end of the raw buffer if we wrote the bufferout from here.
 	//Negative values indicate bytes past the end ofthe buffer.
+	//Positive values indicate bytes before the end of buffer.
 	signed long locEndOffset = locEndDistance - locBytesToRead;
-
+	
 	if (locEndOffset >= 0) {
 		//Within the buffer
+		bufASSERT(mReadPtr < mBufferSize);
+		
 		memcpy((void*)outData, (const void*)(mBuffer + mReadPtr), locBytesToRead);
-		mReadPtr += locBytesToRead;
 	} else {
 		//Copy from the end of the raw buffer as much as we can into outdtata
 		memcpy((void*)outData, (const void*)(mBuffer + mReadPtr), locEndDistance);
 
 		//Copy from the start of the raw buffer whatever is left
-		memcpy((void*)(outData + locEndDistance), (const void*)(mBuffer + mReadPtr + locEndDistance), locBytesToRead - locEndDistance);
-		mReadPtr = (mReadPtr + locBytesToRead) % mBufferSize;
+		memcpy((void*)(outData + locEndDistance), (const void*)(mBuffer), locBytesToRead - locEndDistance);
 	}
+	mReadPtr = (mReadPtr + locBytesToRead) % mBufferSize;
 
-	
-	
 	return locBytesToRead;
 }
 
@@ -87,18 +93,19 @@ unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long i
 		//Within the buffer
 		memcpy((void*)(mBuffer + mWritePtr), ((const void*)inData), locBytesToWrite);
 		
-		mWritePtr += locBytesToWrite;
+		
 	} else {
 		
 		//Copy from the end of the raw buffer as much as we can into outdtata
 		memcpy((void*)(mBuffer + mWritePtr), (const void*)inData, locEndDistance);
 
 		//Copy from the start of the raw buffer whatever is left
-		memcpy((void*)(mBuffer + mWritePtr + locEndDistance), (const void*)(inData + locEndDistance), locBytesToWrite - locEndDistance);
+		memcpy((void*)(mBuffer), (const void*)(inData + locEndDistance), locBytesToWrite - locEndDistance);
 		
 		//Advance the write pointer wrapping voer the end.
-		mWritePtr = (mWritePtr + locBytesToWrite) % mBufferSize;
+		
 	}
+	mWritePtr = (mWritePtr + locBytesToWrite) % mBufferSize;
 
 	return locBytesToWrite;
 

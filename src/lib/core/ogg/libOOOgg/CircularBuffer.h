@@ -18,5 +18,6 @@ protected:
 	unsigned long mReadPtr;
 	unsigned long mWritePtr;
 
+	void bufASSERT(bool inBool) {	if (!inBool) throw 0; };
 	unsigned char* mBuffer;
 };

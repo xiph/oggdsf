@@ -13,9 +13,10 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	int x;
 	cin>>x;
 	const int CIRC_BUFF_SIZE = 4000;
-	const int LOC_BUFF_SIZE = 421;
-	const int LOC_READ_BUFF_BIG_SIZE = 811;
-	const int LOC_READ_BUFF_SMALL_SIZE = 379;
+	const int LOC_BUFF_SIZE = 300;
+	
+	const int LOC_READ_BUFF_BIG_SIZE = 1000;
+	const int LOC_READ_BUFF_SMALL_SIZE = 50;
 	const int TIMES_TO_LOOP = 300;
 	CircularBuffer* locCircBuf = new CircularBuffer(CIRC_BUFF_SIZE);
 
@@ -42,27 +43,47 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	unsigned char* locReadBuf = new unsigned char[LOC_READ_BUFF_BIG_SIZE];
 	unsigned long locNumRead = 0;
 	locNumWritten = 0;
+	//Assert buffersize > LOC_BUFF_SIZE
+	//Assert buffersize > LOC_READ_BUFF_SMALL_SIZE
+	//Assert buffersize > LOC_READ_BUFF_BIG_SIZE
 
+	//buffersize = 0;
 	for (int i = 0; i < TIMES_TO_LOOP; i++) {
+		
+		cout<<"Round : "<<i<<endl;
 		locNumWritten = locCircBuf->write(locBuf, LOC_BUFF_SIZE);
 		cout<<"Write attempted "<<LOC_BUFF_SIZE<<" got "<<locNumWritten<<endl;
+		cout<<"Avail : "<<locCircBuf->numBytesAvail()<<"  --  Space Left : "<<locCircBuf->spaceLeft()<<endl<<endl;
+		//buffersize = LOC_BUFF_SIZE
 
 		cout<<"** Short read test"<<endl;
 		locNumRead = locCircBuf->read(locReadBuf, LOC_READ_BUFF_SMALL_SIZE);
 		cout<<"Read attempted "<<LOC_READ_BUFF_SMALL_SIZE<<" got "<<locNumRead<<endl;
+		cout<<"Avail : "<<locCircBuf->numBytesAvail()<<"  --  Space Left : "<<locCircBuf->spaceLeft()<<endl<<endl;
+		//buffersize = LOC_BUFF_SIZE - LOC_READ_BUFF_SMALL_SIZE
 
 		locNumWritten = locCircBuf->write(locBuf, LOC_BUFF_SIZE);
 		cout<<"Write attempted "<<LOC_BUFF_SIZE<<" got "<<locNumWritten<<endl;
+		cout<<"Avail : "<<locCircBuf->numBytesAvail()<<"  --  Space Left : "<<locCircBuf->spaceLeft()<<endl<<endl;
+		//buffersize = (2 * LOC_BUFF_SIZE) - LOC_READ_BUFF_SMALL_SIZE
 
-		cout<<"** Long read test"<<endl;
+		cout<<"** Long read / Empty Buffer test"<<endl;
 		locNumRead = locCircBuf->read(locReadBuf, LOC_READ_BUFF_BIG_SIZE);
 		cout<<"Read attempted "<<LOC_READ_BUFF_BIG_SIZE<<" got "<<locNumRead<<endl;
+		cout<<"Avail : "<<locCircBuf->numBytesAvail()<<"  --  Space Left : "<<locCircBuf->spaceLeft()<<endl<<endl;
+		//buffersize = (2 * LOC_BUFF_SIZE) - LOC_READ_BUFF_SMALL_SIZE - LOC_READ_BUFF_BIG_SIZE
 
-		cout<<"** Long read again to empty test"<<endl;
+		cout<<"** Read while empty test"<<endl;
 		locNumRead = locCircBuf->read(locReadBuf, LOC_READ_BUFF_BIG_SIZE);
 		cout<<"Read attempted "<<LOC_READ_BUFF_BIG_SIZE<<" got "<<locNumRead<<endl;
+		cout<<"Avail : "<<locCircBuf->numBytesAvail()<<"  --  Space Left : "<<locCircBuf->spaceLeft()<<endl<<endl;
+		//buffersize = (2 * LOC_BUFF_SIZE) - LOC_READ_BUFF_SMALL_SIZE - (2 * LOC_READ_BUFF_BIG_SIZE)
 
 	}
+
+	delete locCircBuf;
+	delete locBuf;
+	delete locReadBuf;
 	return 0;
 }
 

@@ -35,8 +35,5 @@
 class LIBOOOGG_API IOggCallback
 {
 public:
-	IOggCallback(void);
-	virtual ~IOggCallback(void);
-
 	virtual bool acceptOggPage(OggPage* inOggPage) = 0;
 };

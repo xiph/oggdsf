@@ -36,6 +36,5 @@ class LIBOOOGG_API IOggPackSource
 {
 public:
 	virtual OggPacket* getPacket(unsigned long inPacketNo) = 0;
-	
 	virtual unsigned long numPackets() = 0;
 };

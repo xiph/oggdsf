@@ -36,8 +36,5 @@
 class LIBOOOGG_API IStampedOggPacketSink
 {
 public:
-	IStampedOggPacketSink(void);
-	virtual ~IStampedOggPacketSink(void);
-
 	virtual bool acceptStampedOggPacket(StampedOggPacket* inPacket) = 0;
 };

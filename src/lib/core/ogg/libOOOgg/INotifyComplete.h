@@ -33,7 +33,5 @@
 class LIBOOOGG_API INotifyComplete
 {
 public:
-	INotifyComplete(void);
-	virtual ~INotifyComplete(void);
 	virtual void NotifyComplete() = 0;
 };
