@@ -84,6 +84,7 @@ STDMETHODIMP OggDemuxSourceFilter::NonDelegatingQueryInterface(REFIID riid, void
 OggDemuxSourceFilter::OggDemuxSourceFilter()
 	:	CBaseFilter(NAME("OggDemuxSourceFilter"), NULL, m_pLock, CLSID_OggDemuxSourceFilter)
 	,	mSeekTable(NULL)
+	,	mDataSource(NULL)
 {
 	//LEAK CHECK:::Both get deleted in constructor.
 	m_pLock = new CCritSec;
@@ -285,7 +286,10 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		}
 
 		//SOURCE ABSTRACTION::: seek
-		mSourceFile.seekg(mSeekTable->getStartPos(*pCurrent), ios_base::beg);
+		//mSourceFile.seekg(mSeekTable->getStartPos(*pCurrent), ios_base::beg);
+		//
+		mDataSource->seek(mSeekTable->getStartPos(*pCurrent));
+		//
 		*pCurrent = mSeekTable->getRealStartPos();
 	
 	
@@ -417,13 +421,27 @@ void OggDemuxSourceFilter::resetStream() {
 		CAutoLock locDemuxLock(mDemuxLock);
 
 		//SOURCE ABSTRACTION::: clear, close, open, seek
-		mSourceFile.clear();
-		mSourceFile.close();
+		//mSourceFile.clear();
+		//mSourceFile.close();
+		//
+		mDataSource->clear();
+		mDataSource->close();
+		//After closing kill the interface
+		delete mDataSource;
+		mDataSource = NULL;
+		//
 
 		mOggBuffer.clearData();
-		mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
 
-		mSourceFile.seekg(mStreamMapper->startOfData(), ios_base::beg);
+		//SOURCE ABSTRACTION::: clear, close, open, seek
+		//mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
+		//mSourceFile.seekg(mStreamMapper->startOfData(), ios_base::beg);
+		//
+		//Before opening make the interface
+		mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
+		mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
+		mDataSource->seek(mStreamMapper->startOfData());
+		//
 	}
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->setSendExcess(true);	
@@ -487,7 +505,10 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	{
 		CAutoLock locSourceLock(mSourceFileLock);
 		//SOURCE ABSTRACTION::: is EOF
-		locIsEOF = mSourceFile.eof();
+		//locIsEOF = mSourceFile.eof();
+		//
+		locIsEOF = mDataSource->isEOF();
+		//
 	}
 	while (!locIsEOF && locKeepGoing) {
 		if(CheckRequest(&locCommand) == TRUE) {
@@ -500,8 +521,11 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 			//debugLog << "DataProcessLoop : Getpointer = "<<mSourceFile.tellg()<<endl;
 
 			//SOURCE ABSTRACTION::: read, numbytes read
-			mSourceFile.read(locBuff, 4096);
-        	locBytesRead = mSourceFile.gcount();
+			//mSourceFile.read(locBuff, 4096);
+        	//locBytesRead = mSourceFile.gcount();
+			//
+			locBytesRead = mDataSource->read(locBuff, 4096);
+			//
 		}
 		//debugLog <<"DataProcessLoop : gcount = "<<locBytesRead<<endl;
 		{
@@ -514,7 +538,9 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
 			//SOURCE ABSTRACTION::: is EOF
-			locIsEOF = mSourceFile.eof();
+			//locIsEOF = mSourceFile.eof();
+			locIsEOF = mDataSource->isEOF();
+			//
 		}
 		if (locIsEOF) {
 			//debugLog << "DataProcessLoop : EOF"<<endl;
@@ -539,7 +565,12 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	CAutoLock locDemuxLock(mDemuxLock);
 
 	//SOURCE ABSTRACTION::: open
-	mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
+	//mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
+	//
+	//Before openeing create the interface
+	mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
+	mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
+	//
 	
 	//Error check
 	
@@ -551,7 +582,10 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	//Feed the data in until we have seen all BOS pages.
 	while(!mStreamMapper->isReady()) {
 		//SOURCE ABSTRACTION::: read
-		mSourceFile.read(locBuff, RAW_BUFFER_SIZE);
+		//mSourceFile.read(locBuff, RAW_BUFFER_SIZE);
+		//
+		mDataSource->read(locBuff, RAW_BUFFER_SIZE);
+		//
 		mOggBuffer.feed(locBuff, RAW_BUFFER_SIZE);
 
 	}

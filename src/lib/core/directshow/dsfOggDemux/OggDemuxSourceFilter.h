@@ -35,7 +35,9 @@
 #include "OggStreamMapper.h"
 #include "AutoOggSeekTable.h"
 #include <OggDataBuffer.h>
-#include <fstream>
+#include "IFilterDataSource.h"
+#include "DataSourceFactory.h"
+//#include <fstream>
 using namespace std;
 
 
@@ -132,7 +134,9 @@ protected:
 	OggDataBuffer mOggBuffer;
 
 	//SOURCE ABSTRACTION::: declaration
-	fstream mSourceFile;
+	//fstream mSourceFile;
+	//
+	IFilterDataSource* mDataSource;
 
 	OggStreamMapper* mStreamMapper;
 
