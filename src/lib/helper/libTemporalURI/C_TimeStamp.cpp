@@ -229,7 +229,7 @@ LOOG_INT64 C_TimeStamp::toHunNanos() {
 		case TS_NPT_SECS:
 			return (mSecs * 10000000) + (mHuns);
 		case TS_NPT_FULL:
-			return (mFPT.hours * 3600 * 10000000) + (mFPT.minutes * 60 * 10000000) + (mFPT.seconds * 10000000) + (mFPT.partials);
+			return ((LOOG_INT64)mFPT.hours * (LOOG_INT64)3600 * (LOOG_INT64)10000000) + ((LOOG_INT64)mFPT.minutes * (LOOG_INT64)60 * (LOOG_INT64)10000000) + ((LOOG_INT64)mFPT.seconds * (LOOG_INT64)10000000) + ((LOOG_INT64)mFPT.partials);
 		default:
 			return  -1;
 
