@@ -155,7 +155,7 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	char* locDestUptoPtr = mYUV.y;
 	//
 
-	////Pad top (which is really bottom of the image) of output Y plane buffer with mYOffset lines of width mYUV.y_width
+	////Pad top  of output Y plane buffer with mYOffset lines of width mYUV.y_width
 	////y_width is the out frame width.
 	//if (mYOffset != 0) {
 	//	memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
@@ -334,6 +334,10 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 //-------------------------------------------------------------------------
 
 long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumBytes) {
+	//
+	// Now properly pads on one side only... 20/12/04
+	//
+
 	//Same as YV12 but planes U and V are reversed.
 
 	//Source Buffer all in one buffer
@@ -816,6 +820,8 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 
 long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumBytes) {
 
+	//TODO::: This doesn't appear to do offsets.
+
 	//Victor Ugly Yellow Alpha --fonts are fuzzy late at night-- (Yellow is not colour yellow)
 
 	//AYUV is VUYA VUYA VUYA VUYA 4:4:4 sampling
@@ -988,6 +994,8 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	return 0;
 }
 long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumBytes) {
+
+	//TODO::: This doesn't do offsets properly.
 	
 	unsigned char* locSourceUptoPtr = inBuf;  //View only... don't delete locUptoPtr
 
