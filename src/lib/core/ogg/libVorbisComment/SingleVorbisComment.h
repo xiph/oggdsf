@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 class LIBVORBISCOMMENT_API SingleVorbisComment
 {
 public:
@@ -19,6 +20,8 @@ public:
 	string toString();
 
 	unsigned long length();
+
+	bool parseComment(string inCommentString);
 
 protected:
 	string mKey;

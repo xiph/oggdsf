@@ -5,6 +5,8 @@
 
 using namespace std;
 #include "SingleVorbisComment.h"
+#include "OggPacket.h"
+#include "OggMath.h"
 
 class LIBVORBISCOMMENT_API VorbisComments
 {
@@ -22,6 +24,12 @@ public:
 
 	bool addComment(SingleVorbisComment inComment);
 	bool addComment(string inKey, string inValue);
+
+	bool parseOggPacket(OggPacket* inPacket);
+	OggPacket* toOggPacket();
+	string toString();
+
+	unsigned long size();
 protected:
 	string mVendorString;
 	vector<SingleVorbisComment> mCommentList;

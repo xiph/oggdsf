@@ -10,3 +10,8 @@
 #include <windows.h>
 
 // TODO: reference additional headers your program requires here
+#ifdef LIBOOOGG_EXPORTS
+#define LIBOOOGG_API __declspec(dllexport)
+#else
+#define LIBOOOGG_API __declspec(dllimport)
+#endif
