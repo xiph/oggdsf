@@ -23,6 +23,13 @@ APACHECTL=$(shell [ -x `which apache2ctl` ] && echo apache2ctl || \
 # default to GNU C++ compiler
 CXX=g++
 
+# force GNU libtool to link with C++ compiler (see Apache 2's build/rules.mk
+# file for where I got these lines from)
+LINK     = $(LIBTOOL) --mode=link $(CXX_COMPILE) $(LT_LDFLAGS) $(ALL_LDFLAGS) -o $@
+SH_LINK  = $(SH_LIBTOOL) --mode=link $(CXX_COMPILE) $(LT_LDFLAGS) $(ALL_LDFLAGS) $(SH_LDFLAGS) $(CORE_IMPLIB) $(SH_LIBS) -o $@
+MOD_LINK = $(LIBTOOL) --mode=link $(CXX_COMPILE) -module $(LT_LDFLAGS) $(ALL_LDFLAGS) -o $@
+
+
 
 #
 # Tweakage stops here
@@ -34,6 +41,7 @@ CXX=g++
 #INCLUDES=-Imy/include/dir
 LIBS=-lOOOgg -lOOOggSeek
 CXXFLAGS=-w
+CFLAGS=-w
 
 #   the default target
 all: local-shared-build
