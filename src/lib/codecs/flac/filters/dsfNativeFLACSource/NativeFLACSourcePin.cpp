@@ -50,6 +50,7 @@ NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter,
 
 NativeFLACSourcePin::~NativeFLACSourcePin(void)
 {
+	SetDelegate(NULL);		//Avoid infinite destructor loop.
 	debugLog.close();
 }
 
@@ -175,6 +176,7 @@ HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALL
 
 }
 
+//This method is responsible for deleting the incoming buffer.
 HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) {
 	//Locks !!
 	debugLog<<"Deliver data..."<<endl;
@@ -192,6 +194,7 @@ HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long in
 		debugLog<<"********************************************** FAILED !!"<<endl;
 		//Stopping, fluching or error
 		//debugLog<<"Failure... No buffer"<<endl;
+		delete[] inBuff;
 		return locHR;
 	}
 
@@ -225,14 +228,17 @@ HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long in
 			//debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
 			debugLog<<"FAILED TO RECEIVE !!!"<<endl;
+			delete[] inBuff;
 			return locHR;
 			
 		} else {
 			debugLog<<" $$$$$ Everythings sweet"<<endl;
+			delete[] inBuff;
 			return S_OK;
 		}
 	} else {
 		DbgLog((LOG_TRACE, 2, "* BUFFER TOO SMALL... FATALITY !!"));
+		delete[] inBuff;
 		throw 0;
 	}
 }

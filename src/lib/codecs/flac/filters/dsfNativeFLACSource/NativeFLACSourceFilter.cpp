@@ -355,7 +355,8 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 	unsigned long locTotalFrameCount = locNumFrames * mNumChannels;
 
 	//BUG::: There's a bug here. Implicitly assumes 2 channels.
-	unsigned char* locBuff = new unsigned char[locActualSize];
+	unsigned char* locBuff = new unsigned char[locActualSize];			//Gives to the deliverdata method
+	//It could actually be a single buffer for the class.
 
 
 	signed short* locShortBuffer = (signed short*)locBuff;		//Don't delete this.
