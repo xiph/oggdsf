@@ -41,18 +41,18 @@ namespace illiminable {
 
 
 
-public __gc class VorbisComments
+public __gc class DNVorbisComments
 {
 public:
-	VorbisComments(void);
-	VorbisComments(::VorbisComments* inNativeClass);
-	~VorbisComments(void);
+	DNVorbisComments(void);
+	DNVorbisComments(::VorbisComments* inNativeClass);
+	~DNVorbisComments(void);
 
 	String* vendorString();
 	bool setVendorString(String* inVendorString);
 
 	Int64 numUserComments();
-	SingleVorbisComment* getUserComment(Int64 inIndex);
+	DNSingleVorbisComment* getUserComment(Int64 inIndex);
 	
 	//vector<SingleVorbisComment> getCommentsByKey(String* inKey);
 
@@ -69,7 +69,7 @@ protected:
 	::VorbisComments* mNativeClass;
 
 private:
-	VorbisComments(const VorbisComments&);
+	
 };
 
 

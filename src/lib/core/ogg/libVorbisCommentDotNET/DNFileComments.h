@@ -43,11 +43,11 @@ namespace illiminable {
 
 
 
-public __gc class FileComments
+public __gc class DNFileComments
 {
 public:
-	FileComments(void);
-	~FileComments(void);
+	DNFileComments(void);
+	~DNFileComments(void);
 
 
 	bool loadFile(String* inFileName);
@@ -56,8 +56,8 @@ public:
 	bool writeOutAll();
 	bool writeOutStream(Int64 inIndex);
 
-	bool addStreamComment(StreamCommentInfo* inStreamComment);
-	StreamCommentInfo* getStreamComment(Int64 inIndex);
+	bool addStreamComment(DNStreamCommentInfo* inStreamComment);
+	DNStreamCommentInfo* getStreamComment(Int64 inIndex);
 
 	Int64 streamCount();
 

@@ -59,12 +59,12 @@ namespace illiminable {
 
 
 
-public __gc class StreamCommentInfo
+public __gc class DNStreamCommentInfo
 {
 public:
-	StreamCommentInfo(void);
-	StreamCommentInfo(::StreamCommentInfo* inNativeClass);
-	~StreamCommentInfo(void);
+	DNStreamCommentInfo(void);
+	DNStreamCommentInfo(::StreamCommentInfo* inNativeClass);
+	~DNStreamCommentInfo(void);
 
 
 
@@ -72,7 +72,7 @@ public:
 	const Int32 VORBIS = 1;
 	const Int32 THEORA = 2;*/
 
-	VorbisComments* comments();
+	DNVorbisComments* comments();
 	//void setComments(VorbisComments* inComments);
 
 	Int64 pageStart();

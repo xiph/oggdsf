@@ -38,12 +38,12 @@ namespace illiminable {
 //};
 
 
-public __gc class SingleVorbisComment
+public __gc class DNSingleVorbisComment
 {
 public:
-	SingleVorbisComment(void);
-	SingleVorbisComment(::SingleVorbisComment* inNativeClass);
-	~SingleVorbisComment(void);
+	DNSingleVorbisComment(void);
+	DNSingleVorbisComment(::SingleVorbisComment* inNativeClass);
+	~DNSingleVorbisComment(void);
 
 	String* key();
 	bool setKey(String* inKey);
