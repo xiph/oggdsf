@@ -204,23 +204,64 @@ LOOG_INT64 C_TimeStamp::toHunNanos() {
 
 bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 {
-	if (inTimeStamp.find("npt:") == 0) {
-		//NPT time stamp
-		inTimeStamp = inTimeStamp.substr(4);
+	try {
+		if (inTimeStamp.find("npt:") == 0) {
+			//NPT time stamp
+			inTimeStamp = inTimeStamp.substr(4);
 
-		if (inTimeStamp.find(":") != string::npos) {
-			//We have four part time
-			sFourPartTime locFPT;
-			if ( parseNPT(inTimeStamp, &locFPT) ) {
-				mFPT = locFPT;
-				mStampType = TS_NPT_FULL;
-				return true;
+			if (inTimeStamp.find(":") != string::npos) {
+				//We have four part time
+				sFourPartTime locFPT;
+				if ( parseNPT(inTimeStamp, &locFPT) ) {
+					mFPT = locFPT;
+					mStampType = TS_NPT_FULL;
+					return true;
+				} else {
+					mStampType = TS_NONE;
+					return false;
+				}
+				
+			} else {
+				bool locIsOK = parseSecsOnly(inTimeStamp);
+				if (locIsOK) {
+					mStampType = TS_NPT_SECS;
+					return true;
+				} else {
+					mStampType = TS_NONE;
+					return false;
+				}	
+			}
+
+		} else if (inTimeStamp.find("smpte-") == 0) {
+			//One of the smpt stamps
+			inTimeStamp = inTimeStamp.substr(6);
+
+			size_t locColonPos = inTimeStamp.find(":");
+
+			if (locColonPos != string::npos) {
+				string locFrameRate = inTimeStamp.substr(0, locColonPos);
+
+				//TODO::: Need to set the spec type here...
+				inTimeStamp = inTimeStamp.substr(locColonPos + 1);
+
+				sFourPartTime locFPT;
+				if ( parseSMPT(inTimeStamp, &locFPT) ) {
+					mFPT = locFPT;
+					mStampType = TS_SMPT;
+					return true;
+				} else {
+					mStampType = TS_NONE;
+					return false;
+				}
 			} else {
 				mStampType = TS_NONE;
 				return false;
 			}
-			
+
+
+
 		} else {
+			//Assume it's default numeric npt
 			bool locIsOK = parseSecsOnly(inTimeStamp);
 			if (locIsOK) {
 				mStampType = TS_NPT_SECS;
@@ -229,47 +270,12 @@ bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 				mStampType = TS_NONE;
 				return false;
 			}	
+
+
 		}
-
-	} else if (inTimeStamp.find("smpte-") == 0) {
-		//One of the smpt stamps
-		inTimeStamp = inTimeStamp.substr(6);
-
-		size_t locColonPos = inTimeStamp.find(":");
-
-		if (locColonPos != string::npos) {
-			string locFrameRate = inTimeStamp.substr(0, locColonPos);
-
-			//TODO::: Need to set the spec type here...
-			inTimeStamp = inTimeStamp.substr(locColonPos + 1);
-
-			sFourPartTime locFPT;
-			if ( parseSMPT(inTimeStamp, &locFPT) ) {
-				mFPT = locFPT;
-				mStampType = TS_SMPT;
-				return true;
-			} else {
-				mStampType = TS_NONE;
-				return false;
-			}
-		} else {
-			mStampType = TS_NONE;
-			return false;
-		}
-
-
-
-	} else {
-		//Assume it's default numeric npt
-		bool locIsOK = parseSecsOnly(inTimeStamp);
-		if (locIsOK) {
-			mStampType = TS_NPT_SECS;
-			return true;
-		} else {
-			mStampType = TS_NONE;
-			return false;
-		}	
-
+	} catch (...) {
+		mStampType = TS_NONE;
+		return false;
 
 	}
 
