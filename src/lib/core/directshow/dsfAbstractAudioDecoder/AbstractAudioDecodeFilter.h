@@ -79,8 +79,7 @@ public:
 	//Media Control Methods
 	virtual STDMETHODIMP Stop();
 	
-	//Helper Methods
-	void SetStartToNow();					//QUERY::: Do we even still use this ?
+	
 
 	unsigned short mAudioFormat;			//TODO::: Make this private at some point
 

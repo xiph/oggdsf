@@ -82,12 +82,3 @@ int AbstractAudioDecodeFilter::GetPinCount(void) {
 	return NUM_PINS;
 }	
 
-void AbstractAudioDecodeFilter::SetStartToNow() {
-	//IReferenceClock* locRefClock = NULL;
-	//HRESULT locHR = GetSyncSource(&locRefClock);
-	//LONGLONG locCurrentTime;
-	//locRefClock->GetTime(&locCurrentTime);
-	//locRefClock->Release();
-
-	//m_tStart = locCurrentTime;
-}

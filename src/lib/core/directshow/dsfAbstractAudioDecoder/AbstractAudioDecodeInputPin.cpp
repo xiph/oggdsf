@@ -222,7 +222,7 @@ STDMETHODIMP AbstractAudioDecodeInputPin::EndFlush() {
 STDMETHODIMP AbstractAudioDecodeInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate) {
 	CAutoLock locLock(mStreamLock);
 	ResetFrameCount();
-	//mParentFilter->SetStartToNow();
+
 	CBasePin::NewSegment(tStart, tStop, dRate);
 	return mParentFilter->mOutputPin->DeliverNewSegment(tStart, tStop, dRate);
 }
