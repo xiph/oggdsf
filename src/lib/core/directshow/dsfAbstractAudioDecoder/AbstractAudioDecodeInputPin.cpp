@@ -46,9 +46,10 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 {
 	//ConstructCodec();
 	mAcceptableMediaType = inAcceptMediaType;
+	mStreamLock = new CCritSec;
 	IMediaSeeking* locSeeker = NULL;
 	this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
-	mStreamLock = new CCritSec;
+	
 
 	mOutputPin->SetDelegate(locSeeker);
 }

@@ -45,7 +45,15 @@ AbstractVideoDecodeOutputPin::~AbstractVideoDecodeOutputPin(void)
 	delete mDataQueue;
 }
 
+STDMETHODIMP AbstractVideoDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
 
+	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
+}
 HRESULT AbstractVideoDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
 		//FIX::: Abstract this out properly	
 

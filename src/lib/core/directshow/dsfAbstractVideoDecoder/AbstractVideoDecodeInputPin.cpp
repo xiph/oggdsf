@@ -51,6 +51,10 @@ AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilt
 	//ConstructCodec();
 	mStreamLock = new CCritSec;
 	mAcceptableMediaType = inAcceptMediaType;
+
+	IMediaSeeking* locSeeker = NULL;
+	this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	mOutputPin->SetDelegate(locSeeker);
 }
 
 AbstractVideoDecodeInputPin::~AbstractVideoDecodeInputPin(void)
@@ -59,8 +63,24 @@ AbstractVideoDecodeInputPin::~AbstractVideoDecodeInputPin(void)
 	delete mStreamLock;
 	
 }
+STDMETHODIMP AbstractVideoDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
 
+	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
+}
 
+HRESULT AbstractVideoDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
+	CAutoLock locLock(m_pLock);
+	
+	IMediaSeeking* locSeeker = NULL;
+	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
+	return CBaseInputPin::CompleteConnect(inReceivePin);
+}
 void AbstractVideoDecodeInputPin::ResetFrameCount() {
 	mFrameCount = 0;
 	

@@ -31,15 +31,19 @@
 
 #pragma once
 #include "abstractVideodllstuff.h"
+#include "BasicSeekable.h"
 #include <fstream>
 using namespace std;
 class AbstractVideoDecodeFilter;
 
-class ABS_VIDEO_DEC_API AbstractVideoDecodeOutputPin :
-	public CBaseOutputPin
+class ABS_VIDEO_DEC_API AbstractVideoDecodeOutputPin 
+	:	public CBaseOutputPin
+	,	public BasicSeekable
 {
 public:
 
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	friend class AbstractVideoDecodeInputPin;
 	AbstractVideoDecodeOutputPin(AbstractVideoDecodeFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName);
 	virtual ~AbstractVideoDecodeOutputPin(void);

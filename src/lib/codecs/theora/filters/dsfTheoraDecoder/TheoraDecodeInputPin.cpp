@@ -40,6 +40,16 @@ TheoraDecodeInputPin::TheoraDecodeInputPin(AbstractVideoDecodeFilter* inFilter, 
 	ConstructCodec();
 }
 
+STDMETHODIMP TheoraDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+
+	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
+}
 bool TheoraDecodeInputPin::ConstructCodec() {
 
 

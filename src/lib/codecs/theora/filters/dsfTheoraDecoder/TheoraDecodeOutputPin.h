@@ -42,6 +42,8 @@ class TheoraDecodeOutputPin :
 public:
 	friend class TheoraDecodeInputPin;
 
+		DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	TheoraDecodeOutputPin(TheoraDecodeFilter* inParentFilter,CCritSec* inFilterLock);
 	virtual ~TheoraDecodeOutputPin(void);
 

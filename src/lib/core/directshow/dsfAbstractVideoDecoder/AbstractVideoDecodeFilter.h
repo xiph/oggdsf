@@ -32,12 +32,14 @@
 #pragma once
 
 #include "abstractvideodllstuff.h"
+#include "BasicSeekable.h"
 
 class AbstractVideoDecodeInputPin;
 class AbstractVideoDecodeOutputPin;
 
-class ABS_VIDEO_DEC_API AbstractVideoDecodeFilter :
-	public CBaseFilter
+class ABS_VIDEO_DEC_API AbstractVideoDecodeFilter 
+	:	public CBaseFilter
+	,	public BasicSeekable
 {
 public:
 	friend class AbstractVideoDecodeInputPin;

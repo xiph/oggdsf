@@ -43,7 +43,16 @@ TheoraDecodeOutputPin::~TheoraDecodeOutputPin(void)
 	
 	
 }
+STDMETHODIMP TheoraDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
 
+	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
+}
 
 
 STDMETHODIMP TheoraDecodeOutputPin::Notify(IBaseFilter *pSelf, Quality q) {

@@ -31,11 +31,13 @@
 
 #pragma once
 #include "abstractVideodllstuff.h"
+#include "BasicSeekable.h"
 class AbstractVideoDecodeOutputPin;
 class AbstractVideoDecodeFilter;
 
 class ABS_VIDEO_DEC_API AbstractVideoDecodeInputPin 
 	:	public CBaseInputPin
+	,	public BasicSeekable
 {
 public:
 	friend class AbstractVideoDecodeOutputPin;
@@ -46,6 +48,8 @@ public:
 	static const signed short SINT_MAX = 32767;
 	static const signed short SINT_MIN = -32768;
 
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	
 	//PURE VIRTUALS
 	virtual long decodeData(unsigned char* inBuf, long inNumBytes, LONGLONG inStart, LONGLONG inEnd) = 0;
@@ -53,6 +57,7 @@ public:
 	virtual void DestroyCodec() = 0;
 	
 
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	STDMETHODIMP Receive(IMediaSample *pSample);
 	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
 	virtual HRESULT GetMediaType(int inPosition, CMediaType *outMediaType);

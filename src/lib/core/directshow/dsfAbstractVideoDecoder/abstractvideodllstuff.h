@@ -34,6 +34,7 @@
 #include <pullpin.h>
 #include <initguid.h>
 
+
 #ifdef DSFABSTRACTOGGVIDEODECODER_EXPORTS
 #pragma message("----> Exporting from Abstract Video Library...")
 #define ABS_VIDEO_DEC_API __declspec(dllexport)

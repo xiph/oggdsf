@@ -43,6 +43,7 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 	,	isTheora(false)
 	,	mGranulePosShift(0)
 	,	mLastIsSeekable(false)
+
 {
 	
 	mFileName = inFileName;
@@ -77,6 +78,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			//Need denominators
 			//mTheoraFormatBlock->frameRateDenominator = FLACMath::charArrToULong(locIdentHeader + 26);
 		} else {
+			mEnabled = false;
 			mSampleRate = 1;
 		}
 	}
@@ -89,7 +91,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 		}
 
 		mLastIsSeekable = true;
-		mFilePos += inOggPage->pageSize();
+		
 		if (isTheora) {
 			unsigned long locMod = (unsigned long)pow(2, mGranulePosShift);
 			unsigned long locInterFrameNo = ((inOggPage->header()->GranulePos()->value()) % locMod);
@@ -108,6 +110,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 		}
 		mFileDuration = mLastSeekTime;
 	}
+	mFilePos += inOggPage->pageSize();
 	return true;
 }
 

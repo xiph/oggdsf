@@ -49,6 +49,8 @@ public:
 	virtual ~TheoraDecodeInputPin(void);
 	int TheoraDecoded (yuv_buffer* inYUVBuffer);
 
+		DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	HRESULT SetMediaType(const CMediaType* inMediaType);
 
