@@ -196,7 +196,12 @@ bool HTTPFileSource::open(string inSourceLocation) {
 		//mStreamBuffer.seekp(0, ios_base::beg);
 
 		//TODO::: Get rid of this path.
-		string locCacheFileName = "g:\\logs\\filecache.dat";
+		
+		//string locCacheFileName = "filecache.dat";
+		string locCacheFileName = getenv("TEMP");
+		debugLog<<"Temp = "<<locCacheFileName<<endl;
+		locCacheFileName += "\\filecache.dat";
+		debugLog<<"Cache file  = "<<locCacheFileName<<endl;
 		if(mFileCache.open(locCacheFileName)) {
 			debugLog<<"OPEN : Cach file opened"<<endl;
 		}
