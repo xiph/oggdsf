@@ -64,13 +64,14 @@ SubtitleVMR9Filter::SubtitleVMR9Filter(void)
 	,	mVideoWindow(NULL)
 	,	mWindowLess(NULL)
 {
-	//debugLog.open("G:\\logs\\vmr9_subs.log", ios_base::out);
+	debugLog.open("G:\\logs\\vmr9_subs.log", ios_base::out);
 	//mOutputPin = new SubtitleVMR9OutputPin(this, m_pLock, NAME("SubtitleVMR9OutputPin"), L"Subtitle Out");
 }
 
 SubtitleVMR9Filter::~SubtitleVMR9Filter(void)
 {
-	//debugLog.close();
+	debugLog<<"Destructor for subtitle renderer"<<endl;
+	debugLog.close();
 
 	if (mBitmapMixer != NULL) {
 		mBitmapMixer->Release();
@@ -131,6 +132,7 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
 			locHR = locVMR9->QueryInterface(IID_IVMRWindowlessControl9, (void**)&mWindowLess);
 
 			locHR = locVMR9->QueryInterface(IID_IVideoWindow, (void**)&mVideoWindow);
+			locVMR9->Release();
 		} else {
 			return S_OK;
 		}

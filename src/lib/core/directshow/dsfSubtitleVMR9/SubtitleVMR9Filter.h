@@ -89,6 +89,6 @@ protected:
 	VMR9AlphaBitmap mAlphaBitmap;
 
 	//debug only
-	//fstream debugLog;
+	fstream debugLog;
 	//
 };
