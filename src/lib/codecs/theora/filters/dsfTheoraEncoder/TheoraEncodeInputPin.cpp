@@ -97,32 +97,8 @@ HRESULT TheoraEncodeInputPin::deliverData(LONGLONG inStart, LONGLONG inEnd, unsi
 	}
 
 }
-//PURE VIRTUALS
-long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
-	//TODO::: Break this function up a bit !!
-
-	//Time stamps are granule pos not directshow times
-
-	LONGLONG locFrameStart = mUptoFrame;
-	LONGLONG locFrameEnd = 0;
-	HRESULT locHR = S_OK;
-	if (!mBegun) {
-		//debugLog<<"encodeData : First time"<<endl;
-		mBegun = true;
-		
-		StampedOggPacket** locHeaders;
-		locHeaders = mTheoraEncoder.initCodec(mTheoraInfo);
-
-		for (int i = 0; i < 3; i++) {
-			locHR = deliverData(0,0,locHeaders[i]->packetData(), locHeaders[i]->packetSize());
-			if (locHR != S_OK) {
-				return locHR;
-			}
-		}
-	}
-
-		
+long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumBytes) {
 	//Source Buffer all in one buffer
 
 	//YYYYYYYYYYYYYYYYYYYYYYYY YYYYYYYYYYYYYYYYYYYYYYYY
@@ -317,6 +293,64 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	}
 
 	//======================================================================================================
+	return 0;
+
+}
+
+long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumBytes) {
+	unsigned char* locSourceUptoPtr = inBuf;  //View only... don't delete locUptoPtr
+
+	//YUY2 is Y0 U0 Y1 V0 Y2 U1 Y3 V1
+	// it has twice as much sampling height as YV12 so downsample it.
+
+	char* locYUpto = mYUV.y;
+	char* locUUpto = mYUV.u;
+	char* locVUpto = mYUV.v;
+
+	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
+	// which are the average of the 2 samples that were present in the block.
+	for (int i = 0; i < inNumBytes; i+=8) {
+		for (int j = 0; j < 4; j++) {
+			locYUpto[j] = locSourceUptoPtr[2 * j];
+		}
+		locYUpto += 4;
+		
+		*locUUpto = (((short) locSourceUptoPtr[1]) + ((short) locSourceUptoPtr[5])) / 2;
+		locUUpto++;
+
+		*locVUpto = (((short) locSourceUptoPtr[3]) + ((short) locSourceUptoPtr[7])) / 2;
+		locVUpto++;
+	}
+
+	return 0;
+}
+//PURE VIRTUALS
+long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
+
+	//TODO::: Break this function up a bit !!
+
+	//Time stamps are granule pos not directshow times
+
+	LONGLONG locFrameStart = mUptoFrame;
+	LONGLONG locFrameEnd = 0;
+	HRESULT locHR = S_OK;
+	if (!mBegun) {
+		//debugLog<<"encodeData : First time"<<endl;
+		mBegun = true;
+		
+		StampedOggPacket** locHeaders;
+		locHeaders = mTheoraEncoder.initCodec(mTheoraInfo);
+
+		for (int i = 0; i < 3; i++) {
+			locHR = deliverData(0,0,locHeaders[i]->packetData(), locHeaders[i]->packetSize());
+			if (locHR != S_OK) {
+				return locHR;
+			}
+		}
+	}
+
+	encodeYV12ToYV12(inBuf, inNumBytes);
+	
 
 	StampedOggPacket* locPacket = mTheoraEncoder.encodeTheora(&mYUV);
 	if (locPacket == NULL) {

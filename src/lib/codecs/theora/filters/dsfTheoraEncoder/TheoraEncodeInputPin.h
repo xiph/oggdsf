@@ -66,6 +66,9 @@ protected:
 	//bool mBegun;	//Already in base class !
 
 	HRESULT deliverData(LONGLONG inStart, LONGLONG inEnd, unsigned char* inBuf, unsigned long inNumBytes);
+
+	long encodeYV12ToYV12(unsigned char* inBuf, long inNumBytes);
+	long encodeYUY2ToYV12(unsigned char* inBuf, long inNumBytes);
 	//
 //	bool fillTheoraInfo(theora_info* outTheora, sTheoraFormatBlock* inTheoraFormatBlock); 		
 	//
