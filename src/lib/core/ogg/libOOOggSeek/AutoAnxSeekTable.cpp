@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <libOOOggSeek/AutoAnxSeekTable.h>
 
-#define DEBUG
+#undef DEBUG
 
 AutoAnxSeekTable::AutoAnxSeekTable(string inFileName)
 	:	AutoOggSeekTable(inFileName)
