@@ -591,7 +591,8 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 		locIsEOF = mDataSource->isEOF();
 		//
 	}
-	while (!locIsEOF && locKeepGoing) {
+	//while (!locIsEOF && locKeepGoing) {
+	while(true) {
 		if(CheckRequest(&locCommand) == TRUE) {
 			debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
 			delete[] locBuff;
@@ -622,6 +623,8 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 		}
 		if (!locKeepGoing) {
 			debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
+			debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
+			DeliverEOS();
 		}
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
@@ -631,12 +634,14 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 			//
 		}
 		if (locIsEOF) {
-			//debugLog << "DataProcessLoop : EOF"<<endl;
+			debugLog << "DataProcessLoop : EOF"<<endl;
+			debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
+			DeliverEOS();
 		}
 	}
 
 	//debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
-	DeliverEOS();
+	//DeliverEOS();
 
 	//Shuold we flush ehre ?
 	delete[] locBuff;
