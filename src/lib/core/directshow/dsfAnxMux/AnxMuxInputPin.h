@@ -60,7 +60,7 @@ protected:
 
 	StampedOggPacket* mAnxDataPacket;
 	StampedOggPacket* mFishBonePacket;
-	StampedOggPacket* mExtraPacket;
+	vector<StampedOggPacket*> mExtraPackets;
 
 	unsigned long mAnxVersionMajor;
 	unsigned long mAnxVersionMinor;

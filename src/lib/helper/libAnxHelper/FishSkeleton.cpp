@@ -177,6 +177,16 @@ StampedOggPacket* FishSkeleton::makeCMMLBOS()
 	StampedOggPacket* locPacket = new StampedOggPacket(locPackBuff, CMML_BOS_SIZE, false, false, 0, 0, StampedOggPacket::OGG_BOTH);
 	return locPacket;
 }
+
+StampedOggPacket* FishSkeleton::makeCMML_XML_Thing() {
+	string locXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<!DOCTYPE cmml SYSTEM \"cmml.dtd\">\n<?cmml xmlns=\"http://www.annodex.net/cmml\"?>";
+
+
+	unsigned char* locPackBuff = new unsigned char[locXMLString.size()];
+	memcpy((void*)locPackBuff, (const void*)locXMLString.c_str(), locXMLString.size());
+	StampedOggPacket* locPacket = new StampedOggPacket(locPackBuff, locXMLString.size(), false, false, 0, 0, StampedOggPacket::OGG_BOTH);
+	return locPacket;
+}
 OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 												,	unsigned short inVersionMajor
 												,	unsigned short inVersionMinor

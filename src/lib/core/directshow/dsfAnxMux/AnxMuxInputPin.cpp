@@ -38,11 +38,12 @@ AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterL
 	:	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
 	,	mAnxDataPacket(NULL)
 	,	mFishBonePacket(NULL)
-	,	mExtraPacket(NULL)
+	//,	mExtraPacket(NULL)
 	,	mAnxVersionMajor(inAnxVersionMajor)
 	,	mAnxVersionMinor(inAnxVersionMinor)
 {
 	debugLog.open("g:\\logs\\anxmuxinputpin.log", ios_base::out);
+	mExtraPackets.clear();
 }
 
 AnxMuxInputPin::~AnxMuxInputPin(void)
@@ -67,8 +68,10 @@ HRESULT AnxMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 			return S_OK;
 		} else if ((mAnxVersionMajor == 3) && (mAnxVersionMinor == 0) && (mFishBonePacket != NULL)) {
 			//Force in a CMML Packet BOS
-			if (mExtraPacket != NULL) {
-				mPaginator.acceptStampedOggPacket(mExtraPacket);
+			if (mExtraPackets.size() != 0) {
+				for (size_t i = 0; i < mExtraPackets.size(); i++) {
+					mPaginator.acceptStampedOggPacket(mExtraPackets[i]);
+				}
 			}
 			return S_OK;
 		} else {
@@ -171,7 +174,8 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 
 			//ANX3::: 1 for anx 2, 2 for anx 3.
 			if ((mAnxVersionMajor == 3) && (mAnxVersionMinor == 0)) {
-				locNumHeaders = 2;
+				//ZZZZZ:::: sould be 3
+				locNumHeaders = 3;
 			} else {
 				locNumHeaders = 1;
 			}
@@ -199,9 +203,11 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		} else if ((mAnxVersionMajor == 3) && (mAnxVersionMinor == 0)) {
 			mFishBonePacket = FishSkeleton::makeFishBone_3_0(locGranRateNum, locGranRateDenom, 0, locNumHeaders, mPaginator.parameters()->mSerialNo, locGranuleShift, locPreroll, AnxPacketMaker::makeMessageHeaders(locCodecID));
 			if (locCodecID == StreamHeaders::CMML) {
-				mExtraPacket = FishSkeleton::makeCMMLBOS();
+				mExtraPackets.push_back(FishSkeleton::makeCMMLBOS());
+				mExtraPackets.push_back(FishSkeleton::makeCMML_XML_Thing());
 			} else {
-				mExtraPacket = NULL;
+				mExtraPackets.clear();
+				//mExtraPacket = NULL;
 			}
 		}
         return S_OK;

@@ -76,6 +76,7 @@ public:
 	static OggPage* makeFishEOS (unsigned long inSerialNo);
 	static OggPage* makeFishBone_3_0_Page			(StampedOggPacket* inFishBonePacket, unsigned long inFishStreamSerial);
 	static StampedOggPacket* makeCMMLBOS();
+	static StampedOggPacket* makeCMML_XML_Thing();
 
 	static bool setChecksum(OggPage* inOggPage);
 };
