@@ -7,6 +7,9 @@
 	objects = {
 		7B06048F07719FA500DC2D2E = {
 			children = (
+				7B1F10D50771CC110067D538,
+				7B1F10B70771CBA30067D538,
+				7B1F109E0771CB2D0067D538,
 				7B0607DE0771C09A00DC2D2E,
 				7B0607CA0771BF8E00DC2D2E,
 				7B0607810771BCFD00DC2D2E,
@@ -19,6 +22,7 @@
 				7B0605380771A11A00DC2D2E,
 				7B0605570771A1BE00DC2D2E,
 				7B0607800771BCF400DC2D2E,
+				7B1F10D20771CC030067D538,
 			);
 			isa = PBXGroup;
 			refType = 4;
@@ -59,6 +63,9 @@
 				7B0607590771BC3600DC2D2E,
 				7B0607600771BC3E00DC2D2E,
 				7B06077E0771BCF400DC2D2E,
+				7B1F10940771CB0F0067D538,
+				7B1F109B0771CB1A0067D538,
+				7B1F10D00771CC030067D538,
 			);
 		};
 		7B0604A707719FFD00DC2D2E = {
@@ -71,6 +78,9 @@
 				7B06075A0771BC3600DC2D2E,
 				7B0607610771BC3E00DC2D2E,
 				7B06077F0771BCF400DC2D2E,
+				7B1F10950771CB0F0067D538,
+				7B1F109C0771CB1A0067D538,
+				7B1F10D10771CC030067D538,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1481,7 +1491,6 @@
 			);
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -1532,7 +1541,6 @@
 			);
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -1582,7 +1590,6 @@
 			);
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -1753,7 +1760,6 @@
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "VorbisComment-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -2250,6 +2256,757 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		7B1F10920771CB0F0067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F10BD0771CBA30067D538,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F10930771CB0F0067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F10C30771CBDE0067D538,
+				7B1F10C40771CBDE0067D538,
+				7B1F112E0771CEA50067D538,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F10940771CB0F0067D538 = {
+			buildPhases = (
+				7B1F10920771CB0F0067D538,
+				7B1F10930771CB0F0067D538,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				INSTALL_PATH = /usr/local/bin;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OOOggSeekFileMaker;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+				7B1F10C20771CBD90067D538,
+				7B1F11170771CD770067D538,
+			);
+			isa = PBXNativeTarget;
+			name = OOOggSeekFileMaker;
+			productName = OOOggSeekFileMaker;
+			productReference = 7B1F10950771CB0F0067D538;
+			productType = "com.apple.product-type.tool";
+		};
+		7B1F10950771CB0F0067D538 = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = OOOggSeekFileMaker;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B1F10990771CB1A0067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F10A40771CB2D0067D538,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F109A0771CB1A0067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F10B10771CB7E0067D538,
+				7B1F10B20771CB7F0067D538,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F109B0771CB1A0067D538 = {
+			buildPhases = (
+				7B1F10990771CB1A0067D538,
+				7B1F109A0771CB1A0067D538,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				INSTALL_PATH = /usr/local/bin;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OOOggSeekFileReader;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+				7B1F10AA0771CB5C0067D538,
+			);
+			isa = PBXNativeTarget;
+			name = OOOggSeekFileReader;
+			productName = OOOggSeekFileReader;
+			productReference = 7B1F109C0771CB1A0067D538;
+			productType = "com.apple.product-type.tool";
+		};
+		7B1F109C0771CB1A0067D538 = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = OOOggSeekFileReader;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B1F109E0771CB2D0067D538 = {
+			children = (
+				7B1F109F0771CB2D0067D538,
+				7B1F10A00771CB2D0067D538,
+				7B1F10A10771CB2D0067D538,
+				7B1F10A20771CB2D0067D538,
+				7B1F10A30771CB2D0067D538,
+			);
+			isa = PBXGroup;
+			name = OOOggSeekFileReader;
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggSeekFileReader;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		7B1F109F0771CB2D0067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = OOOggSeekFileReader.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10A00771CB2D0067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = OOOggSeekFileReader.vcproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10A10771CB2D0067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = ReadMe.txt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10A20771CB2D0067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = stdafx.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10A30771CB2D0067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = stdafx.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10A40771CB2D0067D538 = {
+			fileRef = 7B1F109F0771CB2D0067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10A90771CB5C0067D538 = {
+			containerPortal = 7B06049307719FA500DC2D2E;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 7B0605550771A1BE00DC2D2E;
+			remoteInfo = OOOgg;
+		};
+		7B1F10AA0771CB5C0067D538 = {
+			isa = PBXTargetDependency;
+			target = 7B0605550771A1BE00DC2D2E;
+			targetProxy = 7B1F10A90771CB5C0067D538;
+		};
+		7B1F10B10771CB7E0067D538 = {
+			fileRef = 7B0605370771A11A00DC2D2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10B20771CB7F0067D538 = {
+			fileRef = 7B0605560771A1BE00DC2D2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10B70771CBA30067D538 = {
+			children = (
+				7B1F10B80771CBA30067D538,
+				7B1F10B90771CBA30067D538,
+				7B1F10BA0771CBA30067D538,
+				7B1F10BB0771CBA30067D538,
+				7B1F10BC0771CBA30067D538,
+			);
+			isa = PBXGroup;
+			name = OOOggSeekFileMaker;
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggSeekFileMaker;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		7B1F10B80771CBA30067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = OOOggSeekFileMaker.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10B90771CBA30067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = OOOggSeekFileMaker.vcproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10BA0771CBA30067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = ReadMe.txt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10BB0771CBA30067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = stdafx.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10BC0771CBA30067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = stdafx.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10BD0771CBA30067D538 = {
+			fileRef = 7B1F10B80771CBA30067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10C10771CBD90067D538 = {
+			containerPortal = 7B06049307719FA500DC2D2E;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 7B0605550771A1BE00DC2D2E;
+			remoteInfo = OOOgg;
+		};
+		7B1F10C20771CBD90067D538 = {
+			isa = PBXTargetDependency;
+			target = 7B0605550771A1BE00DC2D2E;
+			targetProxy = 7B1F10C10771CBD90067D538;
+		};
+		7B1F10C30771CBDE0067D538 = {
+			fileRef = 7B0605370771A11A00DC2D2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10C40771CBDE0067D538 = {
+			fileRef = 7B0605560771A1BE00DC2D2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10CC0771CC030067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F10EB0771CC110067D538,
+				7B1F10ED0771CC110067D538,
+				7B1F10EE0771CC110067D538,
+				7B1F10F00771CC110067D538,
+				7B1F10F40771CC110067D538,
+				7B1F10F60771CC110067D538,
+				7B1F10F80771CC110067D538,
+				7B1F10FA0771CC110067D538,
+				7B1F10FD0771CC110067D538,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F10CD0771CC030067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F10F10771CC110067D538,
+				7B1F10F20771CC110067D538,
+				7B1F10FB0771CC110067D538,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F10CE0771CC030067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F10EA0771CC110067D538,
+				7B1F10EC0771CC110067D538,
+				7B1F10F30771CC110067D538,
+				7B1F10F50771CC110067D538,
+				7B1F10F70771CC110067D538,
+				7B1F10F90771CC110067D538,
+				7B1F10FC0771CC110067D538,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F10CF0771CC030067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+				7B1F112C0771CE900067D538,
+				7B1F112D0771CE920067D538,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B1F10D00771CC030067D538 = {
+			buildPhases = (
+				7B1F10CC0771CC030067D538,
+				7B1F10CD0771CC030067D538,
+				7B1F10CE0771CC030067D538,
+				7B1F10CF0771CC030067D538,
+				7B1F113D0771CEED0067D538,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "OOOggSeek-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OOOggSeek;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+				7B1F10FF0771CC1D0067D538,
+			);
+			isa = PBXNativeTarget;
+			name = OOOggSeek;
+			productName = OOOggSeek;
+			productReference = 7B1F10D10771CC030067D538;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>OOOggSeek</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.OOOggSeek</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.framework";
+		};
+		7B1F10D10771CC030067D538 = {
+			explicitFileType = wrapper.framework;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = OOOggSeek.framework;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B1F10D20771CC030067D538 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "OOOggSeek-Info.plist";
+			path = "/Users/andrep/Code/xiph.org/oggdsf/macosx/OOOggSeek-Info.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		7B1F10D50771CC110067D538 = {
+			children = (
+				7B1F10D60771CC110067D538,
+				7B1F10D70771CC110067D538,
+				7B1F10D80771CC110067D538,
+				7B1F10D90771CC110067D538,
+				7B1F10DA0771CC110067D538,
+				7B1F10DB0771CC110067D538,
+				7B1F10DC0771CC110067D538,
+				7B1F10DD0771CC110067D538,
+				7B1F10DE0771CC110067D538,
+				7B1F10DF0771CC110067D538,
+				7B1F10E00771CC110067D538,
+				7B1F10E10771CC110067D538,
+				7B1F10E20771CC110067D538,
+				7B1F10E30771CC110067D538,
+				7B1F10E40771CC110067D538,
+				7B1F10E50771CC110067D538,
+				7B1F10E60771CC110067D538,
+				7B1F10E70771CC110067D538,
+				7B1F10E80771CC110067D538,
+				7B1F10E90771CC110067D538,
+			);
+			isa = PBXGroup;
+			name = libOOOggSeek;
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/lib/core/ogg/libOOOggSeek;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		7B1F10D60771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = AutoAnxSeekTable.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10D70771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AutoAnxSeekTable.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10D80771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = AutoOggSeekTable.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10D90771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AutoOggSeekTable.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10DA0771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IOggSeeker.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10DB0771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = libOOOggSeek.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10DC0771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = libOOOggSeek.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10DD0771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = libOOOggSeek.vcproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10DE0771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = libOOOggSeek.vcproj.old;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10DF0771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = OggBinarySeeker.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E00771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = OggBinarySeeker.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E10771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = OggSeekPoint.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E20771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = OggSeekPoint.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E30771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = OggSeekTable.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E40771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = OggSeekTable.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E50771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = OGGSRecogniser.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E60771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = OGGSRecogniser.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E70771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = ReadMe.txt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E80771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = stdafx.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10E90771CC110067D538 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = stdafx.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7B1F10EA0771CC110067D538 = {
+			fileRef = 7B1F10D60771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10EB0771CC110067D538 = {
+			fileRef = 7B1F10D70771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10EC0771CC110067D538 = {
+			fileRef = 7B1F10D80771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10ED0771CC110067D538 = {
+			fileRef = 7B1F10D90771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10EE0771CC110067D538 = {
+			fileRef = 7B1F10DA0771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F00771CC110067D538 = {
+			fileRef = 7B1F10DC0771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F10771CC110067D538 = {
+			fileRef = 7B1F10DD0771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F20771CC110067D538 = {
+			fileRef = 7B1F10DE0771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F30771CC110067D538 = {
+			fileRef = 7B1F10DF0771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F40771CC110067D538 = {
+			fileRef = 7B1F10E00771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F50771CC110067D538 = {
+			fileRef = 7B1F10E10771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F60771CC110067D538 = {
+			fileRef = 7B1F10E20771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F70771CC110067D538 = {
+			fileRef = 7B1F10E30771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F80771CC110067D538 = {
+			fileRef = 7B1F10E40771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10F90771CC110067D538 = {
+			fileRef = 7B1F10E50771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10FA0771CC110067D538 = {
+			fileRef = 7B1F10E60771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10FB0771CC110067D538 = {
+			fileRef = 7B1F10E70771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10FC0771CC110067D538 = {
+			fileRef = 7B1F10E80771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10FD0771CC110067D538 = {
+			fileRef = 7B1F10E90771CC110067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F10FE0771CC1D0067D538 = {
+			containerPortal = 7B06049307719FA500DC2D2E;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 7B0605550771A1BE00DC2D2E;
+			remoteInfo = OOOgg;
+		};
+		7B1F10FF0771CC1D0067D538 = {
+			isa = PBXTargetDependency;
+			target = 7B0605550771A1BE00DC2D2E;
+			targetProxy = 7B1F10FE0771CC1D0067D538;
+		};
+		7B1F11160771CD770067D538 = {
+			containerPortal = 7B06049307719FA500DC2D2E;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 7B1F10D00771CC030067D538;
+			remoteInfo = OOOggSeek;
+		};
+		7B1F11170771CD770067D538 = {
+			isa = PBXTargetDependency;
+			target = 7B1F10D00771CC030067D538;
+			targetProxy = 7B1F11160771CD770067D538;
+		};
+		7B1F112C0771CE900067D538 = {
+			fileRef = 7B0605370771A11A00DC2D2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F112D0771CE920067D538 = {
+			fileRef = 7B0605560771A1BE00DC2D2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F112E0771CEA50067D538 = {
+			fileRef = 7B1F10D10771CC030067D538;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7B1F113D0771CEED0067D538 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "case \"$INSTALL_PATH\" in\n  @executable_path*)\n    ;;\n  \"$BUILD_ROOT\")\n    ;;\n  *)\n    # copy framework to install path\n    mkdir -p \"$INSTALL_PATH\"\n    if [ \"$BUILD_STYLE\" = \"Development\" ]; then\n      rm -rf \"$INSTALL_PATH/$FULL_PRODUCT_NAME\" || true\n      cp -Rp \"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\" \"$INSTALL_PATH\"\n    fi\n    ;;\nesac\n";
 		};
 	};
 	rootObject = 7B06049307719FA500DC2D2E;
