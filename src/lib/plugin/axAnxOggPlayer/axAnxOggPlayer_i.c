@@ -6,7 +6,7 @@
 
 
  /* File created by MIDL compiler version 6.00.0361 */
-/* at Wed Dec 29 11:30:10 2004
+/* at Thu Dec 30 18:08:43 2004
  */
 /* Compiler settings for .\axAnxOggPlayer.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)

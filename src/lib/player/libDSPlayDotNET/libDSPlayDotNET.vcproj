@@ -236,6 +236,9 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{9B83D147-AFE7-46EF-A3FF-EBEC65F00BA6}"
+			Name="libCMMLTagsDotNET"/>
 	</References>
 	<Files>
 		<Filter

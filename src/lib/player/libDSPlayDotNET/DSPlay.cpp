@@ -336,9 +336,9 @@ bool DSPlay::play() {
 	if (mIsLoaded) {
 		HRESULT locHR = mMediaControl->Run();
 		if (SUCCEEDED(locHR)) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	} else {
 		return false;
