@@ -27,7 +27,7 @@ DSPlay::DSPlay(void)
 }
 
 bool DSPlay::checkEvents() {
-	const DWORD TIMEOUT_WAIT = 50;  //Wait this many ms for handle
+	const DWORD TIMEOUT_WAIT = 0;  //Wait this many ms for handle
 	long locEventCode = 0;
 	long locParam1 = 0;
 	long locParam2 = 0;
@@ -232,9 +232,24 @@ bool DSPlay::stop() {
 }
 
 Int64 DSPlay::seek(Int64 inTime) {
-	/*if (mIsLoaded && (mMediaSeeking != NULL) {
-		HRESULT locHR = mMediaSeeking->SetPositions(
-	}*/
+	if (mIsLoaded && (mMediaSeeking != NULL)) {
+		LONGLONG locCurrent = inTime;
+		LONGLONG locStop = 0;
+		HRESULT locHR = mMediaSeeking->SetPositions(&locCurrent, AM_SEEKING_AbsolutePositioning | AM_SEEKING_ReturnTime, 
+													&locStop, AM_SEEKING_NoPositioning);
+		
+		if (SUCCEEDED(locHR)) {
+			return locCurrent;
+		} else {
+			return -1;
+		}
+	} else {
+		return -1;
+	}
+	
+}
+
+Int64 DSPlay::seekStart() {
 	return 0;
 }
 

@@ -11,7 +11,7 @@ namespace DNPlay
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public class frmDNPlay : System.Windows.Forms.Form
+	public class frmDNPlay : System.Windows.Forms.Form, IDNMediaEvent
 	{
 		private System.Windows.Forms.MainMenu mainMenu1;
 		private System.Windows.Forms.MenuItem menuItem1;
@@ -36,7 +36,13 @@ namespace DNPlay
 		protected DSPlay mPlayer;
 		protected Int64 mFileDuration;
 		protected Int64 mLastSync;
+		private System.Windows.Forms.Timer tmrEventCheck;
 		protected Int64 mNumTicks;
+
+		enum eEventCodes 
+		{
+			EC_COMPLETE = 1
+		};
 		//
 
 		//My member functions
@@ -45,7 +51,8 @@ namespace DNPlay
 			lblDuration.Text = "";
 			Int64 locSeconds = inDuration / 10000000;
 			Int64 locMinutes = locSeconds / 60;
-			Int64 locHours = locSeconds / 3600;
+			Int64 locHours = locMinutes / 60;
+			locMinutes = locMinutes % 60;
 			locSeconds = locSeconds % 60;
 			if (locHours != 0) 
 			{
@@ -77,6 +84,15 @@ namespace DNPlay
 			Int32 locProgWidth = Convert.ToInt32(locProgRatio * lblProgressBkgd.Width);
 			lblProgressFgnd.Width = locProgWidth;
 		}
+		public bool eventNotification(Int32 inEventCode, Int32 inParam1, Int32 inParam2) 
+		{
+			if (inEventCode == (long)eEventCodes.EC_COMPLETE) 
+			{
+				tmrUpdateDuration.Enabled = false;
+				mPlayer.stop();
+			}
+			return true;
+		}
 		//
 
 		public frmDNPlay()
@@ -91,6 +107,9 @@ namespace DNPlay
 			//
 			mPlayer = new DSPlay();
 			lblProgressFgnd.Width = 0;
+			cmdStop.Enabled = false;
+			cmdPlay.Enabled = false;
+			cmdPause.Enabled = false;
 		}
 
 		/// <summary>
@@ -133,6 +152,7 @@ namespace DNPlay
 			this.tmrUpdateDuration = new System.Windows.Forms.Timer(this.components);
 			this.lblProgressBkgd = new System.Windows.Forms.Label();
 			this.lblProgressFgnd = new System.Windows.Forms.Label();
+			this.tmrEventCheck = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -241,11 +261,14 @@ namespace DNPlay
 			// 
 			// lblProgressBkgd
 			// 
+			this.lblProgressBkgd.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.lblProgressBkgd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lblProgressBkgd.Location = new System.Drawing.Point(8, 32);
 			this.lblProgressBkgd.Name = "lblProgressBkgd";
 			this.lblProgressBkgd.Size = new System.Drawing.Size(400, 16);
 			this.lblProgressBkgd.TabIndex = 8;
+			this.lblProgressBkgd.Click += new System.EventHandler(this.lblProgressBkgd_Click);
+			this.lblProgressBkgd.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblProgressBkgd_MouseDown);
 			// 
 			// lblProgressFgnd
 			// 
@@ -255,11 +278,17 @@ namespace DNPlay
 			this.lblProgressFgnd.Name = "lblProgressFgnd";
 			this.lblProgressFgnd.Size = new System.Drawing.Size(232, 16);
 			this.lblProgressFgnd.TabIndex = 9;
+			this.lblProgressFgnd.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblProgressBkgd_MouseDown);
+			// 
+			// tmrEventCheck
+			// 
+			this.tmrEventCheck.Interval = 250;
+			this.tmrEventCheck.Tick += new System.EventHandler(this.tmrEventCheck_Tick);
 			// 
 			// frmDNPlay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(416, 89);
+			this.ClientSize = new System.Drawing.Size(416, 87);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.lblProgressFgnd,
 																		  this.lblProgressBkgd,
@@ -268,6 +297,8 @@ namespace DNPlay
 																		  this.cmdStop,
 																		  this.lblFileLocation,
 																		  this.cmdPlay});
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.MaximizeBox = false;
 			this.Menu = this.mainMenu1;
 			this.Name = "frmDNPlay";
 			this.Text = "DNPlay";
@@ -286,11 +317,7 @@ namespace DNPlay
 			Application.Run(new frmDNPlay());
 		}
 
-		private void cmdPlay_Click(object sender, System.EventArgs e)
-		{
-			mPlayer.play();
-			tmrUpdateDuration.Enabled = true;
-		}
+		
 
 		
 		private void menuItem3_Click(object sender, System.EventArgs e)
@@ -300,6 +327,7 @@ namespace DNPlay
 			DialogResult locResult = dlgOpenFile.ShowDialog();
 			if (locResult == DialogResult.OK) 
 			{
+				tmrUpdateDuration.Enabled = false;
 				lblFileLocation.Text = dlgOpenFile.FileName;
 				bool locRes = mPlayer.loadFile(dlgOpenFile.FileName);
 				//Error check
@@ -309,20 +337,48 @@ namespace DNPlay
 
 				mNumTicks = 0;
 				mLastSync = 0;
+				updateProgressBar();
+
+				mPlayer.setMediaEventCallback(this);
+
+				cmdPlay.Enabled = true;
 			}
 			
+		}
+
+		private void cmdPlay_Click(object sender, System.EventArgs e)
+		{
+			mPlayer.play();
+			tmrUpdateDuration.Enabled = true;
+			tmrEventCheck.Enabled = true;
+			cmdPlay.Enabled = false;
+			cmdPause.Enabled = true;
+			cmdStop.Enabled = true;
 		}
 
 		private void cmdStop_Click(object sender, System.EventArgs e)
 		{
 			tmrUpdateDuration.Enabled = false;
+			tmrEventCheck.Enabled = false;
 			mPlayer.stop();
+			//Need to seek to start here !
+			mPlayer.seek(0);
+			mNumTicks = 0;
+			mLastSync = 0;
+			updateProgressBar();
+			cmdPause.Enabled = true;
+			cmdStop.Enabled = false;
+			cmdPlay.Enabled = true;
 		}
 
 		private void cmdPause_Click(object sender, System.EventArgs e)
 		{
+			tmrEventCheck.Enabled = false;
 			tmrUpdateDuration.Enabled = false;
 			mPlayer.pause();
+			cmdPause.Enabled = false;
+			cmdPlay.Enabled = true;
+			cmdStop.Enabled = true;
 		}
 
 		private void frmDNPlay_Load(object sender, System.EventArgs e)
@@ -340,5 +396,36 @@ namespace DNPlay
 		{
 			this.Close();
 		}
+
+		private void tmrEventCheck_Tick(object sender, System.EventArgs e)
+		{
+			mPlayer.checkEvents();
+		}
+
+		private void lblProgressBkgd_Click(object sender, System.EventArgs e)
+		{
+		
+		}
+
+		private void lblProgressBkgd_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e) 
+		{
+			//This is the event for both the foreground and the background label.
+			
+
+			if (e.Button == MouseButtons.Left)
+			{
+				double locSeekRatio = ((double)e.X) / (double)lblProgressBkgd.Width;
+				Int64 locSeekPoint = (Int64)(mFileDuration * locSeekRatio);
+				locSeekPoint = mPlayer.seek(locSeekPoint);
+				if (locSeekPoint != -1) 
+				{
+					mLastSync = locSeekPoint;
+					mNumTicks = 0;
+					updateProgressBar();
+				}
+				
+			}
+		}
+
 	}
 }

@@ -30,6 +30,7 @@ namespace libDSPlayDotNET
 		bool pause();
 		bool stop();
 		Int64 seek(Int64 inTime);
+		Int64 seekStart();
 		Int64 queryPosition();
 
 		bool isLoaded();
