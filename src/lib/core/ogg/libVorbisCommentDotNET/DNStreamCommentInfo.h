@@ -6,6 +6,7 @@
 #include "libVorbisComment/StreamCommentInfo.h"
 
 #pragma managed
+#include "DNVorbisComments.h"
 using namespace System;
 using namespace illiminable::libiWrapper;
 namespace illiminable {

@@ -4,6 +4,7 @@
 #include "libVorbisComment/VorbisComments.h"
 
 #pragma managed
+#include "DNSingleVorbisComment.h"
 using namespace System;
 using namespace illiminable::libiWrapper;
 namespace illiminable {
@@ -56,7 +57,7 @@ public:
 	
 	//vector<SingleVorbisComment> getCommentsByKey(String* inKey);
 
-	bool addComment(SingleVorbisComment* inComment);
+	//bool addComment(SingleVorbisComment* inComment);
 	bool addComment(String* inKey, String* inValue);
 	
 	//bool parseOggPacket(OggPacket* inPacket, unsigned long inStartOffset);

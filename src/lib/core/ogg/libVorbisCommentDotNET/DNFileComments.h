@@ -4,6 +4,7 @@
 #include "libVorbisComment/FileComments.h"
 
 #pragma managed
+#include "DNStreamCommentInfo.h"
 using namespace System;
 using namespace illiminable::libiWrapper;
 namespace illiminable {
@@ -56,7 +57,7 @@ public:
 	bool writeOutAll();
 	bool writeOutStream(Int64 inIndex);
 
-	bool addStreamComment(DNStreamCommentInfo* inStreamComment);
+	//bool addStreamComment(DNStreamCommentInfo* inStreamComment);
 	DNStreamCommentInfo* getStreamComment(Int64 inIndex);
 
 	Int64 streamCount();

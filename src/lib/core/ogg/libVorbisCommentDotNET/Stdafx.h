@@ -4,4 +4,5 @@
 
 #pragma once
 
+#using <mscorlib.dll>
 #using "libiWrapper.dll"

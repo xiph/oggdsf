@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="libVorbisCommentDotNET"
-	ProjectGUID="{9599D980-84D8-4470-B7E2-1F7B52C781E7}"
+	ProjectGUID="{CD8398F5-6FF7-4BDA-9E48-ADF6C64A4747}"
 	RootNamespace="libVorbisCommentDotNET"
 	Keyword="ManagedCProj">
 	<Platforms>
@@ -37,7 +37,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/noentry"
-				AdditionalDependencies="nochkclr.obj mscoree.lib"
+				AdditionalDependencies="nochkclr.obj mscoree.lib msvcrtd.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
