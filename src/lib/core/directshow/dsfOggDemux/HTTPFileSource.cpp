@@ -167,7 +167,7 @@ void HTTPFileSource::DataProcessLoop() {
 	int locNumRead = 0;
 	char* locBuff = NULL;
 	DWORD locCommand = 0;
-	const unsigned long RECV_BUFF_SIZE = 1024;
+
 	locBuff = new char[RECV_BUFF_SIZE];
 
 	while(true) {

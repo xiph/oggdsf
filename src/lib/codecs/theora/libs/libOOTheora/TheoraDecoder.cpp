@@ -96,6 +96,7 @@ ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) {		/
 
 	return locOldPacket;		//Gives a poitner to the caller.
 }
+
 bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket) {		//inHeaderPacket is accepted and deleted.
 
 	ogg_packet* locOldPack = simulateOldOggPacket(inHeaderPacket);		//Accepts packet and deletes it.

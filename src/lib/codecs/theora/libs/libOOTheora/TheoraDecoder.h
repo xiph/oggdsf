@@ -51,8 +51,8 @@ public:
 	ogg_packet* simulateOldOggPacket(StampedOggPacket* inPacket);
 
 
-	
-	unsigned char* convertYUV(yuv_buffer* inBuffer, unsigned long inFormat);
+	bool isKeyFrame(const StampedOggPacket* inPacket);
+	//unsigned char* convertYUV(yuv_buffer* inBuffer, unsigned long inFormat);
 		theora_info mTheoraInfo;
 protected:
 	//theora_info mTheoraInfo;

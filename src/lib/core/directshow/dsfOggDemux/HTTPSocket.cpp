@@ -133,7 +133,7 @@ bool HTTPSocket::setupSocket(string inSourceLocation) {
 
 string HTTPSocket::assembleRequest(string inFilePath) {
 	string retRequest;
-	retRequest = "GET " + inFilePath+ " HTTP/1.1\n" + "Host: " + mServerName+ "\n" + "Connection: close" + "\n\n";
+	retRequest = "GET " + inFilePath+ " HTTP/1.1\r\n" + "Host: " + mServerName+ "\r\n" + "Connection: close" + "\r\n\r\n";
 	//debugLog2<<"Assembled Req : "<<endl<<retRequest<<endl;
 	return retRequest;
 }
