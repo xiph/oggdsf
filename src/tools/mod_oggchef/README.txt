@@ -15,7 +15,7 @@ dynamically recompose media, according to the client's wishes.  It can:
 
 Note that mod_oggchef is effectively a re-implementation of mod_annodex
 <http://www.annodex.net/installation.html>, using illiminable's C++ Ogg
-framework.  mod_annodex is full more featureful, however, being able to
+framework.  mod_annodex is more featureful, however, being able to
 dynamically generate Annodex media on-the-fly from CMML files, which
 mod_oggchef doesn't do yet.  We hope to add these features to mod_oggchef
 in the future.
@@ -45,10 +45,6 @@ maintains a map of MIME types to logical bitstream formats, as follows:
 Timed URIs (server-side seeking)
 --------------------------------
 
-NOTE: This is currently broken, so currently, requested timed URIs won't
-work (it'll just be served out from the starting time, always).  I'll fix
-it up over the next day or two.
-
 Currently, if a media player client wishes to start playback of
 a multimedia file from an HTTP server at 15 seconds (i.e. seek to 15
 seconds), it has two choices.  It can:
@@ -62,7 +58,8 @@ seconds), it has two choices.  It can:
 	starts serving the data at the byte specified.  This has the
 	disadvantage of being imprecise, and for accurate seeking, the
 	client generally has to perform a bisection search (such as
-	a binary search) over the network.
+	a binary search) over the network, which is very time-consuming
+	and inefficient.
 
 With mod_oggchef, the client can ask the web server to play back
 a resource at a particular time point by using a timed URI.  As an
@@ -131,7 +128,11 @@ Installing
 * Edit your httpd.conf file to enable mod_oggchef by inserting the
   following line:
 
-  LoadModule oggchef_module /path/to/mod_oggchef.so
+    LoadModule oggchef_module /path/to/mod_oggchef.so
+
+  Note that the httpd.conf file has a large number of LoadModule lines
+  already present, so you probably want to put the above LoadModule line
+  next to the existing ones.
 
 Windows:
 
