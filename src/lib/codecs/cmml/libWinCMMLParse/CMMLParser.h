@@ -50,6 +50,7 @@ public:
 	//bool parseCMMLDoc(string inCMMLDocText, C_CMMLDoc* outDoc);
 	bool parseClipTag(wstring inClipText, C_ClipTag* outClip);
 	bool parseHeadTag(wstring inHeadText, C_HeadTag* outHead);
+	bool parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot);
 
 	bool parseHeadTag(MSXML2::IXMLDOMNode* inHeadNode, C_HeadTag* outHead);
 	bool parseAnchorTag(MSXML2::IXMLDOMNode* inAnchorNode, C_AnchorTag* outAnchor);
@@ -62,6 +63,7 @@ public:
 	bool parseDescTag(MSXML2::IXMLDOMNode* inDescNode, C_DescTag* outDesc);
 	bool parseBaseTag(MSXML2::IXMLDOMNode* inBaseNode, C_BaseTag* outBase);
 	bool parseParamTag(MSXML2::IXMLDOMNode* inParamNode, C_ParamTag* outParam);
+	bool parseCMMLRootTag(MSXML2::IXMLDOMNode* inCMMLRootNode, C_CMMLRootTag* outCMMLRoot);
 
 
 

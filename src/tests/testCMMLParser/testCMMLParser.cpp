@@ -45,6 +45,25 @@ bool testClipParse(wstring inClipString) {
 	return locWasOK;
 }
 
+bool testCMMLRootParse(wstring inCMMLRootString) {
+	CMMLParser locParser;
+
+	wcout << "Original"<<endl<<inCMMLRootString<<endl<<endl;
+
+	C_CMMLRootTag locCMMLRoot;
+	
+	bool locWasOK = locParser.parseCMMLRootTag(inCMMLRootString, &locCMMLRoot);
+
+	if (locWasOK) {
+		wcout<<"Parsed OK"<<endl<<endl<<locCMMLRoot.toString()<<endl<<endl;
+	} else {
+		wcout<<"*** PARSE FAILED ***"<<endl<<endl;
+	}
+
+	return locWasOK;
+
+}
+
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 	//Valid minimal
@@ -92,9 +111,32 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	wstring clip_5 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><a href\"http:\\linktome.com\" class=\"someClass\">Random anchor text</a><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
 	testClipParse(clip_5);
 
-	//VALID
+	//Valid
 	wstring clip_6 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><a href=\"http:\\linktome.com\" class=\"someClass\">Random anchor text</a><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
 	testClipParse(clip_6);
+
+
+	//Valid
+	wstring cmml_1 = L"<cmml lang=\"en\"><head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base href=\"http://baseurl.com\"/><title lang=\"fr\">Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head><clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip></cmml>";
+	testCMMLRootParse(cmml_1);
+
+	//INVALID: No title
+	wstring cmml_2 = L"<cmml lang=\"en\"><head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base href=\"http://baseurl.com\"/><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head><clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip></cmml>";
+	testCMMLRootParse(cmml_2);
+
+	//INVALID: No head
+	wstring cmml_3 = L"<cmml lang=\"en\"><clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip></cmml>";
+	testCMMLRootParse(cmml_3);
+
+	//INVALID: Random data
+	wstring cmml_4 = L"asdfasd fasd fasdf ds ";
+	testCMMLRootParse(cmml_4);
+
+	//INVALID: valid xml but invalid cmml
+	wstring cmml_5 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
+	testCMMLRootParse(cmml_5);
+
+
 
 	return 0;
 }

@@ -238,8 +238,141 @@ bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip) {
 	return retVal;
 }
 
+bool CMMLParser::parseCMMLRootTag(MSXML2::IXMLDOMNode* inCMMLRootNode, C_CMMLRootTag* outCMMLRoot) {
+	MSXML2::IXMLDOMNamedNodeMap*	locAttribMap	= NULL;
+	MSXML2::IXMLDOMNodeList*		locChildNodes	= NULL;
+	MSXML2::IXMLDOMNode*			locNode			= NULL;
+	HRESULT							locHR			= S_FALSE;
+	long							locNumNodes		= 0;
+	BSTR							locBStr			= NULL;
+	wstring							locNodeName		= L"";
 
 
+	unsigned long					locNum_clip		= 0;
+	unsigned long					locNum_head		= 0;
+	unsigned long					locNum_stream	= 0;
+	unsigned long					locNumUnknown	= 0;
+
+	bool retVal = true;
+	
+	//---------------Attributes-----------------
+	locHR = inCMMLRootNode->get_attributes(&locAttribMap);
+
+	outCMMLRoot->setId(getNamedAttribValue(L"id", locAttribMap));
+	outCMMLRoot->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	outCMMLRoot->setDirn(getNamedAttribValue(L"dir", locAttribMap));
+	
+	//------------------------------------------
+	//--------------Child Nodes-----------------
+	locHR = inCMMLRootNode->get_childNodes(&locChildNodes);
+	locHR = locChildNodes->get_length(&locNumNodes);
+
+	for (int i = 0; i < locNumNodes; i++) {
+		locHR = locChildNodes->get_item(i, &locNode);
+		locHR = locNode->get_nodeName(&locBStr);
+		//TODO::: Needs checks ??
+
+		locNodeName = locBStr;
+		if (locNodeName == L"stream") {
+			//If it exists it must be first
+			if (		(locNum_stream == 0)
+					&&	(locNum_clip == 0)
+					&&	(locNum_head == 0)) {
+				//OPTIONALLY ONE stream tag
+				C_StreamTag* locStream = new C_StreamTag;
+			
+				if (parseStreamTag(locNode, locStream)) {
+					outCMMLRoot->setStream(locStream);
+					locNum_stream++;
+				} else {
+					delete locStream;
+					outCMMLRoot->setStream(NULL);
+				}
+			} else {
+				retVal = false;
+			}
+
+
+		} else if (locNodeName == L"head") {
+			
+			//MUST HAVE ONE head tag
+			if (		(locNum_stream <= 1)
+					&&	(locNum_clip == 0)
+					&&	(locNum_head == 0)) {
+			
+				C_HeadTag* locHead = new C_HeadTag;
+			
+				if (parseHeadTag(locNode, locHead)) {
+					outCMMLRoot->setHead(locHead);
+					locNum_head++;
+				} else {
+					delete locHead;	
+					retVal = false;
+				}
+			} else {
+				retVal = false;
+
+			}
+		} else if (locNodeName == L"clip") {
+
+			//ZERO OR MORE clip tags
+			if (		(locNum_stream <= 1)
+					&&	(locNum_head == 1)) {
+
+				C_ClipTag* locClip = new C_ClipTag;
+			
+				if(parseClipTag(locNode, locClip)) {
+					outCMMLRoot->clipList()->addTag(locClip);
+					locNum_clip++;
+				} else {
+					delete locClip;
+				}
+			} else { 
+				retVal = false;
+			}
+			
+		} else {
+			locNumUnknown++;
+		}
+	}
+
+	retVal		=		(retVal)
+						&&	(locNum_stream <= 1)
+						&&	(locNum_head == 1);
+						
+
+
+	SysFreeString(locBStr);
+	if (locAttribMap != NULL)					locAttribMap->Release();
+	if (locNode != NULL)						locNode->Release();
+	if (locChildNodes != NULL)					locChildNodes->Release();
+	return retVal;
+}
+
+
+bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot) {
+	HRESULT						locHR				= S_FALSE;
+	MSXML2::IXMLDOMDocument*	locXMLCMMLRootFrag	= NULL;
+	MSXML2::IXMLDOMNode*		locCMMLRootNode			= NULL;
+		
+	bool retVal = setupXMLHandles(inCMMLRootText, &locXMLCMMLRootFrag);
+
+	if (retVal) {
+		locCMMLRootNode = getNamedNode(L"cmml", locXMLCMMLRootFrag);
+		
+		if (locCMMLRootNode != NULL) {
+			
+			retVal = parseCMMLRootTag(locCMMLRootNode, outCMMLRoot);
+		} else {
+			retVal = false;
+		}
+	}
+
+	if (locXMLCMMLRootFrag != NULL)					locXMLCMMLRootFrag->Release();
+	if (locCMMLRootNode != NULL)						locCMMLRootNode->Release();
+
+	return retVal;
+}
 bool CMMLParser::parseHeadTag(MSXML2::IXMLDOMNode* inHeadNode, C_HeadTag* outHead) {
 	MSXML2::IXMLDOMNamedNodeMap*	locAttribMap	= NULL;
 	MSXML2::IXMLDOMNodeList*		locChildNodes	= NULL;
