@@ -52,7 +52,7 @@ long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
 	//debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
 	
-	float* locFloatBuf = new float[inNumBytes/2];
+	float* locFloatBuf = new float[inNumBytes/2 + (inNumBytes % 2)];
 	short locTempShort = 0;
 	float locTempFloat = 0;
 

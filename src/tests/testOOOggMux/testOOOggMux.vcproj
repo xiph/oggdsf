@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="testMuxDemux"
-	ProjectGUID="{2D6BB64D-E64A-4E99-A4E8-A235C8085432}"
+	Name="testOOOggMux"
+	ProjectGUID="{C2DBE955-C193-4BEC-A2E8-AB67153CD3EF}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -19,7 +19,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;..\..\lib\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -27,16 +26,15 @@
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"
-				CallingConvention="2"/>
+				DebugInformationFormat="4"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/testMuxDemux.exe"
+				OutputFile="$(OutDir)/testOOOggMux.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/testMuxDemux.pdb"
+				ProgramDatabaseFile="$(OutDir)/testOOOggMux.pdb"
 				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
@@ -68,19 +66,17 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;..\..\lib\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="3"
+				RuntimeLibrary="4"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"
-				CallingConvention="2"/>
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/testMuxDemux.exe"
+				OutputFile="$(OutDir)/testOOOggMux.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="1"
@@ -117,9 +113,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\OggPageFileWriter.cpp">
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -135,16 +128,13 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\testMuxDemux.cpp">
+				RelativePath=".\testOOOggMux.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File
-				RelativePath=".\OggPageFileWriter.h">
-			</File>
 			<File
 				RelativePath=".\stdafx.h">
 			</File>

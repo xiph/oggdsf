@@ -39,7 +39,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 	
 
 {
-	//debugLog.open("g:\\logs\\theoencfilt.log", ios_base::out);
+	debugLog.open("g:\\logs\\theoencfilt.log", ios_base::out);
 	mYUV.y = NULL;
 	mYUV.u = NULL;
 	mYUV.v = NULL;
@@ -48,7 +48,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 
 TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	DestroyCodec();
 	delete mYUV.y;
 	delete mYUV.u;
@@ -58,7 +58,7 @@ TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 
 
 HRESULT TheoraEncodeInputPin::deliverData(LONGLONG inStart, LONGLONG inEnd, unsigned char* inBuf, unsigned long inNumBytes) {
-	//debugLog <<" deliverData : "<<inStart<<" - "<<inEnd<<"  :: size = "<<inNumBytes<<endl;
+	debugLog <<" deliverData : "<<inStart<<" - "<<inEnd<<"  :: size = "<<inNumBytes<<endl;
 	//Get a pointer to a new sample stamped with our time
 	IMediaSample* locSample;
 	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &inStart, &inEnd, NULL);
@@ -90,9 +90,10 @@ HRESULT TheoraEncodeInputPin::deliverData(LONGLONG inStart, LONGLONG inEnd, unsi
 			} else {
 			}
 		}
-		//debugLog<<"deliverData : SUCCESS"<<endl;
+		debugLog<<"deliverData : SUCCESS"<<endl;
 		return S_OK;
 	} else {
+		debugLog<<"Buffer too small !!!! FATALITY !"<<endl;
 		throw 0;
 	}
 
@@ -361,12 +362,12 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	//TODO::: Break this function up a bit !!
 
 	//Time stamps are granule pos not directshow times
-
+	debugLog<<"Encode data"<<endl;
 	LONGLONG locFrameStart = mUptoFrame;
 	LONGLONG locFrameEnd = 0;
 	HRESULT locHR = S_OK;
 	if (!mBegun) {
-		//debugLog<<"encodeData : First time"<<endl;
+		debugLog<<"encodeData : First time"<<endl;
 		mBegun = true;
 		
 		StampedOggPacket** locHeaders;
@@ -381,26 +382,29 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	}
 
 	if (mPinInputType.subtype == MEDIASUBTYPE_YUY2) {
+		debugLog<<"About to encode YUY2 to YV12"<<endl;
 		encodeYUY2ToYV12(inBuf, inNumBytes);
 	} else {
 		//Should be more specifc.
+		debugLog<<"About to encode YV12 to YV12"<<endl;
 		encodeYV12ToYV12(inBuf, inNumBytes);
 	}
 	
 
 	StampedOggPacket* locPacket = mTheoraEncoder.encodeTheora(&mYUV);
 	if (locPacket == NULL) {
+		debugLog<<"Encode returns NULL"<<endl;
 		return S_FALSE;
 	}
 	locFrameEnd		= mUptoFrame 
 					= locPacket->endTime();
-
+	debugLog<<"Delivering..."<<endl;
 	return deliverData(locFrameStart, locFrameEnd, locPacket->packetData(), locPacket->packetSize());
 
 }
 bool TheoraEncodeInputPin::ConstructCodec() {
 
-
+	debugLog<<"Contructing codec..."<<endl;
 	theora_info_init(&mTheoraInfo);
 	
 	//Round up to multiple of 16 for theora

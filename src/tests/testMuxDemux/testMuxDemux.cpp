@@ -41,8 +41,42 @@
 
 #include <fstream>
 
-
 const BUFF_SIZE = 8092;
+
+int testPagination(string inOutputFileName) {
+	int NUM_PACKS = 100;
+	int PACK_BUFF_SIZE = 100000;
+	unsigned char* locBuff = NULL;
+
+	OggPaginatorSettings sets;
+	sets.mMaxPageSize = 8192;
+	sets.mMinPageSize = 4096;
+	sets.mSerialNo = 8877;
+	sets.mTargetPageSize = 4096;
+
+	OggPageFileWriter* writer = new OggPageFileWriter(inOutputFileName);
+
+	OggPaginator pager;
+	pager.setParameters(&sets);
+	pager.setPageCallback(writer);
+	
+	StampedOggPacket* pack = NULL;
+	
+	for (int i=0; i < NUM_PACKS; i++) {
+		locBuff = new unsigned char[	PACK_BUFF_SIZE];
+		memset((void*)locBuff, 99, PACK_BUFF_SIZE);
+
+		locBuff[0] = 88;
+		locBuff[PACK_BUFF_SIZE-1] = 77;
+		pack = new StampedOggPacket(locBuff, PACK_BUFF_SIZE, false, false, i, i, StampedOggPacket::OGG_BOTH);
+		pager.acceptStampedOggPacket(pack);
+
+
+	}
+	return 0;
+}
+
+
 int testPageWriter(string inReadFile, string inWriteFile) {
 	//Reads a file, demuxes it at page level and then writes it out again
 	OggDataBuffer testOggBuff;
@@ -69,19 +103,20 @@ int testPageWriter(string inReadFile, string inWriteFile) {
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 
-	if (argc != 3) {
-		cout<<"Usage : testMuxDemux <inputFilename> <outputFilename>"<<endl;
-		return 1;
-	} else {
+	//if (argc != 3) {
+	//	cout<<"Usage : testMuxDemux <inputFilename> <outputFilename>"<<endl;
+	//	return 1;
+	//} else {
 		cout<<"Testing libOOOgg Mux and Demux..."<<endl;
 		cout<<"================================="<<endl;
 		unsigned long numTests = 0;
 
-		cout<<numTests<<" : "<<"Testing page level demux chained to page file writer..."<<endl;
-		testPageWriter(argv[1], argv[2]);
-		cout<<numTests<<" : "<<"Complete."<<endl;
+		testPagination("G:\\logs\\dumpage.out");
+		//cout<<numTests<<" : "<<"Testing page level demux chained to page file writer..."<<endl;
+		//testPageWriter(argv[1], argv[2]);
+		//cout<<numTests<<" : "<<"Complete."<<endl;
 		return 0;
-	}
+	//}
 }
 
 

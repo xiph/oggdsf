@@ -31,15 +31,28 @@
 
 #pragma once
 #include "Theoradecoderdllstuff.h"
+#include "BasicSeekable.h"
 
+#include <fstream>
+using namespace std;
 class TheoraDecodeOutputPin 
 	:	public CTransformOutputPin
+	//,	public BasicSeekable
 {
 public:
+	//COnstructors
 	TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR);
 	virtual ~TheoraDecodeOutputPin();
 
+	//COM Guff
+	//DECLARE_IUNKNOWN
+	//STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
+	//Overrides
+	//virtual HRESULT BreakConnect();
+	//virtual HRESULT CompleteConnect (IPin *inReceivePin);
+
+	fstream debugLog;
 };
 //----------------------
 //OLD IMPLEMENTATION

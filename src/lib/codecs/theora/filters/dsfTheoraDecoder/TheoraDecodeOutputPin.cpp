@@ -37,13 +37,45 @@
 TheoraDecodeOutputPin::TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR) 
 	:	CTransformOutputPin(NAME("Theora Output Pin"), inParentFilter, outHR, L"YV12 Out")
 {
-
+	debugLog.open("G:\\logs\\theooutput.log", ios_base::out);
 }
 TheoraDecodeOutputPin::~TheoraDecodeOutputPin() {
-
+	debugLog.close();
 }
 
+//STDMETHODIMP TheoraDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+//	debugLog<<"Querying interface"<<endl;
+//	if (riid == IID_IMediaSeeking) {
+//		debugLog<<"Got seekeer"<<endl;
+//		*ppv = (IMediaSeeking*)this;
+//		((IUnknown*)*ppv)->AddRef();
+//		
+//		return NOERROR;
+//	}
+//
+//	return CTransformOutputPin::NonDelegatingQueryInterface(riid, ppv); 
+//}
 
+//HRESULT TheoraDecodeOutputPin::BreakConnect() {
+//	CAutoLock locLock(m_pLock);
+//	//Need a lock ??
+//	ReleaseDelegate();
+//	debugLog<<"Break connect"<<endl;
+//	return CTransformOutputPin::BreakConnect();
+//}
+//HRESULT TheoraDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
+//	CAutoLock locLock(m_pLock);
+//	debugLog<<"Complete connect"<<endl;
+//	IMediaSeeking* locSeeker = NULL;
+//
+//	m_pFilter->GetPin(0)->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+//
+//	if (locSeeker == NULL) {
+//		debugLog<<"Seeker was NULL"<<endl;
+//	}
+//	SetDelegate(locSeeker);
+//	return CTransformOutputPin::CompleteConnect(inReceivePin);
+//}
 //----------------------
 //OLD IMPLEMENTATION
 //----------------------
