@@ -92,7 +92,7 @@ StampedOggPacket* FLACPushDecoder::decodeFLAC(OggPacket* inPacket) {
 	}
 	unsigned long locNumFrames = inFrame->header.blocksize;
 	unsigned long locActualSize = locNumFrames * mFrameSize;
-	unsigned long locTotalFrameCount = locNumFrames * mNumChannels;
+	//unsigned long locTotalFrameCount = locNumFrames * mNumChannels;
 
 	//BUG::: There's a bug here. Implicitly assumes 2 channels.
 	unsigned char* locBuff = new unsigned char[locActualSize];
@@ -102,7 +102,7 @@ StampedOggPacket* FLACPushDecoder::decodeFLAC(OggPacket* inPacket) {
 	
 	signed short tempInt = 0;
 	int tempLong = 0;
-	float tempFloat = 0;
+	//float tempFloat = 0;
 	
 	//FIX:::Move the clipping to the abstract function
 	//Make sure our sample buffer is big enough
@@ -134,9 +134,9 @@ StampedOggPacket* FLACPushDecoder::decodeFLAC(OggPacket* inPacket) {
 }
 void FLACPushDecoder::metadata_callback(const ::FLAC__StreamMetadata* inMetadata) 
 {
-	int i = 0;
+
 }
 void FLACPushDecoder::error_callback(::FLAC__StreamDecoderErrorStatus inStatus) 
 {
-	int i = 0;
+
 }

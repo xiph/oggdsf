@@ -125,7 +125,7 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 			//It's the comment packet.
 			//debugLog<<"Found a comment packet..."<<endl;
 			locFoundComment = true;
-			locCommentNo = i;
+			locCommentNo = (int)i;
 			mNewHeaderList.push_back(mOldHeaderList[i]->clone());
 		}
 	}
@@ -138,6 +138,7 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 
 	for (size_t i = 2; i < mOldHeaderList.size(); i++) {
 	
+		//**** WARNING ::: Leave this unless you check it !
 		if (i != locCommentNo) {
 			//debugLog<<"Adding another ehader..."<<endl;
 			//If it's not the comment packet we already added, put it in the list.

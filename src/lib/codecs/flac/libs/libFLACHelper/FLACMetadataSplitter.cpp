@@ -82,7 +82,7 @@ bool FLACMetadataSplitter::splitMetadata() {
 	//debugLog<<"Splitmetadata"<<endl;
 	//emptyList();
 	//OggPacket* locPacket = NULL;
-	unsigned char* locBuff = NULL;
+	//unsigned char* locBuff = NULL;
 	if (mMetadataBlock == NULL) {
 		return false;
 	} else {
@@ -92,6 +92,9 @@ bool FLACMetadataSplitter::splitMetadata() {
 			addStreamInfo();
 			addOtherHeaders();
 			//debugLog<<"Done adding packets..."<<endl;
+
+			//TODO::: Should really verify this !
+			return true;
 		} else {
 			return false;
 		}
