@@ -664,14 +664,9 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	CAutoLock locSourceLock(mSourceFileLock);
 	
 
-	//SOURCE ABSTRACTION::: open
-	//mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
-	//
-	//Before openeing create the interface
-	//debugLog<<"Set up pins..."<<endl;
+	//Create and open a data source
 	mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
 	mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
-	//
 	
 	//Error check
 	

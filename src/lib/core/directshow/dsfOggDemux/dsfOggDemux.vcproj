@@ -307,6 +307,9 @@
 				RelativePath="OggDemux.def">
 			</File>
 			<File
+				RelativePath=".\OggDemuxer.cpp">
+			</File>
+			<File
 				RelativePath="OggDemuxSourceFilter.cpp">
 			</File>
 			<File
@@ -411,6 +414,9 @@
 			</File>
 			<File
 				RelativePath="IFilterDataSource.h">
+			</File>
+			<File
+				RelativePath=".\OggDemuxer.h">
 			</File>
 			<File
 				RelativePath="OggDemuxSourceFilter.h">

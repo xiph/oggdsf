@@ -68,15 +68,21 @@ public:
 
 
 protected:
-
+	void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes);
 	bool HTTPFileSource::startThread();
 	void DataProcessLoop();
 
 	//stringstream mStreamBuffer;
 	SingleMediaFileCache mFileCache;
 
-	//fstream debugLog;
-	//fstream fileDump;
+	bool mIsChunked;
+	unsigned long mChunkRemains;
+
+	bool mIsFirstChunk;
+
+	fstream debugLog;
+	fstream fileDump;
+	fstream rawDump;
 
 
 	CCritSec* mBufferLock;

@@ -65,6 +65,8 @@ public:
 	virtual HRESULT DeliverEndOfStream(void);
 	virtual HRESULT DeliverEndFlush(void);
 	virtual HRESULT DeliverBeginFlush(void);
+
+	virtual HRESULT deliverTag(C_CMMLTag* inTag);
 protected:
 	//fstream debugLog;
 	HRESULT mFilterHR;

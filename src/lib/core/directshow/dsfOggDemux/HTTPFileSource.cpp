@@ -33,12 +33,15 @@
 
 HTTPFileSource::HTTPFileSource(void)
 	:	mBufferLock(NULL)
+	,	mIsChunked(false)
+	,	mIsFirstChunk(true)
+	,	mChunkRemains(0)
 {
 	mBufferLock = new CCritSec;
-	//debugLog.open("G:\\logs\\httpdebug.log", ios_base::out | ios_base::ate | ios_base::app);
+	debugLog.open("d:\\zen\\logs\\htttp.log", ios_base::out);
 	//debugLog<<"==========================================="<<endl;
-	//fileDump.open("G:\\filedump.ogg", ios_base::out|ios_base::binary);
-
+	fileDump.open("d:\\zen\\logs\\filedump.ogg", ios_base::out|ios_base::binary);
+	rawDump.open("D:\\zen\\logs\\rawdump.out", ios_base::out|ios_base::binary);
 
 
 
@@ -49,12 +52,92 @@ HTTPFileSource::~HTTPFileSource(void)
 	//debugLog<<"About to close socket"<<endl;
 	close();
 	//debugLog<<"Winsock ended"<<endl;
-	//debugLog.close();
-	//fileDump.close();
+	debugLog.close();
+	fileDump.close();
+	rawDump.close();
 	delete mBufferLock;
 	
 }
 
+void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
+	ASSERT(inNumBytes > 2);
+	rawDump.write((char*)inBuff, inNumBytes);
+	debugLog<<"UnChunk"<<endl;
+	unsigned long locNumBytesLeft = inNumBytes;
+
+	unsigned char* locWorkingBuffPtr = inBuff;
+
+	debugLog<<"inNumBytes = "<<inNumBytes<<endl;
+
+	while (locNumBytesLeft > 0) {
+		debugLog<<"---"<<endl;
+		debugLog<<"Bytes left = "<<locNumBytesLeft<<endl;
+		debugLog<<"ChunkRemaining = "<<mChunkRemains<<endl;
+
+		if (mChunkRemains == 0) {
+			debugLog<<"Zero bytes of chunk remains"<<endl;
+
+			//Assign to a string for easy manipulation of the hex size
+			string locTemp;
+		
+			if (mIsFirstChunk) {
+				debugLog<<"It's the first chunk"<<endl;
+				mIsFirstChunk = false;
+				locTemp = (char*)locWorkingBuffPtr;
+			} else {
+				debugLog<<"Not the first chunk"<<endl;
+				debugLog<<"Skip bytes = "<<(int)locWorkingBuffPtr[0]<<(int)locWorkingBuffPtr[1]<<endl;
+				locTemp = (char*)(locWorkingBuffPtr + 2);
+				locWorkingBuffPtr+=2;
+				locNumBytesLeft -= 2;
+			}
+
+			size_t locChunkSizePos = locTemp.find("\r\n");
+			
+			if (locChunkSizePos != string::npos) {
+				debugLog<<"Found the size bytes "<<endl;
+				//Get a string representation of the hex string that tells us the size of the chunk
+				string locChunkSizeStr = locTemp.substr(0, locChunkSizePos);
+				debugLog<<"Sizingbuytes " << locChunkSizeStr<<endl;
+				char* locDummyPtr = NULL;
+
+				//Convert it to a number
+				mChunkRemains = strtol(locChunkSizeStr.c_str(), &locDummyPtr, 16);
+
+				debugLog<<"Chunk reamining "<<mChunkRemains<<endl;
+				//The size of the crlf 's and the chunk size value
+				unsigned long locGuffSize = (locChunkSizeStr.size() + 2);
+				locWorkingBuffPtr +=  locGuffSize;
+				locNumBytesLeft -= locGuffSize;
+			}
+		}
+
+		//This is the end of file
+		if (mChunkRemains == 0) {
+			debugLog<<"EOF"<<endl;
+			return;
+		}
+		bool locWriteOK = false;
+		//If theres less bytes than the remainder of the chunk
+		if (locNumBytesLeft < mChunkRemains) {
+			debugLog<<"less bytes remain than the chunk needs"<<endl;
+			
+			locWriteOK = mFileCache.write((const unsigned char*)locWorkingBuffPtr, locNumBytesLeft );
+			fileDump.write((char*)locWorkingBuffPtr, locNumBytesLeft);
+			locWorkingBuffPtr += locNumBytesLeft;
+			mChunkRemains -= locNumBytesLeft;
+			locNumBytesLeft = 0;
+		} else {
+			debugLog<<"more bytes remain than the chunk needs"<<endl;
+			locWriteOK = mFileCache.write((const unsigned char*)locWorkingBuffPtr, mChunkRemains );
+			fileDump.write((char*)locWorkingBuffPtr, mChunkRemains);
+			locWorkingBuffPtr += mChunkRemains;
+			locNumBytesLeft -= mChunkRemains;
+			mChunkRemains = 0;
+		}
+
+	}
+}
 void HTTPFileSource::DataProcessLoop() {
 	//debugLog<<"DataProcessLoop: "<<endl;
 	int locNumRead = 0;
@@ -90,12 +173,13 @@ void HTTPFileSource::DataProcessLoop() {
 			//debugLog <<"Num Read = "<<locNumRead<<endl;
 			if (mSeenResponse) {
 				//Add to buffer
-				bool locWriteOK = mFileCache.write((const unsigned char*)locBuff, locNumRead);
-				if (locWriteOK) {
-					//debugLog<<"Added to cache "<<locNumRead<<" bytes."<<endl;
+				bool locWriteOK;
+				if (mIsChunked) {
+						unChunk((unsigned char*)locBuff, locNumRead);
 				} else {
-					//debugLog<<"Write to cache failed.."<<endl;
+					locWriteOK = mFileCache.write((const unsigned char*)locBuff, locNumRead);
 				}
+			
 				//Dump to file
 				//fileDump.write(locBuff, locNumRead);
 			} else {
@@ -107,27 +191,29 @@ void HTTPFileSource::DataProcessLoop() {
 					//debugLog<<"locPos = "<<locPos<<endl;
 					mSeenResponse = true;
 					mLastResponse = locTemp.substr(0, locPos);
+					if (locTemp.find("Transfer-Encoding: chunked") != string::npos) {
+						mIsChunked = true;
+
+					}
 					char* locBuff2 = locBuff + locPos + 4;  //View only - don't delete.
 					locTemp = locBuff2;
-					//debugLog<<"Start of data follows"<<endl<<locTemp<<endl;
-					bool locWriteOK = mFileCache.write((const unsigned char*)locBuff2, (locNumRead - (locPos + 4)));
+
+					bool locWriteOK = false;
+
+					if (mIsChunked) {
+						unChunk((unsigned char*)locBuff2, locNumRead - locPos - 4);
+
+
+					} else {
+                        //debugLog<<"Start of data follows"<<endl<<locTemp<<endl;
+						locWriteOK = mFileCache.write((const unsigned char*)locBuff2, (locNumRead - (locPos + 4)));
+					}
 
 					//Dump to file
 					//fileDump.write(locBuff2, locNumRead - (locPos + 4));
 					
 
-					if(locWriteOK) {
-						//debugLog<<"Added to Buffer "<<locNumRead - (locPos+4)<<" bytes... first after response."<<endl;
-						
-					} else {
-						//debugLog<<"Buffering failure..."<<endl;
-					}
-
-					//size_t locG, locP;
-					//locG = mStreamBuffer.tellg();
-					//locP = mStreamBuffer.tellp();
-
-					//debugLog << "Get : "<<locG<<" ---- Put : "<<locP<<endl;
+					
 					
 				}
 			}

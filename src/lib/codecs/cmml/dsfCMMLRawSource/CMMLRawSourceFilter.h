@@ -7,10 +7,20 @@ class CMMLRawSourcePin;
 
 class CMMLRawSourceFilter
 	:	public CBaseFilter
+	,	public CAMThread
 	,	public IFileSourceFilter
 	,	public IAMFilterMiscFlags
 {
 public:
+
+	friend class CMMLRawSourcePin;
+
+	enum eThreadCommands {
+		THREAD_EXIT = 0,
+		THREAD_PAUSE = 1,
+		THREAD_RUN = 2
+	};
+
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
@@ -25,13 +35,20 @@ public:
 
 	//IAMFilterMiscFlags Interface
 	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
-	//
 
 	//IFileSource Interface
 	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
 	virtual STDMETHODIMP Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
 
+	//CAMThread
+	virtual DWORD ThreadProc(void);
+
 protected:
+	virtual HRESULT DataProcessLoop();
+
 	CMMLRawSourcePin* mCMMLSourcePin;
+	CMMLParser mCMMLParser;
+
+	C_CMMLDoc* mCMMLDoc;
 	wstring mFileName;
 };

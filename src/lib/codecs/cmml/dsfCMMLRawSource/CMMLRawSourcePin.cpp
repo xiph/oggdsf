@@ -118,3 +118,20 @@ HRESULT CMMLRawSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCA
 }
 
 
+HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
+
+	IMediaSample* locSample = NULL;
+	REFERENCE_TIME locStart = 0;
+	REFERENCE_TIME locStop = 0;
+
+	HRESULT	locHR = GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
+
+
+	if (locHR != S_OK) {
+		//debugLog<<"Failure... No buffer"<<endl;
+		return locHR;
+	}
+
+
+	//locSample->
+}
