@@ -129,7 +129,7 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 
 	IMediaSample* locSample;
 	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
+	
 	if (FAILED(locHR)) {
 		//We get here when the application goes into stop mode usually.
 		return locHR;

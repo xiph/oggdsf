@@ -82,9 +82,13 @@ void OggPageInterleaver::processData() {
 		while (!isAllEmpty()) {
 			writeLowest();
 		}
+		mNotifier->NotifyComplete();
 	} else {
 		while (isProcessable()) {
 			writeLowest();
+		}
+		if (isAllEOS() && isAllEmpty()) {
+			mNotifier->NotifyComplete();
 		}
 	}
 
