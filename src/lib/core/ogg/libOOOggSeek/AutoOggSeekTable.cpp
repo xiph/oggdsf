@@ -125,13 +125,21 @@ __int64 AutoOggSeekTable::fileDuration() {
 	return mFileDuration;
 }
 bool AutoOggSeekTable::buildTable() {
-	mFile.open(mFileName.c_str(), ios_base::in | ios_base::binary);
-	const unsigned long BUFF_SIZE = 4096;
-	unsigned char* locBuff = new unsigned char[BUFF_SIZE];
-	while (!mFile.eof()) {
-		mFile.read((char*)locBuff, BUFF_SIZE);
-		mOggDemux.feed((const char*)locBuff, mFile.gcount());
+	//HACK::: To ensure we don't try and build a table on the network file.
+	if (mFileName.find("http") != 0) {
+		mFile.open(mFileName.c_str(), ios_base::in | ios_base::binary);
+		const unsigned long BUFF_SIZE = 4096;
+		unsigned char* locBuff = new unsigned char[BUFF_SIZE];
+		while (!mFile.eof()) {
+			mFile.read((char*)locBuff, BUFF_SIZE);
+			mOggDemux.feed((const char*)locBuff, mFile.gcount());
+		}
+		mFile.close();
+		
+	} else {
+		mEnabled = false;
+		mSampleRate = 1;
 	}
-	mFile.close();
+
 	return true;
 }

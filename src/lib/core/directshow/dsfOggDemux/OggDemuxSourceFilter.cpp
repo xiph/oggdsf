@@ -578,15 +578,19 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	mOggBuffer.registerVirtualCallback(this);
 
 	char* locBuff = new char[RAW_BUFFER_SIZE];
-	
+	unsigned long locNumRead = 0;
+
 	//Feed the data in until we have seen all BOS pages.
 	while(!mStreamMapper->isReady()) {
 		//SOURCE ABSTRACTION::: read
 		//mSourceFile.read(locBuff, RAW_BUFFER_SIZE);
 		//
-		mDataSource->read(locBuff, RAW_BUFFER_SIZE);
+		locNumRead = mDataSource->read(locBuff, RAW_BUFFER_SIZE);
 		//
-		mOggBuffer.feed(locBuff, RAW_BUFFER_SIZE);
+		//BUG::: Need to actually see how many bytes were read !
+		if (locNumRead > 0) {
+			mOggBuffer.feed(locBuff, RAW_BUFFER_SIZE);
+		}
 
 	}
 	//Memory leak

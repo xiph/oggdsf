@@ -1,0 +1,8 @@
+Registering protocols for media types
+
+http://msdn.microsoft.com/archive/default.asp?url=/archive/en-us/directx9_c/directx/htm/registeringacustomfiletype.asp
+
+HKEY_CLASSES_ROOT
+  <protocol>
+     Extensions
+         <.ext1> = <Source GUID>

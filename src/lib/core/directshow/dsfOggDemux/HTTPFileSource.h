@@ -67,11 +67,13 @@ protected:
 	virtual bool setupSocket(string inSourceLocation);
 	virtual void closeSocket();
 	virtual bool splitURL(string inURL);
+	virtual string assembleRequest(string inFilePath);
 	bool httpRequest(string inRequest);
 	bool HTTPFileSource::startThread();
 	void DataProcessLoop();
 	string mServerName;
 	string mFileName;
+	string mLastResponse;
 	SOCKET mSocket;
 	stringstream mStreamBuffer;
 
@@ -79,4 +81,5 @@ protected:
 	bool mIsEOF;
 	bool mWasError;
 	bool mIsOpen;
+	bool mSeenResponse;
 };

@@ -35,6 +35,7 @@ HTTPFileSource::HTTPFileSource(void)
 	:	mWasError(false)
 	,	mIsEOF(false)
 	,	mIsOpen(false)
+	,	mSeenResponse(false)
 {
 	debugLog.open("G:\\httpdebug.log", ios_base::out);
 	WORD locWinsockVersion = MAKEWORD(1,1);
@@ -65,13 +66,14 @@ void HTTPFileSource::DataProcessLoop() {
 	debugLog<<"DataProcessLoop: "<<endl;
 	int locNumRead = 0;
 	char* locBuff = NULL;
-	const unsigned long RECV_BUFF_SIZE = 4096;
+	const unsigned long RECV_BUFF_SIZE = 1024;
 	locBuff = new char[RECV_BUFF_SIZE];
 	while(true) {
 
 		locNumRead = recv(mSocket, locBuff, RECV_BUFF_SIZE, 0);
 		if (locNumRead == SOCKET_ERROR) {
-			debugLog<<"Socket error receiving"<<endl;
+			int locErr = WSAGetLastError();
+			debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
 			mWasError = true;
 			break;
 		}
@@ -81,9 +83,22 @@ void HTTPFileSource::DataProcessLoop() {
 			mIsEOF = true;
 			break;
 		}
-        //Add to buffer
-		mStreamBuffer.write(locBuff, locNumRead);
-		debugLog<<"Added to buffer "<<locNumRead<<" bytes."<<endl;
+
+		if (mSeenResponse) {
+			//Add to buffer
+			mStreamBuffer.write(locBuff, locNumRead);
+			debugLog<<"Added to buffer "<<locNumRead<<" bytes."<<endl;
+		} else {
+			string locTemp = locBuff;
+			size_t locPos = locTemp.find("\n\n");
+			if (locPos != string::npos) {
+				//Found the break
+				mSeenResponse = true;
+				mLastResponse = locTemp.substr(0, locPos);
+				mStreamBuffer.write(locBuff + locPos + 2, locNumRead - (locPos + 2));
+				debugLog<<"Added to Buffer "<<locNumRead - (locPos+2)<<" bytes... first after response."<<endl;
+			}
+		}
 	}
 
 	delete locBuff;
@@ -117,7 +132,7 @@ bool HTTPFileSource::setupSocket(string inSourceLocation) {
 	}
 
 	mSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (mSocket = INVALID_SOCKET) {
+	if (mSocket == INVALID_SOCKET) {
 		debugLog<<"Socket Invalid"<<endl;
 		//Failed
 		return false;
@@ -148,9 +163,16 @@ bool HTTPFileSource::setupSocket(string inSourceLocation) {
 		return false;
 	}
 
+	return true;
 
 
+}
 
+string HTTPFileSource::assembleRequest(string inFilePath) {
+	string retRequest;
+	retRequest = "GET " + inFilePath+ " HTTP/1.1\n" + "Host: " + mServerName+ "\n\n";
+	debugLog<<"Assembled Req : "<<endl<<retRequest<<endl;
+	return retRequest;
 }
 
 bool HTTPFileSource::httpRequest(string inRequest) {
@@ -220,7 +242,7 @@ bool HTTPFileSource::splitURL(string inURL) {
 				return false;
 			} else {
 				locServerName = locTemp.substr(0, locPos);
-				locPath = locTemp.substr(locPos+1);
+				locPath = locTemp.substr(locPos);
 			}
 		}
 		
@@ -251,7 +273,8 @@ bool HTTPFileSource::startThread() {
 bool HTTPFileSource::open(string inSourceLocation) {
 	//Open network connection and start feeding data into a buffer
 	//
-
+	mSeenResponse = false;
+	mLastResponse = "";
 	debugLog<<"Open:"<<endl;
 	bool locIsOK = setupSocket(inSourceLocation);
 
@@ -260,6 +283,9 @@ bool HTTPFileSource::open(string inSourceLocation) {
 		closeSocket();
 		return false;
 	}
+
+	debugLog<<"Sending request..."<<endl;
+	httpRequest(assembleRequest(mFileName));
 	debugLog<<"Socket ok... starting thread"<<endl;
 	locIsOK = startThread();
 
