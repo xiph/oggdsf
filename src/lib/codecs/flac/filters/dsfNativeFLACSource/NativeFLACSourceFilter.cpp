@@ -69,6 +69,7 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	//,	mDecoder(NULL)
 {
 	m_pLock = new CCritSec;
+	mCodecLock = new CCritSec;
 	debugLog.open("G:\\logs\\NativeFLAC.log", ios_base::out);
 	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
 }
@@ -78,6 +79,7 @@ NativeFLACSourceFilter::~NativeFLACSourceFilter(void)
 	debugLog.close();
 	delete mFLACSourcePin;
 	mFLACSourcePin = NULL;
+	delete mCodecLock;
 }
 
 //BaseFilter Interface
@@ -244,13 +246,20 @@ HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 		if (mJustStopped) {
 			mJustStopped = false;
 			debugLog<<"!!!!!!!!!!!!!!!!!!!!!!! SEEK ABSOLUTE 0"<<endl;
-			bool res2 = seek_absolute(0);
+			bool res2 = false;
+			{
+				CAutoLock locLock(mCodecLock);
+				res2 = seek_absolute(0);
+			}
 			if (res2) {
 				debugLog<<"Seek absolute success"<<endl;
 			}
 		}
-		debugLog<<"Process it"<<endl;
-		res = process_single();
+		{
+			CAutoLock locLock(mCodecLock);
+			debugLog<<"Process it"<<endl;
+			res = process_single();
+		}
 		if (res) {
 			debugLog<<"Process OK"<<endl;
 		} else {
@@ -433,12 +442,17 @@ STDMETHODIMP NativeFLACSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const 
 }
 STDMETHODIMP NativeFLACSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags){
 	debugLog<<"Request seek to "<<*pCurrent<<endl;
-	mUpto = 0;
+	
 	unsigned __int64 locSampleToSeek = (*pCurrent) * mSampleRate/ UNITS;
 	debugLog<<"W**** Which is sample no = "<<locSampleToSeek<<endl;
 	mFLACSourcePin->DeliverBeginFlush();
 	mFLACSourcePin->DeliverEndFlush();
-	bool locRes = seek_absolute(locSampleToSeek);
+	bool locRes = false;
+	{
+		CAutoLock locLock(mCodecLock);
+		mUpto = 0;
+		locRes = seek_absolute(locSampleToSeek);
+	}
 	if (locRes) {
 		debugLog<<"Seek suceeded"<<endl;
 	} else {

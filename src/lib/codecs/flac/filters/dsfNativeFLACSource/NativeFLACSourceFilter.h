@@ -142,4 +142,6 @@ protected:
 	unsigned long mBitsPerSample;
 	__int64 mTotalNumSamples;
 
+	CCritSec* mCodecLock;
+
 };
