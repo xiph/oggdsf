@@ -76,6 +76,7 @@ STDAPI DllRegisterServer()
 
 	//Only call once... if you need multiple you have to fix the hack job in RegWrap !
 	RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg;*.ogv;*.oga;*.spx");
+	RegWrap::deleteKeyRecurse(HKEY_CLASSES_ROOT, ".OGG", "ShellEx");
 
 
 

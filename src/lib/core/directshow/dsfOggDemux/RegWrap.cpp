@@ -75,6 +75,29 @@ LONG RegWrap::addKeyVal(HKEY inHive, string inKeyName, string inValueName, strin
 
 }
 
+bool RegWrap::deleteKeyRecurse(HKEY inHive, string inKeyName, string inSubKeyToDelete) {
+	HKEY locKey;
+	LONG retVal;
+
+	retVal = RegOpenKeyEx(	inHive,
+							inKeyName.c_str(),
+							NULL,
+							KEY_ALL_ACCESS,
+							&locKey);
+
+	if (retVal != ERROR_SUCCESS) {
+		//debugLog<<"Key not found"<<endl;
+		return false;
+	}
+
+	retVal = SHDeleteKeyA(locKey, inSubKeyToDelete.c_str());
+	RegCloseKey(locKey);
+	return true;
+
+}
+
+
+
 bool RegWrap::removeKeyVal(HKEY inHive, string inKeyName, string inValueName) {
 	//LONG RegDeleteValue(
 	//	HKEY hKey,
@@ -96,6 +119,7 @@ bool RegWrap::removeKeyVal(HKEY inHive, string inKeyName, string inValueName) {
 	}
 
 	retVal = RegDeleteValue(locKey, inValueName.c_str());
+	RegCloseKey(locKey);
 	if (retVal != ERROR_SUCCESS) {
 		return false;
 	} else {
@@ -214,16 +238,18 @@ bool RegWrap::removeMediaDesc() {
 
 }
 bool RegWrap::addMediaPlayerDesc(string inDesc, string inExts) {
-	string locDescNum = "";
-	string locFull = inDesc+" ("+inExts+")";
-	locDescNum = RegWrap::findNextEmptyMediaPlayerDesc();
-	if (locDescNum == "") {
-		return false;
+	if (!RegWrap::valueExists(HKEY_LOCAL_MACHINE, "SOFTWARE\\illiminable\\oggcodecs", "MediaDescNum")) {
+		string locDescNum = "";
+		string locFull = inDesc+" ("+inExts+")";
+		locDescNum = RegWrap::findNextEmptyMediaPlayerDesc();
+		if (locDescNum == "") {
+			return false;
+		}
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\illiminable\\oggcodecs", "MediaDescNum", locDescNum.c_str());
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions", locDescNum, locFull.c_str());
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\MUIDescriptions", locDescNum, inDesc.c_str());
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types", locDescNum, inExts.c_str());
+		return true;
 	}
-	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\illiminable\\oggcodecs", "MediaDescNum", locDescNum.c_str());
-	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions", locDescNum, locFull.c_str());
-	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\MUIDescriptions", locDescNum, inDesc.c_str());
-	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types", locDescNum, inExts.c_str());
-	return true;
 
 }

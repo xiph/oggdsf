@@ -36,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib Strmiids.lib  Quartz.lib wsock32.lib"
+				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib Strmiids.lib  Quartz.lib wsock32.lib shlwapi.lib"
 				ShowProgress="2"
 				OutputFile="$(OutDir)/dsfOggDemux.dll"
 				LinkIncremental="2"
@@ -102,7 +102,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmbase.lib Winmm.lib  Strmiids.lib  Quartz.lib wsock32.lib"
+				AdditionalDependencies="Strmbase.lib Winmm.lib  Strmiids.lib  Quartz.lib wsock32.lib shlwapi.lib"
 				OutputFile="$(OutDir)/dsfOggDemux.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="C:\DXSDK\Lib;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"
@@ -169,7 +169,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmbase.lib Winmm.lib  Strmiids.lib  Quartz.lib wsock32.lib"
+				AdditionalDependencies="Strmbase.lib Winmm.lib  Strmiids.lib  Quartz.lib wsock32.lib shlwapi.lib"
 				OutputFile="$(OutDir)/dsfOggDemux.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="C:\DXSDK\Lib;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"
@@ -236,7 +236,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmbase.lib Winmm.lib  Strmiids.lib  Quartz.lib wsock32.lib"
+				AdditionalDependencies="Strmbase.lib Winmm.lib  Strmiids.lib  Quartz.lib wsock32.lib shlwapi.lib"
 				OutputFile="$(OutDir)/dsfOggDemux.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="C:\DXSDK\Lib;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"

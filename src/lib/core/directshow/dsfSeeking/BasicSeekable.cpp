@@ -226,7 +226,7 @@ STDMETHODIMP BasicSeekable::SetPositions(LONGLONG* inoutCurrent, DWORD inCurrent
 		HRESULT locHR = mSeekDelegate->SetPositions(inoutCurrent, inCurrentFlags, inStop, inStopFlags);
 		if (locHR == S_OK) {
 			//mSeekTimeBase = *inoutCurrent;
-			//seekDebug<<"Set Pos : Actual Time   : "<<mSeekTimeBase<<endl;
+			seekDebug<<"Set Pos : Actual Time   : "<<*inoutCurrent<<endl;
 			
 		}
 		return locHR;

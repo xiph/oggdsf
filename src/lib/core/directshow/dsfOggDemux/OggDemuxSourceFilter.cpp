@@ -218,7 +218,7 @@ STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 
 STDMETHODIMP OggDemuxSourceFilter::GetCapabilities(DWORD* inCapabilities) {
 	if (mSeekTable->enabled())  {
-		//debugLog<<"GetCaps "<<mSeekingCap<<endl;
+		debugLog<<"GetCaps "<<mSeekingCap<<endl;
 		*inCapabilities = mSeekingCap;
 		return S_OK;
 	} else {
@@ -229,7 +229,7 @@ STDMETHODIMP OggDemuxSourceFilter::GetCapabilities(DWORD* inCapabilities) {
 }
 STDMETHODIMP OggDemuxSourceFilter::GetDuration(LONGLONG* outDuration) {
 	if (mSeekTable->enabled())  {
-		//debugLog<<"GetDuration = " << mSeekTable->fileDuration()<<" ds units"<<endl;
+		debugLog<<"GetDuration = " << mSeekTable->fileDuration()<<" ds units"<<endl;
 		*outDuration = mSeekTable->fileDuration();
 		return S_OK;
 	} else {
@@ -249,22 +249,22 @@ STDMETHODIMP OggDemuxSourceFilter::CheckCapabilities(DWORD *pCapabilities){
 STDMETHODIMP OggDemuxSourceFilter::IsFormatSupported(const GUID *pFormat){
 	ASSERT(pFormat != NULL);
 	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
-		//debugLog<<"IsFormatSupported	: TRUE"<<endl;
+		debugLog<<"IsFormatSupported	: TRUE"<<endl;
 		return S_OK;
 	} else {
-		//debugLog<<"IsFormatSupported	: FALSE !!!"<<endl;
+		debugLog<<"IsFormatSupported	: FALSE !!!"<<endl;
 		return S_FALSE;
 	}
 	
 	
 }
 STDMETHODIMP OggDemuxSourceFilter::QueryPreferredFormat(GUID *pFormat){
-	//debugLog<<"QueryPrefferedTimeFormat	: MEDIA TIME"<<endl;
+	debugLog<<"QueryPrefferedTimeFormat	: MEDIA TIME"<<endl;
 	*pFormat = TIME_FORMAT_MEDIA_TIME;
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::SetTimeFormat(const GUID *pFormat){
-	//debugLog<<"SetTimeForamt : NOT IMPL"<<endl;
+	debugLog<<"SetTimeForamt : NOT IMPL"<<endl;
 	return E_NOTIMPL;
 }
 STDMETHODIMP OggDemuxSourceFilter::GetTimeFormat( GUID *pFormat){
@@ -274,30 +274,32 @@ STDMETHODIMP OggDemuxSourceFilter::GetTimeFormat( GUID *pFormat){
 STDMETHODIMP OggDemuxSourceFilter::GetStopPosition(LONGLONG *pStop){
 	if (mSeekTable->enabled())  {
 
-		//debugLog<<"GetStopPos = " << mSeekTable->fileDuration()<<" ds units"<<endl;
+		debugLog<<"GetStopPos = " << mSeekTable->fileDuration()<<" ds units"<<endl;
 		*pStop = mSeekTable->fileDuration();
 		return S_OK;
 	} else {
+		debugLog<<"GetStopPos NOT IMPL"<<endl;
 		return E_NOTIMPL;
 	}
 }
 STDMETHODIMP OggDemuxSourceFilter::GetCurrentPosition(LONGLONG *pCurrent){
+	debugLog<<"GetCurrentPos = NOT_IMPL"<<endl;
 	return E_NOTIMPL;
 	//debugLog <<"GetCurrPos = HARD CODED = 6 secs"<< endl;
 	 *pCurrent = 6 * UNITS;
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat){
-	//debugLog<<"ConvertTimeForamt : NOT IMPL"<<endl;
+	debugLog<<"ConvertTimeForamt : NOT IMPL"<<endl;
 	return E_NOTIMPL;
 }
 STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags){
 
 
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"Set Positions"<<endl;
+	debugLog<<"Set Positions"<<endl;
 	if (mSeekTable->enabled())  {
-		//debugLog<<"SetPos : Current = "<<*pCurrent<<" Flags = "<<dwCurrentFlags<<" Stop = "<<*pStop<<" dwStopFlags = "<<dwStopFlags<<endl;
+		debugLog<<"SetPos : Current = "<<*pCurrent<<" Flags = "<<dwCurrentFlags<<" Stop = "<<*pStop<<" dwStopFlags = "<<dwStopFlags<<endl;
 		//debugLog<<"       : Delivering begin flush..."<<endl;
 
 	
@@ -335,7 +337,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			//debugLog<<"       : Delivering End Flush..."<<endl;
 			DeliverEndFlush();
 			//debugLog<<"       : End flush Delviered."<<endl;
-			DeliverNewSegment(*pCurrent, *pCurrent + mSeekTable->fileDuration(), 1.0);
+			DeliverNewSegment(*pCurrent, mSeekTable->fileDuration(), 1.0);
 		}
 
 	
@@ -378,17 +380,25 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop){
+	debugLog<<"Getpos : Not IMPL"<<endl;
 	//debugLog<<"GetPos : Current = HARDCODED 2 secs , Stop = "<<mSeekTable->fileDuration()/UNITS <<" secs."<<endl;
+	return E_NOTIMPL;
 	*pCurrent = 2 * UNITS;
 	*pStop = mSeekTable->fileDuration();
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest){
 	//debugLog<<"****GetAvailable : NOT IMPL"<<endl;
-	return E_NOTIMPL;
+	if (mSeekTable->enabled())  {
+		debugLog<<"Get Avail ok"<<endl;
+		*pEarliest = 0;
+		*pLatest = mSeekTable->fileDuration();
+	} else {
+		return E_NOTIMPL;
+	}
 }
 STDMETHODIMP OggDemuxSourceFilter::SetRate(double dRate){
-	//debugLog<<"Set RATE : NOT IMPL"<<endl;
+	debugLog<<"Set RATE : NOT IMPL"<<endl;
 	return E_NOTIMPL;
 	//debugLog<<"SetRate : "<<dRate<<endl;
 	return S_OK;;
@@ -396,7 +406,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetRate(double dRate){
 STDMETHODIMP OggDemuxSourceFilter::GetRate(double *dRate){
 	//debugLog<<"Get RATE : Not IMPL"<<endl;
 	//return E_NOTIMPL;
-	//debugLog <<"GetRate : Hard coded to 1.0"<<endl;
+	debugLog <<"GetRate : Hard coded to 1.0"<<endl;
 	*dRate = 1.0;
 	return S_OK;;
 }
@@ -404,15 +414,15 @@ STDMETHODIMP OggDemuxSourceFilter::GetPreroll(LONGLONG *pllPreroll){
 	//debugLog<<"Get Preroll : NOT IMPL"<<endl;
 	//return E_NOTIMPL;
 	*pllPreroll = 0;
-	//debugLog<<"GetPreroll : HARD CODED TO 0"<<endl;
+	debugLog<<"GetPreroll : HARD CODED TO 0"<<endl;
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::IsUsingTimeFormat(const GUID *pFormat){
 	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
-		//debugLog<<"IsUsingTimeFormat : MEDIA TIME TRUE"<<endl;
+		debugLog<<"IsUsingTimeFormat : MEDIA TIME TRUE"<<endl;
 		return S_OK;
 	} else {
-		//debugLog<<"IsUsingTimeFormat : MEDIA TIME FALSE !!!!"<<endl;
+		debugLog<<"IsUsingTimeFormat : MEDIA TIME FALSE !!!!"<<endl;
 		return S_FALSE;
 	}
 	
