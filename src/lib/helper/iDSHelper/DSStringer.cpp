@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\dsstringer.h"
 #include "StringHelper.h"
 string DSStringer::GUID2String(const GUID* inGUID) {

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\DNFileComments.h"
 #using <mscorlib.dll>
 

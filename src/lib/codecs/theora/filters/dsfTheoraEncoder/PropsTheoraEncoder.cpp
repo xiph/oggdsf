@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "propstheoraencoder.h"
 
 PropsTheoraEncoder::PropsTheoraEncoder(LPUNKNOWN inUnk, HRESULT* outHR)

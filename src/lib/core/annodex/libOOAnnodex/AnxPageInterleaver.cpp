@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\anxpageinterleaver.h"
 
 AnxPageInterleaver::AnxPageInterleaver(unsigned long inVersionMajor, unsigned long inVersionMinor)

@@ -30,7 +30,7 @@
 //===========================================================================
 
 //Include Files
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "SpeexDecodeFilter.h"
 
 

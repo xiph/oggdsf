@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "flacdecodeoutputpin.h"
 
 FLACDecodeOutputPin::FLACDecodeOutputPin(FLACDecodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)

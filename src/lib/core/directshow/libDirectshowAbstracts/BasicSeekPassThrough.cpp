@@ -32,7 +32,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "BasicSeekPassThrough.h"
 
 BasicSeekPassThrough::BasicSeekPassThrough(IMediaSeeking* inDelegate)

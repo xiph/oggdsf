@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 //#include ".\httpoggseeking.h"
 //
 //HTTPOggSeeking::HTTPOggSeeking(CachedHTTPFileSource* inDataSource)

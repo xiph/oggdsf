@@ -29,11 +29,11 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "vorbisdecodefilter.h"
 
 //Include Files
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "VorbisDecodeFilter.h"
 
 //COM Factory Template
@@ -127,11 +127,11 @@ void VorbisDecodeFilter::setVorbisFormat(sVorbisFormatBlock* inFormatBlock)
 
 //Old imp
 //******************************************************************
-//#include "StdAfx.h"
+//#include "stdafx.h"
 //#include "vorbisdecodefilter.h"
 //
 ////Include Files
-//#include "StdAfx.h"
+//#include "stdafx.h"
 //#include "VorbisDecodeFilter.h"
 //
 ////COM Factory Template

@@ -30,7 +30,7 @@
 //===========================================================================
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "subtitledllstuff.h"
 
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);

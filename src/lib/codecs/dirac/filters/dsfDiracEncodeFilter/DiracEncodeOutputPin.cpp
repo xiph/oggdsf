@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Diracencodeoutputpin.h"
 
 DiracEncodeOutputPin::DiracEncodeOutputPin(DiracEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)

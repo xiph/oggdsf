@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 
 #include "VorbisDecodeInputPin.h"
 
@@ -243,7 +243,7 @@ HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 
 //Old imp
 //*************************************************
-//#include "StdAfx.h"
+//#include "stdafx.h"
 //
 //#include "VorbisDecodeInputPin.h"
 //

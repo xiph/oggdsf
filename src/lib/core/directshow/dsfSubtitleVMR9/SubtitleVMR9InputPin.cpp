@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "subtitlevmr9inputpin.h"
 
 SubtitleVMR9InputPin::SubtitleVMR9InputPin(SubtitleVMR9Filter* inParentFilter, HRESULT* inHR, LPCWSTR inPinName)

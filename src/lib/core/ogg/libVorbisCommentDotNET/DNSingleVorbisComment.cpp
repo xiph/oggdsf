@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\DNsinglevorbiscomment.h"
 #using <mscorlib.dll>
 

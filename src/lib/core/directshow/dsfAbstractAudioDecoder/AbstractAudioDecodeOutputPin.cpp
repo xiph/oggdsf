@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "abstractaudiodecodeoutputpin.h"
 
 AbstractAudioDecodeOutputPin::AbstractAudioDecodeOutputPin(AbstractAudioDecodeFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName)

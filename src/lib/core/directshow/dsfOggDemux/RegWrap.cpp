@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "regwrap.h"
 
 RegWrap::RegWrap(void)

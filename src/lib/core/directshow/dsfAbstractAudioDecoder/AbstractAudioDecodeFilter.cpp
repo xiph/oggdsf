@@ -34,7 +34,7 @@
 //
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "abstractaudiodecodefilter.h"
 
 //Constructors

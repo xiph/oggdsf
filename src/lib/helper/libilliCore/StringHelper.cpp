@@ -29,8 +29,8 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
-#include "stringhelper.h"
+#include "stdafx.h"
+#include "StringHelper.h"
 
 StringHelper::StringHelper(void)
 {

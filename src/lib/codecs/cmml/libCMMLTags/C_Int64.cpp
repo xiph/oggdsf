@@ -31,7 +31,7 @@
    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\c_int64.h"
 
 C_Int64::C_Int64(void)

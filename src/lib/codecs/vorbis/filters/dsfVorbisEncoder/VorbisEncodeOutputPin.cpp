@@ -30,7 +30,7 @@
 //===========================================================================
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "VorbisEncodeOutputPin.h"
 
 VorbisEncodeOutputPin::VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
@@ -70,7 +70,7 @@ HRESULT VorbisEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaTyp
 
 //Old imp
 //*********************************************
-//#include "StdAfx.h"
+//#include "stdafx.h"
 //#include "vorbisencodeoutputpin.h"
 //
 //VorbisEncodeOutputPin::VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)

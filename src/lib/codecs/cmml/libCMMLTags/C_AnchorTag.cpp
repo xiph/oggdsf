@@ -33,7 +33,7 @@
 */
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\c_anchortag.h"
 
 //Constructors

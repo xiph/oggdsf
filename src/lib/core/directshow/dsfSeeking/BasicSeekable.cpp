@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\basicseekable.h"
 
 BasicSeekable::BasicSeekable(IMediaSeeking* inDelegate)

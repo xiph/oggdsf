@@ -32,7 +32,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\c_basetag.h"
 
 C_BaseTag::C_BaseTag(void)

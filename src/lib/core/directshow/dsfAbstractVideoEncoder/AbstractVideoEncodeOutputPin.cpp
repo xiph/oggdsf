@@ -28,7 +28,7 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "abstractvideoencodeoutputpin.h"
 
 AbstractVideoEncodeOutputPin::AbstractVideoEncodeOutputPin(AbstractVideoEncodeFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, CMediaType* inOutputMediaType)

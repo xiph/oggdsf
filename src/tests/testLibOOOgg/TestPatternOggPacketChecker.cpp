@@ -1,5 +1,5 @@
-#include "StdAfx.h"
-#include ".\testpatternoggpacketchecker.h"
+#include "stdafx.h"
+#include ".\testpatternOggPacket.hecker.h"
 
 TestPatternOggPacketChecker::TestPatternOggPacketChecker(void)
 {

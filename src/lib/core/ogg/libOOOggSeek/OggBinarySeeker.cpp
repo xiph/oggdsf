@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "oggbinaryseeker.h"
 
 OggBinarySeeker::OggBinarySeeker(void)

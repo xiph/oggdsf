@@ -31,7 +31,7 @@
 
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "VorbisEncodeInputPin.h"
 
 VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
@@ -184,7 +184,7 @@ HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 
 //Old impl
 //************************************
-//#include "StdAfx.h"
+//#include "stdafx.h"
 //#include "vorbisencodeinputpin.h"
 //
 //VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)

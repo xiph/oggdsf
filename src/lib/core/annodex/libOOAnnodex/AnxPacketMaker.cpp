@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\anxpacketmaker.h"
 
 AnxPacketMaker::AnxPacketMaker(void)

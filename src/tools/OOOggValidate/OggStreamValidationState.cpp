@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "oggstreamvalidationstate.h"
 
 OggStreamValidationState::OggStreamValidationState(void)

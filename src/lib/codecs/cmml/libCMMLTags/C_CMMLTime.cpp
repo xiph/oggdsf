@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\c_cmmltime.h"
 
 C_CMMLTime::C_CMMLTime(void)

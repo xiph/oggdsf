@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "oggdemuxfilter.h"
 
 OggDemuxFilter::OggDemuxFilter(void)

@@ -31,7 +31,7 @@
    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include "StdAfx.h"
+#include "stdafx.h"
 #include ".\c_mappedtaglist.h"
 
 C_MappedTagList::C_MappedTagList(void)

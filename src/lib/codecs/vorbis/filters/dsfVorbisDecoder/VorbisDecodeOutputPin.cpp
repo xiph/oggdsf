@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Vorbisdecodeoutputpin.h"
 
 VorbisDecodeOutputPin::VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
@@ -77,7 +77,7 @@ HRESULT VorbisDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaTyp
 
 //Old imp
 //****************************************************
-//#include "StdAfx.h"
+//#include "stdafx.h"
 //#include "Vorbisdecodeoutputpin.h"
 //
 //VorbisDecodeOutputPin::VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock)
