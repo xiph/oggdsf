@@ -156,8 +156,8 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 			
 		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(), "\001video\000\000\000", 9)) == 0) {
 			//FFDSHOW
-			__int64 locTimePerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 17);
-			__int64 locSamplesPerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 25);
+			LOOG_INT64 locTimePerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 17);
+			LOOG_INT64 locSamplesPerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 25);
 
 			mSampleRate = (10000000 / locTimePerBlock) * locSamplesPerBlock;
 			mFoundStreamInfo = true;
@@ -191,7 +191,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 		mLastIsSeekable = true;
 		
 		if (isTheora) {
-			unsigned long locMod = (unsigned long)pow(2, mGranulePosShift);
+			unsigned long locMod = (unsigned long)pow((double) 2, (double) mGranulePosShift);
 			unsigned long locInterFrameNo = ((inOggPage->header()->GranulePos()) % locMod);
 			
 			//if (locInterFrameNo == 0) {
@@ -242,7 +242,7 @@ bool AutoOggSeekTable::serialiseInto(unsigned char* inBuff, unsigned long inBuff
 	}
 }
 
-__int64 AutoOggSeekTable::fileDuration() {
+LOOG_INT64 AutoOggSeekTable::fileDuration() {
 	return mFileDuration;
 }
 bool AutoOggSeekTable::buildTable() {

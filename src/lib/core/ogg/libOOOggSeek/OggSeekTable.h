@@ -30,6 +30,7 @@
 //===========================================================================
 
 #pragma once
+#include "libillicore.h"
 #include "libOOOggSeek.h"
 #include <fstream>
 #include <map>
@@ -41,20 +42,20 @@ public:
 	OggSeekTable(void);
 	virtual ~OggSeekTable(void);
 
-	typedef pair<__int64, unsigned long> tSeekPair;
+	typedef pair<LOOG_INT64, unsigned long> tSeekPair;
 
-	bool addSeekPoint(__int64 inTime, unsigned long mStartPos);
-	tSeekPair getStartPos(__int64 inTime);
-	__int64 getRealStartPos();
+	bool addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos);
+	tSeekPair getStartPos(LOOG_INT64 inTime);
+	LOOG_INT64 getRealStartPos();
 
 	bool enabled();
 
 
 protected:
-	typedef map<__int64, unsigned long> tSeekMap;
+	typedef map<LOOG_INT64, unsigned long> tSeekMap;
 	tSeekMap mSeekMap;
 	tSeekMap::value_type mSeekValue;
-	__int64 mRealStartPos;
+	LOOG_INT64 mRealStartPos;
 
 	//fstream stDebug;
 	bool mEnabled;

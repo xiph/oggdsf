@@ -48,15 +48,15 @@ public:
 	AutoOggSeekTable(string inFileName);
 	virtual ~AutoOggSeekTable(void);
 
-	static const __int64 DS_UNITS = 10000000;
-	static const LINT_MAX = 4294967295;
+	static const LOOG_INT64 DS_UNITS = 10000000;
+	static const unsigned long LINT_MAX = 4294967295UL;
 
 	virtual bool buildTable();
 
 	//IOggCallback interface
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
-	__int64 fileDuration();
+	LOOG_INT64 fileDuration();
 
 	unsigned long serialisedSize();
 	bool serialiseInto(unsigned char* inBuff, unsigned long inBuffSize);
@@ -74,8 +74,8 @@ protected:
 	bool isFLAC;
 	bool isOggFLAC_1_0;
 	bool mFoundStreamInfo;
-	__int64 mLastSeekTime;
-	__int64 mFileDuration;
+	LOOG_INT64 mLastSeekTime;
+	LOOG_INT64 mFileDuration;
 	fstream mFile;
 	string mFileName;
 	//Changed for debugging to *

@@ -31,13 +31,15 @@
 
 #pragma once
 
+#include "libillicore.h"
+
 class OggSeekPoint
 {
 public:
 	OggSeekPoint(void);
 	~OggSeekPoint(void);
 
-	__int64 mTime;
+	LOOG_INT64 mTime;
 	unsigned long mStartPos;
 
 protected:

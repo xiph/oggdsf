@@ -49,7 +49,7 @@ OggSeekTable::~OggSeekTable(void)
 bool OggSeekTable::enabled() {
 	return mEnabled;
 }
-bool OggSeekTable::addSeekPoint(__int64 inTime, unsigned long mStartPos) {
+bool OggSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos) {
 	//stDebug<< "Add Point :  Time = "<<inTime<<"   --   Byte Pos : "<<mStartPos<<endl;
 	mSeekMap.insert(tSeekMap::value_type(inTime, mStartPos));
 
@@ -57,12 +57,12 @@ bool OggSeekTable::addSeekPoint(__int64 inTime, unsigned long mStartPos) {
 
 }
 
-__int64 OggSeekTable::getRealStartPos() {
+LOOG_INT64 OggSeekTable::getRealStartPos() {
 	
 	return mRealStartPos;
 
 }
-OggSeekTable::tSeekPair OggSeekTable::getStartPos(__int64 inTime) {
+OggSeekTable::tSeekPair OggSeekTable::getStartPos(LOOG_INT64 inTime) {
 	 return *(mSeekMap.lower_bound(inTime));
 	 //mRealStartPos = locValue.first;
 	 //stDebug<<"Get Point : Time Req = "<<inTime<<"   --   Time Given = "<<mRealStartPos<<"   --   Byte Pos : "<<locValue.second<<endl;

@@ -9,7 +9,11 @@
 #include <fstream>
 using namespace std;
 
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int argc, char * argv[])
+#endif
 {
 
 	if (argc < 2) {

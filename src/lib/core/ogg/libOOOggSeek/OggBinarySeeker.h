@@ -8,5 +8,5 @@ public:
 	OggBinarySeeker(void);
 	virtual ~OggBinarySeeker(void);
 
-	tSeekPair getStartPos(__int64 inTime);
+	tSeekPair getStartPos(LOOG_INT64 inTime);
 };

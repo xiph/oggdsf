@@ -7,6 +7,7 @@
 
 
 #include <iostream>
-#include <tchar.h>
 
-// TODO: reference additional headers your program requires here
+#ifdef WIN32
+# include <tchar.h>
+#endif
