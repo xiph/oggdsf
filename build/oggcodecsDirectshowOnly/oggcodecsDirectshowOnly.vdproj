@@ -76,12 +76,6 @@
         "Entry"
         {
         "MsmKey" = "8:_41807F1874C64B7BA370CCEAEA74C40C"
-        "OwnerKey" = "8:_FDDE084CB76E4674BEB30DB848B24C45"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41807F1874C64B7BA370CCEAEA74C40C"
         "OwnerKey" = "8:_F328FE4E1A7D440DA37A601EB6761327"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -375,12 +369,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FDDE084CB76E4674BEB30DB848B24C45"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_FE3019A7F5454B14B0D9B353E4979EE9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -539,7 +527,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecsDirectshowOnly"
         "ProductCode" = "8:{2632112F-CA05-48E3-945C-EDA82A2C4571}"
-        "PackageCode" = "8:{C3D504CB-E872-4EEE-BF05-37CCD9C1677B}"
+        "PackageCode" = "8:{BE6E127E-3F4F-4644-B835-0DBC42C4E24A}"
         "UpgradeCode" = "8:{6E213BCD-E4BB-421B-A35E-411F4142E827}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -1650,34 +1638,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{6B20BD7A-644B-4087-9CAC-71B2D68D0231}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_FDDE084CB76E4674BEB30DB848B24C45"
-            {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libtheora\\win32\\libtheora\\Release\\libtheora.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_42767C07C226490A82DDFB8406FC3CE4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{2394BCBD-BAE8-443F-A65C-6BFDDD42D7CA}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

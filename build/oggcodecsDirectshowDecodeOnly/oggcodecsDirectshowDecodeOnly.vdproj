@@ -81,12 +81,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D0D8DDB857534AFCBE294BD5E8B2EA48"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_D5F1F21AEE5342D4A33CDA236CF8DA17"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -107,12 +101,6 @@
         {
         "MsmKey" = "8:_DB96D94096994B318F57D9195527B926"
         "OwnerKey" = "8:_44AD2291642745D2BB2532256BE18BD6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DB96D94096994B318F57D9195527B926"
-        "OwnerKey" = "8:_D0D8DDB857534AFCBE294BD5E8B2EA48"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1194,34 +1182,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{A3BFBA6A-9B45-44C3-8FB0-A16FA2D9E487}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_D0D8DDB857534AFCBE294BD5E8B2EA48"
-            {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libtheora\\win32\\libtheora\\Release\\libtheora.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_750D5E929B7E43B2BA1A512EC03A125A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{2394BCBD-BAE8-443F-A65C-6BFDDD42D7CA}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
