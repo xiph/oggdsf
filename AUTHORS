@@ -16,6 +16,14 @@
 	Andre Pang <Andre.Pang@csiro.au>
 		- Mac OS X and UNIX porting.
 ==============================================================
+*** CMMLDump
+
+	Zentaro Kavanagh <ogg@illiminable.com>
+		- Design and coding.
+
+	Andre Pang <Andre.Pang@csiro.au>
+		- Design and coding.
+==============================================================
 *** AnxCutter
 *** axAnxOggPlayer
 *** CLOgg

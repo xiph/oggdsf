@@ -167,6 +167,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *** libWinCMMLParse
 *** dsfCMMLDecoder
 *** dsfAnxDemux
+*** CMMLDump
 
 Copyright (C) 2003, 2004 Zentaro Kavanagh
 

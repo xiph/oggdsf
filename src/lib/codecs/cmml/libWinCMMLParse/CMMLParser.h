@@ -34,7 +34,10 @@
 
 #pragma once
 
+#include <libWinCMMLParse/libWinCMMLParse.h>
+
 #include <string>
+
 #include <libCMMLTags/libCMMLTags.h>
 
 #import <msxml3.dll> raw_interfaces_only

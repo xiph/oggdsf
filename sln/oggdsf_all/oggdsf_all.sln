@@ -1017,6 +1017,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testliboggzSpeed1", "..\..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libFLACHelper", "..\..\src\lib\codecs\flac\libs\libFLACHelper\libFLACHelper.vcproj", "{7F213248-16F2-4AAE-B941-C402670082BC}"
 	ProjectSection(ProjectDependencies) = postProject
+		{A0004AEB-B47C-4A0A-8FE7-4F65B5FD48FA} = {A0004AEB-B47C-4A0A-8FE7-4F65B5FD48FA}
 	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DotNETOggTools", "..\..\build\DotNETOggTools\DotNETOggTools.vdproj", "{16474157-607B-483C-8C31-2EB9ED724AD1}"
@@ -1101,6 +1102,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggSeekFileQuery", "..\..
 	ProjectSection(ProjectDependencies) = postProject
 		{9A14F6AC-BC6E-401A-A300-07369BD6C5FE} = {9A14F6AC-BC6E-401A-A300-07369BD6C5FE}
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CMMLDump", "..\..\src\tools\CMMLDump\CMMLDump.vcproj", "{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}"
+	ProjectSection(ProjectDependencies) = postProject
+		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
 	EndProjectSection
 EndProject
 Global
@@ -2222,6 +2228,22 @@ Global
 		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_SSE.Build.0 = Release|Win32
 		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_SSE2.ActiveCfg = Release|Win32
 		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_SSE2.Build.0 = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Debug.ActiveCfg = Debug|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Debug.Build.0 = Debug|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Debug Unicode.ActiveCfg = Debug|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Debug Unicode.Build.0 = Debug|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.MakeFile.ActiveCfg = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.MakeFile.Build.0 = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release.ActiveCfg = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release.Build.0 = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release Unicode.ActiveCfg = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release Unicode.Build.0 = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release_NoDotNET.Build.0 = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release_SSE.ActiveCfg = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release_SSE.Build.0 = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release_SSE2.ActiveCfg = Release|Win32
+		{3A7DAD80-4C79-48FB-B779-8CEA4EE9CF90}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
