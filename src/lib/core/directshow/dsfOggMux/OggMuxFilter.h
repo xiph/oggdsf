@@ -77,13 +77,16 @@ public:
 	STDMETHODIMP Pause(void);
 	STDMETHODIMP Stop(void);
 
+	//Helpers
+	STDMETHODIMP addAnotherPin();
+
 protected:
 
 	bool SetupOutput();
 	bool CloseOutput();
 
 	wstring mFileName;
-	OggMuxInputPin* mInputPin;
+	vector<OggMuxInputPin*> mInputPins;
 
 	fstream mOutputFile;
 	fstream debugLog;

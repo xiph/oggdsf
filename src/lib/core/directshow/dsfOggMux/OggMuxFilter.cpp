@@ -91,7 +91,7 @@ OggMuxFilter::OggMuxFilter()
 {
 	//LEAK CHECK:::Both get deleted in constructor.
 	m_pLock = new CCritSec;
-	mInputPin = new OggMuxInputPin(this, m_pLock, &mHR);
+	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR));
 	debugLog.open("C:\\temp\\muxer.log", ios_base::out);
 	
 }
@@ -102,6 +102,7 @@ OggMuxFilter::~OggMuxFilter(void)
 	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
 	delete m_pLock;
 	
+	//Need to delete the pins !!
 
 	
 	//if (ThreadExists() == TRUE) {
@@ -109,6 +110,11 @@ OggMuxFilter::~OggMuxFilter(void)
 	//	Close();
 	//}
 
+}
+
+STDMETHODIMP OggMuxFilter::addAnotherPin() {
+	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR));
+	return S_OK;
 }
 
 	//IFileSinkFilter Implementation
@@ -168,12 +174,14 @@ bool OggMuxFilter::CloseOutput() {
 //BaseFilter Interface
 int OggMuxFilter::GetPinCount() {
 	//TO DO::: Change this for multiple streams
-	return 1;
+	return mInputPins.size();
 }
 CBasePin* OggMuxFilter::GetPin(int inPinNo) {
 
-	if (inPinNo == 0) {
-		return mInputPin;
+	if ((inPinNo < mInputPins.size()) && (inPinNo >= 0)) {
+		return mInputPins[inPinNo];
+	} else {
+		return NULL;
 	}
 	//if (inPinNo >= 0 && inPinNo < mStreamMapper->numStreams()) {
 	//	return mStreamMapper->getOggStream(inPinNo)->getPin();

@@ -61,6 +61,9 @@ public:
 	//virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	//virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 	virtual STDMETHODIMP EndOfStream(void);
+	virtual HRESULT CompleteConnect(IPin* inReceivePin);
+
+
 	//virtual HRESULT DeliverEndFlush(void);
 	//virtual HRESULT DeliverBeginFlush(void);
 

@@ -111,6 +111,9 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	return S_OK;
 }
 
+HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
+	return mParentFilter->addAnotherPin();
+}
 STDMETHODIMP OggMuxInputPin::EndOfStream(void) {
 	mPaginator.finishStream();
 	HRESULT locHR = mParentFilter->NotifyEvent(EC_COMPLETE, S_OK, NULL);
