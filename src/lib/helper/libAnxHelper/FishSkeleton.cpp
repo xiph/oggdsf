@@ -153,7 +153,7 @@ bool FishSkeleton::setChecksum(OggPage* inOggPage)
 
 StampedOggPacket* FishSkeleton::makeCMMLBOS()
 {
-	const unsigned short CMML_BOS_SIZE = 28;
+	const unsigned short CMML_BOS_SIZE = 29;
 	unsigned char* locPackBuff = new unsigned char[CMML_BOS_SIZE];
 	locPackBuff[0] = 'C';
 	locPackBuff[1] = 'M';
@@ -171,8 +171,7 @@ StampedOggPacket* FishSkeleton::makeCMMLBOS()
 	iLE_Math::Int64ToCharArr(locInt64, locPackBuff + 12);
 	locInt64 = 1;
 	iLE_Math::Int64ToCharArr(locInt64, locPackBuff + 20);
-
-
+	locPackBuff[28] = 0;  // Granule shift
 
 	StampedOggPacket* locPacket = new StampedOggPacket(locPackBuff, CMML_BOS_SIZE, false, false, 0, 0, StampedOggPacket::OGG_BOTH);
 	return locPacket;
