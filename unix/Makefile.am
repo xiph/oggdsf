@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS = foreign
 
 AM_CXXFLAGS = -w
 
-bin_PROGRAMS = OOOggDump OOOggValidate OOOggStat OOOggChainSplitter
+bin_PROGRAMS = OOOggDump OOOggValidate OOOggStat OOOggChainSplitter OOOggCommentDump
 
 lib_LTLIBRARIES = libOOOgg.la libVorbisComment.la
 
@@ -55,4 +55,8 @@ OOOggStat_SOURCES = \
 OOOggChainSplitter_LDADD = libOOOgg.la libVorbisComment.la
 OOOggChainSplitter_SOURCES = \
 	../src/tools/oggChainSplitter/oggChainSplitter.cpp
+
+OOOggCommentDump_LDADD = libOOOgg.la libVorbisComment.la
+OOOggCommentDump_SOURCES = \
+	../src/tools/OOOggCommentDump/OOOggCommentDump.cpp
 
