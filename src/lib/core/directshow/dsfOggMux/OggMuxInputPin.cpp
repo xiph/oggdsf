@@ -310,7 +310,7 @@ HRESULT OggMuxInputPin::BreakConnect()
 
 
 STDMETHODIMP OggMuxInputPin::EndOfStream(void) {
-	
+	CAutoLock locLock(mParentFilter->mStreamLock);
 	mPaginator.finishStream();
 	mMuxStream->setIsEOS(true);
 	

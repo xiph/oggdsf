@@ -66,7 +66,11 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	static CUnknown * WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//IAMFilterMiscFlags Implementation
+	// *********************************************
+	// ***** IAMFilterMiscFlags Implementation *****
+	// *********************************************
+
+	/// Allows the filter to return a flag to tell the graph it's a renderer.
 	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
 
 	// ***************************************
@@ -109,6 +113,17 @@ public:
 	/// Called when the graph stops
 	STDMETHODIMP Stop(void);
 
+	// ******************************************
+	// ***** IOggMuxProgress Implementation *****
+	// ******************************************
+
+	/// Returns the time in 100 nanosecond units of the last page that was written.
+	virtual STDMETHODIMP_(LONGLONG) getProgressTime();
+
+	/// Returns the number of bytes written so far.
+	virtual STDMETHODIMP_(LONGLONG) getBytesWritten();
+
+
 	//Helpers
 	virtual HRESULT addAnotherPin();
 	virtual void NotifyComplete();
@@ -116,12 +131,6 @@ public:
 	//IMediaSeeking Override to give progress. - This is unreliable !!
 	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
 	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
-
-	//IOggMuxProgress Implementation
-	virtual STDMETHODIMP_(LONGLONG) getProgressTime();
-	virtual STDMETHODIMP_(LONGLONG) getBytesWritten();
-
-
 protected:
 
 	bool SetupOutput();
