@@ -53,7 +53,7 @@ void error_write(short int inErrNo, OggPage* inOggPage, OggStreamValidationState
 
 		//Process errors
 		case OggDataBuffer::PROCESS_FAILED_TO_SET_HEADER:
-			locErrorString = "Could not find ogg page.";
+			locErrorString = "Lost Sync.";
 			break;
 		default:
 			locErrorString = "Unnamed Error"; 

@@ -181,6 +181,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 
 		if(mStream.fail()) {
 			debugLog<<"ProcessBaseHeader : File Read FAILED"<<endl;
+			delete locBuff;
 			return PROCESS_STREAM_READ_ERROR;
 		}
 
