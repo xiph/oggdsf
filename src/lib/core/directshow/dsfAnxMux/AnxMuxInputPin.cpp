@@ -82,6 +82,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
 		//debugLog<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
 		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
+		mMuxStream->setNumHeaders(3);
 		mPaginator.setNumHeaders(3);
 
 		locWasOK = true;
@@ -96,6 +97,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 			sVorbisFormatBlock* locVorbis = (sVorbisFormatBlock*)inMediaType->pbFormat;
 			//debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
 			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
+			mMuxStream->setNumHeaders(3);
 			mPaginator.setNumHeaders(3);
 
 			locWasOK = true;
@@ -110,6 +112,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 			//Speex
 			sSpeexFormatBlock* locSpeex = (sSpeexFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
+			mMuxStream->setNumHeaders(2);
 			mPaginator.setNumHeaders(2);
 
 
@@ -144,6 +147,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 			//CMML
 			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locCMML->granuleNumerator, locCMML->granuleDenominator, 10000000);
+			mPaginator.setNumHeaders(1);
 			mPaginator.setNumHeaders(1);
 
 

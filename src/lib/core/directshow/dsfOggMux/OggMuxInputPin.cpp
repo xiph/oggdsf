@@ -91,6 +91,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 		//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
 		//debugLog<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
 		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
+		mMuxStream->setNumHeaders(3);
 		mPaginator.setNumHeaders(3);
 	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
@@ -98,12 +99,14 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			sVorbisFormatBlock* locVorbis = (sVorbisFormatBlock*)inMediaType->pbFormat;
 			//debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
 			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
+			mMuxStream->setNumHeaders(3);
 			mPaginator.setNumHeaders(3);
 			
 		} else if (inMediaType->subtype == MEDIASUBTYPE_Speex) {
 			//Speex
 			sSpeexFormatBlock* locSpeex = (sSpeexFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
+			mMuxStream->setNumHeaders(2);
 			mPaginator.setNumHeaders(2);
 		} else if (inMediaType->subtype == MEDIASUBTYPE_OggFLAC_1_0) {
 			//We are connected to the encoder nd getting individual metadata packets.
@@ -126,6 +129,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 		if (inMediaType->subtype == MEDIASUBTYPE_CMML) {
 			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locCMML->granuleNumerator,locCMML->granuleDenominator, 10000000);
+			mMuxStream->setNumHeaders(1);
 			mPaginator.setNumHeaders(1);
 
 		}
