@@ -1202,8 +1202,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DecodeDirac", "..\..\src\li
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracCommon", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracCommon\DiracCommon.vcproj", "{A45B7D48-9E8D-4475-BED4-CBE3E3CCAD21}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
@@ -1222,8 +1226,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracDecoder", "..\..\src\l
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracEncoder", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracEncoder\DiracEncoder.vcproj", "{9076B578-583A-493D-96C4-776DCEC0FFBD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
@@ -1242,8 +1250,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracMotionEst", "..\..\src
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EncodeDirac", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\EncodeDirac\EncodeDirac.vcproj", "{547FE1E9-70EF-48D4-B45B-2FF39B39855D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
@@ -1288,6 +1300,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AnxCutter", "..\..\src\tool
 	ProjectSection(ProjectDependencies) = postProject
 		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggSeekFileMaker", "..\..\src\tools\OOOggSeekFileMaker\OOOggSeekFileMaker.vcproj", "{777D44B3-6690-4C25-B4CC-F5CD4579E932}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9A14F6AC-BC6E-401A-A300-07369BD6C5FE} = {9A14F6AC-BC6E-401A-A300-07369BD6C5FE}
 	EndProjectSection
 EndProject
 Global
@@ -2593,6 +2610,22 @@ Global
 		{D50F8622-3E33-4EFC-8961-0FB7641F884B}.Release_SSE.Build.0 = Release|Win32
 		{D50F8622-3E33-4EFC-8961-0FB7641F884B}.Release_SSE2.ActiveCfg = Release|Win32
 		{D50F8622-3E33-4EFC-8961-0FB7641F884B}.Release_SSE2.Build.0 = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Debug.ActiveCfg = Debug|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Debug.Build.0 = Debug|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Debug Unicode.ActiveCfg = Debug|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Debug Unicode.Build.0 = Debug|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.MakeFile.ActiveCfg = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.MakeFile.Build.0 = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release.ActiveCfg = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release.Build.0 = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release Unicode.ActiveCfg = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release Unicode.Build.0 = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release_NoDotNET.Build.0 = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release_SSE.ActiveCfg = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release_SSE.Build.0 = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release_SSE2.ActiveCfg = Release|Win32
+		{777D44B3-6690-4C25-B4CC-F5CD4579E932}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

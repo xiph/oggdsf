@@ -106,7 +106,7 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_950B983745EC40EF9FF08E742A6E9510"
+        "OwnerKey" = "8:_552CD14F82F048BAB6D5AA8F3E3BB79B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -155,6 +155,12 @@
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_AC8962A7F212481095173AB7C8C89025"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_950B983745EC40EF9FF08E742A6E9510"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -273,6 +279,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_552CD14F82F048BAB6D5AA8F3E3BB79B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -322,7 +334,7 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_950B983745EC40EF9FF08E742A6E9510"
+        "OwnerKey" = "8:_552CD14F82F048BAB6D5AA8F3E3BB79B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -389,6 +401,12 @@
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_A5AAB8CB90C548F1820BC101A765616C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_950B983745EC40EF9FF08E742A6E9510"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3445,6 +3463,34 @@
                 {
                 }
             }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_552CD14F82F048BAB6D5AA8F3E3BB79B"
+            {
+            "SourcePath" = "8:..\\..\\src\\tools\\oooggseekfilemaker\\debug\\OOOggSeekFileMaker.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{777D44B3-6690-4C25-B4CC-F5CD4579E932}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
             {
             "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsfTheoraDecoder\\Debug\\dsfTheoraDecoder.dll"
@@ -3727,7 +3773,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_950B983745EC40EF9FF08E742A6E9510"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\anxcutter\\debug\\AnxCutter.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\AnxCutter\\Debug\\AnxCutter.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
