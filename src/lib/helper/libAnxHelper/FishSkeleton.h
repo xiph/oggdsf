@@ -53,12 +53,27 @@ public:
 											);
 
 	static StampedOggPacket* makeFishBone_3_0		(		unsigned __int64 inGranuleRateNum
-														,	unsigned __int64 inGranuleDenom
+														,	unsigned __int64 inGranuleRateDenom
 														,	unsigned __int64 inBaseGranule
 														,	unsigned long inNumSecHeaders
 														,	unsigned long inSerialNo
-														,	unsigned short inGranuleShift
-														,	unsigned char inPreroll
+														,	unsigned char inGranuleShift
+														,	unsigned long inPreroll
 														,	vector<string> inMessageHeaders
 													);
+
+	//static OggPage* makeFishBone_3_0_Page			(		unsigned __int64 inGranuleRateNum
+	//													,	unsigned __int64 inGranuleRateDenom
+	//													,	unsigned __int64 inBaseGranule
+	//													,	unsigned long inNumSecHeaders
+	//													,	unsigned long inSerialNo
+	//													,	unsigned short inGranuleShift
+	//													,	unsigned char inPreroll
+	//													,	vector<string> inMessageHeaders
+	//													,	unsigned long inFishStreamSerial
+	//												);
+
+	static OggPage* makeFishEOS (unsigned long inSerialNo);
+	static OggPage* makeFishBone_3_0_Page			(StampedOggPacket* inFishBonePacket, unsigned long inFishStreamSerial);
+	static StampedOggPacket* makeCMMLBOS();
 };

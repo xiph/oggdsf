@@ -75,7 +75,7 @@ AnxMuxFilter::AnxMuxFilter(void)
 {
 
 	//ANX3::: Need to have a better way to set this.
-	mInterleaver = new AnxPageInterleaver(this, this, mAnxVersionMajor, mAnxVersionMinor);
+	mInterleaver = new AnxPageInterleaver(this, this, mAnxVersionMajor, mAnxVersionMinor, this);
 	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream(), mAnxVersionMajor, mAnxVersionMinor));
 
 

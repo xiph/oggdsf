@@ -34,8 +34,9 @@
 #include "stdafx.h"
 #include ".\anxpageinterleaver.h"
 
-AnxPageInterleaver::AnxPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier, unsigned long inVersionMajor, unsigned long inVersionMinor)
+AnxPageInterleaver::AnxPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier, unsigned long inVersionMajor, unsigned long inVersionMinor, AnxMuxFilter* inParentFilter)
 	:	OggPageInterleaver(inFileWriter, inNotifier)
+	,	mParentFilter(inParentFilter)
 	,	mVersionMajor(inVersionMajor)
 	,	mVersionMinor(inVersionMinor)
 	,	mIsAnxSetup(false)
@@ -141,6 +142,50 @@ bool AnxPageInterleaver::gotAllSecondaryHeaders() {
 
 	return locWasAny && locIsOK;
 }
+
+void AnxPageInterleaver::letsGetFishy()
+{
+	
+	unsigned long locSerialNo = 888;
+	
+	//Make the fishhead
+	unsigned char* locUTC = new unsigned char[20];
+	memset((void*)locUTC, 0, 20);
+	OggPage* locFishHead = FishSkeleton::makeFishHeadBOS_3_0(locSerialNo, mVersionMajor, mVersionMinor, 0,0,0,0,locUTC);
+
+	//Write out the fishHead
+	mFileWriter->acceptOggPage(locFishHead);
+
+	//Write out the BOS pages
+	for (size_t i = 0; i < mInputStreams.size(); i++) {
+		if (mInputStreams[i]->isActive()) {
+			mFileWriter->acceptOggPage(mInputStreams[i]->popFront());
+		}
+	}
+
+	//Write out the fishbones.
+	for (unsigned long i = 0; i < mParentFilter->GetPinCount() - 1; i++) {
+		AnxMuxInputPin* locPin = (AnxMuxInputPin*)mParentFilter->GetPin(i);
+		OggPage* locFishBonePage = FishSkeleton::makeFishBone_3_0_Page(locPin->mFishBonePacket, locSerialNo);
+		mFileWriter->acceptOggPage(locFishBonePage);
+	}
+
+	//Write out all the secondary headers
+	for (size_t stream = 0; stream < mInputStreams.size(); stream++) {
+		if (mInputStreams[stream]->isActive()) {
+			for (unsigned long pack = 1; pack < mInputStreams[stream]->numHeaders(); pack++) {
+				OggPage* locSecHead = mInputStreams[stream]->popFront();
+				mFileWriter->acceptOggPage(locSecHead);
+			}
+		}
+	}
+
+	//Write the fish skeleton EOS
+	mFileWriter->acceptOggPage(FishSkeleton::makeFishEOS(locSerialNo));
+
+
+
+}
 void AnxPageInterleaver::processData()
 {
 	if ((mVersionMajor == 2) && (mVersionMinor == 0)) {
@@ -167,7 +212,7 @@ void AnxPageInterleaver::processData()
 		}
 	} else if ((mVersionMajor == 3) && (mVersionMinor == 0)) {
 		if (!mIsAnxSetup) {
-			if (gotAllHeaders()) {
+			if (gotAllSecondaryHeaders()) {
 				//ANX3::: We need to make sure every stream has all of their headers
 				//
 				//Then we write :
@@ -176,6 +221,8 @@ void AnxPageInterleaver::processData()
 				//Codec 2 BOS
 				//Fishbones...
 				//All other codec secondary headers...
+
+				letsGetFishy();
 
 				mIsAnxSetup = true;
 				//addAnnodex_2_0_BOS();

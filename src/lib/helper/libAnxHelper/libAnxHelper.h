@@ -10,13 +10,3 @@
 #define LIBANXHELPER_API __declspec(dllimport)
 #endif
 
-// This class is exported from the libAnxHelper.dll
-class LIBANXHELPER_API ClibAnxHelper {
-public:
-	ClibAnxHelper(void);
-	// TODO: add your methods here.
-};
-
-extern LIBANXHELPER_API int nlibAnxHelper;
-
-LIBANXHELPER_API int fnlibAnxHelper(void);

@@ -38,6 +38,7 @@ AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterL
 	:	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
 	,	mAnxDataPacket(NULL)
 	,	mFishBonePacket(NULL)
+	,	mExtraPacket(NULL)
 	,	mAnxVersionMajor(inAnxVersionMajor)
 	,	mAnxVersionMinor(inAnxVersionMinor)
 {
@@ -59,10 +60,16 @@ HRESULT AnxMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 	mMuxStream->setIsActive(true);
 
 	HRESULT locHR = mParentFilter->addAnotherPin();
-	if ((locHR == S_OK) && (mAnxDataPacket != NULL)) {
+	if ((locHR == S_OK)) {// && (mAnxDataPacket != NULL)) {
 		//ANX3::: Only do this for anx2... in anx 3 we need to get the fishbone some other way.
-		if ((mAnxVersionMajor == 2) && (mAnxVersionMinor == 0)) {
+		if ((mAnxVersionMajor == 2) && (mAnxVersionMinor == 0) && (mAnxDataPacket != NULL)) {
 			mPaginator.acceptStampedOggPacket(mAnxDataPacket);
+			return S_OK;
+		} else if ((mAnxVersionMajor == 3) && (mAnxVersionMinor == 0) && (mFishBonePacket != NULL)) {
+			//Force in a CMML Packet BOS
+			if (mExtraPacket != NULL) {
+				mPaginator.acceptStampedOggPacket(mExtraPacket);
+			}
 			return S_OK;
 		} else {
 			return S_FALSE;
@@ -81,6 +88,8 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 	unsigned __int64 locGranRateNum = 0;
 	unsigned __int64 locGranRateDenom = 0;
 	unsigned long locNumHeaders = 0;
+	unsigned long locPreroll = 0;
+	unsigned long locGranuleShift = 0;
 	StreamHeaders::eCodecType locCodecID = StreamHeaders::NONE;
 
 	
@@ -94,6 +103,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		mMuxStream->setNumHeaders(3);
 		mPaginator.setNumHeaders(3);
 
+		locGranuleShift = locTheora->maxKeyframeInterval;
 		locWasOK = true;
 		locGranRateNum = locTheora->frameRateNumerator;
 		locGranRateDenom = locTheora->frameRateDenominator;
@@ -113,6 +123,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 			locGranRateNum = locVorbis->samplesPerSec;
 			locGranRateDenom = 1;
 			locNumHeaders = 3;
+			locPreroll = 2;
 
 			locCodecID = StreamHeaders::VORBIS;
 
@@ -156,14 +167,24 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 			//CMML
 			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locCMML->granuleNumerator, locCMML->granuleDenominator, 10000000);
-			mPaginator.setNumHeaders(1);
-			mMuxStream->setNumHeaders(1);
+
+
+			//ANX3::: 1 for anx 2, 2 for anx 3.
+			if ((mAnxVersionMajor == 3) && (mAnxVersionMinor == 0)) {
+				locNumHeaders = 2;
+			} else {
+				locNumHeaders = 1;
+			}
+
+			mPaginator.setNumHeaders(locNumHeaders);
+			mMuxStream->setNumHeaders(locNumHeaders);
 
 
 			locWasOK = true;
 			locGranRateNum = locCMML->granuleNumerator;
 			locGranRateDenom = locCMML->granuleDenominator;
-			locNumHeaders = 1;
+
+
 			locCodecID = StreamHeaders::CMML;			
 		}
 	}
@@ -174,6 +195,13 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		if ((mAnxVersionMajor == 2) && (mAnxVersionMinor == 0)) {
 			//Save the packet, we'll push it into the stream when the connection is established
 			mAnxDataPacket = AnxPacketMaker::makeAnxData_2_0(2, 0, locGranRateNum, locGranRateDenom, locNumHeaders, AnxPacketMaker::makeMessageHeaders(locCodecID));
+		} else if ((mAnxVersionMajor == 3) && (mAnxVersionMinor == 0)) {
+			mFishBonePacket = FishSkeleton::makeFishBone_3_0(locGranRateNum, locGranRateDenom, 0, locNumHeaders, mPaginator.parameters()->mSerialNo, locGranuleShift, locPreroll, AnxPacketMaker::makeMessageHeaders(locCodecID));
+			if (locCodecID == StreamHeaders::CMML) {
+				mExtraPacket = FishSkeleton::makeCMMLBOS();
+			} else {
+				mExtraPacket = NULL;
+			}
 		}
         return S_OK;
 	} else {

@@ -137,6 +137,10 @@ bool OggPaginator::setParameters(OggPaginatorSettings* inSettings) {
 	return true;
 }
 
+OggPaginatorSettings* OggPaginator::parameters() {
+	return mSettings;
+}
+
 //Keeps packet.
 bool OggPaginator::acceptStampedOggPacket(StampedOggPacket* inOggPacket) 
 {		

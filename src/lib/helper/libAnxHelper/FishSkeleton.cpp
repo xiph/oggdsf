@@ -42,6 +42,22 @@ FishSkeleton::FishSkeleton(void)
 FishSkeleton::~FishSkeleton(void)
 {
 }
+
+StampedOggPacket* FishSkeleton::makeCMMLBOS()
+{
+	unsigned char* locPackBuff = new unsigned char[8];
+	locPackBuff[0] = 'C';
+	locPackBuff[1] = 'M';
+	locPackBuff[2] = 'M';
+	locPackBuff[3] = 'L';
+	locPackBuff[4] = 3;
+	locPackBuff[5] = 0;
+	locPackBuff[6] = 0;
+	locPackBuff[7] = 0;
+
+	StampedOggPacket* locPacket = new StampedOggPacket(locPackBuff, 8, false, false, 0, 0, StampedOggPacket::OGG_BOTH);
+	return locPacket;
+}
 OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 												,	unsigned short inVersionMajor
 												,	unsigned short inVersionMinor
@@ -111,13 +127,115 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 	}
 }
 
+OggPage* FishSkeleton::makeFishEOS (unsigned long inSerialNo) {
+	OggPage* retPage = new OggPage();
+	StampedOggPacket* locDudPacket = new StampedOggPacket(NULL, 0, false, false, 0, 0, StampedOggPacket::OGG_BOTH);
+
+
+
+	retPage->header()->setNumPageSegments(1);
+	unsigned char* locSegTable = new unsigned char[1];
+
+	locSegTable[0] = 0;
+	
+
+	retPage->header()->setHeaderFlags(4);
+	retPage->header()->setSegmentTable(locSegTable, 1);
+	retPage->header()->setHeaderSize(28);
+	retPage->header()->setDataSize(0);
+
+	retPage->header()->setStreamSerialNo(inSerialNo);
+	retPage->addPacket(locDudPacket);
+
+	return retPage;
+
+}
+OggPage* FishSkeleton::makeFishBone_3_0_Page (StampedOggPacket* inFishBonePacket, unsigned long inFishStreamSerial)
+{
+			StampedOggPacket* locPack = inFishBonePacket;
+			OggPage* retPage = new OggPage;
+			retPage->header()->setHeaderFlags(0);
+			retPage->header()->setGranulePos((__int64)0);
+			
+			unsigned long locDataSize = locPack->packetSize();
+
+			
+
+			unsigned long locNumSegs = ((locDataSize / 255) + 1);
+
+			unsigned char locLastSeg = locDataSize % 255;
+
+			retPage->header()->setNumPageSegments(locNumSegs);
+			unsigned char* locSegTable = new unsigned char[locNumSegs];
+
+			for (int i = 0; i < locNumSegs - 1; i++) {
+				locSegTable[i] = 255;
+			}
+
+			locSegTable[locNumSegs - 1] = locLastSeg;
+			
+			retPage->header()->setSegmentTable(locSegTable, locNumSegs);
+			retPage->header()->setHeaderSize(27 + locNumSegs);
+			retPage->header()->setDataSize(locDataSize);
+
+			retPage->header()->setStreamSerialNo(inFishStreamSerial);
+			retPage->addPacket(locPack);
+
+			
+			return retPage;
+}
+
+
+
+//OggPage* FishSkeleton::makeFishBone_3_0_Page			(		unsigned __int64 inGranuleRateNum
+//														,	unsigned __int64 inGranuleRateDenom
+//														,	unsigned __int64 inBaseGranule
+//														,	unsigned long inNumSecHeaders
+//														,	unsigned long inSerialNo
+//														,	unsigned short inGranuleShift
+//														,	unsigned char inPreroll
+//														,	vector<string> inMessageHeaders
+//														,	unsigned long inFishStreamSerial
+//													)
+//{
+//			StampedOggPacket* locPack = makeFishBone_3_0(inGranuleRateNum, inGranuleRateDenom, inBaseGranule, inNumSecHeaders, inSerialNo, inGranuleShift, inPreroll,inMessageHeaders);
+//			OggPage* retPage = new OggPage;
+//			retPage->header()->setHeaderFlags(0);
+//			retPage->header()->setGranulePos((__int64)0);
+//			
+//			unsigned long locDataSize = locPack->packetSize();
+//
+//			
+//
+//			unsigned long locNumSegs = ((locDataSize / 255) + 1);
+//
+//			unsigned char locLastSeg = locDataSize % 255;
+//
+//			retPage->header()->setNumPageSegments(locNumSegs);
+//			unsigned char* locSegTable = new unsigned char[locNumSegs];
+//
+//			for (int i = 0; i < locNumSegs - 1; i++) {
+//				locSegTable[i] = 255;
+//			}
+//
+//			locSegTable[locNumSegs - 1] = locLastSeg;
+//			
+//			retPage->header()->setSegmentTable(locSegTable, locNumSegs);
+//			retPage->header()->setHeaderSize(27 + locNumSegs);
+//			retPage->header()->setDataSize(locDataSize);
+//
+//			retPage->header()->setStreamSerialNo(inFishStreamSerial);
+//			retPage->addPacket(locPack);
+//
+//			return retPage;
+//}
 StampedOggPacket* FishSkeleton::makeFishBone_3_0	(		unsigned __int64 inGranuleRateNum
-														,	unsigned __int64 inGranuleDenom
+														,	unsigned __int64 inGranuleRateDenom
 														,	unsigned __int64 inBaseGranule
 														,	unsigned long inNumSecHeaders
 														,	unsigned long inSerialNo
-														,	unsigned short inGranuleShift
-														,	unsigned char inPreroll
+														,	unsigned char inGranuleShift
+														,	unsigned long inPreroll
 														,	vector<string> inMessageHeaders
 													) 
 {
@@ -133,5 +251,63 @@ StampedOggPacket* FishSkeleton::makeFishBone_3_0	(		unsigned __int64 inGranuleRa
 	//	48	-	48		:	Granule shift
 	//	49	-	51		:	*** PADDING ***
 	//	52	-			:	Message Headers
-	return NULL;
+
+
+
+		unsigned long locPacketSize = 52;  //Base header size
+		for (size_t i = 0; i < inMessageHeaders.size(); i++) {
+			//2 is the crlf
+			locPacketSize += (unsigned long)(inMessageHeaders[i].size() + 2);
+		}
+
+		//terminating crlf
+		locPacketSize += 2;
+
+		unsigned char* locBuff = new unsigned char[locPacketSize];
+
+		locBuff[0] = 'f';
+		locBuff[1] = 'i';
+		locBuff[2] = 's';
+		locBuff[3] = 'b';
+		locBuff[4] = 'o';
+		locBuff[5] = 'n';
+		locBuff[6] = 'e';
+		locBuff[7] = 0;
+
+		iLE_Math::ULongToCharArr(44, locBuff + 8);
+		iLE_Math::ULongToCharArr(inSerialNo, locBuff + 12);
+		iLE_Math::ULongToCharArr(inNumSecHeaders, locBuff + 16);
+
+		iLE_Math::Int64ToCharArr(inGranuleRateNum, locBuff + 20);
+		iLE_Math::Int64ToCharArr(inGranuleRateDenom, locBuff + 28);
+
+		iLE_Math::Int64ToCharArr(inBaseGranule, locBuff + 36);
+		iLE_Math::ULongToCharArr(inPreroll, locBuff + 44);
+
+		locBuff[48] = inGranuleShift;
+		locBuff[49] = 0;
+		locBuff[50] = 0;
+		locBuff[51] = 0;
+
+		
+
+		
+		unsigned long locUpto = 52;
+		for (size_t i = 0; i < inMessageHeaders.size(); i++) {
+			memcpy((void*)(locBuff + locUpto), (const void*)(inMessageHeaders[i].c_str()), inMessageHeaders[i].size());
+			locUpto += (unsigned long)(inMessageHeaders[i].size());
+			//TODO::: How terminated ??
+			locBuff[locUpto++] = '\r';	
+			locBuff[locUpto++] = '\n';
+		}
+
+		locBuff[locUpto++] = '\r';
+		locBuff[locUpto++] = '\n';
+		
+		StampedOggPacket* locPack = new StampedOggPacket(locBuff, locPacketSize, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY);
+		return locPack;
+
+
+
+
 }

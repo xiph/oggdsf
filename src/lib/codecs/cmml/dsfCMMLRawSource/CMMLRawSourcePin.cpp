@@ -39,19 +39,21 @@ HRESULT CMMLRawSourcePin::DeliverEndOfStream(void)
 
 HRESULT CMMLRawSourcePin::DeliverEndFlush(void)
 {
+	CAutoLock locLock(m_pLock);
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
 HRESULT CMMLRawSourcePin::DeliverBeginFlush(void)
 {
-	
+	CAutoLock locLock(m_pLock);
 	mDataQueue->BeginFlush();
     return S_OK;
 }
 
 HRESULT CMMLRawSourcePin::CompleteConnect (IPin *inReceivePin)
 {
+	CAutoLock locLock(m_pLock);
 	mFilterHR = S_OK;
 	//Set the delegate for seeking
 	//((BasicSeekable*)(inReceivePin))->SetDelegate(this);
@@ -66,6 +68,7 @@ HRESULT CMMLRawSourcePin::CompleteConnect (IPin *inReceivePin)
 }
 
 HRESULT CMMLRawSourcePin::BreakConnect(void) {
+	CAutoLock locLock(m_pLock);
 	delete mDataQueue;
 	mDataQueue = NULL;
 	return CBaseOutputPin::BreakConnect();

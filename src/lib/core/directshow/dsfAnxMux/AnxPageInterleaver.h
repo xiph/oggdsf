@@ -35,11 +35,15 @@
 
 #include <libOOOgg/OggPageInterleaver.h>
 #include "AnxPacketMaker.h"
+#include "AnxMuxFilter.h"
+
+class AnxMuxFilter;
+
 class AnxPageInterleaver
 	:	public OggPageInterleaver
 {
 public:
-	AnxPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier, unsigned long inVersionMajor, unsigned long inVersionMinor);
+	AnxPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier, unsigned long inVersionMajor, unsigned long inVersionMinor, AnxMuxFilter* inParentFilter);
 	virtual ~AnxPageInterleaver(void);
 
 	
@@ -55,8 +59,11 @@ protected:
 
 	//ANX3:::
 	bool gotAllSecondaryHeaders();
+	void letsGetFishy();
 
 	bool mIsAnxSetup;
+
+	AnxMuxFilter* mParentFilter;
 	
 	unsigned long mVersionMajor;
 	unsigned long mVersionMinor;

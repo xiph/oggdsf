@@ -52,6 +52,9 @@ public:
 
 	/// Set the pagination options.
 	bool setParameters(OggPaginatorSettings* inSettings);
+
+	/// Get the pagination options
+	OggPaginatorSettings* parameters();
 	
 	/// Feed your packets in here.
 	virtual bool acceptStampedOggPacket(StampedOggPacket* inOggPacket);

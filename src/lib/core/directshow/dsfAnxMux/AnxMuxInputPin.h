@@ -37,6 +37,7 @@
 #include "OggMuxInputPin.h"
 #include "AnxMuxFilter.h"
 #include "AnxPacketMaker.h"
+#include "libAnxHelper/FishSkeleton.h"
 
 
 #include <fstream>
@@ -53,11 +54,13 @@ public:
 	virtual HRESULT CompleteConnect(IPin* inReceivePin);
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
+	friend class AnxPageInterleaver;
 protected:
 	fstream debugLog;
 
 	StampedOggPacket* mAnxDataPacket;
 	StampedOggPacket* mFishBonePacket;
+	StampedOggPacket* mExtraPacket;
 
 	unsigned long mAnxVersionMajor;
 	unsigned long mAnxVersionMinor;
