@@ -122,7 +122,7 @@ const REGFILTERPINS FLACEncodePinReg[] = {
 
 const REGFILTER2 FLACEncodeFilterReg = {
 		1,
-		MERIT_NORMAL,
+		MERIT_DO_NOT_USE,
 		2,
         FLACEncodePinReg
 		

@@ -106,7 +106,7 @@ const REGFILTERPINS TheoraEncodePinReg[] = {
 
 const REGFILTER2 TheoraEncodeFilterReg = {
 		1,
-		MERIT_NORMAL,
+		MERIT_DO_NOT_USE,
 		2,
         TheoraEncodePinReg
 		

@@ -119,7 +119,7 @@ const REGFILTERPINS SpeexEncodePinReg[] = {
 
 const REGFILTER2 SpeexEncodeFilterReg = {
 		1,
-		MERIT_NORMAL,
+		MERIT_DO_NOT_USE,
 		2,
         SpeexEncodePinReg
 		

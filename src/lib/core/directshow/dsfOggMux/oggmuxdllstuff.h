@@ -121,6 +121,10 @@ const REGPINTYPES OggMuxInputTypes[] = {
 	{
 		&MEDIATYPE_Video,
 		&MEDIASUBTYPE_Theora
+	},
+	{
+		&MEDIATYPE_Audio,
+		&MEDIASUBTYPE_FLAC
 	}
 };
 const REGFILTERPINS OggMuxPinReg = {
@@ -132,7 +136,7 @@ const REGFILTERPINS OggMuxPinReg = {
 	FALSE,								//Cannot have more than one instance of this pin
 	NULL,								//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
-	4,									//upport two media type
+	5,									//upport two media type
 	OggMuxInputTypes					//Pointer to media type (Audio/Vorbis or Audio/Speex)
 };
 

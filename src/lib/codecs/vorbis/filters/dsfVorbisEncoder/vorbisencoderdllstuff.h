@@ -119,7 +119,7 @@ const REGFILTERPINS VorbisEncodePinReg[] = {
 
 const REGFILTER2 VorbisEncodeFilterReg = {
 		1,
-		MERIT_NORMAL,
+		MERIT_DO_NOT_USE,
 		2,
         VorbisEncodePinReg
 		
