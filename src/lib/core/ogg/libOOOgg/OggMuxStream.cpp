@@ -40,6 +40,7 @@ OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	,	mConvDenominator(1)
 	,	mConvScaleFactor(1)
 	,	mConvTheoraLogKeyFrameInterval(0)
+	,	mNumHeaders(0)
 {
 	//debugLog.open("G:\\logs\\oggmuxstream.log", ios_base::out);
 }
@@ -131,6 +132,14 @@ bool OggMuxStream::setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDeno
 	mIsSensibleTime = true;
 	return true;
 }
+
+void OggMuxStream::setNumHeaders(unsigned long inNumHeaders) {
+	mNumHeaders = inNumHeaders;
+}
+unsigned long OggMuxStream::numHeaders() {
+	return mNumHeaders;
+}
+
 
 bool OggMuxStream::setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor, LOOG_INT64 inTheoraLogKFI) {
 	mConvNumerator = inNumerator;

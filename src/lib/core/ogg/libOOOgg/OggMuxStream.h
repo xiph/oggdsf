@@ -67,7 +67,9 @@ public:
 	virtual void setIsActive(bool inIsActive);
 
 	virtual bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor, LOOG_INT64 inTheoraLogKFI);
-	bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor);
+	virtual bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor);
+	virtual void setNumHeaders(unsigned long inNumHeaders);
+	virtual unsigned long numHeaders();
 
 
 	LOOG_INT64 granuleNumerator();
@@ -85,6 +87,8 @@ protected:
 	LOOG_INT64 mConvDenominator;
 	LOOG_INT64 mConvScaleFactor;
 	LOOG_INT64 mConvTheoraLogKeyFrameInterval;
+
+	unsigned long mNumHeaders;
 
 	//fstream debugLog;
 	deque<OggPage*> mPageQueue;

@@ -138,7 +138,8 @@ void OggPageInterleaver::writeLowest() {
 						
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							((mInputStreams[i]->peekFront()->header()->GranulePos()) == -1) ) ||
-						(locTestLowTime < locCurrLowTime)
+						
+							(locTestLowTime < locCurrLowTime)
 						) 
 					{
 						
