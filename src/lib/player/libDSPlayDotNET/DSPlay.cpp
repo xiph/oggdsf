@@ -808,7 +808,18 @@ Int64 DSPlay::seekStart() {
 }
 
 Int64 DSPlay::queryPosition() {
-	return -1;
+	if (mIsLoaded && (mMediaSeeking != NULL)) {
+		__int64 locStart = -1;
+		__int64 locStop = -1;
+		HRESULT locHR = mMediaSeeking->GetPositions(&locStart, &locStop);
+		if (locHR == S_OK) {
+			return locStart;
+		} else {
+			return -1;
+		}
+	} else {
+		return -1;	
+	}
 }
 
 Int64 DSPlay::fileSize() {
