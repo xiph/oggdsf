@@ -280,6 +280,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 
 	
 		CAutoLock locSourceLock(mSourceFileLock);
+		//CAutoLock locStreamLock(mStreamLock);
 		
 		
 			DeliverBeginFlush();
@@ -308,7 +309,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			mStreamMapper->getOggStream(i)->setLastEndGranPos(*pCurrent);
 		}
 		{
-			CAutoLock locStreamLock(mStreamLock);
+//			CAutoLock locStreamLock(mStreamLock);
 			//debugLog<<"       : Delivering End Flush..."<<endl;
 			DeliverEndFlush();
 			//debugLog<<"       : End flush Delviered."<<endl;
@@ -486,10 +487,11 @@ void OggDemuxSourceFilter::resetStream() {
 void OggDemuxSourceFilter::DeliverBeginFlush() {
 	CAutoLock locLock(m_pLock);
 
+	
 	//debugLog << "Delivering Begin Flush"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverBeginFlush();
-		mStreamMapper->getOggStream(i)->flush();
+		//mStreamMapper->getOggStream(i)->flush();
 	}
 
 	//Should this be here or endflush or neither ?
@@ -503,6 +505,7 @@ void OggDemuxSourceFilter::DeliverEndFlush() {
 	CAutoLock locLock(m_pLock);
 	//debugLog << "Delivering End Flush"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
+		mStreamMapper->getOggStream(i)->flush();
 		mStreamMapper->getOggStream(i)->getPin()->DeliverEndFlush();
 	}
 	
@@ -569,6 +572,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 		//debugLog <<"DataProcessLoop : gcount = "<<locBytesRead<<endl;
 		{
 			CAutoLock locDemuxLock(mDemuxLock);
+			//CAutoLock locStreamLock(mStreamLock);
 			if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
 				continue;
 			}

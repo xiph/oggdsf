@@ -289,6 +289,12 @@
 				RelativePath="..\lib\smallft.h">
 			</File>
 			<File
+				RelativePath="..\include\vorbis\vorbisenc.h">
+			</File>
+			<File
+				RelativePath="..\include\vorbis\vorbisfile.h">
+			</File>
+			<File
 				RelativePath="..\lib\window.h">
 			</File>
 		</Filter>
