@@ -1,0 +1,131 @@
+\section{constants.h File Reference}
+\label{constants_8h}\index{constants.h@{constants.h}}
+Constants used by libfishsound.  
+
+
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef enum {\bf \_\-Fish\-Sound\-Mode} {\bf Fish\-Sound\-Mode}\label{constants_8h_a0}
+
+\begin{CompactList}\small\item\em Mode of operation (encode or decode). \item\end{CompactList}\item 
+typedef enum {\bf \_\-Fish\-Sound\-Codec\-ID} {\bf Fish\-Sound\-Codec\-ID}\label{constants_8h_a1}
+
+\begin{CompactList}\small\item\em Identifiers for supported codecs. \item\end{CompactList}\item 
+typedef enum {\bf \_\-Fish\-Sound\-Command} {\bf Fish\-Sound\-Command}\label{constants_8h_a2}
+
+\begin{CompactList}\small\item\em Command codes. \item\end{CompactList}\item 
+typedef enum {\bf \_\-Fish\-Sound\-Error} {\bf Fish\-Sound\-Error}\label{constants_8h_a3}
+
+\begin{CompactList}\small\item\em Error values. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum {\bf \_\-Fish\-Sound\-Mode} \{ {\bf FISH\_\-SOUND\_\-DECODE} =  0x10, 
+{\bf FISH\_\-SOUND\_\-ENCODE} =  0x20
+ \}
+\begin{CompactList}\small\item\em Mode of operation (encode or decode). \item\end{CompactList}\item 
+enum {\bf \_\-Fish\-Sound\-Codec\-ID} \{ {\bf FISH\_\-SOUND\_\-UNKNOWN} =  0x00, 
+{\bf FISH\_\-SOUND\_\-VORBIS} =  0x01, 
+{\bf FISH\_\-SOUND\_\-SPEEX} =  0x02
+ \}
+\begin{CompactList}\small\item\em Identifiers for supported codecs. \item\end{CompactList}\item 
+enum {\bf \_\-Fish\-Sound\-Command} \{ \par
+{\bf FISH\_\-SOUND\_\-COMMAND\_\-NOP} =  0x0000, 
+{\bf FISH\_\-SOUND\_\-GET\_\-INFO} =  0x1000, 
+{\bf FISH\_\-SOUND\_\-GET\_\-INTERLEAVE} =  0x2000, 
+{\bf FISH\_\-SOUND\_\-SET\_\-INTERLEAVE} =  0x2001, 
+\par
+{\bf FISH\_\-SOUND\_\-SET\_\-ENCODE\_\-VBR} =  0x4000, 
+{\bf FISH\_\-SOUND\_\-COMMAND\_\-MAX}
+ \}
+\begin{CompactList}\small\item\em Command codes. \item\end{CompactList}\item 
+enum {\bf \_\-Fish\-Sound\-Error} \{ {\bf FISH\_\-SOUND\_\-OK} =  0, 
+{\bf FISH\_\-SOUND\_\-ERR\_\-DISABLED} =  -10, 
+{\bf FISH\_\-SOUND\_\-ERR\_\-SHORT\_\-IDENTIFY} =  -20
+ \}
+\begin{CompactList}\small\item\em Error values. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Constants used by libfishsound. 
+
+
+
+\subsection{Enumeration Type Documentation}
+\index{constants.h@{constants.h}!_FishSoundCodecID@{\_\-FishSoundCodecID}}
+\index{_FishSoundCodecID@{\_\-FishSoundCodecID}!constants.h@{constants.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \_\-Fish\-Sound\-Codec\-ID}}\label{constants_8h_a19}
+
+
+Identifiers for supported codecs. 
+
+\begin{Desc}
+\item[Enumeration values: ]\par
+\begin{description}
+\index{FISH_SOUND_UNKNOWN@{FISH\_\-SOUND\_\-UNKNOWN}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_UNKNOWN@{FISH\_\-SOUND\_\-UNKNOWN}}\item[{\em 
+FISH\_\-SOUND\_\-UNKNOWN\label{constants_8h_a19a6}
+}]Unknown. \index{FISH_SOUND_VORBIS@{FISH\_\-SOUND\_\-VORBIS}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_VORBIS@{FISH\_\-SOUND\_\-VORBIS}}\item[{\em 
+FISH\_\-SOUND\_\-VORBIS\label{constants_8h_a19a7}
+}]Vorbis. \index{FISH_SOUND_SPEEX@{FISH\_\-SOUND\_\-SPEEX}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_SPEEX@{FISH\_\-SOUND\_\-SPEEX}}\item[{\em 
+FISH\_\-SOUND\_\-SPEEX\label{constants_8h_a19a8}
+}]Speex. \end{description}
+\end{Desc}
+
+\index{constants.h@{constants.h}!_FishSoundCommand@{\_\-FishSoundCommand}}
+\index{_FishSoundCommand@{\_\-FishSoundCommand}!constants.h@{constants.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \_\-Fish\-Sound\-Command}}\label{constants_8h_a20}
+
+
+Command codes. 
+
+\begin{Desc}
+\item[Enumeration values: ]\par
+\begin{description}
+\index{FISH_SOUND_COMMAND_NOP@{FISH\_\-SOUND\_\-COMMAND\_\-NOP}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_COMMAND_NOP@{FISH\_\-SOUND\_\-COMMAND\_\-NOP}}\item[{\em 
+FISH\_\-SOUND\_\-COMMAND\_\-NOP\label{constants_8h_a20a9}
+}]No operation. \index{FISH_SOUND_GET_INFO@{FISH\_\-SOUND\_\-GET\_\-INFO}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_GET_INFO@{FISH\_\-SOUND\_\-GET\_\-INFO}}\item[{\em 
+FISH\_\-SOUND\_\-GET\_\-INFO\label{constants_8h_a20a10}
+}]Retrieve the {\bf Fish\-Sound\-Info}{\rm (p.\,\pageref{structFishSoundInfo})}. \index{FISH_SOUND_GET_INTERLEAVE@{FISH\_\-SOUND\_\-GET\_\-INTERLEAVE}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_GET_INTERLEAVE@{FISH\_\-SOUND\_\-GET\_\-INTERLEAVE}}\item[{\em 
+FISH\_\-SOUND\_\-GET\_\-INTERLEAVE\label{constants_8h_a20a11}
+}]Query if multichannel audio should be interpreted as interleaved. \index{FISH_SOUND_SET_INTERLEAVE@{FISH\_\-SOUND\_\-SET\_\-INTERLEAVE}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_SET_INTERLEAVE@{FISH\_\-SOUND\_\-SET\_\-INTERLEAVE}}\item[{\em 
+FISH\_\-SOUND\_\-SET\_\-INTERLEAVE\label{constants_8h_a20a12}
+}]Set to 1 to interleave, 0 to non-interleave. \end{description}
+\end{Desc}
+
+\index{constants.h@{constants.h}!_FishSoundError@{\_\-FishSoundError}}
+\index{_FishSoundError@{\_\-FishSoundError}!constants.h@{constants.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \_\-Fish\-Sound\-Error}}\label{constants_8h_a21}
+
+
+Error values. 
+
+\begin{Desc}
+\item[Enumeration values: ]\par
+\begin{description}
+\index{FISH_SOUND_OK@{FISH\_\-SOUND\_\-OK}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_OK@{FISH\_\-SOUND\_\-OK}}\item[{\em 
+FISH\_\-SOUND\_\-OK\label{constants_8h_a21a15}
+}]No error. \index{FISH_SOUND_ERR_DISABLED@{FISH\_\-SOUND\_\-ERR\_\-DISABLED}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_ERR_DISABLED@{FISH\_\-SOUND\_\-ERR\_\-DISABLED}}\item[{\em 
+FISH\_\-SOUND\_\-ERR\_\-DISABLED\label{constants_8h_a21a16}
+}]Functionality disabled at build time. \index{FISH_SOUND_ERR_SHORT_IDENTIFY@{FISH\_\-SOUND\_\-ERR\_\-SHORT\_\-IDENTIFY}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_ERR_SHORT_IDENTIFY@{FISH\_\-SOUND\_\-ERR\_\-SHORT\_\-IDENTIFY}}\item[{\em 
+FISH\_\-SOUND\_\-ERR\_\-SHORT\_\-IDENTIFY\label{constants_8h_a21a17}
+}]Too few bytes passed to {\bf fish\_\-sound\_\-identify()}{\rm (p.\,\pageref{fishsound_8h_a3})}. \end{description}
+\end{Desc}
+
+\index{constants.h@{constants.h}!_FishSoundMode@{\_\-FishSoundMode}}
+\index{_FishSoundMode@{\_\-FishSoundMode}!constants.h@{constants.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \_\-Fish\-Sound\-Mode}}\label{constants_8h_a18}
+
+
+Mode of operation (encode or decode). 
+
+\begin{Desc}
+\item[Enumeration values: ]\par
+\begin{description}
+\index{FISH_SOUND_DECODE@{FISH\_\-SOUND\_\-DECODE}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_DECODE@{FISH\_\-SOUND\_\-DECODE}}\item[{\em 
+FISH\_\-SOUND\_\-DECODE\label{constants_8h_a18a4}
+}]Decode. \index{FISH_SOUND_ENCODE@{FISH\_\-SOUND\_\-ENCODE}!constants.h@{constants.h}}\index{constants.h@{constants.h}!FISH_SOUND_ENCODE@{FISH\_\-SOUND\_\-ENCODE}}\item[{\em 
+FISH\_\-SOUND\_\-ENCODE\label{constants_8h_a18a5}
+}]Encode. \end{description}
+\end{Desc}
+

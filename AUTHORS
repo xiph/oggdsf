@@ -1,0 +1,95 @@
+==============================================================
+*** dsfOggDemux
+*** dsfOggMux			
+*** dsfVorbisDecoder
+*** dsfVorbisEncoder
+*** dsfSpeexDecoder
+*** dsfSpeexEncoder
+*** dsfFLACDecoder
+*** dsfTheoraDecoder
+*** dsfAbstractOggAudioDecoder
+*** dsfAbstractAudioEncoder
+*** dsfAbstractVideoDecoder
+*** dsfSeeking
+*** libOOTheora
+*** libOOOgg
+*** libOOOggSeek
+*** OOOggDump
+	Zentaro Kavanagh <ogg@illiminable.com>
+		- Design and coding.
+==============================================================
+*** libfishsound
+	Conrad Parker <conrad@metadecks.org>
+		- Design, implementation.
+
+	Silvia Pfeiffer <Silvia.Pfeiffer@CSIRO.AU>
+		- MS Windows porting, general packaging.
+
+	Zentaro Kavanagh <ogg@illiminable.com>
+		- Windows porting and packaging.
+
+	based on code from:
+		libvorbis, by Monty <monty@xiph.org> and 
+		the rest of the Xiph.org Foundation.
+
+		libspeex, by Jean-Marc Valin 
+		<jean-marc.valin@hermes.usherb.ca>
+		and various contributors.
+
+==============================================================
+*** libogg
+*** libvorbis
+	Monty <monty@xiph.org> and Xiph.org contributors
+		- Design and coding.
+==============================================================
+*** libspeex 
+	Jean-Marc Valin <jean-marc.valin@hermes.usherb.ca>
+		- All the code except the following
+
+	David Rowe <david@voicetronix.com.au> via VoiceTronix
+		- lsp.c lsp.h Also ideas and feedback
+
+	John Francis Edwards
+		- wave_out.[ch], some #ifdefs for windows port
+		  and MSVC project files.
+
+	Atsuhiko Yamanaka <ymnk@jcraft.com>:
+		- Patch to speexenc.c to add Vorbis comment 
+		  format.
+
+	Radim Kolar <hsn@cybermail.net>:
+		- Patch to speexenc.c for supporting 
+		  more input formats.
+==============================================================
+*** libFLAC
+*** libFLAC++
+
+	Josh Coalson <jcoalson@users.sourceforge.net>.
+		- All design and development except following
+
+
+	Andrey Astafiev <andrei@tvcell.ru>
+		- Russian translation of the HTML documentation
+
+	Miroslav Lichvar <mirator@upcase.inf.upol.cz>
+		- IA-32 assembly versions of several libFLAC 
+		  routines
+
+	Brady Patterson <bpat@users.sourceforge.net>
+		- AIFF file support
+
+	Daisuke Shimamura <Daisuke_Shimamura@nifty.com>
+		- id3 v1/v2 and i18n support in the XMMS plugin
+
+	X-Fixer <x-fixer@narod.ru>
+		- Configuration system, tag editing, and file
+		  info in the Winamp2 plugin
+
+	Matt Zimmerman <mdz@debian.org>
+		- Libtool/autoconf/automake make system, 
+		  flac man page
+
+==============================================================
+*** libtheora
+	xiph.org contributors (No authors file present)
+==============================================================

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>illiminable Ogg Directshow Filters for Speex, Vorbis, Theora and FLAC</title>
+  <meta name="description" content="Directshow Ogg demuxer/muxer with vorbis, speex, FLAC and theora decoders and vorbis, speex encoders.">
+  <meta name="keywords" content=" directshow, theora, vorbis, speex, ogg, media player, flac, codec, windows, audio, video, wmp, directX, plugin, plug-in, decoder, encoder, demux, mux, demuxer">
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#FF00FF" alink="#FF0000">
+<b><u><font size="+2">Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC</font></u></b><br>
+<br>
+This is a temporary page until I get time to do a proper one.<br>
+<br>
+These are early releases, they probably still have bugs in them. Use them at your own risk.<br>
+<br>
+Contact at ogg@illiminable.com with feedback, bugs or suggestions<br>
+<br>
+<b><u>History</u></b><br>
+I first began working on ogg media directshow filters whilst under contract to CSIRO's <a href="http://www.annodex.net">annodex.net</a> project group. Much of the knowledge I needed to write these filters was gained through my work with this project.My initial implementation was for a specific annodex (which uses the ogg encapsulation format)demuxer. Part of my aim of this project was to use the knowledge gained to create a set of filters that works with generic ogg physical streams rather than just a particular physical bitstream format and to release these back to the open source community. There were several limitations to the approach taken to the original annodex filters which is why I decided to start from scratch to design the filter architecture over again with the experience of the first attempt.<br>
+<br>
+Another of my aims of this project is to rewrite the annodex demuxer to use this new design in order for it to be more extensible and easier to work with. This time writing the generic ogg case first and then basing the annodex demuxer on this new design it will increase the consistency of the code between the two modules and provide less trouble integrating new codecs, with the aim of making annodex technology available in the standard applications that come default with windows.<br>
+<br>
+I encourage you all to go and check out the <a href="http://www.annodex.net">annodex project</a> and to consider coding some applications to utilise this new technology. There are many interesting posibilities this new technology presents to continuous media and search technology which will expand the internet to be a richer more dynamic multimedia experience.<br>
+<br>
+Thankyou to CSIRO's annodex.net project group (Silvia Pfeiffer, Conrad Parker and André Pang) for the opportunity to work on this exciting new technology and sparking my interest in directshow and the <a href="http://xiph.org">xiph.org</a> range of codecs.<br>
+<br>
+
+<b><u>Installation</u></b><br>
+<li>Uninstall any previous version of these filters. Go to add remove programs, remove oggcodecs</li>
+<li>Make sure media player or any directshow applications are closed.</li>
+<li>Unzip the file to a temp directory then run setup.</li><br>
+<br>
+Then media player will be able to play Ogg Vorbis, Ogg Speex, Ogg Theora and Ogg FLAC.<br>
+Also you can encode (see issues below) vorbis and speex files using graphedit(<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en">DirectX9 SDK</a>) or other similar program. <a href="http://www.illiminable.com/ogg/graphedit.html">See example filter graphs</a><br>
+Also, if you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).
+<br>
+Also any other windows application that uses directshow will also be vorbis/speex/flac/theora compatible.
+<br>
+<br>
+<b><u>Current Version (0.55.0115) - 27/04/2004</u></b><br>
+Vorbis and speex playback are now pretty much finished bar the very rare bug I mention below. I've played dozens of speex and vorbis files and they all seem just fine. Pretty much fully functional.<br>
+The track duration shows up incorrectly in all codecs besides speex and vorbis because I haven't coded it yet !<br>
+A seek table is built as the file is loaded... this is currently done by basicly processing the entire file... so there may be a small delay loading large files. When I get time I'll replace this with a better method that doesn't try and process the entire file, but can skip through to the relevant parts.<br>
+	<li>NOTE: I suggest you don't distribute files encoded with these codecs yet... there may still be problems with them</li>
+	<li>Fixed clumpy playback of divx, bad timestamping</li>
+	<li>Added seeking, duration and position info to vorbis and speex</li>
+	<li>Fixed a few internal errors with regards to timestamping</li>
+	<li>Added a seek table for rapid seeking</li>
+<br>
+<b><u>Known issues.</u></b><br>
+	<li>Rare threading bug can seg fault if you seek very rapidly in speex or vorbis.</li>
+	<li>Duration is wrong for all files except speex and vorbis... doesn't affect playback</li>
+	<li>Granule pos may occasionally be a little off in encoded files... other players may get slight time-stretching defects</li>
+	<li>I think there may be a little memory leak in the encoders... nothing too serious.</li>
+	<li>Issues with Windows Media Player 9</li>
+	<li>Theora playback requires directX 9.</li>
+	<li>Muxer only does a single stream... won't interleave yet. This is fine for encoding speex and vorbis, or splitting theora+vorbis into component parts</li>
+	<li>Theora sometimes gets out of sync if you stop and restart. Running to end seems ok.</li>
+	<li>Some black bordering when frame size changes mid-stream</li>
+	<li>DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.</li>
+	<li>FLAC will make media player do the error sound or crash on exit</li>
+	<li>Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.</li>
+	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
+	<li><strike>Still no position info or seeking... this is next to be done.</strike> - 0.55.0115</li>
+	<li><strike>ffsdhow playback is clumpy... plays frames in bursts. Only tested with divx.</strike> - 0.55.0115</li>
+<br>
+<FONT size=2 color="#000000" face="Arial">
+<DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
+<TR valign=top>
+<TD width=40%><FONT size=2 color="#000000" face="Arial">
+<DIV>Windows XP</DIV>
+</FONT>
+</TD>
+
+<TD width=40%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right">752,265 bytes</div></DIV></FONT>
+</TD>
+
+<TD width=40%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.55.0115_small.zip">Download Now</a></div></DIV></FONT>
+</TD>
+
+</TR>
+<TR valign=top>
+<TD width=40%><FONT size=2 color="#000000" face="Arial">
+<DIV>Windows 98/ME/NT/2000</DIV></FONT>
+
+</TD>
+<TD width=40%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right">4,202,285 bytes</div></DIV></FONT>
+</TD>
+
+<TD width=40%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.55.0115.zip">Download Now</a></div></DIV></FONT>
+</TD>
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+<br>
+<b><u>Previous Version (0.52.0093) - 18/04/2004</u></b><br>
+	<li>NOTE: I suggest you don't distribute files encoded with these codecs yet... there may still be problems with them</li>
+	<li>See version 0.50.0090 for information</li>
+	<li>Now checksums pages properly.</li>
+	<li>Properly organises initial header packets in pages.</li>
+	
+<br>
+<br>
+<b><u>Previous Version (0.51.0092) - 18/04/2004</u></b><br>
+	<li>See version 0.50.0090 for information</li>
+	<li>Stuffed up some packaging and linking in the last version... probably won't affect it, but just to be safe, did rebuild and package. Sorry if you got it 5 minutes ago !</li>
+	
+<br>
+<b><u>Previous Version (0.50.0090) - 18/04/2004</u></b><br>
+Start of encoding support has been added... see <a href="http://www.illiminable.com/ogg/graphedit.html">example filter graphs</a>. Use graphedit (<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en">DirectX9 SDK</a>)</li>
+	<li>Added support for OGM style video encapsulation *decode only*, requires <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>. Should recognise any format ffdshow can handle. (Video quite clumpy at the moment)</li>
+	<li>Added single stream Ogg Muxer... for muxing theora, speex and vorbis</li>
+	<li>Added vorbis encoder filter</li>
+	<li>Added speex encoder filter</li>
+	<li>Included Abstract Audio Encoder library</li>
+	
+<br>
+<b><u>Previous Version (0.40.0069) - 08/04/2004</u></b><br>
+This new release completes the basic functionality for the four major codecs, though there are still bugs. Theora hasn't been extensively tested
+as I don't have many test files to work with. FLAC is still pretty buggy... theora less so... but still buggy.
+	<li>NOTE: Untested with DirectX 8 or lower. I'm pretty sure theora will only play with DX9. Others *should* work with DX8.</li>
+	<li>Added basic Theora support (alpha 3 *only*, previous bitstream formats are depracated). See issues below.</li>
+	<li>Included OO Theora wrapper library</li>
+	<li>Included Abstract Video Decoder library</li>
+<br>
+<br>
+<b><u>Previous Version (0.30.0058) - 31/03/2004</u></b><br>
+Just thought I'd release this update. It includes some FLAC support but it's very buggy, I suggest you don't use FLAC just yet.<br>
+Vorbis and speex are the same as before but with below changes. Vorbis and Speex won't crash<br>
+	<li>Fixed bug in stream recogniser which defaulted unknown to speex.</li>
+	<li>Fixed minor defect in audio when stopping and replaying</li>
+	<li>Split Vorbis and Speex to seperate filters</li>
+	<li>Included Abstract Codec Library</li>
+	<li>Now ignores unknown streams. ie. Playing a theora/vorbis will only play the vorbis</li>
+	<li>Major abstractions to demux filter in preperation for theora/annodex</li>
+	<li>Included very basic Ogg FLAC playback (very buggy, see below, update in a day or two to fix)</li>
+	<li>Included one of my basic debugging tools. OOOggDump. Usage : OOOggDump filename, be sure to redirect output to a file</li>
+<br>
+
+<b><u>Previous Version (0.22.0035) - 24/03/2004</u></b><br>
+	<li>Updated libfishsound to 0.6.0</li>
+	<li>Changes to attribution text files.</li>
+	<li>Release builds with compiler optimisations.</li>
+<br>
+<br>
+<b><u>Previous Version (0.21.0032) - 24/03/2004</u></b><br>
+	<li>Fixed audio defects.</li>
+	<li>Added clipping to account for out of range floats from vorbis</li>
+	<li>Updated vorbis to 1.0.1 and speex to 1.0.3</li><br>
+<br>
+
+<b><u>Previous Version (0.20.0022) - 23/03/2004</u></b><br>
+	<li>Added support for speex.</li>
+	<li>Recognises speex files with .ogg .spx or .speex extensions</li><br>
+<br>
+
+<b><u>Previous Version (0.11.0020) - 22/03/2004</u></b><br>
+	<li>Removed several memory leaks.</li>
+	<li>Media Player doesn't make the error sound on exiting any more.</li>
+	<li>Fixed a few crashing bugs that only show up in graphedit by doing stupid things.</li>
+	<li>Package is more compressed now.</li>
+	<li>Fixed a crashing bug in libfishsound</li><br>
+<br>
+
+<b><u>Previous Version (0.10.0019) - 22/03/2004</u></b><br>
+	<li>Initial binary release.</li><br>
+</body>
+</html>
+

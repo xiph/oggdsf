@@ -1,0 +1,38 @@
+These are probably not very build friendly at the moment.
+I will make them a bit more user friendly in the future.
+
+Some modifications have been made since the 0.55 release to start
+adding seeking to theora.
+
+In order to build these...
+
+You need visual studio 2002 or 2003. There are no VC6 files.
+
+You need NASM for FLAC to build. (lifes easier if it's at C:\NASM)
+ you'll have to play around with that yourself... it's a real pain !
+ Also the vcproj files have hidden settings that don't show up
+ in visual studio... you'll have to figure it out (ie edit the vcproj)
+ I suggest once you get it to build, leave it built... don't clean
+ that project. The clean script it has for some reason tries to
+ delete some necessary header files. Don't ask me why !
+ Also ignore visual studio hassling you about sourcesafe for flac.
+
+You need DirectX 9 SDK installed (lifes easier if it's at C:\DXSDK)
+ Otherwise all projcets prefixed with dsf you'll need to change the
+ absolute references to that path. I'll try to do something to make
+ this easier in future.
+ 
+If the baseclasses project shows up as not found, you need to find
+ it in the DXSDK directory tree, and load it from there.
+ By default it tries to build against Multithreaded static runtimes
+ You *must* change these to Multi Threaded DLL or Multi Threaded 
+ debug DLL. Otherwise all sorts of chaos will occur. This project
+ is not part of the package. It is part of the DirectX SDK.
+
+If you try to build the installer project, you need to change the paths
+ of the AUTHORS, COPYRIGHTS etc files... i can't make it accept a
+ relative path.
+
+Probably other stuff i can't think of. These aren't really ready for
+ easy use yet.
+
