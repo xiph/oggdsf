@@ -300,6 +300,10 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 
 }
 
+long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumBytes) {
+
+
+}
 long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumBytes) {
 	unsigned char* locSourceUptoPtr = inBuf;  //View only... don't delete locUptoPtr
 
