@@ -68,9 +68,14 @@ OggDataBuffer::~OggDataBuffer(void)
 	
 }
 
-bool OggDataBuffer::registerStaticCallback(fPageCallback inPageCallback) {
+/** The inUserData parameter is a pointer of any type.  This pointer is passed to the callback when it
+    is called, enabling the user to save any custom information in its callback.
+  */
+bool OggDataBuffer::registerStaticCallback(fPageCallback inPageCallback, void* inUserData)
+{
 	//Holds the static callback and nulls the virtual one.
 	mStaticCallback = inPageCallback;
+	mStaticCallbackUserData = (void *) inUserData;
 	mVirtualCallback = NULL;
 	
 	return true;
@@ -120,7 +125,7 @@ OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
 			return DISPATCH_FALSE;
 		}
 	} else if (mStaticCallback != NULL) {
-		if (mStaticCallback(inOggPage) == true) {
+		if (mStaticCallback(inOggPage, mStaticCallbackUserData) == true) {
 			return DISPATCH_OK;	
 		} else {
 			return DISPATCH_FALSE;

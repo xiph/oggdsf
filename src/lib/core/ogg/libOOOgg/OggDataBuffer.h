@@ -89,11 +89,13 @@ public:
 	OggDataBuffer(void);
 	virtual ~OggDataBuffer(void);
 
-	//Setting callbacks
-	bool registerStaticCallback(fPageCallback inPageCallback);
+	/// Register a as a callback, which gets called when data is received via our feed() method.
+	bool registerStaticCallback(fPageCallback inPageCallback, void* inUserData);
+
+	/// Register an IOggCallback object, which gets called when data is received via our feed() method.
 	bool registerVirtualCallback(IOggCallback* inPageCallback);
 	
-	//Buffer Control
+	/// Puts in data into this buffer, which triggers the callback registered with registerStaticCallback() or registerVirtualCallback().
 	eFeedResult feed(const unsigned char* inData, unsigned long inNumBytes);
 	void clearData();
 	
@@ -114,6 +116,7 @@ protected:
 	//Callback pointers
 	IOggCallback* mVirtualCallback;
 	fPageCallback mStaticCallback;
+	void* mStaticCallbackUserData;
 
 	//Internal processing
 	eProcessResult processBuffer();

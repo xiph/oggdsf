@@ -44,7 +44,7 @@ unsigned long sumPageSize;
 unsigned long pageCount;
 unsigned long packetCount;
 //This will be called by the callback
-bool pageCB(OggPage* inOggPage) {
+bool pageCB(OggPage* inOggPage, void* inUserData /* ignored */) {
 	pageCount++;
 	packetCount += inOggPage->numPackets();
 	return true;
@@ -69,7 +69,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 		QueryPerformanceCounter(&perfStart);
 		OggDataBuffer testOggBuff;
 		
-		testOggBuff.registerStaticCallback(&pageCB);
+		testOggBuff.registerStaticCallback(&pageCB, NULL);
 
 		fstream testFile;
 		testFile.open(argv[1], ios_base::in | ios_base::binary);

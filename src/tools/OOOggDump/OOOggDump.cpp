@@ -42,7 +42,7 @@
 unsigned long bytePos;
 
 //This will be called by the callback
-bool pageCB(OggPage* inOggPage) {
+bool pageCB(OggPage* inOggPage, void *inUserData /* ignored */) {
 	cout<<"Page Location : "<<bytePos;
 	bytePos += inOggPage->pageSize();
 	cout<<" to "<<bytePos<<endl;
@@ -85,7 +85,7 @@ int main (int argc, char * argv[])
 	} else {
 		OggDataBuffer testOggBuff;
 		
-		testOggBuff.registerStaticCallback(&pageCB);
+		testOggBuff.registerStaticCallback(&pageCB, NULL);
 
 		fstream testFile;
 		testFile.open(argv[1], ios_base::in | ios_base::binary);

@@ -33,18 +33,23 @@
 //===========================================================================
 
 #pragma once
+
 #include <string>
 #include "libCMMLTags.h"
+
 #import <msxml3.dll> raw_interfaces_only
 using namespace MSXML2;
 #include <msxml.h>
+
 using namespace std;
+
 class LIBWINCMMLPARSE_API CMMLParser
 {
 public:
 	CMMLParser(void);
 	~CMMLParser(void);
 
+	/// Parses the given string at inText and places the result in outDoc.
 	bool setupXMLHandles(wstring inText, MSXML2::IXMLDOMDocument** outDoc);
 	//C_CMMLTag* genericParseTag(string inCMMLText);
 	//bool parseCMMLDoc(string inCMMLDocText, C_CMMLDoc* outDoc);

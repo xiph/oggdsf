@@ -45,7 +45,8 @@
 
 unsigned long streamNo;
 
-bool pageCB(OggPage* inOggPage) {
+bool pageCB(OggPage* inOggPage, void *inUserData /* ignored */)
+{
 	if ((inOggPage->numPackets() > 0) && (inOggPage->header()->isBOS())) {
 		streamNo++;
 		OggPacket* locFirstPack = inOggPage->getPacket(0);
@@ -107,7 +108,7 @@ int main(int argc, char * argv[])
 		OggDataBuffer testOggBuff;
 		//OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
 		const int BUFF_SIZE = 8092;
-		testOggBuff.registerStaticCallback(&pageCB);
+		testOggBuff.registerStaticCallback(&pageCB, NULL);
 
 		fstream testFile;
 		testFile.open(argv[1], ios_base::in | ios_base::binary);

@@ -101,7 +101,7 @@ bool writePage(OggPage* inOggPage) {
 	return true;
 }
 //This will be called by the callback
-bool pageCB(OggPage* inOggPage) {
+bool pageCB(OggPage* inOggPage, void *inUserData /* ignored */) {
 	bool retVal = false;
 	if (inStream == false) {
 		//Not in the middle of a stream
@@ -172,7 +172,7 @@ int main(int argc, char * argv[])
 		cout << "Starting..."<<endl;
 		OggDataBuffer testOggBuff;
 		
-		testOggBuff.registerStaticCallback(&pageCB);
+		testOggBuff.registerStaticCallback(&pageCB, NULL);
 
 		fstream testFile;
 		inFileName = argv[1];

@@ -46,8 +46,11 @@ CMMLParser::~CMMLParser(void)
 
 
 
-
-bool CMMLParser::setupXMLHandles(wstring inText, MSXML2::IXMLDOMDocument** outDoc) {
+/** Note that you do not need to create create the MSXML2 document with COM's CoCreateInstance()
+    function; we will do that for you.
+  */
+bool CMMLParser::setupXMLHandles(wstring inText, MSXML2::IXMLDOMDocument** outDoc)
+{
 
 	HRESULT locHR = S_FALSE;
 	// Check the return value, hr...

@@ -77,7 +77,7 @@ unsigned long headerCount(OggPacket* inPacket) {
 
 }
 //This will be called by the callback
-bool pageCB(OggPage* inOggPage) {
+bool pageCB(OggPage* inOggPage, void* inUserData /* ignored */) {
 
 	bool allEmpty = true;
 
@@ -194,7 +194,7 @@ int main(int argc, char * argv[])
 	} else {
 		OggDataBuffer testOggBuff;
 		
-		testOggBuff.registerStaticCallback(&pageCB);
+		testOggBuff.registerStaticCallback(&pageCB, NULL);
 
 		fstream inputFile;
 		
