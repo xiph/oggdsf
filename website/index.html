@@ -40,7 +40,6 @@ download the installer seperately from the links at the top of the page.<br>
 <br>
 Fixed the network streaming, and removed all the .NET sample apps from this release. <a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a><br>
 Changed the installer a bit so people realise when they download via download "shell sites", which hide the true source of the download, where it came from and where to look for updates.<br>
-
 <br>
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
@@ -78,6 +77,9 @@ Changed the installer a bit so people realise when they download via download "s
 <br>
 <br>
 <b><u>Known issues.</u></b><br>
+	<li>If you are getting codec problems, there appears to be a conflict with something in Media Player Classic... it tries to enforce the use of another ogg demultiplexer, either by design or accident.If you see in MPC it complaining about a media subtype with a 
+		GUID {CDDCA2D5-6D75-4F98-840E-737BEDD5C63B}. This is the guid of the old tobias vorbis filter, and this one {8D2FD10B-5841-4a6b-8905-588FEC1ADED9} is CoreVorbis. This is most likely due to the fact that these filters don't clean up the registry when they uninstall.
+		I am working on something to "clean up" all these remnants from the registry.</li>
 	<li>Cannot handle any chained multiplexed files or streams</li>
 	<li>Muxer creates broken files when packets are very large (usually high quality theora)</li>
 	<li>FLAC seems to lose the first 1/2 second of audio if you stop then play again</li>

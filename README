@@ -1,13 +1,18 @@
+Updated after 0.62 release.
+
 These are probably not very build friendly at the moment.
 I will make them a bit more user friendly in the future.
 
-Some modifications have been made since the 0.55 release to start
-adding seeking to theora.
 
 In order to build these...
 
 
-You need visual studio 2002 or 2003. There are no VC6 files.
+You need visual studio 2003. There are no VC6 files or VS2002 files.
+ In theory you should be able to create VC2002 files... and in fact
+ out of date VC2002 files are generally found with .vcproj.bak 
+ extensions. However some of the libraries will not build in VS2002,
+ there is a bug in the 2002 compilers imlpementation of mixed mode
+ dlls, which stops some of the .NET bridging libraries linking.
 
 You need NASM for FLAC to build. (lifes easier if it's at C:\NASM)
  you'll have to play around with that yourself... it's a real pain !
@@ -26,7 +31,7 @@ If you do accidentally clean FLAC, you will get a message when you
  this happens !
 
 You need DirectX 9 SDK installed (lifes easier if it's at C:\DXSDK)
- Otherwise all projcets prefixed with dsf you'll need to change the
+ Otherwise all projects prefixed with dsf you'll need to change the
  absolute references to that path. I'll try to do something to make
  this easier in future.
  

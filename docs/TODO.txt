@@ -1,25 +1,14 @@
 BUGS
 ====
 * Figure out why the graph hangs at the end of lpayback sometimes. see debugging.txt
-
 * Fix wmp 9 issues, probably by rewriting the decoder :(
-
-* I don't think non-renderer filters should expose the seeking interface.
 * Fix up the seeking interface to provide choice of seek method.
-
 # Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.
 # There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3
-
-
 # When transcoding theora, if a media decoder (WMV usually) doesn't advertise its framerate, output may be time distorted
 # Created files are not yet gauranteed to be correct. No produced encoded files should be distributed.
 # I think there may be a little memory leak in the encoders... nothing too serious, but if you try and encode really large files it may be a problem.
 # Theora will not playback with Windows Media Player 9 or 10, but vorbis and speex are just fine, but will in previous WMP's and other DS players like BSPlayer
-
-# DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.
-# FLAC will make media player do the error sound or crash on exit
-
-# Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.
 
 NEW
 ===
@@ -36,14 +25,13 @@ NOT BUG
 
 PARITALLY DONE
 ==============
-* Fix flac decoder
-* Add seeking to annodex
-# Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback
-* CMML Application interface
-* Annodex seeking
+
 
 NEXT FEATURES
 =============
+
+ON HOLD
+=======
 * Raw flac support
 * Annodex Muxer
 * WMP Ripping plug-in for vorbis and flac.
@@ -54,3 +42,12 @@ DONE
 * Add application cmml interface
 # Seeking in theora occasionally seg faults (Ithink)
 # Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.
+* Fix flac decoder
+* Add seeking to annodex
+# Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback
+* CMML Application interface
+* Annodex seeking
+# DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.
+# FLAC will make media player do the error sound or crash on exit
+# Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.
+* I don't think non-renderer filters should expose the seeking interface.
