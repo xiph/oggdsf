@@ -65,6 +65,7 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts
 		}
 			ogg_packet* locOldPack = simulateOldOggPacket(inPacket);		//Accepts the packet and deletes it.
 			theora_decode_packetin(&mTheoraState, locOldPack);
+			delete locOldPack->packet;
 			delete locOldPack;
 			
 			int locRetVal = theora_decode_YUVout(&mTheoraState, &mYUVBuffer);
@@ -100,6 +101,7 @@ bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket) {		//inHeader
 	ogg_packet* locOldPack = simulateOldOggPacket(inHeaderPacket);		//Accepts packet and deletes it.
 	theora_decode_header(&mTheoraInfo, &mTheoraComment, locOldPack);
 
+	delete locOldPack->packet;
 	delete locOldPack;
 	mPacketCount++;
 	return true;

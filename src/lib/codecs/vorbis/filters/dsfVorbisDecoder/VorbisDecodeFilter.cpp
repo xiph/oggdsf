@@ -67,12 +67,12 @@ bool VorbisDecodeFilter::ConstructPins()
 {
 	DbgLog((LOG_TRACE,1,TEXT("Vorbis Constructor...")));
 	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new VorbisDecodeOutputPin(this, m_pLock);
+	mOutputPin = new VorbisDecodeOutputPin(this, m_pLock);			//Deleted in base class destructor
 
-	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);
+	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_Vorbis;
 	locAcceptMediaType->formattype = FORMAT_Vorbis;
-	mInputPin = new VorbisDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);
+	mInputPin = new VorbisDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);	//Deleted in base class filter destructor.
 	return true;
 }
 
@@ -102,6 +102,6 @@ sVorbisFormatBlock* VorbisDecodeFilter::getVorbisFormatBlock()
 void VorbisDecodeFilter::setVorbisFormat(sVorbisFormatBlock* inFormatBlock) 
 {
 	delete mVorbisFormatInfo;
-	mVorbisFormatInfo = new sVorbisFormatBlock;
+	mVorbisFormatInfo = new sVorbisFormatBlock;				//Deleted in destructor.
 	*mVorbisFormatInfo = *inFormatBlock;
 }

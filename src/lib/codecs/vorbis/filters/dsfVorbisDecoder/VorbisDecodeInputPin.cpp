@@ -55,7 +55,7 @@ STDMETHODIMP VorbisDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 bool VorbisDecodeInputPin::ConstructCodec() {
-	mFishSound = fish_sound_new (FISH_SOUND_DECODE, &mFishInfo);
+	mFishSound = fish_sound_new (FISH_SOUND_DECODE, &mFishInfo);			//Deleted by destroycodec from destructor.
 
 	int i = 1;
 	//FIX::: Use new API for interleave setting

@@ -44,9 +44,10 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	HRESULT locHR;
 	CoInitialize(NULL);
 	locHR = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&locGraphBuilder);
-	locHR = locGraphBuilder->RenderFile(L"g:\\m.ogg", NULL);
+	locHR = locGraphBuilder->RenderFile(L"g:\\a.ogg", NULL);
 
 	locHR = locGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&locMediaControl);
+
 
 	locHR = locMediaControl->Run();
 
