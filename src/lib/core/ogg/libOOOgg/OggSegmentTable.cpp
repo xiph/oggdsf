@@ -78,6 +78,7 @@ unsigned long OggSegmentTable::calculateDataSize() {
 }
 unsigned long OggSegmentTable::setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegments) 
 {
+	//Copies the buffer.
 	if (inNumSegments != 0) {
 		if (inSegTable == NULL) {
 			//do nothing if pointer was null and numsegments is not 0.

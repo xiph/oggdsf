@@ -30,8 +30,10 @@
 //===========================================================================
 
 #pragma once
+
 #include <vector>
 using namespace std;
+
 #include "StampedOggPacket.h"
 #include "OggPageHeader.h"
 #include "IOggPackSource.h"
@@ -44,60 +46,44 @@ class LIBOOOGG_API OggPage
 public:
 	OggPage(void);
 	~OggPage(void);
-
+	OggPage* clone();
 	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
 	
+	//Size functions
 	unsigned long pageSize();
 	unsigned long headerSize();
 	unsigned long dataSize();
 
-	//IOggPackSource
+	//IOggPackSource Implementation
 	OggPacket* getPacket(unsigned long inPacketNo);
+	unsigned long numPackets();
+	//
 
+	//Packet access
 	StampedOggPacket* getStampedPacket(unsigned long inPacketNo);
 	bool addPacket(StampedOggPacket* inPacket);
 	
-	unsigned long numPackets();
-	OggPage* clone();
-	
-	unsigned char* createRawPageData();
-		//Basic output stuff
-	string toString();
-
+	//Header access
 	OggPageHeader* header();
-	
-	void screenDump();
-	void dataDumpAsHex();
+	//
 
-
-
-	//bool setPageDataCopy(unsigned char* inData);
+	//Serialise
+	unsigned char* createRawPageData();
 
 
 	
-	//Get rid of this.
-	unsigned char* PageData();
-
-	//MUTATORS
-
-	void setPageData(unsigned char* inPtr);
 protected:
-
+	//Member data of packets and header.
 	vector<StampedOggPacket*> mPacketList;
-
-	//string mCapturePattern;					//Const = "OggS" 4 bytes
-
-
 	OggPageHeader* mHeader;
 
-	//This is obsolete... can it !
-	unsigned char* mPageData;
-
-
-
-	void dumpNChars(unsigned char* inStartPoint, unsigned long inNumChars);
-
-public:
-
+	
+	
+	////Basic output stuff
+	//// Some of this should get out of here.
+	//string toString();
+	//void screenDump();
+	//void dataDumpAsHex();
+	//void dumpNChars(unsigned char* inStartPoint, unsigned long inNumChars);
 
 };

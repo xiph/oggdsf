@@ -33,7 +33,6 @@
 #include "oggpage.h"
 
 OggPage::OggPage(void)
-	:	mPageData(NULL)
 {
 	mHeader = new OggPageHeader;
 	
@@ -68,7 +67,7 @@ StampedOggPacket* OggPage::getStampedPacket(unsigned long inPacketNo) {
 OggPage* OggPage::clone() {
 	OggPage* retClone = new OggPage;
 	retClone->mHeader = mHeader->clone();
-	for (int i = 0; i < mPacketList.size(); i++) {
+	for (size_t i = 0; i < mPacketList.size(); i++) {
 		retClone->mPacketList.push_back(mPacketList[i]);
 	}
 	
@@ -106,7 +105,7 @@ unsigned char* OggPage::createRawPageData() {
 	mHeader->rawData(locPage, mHeader->pageSize());
 
 	unsigned long locOffset = mHeader->headerSize();
-	for (int i = 0; i < mPacketList.size(); i++) {
+	for (size_t i = 0; i < mPacketList.size(); i++) {
 		OggPacket* locPack = mPacketList[i];
 		memcpy((void*)(locPage + locOffset), (const void*)(locPack->packetData()), locPack->packetSize());
 		locOffset += locPack->packetSize();
@@ -124,11 +123,7 @@ bool OggPage::addPacket(StampedOggPacket* inPacket) {
 }
 
 
-void OggPage::setPageData(unsigned char* inPtr)
-{
-	mHeader->setPageState(OggPageHeader::COMPLETE);
-	mPageData = inPtr;
-}
+
 unsigned long OggPage::pageSize()
 {
 	return mHeader->pageSize();
@@ -142,96 +137,93 @@ unsigned long OggPage::dataSize()
 	return mHeader->dataSize();
 }
 
-unsigned char* OggPage::PageData()
-{
-	return mPageData;
-}
-
-
-string OggPage::toString()
-{
-	
-	return NULL;
-}
-
-void OggPage::screenDump()
-{
-	//Dump the header
-	cout<< mHeader->toString();
-	//Dump the data
-	dataDumpAsHex();
-}
-
-void OggPage::dumpNChars(unsigned char* inStartPoint, unsigned long inNumChars) {
-
-	//NOTE::: Also needs reworking
-	const unsigned char BELL = 7;
-	//Set the fill character back to space ' '
-	cout << setfill(' ');
-
-	//Put some space after the hex section
-	unsigned long locPadding = 3 * (HEX_DUMP_LINE_LENGTH - inNumChars) + 4;
-	cout << setw(locPadding) << "    ";
-
-	//Loop through the characters
-	for (unsigned long i = 0; i < inNumChars; i++) {
-
-		//If they are *not* going to mess up the layout (\r, \n or \t or bell(7))
-		if ( (inStartPoint[i] != '\n') && (inStartPoint[i] != '\r') && (inStartPoint[i] != '\t') && (inStartPoint[i] != BELL )) {
-			//Write them out
-			cout << inStartPoint[i];						
-		} else {
-			//Otherwise just write a null char
-			cout << (char) 0;
-		}
-	}
-	//End the line and put the fill character back to a number 0
-	cout << endl << setfill('0');
-	
-}
 
 
 
-void OggPage::dataDumpAsHex() {
-	///NOTE::: ShOuld be reworked.
-	//Needs dataSize and data pointer
+//string OggPage::toString()
+//{
+//	
+//	return NULL;
+//}
 
-	//Put the stream in hex mode with a fill character of 0
-	hex(cout);
-	cout << setfill('0');
-
-	//Loop through every character of data
-	for (unsigned long i = 0; i < mHeader->dataSize(); i++) {
-		//If it is the end of the previous hex dump line or first line)
-		if ( (i % HEX_DUMP_LINE_LENGTH == 0) ) {
-			//And this is not the first line
-			if ( i != 0 ) {
-				//Write the actual characters out at the end of the line
-				dumpNChars( &mPageData[i - HEX_DUMP_LINE_LENGTH],  HEX_DUMP_LINE_LENGTH);
-			}
-
-			//At the start of the line write out the base address in an 8 hex-digit field 
-			cout << setw(8) << i << ": ";		
-		}
-
-		//Write out the value of the character in a 2 hex-digit field
-		cout << setw(2) << (int)mPageData[i] << " ";
-	}
-
-	//Find out how many leftover charcters didn't get written out.
-	unsigned long locLeftovers = (mHeader->dataSize() % HEX_DUMP_LINE_LENGTH);
-	locLeftovers = (locLeftovers > 0)	? (locLeftovers)	
-										: (HEX_DUMP_LINE_LENGTH);
-
-
-	//If there was any data in this dump
-	if ( mHeader->dataSize() > 0 ) {
-		//Dump the last part out
-		dumpNChars( &mPageData[mHeader->dataSize() - locLeftovers], locLeftovers );
-	}
-
-	cout << "==============================================================================" << endl;
-	//Put the stream back to decimal mode
-	dec(cout);
-}
+//void OggPage::screenDump()
+//{
+//	//Dump the header
+//	cout<< mHeader->toString();
+//	//Dump the data
+//	dataDumpAsHex();
+//}
+//
+//void OggPage::dumpNChars(unsigned char* inStartPoint, unsigned long inNumChars) {
+//
+//	//NOTE::: Also needs reworking
+//	const unsigned char BELL = 7;
+//	//Set the fill character back to space ' '
+//	cout << setfill(' ');
+//
+//	//Put some space after the hex section
+//	unsigned long locPadding = 3 * (HEX_DUMP_LINE_LENGTH - inNumChars) + 4;
+//	cout << setw(locPadding) << "    ";
+//
+//	//Loop through the characters
+//	for (unsigned long i = 0; i < inNumChars; i++) {
+//
+//		//If they are *not* going to mess up the layout (\r, \n or \t or bell(7))
+//		if ( (inStartPoint[i] != '\n') && (inStartPoint[i] != '\r') && (inStartPoint[i] != '\t') && (inStartPoint[i] != BELL )) {
+//			//Write them out
+//			cout << inStartPoint[i];						
+//		} else {
+//			//Otherwise just write a null char
+//			cout << (char) 0;
+//		}
+//	}
+//	//End the line and put the fill character back to a number 0
+//	cout << endl << setfill('0');
+//	
+//}
+//
+//
+//
+//void OggPage::dataDumpAsHex() {
+//	///NOTE::: ShOuld be reworked.
+//	//Needs dataSize and data pointer
+//
+//	//Put the stream in hex mode with a fill character of 0
+//	hex(cout);
+//	cout << setfill('0');
+//
+//	//Loop through every character of data
+//	for (unsigned long i = 0; i < mHeader->dataSize(); i++) {
+//		//If it is the end of the previous hex dump line or first line)
+//		if ( (i % HEX_DUMP_LINE_LENGTH == 0) ) {
+//			//And this is not the first line
+//			if ( i != 0 ) {
+//				//Write the actual characters out at the end of the line
+//				dumpNChars( &mPageData[i - HEX_DUMP_LINE_LENGTH],  HEX_DUMP_LINE_LENGTH);
+//			}
+//
+//			//At the start of the line write out the base address in an 8 hex-digit field 
+//			cout << setw(8) << i << ": ";		
+//		}
+//
+//		//Write out the value of the character in a 2 hex-digit field
+//		cout << setw(2) << (int)mPageData[i] << " ";
+//	}
+//
+//	//Find out how many leftover charcters didn't get written out.
+//	unsigned long locLeftovers = (mHeader->dataSize() % HEX_DUMP_LINE_LENGTH);
+//	locLeftovers = (locLeftovers > 0)	? (locLeftovers)	
+//										: (HEX_DUMP_LINE_LENGTH);
+//
+//
+//	//If there was any data in this dump
+//	if ( mHeader->dataSize() > 0 ) {
+//		//Dump the last part out
+//		dumpNChars( &mPageData[mHeader->dataSize() - locLeftovers], locLeftovers );
+//	}
+//
+//	cout << "==============================================================================" << endl;
+//	//Put the stream back to decimal mode
+//	dec(cout);
+//}
 

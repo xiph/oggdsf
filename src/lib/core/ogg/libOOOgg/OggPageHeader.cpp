@@ -274,16 +274,18 @@ bool OggPageHeader::setBaseHeader(unsigned char* inBaseHeader) {
 }
 
 bool OggPageHeader::setSegmentTable(unsigned char* inSegTable) {
+
+	//This assumes that mNumPageSegments is set.
 	//ISSUE ::: What happens when numPageSegments is zero ?
 	if ( /*(mPageState == BASE_HEAD_SET) && */ (mSegmentTable == NULL)) {
 		//Make a new segtable object
 		OggSegmentTable* locSegTable = new OggSegmentTable;
 
 		//Put the data in it and set the pagedata size
-		//NOTE ::: Nested Side effects
-		setDataSize( locSegTable->setSegmentTable(inSegTable, mNumPageSegments) );
+		unsigned long locDataSize = locSegTable->setSegmentTable(inSegTable, mNumPageSegments);
+		setDataSize( locDataSize );
 		
-		//Assign the segtable into the page
+		//Assign the segtable into the page, the page header will look after deleing the memory.
 		setSegmentTable(locSegTable);
 		mPageState = FULL_HEAD_SET;
 		return true;
@@ -349,6 +351,7 @@ void OggPageHeader::setNumPageSegments(unsigned char inVal)
 }
 void OggPageHeader::setSegmentTable(OggSegmentTable* inPtr)
 {
+	//Keeps your pointer !
 	mSegmentTable = inPtr;
 	
 }

@@ -59,12 +59,17 @@ public:
 	enum eFeedResult {
 		FEED_OK,
 		FEED_NULL_POINTER = 64,
+		FEED_BUFFER_WRITE_ERROR
+
 		
 
 	};
 
 	enum eProcessResult {
 		PROCESS_OK,
+		PROCESS_UNKNOWN_INTERNAL_ERROR = 256,
+		PROCESS_FILE_READ_ERROR
+
 	};
 	OggDataBuffer(void);
 	//Debug only
@@ -78,7 +83,7 @@ public:
 	
 	void clearData();
 	
-	bool feed(const char* inData, unsigned long inNumBytes);
+	OggDataBuffer::eFeedResult feed(const char* inData, unsigned long inNumBytes);
 	
 	//FIX ::: Add later
 	//void unRegisterSerialNo(unsigned long inSerialNo);
@@ -95,7 +100,7 @@ protected:
 	stringstream mStream;
 	eState mState;
 	
-	bool processBuffer();
+	eProcessResult processBuffer();
 	virtual bool dispatch(OggPage* inOggPage);
 
 	unsigned long mNumBytesNeeded;
