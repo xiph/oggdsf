@@ -61,7 +61,7 @@ unsigned long OggMuxStream::numAvail() {
 	return mPageQueue.size();
 }
 bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later... still needs deleting in destructor
-	mIsEOS = false;
+//	mIsEOS = false;
 	if (inOggPage == NULL) {
 		int x = 0;
 		x= x/x;
