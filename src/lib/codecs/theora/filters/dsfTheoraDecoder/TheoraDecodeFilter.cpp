@@ -324,13 +324,15 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 	BYTE* locBuff = NULL;
 	//Get a source poitner into the input buffer
 	locHR = inInputSample->GetPointer(&locBuff);
+
+	//TODO::: This should be after the return value check !!
 	BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];
 	memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
 
 
-	if (FAILED(locHR)) {
+	if (locHR != S_OK) {
 		//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
-		return locHR;
+		return S_FALSE;
 	} else {
 		//debugLog<<"Receive : Get pointer succeeds..."<<endl;	
 		//New start time hacks

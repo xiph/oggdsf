@@ -45,7 +45,8 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 int main(int argc, char * argv[])
 #endif
 {
-
+	int x;
+	cin >> x;
 
 
 	if (argc < 3) {

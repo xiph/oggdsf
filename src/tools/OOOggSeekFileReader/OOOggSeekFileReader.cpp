@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 				bytePos = iLE_Math::charArrToULong(buff);
 
 				cout << "Seek point "<<pointCount<<" : Time = "<<timePoint<<", Byte Offset = "<<bytePos<<endl;
+				pointCount++;
 			}
 		}
 

@@ -1271,6 +1271,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggPageInfo", "..\..\src\
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggSeekFileQuery", "..\..\src\tools\OOOggSeekFileQuery\OOOggSeekFileQuery.vcproj", "{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9A14F6AC-BC6E-401A-A300-07369BD6C5FE} = {9A14F6AC-BC6E-401A-A300-07369BD6C5FE}
+		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2622,6 +2628,22 @@ Global
 		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_SSE.Build.0 = Release|Win32
 		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_SSE2.ActiveCfg = Release|Win32
 		{EE19996C-FEB3-4247-9EEF-490C854177B0}.Release_SSE2.Build.0 = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Debug.ActiveCfg = Debug|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Debug.Build.0 = Debug|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Debug Unicode.ActiveCfg = Debug|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Debug Unicode.Build.0 = Debug|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.MakeFile.ActiveCfg = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.MakeFile.Build.0 = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release.ActiveCfg = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release.Build.0 = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release Unicode.ActiveCfg = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release Unicode.Build.0 = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_NoDotNET.Build.0 = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_SSE.ActiveCfg = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_SSE.Build.0 = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_SSE2.ActiveCfg = Release|Win32
+		{764F4A5C-AABE-4E10-937F-2E5ECDAAF29C}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

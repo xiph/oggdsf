@@ -120,7 +120,7 @@ STDMETHODIMP AbstractTransformInputPin::Receive(IMediaSample* inSample)
 		}
 	} else {
 		//Not streaming - Bail out.
-		return locHR;
+		return S_FALSE;
 	}
 }
 

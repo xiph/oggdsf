@@ -217,11 +217,14 @@ HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
 	//FIX::: Do something here ?
 	if (locErr < 0) {
+		DbgLog((LOG_TRACE,1,TEXT("decodeData : fishsound returns < 0")));
+		return S_FALSE;
 		//debugLog <<"** Fish Sound error **"<<endl;
 	} else {
+		return S_OK;
 		//debugLog << "Fish Sound OK >=0 "<<endl;
 	}
-	return locErr;
+	//return locErr;
 }
 
 
