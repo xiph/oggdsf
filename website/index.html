@@ -30,7 +30,7 @@ Thankyou to CSIRO's annodex.net project group (Silvia Pfeiffer, Conrad Parker an
 <br>
 Then media player will be able to play Ogg Vorbis, Ogg Speex, Ogg Theora and Ogg FLAC.<br>
 Also you can encode vorbis, speex and theora files using graphedit(<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en">DirectX9 SDK</a>) or other similar program.<br>
-<a href="http://www.illiminable.com/ogg/graphedit.html">See audio encodingexample filter graphs</a><br>
+<a href="http://www.illiminable.com/ogg/graphedit.html">See audio encoding example filter graphs</a><br>
 <a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">See theora encoding how-to</a>
 Also, if you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).
 <br>
@@ -53,7 +53,7 @@ This release has a lot of new code added, I'd really appreciate feedback on the 
 	<li>Added an example tool called OOOggCommentDump which dumps comment information from the first stream in a file</li>
 	<li>Added container class library for <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a></li>
 	<li>Added minimal <a href="http://www.annodex.net/TR/draft-pfeiffer-cmml-01.html">CMML</a> parsing library based on MSXML</a>
-	<li>Added a demuxer filter for <a href="http://www.annodex.net/">Annodex</a>, will only play in graphedit currently, and needs to manually build graphs to include the VMR9 as video renderer</li>
+	<li>Added a demuxer filter for <a href="http://www.annodex.net/">Annodex</a>, will only play in graphedit currently, and needs to manually build graphs to include the VMR9 as video renderer, also won't play the mpeg coded videos that are on the annodex site.</li>
 	<li>Added network support for demuxer to stream .ogg files</li>
 	<li>Fixed the speex encoder (I think)</li>
 	<li>Ogg Mux filter now supports multiple stream muxing</li>
