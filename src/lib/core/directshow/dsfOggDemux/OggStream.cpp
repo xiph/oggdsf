@@ -51,7 +51,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
 	string locLogName = "G:\\logs\\oggstream" + StringHelper::numToString(mSerialNo) + ".log";
-	//debugLog.open(locLogName.c_str(), ios_base::out);
+	debugLog.open(locLogName.c_str(), ios_base::out);
 	mStreamLock = new CCritSec;
 	//This may need to be moved to derived class
 	//Yep, Sure did !
@@ -65,7 +65,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 OggStream::~OggStream(void)
 {
 	//debugLog<<"Destructor..."<<endl;
-	//debugLog.close();
+	debugLog.close();
 	delete mSourcePin;
 	delete mCodecHeaders;
 	//delete mPartialPacket;
@@ -214,6 +214,17 @@ void OggStream::setLastEndGranPos(__int64 inGranPos) {
 	mLastEndGranulePos = inGranPos;
 }
 bool OggStream::acceptOggPage(OggPage* inOggPage) {
+	
+	//Chaining hack for icecast.
+	if ( (!mAllowSeek) && (inOggPage->header()->isBOS() )) {
+		//A BOS page can only be sent here if it's a chain... otherwise
+		// it would have already been stripped by the demux if it was at the
+		// start of the file.
+		debugLog<<"Detected chain... setting seek timebase to -1"<<endl;
+		mOwningFilter->mSeekTimeBase = -1;		
+
+	}
+
 	//FIX::: Add proper error checking.
 
 	//debugLog<<"acceptOggPage : "<<endl<<inOggPage->header()->toString()<<endl<<endl;;
@@ -245,5 +256,9 @@ bool OggStream::deliverCodecHeaders() {
 bool OggStream::dispatchPacket(StampedOggPacket* inPacket) {
 	//debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
 	return mSourcePin->deliverOggPacket(inPacket);
+}
+
+void OggStream::setSerialNo(unsigned long inSerialNo) {
+	mSerialNo = inSerialNo;
 }
 

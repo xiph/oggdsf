@@ -57,6 +57,7 @@ public:
 	//more hacks
 	virtual void setLastEndGranPos(__int64 inGranPos);
 	unsigned long serialNo();
+	void setSerialNo(unsigned long inSerialNo);
 	//virtual bool IdentifyCodec(OggPacket* inOggPacket) = 0;
 	virtual bool InitCodec(StampedOggPacket* inOggPacket) = 0;
 	virtual BYTE* getFormatBlock() = 0;
@@ -117,5 +118,5 @@ protected:
 	OggDemuxSourceFilter* mOwningFilter;
 	CCritSec* mStreamLock;
 
-	//fstream debugLog;
+	fstream debugLog;
 };

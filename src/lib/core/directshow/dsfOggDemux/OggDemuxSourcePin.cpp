@@ -86,6 +86,13 @@ STDMETHODIMP OggDemuxSourcePin::NonDelegatingQueryInterface(REFIID riid, void **
 }
 bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 	CAutoLock locStreamLock(mParentFilter->mStreamLock);
+
+	//Hack to try and suport chaining (only for non-seekables)
+	
+	//
+
+
+
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inPacket->startTime();
 	REFERENCE_TIME locStop = inPacket->endTime();

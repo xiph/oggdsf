@@ -766,7 +766,7 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 
 	//debugLog<<"EncodeRGB32 To YV12 : debugCount = "<<debugCount<<endl;
 
-	ASSERT(debugCount == locNumPixels);
+	//ASSERT(debugCount == locNumPixels);
 	
 	ASSERT(locDestPtr == (locAYUVBuf + inNumBytes));
 

@@ -83,6 +83,11 @@ public:
 	virtual STDMETHODIMP EndFlush();
 	virtual STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
+
+	//These really shouldn't be public !!
+	//Chaining hackery
+	REFERENCE_TIME mChainTimeBase;
+	REFERENCE_TIME mPreviousEndTime;
 protected:
 
 	virtual bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime);
@@ -105,6 +110,8 @@ protected:
 	unsigned long mSampleRate;
 
 	REFERENCE_TIME mSeekTimeBase;
+
+
 
 
 };

@@ -68,6 +68,16 @@ bool OggStreamMapper::dispatchPage(OggPage* inOggPage)
 			
 		}
 	}
+
+	//We only get here if the serial number wasn't in a header... this means either
+	// a) It's a chain, and we are going to hack around it
+	// b) The file is invalid.
+
+	//Only attempt a chain for a single stream (probably vorbis only)
+	if (mStreamList.size() == 1) {
+		mStreamList[0]->setSerialNo(inOggPage->header()->StreamSerialNo());
+		return mStreamList[0]->acceptOggPage(inOggPage);
+	}
 	//return false;
 	return true;
 }
@@ -87,9 +97,16 @@ bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)
 		bool locAllowSeekThrough = false;
 
 		//We only want one of the pins to delegate their seek to us.
-		if (mStreamList.size() == 0) {
-			locAllowSeekThrough = true;
-		}
+		//if (mStreamList.size() == 0) {
+		//	locAllowSeekThrough = true;
+		//}
+
+		locAllowSeekThrough = true;
+		//Above code is changed... due to WMP9 and 10 's non-adherence to directshows standard... it
+		// requires all streams to be seekable, in contradiction to directshow which specifies that
+		// only 1 or more is required.
+
+
 			
 		//If the page is a BOS we need to start a new stream
 		OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter, locAllowSeekThrough);

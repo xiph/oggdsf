@@ -658,7 +658,6 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 		if (locNumRead > 0) {
 			mOggBuffer.feed((const unsigned char*)locBuff, locNumRead);
 		}
-
 	}
 	
 	mStreamMapper->setAllowDispatch(true);

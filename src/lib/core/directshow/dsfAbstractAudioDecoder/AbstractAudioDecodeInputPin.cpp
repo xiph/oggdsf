@@ -45,6 +45,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mFilterLock(inFilterLock)
 	,	mLastSeenStartGranPos(0)
 	,	mSeekTimeBase(0)
+	,	mChainTimeBase(0)
 {
 	//ConstructCodec();
 	//debugLog.open("g:\\logs\\aad.log", ios_base::out);

@@ -40,7 +40,7 @@ VorbisDecodeInputPin::VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, 
 	,	mFishSound(NULL)
 		
 {
-	//debugLog.open("C:\\vorbislog.log", ios_base::out);
+	debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
 	ConstructCodec();
 }
 
@@ -71,7 +71,7 @@ void VorbisDecodeInputPin::DestroyCodec() {
 }
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	DestroyCodec();
 }
 
@@ -110,8 +110,22 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 		
 		//REFERENCE_TIME locFrameStart = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 
+
+		//New hacks for chaining.
+		if (locThis->mSeekTimeBase == -1) {
+			locThis->debugLog<<"Chaining was detected... setting chain time base to : "<<locThis->mPreviousEndTime<<endl;
+			//This is our signal this is the start of a chain...
+			// This can only happen on non-seekable streams.
+			locThis->mChainTimeBase = locThis->mPreviousEndTime;
+			
+			locThis->mSeekTimeBase = 0;
+		}
+
 		//Start time hacks
-		REFERENCE_TIME locTimeBase = ((locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate) - locThis->mSeekTimeBase;
+		REFERENCE_TIME locTimeBase = ((locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate) - locThis->mSeekTimeBase + locThis->mChainTimeBase;
+	
+		
+		
 		//locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
 		//locThis->debugLog<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
 		//locThis->debugLog<<"Time Base  : " << locTimeBase << endl;
@@ -126,6 +140,8 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 		//REFERENCE_TIME locFrameEnd = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 		REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
+		locThis->mPreviousEndTime = locFrameEnd;
+
 
 
 		//locThis->debugLog<<"Start      : "<<locFrameStart<<endl;
