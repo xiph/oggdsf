@@ -1,0 +1,16 @@
+base referer
+rect $C__MetaTagList_8h.html 300,387 422,414
+rect $C__ClipTag_8h.html 314,313 408,339
+rect $C__ClipTagList_8h.html 296,238 410,265
+rect $C__CMMLRootTag_8h.html 477,163 616,190
+rect $C__HeadTag_8h.html 494,238 598,265
+rect $C__CMMLDoc_8h.html 578,89 690,115
+rect $cpp__lib__cmml_8h.html 382,14 497,41
+rect $libCMMLTags_8h.html 773,14 885,41
+rect $CMMLDoc_8h.html 160,89 256,115
+rect $ClipTagList_8h.html 284,163 382,190
+rect $HeadTag_8h.html 169,163 254,190
+rect $CMMLRootTag_8h.html 280,89 402,115
+rect $ClipTag_8h.html 194,238 272,265
+rect $MetaTagList_8h.html 181,313 285,339
+rect $MetaTag_8h.html 190,387 276,414

@@ -1,0 +1,10 @@
+base referer
+rect $C__TextFieldTag_8h.html 688,82 813,109
+rect $cpp__lib__cmml_8h.html 297,8 412,34
+rect $C__ClipTag_8h.html 80,82 173,109
+rect $C__MappedTag_8h.html 197,82 317,109
+rect $C__CMMLRootTag_8h.html 392,82 530,109
+rect $C__ImportTag_8h.html 554,82 664,109
+rect $C__HeadTag_8h.html 409,157 513,184
+rect $libCMMLTags_8h.html 553,8 665,34
+rect $HumReadCMMLTag_8h.html 938,157 1090,184
