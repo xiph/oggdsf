@@ -114,16 +114,25 @@ HRESULT AbstractVideoEncodeOutputPin::CheckMediaType(const CMediaType *inMediaTy
 
 HRESULT AbstractVideoEncodeOutputPin::GetMediaType(int inPosition, CMediaType *outMediaType) {
 
+	
 	if (inPosition < 0) {
 		return E_INVALIDARG;
 	}
 
+	BYTE* locFormatBuffer = NULL;
 	switch (inPosition) {
 		case 0:
 
 			outMediaType->SetType(&MEDIATYPE_Video);
 			outMediaType->SetSubtype(&(mOutputMediaType->subtype));
 			outMediaType->SetFormatType(&(mOutputMediaType->formattype));
+			//FillFormatBuffer(outMediaType->pbformat);
+			//
+			locFormatBuffer = new BYTE[FormatBufferSize()];
+			FillFormatBuffer(locFormatBuffer);
+			outMediaType->SetFormat(locFormatBuffer, FormatBufferSize());
+			delete locFormatBuffer;
+			//
 			return S_OK;			
 		default:
 			return VFW_S_NO_MORE_ITEMS;
@@ -165,7 +174,7 @@ HRESULT AbstractVideoEncodeOutputPin::CompleteConnect (IPin *inReceivePin)
 {
 	HRESULT locHR = S_OK;
 	//DELETE in DEStructor
-	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 10);
+	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 25);
 	if (FAILED(locHR)) {
 		locHR = locHR;
 	}

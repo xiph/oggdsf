@@ -35,11 +35,12 @@ OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComple
 	:	mFileWriter(inFileWriter)
 	,	mNotifier(inNotifier)
 {
-
+	debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
 }
 
 OggPageInterleaver::~OggPageInterleaver(void)
 {
+	debugLog.close();
 }
 
 OggMuxStream* OggPageInterleaver::newStream() {
@@ -100,14 +101,35 @@ void OggPageInterleaver::writeLowest() {
 			if (!mInputStreams[i]->isEmpty() && mInputStreams[i]->isActive()) {
 				if (locLowestStream == NULL) {
 					locLowestStream = mInputStreams[i];
-				} else if ((mInputStreams[i]->frontTime() < locLowestStream->frontTime()) || (((mInputStreams[i]->peekFront() != NULL) && (mInputStreams[i]->peekFront()->header()->isBOS())))) {
-					locLowestStream = mInputStreams[i];
+					debugLog<<"writeLowest : Defaulting stream "<<i<<endl;
+				} else {
+					__int64 locCurrLowTime = locLowestStream->scaledFrontTime();
+					__int64 locTestLowTime = mInputStreams[i]->scaledFrontTime();
+					debugLog<<"writeLowest : Curr = "<<locCurrLowTime<<" -- Test["<<i<<"] = "<<locTestLowTime<<endl;
+					if (locTestLowTime == 3579139411666666) {
+						locTestLowTime = locTestLowTime;
+					}
+					//In english this means... any bos pages go first... then any no gran pos pages (-1 gran pos).. then
+					// whoevers got the lowest time.
+					if (
+						(	(mInputStreams[i]->peekFront() != NULL) && 
+							(mInputStreams[i]->peekFront()->header()->isBOS()) ) ||
+						
+						(	(mInputStreams[i]->peekFront() != NULL) && 
+							((mInputStreams[i]->peekFront()->header()->GranulePos()->value()) == -1) ) ||
+						(locTestLowTime < locCurrLowTime)
+						) 
+					{
+						debugLog<<"writeLowest : Selecting stream "<<i<<endl;
+						locLowestStream = mInputStreams[i];
+					}
 				}
 			}
 		}
 		if (locLowestStream == NULL) {
 			throw 0;
 		} else {
+			debugLog<<"writeLowest : Writing..."<<endl;
 			mFileWriter->acceptOggPage(locLowestStream->popFront());
 		}
 

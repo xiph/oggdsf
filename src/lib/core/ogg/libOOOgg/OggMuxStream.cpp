@@ -35,6 +35,11 @@ OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	:	mIsEOS(false)
 	,	mIsActive(false)
 	,	mNotifier(inNotifier)
+	,	mIsSensibleTime(true)
+	,	mConvNumerator(1)
+	,	mConvDenominator(1)
+	,	mConvScaleFactor(1)
+	,	mConvTheoraLogKeyFrameInterval(0)
 {
 }
 
@@ -72,6 +77,51 @@ __int64 OggMuxStream::frontTime() {
 		retTime = mPageQueue.front()->header()->GranulePos()->value();
 	}
 	return retTime;
+}
+
+__int64 OggMuxStream::scaledFrontTime() {
+
+	return convertTime(frontTime());
+}
+
+__int64 OggMuxStream::convertTime(__int64 inGranulePos) {
+	__int64 retTime = INT64_MAX;
+	if (inGranulePos != INT64_MAX) {
+		if (mIsSensibleTime) {
+			retTime = (inGranulePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
+		} else {
+			//Timestamp hacks start here...
+			unsigned long locMod = (unsigned long)pow(2, mConvTheoraLogKeyFrameInterval);
+			
+			unsigned long locInterFrameNo = (inGranulePos) % locMod;
+	
+			__int64 locAbsFramePos = (inGranulePos >> mConvTheoraLogKeyFrameInterval) + locInterFrameNo;
+	
+			retTime = (locAbsFramePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
+			
+	
+		}
+	} 
+	return retTime;
+		
+	
+}
+
+bool OggMuxStream::setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor) {
+	mConvNumerator = inNumerator;
+	mConvDenominator = inDenominator;
+	mConvScaleFactor = inScaleFactor;
+	mIsSensibleTime = true;
+	return true;
+}
+
+bool OggMuxStream::setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor, __int64 inTheoraLogKFI) {
+	mConvNumerator = inNumerator;
+	mConvDenominator = inDenominator;
+	mConvScaleFactor = inScaleFactor;
+	mConvTheoraLogKeyFrameInterval = inTheoraLogKFI;
+	mIsSensibleTime = false;
+	return true;
 }
 
 bool OggMuxStream::isEmpty() {

@@ -66,8 +66,8 @@ HRESULT AbstractAudioDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocato
 
 	const unsigned long MIN_BUFFER_SIZE = 1096;			
 	const unsigned long DEFAULT_BUFFER_SIZE = 32192;
-	const unsigned long MIN_NUM_BUFFERS = 3;
-	const unsigned long DEFAULT_NUM_BUFFERS = 5;
+	const unsigned long MIN_NUM_BUFFERS = 10;
+	const unsigned long DEFAULT_NUM_BUFFERS = 20;
 
 	
 	

@@ -121,12 +121,19 @@ HRESULT AbstractAudioEncodeOutputPin::GetMediaType(int inPosition, CMediaType *o
 		return E_INVALIDARG;
 	}
 
+	BYTE* locFormatBuffer = NULL;
 	switch (inPosition) {
 		case 0:
 
 			outMediaType->SetType(&MEDIATYPE_Audio);
 			outMediaType->SetSubtype(&(mOutputMediaType->subtype));
 			outMediaType->SetFormatType(&(mOutputMediaType->formattype));
+			//
+			locFormatBuffer = new BYTE[FormatBufferSize()];
+			FillFormatBuffer(locFormatBuffer);
+			outMediaType->SetFormat(locFormatBuffer, FormatBufferSize());
+			delete locFormatBuffer;
+			//
 			return S_OK;			
 		default:
 			return VFW_S_NO_MORE_ITEMS;

@@ -43,7 +43,7 @@ class VorbisEncodeFilter
 	:	public AbstractAudioEncodeFilter
 {
 public:
-
+	friend class VorbisEncodeInputPin;
 	friend class VorbisEncodeOutputPin;
 	VorbisEncodeFilter(void);
 	virtual ~VorbisEncodeFilter(void);

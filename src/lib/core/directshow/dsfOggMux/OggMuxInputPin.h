@@ -52,6 +52,8 @@ public:
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
 	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
 	//virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
+	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+
 
 
 	//IOggCallback

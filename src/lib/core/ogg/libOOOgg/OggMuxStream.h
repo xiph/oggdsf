@@ -33,6 +33,7 @@
 #include "OggPage.h"
 #include "IOggCallback.h"
 #include "INotifyArrival.h"
+#include <math.h>
 #include <deque>
 using namespace std;
 class LIBOOOGG_API OggMuxStream
@@ -47,16 +48,29 @@ public:
 	virtual OggPage* popFront();
 	virtual OggPage* peekFront();
 	virtual __int64 frontTime();
+	virtual __int64 scaledFrontTime();
 	virtual bool isEmpty();
 	virtual bool isEOS();
 	virtual bool isProcessable();
 	virtual void setIsEOS(bool inIsEOS);
 	virtual bool isActive();
 	virtual void setIsActive(bool inIsActive);
+
+	virtual bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor, __int64 inTheoraLogKFI);
+	bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor);
+
 	
 protected:
+	__int64 convertTime(__int64 inGranulePos);
+
 	bool mIsEOS;
 	bool mIsActive;
+	bool mIsSensibleTime;
+
+	__int64 mConvNumerator;
+	__int64 mConvDenominator;
+	__int64 mConvScaleFactor;
+	__int64 mConvTheoraLogKeyFrameInterval;
 	deque<OggPage*> mPageQueue;
 	INotifyArrival* mNotifier;
 

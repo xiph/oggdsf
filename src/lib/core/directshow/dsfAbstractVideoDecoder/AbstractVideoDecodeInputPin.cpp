@@ -115,10 +115,11 @@ STDMETHODIMP AbstractVideoDecodeInputPin::Receive(IMediaSample* inSample) {
 		inSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
 		
-		if (mLastSeenStartGranPos != locStart) {
+		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
 			ResetFrameCount();
+			mLastSeenStartGranPos = locStart;
 		}
-		mLastSeenStartGranPos = locStart;
+		
 		//End of additions
 
 

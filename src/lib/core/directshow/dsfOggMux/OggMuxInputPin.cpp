@@ -57,6 +57,26 @@ OggMuxInputPin::~OggMuxInputPin(void)
 	debugLog.close();
 }
 
+HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
+	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_Theora)) {
+		//Theora
+		sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
+		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
+
+	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
+		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
+			//Vorbis
+			sVorbisFormatBlock* locVorbis = (sVorbisFormatBlock*)inMediaType->pbFormat;
+			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
+			
+		} else if (inMediaType->subtype == MEDIASUBTYPE_Speex) {
+			//Speex
+			sSpeexFormatBlock* locSpeex = (sSpeexFormatBlock*)inMediaType->pbFormat;
+			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
+		}
+	}
+	return S_OK;
+}
 
 HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 	switch(inPosition) {

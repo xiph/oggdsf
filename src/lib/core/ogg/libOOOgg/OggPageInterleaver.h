@@ -33,6 +33,9 @@
 #include "INotifyComplete.h"
 #include "OggMuxStream.h"
 #include <vector>
+
+//DEBUG ONLY
+#include <fstream>
 using namespace std;
 class LIBOOOGG_API OggPageInterleaver
 	:	public INotifyArrival
@@ -56,4 +59,8 @@ protected:
 	vector<OggMuxStream*> mInputStreams;
 	IOggCallback* mFileWriter;
 	INotifyComplete* mNotifier;
+
+	//DEBUG ONLY
+	fstream debugLog;
+	//
 };

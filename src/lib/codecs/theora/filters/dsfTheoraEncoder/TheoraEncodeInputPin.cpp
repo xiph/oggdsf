@@ -260,13 +260,16 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	mTheoraInfo.dropframes_p=0;
 	mTheoraInfo.quick_p=1;
 	mTheoraInfo.keyframe_auto_p=1;
-	mTheoraInfo.keyframe_frequency=64;
-	mTheoraInfo.keyframe_frequency_force=64;
+	mTheoraInfo.keyframe_frequency=64;   //If you change this... change the logged value below
+	mTheoraInfo.keyframe_frequency_force=64;  //ditto
 	mTheoraInfo.keyframe_data_target_bitrate=mTheoraInfo.target_bitrate*1.5;
 	mTheoraInfo.keyframe_auto_threshold=80;
 	mTheoraInfo.keyframe_mindistance=8;
 	mTheoraInfo.noise_sensitivity=1; 
 
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = locNum;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = 1;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.maxKeyframeInterval = 6;   //log2(keyframe_freq) from above
 	return true;
 
 }

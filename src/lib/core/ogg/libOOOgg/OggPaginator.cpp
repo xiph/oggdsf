@@ -236,8 +236,12 @@ bool OggPaginator::deliverCurrentPage() {
 	mPendingPage->header()->setHeaderSize(OggPageHeader::OGG_BASE_HEADER_SIZE + mSegmentTableSize);
 	mPendingPage->header()->setNumPageSegments(mSegmentTableSize);
 	mPendingPage->header()->setSegmentTable(mSegmentTable);
-
+	if (mPendingPage->header()->GranulePos()->value() == -1) {
+		mPendingPage->header()->setHeaderFlags(mPendingPage->header()->HeaderFlags() | 1);	
+	}
 	setChecksum();
+	
+
 	mPageCallback->acceptOggPage(mPendingPage);
 	createFreshPage();
 	return true;

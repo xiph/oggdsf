@@ -43,7 +43,7 @@ class TheoraEncodeFilter
 	:	public AbstractVideoEncodeFilter
 {
 public:
-
+	friend class TheoraEncodeInputPin;
 	friend class TheoraEncodeOutputPin;
 	TheoraEncodeFilter(void);
 	virtual ~TheoraEncodeFilter(void);

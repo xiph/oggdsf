@@ -84,10 +84,14 @@ bool VorbisEncodeInputPin::ConstructCodec() {
 	mFishInfo.channels = mWaveFormat->nChannels;
 	mFishInfo.format = FISH_SOUND_VORBIS;
 	mFishInfo.samplerate = mWaveFormat->nSamplesPerSec;
-
-
+    
 	mFishInfo.format = FISH_SOUND_VORBIS;
 	mFishSound = fish_sound_new (FISH_SOUND_ENCODE, &mFishInfo);
+
+	//Change to fill in vorbis format block so muxer can work
+	((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock.numChannels = mWaveFormat->nChannels;
+	((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock.samplesPerSec = mWaveFormat->nSamplesPerSec;
+	//
 
 	int i = 1;
 	//FIX::: Use new API for interleave setting
