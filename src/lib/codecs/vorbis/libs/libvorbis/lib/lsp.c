@@ -11,7 +11,7 @@
  ********************************************************************
 
   function: LSP (also called LSF) conversion routines
-  last mod: $Id: lsp.c,v 1.24 2002/10/16 07:44:21 xiphmont Exp $
+  last mod: $Id: lsp.c 7187 2004-07-20 07:24:27Z xiphmont $
 
   The LSP generation code is taken (with minimal modification and a
   few bugfixes) from "On the Computation of the LSP Frequencies" by

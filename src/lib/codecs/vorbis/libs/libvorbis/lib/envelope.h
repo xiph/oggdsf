@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: PCM data envelope analysis and manipulation
- last mod: $Id: envelope.h,v 1.25 2002/07/11 06:40:48 xiphmont Exp $
+ last mod: $Id: envelope.h 7187 2004-07-20 07:24:27Z xiphmont $
 
  ********************************************************************/
 

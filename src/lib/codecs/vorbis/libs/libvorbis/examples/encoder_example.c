@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: simple example encoder
- last mod: $Id: encoder_example.c,v 1.50 2002/07/16 09:26:07 xiphmont Exp $
+ last mod: $Id: encoder_example.c 7187 2004-07-20 07:24:27Z xiphmont $
 
  ********************************************************************/
 
@@ -116,17 +116,17 @@ int main(){
 
    ---------------------------------------------------------------------
 
-   Encode using a qulity mode, but select that quality mode by asking for
+   Encode using a quality mode, but select that quality mode by asking for
    an approximate bitrate.  This is not ABR, it is true VBR, but selected
    using the bitrate interface, and then turning bitrate management off:
 
    ret = ( vorbis_encode_setup_managed(&vi,2,44100,-1,128000,-1) ||
-           vorbis_encode_ctl(&vi,OV_ECTL_RATEMANAGE_AVG,NULL) ||
+           vorbis_encode_ctl(&vi,OV_ECTL_RATEMANAGE2_SET,NULL) ||
            vorbis_encode_setup_init(&vi));
 
    *********************************************************************/
 
-  ret=vorbis_encode_init_vbr(&vi,2,44100,.5);
+  ret=vorbis_encode_init_vbr(&vi,2,44100,0.1);
 
   /* do not continue if setup failed; this can happen if we ask for a
      mode that libVorbis does not support (eg, too low a bitrate, etc,

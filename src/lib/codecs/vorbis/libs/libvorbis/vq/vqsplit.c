@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: build a VQ codebook and the encoding decision 'tree'
- last mod: $Id: vqsplit.c,v 1.26 2001/12/20 01:00:40 segher Exp $
+ last mod: $Id: vqsplit.c 7187 2004-07-20 07:24:27Z xiphmont $
 
  ********************************************************************/
 

@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: utility for finding the distribution in a data set
- last mod: $Id: distribution.c,v 1.9 2001/12/20 01:00:39 segher Exp $
+ last mod: $Id: distribution.c 7187 2004-07-20 07:24:27Z xiphmont $
 
  ********************************************************************/
 

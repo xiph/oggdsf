@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: modified discrete cosine transform prototypes
- last mod: $Id: mdct.h,v 1.20 2002/01/22 11:59:00 xiphmont Exp $
+ last mod: $Id: mdct.h 7187 2004-07-20 07:24:27Z xiphmont $
 
  ********************************************************************/
 

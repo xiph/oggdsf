@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: libvorbis codec headers
- last mod: $Id: codec_internal.h,v 1.17 2003/08/18 05:34:01 xiphmont Exp $
+ last mod: $Id: codec_internal.h 7187 2004-07-20 07:24:27Z xiphmont $
 
  ********************************************************************/
 
@@ -33,7 +33,10 @@ typedef struct vorbis_block_internal{
   float  ampmax;
   int    blocktype;
 
-  ogg_uint32_t   packetblob_markers[PACKETBLOBS];
+  oggpack_buffer *packetblob[PACKETBLOBS]; /* initialized, must be freed; 
+					      blob [PACKETBLOBS/2] points to
+					      the oggpack_buffer in the 
+					      main vorbis_block */
 } vorbis_block_internal;
 
 typedef void vorbis_look_floor;
