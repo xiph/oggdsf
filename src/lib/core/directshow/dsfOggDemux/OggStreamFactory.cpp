@@ -67,7 +67,7 @@ StreamHeaders::eCodecType OggStreamFactory::IdentifyCodec(OggPacket* inOggPacket
 		return StreamHeaders::SPEEX;
 	} else if ((strncmp((char*)inOggPacket->packetData(), "fLaC", 4)) == 0) {
 		return StreamHeaders::FLAC;
-	} else if ((strncmp((char*)inOggPacket->packetData(), "\200theora", 4)) == 0) {
+	} else if ((strncmp((char*)inOggPacket->packetData(), "\200theora", 7)) == 0) {
 		return StreamHeaders::THEORA;
 	} else if ((strncmp((char*)inOggPacket->packetData(), "\001video\000\000\000", 9)) == 0) {
 		return StreamHeaders::FFDSHOW_VIDEO;

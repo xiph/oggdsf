@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-// OggDump.cpp : Defines the entry point for the console application.
+// OOOggStat.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -43,22 +43,50 @@
 
 //This will be called by the callback
 
+unsigned long streamNo;
 
 bool pageCB(OggPage* inOggPage) {
-	OggPacket* locPack = NULL;
-	cout << inOggPage->header()->toString();
-	cout << "Num Packets : " << inOggPage->numPackets() << endl;;
-	for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
-		locPack = inOggPage->getPacket(i);
-		cout << "------ Packet  "<< i <<" (";
-		cout<<locPack->packetSize()<< " bytes) -------";
-		
-		if (!locPack->isComplete()) {
-			cout<<"  ** INCOMPLETE **";
+	if ((inOggPage->numPackets() > 0) && (inOggPage->header()->isBOS())) {
+		streamNo++;
+		OggPacket* locFirstPack = inOggPage->getPacket(0);
+
+		if (strncmp((char*)locFirstPack->packetData(), "\001vorbis", 7) == 0) {
+			cout<<"Stream "<<streamNo<<" : Audio/Vorbis "<<endl;
+		} else if (strncmp((char*)locFirstPack->packetData(), "Speex   ", 8) == 0) {
+			cout<<"Stream "<<streamNo<<" : Audio/Speex "<<endl;
+		} else if ((strncmp((char*)locFirstPack->packetData(), "fLaC", 4)) == 0) {
+			cout<<"Stream "<<streamNo<<" : Audio/FLAC "<<endl;
+		} else if ((strncmp((char*)locFirstPack->packetData(), "\200theora", 7)) == 0) {
+			cout<<"Stream "<<streamNo<<" : Video/Theora "<<endl;
+		} else if ((strncmp((char*)locFirstPack->packetData(), "\001video\000\000\000", 9)) == 0) {
+			unsigned char* locPackData = locFirstPack->packetData();
+			unsigned char* locFourCCString = new unsigned char[5];
+			for (int i = 0; i < 4; i++) {
+				locFourCCString[i] = locPackData[9+i];
+			}
+			locFourCCString[4] = 0;
+
+			string locPinName = (char*)locFourCCString;
+			cout<<"Stream "<<streamNo<<" : Video/"<<locPinName<<endl;
+		} else {
+			cout<<"Stream "<<streamNo<<" : Unknown Stream"<<endl;
 		}
-		cout<<endl;
-		cout << locPack->toPackDumpString();
 	}
+	
+
+	//cout << inOggPage->header()->toString();
+	//cout << "Num Packets : " << inOggPage->numPackets() << endl;;
+	//for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
+	//	locPack = inOggPage->getPacket(i);
+	//	cout << "------ Packet  "<< i <<" (";
+	//	cout<<locPack->packetSize()<< " bytes) -------";
+	//	
+	//	if (!locPack->isComplete()) {
+	//		cout<<"  ** INCOMPLETE **";
+	//	}
+	//	cout<<endl;
+	//	cout << locPack->toPackDumpString();
+	//}
 	
 	return true;
 }
@@ -75,6 +103,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	if (argc < 2) {
 		cout<<"Usage : OOOggDump <filename>"<<endl;
 	} else {
+		streamNo = 0;
 		OggDataBuffer testOggBuff;
 		OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
 		const BUFF_SIZE = 8092;
@@ -95,4 +124,5 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	return 0;
 }
+
 
