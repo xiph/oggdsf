@@ -4,8 +4,13 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // LIBTEMPORALURI_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifdef LIBTEMPORALURI_EXPORTS
-#define LIBTEMPORALURI_API __declspec(dllexport)
+#ifdef WIN32
+# ifdef LIBTEMPORALURI_EXPORTS
+#  define LIBTEMPORALURI_API __declspec(dllexport)
+# else
+#  define LIBTEMPORALURI_API __declspec(dllimport)
+# endif
 #else
-#define LIBTEMPORALURI_API __declspec(dllimport)
+# define LIBTEMPORALURI_API
 #endif
+

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "C_TimeStamp.h"
 
 C_TimeStamp::C_TimeStamp(void)

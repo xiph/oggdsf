@@ -10,7 +10,11 @@
 #include <libCMMLParse/CMMLParser.h>
 #include <libCMMLParse/CMMLTagUtils.h>
 
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else /* assume POSIX */
+int main(int argc, char* argv[])
+#endif
 {
 	C_CMMLDoc *locCMMLDoc = new C_CMMLDoc;
 
@@ -27,10 +31,12 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 
 	C_TimeStamp locTimeStamp;
 	string locTimeString = argv[2];
-	LOOG_INT64 locTime = locTimeStamp.parseTimeStamp(locTimeString);
+	if (!locTimeStamp.parseTimeStamp(locTimeString)) {
+		cerr << "Couldn't convert time stamp to DirectSeconds" << endl;
+		return 2;
+	}
+	LOOG_INT64 locTime = locTimeStamp.toHunNanos();
 	cout << "Time in DirectSeconds: " << locTime << endl;
-
-	locTime = 150000000;
 
 	// Reconstruct the CMML document from the given time offset
 
