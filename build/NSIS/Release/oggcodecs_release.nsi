@@ -93,74 +93,89 @@ FunctionEnd
 Section "Ogg Core Files" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
+
   ; Runtime libraries from visual studio
-  
   File "${VS_RUNTIME_LOCATION}\msvcr71.dll"
   File "${VS_RUNTIME_LOCATION}\msvcp71.dll"
-  ;
-  
-  ;File "..\..\..\src\lib\core\directshow\dsfAbstractVideoEncoder\Release\dsfAbstractVideoEncoder.dll"
+
+
+  ; Libraries
   File "..\..\..\src\lib\core\ogg\libOOOgg\Release\libOOOgg.dll"
   File "..\..\..\src\lib\core\ogg\libOOOggSeek\Release\libOOOggSeek.dll"
-  File "..\..\..\src\lib\core\directshow\dsfSeeking\Release\dsfSeeking.dll"
+  File "..\..\..\src\lib\codecs\cmml\libCMMLTags\Release\libCMMLTags.dll"
+  File "..\..\..\src\lib\codecs\cmml\libCMMLParse\Release\libCMMLParse.dll"
+  File "..\..\..\src\lib\codecs\vorbis\libs\libvorbis\win32\Vorbis_Dynamic_Release\vorbis.dll"
+ 
+  File "..\..\..\src\lib\codecs\theora\libs\libOOTheora\Release\libOOTheora.dll"
+  File "..\..\..\src\lib\codecs\flac\libs\libflac\obj\release\bin\libFLAC.dll"
+  File "..\..\..\src\lib\codecs\flac\libs\libflac\obj\release\bin\libFLAC++.dll"
+  File "..\..\..\src\lib\codecs\helper\libfishsound\win32\Release\libfishsound.dll"
   File "..\..\..\src\lib\core\ogg\libVorbisComment\Release\libVorbisComment.dll"
+
+  File "..\..\..\src\lib\helper\libTemporalURI\Release\libTemporalURI.dll"
+
+
+
+  ; Utilites
+  File "..\..\..\src\tools\OOOggDump\Release\OOOggDump.exe"
+  File "..\..\..\src\tools\OOOggStat\Release\OOOggStat.exe"
+  File "..\..\..\src\tools\OOOggValidate\Release\OOOggValidate.exe"
+  File "..\..\..\src\tools\OOOggCommentDump\Release\OOOggCommentDump.exe"
+
+
+  ; Text files
   File "..\..\..\ABOUT.rtf"
   File "..\..\..\VERSIONS"
   File "..\..\..\README"
   File "..\..\..\COPYRIGHTS.rtf"
   File "..\..\..\COPYRIGHTS"
+
   File "..\..\..\AUTHORS"
   File "..\..\..\HISTORY"
-  File "..\..\..\src\lib\codecs\cmml\libCMMLTags\Release\libCMMLTags.dll"
-  ;File "..\..\..\src\lib\codecs\cmml\libWinCMMLParse\Release\libWinCMMLParse.dll"
-  File "..\..\..\src\lib\codecs\cmml\libCMMLParse\Release\libCMMLParse.dll"
-  File "..\..\..\src\lib\codecs\vorbis\libs\libvorbis\win32\Vorbis_Dynamic_Release\vorbis.dll"
-  File "..\..\..\src\lib\codecs\theora\libs\libOOTheora\Release\libOOTheora.dll"
-  File "..\..\..\src\lib\codecs\flac\libs\libflac\obj\release\bin\libFLAC.dll"
-  File "..\..\..\src\lib\codecs\flac\libs\libflac\obj\release\bin\libFLAC++.dll"
-  File "..\..\..\src\lib\codecs\helper\libfishsound\win32\Release\libfishsound.dll"
-  File "..\..\..\src\tools\OOOggDump\Release\OOOggDump.exe"
-  File "..\..\..\src\tools\OOOggStat\Release\OOOggStat.exe"
-  File "..\..\..\src\tools\OOOggValidate\Release\OOOggValidate.exe"
-  File "..\..\..\src\tools\OOOggCommentDump\Release\OOOggCommentDump.exe"
-  File "..\..\..\src\lib\helper\libTemporalURI\Release\libTemporalURI.dll"
 
 
-; Install libraries
+  ; Install Filters
+  File "..\..\..\src\lib\core\directshow\dsfSeeking\Release\dsfSeeking.dll"
   File "..\..\..\src\lib\codecs\flac\filters\dsfFLACEncoder\Release\dsfFLACEncoder.dll"
   File "..\..\..\src\lib\codecs\speex\filters\dsfSpeexEncoder\Release\dsfSpeexEncoder.dll"
   File "..\..\..\src\lib\codecs\theora\filters\dsfTheoraEncoder\Release\dsfTheoraEncoder.dll"
   File "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisEncoder\Release\dsfVorbisEncoder.dll"
+
   File "..\..\..\src\lib\codecs\flac\filters\dsfNativeFLACSource\Release\dsfNativeFLACSource.dll"
   File "..\..\..\src\lib\codecs\speex\filters\dsfSpeexDecoder\Release\dsfSpeexDecoder.dll"
   File "..\..\..\src\lib\codecs\theora\filters\dsfTheoraDecoder\Release\dsfTheoraDecoder.dll"
   File "..\..\..\src\lib\codecs\flac\filters\dsfFLACDecoder\Release\dsfFLACDecoder.dll"
   File "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisDecoder\Release\dsfVorbisDecoder.dll"
+
   File "..\..\..\src\lib\core\directshow\dsfOggDemux\Release\dsfOggDemux.dll"
   File "..\..\..\src\lib\core\directshow\dsfOggMux\Release\dsfOggMux.dll"
   File "..\..\..\src\lib\codecs\cmml\dsfCMMLDecoder\Release\dsfCMMLDecoder.dll"
   File "..\..\..\src\lib\codecs\cmml\dsfCMMLRawSource\Release\dsfCMMLRawSource.dll"
   File "..\..\..\src\lib\core\directshow\dsfSubtitleVMR9\Release\dsfSubtitleVMR9.dll"
+
   File "..\..\..\src\lib\core\directshow\dsfAnxDemux\Release\dsfAnxDemux.dll"
   File "..\..\..\src\lib\core\directshow\dsfAnxMux\Release\dsfAnxMux.dll"
 
 ; Register libraries
-  ExecWait 'regsvr32 "$INSTDIR\dsfFLACEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfSpeexEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfTheoraEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfVorbisEncoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfNativeFLACSource.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfSpeexDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfTheoraDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfFLACDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfVorbisDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfOggDemux.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfOggMux.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfCMMLDecoder.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfCMMLRawSource.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfSubtitleVMR9.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfAnxDemux.dll"'
-  ExecWait 'regsvr32 "$INSTDIR\dsfAnxMux.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfFLACEncoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSpeexEncoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfTheoraEncoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfVorbisEncoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfNativeFLACSource.dll"'
+
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSpeexDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfTheoraDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfFLACDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfVorbisDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOggDemux.dll"'
+
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOggMux.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfCMMLDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfCMMLRawSource.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSubtitleVMR9.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxDemux.dll"'
+
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxMux.dll"'
 
 
   Sleep 10000
@@ -511,48 +526,35 @@ FunctionEnd
 Section Uninstall
 ; Unregister libraries
 
-  ; Unregister encoders
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfFLACEncoder.dll"
-  SetOutPath "$INSTDIR"
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfSpeexEncoder.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfTheoraEncoder.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfVorbisEncoder.dll"
-  
-  ; Unregister decoders
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfNativeFLACSource.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfSpeexDecoder.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfTheoraDecoder.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfFLACDecoder.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfVorbisDecoder.dll"
-
-
   ; Unregister core annodex libraries
- 
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfCMMLDecoder.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfCMMLRawSource.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfSubtitleVMR9.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfAnxDemux.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfAnxMux.dll"
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfSubtitleVMR9.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfCMMLDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfCMMLRawSource.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfAnxDemux.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfAnxMux.dll"'
 
   
   ; Unregister core ogg libraries
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfOggDemux.dll"
-  SetOutPath $INSTDIR
-  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfOggMux.dll"
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOggDemux.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOggMux.dll"'
+
+
+  ; Unregister encoders
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfFLACEncoder.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfSpeexEncoder.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfTheoraEncoder.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfVorbisEncoder.dll"'
+
+  
+  ; Unregister decoders
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfNativeFLACSource.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfSpeexDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfTheoraDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfFLACDecoder.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfVorbisDecoder.dll"'
+
+
+
   
 
 
@@ -701,53 +703,74 @@ Section Uninstall
 
 
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
-  Delete "$INSTDIR\${PRODUCT_NAME}.url"
-  Delete "$INSTDIR\uninst.exe"
+
+  ;Delete utils
   Delete "$INSTDIR\OOOggCommentDump.exe"
   Delete "$INSTDIR\OOOggValidate.exe"
   Delete "$INSTDIR\OOOggStat.exe"
   Delete "$INSTDIR\OOOggDump.exe"
-; Delete "$INSTDIR\dsfVorbisEncoder.dll"
-; Delete "$INSTDIR\dsfTheoraEncoder.dll"
-; Delete "$INSTDIR\dsfSpeexEncoder.dll"
-; Delete "$INSTDIR\dsfFLACEncoder.dll"
-; Delete "$INSTDIR\dsfVorbisDecoder.dll"
-  Delete "$INSTDIR\libfishsound.dll"
-; Delete "$INSTDIR\dsfFLACDecoder.dll"
+
+
+  ;Delete libraries
   Delete "$INSTDIR\libFLAC++.dll"
   Delete "$INSTDIR\libFLAC.dll"
-; Delete "$INSTDIR\dsfTheoraDecoder.dll"
+  Delete "$INSTDIR\libfishsound.dll"
   Delete "$INSTDIR\libOOTheora.dll"
-; Delete "$INSTDIR\dsfSpeexDecoder.dll"
-; Delete "$INSTDIR\dsfNativeFLACSource.dll"
   Delete "$INSTDIR\vorbis.dll"
-; Delete "$INSTDIR\dsfSubtitleVMR9.dll"
-; Delete "$INSTDIR\dsfAnxDemux.dll"
-; Delete "$INSTDIR\dsfCMMLDecoder.dll"
-;  Delete "$INSTDIR\libWinCMMLParse.dll"
+
   Delete "$INSTDIR\libCMMLParse.dll"
   Delete "$INSTDIR\libCMMLTags.dll"
   Delete "$INSTDIR\libVorbisComment.dll"
-; Delete "$INSTDIR\dsfOggDemux.dll"
-  Delete "$INSTDIR\dsfSeeking.dll"
   Delete "$INSTDIR\libOOOggSeek.dll"
   Delete "$INSTDIR\libOOOgg.dll"
+
   Delete "$INSTDIR\libTemporalURI.dll"
-; Delete "$INSTDIR\dsfOggMux.dll"
-;  Delete "$INSTDIR\dsfAbstractVideoEncoder.dll"
+
+
+  ;Delete Filter
+  Delete "$INSTDIR\dsfVorbisEncoder.dll"
+  Delete "$INSTDIR\dsfTheoraEncoder.dll"
+  Delete "$INSTDIR\dsfSpeexEncoder.dll"
+  Delete "$INSTDIR\dsfFLACEncoder.dll"
+  Delete "$INSTDIR\dsfVorbisDecoder.dll"
+
+  Delete "$INSTDIR\dsfFLACDecoder.dll"
+  Delete "$INSTDIR\dsfTheoraDecoder.dll"
+  Delete "$INSTDIR\dsfSpeexDecoder.dll"
+  Delete "$INSTDIR\dsfNativeFLACSource.dll"
+  Delete "$INSTDIR\dsfSubtitleVMR9.dll"
+
+  Delete "$INSTDIR\dsfAnxDemux.dll"
+  Delete "$INSTDIR\dsfCMMLDecoder.dll"
+  Delete "$INSTDIR\dsfOggDemux.dll"
+  Delete "$INSTDIR\dsfSeeking.dll"
+  Delete "$INSTDIR\dsfOggMux.dll"
+
+  Delete "$INSTDIR\dsfAnxMux.dll"
+  Delete "$INSTDIR\dsfCMMLRawSource.dll"
+
+
+  ;Delete text files
   Delete "$INSTDIR\ABOUT.rtf"
   Delete "$INSTDIR\VERSIONS"
   Delete "$INSTDIR\README"
   Delete "$INSTDIR\COPYRIGHTS.rtf"
   Delete "$INSTDIR\COPYRIGHTS"
+
   Delete "$INSTDIR\AUTHORS"
   Delete "$INSTDIR\HISTORY"
 
+
+  ;Delete runtimes
   Delete "$INSTDIR\msvcr71.dll"
   Delete "$INSTDIR\msvcp71.dll"
 
+
+  ;Delete accesory files, links etc.
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
+  Delete "$INSTDIR\${PRODUCT_NAME}.url"
+  Delete "$INSTDIR\uninst.exe"
 
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
 
