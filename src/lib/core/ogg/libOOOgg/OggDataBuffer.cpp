@@ -120,7 +120,8 @@ OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
 	}
 
 	//Delete the page... if the called functions wanted a copy they should have taken one for themsselves.
-	delete inOggPage;
+	//Not any more acceptOggPage takes responsibility for the memory you pass into it. See IOggCallback.h
+	//delete inOggPage;
 	pendingPage = NULL;
 	return DISPATCH_NO_CALLBACK;
 }
@@ -332,6 +333,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 
 	//Dispatch the finished pagbve
 	eDispatchResult locRet = dispatch(pendingPage);
+	pendingPage = NULL;   //We give away the pointer
 	
 	if (locRet == DISPATCH_OK) {
         //debugLog<<"ProcessDataSegment : Transition to AWAITING_BASE_HEADER"<<endl;

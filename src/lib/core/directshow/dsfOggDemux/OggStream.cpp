@@ -54,7 +54,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	//Yep, Sure did !
 	//InitCodec(inBOSPage->getPacket(0));
 
-	//Get the packetisers callback to our acceptstampedoggpacket function.
+	//Set the packetisers callback to our acceptstampedoggpacket function.
 	mPacketiser.setPacketSink(this);
 
 }

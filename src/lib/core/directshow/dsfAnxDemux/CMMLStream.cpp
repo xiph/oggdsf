@@ -85,8 +85,8 @@ BYTE* CMMLStream::getFormatBlock() {
 bool CMMLStream::createFormatBlock() {
 	//Check where this gets deleted
 	mCMMLFormatBlock = new sCMMLFormatBlock;
-	mCMMLFormatBlock->granuleNumerator = OggMath::charArrToULong(mAnxDataPacket->packetData() + 8) + ((OggMath::charArrToULong(mAnxDataPacket->packetData() + 12)) << 32);
-	mCMMLFormatBlock->granuleDenominator = OggMath::charArrToULong(mAnxDataPacket->packetData() + 16) + ((OggMath::charArrToULong(mAnxDataPacket->packetData() + 20)) << 32);
+	mCMMLFormatBlock->granuleNumerator = iLE_Math::charArrToULong(mAnxDataPacket->packetData() + 8) + ((iLE_Math::charArrToULong(mAnxDataPacket->packetData() + 12)) << 32);
+	mCMMLFormatBlock->granuleDenominator = iLE_Math::charArrToULong(mAnxDataPacket->packetData() + 16) + ((iLE_Math::charArrToULong(mAnxDataPacket->packetData() + 20)) << 32);
 
 	return true;
 }

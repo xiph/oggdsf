@@ -30,7 +30,8 @@ void OggPacketiser::setPacketSink(IStampedOggPacketSink* inPacketSink) {
 bool OggPacketiser::reset() {
 	delete mPendingPacket;
 	mPendingPacket = NULL;
-	mState = PKRSTATE_OK;
+	mPacketiserState = PKRSTATE_OK;
+	return true;
 }
 bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
 	//All callers to acceptOggPage give away their pointer
