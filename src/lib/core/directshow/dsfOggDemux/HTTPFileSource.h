@@ -78,8 +78,11 @@ protected:
 	stringstream mStreamBuffer;
 
 	fstream debugLog;
+	fstream fileDump;
 	bool mIsEOF;
 	bool mWasError;
 	bool mIsOpen;
 	bool mSeenResponse;
+
+	CCritSec* mBufferLock;
 };

@@ -114,11 +114,14 @@ bool OggDataBuffer::dispatch(OggPage* inOggPage) {
 }
 
 bool OggDataBuffer::feed(const char* inData, unsigned long inNumBytes) {
-	
-	mStream.write(inData, inNumBytes);
-	//FIX ::: Need error checking.
+	if (inNumBytes != 0) {
+		mStream.write(inData, inNumBytes);
+		//FIX ::: Need error checking.
 
-	return processBuffer();
+		return processBuffer();
+	} else {
+		return true;
+	}
 
 
 }
@@ -178,9 +181,12 @@ bool OggDataBuffer::processDataSegment() {
 		locIsLastSeg = (locNumSegs - 1 == i);
 		if ( (locSegTable[i] != 255) || locIsLastSeg ) {
 
+			//MEMORY LEAK
 			locBuff = new unsigned char[locCurrPackSize];
 			mStream.read((char*)(locBuff), locCurrPackSize);
+			
 			pendingPage->addPacket( new StampedOggPacket(locBuff, locCurrPackSize, (locSegTable[i] != 255), 0, pendingPage->header()->GranulePos()->value(), StampedOggPacket::OGG_END_ONLY ) );
+			
 			//locPacketOffset += locCurrPackSize;
 			locCurrPackSize = 0;
 		}

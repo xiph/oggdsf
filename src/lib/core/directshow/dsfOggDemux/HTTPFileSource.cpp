@@ -36,8 +36,11 @@ HTTPFileSource::HTTPFileSource(void)
 	,	mIsEOF(false)
 	,	mIsOpen(false)
 	,	mSeenResponse(false)
+	,	mBufferLock(NULL)
 {
+	mBufferLock = new CCritSec;
 	debugLog.open("G:\\httpdebug.log", ios_base::out);
+	fileDump.open("G:\\filedump.ogg", ios_base::out|ios_base::binary);
 	WORD locWinsockVersion = MAKEWORD(1,1);
 	WSADATA locWinsockData;
 	int locRet= 0;
@@ -59,6 +62,9 @@ HTTPFileSource::HTTPFileSource(void)
 HTTPFileSource::~HTTPFileSource(void)
 {
 	debugLog<<"Winsock ended"<<endl;
+	debugLog.close();
+	fileDump.close();
+	delete mBufferLock;
 	WSACleanup();
 }
 
@@ -84,21 +90,45 @@ void HTTPFileSource::DataProcessLoop() {
 			break;
 		}
 
-		if (mSeenResponse) {
-			//Add to buffer
-			mStreamBuffer.write(locBuff, locNumRead);
-			debugLog<<"Added to buffer "<<locNumRead<<" bytes."<<endl;
-		} else {
-			string locTemp = locBuff;
-			size_t locPos = locTemp.find("\n\n");
-			if (locPos != string::npos) {
-				//Found the break
-				mSeenResponse = true;
-				mLastResponse = locTemp.substr(0, locPos);
-				mStreamBuffer.write(locBuff + locPos + 2, locNumRead - (locPos + 2));
-				debugLog<<"Added to Buffer "<<locNumRead - (locPos+2)<<" bytes... first after response."<<endl;
+		{//CRITICAL SECTION - PROTECTING BUFFER STATE
+			CAutoLock locLock(mBufferLock);
+			debugLog <<"Num Read = "<<locNumRead<<endl;
+			if (mSeenResponse) {
+				//Add to buffer
+				mStreamBuffer.write(locBuff, locNumRead);
+				debugLog<<"Added to buffer "<<locNumRead<<" bytes."<<endl;
+				//Dump to file
+				fileDump.write(locBuff, locNumRead);
+			} else {
+				string locTemp = locBuff;
+				debugLog<<"Binary follows... "<<endl<<locTemp<<endl;
+				size_t locPos = locTemp.find("\r\n\r\n");
+				if (locPos != string::npos) {
+					//Found the break
+					debugLog<<"locPos = "<<locPos<<endl;
+					mSeenResponse = true;
+					mLastResponse = locTemp.substr(0, locPos);
+					char* locBuff2 = locBuff + locPos + 4;  //View only - don't delete.
+					locTemp = locBuff2;
+					debugLog<<"Start of data follows"<<endl<<locTemp<<endl;
+					mStreamBuffer.write(locBuff2, locNumRead - (locPos + 4));
+					//Dump to file
+					fileDump.write(locBuff2, locNumRead - (locPos + 4));
+					
+
+					if(mStreamBuffer.fail()) {
+						debugLog<<"Buffering failure..."<<endl;
+					}
+
+					size_t locG, locP;
+					locG = mStreamBuffer.tellg();
+					locP = mStreamBuffer.tellp();
+
+					debugLog << "Get : "<<locG<<" ---- Put : "<<locP<<endl;
+					debugLog<<"Added to Buffer "<<locNumRead - (locPos+4)<<" bytes... first after response."<<endl;
+				}
 			}
-		}
+		} //END CRITICAL SECTION
 	}
 
 	delete locBuff;
@@ -276,6 +306,17 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	mSeenResponse = false;
 	mLastResponse = "";
 	debugLog<<"Open:"<<endl;
+	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
+		CAutoLock locLock(mBufferLock);
+		mStreamBuffer.flush();
+		mStreamBuffer.clear();
+		mStreamBuffer.seekg(0, ios_base::beg);
+		mStreamBuffer.seekp(0, ios_base::beg);
+		if(mStreamBuffer.fail()) {
+			debugLog<<"OPEN : Stream buffer already fucked"<<endl;
+		}
+	} //END CRITICAL SECTION
+
 	bool locIsOK = setupSocket(inSourceLocation);
 
 	if (!locIsOK) {
@@ -298,28 +339,43 @@ void HTTPFileSource::clear() {
 	mWasError = false;
 }
 bool HTTPFileSource::isEOF() {
+	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
+		CAutoLock locLock(mBufferLock);
+		unsigned long locSizeBuffed = mStreamBuffer.tellp() - mStreamBuffer.tellg();
 	
-	if ((mStreamBuffer.tellp() - mStreamBuffer.tellg() == 0) && mIsEOF) {
-		debugLog<<"It is EOF"<<endl;
-		return true;
-	} else {
-		debugLog<<"It's not EOF"<<endl;
-		return false;
-	}
+
+		debugLog<<"Amount Buffered = "<<locSizeBuffed<<endl;
+		if ((locSizeBuffed == 0) && mIsEOF) {
+			debugLog<<"It is EOF"<<endl;
+			return true;
+		} else {
+			debugLog<<"It's not EOF"<<endl;
+			return false;
+		}
+	} //END CRITICAL SECTION
+
 }
 unsigned long HTTPFileSource::read(char* outBuffer, unsigned long inNumBytes) {
 	//Reads from the buffer, will return 0 if nothing in buffer.
 	// If it returns 0 check the isEOF flag to see if it was the end of file or the network is just slow.
-	debugLog<<"Read:"<<endl;
-	if(isEOF() || mWasError) {
-		debugLog<<"Can't read is error or eof"<<endl;
-		return 0;
-	} else {
-		debugLog<<"Reading from buffer"<<endl;
-		mStreamBuffer.read(outBuffer, inNumBytes);
-		unsigned long locNumRead = mStreamBuffer.gcount();
-		debugLog<<locNumRead<<" bytes read from buffer"<<endl;
-		return locNumRead;
-	}
 
+	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
+		CAutoLock locLock(mBufferLock);
+		
+		debugLog<<"Read:"<<endl;
+		if(isEOF() || mWasError) {
+			debugLog<<"Can't read is error or eof"<<endl;
+			return 0;
+		} else {
+			debugLog<<"Reading from buffer"<<endl;
+			mStreamBuffer.read(outBuffer, inNumBytes);
+			unsigned long locNumRead = mStreamBuffer.gcount();
+			if (locNumRead == 0) {
+				mStreamBuffer.clear();
+			}
+
+			debugLog<<locNumRead<<" bytes read from buffer"<<endl;
+			return locNumRead;
+		}
+	} //END CRITICAL SECTION
 }
