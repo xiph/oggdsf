@@ -78,7 +78,7 @@ AbstractTransformInputPin::~AbstractTransformInputPin(void)
 {
 
 	delete mStreamLock;
-	for (int i = 0; i < mAcceptableMediaTypes.size(); i++) {
+	for (size_t i = 0; i < mAcceptableMediaTypes.size(); i++) {
 		delete mAcceptableMediaTypes[i];
 	}
 
@@ -127,7 +127,7 @@ STDMETHODIMP AbstractTransformInputPin::Receive(IMediaSample* inSample)
 HRESULT AbstractTransformInputPin::CheckMediaType(const CMediaType *inMediaType) 
 {
 	//TO DO::: Neaten this up.
-	for (int i = 0; i < mAcceptableMediaTypes.size(); i++) {
+	for (size_t i = 0; i < mAcceptableMediaTypes.size(); i++) {
 		if	(		(inMediaType->majortype == mAcceptableMediaTypes[i]->majortype) 
 				&&	(inMediaType->subtype == mAcceptableMediaTypes[i]->subtype) 
 				&&	(inMediaType->formattype == mAcceptableMediaTypes[i]->formattype)
@@ -172,7 +172,7 @@ HRESULT AbstractTransformInputPin::GetMediaType(int inPosition, CMediaType *outM
 	//TODO::: Check for NULL Pointer.
 	if (inPosition < 0) {
 		return E_INVALIDARG;
-	} else 	if (inPosition < mAcceptableMediaTypes.size()) {
+	} else 	if (((size_t)inPosition) < mAcceptableMediaTypes.size()) {
 		outMediaType->SetType(&(mAcceptableMediaTypes[inPosition]->majortype));
 		outMediaType->SetSubtype(&(mAcceptableMediaTypes[inPosition]->subtype));
 		//Don't set the format data here... its up to the connecting output pin

@@ -55,7 +55,7 @@ AbstractTransformOutputPin::~AbstractTransformOutputPin(void)
 	delete mDataQueue;
 	mDataQueue = NULL;
 
-	for (int i = 0; i < mAcceptableMediaTypes.size(); i++) {
+	for (size_t i = 0; i < mAcceptableMediaTypes.size(); i++) {
 		delete mAcceptableMediaTypes[i];
 	}
 }
@@ -123,7 +123,7 @@ HRESULT AbstractTransformOutputPin::DecideBufferSize(IMemAllocator* inAllocator,
 }
 HRESULT AbstractTransformOutputPin::CheckMediaType(const CMediaType *inMediaType) 
 {
-	for (int i = 0;  i < mAcceptableMediaTypes.size(); i++) {
+	for (size_t i = 0;  i < mAcceptableMediaTypes.size(); i++) {
 		if	(		(inMediaType->majortype == mAcceptableMediaTypes[i]->majortype) 
 				&& 	(inMediaType->subtype == mAcceptableMediaTypes[i]->subtype) 
 				&&	(inMediaType->formattype == mAcceptableMediaTypes[i]->formattype)
@@ -159,7 +159,7 @@ HRESULT AbstractTransformOutputPin::GetMediaType(int inPosition, CMediaType *out
 		return E_INVALIDARG;
 	}
 
-	if (inPosition < mAcceptableMediaTypes.size()) {
+	if (((size_t)inPosition) < mAcceptableMediaTypes.size()) {
 		FillMediaType(outMediaType, inPosition);
 		CreateAndFillFormatBuffer(outMediaType, inPosition);
 		return S_OK;
