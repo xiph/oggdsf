@@ -386,6 +386,7 @@ namespace DNPlay
 			this.lblAnchorLink.Name = "lblAnchorLink";
 			this.lblAnchorLink.Size = new System.Drawing.Size(288, 24);
 			this.lblAnchorLink.TabIndex = 12;
+			this.lblAnchorLink.Click += new System.EventHandler(this.lblAnchorLink_Click);
 			// 
 			// lblTitle
 			// 
@@ -749,6 +750,11 @@ namespace DNPlay
 				
 				
 			}
+		}
+
+		private void lblAnchorLink_Click(object sender, System.EventArgs e)
+		{
+		
 		}
 
 	}

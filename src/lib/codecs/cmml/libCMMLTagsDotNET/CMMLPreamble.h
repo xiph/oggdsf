@@ -64,6 +64,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		CMMLPreamble(void);
+		CMMLPreamble(C_CMMLPreamble* inPreamble);
 		~CMMLPreamble(void);
 
 

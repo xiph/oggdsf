@@ -43,6 +43,11 @@ CMMLRootTag::CMMLRootTag(void)
 	mBaseClass = new C_CMMLRootTag;
 }
 
+CMMLRootTag::CMMLRootTag(C_CMMLRootTag* inRootTag)
+{
+	mBaseClass = inRootTag;
+}
+
 CMMLRootTag::~CMMLRootTag(void)
 
 {

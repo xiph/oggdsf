@@ -44,6 +44,8 @@ public:
 	C_CMMLPreamble(void);
 	virtual ~C_CMMLPreamble(void);
 
+
+
 	//Accessors
 	wstring xmlVersion();
 	wstring xmlEncoding();
@@ -56,6 +58,7 @@ public:
 
 	//Others
 	virtual wstring toString();
+	C_CMMLPreamble* clone();
 
 
 protected:

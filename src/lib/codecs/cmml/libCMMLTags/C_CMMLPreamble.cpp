@@ -68,7 +68,13 @@ void C_CMMLPreamble::setXmlEncoding(wstring inEncoding) {
 void C_CMMLPreamble::setXmlStandAlone(wstring inStandAlone) {
 }
 
-
+C_CMMLPreamble* C_CMMLPreamble::clone() {
+	C_CMMLPreamble* retPreamble = new C_CMMLPreamble();
+	retPreamble->mXmlEncoding = mXmlEncoding;
+	retPreamble->mXmlStandAlone = mXmlStandAlone;
+	retPreamble->mXmlVersion = mXmlVersion;
+	return retPreamble;
+}
 
 //Others
 wstring C_CMMLPreamble::toString() {

@@ -38,14 +38,17 @@ using namespace System;
 #using "libiWrapper.dll"
 using namespace illiminable::libiWrapper;
 
-#include "StreamTag.h"
-#include "HeadTag.h"
-#include "ClipTagList.h"
-#include "CMMLTag.h"
+//#include "StreamTag.h"
+//#include "HeadTag.h"
+//#include "ClipTagList.h"
+//#include "CMMLTag.h"
+
+#include "CMMLPreamble.h"
+#include "CMMLRootTag.h"
 
 #pragma unmanaged
 #include <config.h>
-#include <C_CMMLRootTag.h>
+#include <C_CMMLDoc.h>
 #pragma managed
 
 namespace illiminable {
@@ -56,6 +59,19 @@ namespace libCMMLTagsDotNET {
 	public:
 		CMMLDoc(void);
 		~CMMLDoc(void);
+
+
+		CMMLPreamble* preamble();
+		CMMLRootTag* root();
+
+		void setRoot(CMMLRootTag* inRootTag);
+
+		virtual String* toString();
+
+		C_CMMLDoc* getMe();
+		//C_CMMLDoc* clone();
+	protected:
+		C_CMMLDoc* mBaseClass;
 	};
 }
 }

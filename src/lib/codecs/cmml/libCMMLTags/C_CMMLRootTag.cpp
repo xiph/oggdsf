@@ -79,7 +79,9 @@ void C_CMMLRootTag::setHead(C_HeadTag* inHeadTag) {
 void C_CMMLRootTag::privateClone(C_CMMLTag* outTag) {
 	C_HumReadCMMLTag::privateClone(outTag);
 	C_CMMLRootTag* locTag = reinterpret_cast<C_CMMLRootTag*>(outTag);
-	locTag->setStream(mStream->clone());
+	if (mStream != NULL) {
+		locTag->setStream(mStream->clone());
+	}
 	locTag->setHead(mHead->clone());
 	locTag->setClipList(mClipList->clone());
 	

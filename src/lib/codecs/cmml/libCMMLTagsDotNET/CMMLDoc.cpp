@@ -40,10 +40,39 @@ namespace libCMMLTagsDotNET {
 
 CMMLDoc::CMMLDoc(void)
 {
+	mBaseClass = new C_CMMLDoc;
 }
 
 CMMLDoc::~CMMLDoc(void)
 {
+	delete mBaseClass;
 }
+
+
+CMMLPreamble* CMMLDoc::preamble() 
+{
+	return new CMMLPreamble(getMe()->preamble()->clone());
+}
+CMMLRootTag* CMMLDoc::root() 
+{
+	return new CMMLRootTag(getMe()->root()->clone());
+}
+
+void CMMLDoc::setRoot(CMMLRootTag* inRootTag) 
+{
+	getMe()->setRoot( inRootTag->getMe()->clone() );
+}
+
+String* CMMLDoc::toString()
+{
+	return Wrappers::WStrToNetStr( getMe()->toString().c_str() );
+
+}
+C_CMMLDoc* CMMLDoc::getMe()
+{
+	return (C_CMMLDoc*)mBaseClass;
+}
+
+
 }
 }

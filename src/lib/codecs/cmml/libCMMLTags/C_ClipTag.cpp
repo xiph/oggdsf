@@ -44,6 +44,7 @@ C_ClipTag::C_ClipTag(void)
 	mImage = NULL;
 	mDesc = NULL;
 	mStart = L"0";
+
 }
 
 C_ClipTag::~C_ClipTag(void)

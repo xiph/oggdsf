@@ -221,6 +221,9 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{FCFE729D-EADE-45BA-9506-7E82A46403F7}"
+			Name="libiWrapper"/>
 	</References>
 	<Files>
 		<Filter
