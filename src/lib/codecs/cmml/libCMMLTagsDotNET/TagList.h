@@ -61,6 +61,7 @@ namespace libCMMLTagsDotNET {
 
 	protected:
 		C_TagList* mBaseClass;
+		bool mDeleteBase;
 	};
 }
 }

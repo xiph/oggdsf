@@ -43,12 +43,18 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_BaseTag;
 	}
 
-	BaseTag::BaseTag(C_BaseTag* inTag) {
+	BaseTag::BaseTag(C_BaseTag* inTag, bool inDeleteBase) {
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 
 	BaseTag::~BaseTag(void)	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+
+
+		mBaseClass = NULL;
 	}
 
 	C_BaseTag* BaseTag::getMe() {
@@ -63,7 +69,8 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void BaseTag::setHref(String* inHref) {
 		wchar_t* tc = Wrappers::netStrToWStr( inHref );
-		getMe()->setHref( tc );
+		wstring locStr = tc;
+		getMe()->setHref( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 

@@ -51,11 +51,11 @@ CMMLDoc::~CMMLDoc(void)
 
 CMMLPreamble* CMMLDoc::preamble() 
 {
-	return new CMMLPreamble(getMe()->preamble()->clone());
+	return new CMMLPreamble(getMe()->preamble(), false);
 }
 CMMLRootTag* CMMLDoc::root() 
 {
-	return new CMMLRootTag(getMe()->root()->clone());
+	return new CMMLRootTag(getMe()->root(), false);
 }
 
 void CMMLDoc::setRoot(CMMLRootTag* inRootTag) 

@@ -54,7 +54,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		ClipTagList(void);
-		ClipTagList(C_ClipTagList* inList);
+		ClipTagList(C_ClipTagList* inList, bool inDeleteBase);
 		virtual ~ClipTagList(void);
 
 		virtual String* toString();

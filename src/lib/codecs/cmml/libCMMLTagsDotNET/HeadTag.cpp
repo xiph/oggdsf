@@ -44,15 +44,19 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_HeadTag;
 	}
 
-	HeadTag::HeadTag(C_HeadTag* inTag)
+	HeadTag::HeadTag(C_HeadTag* inTag, bool inDeleteBase)
 	{
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 		
 	}
 
 	HeadTag::~HeadTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
 	String* HeadTag::profile() {
@@ -63,13 +67,13 @@ namespace libCMMLTagsDotNET {
 	}
 	BaseTag* HeadTag::base() {
 		if (getMe()->base() != NULL) {
-			return new BaseTag(getMe()->base()->clone());
+			return new BaseTag(getMe()->base(), false);
 		} else {
 			return NULL;
 		}
 	}
 	MetaTagList* HeadTag::metaList() {
-		return new MetaTagList(getMe()->metaList()->clone());
+		return new MetaTagList(getMe()->metaList(), false);
 
 
 	}
@@ -77,7 +81,8 @@ namespace libCMMLTagsDotNET {
 			//Mutators
 	void HeadTag::setProfile(String* inProfile) {
 		wchar_t* tc = Wrappers::netStrToWStr( inProfile );
-		getMe()->setProfile( tc );
+		wstring locStr = tc;
+		getMe()->setProfile( locStr );
 		Wrappers::releaseWStr( tc );
 
 	}	

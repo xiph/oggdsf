@@ -64,7 +64,8 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void MetaTag::setScheme(String* inScheme) {
 		wchar_t* tc = Wrappers::netStrToWStr( inScheme );
-		getMe()->setScheme( tc );
+		wstring locStr = tc;
+		getMe()->setScheme( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 

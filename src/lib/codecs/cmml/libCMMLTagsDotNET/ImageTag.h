@@ -54,7 +54,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		ImageTag(void);
-		ImageTag(C_ImageTag* inTag);
+		ImageTag(C_ImageTag* inTag, bool inDeleteBase);
 		virtual ~ImageTag(void);
 
 

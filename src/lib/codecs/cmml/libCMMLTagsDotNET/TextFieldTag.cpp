@@ -57,7 +57,8 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void TextFieldTag::setText(String* inText) {
 		wchar_t* tc = Wrappers::netStrToWStr( inText );
-		getMe()->setText( tc );
+		wstring locStr = tc;
+		getMe()->setText( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 }

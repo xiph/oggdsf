@@ -56,7 +56,8 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void CMMLTag::setId(String* inId) {
 		wchar_t* tc = Wrappers::netStrToWStr( inId );
-		mBaseClass->setId( tc );
+		wstring locStr = tc;
+		mBaseClass->setId( locStr );
 		Wrappers::releaseWStr( tc );
 
 	}

@@ -41,9 +41,10 @@ namespace libCMMLTagsDotNET {
 	CMMLPreamble::CMMLPreamble(void)
 	{
 	}
-	CMMLPreamble::CMMLPreamble(C_CMMLPreamble* inPreamble)
+	CMMLPreamble::CMMLPreamble(C_CMMLPreamble* inPreamble, bool inDeleteBase)
 	{
 		mBaseClass = inPreamble;
+		mDeleteBase = inDeleteBase;
 	}
 
 	CMMLPreamble::~CMMLPreamble(void)

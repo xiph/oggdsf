@@ -119,6 +119,7 @@ namespace libCMMLTagsDotNET {
 
 	protected:
 		C_CMMLTag* mBaseClass;
+		bool mDeleteBase;
 
 
 	};

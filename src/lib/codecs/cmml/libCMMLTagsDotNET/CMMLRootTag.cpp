@@ -43,27 +43,31 @@ CMMLRootTag::CMMLRootTag(void)
 	mBaseClass = new C_CMMLRootTag;
 }
 
-CMMLRootTag::CMMLRootTag(C_CMMLRootTag* inRootTag)
+CMMLRootTag::CMMLRootTag(C_CMMLRootTag* inRootTag, bool inDeleteBase)
 {
 	mBaseClass = inRootTag;
+	mDeleteBase = inDeleteBase;
 }
 
 CMMLRootTag::~CMMLRootTag(void)
 
 {
-	delete mBaseClass;
+	if(mDeleteBase) {
+		delete mBaseClass;
+	}
+	mBaseClass = NULL;
 }
 
 		//Accessors
 	
 StreamTag* CMMLRootTag::stream() {
-	return new StreamTag(getMe()->stream()->clone());
+	return new StreamTag(getMe()->stream(), false);
 }
 HeadTag* CMMLRootTag::head() {
-	return new HeadTag(getMe()->head()->clone());
+	return new HeadTag(getMe()->head(), false);
 }
 ClipTagList* CMMLRootTag::clipList() {
-	return new ClipTagList(getMe()->clipList()->clone());
+	return new ClipTagList(getMe()->clipList(), false);
 
 }
 

@@ -59,6 +59,7 @@ namespace libCMMLTagsDotNET {
 
 	protected:
 		C_MappedTagList* mBaseClass;
+		bool mDeleteBase;
 	};
 
 }

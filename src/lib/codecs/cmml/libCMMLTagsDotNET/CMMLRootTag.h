@@ -55,7 +55,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		CMMLRootTag(void);
-		CMMLRootTag(C_CMMLRootTag* inRootTag);
+		CMMLRootTag(C_CMMLRootTag* inRootTag, bool inDeleteBase);
 		virtual ~CMMLRootTag(void);
 
 			//Accessors

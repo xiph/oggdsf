@@ -43,15 +43,19 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_StreamTag;
 	}
 
-	StreamTag::StreamTag(C_StreamTag* inTag)
+	StreamTag::StreamTag(C_StreamTag* inTag, bool inDeleteBase)
 	{
 	
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 
 	StreamTag::~StreamTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
 			//Accessors
@@ -69,13 +73,15 @@ namespace libCMMLTagsDotNET {
 			//Mutators
 	void StreamTag::setTimebase(String* inTimebase) {
 		wchar_t* tc = Wrappers::netStrToWStr( inTimebase );
-		getMe()->setTimebase( tc );
+		wstring locStr = tc;
+		getMe()->setTimebase( locStr );
 		Wrappers::releaseWStr( tc );		
 
 	}
 	void StreamTag::setUtc(String* inUtc) {
 		wchar_t* tc = Wrappers::netStrToWStr( inUtc );
-		getMe()->setUtc( tc );
+		wstring locStr = tc;
+		getMe()->setUtc( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 	void StreamTag::setImportList(ImportTagList* inTagList) {

@@ -66,13 +66,15 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void MappedTag::setName(String* inName) {
 		wchar_t* tc = Wrappers::netStrToWStr( inName );
-		getMe()->setName( tc );
+		wstring locStr = tc;
+		getMe()->setName( locStr );
 		Wrappers::releaseWStr( tc );
 
 	}
 	void MappedTag::setContent(String* inContent) {
 		wchar_t* tc = Wrappers::netStrToWStr( inContent );
-		getMe()->setContent( tc );
+		wstring locStr = tc;
+		getMe()->setContent( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 

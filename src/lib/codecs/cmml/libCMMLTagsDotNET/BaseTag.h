@@ -66,7 +66,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		BaseTag(void);
-		BaseTag(C_BaseTag* inTag);
+		BaseTag(C_BaseTag* inTag, bool inDeleteBase);
 		~BaseTag(void);
 
 		//Accessors

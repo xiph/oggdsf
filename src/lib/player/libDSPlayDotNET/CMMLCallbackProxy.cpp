@@ -47,7 +47,7 @@ bool CMMLCallbackProxy::setManagedDelegate(gcroot<IDNCMMLCallbacks*> inManagedCa
 }
 bool CMMLCallbackProxy::clipCallback(C_ClipTag* inClipTag) {
 	if (mDNCMMLCallbacks != NULL) {
-		gcroot<ClipTag*> locClip = new ClipTag(inClipTag->clone());
+		gcroot<ClipTag*> locClip = new ClipTag(inClipTag->clone(), true);
 	
 		return mDNCMMLCallbacks->clipCallback(locClip);
 	} else {
@@ -56,7 +56,7 @@ bool CMMLCallbackProxy::clipCallback(C_ClipTag* inClipTag) {
 }
 bool CMMLCallbackProxy::headCallback(C_HeadTag* inHeadTag) {
 	if (mDNCMMLCallbacks != NULL) {
-		gcroot<HeadTag*> locHead = new HeadTag(inHeadTag->clone());
+		gcroot<HeadTag*> locHead = new HeadTag(inHeadTag->clone(), true);
 	
 		return mDNCMMLCallbacks->headCallback(locHead);
 	} else {

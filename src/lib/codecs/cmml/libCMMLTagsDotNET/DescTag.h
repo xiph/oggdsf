@@ -56,7 +56,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		DescTag(void);
-		DescTag(C_DescTag* inTag);
+		DescTag(C_DescTag* inTag, bool inDeleteBase);
 		~DescTag(void);
 		virtual String* toString();
 

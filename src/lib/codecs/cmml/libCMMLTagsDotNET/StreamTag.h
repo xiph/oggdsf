@@ -56,7 +56,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		StreamTag(void);
-		StreamTag(C_StreamTag* inTag);
+		StreamTag(C_StreamTag* inTag, bool inDeleteBase);
 		virtual ~StreamTag(void);
 
 		//Accessors

@@ -77,7 +77,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		AnchorTag(void);
-		AnchorTag(C_AnchorTag* inTag);
+		AnchorTag(C_AnchorTag* inTag, bool inDeleteBase);
 		virtual ~AnchorTag(void);
 
 		//Accessors

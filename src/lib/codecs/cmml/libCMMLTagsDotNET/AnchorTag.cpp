@@ -46,11 +46,15 @@ namespace libCMMLTagsDotNET {
 
 	AnchorTag::~AnchorTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
-	AnchorTag::AnchorTag(C_AnchorTag* inTag) {
+	AnchorTag::AnchorTag(C_AnchorTag* inTag, bool inDeleteBase) {
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 
 	C_AnchorTag* AnchorTag::getMe() {
@@ -70,12 +74,14 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void AnchorTag::setCls(String* inCls) {
 		wchar_t* tc = Wrappers::netStrToWStr( inCls );
-		getMe()->setCls( tc );
+		wstring locStr = tc;
+		getMe()->setCls( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 	void AnchorTag::setHref(String* inHref) {
 		wchar_t* tc = Wrappers::netStrToWStr( inHref );
-		getMe()->setHref( tc );
+		wstring locStr = tc;
+		getMe()->setHref( locStr );
 		Wrappers::releaseWStr( tc );
 
 	}

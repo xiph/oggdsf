@@ -56,7 +56,7 @@ namespace libCMMLTagsDotNET {
 	{
 	public:
 		HeadTag(void);
-		HeadTag(C_HeadTag* inTag);
+		HeadTag(C_HeadTag* inTag, bool inDeleteBase);
 		virtual ~HeadTag(void);
 
 

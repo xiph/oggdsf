@@ -43,13 +43,18 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_ClipTagList;
 	}
 
-	ClipTagList::ClipTagList(C_ClipTagList* inList)
+	ClipTagList::ClipTagList(C_ClipTagList* inList, bool inDeleteBase)
 	{
+		
 		mBaseClass = inList;
+		mDeleteBase = inDeleteBase;
 	}
 	ClipTagList::~ClipTagList(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
 
@@ -61,7 +66,7 @@ namespace libCMMLTagsDotNET {
 		getMe()->addTag( inTag->getMe()->clone());
 	}
 	ClipTag* ClipTagList::getTag(unsigned long inTagNo) {
-		return new ClipTag( getMe()->getTag(inTagNo));
+		return new ClipTag( getMe()->getTag(inTagNo), false);
 	}
 
 	C_ClipTagList* ClipTagList::getMe() {

@@ -38,6 +38,7 @@
 C_BaseTag::C_BaseTag(void)
 {
 	mTagType = C_CMMLTag::eTagType::BASE;
+	mHref = L"";
 }
 
 C_BaseTag::~C_BaseTag(void)

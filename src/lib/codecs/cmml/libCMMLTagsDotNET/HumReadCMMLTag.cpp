@@ -61,12 +61,14 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void HumReadCMMLTag::setLang(String* inLang) {
 		wchar_t* tc = Wrappers::netStrToWStr( inLang );
-		getMe()->setLang( tc );
+		wstring locStr = tc;
+		getMe()->setLang( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 	void HumReadCMMLTag::setDirn(String* inDirn) {
 		wchar_t* tc = Wrappers::netStrToWStr( inDirn );
-		getMe()->setDirn( tc );
+		wstring locStr = tc;
+		getMe()->setDirn( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 

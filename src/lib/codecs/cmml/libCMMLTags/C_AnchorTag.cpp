@@ -41,6 +41,8 @@ C_AnchorTag::C_AnchorTag(void)
 {
 	//Set the tag type
 	mTagType = C_CMMLTag::eTagType::ANCHOR;
+	mCls = L"";
+	mHref = L"";
 }
 
 C_AnchorTag::~C_AnchorTag(void)

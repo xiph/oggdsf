@@ -43,14 +43,18 @@ namespace libCMMLTagsDotNET {
 		mBaseClass = new C_MetaTagList;
 	}
 
-	MetaTagList::MetaTagList(C_MetaTagList* inList)
+	MetaTagList::MetaTagList(C_MetaTagList* inList, bool inDeleteBase)
 	{
 		mBaseClass = inList;
+		mDeleteBase = inDeleteBase;
 	}
 
 	MetaTagList::~MetaTagList(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
 
@@ -60,8 +64,11 @@ namespace libCMMLTagsDotNET {
 	void MetaTagList::addTag(String* inName, String* inContent) {
 		wchar_t* tc1 = Wrappers::netStrToWStr( inName );
 		wchar_t* tc2 = Wrappers::netStrToWStr( inContent );
+
+		wstring locStr1 = tc1;
+		wstring locStr2 = tc2;
 		
-		getMe()->addTag(tc1, tc2);
+		getMe()->addTag(locStr1, locStr2);
 
 		Wrappers::releaseWStr( tc2 );
 		Wrappers::releaseWStr( tc1 );
@@ -77,8 +84,8 @@ namespace libCMMLTagsDotNET {
 	}
 	MetaTag* MetaTagList::getTag(String* inName) {
 		wchar_t* tc = Wrappers::netStrToWStr( inName );
-		
-		MetaTag* retVal = new MetaTag(getMe()->getTag(tc));
+		wstring locStr = tc;
+		MetaTag* retVal = new MetaTag(getMe()->getTag(locStr));
 		Wrappers::releaseWStr( tc );
 		return retVal;
 
@@ -86,7 +93,8 @@ namespace libCMMLTagsDotNET {
 
 	String* MetaTagList::getContent(String* inName) {
 		wchar_t* tc = Wrappers::netStrToWStr( inName );
-		String* ts = Wrappers::WStrToNetStr(getMe()->getContent(tc).c_str());
+		wstring locStr = tc;
+		String* ts = Wrappers::WStrToNetStr(getMe()->getContent(locStr).c_str());
 		Wrappers::releaseWStr( tc );
 		return ts;
 	}

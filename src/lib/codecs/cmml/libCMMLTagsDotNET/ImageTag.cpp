@@ -45,11 +45,15 @@ namespace libCMMLTagsDotNET {
 
 	ImageTag::~ImageTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mBaseClass = NULL;
 	}
 
-	ImageTag::ImageTag(C_ImageTag* inTag) {
+	ImageTag::ImageTag(C_ImageTag* inTag, bool inDeleteBase) {
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 
 	//Accessors
@@ -63,12 +67,14 @@ namespace libCMMLTagsDotNET {
 	//Mutators
 	void ImageTag::setSrc(String* inSrc) {
 		wchar_t* tc = Wrappers::netStrToWStr( inSrc );
-		getMe()->setSrc( tc );
+		wstring locStr = tc;
+		getMe()->setSrc( locStr );
 		Wrappers::releaseWStr( tc );		
 	}
 	void ImageTag::setAlt(String* inAlt) {
 		wchar_t* tc = Wrappers::netStrToWStr( inAlt );
-		getMe()->setAlt( tc );
+		wstring locStr = tc;
+		getMe()->setAlt( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 

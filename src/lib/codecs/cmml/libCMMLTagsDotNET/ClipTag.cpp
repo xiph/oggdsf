@@ -41,10 +41,12 @@ namespace libCMMLTagsDotNET {
 	ClipTag::ClipTag(void)
 	{
 		mBaseClass = new C_ClipTag;
+		mDeleteBase = true;
 	}
 
-	ClipTag::ClipTag(C_ClipTag* inTag) {
+	ClipTag::ClipTag(C_ClipTag* inTag, bool inDeleteBase) {
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 	ClipTag::~ClipTag(void)
 	{
@@ -60,16 +62,16 @@ namespace libCMMLTagsDotNET {
 		return Wrappers::WStrToNetStr( getMe()->track().c_str() );
 	}
 	MetaTagList* ClipTag::metaList() {
-		return new MetaTagList(getMe()->metaList()->clone());
+		return new MetaTagList(getMe()->metaList(), false);
 	}
 	AnchorTag* ClipTag::anchor() {
-		return new AnchorTag(getMe()->anchor()->clone());
+		return new AnchorTag(getMe()->anchor(),false);
 	}
 	ImageTag* ClipTag::image() {
-		return new ImageTag(getMe()->image()->clone());
+		return new ImageTag(getMe()->image(), false);
 	}
 	DescTag* ClipTag::desc() {
-		return new DescTag(getMe()->desc()->clone());
+		return new DescTag(getMe()->desc(), false);
 	}
 
 	String* ClipTag::start() {
@@ -100,12 +102,14 @@ namespace libCMMLTagsDotNET {
 
 	void ClipTag::setStart(String* inStart) {
 		wchar_t* tc = Wrappers::netStrToWStr( inStart );
-		getMe()->setStart( tc );
+		wstring locStr = tc;
+		getMe()->setStart( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 	void ClipTag::setEnd(String* inEnd) {
 		wchar_t* tc = Wrappers::netStrToWStr( inEnd );
-		getMe()->setEnd( tc );
+		wstring locStr = tc;
+		getMe()->setEnd( locStr );
 		Wrappers::releaseWStr( tc );
 	}
 

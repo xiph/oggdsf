@@ -74,7 +74,8 @@ namespace illiminable {
 
 	String* Wrappers::WStrToNetStr(const wchar_t* inWStr) {
 		String* retStr;
-		retStr = Marshal::PtrToStringUni((wchar_t*)inWStr);
+		//retStr = Marshal::PtrToStringUni((wchar_t*)inWStr);
+		retStr = new String(inWStr);
 		return retStr;
 	}
 

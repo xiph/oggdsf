@@ -45,11 +45,15 @@ namespace libCMMLTagsDotNET {
 
 	DescTag::~DescTag(void)
 	{
-		delete mBaseClass;
+		if (mDeleteBase) {
+			delete mBaseClass;
+		}
+		mDeleteBase = NULL;
 	}
 
-	DescTag::DescTag(C_DescTag* inTag) {
+	DescTag::DescTag(C_DescTag* inTag, bool inDeleteBase) {
 		mBaseClass = inTag;
+		mDeleteBase = inDeleteBase;
 	}
 
 	C_DescTag* DescTag::getMe() {
