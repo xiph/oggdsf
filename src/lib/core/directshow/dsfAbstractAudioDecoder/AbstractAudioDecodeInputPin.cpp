@@ -44,6 +44,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mSampleRate(0)
 	,	mFilterLock(inFilterLock)
 	,	mLastSeenStartGranPos(0)
+	,	mSeekTimeBase(0)
 {
 	//ConstructCodec();
 	//aadDebug.open("c:\\aadec.log", ios_base::out);
@@ -115,6 +116,14 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 		//New start time hacks
 		REFERENCE_TIME locStart = 0;
 		REFERENCE_TIME locEnd = 0;
+
+		//More work arounds for that stupid granule pos scheme in theora!
+		REFERENCE_TIME locTimeBase = 0;
+		REFERENCE_TIME locDummy = 0;
+		inSample->GetMediaTime(&locTimeBase, &locDummy);
+		mSeekTimeBase = locTimeBase;
+		//
+
 		inSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
 		//aadDebug<<"Receive : Start = "<<locStart<<endl;

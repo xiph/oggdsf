@@ -34,8 +34,8 @@
 
 
 
-FFDShowVideoStream::FFDShowVideoStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
-	:	OggStream(inBOSPage, inOwningFilter)
+FFDShowVideoStream::FFDShowVideoStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
+	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mFFDShowVideoFormatBlock(NULL)
 	,	mLastTimeStamp(0)
 	//,	mLastGranulePos(0)

@@ -47,6 +47,7 @@ AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilt
 	,	mFrameCount(0)
 	,	mStreamLock(NULL)
 	,	mLastSeenStartGranPos(0)
+	,	mSeekTimeBase(0)
 		
 {
 	//ConstructCodec();
@@ -114,6 +115,13 @@ STDMETHODIMP AbstractVideoDecodeInputPin::Receive(IMediaSample* inSample) {
 		REFERENCE_TIME locEnd = 0;
 		inSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
+		
+		//More work arounds for that stupid granule pos scheme in theora!
+		REFERENCE_TIME locTimeBase = 0;
+		REFERENCE_TIME locDummy = 0;
+		inSample->GetMediaTime(&locTimeBase, &locDummy);
+		mSeekTimeBase = locTimeBase;
+		//
 		
 		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
 			ResetFrameCount();

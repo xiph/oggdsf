@@ -38,7 +38,7 @@ class SpeexStream
 	:	public OggStream
 {
 public:
-	SpeexStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter);
+	SpeexStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	virtual ~SpeexStream(void);
 
 	virtual bool InitCodec(StampedOggPacket* inOggPacket);

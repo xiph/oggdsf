@@ -192,6 +192,7 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 	char* locText = NULL;
 	string locTextStr;
 	unsigned long locTextSize = 0;
+	outSample->SetMediaTime(NULL, NULL);
 
 	//debugLog<<"Transform : Input Sample Size = "<<locSize<<endl;
 	if (locSize > 0) {

@@ -70,9 +70,15 @@ bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)
 	}
 
 	if (inOggPage->header()->isBOS()) {
-		
+		bool locAllowSeekThrough = false;
+
+		//We only want one of the pins to delegate their seek to us.
+		if (mStreamList.size() == 0) {
+			locAllowSeekThrough = true;
+		}
+			
 		//If the page is a BOS we need to start a new stream
-		OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter);
+		OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter, locAllowSeekThrough);
 		//FIX::: Need to check for NULL
 		if (locStream != NULL) {
 			mStreamList.push_back(locStream);

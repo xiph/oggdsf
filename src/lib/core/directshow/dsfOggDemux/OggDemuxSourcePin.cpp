@@ -36,7 +36,8 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 										CCritSec* inFilterLock,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
-										wstring inPinName)
+										wstring inPinName,
+										bool inAllowSeek)
 	:	CBaseOutputPin(NAME("Ogg Demux Output Pin"), inParentFilter, inFilterLock, &mFilterHR, inPinName.c_str()),
 		mHeaders(inHeaderSource),
 		mParentFilter(inParentFilter),
@@ -48,8 +49,12 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 {
 	//debugLog.open("C:\\sourcefilterpin.log", ios_base::out);
 	IMediaSeeking* locSeeker = NULL;
-	inParentFilter->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	if (inAllowSeek) {
 
+		inParentFilter->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+
+	
+	}
 	SetDelegate(locSeeker);
 }
 
@@ -85,9 +90,15 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 		//debugLog<<"Failure... No buffer"<<endl;
 		return false;
 	}
+
+	//More hacks so we can send a timebase after a seek, since granule pos in theora
+	// is not convertible in both directions to time.
+	
 	//TIMESTAMP FIXING !
 	locSample->SetTime(&locStart, &locStop);
-	locSample->SetMediaTime(NULL, NULL);
+	
+	//Yes this is way dodgy !
+	locSample->SetMediaTime(&mParentFilter->mSeekTimeBase, &mParentFilter->mSeekTimeBase);
 	locSample->SetSyncPoint(TRUE);
 	
 

@@ -104,5 +104,7 @@ protected:
 	unsigned long mNumChannels;
 	unsigned long mSampleRate;
 
+	REFERENCE_TIME mSeekTimeBase;
+
 
 };

@@ -41,7 +41,7 @@ CMMLSourcePin::CMMLSourcePin(	TCHAR* inObjectName,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
 										wstring inPinName) 
-											:	OggDemuxSourcePin(inObjectName, inParentFilter, inFilterLock, inHeaderSource, inMediaType, inPinName)
+											:	OggDemuxSourcePin(inObjectName, inParentFilter, inFilterLock, inHeaderSource, inMediaType, inPinName, true)
 {
 	
 }

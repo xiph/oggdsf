@@ -31,8 +31,8 @@
 #include "StdAfx.h"
 #include "speexstream.h"
 
-SpeexStream::SpeexStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
-	:	OggStream(inBOSPage, inOwningFilter)
+SpeexStream::SpeexStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
+	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mSpeexFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));

@@ -42,18 +42,18 @@ OggStreamFactory::~OggStreamFactory(void)
 }
 
 //New codecs need to be added here and write a derived Stream Class.
-OggStream* OggStreamFactory::CreateStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter) {
+OggStream* OggStreamFactory::CreateStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek) {
 	switch (OggStreamFactory::IdentifyCodec(inOggPage->getPacket(0))) {
 		case StreamHeaders::VORBIS:
-			return new VorbisStream(inOggPage, inOwningFilter);
+			return new VorbisStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::SPEEX:
-			return new SpeexStream(inOggPage, inOwningFilter);
+			return new SpeexStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::FLAC:
-			return new FLACStream(inOggPage, inOwningFilter);
+			return new FLACStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::THEORA:
-			return new TheoraStream(inOggPage, inOwningFilter);
+			return new TheoraStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::FFDSHOW_VIDEO:
-			return new FFDShowVideoStream(inOggPage, inOwningFilter);
+			return new FFDShowVideoStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::NONE:
 		default:
 			return NULL;

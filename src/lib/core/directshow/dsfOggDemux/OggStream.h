@@ -47,7 +47,7 @@ class OGG_DEMUX_API OggStream
 	:	public IOggCallback
 {
 public:
-	OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter);
+	OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	virtual ~OggStream(void);
 
 	//more hacks
@@ -95,6 +95,7 @@ protected:
 	bool mStreamReady;
 	bool mFirstRun;
 	bool mSendExcess;
+	bool mAllowSeek;
 
 	__int64 mLastEndGranulePos;
 	__int64 mLastStartGranulePos;

@@ -40,7 +40,7 @@ class TheoraStream
 	:	public OggStream
 {
 public:
-	TheoraStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter);
+	TheoraStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	virtual ~TheoraStream(void);
 
 	virtual bool InitCodec(StampedOggPacket* inOggPacket);

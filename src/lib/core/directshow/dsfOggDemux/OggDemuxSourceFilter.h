@@ -126,6 +126,8 @@ public:
 	
 	CCritSec* mStreamLock;
 
+	REFERENCE_TIME mSeekTimeBase;  //Don't ask !
+
 protected:
 	void resetStream();
 	void DeliverEOS();

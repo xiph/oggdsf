@@ -35,6 +35,7 @@
 AbstractAudioDecodeFilter::AbstractAudioDecodeFilter(TCHAR* inFilterName, REFCLSID inFilterGUID, unsigned short inAudioFormat )
 	:	CBaseFilter(inFilterName, NULL,m_pLock, inFilterGUID),
 		mAudioFormat(inAudioFormat)
+	
 {
 	m_pLock = new CCritSec;
 }

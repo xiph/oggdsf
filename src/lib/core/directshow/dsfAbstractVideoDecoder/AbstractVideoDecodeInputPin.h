@@ -93,5 +93,5 @@ protected:
 	CCritSec* mStreamLock;
 
 
-
+	REFERENCE_TIME mSeekTimeBase;
 };

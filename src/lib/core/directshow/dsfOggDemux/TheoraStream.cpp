@@ -31,8 +31,8 @@
 #include "StdAfx.h"
 #include "theorastream.h"
 
-TheoraStream::TheoraStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
-	:	OggStream(inBOSPage, inOwningFilter)
+TheoraStream::TheoraStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
+	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mTheoraFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));

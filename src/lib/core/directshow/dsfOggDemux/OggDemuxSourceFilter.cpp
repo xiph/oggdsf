@@ -100,6 +100,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	
 	,	mSeekTable(NULL)
 	,	mDataSource(NULL)
+	,	mSeekTimeBase(0)
 {
 	//LEAK CHECK:::Both get deleted in constructor.
 	m_pLock = new CCritSec;
@@ -117,6 +118,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 	:	CBaseFilter(NAME("OggDemuxSourceFilter"), NULL, m_pLock, inFilterGUID)
 	,	mSeekTable(NULL)
 	,	mStreamMapper(NULL)
+	,	mSeekTimeBase(0)
 {
 	//LEAK CHECK:::Both get deleted in constructor.
 	m_pLock = new CCritSec;
@@ -327,7 +329,15 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		//
 		mDataSource->seek(mSeekTable->getStartPos(*pCurrent));
 		//
-		*pCurrent = mSeekTable->getRealStartPos();
+
+		//We have to save this here now... since time can't be reverted to granule pos in all cases
+		// we have to use granule pos timestamps in order for downstream codecs to work.
+		// Because of this we can't factor time bases after seeking into the sample times.
+		// So this is a big fat hack so that theora's crazy ass time scheme can work in directshow. 
+		// We save the actual seek position as we do a seek and we misuse the MediaTime fields in the
+		// samples to send the time base. Theora 1, Compatability 0.
+		*pCurrent	= mSeekTimeBase 
+					= mSeekTable->getRealStartPos();
 	
 	
 		//debugLog<<"       : Seek complete."<<endl;

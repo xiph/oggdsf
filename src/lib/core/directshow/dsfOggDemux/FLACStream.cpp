@@ -33,8 +33,8 @@
 #include "FLACstream.h"
 #include "FLACMath.h"
 
-FLACStream::FLACStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
-	:	OggStream(inBOSPage, inOwningFilter)
+FLACStream::FLACStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
+	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mFLACFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));

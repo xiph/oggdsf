@@ -48,6 +48,6 @@ public:
 	OggStreamFactory(void);
 	~OggStreamFactory(void);
 
-	static OggStream* CreateStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter);
+	static OggStream* CreateStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	static StreamHeaders::eCodecType IdentifyCodec(OggPacket* inPacket);
 };

@@ -42,7 +42,7 @@ class VorbisStream
 	:	public OggStream
 {
 public:
-	VorbisStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter);
+	VorbisStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	virtual ~VorbisStream(void);
 
 	virtual bool InitCodec(StampedOggPacket* inOggPacket);

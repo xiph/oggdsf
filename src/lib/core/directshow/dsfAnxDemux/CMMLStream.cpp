@@ -35,8 +35,8 @@
 #include "StdAfx.h"
 #include "cmmlstream.h"
 
-CMMLStream::CMMLStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
-	:	OggStream(inBOSPage, inOwningFilter)
+CMMLStream::CMMLStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
+	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mCMMLFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));

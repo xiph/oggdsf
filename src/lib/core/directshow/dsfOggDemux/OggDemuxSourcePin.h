@@ -54,7 +54,8 @@ public:
 										CCritSec* inFilterLock,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
-										wstring inPinName);
+										wstring inPinName,
+										bool inAllowSeek);
 	
 
 

@@ -84,7 +84,7 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 					char* locStr = (char*)(inOggPage->getPacket(0)->packetData() + 28);
 					if (strstr(locStr, "text/x-cmml") != NULL) {
 						mSeenCMML = true;
-						OggStream* locStream = new CMMLStream(inOggPage, mOwningFilter);//OggStreamFactory::CreateStream(inOggPage, mOwningFilter);
+						OggStream* locStream = new CMMLStream(inOggPage, mOwningFilter, true);//OggStreamFactory::CreateStream(inOggPage, mOwningFilter);
 						if (locStream != NULL) {
 							mStreamList.push_back(locStream);
 						}
@@ -113,7 +113,7 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 		//for (int i = 0; i < mSeenStreams.size(); i++) {
 			if (mSeenStreams[i] == inOggPage->header()->StreamSerialNo()) {
 				//If the page is a BOS we need to start a new stream
-				OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter);
+				OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter, false);
 				//FIX::: Need to check for NULL
 				if (locStream != NULL) {
 					mStreamList.push_back(locStream);

@@ -31,9 +31,10 @@
 #include "StdAfx.h"
 #include "oggstream.h"
 
-OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
+OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
 	:	mCodecHeaders(NULL)
 	,	mOwningFilter(inOwningFilter)
+	,	mAllowSeek(inAllowSeek)
 	,	mSerialNo(0)
 	,	mSourcePin(NULL)
 	,	mNumHeadersNeeded(0)
@@ -204,7 +205,8 @@ bool OggStream::AddPin() {
 																mOwningFilter->m_pLock, 
 																mCodecHeaders, 
 																locMediaType, 
-																getPinName());
+																getPinName(),
+																mAllowSeek);
 	mStreamReady = true;
 	mSourcePin = locSourcePin;
 	

@@ -31,8 +31,8 @@
 #include "StdAfx.h"
 #include "vorbisstream.h"
 
-VorbisStream::VorbisStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
-	:	OggStream(inBOSPage, inOwningFilter)
+VorbisStream::VorbisStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
+	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
 	,	mVorbisFormatBlock(NULL)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));

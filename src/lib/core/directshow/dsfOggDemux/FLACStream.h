@@ -38,7 +38,7 @@ class FLACStream
 	:	public OggStream
 {
 public:
-	FLACStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter);
+	FLACStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	virtual ~FLACStream(void);
 
 	//Implementing virtuals in OGgStream

@@ -42,7 +42,7 @@ class CMMLStream
 	:	public OggStream
 {
 public:
-	CMMLStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter);
+	CMMLStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	virtual ~CMMLStream(void);
 	virtual void setLastEndGranPos(__int64 inGranPos);
 

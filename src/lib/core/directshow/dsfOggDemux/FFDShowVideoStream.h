@@ -35,7 +35,7 @@ class FFDShowVideoStream
 	:	public OggStream
 {
 public:
-	FFDShowVideoStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter);
+	FFDShowVideoStream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
 	virtual ~FFDShowVideoStream(void);
 
 	virtual bool InitCodec(StampedOggPacket* inOggPacket);
