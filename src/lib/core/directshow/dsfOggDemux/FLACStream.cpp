@@ -71,7 +71,7 @@ bool FLACStream::createFormatBlock() {
 	//Fix the format block data... use header version and other version.
 	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
 	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(1)->packetData()[16]) & FLAC_CHANNEL_MASK) >> 1) + 1;
-	mFLACFormatBlock->sampleRate = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 14)) >> 12;
+	mFLACFormatBlock->samplesPerSec = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 14)) >> 12;
 	
 	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(1)->packetData()[16] & FLAC_BPS_START_MASK) << 4)	|
 											((mCodecHeaders->getPacket(1)->packetData()[17] & FLAC_BPS_END_MASK) >> 4)) + 1;	
@@ -114,7 +114,7 @@ bool FLACStream::processHeaderPacket(StampedOggPacket* inPacket) {
 	return true;
 }
 void FLACStream::setLastEndGranPos(__int64 inPos) {
-	mLastEndGranulePos = (inPos * (__int64)mFLACFormatBlock->sampleRate)/ UNITS;
+	mLastEndGranulePos = (inPos * (__int64)mFLACFormatBlock->samplesPerSec)/ UNITS;
 }
 bool FLACStream::deliverCodecHeaders() {
 	StampedOggPacket* locPacket = NULL;
@@ -132,7 +132,7 @@ bool FLACStream::deliverCodecHeaders() {
 }
 
 LONGLONG FLACStream::getCurrentPos() {
-	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->sampleRate;
+	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->samplesPerSec;
 }
 
 //unsigned long FLACStream::numCodecHeaders() {

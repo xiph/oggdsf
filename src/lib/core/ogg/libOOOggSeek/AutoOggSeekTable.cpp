@@ -89,6 +89,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mSampleRate = iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 22) / iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 26);
 			mNumHeaders = 3;
 			mFoundStreamInfo = true;
+			
 			//Need denominators
 			//mTheoraFormatBlock->frameRateDenominator = FLACMath::charArrToULong(locIdentHeader + 26);
 		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(),  "fLaC", 4) == 0)) {

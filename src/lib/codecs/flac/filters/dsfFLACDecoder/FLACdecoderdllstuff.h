@@ -42,7 +42,7 @@
 struct sFLACFormatBlock {
 	unsigned short numChannels;
 	unsigned long numBitsPerSample;
-	unsigned long sampleRate;
+	unsigned long samplesPerSec;
 
 };
 

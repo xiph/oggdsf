@@ -57,7 +57,7 @@ bool FLACDecodeOutputPin::FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer) {
 
 	inFormatBuffer->wFormatTag = WAVE_FORMAT_PCM;
 	inFormatBuffer->nChannels = locFilter->getFLACFormatBlock()->numChannels;
-    inFormatBuffer->nSamplesPerSec =  locFilter->getFLACFormatBlock()->sampleRate;
+    inFormatBuffer->nSamplesPerSec =  locFilter->getFLACFormatBlock()->samplesPerSec;
 	inFormatBuffer->wBitsPerSample = locFilter->getFLACFormatBlock()->numBitsPerSample;
 	inFormatBuffer->nBlockAlign = (inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3);
 	inFormatBuffer->nAvgBytesPerSec = ((inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3)) * inFormatBuffer->nSamplesPerSec;

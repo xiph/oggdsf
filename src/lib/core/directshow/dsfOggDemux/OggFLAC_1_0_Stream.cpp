@@ -85,7 +85,7 @@ bool OggFLAC_1_0_Stream::createFormatBlock() {
 	//Fix the format block data... use header version and other version.
 	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
 	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(0)->packetData()[29]) & FLAC_CHANNEL_MASK) >> 1) + 1;
-	mFLACFormatBlock->sampleRate = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 27)) >> 12;
+	mFLACFormatBlock->samplesPerSec = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 27)) >> 12;
 	
 	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(0)->packetData()[29] & FLAC_BPS_START_MASK) << 4)	|
 											((mCodecHeaders->getPacket(0)->packetData()[30] & FLAC_BPS_END_MASK) >> 4)) + 1;	
@@ -132,7 +132,7 @@ bool OggFLAC_1_0_Stream::processHeaderPacket(StampedOggPacket* inPacket) {
 	return true;
 }
 void OggFLAC_1_0_Stream::setLastEndGranPos(__int64 inPos) {
-	mLastEndGranulePos = (inPos * (__int64)mFLACFormatBlock->sampleRate)/ UNITS;
+	mLastEndGranulePos = (inPos * (__int64)mFLACFormatBlock->samplesPerSec)/ UNITS;
 }
 bool OggFLAC_1_0_Stream::deliverCodecHeaders() {
 	debugLog<<"Delivering Codec Headers... "<<mCodecHeaders->numPackets()<<endl;
@@ -163,7 +163,7 @@ bool OggFLAC_1_0_Stream::deliverCodecHeaders() {
 }
 
 LONGLONG OggFLAC_1_0_Stream::getCurrentPos() {
-	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->sampleRate;
+	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->samplesPerSec;
 }
 
 //unsigned long OggFLAC_1_0_Stream::numCodecHeaders() {

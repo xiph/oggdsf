@@ -40,8 +40,8 @@ OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	,	mConvDenominator(1)
 	,	mConvScaleFactor(1)
 	,	mConvTheoraLogKeyFrameInterval(0)
-
 {
+	debugLog.open("G:\\logs\\oggmuxstream.log", ios_base::out);
 }
 
 OggMuxStream::~OggMuxStream(void)
@@ -100,7 +100,7 @@ __int64 OggMuxStream::convertTime(__int64 inGranulePos) {
 	
 			retTime = (locAbsFramePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
 			
-	
+			
 		}
 	} 
 	return retTime;

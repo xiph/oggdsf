@@ -35,6 +35,7 @@
 #include "INotifyArrival.h"
 #include <math.h>
 #include <deque>
+#include <fstream>
 using namespace std;
 class LIBOOOGG_API OggMuxStream
 	:	public IOggCallback
@@ -80,5 +81,6 @@ protected:
 	__int64 mConvScaleFactor;
 	__int64 mConvTheoraLogKeyFrameInterval;
 
+	fstream debugLog;
 	deque<OggPage*> mPageQueue;
 };

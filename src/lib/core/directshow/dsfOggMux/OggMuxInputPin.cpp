@@ -53,12 +53,12 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	mPaginator.setParameters(locSettings);
 	mPaginator.setPageCallback(mMuxStream);
 
-	debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
+	
 }
 
 OggMuxInputPin::~OggMuxInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 }
 
 STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -74,6 +74,8 @@ STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv
 
 
 HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
+	debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
+	debugLog<<"Set media type..."<<endl;
 	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_Theora)) {
 		//Theora
 		
@@ -98,6 +100,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			//We are connected to the encoder nd getting individual metadata packets.
 			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
+			debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			//mNeedsFLACHeaderTweak = true;
 			mNeedsFLACHeaderCount = true;
 		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
@@ -105,6 +108,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			// Need to use the header splitter class.
 			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
+			debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			mNeedsFLACHeaderTweak = true;
 		} 
 
@@ -185,7 +189,7 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	if (mNeedsFLACHeaderCount) {
 		mNeedsFLACHeaderCount = false;
 		//This is to set the number of headers on the paginator for OggFLAC_1_0
-		mPaginator.setNumHeaders( locPacket->packetData()[8] );
+		mPaginator.setNumHeaders( (locPacket->packetData()[8]) + 1 );
 	}
 	if ((mNeedsFLACHeaderTweak)) {
 		//The first packet in FLAC has all the metadata in one block...
@@ -224,7 +228,7 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 			if (i==0) {
 				//Set the number of headers in the paginator for FLAC classic.
 				StampedOggPacket* locHeadPack = locFLACSplitter->getHeader(i);
-				mPaginator.setNumHeaders(locHeadPack->packetData()[8]);
+				mPaginator.setNumHeaders((locHeadPack->packetData()[8]) + 1);
 				delete locHeadPack;
 			}
 			mPaginator.acceptStampedOggPacket(locFLACSplitter->getHeader(i));
