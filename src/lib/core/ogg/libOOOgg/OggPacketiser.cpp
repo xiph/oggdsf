@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include ".\oggpacketiser.h"
+#include "OggPacketiser.h"
 
 OggPacketiser::OggPacketiser(void) 
 	:	mPacketSink(NULL)

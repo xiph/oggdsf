@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include "oggpaginatorsettings.h"
+#include "OggPaginatorSettings.h"
 
 OggPaginatorSettings::OggPaginatorSettings(void)
 	:	mSerialNo(0)

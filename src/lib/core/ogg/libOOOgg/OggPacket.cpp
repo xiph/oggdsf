@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include "oggpacket.h"
+#include "OggPacket.h"
 
 //LEAK CHECK::: 20041018 - OK.
 OggPacket::OggPacket(void)

@@ -33,7 +33,7 @@
 //#include <sstream>
 #include "CircularBuffer.h"
 #include "OggPage.h"
-#include "SerialNoRego.h"
+#include "OggTypeDefs.h"
 #include "IOggCallback.h"
 #include "IFIFOBuffer.h"
 

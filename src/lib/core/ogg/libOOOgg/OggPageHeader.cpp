@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include "oggpageheader.h"
+#include "OggPageHeader.h"
 
 
 OggPageHeader::OggPageHeader(void)
