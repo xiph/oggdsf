@@ -165,47 +165,4 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 	} else {
 		return S_FALSE;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	////This pushes an anxdata packet into the stream.
-	//HRESULT locHR = OggMuxInputPin::SetMediaType(inMediaType);
-
-	//if (locHR == S_OK) {
-	//	debugLog<<"Set media type ok in base class"<<endl;
-	//	mPaginator.acceptStampedOggPacket(AnxPacketMaker::makeAnxData_2_0(mMuxStream, &mPaginator));
-	//}
-
-	//return locHR;
-
-
 }

@@ -41,6 +41,7 @@ OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	,	mConvScaleFactor(1)
 	,	mConvTheoraLogKeyFrameInterval(0)
 	,	mNumHeaders(0)
+	,	mPacketsSent(0)
 {
 	//debugLog.open("G:\\logs\\oggmuxstream.log", ios_base::out);
 }
@@ -78,6 +79,7 @@ OggPage* OggMuxStream::popFront() {
 	if (!mPageQueue.empty()) {
 		retPage = mPageQueue.front();
 		mPageQueue.pop_front();
+		mPacketsSent++;
 	}
 	return retPage;
 }
@@ -138,6 +140,13 @@ void OggMuxStream::setNumHeaders(unsigned long inNumHeaders) {
 }
 unsigned long OggMuxStream::numHeaders() {
 	return mNumHeaders;
+}
+
+unsigned long OggMuxStream::packetsSent() {
+	return mPacketsSent;
+}
+bool OggMuxStream::sentAllHeaders() {
+	return (mPacketsSent >= mNumHeaders);
 }
 
 

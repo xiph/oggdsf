@@ -68,8 +68,12 @@ public:
 
 	virtual bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor, LOOG_INT64 inTheoraLogKFI);
 	virtual bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor);
+	
 	virtual void setNumHeaders(unsigned long inNumHeaders);
 	virtual unsigned long numHeaders();
+
+	virtual unsigned long packetsSent();
+	virtual bool sentAllHeaders();
 
 
 	LOOG_INT64 granuleNumerator();
@@ -89,6 +93,7 @@ protected:
 	LOOG_INT64 mConvTheoraLogKeyFrameInterval;
 
 	unsigned long mNumHeaders;
+	unsigned long mPacketsSent;
 
 	//fstream debugLog;
 	deque<OggPage*> mPageQueue;
