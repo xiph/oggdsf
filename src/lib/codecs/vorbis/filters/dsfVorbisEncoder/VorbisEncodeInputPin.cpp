@@ -54,13 +54,13 @@ long VorbisEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	short locTempShort = 0;
 	float locTempFloat = 0;
 
-	__int64 locGranPos = 0;
-	locGranPos = fish_sound_get_frameno(mFishSound);
+	//__int64 locGranPos = 0;
+	//locGranPos = fish_sound_get_frameno(mFishSound);
 	//Removed the hack
 	//fish_sound_command(mFishSound, 7, &locGranPos, sizeof(__int64));
 	//
 
-	mUptoFrame = locGranPos;
+	//mUptoFrame = locGranPos;
 	//__int64 locTemp = ((FishSoundVorbisInfo*)mFishSound->codec_data)->vd.pcm_returned;
 	for (int i = 0; i < inNumBytes; i += 2) {
 		locTempShort = *((short*)(inBuf + i));
@@ -112,9 +112,10 @@ int VorbisEncodeInputPin::VorbisEncoded (FishSound* inFishSound, unsigned char* 
 	
 
 	//Time stamps are granule pos not directshow times
-	LONGLONG locFrameStart = 0;
-	LONGLONG locFrameEnd = locThis->mUptoFrame;
 
+	LONGLONG locFrameStart = locThis->mUptoFrame;
+	LONGLONG locFrameEnd	= locThis->mUptoFrame
+							= fish_sound_get_frameno(locThis->mFishSound);
 	//Get a pointer to a new sample stamped with our time
 	IMediaSample* locSample;
 	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);

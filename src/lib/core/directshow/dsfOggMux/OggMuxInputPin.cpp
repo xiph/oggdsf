@@ -44,10 +44,13 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	
 	mPaginator.setParameters(locSettings);
 	mPaginator.setPageCallback(inParentFilter);
+
+	debugLog.open("C:\\temp\\oggmuxinpin.log", ios_base::out);
 }
 
 OggMuxInputPin::~OggMuxInputPin(void)
 {
+	debugLog.close();
 }
 
 
@@ -97,6 +100,7 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	inSample->GetPointer(&locSampleBuff);
 	HRESULT locHR = inSample->GetTime(&locStart, &locEnd);
 
+	debugLog <<"Received "<<locStart<<" - "<<locEnd<<endl;
 	long locBuffSize = inSample->GetActualDataLength();
 	unsigned char* locBuff = new unsigned char[locBuffSize];
 	memcpy((void*)locBuff, (const void*)locSampleBuff, inSample->GetActualDataLength());

@@ -86,6 +86,7 @@ protected:
 	OggMuxInputPin* mInputPin;
 
 	fstream mOutputFile;
+	fstream debugLog;
 	HRESULT mHR;
 
 

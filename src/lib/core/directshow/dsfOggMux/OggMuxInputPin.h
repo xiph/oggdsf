@@ -33,7 +33,8 @@
 #include "OggMuxFilter.h"
 #include "OggPaginator.h"
 #include <time.h>
-
+#include <fstream>
+using namespace std;
 
 class OggMuxFilter;
 
@@ -67,4 +68,5 @@ protected:
 	OggMuxFilter* mParentFilter;
 
 	OggPaginator mPaginator;
+	fstream debugLog;
 };

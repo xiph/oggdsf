@@ -55,12 +55,12 @@ long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	short locTempShort = 0;
 	float locTempFloat = 0;
 
-	__int64 locGranPos = 0;
+	//__int64 locGranPos = 0;
 	//Removed hack for gran pos
 	//fish_sound_command(mFishSound, 8, &locGranPos, sizeof(__int64));
 	//
-	locGranPos = fish_sound_get_frameno(mFishSound);
-	mUptoFrame = locGranPos;
+	//locGranPos = fish_sound_get_frameno(mFishSound);
+	//mUptoFrame = locGranPos;
 	//__int64 locTemp = ((FishSoundSpeexInfo*)mFishSound->codec_data)->vd.pcm_returned;
 	for (int i = 0; i < inNumBytes; i += 2) {
 		locTempShort = *((short*)(inBuf + i));
@@ -74,7 +74,7 @@ long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	delete locFloatBuf;
 	//FIX::: Do something here ?
 	if (locErr < 0) {
-	
+		debugLog<<"Fishsound reports error"<<endl;
 	} else {
 	
 	}
@@ -114,9 +114,11 @@ int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* in
 	locThis->debugLog << "SpeexEncoded called with "<<inNumBytes<< " byte of data"<<endl;
 
 	//Time stamps are granule pos not directshow times
-	LONGLONG locFrameStart = 0;
-	LONGLONG locFrameEnd = locThis->mUptoFrame;
+	LONGLONG locFrameStart = locThis->mUptoFrame;
+	LONGLONG locFrameEnd	= locThis->mUptoFrame
+							= fish_sound_get_frameno(locThis->mFishSound);
 
+	
 	locThis->debugLog << "Stamping packet "<<locFrameStart<< " to "<<locFrameEnd<<endl;
 	//Get a pointer to a new sample stamped with our time
 	IMediaSample* locSample;

@@ -41,12 +41,14 @@ AbstractAudioEncodeInputPin::AbstractAudioEncodeInputPin(AbstractAudioEncodeFilt
 		mParentFilter(inParentFilter)
 	
 {
+	debugLog.open("C:\\temp\\aaein.log", ios_base::out);
 	//ConstructCodec();
 	
 }
 
 AbstractAudioEncodeInputPin::~AbstractAudioEncodeInputPin(void)
 {
+	debugLog.close();
 	//DestroyCodec();
 }
 
@@ -69,24 +71,27 @@ bool AbstractAudioEncodeInputPin::SetSampleParams(IMediaSample* outMediaSample, 
 
 STDMETHODIMP AbstractAudioEncodeInputPin::Receive(IMediaSample* inSample) {
 
+	debugLog <<endl<< "Received sample..."<<endl;
 	HRESULT locHR;
 	BYTE* locBuff = NULL;
 	locHR = inSample->GetPointer(&locBuff);
 
 	if (FAILED(locHR)) {
-		
+		debugLog << "Failed to get pointer... bailing out"<<endl;
 		return locHR;
 	} else {
 		
 		long locResult = encodeData(locBuff, inSample->GetActualDataLength());
-		if (locResult == 0) {
+		if (locResult >= 0) {
+			debugLog << "Encode Data returns 0... OK"<<endl;
 			return S_OK;
 		} else {
+			debugLog<< "Encode Data returns "<<locResult<<" FAILURE"<<endl;
 			return S_FALSE;
 		}
 	}
 
-	
+	debugLog<<"Receive falls through... returning OK"<<endl;
 	return S_OK;
 }
 

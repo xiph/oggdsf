@@ -294,7 +294,7 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 	}
 
 	//To ensure you get vorbis comments and codebook ending a page.
-	if (mPacketCount == 2) {
+	if ((mPacketCount == 2) && (mPendingPageHasData)) {
 		deliverCurrentPage();
 	}
 	mPacketCount++;
