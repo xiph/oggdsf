@@ -469,9 +469,12 @@ void OggDemuxSourceFilter::resetStream() {
 		//Before opening make the interface
 		mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
 		mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
-		mDataSource->seek(mStreamMapper->startOfData());
-		mJustReset = true;
-		//
+		mDataSource->seek(mStreamMapper->startOfData());   //Should always be zero for now.
+
+		//TODO::: Should be doing stuff with the demux state here ? or packetiser ?>?
+		
+		mJustReset = true;   //TODO::: Look into this !
+		
 	}
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->setSendExcess(true);	
@@ -633,6 +636,11 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 		}
 
 	}
+	
+	mStreamMapper->setAllowDispatch(true);
+	mStreamMapper->toStartOfData();			//Flushes all streams and sets them to ignore the right number of headers.
+	mOggBuffer.clearData();
+	mDataSource->seek(0);			//TODO::: This is bad for streams.
 	//Memory leak
 	//FIXED
 	delete locBuff;

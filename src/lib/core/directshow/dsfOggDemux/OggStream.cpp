@@ -45,6 +45,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	,	mLastEndGranulePos(0)
 	,	mLastStartGranulePos(0)
 	,	mStreamLock(NULL)
+	,	mAllowDispatch(false)
 {
 	//osDebug.open("C:\\ostream.log", ios_base::out);
 	//Need to do something here !
@@ -77,7 +78,9 @@ bool OggStream::streamReady() {
 unsigned long OggStream::serialNo() {
 	return mSerialNo;
 }
-
+void OggStream::setAllowDispatch(bool inAllowDispatch) {
+	mAllowDispatch = inAllowDispatch;
+}
 bool OggStream::acceptStampedOggPacket(StampedOggPacket* inPacket) {
     if (!mStreamReady) {
 		//Streams not ready, still headers.
@@ -92,14 +95,19 @@ bool OggStream::acceptStampedOggPacket(StampedOggPacket* inPacket) {
 		}
 	} else {
 		//Data packets...
-		if (mFirstRun) {
-			mFirstRun = false;
+		if (mAllowDispatch) {
+			if (mFirstRun) {
+				mFirstRun = false;
 
-			//Deliver the header data
-			deliverCodecHeaders();
-		}		
-		
-		processDataPacket(inPacket);
+				//Deliver the header data
+				deliverCodecHeaders();
+			}		
+			
+			processDataPacket(inPacket);
+		} else {
+			//processExcessPacket(inPacket);
+			return false;
+		}
 	}
 	
 	return true;
@@ -221,12 +229,25 @@ CMediaType* OggStream::createMediaType(GUID inMajorType, GUID inSubType, GUID in
 	return new CMediaType(locAMMediaType);
 }
 
+unsigned long OggStream::numCodecHeaders() {
+	//TODO::: Check for null.
+	return mCodecHeaders->numPackets();
+}
 void OggStream::flush() {
 	CAutoLock locLock(mStreamLock);
 	//delete mPartialPacket;
 	//TODO::: Tell the packetiser to flush.
 	//mPartialPacket = NULL;
 	mPacketiser.reset();
+}
+
+void OggStream::flush(unsigned short inNumPacketsToIgnore) {
+	CAutoLock locLock(mStreamLock);
+	//delete mPartialPacket;
+	//TODO::: Tell the packetiser to flush.
+	//mPartialPacket = NULL;
+	mPacketiser.reset();
+	mPacketiser.setNumIgnorePackets(inNumPacketsToIgnore);
 }
 //ANX::: Need to override here to create anx pins
 bool OggStream::AddPin() {

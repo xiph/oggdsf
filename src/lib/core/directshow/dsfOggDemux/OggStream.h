@@ -83,8 +83,12 @@ public:
 	virtual OggDemuxSourcePin* getPin();
 	virtual bool OggStream::AddPin();
 
+	void setAllowDispatch(bool inAllowDispatch);
 	bool streamReady();
+	unsigned long numCodecHeaders();
+	
 	void flush();
+	void flush(unsigned short inNumPacketsToIgnore);
 protected:
 	virtual bool acceptStampedOggPacket(StampedOggPacket* inPacket);
 	
@@ -103,6 +107,7 @@ protected:
 	bool mFirstRun;
 	bool mSendExcess;
 	bool mAllowSeek;
+	bool mAllowDispatch;
 
 	__int64 mLastEndGranulePos;
 	__int64 mLastStartGranulePos;

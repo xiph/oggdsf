@@ -4,7 +4,11 @@
 OggPacketiser::OggPacketiser(void) 
 	:	mPacketSink(NULL)
 	,	mPendingPacket(NULL)
-	,	mPacketiserState(PKRSTATE_OK)	
+	,	mPacketiserState(PKRSTATE_OK)
+	,	mLooseMode(true)						//FIX::: This affects the validator.
+	,	mNumIgnorePackets(0)
+	,	mPrevGranPos(0)
+	,	mCurrentGranPos(0)
 {
 
 }
@@ -12,6 +16,10 @@ OggPacketiser::OggPacketiser(IStampedOggPacketSink* inPacketSink)
 	:	mPacketSink(inPacketSink)
 	,	mPendingPacket(NULL)
 	,	mPacketiserState(PKRSTATE_OK)
+	,	mLooseMode(true)						//FIX::: This affects the validator.
+	,	mNumIgnorePackets(0)
+	,	mPrevGranPos(0)
+	,	mCurrentGranPos(0)
 {
 
 }
@@ -30,7 +38,10 @@ void OggPacketiser::setPacketSink(IStampedOggPacketSink* inPacketSink) {
 bool OggPacketiser::reset() {
 	delete mPendingPacket;
 	mPendingPacket = NULL;
+	mNumIgnorePackets = 0;
 	mPacketiserState = PKRSTATE_OK;
+	mPrevGranPos = 0;
+	mCurrentGranPos = 0;
 	return true;
 }
 bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
@@ -40,6 +51,17 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
 	// should NULL their pointer immediately after calling
 	// to avoid reusing them.
 	// 
+
+	//If the page isn't a -1 page and it's got a different granpos save it.
+	if ( (inOggPage->header()->GranulePos() != -1) && (inOggPage->header()->GranulePos() != mCurrentGranPos)) {
+		mPrevGranPos = mCurrentGranPos;
+
+		//If the previous is higher than the
+		if (mPrevGranPos > mCurrentGranPos) {
+			mPrevGranPos = -1;
+		}
+		mCurrentGranPos = inOggPage->header()->GranulePos();
+	}
 
 	//If the page header says its a continuation page...
 	if ((inOggPage->header()->HeaderFlags() & 1) == 1) {
@@ -79,7 +101,9 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
 						//TODO::: Static alternative here ?
 						
 						//Deliver the packet to the packet sink...
-						mPacketSink->acceptStampedOggPacket(mPendingPacket);
+						if (dispatchStampedOggPacket(mPendingPacket) == false) {
+							return false;
+						}
 						
 						//Go back to OK state
 						mPacketiserState = PKRSTATE_OK;
@@ -94,9 +118,22 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
 					throw 0;
 				}
 			} else {
-				//Unexpected continuation
-				mPacketiserState = PKRSTATE_INVALID_STREAM;
-				throw 0;
+				if (mLooseMode == true) {
+					//Just ignore when we get continuation pages, just drop the broken bit of packet.
+
+					mPendingPacket = NULL;   //MEMCHECK::: Did i just leak memory ?
+					mPacketiserState = PKRSTATE_OK;
+
+					//TODO::: Should really return false here if this returns false.
+					if( processPage(inOggPage, false, false) == false) {
+						//TODO::: State change ???
+						return false;
+					}
+				} else {
+					//Unexpected continuation
+					mPacketiserState = PKRSTATE_INVALID_STREAM;
+					throw 0;
+				}
 			}
 		} else {
 			//Is this something ?
@@ -107,9 +144,15 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
 	} else {
 		//Normal page, no continuations... just dump the packets, except the last one
 		if (inOggPage->numPackets() == 1) {
-			processPage(inOggPage, true, true);			//If there was only one pack process it.
+			if (processPage(inOggPage, true, true) == false ) {			//If there was only one pack process it.
+				//TODO::: State change
+				return false;
+			}
 		} else {
-			processPage(inOggPage, true, false);			//If there was only one packet, no packets would be written
+			if (processPage(inOggPage, true, false) == false ) {			//If there was only one packet, no packets would be written
+				//TODO::: State change
+				return false;			
+			}
 		}
 		
 		//The first packet is delivered.
@@ -141,7 +184,10 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
 				//We are in the OK state, with no pending packets, and the last packet is not truncated.
 
 				//Deliver to the packet sink.
-				mPacketSink->acceptStampedOggPacket( (StampedOggPacket*)(inOggPage->getStampedPacket(inOggPage->numPackets() - 1)->clone()) );
+				if ( dispatchStampedOggPacket( (StampedOggPacket*)(inOggPage->getStampedPacket(inOggPage->numPackets() - 1)->clone()) ) == false ) {
+					//TODO::: State change ?
+					return false;
+				}
 				//The last packet is complete. So send it.
 			}
 		} else if (mPacketiserState == PKRSTATE_AWAITING_CONTINUATION) {
@@ -171,6 +217,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {
 }
 
 bool OggPacketiser::processPage(OggPage* inOggPage, bool inIncludeFirst, bool inIncludeLast) {
+	//Returns false only if one of the acceptStampedOggPacket calls return false... means we should stop sending stuff and return.
 	bool locIsOK = true;
 
 	//Adjusts the loop parameters so that only packets excluding those specified are written.
@@ -179,11 +226,36 @@ bool OggPacketiser::processPage(OggPage* inOggPage, bool inIncludeFirst, bool in
 			i++) 
 	{
 			
-				locIsOK = (locIsOK && mPacketSink->acceptStampedOggPacket(inOggPage->getStampedPacket(i)));
+				locIsOK = (locIsOK && dispatchStampedOggPacket(inOggPage->getStampedPacket(i)));
 				if (!locIsOK) {
+					//TODO::: State change ???
 					return false;
 				}
 	}
 	return true;
 
+}
+
+bool OggPacketiser::dispatchStampedOggPacket(StampedOggPacket* inPacket) {
+	if (mNumIgnorePackets > 0) {
+		//Ignore this packet.
+		mNumIgnorePackets--;
+
+		//MEMCHECK::: Should probably delete this packet here.
+		return true;
+	} else {
+		//Modify the header packet to include the gran pos of previous page.
+		if (mPrevGranPos != -1) {
+			inPacket->setTimeStamp(mPrevGranPos, mCurrentGranPos, StampedOggPacket::eStampType::OGG_BOTH);
+		}
+		//Dispatch it.
+		return mPacketSink->acceptStampedOggPacket(inPacket);
+	}
+}
+
+void OggPacketiser::setNumIgnorePackets(unsigned long inNumIgnorePackets) {
+	mNumIgnorePackets = inNumIgnorePackets;
+}
+unsigned long OggPacketiser::numIgnorePackets() {
+	return mNumIgnorePackets;
 }

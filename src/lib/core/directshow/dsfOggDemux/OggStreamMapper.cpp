@@ -45,6 +45,8 @@ OggStreamMapper::~OggStreamMapper(void)
 		delete mStreamList[i];
 	}
 }
+
+//Sends the page to *only one* stream if it matches the serial number.
 bool OggStreamMapper::dispatchPage(OggPage* inOggPage) 
 {
 	for (unsigned long i = 0; i < mStreamList.size(); i++) {
@@ -65,11 +67,12 @@ unsigned long OggStreamMapper::startOfData() {
 bool OggStreamMapper::acceptOggPage(OggPage* inOggPage) 
 {
 	
-	if(!isReady()) {
-		mDataStartsAt += inOggPage->pageSize();
-	}
+	//FIXED::: Data starts a 0.
+	//if(!isReady()) {
+	//	mDataStartsAt += inOggPage->pageSize();
+	//}
 
-	if (inOggPage->header()->isBOS()) {
+	if (!isReady() && inOggPage->header()->isBOS()) {
 		bool locAllowSeekThrough = false;
 
 		//We only want one of the pins to delegate their seek to us.
@@ -89,7 +92,23 @@ bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)
 		return dispatchPage(inOggPage);
 	}
 }
+bool OggStreamMapper::toStartOfData() {
+	if (isReady()) {  //CHECK::: Should check for allow dsipatch ???
+		for (unsigned long i = 0; i < mStreamList.size(); i++) {
+			//Flush each stream, then ignore the codec headers.
+			mStreamList[i]->flush(mStreamList[i]->numCodecHeaders());
+		}	
+		return true;
+	} else {
+		return false;
+	}
+}
 
+void OggStreamMapper::setAllowDispatch(bool inAllowDispatch) {
+	for (unsigned long i = 0; i < mStreamList.size(); i++) {
+		mStreamList[i]->setAllowDispatch(inAllowDispatch);;
+	}
+}
 bool OggStreamMapper::isReady() {
 	bool retVal = true;
 	bool locWasAny = false;

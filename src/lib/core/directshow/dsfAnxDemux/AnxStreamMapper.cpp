@@ -61,7 +61,7 @@ bool AnxStreamMapper::isReady() {
 }
 bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage) 
 {
-	
+	//ANXTOFIX::: This was changed in the ogg demux.
 	if(!isReady()) {
 		mDataStartsAt += inOggPage->pageSize();
 	}

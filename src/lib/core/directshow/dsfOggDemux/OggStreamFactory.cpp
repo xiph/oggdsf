@@ -54,6 +54,7 @@ OggStream* OggStreamFactory::CreateStream(OggPage* inOggPage, OggDemuxSourceFilt
 			return new TheoraStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::FFDSHOW_VIDEO:
 			return new FFDShowVideoStream(inOggPage, inOwningFilter, inAllowSeek);
+		
 		case StreamHeaders::NONE:
 		default:
 			return NULL;

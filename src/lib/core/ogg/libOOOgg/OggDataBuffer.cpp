@@ -166,7 +166,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		//Delete the previous page
 		delete pendingPage;
 		
-		//make a fresh one
+		//Make a fresh ogg page
 		pendingPage = new OggPage;
 
 		//Make a local buffer for the header
@@ -276,7 +276,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 
 		//If its the last segment  in the page or if the lacing value is not 255(ie packet boundary.
 
-		/*TRUTH TABLE:
+		/* TRUTH TABLE:
 			last lacing value							lacing value is *not* 255
 			=================							=========================
 			true										true						}	If its the last one or a packet boundary(255 lacing value) we add it.
@@ -344,6 +344,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
         //debugLog<<"ProcessDataSegment : Transition to AWAITING_BASE_HEADER"<<endl;
 		mState = AWAITING_BASE_HEADER;
 		return PROCESS_OK;
+	} else if (locRet == DISPATCH_FALSE) {
+		return PROCESS_DISPATCH_FALSE;	
 	} else {
 		//debugLog<<"ProcessDataSegment : Dispatch failed."<<endl;
 		return PROCESS_DISPATCH_FAILED;

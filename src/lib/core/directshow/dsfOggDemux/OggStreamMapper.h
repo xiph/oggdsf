@@ -51,12 +51,13 @@ public:
 	unsigned long numStreams();
 	unsigned long startOfData();
 
-	bool dispatchPage(OggPage* inOggPage);
+	bool dispatchPage(OggPage* inOggPage);				//Should this be private or protected ?
 	//IOggCalback INterface
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
 	virtual bool isReady();
-
+	virtual void setAllowDispatch(bool inAllowDispatch);
+	bool toStartOfData();
 	
 protected:
 	unsigned long mDataStartsAt;
