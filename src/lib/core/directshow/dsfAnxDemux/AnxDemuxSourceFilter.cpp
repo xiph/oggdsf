@@ -67,6 +67,7 @@ AnxDemuxSourceFilter::AnxDemuxSourceFilter(void)
 	:	OggDemuxSourceFilter(CLSID_AnxDemuxSourceFilter)
 {
 	mStreamMapper = new AnxStreamMapper(this);
+	anxDebug.open("G:\\logs\\anxdemux.log", ios_base::out);
 }
 
 AnxDemuxSourceFilter::~AnxDemuxSourceFilter(void)
@@ -79,6 +80,7 @@ STDMETHODIMP AnxDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
+	anxDebug<<"Anx opens : "<<StringHelper::toNarrowStr(mFileName)<<endl;
 
 	//ANX::: Needs to override ??? Or just modify the seeker.
 	mSeekTable = new AutoAnxSeekTable(StringHelper::toNarrowStr(mFileName));

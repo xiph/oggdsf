@@ -1,0 +1,21 @@
+Examples of Design patterns in Oggdsf
+=====================================
+
+Builder Pattern 	- Used in WinCMMLParser. This builds up the tag objects(libCMMLTags) via
+				MSXML.
+Prototype Pattern	- Used in libCMMLTags to provide "virtual constructors" to allow a
+				pointer to the base type (prototype) to clone the actual concrete
+				instance of itself.
+Adapter Pattern		- Used in the .NET libraries to expose unmanaged code components.
+Ambassador Pattern	- Used in the callback proxy classes (eg. CMMLCallbackProxy) to proxy a callback
+			  	from unmanaged code through to managed code.
+Abstract Factory Pattern- Used in the OggStreamFactory and DataSourceFactory, to create
+				various concrete ogg streams or data sources (file, http etc)
+Facade Pattern		- Used to hide complexity of directshow from .NET managed clients (DSPlay)
+Template Method Pattern - used in all the AbstractAudioDecoder etc classes allowing hooks to derived
+				classes to provide their own codec specific algorithms.
+Command Pattern		- Used in the StreamMappers. The client issues requests to the StreamMapper
+				which executes the request on the appropriate object (ie acceptOggPage)
+
+				
+	

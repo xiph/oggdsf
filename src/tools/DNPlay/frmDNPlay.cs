@@ -601,54 +601,65 @@ namespace DNPlay
 		private bool setBaseURIFromFullPath(String inFullPath) 
 		{
 			MessageBox.Show(inFullPath);
-			Uri locURI = null;
+//			Uri locURI = null;
+//			Uri locBaseURI = null;
+//			try 
+//			{
+//				//Turn the full path into a URI
+//				locURI = new Uri(inFullPath);
+//			}
+//			catch (System.UriFormatException) 
+//			{
+//				//This is not a URI !
+//				locURI = null;
+//			}
+//
+//			if (locURI != null) 
+//			{
+//				MessageBox.Show(locURI.ToString());
+//				MessageBox.Show(locURI.GetLeftPart(UriPartial.Authority));
+//				String locPartial = locURI.GetLeftPart(UriPartial.Authority);
+//
+//				if (locPartial.Equals("")) 
+//				{
+//
+//					//Must be a file with a : 'd path in it
+//					locPartial = locURI.GetLeftPart(UriPartial.Path);
+//
+//					//Find out where the lat slash is
+//					int locDelimPos = locPartial.LastIndexOf("/");
+//					if (locDelimPos != -1) 
+//					{
+//						//Strip off the filename part at the end
+//						locPartial = locPartial.Substring(0, locDelimPos + 1);
+//						MessageBox.Show("Parital : " + locPartial);
+//					} 
+//					else 
+//					{
+//						locPartial = "";
+//					}
+//				}
+//				//Get the URI base which excludes the filename part.
+//				
+//				if (!locPartial.Equals("")) 
+//				{
+//					locBaseURI = new Uri(locPartial);
+//					MessageBox.Show(locBaseURI.ToString());
+//				}
+//				
+//			} 
+
 			Uri locBaseURI = null;
 			try 
 			{
-				//Turn the full path into a URI
-				locURI = new Uri(inFullPath);
+				locBaseURI = new Uri(inFullPath);
 			}
 			catch (System.UriFormatException) 
 			{
-				//This is not a URI !
-				locURI = null;
+				//Do nothing...
 			}
 
-			if (locURI != null) 
-			{
-				MessageBox.Show(locURI.ToString());
-				MessageBox.Show(locURI.GetLeftPart(UriPartial.Authority));
-				String locPartial = locURI.GetLeftPart(UriPartial.Authority);
-
-				if (locPartial.Equals("")) 
-				{
-
-					//Must be a file with a : 'd path in it
-					locPartial = locURI.GetLeftPart(UriPartial.Path);
-
-					//Find out where the lat slash is
-					int locDelimPos = locPartial.LastIndexOf("/");
-					if (locDelimPos != -1) 
-					{
-						//Strip off the filename part at the end
-						locPartial = locPartial.Substring(0, locDelimPos + 1);
-						MessageBox.Show("Parital : " + locPartial);
-					} 
-					else 
-					{
-						locPartial = "";
-					}
-				}
-				//Get the URI base which excludes the filename part.
-				
-				if (!locPartial.Equals("")) 
-				{
-					locBaseURI = new Uri(locPartial);
-					MessageBox.Show(locBaseURI.ToString());
-				}
-				
-			} 
-
+			
 			mBaseURI = locBaseURI;
 
 			return (locBaseURI != null);

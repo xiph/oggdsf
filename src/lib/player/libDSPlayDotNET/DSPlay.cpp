@@ -226,11 +226,13 @@ bool DSPlay::loadFile(String* inFileName) {
 	locHR = mGraphBuilder->RenderFile(locWFileName.c_str(), NULL);
 
 	if (locHR != S_OK) {
+		*debugLog<<"Render File FAILED !!"<<endl;
 		mIsLoaded = false;
 		return false;
 	}
 
 	if (isFileAnnodex(inFileName)) {
+		*debugLog<<"Is annodex"<<endl;
 		//Get the app control interface for CMML.
 		IBaseFilter* locCMMLFilter = NULL;
 		locHR = mGraphBuilder->FindFilterByName(L"CMML Decode Filter", &locCMMLFilter);
@@ -251,7 +253,7 @@ bool DSPlay::loadFile(String* inFileName) {
 		}
 
 	}
-
+	*debugLog<<"After CMML Code..."<<endl;
 
 	//Get the media control interface
 	IMediaControl* locMediaControl = NULL;
