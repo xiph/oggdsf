@@ -52,6 +52,7 @@ bool OggSeekTable::enabled() {
 bool OggSeekTable::addSeekPoint(__int64 inTime, unsigned long mStartPos) {
 	//stDebug<< "Add Point :  Time = "<<inTime<<"   --   Byte Pos : "<<mStartPos<<endl;
 	mSeekMap.insert(tSeekMap::value_type(inTime, mStartPos));
+
 	return true;
 
 }

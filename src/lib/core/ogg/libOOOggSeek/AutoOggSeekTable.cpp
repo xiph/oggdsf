@@ -219,6 +219,28 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 
 	return true;
 }
+unsigned long AutoOggSeekTable::serialisedSize() {
+	return mSeekMap.size() * 12;
+	
+}
+bool AutoOggSeekTable::serialiseInto(unsigned char* inBuff, unsigned long inBuffSize) {
+	if (inBuffSize >= serialisedSize()) {
+		unsigned long locUpto = 0;
+		for (tSeekMap::const_iterator i = mSeekMap.begin(); i != mSeekMap.end(); i++) {
+
+			//Time is .first
+			iLE_Math::Int64ToCharArr((*i).first, inBuff + locUpto);
+			locUpto += 8;
+
+			//Byte offset is .second
+			iLE_Math::ULongToCharArr((*i).second, inBuff + locUpto);
+			locUpto += 4;
+		}
+		return true;
+	} else {
+		return false;
+	}
+}
 
 __int64 AutoOggSeekTable::fileDuration() {
 	return mFileDuration;
