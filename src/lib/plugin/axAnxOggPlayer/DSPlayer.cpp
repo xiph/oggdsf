@@ -244,7 +244,7 @@ bool DSPlayer::loadFile(wstring inFileName, HWND inWindow, int inLeft, int inTop
 		
 		//locVW->put_MessageDrain((OAHWND)inWindow);
 
-
+		
 		locVW->put_Owner((OAHWND)inWindow);
 		debugLog<<"Setting stuff..."<<endl;
 		locVW->SetWindowPosition(inLeft, inTop, inWidth, inHeight);
