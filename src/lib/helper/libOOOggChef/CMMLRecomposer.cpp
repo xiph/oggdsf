@@ -42,8 +42,8 @@
 #include <libOOOgg/libOOOgg.h>
 #include <libCMMLTags/libCMMLTags.h>
 #include <libTemporalURI/C_TimeStamp.h>
-#include <libWinCMMLParse/CMMLParser.h>
-#include <libWinCMMLParse/CMMLTagUtils.h>
+#include <libCMMLParse/CMMLParser.h>
+#include <libCMMLParse/CMMLTagUtils.h>
 
 #include <fstream>
 #include <iostream>

@@ -124,6 +124,9 @@
 				RelativePath=".\CMMLParser.cpp">
 			</File>
 			<File
+				RelativePath=".\CMMLTagUtils.cpp">
+			</File>
+			<File
 				RelativePath=".\ConvertUTF.c">
 			</File>
 			<File
@@ -169,6 +172,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath=".\CMMLParser.h">
+			</File>
+			<File
+				RelativePath=".\CMMLTagUtils.h">
 			</File>
 			<File
 				RelativePath=".\ConvertUTF.h">

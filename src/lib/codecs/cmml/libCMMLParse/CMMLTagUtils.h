@@ -35,10 +35,11 @@
 #pragma once
 
 
+#include <libCMMLParse/libCMMLParse.h>
 #include <libCMMLTags/libCMMLTags.h>
 #include <libilliCore/illicoreconfig.h>
 
-class LIBWINCMMLPARSE_API CMMLTagUtils
+class LIBCMMLPARSE_API CMMLTagUtils
 {
 public:
 	/// Returns a new C_ClipTagList, which contains clips occuring in inClipTagList, during or after the time given via inTimeInDirectShowUnits

@@ -34,7 +34,7 @@
 
 #include "stdafx.h"
 
-#include <libWinCMMLParse/CMMLTagUtils.h>
+#include <libCMMLParse/CMMLTagUtils.h>
 #include <libTemporalURI/C_TimeStamp.h>
 
 #include <fstream>
