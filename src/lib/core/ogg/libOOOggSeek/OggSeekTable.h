@@ -43,7 +43,7 @@ public:
 
 	bool addSeekPoint(__int64 inTime, unsigned long mStartPos);
 	unsigned long getStartPos(__int64 inTime);
-	__int64 getLastRealStartGranPos();
+	__int64 getRealStartPos();
 
 	bool enabled();
 
@@ -51,7 +51,7 @@ protected:
 	typedef map<__int64, unsigned long> tSeekMap;
 	tSeekMap mSeekMap;
 	tSeekMap::value_type mSeekValue;
-	__int64 mRealStartGranPos;
+	__int64 mRealStartPos;
 
 	bool mEnabled;
 };

@@ -46,7 +46,7 @@ public:
 	virtual ~VorbisStream(void);
 
 	virtual bool InitCodec(StampedOggPacket* inOggPacket);
-
+	void setLastEndGranPos(__int64 inPos);
 
 	virtual BYTE* getFormatBlock() ;
 	virtual unsigned long getFormatBlockSize();

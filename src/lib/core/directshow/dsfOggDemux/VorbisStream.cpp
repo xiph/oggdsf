@@ -69,6 +69,10 @@ bool VorbisStream::createFormatBlock() {
 
 	return true;
 }
+
+void VorbisStream::setLastEndGranPos(__int64 inPos) {
+	mLastEndGranulePos = (inPos * (__int64)mVorbisFormatBlock->samplesPerSec)/ UNITS;
+}
 unsigned long VorbisStream::getFormatBlockSize() {
 	return sizeof(sVorbisFormatBlock);
 }

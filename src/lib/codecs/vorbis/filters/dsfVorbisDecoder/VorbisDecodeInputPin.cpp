@@ -110,6 +110,7 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 	//Start time hacks
 	REFERENCE_TIME locTimeBase = ((locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate) - locThis->mSeekTimeBase;
+	locThis->debugLog<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
 	locThis->debugLog<<"Time Base  : " << locTimeBase << endl;
 	locThis->debugLog<<"FrameCount : " <<locThis->mUptoFrame<<endl;
 	locThis->debugLog<<"Seek TB    : " <<locThis->mSeekTimeBase<<endl;
