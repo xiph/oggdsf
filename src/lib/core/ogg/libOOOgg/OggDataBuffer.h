@@ -87,7 +87,7 @@ public:
 
 	//Constructors
 	OggDataBuffer(void);
-	~OggDataBuffer(void);
+	virtual ~OggDataBuffer(void);
 
 	//Setting callbacks
 	bool registerStaticCallback(fPageCallback inPageCallback);

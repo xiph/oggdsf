@@ -62,7 +62,7 @@ public:
 	void setPacketData (unsigned char* inPacketData );
 
 	//Merge function
-	virtual void merge(OggPacket* inMorePacket);
+	virtual void merge(const OggPacket* inMorePacket);
 
 	//TODO::: Should this be here ?
 	string toPackDumpString();
@@ -78,5 +78,9 @@ protected:
 	//TODO::Should these be here ?
 	string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long inNumChars) ;
 	string OggPacket::padField(string inString, unsigned long inPadWidth, unsigned char inPadChar);
+
+private:
+	OggPacket& operator=(const OggPacket& other);  /* Don't assign me */
+	OggPacket(const OggPacket& other); /* Don't copy me */
 	
 };

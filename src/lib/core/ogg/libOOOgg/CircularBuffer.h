@@ -98,7 +98,7 @@ class LIBOOOGG_API CircularBuffer
 {
 public:
 	CircularBuffer(unsigned long inBufferSize);
-	~CircularBuffer(void);
+	virtual ~CircularBuffer(void);
 
 	//IFIFOBuffer Implementation
 	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead);

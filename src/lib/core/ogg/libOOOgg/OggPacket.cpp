@@ -32,6 +32,7 @@
 #include "StdAfx.h"
 #include "oggpacket.h"
 
+//LEAK CHECK::: 20041018 - OK.
 OggPacket::OggPacket(void)
 	:	mPacketSize(0)
 	,	mPacketData(NULL)
@@ -42,6 +43,7 @@ OggPacket::OggPacket(void)
 
 }
 
+//Accepts responsibility for inPackData pointer - deletes it in destructor.
 OggPacket::OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation)
 	:	mPacketSize(inPacketSize)
 	,	mPacketData(inPackData)
@@ -50,15 +52,17 @@ OggPacket::OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool
 		
 {
 }
+
+//This method creates a pointer which the caller is responsible for.
 OggPacket* OggPacket::clone() {
 	//Make a new buffer for packet data
-	unsigned char* locBuff = new unsigned char[mPacketSize];
+	unsigned char* locBuff = new unsigned char[mPacketSize];			//Given to constructor of OggPacket
 
 	//Copy the packet data into the new buffer
 	memcpy((void*)locBuff, (const void*)mPacketData, mPacketSize);
 
-	//Create the new packet
-	OggPacket* retPack = new OggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation);
+	//Create the new packet - accepts locBuff poitner
+	OggPacket* retPack = new OggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation);	//Gives this pointer to the caller.
 	return retPack;
 }
 
@@ -189,14 +193,15 @@ void OggPacket::setPacketSize(unsigned long inPacketSize) {
 	mPacketSize = inPacketSize;
 }
 
+//This function accepts responsibility for the pointer it is passed, and it deletes it in the destructor.
 void OggPacket::setPacketData(unsigned char* inPacketData) {
 	mPacketData = inPacketData;
 }
 
-
-void OggPacket::merge(OggPacket* inMorePacket) {
+//Only views the incoming pointer.
+void OggPacket::merge(const OggPacket* inMorePacket) {
 	//Make a new buffer the size of both data segs together
-	unsigned char* locBuff = new unsigned char[mPacketSize + inMorePacket->mPacketSize];
+	unsigned char* locBuff = new unsigned char[mPacketSize + inMorePacket->mPacketSize];		//This is put into the member vvariable, where it will be deleted in destructor.
 	//Copy this packets data to the start
 	memcpy((void*)locBuff, (const void*)mPacketData, mPacketSize);
 	//Copy the next packets data after it
@@ -211,7 +216,7 @@ void OggPacket::merge(OggPacket* inMorePacket) {
 	//If the next part of the packet isn't complete then this packet is not complete.
 	//mIsComplete = inMorePacket->mIsComplete;
 	//The new packet is truncated only if the incoming packet is
-	mIsTruncated = inMorePacket->isTruncated();
+	mIsTruncated = inMorePacket->mIsTruncated;    //->isTruncated();
 
 	//This is not a continuation... a continuation is a packet that does not start at the start of the real packet.
 	mIsContinuation = false;
