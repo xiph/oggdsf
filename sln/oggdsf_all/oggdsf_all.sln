@@ -1211,6 +1211,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "axAnxOggPlayer", "..\..\src
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfNativeFLACSource", "..\..\src\lib\codecs\flac\filters\dsfNativeFLACSource\dsfNativeFLACSource.vcproj", "{43DEE58F-CEC6-49B4-BC06-3D28978BAB63}"
 	ProjectSection(ProjectDependencies) = postProject
+		{4CBC0173-27E6-4218-AE06-5EFDCA7B2547} = {4CBC0173-27E6-4218-AE06-5EFDCA7B2547}
 	EndProjectSection
 EndProject
 Global

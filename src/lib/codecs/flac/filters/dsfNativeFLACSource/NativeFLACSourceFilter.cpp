@@ -58,9 +58,9 @@ CUnknown* WINAPI NativeFLACSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT 
 
 NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	:	CBaseFilter(NAME("NativeFLACSourceFilter"), NULL, m_pLock, CLSID_NativeFLACSourceFilter)
-	,	mDecoder(NULL)
+	//,	mDecoder(NULL)
 {
-	mDiracSourcePin = new NativeFLACSourcePin(this, m_pLock);
+	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
 }
 
 NativeFLACSourceFilter::~NativeFLACSourceFilter(void)
@@ -113,11 +113,11 @@ STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_T
 	//	return S_FALSE;
 	//}
 
-	mInputFile.open(StringHelper::toNarrowStr(mFileName), ios_base::in | ios_base::binary);
+	//mInputFile.open(StringHelper::toNarrowStr(mFileName), ios_base::in | ios_base::binary);
 
-	if (!mInputFile.is_open()) {
-		return S_FALSE;
-	}
+	//if (!mInputFile.is_open()) {
+	//	return S_FALSE;
+	//}
 
 
 	

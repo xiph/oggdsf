@@ -30,6 +30,7 @@
 //===========================================================================
 #pragma once
 #include "dsfNativeFLACSource.h"
+#include "NativeFLACSourcePin.h"
 
 #include <string>
 using namespace std;

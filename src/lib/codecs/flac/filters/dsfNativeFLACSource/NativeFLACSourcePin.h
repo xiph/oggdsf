@@ -31,9 +31,11 @@
 
 #pragma once
 #include "dsfNativeFLACSource.h"
-#include "NativeFLACSourceFilter.h"
+//#include "NativeFLACSourceFilter.h"
 #include <fstream>
 using namespace std;
+
+class NativeFLACSourceFilter;
 class NativeFLACSourcePin
 	:	public CBaseOutputPin
 {
