@@ -52,10 +52,82 @@ namespace iOCE
 				locItem = new ListViewItem(locSubItems);
 				lsvUserComments.Items.Add(locItem);
 			}
+		
+		}
+
+		private void editSelectedUserComment() 
+		{
+			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
 			
+			if (locSelected.Count == 1) 
+			{
+				ListViewItem locItem = locSelected[0];
+				ListViewItem.ListViewSubItemCollection locSubItems = locItem.SubItems;
+				
+				frmAddComment locAddForm = new frmAddComment();
+				locAddForm.Text = "Edit Comment...";
+				locAddForm.Key = locSubItems[0].Text;
+				locAddForm.Value = locSubItems[1].Text;
 			
+				
+				locAddForm.ShowDialog();
+				if (locAddForm.wasOK == true) 
+				{
+					String[] locSubItemStr = new String[2];
+					locSubItemStr[0] = locAddForm.Key;
+					locSubItemStr[1] = locAddForm.Value;
+					lsvUserComments.Items.Remove(locItem);
+					locItem = new ListViewItem(locSubItemStr);
+					
+					lsvUserComments.Items.Add(locItem);
+				}
+			}
 
 
+		}
+
+		private void addUserComment() 
+		{
+			ListViewItem locItem = null;
+
+			frmAddComment locAddForm = new frmAddComment();
+			locAddForm.ShowDialog();
+			if (locAddForm.wasOK == true) 
+			{
+				String[] locSubItems = new String[2];
+				locSubItems[0] = locAddForm.Key;
+				locSubItems[1] = locAddForm.Value;
+				locItem = new ListViewItem(locSubItems);
+				lsvUserComments.Items.Add(locItem);
+			}
+		}
+
+		private void removeSelectedUserComment() 
+		{
+			//Get the selection of items
+			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
+			
+			if (locSelected.Count == 1) 
+			{
+				//Remember where we were selected from
+				int locIndex = lsvUserComments.SelectedIndices[0];
+
+				//Remove the selected item
+				lsvUserComments.Items.Remove(locSelected[0]);
+
+				//Hightlight a line again
+				if (locIndex < lsvUserComments.Items.Count) 
+				{
+					//Highlight the line where we were
+					lsvUserComments.Items[locIndex].Selected = true;
+				} 
+				else if (lsvUserComments.Items.Count != 0) 
+				{
+					//Highlight the last line if we were previously the last line
+					lsvUserComments.Items[lsvUserComments.Items.Count - 1].Selected = true;
+				}
+			}
+			
 		}
 		public frmMain()
 		{
@@ -209,8 +281,11 @@ namespace iOCE
 			this.lsvUserComments.MultiSelect = false;
 			this.lsvUserComments.Name = "lsvUserComments";
 			this.lsvUserComments.Size = new System.Drawing.Size(600, 128);
+			this.lsvUserComments.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.lsvUserComments.TabIndex = 2;
 			this.lsvUserComments.View = System.Windows.Forms.View.Details;
+			this.lsvUserComments.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lsvUserComments_KeyDown);
+			this.lsvUserComments.DoubleClick += new System.EventHandler(this.lsvUserComments_DoubleClick);
 			// 
 			// colKey
 			// 
@@ -291,64 +366,44 @@ namespace iOCE
 
 		private void cmdAdd_Click(object sender, System.EventArgs e)
 		{
-			
-			ListViewItem locItem = null;
-
-			frmAddComment locAddForm = new frmAddComment();
-			locAddForm.ShowDialog();
-			if (locAddForm.wasOK == true) 
-			{
-				String[] locSubItems = new String[2];
-				locSubItems[0] = locAddForm.Key;
-				locSubItems[1] = locAddForm.Value;
-				locItem = new ListViewItem(locSubItems);
-				lsvUserComments.Items.Add(locItem);
-			}
-			
+			addUserComment();
 		}
 
 		private void cmdEdit_Click(object sender, System.EventArgs e)
 		{
-			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
-			
-			
-			
-			if (locSelected.Count == 1) 
-			{
-				ListViewItem locItem = locSelected[0];
-				ListViewItem.ListViewSubItemCollection locSubItems = locItem.SubItems;
-				
-				frmAddComment locAddForm = new frmAddComment();
-				locAddForm.Text = "Edit Comment...";
-				locAddForm.Key = locSubItems[0].Text;
-				locAddForm.Value = locSubItems[1].Text;
-			
-				
-				locAddForm.ShowDialog();
-				if (locAddForm.wasOK == true) 
-				{
-					String[] locSubItemStr = new String[2];
-					locSubItemStr[0] = locAddForm.Key;
-					locSubItemStr[1] = locAddForm.Value;
-					lsvUserComments.Items.Remove(locItem);
-					locItem = new ListViewItem(locSubItemStr);
-					
-					lsvUserComments.Items.Add(locItem);
-				}
-			}
+			editSelectedUserComment();
 		}
 
 		private void cmdRemove_Click(object sender, System.EventArgs e)
 		{
-			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
-			
-			
-			
-			if (locSelected.Count == 1) 
-			{
-				ListViewItem locItem = locSelected[0];
-				lsvUserComments.Items.Remove(locItem);
+			removeSelectedUserComment();
+		}
+
+		private void lsvUserComments_DoubleClick(object sender, System.EventArgs e)
+		{
+			editSelectedUserComment();
+		}
+
+		private void lsvUserComments_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			switch(e.KeyCode) {
+	 
+				case Keys.Delete:
+					removeSelectedUserComment();
+					e.Handled = true;
+					break;
+				case Keys.Insert:
+					addUserComment();
+					e.Handled = true;
+					break;
+				case Keys.Enter:
+					editSelectedUserComment();
+					e.Handled = true;
+					break;
+
 			}
 		}
+
+		
 	}
 }
