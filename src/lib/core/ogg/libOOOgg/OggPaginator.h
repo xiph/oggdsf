@@ -87,7 +87,7 @@ protected:
 	unsigned char* mHeaderBuff;
 	fstream debugLog;
 
-	unsigned long mLastGranulePos;
+	LOOG_INT64 mLastGranulePos;
 
 private:
 	OggPaginator& operator=(const OggPaginator& other);  /* Don't assign me */

@@ -157,8 +157,9 @@ void OggPageInterleaver::writeLowest() {
 							//(!locLowestStream->peekFront()->header()->isBOS()) ) ||
 							(mInputStreams[i]->packetsSent() < locLowestStream->packetsSent()) ) ||
 						
-							(locTestLowTime < locCurrLowTime)
-						) 
+						(
+							(locTestLowTime < locCurrLowTime))
+					   ) 
 					{
 						
 						//DeBUGGIN BLOCK

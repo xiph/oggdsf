@@ -109,8 +109,8 @@ LOOG_INT64 OggMuxStream::scaledFrontTime() {
 }
 
 LOOG_INT64 OggMuxStream::convertTime(LOOG_INT64 inGranulePos) {
-	LOOG_INT64 retTime = INT64_MAX;
-	if (inGranulePos != INT64_MAX) {
+	LOOG_INT64 retTime = -1;
+	if (inGranulePos != -1) {
 		if (mIsSensibleTime) {
 			retTime = (inGranulePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
 		} else {
