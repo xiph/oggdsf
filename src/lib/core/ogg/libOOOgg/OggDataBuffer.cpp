@@ -185,7 +185,11 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() {
 		}
 
 		//Set the base header into the pending page
-		pendingPage->header()->setBaseHeader((unsigned char*)locBuff);
+
+		bool locRetVal = pendingPage->header()->setBaseHeader((unsigned char*)locBuff);
+		if (locRetVal == false) {
+			return PROCESS_FAILED_TO_SET_HEADER;
+		}
 		
 		//NOTE ::: The page will delete the buffer when it's done. Don't delete it here
 
@@ -299,6 +303,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 			//Read data from the stream into the local buffer.
 			mStream.read((char*)(locBuff), locCurrPackSize);
 
+			//FIX::: check for stream failure.
+
 			debugLog<<"ProcessDataSegment : Adding packet size = "<<locCurrPackSize<<endl;
 			
 			//A packet ends when a lacing value is not 255. So the check for != 255 means the isComplete property of the packet is not set unless the
@@ -360,6 +366,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 					eProcessResult locResult = processBaseHeader();
                     
 					if (locResult != PROCESS_OK) {
+						mState = LOST_PAGE_SYNC;
 						//Base header process failed
 						return locResult;
 					}
@@ -376,6 +383,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 					eProcessResult locResult = processSegTable();
                
 					if (locResult != PROCESS_OK) {
+						mState = LOST_PAGE_SYNC;
 						//segment table process failed
 						return locResult;
 					}
@@ -387,9 +395,14 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				//If all the data segment is available
 				if (numBytesAvail() >= pendingPage->header()->dataSize()) {
 					debugLog<<"ProcessBuffer : Enough to process..."<<endl;
+
+					//FIX::: Need error check.
 					return processDataSegment();
 				}	
 				break;
+			case eState::LOST_PAGE_SYNC:
+				debugLog<<"ProcessBuffer : State = LOST_PAGE_SYNC"<<endl;
+				return PROCESS_LOST_SYNC;
 			default:
 				//Do sometyhing ??
 				debugLog<<"ProcessBuffer : Ogg Buffer Error"<<endl;

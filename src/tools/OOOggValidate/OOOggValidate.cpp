@@ -23,7 +23,8 @@ enum eOggValidationErrors {
 };
 
 OggValidationState gValidationState;
-void error_write(eOggValidationErrors inErrNo, OggPage* inOggPage, OggStreamValidationState* inStreamState) {
+bool isValid = true;
+void error_write(short int inErrNo, OggPage* inOggPage, OggStreamValidationState* inStreamState) {
 
 	string locErrorString = "";
 	switch (inErrNo) {
@@ -47,13 +48,22 @@ void error_write(eOggValidationErrors inErrNo, OggPage* inOggPage, OggStreamVali
 		case OVE_EOS_BEFORE_BOS:
 			locErrorString = "EOS page found before BOS page";
 			break;
+
+
+
+		//Process errors
+		case OggDataBuffer::PROCESS_FAILED_TO_SET_HEADER:
+			locErrorString = "Could not find ogg page.";
+			break;
 		default:
 			locErrorString = "Unnamed Error"; 
 			break;
 
 	}
 
-	inStreamState->mErrorCount++;
+	if (inStreamState != NULL) {
+        inStreamState->mErrorCount++;
+	}
 
 	cout << "ERROR "<<(int)inErrNo<<":  "<<locErrorString<<endl;
 
@@ -70,7 +80,7 @@ bool pageCB(OggPage* inOggPage) {
 
 	OggPageHeader* locHeader = inOggPage->header();
 
-	bool isValid = true;
+	
 	
 	//----------------------------------------------------------------------
 	//Verify structure version is 0 (RFC 3533 Sec. 6.1)
@@ -135,8 +145,8 @@ bool pageCB(OggPage* inOggPage) {
 
 	//Verify sequence No
 	if (locHeader->PageSequenceNo() == locStreamState->mSequenceNoUpto) {
-		error_write(OVE_SEQUENCE_NO_REPEATED, inOggPage, locStreamState);
-		isValid = false;
+		//error_write(OVE_SEQUENCE_NO_REPEATED, inOggPage, locStreamState);
+		//isValid = false;
 	} else if (locHeader->PageSequenceNo() < locStreamState->mSequenceNoUpto) {
 		error_write(OVE_SEQUENCE_NO_DECREASED, inOggPage, locStreamState);
 		isValid = false;
@@ -161,6 +171,10 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	// USAGE :: OOOggValidate <OggFile>
 	//
 	//bytePos = 0;
+
+	int x;
+	cin>>x;
+
 	if (argc < 2) {
 		cout<<"Usage : OOOggValidate <filename>"<<endl;
 	} else {
@@ -200,10 +214,16 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 				case OVE_EOS_BEFORE_BOS:
 					error_write(OVE_EOS_BEFORE_BOS, NULL, NULL);
 					return OVE_EOS_BEFORE_BOS;
+				default:
+					error_write(locResult, NULL, NULL);
+					return locResult;
 
 			}
 		}
 
+		if (isValid) {
+			cout<<"File was valid."<<endl;
+		}
 		delete locBuff;
 	}
 

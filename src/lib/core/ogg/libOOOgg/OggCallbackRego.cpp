@@ -60,6 +60,7 @@ void OggCallbackRego::dispatch(OggPage* inOggPage) {
 		mCB(outOggPage);
 	} else {
 		mCB(inOggPage);
+		//FIX::: Needs fixing to propagate response up.
 	}
 	
 }
