@@ -52,7 +52,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 
 	IMediaEvent* locMediaEvent = NULL;
 	locHR = locGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&locMediaEvent);
-
+	
 	HANDLE  hEvent; 
 	long    evCode, param1, param2;
 	BOOLEAN bDone = FALSE;
