@@ -185,6 +185,7 @@ namespace iOCE
 			this.cmdRemove.Size = new System.Drawing.Size(80, 24);
 			this.cmdRemove.TabIndex = 4;
 			this.cmdRemove.Text = "&Remove";
+			this.cmdRemove.Click += new System.EventHandler(this.cmdRemove_Click);
 			// 
 			// cmdAdd
 			// 
@@ -334,6 +335,19 @@ namespace iOCE
 					
 					lsvUserComments.Items.Add(locItem);
 				}
+			}
+		}
+
+		private void cmdRemove_Click(object sender, System.EventArgs e)
+		{
+			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
+			
+			
+			
+			if (locSelected.Count == 1) 
+			{
+				ListViewItem locItem = locSelected[0];
+				lsvUserComments.Items.Remove(locItem);
 			}
 		}
 	}
