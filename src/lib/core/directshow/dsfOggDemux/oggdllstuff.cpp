@@ -74,7 +74,8 @@ STDAPI DllRegisterServer()
     );
 
 
-	RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg;*.ogv;*.oga");
+	//Only call once... if you need multiple you have to fix the hack job in RegWrap !
+	RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg;*.ogv;*.oga;*.spx");
 
 
 
@@ -88,6 +89,9 @@ STDAPI DllRegisterServer()
 
 STDAPI DllUnregisterServer()
 {
+	//This is not a general purpose function.
+	RegWrap::removeMediaDesc();
+
    HRESULT hr;
     IFilterMapper2* locFilterMapper = NULL;
 
