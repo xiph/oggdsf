@@ -132,8 +132,10 @@ struct sSpeexFormatBlock {
 };
 
 struct sFLACFormatBlock {
-	unsigned char numChannels;
-	unsigned long samplesPerSec;
+	unsigned short numChannels;
+	unsigned long numBitsPerSample;
+	unsigned long sampleRate;
+
 };
 
 struct sTheoraFormatBlock {

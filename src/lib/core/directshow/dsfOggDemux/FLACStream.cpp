@@ -63,12 +63,17 @@ wstring FLACStream::getPinName() {
 }
 
 bool FLACStream::createFormatBlock() {
-	const unsigned char FLAC_CHANNEL_MASK = 7;  //00000111
+	const unsigned char FLAC_CHANNEL_MASK = 14;  //00001110
+	const unsigned char FLAC_BPS_START_MASK = 1; //00000001
+	const unsigned char FLAC_BPS_END_MASK = 240;  //11110000
 	mFLACFormatBlock = new sFLACFormatBlock;
 	//Fix the format block data... use header version and other version.
 	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
-	mFLACFormatBlock->numChannels = (mCodecHeaders->getPacket(1)->packetData()[16]) & FLAC_CHANNEL_MASK;
-	mFLACFormatBlock->samplesPerSec = (FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 14)) >> 12;
+	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(1)->packetData()[16]) & FLAC_CHANNEL_MASK) >> 1) + 1;
+	mFLACFormatBlock->sampleRate = (FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 14)) >> 12;
+	
+	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(1)->packetData()[16] & FLAC_BPS_START_MASK) << 4)	|
+											((mCodecHeaders->getPacket(1)->packetData()[17] & FLAC_BPS_END_MASK) >> 4)) + 1;	
 	return true;
 }
 BYTE* FLACStream::getFormatBlock() {
@@ -123,5 +128,5 @@ bool FLACStream::deliverCodecHeaders() {
 }
 
 LONGLONG FLACStream::getCurrentPos() {
-	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->samplesPerSec;
+	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->sampleRate;
 }

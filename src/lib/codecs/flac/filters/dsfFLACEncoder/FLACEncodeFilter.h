@@ -53,7 +53,9 @@ public:
 	//PURE VIRTUAL IMPLEMENTATION
 	virtual bool ConstructPins();
 
-protected:
+	//TODO::: This shouldn'y be here... use the getter setters.
 	sFLACFormatBlock mFLACFormatBlock;
+protected:
+	
 	
 };

@@ -88,15 +88,30 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			//mTheoraFormatBlock->frameRateDenominator = FLACMath::charArrToULong(locIdentHeader + 26);
 		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(),  "fLaC", 4) == 0)) {
 			//mPacketCount--;
-			mNumHeaders = 2;
+			mNumHeaders = 1;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			isFLAC = true;
-		} else if (isFLAC && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo())) {
-			//Catch the second flac packet.
-			mSampleRate = FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 14) >> 12;
-			mFoundStreamInfo = true;
-		}else {
-			mFoundStreamInfo = true;
+		} else if (isFLAC && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) ) {
+			//Loop any other packets
+
+			const int FLAC_LAST_HEADERS_FLAG = 128;
+			const int FLAC_HEADER_MASK = 127;
+			const int FLAC_STREAM_INFO_ID = 0;
+			
+			//Note ::: Secondary condition in for statement.
+            for (int i = 0; i < inOggPage->numPackets(), !mFoundStreamInfo; i++) {
+				mNumHeaders++;
+				if ((inOggPage->getPacket(i)->packetData()[0] & FLAC_HEADER_MASK) == FLAC_STREAM_INFO_ID) {
+                    //Catch the stream info packet.
+                    mSampleRate = FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 14) >> 12;
+					//mFoundStreamInfo = true;
+				}
+				if ((inOggPage->getPacket(i)->packetData()[0] & FLAC_LAST_HEADERS_FLAG)) {
+					mFoundStreamInfo = true;
+				}
+			}
+		} else {
+			mFoundStreamInfo = true;		//Why do this ?
 			mEnabled = false;
 			mSampleRate = 1;
 			

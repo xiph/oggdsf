@@ -10,6 +10,7 @@ OggStreamValidationState::OggStreamValidationState(void)
 	,	mSeenAnything(false)
 	,	mErrorCount(0)
 	,	mWarningCount(0)
+	,	mState(VS_SEEN_NOTHING)
 {
 }
 

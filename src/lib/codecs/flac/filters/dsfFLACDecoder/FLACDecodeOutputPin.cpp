@@ -53,10 +53,12 @@ STDMETHODIMP FLACDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void 
 }
 
 bool FLACDecodeOutputPin::FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer) {
+	FLACDecodeFilter* locFilter = (FLACDecodeFilter*)mParentFilter;
+
 	inFormatBuffer->wFormatTag = WAVE_FORMAT_PCM;
-	inFormatBuffer->nChannels = 2;
-    inFormatBuffer->nSamplesPerSec =  44100;
-	inFormatBuffer->wBitsPerSample = 16;
+	inFormatBuffer->nChannels = locFilter->getFLACFormatBlock()->numChannels;
+    inFormatBuffer->nSamplesPerSec =  locFilter->getFLACFormatBlock()->sampleRate;
+	inFormatBuffer->wBitsPerSample = locFilter->getFLACFormatBlock()->numBitsPerSample;
 	inFormatBuffer->nBlockAlign = (inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3);
 	inFormatBuffer->nAvgBytesPerSec = ((inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3)) * inFormatBuffer->nSamplesPerSec;
 	inFormatBuffer->cbSize = 0;

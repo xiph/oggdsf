@@ -40,15 +40,6 @@
 #define ABS_AUDIO_DEC_API __declspec(dllimport)
 #endif
 
-//struct sSpeexFormatBlock {
-//	unsigned long speexVersion;
-//	unsigned long samplesPerSec;
-//	unsigned long minBitsPerSec;
-//	unsigned long avgBitsPerSec;
-//	unsigned long maxBitsPerSec;
-//	unsigned long numChannels;
-//
-//};
 struct sFLACFormatBlock {
 	unsigned short numChannels;
 	unsigned long numBitsPerSample;

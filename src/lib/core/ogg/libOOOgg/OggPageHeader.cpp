@@ -245,7 +245,10 @@ void OggPageHeader::setNumPageSegments(unsigned char inVal)
 void OggPageHeader::setSegmentTable(const unsigned char* inPtr, unsigned char inNumSegs) {
 	unsigned char* locSegTable = new unsigned char[inNumSegs];
 	memcpy((void*)locSegTable, (const void*)inPtr, inNumSegs);
+	delete mSegmentTable;
+	mSegmentTable = locSegTable;
 	mNumPageSegments = inNumSegs;
+	setHeaderSize(OggPageHeader::OGG_BASE_HEADER_SIZE + inNumSegs);
 }
 void OggPageHeader::setSegmentTable(unsigned char* inPtr) {
 	delete mSegmentTable;

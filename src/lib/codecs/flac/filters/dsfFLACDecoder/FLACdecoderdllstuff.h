@@ -38,6 +38,14 @@
 #pragma message("<---- Importing from Abstract Library...")
 #define ABS_AUDIO_DEC_API __declspec(dllimport)
 #endif
+
+struct sFLACFormatBlock {
+	unsigned short numChannels;
+	unsigned long numBitsPerSample;
+	unsigned long sampleRate;
+
+};
+
 #include "AbstractAudioDecodeFilter.h"
 #include "AbstractAudioDecodeInputPin.h"
 #include "AbstractAudioDecodeOutputPin.h"

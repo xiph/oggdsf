@@ -36,6 +36,7 @@ FLACDecodeInputPin::FLACDecodeInputPin(AbstractAudioDecodeFilter* inParentFilter
 	:	AbstractAudioDecodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACDecodeInputPin"), L"FLAC In", inAcceptMediaType)
 	,	mGotMetaData(false)
 	,	mCodecLock(NULL)
+	
 	//,	mNumPacksBuffered(0)
 {
 	debugLog.open("G:\\logs\\flacfilter.log", ios_base::out);
@@ -47,6 +48,7 @@ FLACDecodeInputPin::~FLACDecodeInputPin(void)
 {
 	debugLog.close();
 	delete mCodecLock;
+	
 }
 
 STDMETHODIMP FLACDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -346,7 +348,11 @@ HRESULT FLACDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 	//RESOLVED::: Bit better.
 
 	if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
-		//Do something here
+		
+		//Keep the format block
+		
+		((FLACDecodeFilter*)mParentFilter)->setFLACFormatBlock((sFLACFormatBlock*)inMediaType->pbFormat);
+
 	} else {
 		throw 0;
 	}

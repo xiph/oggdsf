@@ -72,7 +72,7 @@ public:
 
 protected:
 	bool mGotMetaData;
-
+	
 	//debug only
 	fstream debugLog;
 	//

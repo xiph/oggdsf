@@ -51,6 +51,7 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 FLACDecodeFilter::FLACDecodeFilter(void)
 	:	AbstractAudioDecodeFilter(NAME("FLAC Audio Decoder"), CLSID_FLACDecodeFilter, FLAC)
+	,	mFLACFormatBlock(NULL)
 {
 	bool locWasConstructed = ConstructPins();
 }
@@ -58,7 +59,7 @@ FLACDecodeFilter::FLACDecodeFilter(void)
 FLACDecodeFilter::~FLACDecodeFilter(void)
 {
 	DestroyPins();
-	//delete mSpeexFormatInfo;
+	delete mFLACFormatBlock;
 }
 
 bool FLACDecodeFilter::ConstructPins() 
@@ -82,3 +83,14 @@ CUnknown* WINAPI FLACDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
     }
 	return pNewObject;
 } 
+
+sFLACFormatBlock* FLACDecodeFilter::getFLACFormatBlock() 
+{
+	return mFLACFormatBlock;
+}
+void FLACDecodeFilter::setFLACFormatBlock(sFLACFormatBlock* inFormatBlock) 
+{
+	delete mFLACFormatBlock;
+	mFLACFormatBlock = new sFLACFormatBlock;
+	*mFLACFormatBlock = *inFormatBlock;
+}

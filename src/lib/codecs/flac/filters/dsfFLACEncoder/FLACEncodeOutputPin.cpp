@@ -43,6 +43,8 @@ FLACEncodeOutputPin::~FLACEncodeOutputPin(void)
 
 bool FLACEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
 	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;
+
+	//TODO::: This is not needed... put in a get and set
 	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mFLACFormatBlock), sizeof(sFLACFormatBlock));
 	return true;
 }

@@ -48,6 +48,11 @@ public:
 	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
 	virtual bool ConstructPins();
 
+	//Should really be here
+
+	void FLACDecodeFilter::setFLACFormatBlock(sFLACFormatBlock* inFormatBlock) ;
+	sFLACFormatBlock* FLACDecodeFilter::getFLACFormatBlock();
 protected:
+	sFLACFormatBlock* mFLACFormatBlock;
 
 };
