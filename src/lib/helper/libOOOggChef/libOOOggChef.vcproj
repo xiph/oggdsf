@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\codecs\cmml;..\..\core\ogg;.."
+				AdditionalIncludeDirectories="..\..\codecs\cmml;..\..\helper;..\..\core\ogg;.."
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBOOOGGCHEF_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -68,7 +68,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\codecs\cmml;..\..\core\ogg;.."
+				AdditionalIncludeDirectories="..\..\codecs\cmml;..\..\helper;..\..\core\ogg;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBOOOGGCHEF_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"

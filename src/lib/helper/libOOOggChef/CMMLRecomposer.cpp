@@ -43,8 +43,7 @@
 #include <libCMMLTags/libCMMLTags.h>
 #include <libTemporalURI/C_TimeStamp.h>
 #include <libWinCMMLParse/CMMLParser.h>
-
-#include <assert.h>
+#include <libWinCMMLParse/CMMLTagUtils.h>
 
 #include <fstream>
 #include <iostream>
@@ -142,7 +141,7 @@ bool CMMLRecomposer::recomposeStreamFrom(double inStartingTimeOffset, const vect
 
 			// Get the clip tags during or after the wanted time
 			C_ClipTagList *locRequestedClips =
-				locCMMLDoc->root()->clipList()->getClipsFrom(locTime);
+				CMMLTagUtils::getClipsFrom(locCMMLDoc->root()->clipList(), locTime);
 
 			// Replace the clip list in our new CMML document.  We don't need to
 			// delete the old clip list before doing this, since the setClipList()

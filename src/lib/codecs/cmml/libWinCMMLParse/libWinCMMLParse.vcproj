@@ -258,6 +258,9 @@
 				RelativePath="CMMLParser.cpp">
 			</File>
 			<File
+				RelativePath=".\CMMLTagUtils.cpp">
+			</File>
+			<File
 				RelativePath="libWinCMMLParse.cpp">
 			</File>
 			<File
@@ -293,6 +296,9 @@
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
 				RelativePath="CMMLParser.h">
+			</File>
+			<File
+				RelativePath=".\CMMLTagUtils.h">
 			</File>
 			<File
 				RelativePath="libWinCMMLParse.h">

@@ -57,8 +57,6 @@ public:
 	bool parseClipTag(wstring inClipText, C_ClipTag* outClip);
 	bool parseHeadTag(wstring inHeadText, C_HeadTag* outHead);
 	bool parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot);
-
-	
 	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
 
 
