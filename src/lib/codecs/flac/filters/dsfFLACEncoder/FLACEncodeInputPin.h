@@ -31,7 +31,7 @@
 
 #pragma once
 
-
+#include "FLAC++/encoder.h"
 #include "AbstractAudioEncodeInputPin.h"
 #include "FLACEncodeInputPin.h"
 
@@ -56,7 +56,11 @@ public:
 	virtual ~FLACEncodeInputPin(void);
 
 	//static int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
-	//PURE VIRTUALS
+	//PURE VIRTUALS from Flac Encoder
+	virtual ::FLAC__StreamEncoderWriteStatus write_callback(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame);
+	virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
+	
+	//PURE VIRTUALS from Abstract Encoder
 	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();

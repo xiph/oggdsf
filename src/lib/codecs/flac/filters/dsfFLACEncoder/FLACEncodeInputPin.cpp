@@ -165,6 +165,23 @@ void FLACEncodeInputPin::DestroyCodec() {
 //	}
 //}
 
+::FLAC__StreamEncoderWriteStatus FLACEncodeInputPin::write_callback(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame) {
+
+	//This is called back with encoded data after raw data is fed in by stream_encoder_process or
+	// stream_encoder_process_interleaved.
+}
+void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadata) {
+	//This is called back at the *end* of encoding with the headers that need to be written at the *start* of the stream.
+	//This is going to make it painful to get the data to the mux filter in multi stream ogg.
+	//It's basically going to totally break the mux filter stream abstraction, 
+	//by forcing yet more codec specific code into the mux.
+	//Oh well... if you're going to break it... break it good !
+
+	//It also makes it impractical for streaming as decode can't begin without metadata, and metadata
+	// is not created until all encoding is finished. I guess that's not such a big deal
+	// because flac is unlikely to be streamed live.
+}
+
 
 HRESULT FLACEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 	AbstractAudioEncodeInputPin::SetMediaType(inMediaType);

@@ -126,3 +126,7 @@ const REGFILTER2 FLACEncodeFilterReg = {
 };
 	   
 
+struct sFLACFormatBlock {
+	
+
+};
