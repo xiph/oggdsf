@@ -229,13 +229,13 @@ void FLACEncodeInputPin::DestroyCodec() {
 					
 					HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 					if (locHR != S_OK) {
-						//locThis->debugLog<<"Sample rejected"<<endl;
+						debugLog<<"Sample rejected"<<endl;
 					} else {
-						//locThis->debugLog<<"Sample Delivered"<<endl;
+						debugLog<<"Sample Delivered"<<endl;
 					}
 				}
 
-				return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
+				
 
 
 			}

@@ -31,10 +31,10 @@ FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPa
 			//Last header
 			mSeenAllHeaders = true;
 			if (createNewHeaderList()) {
-				debugLog<<"Create new headers FAILED"<<endl;
+				debugLog<<"Create new headers OK"<<endl;
 				return LAST_HEADER_ACCEPTED;
 			} else {
-				debugLog<<"Create new headers OK"<<endl;
+				debugLog<<"Create new headers FAILED"<<endl;
 				return HEADER_ERROR;
 			}
 		} else {

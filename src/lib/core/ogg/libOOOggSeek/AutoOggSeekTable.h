@@ -69,6 +69,7 @@ protected:
 	bool mLastIsSeekable;
 	bool isTheora;
 	bool isFLAC;
+	bool isOggFLAC_1_0;
 	bool mFoundStreamInfo;
 	__int64 mLastSeekTime;
 	__int64 mFileDuration;

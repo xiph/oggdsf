@@ -42,6 +42,7 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 	,	mSerialNoToTrack(LINT_MAX)
 	,	isTheora(false)
 	,	isFLAC(false)
+	,	isOggFLAC_1_0(false)
 	,	mFoundStreamInfo(false)
 	,	mGranulePosShift(0)
 	,	mLastIsSeekable(false)
@@ -114,6 +115,23 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 					mFoundStreamInfo = true;
 				}
 			}
+		} else if ((strncmp((char*)inOggPage->getPacket(0)->packetData(),  "\177FLAC", 5) == 0)) {
+			//mPacketCount--;
+			//POTENTIAL BUG::: Only looks at low order byte
+			mNumHeaders = inOggPage->getPacket(0)->packetData()[8];
+			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
+			if (mNumHeaders == 0) {
+				//Variable number of headers... need to pick it up again...
+				mNumHeaders = 2;
+                isOggFLAC_1_0 = true;
+				
+			} 
+			
+			mSampleRate = iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 27) >> 12;
+			mFoundStreamInfo = true;
+			
+		
+
 		} else {
 			mFoundStreamInfo = true;		//Why do this ?
 			mEnabled = false;

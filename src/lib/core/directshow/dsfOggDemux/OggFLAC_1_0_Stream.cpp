@@ -83,11 +83,11 @@ bool OggFLAC_1_0_Stream::createFormatBlock() {
 	mFLACFormatBlock = new sFLACFormatBlock;
 	//Fix the format block data... use header version and other version.
 	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
-	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(1)->packetData()[25]) & FLAC_CHANNEL_MASK) >> 1) + 1;
-	mFLACFormatBlock->sampleRate = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 23)) >> 12;
+	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(0)->packetData()[29]) & FLAC_CHANNEL_MASK) >> 1) + 1;
+	mFLACFormatBlock->sampleRate = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 27)) >> 12;
 	
-	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(1)->packetData()[25] & FLAC_BPS_START_MASK) << 4)	|
-											((mCodecHeaders->getPacket(1)->packetData()[26] & FLAC_BPS_END_MASK) >> 4)) + 1;	
+	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(0)->packetData()[29] & FLAC_BPS_START_MASK) << 4)	|
+											((mCodecHeaders->getPacket(0)->packetData()[30] & FLAC_BPS_END_MASK) >> 4)) + 1;	
 	return true;
 }
 BYTE* OggFLAC_1_0_Stream::getFormatBlock() {
