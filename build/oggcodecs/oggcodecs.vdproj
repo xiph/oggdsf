@@ -118,6 +118,12 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_52EEBD17D1BC463493F06DCBC4C2CD44"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_9F87CF49E6BC48AE9DECD5A3F35FEC24"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -321,6 +327,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_52EEBD17D1BC463493F06DCBC4C2CD44"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -365,6 +377,12 @@
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_52EEBD17D1BC463493F06DCBC4C2CD44"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1131,7 +1149,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{D65F0073-A820-4085-B997-A061171595A7}"
-        "PackageCode" = "8:{7BA5CB46-942B-4A86-9D00-918A7639EA59}"
+        "PackageCode" = "8:{BAF3C58C-41A3-40B5-94BA-2D5F629FD7D4}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -3616,6 +3634,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{6B20BD7A-644B-4087-9CAC-71B2D68D0231}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_52EEBD17D1BC463493F06DCBC4C2CD44"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\helper\\libtemporaluri\\debug\\libTemporalURI.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{37CA269C-45DF-4DF7-9C12-3FE3B651D6FC}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
