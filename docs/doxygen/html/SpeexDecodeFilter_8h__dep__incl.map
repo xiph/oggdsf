@@ -1,7 +1,0 @@
-base referer
-rect $SpeexDecodeInputPin_8h.html 191,157 357,184
-rect $lib_2codecs_2speex_2filters_2dsfSpeexDecoder_2stdafx_8h.html 119,82 189,109
-rect $dsfSpeexDecoder_8cpp.html 7,8 159,34
-rect $lib_2codecs_2speex_2filters_2dsfSpeexDecoder_2stdafx_8cpp.html 183,8 266,34
-rect $SpeexDecodeInputPin_8cpp.html 213,82 394,109
-rect $SpeexDecodeFilter_8cpp.html 405,157 565,184

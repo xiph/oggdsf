@@ -1,9 +1,0 @@
-base referer
-rect $AnchorTag_8h.html 117,231 216,258
-rect $ClipTag_8h.html 93,157 170,183
-rect $DescTag_8h.html 8,231 93,258
-rect $ClipTagList_8h.html 82,82 181,109
-rect $CMMLDoc_8h.html 80,7 176,34
-rect $HeadTag_8h.html 210,82 296,109
-rect $CMMLRootTag_8h.html 200,7 322,34
-rect $TitleTag_8h.html 213,157 293,183

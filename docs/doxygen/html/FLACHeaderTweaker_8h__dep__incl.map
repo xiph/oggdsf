@@ -1,5 +1,0 @@
-base referer
-rect $FLACEncodeInputPin_8h.html 181,8 344,34
-rect $FLACEncodeFilter_8h.html 192,82 333,109
-rect $flacencoderdllstuff_8h.html 245,157 386,184
-rect $flacencoderdllstuff_8cpp.html 408,82 562,109

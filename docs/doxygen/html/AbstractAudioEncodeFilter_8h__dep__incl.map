@@ -1,8 +1,0 @@
-base referer
-rect $flacencoderdllstuff_8h.html 58,8 200,34
-rect $FLACEncodeFilter_8h.html 58,82 200,109
-rect $SpeexEncodeFilter_8h.html 274,82 421,109
-rect $speexencoderdllstuff_8h.html 248,8 402,34
-rect $vorbisencoderdllstuff_8h.html 490,8 648,34
-rect $VorbisEncodeFilter_8h.html 496,82 642,109
-rect $lib_2core_2directshow_2dsfAbstractAudioEncoder_2stdafx_8h.html 666,82 736,109

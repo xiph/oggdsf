@@ -1,8 +1,0 @@
-base referer
-rect $C__CMMLPreamble_8h.html 58,235 205,262
-rect $C__CMMLRootTag_8h.html 229,235 368,262
-rect $C__CMMLTag_8h.html 162,86 272,113
-rect $C__HumReadCMMLTag_8h.html 346,86 517,113
-rect $C__StreamTag_8h.html 238,161 353,187
-rect $C__HeadTag_8h.html 428,161 532,187
-rect $C__ClipTagList_8h.html 556,161 670,187

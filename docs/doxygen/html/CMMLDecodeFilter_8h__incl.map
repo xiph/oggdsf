@@ -1,7 +1,0 @@
-base referer
-rect $cmmldecoderdllstuff_8h.html 7,82 162,109
-rect $StringHelper_8h.html 237,82 343,109
-rect $CMMLParser_8h.html 367,82 479,109
-rect $libWinCMMLParse_8h.html 645,82 789,109
-rect $libCMMLTags_8h.html 414,8 526,34
-rect $ICMMLAppControl_8h.html 813,82 957,109

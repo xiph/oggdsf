@@ -1,6 +1,0 @@
-base referer
-rect $TheoraDecodeFilter_8h.html 462,231 614,258
-rect $TheoraDecoder_8h.html 664,157 789,183
-rect $dllstuff_8h.html 622,82 694,109
-rect $StampedOggPacket_8h.html 718,82 870,109
-rect $theora__cdecl_8h.html 894,82 1006,109

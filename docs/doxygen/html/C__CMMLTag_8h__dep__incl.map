@@ -1,8 +1,0 @@
-base referer
-rect $C__BaseTag_8h.html 271,82 373,109
-rect $cpp__lib__cmml_8h.html 121,8 235,34
-rect $C__TagList_8h.html 397,82 490,109
-rect $C__CMMLRootTag_8h.html 109,82 247,109
-rect $C__StreamTag_8h.html 121,157 235,184
-rect $libCMMLTags_8h.html 387,8 499,34
-rect $CMMLTag_8h.html 615,157 709,184

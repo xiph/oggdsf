@@ -1,7 +1,0 @@
-base referer
-rect $vorbisdecoderdllstuff_8h.html 264,157 421,184
-rect $VorbisDecodeFilter_8cpp.html 204,8 364,34
-rect $VorbisDecodeInputPin_8h.html 92,232 257,258
-rect $VorbisDecodeOutputPin_8h.html 305,232 481,258
-rect $vorbisdecoderdllstuff_8cpp.html 381,82 552,109
-rect $VorbisDecodeInputPin_8cpp.html 8,157 189,184

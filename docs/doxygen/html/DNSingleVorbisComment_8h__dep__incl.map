@@ -1,7 +1,0 @@
-base referer
-rect $DNVorbisComments_8h.html 200,231 354,258
-rect $DNStreamCommentInfo_8h.html 92,157 268,183
-rect $DNFileComments_8h.html 16,82 154,109
-rect $DNFileComments_8cpp.html 8,7 162,34
-rect $DNStreamCommentInfo_8cpp.html 178,82 370,109
-rect $DNVorbisComments_8cpp.html 292,157 460,183

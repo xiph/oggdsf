@@ -1,8 +1,0 @@
-base referer
-rect $StampedOggPacket_8h.html 90,231 242,258
-rect $OggPageHeader_8h.html 213,157 346,183
-rect $iLE__Math_8h.html 197,82 287,109
-rect $libilliCore_8h.html 211,7 299,34
-rect $StringHelper_8h.html 311,82 418,109
-rect $OggPacket_8h.html 370,157 469,183
-rect $IOggPackSource_8h.html 334,231 467,258

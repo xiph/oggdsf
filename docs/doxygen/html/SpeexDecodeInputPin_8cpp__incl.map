@@ -1,8 +1,0 @@
-base referer
-rect $SpeexDecodeInputPin_8h.html 232,306 397,333
-rect $speexdecoderdllstuff_8h.html 8,157 162,184
-rect $SpeexDecodeFilter_8h.html 186,232 333,258
-rect $AbstractAudioDecodeInputPin_8h.html 402,157 616,184
-rect $abstractaudiodllstuff_8h.html 206,82 358,109
-rect $AbstractAudioDecodeFilter_8h.html 186,157 378,184
-rect $BasicSeekable_8h.html 405,82 525,109

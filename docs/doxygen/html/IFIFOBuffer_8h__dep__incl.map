@@ -1,7 +1,0 @@
-base referer
-rect $CircularBuffer_8h.html 213,231 328,258
-rect $OggDataBuffer_8h.html 161,157 284,183
-rect $OggDemuxSourceFilter_8h.html 8,7 181,34
-rect $AutoOggSeekTable_8h.html 76,82 225,109
-rect $libOOOgg_8h.html 249,82 342,109
-rect $FileComments_8h.html 366,82 486,109

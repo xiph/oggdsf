@@ -1,8 +1,0 @@
-base referer
-rect $TheoraDecoder_8h.html 8,157 133,184
-rect $TheoraEncoder_8h.html 157,157 282,184
-rect $StreamHeaders_8h.html 306,157 432,184
-rect $OggPage_8h.html 506,82 594,109
-rect $libOOOgg_8h.html 544,8 637,34
-rect $IStampedOggPacketSink_8h.html 557,157 741,184
-rect $OggPaginator_8h.html 669,82 784,109

@@ -1,5 +1,0 @@
-base referer
-rect $OggMuxInputPin_8h.html 49,8 182,34
-rect $OggMuxFilter_8h.html 58,82 173,109
-rect $OggPageInterleaver_8h.html 58,157 210,184
-rect $libOOOgg_8h.html 197,82 290,109

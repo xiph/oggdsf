@@ -1,6 +1,0 @@
-base referer
-rect $OggMuxFilter_8h.html 313,232 428,258
-rect $oggmuxdllstuff_8h.html 58,82 178,109
-rect $BasicSeekable_8h.html 738,82 858,109
-rect $OggPaginator_8h.html 448,82 562,109
-rect $OggMuxStream_8h.html 586,82 714,109

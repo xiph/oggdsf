@@ -1,7 +1,0 @@
-base referer
-rect $StreamTag_8h.html 58,157 157,184
-rect $CMMLTag_8h.html 140,82 233,109
-rect $config_8h.html 152,8 221,34
-rect $HeadTag_8h.html 232,157 317,184
-rect $ClipTagList_8h.html 308,82 406,109
-rect $C__CMMLRootTag_8h.html 392,157 530,184

@@ -1,9 +1,0 @@
-base referer
-rect $MappedTag_8h.html 312,306 413,333
-rect $HumReadCMMLTag_8h.html 244,232 396,258
-rect $CMMLTag_8h.html 261,157 354,184
-rect $config_8h.html 390,82 460,109
-rect $C__CMMLTag_8h.html 253,82 362,109
-rect $C__HumReadCMMLTag_8h.html 8,82 178,109
-rect $C__MappedTag_8h.html 117,157 237,184
-rect $C__ParamTag_8h.html 485,82 597,109

@@ -1,9 +1,0 @@
-base referer
-rect $anxdllstuff_8h.html 113,157 206,184
-rect $oggdllstuff_8h.html 74,8 168,34
-rect $OggDemuxSourcePin_8h.html 285,157 448,184
-rect $StreamHeaders_8h.html 109,82 234,109
-rect $OggDemuxSourceFilter_8h.html 190,232 364,258
-rect $OggPage_8h.html 369,8 457,34
-rect $IOggCallback_8h.html 309,82 424,109
-rect $BasicSeekable_8h.html 498,82 618,109

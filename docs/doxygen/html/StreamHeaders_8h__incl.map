@@ -1,7 +1,0 @@
-base referer
-rect $oggdllstuff_8h.html 124,231 217,258
-rect $IOggPackSource_8h.html 265,231 398,258
-rect $OggPacket_8h.html 306,157 405,183
-rect $StringHelper_8h.html 348,82 454,109
-rect $libilliCore_8h.html 361,7 449,34
-rect $StampedOggPacket_8h.html 422,231 574,258
