@@ -36,7 +36,6 @@
 
 C_CMMLRootTag::C_CMMLRootTag(void)
 {
-	
 	mStream = NULL;
 	mHead = new C_HeadTag;
 	mClipList = new C_ClipTagList;

@@ -60,6 +60,8 @@ public:
 	bool parseImageTag(MSXML2::IXMLDOMNode* inImageNode, C_ImageTag* outImage);
 	bool parseMetaTag(MSXML2::IXMLDOMNode* inMetaNode, C_MetaTag* outMeta);
 	bool parseDescTag(MSXML2::IXMLDOMNode* inDescNode, C_DescTag* outDesc);
+	bool parseBaseTag(MSXML2::IXMLDOMNode* inBaseNode, C_BaseTag* outBase);
+	bool parseParamTag(MSXML2::IXMLDOMNode* inParamNode, C_ParamTag* outParam);
 
 
 

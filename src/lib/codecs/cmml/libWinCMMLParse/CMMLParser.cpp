@@ -318,8 +318,8 @@ bool CMMLParser::parseHeadTag(MSXML2::IXMLDOMNode* inHeadNode, C_HeadTag* outHea
 	}
 
 	bool retVal		=		(locNum_title == 1)
-						&&	(locNum_base <= 1)
-						&&	(locNum_meta <= 1);
+						&&	(locNum_base <= 1);
+
 
 	SysFreeString(locBStr);
 	if (locAttribMap != NULL)					locAttribMap->Release();
@@ -461,14 +461,18 @@ bool CMMLParser::parseImageTag(MSXML2::IXMLDOMNode* inImageNode, C_ImageTag* out
 	//	MSXML2::IXMLDOMNode* locImageNode = NULL;
 	HRESULT locHR = S_FALSE;
 
+	bool retVal = true;
 	//---------------Attributes-----------------
 	locHR = inImageNode->get_attributes(&locAttribMap);
 	outImage->setId(getNamedAttribValue(L"id", locAttribMap));
 	outImage->setSrc(getNamedAttribValue(L"src", locAttribMap));
+	if (outImage->src() == L"") {
+		retVal = false;
+	}
 	outImage->setAlt(getNamedAttribValue(L"alt", locAttribMap));
 
 	if (locAttribMap != NULL)		locAttribMap->Release();
-	return true;
+	return retVal;
 }
 /*
 bool CMMLParser::parseMetaTag(MSXML2::IXMLDOMNode* inMetaNode, C_MetaTag* outMeta) {
@@ -484,10 +488,9 @@ bool CMMLParser::parseMetaTag(MSXML2::IXMLDOMNode* inMetaNode, C_MetaTag* outMet
 
 bool CMMLParser::parseMetaTag(MSXML2::IXMLDOMNode* inMetaNode, C_MetaTag* outMeta) {
 	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
-	MSXML2::IXMLDOMNode* locMetaNode = NULL;
 	HRESULT locHR = S_FALSE;
 
-	bool retVal = false;
+	bool retVal = true;
 	//---------------Attributes-----------------
 	locHR = inMetaNode->get_attributes(&locAttribMap);
 
@@ -496,8 +499,14 @@ bool CMMLParser::parseMetaTag(MSXML2::IXMLDOMNode* inMetaNode, C_MetaTag* outMet
 	outMeta->setDirn(getNamedAttribValue(L"dir", locAttribMap));
 	outMeta->setName(getNamedAttribValue(L"name", locAttribMap));
 	if (outMeta->name() == L"") {
+		retVal = false;
+	} else {
+		outMeta->setContent(getNamedAttribValue(L"content", locAttribMap));
+		if (outMeta->content() == L"") {
+			retVal = false;
+		}
+	}
 
-	outMeta->setContent(getNamedAttribValue(L"content", locAttribMap));
 	outMeta->setScheme(getNamedAttribValue(L"scheme", locAttribMap));
 	//------------------------------------------
 
@@ -518,26 +527,36 @@ bool CMMLParser::parseMetaTag(MSXML2::IXMLDOMNode* inMetaNode, C_MetaTag* outMet
 
 bool CMMLParser::parseAnchorTag(MSXML2::IXMLDOMNode* inAnchorNode, C_AnchorTag* outAnchor) {
 	MSXML2::IXMLDOMNamedNodeMap*		locAttribMap	= NULL;
-	MSXML2::IXMLDOMNode*				locAnchorNode	= NULL;
 	HRESULT								locHR			= S_FALSE;
 	BSTR								locBStr			= NULL;
-	wstring								locAnchorText;
+	wstring								locAnchorText	= L"";
 
+	bool								retVal			= true;
 	//---------------Attributes-----------------
 	locHR = inAnchorNode->get_attributes(&locAttribMap);
+	outAnchor->setId(getNamedAttribValue(L"id", locAttribMap));
+	outAnchor->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	outAnchor->setDirn(getNamedAttribValue(L"dir", locAttribMap));
+	outAnchor->setCls(getNamedAttribValue(L"class", locAttribMap));
 	outAnchor->setHref(getNamedAttribValue(L"href", locAttribMap));
+	if (outAnchor->href() == L"") {
+		retVal = false;
+	}
 	//------------------------------------------
 	//Anchor text
 
 	inAnchorNode->get_text(&locBStr);
 	locAnchorText = locBStr;
+
+	//if (locAnchorText == L"") {
+	//	retVal = false;
+	//}
 	outAnchor->setText(locAnchorText);
 
 	//Cleanup
 	SysFreeString(locBStr);
     if (locAttribMap != NULL)					locAttribMap->Release();
-	if (locAnchorNode != NULL)					locAnchorNode->Release();
-	return true;
+	return retVal;
 }
 
 bool CMMLParser::parseTitleTag(MSXML2::IXMLDOMNode* inTitleNode, C_TitleTag* outTitle) {
@@ -547,9 +566,13 @@ bool CMMLParser::parseTitleTag(MSXML2::IXMLDOMNode* inTitleNode, C_TitleTag* out
 	HRESULT locHR = S_FALSE;
 
 	//---------------Attributes-----------------
-	//locHR = inTitleNode->get_attributes(&locAttribMap);
-	//None for now.
+	locHR = inTitleNode->get_attributes(&locAttribMap);
+	
+	outTitle->setId(getNamedAttribValue(L"id", locAttribMap));
+	outTitle->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	outTitle->setDirn(getNamedAttribValue(L"dir", locAttribMap));
 	//------------------------------------------
+
 	inTitleNode->get_text(&locBStr);
 	locTitleText = locBStr;
 	outTitle->setText(locTitleText);
@@ -562,14 +585,15 @@ bool CMMLParser::parseTitleTag(MSXML2::IXMLDOMNode* inTitleNode, C_TitleTag* out
 
 bool CMMLParser::parseDescTag(MSXML2::IXMLDOMNode* inDescNode, C_DescTag* outDesc) {
 	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
-	//MSXML2::IXMLDOMNode* locDescNode = NULL;
 	BSTR locBStr = NULL;
 	wstring locDescText;
 	HRESULT locHR = S_FALSE;
 
 	//---------------Attributes-----------------
-	//locHR = inDescNode->get_attributes(&locAttribMap);
-	//None for now.
+	locHR = inDescNode->get_attributes(&locAttribMap);
+	outDesc->setId(getNamedAttribValue(L"id", locAttribMap));
+	outDesc->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	outDesc->setDirn(getNamedAttribValue(L"dir", locAttribMap));
 	//------------------------------------------
 	inDescNode->get_text(&locBStr);
 	locDescText = locBStr;
@@ -579,4 +603,55 @@ bool CMMLParser::parseDescTag(MSXML2::IXMLDOMNode* inDescNode, C_DescTag* outDes
 	if (locAttribMap != NULL)					locAttribMap->Release();
 	return true;
 
+}
+
+
+
+
+bool CMMLParser::parseBaseTag(MSXML2::IXMLDOMNode* inBaseNode, C_BaseTag* outBase) {
+	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
+	HRESULT locHR = S_FALSE;
+
+	bool retVal = true;
+	//---------------Attributes-----------------
+	locHR = inBaseNode->get_attributes(&locAttribMap);
+	
+	outBase->setId(getNamedAttribValue(L"id", locAttribMap));
+	outBase->setHref(getNamedAttribValue(L"href", locAttribMap));
+	if (outBase->href() == L"") {
+		retVal = false;
+	}
+	//------------------------------------------
+
+	if (locAttribMap != NULL)					locAttribMap->Release();
+	return retVal;
+
+}
+
+
+
+bool CMMLParser::parseParamTag(MSXML2::IXMLDOMNode* inParamNode, C_ParamTag* outParam) {
+	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
+	HRESULT locHR = S_FALSE;
+
+	bool retVal = true;
+	//---------------Attributes-----------------
+	locHR = inParamNode->get_attributes(&locAttribMap);
+
+	outParam->setId(getNamedAttribValue(L"id", locAttribMap));
+	outParam->setName(getNamedAttribValue(L"name", locAttribMap));
+	if (outParam->name() == L"") {
+		retVal = false;
+	} else {
+		outParam->setContent(getNamedAttribValue(L"value", locAttribMap));
+		if (outParam->content() == L"") {
+			retVal = false;
+		}
+	}
+
+	
+	//------------------------------------------
+
+	if (locAttribMap != NULL)		locAttribMap->Release();
+	return true;
 }

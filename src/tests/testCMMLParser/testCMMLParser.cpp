@@ -19,9 +19,9 @@ bool testHeadParse(wstring inHeadString) {
 	bool locWasOK = locParser.parseHeadTag(inHeadString, &locHead);
 
 	if (locWasOK) {
-		cout<<"Parsed OK"<<endl<<endl<<locHead.toString()<<endl<<endl;
+		wcout<<"Parsed OK"<<endl<<endl<<locHead.toString()<<endl<<endl;
 	} else {
-		cout<<"*** PARSE FAILED ***"<<endl<<endl;
+		wcout<<"*** PARSE FAILED ***"<<endl<<endl;
 	}
 
 	return locWasOK;
