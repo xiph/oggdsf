@@ -30,7 +30,7 @@
 //===========================================================================
 
 #pragma once
-
+#include "illicoreconfig.h"
 class iBE_Math
 {
 public:

@@ -251,6 +251,9 @@
 				RelativePath=".\iLE_Math.h">
 			</File>
 			<File
+				RelativePath=".\illicoreconfig.h">
+			</File>
+			<File
 				RelativePath=".\libilliCore.h">
 			</File>
 			<File

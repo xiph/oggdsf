@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "OggPaginator.h"
 //LEAK CHECK::: Potential for leak based on mPendingPage. if setSettings is called. and also the last page won't get deleted. 20041018
 

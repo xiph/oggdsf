@@ -29,8 +29,8 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
-#include ".\oggdatabuffer.h"
+#include "stdafx.h"
+#include "OggDataBuffer.h"
 
 
 //LEAK CHECKED - 2004/10/17		-	OK.

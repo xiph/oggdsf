@@ -29,8 +29,8 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "StdAfx.h"
-#include "stampedoggpacket.h"
+#include "stdafx.h"
+#include "StampedOggPacket.h"
 
 StampedOggPacket::StampedOggPacket(void)
 	//:	OggPacket()

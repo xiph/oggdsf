@@ -40,7 +40,7 @@
 // any program that uses these libraries must already have the headers for the stl classes. They
 // are not exposed by the dll itself.
 #pragma warning (disable:4251)
-#include "dllStuff.h"
+#include "dllstuff.h"
 
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
@@ -49,23 +49,4 @@
 #include <string>
 #include <vector>
 
-#ifdef WIN32
-#include <windows.h>
-# define LOOG_INT64 signed __int64
-# define LOOG_UINT64 unsigned __int64
-#else
-# define LOOG_INT64 int64_t
-# define LOOG_UINT64 uint64_t
-#endif
-
-
-
-
 using namespace std;
-
-// TODO: reference additional headers your program requires here
-//#include "StringHelper.h"
-
-//#include "iLE_Math.h"
-//#include "iBE_Math.h"
-//#include "StringHelper.h"
