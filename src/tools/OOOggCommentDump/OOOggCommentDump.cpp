@@ -30,7 +30,7 @@
 //===========================================================================
 
 
-// OggDump.cpp : Defines the entry point for the console application.
+// OOOggCommentDump.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -70,13 +70,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//This program just dumps the pages out of a file in ogg format.
 	// Currently does not error checking. Check your command line carefully !
-	// USAGE :: OggDump <OggFile>
+	// USAGE :: OOOggCommentDump <OggFile>
 	//
 	
 	
 	bytePos = 0;
 	if (argc < 2) {
-		cout<<"Usage : OOOggDump <filename>"<<endl;
+		cout<<"Usage : OOOggCommentDump <filename>"<<endl;
 	} else {
 		OggDataBuffer testOggBuff;
 		OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
