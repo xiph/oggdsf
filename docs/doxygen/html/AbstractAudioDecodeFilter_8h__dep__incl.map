@@ -1,0 +1,7 @@
+base referer
+rect $FLACdecoderdllstuff_8h.html 8,82 162,109
+rect $lib_2codecs_2speex_2filters_2dsfSpeexDecoder_2stdafx_8h.html 221,8 290,34
+rect $SpeexDecodeFilter_8h.html 237,82 384,109
+rect $vorbisdecoderdllstuff_8h.html 453,8 610,34
+rect $VorbisDecodeFilter_8h.html 458,82 605,109
+rect $lib_2core_2directshow_2dsfAbstractAudioDecoder_2stdafx_8h.html 629,82 698,109
