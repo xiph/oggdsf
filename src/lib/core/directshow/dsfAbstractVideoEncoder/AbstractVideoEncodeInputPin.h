@@ -82,7 +82,7 @@ protected:
 	AbstractVideoEncodeOutputPin* mOutputPin;
 	__int64 mUptoFrame;
 	AbstractVideoEncodeFilter* mParentFilter;
-	CMediaType* mAcceptableMediaType;
+	CMediaType mPinInputType;
 
 	//fstream debugLog;
 	//unsigned long mFrameSize;
@@ -92,4 +92,6 @@ protected:
 	VIDEOINFOHEADER* mVideoFormat;
 	long mHeight;
 	long mWidth;
+
+	
 };
