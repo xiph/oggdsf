@@ -45,3 +45,14 @@ OggPaginatorSettings::OggPaginatorSettings(void)
 OggPaginatorSettings::~OggPaginatorSettings(void)
 {
 }
+
+string OggPaginatorSettings::toString() {
+	string retStr =			"Serial Num            : " + StringHelper::numToString(mMaxPageSize)
+		+	"Max Page Size         : " + StringHelper::numToString(mMaxPageSize)
+		+	"Target Page Size      : " + StringHelper::numToString(mTargetPageSize)
+		+	"Min Page Size         : " + StringHelper::numToString(mMinPageSize)
+		+	"Num Headers           : " + StringHelper::numToString(mNumHeaders)
+		+	"Max Packs per Page    : " + StringHelper::numToString(mMaxPacksPerPage) + "\n";
+
+	return retStr;
+}

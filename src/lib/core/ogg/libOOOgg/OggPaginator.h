@@ -85,7 +85,7 @@ protected:
 	OggPage* mPendingPage;
 
 	unsigned char* mHeaderBuff;
-	//fstream debugLog;
+	fstream debugLog;
 
 	unsigned long mLastGranulePos;
 

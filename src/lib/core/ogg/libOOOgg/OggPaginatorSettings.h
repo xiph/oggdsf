@@ -30,7 +30,7 @@
 //===========================================================================
 
 #pragma once
-
+#include "StringHelper.h"
 class LIBOOOGG_API OggPaginatorSettings
 {
 public:
@@ -43,5 +43,7 @@ public:
 	unsigned long mMinPageSize;
 	unsigned long mNumHeaders;
 	unsigned long mMaxPacksPerPage;
+
+	string toString();
 
 };

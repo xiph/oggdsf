@@ -134,6 +134,7 @@ bool test255MultPacketSizesToFile(string inFileName, unsigned long inNumPackets)
 	locSettings->mTargetPageSize = 8192;
 	locSettings->mSerialNo = 77;
 	locSettings->mNumHeaders = 6;
+	locSettings->mMaxPacksPerPage = 1;
 	locPaginator.setParameters(locSettings);
 
 	locPaginator.setPageCallback(&locFileWriter);

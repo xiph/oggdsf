@@ -63,7 +63,7 @@ protected:
 	INotifyComplete* mNotifier;
 
 	//DEBUG ONLY
-	//fstream debugLog;
+	fstream debugLog;
 	//
 private:
 	OggPageInterleaver& operator=(const OggPageInterleaver& other);  /* Don't assign me */

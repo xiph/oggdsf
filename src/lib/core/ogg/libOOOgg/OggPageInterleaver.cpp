@@ -35,12 +35,12 @@ OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComple
 	:	mFileWriter(inFileWriter)
 	,	mNotifier(inNotifier)
 {
-	//debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
+	debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
 }
 
 OggPageInterleaver::~OggPageInterleaver(void)
 {
-	//debugLog.close();
+	debugLog.close();
 
 	//Need to delete stream objects
 }
@@ -52,6 +52,8 @@ OggMuxStream* OggPageInterleaver::newStream() {
 }
 
 void OggPageInterleaver::notifyArrival() {
+	debugLog<<endl;
+	debugLog<<"notifyArrival : "<<endl;
 	processData();
 }
 void OggPageInterleaver::processData() {
@@ -82,27 +84,27 @@ void OggPageInterleaver::processData() {
 	//
 	//Temp
 
-
-	//debugLog<<endl<<"Process Data : "<<endl;
-	//debugLog<<"==============="<<endl;
+	debugLog<<endl;
+	debugLog<<"ProcessData : "<<endl;
+	
 	if (isAllEOS()) {
-		//debugLog<<"Process Data : All are EOS."<<endl;
+		debugLog<<"ProcessData : All Streams EOS."<<endl;
 		//Finish up
 		while (!isAllEmpty()) {
-			//debugLog<<"Process Data : Finishing - Still not empty..."<<endl;
+			debugLog<<"ProcessData : All Streams EOS : Flushing."<<endl;
 			writeLowest();
 		}
-		//debugLog<<"Process Data : Notifying completion... 1"<<endl;
+		debugLog<<"ProcessData : All Streams EOS : Notify complete."<<endl;
 		mNotifier->NotifyComplete();
 	} else {
-		//debugLog<<"Process Data : *NOT* all EOS"<<endl;
+		debugLog<<"ProcessData : All Streams *NOT* EOS."<<endl;
 		while (isProcessable()) {
-			//debugLog<<"Process Data : Still processable data..."<<endl;
+			debugLog<<"ProcessData : Writing lowest"<<endl;
 			writeLowest();
 		}
-		//debugLog<<"Process Data : No more processable data..."<<endl;
+		debugLog<<"ProcessData : No more processable data"<<endl;
 		if (isAllEOS() && isAllEmpty()) {
-			//debugLog<<"Process Data : All EOS and all Empty... Notifying complete 2..."<<endl;
+			debugLog<<"ProcessData : All EOS and all Empty... Notifying complete..."<<endl;
 			mNotifier->NotifyComplete();
 		}
 	}
@@ -122,12 +124,13 @@ void OggPageInterleaver::writeLowest() {
 					LOOG_INT64 locCurrLowTime = locLowestStream->scaledFrontTime();
 					LOOG_INT64 locTestLowTime = mInputStreams[i]->scaledFrontTime();
 
-					//__int64 locCurrLowTimeUNS = locLowestStream->frontTime();
-					//__int64 locTestLowTimeUNS = mInputStreams[i]->frontTime();
+					//debuging
+					LOOG_INT64 locCurrLowTimeUNS = locLowestStream->frontTime();
+					LOOG_INT64 locTestLowTimeUNS = mInputStreams[i]->frontTime();
+					//debugging end
 
-
-					//debugLog<<"writeLowest Scaled : Curr = "<<locCurrLowTime<<" -- Test["<<i<<"] = "<<locTestLowTime<<endl;
-					//debugLog<<"writeLowest UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<i<<"] = "<<locTestLowTimeUNS<<endl;
+					debugLog<<"writeLowest : Scaled : Curr = "<<locCurrLowTime<<" -- Test["<<i<<"] = "<<locTestLowTime<<endl;
+					debugLog<<"writeLowest : UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<i<<"] = "<<locTestLowTimeUNS<<endl;
 
 					
 					//In english this means... any bos pages go first... then any no gran pos pages (-1 gran pos).. 
@@ -146,8 +149,29 @@ void OggPageInterleaver::writeLowest() {
 						) 
 					{
 						
+						//DeBUGGIN BLOCK
+						if (	(mInputStreams[i]->peekFront() != NULL) && 
+								(mInputStreams[i]->peekFront()->header()->isBOS()) ) {
+							debugLog<<"WriteLowest : Selecting because BOS"<<endl;
+						}
+						if		(	(mInputStreams[i]->peekFront() != NULL) && 
+									((mInputStreams[i]->peekFront()->header()->GranulePos()) == -1) ) {
+							debugLog<<"WriteLowest : Selecting because gran pos = -1"<<endl;
+						}
+
+						if	((mInputStreams[i]->peekFront() != NULL) && 
+							(!mInputStreams[i]->sentAllHeaders()) ) {
+
+									debugLog<<"WriteLowest : Selecting because sent all headers"<<endl;
+						}
+
+						if (locTestLowTime < locCurrLowTime) {
+						
+							debugLog<<"WriteLowest : Selecting because test time "<<locTestLowTime<<" less than "<<locCurrLowTime<<endl;
+						}
+						//END BEBUGGING BLOCK
 						locLowestStream = mInputStreams[i];
-						//debugLog<<"writeLowest : Selecting stream "<<i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
+						debugLog<<"writeLowest : Selecting stream "<<i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
 					}
 				}
 			}
@@ -155,7 +179,7 @@ void OggPageInterleaver::writeLowest() {
 		if (locLowestStream == NULL) {
 			throw 0;
 		} else {
-			//debugLog<<"writeLowest : Writing..."<<endl;
+			debugLog<<"writeLowest : Writing..."<<endl;
 
 			//TODO::: Handle case where the popped page is a null pointer.
 			mFileWriter->acceptOggPage(locLowestStream->popFront());		//Gives away page
@@ -168,6 +192,11 @@ bool OggPageInterleaver::isProcessable() {
 	for (size_t i = 0; i < mInputStreams.size(); i++) {
 		retVal = retVal && (mInputStreams[i]->isProcessable());
 	}
+	if (retVal) {
+		debugLog<<"isPRocessable : TRUE"<<endl;
+	} else {
+		debugLog<<"isPRocessable : FALSE"<<endl;
+	}
 	return retVal;
 }
 bool OggPageInterleaver::isAllEOS() {
@@ -175,11 +204,16 @@ bool OggPageInterleaver::isAllEOS() {
 	//ASSERT(mInputStreams.size() >= 1)
 	for (size_t i = 0; i < mInputStreams.size(); i++) {
 		if (mInputStreams[i]->isEOS()) {
-			//debugLog<<"*****                  Stream "<<i<<" is EOS"<<endl;
+			debugLog<<"isAllEOS : *****                  Stream "<<i<<" is EOS"<<endl;
 		} else {
-			//debugLog<<"*****                  Stream "<<i<<" not EOS"<<endl;
+			debugLog<<"isAllEOS : *****                  Stream "<<i<<" not EOS"<<endl;
 		}
 		retVal = retVal && (mInputStreams[i]->isEOS() || !mInputStreams[i]->isActive());
+	}
+	if (retVal) {
+		debugLog<<"isAllEOS : TRUE"<<endl;
+	} else {
+		debugLog<<"isAllEOS : FALSE"<<endl;
 	}
 	return retVal;
 }
