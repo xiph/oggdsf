@@ -73,5 +73,7 @@ protected:
 	COutputQueue* mDataQueue;
 
 	NativeFLACSourceFilter* mParentFilter;
+
+	fstream debugLog;
 	
 };

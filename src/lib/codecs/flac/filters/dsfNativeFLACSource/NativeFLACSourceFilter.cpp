@@ -63,6 +63,7 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	,	mBitsPerSample(0)
 	,	mBegun(false)
 	,	mUpto(0)
+	,	mJustStopped(true)
 	
 	//,	mDecoder(NULL)
 {
@@ -181,6 +182,7 @@ STDMETHODIMP NativeFLACSourceFilter::NonDelegatingQueryInterface(REFIID riid, vo
 
 //IMEdiaStreaming
 STDMETHODIMP NativeFLACSourceFilter::Run(REFERENCE_TIME tStart) {
+	debugLog<<"RUN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl;
 	const REFERENCE_TIME A_LONG_TIME = UNITS * 1000;
 	CAutoLock locLock(m_pLock);
 	//debugLog<<"Run  :  time = "<<tStart<<endl;
@@ -192,6 +194,7 @@ STDMETHODIMP NativeFLACSourceFilter::Run(REFERENCE_TIME tStart) {
 STDMETHODIMP NativeFLACSourceFilter::Pause(void) {
 	CAutoLock locLock(m_pLock);
 	//debugLog << "** Pause called **"<<endl;
+	debugLog<<"PAUSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<endl;
 	if (m_State == State_Stopped) {
 		//debugLog << "Was in stopped state... starting thread"<<endl;
 		if (ThreadExists() == FALSE) {
@@ -211,25 +214,45 @@ STDMETHODIMP NativeFLACSourceFilter::Stop(void) {
 	//debugLog<<"** Stop Called ** "<<endl;
 	CallWorker(THREAD_EXIT);
 	Close();
-	//DeliverBeginFlush();
-	//DeliverEndFlush();
+	debugLog<<"Stop ##################################################################"<<endl;
+	debugLog<<"Pre seek to 0"<<endl;
+	mJustStopped = true;
+	mUpto = 0;
+	debugLog<<"Post seek to 0"<<endl;
+	mFLACSourcePin->DeliverBeginFlush();
+	mFLACSourcePin->DeliverEndFlush();
 	return CBaseFilter::Stop();
 }
 
 HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 
-	debugLog<<"Starting loop"<<endl;
+	debugLog<<"Starting loop ***********************************************"<<endl;
 	DWORD locCommand = 0;
+	bool res = false;
 	while (true) {
 		if(CheckRequest(&locCommand) == TRUE) {
 			debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
 			
 			return S_OK;
 		}
+		if (mJustStopped) {
+			mJustStopped = false;
+			debugLog<<"!!!!!!!!!!!!!!!!!!!!!!! SEEK ABSOLUTE 0"<<endl;
+			bool res2 = seek_absolute(0);
+			if (res2) {
+				debugLog<<"Seek absolute success"<<endl;
+			}
+		}
 		debugLog<<"Process it"<<endl;
-		process_single();
+		res = process_single();
+		if (res) {
+			debugLog<<"Process OK"<<endl;
+		} else {
+			debugLog<<"Process FAILED"<<endl;
+		}
 	}
 
+	mFLACSourcePin->DeliverEndOfStream();
 	return S_OK;
 }
 
@@ -296,6 +319,7 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 		mSampleRate = inFrame->header.sample_rate;
 		
 	}
+	debugLog<<"Write callback"<<endl;
 	unsigned long locNumFrames = inFrame->header.blocksize;
 	unsigned long locActualSize = locNumFrames * mFrameSize;
 	unsigned long locTotalFrameCount = locNumFrames * mNumChannels;
@@ -335,7 +359,7 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 	}
 
 
-
+	debugLog<<"Size = "<<locActualSize<<"Frames from "<<mUpto<<" for "<<locNumFrames<<endl;
 	
 	mFLACSourcePin->deliverData(locBuff, locActualSize, (mUpto*UNITS) / mSampleRate, ((mUpto+locNumFrames)*UNITS) / mSampleRate);
 	mUpto += locNumFrames;

@@ -112,6 +112,7 @@ protected:
 	fstream debugLog;
 
 	bool mBegun;
+	bool mJustStopped;
 
 	unsigned long mUpto;
 

@@ -37,10 +37,13 @@ NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter,
 	,	mDataQueue(NULL)
 
 {
+
+	debugLog.open("G:\\logs\\flacsourcepin_.log", ios_base::out);
 }
 
 NativeFLACSourcePin::~NativeFLACSourcePin(void)
 {
+	debugLog.close();
 }
 
 STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -51,27 +54,28 @@ STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void 
 
 HRESULT NativeFLACSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-	
+	debugLog<<"New seg "<<tStart<<" - "<<tStop<<endl;
 	mDataQueue->NewSegment(tStart, tStop, dRate);
 
 	return S_OK;
 }
 HRESULT NativeFLACSourcePin::DeliverEndOfStream(void)
 {
-	
+	debugLog<<"EOS"<<endl;
 	mDataQueue->EOS();
     return S_OK;
 }
 
 HRESULT NativeFLACSourcePin::DeliverEndFlush(void)
 {
+	debugLog<<"End flush"<<endl;
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
 HRESULT NativeFLACSourcePin::DeliverBeginFlush(void)
 {
-	
+	debugLog<<"Begin flush"<<endl;
 	mDataQueue->BeginFlush();
     return S_OK;
 }
@@ -162,10 +166,11 @@ HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALL
 
 HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) {
 	//Locks !!
-	
+	debugLog<<"Deliver data..."<<endl;
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inStart;
 	REFERENCE_TIME locStop = inEnd;
+	debugLog<<"Times = "<<inStart<<" - "<<inEnd<<endl;
 	//debugLog<<"Start   : "<<locStart<<endl;
 	//debugLog<<"End     : "<<locStop<<endl;
 	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
@@ -173,6 +178,7 @@ HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long in
 	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));
 	//Error checks
 	if (locHR != S_OK) {
+		debugLog<<"********************************************** FAILED !!"<<endl;
 		//Stopping, fluching or error
 		//debugLog<<"Failure... No buffer"<<endl;
 		return locHR;
@@ -207,9 +213,11 @@ HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long in
 		if (locHR != S_OK) {
 			//debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
+			debugLog<<"FAILED TO RECEIVE !!!"<<endl;
 			return locHR;
 			
 		} else {
+			debugLog<<" $$$$$ Everythings sweet"<<endl;
 			return S_OK;
 		}
 	} else {
