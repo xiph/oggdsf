@@ -310,25 +310,26 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	//Strategy : Process two lines and 2 cols at a time averaging 4 U and V around the position where a
 	// YV12 chroma sample will be... leave luminance samples... ignore alpha samples
 
+	const int PIXEL_BYTE_SIZE = 4;
 	ASSERT (mHeight % 2 == 0);
 	ASSERT (mWidth % 2 == 0);
 
 	unsigned char* locSourceUptoPtr = inBuf;						//View only... don't delete locUptoPtr
-	unsigned char* locSourceNextLine = locSourceUptoPtr + mWidth;	//View only don't delete
+	unsigned char* locSourceNextLine = locSourceUptoPtr + (mWidth * PIXEL_BYTE_SIZE);	//View only don't delete
 	
 	char* locYUpto = mYUV.y;
 	char* locUUpto = mYUV.u;
 	char* locVUpto = mYUV.v;
 	//Pointer to the same pixel on next line
-	char* locDestNextLine = locYUpto + mWidth;				//View only... don't delete
+	char* locDestNextLine = locYUpto + (mWidth * PIXEL_BYTE_SIZE);				//View only... don't delete
 
 	int temp = 0;
 
 	//Process 2 lines at a time
 	for (int line = 0; line < mHeight; line += 2) {
 		
-		ASSERT (locSourceNextLine == locSourceUptoPtr + mWidth);
-		ASSERT(locDestNextLine == locYUpto + mWidth);
+		ASSERT (locSourceNextLine == locSourceUptoPtr + (mWidth * PIXEL_BYTE_SIZE));
+		ASSERT (locDestNextLine == locYUpto + (mWidth * PIXEL_BYTE_SIZE));
 
 		//Columns also done 2 at a time
 		for (int col = 0; col < mWidth; col += 2) {
@@ -380,10 +381,33 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 
 
 		}
+		//Overall this loop will advance :
+		//Sourceupto    by		= 8 bytes * (mWidth in pixels / 2 pixels at a time) * 2 lines
+		//						= 8 * mWidth
+		//						= 2 lines of 4 byte pixels of pixel width mWidth
+		//and the same for sourcenextline
+		//--
+		//At the end of this loop sourceupto points to the end of the current line (start of next line)
+		// and nextupto points to the end of the next line
+		//
+		//On the next iteration we want the sourceupto to point 2 lines down from where it did on the previous one
+		// This is the same place that the sourcenextline points at the end of the iteration.
+		//--
+
+		//Ensures source will point to lines 2, 4, 6 etc.
+		locSourceUptoPtr = locSourceNextLine;			
+		//Ensures nextlinesource is one line ahead of the main source.
+		locSourceNextLine += (mWidth * PIXEL_BYTE_SIZE);
+
+		//Ensures the current destination buffer skips a line ie points to line 2, 4, 6 etc
+		locYUpto = locDestNextLine;
+		//Ensures the nextlinedest skips a
+		locDestNextLine += (mWidth * PIXEL_BYTE_SIZE);
 	}
 	return 0;
 }
 long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumBytes) {
+	
 	unsigned char* locSourceUptoPtr = inBuf;  //View only... don't delete locUptoPtr
 
 	//YUY2 is Y0 U0 Y1 V0 Y2 U1 Y3 V1
