@@ -340,7 +340,19 @@ bool OggPageHeader::isContinuation() {
 string OggPageHeader::toString() {
 
 	string retStr =	"Ver No      : " + StringHelper::numToString((unsigned int)mStructureVersion) + "\n";
-	retStr +=		"Head Flags  : " + StringHelper::numToString((unsigned int)mHeaderFlags) +"\n";
+	
+	retStr +=		"Head Flags  :";
+	if ((mHeaderFlags & CONTINUATION) != 0) {
+		retStr += " continuation";
+	}
+	if ((mHeaderFlags & BOS) != 0) {
+		retStr += " bos";
+	}
+	if ((mHeaderFlags & EOS) != 0) {
+		retStr += " eos";
+	}
+	retStr += "\n";
+
 	retStr +=		"Granule Pos : " + StringHelper::numToString(mGranulePos) + "\n";
 	retStr +=		"Serial No   : " + StringHelper::numToString(mStreamSerialNo) + "\n";
 	retStr +=		"Seq No      : " + StringHelper::numToString(mPageSequenceNo) + "\n";
