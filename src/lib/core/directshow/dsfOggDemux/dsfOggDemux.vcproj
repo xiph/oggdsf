@@ -135,6 +135,9 @@
 				RelativePath="FLACStream.cpp">
 			</File>
 			<File
+				RelativePath="FilterFileSource.cpp">
+			</File>
+			<File
 				RelativePath="OggDemux.def">
 			</File>
 			<File
@@ -191,6 +194,12 @@
 			</File>
 			<File
 				RelativePath="FLACStream.h">
+			</File>
+			<File
+				RelativePath="FilterFileSource.h">
+			</File>
+			<File
+				RelativePath="IFilterDataSource.h">
 			</File>
 			<File
 				RelativePath="OggDemuxSourceFilter.h">

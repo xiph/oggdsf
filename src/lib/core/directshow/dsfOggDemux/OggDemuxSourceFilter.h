@@ -130,6 +130,8 @@ protected:
 	wstring mFileName;
 
 	OggDataBuffer mOggBuffer;
+
+	//SOURCE ABSTRACTION::: declaration
 	fstream mSourceFile;
 
 	OggStreamMapper* mStreamMapper;

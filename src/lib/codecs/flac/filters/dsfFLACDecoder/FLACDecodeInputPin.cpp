@@ -183,6 +183,8 @@ void FLACDecodeInputPin::DestroyCodec()
 				//FIX:::Take out the unnescessary variable.
 				tempLong = inBuffer[j][i];
 				//Convert 32 bit to 16 bit
+
+				//FIX::: Why on earth are you dividing by 2 ? It does not make sense !
 				tempInt = (signed short)(tempLong/2);
 			
 				*locShortBuffer = tempInt;

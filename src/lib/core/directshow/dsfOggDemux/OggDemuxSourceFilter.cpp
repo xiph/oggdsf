@@ -283,6 +283,8 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			//debugLog<<"       : End flush Delviered."<<endl;
 			DeliverNewSegment(*pCurrent, *pCurrent + mSeekTable->fileDuration(), 1.0);
 		}
+
+		//SOURCE ABSTRACTION::: seek
 		mSourceFile.seekg(mSeekTable->getStartPos(*pCurrent), ios_base::beg);
 		*pCurrent = mSeekTable->getRealStartPos();
 	
@@ -413,8 +415,11 @@ void OggDemuxSourceFilter::resetStream() {
 
 		CAutoLock locSourceLock(mSourceFileLock);
 		CAutoLock locDemuxLock(mDemuxLock);
+
+		//SOURCE ABSTRACTION::: clear, close, open, seek
 		mSourceFile.clear();
 		mSourceFile.close();
+
 		mOggBuffer.clearData();
 		mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
 
@@ -481,6 +486,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	bool locIsEOF = true;
 	{
 		CAutoLock locSourceLock(mSourceFileLock);
+		//SOURCE ABSTRACTION::: is EOF
 		locIsEOF = mSourceFile.eof();
 	}
 	while (!locIsEOF && locKeepGoing) {
@@ -492,6 +498,8 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
 			//debugLog << "DataProcessLoop : Getpointer = "<<mSourceFile.tellg()<<endl;
+
+			//SOURCE ABSTRACTION::: read, numbytes read
 			mSourceFile.read(locBuff, 4096);
         	locBytesRead = mSourceFile.gcount();
 		}
@@ -505,6 +513,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 		}
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
+			//SOURCE ABSTRACTION::: is EOF
 			locIsEOF = mSourceFile.eof();
 		}
 		if (locIsEOF) {
@@ -528,6 +537,8 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	
 	CAutoLock locSourceLock(mSourceFileLock);
 	CAutoLock locDemuxLock(mDemuxLock);
+
+	//SOURCE ABSTRACTION::: open
 	mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
 	
 	//Error check
@@ -539,6 +550,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	
 	//Feed the data in until we have seen all BOS pages.
 	while(!mStreamMapper->isReady()) {
+		//SOURCE ABSTRACTION::: read
 		mSourceFile.read(locBuff, RAW_BUFFER_SIZE);
 		mOggBuffer.feed(locBuff, RAW_BUFFER_SIZE);
 
