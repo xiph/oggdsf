@@ -307,6 +307,9 @@
 				RelativePath="oggdllstuff.cpp">
 			</File>
 			<File
+				RelativePath=".\OggFLAC_1_0_Stream.cpp">
+			</File>
+			<File
 				RelativePath="OggStream.cpp">
 			</File>
 			<File
@@ -396,6 +399,9 @@
 			</File>
 			<File
 				RelativePath="oggdllstuff.h">
+			</File>
+			<File
+				RelativePath=".\OggFLAC_1_0_Stream.h">
 			</File>
 			<File
 				RelativePath="OggStream.h">

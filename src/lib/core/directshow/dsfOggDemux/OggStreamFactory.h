@@ -35,6 +35,7 @@
 #include "FLACStream.h"
 #include "TheoraStream.h"
 #include "FFDShowVideoStream.h"
+#include "OggFLAC_1_0_Stream.h"
 
 
 #include "OggPage.h"

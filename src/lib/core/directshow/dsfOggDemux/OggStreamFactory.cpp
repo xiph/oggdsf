@@ -50,6 +50,8 @@ OggStream* OggStreamFactory::CreateStream(OggPage* inOggPage, OggDemuxSourceFilt
 			return new SpeexStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::FLAC:
 			return new FLACStream(inOggPage, inOwningFilter, inAllowSeek);
+		case StreamHeaders::OGG_FLAC_1_0:
+			return new OggFLAC_1_0_Stream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::THEORA:
 			return new TheoraStream(inOggPage, inOwningFilter, inAllowSeek);
 		case StreamHeaders::FFDSHOW_VIDEO:
@@ -67,6 +69,8 @@ StreamHeaders::eCodecType OggStreamFactory::IdentifyCodec(OggPacket* inOggPacket
 		return StreamHeaders::SPEEX;
 	} else if ((strncmp((char*)inOggPacket->packetData(), "fLaC", 4)) == 0) {
 		return StreamHeaders::FLAC;
+	} else if ((strncmp((char*)inOggPacket->packetData(), "\177FLAC", 5)) == 0) {
+		return StreamHeaders::OGG_FLAC_1_0;
 	} else if ((strncmp((char*)inOggPacket->packetData(), "\200theora", 7)) == 0) {
 		return StreamHeaders::THEORA;
 	} else if ((strncmp((char*)inOggPacket->packetData(), "\001video\000\000\000", 9)) == 0) {

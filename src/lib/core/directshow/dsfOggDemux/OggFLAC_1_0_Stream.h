@@ -29,45 +29,39 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-
 #include "oggdllstuff.h"
 
-#include <IOggPackSource.h>
-#include <StampedOggPacket.h>
-//This holds the preliminary headers for a logical stream... then the output pins of the demux can give them to the codec at their leisure.
-//The demux will never present these headers again... seeking to the start of the file will seek to the start
-//of the data. ie the first page after the headers.
-
-//More than likely though, you'll have to parse them yourself in the output pin(demuxer) if you want to be able to connect up the codec filter to
-//something like the directshow audio renderer... it won't connect unless it knows the sample rate etc... and it
-//can't be streamed this data without connecting the filter.
-
-//If the codec needs them again... you have to sort it out from the output pin. The codec should remember !
-
-class OGG_DEMUX_API StreamHeaders
-	:	public IOggPackSource
+#include "OggPage.h"
+#include "OggPacket.h"
+class OggStream;
+class OggFLAC_1_0_Stream
+	:	public OggStream
 {
 public:
-	StreamHeaders(void);
-	virtual ~StreamHeaders(void);
+	OggFLAC_1_0_Stream(OggPage* inOggPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
+	virtual ~OggFLAC_1_0_Stream(void);
 
-	enum eCodecType {
-		NONE = 0,
-		VORBIS = 1,
-		SPEEX = 2,
-		FLAC = 3,
-		THEORA = 4,
-		OGG_FLAC_1_0 = 5,
-		CMML = 20,
-		FFDSHOW_VIDEO = 100
-	};
-	//IOggPacketSource
-	virtual StampedOggPacket* getPacket(unsigned long inPacketNo);
-	virtual unsigned long numPackets();
-	eCodecType mCodecType;
+	//Implementing virtuals in OGgStream
+	virtual bool InitCodec(StampedOggPacket* inOggPacket);
 
-	//Other
-	bool addPacket(StampedOggPacket* inPacket);
+	virtual BYTE* getFormatBlock() ;
+	virtual unsigned long getFormatBlockSize();
+	virtual GUID getFormatGUID();
+	virtual GUID getSubtypeGUID();
+	virtual wstring getPinName();
+	virtual bool createFormatBlock();
+	virtual GUID getMajorTypeGUID();
+	virtual LONGLONG getCurrentPos();
+
+	//Override from oggstream to handle dynamic number of headers.
+	virtual bool OggFLAC_1_0_Stream::processHeaderPacket(StampedOggPacket* inPacket);
+	virtual bool deliverCodecHeaders();
+
+//	virtual unsigned long numCodecHeaders();
+
+	virtual void setLastEndGranPos(__int64 inPos);
+
 protected:
-	vector<StampedOggPacket*> mPacketList;
+	//unsigned long mNumHeaderPackets;
+	sFLACFormatBlock* mFLACFormatBlock;
 };
