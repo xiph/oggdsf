@@ -56,13 +56,6 @@ public:
 	virtual ~VorbisDecodeInputPin(void);
 	static int __cdecl VorbisDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
 
-
-	//STDMETHODIMP NewSegment(REFERENCE_TIME tStart,  REFERENCE_TIME tStop, double dRate);
-
-
-	//STDMETHODIMP Receive(IMediaSample *pSample);
-	//virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
-	//virtual HRESULT GetMediaType(int inPosition, CMediaType *outMediaType);
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
 	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
@@ -70,34 +63,12 @@ public:
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 
-
-	
-	//STDMETHODIMP GetAllocator(IMemAllocator **ppAllocator);
-	//STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *pProps);
-	//virtual void ResetFrameCount();
-
-	//STDMETHODIMP EndOfStream(void);
-	//STDMETHODIMP BeginFlush();
-	//STDMETHODIMP EndFlush();
-
-
-
-	//STDMETHODIMP EndOfStream(void);
-
 	long decodeData(unsigned char* inBuf, long inNumBytes);
-
-
-
-	//virtual HRESULT CompleteConnect(IPin *pReceivePin);
 
 protected:
 
 	HRESULT mHR;
 	bool mBegun;
-	//VorbisDecodeOutputPin* mOutputPin;
-	//__int64 mUptoFrame;
-
-	//fstream debugLog;
 
 	FishSound* mFishSound;
 	FishSoundInfo mFishInfo; 

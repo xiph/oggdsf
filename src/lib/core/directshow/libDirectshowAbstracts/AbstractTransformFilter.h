@@ -33,62 +33,47 @@
 #pragma once
 
 //Local Includes
-#include "abstractaudiodllstuff.h"
+#include "directshowabstractsdllstuff.h"
+
+//External Includes
 #include "BasicSeekable.h"
 
 //Forward Declarations
-class AbstractAudioDecodeInputPin;
-class AbstractAudioDecodeOutputPin;
+class AbstractTransformInputPin;
+class AbstractTransformOutputPin;
 
 
-class ABS_AUDIO_DEC_API AbstractAudioDecodeFilter
+class AbstractTransformFilter
 	//Parent Classes
 	:	public CBaseFilter	
 			//http://msdn.microsoft.com/library/default.asp?url=/library/en-us/directshow/htm/cbasefilterclass.asp
 {
 public:
 	//Friend Classes
-	friend class AbstractAudioDecodeInputPin;
-	friend class AbstractAudioDecodeOutputPin;
+	friend class AbstractTransformInputPin;
+	friend class AbstractTransformOutputPin;
 
 	//COM Setup
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	
-	//Constants and Enumerations
-	static const long NUM_PINS = 2;
-	enum eAudioFormat {
-		NONE = 0,
-		VORBIS = 1,
-		SPEEX = 2,
-		FLAC = 3,
-		OTHER = 1000
-	};
 
 	//Constructors
-	AbstractAudioDecodeFilter(TCHAR* inFilterName, REFCLSID inFilterGUID, unsigned short inAudioFormat );
-	virtual ~AbstractAudioDecodeFilter(void);
+	AbstractTransformFilter(TCHAR* inFilterName, REFCLSID inFilterGUID);
+	virtual ~AbstractTransformFilter(void);
 	
-	//Pin Methods
-	CBasePin* GetPin(int n);
+	//Pin Access Methods
+	CBasePin* GetPin(int inPinNo);
 	int GetPinCount(void);
 
+	//Pin Creation Method.
 	virtual bool ConstructPins() = 0;
+
+protected:
+	//Pin destruction method.
 	virtual void DestroyPins();
 
-
-	//Media Control Methods
-	virtual STDMETHODIMP Stop();
-	
-	
-
-	unsigned short mAudioFormat;			//TODO::: Make this private at some point
-
-	//static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
-protected:
-	//Member Data
-	AbstractAudioDecodeInputPin* mInputPin;
-	AbstractAudioDecodeOutputPin* mOutputPin;
+	//Pin Member Data
+	AbstractTransformInputPin* mInputPin;
+	AbstractTransformOutputPin* mOutputPin;
 };
-
-

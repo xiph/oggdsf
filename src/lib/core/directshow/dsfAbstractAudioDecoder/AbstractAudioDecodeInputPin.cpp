@@ -229,6 +229,7 @@ STDMETHODIMP AbstractAudioDecodeInputPin::NewSegment(REFERENCE_TIME tStart, REFE
 	CAutoLock locLock(mStreamLock);
 	ResetFrameCount();
 
+	//BUG::: Why is this on the base pin and not the baseinputpin ?
 	CBasePin::NewSegment(tStart, tStop, dRate);
 	return mParentFilter->mOutputPin->DeliverNewSegment(tStart, tStop, dRate);
 }

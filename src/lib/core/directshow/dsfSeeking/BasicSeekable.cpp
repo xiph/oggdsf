@@ -11,12 +11,12 @@ BasicSeekable::BasicSeekable(IMediaSeeking* inDelegate)
 	mSeekingCap =		AM_SEEKING_CanSeekAbsolute |
 						AM_SEEKING_CanSeekForwards |
 						AM_SEEKING_CanSeekBackwards |
-						AM_SEEKING_CanGetCurrentPos |
+						//AM_SEEKING_CanGetCurrentPos |
 						AM_SEEKING_CanGetStopPos |
 						AM_SEEKING_CanGetDuration;
 
-	//string x = "g:\\logs\\seeker.log";
-	//seekDebug.open(x.c_str(), ios_base::out);
+	string x = "g:\\logs\\seeker.log";
+	seekDebug.open(x.c_str(), ios_base::out);
 
 }
 
@@ -28,12 +28,12 @@ BasicSeekable::BasicSeekable(void)
 	mSeekingCap =		AM_SEEKING_CanSeekAbsolute |
 						AM_SEEKING_CanSeekForwards |
 						AM_SEEKING_CanSeekBackwards |
-						AM_SEEKING_CanGetCurrentPos |
+						//AM_SEEKING_CanGetCurrentPos |
 						AM_SEEKING_CanGetStopPos |
 						AM_SEEKING_CanGetDuration;
 	
-	//string x = "g:\\logs\\seeker.log";
-	//seekDebug.open(x.c_str(), ios_base::out);
+	string x = "g:\\logs\\seeker.log";
+	seekDebug.open(x.c_str(), ios_base::out);
 	
 
 }
@@ -57,7 +57,7 @@ BasicSeekable::~BasicSeekable(void)
 		mSeekDelegate->Release();
 		mSeekDelegate = NULL;
 	}
-	//seekDebug.close();
+	seekDebug.close();
 }
 //IMediaSeeking Interface
 STDMETHODIMP BasicSeekable::GetCapabilities(DWORD* inCapabilities) {
@@ -79,10 +79,10 @@ STDMETHODIMP BasicSeekable::GetCapabilities(DWORD* inCapabilities) {
 	//return S_OK;
 	
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"GetCaps : Passed on..."<<endl;
+		seekDebug<<"GetCaps : Passed on..."<<endl;
 		return mSeekDelegate->GetCapabilities(inCapabilities);
 	} else {
-		//seekDebug<<"GetCaps : NULL Delegate"<<endl;
+		seekDebug<<"GetCaps : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -104,10 +104,10 @@ STDMETHODIMP BasicSeekable::CheckCapabilities(DWORD* outCapabilities) {
 
 
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"CheckCaps : Passed on..."<<endl;
+		seekDebug<<"CheckCaps : Passed on..."<<endl;
 		return mSeekDelegate->CheckCapabilities(outCapabilities);
 	} else {
-		//seekDebug<<"CheckCaps : NULL Delegate"<<endl;
+		seekDebug<<"CheckCaps : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}

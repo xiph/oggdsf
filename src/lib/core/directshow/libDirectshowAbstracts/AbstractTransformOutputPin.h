@@ -29,66 +29,69 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-
 #pragma once
 
 //Local Includes
-#include "abstractaudiodllstuff.h"
+#include "directshowabstractsdllstuff.h"
+
+//External Includes
 #include "BasicSeekable.h"
 
+//STL Includes
+#include <vector>
+using namespace std;
+
 //Forward Declarations
-class AbstractAudioDecodeInputPin;
-class AbstractAudioDecodeOutputPin;
+class AbstractTransformFilter;
 
-
-class ABS_AUDIO_DEC_API AbstractAudioDecodeFilter
-	//Parent Classes
-	:	public CBaseFilter	
-			//http://msdn.microsoft.com/library/default.asp?url=/library/en-us/directshow/htm/cbasefilterclass.asp
+class AbstractTransformOutputPin 
+	//Base Classes
+	:	public CBaseOutputPin
+			//http://msdn.microsoft.com/library/default.asp?url=/library/en-us/directshow/htm/cbaseoutputpinclass.asp
+	,	public BasicSeekable
 {
 public:
-	//Friend Classes
-	friend class AbstractAudioDecodeInputPin;
-	friend class AbstractAudioDecodeOutputPin;
-
-	//COM Setup
+	//COM Initialisation
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	
-	//Constants and Enumerations
-	static const long NUM_PINS = 2;
-	enum eAudioFormat {
-		NONE = 0,
-		VORBIS = 1,
-		SPEEX = 2,
-		FLAC = 3,
-		OTHER = 1000
-	};
 
 	//Constructors
-	AbstractAudioDecodeFilter(TCHAR* inFilterName, REFCLSID inFilterGUID, unsigned short inAudioFormat );
-	virtual ~AbstractAudioDecodeFilter(void);
+	AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> inAcceptableMediaTypes);
+	virtual ~AbstractTransformOutputPin(void);
+
+	//Buffer control method
+	virtual HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES *inReqAllocProps);
+
+	//Media Type control methods.
+	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
+	virtual HRESULT GetMediaType(int inPosition, CMediaType *outMediaType);
+
+	//Pure virtuals for codec specific format data
+	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition) = 0;
+
+	//Virtuals for data queue delegation
+	virtual HRESULT BreakConnect(void);
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
+	virtual HRESULT DeliverNewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
+	virtual HRESULT DeliverEndOfStream(void);
+	virtual HRESULT DeliverEndFlush(void);
+	virtual HRESULT DeliverBeginFlush(void);
 	
-	//Pin Methods
-	CBasePin* GetPin(int n);
-	int GetPinCount(void);
-
-	virtual bool ConstructPins() = 0;
-	virtual void DestroyPins();
-
-
-	//Media Control Methods
-	virtual STDMETHODIMP Stop();
-	
-	
-
-	unsigned short mAudioFormat;			//TODO::: Make this private at some point
-
-	//static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 protected:
-	//Member Data
-	AbstractAudioDecodeInputPin* mInputPin;
-	AbstractAudioDecodeOutputPin* mOutputPin;
+	//Helper methods
+	void FillMediaType(CMediaType* outMediaType, int inPosition);
+	//Member data
+	AbstractTransformFilter* mParentFilter;
+	COutputQueue* mDataQueue;
+
+	vector<CMediaType*> mAcceptableMediaTypes;
+
+	int mDesiredBufferSize;
+	int mDesiredBufferCount;
+	int mActualBufferSize;
+	int mActualBufferCount;
+
+	HRESULT mHR;
 };
 
 

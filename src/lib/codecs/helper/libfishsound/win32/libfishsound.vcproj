@@ -34,7 +34,7 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				EnableFunctionLevelLinking="TRUE"
+				EnableFunctionLevelLinking="FALSE"
 				PrecompiledHeaderFile="./libfishsound.pch"
 				AssemblerListingLocation="./"
 				ObjectFile="./"

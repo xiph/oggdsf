@@ -29,66 +29,68 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-
-#pragma once
-
-//Local Includes
-#include "abstractaudiodllstuff.h"
-#include "BasicSeekable.h"
-
-//Forward Declarations
-class AbstractAudioDecodeInputPin;
-class AbstractAudioDecodeOutputPin;
+//
+// AbstracttransformFilter.cpp :	Abstract Filter Class for transform filters.
+//
 
 
-class ABS_AUDIO_DEC_API AbstractAudioDecodeFilter
-	//Parent Classes
-	:	public CBaseFilter	
-			//http://msdn.microsoft.com/library/default.asp?url=/library/en-us/directshow/htm/cbasefilterclass.asp
+#include "StdAfx.h"
+#include "AbstractTransformFilter.h"
+
+//Constructors
+AbstractTransformFilter::AbstractTransformFilter(TCHAR* inFilterName, REFCLSID inFilterGUID)
+	//Base Classes
+	:	CBaseFilter(inFilterName, NULL, m_pLock, inFilterGUID)
+
+	//Member initialisations
+	,	mInputPin(NULL)
+	,	mOutputPin(NULL)
+	
 {
-public:
-	//Friend Classes
-	friend class AbstractAudioDecodeInputPin;
-	friend class AbstractAudioDecodeOutputPin;
+	//Create the filter lock.
+	m_pLock = new CCritSec;		//Deleted in destructor... check what is happening in the base class.
+}
 
-	//COM Setup
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+AbstractTransformFilter::~AbstractTransformFilter(void)
+{
+	DestroyPins();
+	delete m_pLock;		//Deleting filter lock
+}
+
+void AbstractTransformFilter::DestroyPins() 
+{
+	delete mOutputPin;
+	delete mInputPin;
+}
+
+//If you want to handle an interface, do it here.
+STDMETHODIMP AbstractTransformFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
+{
+
+	//May just get rid of this !!
+	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv);
+}
+
+CBasePin* AbstractTransformFilter::GetPin(int inPinNo) 
+{
+	//Pin Constants
+	const int INPUT_PIN = 0;
+	const int OUTPUT_PIN = 1;
 	
-	//Constants and Enumerations
-	static const long NUM_PINS = 2;
-	enum eAudioFormat {
-		NONE = 0,
-		VORBIS = 1,
-		SPEEX = 2,
-		FLAC = 3,
-		OTHER = 1000
+	//Return the pin.
+	switch (inPinNo) {
+		case INPUT_PIN:		
+			return mInputPin;
+		case OUTPUT_PIN:
+			return mOutputPin;
+		default:
+			return NULL;
 	};
+}
 
-	//Constructors
-	AbstractAudioDecodeFilter(TCHAR* inFilterName, REFCLSID inFilterGUID, unsigned short inAudioFormat );
-	virtual ~AbstractAudioDecodeFilter(void);
-	
-	//Pin Methods
-	CBasePin* GetPin(int n);
-	int GetPinCount(void);
-
-	virtual bool ConstructPins() = 0;
-	virtual void DestroyPins();
-
-
-	//Media Control Methods
-	virtual STDMETHODIMP Stop();
-	
-	
-
-	unsigned short mAudioFormat;			//TODO::: Make this private at some point
-
-	//static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
-protected:
-	//Member Data
-	AbstractAudioDecodeInputPin* mInputPin;
-	AbstractAudioDecodeOutputPin* mOutputPin;
-};
-
+int AbstractTransformFilter::GetPinCount(void) 
+{
+	const long NUM_PINS = 2;
+	return NUM_PINS;
+}	
 
