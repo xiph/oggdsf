@@ -66,5 +66,5 @@ protected:
 	vector<OggStream*> mStreamList;
 
 	OggDemuxSourceFilter* mOwningFilter;
-	fstream debugLog;
+	//fstream debugLog;
 };

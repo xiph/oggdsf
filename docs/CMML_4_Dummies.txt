@@ -18,7 +18,7 @@ param element
 
 head element
 	ANY ORDER	EXACTLY ONE		title element
-	ANY ORDER	EXACTLY ONE		base element
+	ANY ORDER	OPTIONALLY ONE		base element
 	ANY ORDER	ZERO OR MORE		meta elements
 
 title element

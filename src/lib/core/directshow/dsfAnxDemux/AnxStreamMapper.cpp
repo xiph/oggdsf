@@ -46,12 +46,12 @@ AnxStreamMapper::AnxStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 	,	mAnnodexHeader(NULL)
 {
 
-	debugLog.open("G:\\logs\\anxmapper.log", ios_base::out);
+	//debugLog.open("G:\\logs\\anxmapper.log", ios_base::out);
 }
 
 AnxStreamMapper::~AnxStreamMapper(void)
 {
-	debugLog.close();
+	//debugLog.close();
 }
 
 bool AnxStreamMapper::isReady() {
@@ -62,17 +62,17 @@ bool AnxStreamMapper::isReady() {
 	for (unsigned long i = 1; i < mStreamList.size(); i++) {
 		locWasAny = true;
 		retVal = retVal && mStreamList[i]->streamReady();
-		debugLog<<"Stream "<<i<<" ";
+		//debugLog<<"Stream "<<i<<" ";
 		if (retVal) {
-			debugLog<<"READY !!!!!!"<<endl;
+			//debugLog<<"READY !!!!!!"<<endl;
 		} else {
-			debugLog<<"NOT READY !!!!"<<endl;
+			//debugLog<<"NOT READY !!!!"<<endl;
 		}
 	}
 	if (locWasAny && retVal) {
-		debugLog<<"Streams READY"<<endl;
+		//debugLog<<"Streams READY"<<endl;
 	} else {
-		debugLog<<"Streams NOT READY"<<endl;
+		//debugLog<<"Streams NOT READY"<<endl;
 	}
 	return locWasAny && retVal;
 }
@@ -140,7 +140,7 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 	int i = 0;
 	switch (mDemuxState) {
 		case SEEN_NOTHING:
-			debugLog<<"SEEN_NOTHING"<<endl;
+			//debugLog<<"SEEN_NOTHING"<<endl;
 			//We must find an annodex BOS page.
 			if (!isAnnodexBOS(inOggPage)) {
 				mDemuxState = INVALID_STATE;
@@ -156,7 +156,7 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 			break;		//Can never be here.
 
 		case SEEN_ANNODEX_BOS:
-			debugLog<<"SEEN_ANNODEX_BOS"<<endl;
+			//debugLog<<"SEEN_ANNODEX_BOS"<<endl;
 			//We should be getting Anxdata headers here.
 			if (!isAnxDataPage(inOggPage, ANXDATA_ARE_BOS)) {
 				mDemuxState = INVALID_STATE;
@@ -173,7 +173,7 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 				//Add the CMML Stream
 				OggStream* locStream = new CMMLStream(inOggPage, mOwningFilter, true);	//The page is only given for viewing
 				if (locStream != NULL) {
-					debugLog<<"Adding CMML Stream"<<endl;
+					//debugLog<<"Adding CMML Stream"<<endl;
 					mStreamList.push_back(locStream);
 				}
 
@@ -184,15 +184,15 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 			break;		//Can never be here.
 
 		case SEEN_AN_ANXDATA:
-			debugLog<<"SEEN_AN_ANXDATA"<<endl;
+			//debugLog<<"SEEN_AN_ANXDATA"<<endl;
 			if (isAnnodexEOS(inOggPage)) {
 				//This is the end of the stream headers.
 				mDemuxState = OGG_STATE;
-				debugLog<<"Found an Annodex EOS... transitioning."<<endl;
+				//debugLog<<"Found an Annodex EOS... transitioning."<<endl;
 				return true;
 			} else if (isAnxDataPage(inOggPage, ANXDATA_ARE_BOS)) {
 				//handle another anxdata page.
-				debugLog<<"Found another anxdata..."<<endl;
+				//debugLog<<"Found another anxdata..."<<endl;
 				mSeenStreams.push_back(inOggPage->header()->StreamSerialNo());
 				mAnxDataHeaders.push_back(inOggPage->getPacket(0)->clone());
 				mDemuxState = SEEN_AN_ANXDATA;
@@ -204,7 +204,7 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 			}
 			break;
 		case OGG_STATE:
-			debugLog<<"OGG_STATE"<<endl;
+			//debugLog<<"OGG_STATE"<<endl;
 			//We've seen the annodex EOS... so we can proceed as if it's a normal ogg file.
 			// The CMML stream is already made.
 
@@ -213,14 +213,14 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 				if (mSeenStreams[i] == inOggPage->header()->StreamSerialNo()) {
 					//If the page is a BOS we need to start a new stream
 					const bool ALLOW_OTHERS_TO_SEEK = true;
-					debugLog<<"Creating strem.... ***"<<endl;
+					//debugLog<<"Creating strem.... ***"<<endl;
 					OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter, ALLOW_OTHERS_TO_SEEK);
 					//FIX::: Need to check for NULL
 					if (locStream != NULL) {
-						debugLog<<"Creating strem.... ***"<<endl;
+						//debugLog<<"Creating strem.... ***"<<endl;
 						mStreamList.push_back(locStream);
 					} else {
-						debugLog<<"Lost a packet..."<<endl;
+						//debugLog<<"Lost a packet..."<<endl;
 					}
 					mSeenStreams.erase(it);
 					delete inOggPage;
@@ -230,19 +230,19 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 
 			//If we are here, the stream is not in the list.
 			//At the moment we assume it's because it's been seen, and removed... this is a bad assumption !
-			debugLog<<"Dispatchinig.........."<<endl;
+			//debugLog<<"Dispatchinig.........."<<endl;
 
 			locTemp = dispatchPage(inOggPage);
 			if (locTemp) {
-				debugLog<<"Dispatch ok"<<endl;
+				//debugLog<<"Dispatch ok"<<endl;
 			} else {
-				debugLog<<"Dispatch failed"<<endl;
+				//debugLog<<"Dispatch failed"<<endl;
 			}
 			return locTemp;
 			break;
 		case INVALID_STATE:
 		default:
-			debugLog<<"INVALID"<<endl;
+			//debugLog<<"INVALID"<<endl;
 			return false;
 			break;
 
@@ -277,9 +277,9 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)			//Deletes or gives awa
 
 	if (mDemuxState == SEEN_NOTHING) {
 		mAnxVersion = getAnxVersion(inOggPage);
-		debugLog<<"Version is "<<mAnxVersion<<endl;
+		//debugLog<<"Version is "<<mAnxVersion<<endl;
 	}
-	debugLog<<"Accepting Page..."<<endl;
+	//debugLog<<"Accepting Page..."<<endl;
 	switch (mAnxVersion) {
 		case ANX_VERSION_2_0:
 			//Potential memory leaks here !
@@ -369,12 +369,12 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)			//Deletes or gives awa
 bool AnxStreamMapper::toStartOfData() {
 	//Specialise for anx... adds one extra ignore packet to the flush to account for the anxdata pages only
 	// if it's 2.0 version.
-	debugLog<<"ANX::: To start of data size = "<<mStreamList.size()<<endl;
+	//debugLog<<"ANX::: To start of data size = "<<mStreamList.size()<<endl;
 	if (isReady()) {  //CHECK::: Should check for allow dsipatch ???
 		for (unsigned long i = 0; i < mStreamList.size(); i++) {
 			//Flush each stream, then ignore the codec headers.
 			if (mAnxVersion == ANX_VERSION_2_0) {
-				debugLog<<"Flushing stream "<<i<<" for "<<mStreamList[i]->numCodecHeaders() + 1<<endl;
+				//debugLog<<"Flushing stream "<<i<<" for "<<mStreamList[i]->numCodecHeaders() + 1<<endl;
 				mStreamList[i]->flush(mStreamList[i]->numCodecHeaders() + 1);  //+1 = AnxData Header...
 			} else {
 				mStreamList[i]->flush(mStreamList[i]->numCodecHeaders());
@@ -382,7 +382,7 @@ bool AnxStreamMapper::toStartOfData() {
 		}	
 		return true;
 	} else {
-		debugLog<<"Something bad happened !!!!&&&&"<<endl;
+		//debugLog<<"Something bad happened !!!!&&&&"<<endl;
 		return false;
 	}
 }

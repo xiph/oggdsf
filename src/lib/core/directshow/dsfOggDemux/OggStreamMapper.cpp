@@ -60,17 +60,17 @@ OggStreamMapper::~OggStreamMapper(void)
 //Sends the page to *only one* stream if it matches the serial number.
 bool OggStreamMapper::dispatchPage(OggPage* inOggPage)				//Gives away or deletes page.
 {
-	debugLog<<"Dispatch page..."<<endl;
+	//debugLog<<"Dispatch page..."<<endl;
 	for (unsigned long i = 0; i < mStreamList.size(); i++) {
 		if (mStreamList[i]->serialNo() == inOggPage->header()->StreamSerialNo()) {
 			//This is the correct stream
 			//DbgLog((LOG_TRACE, 2, TEXT("Mapper : Dispatching page to serial %u",inOggPage->header()->StreamSerialNo())));
-			debugLog<<"Dispatch to stream "<<i<<endl;
+			//debugLog<<"Dispatch to stream "<<i<<endl;
 			return mStreamList[i]->acceptOggPage(inOggPage);		//Give away page.
 			
 		}
 	}
-	debugLog<<"Shouldn't be here $$$$$$"<<endl;
+	//debugLog<<"Shouldn't be here $$$$$$"<<endl;
 
 	//::: CHAINING SUPPORT HACKED IN HERE !!!
 	//===================================
@@ -139,7 +139,7 @@ bool OggStreamMapper::toStartOfData() {
 }
 
 void OggStreamMapper::setAllowDispatch(bool inAllowDispatch) {
-	debugLog<<"Setting allow dispatch..."<<endl;
+	//debugLog<<"Setting allow dispatch..."<<endl;
 	for (unsigned long i = 0; i < mStreamList.size(); i++) {
 		mStreamList[i]->setAllowDispatch(inAllowDispatch);;
 	}

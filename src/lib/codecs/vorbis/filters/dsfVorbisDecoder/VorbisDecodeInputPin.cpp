@@ -55,13 +55,13 @@ VorbisDecodeInputPin::VorbisDecodeInputPin	(		AbstractTransformFilter* inFilter
 	,	mUptoFrame(0)
 		
 {
-	debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
+	//debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
 	ConstructCodec();
 }
 
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	DestroyCodec();
 }
 //Is this needed ??
@@ -97,7 +97,7 @@ void VorbisDecodeInputPin::DestroyCodec()
 STDMETHODIMP VorbisDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 
 {
 	CAutoLock locLock(mStreamLock);
-	debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
+	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
 	mUptoFrame = 0;
 	return AbstractTransformInputPin::NewSegment(inStartTime, inStopTime, inRate);
 	
@@ -111,7 +111,7 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 	if (locThis->CheckStreaming() == S_OK) {
 		if (! locThis->mBegun) {
-			locThis->debugLog<<"First Time"<<endl;
+			//locThis->debugLog<<"First Time"<<endl;
 			//Set up fishsound		
 			fish_sound_command (locThis->mFishSound, FISH_SOUND_GET_INFO, &(locThis->mFishInfo), sizeof (FishSoundInfo)); 
 			locThis->mBegun = true;
@@ -126,8 +126,8 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 		unsigned long locActualSize = inFrames * locThis->mFrameSize;
 		unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
 		
-		locThis->debugLog<<"m_tStart = "<<locThis->m_tStart<<endl;
-		locThis->debugLog<<"mUptoFrame = "<<locThis->mUptoFrame<<endl;
+		//locThis->debugLog<<"m_tStart = "<<locThis->m_tStart<<endl;
+		//locThis->debugLog<<"mUptoFrame = "<<locThis->mUptoFrame<<endl;
 		//Make the start presentation time
 		REFERENCE_TIME locFrameStart = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 
@@ -137,7 +137,7 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 		//Make the end presentation time
 		REFERENCE_TIME locFrameEnd = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 
-		locThis->debugLog<<"Sample time = "<<locFrameStart<<" - "<<locFrameEnd<<endl;
+		//locThis->debugLog<<"Sample time = "<<locFrameStart<<" - "<<locFrameEnd<<endl;
 		IMediaSample* locSample;
 		HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
 

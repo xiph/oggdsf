@@ -114,7 +114,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
-	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out | ios_base::ate | ios_base::app);
+	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out | ios_base::ate | ios_base::app);
 	//debugLog<<"Test..."<<endl;
 	//debugLog.seekp(0, ios_base::end);
 	//debugLog<<"Test2..."<<endl;
@@ -136,7 +136,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 
-	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
+	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
 	//When it is derived, it's up to the superclass to set this.
 	//mStreamMapper = new OggStreamMapper(this);
 
@@ -220,18 +220,18 @@ STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 
 STDMETHODIMP OggDemuxSourceFilter::GetCapabilities(DWORD* inCapabilities) {
 	if (mSeekTable->enabled())  {
-		debugLog<<"GetCaps "<<mSeekingCap<<endl;
+		//debugLog<<"GetCaps "<<mSeekingCap<<endl;
 		*inCapabilities = mSeekingCap;
 		return S_OK;
 	} else {
-		debugLog<<"Get Caps failed !!!!!!!"<<endl;
+		//debugLog<<"Get Caps failed !!!!!!!"<<endl;
 		*inCapabilities = 0;
 		return S_OK;;
 	}
 }
 STDMETHODIMP OggDemuxSourceFilter::GetDuration(LONGLONG* outDuration) {
 	if (mSeekTable->enabled())  {
-		debugLog<<"GetDuration = " << mSeekTable->fileDuration()<<" ds units"<<endl;
+		//debugLog<<"GetDuration = " << mSeekTable->fileDuration()<<" ds units"<<endl;
 		*outDuration = mSeekTable->fileDuration();
 		return S_OK;
 	} else {
@@ -242,7 +242,7 @@ STDMETHODIMP OggDemuxSourceFilter::GetDuration(LONGLONG* outDuration) {
 
 	 
 STDMETHODIMP OggDemuxSourceFilter::CheckCapabilities(DWORD *pCapabilities){
-	debugLog<<"CheckCaps	: Not impl"<<endl;
+	//debugLog<<"CheckCaps	: Not impl"<<endl;
 	return E_NOTIMPL;
 }
 STDMETHODIMP OggDemuxSourceFilter::IsFormatSupported(const GUID *pFormat){
@@ -263,7 +263,7 @@ STDMETHODIMP OggDemuxSourceFilter::QueryPreferredFormat(GUID *pFormat){
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::SetTimeFormat(const GUID *pFormat){
-	debugLog<<"SetTimeForamt : NOT IMPL"<<endl;
+	//debugLog<<"SetTimeForamt : NOT IMPL"<<endl;
 	return E_NOTIMPL;
 }
 STDMETHODIMP OggDemuxSourceFilter::GetTimeFormat( GUID *pFormat){
@@ -273,7 +273,7 @@ STDMETHODIMP OggDemuxSourceFilter::GetTimeFormat( GUID *pFormat){
 STDMETHODIMP OggDemuxSourceFilter::GetStopPosition(LONGLONG *pStop){
 	if (mSeekTable->enabled())  {
 
-		debugLog<<"GetStopPos = " << mSeekTable->fileDuration()<<" ds units"<<endl;
+		//debugLog<<"GetStopPos = " << mSeekTable->fileDuration()<<" ds units"<<endl;
 		*pStop = mSeekTable->fileDuration();
 		return S_OK;
 	} else {
@@ -282,21 +282,21 @@ STDMETHODIMP OggDemuxSourceFilter::GetStopPosition(LONGLONG *pStop){
 	}
 }
 STDMETHODIMP OggDemuxSourceFilter::GetCurrentPosition(LONGLONG *pCurrent){
-	debugLog<<"GetCurrentPos = NOT_IMPL"<<endl;
+	//debugLog<<"GetCurrentPos = NOT_IMPL"<<endl;
 	return E_NOTIMPL;
 	//debugLog <<"GetCurrPos = HARD CODED = 6 secs"<< endl;
 	 *pCurrent = 6 * UNITS;
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat){
-	debugLog<<"ConvertTimeForamt : NOT IMPL"<<endl;
+	//debugLog<<"ConvertTimeForamt : NOT IMPL"<<endl;
 	return E_NOTIMPL;
 }
 STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags){
 
 
 	CAutoLock locLock(m_pLock);
-	debugLog<<"Set Positions "<<*pCurrent<<" to "<<*pStop<<" with flags "<<dwCurrentFlags<<" and "<<dwStopFlags<<endl;
+	//debugLog<<"Set Positions "<<*pCurrent<<" to "<<*pStop<<" with flags "<<dwCurrentFlags<<" and "<<dwStopFlags<<endl;
 	if (mSeekTable->enabled())  {
 		//debugLog<<"SetPos : Current = "<<*pCurrent<<" Flags = "<<dwCurrentFlags<<" Stop = "<<*pStop<<" dwStopFlags = "<<dwStopFlags<<endl;
 		//debugLog<<"       : Delivering begin flush..."<<endl;
@@ -361,7 +361,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		//	mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getRealStartPos());
 		//}
 	} else {
-		debugLog<<"Seek not IMPL"<<endl;
+		//debugLog<<"Seek not IMPL"<<endl;
 		return E_NOTIMPL;
 	}
 	
@@ -382,7 +382,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop){
-	debugLog<<"Getpos : Not IMPL"<<endl;
+	//debugLog<<"Getpos : Not IMPL"<<endl;
 	//debugLog<<"GetPos : Current = HARDCODED 2 secs , Stop = "<<mSeekTable->fileDuration()/UNITS <<" secs."<<endl;
 	return E_NOTIMPL;
 	*pCurrent = 2 * UNITS;
@@ -392,16 +392,16 @@ STDMETHODIMP OggDemuxSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pS
 STDMETHODIMP OggDemuxSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest){
 	//debugLog<<"****GetAvailable : NOT IMPL"<<endl;
 	if (mSeekTable->enabled())  {
-		debugLog<<"Get Avail ok"<<endl;
+		//debugLog<<"Get Avail ok"<<endl;
 		*pEarliest = 0;
-		debugLog<<"+++++ Duration is "<<mSeekTable->fileDuration()<<endl;
+		//debugLog<<"+++++ Duration is "<<mSeekTable->fileDuration()<<endl;
 		*pLatest = mSeekTable->fileDuration();
 	} else {
 		return E_NOTIMPL;
 	}
 }
 STDMETHODIMP OggDemuxSourceFilter::SetRate(double dRate){
-	debugLog<<"Set RATE : NOT IMPL"<<endl;
+	//debugLog<<"Set RATE : NOT IMPL"<<endl;
 	return E_NOTIMPL;
 	//debugLog<<"SetRate : "<<dRate<<endl;
 	return S_OK;;
@@ -583,7 +583,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop()
 
 	//Mess with the locking mechanisms at your own risk.
 
-	debugLog<<"Starting DataProcessLoop :"<<endl;
+	//debugLog<<"Starting DataProcessLoop :"<<endl;
 	DWORD locCommand = 0;
 	char* locBuff = new  char[4096];			//Deleted before function returns...
 	//TODO::: Make this a member variable ^^^^^
@@ -601,11 +601,11 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop()
 	//while (!locIsEOF && locKeepGoing) {
 	while(true) {
 		if(CheckRequest(&locCommand) == TRUE) {
-			debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
+			//debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
 			delete[] locBuff;
 			return S_OK;
 		}
-		debugLog<<"Looping..."<<endl;
+		//debugLog<<"Looping..."<<endl;
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
 			//CAutoLock locDemuxLock(mDemuxLock);
@@ -629,8 +629,8 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop()
 			locKeepGoing = ((mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead)) == (OggDataBuffer::FEED_OK));;
 		}
 		if (!locKeepGoing) {
-			debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
-			debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
+			//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
+			//debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
 			DeliverEOS();
 		}
 		{
@@ -641,8 +641,8 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop()
 			//
 		}
 		if (locIsEOF) {
-			debugLog << "DataProcessLoop : EOF"<<endl;
-			debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
+			//debugLog << "DataProcessLoop : EOF"<<endl;
+			//debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
 			DeliverEOS();
 		}
 	}
@@ -700,7 +700,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	mDataSource->seek(0);			//TODO::: This is bad for streams.
 	//Memory leak
 	//FIXED
-	debugLog<<"COMPLETED SETUP"<<endl;
+	//debugLog<<"COMPLETED SETUP"<<endl;
 	delete[] locBuff;
 	return S_OK;
 }
@@ -714,7 +714,7 @@ bool OggDemuxSourceFilter::acceptOggPage(OggPage* inOggPage) {		//Gives away pag
 STDMETHODIMP OggDemuxSourceFilter::Run(REFERENCE_TIME tStart) {
 	const REFERENCE_TIME A_LONG_TIME = UNITS * 1000;
 	CAutoLock locLock(m_pLock);
-	debugLog<<"Run  :  time = "<<tStart<<endl;
+	//debugLog<<"Run  :  time = "<<tStart<<endl;
 	//DeliverNewSegment(tStart, tStart + A_LONG_TIME, 1.0);
 	return CBaseFilter::Run(tStart);
 	
@@ -722,15 +722,15 @@ STDMETHODIMP OggDemuxSourceFilter::Run(REFERENCE_TIME tStart) {
 }
 STDMETHODIMP OggDemuxSourceFilter::Pause(void) {
 	CAutoLock locLock(m_pLock);
-	debugLog << "** Pause called **"<<endl;
+	//debugLog << "** Pause called **"<<endl;
 	if (m_State == State_Stopped) {
-		debugLog << "Was in stopped state... starting thread"<<endl;
+		//debugLog << "Was in stopped state... starting thread"<<endl;
 		if (ThreadExists() == FALSE) {
 			Create();
 		}
 		CallWorker(THREAD_RUN);
 	}
-	debugLog<<"Was NOT is stopped state, not doing much at all..."<<endl;
+	//debugLog<<"Was NOT is stopped state, not doing much at all..."<<endl;
 	
 	HRESULT locHR = CBaseFilter::Pause();
 	

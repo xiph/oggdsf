@@ -55,11 +55,11 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//Implement the Tranform filter interface
-	HRESULT CMMLDecodeFilter::CheckInputType(const CMediaType* inInputMediaType);
-	HRESULT CMMLDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType);
-	HRESULT CMMLDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest);
-	HRESULT CMMLDecodeFilter::GetMediaType(int inPosition, CMediaType* outMediaType);
-	HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSample);
+	HRESULT CheckInputType(const CMediaType* inInputMediaType);
+	HRESULT CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType);
+	HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest);
+	HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
+	HRESULT Transform(IMediaSample* inSample, IMediaSample* outSample);
 
 	//Implement ICMMLAppControl
 	virtual STDMETHODIMP_(bool) setCallbacks(ICMMLCallbacks* inCallbacks);

@@ -77,5 +77,5 @@ protected:
 	DWORD mSeekingCap;
 
 	//Debug only.
-	fstream seekDebug;
+	//fstream seekDebug;
 };

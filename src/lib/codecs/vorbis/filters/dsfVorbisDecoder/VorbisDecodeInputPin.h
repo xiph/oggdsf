@@ -63,7 +63,7 @@ public:
 
 
 protected:
-	fstream debugLog;
+	//fstream debugLog;
 
 
 

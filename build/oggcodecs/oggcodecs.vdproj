@@ -45,12 +45,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_15FA302C746D4E4994FCC43E6F9B2175"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1ED42AE022EB477985E46FA18A63F9A5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -99,158 +93,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_15FA302C746D4E4994FCC43E6F9B2175"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_EFEA71FFF2864107815DBDECCCCA1178"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_EB09F87C612C40BCA34AC87060CFEFF1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_E1E372FA955046E6928BF533EA0AE6C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_D2048C8B212841C88E42F6ADDCA8B0A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_AC8962A7F212481095173AB7C8C89025"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_A5AAB8CB90C548F1820BC101A765616C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_8F970C0B2593413CA2A3BBF5F2600387"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_8D9A2E4C592D4118B80A4AE8394D8963"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_5EB08DD30B564283AA9C9F27D80CF9E4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_58F56CD02F64413B9459F3E151760A57"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_4EB6175B98B54613A5087D8EA257D00A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_408749AC43894882BEEBFF43737E505B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_3C7C3E6B832E481C8A36701A33FF3721"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "MsmKey" = "8:_4812D148C77C9833CE1C0D8D175B84A4"
         "OwnerKey" = "8:_14E3067B71584FB5A245A2DA9D65D139"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_0A1E63E5852E4F759F1A27E8F097727B"
+        "MsmKey" = "8:_4812D148C77C9833CE1C0D8D175B84A4"
+        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -297,182 +147,140 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_15FA302C746D4E4994FCC43E6F9B2175"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_EFEA71FFF2864107815DBDECCCCA1178"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_EB09F87C612C40BCA34AC87060CFEFF1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_E1E372FA955046E6928BF533EA0AE6C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_D2048C8B212841C88E42F6ADDCA8B0A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_AC8962A7F212481095173AB7C8C89025"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_A5AAB8CB90C548F1820BC101A765616C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_8F970C0B2593413CA2A3BBF5F2600387"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_8D9A2E4C592D4118B80A4AE8394D8963"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_83AF8D74700947168B69E69E5160F082"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_5EB08DD30B564283AA9C9F27D80CF9E4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_58F56CD02F64413B9459F3E151760A57"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_4EB6175B98B54613A5087D8EA257D00A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_408749AC43894882BEEBFF43737E505B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_3C7C3E6B832E481C8A36701A33FF3721"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_24A1793CB89A464FB683A8A3BDA774DB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
         "OwnerKey" = "8:_14E3067B71584FB5A245A2DA9D65D139"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_8F970C0B2593413CA2A3BBF5F2600387"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_AC8962A7F212481095173AB7C8C89025"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
         "OwnerKey" = "8:_13E9F6D7ED35430BA31BDDF95E6327B3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_EFEA71FFF2864107815DBDECCCCA1178"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
         "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_EB09F87C612C40BCA34AC87060CFEFF1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_E1E372FA955046E6928BF533EA0AE6C3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_D2048C8B212841C88E42F6ADDCA8B0A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_8D9A2E4C592D4118B80A4AE8394D8963"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_5EB08DD30B564283AA9C9F27D80CF9E4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_58F56CD02F64413B9459F3E151760A57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_408749AC43894882BEEBFF43737E505B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_3C7C3E6B832E481C8A36701A33FF3721"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
         "OwnerKey" = "8:_0A1E63E5852E4F759F1A27E8F097727B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_77F28BEDC86D404EBCC84AE004027B9B"
+        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -489,12 +297,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8635BD1FEA5D4F26A480C449CD29BECB"
-        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_8976C400668B453CB941859C4F3C6E27"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -503,6 +305,186 @@
         {
         "MsmKey" = "8:_8D9A2E4C592D4118B80A4AE8394D8963"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_14E3067B71584FB5A245A2DA9D65D139"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_8F970C0B2593413CA2A3BBF5F2600387"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_AC8962A7F212481095173AB7C8C89025"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_A5AAB8CB90C548F1820BC101A765616C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_13E9F6D7ED35430BA31BDDF95E6327B3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_EFEA71FFF2864107815DBDECCCCA1178"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_83AF8D74700947168B69E69E5160F082"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_EB09F87C612C40BCA34AC87060CFEFF1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_E1E372FA955046E6928BF533EA0AE6C3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_D2048C8B212841C88E42F6ADDCA8B0A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_8D9A2E4C592D4118B80A4AE8394D8963"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_5EB08DD30B564283AA9C9F27D80CF9E4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_58F56CD02F64413B9459F3E151760A57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_4EB6175B98B54613A5087D8EA257D00A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_408749AC43894882BEEBFF43737E505B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_3C7C3E6B832E481C8A36701A33FF3721"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_24A1793CB89A464FB683A8A3BDA774DB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_0A1E63E5852E4F759F1A27E8F097727B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8F04F8C00C684CAEBEE50837881AB3D6"
+        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -531,12 +513,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B2784574F1B848EABBE013669B46808C"
-        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -545,6 +521,12 @@
         {
         "MsmKey" = "8:_D2048C8B212841C88E42F6ADDCA8B0A2"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D7835E050C942DE27CB20AF3D1EC70F4"
+        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -765,10 +747,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_46A378A9B03E4612A645053EDB884C20"
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_4812D148C77C9833CE1C0D8D175B84A4"
             {
-            "SourcePath" = "8:MSVCP71D.dll"
-            "TargetName" = "8:MSVCP71D.dll"
+            "SourcePath" = "8:msxml3.dll"
+            "TargetName" = "8:msxml3.dll"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
             "Condition" = "8:"
@@ -780,8 +762,8 @@
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Register" = "3:4"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -789,26 +771,6 @@
             {
             "SourcePath" = "8:WSOCK32.dll"
             "TargetName" = "8:WSOCK32.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_655D5383153A6AB10D15352A7EABCC7A"
-            {
-            "SourcePath" = "8:MSVCR71D.dll"
-            "TargetName" = "8:MSVCR71D.dll"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
             "Condition" = "8:"
@@ -865,7 +827,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_B2784574F1B848EABBE013669B46808C"
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_D7835E050C942DE27CB20AF3D1EC70F4"
             {
             "SourcePath" = "8:libFLAC.dll"
             "TargetName" = "8:libFLAC.dll"
@@ -961,7 +923,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{EDCBAB86-104A-4A03-B7D6-DFD783573933}"
-        "PackageCode" = "8:{E5E5504B-159A-42FC-B565-4CA357DD58F2}"
+        "PackageCode" = "8:{99C8B2CA-FA0F-4A52-8C81-AD5E661CCC53}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1005,6 +967,392 @@
                             "Transitive" = "11:FALSE"
                                 "Keys"
                                 {
+                                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_57BC50643FBB4090A0C21215A5395255"
+                                    {
+                                    "Name" = "8:[ProductName]"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "DeleteAtUninstall" = "11:FALSE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_1FFBE31A445446B2A10B100E447F2E08"
+                                            {
+                                            "Name" = "8:OtherFiles"
+                                            "Condition" = "8:"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "DeleteAtUninstall" = "11:FALSE"
+                                            "Transitive" = "11:FALSE"
+                                                "Keys"
+                                                {
+                                                }
+                                                "Values"
+                                                {
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_06854443D5D64713A565DE50A41EAD75"
+                                                    {
+                                                    "Name" = "8:3"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libWinCMMLParse.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3A6CC9BB6B0042DC9BB9B0D7996B67AE"
+                                                    {
+                                                    "Name" = "8:14"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libVorbisComment.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3AAB390F29A4415C87C0B1E3612458C2"
+                                                    {
+                                                    "Name" = "8:13"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libFLAC++.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3FC34B1CA35B4F3CA7E8A6E63C1407D4"
+                                                    {
+                                                    "Name" = "8:20"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:HISTORY"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_435B2BA5AFD647BC9B5570622C56360F"
+                                                    {
+                                                    "Name" = "8:11"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfSeeking.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_5450A253FD6A4E07A338E72CE8826163"
+                                                    {
+                                                    "Name" = "8:23"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:msvcr71.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_75202C71A1724FCDA82FBC9647D9AE8B"
+                                                    {
+                                                    "Name" = "8:4"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libvorbis.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_7EEE371670B64A01944D204889CE4064"
+                                                    {
+                                                    "Name" = "8:2"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:OOOggDump.exe"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_7FBBDBA7C7CD4CC28D3D6DA06067FBEA"
+                                                    {
+                                                    "Name" = "8:10"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libFLAC.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_81E5BA489E5C4F76909C27611A2F2EA7"
+                                                    {
+                                                    "Name" = "8:8"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libOOOggSeek.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_86616AACAC5C4147B21B109B6F129AEB"
+                                                    {
+                                                    "Name" = "8:6"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libOOTheora.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_869CAA3564E14449A9F5E255B28D8062"
+                                                    {
+                                                    "Name" = "8:9"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfAbstractVideoEncoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_89FD5F9A863340D29EC2C71DF74738D1"
+                                                    {
+                                                    "Name" = "8:12"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:OOOggValidate.exe"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_8D0C70620B384CD1878F4BFD1B42C749"
+                                                    {
+                                                    "Name" = "8:17"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:AUTHORS"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_96298924EF9748AE9B43A4D12EC69C94"
+                                                    {
+                                                    "Name" = "8:15"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libfishsound.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_9ACEDC41B55A4798B6E27F6B28648391"
+                                                    {
+                                                    "Name" = "8:7"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libOOOgg.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_BF7918F1D27E40608D9E3AFCB7522783"
+                                                    {
+                                                    "Name" = "8:24"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:OOOggCommentDump.exe"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_C339E60257B04C428589DFD91F793AA0"
+                                                    {
+                                                    "Name" = "8:16"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:ABOUT.rtf"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_D1B9971700764C26BC584EF630A5F505"
+                                                    {
+                                                    "Name" = "8:19"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:COPYRIGHTS"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_D250EF116DE943C2A22A93A972E5D414"
+                                                    {
+                                                    "Name" = "8:22"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:msvcp71.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_D72C350C2940483EB9196BFD77507525"
+                                                    {
+                                                    "Name" = "8:21"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:VERSIONS"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_DD1BD86A5F4B43479355D702B5AAAC92"
+                                                    {
+                                                    "Name" = "8:18"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:COPYRIGHTS.rtf"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_ED176700818D4441B54D8469A21940F1"
+                                                    {
+                                                    "Name" = "8:5"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:OOOggStat.exe"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_F3EE6A11A3FD45649208312CE4179F06"
+                                                    {
+                                                    "Name" = "8:1"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:libCMMLTags.dll"
+                                                    }
+                                                }
+                                            }
+                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_CF4BE49C68DD4C1A89470A4E8416B0C5"
+                                            {
+                                            "Name" = "8:Filters"
+                                            "Condition" = "8:"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "DeleteAtUninstall" = "11:FALSE"
+                                            "Transitive" = "11:FALSE"
+                                                "Keys"
+                                                {
+                                                }
+                                                "Values"
+                                                {
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_2BBFD5275784465AAAFAC5F2CB05040D"
+                                                    {
+                                                    "Name" = "8:1"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfOggDemux.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_5E4AD00ED49D4CA0975C30C98086D4A6"
+                                                    {
+                                                    "Name" = "8:11"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfOggMux.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_6230F2E0B4B645CDA3194426B1766929"
+                                                    {
+                                                    "Name" = "8:6"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfTheoraDecoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_6B91081F2148484E8A2255DC36EF9AF3"
+                                                    {
+                                                    "Name" = "8:14"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfSubtitleVMR9.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_6D99517033AA491F83908CCB74AEB908"
+                                                    {
+                                                    "Name" = "8:10"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfFLACEncoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_958423CE2CBF4520AADB909A75D1F892"
+                                                    {
+                                                    "Name" = "8:3"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfSpeexEncoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_9A3611553FF043F1A8DFB5A7565E914F"
+                                                    {
+                                                    "Name" = "8:5"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfVorbisEncoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_B6D8BEC207244CEF88C70FF16A3D722E"
+                                                    {
+                                                    "Name" = "8:9"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfFLACDecoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_BB971E49A3D047FEABDEACDA94098376"
+                                                    {
+                                                    "Name" = "8:12"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfAnxDemux.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_D019CD2ACE40474298A9B69DEE808F3C"
+                                                    {
+                                                    "Name" = "8:7"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfTheoraEncoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_DE24CDD9D7B6442CBA40D880FEB6D8B4"
+                                                    {
+                                                    "Name" = "8:13"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfNativeFLACSource.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_E27D798A77D946F5A5507669F0406A9E"
+                                                    {
+                                                    "Name" = "8:4"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfVorbisDecoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_F2E149FD4E4C4CB3B183AC9B688A75FF"
+                                                    {
+                                                    "Name" = "8:8"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfCMMLDecoder.dll"
+                                                    }
+                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_F5E20A303D7A4B66955871BC74D861C9"
+                                                    {
+                                                    "Name" = "8:2"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:dsfSpeexDecoder.dll"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_24A98D69A33B45A4ADBFC34B69319967"
+                                            {
+                                            "Name" = "8:Version"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:[ProductVersion]"
+                                            }
+                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_6BECC19D48914027A4F01A1EE7FEE79E"
+                                            {
+                                            "Name" = "8:InstalledByVendor"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:[Manufacturer]"
+                                            }
+                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_78C983BB87D542A881A501A3413D5142"
+                                            {
+                                            "Name" = "8:InstalledByProgramVersion"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:[ProductVersion]"
+                                            }
+                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_F66BD37A4834412682AE0E493302BF1A"
+                                            {
+                                            "Name" = "8:InstalledByProgram"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:[ProductName]"
+                                            }
+                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_FDB36D71C4E54FC483582CEC2BAA86B3"
+                                            {
+                                            "Name" = "8:InstallLocation"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:[TARGETDIR]"
+                                            }
+                                        }
+                                    }
                                 }
                                 "Values"
                                 {
@@ -2698,7 +3046,21 @@
         }
         "MergeModule"
         {
-            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_8635BD1FEA5D4F26A480C449CD29BECB"
+            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_77F28BEDC86D404EBCC84AE004027B9B"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:vc_user_stl71_rtl_x86_---.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_8F04F8C00C684CAEBEE50837881AB3D6"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -2707,7 +3069,7 @@
                 {
                 }
             "LanguageId" = "3:0"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "Folder" = "8:"
             "Feature" = "8:"
             "IsolateTo" = "8:"
@@ -2717,7 +3079,7 @@
         {
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_02E7D9728C8944F1BD021329177F5140"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libCMMLTags\\Debug\\libCMMLTags.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libCMMLTags\\Release\\libCMMLTags.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2745,7 +3107,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_0A1E63E5852E4F759F1A27E8F097727B"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggDump\\Debug\\OOOggDump.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggDump\\Release\\OOOggDump.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2773,7 +3135,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_0D0DD40A31F842C68B09BE0CBDE1996B"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfFLACEncoder\\Debug\\dsfFLACEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfFLACEncoder\\Release\\dsfFLACEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2801,7 +3163,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_13E9F6D7ED35430BA31BDDF95E6327B3"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfAbstractVideoEncoder\\Debug\\dsfAbstractVideoEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfAbstractVideoEncoder\\Release\\dsfAbstractVideoEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2829,7 +3191,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_14E3067B71584FB5A245A2DA9D65D139"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libWinCMMLParse\\Debug\\libWinCMMLParse.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libWinCMMLParse\\Release\\libWinCMMLParse.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2855,37 +3217,9 @@
                 {
                 }
             }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_15FA302C746D4E4994FCC43E6F9B2175"
-            {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfanxmux\\debug\\dsfAnxMux.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:4"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{685D495F-1620-459A-9EE3-BAD4F619B2C2}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_24A1793CB89A464FB683A8A3BDA774DB"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Debug\\vorbis_d.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Release\\vorbis.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2913,7 +3247,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_273D851AE72C4D2EA8020A712DBFE5A3"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfNativeFLACSource\\Debug\\dsfNativeFLACSource.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfNativeFLACSource\\Release\\dsfNativeFLACSource.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2941,7 +3275,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_3C7C3E6B832E481C8A36701A33FF3721"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggStat\\Debug\\OOOggStat.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggStat\\Release\\OOOggStat.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2969,7 +3303,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_408749AC43894882BEEBFF43737E505B"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfSpeexDecoder\\Debug\\dsfSpeexDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfSpeexDecoder\\Release\\dsfSpeexDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -2997,7 +3331,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_4EB6175B98B54613A5087D8EA257D00A"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libOOTheora\\Debug\\libOOTheora.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libOOTheora\\Release\\libOOTheora.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3025,7 +3359,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsfTheoraDecoder\\Debug\\dsfTheoraDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsfTheoraDecoder\\Release\\dsfTheoraDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3053,7 +3387,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_578B89273D59478F861AA5BC3600D074"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfOggMux\\Debug\\dsfOggMux.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfOggMux\\Release\\dsfOggMux.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3081,7 +3415,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_58F56CD02F64413B9459F3E151760A57"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOgg\\Debug\\libOOOgg.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOgg\\Release\\libOOOgg.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3109,7 +3443,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_5EB08DD30B564283AA9C9F27D80CF9E4"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOggSeek\\Debug\\libOOOggSeek.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOggSeek\\Release\\libOOOggSeek.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3137,7 +3471,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_65015192414F476999A68339F89BEA57"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\dsfCMMLDecoder\\Debug\\dsfCMMLDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\dsfCMMLDecoder\\Release\\dsfCMMLDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3165,7 +3499,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_83AF8D74700947168B69E69E5160F082"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\libs\\libflac\\obj\\debug\\bin\\libFLAC.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\libs\\libflac\\obj\\release\\bin\\libFLAC.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3193,7 +3527,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_8976C400668B453CB941859C4F3C6E27"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfFLACDecoder\\Debug\\dsfFLACDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfFLACDecoder\\Release\\dsfFLACDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3221,7 +3555,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_8D9A2E4C592D4118B80A4AE8394D8963"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfSpeexEncoder\\Debug\\dsfSpeexEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfSpeexEncoder\\Release\\dsfSpeexEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3249,7 +3583,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_8F970C0B2593413CA2A3BBF5F2600387"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfAnxDemux\\Debug\\dsfAnxDemux.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfAnxDemux\\Release\\dsfAnxDemux.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3277,7 +3611,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_A5AAB8CB90C548F1820BC101A765616C"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfSeeking\\Debug\\dsfSeeking.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfSeeking\\Release\\dsfSeeking.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3305,7 +3639,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_AC8962A7F212481095173AB7C8C89025"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsfTheoraEncoder\\Debug\\dsfTheoraEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsfTheoraEncoder\\Release\\dsfTheoraEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3333,7 +3667,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggValidate\\Debug\\OOOggValidate.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggValidate\\Release\\OOOggValidate.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3361,7 +3695,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_D2048C8B212841C88E42F6ADDCA8B0A2"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfSubtitleVMR9\\Debug\\dsfSubtitleVMR9.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfSubtitleVMR9\\Release\\dsfSubtitleVMR9.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3389,7 +3723,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_DB60960DC12343B89500B86D5AB10D02"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\libs\\libflac\\obj\\debug\\bin\\libFLAC++.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\libs\\libflac\\obj\\release\\bin\\libFLAC++.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3417,7 +3751,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_DCF4ED7597F8492AA49DC521111ED0F5"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfOggDemux\\Debug\\dsfOggDemux.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfOggDemux\\Release\\dsfOggDemux.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3445,7 +3779,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_E1E372FA955046E6928BF533EA0AE6C3"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libVorbisComment\\Debug\\libVorbisComment.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libVorbisComment\\Release\\libVorbisComment.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3473,7 +3807,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\helper\\libfishsound\\win32\\Debug\\libfishsound.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\helper\\libfishsound\\win32\\Release\\libfishsound.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3501,7 +3835,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_EB09F87C612C40BCA34AC87060CFEFF1"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggCommentDump\\Debug\\OOOggCommentDump.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggCommentDump\\Release\\OOOggCommentDump.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3529,7 +3863,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_EFEA71FFF2864107815DBDECCCCA1178"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfVorbisDecoder\\Debug\\dsfVorbisDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfVorbisDecoder\\Release\\dsfVorbisDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3557,7 +3891,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_FD547F0196C24DFBB9CAFCCEC06561BC"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfVorbisEncoder\\Debug\\dsfVorbisEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfVorbisEncoder\\Release\\dsfVorbisEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"

@@ -49,8 +49,8 @@ BasicSeekPassThrough::BasicSeekPassThrough(IMediaSeeking* inDelegate)
 						AM_SEEKING_CanGetStopPos |
 						AM_SEEKING_CanGetDuration;
 
-	string x = "g:\\logs\\seeker.log";
-	seekDebug.open(x.c_str(), ios_base::out);
+	//string x = "g:\\logs\\seeker.log";
+	//seekDebug.open(x.c_str(), ios_base::out);
 
 }
 
@@ -66,8 +66,8 @@ BasicSeekPassThrough::BasicSeekPassThrough(void)
 						AM_SEEKING_CanGetStopPos |
 						AM_SEEKING_CanGetDuration;
 	
-	string x = "g:\\logs\\seeker.log";
-	seekDebug.open(x.c_str(), ios_base::out);
+	//string x = "g:\\logs\\seeker.log";
+	//seekDebug.open(x.c_str(), ios_base::out);
 	
 
 }
@@ -91,7 +91,7 @@ BasicSeekPassThrough::~BasicSeekPassThrough(void)
 		mSeekDelegate->Release();
 		mSeekDelegate = NULL;
 	}
-	seekDebug.close();
+	//seekDebug.close();
 }
 //IMediaSeeking Interface
 STDMETHODIMP BasicSeekPassThrough::GetCapabilities(DWORD* inCapabilities) {
@@ -113,10 +113,10 @@ STDMETHODIMP BasicSeekPassThrough::GetCapabilities(DWORD* inCapabilities) {
 	//return S_OK;
 	
 	if (mSeekDelegate != NULL) {
-		seekDebug<<"GetCaps : Passed on..."<<endl;
+		//seekDebug<<"GetCaps : Passed on..."<<endl;
 		return mSeekDelegate->GetCapabilities(inCapabilities);
 	} else {
-		seekDebug<<"GetCaps : NULL Delegate"<<endl;
+		//seekDebug<<"GetCaps : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -138,10 +138,10 @@ STDMETHODIMP BasicSeekPassThrough::CheckCapabilities(DWORD* outCapabilities) {
 
 
 	if (mSeekDelegate != NULL) {
-		seekDebug<<"CheckCaps : Passed on..."<<endl;
+		//seekDebug<<"CheckCaps : Passed on..."<<endl;
 		return mSeekDelegate->CheckCapabilities(outCapabilities);
 	} else {
-		seekDebug<<"CheckCaps : NULL Delegate"<<endl;
+		//seekDebug<<"CheckCaps : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}

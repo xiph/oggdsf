@@ -26,6 +26,16 @@ CUnknown* WINAPI CMMLRawSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pH
     return pNewObject;
 } 
 
+STDMETHODIMP CMMLRawSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+	if (riid == IID_IFileSourceFilter) {
+		*ppv = (IFileSourceFilter*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
+}
+
 CMMLRawSourceFilter::CMMLRawSourceFilter(void)
 	:	CBaseFilter(NAME("CMMLRawSourceFilter"), NULL, m_pLock, CLSID_CMMLRawSourceFilter)
 {
@@ -75,8 +85,3 @@ STDMETHODIMP CMMLRawSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE
 	return S_OK;
 }
 
-STDMETHODIMP CMMLRawSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
-{
-
-	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
-}

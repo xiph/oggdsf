@@ -42,12 +42,12 @@ FFDShowVideoStream::FFDShowVideoStream(OggPage* inBOSPage, OggDemuxSourceFilter*
 	,	mGranuleOffset(0)
 {
 	InitCodec(inBOSPage->getStampedPacket(0));
-	debugLog.open("g:\\logs\\ffd_dump.out", ios_base::out);
+	//debugLog.open("g:\\logs\\ffd_dump.out", ios_base::out);
 }
 
 FFDShowVideoStream::~FFDShowVideoStream(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	delete mFFDShowVideoFormatBlock;
 }
 
@@ -148,15 +148,15 @@ bool FFDShowVideoStream::createFormatBlock() {
 	
 	__int64 locSamplesPerBlock = iLE_Math::CharArrToInt64(mHeaderPack->packetData() + 25);
 
-	debugLog<<"t/block = "<<locTimePerBlock<<"        Sam/block = "<<locSamplesPerBlock<<endl;
+	//debugLog<<"t/block = "<<locTimePerBlock<<"        Sam/block = "<<locSamplesPerBlock<<endl;
 
 	mFFDShowVideoFormatBlock->AvgTimePerFrame = locTimePerBlock / locSamplesPerBlock;
 
-	debugLog<<"Time per frame = "<<mFFDShowVideoFormatBlock->AvgTimePerFrame<<endl;
+	//debugLog<<"Time per frame = "<<mFFDShowVideoFormatBlock->AvgTimePerFrame<<endl;
 
 	__int64 locFPSec = (UNITS / locTimePerBlock) * locSamplesPerBlock;
 
-	debugLog<<"Rate = "<<locFPSec<<" fps"<<endl;
+	//debugLog<<"Rate = "<<locFPSec<<" fps"<<endl;
 	unsigned short locBPSample = ((unsigned char)(mHeaderPack->packetData()[41])) + (((unsigned short)(mHeaderPack->packetData()[42])) * 256);
 
 	
@@ -206,22 +206,22 @@ bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 	if ((mLastKnownTimeBase != inPacket->startTime()) && (inPacket->startTime() != -1)) {
 		mLastKnownTimeBase = inPacket->startTime();
 		mLastTimeStamp = mLastKnownTimeBase * mFFDShowVideoFormatBlock->AvgTimePerFrame;
-		debugLog<<"Last Time base set  to  "<<mLastKnownTimeBase<<endl;
-		debugLog<<"Last time stamp set to "<<mLastTimeStamp<<endl;
+		//debugLog<<"Last Time base set  to  "<<mLastKnownTimeBase<<endl;
+		//debugLog<<"Last time stamp set to "<<mLastTimeStamp<<endl;
 
 		//Granule Offset may not be needed any more.
 		mGranuleOffset = 0;
 	}
 
-	debugLog<<"Packet stamps = "<<inPacket->startTime() << " - "<<inPacket->endTime()<<endl;
+	//debugLog<<"Packet stamps = "<<inPacket->startTime() << " - "<<inPacket->endTime()<<endl;
 
-	debugLog<<"m_tStart = "<<mSourcePin->CurrentStartTime()<<endl;
+	//debugLog<<"m_tStart = "<<mSourcePin->CurrentStartTime()<<endl;
 	LONGLONG locStart = mLastTimeStamp - mSourcePin->CurrentStartTime();
 	LONGLONG locEnd = locStart + mFFDShowVideoFormatBlock->AvgTimePerFrame;
 	mGranuleOffset++;
 
-	debugLog<<"Time Stamps = "<<locStart<<" - "<<locEnd<<endl;
-	debugLog<<"Granule offset " << mGranuleOffset<<endl;
+	//debugLog<<"Time Stamps = "<<locStart<<" - "<<locEnd<<endl;
+	//debugLog<<"Granule offset " << mGranuleOffset<<endl;
 	
 	mLastTimeStamp = (locEnd >= mLastTimeStamp)		?	locEnd
 													:	mLastTimeStamp;

@@ -68,5 +68,5 @@ protected:
 	LONGLONG mLastKnownTimeBase;
 	LONGLONG mGranuleOffset;
 
-	fstream debugLog;
+	//fstream debugLog;
 };
