@@ -43,15 +43,6 @@ What Works
 * Currently, only Annodex media files are supported.  Support for Ogg
   files will be forthcoming.
 
-* Only "simple" time queries are supported: i.e. integer-only, npt time
-  queries without the leading npt: time specification.  e.g. '?t=10' will
-  work, '?t=10.5' will not because we do not yet parse floating point
-  numbers, '?t=npt:10' will not work because of the leading npt:,
-  '?t=1:20' will not work since we do not yet parse MM:SS time formats.
-  Of course we will support the whole timed URI specification in the
-  future; consider this a cheap'n'cheerful implementation of the timed URI
-  specification for now.
-
 
 Requirements
 ------------
@@ -61,6 +52,11 @@ Windows:
 * The official Apache 2 Win32 binary provided as an MSI installer,
   available at <http://httpd.apache.org/download.cgi>.  Apache 2.0.52 is
   used for development.
+
+UNIX:
+
+* An Apache 2 installation of some sort with the Apache 2
+  development tools (such as apxs).
 
 Note that this module has been tested to work on Linux systems, but
 I haven't packaged the build system for it yet (though it's a standard
@@ -81,8 +77,12 @@ Windows:
   accordingly.  (If you have ideas on how to make this easier for
   non-standard installations, let me know.)
 
-There is no building instructions provided for UNIX yet.  One will be
-provided in the future.
+UNIX:
+
+* We use a simple apxs-based build system, which is tested on
+  Debian GNU/Linux.  You may need to modify some Makefile variables to get
+  things working: see the first few lines of the Makefile to see what
+  variables to tweak.
 
 
 Installing
@@ -96,9 +96,16 @@ Installing
 
   LoadModule timeslice_module /path/to/mod_timeslice.so
 
+Windows:
+
 * Copy mod_timeslice.so (and mod_timeslice.pdb, if you want to use the
   Visual Studio Debugger with Apache) to Apache's module directory,
   usually at C:\Program Files\Apache Group\Apache2\modules.
+
+UNIX:
+
+* Just run 'make install'.  You may need adminstrator privileges (i.e.
+  sudo or su)
 
 
 Copyright
