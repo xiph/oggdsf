@@ -85,6 +85,9 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			//Speex
 			sSpeexFormatBlock* locSpeex = (sSpeexFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
+		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
+			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
+			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
 		}
 	}
 	return S_OK;
@@ -104,6 +107,10 @@ HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_Speex;
 			return S_OK;
+		case 3:
+			outMediaType->majortype = MEDIATYPE_Audio;
+			outMediaType->subtype = MEDIASUBTYPE_FLAC;
+			return S_OK;
 
 		default:
 			return VFW_S_NO_MORE_ITEMS;
@@ -122,6 +129,10 @@ HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
 			(inMediaType->majortype == MEDIATYPE_Audio 
 				&& inMediaType->subtype == MEDIASUBTYPE_Speex 
 				&& inMediaType->formattype == FORMAT_Speex)
+			||
+			(inMediaType->majortype == MEDIATYPE_Audio
+				&&	inMediaType->subtype == MEDIASUBTYPE_FLAC
+				&&	inMediaType->formattype == FORMAT_FLAC)
 		) {
 		return S_OK;
 	} else {
