@@ -114,6 +114,11 @@ bool FLACEncodeInputPin::ConstructCodec() {
 	set_channels(mWaveFormat->nChannels);
 	set_sample_rate(mWaveFormat->nSamplesPerSec);
 	set_bits_per_sample(mWaveFormat->wBitsPerSample);
+
+	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;	//View only don't delete.
+	locParentFilter->mFLACFormatBlock.numBitsPerSample = mWaveFormat->wBitsPerSample;
+	locParentFilter->mFLACFormatBlock.numChannels = mWaveFormat->nChannels;
+	locParentFilter->mFLACFormatBlock.sampleRate = mWaveFormat->nSamplesPerSec;
 	init();
 
 	//
