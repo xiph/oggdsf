@@ -86,6 +86,10 @@ STDMETHODIMP OggDemuxSourceFilter::NonDelegatingQueryInterface(REFIID riid, void
 		*ppv = (IAMFilterMiscFlags*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
+	} else if (riid == IID_IAMMediaContent) {
+		*ppv = (IAMMediaContent*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
 	}
 
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
@@ -704,4 +708,74 @@ STDMETHODIMP OggDemuxSourceFilter::Stop(void) {
 
 CCritSec* OggDemuxSourceFilter::theLock() {
 	return m_pLock;
+}
+
+
+//IAMMediaContent Interface
+STDMETHODIMP  OggDemuxSourceFilter::get_AuthorName(BSTR* outAuthorName) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_Title(BSTR* outTitle) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_Rating(BSTR* outRating) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_Description(BSTR* outDescription) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_Copyright(BSTR* outCopyright) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_BaseURL(BSTR* outBaseURL) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_LogoURL(BSTR* outLogoURL) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_LogoIconURL(BSTR* outLogoIconURL) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_WatermarkURL(BSTR* outWatermarkURL) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_MoreInfoURL(BSTR* outMoreInfoURL) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_MoreInfoBannerImage(BSTR* outMoreInfoBannerImage) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_MoreInfoBannerURL(BSTR* outMoreInfoBannerURL) { 
+	return E_NOTIMPL;
+}
+STDMETHODIMP  OggDemuxSourceFilter::get_MoreInfoText(BSTR* outMoreInfoText) { 
+	return E_NOTIMPL;
+}
+
+//IDispatch Interface
+STDMETHODIMP OggDemuxSourceFilter::GetTypeInfoCount(	unsigned int FAR*  pctinfo ) {
+	return E_NOTIMPL;
+
+}
+STDMETHODIMP OggDemuxSourceFilter::GetIDsOfNames(		REFIID  riid, 
+								OLECHAR FAR* FAR* rgszNames, 
+								unsigned int cNames, 
+								LCID lcid, 
+								DISPID FAR* rgDispId ) {
+	return E_NOTIMPL;
+								}
+STDMETHODIMP OggDemuxSourceFilter::GetTypeInfo(		unsigned int iTInfo, 
+								LCID lcid, 
+								ITypeInfo FAR* FAR*  ppTInfo ) {
+	return E_NOTIMPL;
+}
+STDMETHODIMP OggDemuxSourceFilter::Invoke(			DISPID  dispIdMember,
+								REFIID  riid,
+								LCID  lcid,
+								WORD  wFlags,
+								DISPPARAMS FAR*  pDispParams,  
+								VARIANT FAR*  pVarResult,  
+								EXCEPINFO FAR*  pExcepInfo,  
+								unsigned int FAR*  puArgErr ) {
+	return E_NOTIMPL;
 }

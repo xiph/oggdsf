@@ -30,6 +30,9 @@
 //===========================================================================
 #pragma once
 
+#include <Dshow.h>
+#include <Initguid.h>
+#include <Qnetwork.h>
 #include "oggdllstuff.h"
 #include "OggDemuxSourcePin.h"
 #include "OggStreamMapper.h"
@@ -52,6 +55,7 @@ class OGG_DEMUX_API OggDemuxSourceFilter
 	,	public BasicSeekable
 	,	public ISpecifyPropertyPages
 	,	public IAMFilterMiscFlags
+	,	public IAMMediaContent
 		
 {
 public:
@@ -98,26 +102,60 @@ public:
 	//IMediaSeeking
 	virtual STDMETHODIMP GetDuration(LONGLONG* outDuration);
 	virtual STDMETHODIMP GetCapabilities(DWORD* inCapabilities);
-
+	 
+	virtual STDMETHODIMP CheckCapabilities(DWORD *pCapabilities);
+	virtual STDMETHODIMP IsFormatSupported(const GUID *pFormat);
+	virtual STDMETHODIMP QueryPreferredFormat(GUID *pFormat);
+	virtual STDMETHODIMP SetTimeFormat(const GUID *pFormat);
+	virtual STDMETHODIMP GetTimeFormat( GUID *pFormat);
 	
-	 
-	 virtual STDMETHODIMP CheckCapabilities(DWORD *pCapabilities);
-	 virtual STDMETHODIMP IsFormatSupported(const GUID *pFormat);
-	 virtual STDMETHODIMP QueryPreferredFormat(GUID *pFormat);
-	 virtual STDMETHODIMP SetTimeFormat(const GUID *pFormat);
-	 virtual STDMETHODIMP GetTimeFormat( GUID *pFormat);
-	 
-	 virtual STDMETHODIMP GetStopPosition(LONGLONG *pStop);
-	 virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
-	 virtual STDMETHODIMP ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat);
-	 virtual STDMETHODIMP SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags);
-	 virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
-	 virtual STDMETHODIMP GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest);
-	 virtual STDMETHODIMP SetRate(double dRate);
-	 virtual STDMETHODIMP GetRate(double *dRate);
-	 virtual STDMETHODIMP GetPreroll(LONGLONG *pllPreroll);
-	 virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
-		
+	virtual STDMETHODIMP GetStopPosition(LONGLONG *pStop);
+	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
+	virtual STDMETHODIMP ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat);
+	virtual STDMETHODIMP SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags);
+	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
+	virtual STDMETHODIMP GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest);
+	virtual STDMETHODIMP SetRate(double dRate);
+	virtual STDMETHODIMP GetRate(double *dRate);
+	virtual STDMETHODIMP GetPreroll(LONGLONG *pllPreroll);
+	virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
+	
+	//IAMMediaContent Interface
+	virtual STDMETHODIMP get_AuthorName(BSTR* outAuthorName);
+	virtual STDMETHODIMP get_Title(BSTR* outTitle);
+	virtual STDMETHODIMP get_Rating(BSTR* outRating);
+	virtual STDMETHODIMP get_Description(BSTR* outDescription);
+	virtual STDMETHODIMP get_Copyright(BSTR* outCopyright);
+	virtual STDMETHODIMP get_BaseURL(BSTR* outBaseURL);
+	virtual STDMETHODIMP get_LogoURL(BSTR* outLogoURL);
+	virtual STDMETHODIMP get_LogoIconURL(BSTR* outLogoIconURL);
+	virtual STDMETHODIMP get_WatermarkURL(BSTR* outWatermarkURL);
+	virtual STDMETHODIMP get_MoreInfoURL(BSTR* outMoreInfoURL);
+	virtual STDMETHODIMP get_MoreInfoBannerImage(BSTR* outMoreInfoBannerImage);
+	virtual STDMETHODIMP get_MoreInfoBannerURL(BSTR* outMoreInfoBannerURL);
+	virtual STDMETHODIMP get_MoreInfoText(BSTR* outMoreInfoText);
+
+
+	//IDispatch Interface (Base interface of IAMMediaContent) - evil evil thing.
+	// Trying not to implement it ! I'm sure it was all very funny when they came up with it.
+	virtual STDMETHODIMP GetTypeInfoCount(	unsigned int FAR*  pctinfo );
+	virtual STDMETHODIMP GetIDsOfNames(		REFIID  riid, 
+											OLECHAR FAR* FAR* rgszNames, 
+											unsigned int cNames, 
+											LCID lcid, 
+											DISPID FAR* rgDispId );
+	virtual STDMETHODIMP GetTypeInfo(		unsigned int iTInfo, 
+											LCID lcid, 
+											ITypeInfo FAR* FAR*  ppTInfo );
+	virtual STDMETHODIMP Invoke(			DISPID  dispIdMember,
+											REFIID  riid,
+											LCID  lcid,
+											WORD  wFlags,
+											DISPPARAMS FAR*  pDispParams,  
+											VARIANT FAR*  pVarResult,  
+											EXCEPINFO FAR*  pExcepInfo,  
+											unsigned int FAR*  puArgErr );
+
 
 	 CCritSec* theLock();
 	//CAMThread
@@ -129,6 +167,7 @@ public:
 	REFERENCE_TIME mSeekTimeBase;  //Don't ask !
 
 protected:
+	//Internal helper methods
 	void resetStream();
 	void DeliverEOS();
 	void DeliverBeginFlush();
@@ -138,6 +177,7 @@ protected:
 	virtual HRESULT DataProcessLoop();
 	virtual HRESULT SetUpPins();
 	//virtual bool AddPin(OggDemuxSourcePin* inPin, unsigned long inSerialNo);
+
 
 	CCritSec* mSourceFileLock;
 	CCritSec* mDemuxLock;
