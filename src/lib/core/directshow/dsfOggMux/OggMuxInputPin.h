@@ -42,7 +42,7 @@ using namespace std;
 
 class OggMuxFilter;
 
-class OggMuxInputPin
+class OGG_MUX_API OggMuxInputPin
 	:	public CBaseInputPin
 	,	public BasicSeekPassThrough
 {

@@ -1220,6 +1220,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libDirectshowAbstracts", ".
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testLibOOOgg", "..\..\src\tests\testLibOOOgg\testLibOOOgg.vcproj", "{6B993E86-7283-4324-B4C4-F047930FB5FF}"
 	ProjectSection(ProjectDependencies) = postProject
+		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
+		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfAnxMux", "..\..\src\lib\core\directshow\dsfAnxMux\dsfAnxMux.vcproj", "{685D495F-1620-459A-9EE3-BAD4F619B2C2}"
+	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Global
@@ -2469,6 +2475,22 @@ Global
 		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_SSE.Build.0 = Release|Win32
 		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_SSE2.ActiveCfg = Release|Win32
 		{6B993E86-7283-4324-B4C4-F047930FB5FF}.Release_SSE2.Build.0 = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Debug.ActiveCfg = Debug|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Debug.Build.0 = Debug|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Debug Unicode.ActiveCfg = Debug|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Debug Unicode.Build.0 = Debug|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.MakeFile.ActiveCfg = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.MakeFile.Build.0 = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release.ActiveCfg = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release.Build.0 = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release Unicode.ActiveCfg = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release Unicode.Build.0 = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release_NoDotNET.Build.0 = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release_SSE.ActiveCfg = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release_SSE.Build.0 = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release_SSE2.ActiveCfg = Release|Win32
+		{685D495F-1620-459A-9EE3-BAD4F619B2C2}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

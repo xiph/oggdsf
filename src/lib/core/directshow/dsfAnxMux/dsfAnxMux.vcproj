@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="testLibOOOgg"
-	ProjectGUID="{6B993E86-7283-4324-B4C4-F047930FB5FF}"
+	Name="dsfAnxMux"
+	ProjectGUID="{685D495F-1620-459A-9EE3-BAD4F619B2C2}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -14,30 +14,30 @@
 			Name="Debug|Win32"
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;..\..\lib\helper\libilliCore"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"
-				CallingConvention="2"/>
+				DebugInformationFormat="4"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/testLibOOOgg.exe"
+				OutputFile="$(OutDir)/dsfAnxMux.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/testLibOOOgg.pdb"
-				SubSystem="1"
+				ProgramDatabaseFile="$(OutDir)/dsfAnxMux.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfAnxMux.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -64,28 +64,28 @@
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;..\..\lib\helper\libilliCore"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="2"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"
-				CallingConvention="2"/>
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/testLibOOOgg.exe"
+				OutputFile="$(OutDir)/dsfAnxMux.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfAnxMux.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -117,7 +117,19 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\OggPageFileWriter.cpp">
+				RelativePath=".\AnxMuxFilter.cpp">
+			</File>
+			<File
+				RelativePath=".\AnxMuxInputPin.cpp">
+			</File>
+			<File
+				RelativePath=".\AnxPacketMaker.cpp">
+			</File>
+			<File
+				RelativePath=".\AnxPageInterleaver.cpp">
+			</File>
+			<File
+				RelativePath=".\dsfAnxMux.cpp">
 			</File>
 			<File
 				RelativePath=".\stdafx.cpp">
@@ -134,37 +146,31 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\testLibOOOgg.cpp">
-			</File>
-			<File
-				RelativePath=".\TestPatternOggPacketChecker.cpp">
-			</File>
-			<File
-				RelativePath=".\TestPatternOggPacketGenerator.cpp">
-			</File>
-			<File
-				RelativePath=".\TestPatternOggPageChecker.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath=".\OggPageFileWriter.h">
+				RelativePath=".\anxmuxdllstuff.h">
+			</File>
+			<File
+				RelativePath=".\AnxMuxFilter.h">
+			</File>
+			<File
+				RelativePath=".\AnxMuxInputPin.h">
+			</File>
+			<File
+				RelativePath=".\AnxPacketMaker.h">
+			</File>
+			<File
+				RelativePath=".\AnxPageInterleaver.h">
+			</File>
+			<File
+				RelativePath=".\dsfAnxMux.h">
 			</File>
 			<File
 				RelativePath=".\stdafx.h">
-			</File>
-			<File
-				RelativePath=".\TestPatternOggPacketChecker.h">
-			</File>
-			<File
-				RelativePath=".\TestPatternOggPacketGenerator.h">
-			</File>
-			<File
-				RelativePath=".\TestPatternOggPageChecker.h">
 			</File>
 		</Filter>
 		<Filter

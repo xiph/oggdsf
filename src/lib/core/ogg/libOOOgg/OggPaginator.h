@@ -46,6 +46,7 @@ class LIBOOOGG_API OggPaginator
 	:	public IStampedOggPacketSink
 {
 public:
+	//TODO::: Have a constructor that lets you set the numheaders.
 	OggPaginator(void);
 	virtual ~OggPaginator(void);
 
@@ -85,6 +86,8 @@ protected:
 
 	unsigned char* mHeaderBuff;
 	//fstream debugLog;
+
+	unsigned long mLastGranulePos;
 
 private:
 	OggPaginator& operator=(const OggPaginator& other);  /* Don't assign me */

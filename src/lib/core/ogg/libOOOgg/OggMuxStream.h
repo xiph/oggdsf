@@ -49,6 +49,8 @@ public:
 	//IOggCallback implementaion.
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
+	virtual bool pushFront(OggPage* inOggPage);
+
 	virtual OggPage* popFront();
 	virtual OggPage* peekFront();
 	
@@ -66,7 +68,8 @@ public:
 	bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor);
 
 
-
+	__int64 granuleNumerator();
+	__int64 granuleDenominator();
 	
 protected:
 	INotifyArrival* mNotifier;

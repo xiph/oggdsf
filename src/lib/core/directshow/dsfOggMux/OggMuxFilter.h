@@ -44,7 +44,7 @@ using namespace std;
 #include "StringHelper.h"
 class OggMuxInputPin;
 
-class OggMuxFilter
+class OGG_MUX_API OggMuxFilter
 	:	public IFileSinkFilter
 	,	public CBaseFilter
 	,	public IOggCallback

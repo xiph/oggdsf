@@ -42,6 +42,7 @@ class LIBOOOGG_API OggPageInterleaver
 	:	public INotifyArrival
 {
 public:
+	//TODO::: Shuoldn't be called file writer... just output or something.
 	OggPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier);
 	virtual ~OggPageInterleaver(void);
 
@@ -58,7 +59,7 @@ public:
 
 protected:
 	vector<OggMuxStream*> mInputStreams;
-	IOggCallback* mFileWriter;
+	IOggCallback* mFileWriter;		//TODO::: Shuoldn't be called filewriter.
 	INotifyComplete* mNotifier;
 
 	//DEBUG ONLY

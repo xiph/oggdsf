@@ -34,7 +34,7 @@
 
 #include "OggPacket.h"
 #include "OggPage.h"
-
+#include "OggStream.h"
 class OggStream;
 class OggDemuxSourceFilter;
 

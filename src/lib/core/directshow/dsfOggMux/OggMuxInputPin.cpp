@@ -80,7 +80,7 @@ STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-
+//ANX::: Override and insert an anxdata into the stream.
 HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 	//debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
 	//debugLog<<"Set media type..."<<endl;
@@ -113,7 +113,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			//mNeedsFLACHeaderTweak = true;
 			mNeedsFLACHeaderCount = true;
 		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
-			//We are connected directly to the mux and are getting metadata in one block
+			//We are connected directly to the demux and are getting metadata in one block
 			// Need to use the header splitter class.
 			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);

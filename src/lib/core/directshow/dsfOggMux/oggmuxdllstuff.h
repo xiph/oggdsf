@@ -36,7 +36,13 @@
 #include <initguid.h>
 
 
-
+#ifdef DSFOGGMUX_EXPORTS
+#pragma message("----> Exporting from Ogg Mux...")
+#define OGG_MUX_API __declspec(dllexport)
+#else
+#pragma message("<---- Importing from Ogg Mux...")
+#define OGG_MUX_API __declspec(dllimport)
+#endif
 
 #ifdef LIBOOOGG_EXPORTS
 #define LIBOOOGG_API __declspec(dllexport)

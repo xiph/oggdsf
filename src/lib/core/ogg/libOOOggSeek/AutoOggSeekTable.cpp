@@ -50,7 +50,7 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 {
 
 	mFileName = inFileName;
-	mOggDemux = new OggDataBuffer(true);			//Deleted in destructor.
+	mOggDemux = new OggDataBuffer();			//Deleted in destructor.
 	mOggDemux->registerVirtualCallback(this);
 	//debugLog.open("G:\\logs\\seektable.log", ios_base::out);
 	//debugLog<<"Constructing seek table for "<<inFileName<<endl;

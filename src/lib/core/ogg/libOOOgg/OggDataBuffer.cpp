@@ -38,7 +38,7 @@
 OggDataBuffer::OggDataBuffer(void)
 	:	mBuffer(NULL)
 	,	mPrevGranPos(0)
-	,	mPendingPage(NULL)
+	,	pendingPage(NULL)
 	,	mState(AWAITING_BASE_HEADER)
 	,	mNumBytesNeeded(OggPageHeader::OGG_BASE_HEADER_SIZE)
 {

@@ -107,14 +107,15 @@ bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 		mHeaderFlags = inBaseHeader[HEADER_FLAGS];
 		mGranulePos = iLE_Math::CharArrToInt64(inBaseHeader + GRANULE_POS);
 		mStreamSerialNo = iLE_Math::charArrToULong(inBaseHeader + SERIAL_NO);
-		mCRCCheckSum = iLE_Math::charArrToULong(inBaseHeader + OGG_CHECKSUM);
+		mCRCChecksum = iLE_Math::charArrToULong(inBaseHeader + OGG_CHECKSUM);
 		mNumPageSegments = inBaseHeader[NUM_SEGMENTS];
 		mHeaderSize = OGG_BASE_HEADER_SIZE + mNumPageSegments;
 		
 		mPageSize = mHeaderSize + mDataSize;
 		mPageState = BASE_HEAD_SET;
 		return true;
-
+	} else {
+		return false;
 	}
 
 		////Assign the structure version
@@ -151,10 +152,7 @@ bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 		//mPageState = BASE_HEAD_SET;
 
 				
-		return true;
-	} else {
-		return false;
-	}
+	
 
 }
 
@@ -318,6 +316,12 @@ bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 
 	return true;
 }
+
+//unsigned long OggPageHeader::headerCheckSum() 
+//{
+//	
+//
+//}
 
 
 bool OggPageHeader::isBOS() {

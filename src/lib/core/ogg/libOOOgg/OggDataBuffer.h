@@ -81,7 +81,7 @@ public:
 											(OggPageHeader::SEGMENT_WIDTH * OggPageHeader::MAX_NUM_SEGMENTS);			//Segment table
 
 	//Debug only
-	OggDataBuffer::OggDataBuffer(bool x);
+	//OggDataBuffer::OggDataBuffer(bool x);
 	void debugWrite(string inString);
 	//
 

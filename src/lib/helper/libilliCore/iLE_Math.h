@@ -39,6 +39,8 @@ public:
 	~iLE_Math(void);
 	static unsigned long charArrToULong(const unsigned char* inCharArray);
 	static void ULongToCharArr(unsigned long inLong, unsigned char* outCharArray);
+	static void UShortToCharArr(unsigned short inShort, unsigned char* outCharArray);
+	
 	static __int64 CharArrToInt64(const unsigned char* inCharArray);
 	static void Int64ToCharArr(__int64 inInt64, unsigned char* outCharArray);
 	static unsigned short charArrToUShort(const unsigned char* inCharArray);	

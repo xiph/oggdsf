@@ -1,0 +1,4 @@
+* Need to enforce max page size restrictions more tightly, some pages go slightly over.
+
+* Need to make sure on a finish stream call to the paginator, if there is nothing buffered,
+	it adds the granule pos of the previous page as the graneul pos of the empty EOS page.

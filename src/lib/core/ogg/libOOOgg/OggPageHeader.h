@@ -62,6 +62,7 @@ public:
 
 	static const unsigned char OGG_CAPTURE_PATTERN_SIZE = 4;
 	static const unsigned char OGG_BASE_HEADER_SIZE = 27;
+	static const __int64 UNKNOWN_GRANULE_POS = -1;
 	enum ePageState {
 		INVALID,
 		BLANK,
@@ -71,6 +72,7 @@ public:
 	};
 
 	enum eHeadFlags {
+		NO_FLAGS = 0,
 		CONTINUATION = 1,
 		BOS = 2,
 		EOS = 4
@@ -105,13 +107,12 @@ public:
 	unsigned long pageSize();
 	unsigned long headerSize();
 	unsigned long dataSize();
-	
 	unsigned long calculateDataSize();
+	
 	//Bulk Mutators
 	bool setBaseHeader(const unsigned char* inBaseHeader);
-	//bool setSegmentTable(const unsigned char* inSegTable, unsigned char inNumSegs);
-
-
+	
+	//Accesors
 	unsigned char StructureVersion();
 	unsigned char HeaderFlags();
 	__int64 GranulePos();
@@ -121,8 +122,7 @@ public:
 	unsigned char NumPageSegments();
 	unsigned char* SegmentTable();
 
-
-
+	//Mutators
 	void setStructureVersion(unsigned char inVal);
 	void setHeaderFlags(unsigned char inVal);
 	void setGranulePos(__int64 inPtr);
@@ -141,15 +141,15 @@ public:
 	void setDataSize(unsigned long inVal);
 
 
+	//unsigned long headerCheckSum();
 	string toString();
 protected:
-	
-
-
+	//Size fields
 	unsigned long mPageSize;
 	unsigned long mHeaderSize;
 	unsigned long mDataSize;
 
+	//Header fields
 	unsigned char mStructureVersion;
 	unsigned char mHeaderFlags;
 	__int64 mGranulePos;
@@ -158,9 +158,10 @@ protected:
 	unsigned long mCRCChecksum;
 	unsigned char mNumPageSegments;
 
+	//Segment table
 	unsigned char* mSegmentTable;
-	//OggSegmentTable* mSegmentTable;
-
+	
+	//Page state
 	ePageState mPageState;
 private:
 	OggPageHeader& operator=(const OggPageHeader& other);  /* Don't assign me */

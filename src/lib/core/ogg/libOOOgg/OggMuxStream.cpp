@@ -49,9 +49,23 @@ OggMuxStream::~OggMuxStream(void)
 	//LEAK::: Need to delete the contents of the queue later.
 }
 
+__int64 OggMuxStream::granuleNumerator() {
+	return mConvNumerator;
+}
+__int64 OggMuxStream::granuleDenominator() {
+	return mConvDenominator;
+}
+
 bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later... still needs deleting in destructor
 	mIsEOS = false;
 	mPageQueue.push_back(inOggPage);		//AOP::: Clone not required.
+	mNotifier->notifyArrival();
+	return true;
+}
+
+bool OggMuxStream::pushFront(OggPage* inOggPage) {
+	mIsEOS = false;
+	mPageQueue.push_front(inOggPage);
 	mNotifier->notifyArrival();
 	return true;
 }
