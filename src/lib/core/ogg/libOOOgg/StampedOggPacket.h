@@ -66,4 +66,8 @@ public:
 protected:
 	__int64 mStartTime;
 	__int64 mEndTime;
+
+private:
+	StampedOggPacket& operator=(const StampedOggPacket& other);  /* Don't assign me */
+	StampedOggPacket(const StampedOggPacket& other); /* Don't copy me */
 };

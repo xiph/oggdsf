@@ -41,6 +41,8 @@ OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComple
 OggPageInterleaver::~OggPageInterleaver(void)
 {
 	//debugLog.close();
+
+	//Need to delete stream objects
 }
 
 OggMuxStream* OggPageInterleaver::newStream() {
