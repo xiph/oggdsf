@@ -51,7 +51,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
 	string locLogName = "G:\\logs\\oggstream" + StringHelper::numToString(mSerialNo) + ".log";
-	debugLog.open(locLogName.c_str(), ios_base::out);
+	//debugLog.open(locLogName.c_str(), ios_base::out);
 	mStreamLock = new CCritSec;
 	//This may need to be moved to derived class
 	//Yep, Sure did !
@@ -65,7 +65,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 OggStream::~OggStream(void)
 {
 	//debugLog<<"Destructor..."<<endl;
-	debugLog.close();
+	//debugLog.close();
 	delete mSourcePin;
 	delete mCodecHeaders;
 	//delete mPartialPacket;
@@ -220,7 +220,7 @@ bool OggStream::acceptOggPage(OggPage* inOggPage) {
 		//A BOS page can only be sent here if it's a chain... otherwise
 		// it would have already been stripped by the demux if it was at the
 		// start of the file.
-		debugLog<<"Detected chain... setting seek timebase to -1"<<endl;
+		//debugLog<<"Detected chain... setting seek timebase to -1"<<endl;
 		mOwningFilter->mSeekTimeBase = -1;		
 
 	}

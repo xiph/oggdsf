@@ -118,5 +118,5 @@ protected:
 	OggDemuxSourceFilter* mOwningFilter;
 	CCritSec* mStreamLock;
 
-	fstream debugLog;
+	//fstream debugLog;
 };

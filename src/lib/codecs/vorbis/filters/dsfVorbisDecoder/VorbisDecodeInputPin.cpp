@@ -40,7 +40,7 @@ VorbisDecodeInputPin::VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, 
 	,	mFishSound(NULL)
 		
 {
-	debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
+	//debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
 	ConstructCodec();
 }
 
@@ -71,7 +71,7 @@ void VorbisDecodeInputPin::DestroyCodec() {
 }
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	DestroyCodec();
 }
 
@@ -113,7 +113,7 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 		//New hacks for chaining.
 		if (locThis->mSeekTimeBase == -1) {
-			locThis->debugLog<<"Chaining was detected... setting chain time base to : "<<locThis->mPreviousEndTime<<endl;
+			//locThis->debugLog<<"Chaining was detected... setting chain time base to : "<<locThis->mPreviousEndTime<<endl;
 			//This is our signal this is the start of a chain...
 			// This can only happen on non-seekable streams.
 			locThis->mChainTimeBase = locThis->mPreviousEndTime;
