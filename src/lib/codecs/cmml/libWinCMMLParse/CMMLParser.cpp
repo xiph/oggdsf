@@ -414,16 +414,15 @@ bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead) {
 	MSXML2::IXMLDOMDocument* locXMLHeadFrag = NULL;
 	MSXML2::IXMLDOMNode* locHeadNode  = NULL;
 		
-	setupXMLHandles(inHeadText, &locXMLHeadFrag);
-	//Validate
+	bool retVal = setupXMLHandles(inHeadText, &locXMLHeadFrag);
 
-	//locXMLClipFrag->selectSingleNode(locBStr, &locClipNode);
-	locHeadNode = getNamedNode(L"head", locXMLHeadFrag);
-	//Check return
+	if (retVal) {
+		locHeadNode = getNamedNode(L"head", locXMLHeadFrag);
+		//Check return
 
-	//Now we have a node representing the clip tag and it's children.
-	
-	bool retVal = parseHeadTag(locHeadNode, outHead);
+		//Now we have a node representing the clip tag and it's children.
+		retVal = parseHeadTag(locHeadNode, outHead);
+	}
 
 	if (locXMLHeadFrag != NULL)					locXMLHeadFrag->Release();
 	if (locHeadNode != NULL)					locHeadNode->Release();

@@ -9,23 +9,32 @@
 #include "CMMLParser.h"
 
 
-bool testHeadParse(wstring inHeadString, C_HeadTag* outHeadTag) {
+bool testHeadParse(wstring inHeadString) {
 	CMMLParser locParser;
-	return locParser.parseHeadTag(inHeadString, outHeadTag);
 
+	wcout << "Original"<<endl<<inHeadString<<endl<<endl;
+
+	C_HeadTag locHead;
+	
+	bool locWasOK = locParser.parseHeadTag(inHeadString, &locHead);
+
+	if (locWasOK) {
+		cout<<"Parsed OK"<<endl<<endl<<locHead.toString()<<endl<<endl;
+	} else {
+		cout<<"*** PARSE FAILED ***"<<endl<<endl;
+	}
+
+	return locWasOK;
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 
 	wstring head_1 = L"<head><title>Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head>";
+	testHeadParse(head_1);
 
-	wcout << "Original"<<endl<<head_1<<endl<<endl;
-
-	C_HeadTag locHead;
-	testHeadParse(head_1, &locHead);
-
-	cout<<"Parsed"<<endl<<locHead.toString()<<endl<<endl;
+	wstring head_2 = L"asdfasdfasdfasdf";
+	testHeadParse(head_2);
 
 	return 0;
 }
