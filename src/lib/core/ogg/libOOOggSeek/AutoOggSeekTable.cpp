@@ -249,13 +249,13 @@ bool AutoOggSeekTable::serialiseInto(unsigned char* inBuff, unsigned long inBuff
 bool AutoOggSeekTable::serialiseInto(const string inSeekTableFilename)
 {
 	unsigned long locSerialisedSeekTableSize = serialisedSize();
-	unsigned char *locBuffer = new unsigned char[serialisedSize()];
+	unsigned char *locBuffer = new unsigned char[locSerialisedSeekTableSize];
 
-	if (serialiseInto(locBuffer, serialisedSize())) {
+	if (serialiseInto(locBuffer, locSerialisedSeekTableSize)) {
 		fstream locOutputFile;
 
 		locOutputFile.open(inSeekTableFilename.c_str(), ios_base::out | ios_base::binary);
-		locOutputFile.write((char*)locBuffer, serialisedSize());
+		locOutputFile.write((char*)locBuffer, locSerialisedSeekTableSize);
 		locOutputFile.close();
 	} else {
 		delete [] locBuffer;

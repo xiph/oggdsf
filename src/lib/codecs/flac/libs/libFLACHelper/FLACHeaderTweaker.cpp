@@ -98,7 +98,7 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 	locFirstPackBuff[6] = 0;
 	locFirstPackBuff[7] = 0; //Num header HIGH BYTE
 
-	//*** VERIFY ::: Is this even safe ????
+	//*** VERIFY ::: Is this even safe ie -2 ... are we sure this can't go negative ????
 	locFirstPackBuff[8] = mOldHeaderList.size() - 2; //Num headers LOW BYTE
 	locFirstPackBuff[9] = 'f';
 	locFirstPackBuff[10] = 'L';
