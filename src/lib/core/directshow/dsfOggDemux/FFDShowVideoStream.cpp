@@ -140,12 +140,11 @@ bool FFDShowVideoStream::createFormatBlock() {
 
 	//------------------------------------------
 
-	OggInt64 locInt64;
-	locInt64.setData(mHeaderPack->packetData() + 17);
-	__int64 locTimePerBlock = locInt64.value();
+	
+	__int64 locTimePerBlock = OggMath::CharArrToInt64(mHeaderPack->packetData() + 17);
 
-	locInt64.setData(mHeaderPack->packetData() + 25);
-	__int64 locSamplesPerBlock = locInt64.value();
+	
+	__int64 locSamplesPerBlock = OggMath::CharArrToInt64(mHeaderPack->packetData() + 25);
 
 
 	mFFDShowVideoFormatBlock->AvgTimePerFrame = locTimePerBlock / locSamplesPerBlock;

@@ -322,6 +322,8 @@ STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
 	CAutoLock locLock(mFilterLock);
 	CAutoLock locCodecLock(mCodecLock);
 	debugLog<<"BeginFlush : Calling flush on the codec."<<endl;
+
+	HRESULT locHR = AbstractAudioDecodeInputPin::BeginFlush();
 	flush();
 	unsigned long locSize = mPendingPackets.size();
 	debugLog<<"BeginFlush : deleting "<<locSize<<" packets."<<endl;
@@ -329,7 +331,7 @@ STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
 		delete mPendingPackets.front();
 		mPendingPackets.pop();
 	}
-	return AbstractAudioDecodeInputPin::BeginFlush();
+	return locHR;
 	
 }
 

@@ -111,7 +111,9 @@ bool FLACStream::processHeaderPacket(StampedOggPacket* inPacket) {
 	}
 	return true;
 }
-
+void FLACStream::setLastEndGranPos(__int64 inPos) {
+	mLastEndGranulePos = (inPos * (__int64)mFLACFormatBlock->sampleRate)/ UNITS;
+}
 bool FLACStream::deliverCodecHeaders() {
 	StampedOggPacket* locPacket = NULL;
 	for (unsigned long i = 0; i < mCodecHeaders->numPackets(); i++) {

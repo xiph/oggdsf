@@ -31,6 +31,9 @@
 */
 
 #include "config.h"
+//Added by Zen::: compat for snprintf.
+#include "fs_compat.h"
+//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -187,7 +190,8 @@ fs_encdec_test (int samplerate, int channels, int format, int interleave,
   char msg[128];
   int i;
 
-  snprintf (msg, 128,
+  //Change zen::: add underscore
+  _snprintf (msg, 128,
 	    "+ %2d channel %6d Hz %s, %d frame buffer (%s)",
 	    channels, samplerate,
 	    format == FISH_SOUND_VORBIS ? "Vorbis" : "Speex",
@@ -207,6 +211,7 @@ fs_encdec_test (int samplerate, int channels, int format, int interleave,
   fish_sound_flush (ed->encoder);
 
   if (ed->frames_in != ed->frames_out) {
+
     snprintf (msg, 128,
 	      "%ld frames encoded, %ld frames decoded",
 	      ed->frames_in, ed->frames_out);

@@ -32,12 +32,19 @@
 #pragma once
 
 #include "dllstuff.h"
+#include <string.h>
+using namespace std;
 class LIBOOOGG_API StringHelper
 {
 public:
 	StringHelper(void);
 	~StringHelper(void);
+	static const unsigned char A_BASE = 65;			//A in ASCII
+	static const unsigned char ZERO_BASE = 48;
 
+	static unsigned char digitToHex(unsigned char inChar);
+	static string charToHexString(unsigned char inChar);
+	
 	static string numToString(unsigned __int64 inNum);
 	static unsigned __int64 stringToNum(string inString);
 	static wstring StringHelper::toWStr(string inString);

@@ -551,7 +551,7 @@ FLAC_API FLAC__bool FLAC__stream_decoder_flush(FLAC__StreamDecoder *decoder)
 	}
 	decoder->protected_->state = FLAC__STREAM_DECODER_SEARCH_FOR_FRAME_SYNC;
 	//Insert by ZEN:::
-	//decoder->private_->samples_decoded = 0;
+	decoder->private_->samples_decoded = 0;
 
 	return true;
 }

@@ -193,6 +193,8 @@ static FLAC__bool bitbuffer_read_from_client_(FLAC__BitBuffer *bb, FLAC__bool (*
 			bb->buffer[l] = bb->buffer[r];
 		for( ; l < r_end; l++)
 			bb->buffer[l] = 0;
+		//Added by Zen:::
+		FLAC__ASSERT(bb->blurbs >= bb->consumed_blurbs);
 		bb->blurbs -= bb->consumed_blurbs;
 		bb->total_bits -= FLAC__BLURBS_TO_BITS(bb->consumed_blurbs);
 		bb->consumed_blurbs = 0;

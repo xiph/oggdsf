@@ -208,12 +208,11 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 string VorbisComments::toString() {
 	string retStr;
 
-	retStr = "VENDOR : " + mVendorString + "\n\n";
-	retStr +="USER COMMENTS\n";
-	retStr +="=============\n";
+	retStr = "VENDOR : " + mVendorString + "\n";
 	for (size_t i = 0; i < mCommentList.size(); i++) {
-		retStr += mCommentList[i]->toString() + "\n";
+		retStr += "-- " + mCommentList[i]->toString() + "\n";
 	}
+	retStr += "\n";
 	return retStr;
 
 }

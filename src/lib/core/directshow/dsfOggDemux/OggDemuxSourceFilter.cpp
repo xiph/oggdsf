@@ -503,6 +503,7 @@ void OggDemuxSourceFilter::resetStream() {
 
 void OggDemuxSourceFilter::DeliverBeginFlush() {
 	CAutoLock locLock(m_pLock);
+
 	//debugLog << "Delivering Begin Flush"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverBeginFlush();

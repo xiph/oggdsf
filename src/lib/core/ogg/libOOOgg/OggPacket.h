@@ -43,8 +43,7 @@ public:
 
 	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
 
-	static const unsigned char A_BASE = 65;			//A in ASCII
-	static const unsigned char ZERO_BASE = 48;
+
 					
 	virtual OggPacket* clone();
 	unsigned long packetSize();
@@ -63,8 +62,7 @@ protected:
 	unsigned char* mPacketData;
 	bool mIsComplete;
 
-	unsigned char OggPacket::digitToHex(unsigned char inChar);
-	string OggPacket::charToHexString(unsigned char inChar);
+
 
 	string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long inNumChars) ;
 	string OggPacket::padField(string inString, unsigned long inPadWidth, unsigned char inPadChar);

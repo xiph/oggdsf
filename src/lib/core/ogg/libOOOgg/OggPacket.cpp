@@ -98,7 +98,7 @@ string OggPacket::toPackDumpString() {
 
 		//Write out the value of the character in a 2 hex-digit field
 		//cout << setw(2) << (int)mPageData[i] << " ";
-		retStr.append(charToHexString(mPacketData[i]) + " ");
+		retStr.append(StringHelper::charToHexString(mPacketData[i]) + " ");
 	}
 
 	//Find out how many leftover charcters didn't get written out.
@@ -121,24 +121,7 @@ string OggPacket::toPackDumpString() {
 	return retStr;
 }
 
-unsigned char OggPacket::digitToHex(unsigned char inDigit) {
-	
-	unsigned char locDigit = (inDigit > 9)		?	(inDigit  - 10) + A_BASE
-												:	(inDigit) + ZERO_BASE;
-	return locDigit;
 
-}
-
-string OggPacket::charToHexString(unsigned char inChar) {
-	
-	string retStr ="";
-	retStr +=digitToHex(inChar / 16);
-
-	 retStr+= digitToHex(inChar % 16);
-	return retStr;
-
-
-}
 
 string OggPacket::padField(string inString, unsigned long inPadWidth, unsigned char inPadChar) {
 	//NOTE::: Need check for string being  bigger than pad space

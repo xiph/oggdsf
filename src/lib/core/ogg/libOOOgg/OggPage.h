@@ -31,28 +31,38 @@
 
 #pragma once
 
+//STL Includes
 #include <vector>
 using namespace std;
 
+//Class Includes
 #include "StampedOggPacket.h"
 #include "OggPageHeader.h"
 #include "IOggPackSource.h"
 
 //OggPage represents an Ogg Encapsulation Format page
-
 class LIBOOOGG_API OggPage
 	: public IOggPackSource
 {
 public:
+	//Constants
+	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
+	//
+	
+	//Constructors
 	OggPage(void);
 	~OggPage(void);
+	//
+
+	//Cloning
 	OggPage* clone();
-	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
+	//
 	
 	//Size functions
 	unsigned long pageSize();
 	unsigned long headerSize();
 	unsigned long dataSize();
+	//
 
 	//IOggPackSource Implementation
 	OggPacket* getPacket(unsigned long inPacketNo);
@@ -62,28 +72,19 @@ public:
 	//Packet access
 	StampedOggPacket* getStampedPacket(unsigned long inPacketNo);
 	bool addPacket(StampedOggPacket* inPacket);
+	//
 	
 	//Header access
 	OggPageHeader* header();
 	//
-
+	
 	//Serialise
 	unsigned char* createRawPageData();
+	//
 
-
-	
 protected:
 	//Member data of packets and header.
 	vector<StampedOggPacket*> mPacketList;
 	OggPageHeader* mHeader;
-
-	
-	
-	////Basic output stuff
-	//// Some of this should get out of here.
-	//string toString();
-	//void screenDump();
-	//void dataDumpAsHex();
-	//void dumpNChars(unsigned char* inStartPoint, unsigned long inNumChars);
-
+	//
 };

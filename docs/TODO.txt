@@ -1,6 +1,5 @@
 BUGS
 ====
-* When muxing very large packets, creates invalid stream.
 * Figure out why the graph hangs at the end of lpayback sometimes. see debugging.txt
 
 * Fix wmp 9 issues, probably by rewriting the decoder :(
@@ -17,11 +16,16 @@ BUGS
 # I think there may be a little memory leak in the encoders... nothing too serious, but if you try and encode really large files it may be a problem.
 # Theora will not playback with Windows Media Player 9 or 10, but vorbis and speex are just fine, but will in previous WMP's and other DS players like BSPlayer
 
-
 # DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.
 # FLAC will make media player do the error sound or crash on exit
 # Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.
 # Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.
+
+NEW
+===
+* Add get and set functions for the format block to flac encoder like in the others. Get rid of the mecpy.
+* Need to check sound buffers are empty when stop/start.
+* Need to check code at ends of streams. A seek here stops all audio until stop/start.
 
 NOT BUG
 =======

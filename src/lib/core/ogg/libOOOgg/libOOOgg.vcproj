@@ -140,16 +140,10 @@
 				RelativePath="libOOOgg.cpp">
 			</File>
 			<File
-				RelativePath="OggBOSPage.cpp">
-			</File>
-			<File
 				RelativePath="OggCallbackRego.cpp">
 			</File>
 			<File
 				RelativePath="OggDataBuffer.cpp">
-			</File>
-			<File
-				RelativePath="OggInt64.cpp">
 			</File>
 			<File
 				RelativePath="OggMath.cpp">
@@ -237,16 +231,10 @@
 				RelativePath="libOOOgg.h">
 			</File>
 			<File
-				RelativePath="OggBOSPage.h">
-			</File>
-			<File
 				RelativePath="OggCallbackRego.h">
 			</File>
 			<File
 				RelativePath="OggDataBuffer.h">
-			</File>
-			<File
-				RelativePath="OggInt64.h">
 			</File>
 			<File
 				RelativePath="OggMath.h">

@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="libfishsound"
+	ProjectGUID="{B65B87CF-541F-406A-8E45-F33222C0629D}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

@@ -103,3 +103,22 @@ unsigned __int64 StringHelper::stringToNum(string inString) {
 
 }
 
+//These should go out to the string helper.
+unsigned char StringHelper::digitToHex(unsigned char inDigit) {
+	
+	unsigned char locDigit = (inDigit > 9)		?	(inDigit  - 10) + A_BASE
+												:	(inDigit) + ZERO_BASE;
+	return locDigit;
+
+}
+
+string StringHelper::charToHexString(unsigned char inChar) {
+	
+	string retStr ="";
+	retStr +=digitToHex(inChar / 16);
+
+	retStr+= digitToHex(inChar % 16);
+	return retStr;
+
+
+}

@@ -60,20 +60,19 @@ protected:
 	bool deliverCurrentPage();
 	bool setChecksum();
 	bool createFreshPage();
+
 	bool addPacketToPage(StampedOggPacket* inOggPacket);
-	unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPacket, unsigned long inStartAt, long inRemaining);
-	//bool addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned long inStartFrom);
+	unsigned long addAsMuchPacketAsPossible(StampedOggPacket* inOggPacket, unsigned long inStartAt, long inRemaining);
 	bool addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned long inStartFrom, unsigned long inLength);
+	//bool addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned long inStartFrom);
 
 	unsigned long mPacketCount;
-
 
 	unsigned long mCurrentPageSize;
 	unsigned char mSegmentTable[255];
 	unsigned char mSegmentTableSize;
 	unsigned long mSequenceNo;
 	bool mPendingPageHasData;
-
 
 	IOggCallback* mPageCallback;
 	OggPaginatorSettings* mSettings;
