@@ -394,11 +394,13 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 		debugLog<<"Frame Durn = "<<mFrameDuration<<endl;
 		debugLog<<"FrameSize = "<<mFrameSize<<endl;
 		
+		
 	}
 
+	debugLog<<"y_height x width = "<<inYUVBuffer->y_height<<" x "<<inYUVBuffer->y_width<<"  ("<<inYUVBuffer->y_stride<<endl;
+	debugLog<<"uv_height x width = "<<inYUVBuffer->uv_height<<" x "<<inYUVBuffer->uv_width<<"  ("<<inYUVBuffer->y_stride<<endl;
 
-
-
+	debugLog<<"Offsets x,y = "<<mXOffset<<", "<<mYOffset<<endl;
 	////FIX::: Most of this will be obselete... the demux does it all.
 	//
 
@@ -508,6 +510,10 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	unsigned char* locDestUptoPtr = locBuffer;
 	char* locSourceUptoPtr = inYUVBuffer->y;
 
+	//Strides from theora are generally -'ve so absolutise them.
+	unsigned long locYStride = inYUVBuffer->y_stride;
+	unsigned long locUVStride = inYUVBuffer->uv_stride;
+
 	//
 	//Y DATA
 	//
@@ -520,15 +526,15 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	}
 
 	//Skip the top padding
-	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+	locSourceUptoPtr += (locTopPad * locYStride);
 
 	for (long line = 0; line < mHeight; line++) {
 		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + mXOffset), mWidth);
-		locSourceUptoPtr += inYUVBuffer->y_stride;
+		locSourceUptoPtr += locYStride;
 		locDestUptoPtr += mWidth;
 	}
 
-	locSourceUptoPtr += (mYOffset * inYUVBuffer->y_stride);
+	locSourceUptoPtr += (mYOffset * locYStride);
 
 	//Source advances by (y_height * y_stride)
 	//Dest advances by (mHeight * mWidth)
@@ -543,14 +549,14 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	locSourceUptoPtr = inYUVBuffer->v;
 
 	//Skip the top padding
-	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+	locSourceUptoPtr += (locTopPad * locYStride);
 
 	for (long line = 0; line < mHeight / 2; line++) {
 		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
-		locSourceUptoPtr += inYUVBuffer->uv_stride;
+		locSourceUptoPtr += locUVStride;
 		locDestUptoPtr += (mWidth / 2);
 	}
-	locSourceUptoPtr += ((mYOffset/2) * inYUVBuffer->uv_stride);
+	locSourceUptoPtr += ((mYOffset/2) * locUVStride);
 
 	//Source advances by (locTopPad + mYOffset/2 + mHeight /2) * uv_stride
 	//where locTopPad for uv = (inYUVBuffer->y_height - mHeight - mYOffset) / 2
@@ -566,14 +572,14 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	locSourceUptoPtr = inYUVBuffer->u;
 
 	//Skip the top padding
-	locSourceUptoPtr += (locTopPad * inYUVBuffer->y_stride);
+	locSourceUptoPtr += (locTopPad * locYStride);
 
 	for (long line = 0; line < mHeight / 2; line++) {
 		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
-		locSourceUptoPtr += inYUVBuffer->uv_stride;
+		locSourceUptoPtr += locUVStride;
 		locDestUptoPtr += (mWidth / 2);
 	}
-	locSourceUptoPtr += ((mYOffset/2) * inYUVBuffer->uv_stride);
+	locSourceUptoPtr += ((mYOffset/2) * locUVStride);
 
 
 
