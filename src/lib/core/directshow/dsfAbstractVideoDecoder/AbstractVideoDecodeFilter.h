@@ -78,7 +78,7 @@ public:
 
 protected:
 
-	fstream debugLog;
+	//fstream debugLog;
 
 	AbstractVideoDecodeInputPin* mInputPin;
 	AbstractVideoDecodeOutputPin* mOutputPin;

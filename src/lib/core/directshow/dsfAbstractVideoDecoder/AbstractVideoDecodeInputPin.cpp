@@ -50,7 +50,7 @@ AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilt
 	,	mSeekTimeBase(0)
 		
 {
-	debugLog.open("G:\\logs\\avdInputPin.log", ios_base::out);
+	//debugLog.open("G:\\logs\\avdInputPin.log", ios_base::out);
 	//ConstructCodec();
 	mStreamLock = new CCritSec;
 	mAcceptableMediaType = inAcceptMediaType;
@@ -62,17 +62,17 @@ AbstractVideoDecodeInputPin::AbstractVideoDecodeInputPin(AbstractVideoDecodeFilt
 
 AbstractVideoDecodeInputPin::~AbstractVideoDecodeInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	//DestroyCodec();
 	delete mStreamLock;
 	
 }
 STDMETHODIMP AbstractVideoDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
-	debugLog<<"Query Interface"<<endl;
+	//debugLog<<"Query Interface"<<endl;
 	if (riid == IID_IMediaSeeking) {
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
-		debugLog<<"Queried for IMediaSeeking"<<endl;
+		//debugLog<<"Queried for IMediaSeeking"<<endl;
 		return NOERROR;
 	}
 
@@ -111,17 +111,17 @@ bool AbstractVideoDecodeInputPin::SetSampleParams(IMediaSample* outMediaSample, 
 
 STDMETHODIMP AbstractVideoDecodeInputPin::Receive(IMediaSample* inSample) {
 	CAutoLock locLock(mStreamLock);
-	debugLog<<"Receive "<<endl;
+	//debugLog<<"Receive "<<endl;
 	HRESULT locHR;
 	BYTE* locBuff = NULL;
 	locHR = inSample->GetPointer(&locBuff);
 
 
 	if (FAILED(locHR)) {
-		debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
+		//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
 		return locHR;
 	} else {
-		debugLog<<"Receive : Get pointer succeeds..."<<endl;	
+		//debugLog<<"Receive : Get pointer succeeds..."<<endl;	
 		//New start time hacks
 		REFERENCE_TIME locStart = 0;
 		REFERENCE_TIME locEnd = 0;
@@ -147,9 +147,9 @@ STDMETHODIMP AbstractVideoDecodeInputPin::Receive(IMediaSample* inSample) {
 		AM_MEDIA_TYPE* locMediaType = NULL;
 		inSample->GetMediaType(&locMediaType);
 		if (locMediaType == NULL) {
-			debugLog<<"No dynamic change..."<<endl;
+			//debugLog<<"No dynamic change..."<<endl;
 		} else {
-			debugLog<<"Attempting dynamic change..."<<endl;
+			//debugLog<<"Attempting dynamic change..."<<endl;
 		}
 		//if (locMediaType != NULL) {
 		
@@ -161,10 +161,10 @@ STDMETHODIMP AbstractVideoDecodeInputPin::Receive(IMediaSample* inSample) {
 		
 		long locResult = decodeData(locBuff, inSample->GetActualDataLength(), locStart, locEnd);
 		if (locResult == 0) {
-			debugLog<<"Receive : Decode OK"<<endl;	
+			//debugLog<<"Receive : Decode OK"<<endl;	
 			return S_OK;
 		} else {
-			debugLog<<"Receive : Decode OK"<<endl;	
+			//debugLog<<"Receive : Decode OK"<<endl;	
 			return S_FALSE;
 		}
 	}

@@ -67,7 +67,7 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	,	mLastSeenStartGranPos(0)
 	,	mTheoraFormatInfo(NULL)
 {
-	debugLog.open("G:\\logs\\newtheofilter.log", ios_base::out);
+	//debugLog.open("G:\\logs\\newtheofilter.log", ios_base::out);
 
 	mTheoraDecoder = new TheoraDecoder;
 	mTheoraDecoder->initCodec();
@@ -77,7 +77,7 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 TheoraDecodeFilter::~TheoraDecodeFilter() {
 	delete mTheoraDecoder;
 	mTheoraDecoder = NULL;
-	debugLog.close();
+	//debugLog.close();
 
 }
 
@@ -156,9 +156,9 @@ HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, c
 	}
 }
 HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
-	debugLog<<endl;	debugLog<<"DecideBufferSize :"<<endl;	//FIX::: Abstract this out properly	
+	//debugLog<<endl;	//debugLog<<"DecideBufferSize :"<<endl;	//FIX::: Abstract this out properly	
 
-	debugLog<<"Allocator is "<<(unsigned long)inAllocator<<endl;
+	//debugLog<<"Allocator is "<<(unsigned long)inAllocator<<endl;
 	//Our error variable
 	HRESULT locHR = S_OK;
 
@@ -166,11 +166,11 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 	ALLOCATOR_PROPERTIES locReqAlloc;
 	ALLOCATOR_PROPERTIES locActualAlloc;
 
-	debugLog<<"DecideBufferSize : Requested :"<<endl;
-	debugLog<<"DecideBufferSize : Align     : "<<inPropertyRequest->cbAlign<<endl;
-	debugLog<<"DecideBufferSize : BuffSize  : "<<inPropertyRequest->cbBuffer<<endl;
-	debugLog<<"DecideBufferSize : Prefix    : "<<inPropertyRequest->cbPrefix<<endl;
-	debugLog<<"DecideBufferSize : NumBuffs  : "<<inPropertyRequest->cBuffers<<endl;
+	//debugLog<<"DecideBufferSize : Requested :"<<endl;
+	//debugLog<<"DecideBufferSize : Align     : "<<inPropertyRequest->cbAlign<<endl;
+	//debugLog<<"DecideBufferSize : BuffSize  : "<<inPropertyRequest->cbBuffer<<endl;
+	//debugLog<<"DecideBufferSize : Prefix    : "<<inPropertyRequest->cbPrefix<<endl;
+	//debugLog<<"DecideBufferSize : NumBuffs  : "<<inPropertyRequest->cBuffers<<endl;
 
 
 	const unsigned long MIN_BUFFER_SIZE = 16*16;			//What should this be ????
@@ -209,40 +209,40 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 		locReqAlloc.cBuffers = inPropertyRequest->cBuffers;
 	}
 
-	debugLog<<"DecideBufferSize : Modified Request :"<<endl;
-	debugLog<<"DecideBufferSize : Align     : "<<locReqAlloc.cbAlign<<endl;
-	debugLog<<"DecideBufferSize : BuffSize  : "<<locReqAlloc.cbBuffer<<endl;
-	debugLog<<"DecideBufferSize : Prefix    : "<<locReqAlloc.cbPrefix<<endl;
-	debugLog<<"DecideBufferSize : NumBuffs  : "<<locReqAlloc.cBuffers<<endl;
+	//debugLog<<"DecideBufferSize : Modified Request :"<<endl;
+	//debugLog<<"DecideBufferSize : Align     : "<<locReqAlloc.cbAlign<<endl;
+	//debugLog<<"DecideBufferSize : BuffSize  : "<<locReqAlloc.cbBuffer<<endl;
+	//debugLog<<"DecideBufferSize : Prefix    : "<<locReqAlloc.cbPrefix<<endl;
+	//debugLog<<"DecideBufferSize : NumBuffs  : "<<locReqAlloc.cBuffers<<endl;
 
 
 	//Set the properties in the allocator
 	locHR = inAllocator->SetProperties(&locReqAlloc, &locActualAlloc);
 
-	debugLog<<"DecideBufferSize : SetProperties returns "<<locHR<<endl;
-	debugLog<<"DecideBufferSize : Actual Params :"<<endl;
-	debugLog<<"DecideBufferSize : Align     : "<<locActualAlloc.cbAlign<<endl;
-	debugLog<<"DecideBufferSize : BuffSize  : "<<locActualAlloc.cbBuffer<<endl;
-	debugLog<<"DecideBufferSize : Prefix    : "<<locActualAlloc.cbPrefix<<endl;
-	debugLog<<"DecideBufferSize : NumBuffs  : "<<locActualAlloc.cBuffers<<endl;
+	//debugLog<<"DecideBufferSize : SetProperties returns "<<locHR<<endl;
+	//debugLog<<"DecideBufferSize : Actual Params :"<<endl;
+	//debugLog<<"DecideBufferSize : Align     : "<<locActualAlloc.cbAlign<<endl;
+	//debugLog<<"DecideBufferSize : BuffSize  : "<<locActualAlloc.cbBuffer<<endl;
+	//debugLog<<"DecideBufferSize : Prefix    : "<<locActualAlloc.cbPrefix<<endl;
+	//debugLog<<"DecideBufferSize : NumBuffs  : "<<locActualAlloc.cBuffers<<endl;
 
 	//Check the response
 	switch (locHR) {
 		case E_POINTER:
-			debugLog<<"DecideBufferSize : SetProperties - NULL POINTER"<<endl;
+			//debugLog<<"DecideBufferSize : SetProperties - NULL POINTER"<<endl;
 			return locHR;
 			
 
 		case VFW_E_ALREADY_COMMITTED:
-			debugLog<<"DecideBufferSize : SetProperties - Already COMMITED"<<endl;
+			//debugLog<<"DecideBufferSize : SetProperties - Already COMMITED"<<endl;
 			return locHR;
 			
 		case VFW_E_BADALIGN:
-			debugLog<<"DecideBufferSize : SetProperties - Bad ALIGN"<<endl;
+			//debugLog<<"DecideBufferSize : SetProperties - Bad ALIGN"<<endl;
 			return locHR;
 			
 		case VFW_E_BUFFERS_OUTSTANDING:
-			debugLog<<"DecideBufferSize : SetProperties - BUFFS OUTSTANDING"<<endl;
+			//debugLog<<"DecideBufferSize : SetProperties - BUFFS OUTSTANDING"<<endl;
 			return locHR;
 			
 
@@ -250,7 +250,7 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 
 			break;
 		default:
-			debugLog<<"DecideBufferSize : SetProperties - UNKNOWN ERROR"<<endl;
+			//debugLog<<"DecideBufferSize : SetProperties - UNKNOWN ERROR"<<endl;
 			break;
 
 	}
@@ -260,27 +260,27 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 	//RESOLVED ::: Yep !
 	
 	locHR = inAllocator->Commit();
-	debugLog<<"DecideBufferSize : Commit Returned "<<locHR<<endl;
+	//debugLog<<"DecideBufferSize : Commit Returned "<<locHR<<endl;
 
 
 	switch (locHR) {
 		case E_FAIL:
-			debugLog<<"DecideBufferSize : Commit - FAILED "<<endl;
+			//debugLog<<"DecideBufferSize : Commit - FAILED "<<endl;
 			return locHR;
 		case E_POINTER:
-			debugLog<<"DecideBufferSize : Commit - NULL POINTER "<<endl;
+			//debugLog<<"DecideBufferSize : Commit - NULL POINTER "<<endl;
 			return locHR;
 		case E_INVALIDARG:
-			debugLog<<"DecideBufferSize : Commit - INVALID ARG "<<endl;
+			//debugLog<<"DecideBufferSize : Commit - INVALID ARG "<<endl;
 			return locHR;
 		case E_NOTIMPL:
-			debugLog<<"DecideBufferSize : Commit - NOT IMPL"<<endl;
+			//debugLog<<"DecideBufferSize : Commit - NOT IMPL"<<endl;
 			return locHR;
 		case S_OK:
-			debugLog<<"DecideBufferSize : Commit - ** SUCCESS **"<<endl;
+			//debugLog<<"DecideBufferSize : Commit - ** SUCCESS **"<<endl;
 			break;
 		default:
-			debugLog<<"DecideBufferSize : Commit - UNKNOWN ERROR "<<endl;
+			//debugLog<<"DecideBufferSize : Commit - UNKNOWN ERROR "<<endl;
 			return locHR;
 	}
 
@@ -297,9 +297,9 @@ HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMe
 		VIDEOINFOHEADER* locVideoFormat = (VIDEOINFOHEADER*)outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
 		FillVideoInfoHeader(locVideoFormat);
 		FillMediaType(outOutputMediaType, locVideoFormat->bmiHeader.biSizeImage);
-		debugLog<<"Vid format size "<<locVideoFormat->bmiHeader.biSizeImage<<endl;
+		//debugLog<<"Vid format size "<<locVideoFormat->bmiHeader.biSizeImage<<endl;
 		//outMediaType->SetSampleSize(locVideoFormat->bmiHeader.biSizeImage);
-		debugLog<<"Returning from GetMediaType"<<endl;
+		//debugLog<<"Returning from GetMediaType"<<endl;
 		return S_OK;
 	} else {
 		return VFW_S_NO_MORE_ITEMS;
@@ -313,7 +313,7 @@ void TheoraDecodeFilter::ResetFrameCount() {
 HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) {
 
 	//CAutoLock locLock(mStreamLock);
-	debugLog<<endl<<"Transform "<<endl;
+	//debugLog<<endl<<"Transform "<<endl;
 	//debugLog<<"outOutputSample Size = "<<outOutputSample->
 	HRESULT locHR;
 	BYTE* locBuff = NULL;
@@ -324,16 +324,16 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 
 
 	if (FAILED(locHR)) {
-		debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
+		//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
 		return locHR;
 	} else {
-		debugLog<<"Receive : Get pointer succeeds..."<<endl;	
+		//debugLog<<"Receive : Get pointer succeeds..."<<endl;	
 		//New start time hacks
 		REFERENCE_TIME locStart = 0;
 		REFERENCE_TIME locEnd = 0;
 		inInputSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
-		debugLog<<"Input Sample Time - "<<locStart<<" to "<<locEnd<<endl;
+		//debugLog<<"Input Sample Time - "<<locStart<<" to "<<locEnd<<endl;
 		
 		//More work arounds for that stupid granule pos scheme in theora!
 		REFERENCE_TIME locTimeBase = 0;
@@ -342,13 +342,13 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 		mSeekTimeBase = locTimeBase;
 		//
 
-		debugLog<<"SeekTimeBase = "<<mSeekTimeBase<<endl;
+		//debugLog<<"SeekTimeBase = "<<mSeekTimeBase<<endl;
 		
 		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
-			debugLog<<"Resetting frame count"<<endl;
+			//debugLog<<"Resetting frame count"<<endl;
 			ResetFrameCount();
 			mLastSeenStartGranPos = locStart;
-			debugLog<<"Setting base gran pos to "<<locStart<<endl;
+			//debugLog<<"Setting base gran pos to "<<locStart<<endl;
 		}
 		
 		//End of additions
@@ -358,20 +358,20 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 		AM_MEDIA_TYPE* locMediaType = NULL;
 		inInputSample->GetMediaType(&locMediaType);
 		if (locMediaType == NULL) {
-			debugLog<<"No dynamic change..."<<endl;
+			//debugLog<<"No dynamic change..."<<endl;
 		} else {
-			debugLog<<"Attempting dynamic change..."<<endl;
+			//debugLog<<"Attempting dynamic change..."<<endl;
 		}
 				
 		StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 		yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
 		if (locYUV != NULL) {
 			if (TheoraDecoded(locYUV, outOutputSample) != 0) {
-				debugLog<<"Decoded *** FALSE ***"<<endl;
+				//debugLog<<"Decoded *** FALSE ***"<<endl;
 				return S_FALSE;
 			}
 		} else {
-			debugLog<<"!@&#^()!&@#!()*@#&)!(*@#&()!*@# NULL Decode"<<endl;
+			//debugLog<<"!@&#^()!&@#!()*@#&)!(*@#&()!*@# NULL Decode"<<endl;
 			return S_FALSE;
 		}
 
@@ -383,11 +383,11 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 
 int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample) 
 {
-	debugLog<<"TheoraDecoded... #################### "<<endl;
+	//debugLog<<"TheoraDecoded... #################### "<<endl;
 	
 		
 	if (!mBegun) {
-		debugLog<<"First time..."<<endl;
+		//debugLog<<"First time..."<<endl;
 		mBegun = true;
 		
 		//How many UNITS does one frame take.
@@ -395,18 +395,18 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 
 		mFrameSize = (mHeight * mWidth * 3) / 2;
 		mFrameCount = 0;
-		debugLog<<"Frame Durn = "<<mFrameDuration<<endl;
-		debugLog<<"FrameSize = "<<mFrameSize<<endl;
+		//debugLog<<"Frame Durn = "<<mFrameDuration<<endl;
+		//debugLog<<"FrameSize = "<<mFrameSize<<endl;
 		
 		
 	}
 
-	debugLog<<"y_height x width = "<<inYUVBuffer->y_height<<" x "<<inYUVBuffer->y_width<<"  ("<<inYUVBuffer->y_stride<<endl;
-	debugLog<<"uv_height x width = "<<inYUVBuffer->uv_height<<" x "<<inYUVBuffer->uv_width<<"  ("<<inYUVBuffer->y_stride<<endl;
+	//debugLog<<"y_height x width = "<<inYUVBuffer->y_height<<" x "<<inYUVBuffer->y_width<<"  ("<<inYUVBuffer->y_stride<<endl;
+	//debugLog<<"uv_height x width = "<<inYUVBuffer->uv_height<<" x "<<inYUVBuffer->uv_width<<"  ("<<inYUVBuffer->y_stride<<endl;
 
-	debugLog<<"mWidth x mHeight = "<<mWidth<<" x "<<mHeight<<endl;
-	debugLog<<"mFrameSize = "<<mFrameSize<<endl;
-	debugLog<<"Offsets x,y = "<<mXOffset<<", "<<mYOffset<<endl;
+	//debugLog<<"mWidth x mHeight = "<<mWidth<<" x "<<mHeight<<endl;
+	//debugLog<<"mFrameSize = "<<mFrameSize<<endl;
+	//debugLog<<"Offsets x,y = "<<mXOffset<<", "<<mYOffset<<endl;
 	////FIX::: Most of this will be obselete... the demux does it all.
 	//
 
@@ -414,31 +414,31 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 
 	////Make the start timestamp
 	////FIX:::Abstract this calculation
-	DbgLog((LOG_TRACE,1,TEXT("Frame Count = %d"), mFrameCount));
-	debugLog<<"Frame Count = "<<mFrameCount<<endl;
+	//DbgLog((LOG_TRACE,1,TEXT("Frame Count = %d"), mFrameCount));
+	//debugLog<<"Frame Count = "<<mFrameCount<<endl;
 	//REFERENCE_TIME locFrameStart = CurrentStartTime() + (mFrameCount * mFrameDuration);
 
 	//Timestamp hacks start here...
 	unsigned long locMod = (unsigned long)pow(2, mTheoraFormatInfo->maxKeyframeInterval);
 	
-	DbgLog((LOG_TRACE,1,TEXT("locSeenGranPos = %d"), mLastSeenStartGranPos));
-	DbgLog((LOG_TRACE,1,TEXT("locMod = %d"), locMod));
+	//DbgLog((LOG_TRACE,1,TEXT("locSeenGranPos = %d"), mLastSeenStartGranPos));
+	//DbgLog((LOG_TRACE,1,TEXT("locMod = %d"), locMod));
 	
-	debugLog<<"locMod = "<<locMod<<endl;
+	//debugLog<<"locMod = "<<locMod<<endl;
 	unsigned long locInterFrameNo = (mLastSeenStartGranPos) % locMod;
 	
-	DbgLog((LOG_TRACE,1,TEXT("InterFrameNo = %d"), locInterFrameNo));
-	debugLog<<"Interframe No = "<<locInterFrameNo<<endl;
+	//DbgLog((LOG_TRACE,1,TEXT("InterFrameNo = %d"), locInterFrameNo));
+	//debugLog<<"Interframe No = "<<locInterFrameNo<<endl;
 	LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> mTheoraFormatInfo->maxKeyframeInterval)) + locInterFrameNo;
 	
-	debugLog<<"Abs frame No = "<<locAbsFramePos<<endl;
-	DbgLog((LOG_TRACE,1,TEXT("AbsFrameNo = %d"), locAbsFramePos));
-	DbgLog((LOG_TRACE,1,TEXT("mSeekTimeBase = %d"), mSeekTimeBase));
+	//debugLog<<"Abs frame No = "<<locAbsFramePos<<endl;
+	//DbgLog((LOG_TRACE,1,TEXT("AbsFrameNo = %d"), locAbsFramePos));
+	//DbgLog((LOG_TRACE,1,TEXT("mSeekTimeBase = %d"), mSeekTimeBase));
 	
-	debugLog<<"Seek time base = "<<mSeekTimeBase<<endl;
+	//debugLog<<"Seek time base = "<<mSeekTimeBase<<endl;
 	REFERENCE_TIME locTimeBase = (locAbsFramePos * mFrameDuration) - mSeekTimeBase;
 
-	debugLog<<"LocTimeBase = "<<locTimeBase<<endl;
+	//debugLog<<"LocTimeBase = "<<locTimeBase<<endl;
 	
 	DbgLog((LOG_TRACE,1,TEXT("locTimeBase = %d"), locTimeBase));
 	//
@@ -455,7 +455,7 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 
 
 	
-	debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<endl;
+	//debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<endl;
 	
 	//FILTER_STATE locFS;
 	//GetState(0, &locFS);
@@ -470,28 +470,28 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	AM_MEDIA_TYPE* locMediaType = NULL;
 	outSample->GetMediaType(&locMediaType);
 	if (locMediaType == NULL) {
-		debugLog<<"No dynamic change..."<<endl;
+		//debugLog<<"No dynamic change..."<<endl;
 	} else {
-		debugLog<<"Attempting dynamic change..."<<endl;
+		//debugLog<<"Attempting dynamic change..."<<endl;
 		if (locMediaType->majortype == MEDIATYPE_Video) {
-			debugLog<<"Still MEDIATYPE_Video"<<endl;
+			//debugLog<<"Still MEDIATYPE_Video"<<endl;
 		}
 
 		if (locMediaType->subtype == MEDIASUBTYPE_YV12) {
-			debugLog<<"Still MEDIASUBTYPE_YV12"<<endl;
+			//debugLog<<"Still MEDIASUBTYPE_YV12"<<endl;
 		}
 
 		if (locMediaType->formattype == FORMAT_VideoInfo) {
-			debugLog<<"Still FORMAT_VideoInfo"<<endl;
+			//debugLog<<"Still FORMAT_VideoInfo"<<endl;
 			VIDEOINFOHEADER* locVF = (VIDEOINFOHEADER*)locMediaType->pbFormat;
-			debugLog<<"Size = "<<locVF->bmiHeader.biSizeImage<<endl;
-			debugLog<<"Dim   = "<<locVF->bmiHeader.biWidth<<" x " <<locVF->bmiHeader.biHeight<<endl;
+			//debugLog<<"Size = "<<locVF->bmiHeader.biSizeImage<<endl;
+			//debugLog<<"Dim   = "<<locVF->bmiHeader.biWidth<<" x " <<locVF->bmiHeader.biHeight<<endl;
 		}
 
-		debugLog<<"Major  : "<<DSStringer::GUID2String(&locMediaType->majortype);
-		debugLog<<"Minor  : "<<DSStringer::GUID2String(&locMediaType->subtype);
-		debugLog<<"Format : "<<DSStringer::GUID2String(&locMediaType->formattype);
-		debugLog<<"Form Sz: "<<locMediaType->cbFormat;
+		//debugLog<<"Major  : "<<DSStringer::GUID2String(&locMediaType->majortype);
+		//debugLog<<"Minor  : "<<DSStringer::GUID2String(&locMediaType->subtype);
+		//debugLog<<"Format : "<<DSStringer::GUID2String(&locMediaType->formattype);
+		//debugLog<<"Form Sz: "<<locMediaType->cbFormat;
 
 
 	}
@@ -520,15 +520,15 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	long locYStride = inYUVBuffer->y_stride;
 	long locUVStride = inYUVBuffer->uv_stride;
 
-	debugLog<<"Y Stride = "<<locYStride<<endl;
-	debugLog<<"UV Stride = "<<locUVStride<<endl;
+	//debugLog<<"Y Stride = "<<locYStride<<endl;
+	//debugLog<<"UV Stride = "<<locUVStride<<endl;
 	//
 	//Y DATA
 	//
 
 	//NEW WAY with offsets Y Data
 	long locTopPad = inYUVBuffer->y_height - mHeight - mYOffset;
-	debugLog<<"--------- PAD = "<<locTopPad<<endl;
+	//debugLog<<"--------- PAD = "<<locTopPad<<endl;
 	ASSERT(locTopPad >= 0);
 	if (locTopPad < 0) {
 		locTopPad = 0;
@@ -547,7 +547,7 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 
 	locSourceUptoPtr += (mYOffset * locYStride);
 
-	debugLog<<"Dest Distance(y) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
+	//debugLog<<"Dest Distance(y) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
 
 	//Source advances by (y_height * y_stride)
 	//Dest advances by (mHeight * mWidth)
@@ -578,7 +578,7 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	//Dest advances by (mHeight * mWidth) /4
 
 
-	debugLog<<"Dest Distance(V) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
+	//debugLog<<"Dest Distance(V) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
 	//
 	//U DATA
 	//
@@ -595,14 +595,14 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	}
 	locSourceUptoPtr += ((mYOffset/2) * locUVStride);
 
-	debugLog<<"Dest Distance(U) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
-	debugLog<<"Frame Size = "<<mFrameSize<<endl;
+	//debugLog<<"Dest Distance(U) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
+	//debugLog<<"Frame Size = "<<mFrameSize<<endl;
 
 	//Set the sample parameters.
 	BOOL locIsKeyFrame = (locInterFrameNo == 0);
 	locIsKeyFrame = TRUE;
 	if (locIsKeyFrame == TRUE) {
-		debugLog<<"KEY FRAME ++++++"<<endl;
+		//debugLog<<"KEY FRAME ++++++"<<endl;
 	};
 	SetSampleParams(outSample, mFrameSize, &locFrameStart, &locFrameEnd, locIsKeyFrame);
 
@@ -618,7 +618,7 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 
 	if (inDirection == PINDIR_INPUT) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Theora) {
-			debugLog<<"Setting format block"<<endl;
+			//debugLog<<"Setting format block"<<endl;
 			setTheoraFormat((sTheoraFormatBlock*)inMediaType->pbFormat);
 			
 			//Set some other stuff here too...
@@ -626,8 +626,8 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 			mYOffset = ((sTheoraFormatBlock*)inMediaType->pbFormat)->yOffset;
 			//mHeight = ((sTheoraFormatBlock*)inMediaType->pbFormat)->frameHeight;
 			//mWidth = ((sTheoraFormatBlock*)inMediaType->pbFormat)->frameWidth;
-			debugLog<<"Setting height width to "<<mWidth<<" x "<<mHeight<<endl;
-			debugLog<<"Frame Dims were "<<((sTheoraFormatBlock*)inMediaType->pbFormat)->frameWidth<<" x "<<((sTheoraFormatBlock*)inMediaType->pbFormat)->frameHeight<<endl;
+			//debugLog<<"Setting height width to "<<mWidth<<" x "<<mHeight<<endl;
+			//debugLog<<"Frame Dims were "<<((sTheoraFormatBlock*)inMediaType->pbFormat)->frameWidth<<" x "<<((sTheoraFormatBlock*)inMediaType->pbFormat)->frameHeight<<endl;
 
 		} else {
 			//Failed... should never be here !
@@ -635,7 +635,7 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 		}
 		return CTransformFilter::SetMediaType(PINDIR_INPUT, inMediaType);//CVideoTransformFilter::SetMediaType(PINDIR_INPUT, inMediaType);
 	} else {
-		debugLog<<"Setting Output Stuff"<<endl;
+		//debugLog<<"Setting Output Stuff"<<endl;
 		//Output pin SetMediaType
 		//VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inMediaType->Format();
 		//mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);

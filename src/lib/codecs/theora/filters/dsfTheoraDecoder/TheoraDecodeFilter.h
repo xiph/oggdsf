@@ -88,7 +88,7 @@ protected:
 	__int64 mLastSeenStartGranPos;
 	//Format Block
 	sTheoraFormatBlock* mTheoraFormatInfo;
-	fstream debugLog;
+	//fstream debugLog;
 };
 //---------------------------------------
 //OLD IMPLOEMENTATION....

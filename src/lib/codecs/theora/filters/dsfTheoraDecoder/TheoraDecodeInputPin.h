@@ -52,7 +52,7 @@ public:
 	//virtual HRESULT BreakConnect();
 	//virtual HRESULT CompleteConnect (IPin *inReceivePin);
 
-	fstream debugLog;
+	//fstream debugLog;
 };
 //----------------------
 //OLD IMPLEMENTATION

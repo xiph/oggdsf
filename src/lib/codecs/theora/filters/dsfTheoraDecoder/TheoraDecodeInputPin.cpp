@@ -36,10 +36,10 @@
 TheoraDecodeInputPin::TheoraDecodeInputPin(CTransformFilter* inParentFilter, HRESULT* outHR) 
 	:	CTransformInputPin(NAME("Theora Input Pin"), inParentFilter, outHR, L"Theora In")
 {
-	debugLog.open("G:\\logs\\theoinput.log", ios_base::out);
+	//debugLog.open("G:\\logs\\theoinput.log", ios_base::out);
 }
 TheoraDecodeInputPin::~TheoraDecodeInputPin() {
-	debugLog.close();
+	//debugLog.close();
 }
 
 //STDMETHODIMP TheoraDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
