@@ -219,6 +219,9 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 				memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
 				locOutBuff[locTextSize] = '\0';
 				outSample->SetActualDataLength(locTextSize + 1);
+				if (mCMMLCallbacks != NULL) {
+					mCMMLCallbacks->headCallback(mHeadTag->clone());
+				}
 			} else {
 				//debugLog<<"          : Parse FAILED"<<endl;
 			}
@@ -240,6 +243,11 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 				//debugLog << "               : Clip Text = "<<locTextStr<<endl;
 				locOutBuff[locTextSize] = '\0';
 				outSample->SetActualDataLength(locTextSize + 1);
+
+				if (mCMMLCallbacks != NULL) {
+					mCMMLCallbacks->clipCallback(locClipTag.clone());
+				}
+
 			} else {
 				//debugLog<<"          : Parse FAILED"<<endl;
 			}

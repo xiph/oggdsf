@@ -3,9 +3,11 @@
 #include <dshow.h>
 
 #include <string>
+#include "ICMMLCallbacks.h"
 
 #pragma managed
 #include "libDSPlayDotNet.h"
+
 //#include "Wrappers.h"
 using namespace illiminable::libiWrapper;
 using namespace std;
@@ -13,7 +15,8 @@ using namespace std;
 namespace illiminable {
 namespace libDSPlayDotNET
 {
-	public __gc class DSPlay {
+	public __gc class DSPlay 
+	{
 	public:
 		DSPlay(void);
 		~DSPlay(void);

@@ -20,15 +20,16 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\helper\libiWrapper"
+				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags"
 				AdditionalUsingDirectories="..\..\helper\libiWrapper\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -64,7 +65,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\helper\libiWrapper"
+				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags"
 				AdditionalUsingDirectories="..\..\helper\libiWrapper\Release"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
