@@ -1,5 +1,5 @@
 #
-# UNIX Makefile for mod_timeslice
+# UNIX Makefile for mod_oggchef
 #
 # You may need to tweak the following variables in order to get things building
 # properly
@@ -43,11 +43,11 @@ install: install-modules
 
 #   cleanup
 clean:
-	-rm -f mod_timeslice.o mod_timeslice.lo mod_timeslice.slo mod_timeslice.la 
+	-rm -f mod_oggchef.o mod_oggchef.lo mod_oggchef.slo mod_oggchef.la 
 
 #   simple test
 test: reload
-	lynx -mime_header http://localhost/timeslice
+	lynx -mime_header http://localhost/oggchef
 
 #   install and activate shared object by reloading Apache to
 #   force a reload of the shared object file
