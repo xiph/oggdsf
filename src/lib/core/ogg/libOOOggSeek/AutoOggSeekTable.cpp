@@ -122,13 +122,32 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			if (mNumHeaders == 0) {
 				//Variable number of headers... need to pick it up again...
-				mNumHeaders = 2;
+				mNumHeaders = 1;
                 isOggFLAC_1_0 = true;
-				
-			} 
-			
+			} else {
+				mFoundStreamInfo = true;
+			}
 			mSampleRate = iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 27) >> 12;
-			mFoundStreamInfo = true;
+		} else if (isOggFLAC_1_0 && (mSerialNoToTrack == inOggPage->header()->StreamSerialNo()) ) {
+			//Loop any other packets
+
+			const int FLAC_LAST_HEADERS_FLAG = 128;
+			const int FLAC_HEADER_MASK = 127;
+			const int FLAC_STREAM_INFO_ID = 0;
+			
+			//Note ::: Secondary condition in for statement.
+            for (int i = 0; i < inOggPage->numPackets(), !mFoundStreamInfo; i++) {
+				mNumHeaders++;
+
+				//Don't need this, we already got this data... we're just counting headers.
+				//if ((inOggPage->getPacket(i)->packetData()[0] & FLAC_HEADER_MASK) == FLAC_STREAM_INFO_ID) {
+    //                //Catch the stream info packet.
+    //                mSampleRate = iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 14) >> 12;
+				//}
+				if ((inOggPage->getPacket(i)->packetData()[0] & FLAC_LAST_HEADERS_FLAG)) {
+					mFoundStreamInfo = true;
+				}
+			}
 			
 		
 
