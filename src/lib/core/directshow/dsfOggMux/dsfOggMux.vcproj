@@ -266,6 +266,9 @@
 				RelativePath="dsfOggMux.cpp">
 			</File>
 			<File
+				RelativePath=".\FishSkeleton.cpp">
+			</File>
+			<File
 				RelativePath="OggMux.def">
 			</File>
 			<File
@@ -308,6 +311,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\FishSkeleton.h">
+			</File>
 			<File
 				RelativePath="oggmuxdllstuff.h">
 			</File>

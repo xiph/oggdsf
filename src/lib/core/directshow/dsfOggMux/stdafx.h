@@ -42,4 +42,4 @@
 
 // TODO: reference additional headers your program requires here
 #include "oggmuxdllstuff.h"
-//#include "StringHelper.h"
+#include "StringHelper.h"

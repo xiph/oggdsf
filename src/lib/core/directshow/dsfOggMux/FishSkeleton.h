@@ -1,7 +1,7 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
 //
-//Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
+//Copyright (C) 2004 Commonwealth Scientific and Industrial Research
 //   Organisation (CSIRO) Australia
 //
 //Redistribution and use in source and binary forms, with or without
@@ -32,31 +32,28 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-
-#include "OggPageInterleaver.h"
-#include "AnxPacketMaker.h"
-class AnxPageInterleaver
-	:	public OggPageInterleaver
+#include "oggmuxdllstuff.h"
+#include "OggPage.h"
+class FishSkeleton
 {
 public:
-	AnxPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier, unsigned long inVersionMajor, unsigned long inVersionMinor);
-	virtual ~AnxPageInterleaver(void);
+	FishSkeleton(void);
+	~FishSkeleton(void);
 
-	
-	
-	virtual void processData();
+	static const int FISHEAD_3_0_PACKET_SIZE = 48;
+	static OggPage* makeFishHeadBOS_3_0	(			unsigned long inSerialNo
+												,	unsigned short inVersionMajor
+												,	unsigned short inVersionMinor
+												,	unsigned __int64 inTimebaseNum
+												,	unsigned __int64 inTimebaseDenom
+												,	const unsigned char* inUTC
+											);
 
-
-protected:
-	void addAnnodex_2_0_BOS();
-	void addAllAnxData_2_0_BOS();
-	void addAnnodexEOS();
-	bool gotAllHeaders();
-
-	bool mIsAnxSetup;
-	
-	unsigned long mVersionMajor;
-	unsigned long mVersionMinor;
-
-	unsigned long mAnxSerialNo;
+	static StampedOggPacket* makeFishBone_3_0	(		unsigned short inVersionMajor
+												,	unsigned short inVersionMinor
+												,	unsigned __int64 inGranuleRateNum
+												,	unsigned __int64 inGranuleDenom
+												,	unsigned long inNumSecHeaders
+												,	vector<string> inMessageHeaders
+											);
 };
