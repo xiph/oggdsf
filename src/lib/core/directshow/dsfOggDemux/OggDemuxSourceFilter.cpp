@@ -91,6 +91,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mStreamMapper = new OggStreamMapper(this);
 	debugLog.open("C:\\TEMP\\sourcelog.log", ios_base::out|ios_base::binary);
 	debugLog << "**************** Starting LOg ********************"<<endl;
+
 }
 
 OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
