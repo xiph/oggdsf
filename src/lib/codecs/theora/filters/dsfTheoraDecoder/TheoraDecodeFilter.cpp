@@ -384,9 +384,11 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 		
 		//This packet is given to the decoder.
 		StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
+
+		bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(locPacket);
 		yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
 		if (locYUV != NULL) {
-			if (TheoraDecoded(locYUV, outOutputSample) != 0) {
+			if (TheoraDecoded(locYUV, outOutputSample, locIsKeyFrame) != 0) {
 				//debugLog<<"Decoded *** FALSE ***"<<endl;
 				return S_FALSE;
 			}
@@ -401,7 +403,7 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 	
 }
 
-int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample) 
+int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame) 
 {
 	//debugLog<<"TheoraDecoded... #################### "<<endl;
 	
@@ -445,7 +447,7 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	REFERENCE_TIME locFrameEnd = (mFrameCount * mFrameDuration);
 
 	
-	debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<"  frame "<<mFrameCount<<endl;
+	debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<"  frame "<<mFrameCount<<" KF = "<<((inIsKeyFrame) ? "YES" : "NO")<<endl;
 	
 	//FILTER_STATE locFS;
 	//GetState(0, &locFS);
@@ -590,9 +592,9 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 
 	//Set the sample parameters.
 	//BOOL locIsKeyFrame = (locInterFrameNo == 0);
-	BOOL locIsKeyFrame = TRUE;
-	if (locIsKeyFrame == TRUE) {
-		//debugLog<<"KEY FRAME ++++++"<<endl;
+	BOOL locIsKeyFrame = FALSE;
+	if (inIsKeyFrame) {
+		locIsKeyFrame = TRUE;
 	};
 	SetSampleParams(outSample, mFrameSize, &locFrameStart, &locFrameEnd, locIsKeyFrame);
 

@@ -82,7 +82,7 @@ protected:
 	TheoraDecoder* mTheoraDecoder;
 	
 
-	int TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample);
+	int TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame);
 
 
 	__int64 mSeekTimeBase;
