@@ -169,14 +169,16 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		if (inMediaType->subtype == MEDIASUBTYPE_CMML) {
 			//CMML
 			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
-			mMuxStream->setConversionParams(locCMML->granuleNumerator, locCMML->granuleDenominator, 10000000);
+			
 
 
 			//ANX3::: 1 for anx 2, 2 for anx 3.
 			if ((mAnxVersionMajor == 3) && (mAnxVersionMinor == 0)) {
+				mMuxStream->setConversionParams(locCMML->granuleNumerator, locCMML->granuleDenominator, 10000000, 5);
 				//ZZZZZ:::: sould be 3
 				locNumHeaders = 3;
 			} else {
+				mMuxStream->setConversionParams(locCMML->granuleNumerator, locCMML->granuleDenominator, 10000000);
 				locNumHeaders = 1;
 			}
 
