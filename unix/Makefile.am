@@ -29,6 +29,11 @@ INCLUDES = \
 	   -I@top_srcdir@/../src/lib/core/ogg/libVorbisComment \
 	   $(NULL)
 
+
+#
+# libraries
+#
+
 libOOOggSeek_la_LIBADD = libOOOgg.la
 libOOOggSeek_la_SOURCES = \
 	../src/lib/core/ogg/libOOOggSeek/AutoAnxSeekTable.cpp \
@@ -37,6 +42,19 @@ libOOOggSeek_la_SOURCES = \
 	../src/lib/core/ogg/libOOOggSeek/OggSeekPoint.cpp \
 	../src/lib/core/ogg/libOOOggSeek/OggSeekTable.cpp \
 	../src/lib/core/ogg/libOOOggSeek/OGGSRecogniser.cpp \
+	$(NULL)
+
+libOOOggSeekdir = $(includedir)
+libOOOggSeek_HEADERS = \
+	../src/lib/core/ogg/libOOOggSeek/AutoAnxSeekTable.h \
+	../src/lib/core/ogg/libOOOggSeek/AutoOggSeekTable.h \
+	../src/lib/core/ogg/libOOOggSeek/IOggSeeker.h \
+	../src/lib/core/ogg/libOOOggSeek/libOOOggSeek.h \
+	../src/lib/core/ogg/libOOOggSeek/OggBinarySeeker.h \
+	../src/lib/core/ogg/libOOOggSeek/OggSeekPoint.h \
+	../src/lib/core/ogg/libOOOggSeek/OggSeekTable.h \
+	../src/lib/core/ogg/libOOOggSeek/OGGSRecogniser.h \
+	../src/lib/core/ogg/libOOOggSeek/stdafx.h \
 	$(NULL)
 
 libVorbisComment_la_LIBADD = libOOOgg.la
@@ -51,6 +69,15 @@ libilliCore_la_SOURCES = \
 	../src/lib/helper/libilliCore/StringHelper.cpp \
 	../src/lib/helper/libilliCore/iBE_Math.cpp \
 	../src/lib/helper/libilliCore/iLE_Math.cpp \
+	$(NULL)
+libilliCoredir = $(includedir)
+libilliCore_HEADERS = \
+	../src/lib/helper/libilliCore/config.h \
+	../src/lib/helper/libilliCore/iBE_Math.h \
+	../src/lib/helper/libilliCore/iLE_Math.h \
+	../src/lib/helper/libilliCore/illicoreconfig.h \
+	../src/lib/helper/libilliCore/libilliCore.h \
+	../src/lib/helper/libilliCore/StringHelper.h \
 	$(NULL)
 
 libOOOgg_la_LIBADD = libilliCore.la
@@ -67,6 +94,35 @@ libOOOgg_la_SOURCES = \
 	../src/lib/core/ogg/libOOOgg/OggPaginatorSettings.cpp \
 	../src/lib/core/ogg/libOOOgg/StampedOggPacket.cpp \
 	$(NULL)
+libOOOggdir = $(includedir)
+libOOOgg_HEADERS = \
+	../src/lib/core/ogg/libOOOgg/CircularBuffer.h \
+	../src/lib/core/ogg/libOOOgg/dllstuff.h \
+	../src/lib/core/ogg/libOOOgg/IDataSource.h \
+	../src/lib/core/ogg/libOOOgg/IFIFOBuffer.h \
+	../src/lib/core/ogg/libOOOgg/INotifyArrival.h \
+	../src/lib/core/ogg/libOOOgg/INotifyComplete.h \
+	../src/lib/core/ogg/libOOOgg/IOggCallback.h \
+	../src/lib/core/ogg/libOOOgg/IOggPackSource.h \
+	../src/lib/core/ogg/libOOOgg/IStampedOggPacketSink.h \
+	../src/lib/core/ogg/libOOOgg/libOOOgg.h \
+	../src/lib/core/ogg/libOOOgg/OggDataBuffer.h \
+	../src/lib/core/ogg/libOOOgg/OggMuxStream.h \
+	../src/lib/core/ogg/libOOOgg/OggPacket.h \
+	../src/lib/core/ogg/libOOOgg/OggPacketiser.h \
+	../src/lib/core/ogg/libOOOgg/OggPage.h \
+	../src/lib/core/ogg/libOOOgg/OggPageHeader.h \
+	../src/lib/core/ogg/libOOOgg/OggPageInterleaver.h \
+	../src/lib/core/ogg/libOOOgg/OggPaginator.h \
+	../src/lib/core/ogg/libOOOgg/OggPaginatorSettings.h \
+	../src/lib/core/ogg/libOOOgg/OggTypeDefs.h \
+	../src/lib/core/ogg/libOOOgg/StampedOggPacket.h \
+	$(NULL)
+
+
+#
+# tools
+#
 
 OOOggDump_LDADD = libOOOgg.la
 OOOggDump_SOURCES = \
@@ -109,4 +165,5 @@ AnxCutter_LDADD = libOOOgg.la libOOOggSeek.la
 AnxCutter_SOURCES = \
 	../src/tools/AnxCutter/AnxCutter.cpp \
 	$(NULL)
+
 
