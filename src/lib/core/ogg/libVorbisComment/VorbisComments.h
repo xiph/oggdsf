@@ -57,7 +57,7 @@ public:
 	bool addComment(string inKey, string inValue);
 
 	bool parseOggPacket(OggPacket* inPacket, unsigned long inStartOffset);
-	OggPacket* toOggPacket();
+	OggPacket* toOggPacket(unsigned char* inPrefixBuff, unsigned long inPrefixBuffSize);
 	string toString();
 
 	unsigned long size();

@@ -109,7 +109,15 @@ string FileComments::fileName() {
 	return mFileName;
 }
 
-bool FileComments::writeOutAll() {
+bool FileComments::writeOutAll(string inFileName) {
+
+	fstream locFile;
+	locFile.open(inFileName, ios_base::out | ios_base::in | ios_base::binary);
+
+	if (locFile.is_open()) {
+				
+		
+	}
 	return false;
 }
 bool FileComments::writeOutStream(unsigned long inIndex) {

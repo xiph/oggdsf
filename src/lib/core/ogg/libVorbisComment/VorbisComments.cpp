@@ -231,13 +231,22 @@ unsigned long VorbisComments::size() {
 	
 	return locPackSize;
 }
-OggPacket* VorbisComments::toOggPacket() {
-	//This needs prefixing data !
+OggPacket* VorbisComments::toOggPacket(unsigned char* inPrefixBuff, unsigned long inPrefixBuffSize) {
+
 	unsigned long locPackSize = size();
 	unsigned long locUpto = 0;
-	unsigned char* locPackData = new unsigned char[locPackSize];
+	unsigned char* locPackData = NULL;
 
-	OggMath::ULongToCharArr(mVendorString.length(), locPackData);
+	if (inPrefixBuff != NULL && inPrefixBuffSize != 0) {
+		locPackSize += inPrefixBuffSize;
+		locPackData = new unsigned char[locPackSize];
+		memcpy((void*)locPackData, (const void*)inPrefixBuff, inPrefixBuffSize);
+		locUpto += inPrefixBuffSize;
+	} else {
+		locPackData = new unsigned char[locPackSize];
+	}
+	
+	OggMath::ULongToCharArr(mVendorString.length(), locPackData + locUpto);
 	locUpto += 4;
 
 	memcpy((void*)(locPackData + locUpto), (const void*)mVendorString.c_str(), mVendorString.length());

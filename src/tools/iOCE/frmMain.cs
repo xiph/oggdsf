@@ -331,7 +331,7 @@ namespace iOCE
 			this.Controls.Add(this.groupBox1);
 			this.Menu = this.mnuMain;
 			this.Name = "frmMain";
-			this.Text = "illiminable Ogg Comment Editor";
+			this.Text = "Ogg Comment Editor";
 			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);

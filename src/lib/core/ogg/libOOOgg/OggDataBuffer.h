@@ -84,6 +84,7 @@ public:
 protected:
 	stringstream mStream;
 	eState mState;
+	
 	bool processBuffer();
 	virtual bool dispatch(OggPage* inOggPage);
 
