@@ -144,6 +144,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *** dsfVorbisDecoder
 *** dsfVorbisEncoder
 *** dsfFLACDecoder
+*** dsfFLACEncoder
 *** dsfTheoraDecoder
 *** dsfTheoraEncoder
 *** dsfAbstractAudioDecoder
@@ -151,14 +152,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *** dsfAbstractVideoDecoder
 *** dsfAbstractVideoEncoder
 *** dsfSubtitleVMR9
+*** libiWrapper
+*** libilliCore
 *** libOOTheora
 *** libOOOgg
 *** libOOOggSeek
 *** libVorbisComment
+*** libVorbisCommentDotNET
 *** OOOggDump
 *** OOOggStat
 *** OOOggCommentDump
 *** CLOgg
+*** DNPlay
+*** iOCE
 
 
 Copyright (C) 2003, 2004 Zentaro Kavanagh
