@@ -48,16 +48,21 @@ public:
 	//bool resetPackCount();
 	//bool clearAll();
 
+	/// Decode a theora packet returning a yuv_buffer struct. Now owns your packet.
 	yuv_buffer* decodeTheora(StampedOggPacket* inPacket);
 
+	/// Returns true if the packet is a keyframe.
 	bool isKeyFrame(StampedOggPacket* inPacket);
 
 	theora_info mTheoraInfo;
 protected:
 
+	/// Moves the pointers around to make it look like a xiph ogg packet.
 	ogg_packet* simulateOldOggPacket(StampedOggPacket* inPacket);
 
+	/// Decodes a header packet and adjusts the internal state based on it.
 	bool decodeHeader(StampedOggPacket* inHeaderPacket);
+
 	//theora_info mTheoraInfo;
 	theora_comment mTheoraComment;
 	theora_state mTheoraState;
