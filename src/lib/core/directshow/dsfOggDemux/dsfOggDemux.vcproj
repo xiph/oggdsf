@@ -277,6 +277,12 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
+				RelativePath=".\CachedHTTPFileSource.cpp">
+			</File>
+			<File
+				RelativePath=".\CachedHTTPMediaFile.cpp">
+			</File>
+			<File
 				RelativePath="DataSourceFactory.cpp">
 			</File>
 			<File
@@ -370,6 +376,12 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\CachedHTTPFileSource.h">
+			</File>
+			<File
+				RelativePath=".\CachedHTTPMediaFile.h">
+			</File>
 			<File
 				RelativePath="DataSourceFactory.h">
 			</File>

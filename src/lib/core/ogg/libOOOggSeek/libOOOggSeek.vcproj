@@ -260,6 +260,9 @@
 				RelativePath="libOOOggSeek.cpp">
 			</File>
 			<File
+				RelativePath=".\OggBinarySeeker.cpp">
+			</File>
+			<File
 				RelativePath="OggSeekPoint.cpp">
 			</File>
 			<File
@@ -303,7 +306,13 @@
 				RelativePath="AutoOggSeekTable.h">
 			</File>
 			<File
+				RelativePath=".\IOggSeeker.h">
+			</File>
+			<File
 				RelativePath="libOOOggSeek.h">
+			</File>
+			<File
+				RelativePath=".\OggBinarySeeker.h">
 			</File>
 			<File
 				RelativePath="OggSeekPoint.h">

@@ -1,0 +1,24 @@
+The Plan !!
+-----------
+
+Have a cached file source object which implements the IFilterDataSource interface to present the file
+on a remote server to the filter as if it was a local file.
+
+Maintain a list of byte offsets in the cache.
+
+Each byte offset is locally stored as it's own file.
+
+Periodically these pieces will be consolidated into larger pieces.
+
+When playing back, if a seek falls into a range which is already cached... start playing in that range.
+
+When ever we are playing the http thread should be looking forward through the list of byte offsets and try to find
+holes to plug.
+
+If a seek falls outside the cached range, the http thread starts pulling down from that position, starting a new cache segment.
+
+Should a new segment reach a pointthat is already cahced then the http thread should stop downloading, and
+look ahead to where the next "hole" is consolidating the files as it goes.
+
+For now the byte ranges will just be stored in memory and only be persistent for the current session,
+ but ideally they will be written out with the url etc, in order to be cached across sessions.
