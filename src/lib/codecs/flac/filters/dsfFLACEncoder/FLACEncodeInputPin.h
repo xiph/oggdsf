@@ -66,6 +66,8 @@ public:
 	virtual void DestroyCodec();
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
+	//OVerrides
+	virtual STDMETHODIMP EndOfStream(void);
 protected:
 	HRESULT mHR;
 	bool mBegun;

@@ -49,6 +49,12 @@ FLACEncodeInputPin::~FLACEncodeInputPin(void)
 //PURE VIRTUALS
 long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
+	if (mBegun == false) {
+
+		//First bit of data, set up the encoder.
+		mBegun = true;
+		init();
+	}
 	FLAC__int32* locFLACBuff = NULL;
 	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;	//View only don't delete.
 	unsigned long locFLACBuffSize = (inNumBytes * 8) / locParentFilter->mFLACFormatBlock.numBitsPerSample;
@@ -119,18 +125,12 @@ bool FLACEncodeInputPin::ConstructCodec() {
 	locParentFilter->mFLACFormatBlock.numBitsPerSample = mWaveFormat->wBitsPerSample;
 	locParentFilter->mFLACFormatBlock.numChannels = mWaveFormat->nChannels;
 	locParentFilter->mFLACFormatBlock.sampleRate = mWaveFormat->nSamplesPerSec;
-	init();
+	
+	//This can't be here, it causes callbacks to fire, and the data can't be delivered
+	// because the filter is not fully set up yet.
+	//init();
 
-	//
-	//mFishSound = fish_sound_new (FISH_SOUND_ENCODE, &mFishInfo);
-
-	//int i = 1;
-	////FIX::: Use new API for interleave setting
-	//fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
-
-	//fish_sound_set_encoded_callback (mFishSound, SpeexEncodeInputPin::SpeexEncoded, this);
 	////FIX::: Proper return value
-	//return true;
 	return true;
 }
 void FLACEncodeInputPin::DestroyCodec() {
@@ -264,6 +264,11 @@ void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadat
 	// because flac is unlikely to be streamed live.
 }
 
+STDMETHODIMP FLACEncodeInputPin::EndOfStream(void) {
+	//Catch the end of stream so we can send a finish signal.
+	finish();			//Tell flac we are done so it can flush and send us the metadata.
+	return AbstractAudioEncodeInputPin::EndOfStream();		//Call the base class.
+}
 
 HRESULT FLACEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 	AbstractAudioEncodeInputPin::SetMediaType(inMediaType);

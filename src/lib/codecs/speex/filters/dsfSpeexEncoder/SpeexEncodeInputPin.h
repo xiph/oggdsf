@@ -60,7 +60,7 @@ public:
 
 protected:
 	HRESULT mHR;
-	bool mBegun;
+	//bool mBegun;			//Already in base class stupid !
 	//SpeexDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;
 
