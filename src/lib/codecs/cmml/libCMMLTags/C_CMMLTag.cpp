@@ -56,7 +56,7 @@ void C_CMMLTag::setId(wstring inId) {
 wstring C_CMMLTag::makeAttribute(wstring inElemName, wstring inElemContent) {
 	if (inElemContent != L"") {
 		wstring retStr;
-		retStr = L" " + inElemName + L"=\"" + inElemContent + L"\"";
+		retStr = L" " + escapeEntities(inElemName) + L"=\"" + escapeEntities(inElemContent) + L"\"";
 		return retStr;
 	} else {
 		return L"";
@@ -65,7 +65,7 @@ wstring C_CMMLTag::makeAttribute(wstring inElemName, wstring inElemContent) {
 
 wstring C_CMMLTag::makeRequiredAttribute(wstring inElemName, wstring inElemContent) {
 	wstring retStr;
-	retStr = L" " + inElemName + L"=\"" + inElemContent + L"\"";
+	retStr = L" " + escapeEntities(inElemName) + L"=\"" + escapeEntities(inElemContent) + L"\"";
 	return retStr;
 }
 

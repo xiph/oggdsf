@@ -86,7 +86,7 @@ wstring C_AnchorTag::toString()  {
 	retStr += makeRequiredAttribute(L"href", mHref);
 
 	retStr += L">";
-	retStr += mText;
+	retStr += escapeEntities(mText);
 	retStr += L"</a>\n";
 	
 	return retStr;

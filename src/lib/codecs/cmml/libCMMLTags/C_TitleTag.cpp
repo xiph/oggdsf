@@ -53,7 +53,7 @@ wstring C_TitleTag::toString() {
 
 	retStr += makeLangElements();
 	retStr += L">";
-	retStr += mText;
+	retStr += escapeEntities(mText);
 	retStr+= L"</title>\n";
 	return retStr;
 }

@@ -105,12 +105,12 @@ C_HeadTag* C_HeadTag::clone() {
 
 
 wstring C_HeadTag::toString() {
-	//TO DO::: Optional tags
+	//TODO::: Should use new helper functions !!
 	wstring retStr = L"<head";
 
 	if (mId.size() != 0) {
 		retStr += L" id=\"";
-		retStr += mId;
+		retStr += escapeEntities(mId);
 		retStr += L"\"";
 	}
 
@@ -118,7 +118,7 @@ wstring C_HeadTag::toString() {
 
 	if (mProfile.size() != 0) {
 		retStr += L" profile=\"";
-		retStr += mProfile;
+		retStr += escapeEntities(mProfile);
 		retStr += L"\"";
 	}
 	retStr+= L">\n";
