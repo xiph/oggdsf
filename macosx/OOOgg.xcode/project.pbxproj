@@ -7,18 +7,8 @@
 	objects = {
 		7B06048F07719FA500DC2D2E = {
 			children = (
-				7BBF26740788123B000DD95E,
-				7B1F10D50771CC110067D538,
-				7B1F10B70771CBA30067D538,
-				7B1F109E0771CB2D0067D538,
-				7B0607DE0771C09A00DC2D2E,
-				7B0607CA0771BF8E00DC2D2E,
-				7B0607810771BCFD00DC2D2E,
-				7B0607640771BC4B00DC2D2E,
-				7B06062A0771A87C00DC2D2E,
-				7B0605E70771A40400DC2D2E,
-				7B0605590771A1D700DC2D2E,
-				7B0604F90771A04200DC2D2E,
+				7BFF2D3C07BF7C9C003D7A53,
+				7BFF2D3F07BF7CB5003D7A53,
 				7B0604A707719FFD00DC2D2E,
 				7B0605380771A11A00DC2D2E,
 				7B0605570771A1BE00DC2D2E,
@@ -108,9 +98,9 @@
 			);
 			isa = PBXGroup;
 			name = libilliCore;
-			path = ../src/lib/helper/libilliCore;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/lib/helper/libilliCore;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B0604FA0771A04200DC2D2E = {
 			fileEncoding = 30;
@@ -566,9 +556,9 @@
 			);
 			isa = PBXGroup;
 			name = libOOOgg;
-			path = ../src/lib/core/ogg/libOOOgg;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/lib/core/ogg/libOOOgg;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B06055A0771A1D700DC2D2E = {
 			fileEncoding = 30;
@@ -1241,9 +1231,9 @@
 			);
 			isa = PBXGroup;
 			name = OOOggDump;
-			path = ../src/tools/OOOggDump;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggDump;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B0605E80771A40400DC2D2E = {
 			fileEncoding = 30;
@@ -1389,9 +1379,9 @@
 			);
 			isa = PBXGroup;
 			name = OOOggValidate;
-			path = ../src/tools/OOOggValidate;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggValidate;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B06062B0771A87D00DC2D2E = {
 			fileEncoding = 30;
@@ -1710,9 +1700,9 @@
 			);
 			isa = PBXGroup;
 			name = OOOggChainSplitter;
-			path = ../src/tools/oggChainSplitter;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/oggChainSplitter;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B0607650771BC4B00DC2D2E = {
 			fileEncoding = 30;
@@ -1919,9 +1909,9 @@
 			);
 			isa = PBXGroup;
 			name = libVorbisComment;
-			path = ../src/lib/core/ogg/libVorbisComment;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/lib/core/ogg/libVorbisComment;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B0607820771BCFD00DC2D2E = {
 			fileEncoding = 30;
@@ -2199,9 +2189,9 @@
 			);
 			isa = PBXGroup;
 			name = OOOggCommentDump;
-			path = ../src/tools/OOOggCommentDump;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggCommentDump;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B0607CB0771BF8E00DC2D2E = {
 			fileEncoding = 30;
@@ -2286,9 +2276,9 @@
 			);
 			isa = PBXGroup;
 			name = OOOggStat;
-			path = ../src/tools/OOOggStat;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggStat;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B0607DF0771C09A00DC2D2E = {
 			fileEncoding = 30;
@@ -2474,9 +2464,9 @@
 			);
 			isa = PBXGroup;
 			name = OOOggSeekFileReader;
-			path = ../src/tools/OOOggSeekFileReader;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggSeekFileReader;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B1F109F0771CB2D0067D538 = {
 			fileEncoding = 30;
@@ -2558,9 +2548,9 @@
 			);
 			isa = PBXGroup;
 			name = OOOggSeekFileMaker;
-			path = ../src/tools/OOOggSeekFileMaker;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/OOOggSeekFileMaker;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B1F10B80771CBA30067D538 = {
 			fileEncoding = 30;
@@ -2778,9 +2768,9 @@
 			);
 			isa = PBXGroup;
 			name = libOOOggSeek;
-			path = ../src/lib/core/ogg/libOOOggSeek;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/lib/core/ogg/libOOOggSeek;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7B1F10D60771CC110067D538 = {
 			fileEncoding = 30;
@@ -3165,7 +3155,6 @@
 			);
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3212,9 +3201,9 @@
 			);
 			isa = PBXGroup;
 			name = AnxCutter;
-			path = ../src/tools/AnxCutter;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/andrep/Code/xiph.org/oggdsf/src/tools/AnxCutter;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		7BBF26750788123B000DD95E = {
 			fileEncoding = 30;
@@ -3279,6 +3268,35 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		7BFF2D3C07BF7C9C003D7A53 = {
+			children = (
+				7B0604F90771A04200DC2D2E,
+				7B0605590771A1D700DC2D2E,
+				7B1F10D50771CC110067D538,
+				7B0607810771BCFD00DC2D2E,
+			);
+			isa = PBXGroup;
+			name = Libraries;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		7BFF2D3F07BF7CB5003D7A53 = {
+			children = (
+				7BBF26740788123B000DD95E,
+				7B0607CA0771BF8E00DC2D2E,
+				7B0607640771BC4B00DC2D2E,
+				7B0605E70771A40400DC2D2E,
+				7B1F10B70771CBA30067D538,
+				7B1F109E0771CB2D0067D538,
+				7B0607DE0771C09A00DC2D2E,
+				7B06062A0771A87C00DC2D2E,
+			);
+			isa = PBXGroup;
+			name = Programs;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
 		};
 	};
 	rootObject = 7B06049307719FA500DC2D2E;
