@@ -130,14 +130,16 @@ void OggPageInterleaver::writeLowest() {
 					//debugLog<<"writeLowest UNSCAL : Curr = "<<locCurrLowTimeUNS<<" -- Test["<<i<<"] = "<<locTestLowTimeUNS<<endl;
 
 					
-					//In english this means... any bos pages go first... then any no gran pos pages (-1 gran pos).. then
-					// whoevers got the lowest time.
+					//In english this means... any bos pages go first... then any no gran pos pages (-1 gran pos).. 
+					// then any remaining streams with headers then whoevers got the lowest time.
 					if (
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							(mInputStreams[i]->peekFront()->header()->isBOS()) ) ||
 						
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							((mInputStreams[i]->peekFront()->header()->GranulePos()) == -1) ) ||
+							
+							(	(mInputStreams[i]->sentAllHeaders()) ) ||
 						
 							(locTestLowTime < locCurrLowTime)
 						) 
