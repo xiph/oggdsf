@@ -109,6 +109,27 @@ OggMuxFilter::OggMuxFilter()
 	
 }
 
+OggMuxFilter::OggMuxFilter(REFCLSID inFilterGUID)
+	:	CBaseFilter(NAME("OggMuxFilter"), NULL, m_pLock, inFilterGUID)
+	,	mInterleaver(NULL)
+{
+	//Do this in derived class
+	//mInterleaver = new OggPageInterleaver(this, this);
+	
+
+	m_pLock = new CCritSec;
+
+	//In the derived class
+	//mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
+	//debugLog.open("C:\\temp\\muxer.log", ios_base::out);
+
+	//Make our delegate pin[0], the top pin... we send all out requests there.
+	//IMediaSeeking* locSeeker = NULL;
+	//mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	//SetDelegate(locSeeker);
+	
+}
+
 OggMuxFilter::~OggMuxFilter(void)
 {
 	//debugLog.close();

@@ -30,7 +30,17 @@ CUnknown* WINAPI AnxMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
     return pNewObject;
 } 
 AnxMuxFilter::AnxMuxFilter(void)
+	:	OggMuxFilter(CLSID_AnxMuxFilter)
 {
+
+	mInterleaver = new AnxPageInterleaver(this, this, 2, 0);
+	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
+
+
+		//Make our delegate pin[0], the top pin... we send all out requests there.
+	IMediaSeeking* locSeeker = NULL;
+	mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
 }
 
 AnxMuxFilter::~AnxMuxFilter(void)

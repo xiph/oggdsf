@@ -41,7 +41,7 @@ void AnxPageInterleaver::addAnnodex_2_0_BOS() {
 }
 
 void AnxPageInterleaver::addAllAnxData_2_0_BOS() {
-	for (int i = 1; i < mInputStreams.size(); i++) {
+	for (int i = 1; i < mInputStreams.size() - 1; i++) {
 		mFileWriter->acceptOggPage(mInputStreams[i]->popFront());
 	}
 
@@ -61,7 +61,21 @@ void AnxPageInterleaver::addAnnodexEOS() {
 
 bool AnxPageInterleaver::gotAllHeaders() {
 	//TODO::: Fill this in.
-	return false;
+
+	bool locWasAny = false;
+	bool locIsOK = true;
+	for (int i = 0; i < mInputStreams.size(); i++) {
+		locWasAny = true;
+		if ((mInputStreams[i]->peekFront() != NULL) || (!mInputStreams[i]->isActive())) {
+			locIsOK = locIsOK && true;
+		} else {
+			locIsOK = false;
+		}
+	}
+
+	return locWasAny && locIsOK;
+
+	
 }
 void AnxPageInterleaver::processData()
 {

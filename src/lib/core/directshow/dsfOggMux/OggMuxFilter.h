@@ -54,6 +54,7 @@ class OGG_MUX_API OggMuxFilter
 {
 public:
 	OggMuxFilter(void);
+	OggMuxFilter(REFCLSID inFilterGUID);
 	virtual ~OggMuxFilter(void);
 
 

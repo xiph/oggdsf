@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper;..\..\..\core\directshow\dsfOggDemux"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -37,6 +37,7 @@
 				OutputFile="$(OutDir)/dsfAnxMux.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Debug&quot;"
+				ModuleDefinitionFile="AnxMux.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/dsfAnxMux.pdb"
 				SubSystem="2"
@@ -71,7 +72,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper;..\..\..\core\directshow\dsfOggDemux"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
@@ -87,6 +88,7 @@
 				OutputFile="$(OutDir)/dsfAnxMux.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"
+				ModuleDefinitionFile="AnxMux.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -123,6 +125,12 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
+				RelativePath=".\AnxMux.def">
+			</File>
+			<File
+				RelativePath=".\anxmuxdllstuff.cpp">
+			</File>
+			<File
 				RelativePath=".\AnxMuxFilter.cpp">
 			</File>
 			<File
@@ -133,9 +141,6 @@
 			</File>
 			<File
 				RelativePath=".\AnxPageInterleaver.cpp">
-			</File>
-			<File
-				RelativePath=".\dsfAnxMux.cpp">
 			</File>
 			<File
 				RelativePath=".\stdafx.cpp">
@@ -171,9 +176,6 @@
 			</File>
 			<File
 				RelativePath=".\AnxPageInterleaver.h">
-			</File>
-			<File
-				RelativePath=".\dsfAnxMux.h">
 			</File>
 			<File
 				RelativePath=".\stdafx.h">

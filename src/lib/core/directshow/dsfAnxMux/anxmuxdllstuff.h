@@ -1,7 +1,17 @@
 #pragma once
 
-
-
+//#ifdef DSFANXMUX_EXPORTS
+//#define DSFANXMUX_API __declspec(dllexport)
+//#else
+//#define DSFANXMUX_API __declspec(dllimport)
+//#endif
+#ifdef DSFOGGMUX_EXPORTS
+#pragma message("----> Exporting from Ogg Mux...")
+#define OGG_MUX_API __declspec(dllexport)
+#else
+#pragma message("<---- Importing from Ogg Mux...")
+#define OGG_MUX_API __declspec(dllimport)
+#endif
 
 
 // {6C5746D3-D309-4988-8694-D435AB86460D}
@@ -22,10 +32,46 @@ DEFINE_GUID(MEDIASUBTYPE_CMML,
 DEFINE_GUID(CLSID_CMMLDecodeFilter, 
 0xbf1121d1, 0x8739, 0x45e1, 0xbc, 0xd8, 0x90, 0xb8, 0x28, 0xf6, 0x43, 0xab);
 
+
+//const REGPINTYPES AnxMuxInputTypes[] = {
+//	{	
+//		&MEDIATYPE_Audio,
+//		&MEDIASUBTYPE_Speex
+//	},
+//	{
+//		&MEDIATYPE_Audio,
+//		&MEDIASUBTYPE_Vorbis
+//	},
+//	{
+//		&MEDIATYPE_Audio,
+//		&MEDIASUBTYPE_OggFLAC_1_0
+//	},
+//	{
+//		&MEDIATYPE_Video,
+//		&MEDIASUBTYPE_Theora
+//	},
+//	{
+//		&MEDIATYPE_Audio,
+//		&MEDIASUBTYPE_FLAC
+//	}
+//};
+//const REGFILTERPINS AnxMuxPinReg = {
+//	
+//    L"Ogg Packet Input",				//Name (obsoleted)
+//	TRUE,								//Renders from this pin ?? Not sure about this.
+//	FALSE,								//Not an output pin
+//	FALSE,								//Cannot have zero instances of this pin
+//	FALSE,								//Cannot have more than one instance of this pin
+//	NULL,								//Connects to filter (obsoleted)
+//	NULL,								//Connects to pin (obsoleted)
+//	5,									//upport two media type
+//	AnxMuxInputTypes					//Pointer to media type (Audio/Vorbis or Audio/Speex)
+//};
+
 const REGFILTER2 AnxMuxFilterReg = {
 		1,
-		MERIT_NORMAL,
-		0,
+		MERIT_DO_NOT_USE,
+		1,
         NULL
 		
 };

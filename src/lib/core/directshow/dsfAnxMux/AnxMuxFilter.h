@@ -1,6 +1,7 @@
 #pragma once
 #include "anxmuxdllstuff.h"
 #include "OggMuxFilter.h"
+#include "AnxPageInterleaver.h"
 class AnxMuxFilter
 	:	public OggMuxFilter
 {
