@@ -285,38 +285,27 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			DeliverBeginFlush();
 		
 		//debugLog<<"       : Begin flush Delviered."<<endl;
-		//debugLog<<"       : Delivering new segemnt"<<endl;
 
-
-		//FIX ATTEMPT::: Part of time stamping fixes.. we don't use absolute times any more... this is out !
-		//IReferenceClock* locRefClock = NULL;
-		//HRESULT locHR = GetSyncSource(&locRefClock);
-
-		//LONGLONG locCurrentTime;
-		//locRefClock->GetTime(&locCurrentTime);
-		//DeliverNewSegment(locCurrentTime, locCurrentTime + mSeekTable->fileDuration(), 1.0);
-		
-		//END FIX
-
-
-		//debugLog<<"       : NewSegment Delviered."<<endl;
+		//Find the byte position for this time.
 		unsigned long locStartPos = mSeekTable->getStartPos(*pCurrent);
 		bool locSendExcess = false;
+
+		//FIX::: This code needs to be removed, and handle start seek case.
 		if (locStartPos == mStreamMapper->startOfData()) {
 			locSendExcess = true;
 		}
-		//debugLog<<"       : Seeking to position "<<mSeekTable->getStartPos(*pCurrent)<<endl;
-		{
-			//Unneeded... this is done in deliver begin flush
-			//CAutoLock locDemuxLock(mDemuxLock);
-			//mOggBuffer.debugWrite("%%%%%% Clear calling from SetPos");
-			//mOggBuffer.clearData();
-		}
-	
-		//debugLog << "Setting GranPos : "<<mSeekTable->getRealStartPos()<<endl;
+		
+		
+		//We have to save this here now... since time can't be reverted to granule pos in all cases
+		// we have to use granule pos timestamps in order for downstream codecs to work.
+		// Because of this we can't factor time bases after seeking into the sample times.
+		*pCurrent	= mSeekTimeBase 
+					= mSeekTable->getRealStartPos();
+
+
 		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-			mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);
-			mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getRealStartPos());
+			mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);		//Not needed
+			mStreamMapper->getOggStream(i)->setLastEndGranPos(*pCurrent);
 		}
 		{
 			CAutoLock locStreamLock(mStreamLock);
@@ -326,20 +315,10 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			DeliverNewSegment(*pCurrent, *pCurrent + mSeekTable->fileDuration(), 1.0);
 		}
 
-		//SOURCE ABSTRACTION::: seek
-		//mSourceFile.seekg(mSeekTable->getStartPos(*pCurrent), ios_base::beg);
-		//
-		mDataSource->seek(mSeekTable->getStartPos(*pCurrent));
+	
+		mDataSource->seek(locStartPos);
 		//
 
-		//We have to save this here now... since time can't be reverted to granule pos in all cases
-		// we have to use granule pos timestamps in order for downstream codecs to work.
-		// Because of this we can't factor time bases after seeking into the sample times.
-		// So this is a big fat hack so that theora's crazy ass time scheme can work in directshow. 
-		// We save the actual seek position as we do a seek and we misuse the MediaTime fields in the
-		// samples to send the time base. Theora 1, Compatability 0.
-		*pCurrent	= mSeekTimeBase 
-					= mSeekTable->getRealStartPos();
 	
 	
 		//debugLog<<"       : Seek complete."<<endl;

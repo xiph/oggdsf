@@ -159,7 +159,7 @@ HRESULT OggDemuxSourcePin::CompleteConnect (IPin *inReceivePin)
 	//((BasicSeekable*)(inReceivePin))->SetDelegate(this);
 	//This may cause issue if pins are disconnected and reconnected
 	//DELETE in DEStructor
-	mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE,100);
+	mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, NUM_BUFFERS);
 	if (FAILED(mFilterHR)) {
 		mFilterHR = mFilterHR;
 	}

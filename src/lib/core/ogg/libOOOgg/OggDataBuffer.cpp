@@ -34,6 +34,7 @@
 
 OggDataBuffer::OggDataBuffer(void)
 	:	mBuffer(NULL)
+	,	mPrevGranPos(0)
 {
 	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);
 
@@ -46,6 +47,7 @@ OggDataBuffer::OggDataBuffer(void)
 //Debug only
 OggDataBuffer::OggDataBuffer(bool x)
 	:	mBuffer(NULL)
+	,	mPrevGranPos(0)
 {
 	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);
 
@@ -267,7 +269,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 	
 
 	bool locIsFirstPacket = true;
-
+	__int64 locPrevGranPos = 0;
 	for (unsigned long i = 0; i < locNumSegs; i++) {
 		//Packet sums the lacing values of the segment table.
 		locCurrPackSize += locSegTable[i];
@@ -309,7 +311,10 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 			// lacing value is not equal to 255.
 			//ERROR CHECK:::
 			bool locIsContinuation = false;
+			
 			if (locIsFirstPacket) {
+				locPrevGranPos = mPrevGranPos;
+				mPrevGranPos = pendingPage->header()->GranulePos();
 				locIsFirstPacket = false;
 				//First packet, check if the continuation flag is set.
 				if ((pendingPage->header()->HeaderFlags() & 1) == 1) {
@@ -318,7 +323,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 				}
 			}
 
-			pendingPage->addPacket( new StampedOggPacket(locBuff, locCurrPackSize, (locSegTable[i] == 255), locIsContinuation, 0, pendingPage->header()->GranulePos(), StampedOggPacket::OGG_END_ONLY ) );
+			pendingPage->addPacket( new StampedOggPacket(locBuff, locCurrPackSize, (locSegTable[i] == 255), locIsContinuation, locPrevGranPos, pendingPage->header()->GranulePos(), StampedOggPacket::OGG_BOTH ) );
 			
 			//Reset the packet size counter.
 			locCurrPackSize = 0;
@@ -347,7 +352,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() {
 }
 void OggDataBuffer::clearData() {
 	mBuffer->reset();
-
+	mPrevGranPos = 0;
 	//debugLog<<"ClearData : Transition back to AWAITING_BASE_HEADER"<<endl;
 	
 	

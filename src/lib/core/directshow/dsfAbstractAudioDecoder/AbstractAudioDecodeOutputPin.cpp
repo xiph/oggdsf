@@ -105,6 +105,8 @@ HRESULT AbstractAudioDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocato
 	if (locHR != S_OK) {
 		return locHR;
 	}
+
+	//Need to save this pointer to decommit in destructor.
 	
 	locHR = inAllocator->Commit();
 

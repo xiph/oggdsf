@@ -18,7 +18,7 @@ BUGS
 
 # DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.
 # FLAC will make media player do the error sound or crash on exit
-# Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.
+
 # Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.
 
 NEW
@@ -26,6 +26,7 @@ NEW
 * Add get and set functions for the format block to flac encoder like in the others. Get rid of the mecpy.
 * Need to check sound buffers are empty when stop/start.
 * Need to check code at ends of streams. A seek here stops all audio until stop/start.
+* Check directshow apis for flushing.
 
 NOT BUG
 =======
@@ -38,13 +39,11 @@ PARITALLY DONE
 * Fix flac decoder
 * Add seeking to annodex
 # Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback
-
-
-NEXT FEATURES
-=============
 * CMML Application interface
 * Annodex seeking
 
+NEXT FEATURES
+=============
 * Raw flac support
 * Annodex Muxer
 * WMP Ripping plug-in for vorbis and flac.
@@ -54,3 +53,4 @@ DONE
 * flac encoder
 * Add application cmml interface
 # Seeking in theora occasionally seg faults (Ithink)
+# Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.

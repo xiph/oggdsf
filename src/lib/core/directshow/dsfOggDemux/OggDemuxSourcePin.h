@@ -61,7 +61,7 @@ public:
 
 	virtual ~OggDemuxSourcePin(void);
 	static const unsigned long BUFFER_SIZE = 80000;			//What should this be ????
-	static const unsigned long NUM_BUFFERS = 100;
+	static const unsigned long NUM_BUFFERS = 10;
 
 
 	virtual bool deliverOggPacket(StampedOggPacket* inOggPacket);
