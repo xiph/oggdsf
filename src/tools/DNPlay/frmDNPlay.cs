@@ -372,6 +372,7 @@ namespace DNPlay
 			// 
 			// cmdFollowLink
 			// 
+			this.cmdFollowLink.Enabled = false;
 			this.cmdFollowLink.Location = new System.Drawing.Point(312, 232);
 			this.cmdFollowLink.Name = "cmdFollowLink";
 			this.cmdFollowLink.Size = new System.Drawing.Size(96, 24);
