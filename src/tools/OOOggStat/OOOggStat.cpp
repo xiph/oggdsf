@@ -96,12 +96,9 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 
 
-	//This program just dumps the pages out of a file in ogg format.
-	// Currently does not error checking. Check your command line carefully !
-	// USAGE :: OggDump <OggFile>
-	//
+	
 	if (argc < 2) {
-		cout<<"Usage : OOOggDump <filename>"<<endl;
+		cout<<"Usage : OOOggStat <filename>"<<endl;
 	} else {
 		streamNo = 0;
 		OggDataBuffer testOggBuff;
