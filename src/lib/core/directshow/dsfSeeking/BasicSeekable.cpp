@@ -5,6 +5,7 @@ BasicSeekable::BasicSeekable(IMediaSeeking* inDelegate)
 	//: CUnknown(NAME("Basic Seekable Thing"), NULL, &mHR)
 {
 	mSeekDelegate = inDelegate;
+	mSeekTimeBase = 0;
 
 		mSeekingCap = 0;
 	mSeekingCap =		AM_SEEKING_CanSeekAbsolute |
@@ -21,6 +22,7 @@ BasicSeekable::BasicSeekable(IMediaSeeking* inDelegate)
 BasicSeekable::BasicSeekable(void)
 	//: CUnknown(NAME("Basic Seekable Thing"), NULL, &mHR) 
 {
+	mSeekTimeBase = 0;
 	mSeekDelegate = NULL;	
 	mSeekingCap =		AM_SEEKING_CanSeekAbsolute |
 						AM_SEEKING_CanSeekForwards |
@@ -209,7 +211,11 @@ STDMETHODIMP BasicSeekable::ConvertTimeFormat(LONGLONG* outTarget, const GUID* i
 STDMETHODIMP BasicSeekable::SetPositions(LONGLONG* inoutCurrent, DWORD inCurrentFlags, LONGLONG* inStop, DWORD inStopFlags) {
 	if (mSeekDelegate != NULL) {
 		seekDebug<<"Set pos : Passed on..."<<endl;
-		return mSeekDelegate->SetPositions(inoutCurrent, inCurrentFlags, inStop, inStopFlags);
+		HRESULT locHR = mSeekDelegate->SetPositions(inoutCurrent, inCurrentFlags, inStop, inStopFlags);
+		if (locHR == S_OK) {
+			mSeekTimeBase = *inoutCurrent;
+		}
+		return locHR;
 	} else {
 		seekDebug<<"Set pos : NULL Delegate"<<endl;
 		//This is probably wrong.

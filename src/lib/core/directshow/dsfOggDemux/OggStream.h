@@ -48,6 +48,8 @@ public:
 	OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter);
 	virtual ~OggStream(void);
 
+	//more hacks
+	virtual void setLastEndGranPos(__int64 inGranPos);
 	unsigned long serialNo();
 	//virtual bool IdentifyCodec(OggPacket* inOggPacket) = 0;
 	virtual bool InitCodec(StampedOggPacket* inOggPacket) = 0;

@@ -244,6 +244,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		}
 	
 		mSourceFile.seekg(mSeekTable->getStartPos(*pCurrent), ios_base::beg);
+		//*pCurrent = mSeekTable->getLastRealStartGranPos();
 	
 	
 		debugLog<<"       : Seek complete."<<endl;
@@ -255,6 +256,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		}
 		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 			mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);	
+			mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getLastRealStartGranPos());
 		}
 	} else {
 		return E_NOTIMPL;

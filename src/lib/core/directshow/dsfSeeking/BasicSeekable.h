@@ -73,6 +73,7 @@ public:
 protected:
 	IMediaSeeking* mSeekDelegate;
 
+	REFERENCE_TIME mSeekTimeBase;
 	HRESULT mHR;
 
 	fstream seekDebug;

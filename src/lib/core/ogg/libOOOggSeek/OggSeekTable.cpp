@@ -34,6 +34,7 @@
 
 OggSeekTable::OggSeekTable(void)
 	:	mEnabled(true)
+	,	mRealStartGranPos(0)
 {
 	mSeekMap.clear();
 	mSeekMap.empty();
@@ -51,8 +52,15 @@ bool OggSeekTable::addSeekPoint(__int64 inTime, unsigned long mStartPos) {
 	return true;
 
 }
+
+__int64 OggSeekTable::getLastRealStartGranPos() {
+	
+	return mRealStartGranPos;
+
+}
 unsigned long OggSeekTable::getStartPos(__int64 inTime) {
 	 pair<__int64, unsigned long> locValue = *(mSeekMap.lower_bound(inTime));
+	 mRealStartGranPos = locValue.first;
 	 return locValue.second;
 	
 }

@@ -68,6 +68,7 @@ CBasePin* AbstractAudioDecodeFilter::GetPin(int inPinNo) {
 STDMETHODIMP AbstractAudioDecodeFilter::Stop() {
 	CAutoLock locLock(m_pLock);
 	mInputPin->ResetFrameCount();
+	mInputPin->ResetTimeBases();
 	return CBaseFilter::Stop();
 }
 int AbstractAudioDecodeFilter::GetPinCount(void) {

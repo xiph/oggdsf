@@ -75,6 +75,7 @@ public:
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType) = 0;
 
 	virtual void ResetFrameCount();
+	virtual void ResetTimeBases();
 
 	virtual STDMETHODIMP EndOfStream(void);
 	virtual STDMETHODIMP BeginFlush();

@@ -84,6 +84,9 @@ void AbstractAudioDecodeInputPin::ResetFrameCount() {
 	mUptoFrame = 0;
 	
 }
+void AbstractAudioDecodeInputPin::ResetTimeBases() {
+	mLastSeenStartGranPos = 0;
+}
 bool AbstractAudioDecodeInputPin::SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime) 
 {
 	outMediaSample->SetTime(inStartTime, inEndTime);

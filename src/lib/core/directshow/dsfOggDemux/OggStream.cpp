@@ -207,6 +207,10 @@ bool OggStream::AddPin() {
 	return true;
 	
 }
+
+void OggStream::setLastEndGranPos(__int64 inGranPos) {
+	mLastEndGranulePos = inGranPos;
+}
 bool OggStream::acceptOggPage(OggPage* inOggPage) {
 	//FIX::: Add proper error checking.
 
