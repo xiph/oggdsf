@@ -72,7 +72,7 @@ bool renameCurrentFile() {
 
 		size_t locSlashPos = outFileName.find_last_of('\\');
 		if (locSlashPos == string::npos) {
-			locSlashPos == -1;
+			locSlashPos = -1;
 		}
 		size_t locDotPos = outFileName.find_last_of('.');
 
@@ -101,7 +101,7 @@ bool writePage(OggPage* inOggPage) {
 	return true;
 }
 //This will be called by the callback
-bool pageCB(OggPage* inOggPage, void *inUserData /* ignored */) {
+bool pageCB(OggPage* inOggPage, void*  /* inUserData  ignored */) {
 	bool retVal = false;
 	if (inStream == false) {
 		//Not in the middle of a stream

@@ -42,7 +42,7 @@
 unsigned long bytePos;
 
 //This will be called by the callback
-bool pageCB(OggPage* inOggPage, void *inUserData /* ignored */) {
+bool pageCB(OggPage* inOggPage, void*  /* inUserData  ignored */) {
 	cout<<"Page Location : "<<bytePos;
 	bytePos += inOggPage->pageSize();
 	cout<<" to "<<bytePos<<endl;
