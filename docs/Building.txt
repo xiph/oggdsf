@@ -1,0 +1,8 @@
+Building oggdsf
+===============
+
+* In Visual Studio .NET 2003, right-click on oggcodecs in the Solution Explorer project to build it.  Building the entire solution will not work, because there are currently some missing projects (such as Dirac).
+
+* After building, right-click on oggcodecs again and select Install from the context menu to install them on your system.  You do not need to uninstall older versions of oggcodecs before selecting Install.
+
+* If you have problems building FLAC, copy ordinals.bak in oggdsf\src\lib\codecs\flac\libs\libflac\include\FLAC to ordinals.h in the same directory.  The FLAC build script currently deletes the ordinals.h file if you clean everything.
