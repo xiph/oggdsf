@@ -65,6 +65,7 @@ VorbisDecodeFilter::VorbisDecodeFilter()
 
 bool VorbisDecodeFilter::ConstructPins() 
 {
+	DbgLog((LOG_TRACE,1,TEXT("Vorbis Constructor...")));
 	//Output pin must be done first because it's passed to the input pin.
 	mOutputPin = new VorbisDecodeOutputPin(this, m_pLock);
 
@@ -77,6 +78,7 @@ bool VorbisDecodeFilter::ConstructPins()
 
 VorbisDecodeFilter::~VorbisDecodeFilter(void)
 {
+	DbgLog((LOG_TRACE,1,TEXT("Vorbis Destructor...")));
 	//DestroyPins();
 	delete mVorbisFormatInfo;
 }

@@ -70,6 +70,7 @@ OggDemuxSourcePin::~OggDemuxSourcePin(void)
 	//debugLog.close();
 	
 	delete mDataQueue;
+	mDataQueue = NULL;
 }
 
 STDMETHODIMP OggDemuxSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)

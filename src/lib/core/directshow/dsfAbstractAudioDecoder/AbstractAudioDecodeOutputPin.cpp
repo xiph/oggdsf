@@ -44,6 +44,7 @@ AbstractAudioDecodeOutputPin::~AbstractAudioDecodeOutputPin(void)
 {	
 
 	delete mDataQueue;
+	mDataQueue = NULL;
 }
 
 STDMETHODIMP AbstractAudioDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
@@ -180,7 +181,8 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 }
 
 HRESULT AbstractAudioDecodeOutputPin::BreakConnect(void) {
+	HRESULT locHR = CBaseOutputPin::BreakConnect();
 	delete mDataQueue;
 	mDataQueue = NULL;
-	return CBaseOutputPin::BreakConnect();
+	return locHR;
 }

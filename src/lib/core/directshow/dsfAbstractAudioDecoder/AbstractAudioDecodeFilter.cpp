@@ -42,8 +42,9 @@ AbstractAudioDecodeFilter::AbstractAudioDecodeFilter(TCHAR* inFilterName, REFCLS
 
 AbstractAudioDecodeFilter::~AbstractAudioDecodeFilter(void)
 {
-	delete m_pLock;
 	DestroyPins();
+	delete m_pLock;
+	
 }
 
 void AbstractAudioDecodeFilter::DestroyPins() {
