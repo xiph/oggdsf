@@ -273,7 +273,7 @@ bool OggPaginator::addPacketToPage(StampedOggPacket* inOggPacket) {
 	//
 
 	//Every header gets it's own page.
-	if ((mPacketCount < mSettings->mNumHeaders) && (mPendingPageHasData)) {
+	if (((mPacketCount < mSettings->mNumHeaders) || (mPacketCount >= mSettings->mMaxPacksPerPage)) && (mPendingPageHasData)) {
 		//debugLog<<"Flushing a header page..."<<endl;
 		//debugLog<<"PacketCount = "<<mPacketCount<<endl;
 		//debugLog<<"Num Headers = "<<mSettings->mNumHeaders<<endl;
@@ -449,4 +449,3 @@ unsigned long OggPaginator::numHeaders() {
 	return mSettings->mNumHeaders;
 
 }
-

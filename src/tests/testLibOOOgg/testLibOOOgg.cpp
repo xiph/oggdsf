@@ -152,7 +152,7 @@ bool test255MultPacketSizesToFile(string inFileName, unsigned long inNumPackets)
 
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 	int x;
 	cin>>x;
@@ -161,4 +161,3 @@ int _tmain(int argc, _TCHAR* argv[])
 	test255MultPacketSizesToFile("d:\\Zen\\tests\\test.ogg", 500);
 	return 0;
 }
-

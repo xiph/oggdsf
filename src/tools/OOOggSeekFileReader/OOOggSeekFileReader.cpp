@@ -9,11 +9,7 @@
 #include <fstream>
 using namespace std;
 
-#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
-#else
-int main(int argc, char * argv[])
-#endif
 {
 
 	if (argc < 2) {
@@ -31,19 +27,18 @@ int main(int argc, char * argv[])
 		while (!seekFile.eof()) {
 			//Read the time
 			seekFile.read((char*)buff, 8);
-			timePoint = iLE_Math::CharArrToInt64(buff);
-
-			//Read the byte offset
-			seekFile.read((char*)buff, 4);
-			bytePos = iLE_Math::charArrToULong(buff);
-
-			cout << "Seek point "<<pointCount<<" : Time = "<<timePoint<<", Byte Offset = "<<bytePos<<endl;
+			if (seekFile.gcount() == 8) {
+				timePoint = iLE_Math::CharArrToInt64(buff);
 
 
+				seekFile.read((char*)buff, 4);
+				bytePos = iLE_Math::charArrToULong(buff);
+
+				cout << "Seek point "<<pointCount<<" : Time = "<<timePoint<<", Byte Offset = "<<bytePos<<endl;
+			}
 		}
 
-		delete buff;
+		delete [] buff;
 	}
 	return 0;
 }
-

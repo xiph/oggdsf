@@ -158,6 +158,7 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 
 	memcpy((void*)locOutBuffer, (const void*)locNarrowStr.c_str(), locNarrowStr.size());
 
+	if (inTag->ta
 	locSample->SetActualDataLength(locNarrowStr.size());
 
 	

@@ -68,7 +68,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;"
+				AdditionalIncludeDirectories="..\..\lib\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
