@@ -243,7 +243,7 @@ StampedOggPacket* AnxPacketMaker::makeAnxData_2_0	(			unsigned short inVersionMa
 			}
 
 			//terminating crlf
-			locPacketSize += 2;
+			//locPacketSize += 2;
 
 			locBuff = new unsigned char[locPacketSize];
 
@@ -268,8 +268,8 @@ StampedOggPacket* AnxPacketMaker::makeAnxData_2_0	(			unsigned short inVersionMa
 				locBuff[locUpto++] = '\n';
 			}
 
-			locBuff[locUpto++] = '\r';
-			locBuff[locUpto++] = '\n';
+			//locBuff[locUpto++] = '\r';
+			//locBuff[locUpto++] = '\n';
 			
 			locPack = new StampedOggPacket(locBuff, locPacketSize, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY);
 			return locPack;
