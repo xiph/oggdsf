@@ -296,6 +296,12 @@
 				RelativePath="TheoraDecodeFilter.cpp">
 			</File>
 			<File
+				RelativePath=".\TheoraDecodeInputPin.cpp">
+			</File>
+			<File
+				RelativePath=".\TheoraDecodeOutputPin.cpp">
+			</File>
+			<File
 				RelativePath="theoradecoder.def">
 			</File>
 		</Filter>
@@ -307,6 +313,12 @@
 			</File>
 			<File
 				RelativePath="TheoraDecodeFilter.h">
+			</File>
+			<File
+				RelativePath=".\TheoraDecodeInputPin.h">
+			</File>
+			<File
+				RelativePath=".\TheoraDecodeOutputPin.h">
 			</File>
 			<File
 				RelativePath="theoradecoderdllstuff.h">

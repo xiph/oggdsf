@@ -31,48 +31,53 @@
 
 #pragma once
 
-#include "Theoradecoderdllstuff.h"
-//#include "AbstractVideoDecodeInputPin.h"
-//#include "TheoraDecodeInputPin.h"
 
-//#include "TheoraDecodeFilter.h"
-#include "DSStringer.h"
-#include "TheoraDecoder.h"
-#include <math.h>
-#include <fstream>
-using namespace std;
-
-
-class TheoraDecodeOutputPin;
-
-class TheoraDecodeInputPin 
-	:	public AbstractVideoDecodeInputPin
-{
-public:
-	TheoraDecodeInputPin(AbstractVideoDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractVideoDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
-	virtual ~TheoraDecodeInputPin(void);
-	int TheoraDecoded (yuv_buffer* inYUVBuffer);
-
-		DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-
-	HRESULT SetMediaType(const CMediaType* inMediaType);
-
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
-	//FIX:::These should be protected.
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
-
-	long decodeData(BYTE* inBuf, long inNumBytes, LONGLONG inStart, LONGLONG inEnd) ;
-
-protected:
-	fstream debugLog;
-	//FishSound* mFishSound;
-	//FishSoundInfo mFishInfo; 
-	TheoraDecoder* mTheoraDecoder;
-	unsigned long mXOffset;
-	unsigned long mYOffset;
-	
-
-
-};
+//----------------------
+//OLD IMPLEMENTATION
+//----------------------
+//
+//#include "Theoradecoderdllstuff.h"
+////#include "AbstractVideoDecodeInputPin.h"
+////#include "TheoraDecodeInputPin.h"
+//
+////#include "TheoraDecodeFilter.h"
+//#include "DSStringer.h"
+//#include "TheoraDecoder.h"
+//#include <math.h>
+//#include <fstream>
+//using namespace std;
+//
+//
+//class TheoraDecodeOutputPin;
+//
+//class TheoraDecodeInputPin 
+//	:	public AbstractVideoDecodeInputPin
+//{
+//public:
+//	TheoraDecodeInputPin(AbstractVideoDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractVideoDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
+//	virtual ~TheoraDecodeInputPin(void);
+//	int TheoraDecoded (yuv_buffer* inYUVBuffer);
+//
+//		DECLARE_IUNKNOWN
+//	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+//
+//	HRESULT SetMediaType(const CMediaType* inMediaType);
+//
+//	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
+//	//FIX:::These should be protected.
+//	virtual bool ConstructCodec();
+//	virtual void DestroyCodec();
+//
+//	long decodeData(BYTE* inBuf, long inNumBytes, LONGLONG inStart, LONGLONG inEnd) ;
+//
+//protected:
+//	fstream debugLog;
+//	//FishSound* mFishSound;
+//	//FishSoundInfo mFishInfo; 
+//	TheoraDecoder* mTheoraDecoder;
+//	unsigned long mXOffset;
+//	unsigned long mYOffset;
+//	
+//
+//
+//};

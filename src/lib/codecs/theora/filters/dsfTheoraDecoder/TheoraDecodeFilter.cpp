@@ -677,6 +677,50 @@ void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock)
 	mTheoraFormatInfo = new sTheoraFormatBlock;
 	*mTheoraFormatInfo = *inFormatBlock;
 }
+
+CBasePin* TheoraDecodeFilter::GetPin(int inPinNo)
+{
+    HRESULT hr = S_OK;
+
+    // Create an input pin if necessary
+
+    if (m_pInput == NULL) {
+
+        m_pInput = new TheoraDecodeInputPin(NAME("Theora Input Pin"),
+                                          this,              // Owner filter
+                                          &hr,               // Result code
+                                          L"Theora In");      // Pin name
+
+
+        //  Can't fail
+        ASSERT(SUCCEEDED(hr));
+        if (m_pInput == NULL) {
+            return NULL;
+        }
+        m_pOutput = new TheoraDecodeOutputPin(NAME("Theora Output Pin"),
+                                            this,            // Owner filter
+                                            &hr,             // Result code
+                                            L"YV12 Out");   // Pin name
+
+
+        // Can't fail
+        ASSERT(SUCCEEDED(hr));
+        if (m_pOutput == NULL) {
+            delete m_pInput;
+            m_pInput = NULL;
+        }
+    }
+
+    // Return the pin
+
+    if (n == 0) {
+        return m_pInput;
+    } else if (n == 1) {
+        return m_pOutput;
+    } else {
+        return NULL;
+    }
+}
 //---------------------------------------
 //OLD IMPLOEMENTATION....
 //---------------------------------------

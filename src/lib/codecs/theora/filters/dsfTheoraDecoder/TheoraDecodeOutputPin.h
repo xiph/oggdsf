@@ -30,41 +30,45 @@
 //===========================================================================
 
 #pragma once
-#include <d3d9.h>
-#include <vmr9.h>
-#include "Theoradecoderdllstuff.h"
-#include "AbstractVideoDecodeOutputPin.h"
 
-
-class TheoraDecodeFilter;
-class TheoraDecodeOutputPin 
-	:	public AbstractVideoDecodeOutputPin
-	//,	public IStreamBuilder
-{
-public:
-	friend class TheoraDecodeInputPin;
-
-		DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	TheoraDecodeOutputPin(TheoraDecodeFilter* inParentFilter,CCritSec* inFilterLock);
-	virtual ~TheoraDecodeOutputPin(void);
-
-	STDMETHODIMP Notify(IBaseFilter *pSelf, Quality q);
-
-	//Implements IStreamBuilder to force the pin to connect to VMR9
-	//STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
-	//STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
-
-
-
-
-	
-
-
-	//virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
-	virtual bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
-	
-
-};
-
-
+//----------------------
+//OLD IMPLEMENTATION
+//----------------------
+//#include <d3d9.h>
+//#include <vmr9.h>
+//#include "Theoradecoderdllstuff.h"
+//#include "AbstractVideoDecodeOutputPin.h"
+//
+//
+//class TheoraDecodeFilter;
+//class TheoraDecodeOutputPin 
+//	:	public AbstractVideoDecodeOutputPin
+//	//,	public IStreamBuilder
+//{
+//public:
+//	friend class TheoraDecodeInputPin;
+//
+//		DECLARE_IUNKNOWN
+//	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+//	TheoraDecodeOutputPin(TheoraDecodeFilter* inParentFilter,CCritSec* inFilterLock);
+//	virtual ~TheoraDecodeOutputPin(void);
+//
+//	STDMETHODIMP Notify(IBaseFilter *pSelf, Quality q);
+//
+//	//Implements IStreamBuilder to force the pin to connect to VMR9
+//	//STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+//	//STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+//
+//
+//
+//
+//	
+//
+//
+//	//virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
+//	virtual bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
+//	
+//
+//};
+//
+//
