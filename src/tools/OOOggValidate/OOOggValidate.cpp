@@ -32,7 +32,7 @@ int main(int argc, char * argv[])
 		testOggBuff.registerVirtualCallback(&testValidator);
 
 	
-		const BUFF_SIZE = 8092;
+		const int BUFF_SIZE = 8092;
 	
 		fstream testFile;
 		testFile.open(argv[1], ios_base::in | ios_base::binary);

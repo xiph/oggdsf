@@ -106,7 +106,7 @@ int main(int argc, char * argv[])
 		streamNo = 0;
 		OggDataBuffer testOggBuff;
 		//OggCallbackRego* locCBRego = new OggCallbackRego(&pageCB);
-		const BUFF_SIZE = 8092;
+		const int BUFF_SIZE = 8092;
 		testOggBuff.registerStaticCallback(&pageCB);
 
 		fstream testFile;
