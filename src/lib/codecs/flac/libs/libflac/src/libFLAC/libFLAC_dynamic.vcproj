@@ -151,6 +151,156 @@
 			<Tool
 				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
+		<Configuration
+			Name="Release_SSE2|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			WholeProgramOptimization="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="3"
+				AdditionalIncludeDirectories=".\include,..\..\include"
+				PreprocessorDefinitions="NDEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				EnableEnhancedInstructionSet="2"
+				RuntimeTypeInfo="TRUE"
+				PrecompiledHeaderFile=".\Release_dynamic/libFLAC_dynamic.pch"
+				AssemblerListingLocation=".\Release_dynamic/"
+				ObjectFile=".\Release_dynamic/"
+				ProgramDataBaseFileName=".\Release_dynamic/"
+				BrowseInformation="1"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CallingConvention="0"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="..\..\obj\release\bin/libFLAC.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				ProgramDatabaseFile=".\..\..\obj\release\lib/libFLAC.pdb"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				ImportLibrary=".\..\..\obj\release\lib/libFLAC.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\obj\release\lib/libFLAC_dynamic.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG,_USRDLL"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release_SSE|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			WholeProgramOptimization="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="3"
+				AdditionalIncludeDirectories=".\include,..\..\include"
+				PreprocessorDefinitions="NDEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				EnableEnhancedInstructionSet="1"
+				RuntimeTypeInfo="TRUE"
+				PrecompiledHeaderFile=".\Release_dynamic/libFLAC_dynamic.pch"
+				AssemblerListingLocation=".\Release_dynamic/"
+				ObjectFile=".\Release_dynamic/"
+				ProgramDataBaseFileName=".\Release_dynamic/"
+				BrowseInformation="1"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CallingConvention="0"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="..\..\obj\release\bin/libFLAC.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				ProgramDatabaseFile=".\..\..\obj\release\lib/libFLAC.pdb"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				ImportLibrary=".\..\..\obj\release\lib/libFLAC.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\obj\release\lib/libFLAC_dynamic.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG,_USRDLL"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -235,6 +385,24 @@
 							AdditionalDependencies="ia32/cpu_asm.nasm;"
 							Outputs="ia32/cpu_asm.obj"/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_SSE2|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj
+"
+							AdditionalDependencies="ia32/cpu_asm.nasm;"
+							Outputs="ia32/cpu_asm.obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_SSE|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj
+"
+							AdditionalDependencies="ia32/cpu_asm.nasm;"
+							Outputs="ia32/cpu_asm.obj"/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ia32\fixed_asm.nasm">
@@ -256,6 +424,24 @@
 							AdditionalDependencies="ia32/fixed_asm.nasm;"
 							Outputs="ia32/fixed_asm.obj"/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_SSE2|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj
+"
+							AdditionalDependencies="ia32/fixed_asm.nasm;"
+							Outputs="ia32/fixed_asm.obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_SSE|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj
+"
+							AdditionalDependencies="ia32/fixed_asm.nasm;"
+							Outputs="ia32/fixed_asm.obj"/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ia32\lpc_asm.nasm">
@@ -270,6 +456,24 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj
+"
+							AdditionalDependencies="ia32/lpc_asm.nasm;"
+							Outputs="ia32/lpc_asm.obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_SSE2|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj
+"
+							AdditionalDependencies="ia32/lpc_asm.nasm;"
+							Outputs="ia32/lpc_asm.obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_SSE|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj
@@ -385,6 +589,24 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="echo on
+"
+						AdditionalDependencies="..\..\include\FLAC\ordinals.h.in;"
+						Outputs="$(InputDir)ordinals.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_SSE2|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="echo on
+"
+						AdditionalDependencies="..\..\include\FLAC\ordinals.h.in;"
+						Outputs="$(InputDir)ordinals.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_SSE|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						CommandLine="echo on

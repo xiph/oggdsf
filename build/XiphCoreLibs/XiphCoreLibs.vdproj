@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_70A69143706D4FC9A7E3E3D86D9A27B0"
+        "OwnerKey" = "8:_9297F69221344C25876DCB6577CD4340"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_85BFDA4CE716439F99B132912ED31125"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -29,12 +35,6 @@
         {
         "MsmKey" = "8:_A60D5EE3D8B74B42BF2AF32A5F2D6726"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BF671A3FCECE81CB5B6615E636C543F9"
-        "OwnerKey" = "8:_9297F69221344C25876DCB6577CD4340"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -78,6 +78,38 @@
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
         }
+        "Release_SSE"
+        {
+        "DisplayName" = "8:Release_SSE"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Release_SSE\\XiphCoreLibs.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+        }
+        "Release_SSE2"
+        {
+        "DisplayName" = "8:Release_SSE2"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Release_SSE2\\XiphCoreLibs.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+        }
     }
     "Deployable"
     {
@@ -101,26 +133,6 @@
         }
         "File"
         {
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_BF671A3FCECE81CB5B6615E636C543F9"
-            {
-            "SourcePath" = "8:MSVCR71D.dll"
-            "TargetName" = "8:MSVCR71D.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_35F67CC352C846C79B8F731AE14D6640"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -674,6 +686,20 @@
         }
         "MergeModule"
         {
+            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_70A69143706D4FC9A7E3E3D86D9A27B0"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:vc_user_crt71_rtl_x86_---.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
         }
         "ProjectOutput"
         {
@@ -735,7 +761,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_A60D5EE3D8B74B42BF2AF32A5F2D6726"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libogg\\win32\\Dynamic_Release\\libogg.lib"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libogg\\win32\\release_sse\\libogg.lib"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_35F67CC352C846C79B8F731AE14D6640"
@@ -763,7 +789,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_FC4C0390D8BC485BB6D95E4837ECE7B2"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libtheora\\win32\\libtheora\\Release\\libtheora.lib"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libtheora\\win32\\libtheora\\release_sse\\libtheora.lib"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_35F67CC352C846C79B8F731AE14D6640"
