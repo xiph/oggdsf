@@ -77,6 +77,9 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 TheoraDecodeFilter::~TheoraDecodeFilter() {
 	delete mTheoraDecoder;
 	mTheoraDecoder = NULL;
+
+	delete mTheoraFormatInfo;
+	mTheoraFormatInfo = NULL;
 	//debugLog.close();
 
 }
@@ -362,7 +365,8 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 		} else {
 			//debugLog<<"Attempting dynamic change..."<<endl;
 		}
-				
+		
+		//This packet is given to the decoder.
 		StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 		yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
 		if (locYUV != NULL) {
@@ -674,7 +678,7 @@ sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock()
 void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock) 
 {
 	delete mTheoraFormatInfo;
-	mTheoraFormatInfo = new sTheoraFormatBlock;
+	mTheoraFormatInfo = new sTheoraFormatBlock;			//Deelted in destructor.
 	*mTheoraFormatInfo = *inFormatBlock;
 }
 
@@ -686,13 +690,13 @@ CBasePin* TheoraDecodeFilter::GetPin(int inPinNo)
 
     if (m_pInput == NULL) {
 
-        m_pInput = new TheoraDecodeInputPin(this, &locHR);
+        m_pInput = new TheoraDecodeInputPin(this, &locHR);		//Deleted in base destructor
 
         
         if (m_pInput == NULL) {
             return NULL;
         }
-        m_pOutput = new TheoraDecodeOutputPin(this, &locHR);
+        m_pOutput = new TheoraDecodeOutputPin(this, &locHR);	//Deleted in base destructor
 			
 
         if (m_pOutput == NULL) {

@@ -52,10 +52,10 @@ bool TheoraDecoder::initCodec() {
 
 //This is temporary... get it out of here after testing
 
-yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {
+yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts packet and deletes it.
 
 	if (mPacketCount < 3) {
-		decodeHeader(inPacket);
+		decodeHeader(inPacket);		//Accepts header and deletes it.
 		
 		return NULL;
 	} else {
@@ -63,8 +63,9 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {
 			theora_decode_init(&mTheoraState, &mTheoraInfo);
 			mFirstPacket = false;
 		}
-		
-			theora_decode_packetin(&mTheoraState, simulateOldOggPacket(inPacket));
+			ogg_packet* locOldPack = simulateOldOggPacket(inPacket);		//Accepts the packet and deletes it.
+			theora_decode_packetin(&mTheoraState, locOldPack);
+			delete locOldPack;
 			
 			int locRetVal = theora_decode_YUVout(&mTheoraState, &mYUVBuffer);
 			//Error check
@@ -73,9 +74,9 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {
 
 }
 
-ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) {
+ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) {		//inPacket is accepted and deleted.
 	const unsigned char NOT_USED = 0;
-	ogg_packet* locOldPacket = new ogg_packet;
+	ogg_packet* locOldPacket = new ogg_packet;		//Returns this... the caller is responsible for it.
 	if (mFirstHeader) {
 		locOldPacket->b_o_s = 1;
 		mFirstHeader = false;
@@ -87,10 +88,19 @@ ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) {
 	locOldPacket->granulepos = inPacket->endTime();
 	locOldPacket->packet = inPacket->packetData();
 	locOldPacket->packetno = NOT_USED;
-	return locOldPacket;
+	
+	//Set this to NULL do it doesn't get deleted by the destructor we are about invoke.
+	inPacket->setPacketData(NULL);
+	delete inPacket;
+
+	return locOldPacket;		//Gives a poitner to the caller.
 }
-bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket) {
-	theora_decode_header(&mTheoraInfo, &mTheoraComment, simulateOldOggPacket(inHeaderPacket));
+bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket) {		//inHeaderPacket is accepted and deleted.
+
+	ogg_packet* locOldPack = simulateOldOggPacket(inHeaderPacket);		//Accepts packet and deletes it.
+	theora_decode_header(&mTheoraInfo, &mTheoraComment, locOldPack);
+
+	delete locOldPack;
 	mPacketCount++;
 	return true;
 }
