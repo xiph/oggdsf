@@ -130,6 +130,9 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 		locSample->SetActualDataLength(inPacket->packetSize());
 
 		locHR = mDataQueue->Receive(locSample);
+
+		//REF_CHECK::: In theory should release here.
+		//The sample has ref_count of 1 by virtue of it's creation... we should release that 1 ref count here.
 		
 		if (locHR != S_OK) {
 			//debugLog << "Failure... Queue rejected sample..."<<endl;
