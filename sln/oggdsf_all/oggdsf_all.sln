@@ -1041,6 +1041,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfFLACEncoder", "..\..\src
 		{A0004AEB-B47C-4A0A-8FE7-4F65B5FD48FA} = {A0004AEB-B47C-4A0A-8FE7-4F65B5FD48FA}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libVorbisCommentDotNET", "..\..\src\lib\core\ogg\libVorbisCommentDotNET\libVorbisCommentDotNET.vcproj", "{9599D980-84D8-4470-B7E2-1F7B52C781E7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -1480,6 +1484,16 @@ Global
 		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Release.Build.0 = Release|Win32
 		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Release Unicode.ActiveCfg = Release|Win32
 		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Release Unicode.Build.0 = Release|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Debug.ActiveCfg = Debug|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Debug.Build.0 = Debug|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Debug Unicode.ActiveCfg = Debug|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Debug Unicode.Build.0 = Debug|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.MakeFile.ActiveCfg = Release|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.MakeFile.Build.0 = Release|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Release.ActiveCfg = Release|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Release.Build.0 = Release|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Release Unicode.ActiveCfg = Release|Win32
+		{9599D980-84D8-4470-B7E2-1F7B52C781E7}.Release Unicode.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
