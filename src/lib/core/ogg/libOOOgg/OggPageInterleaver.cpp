@@ -97,7 +97,7 @@ void OggPageInterleaver::processData() {
 void OggPageInterleaver::writeLowest() {
 		OggMuxStream* locLowestStream = NULL;
 		for (int i = 0; i < mInputStreams.size(); i++) {
-			if (!mInputStreams[i]->isEmpty()) {
+			if (!mInputStreams[i]->isEmpty() && mInputStreams[i]->isActive()) {
 				if (locLowestStream == NULL) {
 					locLowestStream = mInputStreams[i];
 				} else if (mInputStreams[i]->frontTime() < locLowestStream->frontTime()) {

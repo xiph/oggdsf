@@ -113,6 +113,7 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 }
 
 HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
+	mMuxStream->setIsActive(true);
 	return mParentFilter->addAnotherPin();
 }
 STDMETHODIMP OggMuxInputPin::EndOfStream(void) {

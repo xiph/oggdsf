@@ -75,7 +75,7 @@ public:
 
 
 	
-
+	//Get rid of this.
 	unsigned char* PageData();
 
 	//MUTATORS
@@ -90,7 +90,7 @@ protected:
 
 	OggPageHeader* mHeader;
 
-
+	//This is obsolete... can it !
 	unsigned char* mPageData;
 
 

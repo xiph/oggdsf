@@ -66,8 +66,13 @@ StampedOggPacket* OggPage::getStampedPacket(unsigned long inPacketNo) {
 	}
 }
 OggPage* OggPage::clone() {
-	throw 0;
-	return NULL;
+	OggPage* retClone = new OggPage;
+	retClone->mHeader = mHeader->clone();
+	for (int i = 0; i < mPacketList.size(); i++) {
+		retClone->mPacketList.push_back(mPacketList[i]);
+	}
+	
+	return retClone;
 
 }
 //OggPage* OggPage::clone() {

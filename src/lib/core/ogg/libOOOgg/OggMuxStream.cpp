@@ -32,7 +32,8 @@
 #include "oggmuxstream.h"
 
 OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
-	:	mIsEOS(true)
+	:	mIsEOS(false)
+	,	mIsActive(false)
 	,	mNotifier(inNotifier)
 {
 }
@@ -81,7 +82,7 @@ bool OggMuxStream::isEOS() {
 }
 
 bool OggMuxStream::isProcessable() {
-	if (isEmpty() &&  !isEOS()) {
+	if (isEmpty() &&  !isEOS() && isActive()) {
 		return false;
 	} else {
 		return true;
@@ -89,4 +90,11 @@ bool OggMuxStream::isProcessable() {
 }
 void OggMuxStream::setIsEOS(bool inIsEOS) {
 	mIsEOS = inIsEOS;
+}
+
+bool OggMuxStream::isActive() {
+	return mIsActive;
+}
+void OggMuxStream::setIsActive(bool inIsActive) {
+	mIsActive = inIsActive;
 }

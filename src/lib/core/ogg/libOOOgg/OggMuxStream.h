@@ -51,9 +51,12 @@ public:
 	virtual bool isEOS();
 	virtual bool isProcessable();
 	virtual void setIsEOS(bool inIsEOS);
+	virtual bool isActive();
+	virtual void setIsActive(bool inIsActive);
 	
 protected:
 	bool mIsEOS;
+	bool mIsActive;
 	deque<OggPage*> mPageQueue;
 	INotifyArrival* mNotifier;
 

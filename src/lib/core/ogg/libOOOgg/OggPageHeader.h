@@ -70,7 +70,7 @@ public:
 		BOS = 2,
 		EOS = 4
 	};
-
+	OggPageHeader* clone();
 
 	bool rawData(unsigned char* outData, unsigned long inBuffSize);
 	//ACCESSORS

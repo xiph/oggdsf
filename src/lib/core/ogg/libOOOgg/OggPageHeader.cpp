@@ -49,7 +49,40 @@ OggPageHeader::~OggPageHeader(void)
 
 }
 
+OggPageHeader* OggPageHeader::clone() {
+	/*
+		unsigned long mPageSize;
+	unsigned long mHeaderSize;
+	unsigned long mDataSize;
 
+	unsigned char mStructureVersion;
+	unsigned char mHeaderFlags;
+	OggInt64* mGranulePos;
+	unsigned long mStreamSerialNo;
+	unsigned long mPageSequenceNo;
+	unsigned long mCRCChecksum;
+	unsigned char mNumPageSegments;
+	OggSegmentTable* mSegmentTable;
+
+	ePageState mPageState;
+	*/
+
+	OggPageHeader* retClone = new OggPageHeader();
+	retClone->mCRCChecksum = mCRCChecksum;
+	retClone->mDataSize = mDataSize;
+	retClone->mGranulePos = mGranulePos->clone();
+	retClone->mHeaderFlags = mHeaderFlags;
+	retClone->mHeaderSize = mHeaderSize;
+	retClone->mNumPageSegments = mNumPageSegments;
+	retClone->mPageSequenceNo = mPageSequenceNo;
+	retClone->mPageSize = mPageSize;
+	retClone->mPageState = mPageState;
+	retClone->mSegmentTable = mSegmentTable->clone();
+	retClone->mStreamSerialNo = mStreamSerialNo;
+	retClone->mStructureVersion = mStructureVersion;
+
+	return retClone;
+}
 
 bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 	
