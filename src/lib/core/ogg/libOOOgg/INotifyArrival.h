@@ -36,5 +36,7 @@ public:
 	//Empty Constructor and destructor to ensure proper deletion
 	INotifyArrival(void)				{}
 	virtual ~INotifyArrival(void)		{}
+
+	/// Implement this to be notified when "something" arrives.
 	virtual void notifyArrival() = 0;
 };
