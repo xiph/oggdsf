@@ -63,6 +63,10 @@ typedef long        (*FSCodecEncodeN) (FishSound * fsound, float ** pcm,
 				       long frames);
 typedef long        (*FSCodecFlush) (FishSound * fsound);
 
+/* Zen's hackination for quality settings - PART A */
+float fs_vorbis_quality_setting_variable;
+/* End hackination */
+
 struct _FishSoundFormat {
   int format;
   const char * name;
