@@ -30,6 +30,8 @@ protected:
 	fstream mLocalFile;
 
 	unsigned long mBytesWritten;
+	unsigned long mReadPtr;
 	
+	fstream debugLog;
 	bool mIsComplete;
 };

@@ -60,8 +60,9 @@ void HTTPFileSource::DataProcessLoop() {
 	const unsigned long RECV_BUFF_SIZE = 1024;
 	locBuff = new char[RECV_BUFF_SIZE];
 	while(true) {
-
+		debugLog<<"About to call recv"<<endl;
 		locNumRead = recv(mSocket, locBuff, RECV_BUFF_SIZE, 0);
+		debugLog<<"recv complete"<<endl;
 		if (locNumRead == SOCKET_ERROR) {
 			int locErr = WSAGetLastError();
 			debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
@@ -195,8 +196,9 @@ bool HTTPFileSource::open(string inSourceLocation) {
 		//mStreamBuffer.seekp(0, ios_base::beg);
 
 		//TODO::: Get rid of this path.
-		if(mFileCache.open("g:\\logs\\filecache.dat")) {
-			debugLog<<"OPEN : Can't open file cache"<<endl;
+		string locCacheFileName = "g:\\logs\\filecache.dat";
+		if(mFileCache.open(locCacheFileName)) {
+			debugLog<<"OPEN : Cach file opened"<<endl;
 		}
 	} //END CRITICAL SECTION
 
