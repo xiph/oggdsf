@@ -43,12 +43,12 @@ C_TitleTag::~C_TitleTag(void)
 {
 }
 
-string C_TitleTag::toString() {
+wstring C_TitleTag::toString() {
 	//FIX ::: Make this do something
-	string retStr = "<title";
-	retStr += ">";
+	wstring retStr = L"<title";
+	retStr += L">";
 	retStr += mText;
-	retStr+= "</title>\n";
+	retStr+= L"</title>\n";
 	return retStr;
 }
 void C_TitleTag::privateClone(C_CMMLTag* outTag) {

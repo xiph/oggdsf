@@ -52,25 +52,25 @@ public:
 	virtual ~C_ImportTag(void);
 
 	//Accessors
-	string granuleRate();
-	string contentType();
-	string src();
-	string start();
-	string end();
-	string title();
+	wstring granuleRate();
+	wstring contentType();
+	wstring src();
+	wstring start();
+	wstring end();
+	wstring title();
 	C_ParamTagList* paramList();
 
 	//Mutators
-	void setGranuleRate(string inGranuleRate);
-	void setContentType(string inContentType);
-	void setSrc(string inSrc);
-	void setStart(string inStart);
-	void setEnd(string inEnd);
-	void setTitle(string inTitle);
+	void setGranuleRate(wstring inGranuleRate);
+	void setContentType(wstring inContentType);
+	void setSrc(wstring inSrc);
+	void setStart(wstring inStart);
+	void setEnd(wstring inEnd);
+	void setTitle(wstring inTitle);
 	void setParamList(C_ParamTagList* inParamList);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_ImportTag* clone();
 	virtual C_CMMLTag* genericClone();
 
@@ -78,12 +78,12 @@ protected:
 	//Property Data
 
 	//FIX ::: Change this to appropriate integer type ??
-	string mGranuleRate;
-	string mContentType;
-	string mSrc;
-	string mStart;
-	string mEnd;
-	string mTitle;
+	wstring mGranuleRate;
+	wstring mContentType;
+	wstring mSrc;
+	wstring mStart;
+	wstring mEnd;
+	wstring mTitle;
 	C_ParamTagList* mParamList;
 
 	//Protected Helper Methods

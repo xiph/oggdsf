@@ -55,7 +55,7 @@ public:
 	unsigned long numTags();
 
 	//Other
-	virtual string toString() = 0;
+	virtual wstring toString() = 0;
 
 protected:
 	//Property Data

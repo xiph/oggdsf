@@ -50,19 +50,19 @@ public:
 	virtual ~C_BaseTag(void);
 
 	//Accessors
-	string href();
+	wstring href();
 
 	//Mutators
-	void setHref(string inHref);
+	void setHref(wstring inHref);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_BaseTag* clone();
 	virtual C_CMMLTag* genericClone();
 
 protected:
 	//Property Data
-	string mHref;
+	wstring mHref;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

@@ -43,18 +43,18 @@ C_HumReadCMMLTag::~C_HumReadCMMLTag(void)
 }
 
 //Accessors
-string C_HumReadCMMLTag::lang() {
+wstring C_HumReadCMMLTag::lang() {
 	return mLang;
 }
-string C_HumReadCMMLTag::dirn() {
+wstring C_HumReadCMMLTag::dirn() {
 	return mDirn;
 }
 
 //Mutators
-void C_HumReadCMMLTag::setLang(string inLang) {
+void C_HumReadCMMLTag::setLang(wstring inLang) {
 	mLang = inLang;
 }
-void C_HumReadCMMLTag::setDirn(string inDirn) {
+void C_HumReadCMMLTag::setDirn(wstring inDirn) {
 	mDirn = inDirn;
 }
 

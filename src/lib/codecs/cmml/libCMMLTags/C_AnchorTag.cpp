@@ -57,40 +57,40 @@ C_CMMLTag* C_AnchorTag::genericClone() {
 }
 
 //Accessors
-string C_AnchorTag::cls() {
+wstring C_AnchorTag::cls() {
 	return mCls;
 }
-string C_AnchorTag::href() {
+wstring C_AnchorTag::href() {
 	return mHref;
 }
 
 //Mutators
-void C_AnchorTag::setCls(string inCls)  {
+void C_AnchorTag::setCls(wstring inCls)  {
 	mCls = inCls;
 }
-void C_AnchorTag::setHref(string inHref)  {
+void C_AnchorTag::setHref(wstring inHref)  {
 	mHref = inHref;
 }
 
 //Other
-string C_AnchorTag::toString()  {
+wstring C_AnchorTag::toString()  {
 	//TO DO::: 
 
-	string retStr =	"<a";
+	wstring retStr =	L"<a";
 	//Put in the id element if there is one
 	if (mId.size() != 0) {
-		retStr += makeElement("id", mId);
+		retStr += makeElement(L"id", mId);
 	}
 
 	if (mCls.size() != 0) {
-		retStr += makeElement("class", mCls);
+		retStr += makeElement(L"class", mCls);
 	}
 
-	retStr += makeElement("href", mHref);
+	retStr += makeElement(L"href", mHref);
 
-	retStr += ">";
+	retStr += L">";
 	retStr += mText;
-	retStr += "</a>\n";
+	retStr += L"</a>\n";
 	
 	return retStr;
 }

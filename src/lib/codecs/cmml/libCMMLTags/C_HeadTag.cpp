@@ -51,7 +51,7 @@ C_HeadTag::~C_HeadTag(void)
 }
 
 //Accessors
-string C_HeadTag::profile() {
+wstring C_HeadTag::profile() {
 	return mProfile;
 }
 C_TitleTag* C_HeadTag::title() {
@@ -64,7 +64,7 @@ C_MetaTagList* C_HeadTag::metaList() {
 	return mMetaList;
 }
 //Mutators
-void C_HeadTag::setProfile(string inProfile) {
+void C_HeadTag::setProfile(wstring inProfile) {
 	mProfile = inProfile;
 }
 void C_HeadTag::setTitle(C_TitleTag* inTitle) {
@@ -98,22 +98,22 @@ C_HeadTag* C_HeadTag::clone() {
 }
 
 
-string C_HeadTag::toString() {
+wstring C_HeadTag::toString() {
 	//TO DO::: Optional tags
-	string retStr = "<head";
+	wstring retStr = L"<head";
 
 	if (mId.size() != 0) {
-		retStr += " id=\"";
+		retStr += L" id=\"";
 		retStr += mId;
-		retStr += "\"";
+		retStr += L"\"";
 	}
 
 	if (mProfile.size() != 0) {
-		retStr += " profile=\"";
+		retStr += L" profile=\"";
 		retStr += mProfile;
-		retStr += "\"";
+		retStr += L"\"";
 	}
-	retStr+= ">\n";
+	retStr+= L">\n";
 	
 	if (mBase != NULL)  {
 		retStr += mBase->toString();
@@ -121,6 +121,6 @@ string C_HeadTag::toString() {
 
 	retStr += mTitle->toString();
 	retStr += mMetaList->toString();
-	retStr += "</head>\n\n";
+	retStr += L"</head>\n\n";
 	return retStr;
 }

@@ -44,8 +44,8 @@ C_ImportTagList::~C_ImportTagList(void)
 }
 
 
-string C_ImportTagList::toString() {
-	string retStr;
+wstring C_ImportTagList::toString() {
+	wstring retStr;
 
 	for (unsigned long i = 0; i < mTagList.size(); i++) {
 		retStr += mTagList[i]->toString();

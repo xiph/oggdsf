@@ -53,23 +53,23 @@ public:
 	virtual ~C_HeadTag(void);
 
 	//Accessors
-	string profile();
+	wstring profile();
 	C_TitleTag* title();
 	C_BaseTag* base();
 	C_MetaTagList* metaList();
 
 	//Mutators
-	void setProfile(string inProfile);
+	void setProfile(wstring inProfile);
 	void setTitle(C_TitleTag* inTitle);
 	void setBase(C_BaseTag* inBase);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_HeadTag* clone();
 	virtual C_CMMLTag* genericClone();
 protected:
 	//Property Data
-	string mProfile;
+	wstring mProfile;
 	C_TitleTag* mTitle;
 	C_BaseTag* mBase;
 	C_MetaTagList* mMetaList;

@@ -49,20 +49,20 @@ public:
 	virtual ~C_HumReadCMMLTag(void);
 
 	//Accessors
-	string lang();
-	string dirn();
+	wstring lang();
+	wstring dirn();
 
 	//Mutators
-	void setLang(string inLang);
-	void setDirn(string inDirn);
+	void setLang(wstring inLang);
+	void setDirn(wstring inDirn);
 
 	//Other
-	virtual string toString() = 0;
+	virtual wstring toString() = 0;
 
 protected:
 	//Property Data
-	string mLang;
-	string mDirn;
+	wstring mLang;
+	wstring mDirn;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

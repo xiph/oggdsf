@@ -51,17 +51,17 @@ public:
 	virtual ~C_StreamTag(void);
 
 	//Accessors
-	string timebase();
-	string utc();
+	wstring timebase();
+	wstring utc();
 	C_ImportTagList* importList();
 
 	//Mutators
-	void setTimebase(string inTimebase);
-	void setUtc(string inUtc);
+	void setTimebase(wstring inTimebase);
+	void setUtc(wstring inUtc);
 	void setImportList(C_ImportTagList* inTagList);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_StreamTag* clone();
 	virtual C_CMMLTag* genericClone();
 
@@ -69,8 +69,8 @@ public:
 
 protected:
 	//Property Data
-	string mTimebase;
-	string mUtc;
+	wstring mTimebase;
+	wstring mUtc;
 	C_ImportTagList* mImportList;
 
 	//Protected Helper Methods

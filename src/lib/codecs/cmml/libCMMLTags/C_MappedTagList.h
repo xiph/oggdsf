@@ -48,17 +48,17 @@ public:
 	virtual ~C_MappedTagList(void);
 
 	//What to do about this ? **** They are now protected dervied classes implement themselves
-	//void addTag(string inName, string inContent);
+	//void addTag(wstring inName, wstring inContent);
 	
 	//void removeTag ???
 	unsigned long numTags();
 
-	string getContent(string mName);
+	wstring getContent(wstring mName);
 
 	//Maybe not !
-	//void addTag(string inName, string inContent);
+	//void addTag(wstring inName, wstring inContent);
 
-	virtual string toString() = 0;
+	virtual wstring toString() = 0;
 	
 
 
@@ -66,7 +66,7 @@ protected:
 	vector<C_MappedTag*> mTagList;
 
 	C_MappedTag* getTag(unsigned long inTagNo);
-	C_MappedTag* getTag(string mName);
+	C_MappedTag* getTag(wstring mName);
 	void addTag(C_MappedTag* inTag);
 
 

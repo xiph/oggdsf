@@ -42,12 +42,12 @@ C_ParamTag::~C_ParamTag(void)
 {
 }
 
-string C_ParamTag::toString() {
-	string retStr;
-	retStr = "<param";
-	retStr += makeElement("name", mName);
-	retStr += makeElement("value", mContent);
-	retStr += "/>\n";
+wstring C_ParamTag::toString() {
+	wstring retStr;
+	retStr = L"<param";
+	retStr += makeElement(L"name", mName);
+	retStr += makeElement(L"value", mContent);
+	retStr += L"/>\n";
 	return retStr;
 
 }

@@ -65,7 +65,7 @@ public:
 	void setClipList(C_ClipTagList* inClipList);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	virtual C_CMMLTag* genericClone();
 	C_CMMLRootTag* clone();
 

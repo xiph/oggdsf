@@ -66,9 +66,9 @@ C_CMMLTag* C_TagList::getTag(unsigned long inTagNo) {
 	}
 }
 
-string C_TagList::toString() {
+wstring C_TagList::toString() {
 	//Return the CMML of the list of tags appended together
-	string retStr = "";
+	wstring retStr = L"";
 	
 	for (unsigned long i = 0; i < mTagList.size(); i++) {
 		retStr.append(mTagList[i]->toString());

@@ -50,21 +50,21 @@ public:
 	virtual ~C_ImageTag(void);
 
 	//Accessors
-	string src();
-	string alt();
+	wstring src();
+	wstring alt();
 
 	//Mutators
-	void setSrc(string inSrc);
-	void setAlt(string inAlt);
+	void setSrc(wstring inSrc);
+	void setAlt(wstring inAlt);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_ImageTag* clone();
 	virtual C_CMMLTag* genericClone();
 protected:
 	//Property Data
-	string mSrc;
-	string mAlt;
+	wstring mSrc;
+	wstring mAlt;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

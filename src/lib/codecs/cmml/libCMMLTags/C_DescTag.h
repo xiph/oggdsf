@@ -50,7 +50,7 @@ public:
 	virtual ~C_DescTag(void);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_DescTag* clone();
 	virtual C_CMMLTag* genericClone();
 

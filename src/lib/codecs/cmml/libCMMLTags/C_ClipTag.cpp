@@ -43,7 +43,7 @@ C_ClipTag::C_ClipTag(void)
 	mAnchor = NULL;
 	mImage = NULL;
 	mDesc = NULL;
-	mStart = "0";
+	mStart = L"0";
 }
 
 C_ClipTag::~C_ClipTag(void)
@@ -55,7 +55,7 @@ C_ClipTag::~C_ClipTag(void)
 }
 
 //Accessors
-string C_ClipTag::track() {
+wstring C_ClipTag::track() {
 	return mTrack;
 }
 C_MetaTagList* C_ClipTag::metaList() {
@@ -71,14 +71,14 @@ C_DescTag* C_ClipTag::desc() {
 	return mDesc;
 }
 
-string C_ClipTag::start() {
+wstring C_ClipTag::start() {
 	return mStart;
 }
-string C_ClipTag::end() {
+wstring C_ClipTag::end() {
 	return mEnd;
 }
 //Mutators
-void C_ClipTag::setTrack(string inTrack) {
+void C_ClipTag::setTrack(wstring inTrack) {
 	mTrack = inTrack;
 }
 void C_ClipTag::setAnchor(C_AnchorTag* inAnchor) {
@@ -94,12 +94,12 @@ void C_ClipTag::setDesc(C_DescTag* inDesc) {
 	mDesc = inDesc;
 }
 
-void C_ClipTag::setStart(string inStart) {
-	if (inStart != "") {
+void C_ClipTag::setStart(wstring inStart) {
+	if (inStart != L"") {
 		mStart = inStart;
 	}
 }
-void C_ClipTag::setEnd(string inEnd) {
+void C_ClipTag::setEnd(wstring inEnd) {
 	mEnd = inEnd;
 }
 
@@ -125,29 +125,29 @@ void C_ClipTag::privateClone(C_CMMLTag* outTag) {
 	locTag->setStart(mStart);
 	locTag->setEnd(mEnd);
 }
-string C_ClipTag::toString() {
-	string retStr = "<clip";
+wstring C_ClipTag::toString() {
+	wstring retStr = L"<clip";
 
 	//TO DO::: Language data ???
 
 	//Id element
-	if (mId != "") {
-		retStr += makeElement("id", mId);
+	if (mId != L"") {
+		retStr += makeElement(L"id", mId);
 	}
 
 	//track Element
-	if (mTrack != "") {
-		retStr += makeElement("track", mTrack);
+	if (mTrack != L"") {
+		retStr += makeElement(L"track", mTrack);
 	}
 
 	//TO DO::: Sort out what to do about start and end
-	retStr += makeElement("start", mStart);
+	retStr += makeElement(L"start", mStart);
 
-	if (mEnd != "") {
-		retStr += makeElement("end", mEnd);
+	if (mEnd != L"") {
+		retStr += makeElement(L"end", mEnd);
 	}
 
-	retStr += ">\n";
+	retStr += L">\n";
 
 	if (mAnchor != NULL) {
 		retStr += mAnchor->toString();
@@ -160,6 +160,6 @@ string C_ClipTag::toString() {
 	}
 
 	retStr += mMetaList->toString();
-	retStr += "</clip>\n\n";
+	retStr += L"</clip>\n\n";
 	return retStr;
 }

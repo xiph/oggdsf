@@ -45,12 +45,12 @@ C_BaseTag::~C_BaseTag(void)
 }
 
 //Accessors
-string C_BaseTag::href() {
+wstring C_BaseTag::href() {
 	return mHref;
 }
 
 //Mutators
-void C_BaseTag::setHref(string inHref) {
+void C_BaseTag::setHref(wstring inHref) {
 	mHref = inHref;
 }
 
@@ -64,16 +64,16 @@ C_BaseTag* C_BaseTag::clone() {
 C_CMMLTag* C_BaseTag::genericClone() {
 	return clone();
 }
-string C_BaseTag::toString() {
+wstring C_BaseTag::toString() {
 	//FIX ::: Make this do something
-	string retStr = "<base";
+	wstring retStr = L"<base";
 
 	if (mId.size() != 0) {
-		retStr += makeElement("id", mId);
+		retStr += makeElement(L"id", mId);
 	}
 
-	retStr += makeElement("href", mHref);
-	retStr += "/>\n";
+	retStr += makeElement(L"href", mHref);
+	retStr += L"/>\n";
 	return retStr;
 }
 

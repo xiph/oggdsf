@@ -10,11 +10,11 @@ C_CMMLTime::~C_CMMLTime(void)
 }
 
 //Accessors
-string C_CMMLTime::time() {
+wstring C_CMMLTime::time() {
 	return mTime;
 }
 
 //Mutators
-void C_CMMLTime::setTime(string inTime) {
+void C_CMMLTime::setTime(wstring inTime) {
 	mTime = inTime;
 }

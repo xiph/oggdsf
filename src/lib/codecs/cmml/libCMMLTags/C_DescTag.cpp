@@ -45,15 +45,15 @@ C_DescTag::~C_DescTag(void)
 
 
 //Other
-string C_DescTag::toString() {
+wstring C_DescTag::toString() {
 	//FIX ::: Make this do something
-	string retStr = "<desc";
+	wstring retStr = L"<desc";
 	if (mId.size() != 0) {
-		retStr += makeElement("id", mId);
+		retStr += makeElement(L"id", mId);
 	}
-	retStr += ">";
+	retStr += L">";
 	retStr += mText;
-	retStr += "</desc>\n";
+	retStr += L"</desc>\n";
 	return retStr;
 }
 

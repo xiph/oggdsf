@@ -50,16 +50,16 @@ public:
 	virtual ~C_TextFieldTag(void);
 
 	//Accessors
-	string text();
+	wstring text();
 	
 	//Mutators
-	void setText(string inText);
+	void setText(wstring inText);
 
 	//Other
-	virtual string toString() = 0;
+	virtual wstring toString() = 0;
 protected:
 	//Property Data
-	string mText;
+	wstring mText;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

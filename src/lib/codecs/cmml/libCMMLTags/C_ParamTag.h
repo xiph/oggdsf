@@ -50,7 +50,7 @@ public:
 	virtual ~C_ParamTag(void);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_ParamTag* clone();
 	virtual C_CMMLTag* genericClone();
 	virtual C_MappedTag* mappedClone();

@@ -67,15 +67,15 @@ public:
 
 	void setRoot(C_CMMLRootTag* inRootTag);
 
-	virtual string toString();
+	virtual wstring toString();
 	C_CMMLDoc* clone();
 	
 
 	//Opening files
-	//bool open(string inFilename);
-	//bool open(string inFilename, CMMLReadStreamCB inStreamCB, CMMLReadHeadCB inHeadCB, CMMLReadClipCB inClipCB);
+	//bool open(wstring inFilename);
+	//bool open(wstring inFilename, CMMLReadStreamCB inStreamCB, CMMLReadHeadCB inHeadCB, CMMLReadClipCB inClipCB);
 	//ISSUE ::: Void pointer on interface...
-	//bool open(string inFilename, CMMLReadStreamCB inStreamCB, CMMLReadHeadCB inHeadCB, CMMLReadClipCB inClipCB, void* inUserData);
+	//bool open(wstring inFilename, CMMLReadStreamCB inStreamCB, CMMLReadHeadCB inHeadCB, CMMLReadClipCB inClipCB, void* inUserData);
 	//ISSUE ::: Find a way to allow the passing in of a fstream
 	
 	

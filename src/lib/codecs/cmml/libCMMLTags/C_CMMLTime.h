@@ -10,13 +10,13 @@ public:
 	~C_CMMLTime(void);
 
 	//Accessors
-	string time();
+	wstring time();
 
 	//Mutators
-	void setTime(string inTime);
+	void setTime(wstring inTime);
 
 
 //Temporarily just a string container
 protected:
-	string mTime;
+	wstring mTime;
 };

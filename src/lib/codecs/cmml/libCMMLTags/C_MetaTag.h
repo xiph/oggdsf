@@ -50,20 +50,20 @@ public:
 	virtual ~C_MetaTag(void);
 
 	//Accessors
-	string scheme();
+	wstring scheme();
 
 	//Mutators
-	void setScheme(string inScheme);
+	void setScheme(wstring inScheme);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_MetaTag* clone();
 	virtual C_CMMLTag* genericClone();
 	virtual C_MappedTag* mappedClone();
 
 protected:
 	//Property Data
-	string mScheme;
+	wstring mScheme;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

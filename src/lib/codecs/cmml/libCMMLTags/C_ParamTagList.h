@@ -59,7 +59,7 @@ public:
 	
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_ParamTagList* clone();
 	
 };

@@ -42,9 +42,9 @@ C_ParamTagList::~C_ParamTagList(void)
 {
 	//Everything is deleted by the base class
 }
-string C_ParamTagList::toString() {
+wstring C_ParamTagList::toString() {
 
-	string retStr = "";
+	wstring retStr = L"";
 	for (unsigned long i = 0; i < mTagList.size(); i++) {
 		retStr += mTagList[i]->toString();
 	}

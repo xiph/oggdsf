@@ -52,17 +52,17 @@ bool CMMLParser::setupXMLHandles(wstring inText, MSXML2::IXMLDOMDocument** outDo
 	HRESULT locHR = S_FALSE;
 	// Check the return value, hr...
 	locHR = CoCreateInstance(__uuidof(DOMDocument30), NULL, CLSCTX_INPROC_SERVER, IID_IXMLDOMDocument, (void**)outDoc);
-	// Check the return value, hr...
-	
-	// Check the return value.
+	if (locHR != S_OK) {
+		return false;
+	}
 	
 	BSTR locClipStr = SysAllocString(inText.c_str());
 	VARIANT_BOOL locBool;
 	locHR = (*outDoc)->loadXML(locClipStr, &locBool);
 
 
-	//Should free string ??
 	SysFreeString(locClipStr);
+
 	if (locHR == S_OK) {
 		return true;
 	} else {
@@ -79,24 +79,24 @@ MSXML2::IXMLDOMNode* CMMLParser::getNamedNode(wstring inXPath, MSXML2::IXMLDOMDo
 	
 	locHR = inDoc->selectSingleNode(locQuery, &retNode);
 	
-
     SysFreeString(locQuery);
+
+	//If the select fails... will return NULL
 	return retNode;
 }
 
 wstring CMMLParser::getNamedAttribValue(wstring inAttribName, MSXML2::IXMLDOMNamedNodeMap* inAttribMap) {
-	BSTR locAttribName = SysAllocString(inAttribName.c_str());
-	MSXML2::IXMLDOMNode* locAttribNode = NULL;
-	wstring retStr = L"";
-	HRESULT locHR = S_FALSE;
-	locHR = inAttribMap->getNamedItem(locAttribName, &locAttribNode);
-	BSTR locBStr = NULL;
+	BSTR					locAttribName	= SysAllocString(inAttribName.c_str());
+	BSTR					locBStr			= NULL;
+	MSXML2::IXMLDOMNode*	locAttribNode	= NULL;
+	HRESULT					locHR			= S_FALSE;
+	wstring					retStr			= L"";
 	
+	locHR = inAttribMap->getNamedItem(locAttribName, &locAttribNode);
+
 	if (locHR == S_OK) {
 		locHR =  locAttribNode->get_text(&locBStr);
 		retStr = locBStr;
-	} else {
-		//Not found... what to do !
 	}
 	
 	//Cleanup
@@ -104,28 +104,40 @@ wstring CMMLParser::getNamedAttribValue(wstring inAttribName, MSXML2::IXMLDOMNam
 	SysFreeString(locBStr);
 	SysFreeString(locAttribName);
 
+	//Will return "" on error
 	return retStr;
 }
 
 bool CMMLParser::parseClipTag(MSXML2::IXMLDOMNode* inClipNode, C_ClipTag* outClip) {
+
+	//Required start is not checked for, because CMML in annodex doesn't have one. May need to be
+	// cvalidated elsewhere to be used in CMML documents
 	MSXML2::IXMLDOMNamedNodeMap*	locAttribMap		= NULL;
 	MSXML2::IXMLDOMNode*			locNode				= NULL;
 	MSXML2::IXMLDOMNodeList*		locChildNodes		= NULL;
-	HRESULT							locHR				= S_FALSE;
-	wstring							locNodeName;
 	BSTR							locBStr				= NULL;
+	HRESULT							locHR				= S_FALSE;
+	
+	wstring							locNodeName;
 	long							locNumNodes			= 0;
+	
+	unsigned long					locNum_a			= 0;
+	unsigned long					locNum_desc			= 0;
+	unsigned long					locNum_img			= 0;
+	unsigned long					locNum_meta			= 0;
+	unsigned long					locNumUnknown		= 0;
 
 	//---------------Attributes-----------------
 	//Get the attributes
 	locHR = inClipNode->get_attributes(&locAttribMap);
 	
-	//Other attributes are missing.
-	outClip->setId(toNarrowStr(getNamedAttribValue(L"id", locAttribMap)));
-	outClip->setStart(toNarrowStr(getNamedAttribValue(L"start", locAttribMap)));
-	outClip->setStart(toNarrowStr(getNamedAttribValue(L"end", locAttribMap)));
+	outClip->setId(getNamedAttribValue(L"id", locAttribMap));
+	outClip->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	outClip->setDirn(getNamedAttribValue(L"dir", locAttribMap));
+	outClip->setTrack(getNamedAttribValue(L"track", locAttribMap));
+	outClip->setStart(getNamedAttribValue(L"start", locAttribMap));
+	outClip->setEnd(getNamedAttribValue(L"end", locAttribMap));
 	//------------------------------------------
-	
 	//--------------Child Nodes-----------------
 	locHR = inClipNode->get_childNodes(&locChildNodes);
 	locHR = locChildNodes->get_length(&locNumNodes);
@@ -137,53 +149,119 @@ bool CMMLParser::parseClipTag(MSXML2::IXMLDOMNode* inClipNode, C_ClipTag* outCli
 		locNodeName = locBStr;
 		
 		if (locNodeName == L"a") {
-
+			
+			//ZERO OR ONE a elements allowed
 			C_AnchorTag* locAnchor = new C_AnchorTag;
-			parseAnchorTag(locNode, locAnchor);
-			outClip->setAnchor(locAnchor);
+
+			if (parseAnchorTag(locNode, locAnchor)) {
+				outClip->setAnchor(locAnchor);
+				locNum_a++;
+			} else {
+				delete locAnchor;
+				outClip->setAnchor(NULL);
+			}
 
 		} else if(locNodeName == L"desc") {
-
+			
+			//ZERO OR ONE desc elements allowed
 			C_DescTag* locDesc = new C_DescTag;
-			parseDescTag(locNode, locDesc);
-			outClip->setDesc(locDesc);
+			if (parseDescTag(locNode, locDesc)) {
+				outClip->setDesc(locDesc);
+				locNum_desc++;
+			} else {
+				delete locDesc;
+				outClip->setDesc(NULL);
+			}
 			
 		} else if (locNodeName == L"img") {
-
+			
+			//ZERO OR ONE img elements allowed
 			C_ImageTag* locImage = new C_ImageTag;
-			parseImageTag(locNode, locImage);
-			outClip->setImage(locImage);
+			if (parseImageTag(locNode, locImage)) {
+				outClip->setImage(locImage);
+				locNum_img++;
+			} else {
+				delete locImage;
+				outClip->setImage(locImage);
+			}
 
 		} else if (locNodeName == L"meta") {
-
+			
+			//ZERO OR *MORE* meta  elements allowed
 			C_MetaTag* locMeta = new C_MetaTag;
-			parseMetaTag(locNode, locMeta);
-			outClip->metaList()->addTag(locMeta);
+			if (parseMetaTag(locNode, locMeta)) {
+				outClip->metaList()->addTag(locMeta);
+				locNum_meta++;
+			} else {
+				delete locMeta;
+			}
 
 		} else {
-			//Dunno !
+			
+			//TODO::: How to handle ??? For now just ignore tags we don't know.
+			locNumUnknown++;
 		}
-		
-
 	}
+
+	bool retVal	=		(locNum_a <= 1)
+					&&	(locNum_img <= 1)
+					&&	(locNum_desc <=1);
 
 	SysFreeString(locBStr);
 	if (locAttribMap != NULL)					locAttribMap->Release();
 	if (locNode != NULL)						locNode->Release();
 	if (locChildNodes != NULL)					locChildNodes->Release();
-	return true;
+	return retVal;
 }
 
+bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip) {
+	HRESULT						locHR			= S_FALSE;
+	MSXML2::IXMLDOMDocument*	locXMLClipFrag	= NULL;
+	MSXML2::IXMLDOMNode*		locClipNode		= NULL;
+		
+	bool retVal = setupXMLHandles(inClipText, &locXMLClipFrag);
+
+	if (retVal) {
+		locClipNode = getNamedNode(L"clip", locXMLClipFrag);
+		
+		if (locClipNode != NULL) {
+			//Now we have a node representing the clip tag and it's children.
+			retVal = parseClipTag(locClipNode, outClip);
+		} else {
+			retVal = false;
+		}
+	}
+
+	if (locXMLClipFrag != NULL)					locXMLClipFrag->Release();
+	if (locClipNode != NULL)					locClipNode->Release();
+
+	return retVal;
+}
+
+
+
 bool CMMLParser::parseHeadTag(MSXML2::IXMLDOMNode* inHeadNode, C_HeadTag* outHead) {
-	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
-	MSXML2::IXMLDOMNodeList* locChildNodes = NULL;
-	MSXML2::IXMLDOMNode* locNode = NULL;
-	HRESULT locHR = S_FALSE;
-	long locNumNodes = 0;
-	BSTR locBStr = NULL;
-	wstring locNodeName;
+	MSXML2::IXMLDOMNamedNodeMap*	locAttribMap	= NULL;
+	MSXML2::IXMLDOMNodeList*		locChildNodes	= NULL;
+	MSXML2::IXMLDOMNode*			locNode			= NULL;
+	HRESULT							locHR			= S_FALSE;
+	long							locNumNodes		= 0;
+	BSTR							locBStr			= NULL;
+	wstring							locNodeName;
+								
+	unsigned long					locNum_title	= 0;
+	unsigned long					locNum_meta		= 0;
+	unsigned long					locNum_base		= 0;
+	unsigned long					locNumUnknown	= 0;
+
+	
 	//---------------Attributes-----------------
-	//No attributes for now
+	locHR = inHeadNode->get_attributes(&locAttribMap);
+
+	outHead->setId(getNamedAttribValue(L"id", locAttribMap));
+	outHead->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	outHead->setDirn(getNamedAttribValue(L"dir", locAttribMap));
+	outHead->setProfile(getNamedAttribValue(L"profile", locAttribMap));
 	//------------------------------------------
 
 	//--------------Child Nodes-----------------
@@ -192,45 +270,106 @@ bool CMMLParser::parseHeadTag(MSXML2::IXMLDOMNode* inHeadNode, C_HeadTag* outHea
 	for (int i = 0; i < locNumNodes; i++) {
 		locHR = locChildNodes->get_item(i, &locNode);
 		locHR = locNode->get_nodeName(&locBStr);
+		//TODO::: Needs checks ??
+
 		locNodeName = locBStr;
 		if (locNodeName == L"title") {
+		
+			//Must contain ONE title tag
 			C_TitleTag* locTitle = new C_TitleTag;
-			parseTitleTag(locNode, locTitle);
-			outHead->setTitle(locTitle);
+			
+			if (parseTitleTag(locNode, locTitle)) {
+				outHead->setTitle(locTitle);
+				locNum_title++;
+			} else {
+				delete locTitle;
+				outHead->setTitle(NULL);
+			}
 
-		} else if(locNodeName == L"meta") {
+
+		} else if (locNodeName == L"meta") {
+			
+			//Can contain ANY AMOUNT of meta tags
 			C_MetaTag* locMeta = new C_MetaTag;
-			parseMetaTag(locNode, locMeta);
-			outHead->metaList()->addTag(locMeta);
+			
+			if (parseMetaTag(locNode, locMeta)) {
+				outHead->metaList()->addTag(locMeta);
+				locNum_meta++;
+			} else {
+				delete locMeta;				
+			}
+			
+		} else if (locNodeName == L"base") {
+
+			//OPTIONALLY ONE base tag.
+			C_BaseTag* locBase = new C_BaseTag;
+			
+			if(parseBaseTag(locNode, locBase)) {
+                outHead->setBase(locBase);
+				locNum_base++;
+			} else {
+				delete locBase;
+				outHead->setBase(NULL);
+			}
 			
 		} else {
-			//Dunno !
+			locNumUnknown++;
 		}
 	}
+
+	bool retVal		=		(locNum_title == 1)
+						&&	(locNum_base <= 1)
+						&&	(locNum_meta <= 1);
 
 	SysFreeString(locBStr);
 	if (locAttribMap != NULL)					locAttribMap->Release();
 	if (locNode != NULL)						locNode->Release();
 	if (locChildNodes != NULL)					locChildNodes->Release();
-	return true;
+	return retVal;
+}
+
+bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead) {
+	HRESULT locHR = S_FALSE;
+	MSXML2::IXMLDOMDocument* locXMLHeadFrag = NULL;
+	MSXML2::IXMLDOMNode* locHeadNode  = NULL;
+		
+	bool retVal = setupXMLHandles(inHeadText, &locXMLHeadFrag);
+
+	if (retVal) {
+		locHeadNode = getNamedNode(L"head", locXMLHeadFrag);
+		if (locHeadNode != NULL) {
+
+			//Now we have a node representing the clip tag and it's children.
+			retVal = parseHeadTag(locHeadNode, outHead);
+		} else {
+			retVal = false;
+		}
+	}
+
+	if (locXMLHeadFrag != NULL)					locXMLHeadFrag->Release();
+	if (locHeadNode != NULL)					locHeadNode->Release();
+
+	return retVal;
 }
 
 bool CMMLParser::parseStreamTag(MSXML2::IXMLDOMNode* inStreamNode, C_StreamTag* outStream) {
-	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
-	MSXML2::IXMLDOMNode* locNode = NULL;
-	MSXML2::IXMLDOMNodeList* locChildNodes = NULL;
-	HRESULT locHR = S_FALSE;
-	long locNumNodes = 0;
-	BSTR locBStr = NULL;
-	wstring locNodeName;
-	//---------------Attributes-----------------
-	//Get the attributes
-	locHR = inStreamNode->get_attributes(&locAttribMap);
-	
-	//Other attributes are missing.
-	outStream->setTimebase(toNarrowStr(getNamedAttribValue(L"timebase", locAttribMap)));
-	//------------------------------------------
+	////-------------Initialisation-------------
+	MSXML2::IXMLDOMNamedNodeMap*	locAttribMap	= NULL;
+	MSXML2::IXMLDOMNode*			locNode			= NULL;
+	MSXML2::IXMLDOMNodeList*		locChildNodes	= NULL;
+	HRESULT							locHR			= S_FALSE;
+	long							locNumNodes		= 0;
+	BSTR							locBStr			= NULL;
+	wstring							locNodeName		= L"";
 
+	//---------------Attributes-----------------
+	locHR = inStreamNode->get_attributes(&locAttribMap);
+	//outStream->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	//outStream->setDirn(getNamedAttribValue(L"dir", locAttribMap));	
+	outStream->setId(getNamedAttribValue(L"id", locAttribMap));
+	outStream->setTimebase(getNamedAttribValue(L"timebase", locAttribMap));
+	outStream->setUtc(getNamedAttribValue(L"utc", locAttribMap));
+	//------------------------------------------
 	//--------------Child Nodes-----------------
 	locHR = inStreamNode->get_childNodes(&locChildNodes);
 	locHR = locChildNodes->get_length(&locNumNodes);
@@ -239,48 +378,96 @@ bool CMMLParser::parseStreamTag(MSXML2::IXMLDOMNode* inStreamNode, C_StreamTag* 
 		locHR = locNode->get_nodeName(&locBStr);
 		locNodeName = locBStr;
 		if(locNodeName == L"import") {
+			
 			C_ImportTag* locImport = new C_ImportTag;
-			parseImportTag(locNode, locImport);
-			outStream->importList()->addTag(locImport);
+			if (parseImportTag(locNode, locImport)) {
+				outStream->importList()->addTag(locImport);
+			} else {
+				//TODO::: Anything ???
+			}
 			
 		} else {
-			//Dunno !
+			//TODO::: Handle this, otherwise ignore.
 		}
 	}
 
+	//--------------Clean Up--------------------
 	SysFreeString(locBStr);
-	if (locAttribMap != NULL)					locAttribMap->Release();
-	if (locNode != NULL)						locNode->Release();
-	if (locChildNodes != NULL)					locChildNodes->Release();
+	if (locAttribMap != NULL)		locAttribMap->Release();
+	if (locNode != NULL)			locNode->Release();
+	if (locChildNodes != NULL)		locChildNodes->Release();
 	return true;
 }
 
 bool CMMLParser::parseImportTag(MSXML2::IXMLDOMNode* inImportNode, C_ImportTag* outImport) {
-	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
-	//MSXML2::IXMLDOMNode* locImportNode = NULL;
-	HRESULT locHR = S_FALSE;
+
+	//TODO::: Stream and import tags need checking about what to do with internationalisation
+	MSXML2::IXMLDOMNamedNodeMap*	locAttribMap	= NULL;
+	MSXML2::IXMLDOMNode*			locNode			= NULL;
+	MSXML2::IXMLDOMNodeList*		locChildNodes	= NULL;
+	HRESULT							locHR			= S_FALSE;
+	long							locNumNodes		= 0;
+	BSTR							locBStr			= NULL;
+	wstring							locNodeName		= L"";
+
+	bool retVal = true;
 
 	//---------------Attributes-----------------
 	locHR = inImportNode->get_attributes(&locAttribMap);
-	outImport->setId(toNarrowStr(getNamedAttribValue(L"id", locAttribMap)));
-	outImport->setContentType(toNarrowStr(getNamedAttribValue(L"contenttype", locAttribMap)));
-	outImport->setSrc(toNarrowStr(getNamedAttribValue(L"src", locAttribMap)));
-	outImport->setStart(toNarrowStr(getNamedAttribValue(L"start", locAttribMap)));
-	outImport->setEnd(toNarrowStr(getNamedAttribValue(L"end", locAttribMap)));
-	outImport->setTitle(toNarrowStr(getNamedAttribValue(L"title", locAttribMap)));
-	outImport->setGranuleRate(toNarrowStr(getNamedAttribValue(L"granulerate", locAttribMap)));
+
+	outImport->setId(getNamedAttribValue(L"id", locAttribMap));
+	outImport->setContentType(getNamedAttribValue(L"contenttype", locAttribMap));
+	outImport->setSrc(getNamedAttribValue(L"src", locAttribMap));
+	if (outImport->src() == L"") {
+		//Source is required.
+		retVal = false;
+	}
+	outImport->setStart(getNamedAttribValue(L"start", locAttribMap));
+	outImport->setEnd(getNamedAttribValue(L"end", locAttribMap));
+	outImport->setTitle(getNamedAttribValue(L"title", locAttribMap));
+	outImport->setGranuleRate(getNamedAttribValue(L"granulerate", locAttribMap));
 	//------------------------------------------
-	return true;
+
+
+	locHR = inImportNode->get_childNodes(&locChildNodes);
+	locHR = locChildNodes->get_length(&locNumNodes);
+	for (int i = 0; i < locNumNodes; i++) {
+		locHR = locChildNodes->get_item(i, &locNode);
+		locHR = locNode->get_nodeName(&locBStr);
+		locNodeName = locBStr;
+		if(locNodeName == L"param") {
+			
+			C_ParamTag* locParam = new C_ParamTag;
+			if (parseParamTag(locNode, locParam)) {
+				outImport->paramList()->addTag(locParam);
+			} else {
+				//TODO::: Anything ???
+			}
+			
+		} else {
+			//TODO::: Handle this, otherwise ignore.
+		}
+	}
+
+	SysFreeString(locBStr);
+	if (locAttribMap != NULL)		locAttribMap->Release();
+	if (locNode != NULL)			locNode->Release();
+	if (locChildNodes != NULL)		locChildNodes->Release();
+	return retVal;
 }
 
 bool CMMLParser::parseImageTag(MSXML2::IXMLDOMNode* inImageNode, C_ImageTag* outImage) {
 	MSXML2::IXMLDOMNamedNodeMap* locAttribMap = NULL;
-	MSXML2::IXMLDOMNode* locImageNode = NULL;
+	//	MSXML2::IXMLDOMNode* locImageNode = NULL;
 	HRESULT locHR = S_FALSE;
 
 	//---------------Attributes-----------------
 	locHR = inImageNode->get_attributes(&locAttribMap);
-	outImage->setSrc(toNarrowStr(getNamedAttribValue(L"src", locAttribMap)));
+	outImage->setId(getNamedAttribValue(L"id", locAttribMap));
+	outImage->setSrc(getNamedAttribValue(L"src", locAttribMap));
+	outImage->setAlt(getNamedAttribValue(L"alt", locAttribMap));
+
+	if (locAttribMap != NULL)		locAttribMap->Release();
 	return true;
 }
 /*
@@ -300,25 +487,34 @@ bool CMMLParser::parseMetaTag(MSXML2::IXMLDOMNode* inMetaNode, C_MetaTag* outMet
 	MSXML2::IXMLDOMNode* locMetaNode = NULL;
 	HRESULT locHR = S_FALSE;
 
+	bool retVal = false;
 	//---------------Attributes-----------------
 	locHR = inMetaNode->get_attributes(&locAttribMap);
-	outMeta->setName(toNarrowStr(getNamedAttribValue(L"name", locAttribMap)));
-	outMeta->setContent(toNarrowStr(getNamedAttribValue(L"content", locAttribMap)));
-	outMeta->setScheme(toNarrowStr(getNamedAttribValue(L"scheme", locAttribMap)));
+
+	outMeta->setId(getNamedAttribValue(L"id", locAttribMap));
+	outMeta->setLang(getNamedAttribValue(L"lang", locAttribMap));
+	outMeta->setDirn(getNamedAttribValue(L"dir", locAttribMap));
+	outMeta->setName(getNamedAttribValue(L"name", locAttribMap));
+	if (outMeta->name() == L"") {
+
+	outMeta->setContent(getNamedAttribValue(L"content", locAttribMap));
+	outMeta->setScheme(getNamedAttribValue(L"scheme", locAttribMap));
 	//------------------------------------------
+
+	if (locAttribMap != NULL)		locAttribMap->Release();
 	return true;
 }
 
-string CMMLParser::toNarrowStr(wstring inString) {
-	string retVal;
-
-
-	for (std::wstring::const_iterator i = inString.begin(); i != inString.end(); i++) {
-		retVal.append(1, *i);
-	}
-	
-	return retVal;
-}
+//string CMMLParser::toNarrowStr(wstring inString) {
+//	string retVal;
+//
+//
+//	for (std::wstring::const_iterator i = inString.begin(); i != inString.end(); i++) {
+//		retVal.append(1, *i);
+//	}
+//	
+//	return retVal;
+//}
 
 bool CMMLParser::parseAnchorTag(MSXML2::IXMLDOMNode* inAnchorNode, C_AnchorTag* outAnchor) {
 	MSXML2::IXMLDOMNamedNodeMap*		locAttribMap	= NULL;
@@ -329,13 +525,13 @@ bool CMMLParser::parseAnchorTag(MSXML2::IXMLDOMNode* inAnchorNode, C_AnchorTag* 
 
 	//---------------Attributes-----------------
 	locHR = inAnchorNode->get_attributes(&locAttribMap);
-	outAnchor->setHref(toNarrowStr(getNamedAttribValue(L"href", locAttribMap)));
+	outAnchor->setHref(getNamedAttribValue(L"href", locAttribMap));
 	//------------------------------------------
 	//Anchor text
 
 	inAnchorNode->get_text(&locBStr);
 	locAnchorText = locBStr;
-	outAnchor->setText(toNarrowStr(locAnchorText));
+	outAnchor->setText(locAnchorText);
 
 	//Cleanup
 	SysFreeString(locBStr);
@@ -356,7 +552,7 @@ bool CMMLParser::parseTitleTag(MSXML2::IXMLDOMNode* inTitleNode, C_TitleTag* out
 	//------------------------------------------
 	inTitleNode->get_text(&locBStr);
 	locTitleText = locBStr;
-	outTitle->setText(toNarrowStr(locTitleText));
+	outTitle->setText(locTitleText);
 
 	SysFreeString(locBStr);
 	if (locAttribMap != NULL)					locAttribMap->Release();
@@ -377,56 +573,10 @@ bool CMMLParser::parseDescTag(MSXML2::IXMLDOMNode* inDescNode, C_DescTag* outDes
 	//------------------------------------------
 	inDescNode->get_text(&locBStr);
 	locDescText = locBStr;
-	outDesc->setText(toNarrowStr(locDescText));
+	outDesc->setText(locDescText);
 
 	SysFreeString(locBStr);
 	if (locAttribMap != NULL)					locAttribMap->Release();
 	return true;
 
-}
-bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip) {
-	HRESULT locHR = S_FALSE;
-	MSXML2::IXMLDOMDocument* locXMLClipFrag = NULL;
-	MSXML2::IXMLDOMNode* locClipNode  = NULL;
-		
-	bool locSetupOK = setupXMLHandles(inClipText, &locXMLClipFrag);
-	//Validate
-	if (locSetupOK) {
-		//locXMLClipFrag->selectSingleNode(locBStr, &locClipNode);
-		locClipNode = getNamedNode(L"clip", locXMLClipFrag);
-		//Check return
-
-		//Now we have a node representing the clip tag and it's children.
-	
-		bool retVal = parseClipTag(locClipNode, outClip);
-
-		if (locXMLClipFrag != NULL)					locXMLClipFrag->Release();
-		if (locClipNode != NULL)					locClipNode->Release();
-	
-		return retVal;
-	} else {
-		return false;
-	}
-}
-
-bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead) {
-	HRESULT locHR = S_FALSE;
-	MSXML2::IXMLDOMDocument* locXMLHeadFrag = NULL;
-	MSXML2::IXMLDOMNode* locHeadNode  = NULL;
-		
-	bool retVal = setupXMLHandles(inHeadText, &locXMLHeadFrag);
-
-	if (retVal) {
-		locHeadNode = getNamedNode(L"head", locXMLHeadFrag);
-		if (locHeadNode != NULL) {
-
-			//Now we have a node representing the clip tag and it's children.
-			retVal = parseHeadTag(locHeadNode, outHead);
-		}
-	}
-
-	if (locXMLHeadFrag != NULL)					locXMLHeadFrag->Release();
-	if (locHeadNode != NULL)					locHeadNode->Release();
-
-	return retVal;
 }

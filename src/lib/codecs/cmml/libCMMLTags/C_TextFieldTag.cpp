@@ -43,12 +43,12 @@ C_TextFieldTag::~C_TextFieldTag(void)
 }
 
 //Accessors
-string C_TextFieldTag::text() {
+wstring C_TextFieldTag::text() {
 	return mText;
 }
 	
 //Mutators
-void C_TextFieldTag::setText(string inText) {
+void C_TextFieldTag::setText(wstring inText) {
 	mText = inText;
 }
 

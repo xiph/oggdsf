@@ -38,7 +38,7 @@ C_StreamTag::C_StreamTag(void)
 {
 	mTagType = C_CMMLTag::eTagType::STREAM;
 	mImportList = new C_ImportTagList;
-	mTimebase = "0";
+	mTimebase = L"0";
 }
 
 C_StreamTag::~C_StreamTag(void)
@@ -47,10 +47,10 @@ C_StreamTag::~C_StreamTag(void)
 }
 
 //Accessors
-string C_StreamTag::timebase() {
+wstring C_StreamTag::timebase() {
 	return mTimebase;
 }
-string C_StreamTag::utc() {
+wstring C_StreamTag::utc() {
 	return mUtc;
 }
 C_ImportTagList* C_StreamTag::importList() {
@@ -58,10 +58,10 @@ C_ImportTagList* C_StreamTag::importList() {
 }
 
 //Mutators
-void C_StreamTag::setTimebase(string inTimebase) {
+void C_StreamTag::setTimebase(wstring inTimebase) {
 	mTimebase = inTimebase;
 }
-void C_StreamTag::setUtc(string inUtc) {
+void C_StreamTag::setUtc(wstring inUtc) {
 	mUtc = inUtc;
 }
 
@@ -89,21 +89,21 @@ C_StreamTag* C_StreamTag::clone() {
 C_CMMLTag* C_StreamTag::genericClone() {
 	return clone();
 }
-string C_StreamTag::toString() {
+wstring C_StreamTag::toString() {
 	//FIX ::: Make this do something
-	string retStr;
+	wstring retStr;
 
-	retStr = "<stream";
+	retStr = L"<stream";
 	if (mId.size() != 0) {
-		retStr += makeElement("id", mId);
+		retStr += makeElement(L"id", mId);
 	}
-	retStr += makeElement("timebase", mTimebase);
+	retStr += makeElement(L"timebase", mTimebase);
 	if (mUtc.size() != 0) {
-		retStr += makeElement("utc", mUtc);
+		retStr += makeElement(L"utc", mUtc);
 	}
-	retStr += ">\n";
+	retStr += L">\n";
 	retStr += mImportList->toString();
-	retStr += "</stream>\n\n";
+	retStr += L"</stream>\n\n";
 
 	return retStr;
 }

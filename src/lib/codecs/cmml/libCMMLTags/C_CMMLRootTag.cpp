@@ -97,29 +97,29 @@ C_CMMLRootTag* C_CMMLRootTag::clone() {
 
 }
 
-string C_CMMLRootTag::toString() {
-	string retStr;
-	retStr = "<cmml";
+wstring C_CMMLRootTag::toString() {
+	wstring retStr;
+	retStr = L"<cmml";
 	if (mId.size() != 0) {
-		retStr += makeElement("id", mId);
+		retStr += makeElement(L"id", mId);
 	}
 
 	if (mLang.size() != 0) {
-		retStr += makeElement("lang", mLang);
+		retStr += makeElement(L"lang", mLang);
 		//Assuming that if lang is set then so is dirn.
 		//Also lets dirn default to "ltr" and still not be displayed
 		//unless the language is defined
-		retStr += makeElement("dir", mDirn);
+		retStr += makeElement(L"dir", mDirn);
 	}
 
 	
-	retStr += ">\n";
+	retStr += L">\n";
 	if (mStream != NULL) {
 		retStr += mStream->toString();
 	}
 
 	retStr += mHead->toString();
 	retStr += mClipList->toString();
-	retStr += "</cmml>\n";
+	retStr += L"</cmml>\n";
 	return retStr;
 }

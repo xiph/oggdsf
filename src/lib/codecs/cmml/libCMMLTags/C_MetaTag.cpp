@@ -43,12 +43,12 @@ C_MetaTag::~C_MetaTag(void)
 {
 }
 //Accessors
-string C_MetaTag::scheme() {
+wstring C_MetaTag::scheme() {
 	return mScheme;
 }
 
 //Mutators
-void C_MetaTag::setScheme(string inScheme) {
+void C_MetaTag::setScheme(wstring inScheme) {
 	mScheme = inScheme;
 }
 
@@ -71,15 +71,15 @@ C_CMMLTag* C_MetaTag::genericClone() {
 C_MappedTag* C_MetaTag::mappedClone() {
 	return clone();
 }
-string C_MetaTag::toString() {
+wstring C_MetaTag::toString() {
 	//QUERY ::: How are the internationalisation tags included
-	string retStr = "<meta";
-	retStr += " name=\"";
+	wstring retStr = L"<meta";
+	retStr += L" name=\"";
 	retStr += mName;
-	retStr += "\" content=\"";
+	retStr += L"\" content=\"";
 	retStr += mContent;
-	retStr += "\"";
-	retStr += "/>\n";
+	retStr += L"\"";
+	retStr += L"/>\n";
 
 
 	return retStr;

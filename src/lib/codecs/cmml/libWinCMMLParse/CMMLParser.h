@@ -66,7 +66,7 @@ public:
 protected:
 	wstring getNamedAttribValue(wstring inAttribName, MSXML2::IXMLDOMNamedNodeMap* inAttribMap);
 	MSXML2::IXMLDOMNode* getNamedNode(wstring inXPath, MSXML2::IXMLDOMDocument* inDoc);
-	string toNarrowStr(wstring inString);
+	//string toNarrowStr(wstring inString);
 	//void createTagMap();
 	//unsigned long hashFunction(string inTagName);
 

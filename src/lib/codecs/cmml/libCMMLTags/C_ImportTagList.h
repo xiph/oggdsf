@@ -49,7 +49,7 @@ public:
 	C_ImportTagList(void);
 	virtual ~C_ImportTagList(void);
 
-	virtual string toString();
+	virtual wstring toString();
 	C_ImportTagList* clone();
 
 	void addTag(C_ImportTag* inTag);

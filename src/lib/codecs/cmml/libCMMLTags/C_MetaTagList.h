@@ -43,16 +43,16 @@ public:
 	virtual ~C_MetaTagList(void);
 
 	void addTag(C_MetaTag* inTag);
-	void addTag(string inName, string inContent);
+	void addTag(wstring inName, wstring inContent);
 	//void removeTag ???
 	//unsigned long numTags();
 
 	C_MetaTag* getTag(unsigned long inTagNo);
-	C_MetaTag* getTag(string inName);
+	C_MetaTag* getTag(wstring inName);
 
-	string getContent(string inName);
+	wstring getContent(wstring inName);
 
-	virtual string toString();
+	virtual wstring toString();
 	C_MetaTagList* clone();
 protected:
 	//Protected Helper Methods

@@ -45,17 +45,17 @@ public:
 	virtual ~C_CMMLPreamble(void);
 
 	//Accessors
-	string xmlVersion();
-	string xmlEncoding();
-	string xmlStandAlone();
+	wstring xmlVersion();
+	wstring xmlEncoding();
+	wstring xmlStandAlone();
 	
 	//Mutators
-	void setXmlVersion(string inVersion);
-	void setXmlEncoding(string inEncoding);
-	void setXmlStandAlone(string inStandAlone);
+	void setXmlVersion(wstring inVersion);
+	void setXmlEncoding(wstring inEncoding);
+	void setXmlStandAlone(wstring inStandAlone);
 
 	//Others
-	virtual string toString();
+	virtual wstring toString();
 
 
 protected:
@@ -73,7 +73,7 @@ protected:
 	//} CMML_Preamble;
 
 	//Property Data
-	string mXmlVersion;
-	string mXmlEncoding;
-	string mXmlStandAlone;
+	wstring mXmlVersion;
+	wstring mXmlEncoding;
+	wstring mXmlStandAlone;
 };

@@ -44,8 +44,8 @@ C_ClipTagList::~C_ClipTagList(void)
 }
 
 
-string C_ClipTagList::toString() {
-	string retStr = "";
+wstring C_ClipTagList::toString() {
+	wstring retStr = L"";
 	for (unsigned long i = 0; i < mTagList.size(); i++) {
 		retStr += mTagList[i]->toString();
 	}

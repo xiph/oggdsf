@@ -52,7 +52,7 @@ public:
 	virtual ~C_ClipTagList(void);
 
 
-	virtual string toString();
+	virtual wstring toString();
 	C_ClipTagList* clone();
 
 	void addTag(C_ClipTag* inTag);

@@ -57,41 +57,41 @@ public:
 	
 
 	//Accessors
-	string track();
+	wstring track();
 	C_MetaTagList* metaList();
 	C_AnchorTag* anchor();
 	C_ImageTag* image();
 	C_DescTag* desc();
 
-	string start();
-	string end();
+	wstring start();
+	wstring end();
 
 
 	//Mutators
-	void setTrack(string inTrack);
+	void setTrack(wstring inTrack);
 	void setAnchor(C_AnchorTag* inAnchor);
 	void setImage(C_ImageTag* inImage);
 	void setDesc(C_DescTag* inDesc);
 
-	void setStart(string inStart);
-	void setEnd(string inEnd);
+	void setStart(wstring inStart);
+	void setEnd(wstring inEnd);
 
 
 	//Others
-	virtual string toString();
+	virtual wstring toString();
 	C_ClipTag* clone();
 	virtual C_CMMLTag* genericClone();
 
 protected:
 	//Property Data
-	string mTrack;
+	wstring mTrack;
 	C_MetaTagList* mMetaList;
 	C_AnchorTag* mAnchor;
 	C_ImageTag* mImage;
 	C_DescTag* mDesc;
 
-	string mStart;
-	string mEnd;
+	wstring mStart;
+	wstring mEnd;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

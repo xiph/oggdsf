@@ -49,7 +49,7 @@ void C_MetaTagList::addTag(C_MetaTag* inTag) {
 }
 
 
-void C_MetaTagList::addTag(string inName, string inContent) {
+void C_MetaTagList::addTag(wstring inName, wstring inContent) {
 	C_MetaTag* retTag = new C_MetaTag;
 	retTag->setName(inName);
 	retTag->setContent(inContent);
@@ -62,17 +62,17 @@ void C_MetaTagList::addTag(string inName, string inContent) {
 C_MetaTag* C_MetaTagList::getTag(unsigned long inTagNo) {
 	return (C_MetaTag*) mTagList[inTagNo];
 }
-C_MetaTag* C_MetaTagList::getTag(string inName) {
+C_MetaTag* C_MetaTagList::getTag(wstring inName) {
 	return (C_MetaTag*) C_MappedTagList::getTag(inName);
 }
 
-string C_MetaTagList::getContent(string inName) {
+wstring C_MetaTagList::getContent(wstring inName) {
 	return getTag(inName)->content();
 }
 
-string C_MetaTagList::toString() {
+wstring C_MetaTagList::toString() {
 
-	string retStr;
+	wstring retStr;
 	for (unsigned long i = 0; i < mTagList.size(); i++) {
 		retStr+=mTagList[i]->toString();
 	}

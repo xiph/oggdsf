@@ -42,24 +42,24 @@ C_MappedTag::C_MappedTag(void)
 C_MappedTag::~C_MappedTag(void)
 {
 }
-C_MappedTag::C_MappedTag(string inName, string inContent) {
+C_MappedTag::C_MappedTag(wstring inName, wstring inContent) {
 	mName = inName;
 	mContent = inContent;
 }
 
 //accessors
-string C_MappedTag::name() {
+wstring C_MappedTag::name() {
 	return mName;
 }	
-string C_MappedTag::content() {
+wstring C_MappedTag::content() {
 	return mContent;
 }
 
 //mutators
-void C_MappedTag::setName(string inName) {
+void C_MappedTag::setName(wstring inName) {
 	mName = inName;
 }
-void C_MappedTag::setContent(string inContent) {
+void C_MappedTag::setContent(wstring inContent) {
 	mContent = inContent;
 }
 void C_MappedTag::privateClone(C_CMMLTag* outTag) {

@@ -41,7 +41,7 @@ using namespace std;
 //	This is the base class for all tags. This is an abstract class.
 
 //PURE VIRTUAL FUNCTIONS
-//	string toString();					//Turn the tag to a string
+//	wstring toString();					//Turn the tag to a string
 
 class LIBCMMLTAGS_API C_CMMLTag
 {
@@ -71,20 +71,20 @@ public:
 	};
 	
 	//Accessors
-	string id();
+	wstring id();
 
 	//Mutators
-	void setId(string inId);
+	void setId(wstring inId);
 
 	//Other
-	virtual string toString() = 0;
+	virtual wstring toString() = 0;
 protected:
 	//Property Data
-	string mId;
+	wstring mId;
 	eTagType mTagType;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);
-	string makeElement(string inElemName, string inElemContent);
+	wstring makeElement(wstring inElemName, wstring inElemContent);
 	
 };

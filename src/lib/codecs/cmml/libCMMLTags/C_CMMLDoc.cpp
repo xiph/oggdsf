@@ -55,8 +55,8 @@ void C_CMMLDoc::setRoot(C_CMMLRootTag* inRootTag) {
 	delete mRoot;
 	mRoot = inRootTag;
 }
-string C_CMMLDoc::toString() {
-	string retStr = mPreamble->toString();
+wstring C_CMMLDoc::toString() {
+	wstring retStr = mPreamble->toString();
 	retStr += mRoot->toString();
 	return retStr;
 }

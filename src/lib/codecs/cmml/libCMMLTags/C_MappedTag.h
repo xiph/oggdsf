@@ -47,25 +47,25 @@ class LIBCMMLTAGS_API C_MappedTag
 public:
 	//Constructors
 	C_MappedTag(void);
-	C_MappedTag(string inName, string inContent);
+	C_MappedTag(wstring inName, wstring inContent);
 	virtual ~C_MappedTag(void);
 
 	//Accessors
-	string name();
-	string content();
+	wstring name();
+	wstring content();
 
 	//Mutators
-	void setName(string inName);
-	void setContent(string inContent);
+	void setName(wstring inName);
+	void setContent(wstring inContent);
 
 	//Other
-	virtual string toString() = 0;
+	virtual wstring toString() = 0;
 	virtual C_MappedTag* mappedClone() = 0;
 
 protected:
 	//Property Data
-	string mName;
-	string mContent;
+	wstring mName;
+	wstring mContent;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

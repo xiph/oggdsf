@@ -44,18 +44,18 @@ C_ImageTag::~C_ImageTag(void)
 }
 
 //Accessors
-string C_ImageTag::src() {
+wstring C_ImageTag::src() {
 	return mSrc;
 }
-string C_ImageTag::alt() {
+wstring C_ImageTag::alt() {
 	return mAlt;
 }
 
 //Mutators
-void C_ImageTag::setSrc(string inSrc) {
+void C_ImageTag::setSrc(wstring inSrc) {
 	mSrc = inSrc;
 }
-void C_ImageTag::setAlt(string inAlt) {
+void C_ImageTag::setAlt(wstring inAlt) {
 	mAlt = inAlt;
 }
 
@@ -77,18 +77,18 @@ C_ImageTag* C_ImageTag::clone() {
 C_CMMLTag* C_ImageTag::genericClone() {
 	return clone();
 }
-string C_ImageTag::toString() {
-	string retStr = "<img";
+wstring C_ImageTag::toString() {
+	wstring retStr = L"<img";
 	if (mId.size() != 0) {
-		retStr += makeElement("id", mId);
+		retStr += makeElement(L"id", mId);
 	}
-	retStr += makeElement("src", mSrc);
+	retStr += makeElement(L"src", mSrc);
 
 	if (mAlt.size() != 0) {
-		retStr += makeElement("alt", mAlt);
+		retStr += makeElement(L"alt", mAlt);
 	}
 	
-	retStr += "/>\n";
+	retStr += L"/>\n";
 
 	return retStr;
 

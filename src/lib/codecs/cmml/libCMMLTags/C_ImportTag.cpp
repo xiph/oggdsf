@@ -37,7 +37,7 @@
 C_ImportTag::C_ImportTag(void)
 {
 	mTagType = C_CMMLTag::eTagType::IMPORT;
-	mStart = "0";
+	mStart = L"0";
 	mParamList = new C_ParamTagList;
 }
 
@@ -48,22 +48,22 @@ C_ImportTag::~C_ImportTag(void)
 
 
 //Accessors
-string C_ImportTag::granuleRate() {
+wstring C_ImportTag::granuleRate() {
 	return mGranuleRate;
 }
-string C_ImportTag::contentType() {
+wstring C_ImportTag::contentType() {
 	return mContentType;
 }
-string C_ImportTag::src() {
+wstring C_ImportTag::src() {
 	return mSrc;
 }
-string C_ImportTag::start() {
+wstring C_ImportTag::start() {
 	return mStart;
 }
-string C_ImportTag::end() {
+wstring C_ImportTag::end() {
 	return mEnd;
 }
-string C_ImportTag::title() {
+wstring C_ImportTag::title() {
 	return mTitle;
 }
 C_ParamTagList* C_ImportTag::paramList() {
@@ -71,22 +71,22 @@ C_ParamTagList* C_ImportTag::paramList() {
 }
 
 //Mutators
-void C_ImportTag::setGranuleRate(string inGranuleRate) {
+void C_ImportTag::setGranuleRate(wstring inGranuleRate) {
 	mGranuleRate = inGranuleRate;
 }
-void C_ImportTag::setContentType(string inContentType) {
+void C_ImportTag::setContentType(wstring inContentType) {
 	mContentType = inContentType;
 }
-void C_ImportTag::setSrc(string inSrc) {
+void C_ImportTag::setSrc(wstring inSrc) {
 	mSrc = inSrc;
 }
-void C_ImportTag::setStart(string inStart) {
+void C_ImportTag::setStart(wstring inStart) {
 	mStart = inStart;
 }
-void C_ImportTag::setEnd(string inEnd) {
+void C_ImportTag::setEnd(wstring inEnd) {
 	mEnd = inEnd;
 }
-void C_ImportTag::setTitle(string inTitle) {
+void C_ImportTag::setTitle(wstring inTitle) {
 	mTitle = inTitle;
 }
 void C_ImportTag::setParamList(C_ParamTagList* inParamList) {
@@ -118,38 +118,38 @@ C_ImportTag* C_ImportTag::clone() {
 C_CMMLTag* C_ImportTag::genericClone() {
 	return clone();
 }
-string C_ImportTag::toString() {
+wstring C_ImportTag::toString() {
 	
-	string retStr;
-	retStr = "<import";
+	wstring retStr;
+	retStr = L"<import";
 	
 	if (mId.size() != 0) {
-		retStr += makeElement("id", mId);
+		retStr += makeElement(L"id", mId);
 	}
 
 	if (mGranuleRate.size() != 0) {
-		retStr += makeElement("granulerate", mGranuleRate);
+		retStr += makeElement(L"granulerate", mGranuleRate);
 	}
 
 	if (mContentType.size() != 0) {
-		retStr += makeElement("contenttype", mContentType);
+		retStr += makeElement(L"contenttype", mContentType);
 	}
 
-	retStr += makeElement("src", mSrc);
-	retStr += makeElement("start", mStart);
+	retStr += makeElement(L"src", mSrc);
+	retStr += makeElement(L"start", mStart);
 	if (mEnd.size() != 0) {
-		retStr += makeElement("end", mEnd);
+		retStr += makeElement(L"end", mEnd);
 	}
 
 	if (mTitle.size() != 0) {
-		retStr += makeElement("title", mTitle);
+		retStr += makeElement(L"title", mTitle);
 	}
 
-	retStr += ">\n";
+	retStr += L">\n";
 
 	retStr += mParamList->toString();
 
-	retStr += "</import>\n";
+	retStr += L"</import>\n";
 	return retStr;
 
 }

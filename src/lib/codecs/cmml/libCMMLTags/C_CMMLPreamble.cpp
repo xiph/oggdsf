@@ -36,9 +36,9 @@
 
 C_CMMLPreamble::C_CMMLPreamble(void)
 {
-	mXmlVersion = "1.0";
-	mXmlEncoding = "UTF-8";
-	mXmlStandAlone = "yes";
+	mXmlVersion = L"1.0";
+	mXmlEncoding = L"UTF-8";
+	mXmlStandAlone = L"yes";
 
 }
 
@@ -47,42 +47,42 @@ C_CMMLPreamble::~C_CMMLPreamble(void)
 }
 
 //Accessors
-string C_CMMLPreamble::xmlVersion() {
+wstring C_CMMLPreamble::xmlVersion() {
 	return mXmlVersion;
 }
-string C_CMMLPreamble::xmlEncoding() {
+wstring C_CMMLPreamble::xmlEncoding() {
 	return mXmlEncoding;
 }
-string C_CMMLPreamble::xmlStandAlone() {
+wstring C_CMMLPreamble::xmlStandAlone() {
 	return mXmlStandAlone;
 }
 
 
 //Mutators
-void C_CMMLPreamble::setXmlVersion(string inVersion) {
+void C_CMMLPreamble::setXmlVersion(wstring inVersion) {
 
 }
-void C_CMMLPreamble::setXmlEncoding(string inEncoding) {
+void C_CMMLPreamble::setXmlEncoding(wstring inEncoding) {
 
 }
-void C_CMMLPreamble::setXmlStandAlone(string inStandAlone) {
+void C_CMMLPreamble::setXmlStandAlone(wstring inStandAlone) {
 }
 
 
 
 //Others
-string C_CMMLPreamble::toString() {
-    string retStr;
-	retStr = "<?xml version=\"";
+wstring C_CMMLPreamble::toString() {
+    wstring retStr;
+	retStr = L"<?xml version=\"";
 	retStr += mXmlVersion;
-	retStr += "\" encoding=\"";
+	retStr += L"\" encoding=\"";
 	retStr += mXmlEncoding;
-	retStr += "\" standalone=\"";
+	retStr += L"\" standalone=\"";
 	retStr += mXmlStandAlone;
-	retStr += "\"?>\n";
+	retStr += L"\"?>\n";
 	
 	//TO DO::: Make this more generalised properly
-	retStr += "<!DOCTYPE cmml SYSTEM \"cmml.dtd\">\n";
+	retStr += L"<!DOCTYPE cmml SYSTEM \"cmml.dtd\">\n";
 
 	return retStr;
 

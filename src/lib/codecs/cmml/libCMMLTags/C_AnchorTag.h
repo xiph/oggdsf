@@ -51,22 +51,22 @@ public:
 	virtual ~C_AnchorTag(void);
 
 	//Accessors
-	string cls();
-	string href();
+	wstring cls();
+	wstring href();
 
 	//Mutators
-	void setCls(string inCls);
-	void setHref(string inHref);
+	void setCls(wstring inCls);
+	void setHref(wstring inHref);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_AnchorTag* clone();
 	virtual C_CMMLTag* genericClone();
 
 protected:
 	//Property Data
-	string mCls;
-	string mHref;
+	wstring mCls;
+	wstring mHref;
 
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);

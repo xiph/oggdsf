@@ -51,7 +51,7 @@ void C_MappedTagList::addTag(C_MappedTag* inTag) {
 	mTagList.push_back(inTag);
 }
 
-//void C_MappedTagList::addTag(string inName, string inContent) {
+//void C_MappedTagList::addTag(wstring inName, wstring inContent) {
 //	C_MappedTag* locMappedTag = new C_MappedTag(inName, inContent);
 //	addTag(locMappedTag);
 //}
@@ -69,7 +69,7 @@ C_MappedTag* C_MappedTagList::getTag(unsigned long inTagNo) {
 		return NULL;
 	}
 }
-C_MappedTag* C_MappedTagList::getTag(string inName) {
+C_MappedTag* C_MappedTagList::getTag(wstring inName) {
 	unsigned long i = 0;
 	unsigned long locSize = (unsigned long)mTagList.size();
 
@@ -84,13 +84,13 @@ C_MappedTag* C_MappedTagList::getTag(string inName) {
 	return NULL;
 }
 
-string C_MappedTagList::getContent(string inName) {
+wstring C_MappedTagList::getContent(wstring inName) {
 	return getTag(inName)->name();
 }
 
-string C_MappedTagList::toString() {
+wstring C_MappedTagList::toString() {
 	//FIX ::: Make this do something
-	string retStr = "";
+	wstring retStr = L"";
 	return retStr;
 }
 

@@ -43,19 +43,19 @@ C_CMMLTag::~C_CMMLTag(void)
 }
 
 //Accessors
-string C_CMMLTag::id() {
+wstring C_CMMLTag::id() {
 	return mId;
 }
 
 //Mutators
-void C_CMMLTag::setId(string inId) {
+void C_CMMLTag::setId(wstring inId) {
 	mId = inId;
 }
 
 //Protected Helper Methods
-string C_CMMLTag::makeElement(string inElemName, string inElemContent) {
-	string retStr;
-	retStr = " " + inElemName + "=\"" + inElemContent + "\"";
+wstring C_CMMLTag::makeElement(wstring inElemName, wstring inElemContent) {
+	wstring retStr;
+	retStr = L" " + inElemName + L"=\"" + inElemContent + L"\"";
 	return retStr;
 }
 

@@ -50,7 +50,7 @@ public:
 	virtual ~C_TitleTag(void);
 
 	//Other
-	virtual string toString();
+	virtual wstring toString();
 	C_TitleTag* clone();
 	virtual C_CMMLTag* genericClone();
 protected:
