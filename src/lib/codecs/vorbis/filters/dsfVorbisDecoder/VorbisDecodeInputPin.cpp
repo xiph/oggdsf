@@ -134,7 +134,7 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
 
 	if (locHR != S_OK) {
-		return locHR;
+		return -1;
 	}	
 	
 
@@ -182,8 +182,7 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 			//locSample->AddRef();
 			HRESULT lHR = locThis->mOutputPin->mDataQueue->Receive(locSample);
 			if (lHR != S_OK) {
-				
-			} else {
+				return -1;
 			}
 		}
 

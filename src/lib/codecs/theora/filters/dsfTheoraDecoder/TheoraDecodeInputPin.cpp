@@ -130,7 +130,7 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 	IMediaSample* locSample;
 	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
 	
-	if (FAILED(locHR)) {
+	if (locHR != S_OK) {
 		//We get here when the application goes into stop mode usually.
 		return locHR;
 	}	
@@ -217,9 +217,7 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 		//locSample->AddRef();
 		HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 		if (locHR != S_OK) {
-			
-
-		} else {
+			return -1;
 
 		}
 	}
@@ -238,7 +236,9 @@ long TheoraDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes, LONGLONG inS
 	StampedOggPacket* locPacket = new StampedOggPacket(inBuf, inNumBytes, true, inStart, inEnd, StampedOggPacket::OGG_END_ONLY);
 	yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
 	if (locYUV != NULL) {
-		TheoraDecoded(locYUV);
+		if (TheoraDecoded(locYUV) != 0) {
+			return -1;
+		}
 	}
 
 	return 0;
