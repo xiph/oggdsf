@@ -25,7 +25,7 @@ public:
 	bool addComment(SingleVorbisComment inComment);
 	bool addComment(string inKey, string inValue);
 
-	bool parseOggPacket(OggPacket* inPacket);
+	bool parseOggPacket(OggPacket* inPacket, unsigned long inStartOffset);
 	OggPacket* toOggPacket();
 	string toString();
 

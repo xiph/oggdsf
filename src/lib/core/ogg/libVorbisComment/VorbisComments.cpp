@@ -53,10 +53,12 @@ bool VorbisComments::addComment(string inKey, string inValue) {
 	return true;
 }
 
-bool VorbisComments::parseOggPacket(OggPacket* inPacket) {
+bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOffset) {
 	//FIX::: Validate it is a comment packet
 	unsigned long locPackSize = inPacket->packetSize();
-	unsigned long locUpto = 0;
+
+	//Account for header ident stuff
+	unsigned long locUpto = inStartOffset;
 	unsigned long locVendorLength = 0;
 	string locVendorString;
 	char* tempBuff = NULL;
@@ -69,7 +71,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket) {
 		return false;
 	}
 
-	locVendorLength = OggMath::charArrToULong(inPacket->packetData());
+	locVendorLength = OggMath::charArrToULong(inPacket->packetData() + locUpto);
 	locUpto+=4;
 
 	if (locPackSize < locUpto + locVendorLength - 1) {
@@ -120,12 +122,14 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket) {
 			return false;
 		}
 
+		tempBuff = new char[locUserCommentLength+1];
+
 		memcpy((void*)tempBuff, (const void*)(locPackBuff + locUpto), locUserCommentLength);
 		tempBuff[locUserCommentLength] = '\0';
 
         locUserComment = tempBuff;
 		delete tempBuff;
-		locUpto += locVendorLength;
+		locUpto += locUserCommentLength;
 
 
 		SingleVorbisComment locComment;
@@ -146,10 +150,13 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket) {
 		return false;
 	}
 
+	//Everythings ok... put it into the class fields
 	if ((locPackBuff[locUpto] & 1) == 1) {
 		//OK
 		mVendorString = locVendorString;
 		
+		mCommentList.empty();
+		mCommentList.clear();
 		for (int j = 0; j < locCommentList.size(); j++) {
 			mCommentList.push_back(locCommentList[j]);	
 		}
@@ -168,7 +175,15 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket) {
 }
 
 string VorbisComments::toString() {
-	return "";
+	string retStr;
+
+	retStr = "VENDOR : " + mVendorString + "\n\n";
+	retStr +="USER COMMENTS\n";
+	retStr +="=============\n";
+	for (int i = 0; i < mCommentList.size(); i++) {
+		retStr += mCommentList[i].toString() + "\n";
+	}
+	return retStr;
 
 }
 unsigned long VorbisComments::size() {
