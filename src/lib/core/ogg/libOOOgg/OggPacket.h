@@ -46,32 +46,41 @@ public:
 
 	static const unsigned long HEX_DUMP_LINE_LENGTH = 16;
 					
-	//Packet accessors
+	/// Returns the size of the contained packet.
 	unsigned long packetSize() const;
+
+	/// Returns a pointer to the internal packet buffer.
 	unsigned char* packetData();
-	//bool isComplete() const;
+	
+	/// Returns whether this packet is truncated.
 	bool isTruncated() const;
+
+	/// Returns whether this packet is continued from another one.
 	bool isContinuation() const;
 
-	//Packet Mutators
-	//void setIsComplete (bool inIsComplete );
-
+	/// Set the truncated flag on this packet.
 	void setIsTruncated(bool inIsTruncated);
+
+	/// Set the continuation flag on this packet.
 	void setIsContinuation(bool inIsContinuation);
+
+	/// Set the size of this packet.
 	void setPacketSize (unsigned long inPacketSize );
+
+	/// Give a buffer to kept as the internal packet buffer.
 	void setPacketData (unsigned char* inPacketData );
 
-	//Merge function
+	/// Merges this packet to another one you pass it.
 	virtual void merge(const OggPacket* inMorePacket);
 
-	//TODO::: Should this be here ?
+	/// Turns the packet into a hex dump string.
 	string toPackDumpString();
 	
 protected:
 	//Packet member data
 	unsigned long mPacketSize;
 	unsigned char* mPacketData;
-	//bool mIsComplete;
+
 	bool mIsTruncated;
 	bool mIsContinuation;
 

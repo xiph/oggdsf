@@ -89,7 +89,7 @@ public:
 	OggDataBuffer(void);
 	virtual ~OggDataBuffer(void);
 
-	/// Register a as a callback, which gets called when data is received via our feed() method.
+	/// Register as a callback, which gets called when data is received via our feed() method.
 	bool registerStaticCallback(fPageCallback inPageCallback, void* inUserData);
 
 	/// Register an IOggCallback object, which gets called when data is received via our feed() method.
