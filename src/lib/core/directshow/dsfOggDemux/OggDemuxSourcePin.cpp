@@ -116,6 +116,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 	//TIMESTAMP FIXING !
 	locSample->SetTime(&locStart, &locStop);
 	
+	//TODO::: This style of timestamping should not be necessary anymore.
 	//Yes this is way dodgy !
 	locSample->SetMediaTime(&mParentFilter->mSeekTimeBase, &mParentFilter->mSeekTimeBase);
 	locSample->SetSyncPoint(TRUE);
@@ -125,7 +126,6 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 	BYTE* locBuffer = NULL;
 	locSample->GetPointer(&locBuffer);
 
-	//DbgLog((LOG_TRACE, 2, "* Packet size is %d"));
 	if (locSample->GetSize() >= inPacket->packetSize()) {
 
 		memcpy((void*)locBuffer, (const void*)inPacket->packetData(), inPacket->packetSize());
@@ -133,14 +133,10 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 
 		locHR = mDataQueue->Receive(locSample);
 
-		//REF_CHECK::: In theory should release here.
-		//The sample has ref_count of 1 by virtue of it's creation... we should release that 1 ref count here.
-		
 		if (locHR != S_OK) {
 			//debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
 			return false;
-			
 		} else {
 			return true;
 		}
@@ -186,25 +182,21 @@ HRESULT OggDemuxSourcePin::CompleteConnect (IPin *inReceivePin)
 	//This may cause issue if pins are disconnected and reconnected
 	//DELETE in DEStructor
 	mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, NUM_BUFFERS);
-	if (FAILED(mFilterHR)) {
-		mFilterHR = mFilterHR;
-	}
 	
 	return CBaseOutputPin::CompleteConnect(inReceivePin);
 }
 
-HRESULT OggDemuxSourcePin::BreakConnect(void) {
+HRESULT OggDemuxSourcePin::BreakConnect(void) 
+{
 	delete mDataQueue;
 	mDataQueue = NULL;
 	return CBaseOutputPin::BreakConnect();
 }
 
 	//CSourceStream virtuals
-HRESULT OggDemuxSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) {
+HRESULT OggDemuxSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) 
+{
 	//Put it in from the info we got in the constructor.
-	//NOTE::: May have missed some fields ????
-	//NOTE::: May want to check for null pointers
-	//outMediaType->SetFormat(mMediaType->Format(), mMediaType->FormatLength());
 	if (inPosition == 0) {
 		*outMediaType = *mMediaType;
 		return S_OK;
@@ -219,13 +211,12 @@ HRESULT OggDemuxSourcePin::CheckMediaType(const CMediaType* inMediaType) {
 		return E_FAIL;
 	}
 }
-HRESULT OggDemuxSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) {
-
+HRESULT OggDemuxSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) 
+{
 	HRESULT locHR = S_OK;
 
 	ALLOCATOR_PROPERTIES locReqAlloc;
 	ALLOCATOR_PROPERTIES locActualAlloc;
-
 
 	locReqAlloc.cbAlign = 1;
 	locReqAlloc.cbBuffer = BUFFER_SIZE;
