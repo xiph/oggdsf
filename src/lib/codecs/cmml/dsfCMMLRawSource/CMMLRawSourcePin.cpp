@@ -158,8 +158,17 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 
 	memcpy((void*)locOutBuffer, (const void*)locNarrowStr.c_str(), locNarrowStr.size());
 
-	if (inTag->ta
+	if (inTag->tagType() == C_CMMLTag::CLIP) {
+		C_ClipTag* locClip = (C_ClipTag*)inTag;
+		locStart = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->start()));
+		locStop = StringHelper::stringToNum(StringHelper::toNarrowStr(locClip->end()));
+
+	}
 	locSample->SetActualDataLength(locNarrowStr.size());
+	locSample->SetTime(&locStart, &locStop);
+	locSample->SetMediaTime(NULL, NULL);
+	locSample->SetDiscontinuity(FALSE);
+	locSample->SetSyncPoint(TRUE);
 
 	
 
