@@ -134,7 +134,7 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 
 	// Output CMML preamble if the user wants it
 	if (wantOnlyCMML(mWantedMIMETypes)) {
-		const string CMML_PREAMBLE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<cmml>";
+		const string CMML_PREAMBLE = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<cmml>\n";
 		mBufferWriter((unsigned char *) CMML_PREAMBLE.c_str(), (unsigned long) CMML_PREAMBLE.length(), mBufferWriterUserData);
 	}
 
