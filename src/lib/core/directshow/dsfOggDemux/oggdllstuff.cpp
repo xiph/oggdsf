@@ -74,7 +74,7 @@ STDAPI DllRegisterServer()
     );
 
 
-	RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg, *.ogv, *.oga");
+	RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg;*.ogv;*.oga");
 
 
 

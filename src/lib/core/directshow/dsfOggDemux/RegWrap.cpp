@@ -153,7 +153,7 @@ bool RegWrap::addMediaPlayerDesc(string inDesc, string inExts) {
 	}
 	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions", locDescNum, locFull.c_str());
 	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\MUIDescriptions", locDescNum, inDesc.c_str());
-	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types", locDescNum, locFull.c_str());
+	RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types", locDescNum, inExts.c_str());
 	return true;
 
 
