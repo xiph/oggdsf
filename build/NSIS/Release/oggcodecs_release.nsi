@@ -739,6 +739,8 @@ Section Uninstall
   Delete "$INSTDIR\AUTHORS"
   Delete "$INSTDIR\HISTORY"
 
+  Delete "$INSTDIR\msvcr71.dll"
+  Delete "$INSTDIR\msvcp71.dll"
 
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
