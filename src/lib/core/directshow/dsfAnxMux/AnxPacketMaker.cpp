@@ -232,6 +232,10 @@ vector<string> AnxPacketMaker::makeMessageHeaders(StreamHeaders::eCodecType inCo
 			locTempString = "Content-type: video/x-ogm";
 			retVector.push_back(locTempString);
 			break;
+		case StreamHeaders::CMML:
+			locTempString = "Content-type: text/x-cmml";
+			retVector.push_back(locTempString);
+			break;
 		case StreamHeaders::NONE:
 		default:
 			break;

@@ -106,6 +106,20 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		//} 
 
 		
+	} else if(inMediaType->majortype == MEDIATYPE_Text) {
+		if (inMediaType->subtype == MEDIASUBTYPE_CMML) {
+			//CMML
+			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
+			mMuxStream->setConversionParams(locCMML->granuleNumerator, locCMML->granuleDenominator, 10000000);
+			mPaginator.setNumHeaders(1);
+
+
+			locWasOK = true;
+			locGranRateNum = locCMML->granuleNumerator;
+			locGranRateDenom = locCMML->granuleDenominator;
+			locNumHeaders = 1;
+			locCodecID = StreamHeaders::CMML;			
+		}
 	}
 	if (locWasOK) {
 		//Save the packet, we'll push it into the stream when the connection is established

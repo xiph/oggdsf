@@ -147,6 +147,7 @@ HRESULT CMMLRawSourceFilter::DataProcessLoop()
 			mCMMLSourcePin->deliverTag(mCMMLDoc->root()->clipList()->getTag(mUptoTag));
 		} else {
 			mCMMLSourcePin->DeliverEndOfStream();
+			return S_OK;
 		}
 		mUptoTag++;
 
