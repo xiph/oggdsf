@@ -129,6 +129,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
+				RelativePath=".\AutoAnxSeekTable.cpp">
+			</File>
+			<File
 				RelativePath="AutoOggSeekTable.cpp">
 			</File>
 			<File
@@ -159,6 +162,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\AutoAnxSeekTable.h">
+			</File>
 			<File
 				RelativePath="AutoOggSeekTable.h">
 			</File>

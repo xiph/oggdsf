@@ -81,9 +81,9 @@ STDMETHODIMP AnxDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	mFileName = inFileName;
 
 	//ANX::: Needs to override ??? Or just modify the seeker.
-	mSeekTable = new AutoOggSeekTable(StringHelper::toNarrowStr(mFileName));
+	mSeekTable = new AutoAnxSeekTable(StringHelper::toNarrowStr(mFileName));
 	
-	//mSeekTable->buildTable();
+	mSeekTable->buildTable();
 	
 	return SetUpPins();
 }

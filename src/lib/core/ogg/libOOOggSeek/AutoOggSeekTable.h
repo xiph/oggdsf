@@ -49,10 +49,10 @@ public:
 	static const __int64 DS_UNITS = 10000000;
 	static const LINT_MAX = 4294967295;
 
-	bool buildTable();
+	virtual bool buildTable();
 
 	//IOggCallback interface
-	bool acceptOggPage(OggPage* inOggPage);
+	virtual bool acceptOggPage(OggPage* inOggPage);
 
 	__int64 fileDuration();
 
