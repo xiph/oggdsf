@@ -47,6 +47,10 @@
 #define LIBOOOGG_API __declspec(dllimport)
 #endif
 
+// {5C769985-C3E1-4f95-BEE7-1101C465F5FC}
+DEFINE_GUID(CLSID_TheoraEncodeFilter, 
+0x5c769985, 0xc3e1, 0x4f95, 0xbe, 0xe7, 0x11, 0x1, 0xc4, 0x65, 0xf5, 0xfc);
+
 // {D124B2B1-8968-4ae8-B288-FE16EA34B0CE}
 DEFINE_GUID(MEDIASUBTYPE_Theora, 
 0xd124b2b1, 0x8968, 0x4ae8, 0xb2, 0x88, 0xfe, 0x16, 0xea, 0x34, 0xb0, 0xce);
@@ -60,12 +64,12 @@ const REGPINTYPES TheoraEncodeInputTypes = {
 	&MEDIASUBTYPE_YV12
 };
 
-const REGPINTYPES VorbisEncodeOutputTypes = {
+const REGPINTYPES TheoraEncodeOutputTypes = {
 	&MEDIATYPE_Video,
 	&MEDIASUBTYPE_Theora
 };
 
-const REGFILTERPINS VorbisEncodePinReg[] = {
+const REGFILTERPINS TheoraEncodePinReg[] = {
 	{
     L"YV12 Input",						//Name (obsoleted)
 	FALSE,								//Renders from this pin ?? Not sure about this.
@@ -75,7 +79,7 @@ const REGFILTERPINS VorbisEncodePinReg[] = {
 	NULL,								//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
 	1,									//upport two media type
-	&TheoraEncodeInputTypes				//Pointer to media type (Audio/Vorbis or Audio/Speex)
+	&TheoraEncodeInputTypes				//Pointer to media type (Video/VY12)
 	} ,
 
 	{
