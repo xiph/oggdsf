@@ -28,24 +28,48 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #pragma once
+
+
 #include <libOOOgg/IOggCallback.h>
 #include <libOOOgg/INotifyComplete.h>
 #include <libOOOgg/OggMuxStream.h>
-#include <vector>
 
-//DEBUG ONLY
-//#include <fstream>
-//
+#include <vector>
+//#include <fstream>  // Debugging only
+
+
+/** @class OggPageInterleaver
+
+    @brief Use OggPageInterleaver to interleave two or more Ogg logical
+	       bitstreams into one physical bitstream.
+
+    To feed data into OggPageInterleaver, you will need to create one
+	OggMuxStream for every logical bitstream that you wish to interleave.  Use the
+	newStream() method to do this (don't create your own OggMuxStreams, otherwise
+	OggPageInterleaver won't know anything about them, which is Bad).  Feed your
+	pages to each OggMuxStream using its OggMuxStream::acceptOggPage() method.
+	(If you have your data in packets instead of pages, you'll need to use
+	OggPaginator to put them into pages first: see its documentation for details).
+	Note that you'll probably need to set the conversion parameters in
+	OggMuxStream using OggMuxStream::setConversionParams() to get proper Ogg
+	pages.  Again, see its documentation for details.
+  */
+
+
 using namespace std;
+
+
 class LIBOOOGG_API OggPageInterleaver
 	:	public INotifyArrival
 {
 public:
-	//TODO::: Shuoldn't be called file writer... just output or something.
-	OggPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier);
+	/// Construct a new OggPageInterleaver, which sends its output and completeness notification to inDataWriter and inNotifier, respectively
+	OggPageInterleaver(IOggCallback* inDataWriter, INotifyComplete* inNotifier);
 	virtual ~OggPageInterleaver(void);
 
+	/// Create a new OggMuxStream.  You need one OggMuxStream per logical bitstream you wish to interleave.
 	virtual OggMuxStream* newStream();
 	virtual void processData();
 	virtual void writeLowest();

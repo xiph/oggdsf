@@ -28,7 +28,9 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #pragma once
+
 
 #include <libOOOgg/OggPage.h>
 #include <libOOOgg/IOggCallback.h>
@@ -36,7 +38,11 @@
 #include <math.h>
 #include <deque>
 #include <fstream>
+
+
 using namespace std;
+
+
 class LIBOOOGG_API OggMuxStream
 	:	public IOggCallback
 {
