@@ -1,5 +1,6 @@
 AC_INIT(lib/core/ogg/libOOOgg/OggPacket.cpp)
 AM_INIT_AUTOMAKE(libOOOgg,0.1)
+AC_CONFIG_AUX_DIR(autotools)
 AC_PROG_CXX
 AC_PROG_INSTALL
 AM_PROG_LIBTOOL
