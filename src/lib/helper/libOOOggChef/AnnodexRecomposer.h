@@ -38,21 +38,28 @@ protected:
 		INVALID = 100,
 	};
 
+	enum eDemuxParserState {
+		LOOK_FOR_HEADERS,
+		LOOK_FOR_BODY,
+	};
+
 	void sendPage(OggPage* inOggPage);
 
 	BufferWriter mBufferWriter;
 	void* mBufferWriterUserData;
 
+	fstream mDebugFile;
+
 	string mFilename;
 	fstream mFile;
 
-	unsigned long mStartOfBodyOffset; // Deprecate?
-	unsigned long mRequestedTimeOffset; // Deprecate
 	unsigned long mAnnodexSerialNumber;
 
-	LOOG_INT64 mRequestedTime;
+	LOOG_INT64 mRequestedTime;  // Deprecate
 
 	eDemuxState mDemuxState;
+	eDemuxParserState mDemuxParserState;
+
 	vector<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
 	const vector<const string>* mWantedMIMETypes;
 };

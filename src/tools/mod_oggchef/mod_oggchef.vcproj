@@ -175,9 +175,6 @@
 		</Configuration>
 	</Configurations>
 	<References>
-		<ProjectReference
-			ReferencedProjectIdentifier="{3D55194E-6732-4A74-A947-EDFF585A0F19}"
-			Name="libOOOggChef"/>
 	</References>
 	<Files>
 		<Filter
