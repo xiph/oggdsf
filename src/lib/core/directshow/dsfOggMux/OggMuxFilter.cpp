@@ -104,8 +104,8 @@ OggMuxFilter::OggMuxFilter()
 
 	//Make our delegate pin[0], the top pin... we send all out requests there.
 	IMediaSeeking* locSeeker = NULL;
-	this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
-	mInputPins[0]->SetDelegate(locSeeker);
+	mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
 	
 }
 
