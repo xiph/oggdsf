@@ -56,13 +56,10 @@ public:
 
 	/// Given a requested seek time in DirectShow units, returns the closest time and byte to the seek time.
 	tSeekPair getStartPos(LOOG_INT64 inTime);
-	//LOOG_INT64 getRealStartPos();
 
+	/// Returns whether this table is enabled or disabled.
 	bool enabled();
     
-    OggSeekTable(const OggSeekTable&);  // Don't copy me
-    OggSeekTable &operator=(const OggSeekTable&);  // Don't assign men
-
 protected:
 	tSeekMap mSeekMap;
 	tSeekMap::value_type mSeekValue;
@@ -70,4 +67,8 @@ protected:
 
 	//fstream stDebug;
 	bool mEnabled;
+
+private:
+	OggSeekTable(const OggSeekTable&);  // Don't copy me
+    OggSeekTable &operator=(const OggSeekTable&);  // Don't assign me
 };

@@ -71,20 +71,31 @@ public:
 
 	/// Create a new OggMuxStream.  You need one OggMuxStream per logical bitstream you wish to interleave.
 	virtual OggMuxStream* newStream();
+
 	virtual void processData();
-	virtual void writeLowest();
 
-	virtual bool isProcessable();
-	virtual bool isAllEOS();
-	virtual bool isAllEmpty();
-
+	/// Returns the mux progress in 100 nanoseconds
 	virtual LOOG_INT64 progressTime();
+
+	/// Returns the number of bytes written.
 	virtual LOOG_INT64 bytesWritten();
 
 	//INotifyArrival Implementation
 	virtual void notifyArrival();
 
 protected:
+	/// Writes the lowest stream out
+	virtual void writeLowest();
+
+	/// Returns if there is enough data to do some interleaving
+	virtual bool isProcessable();
+
+	/// Returns true if all the streams are at the end.
+	virtual bool isAllEOS();
+
+	/// Returns true if all the streams are empty.
+	virtual bool isAllEmpty();
+
 	vector<OggMuxStream*> mInputStreams;
 	IOggCallback* mFileWriter;		//TODO::: Shuoldn't be called filewriter.
 	INotifyComplete* mNotifier;
