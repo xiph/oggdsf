@@ -3,9 +3,9 @@
 // Used by dsfOggDemux.rc
 //
 #define IDS_ILLI_ABOUT_STRING_TITLE     101
+#define IDS_ENGLISH_OGG_MEDIA_DESC      102
 #define IDD_ILLIMINABLE_ABOUT           106
 #define IDC_ABOUT_HEADER                1001
-#define IDC_RICHEDIT21                  1002
 
 // Next default values for new objects
 // 

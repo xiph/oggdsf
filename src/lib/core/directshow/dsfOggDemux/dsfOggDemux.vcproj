@@ -165,6 +165,9 @@
 				RelativePath="PropsAbout.cpp">
 			</File>
 			<File
+				RelativePath="RegWrap.cpp">
+			</File>
+			<File
 				RelativePath="SpeexStream.cpp">
 			</File>
 			<File
@@ -233,6 +236,9 @@
 			</File>
 			<File
 				RelativePath="PropsAbout.h">
+			</File>
+			<File
+				RelativePath="RegWrap.h">
 			</File>
 			<File
 				RelativePath="SpeexStream.h">

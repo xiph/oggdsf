@@ -30,6 +30,7 @@
 //===========================================================================
 #include "StdAfx.h"
 #include "oggdllstuff.h"
+#include "RegWrap.h"
 
 
 
@@ -71,6 +72,12 @@ STDAPI DllRegisterServer()
         L"Ogg Demux Source Filter",							// Instance data. ???????
         &OggDemuxSourceFilterReg								// Pointer to filter information.
     );
+
+
+	RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg, *.ogv, *.oga");
+
+
+
 
 
     locFilterMapper->Release();
