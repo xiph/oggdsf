@@ -50,7 +50,7 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 {
 	
 	mFileName = inFileName;
-	mOggDemux = new OggDataBuffer(true);
+	mOggDemux = new OggDataBuffer(true);			//Deleted in destructor.
 	mOggDemux->registerVirtualCallback(this);
 	debugLog.open("G:\\logs\\seektable.log", ios_base::out);
 	debugLog<<"Constructing seek table for "<<inFileName<<endl;
@@ -223,11 +223,12 @@ bool AutoOggSeekTable::buildTable() {
 		debugLog<<"Opening file... "<<endl;
 		mFile.open(mFileName.c_str(), ios_base::in | ios_base::binary);
 		const unsigned long BUFF_SIZE = 4096;
-		unsigned char* locBuff = new unsigned char[BUFF_SIZE];
+		unsigned char* locBuff = new unsigned char[BUFF_SIZE];		//Deleted this function.
 		while (!mFile.eof()) {
 			mFile.read((char*)locBuff, BUFF_SIZE);
 			mOggDemux->feed((const unsigned char*)locBuff, mFile.gcount());
 		}
+		delete[] locBuff;
 		debugLog<<"Closing File..."<<endl;
 		mFile.close();
 		
