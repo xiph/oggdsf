@@ -32,6 +32,10 @@
 #include "dllstuff.h"
 class LIBOOOGG_API IFIFOBuffer {
 public:
+	//Empty Constructor and destructor to ensure proper deletion
+	IFIFOBuffer(void)				{}
+	virtual ~IFIFOBuffer(void)		{}
+
 	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead) = 0;
 	virtual unsigned long write(const unsigned char* inData, unsigned long inBytesToWrite) = 0;
 

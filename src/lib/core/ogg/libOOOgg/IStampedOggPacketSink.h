@@ -36,6 +36,10 @@
 class LIBOOOGG_API IStampedOggPacketSink
 {
 public:
+	//Empty Constructor and destructor to ensure proper deletion
+	IStampedOggPacketSink(void)						{}
+	virtual ~IStampedOggPacketSink(void)			{}
+
 	//All callers to acceptStampedOggPacket give away their pointer
 	// to this function. All methods implementing this interface
 	// are responsible for deleting this packet. All callers

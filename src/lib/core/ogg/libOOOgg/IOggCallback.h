@@ -35,6 +35,11 @@
 class LIBOOOGG_API IOggCallback
 {
 public:
+	//Empty Constructor and destructor to ensure proper deletion
+	IOggCallback(void)					{}
+	virtual ~IOggCallback(void)			{}
+
+
 	//All callers to acceptOggPage give away their pointer
 	// to this function. All methods implementing this interface
 	// are responsible for deleting this page. All callers

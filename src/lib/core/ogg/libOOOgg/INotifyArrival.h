@@ -33,5 +33,8 @@
 class LIBOOOGG_API INotifyArrival
 {
 public:
+	//Empty Constructor and destructor to ensure proper deletion
+	INotifyArrival(void)				{}
+	virtual ~INotifyArrival(void)		{}
 	virtual void notifyArrival() = 0;
 };

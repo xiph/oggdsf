@@ -34,6 +34,10 @@ using namespace std;
 class OGG_DEMUX_API IFilterDataSource
 {
 public:
+	//Empty Constructor and destructor to ensure proper deletion
+	IFilterDataSource(void)							{}
+	virtual ~IFilterDataSource(void)				{}
+
 	virtual unsigned long seek(unsigned long inPos) = 0;
 	virtual void close()  = 0;
 	virtual bool open(string inSourceLocation) = 0;

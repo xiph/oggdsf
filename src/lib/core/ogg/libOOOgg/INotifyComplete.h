@@ -33,5 +33,10 @@
 class LIBOOOGG_API INotifyComplete
 {
 public:
+	//Empty Constructor and destructor to ensure proper deletion
+	INotifyComplete(void)					{}
+	virtual ~INotifyComplete(void)			{}
+
+
 	virtual void NotifyComplete() = 0;
 };

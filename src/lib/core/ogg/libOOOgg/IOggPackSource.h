@@ -35,6 +35,10 @@
 class LIBOOOGG_API IOggPackSource
 {
 public:
+	//Empty Constructor and destructor to ensure proper deletion
+	IOggPackSource(void)					{}
+	virtual ~IOggPackSource(void)			{}
+
 	virtual OggPacket* getPacket(unsigned long inPacketNo) = 0;
 	virtual unsigned long numPackets() = 0;
 };
