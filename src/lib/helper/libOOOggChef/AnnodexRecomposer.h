@@ -54,7 +54,6 @@ public:
 	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
 	~AnnodexRecomposer(void);
 
-	/// Recompose a stream from a particular time offset and/or only selecting certain logical bitstreams (specified as MIME types)
 	void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
 	bool acceptOggPage(OggPage* inOggPage);
 

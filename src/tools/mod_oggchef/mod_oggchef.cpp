@@ -161,8 +161,12 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	// Find out what time we're meant to start serving stuff out at
 	const char* locRequestedStartTimeAsCString =
 		(const char *) apr_table_get (locCGITable, "t");
-	double locRequestedStartTime =
-		anx_parse_time(locRequestedStartTimeAsCString);
+	double locRequestedStartTime;
+	if (locRequestedStartTimeAsCString) {
+		locRequestedStartTime = anx_parse_time(locRequestedStartTimeAsCString);
+	} else {
+		locRequestedStartTime = 0;
+	}
 
 	// What's the output MIME type requested?
 	const vector<string>* locOutputMIMETypes = preferredOutputMIMETypes(inRequest);

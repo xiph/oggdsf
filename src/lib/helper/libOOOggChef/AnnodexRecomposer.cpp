@@ -66,6 +66,12 @@ AnnodexRecomposer::~AnnodexRecomposer(void)
 }
 
 
+bool wantOnlyCMML(const vector<string>* inWantedMIMETypes)
+{
+	return (	inWantedMIMETypes->size() == 1
+			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
+}
+
 /** The starting time offset's units is in seconds, while the wanted MIME types
     is a vector of strings, which will be matched against the MIME type in the
 	AnxData header of the logical bitstream. */
@@ -109,6 +115,12 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	mDebugFile << "locStartOfBodyOffset: " << locStartOfBodyOffset << endl;
 #endif
 
+	// Output CMML preamble if the user wants it
+	if (wantOnlyCMML(mWantedMIMETypes)) {
+		const string CMML_PREAMBLE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<cmml>";
+		mBufferWriter((unsigned char *) CMML_PREAMBLE.c_str(), (unsigned long) CMML_PREAMBLE.length(), mBufferWriterUserData);
+	}
+
 	// Grab the headers from the stream
 	mDemuxParserState = LOOK_FOR_HEADERS;
 	{
@@ -138,7 +150,7 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	unsigned long locRequestedStartTimeOffset =
 		locSeekTable->getStartPos(locRequestedStartTime).second;
 
-	// Re-open the file, to avoid any fallout from reading the headers
+	// Clear the file's flags, to avoid any fallout from reading the headers
 	locFile.clear();
 	locFile.seekg(locRequestedStartTimeOffset);
 
@@ -147,6 +159,13 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	mDebugFile << "locRequestedStartTimeOffset: " << locRequestedStartTimeOffset << endl;
 	mDebugFile << "Current position: " << locFile.tellg() << endl;
 #endif
+
+	// TODO: This is a hack, since sometimes AutoAnxTable returns 0 when it
+	// really shouldn't ...
+	size_t locCurrentPosition = locFile.tellg();
+	if (locCurrentPosition == 0) {
+		mDemuxState = SEEN_NOTHING;
+	}
 
 	mDemuxParserState = LOOK_FOR_BODY;
 	{
@@ -163,6 +182,12 @@ void AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 			}
 			locOggBuffer.feed((unsigned char *) locBuffer, locBytesReadThisIteration);
 		}
+	}
+
+	// Output CMML preamble if the user wants it
+	if (wantOnlyCMML(mWantedMIMETypes)) {
+		const string CMML_POSTAMBLE = "\n</cmml>";
+		mBufferWriter((unsigned char *) CMML_POSTAMBLE.c_str(), (unsigned long) CMML_POSTAMBLE.length(), mBufferWriterUserData);
 	}
 
 	// Tidy up
@@ -289,8 +314,6 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 								mBufferWriter(inOggPage->createRawPageData(),
 									inOggPage->pageSize(), mBufferWriterUserData);
 							}
-
-							break;
 						}
 					}
 				} else if (isAnnodexEOSPage(inOggPage, mAnnodexSerialNumber)) {
@@ -356,15 +379,63 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 		switch (mDemuxState) {
 
 			case SEEN_NOTHING:
+				if (isAnnodexBOSPage(inOggPage)) {
+					mDemuxState = SEEN_ANNODEX_BOS;
+				} else {
+					// The Annodex BOS page should always be the very first page of
+					// the stream, so if we don't see it, the stream's invalid
+					mDemuxState = INVALID;
+				}
+				break;
+
 			case SEEN_ANNODEX_BOS:
+				if (isAnxDataPage(inOggPage)) {
+					// Do nothing
+				} else if (isAnnodexEOSPage(inOggPage, mAnnodexSerialNumber)) {
+					mDemuxState = SEEN_ANNODEX_EOS;
+				} else {
+					// We didn't spot either an AnxData page or the Annodex EOS: WTF?
+					mDemuxState = INVALID;
+				}
+				break;
+
 			case SEEN_ANNODEX_EOS:
-#ifdef DEBUG
-			mDebugFile << "Looking for body, state is " << mDemuxState << endl;
-#endif		
-			break;
+				{
+					// Only output headers for the streams that the user wants
+					// in their request
+					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
+						if (mWantedStreamSerialNumbers[i].first == inOggPage->header()->StreamSerialNo()) {
+							if (mWantedStreamSerialNumbers[i].second >= 1) {
+								mWantedStreamSerialNumbers[i].second--;
+							} 
+#if 0
+							else {
+								mDemuxState = INVALID;
+							}
+#endif
+						}
+					}
+
+					bool allEmpty = true;
+					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
+						if (mWantedStreamSerialNumbers[i].second != 0) {
+							allEmpty = false;
+						}
+					}
+
+					if (allEmpty) {
+						mDemuxState = SEEN_ALL_CODEC_HEADERS;
+					}
+				}
+				break;
 
 			case SEEN_ALL_CODEC_HEADERS:
 				{
+					// Ignore any header packets which we may encounter
+					if ((inOggPage->header()->HeaderFlags() & OggPageHeader::BOS) != 0) {
+						break;
+					}
+
 					// Only output streams which the user requested
 					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
 						if (	mWantedStreamSerialNumbers[i].first

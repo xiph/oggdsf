@@ -47,6 +47,7 @@ public:
 	IRecomposer(void);
 	virtual ~IRecomposer(void);
 
+	/// Recompose a stream from a particular time offset and/or only selecting certain logical bitstreams (specified as MIME types)
 	virtual void recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes) = 0;
-
 };
+
