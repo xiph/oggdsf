@@ -33,6 +33,7 @@
 #include <winsock.h>
 //#include <stdlib.h>
 #include "HTTPSocket.h"
+#include "SingleMediaFileCache.h"
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -70,7 +71,8 @@ protected:
 	bool HTTPFileSource::startThread();
 	void DataProcessLoop();
 
-	stringstream mStreamBuffer;
+	//stringstream mStreamBuffer;
+	SingleMediaFileCache mFileCache;
 
 	fstream debugLog;
 	//fstream fileDump;

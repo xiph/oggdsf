@@ -2,6 +2,8 @@
 #include ".\singlemediafilecache.h"
 
 SingleMediaFileCache::SingleMediaFileCache(void)
+	:	mBytesWritten(0)
+	,	mIsComplete(false)
 {
 }
 
@@ -35,5 +37,16 @@ bool SingleMediaFileCache::readSeek(unsigned long inSeekPos) {
 		return true;
 	} else {
 		return false;
+	}
+}
+
+unsigned long SingleMediaFileCache::totalBytes() {
+	return mBytesWritten;
+}
+unsigned long SingleMediaFileCache::bytesAvail() {
+	if (!mLocalFile.fail() && mBytesWritten > 0) {
+		return mBytesWritten - mLocalFile.tellg();
+	} else {
+		return 0;
 	}
 }

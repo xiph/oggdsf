@@ -80,8 +80,12 @@ void HTTPFileSource::DataProcessLoop() {
 			debugLog <<"Num Read = "<<locNumRead<<endl;
 			if (mSeenResponse) {
 				//Add to buffer
-				mStreamBuffer.write(locBuff, locNumRead);
-				debugLog<<"Added to buffer "<<locNumRead<<" bytes."<<endl;
+				bool locWriteOK = mFileCache.write((const unsigned char*)locBuff, locNumRead);
+				if (locWriteOK) {
+					debugLog<<"Added to cache "<<locNumRead<<" bytes."<<endl;
+				} else {
+					debugLog<<"Write to cache failed.."<<endl;
+				}
 				//Dump to file
 				//fileDump.write(locBuff, locNumRead);
 			} else {
@@ -96,21 +100,25 @@ void HTTPFileSource::DataProcessLoop() {
 					char* locBuff2 = locBuff + locPos + 4;  //View only - don't delete.
 					locTemp = locBuff2;
 					//debugLog<<"Start of data follows"<<endl<<locTemp<<endl;
-					mStreamBuffer.write(locBuff2, (std::streamsize)(locNumRead - (locPos + 4)));
+					bool locWriteOK = mFileCache.write((const unsigned char*)locBuff2, (locNumRead - (locPos + 4)));
+
 					//Dump to file
 					//fileDump.write(locBuff2, locNumRead - (locPos + 4));
 					
 
-					if(mStreamBuffer.fail()) {
+					if(locWriteOK) {
+						debugLog<<"Added to Buffer "<<locNumRead - (locPos+4)<<" bytes... first after response."<<endl;
+						
+					} else {
 						debugLog<<"Buffering failure..."<<endl;
 					}
 
-					size_t locG, locP;
-					locG = mStreamBuffer.tellg();
-					locP = mStreamBuffer.tellp();
+					//size_t locG, locP;
+					//locG = mStreamBuffer.tellg();
+					//locP = mStreamBuffer.tellp();
 
-					debugLog << "Get : "<<locG<<" ---- Put : "<<locP<<endl;
-					debugLog<<"Added to Buffer "<<locNumRead - (locPos+4)<<" bytes... first after response."<<endl;
+					//debugLog << "Get : "<<locG<<" ---- Put : "<<locP<<endl;
+					
 				}
 			}
 		} //END CRITICAL SECTION
@@ -150,8 +158,13 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 	//Close the socket down
 	//Open up a new one to the same place.
 	//Make the partial content request.
-	debugLog<<"Seek ::::: EOROR NOT IMPL"<<endl;
-	return 0;
+	debugLog<<"Seeking to "<<inPos<<endl;
+	if (mFileCache.readSeek(inPos)) {
+		return inPos;
+	} else {
+		return (unsigned long) -1;
+	}
+	
 }
 
 
@@ -172,15 +185,18 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	//
 	mSeenResponse = false;
 	mLastResponse = "";
-	debugLog<<"Open:"<<endl;
+	debugLog<<"Open: "<<inSourceLocation<<endl;
+
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
-		mStreamBuffer.flush();
-		mStreamBuffer.clear();
-		mStreamBuffer.seekg(0, ios_base::beg);
-		mStreamBuffer.seekp(0, ios_base::beg);
-		if(mStreamBuffer.fail()) {
-			debugLog<<"OPEN : Stream buffer already fucked"<<endl;
+		//mStreamBuffer.flush();
+		//mStreamBuffer.clear();
+		//mStreamBuffer.seekg(0, ios_base::beg);
+		//mStreamBuffer.seekp(0, ios_base::beg);
+
+		//TODO::: Get rid of this path.
+		if(mFileCache.open("g:\\logs\\filecache.dat")) {
+			debugLog<<"OPEN : Can't open file cache"<<endl;
 		}
 	} //END CRITICAL SECTION
 
@@ -193,6 +209,8 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	}
 
 	debugLog<<"Sending request..."<<endl;
+
+	//How is filename already set ??
 	httpRequest(assembleRequest(mFileName));
 	debugLog<<"Socket ok... starting thread"<<endl;
 	locIsOK = startThread();
@@ -208,10 +226,10 @@ void HTTPFileSource::clear() {
 bool HTTPFileSource::isEOF() {
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
-		unsigned long locSizeBuffed = mStreamBuffer.tellp() - mStreamBuffer.tellg();
+		unsigned long locSizeBuffed = mFileCache.bytesAvail();;
 	
 
-		debugLog<<"isEOF : Amount Buffered = "<<locSizeBuffed<<endl;
+		debugLog<<"isEOF : Amount Buffered avail = "<<locSizeBuffed<<endl;
 		if ((locSizeBuffed == 0) && mIsEOF) {
 			debugLog<<"isEOF : It is EOF"<<endl;
 			return true;
@@ -230,16 +248,16 @@ unsigned long HTTPFileSource::read(char* outBuffer, unsigned long inNumBytes) {
 		CAutoLock locLock(mBufferLock);
 		
 		debugLog<<"Read:"<<endl;
-		if(isEOF() || mWasError) {
+		if(mIsEOF || mWasError) {
 			debugLog<<"read : Can't read is error or eof"<<endl;
 			return 0;
 		} else {
 			//debugLog<<"Reading from buffer"<<endl;
-			mStreamBuffer.read(outBuffer, inNumBytes);
-			unsigned long locNumRead = mStreamBuffer.gcount();
-			if (locNumRead == 0) {
+			
+			unsigned long locNumRead = mFileCache.read((unsigned char*)outBuffer, inNumBytes);
+	/*		if (locNumRead == 0) {
 				mStreamBuffer.clear();
-			}
+			}*/
 
 			debugLog<<locNumRead<<" bytes read from buffer"<<endl;
 			return locNumRead;

@@ -40,4 +40,5 @@ public:
 	virtual void clear() = 0;
 	virtual bool isEOF() = 0;
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes) = 0;
+	
 };

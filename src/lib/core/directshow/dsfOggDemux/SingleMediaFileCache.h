@@ -23,6 +23,9 @@ public:
 	bool write(const unsigned char* inBuff, unsigned long inBuffSize);
 	unsigned long read(unsigned char* outBuff, unsigned long inBuffSize);
 	bool readSeek(unsigned long inSeekPos);
+	unsigned long totalBytes();
+	unsigned long bytesAvail();
+
 protected:
 	fstream mLocalFile;
 
