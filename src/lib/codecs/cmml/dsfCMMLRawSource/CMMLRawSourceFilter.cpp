@@ -39,7 +39,9 @@ STDMETHODIMP CMMLRawSourceFilter::NonDelegatingQueryInterface(REFIID riid, void 
 CMMLRawSourceFilter::CMMLRawSourceFilter(void)
 	:	CBaseFilter(NAME("CMMLRawSourceFilter"), NULL, m_pLock, CLSID_CMMLRawSourceFilter)
 	,	mCMMLDoc(NULL)
+	,	mUptoTag(0)
 {
+	m_pLock = new CCritSec;
 	mCMMLSourcePin = new CMMLRawSourcePin(		this
 											,	this->m_pLock);
 
@@ -49,8 +51,10 @@ CMMLRawSourceFilter::CMMLRawSourceFilter(void)
 
 CMMLRawSourceFilter::~CMMLRawSourceFilter(void)
 {
+
 	delete mCMMLSourcePin;
 	delete mCMMLDoc;
+	delete m_pLock;
 }
 
 //BaseFilter Interface
@@ -91,6 +95,8 @@ STDMETHODIMP CMMLRawSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE
 	delete mCMMLDoc;
 	mCMMLDoc = new C_CMMLDoc;
 	bool retVal = mCMMLParser.parseDocFromFile(mFileName, mCMMLDoc);
+
+	mUptoTag = -1;
 
 	if (retVal) {
 		return S_OK;
@@ -136,15 +142,44 @@ HRESULT CMMLRawSourceFilter::DataProcessLoop()
 		}
 		
 		if (mUptoTag == -1) {
-			deliverTag(mCMMLDoc->root()->head());
+			mCMMLSourcePin->deliverTag(mCMMLDoc->root()->head());
 		} else if (mUptoTag < mCMMLDoc->root()->clipList()->numTags()) {
-			deliverTag(mCMMLDoc->root()->clipList()->getTag(mUptoTag));
+			mCMMLSourcePin->deliverTag(mCMMLDoc->root()->clipList()->getTag(mUptoTag));
 		} else {
-			DeliverEOS();
+			mCMMLSourcePin->DeliverEndOfStream();
 		}
 		mUptoTag++;
 
 	}
 	return S_OK;
 
+}
+//IMEdiaStreaming
+STDMETHODIMP CMMLRawSourceFilter::Run(REFERENCE_TIME tStart) {
+	CAutoLock locLock(m_pLock);
+	return CBaseFilter::Run(tStart);
+}
+STDMETHODIMP CMMLRawSourceFilter::Pause(void) {
+	CAutoLock locLock(m_pLock);
+	if (m_State == State_Stopped) {
+		if (ThreadExists() == FALSE) {
+			Create();
+		}
+		CallWorker(THREAD_RUN);
+	}
+
+	HRESULT locHR = CBaseFilter::Pause();
+	return locHR;
+	
+}
+STDMETHODIMP CMMLRawSourceFilter::Stop(void) {
+	CAutoLock locLock(m_pLock);
+	CallWorker(THREAD_EXIT);
+	Close();
+	//mJustSeeked = true;
+	//mSeekRequest = 0;
+	mUptoTag = -1;
+	mCMMLSourcePin->DeliverBeginFlush();
+	mCMMLSourcePin->DeliverEndFlush();
+	return CBaseFilter::Stop();
 }

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <string>
+#include "libWinCMMLParse.h"
+#include "CMMLParser.h"
+#include "CMMLRawSourcePin.h"
 using namespace std;
 
 class CMMLRawSourcePin;
@@ -43,6 +46,11 @@ public:
 	//CAMThread
 	virtual DWORD ThreadProc(void);
 
+
+	STDMETHODIMP Run(REFERENCE_TIME tStart);
+	STDMETHODIMP Pause(void);
+	STDMETHODIMP Stop(void);
+
 protected:
 	virtual HRESULT DataProcessLoop();
 
@@ -51,4 +59,6 @@ protected:
 
 	C_CMMLDoc* mCMMLDoc;
 	wstring mFileName;
+
+	long mUptoTag;
 };

@@ -3,7 +3,11 @@
 
 CMMLRawSourcePin::CMMLRawSourcePin(CMMLRawSourceFilter* inParentFilter, CCritSec* inFilterLock)
 	:	CBaseOutputPin(NAME("CMML Raw Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"CMML Source")
+
 {
+	mCMMLFormatBlock.granuleDenominator = 1;
+	mCMMLFormatBlock.granuleNumerator = 1000;
+
 }
 
 CMMLRawSourcePin::~CMMLRawSourcePin(void)
@@ -76,8 +80,11 @@ HRESULT CMMLRawSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType)
 		locMediaType.majortype = MEDIATYPE_Text;
 		locMediaType.subtype = MEDIASUBTYPE_CMML;
 		locMediaType.formattype = FORMAT_CMML;
-		locMediaType.cbFormat = sizeof(sCMMLFormatBlock); //0;//sizeof(sSpeexFormatBlock);
-		locMediaType.pbFormat = (BYTE*)mCMMLFormatBlock; //(BYTE*)locSpeexFormatInfo;
+
+		BYTE* locFB = locMediaType.AllocFormatBuffer(sizeof(sCMMLFormatBlock)); //0;//sizeof(sSpeexFormatBlock);
+
+		//locMediaType.pbFormat = (BYTE*)&mCMMLFormatBlock; //(BYTE*)locSpeexFormatInfo;
+		memcpy((void*)locFB, (const void*)&mCMMLFormatBlock, sizeof(sCMMLFormatBlock));
 		locMediaType.pUnk = NULL;
 		*outMediaType = locMediaType;
 		return S_OK;
@@ -132,6 +139,29 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		return locHR;
 	}
 
+	BYTE* locOutBuffer = NULL;
+	locHR = locSample->GetPointer(&locOutBuffer);
 
-	//locSample->
+	if (locHR != S_OK) {
+		//debugLog<<"Failure... No buffer"<<endl;
+		return locHR;
+	}
+
+	wstring locStr = inTag->toString();
+
+	
+	//TODO::: For now, this narrowfies the string... to ascii, instead of sending
+	// 2 byte chars.
+
+	string locNarrowStr = StringHelper::toNarrowStr(locStr);
+
+	memcpy((void*)locOutBuffer, (const void*)locNarrowStr.c_str(), locNarrowStr.size());
+
+	locSample->SetActualDataLength(locNarrowStr.size());
+
+	
+
+	return Deliver(locSample);
+
+
 }

@@ -13,4 +13,4 @@
 // TODO: reference additional headers your program requires here
 #include "cmmlrawsourcedllstuff.h"
 #include "CMMLRawSourceFilter.h"
-#include "CMMLRawSourcePin.H"
+#include "CMMLRawSourcePin.h"

@@ -100,25 +100,13 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_3243E453AFD94BB88B5A1014BDFCBAAE"
+        "OwnerKey" = "8:_5F037C77C35B4B5098153851ADDB7B6A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
+        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -143,12 +131,6 @@
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_E1E372FA955046E6928BF533EA0AE6C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -179,6 +161,12 @@
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_8D9A2E4C592D4118B80A4AE8394D8963"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -232,7 +220,25 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_3243E453AFD94BB88B5A1014BDFCBAAE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_14E3067B71584FB5A245A2DA9D65D139"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -279,6 +285,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5F037C77C35B4B5098153851ADDB7B6A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_65015192414F476999A68339F89BEA57"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -292,37 +304,13 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_3243E453AFD94BB88B5A1014BDFCBAAE"
+        "OwnerKey" = "8:_5F037C77C35B4B5098153851ADDB7B6A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_83AF8D74700947168B69E69E5160F082"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
+        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -358,7 +346,7 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_DCF4ED7597F8492AA49DC521111ED0F5"
+        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -395,6 +383,18 @@
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_8D9A2E4C592D4118B80A4AE8394D8963"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_83AF8D74700947168B69E69E5160F082"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -448,6 +448,18 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_3243E453AFD94BB88B5A1014BDFCBAAE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_24A1793CB89A464FB683A8A3BDA774DB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -461,6 +473,12 @@
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_13E9F6D7ED35430BA31BDDF95E6327B3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -929,7 +947,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{D65F0073-A820-4085-B997-A061171595A7}"
-        "PackageCode" = "8:{19A22B6B-90C0-4ADD-902D-CD45E6237E13}"
+        "PackageCode" = "8:{B77771F9-ECAA-4D96-8026-22240D8116B4}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -3057,7 +3075,7 @@
         {
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_02E7D9728C8944F1BD021329177F5140"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libcmmltags\\debug\\libCMMLTags.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libCMMLTags\\Debug\\libCMMLTags.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3085,7 +3103,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_0A1E63E5852E4F759F1A27E8F097727B"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\oooggdump\\debug\\OOOggDump.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggDump\\Debug\\OOOggDump.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3113,7 +3131,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_0D0DD40A31F842C68B09BE0CBDE1996B"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfflacencoder\\debug\\dsfFLACEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfFLACEncoder\\Debug\\dsfFLACEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3141,7 +3159,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_13E9F6D7ED35430BA31BDDF95E6327B3"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfabstractvideoencoder\\debug\\dsfAbstractVideoEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfAbstractVideoEncoder\\Debug\\dsfAbstractVideoEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3169,7 +3187,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_14E3067B71584FB5A245A2DA9D65D139"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libwincmmlparse\\debug\\libWinCMMLParse.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\libWinCMMLParse\\Debug\\libWinCMMLParse.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3197,7 +3215,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_24A1793CB89A464FB683A8A3BDA774DB"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\vorbis_dynamic_debug\\vorbis_d.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Debug\\vorbis_d.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3225,7 +3243,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_273D851AE72C4D2EA8020A712DBFE5A3"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfnativeflacsource\\debug\\dsfNativeFLACSource.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfNativeFLACSource\\Debug\\dsfNativeFLACSource.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3253,7 +3271,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_3243E453AFD94BB88B5A1014BDFCBAAE"
             {
-            "SourcePath" = "8:..\\..\\src\\tests\\testlibooogg\\debug\\testLibOOOgg.exe"
+            "SourcePath" = "8:..\\..\\src\\tests\\testLibOOOgg\\Debug\\testLibOOOgg.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3281,7 +3299,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_3C7C3E6B832E481C8A36701A33FF3721"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\oooggstat\\debug\\OOOggStat.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggStat\\Debug\\OOOggStat.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3309,7 +3327,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_408749AC43894882BEEBFF43737E505B"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfspeexdecoder\\debug\\dsfSpeexDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfSpeexDecoder\\Debug\\dsfSpeexDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3337,7 +3355,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_4EB6175B98B54613A5087D8EA257D00A"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libootheora\\debug\\libOOTheora.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libOOTheora\\Debug\\libOOTheora.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3365,7 +3383,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_56CADC6C2BCD4C178BC0C0AA13ABFEBF"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsftheoradecoder\\debug\\dsfTheoraDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsfTheoraDecoder\\Debug\\dsfTheoraDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3393,7 +3411,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_578B89273D59478F861AA5BC3600D074"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfoggmux\\debug\\dsfOggMux.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfOggMux\\Debug\\dsfOggMux.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3421,7 +3439,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_58F56CD02F64413B9459F3E151760A57"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libooogg\\debug\\libOOOgg.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOgg\\Debug\\libOOOgg.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3449,7 +3467,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_5EB08DD30B564283AA9C9F27D80CF9E4"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\liboooggseek\\debug\\libOOOggSeek.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOggSeek\\Debug\\libOOOggSeek.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3475,9 +3493,37 @@
                 {
                 }
             }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_5F037C77C35B4B5098153851ADDB7B6A"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\dsfcmmlrawsource\\debug\\dsfCMMLRawSource.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:4"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{35D263B8-C0C4-4F28-AC6D-07F8C82A01B8}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_65015192414F476999A68339F89BEA57"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\dsfcmmldecoder\\debug\\dsfCMMLDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\cmml\\dsfCMMLDecoder\\Debug\\dsfCMMLDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3533,7 +3579,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_8976C400668B453CB941859C4F3C6E27"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfflacdecoder\\debug\\dsfFLACDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfFLACDecoder\\Debug\\dsfFLACDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3561,7 +3607,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_8D9A2E4C592D4118B80A4AE8394D8963"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfspeexencoder\\debug\\dsfSpeexEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfSpeexEncoder\\Debug\\dsfSpeexEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3589,7 +3635,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_8F970C0B2593413CA2A3BBF5F2600387"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfanxdemux\\debug\\dsfAnxDemux.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfAnxDemux\\Debug\\dsfAnxDemux.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3617,7 +3663,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_A5AAB8CB90C548F1820BC101A765616C"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfseeking\\debug\\dsfSeeking.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfSeeking\\Debug\\dsfSeeking.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3645,7 +3691,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_AC8962A7F212481095173AB7C8C89025"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsftheoraencoder\\debug\\dsfTheoraEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsfTheoraEncoder\\Debug\\dsfTheoraEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3673,7 +3719,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\oooggvalidate\\debug\\OOOggValidate.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggValidate\\Debug\\OOOggValidate.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3701,7 +3747,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_D2048C8B212841C88E42F6ADDCA8B0A2"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfsubtitlevmr9\\debug\\dsfSubtitleVMR9.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfSubtitleVMR9\\Debug\\dsfSubtitleVMR9.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3757,7 +3803,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_DCF4ED7597F8492AA49DC521111ED0F5"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfoggdemux\\debug\\dsfOggDemux.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfOggDemux\\Debug\\dsfOggDemux.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3785,7 +3831,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_E1E372FA955046E6928BF533EA0AE6C3"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libvorbiscomment\\debug\\libVorbisComment.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libVorbisComment\\Debug\\libVorbisComment.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3813,7 +3859,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\helper\\libfishsound\\win32\\debug\\libfishsound.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\helper\\libfishsound\\win32\\Debug\\libfishsound.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3841,7 +3887,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_EB09F87C612C40BCA34AC87060CFEFF1"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\oooggcommentdump\\debug\\OOOggCommentDump.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggCommentDump\\Debug\\OOOggCommentDump.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3869,7 +3915,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_EFEA71FFF2864107815DBDECCCCA1178"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfvorbisdecoder\\debug\\dsfVorbisDecoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfVorbisDecoder\\Debug\\dsfVorbisDecoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
@@ -3897,7 +3943,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_FD547F0196C24DFBB9CAFCCEC06561BC"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfvorbisencoder\\debug\\dsfVorbisEncoder.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfVorbisEncoder\\Debug\\dsfVorbisEncoder.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"

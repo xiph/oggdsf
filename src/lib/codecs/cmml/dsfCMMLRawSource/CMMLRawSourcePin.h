@@ -34,9 +34,12 @@
 
 #pragma once
 #include "cmmlrawsourcedllstuff.h"
-
+#include "StringHelper.h"
 #include <fstream>
 using namespace std;
+
+class CMMLRawSourceFilter;
+
 class CMMLRawSourcePin
 	:	public CBaseOutputPin
 {
@@ -71,5 +74,5 @@ protected:
 	//fstream debugLog;
 	HRESULT mFilterHR;
 	COutputQueue* mDataQueue;
-	sCMMLFormatBlock* mCMMLFormatBlock;
+	sCMMLFormatBlock mCMMLFormatBlock;
 };
