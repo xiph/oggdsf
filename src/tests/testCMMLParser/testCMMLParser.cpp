@@ -164,7 +164,11 @@ bool testCMMLClone(wstring inFilename)
 
 }
 
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int, char **)
+#endif
 {
 	//Valid minimal
 	wstring head_1 = L"<head><title>Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head>";
