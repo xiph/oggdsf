@@ -33,6 +33,9 @@ namespace iOCE
 			//
 			InitializeComponent();
 
+			wasOK = false;
+			Key = "";
+			Value = "";
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
@@ -155,8 +158,8 @@ namespace iOCE
 		private void frmAddComment_Load(object sender, System.EventArgs e)
 		{
 			wasOK = false;
-			Key = "";
-			Value = "";
+			cboKey.Text = Key;
+			txtValue.Text = Value;
 		}
 
 		private void cmdCancel_Click(object sender, System.EventArgs e)

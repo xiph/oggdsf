@@ -98,14 +98,14 @@ namespace iOCE
 			this.mnuFileExit = new System.Windows.Forms.MenuItem();
 			this.lblVendor = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.cmdEdit = new System.Windows.Forms.Button();
+			this.cmdRemove = new System.Windows.Forms.Button();
+			this.cmdAdd = new System.Windows.Forms.Button();
 			this.lsvUserComments = new System.Windows.Forms.ListView();
 			this.colKey = new System.Windows.Forms.ColumnHeader();
 			this.colValue = new System.Windows.Forms.ColumnHeader();
 			this.txtVendorString = new System.Windows.Forms.TextBox();
 			this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
-			this.cmdAdd = new System.Windows.Forms.Button();
-			this.cmdRemove = new System.Windows.Forms.Button();
-			this.cmdEdit = new System.Windows.Forms.Button();
 			this.cmdApply = new System.Windows.Forms.Button();
 			this.cmdRevert = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
@@ -167,6 +167,35 @@ namespace iOCE
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Vorbis Comments";
 			// 
+			// cmdEdit
+			// 
+			this.cmdEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.cmdEdit.Location = new System.Drawing.Point(440, 192);
+			this.cmdEdit.Name = "cmdEdit";
+			this.cmdEdit.Size = new System.Drawing.Size(80, 24);
+			this.cmdEdit.TabIndex = 5;
+			this.cmdEdit.Text = "&Edit...";
+			this.cmdEdit.Click += new System.EventHandler(this.cmdEdit_Click);
+			// 
+			// cmdRemove
+			// 
+			this.cmdRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.cmdRemove.Location = new System.Drawing.Point(536, 192);
+			this.cmdRemove.Name = "cmdRemove";
+			this.cmdRemove.Size = new System.Drawing.Size(80, 24);
+			this.cmdRemove.TabIndex = 4;
+			this.cmdRemove.Text = "&Remove";
+			// 
+			// cmdAdd
+			// 
+			this.cmdAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.cmdAdd.Location = new System.Drawing.Point(344, 192);
+			this.cmdAdd.Name = "cmdAdd";
+			this.cmdAdd.Size = new System.Drawing.Size(80, 24);
+			this.cmdAdd.TabIndex = 3;
+			this.cmdAdd.Text = "&Add...";
+			this.cmdAdd.Click += new System.EventHandler(this.cmdAdd_Click);
+			// 
 			// lsvUserComments
 			// 
 			this.lsvUserComments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -200,34 +229,6 @@ namespace iOCE
 			this.txtVendorString.Size = new System.Drawing.Size(512, 20);
 			this.txtVendorString.TabIndex = 1;
 			this.txtVendorString.Text = "";
-			// 
-			// cmdAdd
-			// 
-			this.cmdAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.cmdAdd.Location = new System.Drawing.Point(344, 192);
-			this.cmdAdd.Name = "cmdAdd";
-			this.cmdAdd.Size = new System.Drawing.Size(80, 24);
-			this.cmdAdd.TabIndex = 3;
-			this.cmdAdd.Text = "&Add...";
-			this.cmdAdd.Click += new System.EventHandler(this.cmdAdd_Click);
-			// 
-			// cmdRemove
-			// 
-			this.cmdRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.cmdRemove.Location = new System.Drawing.Point(536, 192);
-			this.cmdRemove.Name = "cmdRemove";
-			this.cmdRemove.Size = new System.Drawing.Size(80, 24);
-			this.cmdRemove.TabIndex = 4;
-			this.cmdRemove.Text = "&Remove";
-			// 
-			// cmdEdit
-			// 
-			this.cmdEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.cmdEdit.Location = new System.Drawing.Point(440, 192);
-			this.cmdEdit.Name = "cmdEdit";
-			this.cmdEdit.Size = new System.Drawing.Size(80, 24);
-			this.cmdEdit.TabIndex = 5;
-			this.cmdEdit.Text = "&Edit...";
 			// 
 			// cmdApply
 			// 
@@ -289,7 +290,7 @@ namespace iOCE
 
 		private void cmdAdd_Click(object sender, System.EventArgs e)
 		{
-			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
+			
 			ListViewItem locItem = null;
 
 			frmAddComment locAddForm = new frmAddComment();
@@ -303,6 +304,37 @@ namespace iOCE
 				lsvUserComments.Items.Add(locItem);
 			}
 			
+		}
+
+		private void cmdEdit_Click(object sender, System.EventArgs e)
+		{
+			ListView.SelectedListViewItemCollection locSelected = lsvUserComments.SelectedItems;
+			
+			
+			
+			if (locSelected.Count == 1) 
+			{
+				ListViewItem locItem = locSelected[0];
+				ListViewItem.ListViewSubItemCollection locSubItems = locItem.SubItems;
+				
+				frmAddComment locAddForm = new frmAddComment();
+				locAddForm.Text = "Edit Comment...";
+				locAddForm.Key = locSubItems[0].Text;
+				locAddForm.Value = locSubItems[1].Text;
+			
+				
+				locAddForm.ShowDialog();
+				if (locAddForm.wasOK == true) 
+				{
+					String[] locSubItemStr = new String[2];
+					locSubItemStr[0] = locAddForm.Key;
+					locSubItemStr[1] = locAddForm.Value;
+					lsvUserComments.Items.Remove(locItem);
+					locItem = new ListViewItem(locSubItemStr);
+					
+					lsvUserComments.Items.Add(locItem);
+				}
+			}
 		}
 	}
 }
