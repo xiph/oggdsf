@@ -18,32 +18,37 @@ CircularBuffer::~CircularBuffer(void)
 
 unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytesToRead) {
 
+	//Returns early.
 	if (inBytesToRead >  spaceLeft()) {
 		return 0;
 	}
     	
 	unsigned long locBytesToRead =	inBytesToRead;
-		
+	
+	bufASSERT(locBytesToRead <= mBufferSize);
 		//	(inBytesToRead <= numBytesAvail())	?	inBytesToRead
 		//											:	numBytesAvail();
 	//locBytesToRead = the lower of numBytesAvail() and inBytesToRead
 	bufASSERT(locBytesToRead <= inBytesToRead);
 	bufASSERT(locBytesToRead <= numBytesAvail());
 	
-	unsigned long locEndDistance = (mBufferSize + 1 - mWritePtr);
-	bufASSERT(locEndDistance <= mBufferSize);
 
-	//Where we will be if in relation to the end of the raw buffer if we wrote the bufferout from here.
-	//Negative values indicate bytes past the end ofthe buffer.
-	//Positive values indicate bytes before the end of buffer.
+	//When mReadPtr = 0, there are mBufferSize + 1 bytes from the end, but we are only allowed to
+	// write mBufferSize. Below where locEndDistabnce is used as a parameter to memcpy
+	// but that branch is only taken where locEndDistance is less than the number of bytes to
+	// read. Because we have already established above that the number of bytes to read is less
+	// than the size of the buffer, this should not be a problem.
+	unsigned long locEndDistance = (mBufferSize + 1 - mReadPtr);
 	
-	
+	//bufASSERT(locEndDistance <= mBufferSize);
 	if (locEndDistance >= locBytesToRead) {
 		//Within the buffer
-		bufASSERT(mReadPtr < mBufferSize);
+		bufASSERT(mReadPtr <= mBufferSize);
 		
 		memcpy((void*)outData, (const void*)(mBuffer + mReadPtr), locBytesToRead);
 	} else {
+		bufASSERT(locEndDistance <= mBufferSize);
+
 		//Copy from the end of the raw buffer as much as we can into outdtata
 		memcpy((void*)outData, (const void*)(mBuffer + mReadPtr), locEndDistance);
 
@@ -72,7 +77,7 @@ unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long i
 
 	unsigned long locEndDistance = (mBufferSize + 1 - mWritePtr);
 
-	bufASSERT(locEndDistance <= mBufferSize + 1);
+	//bufASSERT(locEndDistance <= mBufferSize + 1);
 	//Where we will be, in relation to the end of the raw buffer if we wrote the buffer out from here.
 	//Negative values indicate bytes past the end ofthe buffer.
 	//signed long locEndOffset = locEndDistance - locBytesToWrite;
@@ -81,10 +86,9 @@ unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long i
 	if (locEndDistance >= locBytesToWrite) {
 		//Within the buffer
 		memcpy((void*)(mBuffer + mWritePtr), ((const void*)inData), locBytesToWrite);
-		
-		
 	} else {
-		
+		bufASSERT(locEndDistance <= mBufferSize);
+
 		//Copy from the end of the raw buffer as much as we can into outdtata
 		memcpy((void*)(mBuffer + mWritePtr), (const void*)inData, locEndDistance);
 

@@ -126,6 +126,7 @@ bool OggDataBuffer::dispatch(OggPage* inOggPage) {
 	for (unsigned long i = 0; i < mVirtualCallbackList.size(); i++) {
 		locIsOK = mVirtualCallbackList[i]->acceptOggPage(inOggPage);
 		if (!locIsOK) {
+			debugLog<<"Dispatch : **************** acceptOggPage returned false."<<endl;
 			//Somethings happened deeper in the stack like we are being asked to stop.
 			return false;
 		}
