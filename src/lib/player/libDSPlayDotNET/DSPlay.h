@@ -37,6 +37,7 @@ namespace libDSPlayDotNET
 		IMediaControl* mMediaControl;
 		IMediaSeeking* mMediaSeeking;
 		bool mIsLoaded;
+		bool isFileAnnodex(String* inFilename);
 	};
 }
 }

@@ -67,7 +67,12 @@ namespace DNPlay
 
 		protected void updateProgressBar() 
 		{
-			double locProgRatio =  Convert.ToDouble(mLastSync + (mNumTicks * 10000000)) / mFileDuration;
+			double locProgRatio = 0;
+			if (mFileDuration != 0) 
+			{
+				locProgRatio =  Convert.ToDouble(mLastSync + (mNumTicks * 10000000)) / mFileDuration;
+			}
+
 
 			Int32 locProgWidth = Convert.ToInt32(locProgRatio * lblProgressBkgd.Width);
 			lblProgressFgnd.Width = locProgWidth;

@@ -42,6 +42,7 @@ void DSPlay::releaseInterfaces() {
 
 bool DSPlay::loadFile(String* inFileName) {
 
+	
 	releaseInterfaces();
 	HRESULT locHR = S_OK;
 
@@ -61,6 +62,25 @@ bool DSPlay::loadFile(String* inFileName) {
 		return false;
 	}
 	
+	
+	//If it's an annodex file, then put the VMR 9 in the graph.
+	if (isFileAnnodex(inFileName)) {
+	
+		IBaseFilter* locVMR9 = NULL;
+
+		HRESULT locHR = S_OK;
+		locHR = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
+		if (locVMR9 == NULL) {
+			locHR= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
+			if (locHR == S_OK) {
+				locHR = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
+				if (locHR != S_OK) {
+					locVMR9->Release();
+				}
+			}
+		}
+
+	}
 	locHR = mGraphBuilder->RenderFile(locWFileName.c_str(), NULL);
 
 	if (locHR != S_OK) {
@@ -156,6 +176,16 @@ Int64 DSPlay::fileDuration() {
 		}
 	} else {
 		return -1;
+	}
+}
+
+bool DSPlay::isFileAnnodex(String* inFilename)
+{
+	String* locExt = (inFilename->Substring(inFilename->Length - 4, 4))->ToUpper();
+	if (locExt->Equals(".ANX")) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
