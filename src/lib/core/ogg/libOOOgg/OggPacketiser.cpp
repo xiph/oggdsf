@@ -101,15 +101,19 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 	//If the page header says its a continuation page...
 	if ((inOggPage->header()->HeaderFlags() & 1) == 1) {
 		//debugLog<<"acceptOggPage : Page says cont..."<<endl;
+		
 		///... and there is at least 1 packet...
 		if (inOggPage->numPackets() > 0) {
 			//debugLog<<"acceptOggPage : ...and there is at least 1 packet..."<<endl;
+		
 			//... and we were expecting a continuation...
 			if (mPacketiserState == PKRSTATE_AWAITING_CONTINUATION) {
 				//debugLog<<"acceptOggPage : ... and we were waiting for a cont..."<<endl;
+
 				//... and the first packet is marked as a continuation...
 				if (inOggPage->getStampedPacket(0)->isContinuation()) {
 					//debugLog<<"acceptOggPage : ... and the first packet is a cont..."<<endl;
+
 					//... merge this packet into our pending page.
 					//ASSERT when mPacketiserState = PKRSTATE_AWAITING_CONTINUATION, mPending page != NULL
 					mPendingPacket->merge(inOggPage->getStampedPacket(0));

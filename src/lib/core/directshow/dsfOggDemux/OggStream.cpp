@@ -67,6 +67,8 @@ OggStream::~OggStream(void)
 	//debugLog<<"Destructor..."<<endl;
 	//debugLog.close();
 	delete mSourcePin;
+
+
 	delete mCodecHeaders;
 	//delete mPartialPacket;
 	delete mStreamLock;
@@ -96,6 +98,8 @@ bool OggStream::acceptStampedOggPacket(StampedOggPacket* inPacket) {
 			AddPin();
 			//Add pin will set streamready to true if it was all good.
 		}
+
+		//This branch we keep the incoming packet so don't delete
 	} else {
 		//Data packets...
 		if (mAllowDispatch) {
@@ -107,8 +111,9 @@ bool OggStream::acceptStampedOggPacket(StampedOggPacket* inPacket) {
 			}		
 			
 			processDataPacket(inPacket);
+			delete inPacket;
 		} else {
-			//processExcessPacket(inPacket);
+			delete inPacket;
 			return false;
 		}
 	}
@@ -263,9 +268,9 @@ bool OggStream::deliverCodecHeaders() {
 }
 
 //ANX::: Maybe also needs override. ??
-bool OggStream::dispatchPacket(StampedOggPacket* inPacket) {
+bool OggStream::dispatchPacket(StampedOggPacket* inPacket) { //We don't own this packet.
 	//debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
-	return mSourcePin->deliverOggPacket(inPacket);
+	return mSourcePin->deliverOggPacket(inPacket);		
 }
 
 void OggStream::setSerialNo(unsigned long inSerialNo) {

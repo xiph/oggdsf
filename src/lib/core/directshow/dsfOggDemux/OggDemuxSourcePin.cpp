@@ -90,8 +90,11 @@ STDMETHODIMP OggDemuxSourcePin::NonDelegatingQueryInterface(REFIID riid, void **
 
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
+
+
 bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) 
 {
+	//We don't own the packet, so don't delete it.
 	CAutoLock locStreamLock(mParentFilter->mStreamLock);
 
 
@@ -106,6 +109,7 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 	//Error checks
 	if (locHR != S_OK) {
 		//Stopping, fluching or error
+
 		debugLog<<"Failure... No buffer"<<endl;
 		return false;
 	}
@@ -136,8 +140,10 @@ bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket)
 		if (locHR != S_OK) {
 			debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
+
 			return false;
 		} else {
+
 			return true;
 		}
 	} else {
