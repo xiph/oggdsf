@@ -1,0 +1,49 @@
+Changes to old version of FLAC i made...
+
+stream_decoder.c (line 542)
+
+FLAC_API FLAC__bool FLAC__stream_decoder_flush(FLAC__StreamDecoder *decoder)
+{
+	FLAC__ASSERT(0 != decoder);
+	FLAC__ASSERT(0 != decoder->private_);
+	FLAC__ASSERT(0 != decoder->protected_);
+
+	if(!FLAC__bitbuffer_clear(decoder->private_->input)) {
+		decoder->protected_->state = FLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR;
+		return false;
+	}
+	decoder->protected_->state = FLAC__STREAM_DECODER_SEARCH_FOR_FRAME_SYNC;
+	//Insert by ZEN:::
+	decoder->private_->samples_decoded = 0;
+
+	return true;
+}
+
+
+bitbuffer.c (line 184)
+
+static FLAC__bool bitbuffer_read_from_client_(FLAC__BitBuffer *bb, FLAC__bool (*read_callback)(FLAC__byte buffer[], unsigned *bytes, void *client_data), void *client_data)
+{
+	unsigned bytes;
+	FLAC__byte *target;
+
+	/* first shift the unconsumed buffer data toward the front as much as possible */
+	if(bb->total_consumed_bits >= FLAC__BITS_PER_BLURB) {
+		unsigned l = 0, r = bb->consumed_blurbs, r_end = bb->blurbs + (bb->bits? 1:0);
+		for( ; r < r_end; l++, r++)
+			bb->buffer[l] = bb->buffer[r];
+		for( ; l < r_end; l++)
+			bb->buffer[l] = 0;
+		//Added by Zen:::
+		FLAC__ASSERT(bb->blurbs >= bb->consumed_blurbs);
+		bb->blurbs -= bb->consumed_blurbs;
+		bb->total_bits -= FLAC__BLURBS_TO_BITS(bb->consumed_blurbs);
+		bb->consumed_blurbs = 0;
+		bb->total_consumed_bits = bb->consumed_bits;
+	}
+
+	/* grow if we need to */
+	if(bb->capacity <= 1) {
+		if(!bitbuffer_resize_(bb, 16))
+			return false;
+	}
