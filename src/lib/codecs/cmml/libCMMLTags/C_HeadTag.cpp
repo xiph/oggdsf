@@ -71,6 +71,11 @@ void C_HeadTag::setTitle(C_TitleTag* inTitle) {
 	delete mTitle;
 	mTitle = inTitle;
 }
+
+void C_HeadTag::setMetaList(C_MetaTagList* inMetaList) {
+	delete mMetaList;
+	mMetaList = inMetaList;
+}
 void C_HeadTag::setBase(C_BaseTag* inBase) {
 	delete mBase;
 	mBase = inBase;
@@ -81,10 +86,11 @@ void C_HeadTag::privateClone(C_CMMLTag* outTag) {
 	C_HumReadCMMLTag::privateClone(outTag);
 	C_HeadTag* locTag = reinterpret_cast<C_HeadTag*>(outTag);
 	locTag->setProfile(mProfile);
-	//locTag->mTitle = mTitle;
+	
 	if (mBase != NULL) {
 		locTag->setBase(mBase->clone());
 	}
+	locTag->setMetaList(mMetaList->clone());
 	locTag->setTitle(mTitle->clone());
 }
 C_CMMLTag* C_HeadTag::genericClone() {

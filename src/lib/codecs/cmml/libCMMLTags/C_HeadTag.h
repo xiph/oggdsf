@@ -73,6 +73,9 @@ public:
 	/// Sets the base tag for this element. You give away your pointer.
 	void setBase(C_BaseTag* inBase);
 
+	/// Sets the metalist used for this element. You give away your pointer.
+	void setMetaList(C_MetaTagList* inMetaList);
+
 	/// Returns an xml representation of this tag.
 	virtual wstring toString();
 
