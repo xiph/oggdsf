@@ -73,7 +73,7 @@ void HTTPFileSource::DataProcessLoop() {
 		if (locNumRead == 0) {
 			debugLog<<"Read last bytes..."<<endl;
 			mIsEOF = true;
-			break;
+			return;
 		}
 
 		{//CRITICAL SECTION - PROTECTING BUFFER STATE
@@ -250,7 +250,7 @@ unsigned long HTTPFileSource::read(char* outBuffer, unsigned long inNumBytes) {
 		CAutoLock locLock(mBufferLock);
 		
 		debugLog<<"Read:"<<endl;
-		if(mIsEOF || mWasError) {
+		if((mFileCache.bytesAvail() == 0) || mWasError) {
 			debugLog<<"read : Can't read is error or eof"<<endl;
 			return 0;
 		} else {
