@@ -311,11 +311,13 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		//debugLog<<"       : Begin flush Delviered."<<endl;
 
 		//Find the byte position for this time.
-		unsigned long locStartPos = mSeekTable->getStartPos(*pCurrent);
+		OggSeekTable::tSeekPair locStartPos = mSeekTable->getStartPos(*pCurrent);
 		bool locSendExcess = false;
 
 		//FIX::: This code needs to be removed, and handle start seek case.
-		if (locStartPos == mStreamMapper->startOfData()) {
+		//.second is the file position.
+		//.first is the time in DS units
+		if (locStartPos.second == mStreamMapper->startOfData()) {
 			locSendExcess = true;
 		}
 		
@@ -324,7 +326,8 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		// we have to use granule pos timestamps in order for downstream codecs to work.
 		// Because of this we can't factor time bases after seeking into the sample times.
 		*pCurrent	= mSeekTimeBase 
-					= mSeekTable->getRealStartPos();
+					//= mSeekTable->getRealStartPos();
+					= locStartPos.first;		//Time from seek pair.
 
 		//debugLog<<"Corrected pCurrent : "<<mSeekTimeBase<<endl;
 		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
@@ -339,8 +342,8 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			DeliverNewSegment(*pCurrent, mSeekTable->fileDuration(), 1.0);
 		}
 
-	
-		mDataSource->seek(locStartPos);
+		//.second is the file position.
+		mDataSource->seek(locStartPos.second);
 		//
 
 	

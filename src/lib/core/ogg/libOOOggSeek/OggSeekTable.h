@@ -41,13 +41,15 @@ public:
 	OggSeekTable(void);
 	virtual ~OggSeekTable(void);
 
+	typedef pair<__int64, unsigned long> tSeekPair;
+
 	bool addSeekPoint(__int64 inTime, unsigned long mStartPos);
-	unsigned long getStartPos(__int64 inTime);
+	tSeekPair getStartPos(__int64 inTime);
 	__int64 getRealStartPos();
 
 	bool enabled();
 
-	typedef pair<__int64, unsigned long> tSeekPair;
+
 protected:
 	typedef map<__int64, unsigned long> tSeekMap;
 	tSeekMap mSeekMap;
