@@ -107,7 +107,14 @@ DEFINE_GUID(FORMAT_Theora,
 
 //This structure defines the type of input we accept on the input pin... Stream/Annodex
 
+// {53696C76-6961-40b2-B136-436F6E726164}
+DEFINE_GUID(FORMAT_CMML, 
+0x53696c76, 0x6961, 0x40b2, 0xb1, 0x36, 0x43, 0x6f, 0x6e, 0x72, 0x61, 0x64);
 
+
+// {5A656E74-6172-6F26-B79C-D6416E647282}
+DEFINE_GUID(MEDIASUBTYPE_CMML, 
+0x5a656e74, 0x6172, 0x6f26, 0xb7, 0x9c, 0xd6, 0x41, 0x6e, 0x64, 0x72, 0x82);
 //Structure defining the registration details of the filter
 
 
@@ -131,7 +138,12 @@ const REGPINTYPES OggMuxInputTypes[] = {
 	{
 		&MEDIATYPE_Audio,
 		&MEDIASUBTYPE_FLAC
+	},
+	{
+		&MEDIATYPE_Text,
+		&MEDIASUBTYPE_CMML
 	}
+
 };
 const REGFILTERPINS OggMuxPinReg = {
 	
@@ -142,7 +154,7 @@ const REGFILTERPINS OggMuxPinReg = {
 	FALSE,								//Cannot have more than one instance of this pin
 	NULL,								//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
-	5,									//upport two media type
+	6,									//upport two media type
 	OggMuxInputTypes					//Pointer to media type (Audio/Vorbis or Audio/Speex)
 };
 
@@ -198,4 +210,9 @@ struct sTheoraFormatBlock {
 	unsigned char xOffset;
 	unsigned char yOffset;
 	unsigned char colourSpace;
+};
+
+struct sCMMLFormatBlock {
+	__int64 granuleNumerator;
+	__int64 granuleDenominator;
 };

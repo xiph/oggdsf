@@ -119,9 +119,17 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
 			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			mNeedsFLACHeaderTweak = true;
-		} 
+		}
 
 		
+	} else if (inMediaType->majortype == MEDIATYPE_Text) {
+		if (inMediaType->subtype == MEDIASUBTYPE_CMML) {
+			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
+			mMuxStream->setConversionParams(locCMML->granuleNumerator,locCMML->granuleDenominator, 10000000);
+			mPaginator.setNumHeaders(1);
+
+		}
+
 	}
 	return S_OK;
 }
@@ -147,6 +155,12 @@ HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 		case 4:
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_FLAC;
+			return S_OK;
+
+		case 5:
+			outMediaType->majortype = MEDIATYPE_Text;
+			outMediaType->subtype = MEDIASUBTYPE_CMML;
+			return S_OK;
 
 
 		default:
@@ -174,6 +188,10 @@ HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
 			(inMediaType->majortype == MEDIATYPE_Audio
 				&&	inMediaType->subtype == MEDIASUBTYPE_FLAC
 				&&	inMediaType->formattype == FORMAT_FLAC)
+			||
+			(inMediaType->majortype == MEDIATYPE_Text
+				&&	inMediaType->subtype == MEDIASUBTYPE_CMML
+				&&	inMediaType->formattype == FORMAT_CMML)
 
 		) {
 		return S_OK;

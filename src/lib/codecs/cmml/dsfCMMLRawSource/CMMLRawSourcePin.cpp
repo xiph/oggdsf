@@ -3,6 +3,7 @@
 
 CMMLRawSourcePin::CMMLRawSourcePin(CMMLRawSourceFilter* inParentFilter, CCritSec* inFilterLock)
 	:	CBaseOutputPin(NAME("CMML Raw Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"CMML Source")
+	,	mDataQueue(NULL)
 
 {
 	mCMMLFormatBlock.granuleDenominator = 1;
