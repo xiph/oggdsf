@@ -1,0 +1,9 @@
+Portability Notes
+=================
+
+* Make sure svn:eol-style=native is set on text files (edit ~/.subversion/config on UNIX, or edit your TortoiseSVN settings on Windows)
+
+* _tmain on Windows == main on UNIX (int argc, char **argv)
+
+* Use LOOG_INT64 instead of __int64 or int64_t.  Similarly, use LOOG_UINT64 instead of unsigned __int64 or uint64_t
+
