@@ -31,9 +31,10 @@
 #pragma once
 #include "dsfNativeFLACSource.h"
 #include "NativeFLACSourcePin.h"
-
+#include "FLAC++/decoder.h"
 #include <string>
 using namespace std;
+using namespace FLAC::Decoder;
 
 
 class NativeFLACSourcePin;
@@ -42,6 +43,7 @@ class NativeFLACSourceFilter
 	,	public IFileSourceFilter
 	,	public IAMFilterMiscFlags
 	,	public CAMThread
+	,	protected FLAC::Decoder::SeekableStream
 {
 public:
 	enum eThreadCommands {
@@ -76,6 +78,23 @@ public:
 
 	//CAMThread
 	virtual DWORD ThreadProc(void);
+
+	//FLAC Virtuals
+
+	::FLAC__SeekableStreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes);
+	::FLAC__SeekableStreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
+	::FLAC__SeekableStreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
+	::FLAC__SeekableStreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
+	::FLAC__StreamDecoderWriteStatus write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]);
+	void metadata_callback(const FLAC__StreamMetadata* inMetaData);
+	void error_callback(FLAC__StreamDecoderErrorStatus inStatus);
+
+
+	bool eof_callback(void);
+
+
+
+
 protected:
 
 	HRESULT DataProcessLoop();

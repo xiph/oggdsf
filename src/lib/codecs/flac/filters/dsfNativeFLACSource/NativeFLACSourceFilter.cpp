@@ -58,6 +58,7 @@ CUnknown* WINAPI NativeFLACSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT 
 
 NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	:	CBaseFilter(NAME("NativeFLACSourceFilter"), NULL, m_pLock, CLSID_NativeFLACSourceFilter)
+	
 	//,	mDecoder(NULL)
 {
 	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
@@ -202,4 +203,31 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 	
 	}
 	return S_OK;
+}
+
+
+::FLAC__SeekableStreamDecoderReadStatus NativeFLACSourceFilter::read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes) {
+	return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK;
+}
+::FLAC__SeekableStreamDecoderSeekStatus NativeFLACSourceFilter::seek_callback(FLAC__uint64 inSeekPos) {
+	return FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_OK;
+}
+::FLAC__SeekableStreamDecoderTellStatus NativeFLACSourceFilter::tell_callback(FLAC__uint64* outTellPos) {
+	return FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_OK;
+}
+::FLAC__SeekableStreamDecoderLengthStatus NativeFLACSourceFilter::length_callback(FLAC__uint64* outLength) {
+	return FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_OK;
+}
+::FLAC__StreamDecoderWriteStatus NativeFLACSourceFilter::write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]) {
+	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
+}
+void NativeFLACSourceFilter::metadata_callback(const FLAC__StreamMetadata* inMetaData) {
+
+}
+void NativeFLACSourceFilter::error_callback(FLAC__StreamDecoderErrorStatus inStatus) {
+
+}
+
+bool NativeFLACSourceFilter::eof_callback(void) {
+	return false;
 }
