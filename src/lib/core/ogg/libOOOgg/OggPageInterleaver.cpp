@@ -145,7 +145,7 @@ void OggPageInterleaver::writeLowest() {
 			throw 0;
 		} else {
 			//debugLog<<"writeLowest : Writing..."<<endl;
-			mFileWriter->acceptOggPage(locLowestStream->popFront());
+			mFileWriter->acceptOggPage(locLowestStream->popFront());		//Gives away page
 		}
 
 }

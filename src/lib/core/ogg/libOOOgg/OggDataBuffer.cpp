@@ -111,7 +111,7 @@ OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
 	//Fire off the oggpage to whoever is registered to get it
 
 	if (mVirtualCallback != NULL) {
-		if (mVirtualCallback->acceptOggPage(inOggPage) == true) {
+		if (mVirtualCallback->acceptOggPage(inOggPage) == true) {		//Page given away, never used again.
 			return DISPATCH_OK;
 		} else {
 			return DISPATCH_FALSE;

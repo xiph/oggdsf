@@ -64,7 +64,7 @@ AutoOggSeekTable::~AutoOggSeekTable(void)
 	delete mOggDemux;
 }
 
-bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
+bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes page.
 	
 
 	//TODO ::: Some of this could be shared from other places.

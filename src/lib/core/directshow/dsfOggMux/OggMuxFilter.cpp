@@ -148,11 +148,12 @@ HRESULT OggMuxFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaT
 	return S_OK;
 }
 
-bool OggMuxFilter::acceptOggPage(OggPage* inOggPage) {
+bool OggMuxFilter::acceptOggPage(OggPage* inOggPage) {			//Deletes Page correctly.
 	//debugLog<<"Page accepted... writing..."<<endl;
 	unsigned char* locPageData = inOggPage->createRawPageData();
 	mOutputFile.write((char*)locPageData, inOggPage->pageSize());
 
+	delete inOggPage;
 	delete[] locPageData;
 	return true;
 }

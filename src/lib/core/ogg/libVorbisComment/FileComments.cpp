@@ -41,7 +41,7 @@ FileComments::~FileComments(void)
 {
 }
 
-bool FileComments::acceptOggPage(OggPage* inOggPage) {
+bool FileComments::acceptOggPage(OggPage* inOggPage) {		//Correctly deletes page.
 	//Get a callback... check whether we have a comment.
 	VorbisComments* locVorbisComments = NULL;
 	StreamCommentInfo* locStreamInfo = NULL;
@@ -79,6 +79,7 @@ bool FileComments::acceptOggPage(OggPage* inOggPage) {
 	}
 	mBytePos += inOggPage->pageSize();
 	
+	delete inOggPage;
 	return true;
 
 }

@@ -46,12 +46,12 @@ OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 
 OggMuxStream::~OggMuxStream(void)
 {
-	//Need to delete the contents of the queue later.
+	//LEAK::: Need to delete the contents of the queue later.
 }
 
-bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {
+bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later... still needs deleting in destructor
 	mIsEOS = false;
-	mPageQueue.push_back(inOggPage->clone());
+	mPageQueue.push_back(inOggPage);		//AOP::: Clone not required.
 	mNotifier->notifyArrival();
 	return true;
 }

@@ -231,7 +231,7 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 				mPaginator.setNumHeaders((locHeadPack->packetData()[8]) + 1);
 				delete locHeadPack;
 			}
-			mPaginator.acceptStampedOggPacket(locFLACSplitter->getHeader(i));
+			mPaginator.acceptStampedOggPacket(locFLACSplitter->getHeader(i));		//This get function returns our copy which we give away.
 			debugLog<<"After paginator feed..."<<endl;
 		}
 		mNeedsFLACHeaderTweak = false;

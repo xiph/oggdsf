@@ -134,7 +134,7 @@ bool OggPaginator::setParameters(OggPaginatorSettings* inSettings) {
 	return true;
 }
 
-bool OggPaginator::acceptStampedOggPacket(StampedOggPacket* inOggPacket) {
+bool OggPaginator::acceptStampedOggPacket(StampedOggPacket* inOggPacket) {		//Keeps packet.
 	//unsigned long locPotentialSize = mCurrentPageSize + inOggPacket->packetSize();
 	//bool locCouldWriteNow = false;
 
@@ -256,7 +256,8 @@ bool OggPaginator::deliverCurrentPage() {
 	setChecksum();
 	
 	//TODO::: Should catch and propagate return value.
-	mPageCallback->acceptOggPage(mPendingPage);
+	mPageCallback->acceptOggPage(mPendingPage);		//Gives away page.
+	mPendingPage = NULL;
 	createFreshPage();
 	return true;
 

@@ -56,7 +56,7 @@ StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPa
 	//mStampType =inStampType;
 }
 
-void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
+void StampedOggPacket::merge(const StampedOggPacket* inMorePacket) {
 
 	//Make a new buffer the size of both data segs together
 	unsigned char* locBuff = new unsigned char[mPacketSize + inMorePacket->mPacketSize];		//Stored in the member var and deleted by base destructor
@@ -77,7 +77,7 @@ void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
 	//Don't copy start stamp, keep the current packets start stamp.
 	//mStartTime = inMorePacket->startTime();
 	//
-	mEndTime = inMorePacket->endTime();
+	mEndTime = inMorePacket->mEndTime;
 	mStampType = inMorePacket->mStampType;
 
 	//---::: Changed, uses two flags no.
@@ -85,7 +85,7 @@ void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
 	//mIsComplete = inMorePacket->mIsComplete;
 
 	//The new packet is truncated only if the incoming packet is
-	mIsTruncated = inMorePacket->isTruncated();
+	mIsTruncated = inMorePacket->mIsTruncated;
 
 	//This is not a continuation... a continuation is a packet that does not start at the start of the real packet.
 	mIsContinuation = false;

@@ -692,7 +692,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 }
 //IOggCallback Interface
 
-bool OggDemuxSourceFilter::acceptOggPage(OggPage* inOggPage) {
+bool OggDemuxSourceFilter::acceptOggPage(OggPage* inOggPage) {		//Gives away page.
 	return mStreamMapper->acceptOggPage(inOggPage);
 }
 

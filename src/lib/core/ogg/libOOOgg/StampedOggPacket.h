@@ -61,7 +61,7 @@ public:
 	void StampedOggPacket::setTimeStamp(__int64 inStartTime, __int64 inEndTime, StampedOggPacket::eStampType inStampType);
 
 	//Merge function
-	virtual void merge(StampedOggPacket* inMorePacket);
+	virtual void merge(const StampedOggPacket* inMorePacket);
 
 protected:
 	__int64 mStartTime;

@@ -59,7 +59,7 @@ bool AnxStreamMapper::isReady() {
 	}
 	return locWasAny && retVal;
 }
-bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage) 
+bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)			//Deletes or gives away page.
 {
 	//ANXTOFIX::: This was changed in the ogg demux.
 	//DONE:::
@@ -86,7 +86,7 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 					char* locStr = (char*)(inOggPage->getPacket(0)->packetData() + 28);
 					if (strstr(locStr, "text/x-cmml") != NULL) {
 						mSeenCMML = true;
-						OggStream* locStream = new CMMLStream(inOggPage, mOwningFilter, true);//OggStreamFactory::CreateStream(inOggPage, mOwningFilter);
+						OggStream* locStream = new CMMLStream(inOggPage, mOwningFilter, true);	//The page is only given for viewing
 						if (locStream != NULL) {
 							mStreamList.push_back(locStream);
 						}
@@ -105,9 +105,11 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 				mReadyForCodecs = true;
 			} else {
 				//ERROR... got an EOS before we've seen the annodex BOS
+				delete inOggPage;
 				return false;
 			}
 		}
+		delete inOggPage;
 		return true;
 	} else {
 		vector<unsigned long>::iterator it;
@@ -123,6 +125,7 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)
 					mStreamList.push_back(locStream);
 				}
 				mSeenStreams.erase(it);
+				delete inOggPage;
 				return true;
 			}
 		}

@@ -217,7 +217,7 @@ void OggStream::setLastEndGranPos(__int64 inGranPos) {
 	//debugLog<<"*************************** ERROR ERROR ERROR **********************"<<endl;
 	mLastEndGranulePos = inGranPos;
 }
-bool OggStream::acceptOggPage(OggPage* inOggPage) {
+bool OggStream::acceptOggPage(OggPage* inOggPage) {		//Gives away page.
 	
 	debugLog<<"Accepting ogg page..."<<endl;
 	//Chaining hack for icecast.

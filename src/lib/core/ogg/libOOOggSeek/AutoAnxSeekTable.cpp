@@ -24,9 +24,11 @@ bool AutoAnxSeekTable::acceptOggPage(OggPage* inOggPage) {
 			mAnnodexSerialNo = inOggPage->header()->StreamSerialNo();
 			mSeenAnything = true;
 			mFilePos += inOggPage->pageSize();
+			delete inOggPage;
 			return true;
 			//Need to grab other info here.
 		} else {
+			delete inOggPage;
 			return false;
 		}
 	}
@@ -35,6 +37,7 @@ bool AutoAnxSeekTable::acceptOggPage(OggPage* inOggPage) {
 		//This is the EOS o the annodex section... everything that follows is ogg like
 		mReadyForOgg = true;
 		mFilePos += inOggPage->pageSize();
+		delete inOggPage;
 		return true;
 	}
 
@@ -51,14 +54,15 @@ bool AutoAnxSeekTable::acceptOggPage(OggPage* inOggPage) {
 		if (mSkippedCMML == false) {
 			mSkippedCMML = true;
 			mFilePos += inOggPage->pageSize();
+			delete inOggPage;
 			return true;
 		} else {
-			return AutoOggSeekTable::acceptOggPage(inOggPage);
+			return AutoOggSeekTable::acceptOggPage(inOggPage);		//Gives away page.
 		}
 	} else {
 		mFilePos += inOggPage->pageSize();
 	}
-	
+	delete inOggPage;
 	return true;
 
 }

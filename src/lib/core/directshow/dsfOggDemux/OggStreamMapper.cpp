@@ -58,13 +58,13 @@ OggStreamMapper::~OggStreamMapper(void)
 }
 
 //Sends the page to *only one* stream if it matches the serial number.
-bool OggStreamMapper::dispatchPage(OggPage* inOggPage) 
+bool OggStreamMapper::dispatchPage(OggPage* inOggPage)				//Gives away or deletes page.
 {
 	for (unsigned long i = 0; i < mStreamList.size(); i++) {
 		if (mStreamList[i]->serialNo() == inOggPage->header()->StreamSerialNo()) {
 			//This is the correct stream
 			//DbgLog((LOG_TRACE, 2, TEXT("Mapper : Dispatching page to serial %u",inOggPage->header()->StreamSerialNo())));
-			return mStreamList[i]->acceptOggPage(inOggPage);
+			return mStreamList[i]->acceptOggPage(inOggPage);		//Give away page.
 			
 		}
 	}
@@ -76,16 +76,17 @@ bool OggStreamMapper::dispatchPage(OggPage* inOggPage)
 	//Only attempt a chain for a single stream (probably vorbis only)
 	if (mStreamList.size() == 1) {
 		mStreamList[0]->setSerialNo(inOggPage->header()->StreamSerialNo());
-		return mStreamList[0]->acceptOggPage(inOggPage);
+		return mStreamList[0]->acceptOggPage(inOggPage);		//Give away page.
 	}
 	//return false;
+	delete inOggPage;			//Delete page.
 	return true;
 }
 
 unsigned long OggStreamMapper::startOfData() {
 	return mDataStartsAt;
 }
-bool OggStreamMapper::acceptOggPage(OggPage* inOggPage) 
+bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)			//Gives away page.
 {
 	
 	//FIXED::: Data starts a 0.
@@ -117,7 +118,7 @@ bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)
 		return true;
 		//TODO::: Shuold verify the mapper doesn';t already have a stream with this number !
 	} else {
-		return dispatchPage(inOggPage);
+		return dispatchPage(inOggPage);			//Gives away page.
 	}
 }
 bool OggStreamMapper::toStartOfData() {
