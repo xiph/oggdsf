@@ -66,7 +66,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	{
 	    /* Insert failure-handling code here. */
 	}
-	while(true) //!bDone) 
+	while(!bDone) 
 	{
 	    if (WAIT_OBJECT_0 == WaitForSingleObject(hEvent, 100))
 	    { 
