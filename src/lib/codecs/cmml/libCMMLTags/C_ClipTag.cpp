@@ -92,7 +92,9 @@ void C_ClipTag::setDesc(C_DescTag* inDesc) {
 }
 
 void C_ClipTag::setStart(string inStart) {
-	mStart = inStart;
+	if (inStart != "") {
+		mStart = inStart;
+	}
 }
 void C_ClipTag::setEnd(string inEnd) {
 	mEnd = inEnd;
@@ -131,7 +133,9 @@ string C_ClipTag::toString() {
 	}
 
 	//track Element
-	retStr += makeElement("track", mTrack);
+	if (mTrack != "") {
+		retStr += makeElement("track", mTrack);
+	}
 
 	//TO DO::: Sort out what to do about start and end
 	retStr += makeElement("start", mStart);

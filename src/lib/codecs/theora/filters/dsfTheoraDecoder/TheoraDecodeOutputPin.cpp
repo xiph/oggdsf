@@ -91,3 +91,81 @@ bool TheoraDecodeOutputPin::FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer)
 	inFormatBuffer->dwBitErrorRate=0;
 	return true;
 }
+
+STDMETHODIMP TheoraDecodeOutputPin::Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder) {
+	if (inOutputPin == NULL || inGraphBuilder == NULL) {
+		return E_POINTER;
+	}
+
+	
+    IBaseFilter* locRenderer = NULL;
+
+    // Create the VMR9
+	//FIX::: Probably should check if it's already in the graph.
+	//  Also should let it connect to other VMR's
+    HRESULT locHR = CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locRenderer);
+    if (locHR != S_OK) {
+        return locHR;
+    }
+    
+    //Add the VMR9 to the graph
+    locHR = inGraphBuilder->AddFilter(locRenderer, L"Video Mixing Renderer");
+    if (locHR != S_OK) {
+        locRenderer->Release();
+        return locHR;
+    }
+
+    IEnumPins* locEnumPins;
+    IPin* locRendererInputPin = NULL;
+    locHR = locRenderer->EnumPins(&locEnumPins);
+
+    if (SUCCEEDED(locHR)) {
+        if (S_OK != locEnumPins->Next(1, &locRendererInputPin, 0)) {
+            locHR = E_UNEXPECTED;
+        }
+    }
+
+    if (SUCCEEDED(locHR)) {
+        // CConnect VMR9 to the output of the theora decoder
+		CMediaType* locMediaType = new CMediaType;
+		FillMediaType(locMediaType);
+        locHR = inGraphBuilder->ConnectDirect(inOutputPin, locRendererInputPin, locMediaType);
+        locRendererInputPin->Release();
+    }
+    if (FAILED(locHR)) 
+    {
+        // Could not connect to the VMR9 renderer. Remove it from the graph.
+        inGraphBuilder->RemoveFilter(locRenderer);
+    }
+    locRenderer->Release();
+    return locHR;
+
+
+}
+STDMETHODIMP TheoraDecodeOutputPin::Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder) {
+   //HRESULT locHR = S_OK;
+   // if (m_Connected != NULL) // Pointer to the pin we're connected to.
+   // {
+   //     // Find the filter that owns the pin connected to us.
+   //     FILTER_INFO fi;
+   //     hr = m_Connected->QueryFilterInfo(&fi);
+   //     if (SUCCEEDED(hr)) 
+   //     {
+   //         if (fi.pFilter != NULL) 
+   //         {
+   //             //  Disconnect the pins.
+   //             pGraph->Disconnect(m_Connected);
+   //             pGraph->Disconnect(pPin);
+   //             // Remove the filter from the graph.
+   //             pGraph->RemoveFilter(fi.pFilter);
+   //             fi.pFilter->Release();
+   //         } 
+   //         else 
+   //         {
+   //             hr = E_UNEXPECTED;
+   //         }
+   //     }
+   // }
+   // return hr;
+	return S_OK;
+}

@@ -19,18 +19,3 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return TRUE;
 }
 
-// This is an example of an exported variable
-LIBWINCMMLPARSE_API int nlibWinCMMLParse=0;
-
-// This is an example of an exported function.
-LIBWINCMMLPARSE_API int fnlibWinCMMLParse(void)
-{
-	return 42;
-}
-
-// This is the constructor of a class that has been exported.
-// see libWinCMMLParse.h for the class definition
-ClibWinCMMLParse::ClibWinCMMLParse()
-{ 
-	return; 
-}

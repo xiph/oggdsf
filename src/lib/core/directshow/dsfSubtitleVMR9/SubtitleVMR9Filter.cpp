@@ -32,6 +32,7 @@ SubtitleVMR9Filter::SubtitleVMR9Filter(void)
 	:	CBaseRenderer(CLSID_SubtitleVMR9Filter, NAME("Subtitle VMR9 Filter") ,NULL,&mHR)
 	,	mBitmapMixer(NULL)
 	,	mVideoWindow(NULL)
+	,	mWindowLess(NULL)
 {
 	//mOutputPin = new SubtitleVMR9OutputPin(this, m_pLock, NAME("SubtitleVMR9OutputPin"), L"Subtitle Out");
 }
@@ -54,7 +55,7 @@ CBasePin* SubtitleVMR9Filter::GetPin(int inPinNo) {
 HRESULT SubtitleVMR9Filter::CheckMediaType(const CMediaType* inMediaType) {
 	return S_OK;
 }
-HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample *pMediaSample) {
+HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample* inMediaSample) {
 	static int c = 0;
 	const int hm = 50;
 	if (mBitmapMixer == NULL) {
@@ -66,12 +67,14 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample *pMediaSample) {
 		HRESULT locHR = locFilterGraph->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
 		if (locVMR9 != NULL) {
 			HRESULT locHR = locVMR9->QueryInterface(IID_IVMRMixerBitmap9, (void**)&mBitmapMixer);
-			//locHR = locVMR9->QueryInterface(IID_IVideoWindow, (void**)&mVideoWindow);
+			locHR = locVMR9->QueryInterface(IID_IVMRWindowlessControl9, (void**)&mWindowLess);
+
+			locHR = locVMR9->QueryInterface(IID_IVideoWindow, (void**)&mVideoWindow);
 		} else {
 			return S_OK;
 		}
 	} else {
-		c++;
+		/*c++;
 		string x;
 		switch ((c / hm) % 4) {
 			case 0:
@@ -93,6 +96,19 @@ HRESULT SubtitleVMR9Filter::DoRenderSample(IMediaSample *pMediaSample) {
 				break;
 			default:
 				break;
+
+
+		}*/
+		
+		if (inMediaSample->GetActualDataLength() > 0) {
+			char* locStr = NULL;
+			BYTE* locBuff = NULL;
+			inMediaSample->GetPointer(&locBuff);
+			locStr = new char[inMediaSample->GetActualDataLength()];
+			memcpy((void*)locStr, (const void*) locBuff, inMediaSample->GetActualDataLength());
+			string x = locStr;
+			SetSubtitle(x);
+			delete locStr;
 		}
 
 
@@ -210,7 +226,12 @@ HRESULT SubtitleVMR9Filter::SetSubtitle(string inSubtitle) {
     HRESULT hr;
 
     // Read the default video size
-    //hr = pWC->GetNativeVideoSize(&cx, &cy, NULL, NULL);
+	if (mWindowLess != NULL) {
+		hr = mWindowLess->GetNativeVideoSize(&cx, &cy, NULL, NULL);
+	} else {
+		mVideoWindow->get_Width(&cx);
+		mVideoWindow->get_Height(&cy);
+	}
     //if (FAILED(hr))
     //{
     //    Msg(TEXT("GetNativeVideoSize FAILED!  hr=0x%x\r\n"), hr);
@@ -285,9 +306,9 @@ HRESULT SubtitleVMR9Filter::SetSubtitle(string inSubtitle) {
 
     bmpInfo.rDest.left  = 0.0f + X_EDGE_BUFFER;
     bmpInfo.rDest.right = 1.0f - X_EDGE_BUFFER;
-    //bmpInfo.rDest.top = (float)(cy - bm.bmHeight) / (float)cy - Y_EDGE_BUFFER;
+    bmpInfo.rDest.top = (float)(cy - bm.bmHeight) / (float)cy - Y_EDGE_BUFFER;
 	//bmpInfo.rDest.top = (float)(200.0f - bm.bmHeight) / (float)200.0f - Y_EDGE_BUFFER;
-	bmpInfo.rDest.top = 0.8f;//(float)(200.0f - bm.bmHeight) / (float)200.0f - Y_EDGE_BUFFER;
+	//bmpInfo.rDest.top = 0.8f;//(float)(200.0f - bm.bmHeight) / (float)200.0f - Y_EDGE_BUFFER;
     bmpInfo.rDest.bottom = 1.0f - Y_EDGE_BUFFER;
     bmpInfo.rSrc = rcText;
 

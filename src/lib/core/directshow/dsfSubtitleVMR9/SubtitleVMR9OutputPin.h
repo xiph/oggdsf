@@ -6,7 +6,7 @@
 #include <string>
 using namespace std;
 
-#define TRANSPARENCY_VALUE   (0.5f)
+#define TRANSPARENCY_VALUE   (0.8f)
 
 #define PURE_WHITE          RGB(255,255,255)
 #define ALMOST_WHITE        RGB(250,250,250)
@@ -17,7 +17,7 @@ using namespace std;
 #define DEFAULT_FONT_NAME   TEXT("Impact\0")
 #define DEFAULT_FONT_STYLE  TEXT("Regular\0")
 #define DEFAULT_FONT_SIZE   12
-#define DEFAULT_FONT_COLOR  RGB(255,0,0)
+#define DEFAULT_FONT_COLOR  RGB(250,250,250)
 #define MAX_FONT_SIZE		25
 
 

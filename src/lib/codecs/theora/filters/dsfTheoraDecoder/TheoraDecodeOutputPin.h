@@ -36,8 +36,9 @@
 
 
 class TheoraDecodeFilter;
-class TheoraDecodeOutputPin :
-	public AbstractVideoDecodeOutputPin
+class TheoraDecodeOutputPin 
+	:	public AbstractVideoDecodeOutputPin
+	,	public IStreamBuilder
 {
 public:
 	friend class TheoraDecodeInputPin;
@@ -48,6 +49,12 @@ public:
 	virtual ~TheoraDecodeOutputPin(void);
 
 	STDMETHODIMP Notify(IBaseFilter *pSelf, Quality q);
+
+	//Implements IStreamBuilder to force the pin to connect to VMR9
+	STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+	STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+
+
 
 
 	

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="libWinCMMLParse"
-	ProjectGUID="{23BAAF7B-AEC3-4812-AA91-7E5061E83A39}"
+	Name="dsfCMMLDecoder"
+	ProjectGUID="{6B269BA6-6A18-41EF-A82C-03B6B5D4BCA7}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -19,8 +19,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\libCMMLTags"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBWINCMMLPARSE_EXPORTS"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\libCMMLTags;..\libWinCMMLParse"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFCMMLDECODER_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -33,12 +33,15 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/libWinCMMLParse.dll"
+				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib Strmiids.lib  Quartz.lib"
+				OutputFile="$(OutDir)/dsfCMMLDecoder.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Debug&quot;"
+				ModuleDefinitionFile="CMMLDecoder.def"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/libWinCMMLParse.pdb"
+				ProgramDatabaseFile="$(OutDir)/dsfCMMLDecoder.pdb"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/libWinCMMLParse.lib"
+				ImportLibrary="$(OutDir)/dsfCMMLDecoder.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -60,39 +63,35 @@
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
-			CharacterSet="2"
-			WholeProgramOptimization="TRUE">
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
+				Optimization="2"
+				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
-				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="..\libCMMLTags"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBWINCMMLPARSE_EXPORTS"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\libCMMLTags;..\libWinCMMLParse"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFCMMLDECODER_EXPORTS"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
-				WarningLevel="4"
+				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"
-				CallingConvention="2"/>
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/libWinCMMLParse.dll"
+				AdditionalDependencies="Strmbase.lib Msvcrt.lib Winmm.lib Strmiids.lib  Quartz.lib"
+				OutputFile="$(OutDir)/dsfCMMLDecoder.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;"
+				ModuleDefinitionFile="CMMLDecoder.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
-				ImportLibrary="$(OutDir)/libWinCMMLParse.lib"
+				ImportLibrary="$(OutDir)/dsfCMMLDecoder.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -115,10 +114,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath="CMMLParser.cpp">
+				RelativePath="CMMLDecodeFilter.cpp">
 			</File>
 			<File
-				RelativePath="libWinCMMLParse.cpp">
+				RelativePath="CMMLDecoder.def">
+			</File>
+			<File
+				RelativePath="cmmldecoderdllstuff.cpp">
 			</File>
 			<File
 				RelativePath="stdafx.cpp">
@@ -140,10 +142,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
-				RelativePath="CMMLParser.h">
+				RelativePath="CMMLDecodeFilter.h">
 			</File>
 			<File
-				RelativePath="libWinCMMLParse.h">
+				RelativePath="cmmldecoderdllstuff.h">
 			</File>
 			<File
 				RelativePath="stdafx.h">

@@ -6,7 +6,7 @@
 #include <string>
 using namespace std;
 
-#define TRANSPARENCY_VALUE   (0.5f)
+#define TRANSPARENCY_VALUE   (0.8f)
 
 #define PURE_WHITE          RGB(255,255,255)
 #define ALMOST_WHITE        RGB(250,250,250)
@@ -50,5 +50,6 @@ protected:
 	virtual HRESULT SetSubtitle(string inSubtitle);
 	IVideoWindow* mVideoWindow;
 	IVMRMixerBitmap9* mBitmapMixer;
+	IVMRWindowlessControl9* mWindowLess; 
 	VMR9AlphaBitmap mAlphaBitmap;
 };
