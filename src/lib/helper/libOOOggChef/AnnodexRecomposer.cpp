@@ -324,6 +324,9 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 							// Add the association to our stream list
 							mWantedStreamSerialNumbers.push_back(locMap);
 
+							// Add the association to the list of pending secondary headers
+							mPendingSecondaryHeaders.push_back(locMap);
+
 							if (!wantOnlyPacketBody(mWantedMIMETypes)) {
 								unsigned char *locRawPageData = inOggPage->createRawPageData();
 								mBufferWriter(locRawPageData,
@@ -350,10 +353,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 				{
 					// Only output headers for the streams that the user wants
 					// in their request
-					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
-						if (mWantedStreamSerialNumbers[i].first == inOggPage->header()->StreamSerialNo()) {
-							if (mWantedStreamSerialNumbers[i].second >= 1) {
-								mWantedStreamSerialNumbers[i].second--;
+					for (unsigned int i = 0; i < mPendingSecondaryHeaders.size(); i++) {
+						if (mPendingSecondaryHeaders[i].first == inOggPage->header()->StreamSerialNo()) {
+							if (mPendingSecondaryHeaders[i].second >= 1) {
+								mPendingSecondaryHeaders[i].second--;
 								if (wantOnlyPacketBody(mWantedMIMETypes)) {
 									OggPacket* locPacket = inOggPage->getPacket(0);
 									mBufferWriter(locPacket->packetData(),
@@ -374,8 +377,8 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 					}
 
 					bool allEmpty = true;
-					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
-						if (mWantedStreamSerialNumbers[i].second != 0) {
+					for (unsigned int i = 0; i < mPendingSecondaryHeaders.size(); i++) {
+						if (mPendingSecondaryHeaders[i].second != 0) {
 							allEmpty = false;
 						}
 					}
@@ -435,6 +438,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 #endif
 						}
 					}
+
+					// Check whether we've seen all the secondary headers yet:
+					// if we have, change our state to indicate that, and start
+					// delivering the data to the user
 
 					bool allEmpty = true;
 					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {

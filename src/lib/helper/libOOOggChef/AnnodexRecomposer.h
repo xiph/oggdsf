@@ -90,4 +90,6 @@ protected:
 
 	vector<tSerial_HeadCountPair> mWantedStreamSerialNumbers;
 	const vector<string>* mWantedMIMETypes;
+
+	vector<tSerial_HeadCountPair> mPendingSecondaryHeaders;
 };
