@@ -115,20 +115,18 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 <FONT size=2 color="#101010" face="Arial">
 <DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
 <TR valign=top>
-
-
 <TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.63.7755) - 13/09/2004</b></DIV>
+<DIV><div align="left"><b>Current Version (0.64.7878) - 25/09/2004</b></DIV>
 </FONT>
 </TD>
-
 </TR>
 </TABLE>
 </DIV>
 </FONT>
+
 <br>
-I put the installers back in the packages. Just makes it easier for people who aren't computer savvy. Also theora now plays in WMP9 and 10 (but still can't seek in these two players). 
-Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fixed a few more memory leaks.<br>
+Fixed up the seeking in WMP 9 and 10 mainly... and a few other fixes. Also added more colour space conversions for the encoder.
+<br>
 <br>
 <br>
 <FONT size=2 color="#000000" face="Arial">
@@ -146,11 +144,10 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 
 
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">950,311 bytes</div></DIV></FONT>
+<DIV><div align="right">948,458 bytes</div></DIV></FONT>
 </TD>
-
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.63.7755.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_XP_0.64.7878.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -170,11 +167,11 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 
 
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,732,768 bytes</div></DIV></FONT>
+<DIV><div align="right">2,730,915 bytes</div></DIV></FONT>
 </TD>
 
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.63.7755.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_2K_0.64.7878.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -195,11 +192,11 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 
 
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">2,617,874 bytes</div></DIV></FONT>
+<DIV><div align="right">2,616,021 bytes</div></DIV></FONT>
 </TD>
 
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.63.7755.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_9X_0.64.7878.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -223,11 +220,9 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 </DIV>
 </FONT>
 <b><u></u></b><br>
-	<li>Fixed a few memory leaks... there are still more left though.</li>
-	<li>Fixed some bugs in speex encoder. Can now make proper speex+theora files</li>
-	<li>Theora playback works in WMP 9 and 10 now... but no seeking in these two players</li>
-	<li>Fixed a muxing problem with large packets.</li>
-	<li>Increased some of the buffer sizes. Trying to encode very high quality theora was crashing as the buffer was too small</li>
+	<li>Fixed seeking in WMP 9 and 10.</li>
+	<li>Fixed a bug using the WMP activeX control.</li>
+	<li>Theora encoder accepts new media types ie RGB24, RGB32, AYUV, IYUV, UYVY, YVYU... only RGB32 has been tested, as i don't have any source of the other types.</li>
 <br>
 <br>
 
@@ -246,7 +241,6 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 </DIV>
 </FONT>
 	<li>Make the installer properly detect if it's already installed. If you don't uninstall the old version you will get multiple identical file masks in WMP</li>
-	<li>Theora won't seek in WMP 9 or 10</li>
 	<li>If you are getting codec problems, there appears to be a conflict with something in Media Player Classic... it tries to enforce the use of another ogg demultiplexer, either by design or accident.If you see in MPC it complaining about a media subtype with a 
 		GUID {CDDCA2D5-6D75-4F98-840E-737BEDD5C63B}. This is the guid of the old tobias vorbis filter, and this one {8D2FD10B-5841-4a6b-8905-588FEC1ADED9} is CoreVorbis. This is most likely due to the fact that these filters don't clean up the registry when they uninstall.
 		I am working on something to "clean up" all these remnants from the registry.</li>
@@ -261,8 +255,8 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 	<li>Theora and annodex playback requires directX 9.</li>
 	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
 	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
-	<li><strike>Muxer creates broken files when packets are very large (usually high quality theora)</strike></li>
-	<li><strike>Theora will not playback with Windows Media Player 9 or 10, but vorbis, speex and FLAC are just fine, but will in previous WMP's and other DS players like BSPlayer</strike></li>
+	<li><strike>Theora won't seek in WMP 9 or 10</strike></li>
+
 <br>
 <br>
 
@@ -287,7 +281,7 @@ Also fixed a bug in the speex encoder that made a mess of theora+speex files. Fi
 <li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
 <li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
 <li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.63.7755.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.64.7878.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
 <li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
 <li><a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a></li>
 <br>
