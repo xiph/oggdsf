@@ -37,7 +37,7 @@
 				AdditionalDependencies="strmiids.lib"
 				OutputFile="$(OutDir)/libDSPlayDotNET.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\helper\libiWrapper\Debug"
+				AdditionalLibraryDirectories="..\..\helper\libiWrapper\Debug;C:\DXSDK\Lib"
 				GenerateDebugInformation="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
