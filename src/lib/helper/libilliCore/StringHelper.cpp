@@ -130,7 +130,7 @@ LOOG_UINT64 StringHelper::stringToNum(string inString) {
 
 }
 
-//These should go out to the string helper.
+
 unsigned char StringHelper::digitToHex(unsigned char inDigit) {
 	
 	unsigned char locDigit = (inDigit > 9)		?	(inDigit  - 10) + A_BASE

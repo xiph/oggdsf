@@ -37,11 +37,22 @@ class iLE_Math
 public:
 	iLE_Math(void);
 	~iLE_Math(void);
+
+	/// Reads 4 bytes (Little Endian) and returns an unsigned long
 	static unsigned long charArrToULong(const unsigned char* inCharArray);
+
+	/// Takes an unsigned long and writes 4 bytes (Little Endian) into the buffer you pass.
 	static void ULongToCharArr(unsigned long inLong, unsigned char* outCharArray);
+
+	/// Takes an unsigned short and writes 2 bytes (Little Endian) into the buffer you pass.
 	static void UShortToCharArr(unsigned short inShort, unsigned char* outCharArray);
 	
+	/// Reads 8 bytes (Little Endian) and returns an int 64.
 	static LOOG_INT64 CharArrToInt64(const unsigned char* inCharArray);
+
+	/// Takes an  int64 and writes 8 bytes (Little Endian) into the buffer you pass.
 	static void Int64ToCharArr(LOOG_INT64 inInt64, unsigned char* outCharArray);
+
+	/// Reads 2 bytes (Little Endian) and returns an unsigned short
 	static unsigned short charArrToUShort(const unsigned char* inCharArray);	
 };

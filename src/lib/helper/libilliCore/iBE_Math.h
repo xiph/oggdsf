@@ -36,8 +36,14 @@ class iBE_Math
 public:
 	iBE_Math(void);
 	~iBE_Math(void);
+
+	/// Reads 4 bytes (Big Endian) and returns an unsigned long.
 	static unsigned long charArrToULong(unsigned char* inCharArray);
+
+	//// Takes an unsigned long and writes 4 bytes (Big Endian) into the buffer.
 	static void ULongToCharArr(unsigned long inLong, unsigned char* outCharArray);
+
+	/// Reads 2 bytes (Big Endian) and returns an unsigned short.
 	static unsigned short charArrToUShort(unsigned char* inCharArray);
 
 };

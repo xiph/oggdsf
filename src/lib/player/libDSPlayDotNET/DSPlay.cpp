@@ -74,7 +74,8 @@ DSPlay::DSPlay(void)
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
 	debugLog = new fstream;
-	debugLog->open("G:\\logs\\dsplay.log", ios_base::out);
+	debugLog->open("G:\\logs\\dsplay.log", ios_base::out | ios_base::app);
+	*debugLog<<"Starting new log"<<endl;
 }
 
 DSPlay::DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, Int32 inHeight) 
@@ -100,7 +101,8 @@ DSPlay::DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, 
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
 	debugLog = new fstream;
-	debugLog->open("G:\\logs\\dsplay.log", ios_base::out);
+	debugLog->open("G:\\logs\\dsplay.log", ios_base::out | ios_base::app);
+	*debugLog<<"Starting new log"<<endl;
 }
 
 bool DSPlay::checkEvents() {
@@ -153,7 +155,7 @@ void DSPlay::repaint()
 void DSPlay::releaseInterfaces() {
 
 	mVideoRenderType = VR_NONE;
-	*debugLog<<"Releasing interfaces"<<endl;
+	*debugLog<<"********* Releasing interfaces *********"<<endl;
 	ULONG numRef = 0;
 	if (mMediaControl != NULL) {
 		numRef = 
@@ -222,7 +224,7 @@ void DSPlay::releaseInterfaces() {
 	}
 
 
-	*debugLog<<"After graph release>.."<<endl;
+	*debugLog<<"****** After graph release ******"<<endl;
 
 	mIsLoaded = false;
 	//TODO::: Release everything !

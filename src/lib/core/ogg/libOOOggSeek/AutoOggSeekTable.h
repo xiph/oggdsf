@@ -72,6 +72,7 @@ public:
 	/// The duration of the file, in DirectShow time units.
 	LOOG_INT64 fileDuration();
 
+	/// Returns the size the seek table will be if serialised.
 	unsigned long serialisedSize();
 
 	/// Serialise the seek table into a memory buffer, which may be useful for e.g. caching.

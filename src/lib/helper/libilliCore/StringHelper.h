@@ -45,15 +45,26 @@ public:
 	static const unsigned char A_BASE = 65;			//A in ASCII
 	static const unsigned char ZERO_BASE = 48;
 
+	/// Takes an unsigned char in the range 0-15 and returns a char between '0'-'9' or 'A'-'F'
 	static unsigned char digitToHex(unsigned char inChar);
+
+	/// Takes an unsigned char 0-255 and returns a hex string of length 2.
 	static string charToHexString(unsigned char inChar);
 	
+	/// Takes an unsigned int64 and returns a string representation.
 	static string numToString(LOOG_UINT64 inNum);
+
+	/// Takes a string and returns an unsigned int64
 	static LOOG_UINT64 stringToNum(string inString);
+
+	/// Takes a string and Returns a value between 0 and 9 999 999 to represent a fraction / 10 000 000.
 	static LOOG_UINT64 stringToFractNum(string inString);
+
+	/// Converts a narrow string to a wide (2 byte) string
 	static wstring toWStr(string inString);
+
+	/// Converts a wide (2 byte) string to a narrow string.
 	static string toNarrowStr(wstring inString);
 
-	//static string numToHexString(unsigned __int64 inNum, unsigned char inWidth);
 
 };

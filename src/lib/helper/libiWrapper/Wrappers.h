@@ -47,14 +47,24 @@ namespace libiWrapper {
 		public:
 			Wrappers(void);
 			~Wrappers(void);
+
+			/// Converts a .NET String to a C String. Must call releaseCStr when done.
 			static char* netStrToCStr(String* inNetString);
 			
+			/// To be called when you are done with the CString so it can be deleted internally.
 			static void releaseCStr(char* inCStr);
-			static String* CStrToNetStr(const char* inCStr);
-			static String* WStrToNetStr(const wchar_t* inWStr);
-			static wchar_t* netStrToWStr(String* inNetString);
-			static void releaseWStr(wchar_t* inWStr);
 
+			/// Converts an ANSI C String to a .NET String.
+			static String* CStrToNetStr(const char* inCStr);
+
+			/// Converts a wide (2 byte) string to a .NET string.
+			static String* WStrToNetStr(const wchar_t* inWStr);
+
+			/// Converts a .NET string to a wide (2 byte) string.  Must call releaseWStr when done.
+			static wchar_t* netStrToWStr(String* inNetString);
+
+			/// To be called when you are done with the C String so it can be internall deleted.
+			static void releaseWStr(wchar_t* inWStr);
 	};
 }
 }
