@@ -152,6 +152,15 @@
 				RelativePath="CMMLDecodeFilter.h">
 			</File>
 			<File
+				RelativePath="CMMLDecoderIIDs.h">
+			</File>
+			<File
+				RelativePath="ICMMLAppControl.h">
+			</File>
+			<File
+				RelativePath="ICMMLCallbacks.h">
+			</File>
+			<File
 				RelativePath="cmmldecoderdllstuff.h">
 			</File>
 			<File

@@ -1,7 +1,7 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
 //
-//Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+//Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
 //   Organisation (CSIRO) Australia
 //
 //Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@
 #include <pullpin.h>
 #include <initguid.h>
 
+#include "CMMLDecoderIIDs.h"
 // {966D76B4-7D2F-4f01-B840-94E425D2214F}
 DEFINE_GUID(MEDIASUBTYPE_SubtitleVMR9, 
 0x966d76b4, 0x7d2f, 0x4f01, 0xb8, 0x40, 0x94, 0xe4, 0x25, 0xd2, 0x21, 0x4f);

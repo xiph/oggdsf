@@ -20,8 +20,8 @@
 //	
 //};
 
-#ifndef __IGARGLEDMO__
-#define __IGARGLEDMO__
+#ifndef __ITHEORAENCODESETTINGS__
+#define __ITHEORAENCODESETTINGS__
 
 #ifdef __cplusplus
 extern "C" {

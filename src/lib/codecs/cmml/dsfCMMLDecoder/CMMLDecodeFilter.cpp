@@ -1,7 +1,7 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
 //
-//Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+//Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
 //   Organisation (CSIRO) Australia
 //
 //Redistribution and use in source and binary forms, with or without
@@ -58,6 +58,7 @@ CMMLDecodeFilter::CMMLDecodeFilter(void)
 	,	mCMMLParser(NULL)
 	,	mSeenHead(false)
 	,	mHeadTag(NULL)
+	,	mCMMLCallbacks(NULL)
 {
 	mCMMLParser = new CMMLParser;
 	//debugLog.open("C:\\Temp\\cmmlfilter.log", ios_base::out);
@@ -80,6 +81,16 @@ CUnknown* WINAPI CMMLDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
     }
 	return pNewObject;
 } 
+
+STDMETHODIMP CMMLDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+	if (riid == IID_ICMMLAppControl) {
+		*ppv = (ICMMLAppControl*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+
+	return CTransformFilter::NonDelegatingQueryInterface(riid, ppv);
+}
 
 HRESULT CMMLDecodeFilter::CheckInputType(const CMediaType* inInputMediaType) {
 	if (	(inInputMediaType->majortype == MEDIATYPE_Text)	&&
@@ -254,3 +265,13 @@ wstring CMMLDecodeFilter::toWStr(string inString) {
 
 	return retVal;
 }
+
+//Implementation of ICMMLAppControl
+STDMETHODIMP_(bool) CMMLDecodeFilter::setCallbacks(ICMMLCallbacks* inCallbacks) {
+	mCMMLCallbacks = inCallbacks;
+	return true;
+}
+STDMETHODIMP_(ICMMLCallbacks*) CMMLDecodeFilter::getCallbacks() {
+	return mCMMLCallbacks;
+}
+
