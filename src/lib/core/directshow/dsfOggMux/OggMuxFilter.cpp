@@ -73,10 +73,12 @@ STDMETHODIMP OggMuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
 	} else if (riid == IID_IAMFilterMiscFlags) {
+		debugLog<<"Queried for IAMMiscFlags"<<endl;
 		*ppv = (IAMFilterMiscFlags*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
 	} else if (riid == IID_IMediaSeeking) {
+		debugLog<<"Queried for IMediaSeeking"<<endl;
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
@@ -86,6 +88,7 @@ STDMETHODIMP OggMuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 }
 
 ULONG OggMuxFilter::GetMiscFlags(void) {
+	debugLog<<"GetMiscflags"<<endl;
 	return AM_FILTER_MISC_FLAGS_IS_RENDERER;
 }
 
@@ -101,7 +104,7 @@ OggMuxFilter::OggMuxFilter()
 	m_pLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
-	//debugLog.open("C:\\temp\\muxer.log", ios_base::out);
+	debugLog.open("g:\\logs\\muxer.log", ios_base::out);
 
 	//Make our delegate pin[0], the top pin... we send all out requests there.
 	IMediaSeeking* locSeeker = NULL;
@@ -346,4 +349,18 @@ STDMETHODIMP OggMuxFilter::Stop(void) {
 
 	CloseOutput();
 	return CBaseFilter::Stop();
+}
+
+STDMETHODIMP OggMuxFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop) {
+	HRESULT locHR = BasicSeekPassThrough::GetPositions(pCurrent, pStop);
+	debugLog<<"GetPos Before : "<<*pCurrent<<" - "<<*pStop<<endl;
+	*pCurrent = mInterleaver->progressTime();
+	debugLog<<"GetPos After : "<<*pCurrent<<" - "<<*pStop<<endl;
+	return locHR;
+}
+
+STDMETHODIMP OggMuxFilter::GetCurrentPosition(LONGLONG *pCurrent) {
+	*pCurrent = mInterleaver->progressTime();
+	debugLog<<"GetCurrentPos : "<<*pCurrent<<endl;
+	return S_OK;
 }

@@ -86,6 +86,10 @@ public:
 	virtual HRESULT addAnotherPin();
 	virtual void NotifyComplete();
 
+	//IMediaSeeking Override to give progress.
+	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
+	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
+
 protected:
 
 	bool SetupOutput();
@@ -99,7 +103,7 @@ protected:
 	CCritSec* mStreamLock;
 
 	fstream mOutputFile;
-	//fstream debugLog;
+	fstream debugLog;
 	HRESULT mHR;
 
 

@@ -34,6 +34,7 @@
 OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier)
 	:	mFileWriter(inFileWriter)
 	,	mNotifier(inNotifier)
+	,	mProgressTime(0)
 {
 	debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
 }
@@ -198,11 +199,16 @@ void OggPageInterleaver::writeLowest() {
 			throw 0;
 		} else {
 			debugLog<<"writeLowest : Writing..."<<endl;
-
+			mProgressTime = locLowestStream->scaledFrontTime();
+			debugLog<<"writeLowest : Progress Time = "<<mProgressTime<<endl;
 			//TODO::: Handle case where the popped page is a null pointer.
 			mFileWriter->acceptOggPage(locLowestStream->popFront());		//Gives away page
 		}
 
+}
+
+__int64 OggPageInterleaver::progressTime() {
+	return mProgressTime;
 }
 bool OggPageInterleaver::isProcessable() {
 	bool retVal = true;

@@ -1089,7 +1089,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{D65F0073-A820-4085-B997-A061171595A7}"
-        "PackageCode" = "8:{219C788A-3DBF-4159-8CE7-FB482D6A993F}"
+        "PackageCode" = "8:{3FAB9450-CD0F-4F1C-81D0-C013FFF7D57C}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -3221,7 +3221,7 @@
                 {
                 }
             "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "Folder" = "8:"
             "Feature" = "8:"
             "IsolateTo" = "8:"
