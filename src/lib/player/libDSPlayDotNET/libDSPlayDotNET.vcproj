@@ -29,7 +29,8 @@
 				UsePrecompiledHeader="3"
 				WarningLevel="4"
 				DebugInformationFormat="3"
-				CallingConvention="2"/>
+				CallingConvention="2"
+				DisableSpecificWarnings="4251"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -84,7 +85,8 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
-				CallingConvention="2"/>
+				CallingConvention="2"
+				DisableSpecificWarnings="4251"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -142,7 +144,8 @@
 				EnableEnhancedInstructionSet="2"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
-				CallingConvention="2"/>
+				CallingConvention="2"
+				DisableSpecificWarnings="4251"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -200,7 +203,8 @@
 				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
-				CallingConvention="2"/>
+				CallingConvention="2"
+				DisableSpecificWarnings="4251"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
