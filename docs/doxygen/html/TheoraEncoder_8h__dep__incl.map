@@ -1,0 +1,5 @@
+base referer
+rect $TheoraEncodeInputPin_8h.html 73,157 244,184
+rect $lib_2codecs_2theora_2filters_2dsfTheoraEncoder_2stdafx_8h.html 124,82 193,109
+rect $dsfTheoraEncoder_8cpp.html 8,8 165,34
+rect $lib_2codecs_2theora_2filters_2dsfTheoraEncoder_2stdafx_8cpp.html 189,8 272,34

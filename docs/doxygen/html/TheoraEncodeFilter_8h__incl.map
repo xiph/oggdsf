@@ -1,0 +1,5 @@
+base referer
+rect $theoraencoderdllstuff_8h.html 68,82 228,109
+rect $ITheoraEncodeSettings_8h.html 252,82 425,109
+rect $PropsTheoraEncoder_8h.html 449,82 609,109
+rect $codecs_2theora_2filters_2dsfTheoraEncoder_2resource_8h.html 430,8 516,34

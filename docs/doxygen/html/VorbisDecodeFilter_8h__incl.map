@@ -1,0 +1,10 @@
+base referer
+rect $vorbisdecoderdllstuff_8h.html 301,306 458,333
+rect $VorbisDecodeInputPin_8h.html 502,381 668,408
+rect $VorbisDecodeOutputPin_8h.html 292,381 468,408
+rect $AbstractAudioDecodeFilter_8h.html 208,157 400,184
+rect $abstractaudiodllstuff_8h.html 206,82 358,109
+rect $AbstractAudioDecodeInputPin_8h.html 424,157 637,184
+rect $AbstractAudioDecodeOutputPin_8h.html 8,232 232,258
+rect $BasicSeekable_8h.html 409,82 529,109
+rect $fish__cdecl_8h.html 550,306 644,333
