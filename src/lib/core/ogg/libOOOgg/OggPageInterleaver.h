@@ -54,7 +54,7 @@ public:
 	virtual bool isAllEOS();
 	virtual bool isAllEmpty();
 
-	virtual __int64 progressTime();
+	virtual LOOG_INT64 progressTime();
 
 	//INotifyArrival Implementation
 	virtual void notifyArrival();
@@ -64,7 +64,7 @@ protected:
 	IOggCallback* mFileWriter;		//TODO::: Shuoldn't be called filewriter.
 	INotifyComplete* mNotifier;
 
-	__int64 mProgressTime;
+	LOOG_INT64 mProgressTime;
 	//DEBUG ONLY
 	fstream debugLog;
 	//

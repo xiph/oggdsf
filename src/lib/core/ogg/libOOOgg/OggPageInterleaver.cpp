@@ -207,7 +207,7 @@ void OggPageInterleaver::writeLowest() {
 
 }
 
-__int64 OggPageInterleaver::progressTime() {
+LOOG_INT64 OggPageInterleaver::progressTime() {
 	return mProgressTime;
 }
 bool OggPageInterleaver::isProcessable() {
