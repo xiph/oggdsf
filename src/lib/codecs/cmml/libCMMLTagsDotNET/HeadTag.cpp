@@ -62,7 +62,11 @@ namespace libCMMLTagsDotNET {
 		return new TitleTag(getMe()->title()->clone());
 	}
 	BaseTag* HeadTag::base() {
-		return new BaseTag(getMe()->base()->clone());
+		if (getMe()->base() != NULL) {
+			return new BaseTag(getMe()->base()->clone());
+		} else {
+			return NULL;
+		}
 	}
 	MetaTagList* HeadTag::metaList() {
 		return new MetaTagList(getMe()->metaList()->clone());

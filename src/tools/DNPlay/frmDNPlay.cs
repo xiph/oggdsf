@@ -45,7 +45,11 @@ namespace DNPlay
 		private System.Windows.Forms.Button cmdFollowLink;
 		private System.Windows.Forms.Label lblAnchorLink;
 		private System.Windows.Forms.Label lblTitle;
+		private System.Windows.Forms.Label label1;
 		protected HeadTag mHeadTag;
+		private Int64 evCount;
+		private Uri mBaseURI; 
+		private String mFileName;
 
 		enum eEventCodes 
 		{
@@ -103,6 +107,8 @@ namespace DNPlay
 		}
 		public bool eventNotification(Int32 inEventCode, Int32 inParam1, Int32 inParam2) 
 		{
+			evCount++;
+			label1.Text = evCount.ToString();
 			if (inEventCode == (long)eEventCodes.EC_COMPLETE) 
 			{
 				tmrUpdateDuration.Enabled = false;
@@ -121,8 +127,39 @@ namespace DNPlay
 		}
 		public bool headCallback(HeadTag inHeadTag) 
 		{
+			MessageBox.Show("Head callback");
 			mHeadTag = inHeadTag;
+			if (mHeadTag != null) 
+			{
+				MessageBox.Show("Head tag not null");
+			}
+			else 
+			{
+				MessageBox.Show("Head tag is null");
+			}
 			lblTitle.Text = mHeadTag.title().text();
+			MessageBox.Show(mHeadTag.title().text());
+			Uri locBaseURI = null;
+			try 
+			{
+				if (mHeadTag.@base() != null) 
+				{
+					MessageBox.Show("Href = "+mHeadTag.@base().href());
+					locBaseURI = new Uri(mHeadTag.@base().href());
+				}
+			} 
+			catch(System.UriFormatException) 
+			{
+				locBaseURI = null;	
+					
+			}
+
+			if (locBaseURI != null) 
+			{
+				mBaseURI = locBaseURI;
+			}
+		
+			MessageBox.Show("Bug not here !!");
 			return true;
 		}
 		//
@@ -142,6 +179,8 @@ namespace DNPlay
 			cmdStop.Enabled = false;
 			cmdPlay.Enabled = false;
 			cmdPause.Enabled = false;
+
+			evCount = 0;
 		}
 
 		/// <summary>
@@ -189,6 +228,7 @@ namespace DNPlay
 			this.cmdFollowLink = new System.Windows.Forms.Button();
 			this.lblAnchorLink = new System.Windows.Forms.Label();
 			this.lblTitle = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -354,10 +394,19 @@ namespace DNPlay
 			this.lblTitle.Size = new System.Drawing.Size(400, 16);
 			this.lblTitle.TabIndex = 13;
 			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(8, 264);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(112, 32);
+			this.label1.TabIndex = 14;
+			this.label1.Text = "label1";
+			// 
 			// frmDNPlay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(416, 295);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lblTitle);
 			this.Controls.Add(this.lblAnchorLink);
 			this.Controls.Add(this.cmdFollowLink);
@@ -420,11 +469,19 @@ namespace DNPlay
 		private void LoadFile(String inFileName) 
 		{
 			tmrUpdateDuration.Enabled = false;
-			lblFileLocation.Text = inFileName;
+
 			bool locRes = mPlayer.loadFile(inFileName);
 
 			if (locRes) 
 			{
+				mFileName = inFileName;
+				lblFileLocation.Text = inFileName;
+
+				
+				//Set the base URI from the current file.
+				setBaseURIFromFullPath(inFileName);
+					
+				
 				//Error check
 				mFileDuration = mPlayer.fileDuration();
 				setDurationText(mFileDuration);
@@ -440,7 +497,7 @@ namespace DNPlay
 			} 
 			else 
 			{
-				MessageBox.Show("Failed!");
+				MessageBox.Show("File type is unrecognised, or media file does not exist", "Media Open Failed.", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			
 			}
 		}
@@ -544,12 +601,115 @@ namespace DNPlay
 			}
 		}
 
+		private bool setBaseURIFromFullPath(String inFullPath) 
+		{
+			MessageBox.Show(inFullPath);
+			Uri locURI = null;
+			Uri locBaseURI = null;
+			try 
+			{
+				//Turn the full path into a URI
+				locURI = new Uri(inFullPath);
+			}
+			catch (System.UriFormatException) 
+			{
+				//This is not a URI !
+				locURI = null;
+			}
+
+			if (locURI != null) 
+			{
+				MessageBox.Show(locURI.ToString());
+				MessageBox.Show(locURI.GetLeftPart(UriPartial.Authority));
+				String locPartial = locURI.GetLeftPart(UriPartial.Authority);
+
+				if (locPartial.Equals("")) 
+				{
+
+					//Must be a file with a : 'd path in it
+					locPartial = locURI.GetLeftPart(UriPartial.Path);
+
+					//Find out where the lat slash is
+					int locDelimPos = locPartial.LastIndexOf("/");
+					if (locDelimPos != -1) 
+					{
+						//Strip off the filename part at the end
+						locPartial = locPartial.Substring(0, locDelimPos + 1);
+						MessageBox.Show("Parital : " + locPartial);
+					} 
+					else 
+					{
+						locPartial = "";
+					}
+				}
+				//Get the URI base which excludes the filename part.
+				
+				if (!locPartial.Equals("")) 
+				{
+					locBaseURI = new Uri(locPartial);
+					MessageBox.Show(locBaseURI.ToString());
+				}
+				
+			} 
+
+			mBaseURI = locBaseURI;
+
+			return (locBaseURI != null);
+
+
+		}
 		private void cmdFollowLink_Click(object sender, System.EventArgs e)
 		{
+			
+			if (mBaseURI != null) 
+			{
+				//Try to do relative to the base URI
+				Uri locURI = null;
+				try 
+				{
+					MessageBox.Show("Base is "+mBaseURI.ToString());
+					//try and make a URI using the base and the href from the clip (relative)
+					locURI = new Uri(mBaseURI, mCurrentClip.anchor().href());	
+					MessageBox.Show("New URI is "+locURI.ToString());
+				} 
+				catch(System.UriFormatException) 
+				{
+					try 
+					{
+						//If that failed, try to make one with just the clip tag (absolute)
+						locURI = new Uri(mCurrentClip.anchor().href());
+					}
+					catch (System.UriFormatException) 
+					{
+						locURI = null;
+						
 
-			String locFilename = "G:\\downloads\\firefox\\manufacturing_surveys.anx"; //mCurrentClip.anchor().href();
-			LoadFile(locFilename);
-			StartPlayback();
+					}
+				}
+
+				if (locURI == null) 
+				{
+					MessageBox.Show("The link is an invalid URI", "Invalid URI", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				} 
+				else
+				{
+					MessageBox.Show("Opening "+locURI.ToString());
+					if (locURI.IsFile) 
+					{
+						//If it's a file change it to a local path.
+						LoadFile(locURI.LocalPath);
+						StartPlayback();
+
+					} 
+					else 
+					{
+						//Otherwise just load the URI
+						LoadFile(locURI.ToString());
+						StartPlayback();
+					}
+				}
+			} 
+			
 			
 //			tmrUpdateDuration.Enabled = false;
 //			lblFileLocation.Text = locFilename;
@@ -576,7 +736,8 @@ namespace DNPlay
 			if (locOpenDialog.wasOK) 
 			{
 				LoadFile(locOpenDialog.URLToOpen);
-				StartPlayback();
+				
+				
 				
 			}
 		}
