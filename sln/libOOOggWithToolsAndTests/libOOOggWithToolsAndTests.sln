@@ -5,9 +5,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libOOOgg", "..\..\src\lib\c
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggDump", "..\..\src\tools\OOOggDump\OOOggDump.vcproj", "{73D3CA81-3BDC-42F1-8456-76224F6B337C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggStat", "..\..\src\tools\OOOggStat\OOOggStat.vcproj", "{48CFEC13-E2BC-412F-8ECA-29090C7193B6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "libOOOggWithToolsAndTests", "..\..\build\libOOOggWithToolsAndTests\libOOOggWithToolsAndTests.vdproj", "{248C8D06-A9FF-4C27-AD04-B5A21AD470EB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggValidate", "..\..\src\tools\OOOggValidate\OOOggValidate.vcproj", "{B5BF942B-4864-414C-9855-65E5CC923401}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -29,6 +39,12 @@ Global
 		{48CFEC13-E2BC-412F-8ECA-29090C7193B6}.Debug.Build.0 = Debug|Win32
 		{48CFEC13-E2BC-412F-8ECA-29090C7193B6}.Release.ActiveCfg = Release|Win32
 		{48CFEC13-E2BC-412F-8ECA-29090C7193B6}.Release.Build.0 = Release|Win32
+		{248C8D06-A9FF-4C27-AD04-B5A21AD470EB}.Debug.ActiveCfg = Debug
+		{248C8D06-A9FF-4C27-AD04-B5A21AD470EB}.Release.ActiveCfg = Release
+		{B5BF942B-4864-414C-9855-65E5CC923401}.Debug.ActiveCfg = Debug|Win32
+		{B5BF942B-4864-414C-9855-65E5CC923401}.Debug.Build.0 = Debug|Win32
+		{B5BF942B-4864-414C-9855-65E5CC923401}.Release.ActiveCfg = Release|Win32
+		{B5BF942B-4864-414C-9855-65E5CC923401}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

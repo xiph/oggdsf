@@ -92,7 +92,7 @@ bool pageCB(OggPage* inOggPage) {
 }
 
 
-int _tmain(int argc, _TCHAR* argv[])
+int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 
 
