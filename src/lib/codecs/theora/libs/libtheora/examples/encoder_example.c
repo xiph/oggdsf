@@ -133,6 +133,7 @@ static void id_file(char *f){
   unsigned char buffer[80];
   int ret;
   int tmp_video_hzn, tmp_video_hzd, tmp_video_an, tmp_video_ad;
+  int extra_hdr_bytes;
 
   /* open it, look for magic */
 
@@ -179,6 +180,9 @@ static void id_file(char *f){
           ret=fread(buffer,1,20,test);
           if(ret<20)goto riff_err;
 
+          extra_hdr_bytes = (buffer[0]  + (buffer[1] << 8) +
+                            (buffer[2] << 16) + (buffer[3] << 24)) - 16;
+
           if(memcmp(buffer+4,"\001\000",2)){
             fprintf(stderr,"The WAV file %s is in a compressed format; "
                     "can't read it.\n",f);
@@ -193,6 +197,18 @@ static void id_file(char *f){
           if(buffer[18]+(buffer[19]<<8)!=16){
             fprintf(stderr,"Can only read 16 bit WAV files for now.\n");
             exit(1);
+          }
+
+           /* read past extra header bytes */
+          while(extra_hdr_bytes){
+            int read_size = (extra_hdr_bytes > sizeof(buffer)) ?
+             sizeof(buffer) : extra_hdr_bytes;
+            ret = fread(buffer, 1, read_size, test);
+
+            if (ret < read_size)
+              goto riff_err;
+            else
+              extra_hdr_bytes -= read_size;
           }
 
           /* Now, align things to the beginning of the data */
@@ -618,8 +634,11 @@ int main(int argc,char *argv[]){
   /* scale the frame size up to the nearest /16 and calculate offsets */
   video_x=((frame_x + 15) >>4)<<4;
   video_y=((frame_y + 15) >>4)<<4;
-  frame_x_offset=(video_x-frame_x)/2;
-  frame_y_offset=(video_y-frame_y)/2;
+  /* We force the offset to be even.
+     This ensures that the chroma samples align properly with the luma
+      samples. */
+  frame_x_offset=((video_x-frame_x)/2)&~1;
+  frame_y_offset=((video_y-frame_y)/2)&~1;
 
   theora_info_init(&ti);
   ti.width=video_x;

@@ -1,0 +1,38 @@
+\section{theora\_\-comment Struct Reference}
+\label{structtheora__comment}\index{theora_comment@{theora\_\-comment}}
+Comment header metadata.  
+
+
+{\tt \#include $<$theora.h$>$}
+
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+char $\ast$$\ast$ {\bf user\_\-comments}\label{structtheora__comment_o0}
+
+\begin{CompactList}\small\item\em an array of comment string vectors \item\end{CompactList}\item 
+int $\ast$ {\bf comment\_\-lengths}\label{structtheora__comment_o1}
+
+\begin{CompactList}\small\item\em an array of corresponding string vector lengths in bytes \item\end{CompactList}\item 
+int {\bf comments}\label{structtheora__comment_o2}
+
+\begin{CompactList}\small\item\em the total number of comment string vectors \item\end{CompactList}\item 
+char $\ast$ {\bf vendor}\label{structtheora__comment_o3}
+
+\begin{CompactList}\small\item\em the vendor string identifying the encoder, null terminated \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Comment header metadata. 
+
+This structure holds the in-stream metadata corresponding to the 'comment' header packet.
+
+Meta data is stored as a series of (tag, value) pairs, in length-encoded string vectors. The first occurence of the '=' character delimits the tag and value. A particular tag may occur more than once. The character set encoding for the strings is always utf-8, but the tag names are limited to case-insensitive ascii. See the spec for details.
+
+In filling in this structure, {\bf theora\_\-decode\_\-header()}{\rm (p.\,\pageref{theora_8h_a21})} will null-terminate the user\_\-comment strings for safety. However, the bitstream format itself treats them as 8-bit clean, and so the length array should be treated as authoritative for their length. 
+
+
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf theora.h}\end{CompactItemize}

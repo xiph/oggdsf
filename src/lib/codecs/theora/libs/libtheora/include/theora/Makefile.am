@@ -1,8 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-AUTOMAKE_OPTIONS = foreign
+theoraincludedir = $(includedir)/theora
 
-includedir = $(prefix)/include/theora
-
-include_HEADERS = theora.h
+theorainclude_HEADERS = theora.h
 

@@ -161,7 +161,7 @@ static void ExpandKFBlock ( PB_INSTANCE *pbi, ogg_int32_t FragmentNumber ){
 
   /* Get the pixel index for the first pixel in the fragment. */
   ReconIntra( pbi, (unsigned char *)(&pbi->ThisFrameRecon[ReconPixelIndex]),
-              (ogg_uint16_t *)pbi->ReconDataBuffer, ReconPixelsPerLine );
+              (ogg_int16_t *)pbi->ReconDataBuffer, ReconPixelsPerLine );
 
 }
 
@@ -480,10 +480,6 @@ static void CopyRecon( PB_INSTANCE *pbi, unsigned char * DestReconPtr,
 
     }
   }
-
-  /* We may need to update the UMV border */
-  UpdateUMVBorder(pbi, DestReconPtr);
-
 }
 
 static void CopyNotRecon( PB_INSTANCE *pbi, unsigned char * DestReconPtr,
@@ -521,10 +517,6 @@ static void CopyNotRecon( PB_INSTANCE *pbi, unsigned char * DestReconPtr,
 
     }
   }
-
-  /*  We may need to update the UMV border */
-  UpdateUMVBorder(pbi, DestReconPtr);
-
 }
 
 void ExpandToken( Q_LIST_ENTRY * ExpandedBlock,
@@ -1223,10 +1215,14 @@ void ReconRefFrames (PB_INSTANCE *pbi){
   /* Apply a loop filter to edge pixels of updated blocks */
   LoopFilter(pbi);
 
+  /* We may need to update the UMV border */
+  UpdateUMVBorder(pbi, pbi->LastFrameRecon);
 
   /* Reconstruct the golden frame if necessary.
      For VFW codec only on key frames */
-  if ( GetFrameType(pbi) == BASE_FRAME )
+  if ( GetFrameType(pbi) == BASE_FRAME ){
     CopyRecon( pbi, pbi->GoldenFrame, pbi->LastFrameRecon );
-
+    /* We may need to update the UMV border */
+    UpdateUMVBorder(pbi, pbi->GoldenFrame);
+  }
 }

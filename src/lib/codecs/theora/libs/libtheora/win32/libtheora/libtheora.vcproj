@@ -233,6 +233,9 @@
 				RelativePath="..\..\lib\encode.c">
 			</File>
 			<File
+				RelativePath="..\..\lib\encoder_toplevel.c">
+			</File>
+			<File
 				RelativePath="..\..\lib\frarray.c">
 			</File>
 			<File
@@ -301,6 +304,9 @@
 			</File>
 			<File
 				RelativePath="..\..\include\theora\theora.h">
+			</File>
+			<File
+				RelativePath="..\..\lib\toplevel.h">
 			</File>
 			<File
 				RelativePath="..\..\lib\toplevel_lookup.h">

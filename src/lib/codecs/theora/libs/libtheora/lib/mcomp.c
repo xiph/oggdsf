@@ -273,7 +273,7 @@ static ogg_uint32_t GetHalfPixelSumAbsDiffs (unsigned char * SrcData,
   if ( RefOffset == 0 ) {
     /* Simple case as for non 0.5 pixel */
     DiffVal += GetSumAbsDiffs( SrcData, RefDataPtr1, PixelsPerLine,
-                               ErrorSoFar);
+                               0);
   } else  {
     for ( i=0; i < BLOCK_HEIGHT_WIDTH; i++ ) {
       DiffVal += abs( ((int)SrcData[0]) - (((int)RefDataPtr1[0] +
@@ -911,9 +911,9 @@ ogg_uint32_t GetFOURMVExhaustiveSearch (CP_INSTANCE *cpi,
                                         MOTION_VECTOR *MV ) {
   ogg_uint32_t  InterMVError;
 
-  /* For the moment the 4MV mode is only deemd to be valid if all four
-     Y blocks are to be updated */
-  /* This May be adapted later. */
+  /* For the moment the 4MV mode is only deemed to be valid 
+     if all four Y blocks are to be updated */
+  /* This may be adapted later. */
   if ( cpi->pb.display_fragments[FragIndex] &&
        cpi->pb.display_fragments[FragIndex + 1] &&
        cpi->pb.display_fragments[FragIndex + cpi->pb.HFragments] &&

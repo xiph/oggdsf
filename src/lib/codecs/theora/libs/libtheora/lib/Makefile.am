@@ -1,19 +1,47 @@
-AUTOMAKE_OPTIONS = foreign
-
 INCLUDES = -I$(top_srcdir)/include
 
 lib_LTLIBRARIES = libtheora.la
 
-libtheora_la_SOURCES = encode.c hufftables.h quant_lookup.h \
-	encoder_internal.h idct.c reconstruct.c block_inline.h \
-	encoder_lookup.h mcomp.c scan.c blockmap.c misc_common.c \
-	dct.c frarray.c pb.c dct_decode.c frinit.c pp.c dct_encode.c \
-	huffman.c pp.h toplevel.c decode.c huffman.h quant.c \
-	comment.c toplevel_lookup.h mcomp.h
+if THEORA_SUPPORT_ENCODE
+encoder_sources = dct_encode.c encode.c encoder_toplevel.c
+else
+encoder_sources = encoder_disabled.c
+endif
 
+libtheora_la_SOURCES = \
+	blockmap.c \
+	comment.c \
+	dct.c \
+	dct_decode.c \
+	decode.c \
+	frarray.c \
+	frinit.c \
+	huffman.c \
+	idct.c \
+	mcomp.c \
+	misc_common.c \
+	pb.c \
+	pp.c \
+	quant.c \
+	reconstruct.c \
+	scan.c \
+	toplevel.c \
+	$(encoder_sources)
+
+noinst_HEADERS = \
+	block_inline.h \
+	encoder_internal.h \
+	encoder_lookup.h \
+	huffman.h \
+	hufftables.h \
+	pp.h \
+	quant_lookup.h \
+	toplevel.h \
+	toplevel_lookup.h
+
+libtheora_la_CFLAGS = $(OGG_CFLAGS)
 libtheora_la_LDFLAGS = -version-info @V_LIB_CURRENT@:@V_LIB_REVISION@:@V_LIB_AGE@
-
-CLEANFILES = $(lib_LTLIBRARIES)
+libtheora_la_LIBS = $(OGG_LIBS)
 
 debug:
 	$(MAKE) all CFLAGS="@DEBUG@" LDFLAGS="-lefence"	

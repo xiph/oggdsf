@@ -1,0 +1,49 @@
+\section{yuv\_\-buffer Struct Reference}
+\label{structyuv__buffer}\index{yuv_buffer@{yuv\_\-buffer}}
+A YUV buffer for passing uncompressed frames to and from the codec.  
+
+
+{\tt \#include $<$theora.h$>$}
+
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+int {\bf y\_\-width}\label{structyuv__buffer_o0}
+
+\begin{CompactList}\small\item\em width of the Y' luminance plane \item\end{CompactList}\item 
+int {\bf y\_\-height}\label{structyuv__buffer_o1}
+
+\begin{CompactList}\small\item\em height of the luminance plane \item\end{CompactList}\item 
+int {\bf y\_\-stride}\label{structyuv__buffer_o2}
+
+\begin{CompactList}\small\item\em offset in bytes between successive rows \item\end{CompactList}\item 
+int {\bf uv\_\-width}\label{structyuv__buffer_o3}
+
+\begin{CompactList}\small\item\em height of the Cb and Cr chroma planes \item\end{CompactList}\item 
+int {\bf uv\_\-height}\label{structyuv__buffer_o4}
+
+\begin{CompactList}\small\item\em width of the chroma planes \item\end{CompactList}\item 
+int {\bf uv\_\-stride}\label{structyuv__buffer_o5}
+
+\begin{CompactList}\small\item\em offset between successive chroma rows \item\end{CompactList}\item 
+unsigned char $\ast$ {\bf y}\label{structyuv__buffer_o6}
+
+\begin{CompactList}\small\item\em pointer to start of luminance data \item\end{CompactList}\item 
+unsigned char $\ast$ {\bf u}\label{structyuv__buffer_o7}
+
+\begin{CompactList}\small\item\em pointer to start of Cb data \item\end{CompactList}\item 
+unsigned char $\ast$ {\bf v}\label{structyuv__buffer_o8}
+
+\begin{CompactList}\small\item\em pointer to start of Cr data \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+A YUV buffer for passing uncompressed frames to and from the codec. 
+
+This holds a Y'Cb\-Cr frame in planar format. The Cb\-Cr planes can be subsampled and have their own separate dimensions and row stride offsets. Note that the strides may be negative in some configurations. For theora the width and height of the largest plane must be a multiple of 16. The actual meaningful picture size and offset are stored in the {\bf theora\_\-info}{\rm (p.\,\pageref{structtheora__info})} structure; frames returned by the decoder my been to be cropped for display. All samples are 8 bits. 
+
+
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf theora.h}\end{CompactItemize}
