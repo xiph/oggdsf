@@ -503,6 +503,7 @@ void OggDemuxSourceFilter::DeliverBeginFlush() {
 	//debugLog << "Delivering Begin Flush"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverBeginFlush();
+		mStreamMapper->getOggStream(i)->flush();
 	}
 
 	//Should this be here or endflush or neither ?
@@ -524,6 +525,7 @@ void OggDemuxSourceFilter::DeliverEOS() {
 	
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 		mStreamMapper->getOggStream(i)->getPin()->DeliverEndOfStream();
+		mStreamMapper->getOggStream(i)->flush();
 	}
 	mOggBuffer.debugWrite("%%%%%% Reset calling from DeliverEOS");
 	resetStream();

@@ -190,6 +190,10 @@ CMediaType* OggStream::createMediaType(GUID inMajorType, GUID inSubType, GUID in
 	return new CMediaType(locAMMediaType);
 }
 
+void OggStream::flush() {
+	delete mPartialPacket;
+	mPartialPacket = NULL;
+}
 //ANX::: Need to override here to create anx pins
 bool OggStream::AddPin() {
 	createFormatBlock();

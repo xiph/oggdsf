@@ -80,6 +80,7 @@ public:
 	virtual bool OggStream::AddPin();
 
 	bool streamReady();
+	void flush();
 protected:
 
 	virtual StampedOggPacket* processPacket(StampedOggPacket* inPacket);
