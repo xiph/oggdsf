@@ -94,6 +94,7 @@ public:
 
 	//IOggMuxProgress Implementation
 	virtual STDMETHODIMP_(LONGLONG) getProgressTime();
+	virtual STDMETHODIMP_(LONGLONG) getBytesWritten();
 
 
 protected:

@@ -100,6 +100,15 @@ STDMETHODIMP_(LONGLONG) OggMuxFilter::getProgressTime()
 	}
 
 }
+
+STDMETHODIMP_(LONGLONG) OggMuxFilter::getBytesWritten() {
+	if (mInterleaver != NULL) {
+		return mInterleaver->bytesWritten();
+	} else {
+		return -1;
+	}
+
+}
 ULONG OggMuxFilter::GetMiscFlags(void) 
 {
 	debugLog<<"GetMiscflags"<<endl;

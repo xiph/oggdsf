@@ -35,6 +35,7 @@ OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComple
 	:	mFileWriter(inFileWriter)
 	,	mNotifier(inNotifier)
 	,	mProgressTime(0)
+	,	mBytesWritten(0)
 {
 	debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
 }
@@ -201,14 +202,23 @@ void OggPageInterleaver::writeLowest() {
 			debugLog<<"writeLowest : Writing..."<<endl;
 			mProgressTime = locLowestStream->scaledFrontTime();
 			debugLog<<"writeLowest : Progress Time = "<<mProgressTime<<endl;
-			//TODO::: Handle case where the popped page is a null pointer.
-			mFileWriter->acceptOggPage(locLowestStream->popFront());		//Gives away page
+
+			OggPage* locPageToWrite = locLowestStream->popFront();
+			mBytesWritten += locPageToWrite->pageSize();
+			//TODO::: Handle case where the popped page is a null pointer. Can it even happen ?? There should never be a null pointer.
+			mFileWriter->acceptOggPage(locPageToWrite);		//Gives away page
 		}
 
 }
 
-LOOG_INT64 OggPageInterleaver::progressTime() {
+LOOG_INT64 OggPageInterleaver::progressTime() 
+{
 	return mProgressTime;
+}
+
+LOOG_INT64 OggPageInterleaver::bytesWritten()
+{
+	return mBytesWritten;
 }
 bool OggPageInterleaver::isProcessable() {
 	bool retVal = true;

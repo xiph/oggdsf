@@ -55,6 +55,7 @@ public:
 	virtual bool isAllEmpty();
 
 	virtual LOOG_INT64 progressTime();
+	virtual LOOG_INT64 bytesWritten();
 
 	//INotifyArrival Implementation
 	virtual void notifyArrival();
@@ -64,6 +65,7 @@ protected:
 	IOggCallback* mFileWriter;		//TODO::: Shuoldn't be called filewriter.
 	INotifyComplete* mNotifier;
 
+	LOOG_INT64 mBytesWritten;
 	LOOG_INT64 mProgressTime;
 	//DEBUG ONLY
 	fstream debugLog;

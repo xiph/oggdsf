@@ -68,14 +68,18 @@ void AnxPageInterleaver::addAnnodex_2_0_BOS() {
 
 	
 	//Put the annodex BOS out to the file.
+	mBytesWritten += locBOSPage->pageSize();
 	mFileWriter->acceptOggPage(locBOSPage);
 	delete locUTC;
 
 }
 
 void AnxPageInterleaver::addAllAnxData_2_0_BOS() {
+	OggPage* locOggPage = NULL;
 	for (int i = 0; i < mInputStreams.size() - 1; i++) {
-		mFileWriter->acceptOggPage(mInputStreams[i]->popFront());
+		locOggPage = mInputStreams[i]->popFront();
+		mBytesWritten += locOggPage->pageSize();
+		mFileWriter->acceptOggPage(locOggPage);
 		mInputStreams[i]->setNumHeaders(mInputStreams[i]->numHeaders() + 1);
 	}
 
@@ -90,6 +94,7 @@ void AnxPageInterleaver::addAnnodexEOS() {
 	locEOSPage->header()->setHeaderFlags(4);
 	locEOSPage->header()->setHeaderSize(27);
 
+	mBytesWritten += locEOSPage->pageSize();
 	mFileWriter->acceptOggPage(locEOSPage);
 }
 

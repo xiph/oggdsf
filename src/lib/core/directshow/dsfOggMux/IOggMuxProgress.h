@@ -11,6 +11,8 @@ extern "C" {
 DECLARE_INTERFACE_(IOggMuxProgress, IUnknown) {
 
 	virtual STDMETHODIMP_(LONGLONG) getProgressTime() PURE;
+	virtual STDMETHODIMP_(LONGLONG) getBytesWritten() PURE;
+	
 
 };
 
