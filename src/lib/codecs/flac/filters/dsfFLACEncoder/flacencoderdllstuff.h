@@ -49,6 +49,11 @@
 //	unsigned long numChannels;
 //
 //};
+struct sFLACFormatBlock {
+	unsigned short numChannels;
+
+};
+
 #include "AbstractAudioEncodeFilter.h"
 #include "AbstractAudioEncodeInputPin.h"
 #include "AbstractAudioEncodeOutputPin.h"
@@ -126,7 +131,3 @@ const REGFILTER2 FLACEncodeFilterReg = {
 };
 	   
 
-struct sFLACFormatBlock {
-	
-
-};

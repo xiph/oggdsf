@@ -23,16 +23,17 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFFLACENCODER_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="4"
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmbase.lib Winmm.lib Strmiids.lib  Quartz.lib"
+				AdditionalDependencies="Strmbasd.lib Winmm.lib Strmiids.lib  Quartz.lib"
 				OutputFile="$(OutDir)/dsfFLACEncoder.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Debug&quot;"
@@ -121,9 +122,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
-			<File
-				RelativePath=".\dsfFLACEncoder.cpp">
-			</File>
 			<File
 				RelativePath=".\FLACEncodeFilter.cpp">
 			</File>

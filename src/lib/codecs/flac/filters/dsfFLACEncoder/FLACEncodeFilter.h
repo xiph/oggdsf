@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "FLACencoderdllstuff.h"
+#include "flacencoderdllstuff.h"
 #include "AbstractAudioEncodeFilter.h"
 
 //Forward Declarations

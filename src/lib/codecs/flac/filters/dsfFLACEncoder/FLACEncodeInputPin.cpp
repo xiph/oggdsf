@@ -80,6 +80,7 @@ long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	//
 	//}
 	//return locErr;
+	return -1;
 }
 bool FLACEncodeInputPin::ConstructCodec() {
 	//mFishInfo.channels = mWaveFormat->nChannels;
@@ -97,7 +98,7 @@ bool FLACEncodeInputPin::ConstructCodec() {
 	//fish_sound_set_encoded_callback (mFishSound, SpeexEncodeInputPin::SpeexEncoded, this);
 	////FIX::: Proper return value
 	//return true;
-
+	return true;
 }
 void FLACEncodeInputPin::DestroyCodec() {
 	//fish_sound_delete(mFishSound);
@@ -169,6 +170,7 @@ void FLACEncodeInputPin::DestroyCodec() {
 
 	//This is called back with encoded data after raw data is fed in by stream_encoder_process or
 	// stream_encoder_process_interleaved.
+	return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
 }
 void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadata) {
 	//This is called back at the *end* of encoding with the headers that need to be written at the *start* of the stream.
