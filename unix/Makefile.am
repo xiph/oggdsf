@@ -4,15 +4,13 @@ AM_CXXFLAGS = -w
 
 bin_PROGRAMS = OOOggDump OOOggValidate OOOggStat OOOggChainSplitter OOOggCommentDump OOOggSeekFileMaker OOOggSeekFileReader
 
-lib_LTLIBRARIES = libOOOgg.la libVorbisComment.la libOOOggSeek.la
+lib_LTLIBRARIES = libilliCore.la libOOOgg.la libVorbisComment.la libOOOggSeek.la
 
 INCLUDES = \
 	   -I@top_srcdir@/../src/lib/helper/libilliCore \
 	   -I@top_srcdir@/../src/lib/core/ogg/libOOOgg \
 	   -I@top_srcdir@/../src/lib/core/ogg/libOOOggSeek \
 	   -I@top_srcdir@/../src/lib/core/ogg/libVorbisComment
-
-libOOOgg_la_SOURCES = $(libilliCore_SOURCES) $(libOOOggCore_SOURCES)
 
 libOOOggSeek_la_LIBADD = libOOOgg.la
 libOOOggSeek_la_SOURCES = \
@@ -30,12 +28,13 @@ libVorbisComment_la_SOURCES = \
 	../src/lib/core/ogg/libVorbisComment/StreamCommentInfo.cpp \
 	../src/lib/core/ogg/libVorbisComment/VorbisComments.cpp
 	
-libilliCore_SOURCES = \
+libilliCore_la_SOURCES = \
 	../src/lib/helper/libilliCore/StringHelper.cpp \
 	../src/lib/helper/libilliCore/iBE_Math.cpp \
 	../src/lib/helper/libilliCore/iLE_Math.cpp
 
-libOOOggCore_SOURCES = \
+libOOOgg_la_LIBADD = libilliCore.la
+libOOOgg_la_SOURCES = \
 	../src/lib/core/ogg/libOOOgg/CircularBuffer.cpp \
 	../src/lib/core/ogg/libOOOgg/OggDataBuffer.cpp \
 	../src/lib/core/ogg/libOOOgg/OggMuxStream.cpp \
