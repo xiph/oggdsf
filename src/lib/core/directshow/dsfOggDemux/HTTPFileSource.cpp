@@ -58,10 +58,12 @@ HTTPFileSource::~HTTPFileSource(void)
 	rawDump.close();
 	delete mBufferLock;
 	delete mInterBuff;
-	
 }
 
-void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
+void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) 
+{
+
+	//This method is a bit rough and ready !!
 	ASSERT(inNumBytes > 2);
 	rawDump.write((char*)inBuff, inNumBytes);
 	debugLog<<"UnChunk"<<endl;
@@ -133,19 +135,19 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
 			debugLog<<"EOF"<<endl;
 			return;
 		}
-		bool locWriteOK = false;
+
 		//If theres less bytes than the remainder of the chunk
 		if (locNumBytesLeft < mChunkRemains) {
 			debugLog<<"less bytes remain than the chunk needs"<<endl;
 			
-			locWriteOK = mFileCache.write((const unsigned char*)locWorkingBuffPtr, locNumBytesLeft );
+			mFileCache.write((const unsigned char*)locWorkingBuffPtr, locNumBytesLeft );
 			fileDump.write((char*)locWorkingBuffPtr, locNumBytesLeft);
 			locWorkingBuffPtr += locNumBytesLeft;
 			mChunkRemains -= locNumBytesLeft;
 			locNumBytesLeft = 0;
 		} else {
 			debugLog<<"more bytes remain than the chunk needs"<<endl;
-			locWriteOK = mFileCache.write((const unsigned char*)locWorkingBuffPtr, mChunkRemains );
+			mFileCache.write((const unsigned char*)locWorkingBuffPtr, mChunkRemains );
 			fileDump.write((char*)locWorkingBuffPtr, mChunkRemains);
 			locWorkingBuffPtr += mChunkRemains;
 			locNumBytesLeft -= mChunkRemains;
@@ -167,6 +169,7 @@ void HTTPFileSource::DataProcessLoop() {
 	DWORD locCommand = 0;
 	const unsigned long RECV_BUFF_SIZE = 1024;
 	locBuff = new char[RECV_BUFF_SIZE];
+
 	while(true) {
 		if(CheckRequest(&locCommand) == TRUE) {
 			//debugLog<<"Thread Data Process loop received breakout signal..."<<endl;
@@ -195,11 +198,11 @@ void HTTPFileSource::DataProcessLoop() {
 			//debugLog <<"Num Read = "<<locNumRead<<endl;
 			if (mSeenResponse) {
 				//Add to buffer
-				bool locWriteOK;
+
 				if (mIsChunked) {
-						unChunk((unsigned char*)locBuff, locNumRead);
+					unChunk((unsigned char*)locBuff, locNumRead);
 				} else {
-					locWriteOK = mFileCache.write((const unsigned char*)locBuff, locNumRead);
+					mFileCache.write((const unsigned char*)locBuff, locNumRead);
 				}
 			
 				//Dump to file
@@ -213,38 +216,26 @@ void HTTPFileSource::DataProcessLoop() {
 					//debugLog<<"locPos = "<<locPos<<endl;
 					mSeenResponse = true;
 					mLastResponse = locTemp.substr(0, locPos);
+
 					if (locTemp.find("Transfer-Encoding: chunked") != string::npos) {
 						mIsChunked = true;
-
 					}
+
 					char* locBuff2 = locBuff + locPos + 4;  //View only - don't delete.
 					locTemp = locBuff2;
 
-					bool locWriteOK = false;
-
 					if (mIsChunked) {
 						unChunk((unsigned char*)locBuff2, locNumRead - locPos - 4);
-
-
 					} else {
                         //debugLog<<"Start of data follows"<<endl<<locTemp<<endl;
-						locWriteOK = mFileCache.write((const unsigned char*)locBuff2, (locNumRead - (locPos + 4)));
+						mFileCache.write((const unsigned char*)locBuff2, (locNumRead - (locPos + 4)));
 					}
-
-					//Dump to file
-					//fileDump.write(locBuff2, locNumRead - (locPos + 4));
-					
-
-					
-					
 				}
 			}
 		} //END CRITICAL SECTION
 	}
 
 	delete[] locBuff;
-
-
 }
 
 
@@ -259,16 +250,12 @@ DWORD HTTPFileSource::ThreadProc(void) {
 				Reply(S_OK);
 				return S_OK;
 
-
-
 			case THREAD_RUN:
 				
 				Reply(S_OK);
 				DataProcessLoop();
 				break;
 		}
-	
-	
 	}
 	return S_OK;
 }
@@ -318,14 +305,6 @@ bool HTTPFileSource::open(string inSourceLocation) {
 
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
-		//mStreamBuffer.flush();
-		//mStreamBuffer.clear();
-		//mStreamBuffer.seekg(0, ios_base::beg);
-		//mStreamBuffer.seekp(0, ios_base::beg);
-
-		//TODO::: Get rid of this path.
-		
-		//string locCacheFileName = "filecache.dat";
 		
 		//Init rand number generator
 		LARGE_INTEGER locTicks;
@@ -374,7 +353,6 @@ bool HTTPFileSource::isEOF() {
 		CAutoLock locLock(mBufferLock);
 		unsigned long locSizeBuffed = mFileCache.bytesAvail();;
 	
-
 		//debugLog<<"isEOF : Amount Buffered avail = "<<locSizeBuffed<<endl;
 		if ((locSizeBuffed == 0) && mIsEOF) {
 			//debugLog<<"isEOF : It is EOF"<<endl;
@@ -401,9 +379,6 @@ unsigned long HTTPFileSource::read(char* outBuffer, unsigned long inNumBytes) {
 			//debugLog<<"Reading from buffer"<<endl;
 			
 			unsigned long locNumRead = mFileCache.read((unsigned char*)outBuffer, inNumBytes);
-	/*		if (locNumRead == 0) {
-				mStreamBuffer.clear();
-			}*/
 
 			//debugLog<<locNumRead<<" bytes read from buffer"<<endl;
 			return locNumRead;
