@@ -50,7 +50,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	//ConstructCodec();
 	//debugLog.open("g:\\logs\\aad.log", ios_base::out);
 	mAcceptableMediaType = inAcceptMediaType;
-	mStreamLock = new CCritSec;
+	mStreamLock = new CCritSec;			//Deleted in destructor.
 
 	//This is causing a problem... since every addref on a pin automatically
 	// adds a ref to the filter... we get the situation, where on shutdown

@@ -159,6 +159,7 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 	
 	delete mStreamMapper;
 	
+	
 	mStreamMapper = NULL;
 
 	
@@ -166,6 +167,7 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 		//DbgLog((LOG_ERROR, 1, TEXT("******** Thread exists - closing *****")));
 		Close();
 	}
+	delete mSeekTable;
 
 }
 //IAMFilterMiscFlags Interface
@@ -578,7 +580,8 @@ void OggDemuxSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TI
 HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	//debugLog<<"Starting DataProcessLoop :"<<endl;
 	DWORD locCommand = 0;
-	char* locBuff = new  char[4096];
+	char* locBuff = new  char[4096];			//Deleted before function returns...
+	//TODO::: Make this a member variable ^^^^^
 	bool locKeepGoing = true;
 	unsigned long locBytesRead = 0;
 	bool locIsEOF = true;

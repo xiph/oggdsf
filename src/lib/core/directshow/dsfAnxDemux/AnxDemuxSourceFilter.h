@@ -49,7 +49,7 @@ class AnxDemuxSourceFilter
 public:
 	friend class CMMLStream;
 	AnxDemuxSourceFilter(void);
-	~AnxDemuxSourceFilter(void);
+	virtual ~AnxDemuxSourceFilter(void);
 
 	static CUnknown* WINAPI AnxDemuxSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 

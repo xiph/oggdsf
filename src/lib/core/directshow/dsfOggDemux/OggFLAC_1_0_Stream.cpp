@@ -147,7 +147,7 @@ bool OggFLAC_1_0_Stream::deliverCodecHeaders() {
 			//StreamInfoHeader is 38 bytes
 			//
 			//So we discard the first 9 bytes, and keep the next 42 bytes.
-			unsigned char* locPackBuf = new unsigned char[42];
+			unsigned char* locPackBuf = new unsigned char[42];			//Given away to the StampedPacket
 			
 			//locPacket = (StampedOggPacket*)mCodecHeaders->getPacket(0)->clone();
 			memcpy((void*)locPackBuf, (const void*)(mCodecHeaders->getPacket(0)->packetData() + 9), 42);

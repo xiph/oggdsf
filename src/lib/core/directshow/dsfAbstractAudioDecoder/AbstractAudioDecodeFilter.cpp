@@ -37,7 +37,7 @@ AbstractAudioDecodeFilter::AbstractAudioDecodeFilter(TCHAR* inFilterName, REFCLS
 		mAudioFormat(inAudioFormat)
 	
 {
-	m_pLock = new CCritSec;
+	m_pLock = new CCritSec;		//Deleted in destructor... check what is happening in the base class.
 }
 
 AbstractAudioDecodeFilter::~AbstractAudioDecodeFilter(void)

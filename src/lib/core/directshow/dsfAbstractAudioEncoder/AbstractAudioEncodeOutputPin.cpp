@@ -137,7 +137,7 @@ HRESULT AbstractAudioEncodeOutputPin::GetMediaType(int inPosition, CMediaType *o
 			outMediaType->SetSubtype(&(mOutputMediaType->subtype));
 			outMediaType->SetFormatType(&(mOutputMediaType->formattype));
 			//
-			locFormatBuffer = new BYTE[FormatBufferSize()];
+			locFormatBuffer = new BYTE[FormatBufferSize()];			//Deleted below. Is this right ? What does set format do ?
 			FillFormatBuffer(locFormatBuffer);
 			outMediaType->SetFormat(locFormatBuffer, FormatBufferSize());
 			delete[] locFormatBuffer;
