@@ -40,7 +40,7 @@ bool FileComments::writeOutStream(Int64 inIndex) {
 //
 //}
 StreamCommentInfo* FileComments::getStreamComment(Int64 inIndex) {
-	return new StreamCommentInfo(mNativeClass->getStreamComment(inIndex));
+	return new illiminable::Ogg::libVorbisCommentDotNET::StreamCommentInfo(mNativeClass->getStreamComment(inIndex));
 }
 
 Int64 FileComments::streamCount() {

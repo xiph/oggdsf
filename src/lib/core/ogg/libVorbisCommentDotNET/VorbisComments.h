@@ -45,6 +45,7 @@ public __gc class VorbisComments
 {
 public:
 	VorbisComments(void);
+	VorbisComments(::VorbisComments* inNativeClass);
 	~VorbisComments(void);
 
 	String* vendorString();
@@ -57,7 +58,7 @@ public:
 
 	bool addComment(SingleVorbisComment* inComment);
 	bool addComment(String* inKey, String* inValue);
-
+	
 	//bool parseOggPacket(OggPacket* inPacket, unsigned long inStartOffset);
 	//OggPacket* toOggPacket();
 	String* toString();
@@ -66,6 +67,9 @@ public:
 
 protected:
 	::VorbisComments* mNativeClass;
+
+private:
+	VorbisComments(const VorbisComments&);
 };
 
 

@@ -12,6 +12,10 @@ VorbisComments::VorbisComments(void)
 	mNativeClass = new ::VorbisComments;
 }
 
+VorbisComments::VorbisComments(::VorbisComments* inNativeClass) {
+	mNativeClass = inNativeClass;
+}
+
 VorbisComments::~VorbisComments(void)
 {
 	delete mNativeClass;
@@ -37,7 +41,7 @@ SingleVorbisComment* VorbisComments::getUserComment(Int64 inIndex) {
 	unsigned long locIndex = inIndex;
 
 	//FIX::: Need to clone this... or bad things will happen when garbage colelcted.
-	return new SingleVorbisComment(mNativeClass->getUserComment(locIndex));
+	return new illiminable::Ogg::libVorbisCommentDotNET::SingleVorbisComment((::SingleVorbisComment*)mNativeClass->getUserComment(locIndex));
 }
 	
 	//vector<SingleVorbisComment> getCommentsByKey(String* inKey);

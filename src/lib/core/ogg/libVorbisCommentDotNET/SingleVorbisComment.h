@@ -42,6 +42,7 @@ public __gc class SingleVorbisComment
 {
 public:
 	SingleVorbisComment(void);
+	SingleVorbisComment(::SingleVorbisComment* inNativeClass);
 	~SingleVorbisComment(void);
 
 	String* key();

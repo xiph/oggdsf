@@ -49,11 +49,11 @@ public:
 	bool setVendorString(string inVendorString);
 
 	unsigned long numUserComments();
-	SingleVorbisComment getUserComment(unsigned long inIndex);
+	SingleVorbisComment* getUserComment(unsigned long inIndex);
 	
-	vector<SingleVorbisComment> getCommentsByKey(string inKey);
+	vector<SingleVorbisComment*> getCommentsByKey(string inKey);
 
-	bool addComment(SingleVorbisComment inComment);
+	bool addComment(SingleVorbisComment* inComment);
 	bool addComment(string inKey, string inValue);
 
 	bool parseOggPacket(OggPacket* inPacket, unsigned long inStartOffset);
@@ -63,5 +63,5 @@ public:
 	unsigned long size();
 protected:
 	string mVendorString;
-	vector<SingleVorbisComment> mCommentList;
+	vector<SingleVorbisComment*> mCommentList;
 };

@@ -52,34 +52,34 @@ bool VorbisComments::setVendorString(string inVendorString) {
 unsigned long VorbisComments::numUserComments() {
 	return mCommentList.size();
 }
-SingleVorbisComment VorbisComments::getUserComment(unsigned long inIndex) {
+SingleVorbisComment* VorbisComments::getUserComment(unsigned long inIndex) {
 	//FIX::: Bounds checking
 	return mCommentList[inIndex];
 }
 	
-vector<SingleVorbisComment> VorbisComments::getCommentsByKey(string inKey) {
+vector<SingleVorbisComment*> VorbisComments::getCommentsByKey(string inKey) {
 	//FIX::: Probably faster not to iterate... but who cares for now.. there aren't many.
-	vector<SingleVorbisComment> retComments;
-	SingleVorbisComment locCurrComment;
+	vector<SingleVorbisComment*> retComments;
+	SingleVorbisComment* locCurrComment = NULL;
 
 	for (int i = 0; i < mCommentList.size(); i++) {
 		locCurrComment = mCommentList[i];
 		//FIX::: Need to upcase everything
-		if (locCurrComment.key() == inKey) {
+		if (locCurrComment->key() == inKey) {
 			retComments.push_back(locCurrComment);
 		}
 	}
 	return retComments;
 }
 
-bool VorbisComments::addComment(SingleVorbisComment inComment) {
+bool VorbisComments::addComment(SingleVorbisComment* inComment) {
 	mCommentList.push_back(inComment);
 	return true;
 }
 bool VorbisComments::addComment(string inKey, string inValue) {
-	SingleVorbisComment locComment;
-	locComment.setKey(inKey);
-	locComment.setValue(inValue);
+	SingleVorbisComment* locComment = new SingleVorbisComment;
+	locComment->setKey(inKey);
+	locComment->setValue(inValue);
 	mCommentList.push_back(locComment);
 	return true;
 }
@@ -95,7 +95,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 	char* tempBuff = NULL;
 	unsigned char* locPackBuff = inPacket->packetData();
 	unsigned long locNumComments = 0;
-	vector<SingleVorbisComment> locCommentList;
+	vector<SingleVorbisComment*> locCommentList;
 
 	if (locPackSize < locUpto + 4 - 1) {
 		//FAILED - No vendor length
@@ -163,8 +163,8 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 		locUpto += locUserCommentLength;
 
 
-		SingleVorbisComment locComment;
-		if (locComment.parseComment(locUserComment)) {
+		SingleVorbisComment* locComment = new SingleVorbisComment;
+		if (locComment->parseComment(locUserComment)) {
 			locCommentList.push_back(locComment);
 		} else {
 			//FAILED - Comment not parsable
@@ -212,7 +212,7 @@ string VorbisComments::toString() {
 	retStr +="USER COMMENTS\n";
 	retStr +="=============\n";
 	for (int i = 0; i < mCommentList.size(); i++) {
-		retStr += mCommentList[i].toString() + "\n";
+		retStr += mCommentList[i]->toString() + "\n";
 	}
 	return retStr;
 
@@ -223,7 +223,7 @@ unsigned long VorbisComments::size() {
 	locPackSize = mVendorString.size() + 4;
 
 	for (int i = 0; i < mCommentList.size(); i++) {
-		locPackSize += mCommentList[i].length() + 4;
+		locPackSize += mCommentList[i]->length() + 4;
 	}
 
 	//Check bit
@@ -232,6 +232,7 @@ unsigned long VorbisComments::size() {
 	return locPackSize;
 }
 OggPacket* VorbisComments::toOggPacket() {
+	//This needs prefixing data !
 	unsigned long locPackSize = size();
 	unsigned long locUpto = 0;
 	unsigned char* locPackData = new unsigned char[locPackSize];
@@ -246,11 +247,11 @@ OggPacket* VorbisComments::toOggPacket() {
 	locUpto += 4;
 
 	for (int i = 0; i < mCommentList.size(); i++) {
-		OggMath::ULongToCharArr(mCommentList[i].length(), locPackData + locUpto);
+		OggMath::ULongToCharArr(mCommentList[i]->length(), locPackData + locUpto);
 		locUpto += 4;
 
-		memcpy((void*)(locPackData + locUpto), (const void*)mCommentList[i].toString().c_str(), mCommentList[i].length());
-		locUpto += mCommentList[i].length();
+		memcpy((void*)(locPackData + locUpto), (const void*)mCommentList[i]->toString().c_str(), mCommentList[i]->length());
+		locUpto += mCommentList[i]->length();
 	}
 
 	locPackData[locUpto] = 1;

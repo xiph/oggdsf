@@ -11,6 +11,9 @@ SingleVorbisComment::SingleVorbisComment(void)
 	mNativeClass = new ::SingleVorbisComment;
 }
 
+SingleVorbisComment::SingleVorbisComment(::SingleVorbisComment* inNativeClass) {
+	mNativeClass = inNativeClass;
+}
 SingleVorbisComment::~SingleVorbisComment(void)
 {
 	delete mNativeClass;

@@ -63,6 +63,7 @@ public __gc class StreamCommentInfo
 {
 public:
 	StreamCommentInfo(void);
+	StreamCommentInfo(::StreamCommentInfo* inNativeClass);
 	~StreamCommentInfo(void);
 
 

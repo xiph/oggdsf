@@ -13,6 +13,10 @@ StreamCommentInfo::StreamCommentInfo(void)
 	mNativeClass = new ::StreamCommentInfo;
 }
 
+StreamCommentInfo::StreamCommentInfo(::StreamCommentInfo* inNativeClass) {
+	mNativeClass = inNativeClass;
+}
+
 StreamCommentInfo::~StreamCommentInfo(void)
 {
 	delete mNativeClass;
@@ -22,7 +26,8 @@ StreamCommentInfo::~StreamCommentInfo(void)
 
 
 VorbisComments* StreamCommentInfo::comments() {
-	return new VorbisComments(mNativeClass->comments());
+	
+	return new illiminable::Ogg::libVorbisCommentDotNET::VorbisComments((::VorbisComments*)mNativeClass->comments());
 }
 	//void setComments(VorbisComments* inComments);
 
