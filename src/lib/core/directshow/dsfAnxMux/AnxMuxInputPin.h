@@ -47,7 +47,7 @@ class AnxMuxInputPin
 	:	public OggMuxInputPin
 {
 public:
-	AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
+	AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream, unsigned long inAnxVersionMajor, unsigned long inAnxVersionMinor);
 	~AnxMuxInputPin(void);
 
 	virtual HRESULT CompleteConnect(IPin* inReceivePin);
@@ -57,4 +57,7 @@ protected:
 	fstream debugLog;
 
 	StampedOggPacket* mAnxDataPacket;
+
+	unsigned long mAnxVersionMajor;
+	unsigned long mAnxVersionMinor;
 };

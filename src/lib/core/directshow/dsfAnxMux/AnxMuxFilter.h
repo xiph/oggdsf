@@ -62,4 +62,7 @@ public:
 	virtual HRESULT addAnotherPin();
 protected:
 	eAnxMuxState mAnxMuxState;
+
+	unsigned long mAnxVersionMajor;
+	unsigned long mAnxVersionMinor;
 };

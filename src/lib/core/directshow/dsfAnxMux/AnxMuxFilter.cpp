@@ -70,11 +70,13 @@ CUnknown* WINAPI AnxMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
 } 
 AnxMuxFilter::AnxMuxFilter(void)
 	:	OggMuxFilter(CLSID_AnxMuxFilter)
+	,	mAnxVersionMajor(2)
+	,	mAnxVersionMinor(0)
 {
 
 	//ANX3::: Need to have a better way to set this.
-	mInterleaver = new AnxPageInterleaver(this, this, 2, 0);
-	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
+	mInterleaver = new AnxPageInterleaver(this, this, mAnxVersionMajor, mAnxVersionMinor);
+	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream(), mAnxVersionMajor, mAnxVersionMinor));
 
 
 	//	//Make our delegate pin[0], the top pin... we send all out requests there.
@@ -93,6 +95,6 @@ AnxMuxFilter::~AnxMuxFilter(void)
 }
 
 HRESULT AnxMuxFilter::addAnotherPin() {
-	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
+	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream(), mAnxVersionMajor, mAnxVersionMinor));
 	return S_OK;
 }

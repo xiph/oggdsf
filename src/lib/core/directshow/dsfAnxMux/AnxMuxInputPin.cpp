@@ -34,9 +34,11 @@
 #include "stdafx.h"
 #include ".\anxmuxinputpin.h"
 #include "AnxMuxFilter.h"
-AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream)
+AnxMuxInputPin::AnxMuxInputPin(AnxMuxFilter* inOwningFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream, unsigned long inAnxVersionMajor, unsigned long inAnxVersionMinor)
 	:	OggMuxInputPin(inOwningFilter, inFilterLock, inHR, inMuxStream)
 	,	mAnxDataPacket(NULL)
+	,	mAnxVersionMajor(inAnxVersionMajor)
+	,	mAnxVersionMinor(inAnxVersionMinor)
 {
 	debugLog.open("g:\\logs\\anxmuxinputpin.log", ios_base::out);
 }
@@ -58,8 +60,13 @@ HRESULT AnxMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 	HRESULT locHR = mParentFilter->addAnotherPin();
 	if ((locHR == S_OK) && (mAnxDataPacket != NULL)) {
 		//ANX3::: Only do this for anx2... in anx 3 we need to get the fishbone some other way.
-		mPaginator.acceptStampedOggPacket(mAnxDataPacket);
-		return S_OK;
+		if ((mAnxVersionMajor == 2) && (mAnxVersionMinor == 0)) {
+			mPaginator.acceptStampedOggPacket(mAnxDataPacket);
+			return S_OK;
+		} else {
+			return S_FALSE;
+		}
+		
 	} else {
 		return S_FALSE;
 	}
@@ -162,7 +169,10 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 	if (locWasOK) {
 		//ANX3::: Need to make our fishbone here.
 		//Save the packet, we'll push it into the stream when the connection is established
-		mAnxDataPacket = AnxPacketMaker::makeAnxData_2_0(2,0, locGranRateNum, locGranRateDenom, locNumHeaders, AnxPacketMaker::makeMessageHeaders(locCodecID));
+		
+		if ((mAnxVersionMajor == 2) && (mAnxVersionMinor == 0)) {
+			mAnxDataPacket = AnxPacketMaker::makeAnxData_2_0(2, 0, locGranRateNum, locGranRateDenom, locNumHeaders, AnxPacketMaker::makeMessageHeaders(locCodecID));
+		}
         return S_OK;
 	} else {
 		return S_FALSE;
