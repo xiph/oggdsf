@@ -18,9 +18,62 @@ DSPlay::DSPlay(void)
 	:	mGraphBuilder(NULL)
 	,	mMediaControl(NULL)
 	,	mMediaSeeking(NULL)
+	,	mMediaEvent(NULL)
+	,	mEventHandle(INVALID_HANDLE_VALUE)
+	,	mDNCMMLCallbacks(NULL)
+	,	mDNMediaEvent(NULL)
 {
 	CoInitialize(NULL);
 }
+
+bool DSPlay::checkEvents() {
+	const DWORD TIMEOUT_WAIT = 50;  //Wait this many ms for handle
+	long locEventCode = 0;
+	long locParam1 = 0;
+	long locParam2 = 0;
+	HRESULT locHR = S_OK;
+
+	if (WAIT_OBJECT_0 == WaitForSingleObject(mEventHandle, TIMEOUT_WAIT))   { 
+			while (locHR = mMediaEvent->GetEvent(&locEventCode, &locParam1, &locParam2, 0), SUCCEEDED(locHR)) 
+			{
+	            
+				//cout<<"Event : "<<evCode<<" Params : "<<param1<<", "<<param2<<endl;
+				
+				//This is dodgy ! param1 and 2 are actually pointers !!
+				if (mDNMediaEvent != NULL) {
+					mDNMediaEvent->eventNotification(locEventCode, locParam1, locParam2);
+				}
+
+				mMediaEvent->FreeEventParams(locEventCode, locParam1, locParam2);
+			}
+	}
+	return true;
+}
+//IMediaEvent* locMediaEvent = NULL;
+//	locHR = locGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&locMediaEvent);
+//	
+//	HANDLE  hEvent; 
+//	long    evCode, param1, param2;
+//	BOOLEAN bDone = FALSE;
+//	HRESULT hr = S_OK;
+//	hr = locMediaEvent->GetEventHandle((OAEVENT*)&hEvent);
+//	if (FAILED(hr))
+//	{
+//	    /* Insert failure-handling code here. */
+//	}
+//	while(true) //!bDone) 
+//	{
+//	    if (WAIT_OBJECT_0 == WaitForSingleObject(hEvent, 100))
+//	    { 
+//			while (hr = locMediaEvent->GetEvent(&evCode, &param1, &param2, 0), SUCCEEDED(hr)) 
+//			{
+//	            //printf("Event code: %#04x\n Params: %d, %d\n", evCode, param1, param2);
+//				cout<<"Event : "<<evCode<<" Params : "<<param1<<", "<<param2<<endl;
+//				locMediaEvent->FreeEventParams(evCode, param1, param2);
+//				bDone = (EC_COMPLETE == evCode);
+//			}
+//		}
+//	} 
 
 DSPlay::~DSPlay(void) {
 	releaseInterfaces();
@@ -36,8 +89,19 @@ void DSPlay::releaseInterfaces() {
 	if (mMediaControl != NULL) {
 		mMediaControl->Release();
 		mMediaControl = NULL;
-
 	}
+
+	if (mMediaSeeking != NULL) {
+		mMediaSeeking->Release();
+		mMediaSeeking = NULL;
+	}
+
+	if (mMediaEvent != NULL) {
+		mMediaEvent->Release();
+		mMediaEvent = NULL;
+	}
+
+	//TODO::: Release everything !
 }
 
 bool DSPlay::loadFile(String* inFileName) {
@@ -81,6 +145,8 @@ bool DSPlay::loadFile(String* inFileName) {
 		}
 
 	}
+
+	//Build the graph
 	locHR = mGraphBuilder->RenderFile(locWFileName.c_str(), NULL);
 
 	if (locHR != S_OK) {
@@ -88,6 +154,7 @@ bool DSPlay::loadFile(String* inFileName) {
 		return false;
 	}
 
+	//Get the media control interface
 	IMediaControl* locMediaControl = NULL;
 	locHR = mGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&locMediaControl);
 	mMediaControl = locMediaControl;
@@ -99,9 +166,23 @@ bool DSPlay::loadFile(String* inFileName) {
 		mIsLoaded = true;
 	}
 
+	//get the media seeking interface if its available.
 	IMediaSeeking* locMediaSeeking = NULL;
 	locHR = mGraphBuilder->QueryInterface(IID_IMediaSeeking, (void**)&locMediaSeeking);
 	mMediaSeeking = locMediaSeeking;
+
+	//Get the media event interface
+	IMediaEvent* locMediaEvent = NULL;
+	locHR = locGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&locMediaEvent);
+
+	if (locHR == S_OK) {
+		mMediaEvent = locMediaEvent;
+		HANDLE locEventHandle = INVALID_HANDLE_VALUE;
+		locHR = locMediaEvent->GetEventHandle((OAEVENT*)&locEventHandle);
+		mEventHandle = locEventHandle;
+	}
+
+//	if (FAILED(hr))
 
 	return true;
 
@@ -188,6 +269,15 @@ bool DSPlay::isFileAnnodex(String* inFilename)
 		return false;
 	}
 }
+
+bool DSPlay::setMediaEventCallback(IDNMediaEvent* inMediaEventCallback) {
+	mDNMediaEvent = inMediaEventCallback;
+	return true;
+}
+IDNMediaEvent* DSPlay::getMediaEventCallback() {
+	return mDNMediaEvent;
+}
+
 
 } //end namespace libDSPlayDotNET
 } //end namespace illiminable

@@ -6,6 +6,8 @@
 
 #pragma managed
 #using "libiWrapper.dll"
+#using "libCMMLTagsDotNET.dll"
+using namespace CSIRO::libCMMLTagsDotNET;
 using namespace std;
 
 using namespace System;

@@ -4,10 +4,14 @@
 
 #include <string>
 #include "ICMMLCallbacks.h"
+#include "libCMMLTags.h"
 
 #pragma managed
+#using "libCMMLTagsDotNET.dll"
+using namespace CSIRO::libCMMLTagsDotNET;
 #include "libDSPlayDotNet.h"
-
+#include "IDNCMMLCallbacks.h"
+#include "IDNMediaEvent.h"
 //#include "Wrappers.h"
 using namespace illiminable::libiWrapper;
 using namespace std;
@@ -33,12 +37,23 @@ namespace libDSPlayDotNET
 		Int64 fileDuration();
 	
 
+		bool setMediaEventCallback(IDNMediaEvent* inMediaEventCallback);
+		IDNMediaEvent* getMediaEventCallback();
+		bool checkEvents();
+
 		void releaseInterfaces();
 	protected:
 		//static wstring toWStr(std::string inString);
 		IGraphBuilder* mGraphBuilder;
 		IMediaControl* mMediaControl;
 		IMediaSeeking* mMediaSeeking;
+		IMediaEvent* mMediaEvent;
+
+		HANDLE mEventHandle;
+
+		IDNCMMLCallbacks* mDNCMMLCallbacks;
+		IDNMediaEvent* mDNMediaEvent;
+
 		bool mIsLoaded;
 		bool isFileAnnodex(String* inFilename);
 	};

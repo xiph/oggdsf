@@ -21,7 +21,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\helper\libiWrapper;..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags"
-				AdditionalUsingDirectories="..\..\helper\libiWrapper\Debug"
+				AdditionalUsingDirectories="..\..\helper\libiWrapper\Debug;..\..\codecs\cmml\libCMMLTagsDotNET\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
@@ -132,6 +132,12 @@
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
 				RelativePath="DSPlay.h">
+			</File>
+			<File
+				RelativePath="IDNCMMLCallbacks.h">
+			</File>
+			<File
+				RelativePath="IDNMediaEvent.h">
 			</File>
 			<File
 				RelativePath="Stdafx.h">
