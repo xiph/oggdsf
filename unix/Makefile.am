@@ -5,6 +5,7 @@ AM_CXXFLAGS = -w
 NULL =
 
 bin_PROGRAMS = \
+	CMMLDump \
 	OOOggDump \
 	OOOggValidate \
 	OOOggStat \
@@ -16,7 +17,9 @@ bin_PROGRAMS = \
 	$(NULL)
 
 noinst_PROGRAMS = \
-	testCMMLParser
+	testCMMLParser \
+	testOOOggChef \
+	$(NULL)
 
 lib_LTLIBRARIES = \
 	libilliCore.la \
@@ -25,6 +28,7 @@ lib_LTLIBRARIES = \
 	libOOOgg.la \
 	libOOOggChef.la \
 	libOOOggSeek.la \
+	libTemporalURI.la \
 	libVorbisComment.la \
 	$(NULL)
 
@@ -103,9 +107,10 @@ libCMMLTags_HEADERS = \
 	../src/lib/codecs/cmml/libCMMLTags/libCMMLTags.h \
 	$(NULL)
 
-
+libCMMLParse_la_LIBADD = libCMMLTags.la libTemporalURI.la
 libCMMLParse_la_SOURCES = \
 	../src/lib/codecs/cmml/libCMMLParse/CMMLParser.cpp \
+	../src/lib/codecs/cmml/libCMMLParse/CMMLTagUtils.cpp \
 	../src/lib/codecs/cmml/libCMMLParse/ConvertUTF.c \
 	../src/lib/codecs/cmml/libCMMLParse/xlist.c \
 	../src/lib/codecs/cmml/libCMMLParse/xtag.c \
@@ -113,6 +118,7 @@ libCMMLParse_la_SOURCES = \
 libCMMLParsedir = $(includedir)/libCMMLParse
 libCMMLParse_HEADERS = \
 	../src/lib/codecs/cmml/libCMMLParse/CMMLParser.h \
+	../src/lib/codecs/cmml/libCMMLParse/CMMLTagUtils.h \
 	../src/lib/codecs/cmml/libCMMLParse/ConvertUTF.h \
 	../src/lib/codecs/cmml/libCMMLParse/libCMMLParse.h \
 	../src/lib/codecs/cmml/libCMMLParse/stdafx.h \
@@ -121,17 +127,33 @@ libCMMLParse_HEADERS = \
 	$(NULL)
 
 
-libOOOggChef_la_LIBADD = libOOOgg.la libOOOggSeek.la
+libOOOggChef_la_LIBADD = libOOOgg.la libOOOggSeek.la libCMMLParse.la libCMMLTags.la libTemporalURI.la
 libOOOggChef_la_SOURCES = \
 	../src/lib/helper/libOOOggChef/AnnodexRecomposer.cpp \
+	../src/lib/helper/libOOOggChef/CMMLRecomposer.cpp \
 	../src/lib/helper/libOOOggChef/IRecomposer.cpp \
+	../src/lib/helper/libOOOggChef/utils.cpp \
 	$(NULL)
 libOOOggChefdir = $(includedir)/libOOOggChef
 libOOOggChef_HEADERS = \
 	../src/lib/helper/libOOOggChef/AnnodexRecomposer.h \
+	../src/lib/helper/libOOOggChef/CMMLRecomposer.h \
 	../src/lib/helper/libOOOggChef/IRecomposer.h \
 	../src/lib/helper/libOOOggChef/libOOOggChef.h \
 	../src/lib/helper/libOOOggChef/stdafx.h \
+	../src/lib/helper/libOOOggChef/utils.h \
+	$(NULL)
+
+
+libTemporalURI_la_LIBADD = libilliCore.la
+libTemporalURI_la_SOURCES = \
+	../src/lib/helper/libTemporalURI/C_TimeStamp.cpp \
+	$(NULL)
+libTemporalURIdir = $(includedir)/libTemporalURI
+libTemporalURI_HEADERS = \
+	../src/lib/helper/libTemporalURI/C_TimeStamp.h \
+	../src/lib/helper/libTemporalURI/libTemporalURI.h \
+	../src/lib/helper/libTemporalURI/stdafx.h \
 	$(NULL)
 
 
@@ -229,6 +251,11 @@ libOOOgg_HEADERS = \
 # tools
 #
 
+CMMLDump_LDADD = libCMMLParse.la libOOOgg.la
+CMMLDump_SOURCES = \
+	../src/tools/CMMLDump/CMMLDump.cpp \
+	$(NULL)
+
 OOOggDump_LDADD = libOOOgg.la
 OOOggDump_SOURCES = \
 	../src/tools/OOOggDump/OOOggDump.cpp \
@@ -276,7 +303,13 @@ AnxCutter_SOURCES = \
 # Tests
 #
 
-testCMMLParser_LDADD = libilliCore.la libCMMLTags.la libCMMLParse.la
+testCMMLParser_LDADD = libilliCore.la libCMMLTags.la libCMMLParse.la libTemporalURI.la
 testCMMLParser_SOURCES = \
-	../src/tests/testCMMLParser/testCMMLParser.cpp
+	../src/tests/testCMMLParser/testCMMLParser.cpp \
+	$(NULL)
+
+testOOOggChef_LDADD = libilliCore.la libOOOgg.la libOOOggChef.la libOOOggSeek.la
+testOOOggChef_SOURCES = \
+	../src/tests/testOOOggChef/testOOOggChef.cpp \
+	$(NULL)
 
