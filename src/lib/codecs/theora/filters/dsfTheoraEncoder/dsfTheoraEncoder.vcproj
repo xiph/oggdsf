@@ -33,6 +33,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/dsfTheoraEncoder.dll"
 				LinkIncremental="2"
+				ModuleDefinitionFile="theoraencoder.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/dsfTheoraEncoder.pdb"
 				SubSystem="2"
@@ -78,6 +79,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/dsfTheoraEncoder.dll"
 				LinkIncremental="1"
+				ModuleDefinitionFile="theoraencoder.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -105,7 +107,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath="dsfTheoraEncoder.cpp">
+				RelativePath="TheoraEncodeFilter.cpp">
+			</File>
+			<File
+				RelativePath="TheoraEncodeInputPin.cpp">
+			</File>
+			<File
+				RelativePath="TheoraEncodeOutputPin.cpp">
 			</File>
 			<File
 				RelativePath="stdafx.cpp">
@@ -122,12 +130,30 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="theoraencoder.def">
+			</File>
+			<File
+				RelativePath="theoraencoderdllstuff.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
+				RelativePath="TheoraEncodeFilter.h">
+			</File>
+			<File
+				RelativePath="TheoraEncodeInputPin.h">
+			</File>
+			<File
+				RelativePath="TheoraEncodeOutputPin.h">
+			</File>
+			<File
 				RelativePath="stdafx.h">
+			</File>
+			<File
+				RelativePath="theoraencoderdllstuff.h">
 			</File>
 		</Filter>
 		<Filter
