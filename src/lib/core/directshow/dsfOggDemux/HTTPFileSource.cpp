@@ -36,6 +36,7 @@ HTTPFileSource::HTTPFileSource(void)
 	,	mIsChunked(false)
 	,	mIsFirstChunk(true)
 	,	mChunkRemains(0)
+	,	mNumLeftovers(0)
 {
 	mBufferLock = new CCritSec;
 	debugLog.open("d:\\zen\\logs\\htttp.log", ios_base::out);
@@ -43,7 +44,7 @@ HTTPFileSource::HTTPFileSource(void)
 	fileDump.open("d:\\zen\\logs\\filedump.ogg", ios_base::out|ios_base::binary);
 	rawDump.open("D:\\zen\\logs\\rawdump.out", ios_base::out|ios_base::binary);
 
-
+	mInterBuff = new unsigned char[RECV_BUFF_SIZE* 2];
 
 }
 
@@ -56,6 +57,7 @@ HTTPFileSource::~HTTPFileSource(void)
 	fileDump.close();
 	rawDump.close();
 	delete mBufferLock;
+	delete mInterBuff;
 	
 }
 
@@ -65,11 +67,14 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
 	debugLog<<"UnChunk"<<endl;
 	unsigned long locNumBytesLeft = inNumBytes;
 
-	unsigned char* locWorkingBuffPtr = inBuff;
+	memcpy((void*)(mInterBuff + mNumLeftovers), (const void*)inBuff, inNumBytes);
+	locNumBytesLeft +=  mNumLeftovers;
+	mNumLeftovers = 0;
+	unsigned char* locWorkingBuffPtr = mInterBuff;
 
 	debugLog<<"inNumBytes = "<<inNumBytes<<endl;
 
-	while (locNumBytesLeft > 0) {
+	while (locNumBytesLeft > 8) {
 		debugLog<<"---"<<endl;
 		debugLog<<"Bytes left = "<<locNumBytesLeft<<endl;
 		debugLog<<"ChunkRemaining = "<<mChunkRemains<<endl;
@@ -92,13 +97,14 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
 				locNumBytesLeft -= 2;
 			}
 
-			if (mLeftOver != "") {
+	/*		if (mLeftOver != "") {
 				debugLog<<"Sticking the leftovers back together..."<<endl;
 				locTemp = mLeftOver + locTemp;
 				mLeftOver = "";
-			}
+			}*/
 
 			size_t locChunkSizePos = locTemp.find("\r\n");
+			
 			
 			if (locChunkSizePos != string::npos) {
 				debugLog<<"Found the size bytes "<<endl;
@@ -116,8 +122,8 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
 				locWorkingBuffPtr +=  locGuffSize;
 				locNumBytesLeft -= locGuffSize;
 			} else {
-				debugLog<<"Setting leftovers to "<<mLeftOver<<endl;
-				mLeftOver = locTemp;
+				debugLog<<"************************************** "<<endl;
+			
 
 			}
 		}
@@ -146,6 +152,12 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes) {
 			mChunkRemains = 0;
 		}
 
+	}
+
+	if (locNumBytesLeft != 0) {
+		debugLog<<"There is a non- zero amount of bytes leftover... buffer them up for next time..."<<endl;
+		memcpy((void*)mInterBuff, (const void*)locWorkingBuffPtr, locNumBytesLeft);
+		mNumLeftovers = locNumBytesLeft;
 	}
 }
 void HTTPFileSource::DataProcessLoop() {

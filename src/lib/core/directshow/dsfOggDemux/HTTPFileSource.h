@@ -84,7 +84,9 @@ protected:
 	fstream fileDump;
 	fstream rawDump;
 
-	string mLeftOver;
+	unsigned char* mInterBuff;
+	unsigned long mNumLeftovers;
+	static	const unsigned long RECV_BUFF_SIZE = 1024;
 
 
 	CCritSec* mBufferLock;
