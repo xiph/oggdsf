@@ -32,9 +32,12 @@
 #include "StdAfx.h"
 #include "FLACencodeinputpin.h"
 
-FLACEncodeInputPin::FLACEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)
-	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACEncodeInputPin"), L"PCM In")
+FLACEncodeInputPin::FLACEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACEncodeInputPin"), L"PCM In", inAcceptableMediaTypes)
 	,	mTweakedHeaders(false)
+	,	mBegun(false)
+	,	mWaveFormat(NULL)
+	,	mUptoFrame(0)
 	
 	
 {
@@ -49,7 +52,7 @@ FLACEncodeInputPin::~FLACEncodeInputPin(void)
 
 
 //PURE VIRTUALS
-long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
+HRESULT FLACEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) {
 
 	if (mBegun == false) {
 
@@ -82,42 +85,10 @@ long FLACEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	} else {
 		return -1;
 	}
-	////debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
-	//
-	//float* locFloatBuf = new float[inNumBytes/2];
-	//short locTempShort = 0;
-	//float locTempFloat = 0;
 
-	////__int64 locGranPos = 0;
-	////Removed hack for gran pos
-	////fish_sound_command(mFishSound, 8, &locGranPos, sizeof(__int64));
-	////
-	////locGranPos = fish_sound_get_frameno(mFishSound);
-	////mUptoFrame = locGranPos;
-	////__int64 locTemp = ((FishSoundFLACInfo*)mFishSound->codec_data)->vd.pcm_returned;
-	//for (int i = 0; i < inNumBytes; i += 2) {
-	//	locTempShort = *((short*)(inBuf + i));
-	//	locTempFloat = (float)locTempShort;
-	//	locTempFloat /= 32767.0;
-	//	locFloatBuf[i/2] = locTempFloat;;
-	//}
-	////debugLog<<"Calling encode"<<endl;
-	////FIX::: The 2 is the size of a sample ie 16 bits
-	//long locErr = fish_sound_encode(mFishSound, (float**)locFloatBuf, inNumBytes/(mFishInfo.channels*2));
-	//delete locFloatBuf;
-	////FIX::: Do something here ?
-	//if (locErr < 0) {
-	//	//debugLog<<"Fishsound reports error"<<endl;
-	//} else {
-	//
-	//}
-	//return locErr;
-	
 }
-bool FLACEncodeInputPin::ConstructCodec() {
-	//mFishInfo.channels = mWaveFormat->nChannels;
-	//mFishInfo.format = FISH_SOUND_FLAC;
-	//mFishInfo.samplerate = mWaveFormat->nSamplesPerSec;
+bool FLACEncodeInputPin::ConstructCodec() 
+{
 
 	set_channels(mWaveFormat->nChannels);
 	set_sample_rate(mWaveFormat->nSamplesPerSec);
@@ -135,9 +106,10 @@ bool FLACEncodeInputPin::ConstructCodec() {
 	////FIX::: Proper return value
 	return true;
 }
-void FLACEncodeInputPin::DestroyCodec() {
-	//fish_sound_delete(mFishSound);
-	//mFishSound = NULL;
+void FLACEncodeInputPin::DestroyCodec()
+{
+
+	//Should there be some cleanup function ??
 }
 
 
@@ -148,38 +120,6 @@ void FLACEncodeInputPin::DestroyCodec() {
 	//This is called back with encoded data after raw data is fed in by stream_encoder_process or
 	// stream_encoder_process_interleaved.
 
-	//if (mHeadersSeen == 0) {
-	//	//We haven't converted the headers yet
-	//	//This should be a 4 byte fLaC
-	//	ASSERT (inNumBytes == 4);
-	//	mHeadersSeen ++;
-	//	//Do nothing.
-	//	return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
-	//} else if (mHeadersSeen == 1) {
-	//	//This should be the stream info header
-
-	//	//Get a pointer to a new sample stamped with our time
-	//	IMediaSample* locSample;
-	//	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
-	//	if (FAILED(locHR)) {
-	//		//We get here when the application goes into stop mode usually.
-	//		//locThis->debugLog<<"Getting buffer failed"<<endl;
-	//		return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
-	//	}	
-	//	
-	//	BYTE* locBuffer = NULL;
-
-	//	//Make our pointers set to point to the samples buffer
-	//	locSample->GetPointer(&locBuffer);
-
-	//	locBuffer[0] = '\177';
-	//	locBuffer[1] = 'F';
-	//	locBuffer[2] = 'L';
-	//	locBuffer[3] = 'A';
-	//	locBuffer[4] = 'C';
-	//	locBuffer[5] = 1;
-	//	locBuffer[6] = 0;
 
 	//debugLog<<"Write CAllback.."<<endl;
 	LONGLONG locFrameStart = 0;
@@ -227,7 +167,7 @@ void FLACEncodeInputPin::DestroyCodec() {
 					CAutoLock locLock(m_pLock);
 
 					
-					HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+					HRESULT locHR = ((FLACEncodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 					if (locHR != S_OK) {
 						//debugLog<<"Sample rejected"<<endl;
 					} else {
@@ -285,7 +225,7 @@ void FLACEncodeInputPin::DestroyCodec() {
 			CAutoLock locLock(m_pLock);
 
 			
-			HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+			HRESULT locHR = ((FLACEncodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 			if (locHR != S_OK) {
 				//locThis->debugLog<<"Sample rejected"<<endl;
 			} else {
@@ -300,29 +240,35 @@ void FLACEncodeInputPin::DestroyCodec() {
 
 
 }
-void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadata) {
-	//This is called back at the *end* of encoding with the headers that need to be written at the *start* of the stream.
-	//This is going to make it painful to get the data to the mux filter in multi stream ogg.
-	//It's basically going to totally break the mux filter stream abstraction, 
-	//by forcing yet more codec specific code into the mux.
-	//Oh well... if you're going to break it... break it good !
+void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadata) 
+{
 
-	//It also makes it impractical for streaming as decode can't begin without metadata, and metadata
-	// is not created until all encoding is finished. I guess that's not such a big deal
-	// because flac is unlikely to be streamed live.
+	//Ignore it.
 }
 
 STDMETHODIMP FLACEncodeInputPin::EndOfStream(void) {
 	//Catch the end of stream so we can send a finish signal.
-	finish();			//Tell flac we are done so it can flush and send us the metadata.
-	return AbstractAudioEncodeInputPin::EndOfStream();		//Call the base class.
+	finish();			//Tell flac we are done so it can flush
+	return AbstractTransformInputPin::EndOfStream();		//Call the base class.
 }
 
-HRESULT FLACEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
-	AbstractAudioEncodeInputPin::SetMediaType(inMediaType);
+HRESULT FLACEncodeInputPin::SetMediaType(const CMediaType* inMediaType) 
+{
 
+	if (	(inMediaType->subtype == MEDIASUBTYPE_PCM) &&
+			(inMediaType->formattype == FORMAT_WaveFormatEx)) {
+
+		mWaveFormat = (WAVEFORMATEX*)inMediaType->pbFormat;
+		
+	} else {
+		//Failed... should never be here !
+		throw 0;
+	}
+	//This is here and not the constructor because we need audio params from the
+	// input pin to construct properly.	
+	
 	ConstructCodec();
 
-	return S_OK;
-	
+	return CBaseInputPin::SetMediaType(inMediaType);
+
 }

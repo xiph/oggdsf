@@ -31,8 +31,11 @@
 
 #pragma once
 
+//Local Includes
 #include "flacencoderdllstuff.h"
-#include "AbstractAudioEncodeFilter.h"
+
+//External Includes
+#include "AbstractTransformFilter.h"
 
 //Forward Declarations
 struct sFLACFormatBlock;
@@ -40,22 +43,27 @@ class FLACEncodeInputPin;
 class FLACEncodeOutputPin;
 
 class FLACEncodeFilter
-	:	public AbstractAudioEncodeFilter
+	//Base Classes
+	:	public AbstractTransformFilter
 {
 public:
+	//Friend Classes
 	friend class FLACEncodeInputPin;
 	friend class FLACEncodeOutputPin;
+
+	//Constructors
 	FLACEncodeFilter(void);
 	virtual ~FLACEncodeFilter(void);
 
+	//COM Creator function
 	static CUnknown* WINAPI FLACEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
+protected:
 	//PURE VIRTUAL IMPLEMENTATION
 	virtual bool ConstructPins();
 
 	//TODO::: This shouldn'y be here... use the getter setters.
 	sFLACFormatBlock mFLACFormatBlock;
-protected:
 	
 	
 };

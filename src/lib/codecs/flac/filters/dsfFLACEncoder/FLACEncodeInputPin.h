@@ -32,16 +32,12 @@
 #pragma once
 
 #include "FLAC++/encoder.h"
-#include "AbstractAudioEncodeInputPin.h"
+#include "AbstractTransformInputPin.h"
 #include "FLACEncodeInputPin.h"
 
 #include "FLACEncodeFilter.h"
 #include "FLACHeaderTweaker.h"
 
-//extern "C" {
-//#include <fishsound/fishsound.h>
-////#include <../src/libfishsound/private.h>
-//}
 
 //#include <fstream>
 //using namespace std;
@@ -49,11 +45,11 @@
 using namespace FLAC::Encoder;
 
 class FLACEncodeInputPin
-	:	public AbstractAudioEncodeInputPin
+	:	public AbstractTransformInputPin
 	,	public Stream
 {
 public:
-	FLACEncodeInputPin(AbstractAudioEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin);
+	FLACEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~FLACEncodeInputPin(void);
 
 	//static int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
@@ -61,27 +57,27 @@ public:
 	virtual ::FLAC__StreamEncoderWriteStatus write_callback(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame);
 	virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
 	
-	//PURE VIRTUALS from Abstract Encoder
-	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
+
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
 	//OVerrides
 	virtual STDMETHODIMP EndOfStream(void);
 protected:
+
+	//PURE VIRTUALS from Abstract Encoder
+	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
+	virtual bool ConstructCodec();
+	virtual void DestroyCodec();
+
 	HRESULT mHR;
-	
+	WAVEFORMATEX* mWaveFormat;
 	bool mTweakedHeaders;
 	FLACHeaderTweaker mHeaderTweaker;
-	//unsigned long mHeadersSeen;
-	//bool mBegun;
-	//SpeexDecodeOutputPin* mOutputPin;
-	//__int64 mUptoFrame;
+	
+	bool mBegun;
+	
+	__int64 mUptoFrame;
 
 	//fstream debugLog;
-/*	FishSound* mFishSound;
-	FishSoundInfo mFishInfo;*/ 
 
-	
 };

@@ -32,23 +32,25 @@
 #pragma once
 
 #include "FLACencoderdllstuff.h"
-#include "AbstractAudioEncodeOutputPin.h"
+#include "AbstractTransformOutputPin.h"
 
 class FLACEncodeFilter;
 struct sFLACFormatBlock;
 
 class FLACEncodeOutputPin
-	:	public	AbstractAudioEncodeOutputPin
+	:	public	AbstractTransformOutputPin
 {
 public:
-	FLACEncodeOutputPin(FLACEncodeFilter* inParentFilter, CCritSec* inFilterLock, CMediaType* inOutputMediaType);
+
+	friend class FLACEncodeInputPin;
+	FLACEncodeOutputPin(FLACEncodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~FLACEncodeOutputPin(void);
 
-	//PURE VIRTUAL IMPLEMENTATION
-	virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
-	virtual unsigned long FormatBufferSize();
+	////PURE VIRTUAL IMPLEMENTATION
+	//virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
+	//virtual unsigned long FormatBufferSize();
 
 
 protected:
-	
+	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
 };

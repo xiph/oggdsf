@@ -39,6 +39,14 @@ Review the exposure of IMediaSeeking on encoders
 
 Find COM resource leak in encoders. (Probably to do with delegation of seeking)
 
+The encoded, decoded callbacks should be private/protected
+
+The assignment of the pointer to mWaveFormat may be unsafe without a copy.
+
+Review need and usage of locks
+
+Check initialisation lists.
+
 DONE::::
 
 Fix the leaks caused by the accept media types.

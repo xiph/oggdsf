@@ -32,16 +32,16 @@
 #include "StdAfx.h"
 
 
-#include "FLACencodefilter.h"
+#include "FLACEncodeFilter.h"
 
 
 //COM Factory Template
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"FLAC Encode Filter",						// Name
-	    &CLSID_FLACEncodeFilter,            // CLSID
-	    FLACEncodeFilter::CreateInstance,	// Method to create an instance of MyComponent
+		L"FLAC Encode Filter",					// Name
+	    &CLSID_FLACEncodeFilter,				// CLSID
+	    FLACEncodeFilter::CreateInstance,		// Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
     }
@@ -62,7 +62,7 @@ CUnknown* WINAPI FLACEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
 } 
 
 FLACEncodeFilter::FLACEncodeFilter(void)
-	:	AbstractAudioEncodeFilter(NAME("FLAC Encoder"), CLSID_FLACEncodeFilter, AbstractAudioEncodeFilter::FLAC)
+	:	AbstractTransformFilter(NAME("FLAC Encoder"), CLSID_FLACEncodeFilter)
 {
 	bool locWasConstructed = ConstructPins();
 }
@@ -73,14 +73,36 @@ FLACEncodeFilter::~FLACEncodeFilter(void)
 
 bool FLACEncodeFilter::ConstructPins() 
 {
-
-	CMediaType* locOutputMediaType = new CMediaType(&MEDIATYPE_Audio);
-	locOutputMediaType->subtype = MEDIASUBTYPE_OggFLAC_1_0;
-	locOutputMediaType->formattype = FORMAT_FLAC;
-	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new FLACEncodeOutputPin(this, m_pLock, locOutputMediaType);
+	//Input		:	Audio / PCM / WaveFormatEx
+	//Output	:	Audio / FLAC_1_0 / FLAC
 
 	
-	mInputPin = new FLACEncodeInputPin(this, m_pLock, mOutputPin);
+	//Vector to hold our set of media types we want to accept.
+	vector<CMediaType*> locAcceptableTypes;
+
+	//Setup the media types for the output pin.
+	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_OggFLAC_1_0;
+	locAcceptMediaType->formattype = FORMAT_FLAC;
+	
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//Output pin must be done first because it's passed to the input pin.
+	mOutputPin = new FLACEncodeOutputPin(this, m_pLock, locAcceptableTypes);			//Deleted in base class destructor
+
+	//Clear out the vector, now we've already passed it to the output pin.
+	locAcceptableTypes.clear();
+
+	//Setup the media Types for the input pin.
+	locAcceptMediaType = NULL;
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
+
+	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
+	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+	
+	mInputPin = new FLACEncodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;
+
 }

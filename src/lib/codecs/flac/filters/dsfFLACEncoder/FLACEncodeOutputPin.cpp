@@ -32,8 +32,8 @@
 #include "StdAfx.h"
 #include "FLACencodeoutputpin.h"
 
-FLACEncodeOutputPin::FLACEncodeOutputPin(FLACEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)
-	:	AbstractAudioEncodeOutputPin(inParentFilter, inFilterLock,NAME("FLACDecodeOutputPin"), L"FLAC Out", inOutputMediaType)
+FLACEncodeOutputPin::FLACEncodeOutputPin(FLACEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("FLACDecodeOutputPin"), L"FLAC Out", 131072, 5, inAcceptableMediaTypes)
 {
 }
 
@@ -41,13 +41,26 @@ FLACEncodeOutputPin::~FLACEncodeOutputPin(void)
 {
 }
 
-bool FLACEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
-	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;
+HRESULT FLACEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+{
+	if (inPosition == 0) {
+		sFLACFormatBlock* locFLACFormat = (sFLACFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sFLACFormatBlock));
+		//TODO::: Check for null ?
 
-	//TODO::: This is not needed... put in a get and set
-	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mFLACFormatBlock), sizeof(sFLACFormatBlock));
-	return true;
+		memcpy((void*)locFLACFormat, (const void*) &(((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock), sizeof(sFLACFormatBlock));
+		return S_OK;
+	} else {
+        return S_FALSE;
+	}
 }
-unsigned long FLACEncodeOutputPin::FormatBufferSize() {
-	return sizeof(sFLACFormatBlock);
-}
+
+//bool FLACEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
+//	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;
+//
+//	//TODO::: This is not needed... put in a get and set
+//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mFLACFormatBlock), sizeof(sFLACFormatBlock));
+//	return true;
+//}
+//unsigned long FLACEncodeOutputPin::FormatBufferSize() {
+//	return sizeof(sFLACFormatBlock);
+//}
