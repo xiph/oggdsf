@@ -39,7 +39,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 	
 
 {
-	//debugLog.open("g:\\logs\\theoencfilt.log", ios_base::out);
+	debugLog.open("g:\\logs\\theoencfiltinput.log", ios_base::out);
 	mYUV.y = NULL;
 	mYUV.u = NULL;
 	mYUV.v = NULL;
@@ -48,7 +48,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 
 TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	DestroyCodec();
 	delete mYUV.y;
 	delete mYUV.u;
@@ -428,10 +428,15 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 
 long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumBytes) {
 	//Blue Green Red Alpha Blue Green Red Alpha
+	debugLog<<"EncodeRGB32 To YV12 :"<<endl;
+
 	unsigned long locNumPixels = (inNumBytes/4);
+	
+	debugLog<<"EncodeRGB32 To YV12 : Num pixels = "<<locNumPixels<<endl;
+	debugLog<<"EncodeRGB32 To YV12 : Num BYtes = "<<inNumBytes<<endl;
 	unsigned char* locAYUVBuf = new unsigned char[inNumBytes];   //4 bytes per pixel
 
-
+	debugLog<<"EncodeRGB32 To YV12 :"<<endl;
 
 	//Scaled by factor of 65536 to integerise.
 	const int KR = 19596;
@@ -454,6 +459,13 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 	//DEST: v u y a
 
 	unsigned char* locSourceEnds = inBuf + (inNumBytes);
+	debugLog<<"EncodeRGB32 To YV12 : Source Starts = "<<(int)inBuf<<endl;
+	debugLog<<"EncodeRGB32 To YV12 : Source Ends = "<<(int)locSourceEnds<<endl;
+
+	//Debugging only... all refs to debugCount remove later
+	unsigned long debugCount = 0;
+	//
+
 	for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 4) {
 		locB = locSourcePtr[0];					//Blue
 		locL = KB * (locB);						//Blue
@@ -468,11 +480,19 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (65536*locB) - locL)) / U_FACTOR) + 128);			//U for ugly
 		*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
 		*(locDestPtr++) = locSourcePtr[3];																		//A for alpha
+
+		debugCount++;
 	}
+
+	debugLog<<"EncodeRGB32 To YV12 : debugCount = "<<debugCount<<endl;
+
+	ASSERT(debugCount == locNumPixels);
 	
+	ASSERT(locDestPtr == (locAYUVBuf + inNumBytes));
 
-
+	debugLog<<"EncodeRGB32 To YV12 : Calling AYUV to YV12 conversion"<<endl;
 	//Still need to pass through to the AYUV conversion.
+
 	encodeAYUVtoYV12(locAYUVBuf, inNumBytes);
 	delete locAYUVBuf;
 	locAYUVBuf = NULL;
@@ -493,6 +513,8 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	//Strategy : Process two lines and 2 cols at a time averaging 4 U and V around the position where a
 	// YV12 chroma sample will be... leave luminance samples... ignore alpha samples
 
+	debugLog<<"Encode AYUV To YV12 :"<<endl;
+	
 	const int PIXEL_BYTE_SIZE = 4;
 	ASSERT (mHeight % 2 == 0);
 	ASSERT (mWidth % 2 == 0);
@@ -504,42 +526,98 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	char* locUUpto = mYUV.u;
 	char* locVUpto = mYUV.v;
 	//Pointer to the same pixel on next line
-	char* locDestNextLine = locYUpto + (mWidth * PIXEL_BYTE_SIZE);				//View only... don't delete
+	char* locDestNextLine = locYUpto + (mWidth);				//View only... don't delete
 
 	int temp = 0;
 
 	//Process 2 lines at a time
 	for (int line = 0; line < mHeight; line += 2) {
+		//debugLog<<"Encode AYUV To YV12 : ++ Line = "<<line<<endl;
 		
+		ASSERT (locSourceUptoPtr == (inBuf + (line * (mWidth * PIXEL_BYTE_SIZE))));
 		ASSERT (locSourceNextLine == locSourceUptoPtr + (mWidth * PIXEL_BYTE_SIZE));
-		ASSERT (locDestNextLine == locYUpto + (mWidth * PIXEL_BYTE_SIZE));
+		ASSERT (locYUpto == (mYUV.y + (line * mWidth)));
+		ASSERT (locDestNextLine == locYUpto + (mWidth));
+		
 
 		//Columns also done 2 at a time
 		for (int col = 0; col < mWidth; col += 2) {
+			//debugLog<<"Encode AYUV To YV12 : ++++++ Col = "<<col<<endl;
+
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto			^
+			//NextUpto				^
+
+			//====================
 			//V for Victor samples
+			//====================
 			temp =	*(locSourceUptoPtr++);			//Current pixel
-			temp += *(locSourceUptoPtr);			//Pixel to right
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto				^
+			//NextUpto				^
+
+			//This is three as we already advanced one and are pointing to a u not a v
+			temp += *(locSourceUptoPtr + 3);		//Pixel to right
 			temp += *(locSourceNextLine++);			//Pixel below
-			temp += *(locSourceNextLine);			//Pixel below right
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto				^
+			//NextUpto					^
+
+			temp += *(locSourceNextLine + 3);			//Pixel below right
 			temp >>= 2;								//Divide by 4 to average.
-			*(locYUpto++) = (unsigned char)temp;
+			*(locVUpto++) = (unsigned char)temp;
 
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto				^
+			//NextUpto					^
 
+			//====================
 			//U for Ugly samples
+			//====================
 			temp =	*(locSourceUptoPtr++);			//Current pixel
-			temp += *(locSourceUptoPtr);			//Pixel to right
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto					^
+			//NextUpto					^
+
+			temp += *(locSourceUptoPtr + 3);			//Pixel to right
 			temp += *(locSourceNextLine++);			//Pixel below
-			temp += *(locSourceNextLine);			//Pixel below right
+
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto					^
+			//NextUpto						^
+
+			temp += *(locSourceNextLine + 3);			//Pixel below right
 			temp >>= 2;								//Divide by 4 to average.
 			*(locUUpto++) = (unsigned char)temp;
 
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto					^
+			//NextUpto						^
+
+			//====================
 			//Y for Yellow samples.
+			//====================
+
 			*(locYUpto++) = *(locSourceUptoPtr++);
 			*(locDestNextLine++) = *(locSourceNextLine++);
-			
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto						^
+			//NextUpto							^
+
 			//Ignore the alpha channel
 			locSourceUptoPtr++;
 			locSourceNextLine++;
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto							^
+			//NextUpto								^
+
 
 			//--
 			//Source and next pointer have advanced four bytes so far.
@@ -551,11 +629,19 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 			*(locYUpto++) = *(locSourceUptoPtr);	//get the Y for yellow sample		
 			locSourceUptoPtr += 2;					//Advance 1 for the Y for yellow and Skip the A sample.
 
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto											^
+			//NextUpto								^
+
 
 			//Next line extra Y for yellows.
 			locSourceNextLine += 2;							//Skip the U and V samples
 			*(locDestNextLine++) = *(locSourceNextLine);	//get the Y for yellow sample		
 			locSourceNextLine += 2;							//Advance 1 for the Y for yellow and Skip the A sample.
+
+			//						v	u	y	a	v	u	y	a
+			//SourceUpto											^
+			//NextUpto												^
 
 			//--
 			//In total source and next pointer advanced 8 bytes on each line, and we got 4 Y for yellows (2 each line)
@@ -585,7 +671,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 		//Ensures the current destination buffer skips a line ie points to line 2, 4, 6 etc
 		locYUpto = locDestNextLine;
 		//Ensures the nextlinedest skips a
-		locDestNextLine += (mWidth * PIXEL_BYTE_SIZE);
+		locDestNextLine += (mWidth);
 	}
 	return 0;
 }
