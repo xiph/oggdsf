@@ -30,10 +30,13 @@
 //===========================================================================
 
 #pragma once
+
 #include "libilliCore.h"
 #include "libOOOggSeek.h"
+
 #include <fstream>
 #include <map>
+
 using namespace std;
 
 class LIBOOOGGSEEK_API OggSeekTable
@@ -49,7 +52,9 @@ public:
 	LOOG_INT64 getRealStartPos();
 
 	bool enabled();
-
+    
+    OggSeekTable(const OggSeekTable&);  // Don't copy me
+    OggSeekTable &operator=(const OggSeekTable&);  // Don't assign men
 
 protected:
 	typedef map<LOOG_INT64, unsigned long> tSeekMap;

@@ -33,7 +33,9 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "anxdemuxsourcefilter.h"
+#include "AnxDemuxSourceFilter.h"
+
+#include "AutoAnxSeekTable.h"
 
 
 //-------------------

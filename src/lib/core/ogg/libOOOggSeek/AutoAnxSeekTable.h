@@ -1,5 +1,12 @@
 #pragma once
+
+#include "libOOOggSeek.h"
+
 #include "AutoOggSeekTable.h"
+
+#include <string>
+
+using namespace std;
 
 class LIBOOOGGSEEK_API AutoAnxSeekTable
 	:	public AutoOggSeekTable

@@ -1163,6 +1163,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfDiracEncodeFilter", "..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libFLACHelper", "..\..\src\lib\codecs\flac\libs\libFLACHelper\libFLACHelper.vcproj", "{7F213248-16F2-4AAE-B941-C402670082BC}"
 	ProjectSection(ProjectDependencies) = postProject
+		{A0004AEB-B47C-4A0A-8FE7-4F65B5FD48FA} = {A0004AEB-B47C-4A0A-8FE7-4F65B5FD48FA}
 	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DotNETOggTools", "..\..\build\DotNETOggTools\DotNETOggTools.vdproj", "{16474157-607B-483C-8C31-2EB9ED724AD1}"
@@ -1196,24 +1197,36 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DecodeDirac", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DecodeDirac\DecodeDirac.vcproj", "{CCA690F8-1356-4BD5-9152-8E0A6496842D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracCommon", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracCommon\DiracCommon.vcproj", "{A45B7D48-9E8D-4475-BED4-CBE3E3CCAD21}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracDecoder", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracDecoder\DiracDecoder.vcproj", "{89EC2AEB-8284-4213-874B-29D549893FC9}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracEncoder", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracEncoder\DiracEncoder.vcproj", "{9076B578-583A-493D-96C4-776DCEC0FFBD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracMotionEst", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\DiracMotionEst\DiracMotionEst.vcproj", "{C6A615BF-D4EB-4D50-9638-2C715E0695C6}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EncodeDirac", "..\..\src\lib\codecs\dirac\lib\libdirac\windows\VS2003\EncodeDirac\EncodeDirac.vcproj", "{547FE1E9-70EF-48D4-B45B-2FF39B39855D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -1251,6 +1264,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AnxCutter", "..\..\src\tools\AnxCutter\AnxCutter.vcproj", "{D50F8622-3E33-4EFC-8961-0FB7641F884B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
+		{9A14F6AC-BC6E-401A-A300-07369BD6C5FE} = {9A14F6AC-BC6E-401A-A300-07369BD6C5FE}
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
 	EndProjectSection
 EndProject

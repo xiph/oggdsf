@@ -38,6 +38,7 @@
 #include "stdafx.h"
 #include "libOOOgg.h"
 #include "dllstuff.h"
+#include "AutoAnxSeekTable.h"
 
 #include <iostream>
 #include <fstream>
@@ -50,6 +51,8 @@ bool gotAllHeaders;
 
 fstream outputFile;
 vector<tSerial_HeadCountPair> theStreams;
+
+using namespace std;
 
 enum eDemuxState {
 	SEEN_NOTHING,
@@ -126,7 +129,7 @@ bool pageCB(OggPage* inOggPage) {
 			}
 			break;
 		case SEEN_ANNODEX_EOS:
-			for (int i = 0; i < theStreams.size(); i++) {
+			for (unsigned int i = 0; i < theStreams.size(); i++) {
 				if (theStreams[i].first == inOggPage->header()->StreamSerialNo()) {
 					if (theStreams[i].second >= 1) {
 						theStreams[i].second--;
@@ -138,7 +141,7 @@ bool pageCB(OggPage* inOggPage) {
 			}
 
 			
-			for (int i = 0; i < theStreams.size(); i++) {
+			for (unsigned int i = 0; i < theStreams.size(); i++) {
 				if (theStreams[i].second != 0) {
 					allEmpty = false;
 				}
@@ -150,7 +153,16 @@ bool pageCB(OggPage* inOggPage) {
 			}
 			break;
 		case SEEN_ALL_CODEC_HEADERS:
-			break;
+			{
+				// We've processed all the codec headers, so all the incoming packets should be codec data
+				unsigned long packetsInThisPage = inOggPage->numPackets();
+				for (unsigned long i = 0; i < packetsInThisPage; i++)
+				{
+					StampedOggPacket *packet = inOggPage->getStampedPacket(i);
+					cout << "Packet " << i << " start time: " << packet->startTime() << endl;
+				}
+				break;
+			}
 		case INVALID:
 			break;
 		default:
@@ -166,18 +178,19 @@ bool pageCB(OggPage* inOggPage) {
 	return true;
 }
 
-
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int argc, char * argv[])
+#endif
 {
 	demuxState = SEEN_NOTHING;
 
 	bytePos = 0;
 	gotAllHeaders = false;
 
-	int x;
-	cin>>x;
-	if (argc < 3) {
-		cout<<"Usage : AnxCutter <input_filename> <output_filename> <start_time> <end_time>"<<endl;
+	if (argc < 4) {
+		cout << "Usage : AnxCutter <input_filename> <output_filename> <start_time>" << endl;
 	} else {
 		OggDataBuffer testOggBuff;
 		
@@ -195,10 +208,30 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 			unsigned long locBytesRead = inputFile.gcount();
     		testOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 		}
-
-
 		inputFile.close();
+
+		// Build a seek table for the file
+		AutoAnxSeekTable *locSeekTable = new AutoAnxSeekTable(argv[1]);
+		locSeekTable->buildTable();
+
+		// Seek to the user's requested start time
+		LOOG_UINT64 locStartTime = StringHelper::stringToNum(argv[3]);
+		OggSeekTable::tSeekPair locSeekResult = locSeekTable->getStartPos(locStartTime);
+		cout << "Seek result for " << locStartTime << " nanoseconds: " << locSeekResult.first << " at " << locSeekResult.second << " bytes" << endl;
+
+		// Stream-copy everything from the requested timepoint onward to the output file
+		inputFile.open(argv[1], ios_base::in | ios_base::binary);
+		inputFile.seekg(locSeekResult.second);
+		while (true)
+		{
+			inputFile.read(locBuff, BUFF_SIZE);
+			unsigned long locBytesRead = inputFile.gcount();
+			if (locBytesRead == 0) break;
+			outputFile.write(locBuff, locBytesRead);
+		}
+
 		outputFile.close();
+
 		delete[] locBuff;
 	}
 

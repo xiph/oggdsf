@@ -495,15 +495,39 @@
 			</File>
 			<File
 				RelativePath=".\include\private\bitbuffer.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\include\private\bitmath.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\include\private\cpu.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\include\private\crc.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\include\private\fixed.h">
@@ -516,9 +540,21 @@
 			</File>
 			<File
 				RelativePath=".\include\private\md5.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\include\private\memory.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\include\private\metadata.h">
@@ -557,6 +593,12 @@
 			Filter="">
 			<File
 				RelativePath="..\..\include\FLAC\all.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\FLAC\assert.h">
@@ -572,6 +614,12 @@
 			</File>
 			<File
 				RelativePath="..\..\include\FLAC\format.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\FLAC\metadata.h">
@@ -589,7 +637,8 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="copy $(InputPath).vc2003 $(InputPath)"
+						CommandLine="copy $(InputPath).vc2003 $(InputPath)
+"
 						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
 						Outputs="$(InputPath)"/>
 				</FileConfiguration>

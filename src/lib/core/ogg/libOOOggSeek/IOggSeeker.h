@@ -1,3 +1,7 @@
+#pragma once
+
+#include "libOOOggSeek.h"
+
 class IOggSeeker {
 
 	IOggSeeker();
@@ -9,7 +13,7 @@ class IOggSeeker {
 	//IOggCallback interface
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
-	__int64 fileDuration();
+	LOOG_INT64 fileDuration();
 
 	bool addSeekPoint(__int64 inTime, unsigned long mStartPos);
 	tSeekPair getStartPos(__int64 inTime);

@@ -105,7 +105,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 			const int FLAC_STREAM_INFO_ID = 0;
 			
 			//Note ::: Secondary condition in for statement.
-            for (int i = 0; i < inOggPage->numPackets(), !mFoundStreamInfo; i++) {
+            for (unsigned int i = 0; i < inOggPage->numPackets(), !mFoundStreamInfo; i++) {
 				mNumHeaders++;
 				if ((inOggPage->getPacket(i)->packetData()[0] & FLAC_HEADER_MASK) == FLAC_STREAM_INFO_ID) {
                     //Catch the stream info packet.
@@ -137,11 +137,11 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 			//Loop any other packets
 
 			const int FLAC_LAST_HEADERS_FLAG = 128;
-			const int FLAC_HEADER_MASK = 127;
-			const int FLAC_STREAM_INFO_ID = 0;
+			// const int FLAC_HEADER_MASK = 127;  // Unused
+			// const int FLAC_STREAM_INFO_ID = 0;  // Unused
 			
 			//Note ::: Secondary condition in for statement.
-            for (int i = 0; i < inOggPage->numPackets(), !mFoundStreamInfo; i++) {
+            for (unsigned int i = 0; i < inOggPage->numPackets(), !mFoundStreamInfo; i++) {
 				mNumHeaders++;
 
 				//Don't need this, we already got this data... we're just counting headers.
@@ -159,7 +159,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 			LOOG_INT64 locTimePerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 17);
 			LOOG_INT64 locSamplesPerBlock = iLE_Math::CharArrToInt64(inOggPage->getPacket(0)->packetData() + 25);
 
-			mSampleRate = (10000000 / locTimePerBlock) * locSamplesPerBlock;
+			mSampleRate = (unsigned long) ( (10000000 / locTimePerBlock) * locSamplesPerBlock );
 			mFoundStreamInfo = true;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			mNumHeaders = 1;
@@ -192,7 +192,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 		
 		if (isTheora) {
 			unsigned long locMod = (unsigned long)pow((double) 2, (double) mGranulePosShift);
-			unsigned long locInterFrameNo = ((inOggPage->header()->GranulePos()) % locMod);
+			unsigned long locInterFrameNo = (unsigned long) ( (inOggPage->header()->GranulePos()) % locMod );
 			
 			//if (locInterFrameNo == 0) {
 			//	mLastIsSeekable = true;
@@ -220,7 +220,9 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {			//Correctly deletes
 	return true;
 }
 unsigned long AutoOggSeekTable::serialisedSize() {
-	return mSeekMap.size() * 12;
+	// TODO: This really should return a size_t (in fact, all our file-size-related variables should really be
+	// a size_t), but let's just use ye olde unsigned long for now ...
+	return (unsigned long) mSeekMap.size() * 12;
 	
 }
 bool AutoOggSeekTable::serialiseInto(unsigned char* inBuff, unsigned long inBuffSize) {

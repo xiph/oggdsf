@@ -63,7 +63,7 @@ LOOG_INT64 OggSeekTable::getRealStartPos() {
 
 }
 OggSeekTable::tSeekPair OggSeekTable::getStartPos(LOOG_INT64 inTime) {
-	 return *(mSeekMap.lower_bound(inTime));
+	 return *(--(mSeekMap.upper_bound(inTime)));
 	 //mRealStartPos = locValue.first;
 	 //stDebug<<"Get Point : Time Req = "<<inTime<<"   --   Time Given = "<<mRealStartPos<<"   --   Byte Pos : "<<locValue.second<<endl;
 	 //return locValue.second;
