@@ -54,6 +54,7 @@ DSPlay::DSPlay(void)
 	,	mMediaControl(NULL)
 	,	mMediaSeeking(NULL)
 	,	mMediaEvent(NULL)
+	,	mBasicAudio(NULL)
 	,	mEventHandle(INVALID_HANDLE_VALUE)
 	//,	mDNCMMLCallbacks(NULL)
 	,	mDNMediaEvent(NULL)
@@ -68,6 +69,7 @@ DSPlay::DSPlay(void)
 	,	mHeight(0)
 	,	mFileSize(0)
 	,	mVideoRenderType(VR_NONE)
+	
 
 
 {
@@ -146,11 +148,60 @@ void DSPlay::repaint()
 		HDC locHDC = GetDC(NULL);
 
 		mVMR9Window->RepaintVideo((HWND)((int)mWindowHandle), locHDC);
-
-
 	}
+}
 
 
+long DSPlay::getVolume() {
+	long retVolume = -10000;
+	if (mBasicAudio != NULL) {
+		HRESULT locHR = mBasicAudio->get_Volume(&retVolume);
+		if (locHR != S_OK) {
+			retVolume = -10000;
+		}
+	}
+	return retVolume;
+}
+
+
+long DSPlay::getBalance() {
+	long retBalance = 0;
+	if (mBasicAudio != NULL) {
+		HRESULT locHR = mBasicAudio->get_Balance(&retBalance);
+		if (locHR != S_OK) {
+			retBalance = 0;
+		}
+	}
+	return retBalance;
+}
+
+
+bool DSPlay::setVolume(long inVolume) {
+
+	if (mBasicAudio != NULL) {
+		HRESULT locHR = mBasicAudio->put_Volume(inVolume);
+		if (locHR == S_OK) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
+
+
+bool DSPlay::setBalance(long inBalance) {
+	if (mBasicAudio != NULL) {
+		HRESULT locHR = mBasicAudio->put_Balance(inBalance);
+		if (locHR == S_OK) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
 }
 void DSPlay::releaseInterfaces() {
 
@@ -179,6 +230,15 @@ void DSPlay::releaseInterfaces() {
 		*debugLog<<"Media Event count = "<<numRef<<endl;
 		mMediaEvent = NULL;
 	}
+
+	if (mBasicAudio != NULL) {
+		numRef = 
+			mBasicAudio->Release();
+
+		*debugLog<<"BasicAudio count = "<<numRef<<endl;
+		mBasicAudio = NULL;
+	}
+
 
 	if (mCMMLAppControl != NULL) {
 		numRef = 
@@ -486,6 +546,15 @@ bool DSPlay::loadFile(String* inFileName) {
 		HANDLE locEventHandle = INVALID_HANDLE_VALUE;
 		locHR = locMediaEvent->GetEventHandle((OAEVENT*)&locEventHandle);
 		mEventHandle = locEventHandle;
+	}
+
+	//Get the IBasicAudio Interface
+	IBasicAudio* locBasicAudio = NULL;
+	locHR = mGraphBuilder->QueryInterface(IID_IBasicAudio, (void**)&locBasicAudio);
+	if (locHR == S_OK) {
+		mBasicAudio = locBasicAudio;
+	} else {
+		mBasicAudio = NULL;
 	}
 
 

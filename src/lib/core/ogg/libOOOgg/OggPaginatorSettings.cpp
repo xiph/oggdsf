@@ -38,7 +38,7 @@ OggPaginatorSettings::OggPaginatorSettings(void)
 	,	mTargetPageSize(4096)
 	,	mMinPageSize(4096)
 	,	mNumHeaders(0)
-	,	mMaxPacksPerPage(0)
+	,	mMaxPacksPerPage(1)
 {
 }
 

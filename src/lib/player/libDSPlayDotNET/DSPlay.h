@@ -93,6 +93,18 @@ namespace libDSPlayDotNET
 		/// Stop the media file.
 		bool stop();
 
+		/// Gets the current volume setting 100 units per db ie 10,000 = 100db
+		long getVolume();
+
+		/// Gets the balance of the channels. Divide by 100 to get attenuation. -10,000 = right channel silent.
+		long getBalance();
+
+		/// Sets the current volume (-10,000 to 10,000)
+		bool setVolume(long inVolume);
+
+		///Sets the current balance (-10,000 to 10,000)
+		bool setBalance(long inBalance);
+
 		/// Seek to the specified time in 100 nanoseconds units. ie 10 000 000 per second.
 		Int64 seek(Int64 inTime);
 
@@ -136,6 +148,7 @@ namespace libDSPlayDotNET
 		IMediaControl* mMediaControl;
 		IMediaSeeking* mMediaSeeking;
 		IMediaEvent* mMediaEvent;
+		IBasicAudio* mBasicAudio;
 		ICMMLAppControl* mCMMLAppControl;
 		IVideoWindow* mVideoWindow;
 

@@ -41,14 +41,6 @@ bool AutoAnxSeekTable::acceptOggPage(OggPage* inOggPage) {
 		return true;
 	}
 
-	//if (mAnnodexSerialNo == inOggPage->header()->StreamSerialNo()) {
-	//	//Ignore this stuff.
-	//	return true;
-	//} else if (strncmp((const char*)inOggPage->getPacket(0)->packetData(), "AnxData", 7) == 0) {
-	//	//Seen all the annodex stuff.
-	//	mReadyForOgg = true;
-	//	return true;
-	//}
 
 	if (mReadyForOgg) {
 		if (mSkippedCMML == false) {

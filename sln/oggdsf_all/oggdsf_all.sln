@@ -1181,6 +1181,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAnxHelper", "..\..\src\l
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CMMLRip", "..\..\src\tools\CMMLRip\CMMLRip.vcproj", "{0A99562D-4B28-4F0C-93B2-06186069B9C0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CMMLValidate", "..\..\src\tools\CMMLValidate\CMMLValidate.vcproj", "{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2670,6 +2678,46 @@ Global
 		{6F8DE2AB-BF7A-4A4C-96F0-52BE1D992834}.Release_SSE.Build.0 = Release|Win32
 		{6F8DE2AB-BF7A-4A4C-96F0-52BE1D992834}.Release_SSE2.ActiveCfg = Release|Win32
 		{6F8DE2AB-BF7A-4A4C-96F0-52BE1D992834}.Release_SSE2.Build.0 = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Debug.ActiveCfg = Debug|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Debug.Build.0 = Debug|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Debug Unicode.ActiveCfg = Debug|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Debug Unicode.Build.0 = Debug|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Debug__cdecl.ActiveCfg = Debug|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Debug__cdecl.Build.0 = Debug|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.MakeFile.ActiveCfg = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.MakeFile.Build.0 = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release.ActiveCfg = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release.Build.0 = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release Unicode.ActiveCfg = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release Unicode.Build.0 = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release__cdecl.ActiveCfg = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release__cdecl.Build.0 = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release_NoDotNET.Build.0 = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release_SSE.ActiveCfg = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release_SSE.Build.0 = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release_SSE2.ActiveCfg = Release|Win32
+		{0A99562D-4B28-4F0C-93B2-06186069B9C0}.Release_SSE2.Build.0 = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Debug.ActiveCfg = Debug|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Debug.Build.0 = Debug|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Debug Unicode.ActiveCfg = Debug|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Debug Unicode.Build.0 = Debug|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Debug__cdecl.ActiveCfg = Debug|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Debug__cdecl.Build.0 = Debug|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.MakeFile.ActiveCfg = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.MakeFile.Build.0 = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release.ActiveCfg = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release.Build.0 = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release Unicode.ActiveCfg = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release Unicode.Build.0 = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release__cdecl.ActiveCfg = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release__cdecl.Build.0 = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release_NoDotNET.ActiveCfg = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release_NoDotNET.Build.0 = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release_SSE.ActiveCfg = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release_SSE.Build.0 = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release_SSE2.ActiveCfg = Release|Win32
+		{C1EEEFFD-5E6D-414D-A86B-104F8B4A5C40}.Release_SSE2.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
