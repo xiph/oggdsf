@@ -169,6 +169,7 @@ void HTTPFileSource::DataProcessLoop() {
 	int locNumRead = 0;
 	char* locBuff = NULL;
 	DWORD locCommand = 0;
+	bool locSeenAny = false;
 
 	locBuff = new char[RECV_BUFF_SIZE];
 
@@ -210,6 +211,15 @@ void HTTPFileSource::DataProcessLoop() {
 				//Dump to file
 				//fileDump.write(locBuff, locNumRead);
 			} else {
+				//if (!locSeenAny) {
+				//	locSeenAny = true;
+				//	//Start of response
+				//	if (locBuff[0] != '2') {
+				//		mWasError = true;
+				//		delete[] locBuff;
+				//		return;
+				//	}
+				//}
 				string locTemp = locBuff;
 				//debugLog<<"Binary follows... "<<endl<<locTemp<<endl;
 				size_t locPos = locTemp.find("\r\n\r\n");

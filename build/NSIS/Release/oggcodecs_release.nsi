@@ -178,7 +178,7 @@ Section "Ogg Core Files" SEC01
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxMux.dll"'
 
 
-  Sleep 10000
+  ;Sleep 10000
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_WRITE_END
