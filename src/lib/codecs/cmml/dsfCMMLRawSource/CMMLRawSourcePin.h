@@ -33,33 +33,41 @@
 //===========================================================================
 
 #pragma once
-#include "anxdllstuff.h"
-#include "OggDemuxSourcePin.h"
+#include "cmmlrawsourcedllstuff.h"
+
 #include <fstream>
 using namespace std;
-class CMMLSourcePin
-	:	public OggDemuxSourcePin
-	,	public IStreamBuilder
+class CMMLRawSourcePin
+	:	public CBaseOutputPin
 {
 public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	CMMLSourcePin(	TCHAR* inObjectName, 
-										OggDemuxSourceFilter* inParentFilter,
-										CCritSec* inFilterLock,
-										StreamHeaders* inHeaderSource, 
-										CMediaType* inMediaType,
-										wstring inPinName);
-	virtual ~CMMLSourcePin(void);
+	CMMLRawSourcePin(	CMMLRawSourceFilter* inParentFilter, CCritSec* inFilterLock);
+					
+	virtual ~CMMLRawSourcePin(void);
 
-	//Implements IStreamBuilder to force the pin tothe cmml filter
-	STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
-	STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+	static const unsigned long BUFFER_SIZE = 65536;			//What should this be ????
+	static const unsigned long NUM_BUFFERS = 10;
 
-	virtual bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket);
+	//CBaseOutputPin virtuals
+	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
+	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
+	virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
 
+
+	//IPin
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
+	virtual HRESULT BreakConnect(void);
+	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	virtual HRESULT DeliverEndOfStream(void);
+	virtual HRESULT DeliverEndFlush(void);
+	virtual HRESULT DeliverBeginFlush(void);
 protected:
 	fstream debugLog;
+	HRESULT mFilterHR;
+	COutputQueue* mDataQueue;
+	sCMMLFormatBlock* mCMMLFormatBlock;
 };

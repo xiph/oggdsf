@@ -84,7 +84,7 @@ public:
 	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
 	virtual STDMETHODIMP Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
 
-	//IPin Interface (i Think ?? From CBAseFilter)
+	//PURE VIRTUALS From CBaseFilter
 	virtual int GetPinCount();
 	virtual CBasePin* GetPin(int inPinNo);
 

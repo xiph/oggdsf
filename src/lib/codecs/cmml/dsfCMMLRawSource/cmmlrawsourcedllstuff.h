@@ -1,9 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
 //
-//Copyright (C) 2003, 2004 Commonwealth Scientific and Industrial Research
-//   Organisation (CSIRO) Australia
-//
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
 //are met:
@@ -31,35 +28,42 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-
 #pragma once
-#include "anxdllstuff.h"
-#include "OggDemuxSourcePin.h"
-#include <fstream>
-using namespace std;
-class CMMLSourcePin
-	:	public OggDemuxSourcePin
-	,	public IStreamBuilder
-{
-public:
+#include <streams.h>
+#include <pullpin.h>
+#include <initguid.h>
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+#ifdef DSFCMMLRAWSOURCE_EXPORTS
+#define DSFCMMLRAWSOURCE_API __declspec(dllexport)
+#else
+#define DSFCMMLRAWSOURCE_API __declspec(dllimport)
+#endif
 
-	CMMLSourcePin(	TCHAR* inObjectName, 
-										OggDemuxSourceFilter* inParentFilter,
-										CCritSec* inFilterLock,
-										StreamHeaders* inHeaderSource, 
-										CMediaType* inMediaType,
-										wstring inPinName);
-	virtual ~CMMLSourcePin(void);
+// {B78032F1-DCC8-4af4-91AD-FB98E806130D}
+DEFINE_GUID(CLSID_CMMLRawSourceFilter, 
+0xb78032f1, 0xdcc8, 0x4af4, 0x91, 0xad, 0xfb, 0x98, 0xe8, 0x6, 0x13, 0xd);
 
-	//Implements IStreamBuilder to force the pin tothe cmml filter
-	STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
-	STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
 
-	virtual bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket);
+// {53696C76-6961-40b2-B136-436F6E726164}
+DEFINE_GUID(FORMAT_CMML, 
+0x53696c76, 0x6961, 0x40b2, 0xb1, 0x36, 0x43, 0x6f, 0x6e, 0x72, 0x61, 0x64);
 
-protected:
-	fstream debugLog;
+
+// {5A656E74-6172-6F26-B79C-D6416E647282}
+DEFINE_GUID(MEDIASUBTYPE_CMML, 
+0x5a656e74, 0x6172, 0x6f26, 0xb7, 0x9c, 0xd6, 0x41, 0x6e, 0x64, 0x72, 0x82);
+
+//Structure defining the registration details of the filter
+const REGFILTER2 CMMLRawSourceFilterReg = {
+		1,
+		MERIT_NORMAL,
+		0,
+        NULL
+		
+};
+
+
+struct sCMMLFormatBlock {
+	__int64 granuleNumerator;
+	__int64 granuleDenominator;
 };
