@@ -88,6 +88,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	m_pLock = new CCritSec;
 	mSourceFileLock = new CCritSec;
 	mDemuxLock = new CCritSec;
+	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
 	debugLog.open("C:\\TEMP\\sourcelog.log", ios_base::out|ios_base::binary);
 	debugLog << "**************** Starting LOg ********************"<<endl;
@@ -98,6 +99,7 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 {
 	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
 	delete m_pLock;
+	delete mStreamLock;
 	delete mSourceFileLock;
 	delete mDemuxLock;
 	delete mStreamMapper;
@@ -208,7 +210,10 @@ STDMETHODIMP OggDemuxSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GU
 	return E_NOTIMPL;
 }
 STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags){
+
+
 	CAutoLock locLock(m_pLock);
+	
 	if (mSeekTable->enabled())  {
 		debugLog<<"SetPos : Current = "<<*pCurrent<<" Flags = "<<dwCurrentFlags<<" Stop = "<<*pStop<<" dwStopFlags = "<<dwStopFlags<<endl;
 		debugLog<<"       : Delivering begin flush..."<<endl;
@@ -216,6 +221,8 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 	
 		CAutoLock locSourceLock(mSourceFileLock);
 		
+		
+
 		DeliverBeginFlush();
 		debugLog<<"       : Begin flush Delviered."<<endl;
 		debugLog<<"       : Delivering new segemnt"<<endl;
@@ -244,6 +251,18 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 			mOggBuffer.clearData();
 		}
 	
+		debugLog << "Setting GranPos : "<<mSeekTable->getRealStartPos()<<endl;
+		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
+			mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);
+			mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getRealStartPos());
+		}
+		{
+			CAutoLock locStreamLock(mStreamLock);
+			debugLog<<"       : Delivering End Flush..."<<endl;
+			DeliverEndFlush();
+			debugLog<<"       : End flush Delviered."<<endl;
+			DeliverNewSegment(*pCurrent, *pCurrent + mSeekTable->fileDuration(), 1.0);
+		}
 		mSourceFile.seekg(mSeekTable->getStartPos(*pCurrent), ios_base::beg);
 		*pCurrent = mSeekTable->getRealStartPos();
 	
@@ -255,21 +274,27 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		} else {
 			debugLog<<"NO"<<endl;
 		}
-		debugLog << "Setting GranPos : "<<mSeekTable->getRealStartPos()<<endl;
-		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-			mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);
-			mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getRealStartPos());
-		}
+		//debugLog << "Setting GranPos : "<<mSeekTable->getRealStartPos()<<endl;
+		//for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
+		//	mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);
+		//	mStreamMapper->getOggStream(i)->setLastEndGranPos(mSeekTable->getRealStartPos());
+		//}
 	} else {
 		return E_NOTIMPL;
 	}
 	
 
 	//Run(locCurrentTime);
-	debugLog<<"       : Delivering End Flush..."<<endl;
-	DeliverEndFlush();
-	debugLog<<"       : End flush Delviered."<<endl;
-	DeliverNewSegment(*pCurrent, *pCurrent + mSeekTable->fileDuration(), 1.0);
+	//Grabbing stream lock so that new samples don't flow immediately.
+	
+	//CAutoLock locStreamLock(mStreamLock);
+	//debugLog<<"       : Delivering End Flush..."<<endl;
+	//DeliverEndFlush();
+	//debugLog<<"       : End flush Delviered."<<endl;
+	//DeliverNewSegment(*pCurrent, *pCurrent + mSeekTable->fileDuration(), 1.0);
+
+	
+
 	//DeliverBeginFlush();
 
 	return S_OK;
@@ -334,10 +359,13 @@ CBasePin* OggDemuxSourceFilter::GetPin(int inPinNo) {
 
 //CAMThread Stuff
 DWORD OggDemuxSourceFilter::ThreadProc(void) {
+	debugLog << "Thread Proc Called..."<<endl;
 	while(true) {
 		DWORD locThreadCommand = GetRequest();
+		debugLog << "Command = "<<locThreadCommand<<endl;
 		switch(locThreadCommand) {
 			case THREAD_EXIT:
+				debugLog << "EXIT ** "<<endl;
 				Reply(S_OK);
 				return S_OK;
 
@@ -347,6 +375,7 @@ DWORD OggDemuxSourceFilter::ThreadProc(void) {
 			//	break;
 
 			case THREAD_RUN:
+				debugLog << "RUN ** "<<endl;
 				Reply(S_OK);
 				DataProcessLoop();
 				break;
@@ -515,12 +544,15 @@ STDMETHODIMP OggDemuxSourceFilter::Run(REFERENCE_TIME tStart) {
 }
 STDMETHODIMP OggDemuxSourceFilter::Pause(void) {
 	CAutoLock locLock(m_pLock);
+	debugLog << "** Pause called **"<<endl;
 	if (m_State == State_Stopped) {
+		debugLog << "Was in stopped state... starting thread"<<endl;
 		if (ThreadExists() == FALSE) {
 			Create();
 		}
 		CallWorker(THREAD_RUN);
 	}
+	debugLog<<"Was NOT is stopped state, not doing much at all..."<<endl;
 	
 	HRESULT locHR = CBaseFilter::Pause();
 	

@@ -32,13 +32,14 @@
 #include "oggdemuxsourcepin.h"
 
 OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName, 
-										CBaseFilter* inParentFilter,
+										OggDemuxSourceFilter* inParentFilter,
 										CCritSec* inFilterLock,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
 										wstring inPinName)
 	:	CBaseOutputPin(NAME("Ogg Demux Output Pin"), inParentFilter, inFilterLock, &mFilterHR, inPinName.c_str()),
 		mHeaders(inHeaderSource),
+		mParentFilter(inParentFilter),
 		mMediaType(inMediaType),
 		mDataQueue(NULL),
 		mFirstRun(true),
@@ -69,6 +70,7 @@ STDMETHODIMP OggDemuxSourcePin::NonDelegatingQueryInterface(REFIID riid, void **
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
+	CAutoLock locStreamLock(mParentFilter->mStreamLock);
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inPacket->startTime();
 	REFERENCE_TIME locStop = inPacket->endTime();

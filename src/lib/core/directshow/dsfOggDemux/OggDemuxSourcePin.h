@@ -35,6 +35,7 @@
 #include <IOggCallback.h>
 #include "BasicSeekable.h"
 #include <fstream>
+#include "OggDemuxSourceFilter.h"
 using namespace std;
 
 class OggDemuxSourcePin
@@ -47,7 +48,7 @@ public:
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	OggDemuxSourcePin(	TCHAR* inObjectName, 
-										CBaseFilter* inParentFilter,
+										OggDemuxSourceFilter* inParentFilter,
 										CCritSec* inFilterLock,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
@@ -79,7 +80,7 @@ public:
 	virtual HRESULT DeliverEndFlush(void);
 	virtual HRESULT DeliverBeginFlush(void);
 protected:
-	
+	OggDemuxSourceFilter* mParentFilter;
 	StreamHeaders* mHeaders;
 	CMediaType* mMediaType;
 	StampedOggPacket* mPartialPacket;

@@ -109,7 +109,7 @@ public:
 	virtual DWORD ThreadProc(void);
 
 	
-
+	CCritSec* mStreamLock;
 
 protected:
 	void resetStream();
