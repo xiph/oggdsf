@@ -543,7 +543,7 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	}
 
 	//Skip the top padding
-	locSourceUptoPtr += (locTopPad * locYStride);
+	locSourceUptoPtr += (mYOffset * locYStride);
 
 	for (long line = 0; line < mHeight; line++) {
 		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + mXOffset), mWidth);
@@ -551,7 +551,7 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 		locDestUptoPtr += mWidth;
 	}
 
-	locSourceUptoPtr += (mYOffset * locYStride);
+	locSourceUptoPtr += (locTopPad * locYStride);
 
 	//debugLog<<"Dest Distance(y) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
 
@@ -568,14 +568,14 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	locSourceUptoPtr = inYUVBuffer->v;
 
 	//Skip the top padding
-	locSourceUptoPtr += (locTopPad * locYStride);
+	locSourceUptoPtr += ((mYOffset/2) * locYStride);
 
 	for (long line = 0; line < mHeight / 2; line++) {
 		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
 		locSourceUptoPtr += locUVStride;
 		locDestUptoPtr += (mWidth / 2);
 	}
-	locSourceUptoPtr += ((mYOffset/2) * locUVStride);
+	locSourceUptoPtr += (locTopPad * locUVStride);
 
 	//Source advances by (locTopPad + mYOffset/2 + mHeight /2) * uv_stride
 	//where locTopPad for uv = (inYUVBuffer->y_height - mHeight - mYOffset) / 2
@@ -592,14 +592,14 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	locSourceUptoPtr = inYUVBuffer->u;
 
 	//Skip the top padding
-	locSourceUptoPtr += (locTopPad * locYStride);
+	locSourceUptoPtr += ((mYOffset/2) * locYStride);
 
 	for (long line = 0; line < mHeight / 2; line++) {
 		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
 		locSourceUptoPtr += locUVStride;
 		locDestUptoPtr += (mWidth / 2);
 	}
-	locSourceUptoPtr += ((mYOffset/2) * locUVStride);
+	locSourceUptoPtr += (locTopPad * locUVStride);
 
 	//debugLog<<"Dest Distance(U) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
 	//debugLog<<"Frame Size = "<<mFrameSize<<endl;

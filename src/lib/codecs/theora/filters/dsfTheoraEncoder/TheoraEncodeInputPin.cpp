@@ -151,12 +151,12 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	char* locDestUptoPtr = mYUV.y;
 	//
 
-	//Pad top (which is really bottom of the image) of output Y plane buffer with mYOffset lines of width mYUV.y_width
-	//y_width is the out frame width.
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += (mYOffset * mYUV.y_width);							//I'm fairly sure it can be junk... but leave for now !
-	}
+	////Pad top (which is really bottom of the image) of output Y plane buffer with mYOffset lines of width mYUV.y_width
+	////y_width is the out frame width.
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += (mYOffset * mYUV.y_width);							//I'm fairly sure it can be junk... but leave for now !
+	//}
 	//Source pointer does not advance
 	//
 
@@ -191,16 +191,13 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 
 	}
 
-	//
-	//This is no longer done... we just pad on one side for efficiency
-	//
-
+	
 	//Pad bottom of Y plane buffer with mYOffset lines of width mYUV.y_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += (mYOffset * mYUV.y_width);
-	//	//Source pointer does not advance
-	//}
+	if (mYOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += (mYOffset * mYUV.y_width);
+		//Source pointer does not advance
+	}
 	
 
 
@@ -217,13 +214,13 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//ASSERT (mWidth is EVEN)
 	//
 
-	//Pad top of V plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-		//Source pointer does not advance
-	}
-	//
+	////Pad top of V plane buffer with mYOffset/2 lines of width mYUV.uv_width
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//	//Source pointer does not advance
+	//}
+	////
 
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
 	if (mXOffset == 0) {
@@ -256,16 +253,14 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 		}
 
 	}
-	//
-	//This is no longer done... we just pad on one side for efficiency
-	//
 
-	////Pad bottom of V plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-	//	//Source pointer does not advance
-	//}
+
+	//Pad bottom of V plane buffer with mYOffset / 2 lines of width mYUV.uv_width
+	if (mYOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+		//Source pointer does not advance
+	}
 	
 
 
@@ -279,13 +274,13 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	locDestUptoPtr = mYUV.u;
 	//
 
-	//Pad top of U plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-		//Source pointer does not advance
-	}
-	//
+	////Pad top of U plane buffer with mYOffset/2 lines of width mYUV.uv_width
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//	//Source pointer does not advance
+	//}
+	////
 
 	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
 	if (mXOffset == 0) {
@@ -319,16 +314,13 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 
 	}
 
-	//
-	//This is no longer done... we just pad on one side for efficiency
-	//
-
-	////Pad bottom of U plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-	//	//Source pointer does not advance
-	//}
+	
+	//Pad bottom of U plane buffer with mYOffset / 2 lines of width mYUV.uv_width
+	if (mYOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+		//Source pointer does not advance
+	}
 
 	//======================================================================================================
 	return 0;
