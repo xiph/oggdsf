@@ -338,7 +338,7 @@ bool OggPacketiser::dispatchStampedOggPacket(StampedOggPacket* inPacket) {	//Acc
 	} else {
 		//Modify the header packet to include the gran pos of previous page.
 		if (mPrevGranPos != -1) {
-			inPacket->setTimeStamp(mPrevGranPos, mCurrentGranPos, StampedOggPacket::eStampType::OGG_BOTH);
+			inPacket->setTimeStamp(mPrevGranPos, mCurrentGranPos, StampedOggPacket::OGG_BOTH);
 		}
 		//Dispatch it.
 		return mPacketSink->acceptStampedOggPacket(inPacket);

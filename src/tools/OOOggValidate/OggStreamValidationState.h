@@ -1,5 +1,7 @@
 #pragma once
 
+#include <libilliCore.h>
+
 class OggStreamValidationState
 {
 public:
@@ -17,7 +19,7 @@ public:
 
 	};
 	unsigned long mSerialNo;
-	__int64 mGranulePosUpto;
+	LOOG_INT64 mGranulePosUpto;
 	unsigned long mSequenceNoUpto;
 
 	bool mSeenAnything;

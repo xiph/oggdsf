@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include ".\oggvalidationstate.h"
+#include "oggvalidationstate.h"
 
 OggValidationState::OggValidationState(void)
 	:	mNumBOS(0)

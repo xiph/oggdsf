@@ -34,7 +34,7 @@
 
 StampedOggPacket::StampedOggPacket(void)
 	//:	OggPacket()
-	:	mStampType(eStampType::NONE)
+	:	mStampType(NONE)
 	,	mStartTime(0)
 	,	mEndTime(0)
 
@@ -45,7 +45,7 @@ StampedOggPacket::~StampedOggPacket(void)
 {
 }
 
-StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime = 0, __int64 inEndTime = 0, unsigned short inStampType = 0)
+StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime = 0, LOOG_INT64 inEndTime = 0, unsigned short inStampType = 0)
 	:	OggPacket(inPackData, inPacketSize, inIsTruncated, inIsContinuation)
 	,	mStartTime(inStartTime)
 	,	mEndTime(inEndTime)

@@ -30,6 +30,7 @@
 //===========================================================================
 
 #pragma once
+#include "stdafx.h"
 #include "oggpacket.h"
 
 class LIBOOOGG_API StampedOggPacket 
@@ -38,7 +39,7 @@ class LIBOOOGG_API StampedOggPacket
 public:
 	//Constructors
 	StampedOggPacket(void);
-	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime, __int64 inEndTime, unsigned short inStampType);
+	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, unsigned short inStampType);
 	virtual ~StampedOggPacket(void);
 	virtual OggPacket* clone();
 

@@ -67,7 +67,11 @@ bool pageCB(OggPage* inOggPage) {
 }
 
 
+#ifdef WIN32
 int __cdecl _tmain(int argc, _TCHAR* argv[])
+#else
+int main (int argc, char * argv[])
+#endif
 {
 	//This program just dumps the pages out of a file in ogg format.
 	// Currently does not error checking. Check your command line carefully !

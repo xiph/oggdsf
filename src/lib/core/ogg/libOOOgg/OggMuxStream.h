@@ -44,7 +44,7 @@ public:
 	OggMuxStream(INotifyArrival* inNotifier);
 	virtual ~OggMuxStream(void);
 	
-	static const LOOG_INT64 INT64_MAX = 9223372036854775807;
+	static const LOOG_INT64 INT64_MAX = 9223372036854775807LL;
 
 	//IOggCallback implementaion.
 	virtual bool acceptOggPage(OggPage* inOggPage);
@@ -66,7 +66,7 @@ public:
 	virtual bool isActive();
 	virtual void setIsActive(bool inIsActive);
 
-	virtual bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor, __int64 inTheoraLogKFI);
+	virtual bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor, LOOG_INT64 inTheoraLogKFI);
 	bool setConversionParams(LOOG_INT64 inNumerator, LOOG_INT64 inDenominator, LOOG_INT64 inScaleFactor);
 
 
@@ -75,7 +75,7 @@ public:
 	
 protected:
 	INotifyArrival* mNotifier;
-	LOOG_INT64 convertTime(__int64 inGranulePos);
+	LOOG_INT64 convertTime(LOOG_INT64 inGranulePos);
 
 	bool mIsEOS;
 	bool mIsActive;

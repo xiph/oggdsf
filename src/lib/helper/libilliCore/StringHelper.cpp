@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include ".\stringhelper.h"
+#include "stringhelper.h"
 
 StringHelper::StringHelper(void)
 {

@@ -101,14 +101,14 @@ LOOG_INT64 OggMuxStream::scaledFrontTime() {
 	return convertTime(frontTime());
 }
 
-LOOG_INT64 OggMuxStream::convertTime(__int64 inGranulePos) {
+LOOG_INT64 OggMuxStream::convertTime(LOOG_INT64 inGranulePos) {
 	LOOG_INT64 retTime = INT64_MAX;
 	if (inGranulePos != INT64_MAX) {
 		if (mIsSensibleTime) {
 			retTime = (inGranulePos * mConvScaleFactor * mConvDenominator) / mConvNumerator;
 		} else {
 			//Timestamp hacks start here...
-			unsigned long locMod = (unsigned long)pow(2, mConvTheoraLogKeyFrameInterval);
+			unsigned long locMod = (unsigned long)pow((double) 2, (double) mConvTheoraLogKeyFrameInterval);
 			
 			unsigned long locInterFrameNo = (inGranulePos) % locMod;
 	

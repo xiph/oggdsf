@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include ".\oggstreamvalidationstate.h"
+#include "oggstreamvalidationstate.h"
 
 OggStreamValidationState::OggStreamValidationState(void)
 	:	mSerialNo(0)

@@ -35,17 +35,33 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // LIBOOOGG_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
-#else
-#define LIBOOOGG_API __declspec(dllimport)
-#endif
+#pragma once
 
 #ifdef WIN32
-#include <windows.h>
-# define LOOG_INT64 signed __int64
-# define LOOG_UINT64 unsigned __int64
-#else
-# define LOOG_INT64 int64_t
-# define LOOG_UINT64 uint64_t
+# ifdef LIBOOOGG_EXPORTS
+#  define LIBOOOGG_API __declspec(dllexport)
+# else
+#  define LIBOOOGG_API __declspec(dllimport)
+# endif
+# include <windows.h>
+#else  /* assume POSIX */
+# define LIBOOOGG_API
+# include <stdint.h>
 #endif
+
+#ifndef LOOG_INT64
+# ifdef WIN32
+#  define LOOG_INT64 signed __int64
+# else  /* assume POSIX */
+#  define LOOG_INT64 int64_t
+# endif
+#endif
+
+#ifndef LOOG_UINT64
+# ifdef WIN32
+#  define LOOG_UINT64 unsigned __int64
+# else  /* assume POSIX */
+#  define LOOG_UINT64 uint64_t
+# endif
+#endif
+
