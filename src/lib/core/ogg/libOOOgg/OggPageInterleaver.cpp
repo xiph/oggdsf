@@ -35,12 +35,12 @@ OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComple
 	:	mFileWriter(inFileWriter)
 	,	mNotifier(inNotifier)
 {
-	//debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
+	debugLog.open("G:\\logs\\interleaver.log", ios_base::out);
 }
 
 OggPageInterleaver::~OggPageInterleaver(void)
 {
-	//debugLog.close();
+	debugLog.close();
 }
 
 OggMuxStream* OggPageInterleaver::newStream() {
@@ -77,21 +77,34 @@ void OggPageInterleaver::processData() {
 			WEND
 		END IF
 	*/
+	//
+	//Temp
 
+
+	debugLog<<endl<<"Process Data : "<<endl;
+	debugLog<<"==============="<<endl;
 	if (isAllEOS()) {
+		debugLog<<"Process Data : All are EOS."<<endl;
 		//Finish up
 		while (!isAllEmpty()) {
+			debugLog<<"Process Data : Finishing - Still not empty..."<<endl;
 			writeLowest();
 		}
+		debugLog<<"Process Data : Notifying completion... 1"<<endl;
 		mNotifier->NotifyComplete();
 	} else {
+		debugLog<<"Process Data : *NOT* all EOS"<<endl;
 		while (isProcessable()) {
+			debugLog<<"Process Data : Still processable data..."<<endl;
 			writeLowest();
 		}
+		debugLog<<"Process Data : No more processable data..."<<endl;
 		if (isAllEOS() && isAllEmpty()) {
+			debugLog<<"Process Data : All EOS and all Empty... Notifying complete 2..."<<endl;
 			mNotifier->NotifyComplete();
 		}
 	}
+	debugLog<<"==============="<<endl;
 
 }
 
@@ -101,14 +114,13 @@ void OggPageInterleaver::writeLowest() {
 			if (!mInputStreams[i]->isEmpty() && mInputStreams[i]->isActive()) {
 				if (locLowestStream == NULL) {
 					locLowestStream = mInputStreams[i];
+					debugLog<<"writeLowest : Defaulting stream "<<i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
 					//debugLog<<"writeLowest : Defaulting stream "<<i<<endl;
 				} else {
 					__int64 locCurrLowTime = locLowestStream->scaledFrontTime();
 					__int64 locTestLowTime = mInputStreams[i]->scaledFrontTime();
 					//debugLog<<"writeLowest : Curr = "<<locCurrLowTime<<" -- Test["<<i<<"] = "<<locTestLowTime<<endl;
-					if (locTestLowTime == 3579139411666666) {
-						locTestLowTime = locTestLowTime;
-					}
+					
 					//In english this means... any bos pages go first... then any no gran pos pages (-1 gran pos).. then
 					// whoevers got the lowest time.
 					if (
@@ -120,8 +132,9 @@ void OggPageInterleaver::writeLowest() {
 						(locTestLowTime < locCurrLowTime)
 						) 
 					{
-						//debugLog<<"writeLowest : Selecting stream "<<i<<endl;
+						
 						locLowestStream = mInputStreams[i];
+						debugLog<<"writeLowest : Selecting stream "<<i<<" @ Gran = "<<locLowestStream->frontTime()<<" & Time = "<<locLowestStream->scaledFrontTime()<<endl;
 					}
 				}
 			}
@@ -129,7 +142,7 @@ void OggPageInterleaver::writeLowest() {
 		if (locLowestStream == NULL) {
 			throw 0;
 		} else {
-			//debugLog<<"writeLowest : Writing..."<<endl;
+			debugLog<<"writeLowest : Writing..."<<endl;
 			mFileWriter->acceptOggPage(locLowestStream->popFront());
 		}
 
@@ -146,6 +159,11 @@ bool OggPageInterleaver::isAllEOS() {
 	bool retVal = true;
 	//ASSERT(mInputStreams.size() >= 1)
 	for (int i = 0; i < mInputStreams.size(); i++) {
+		if (mInputStreams[i]->isEOS()) {
+			debugLog<<"*****                  Stream "<<i<<" is EOS"<<endl;
+		} else {
+			debugLog<<"*****                  Stream "<<i<<" not EOS"<<endl;
+		}
 		retVal = retVal && (mInputStreams[i]->isEOS() || !mInputStreams[i]->isActive());
 	}
 	return retVal;

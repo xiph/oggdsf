@@ -140,8 +140,11 @@ HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 	return mParentFilter->addAnotherPin();
 }
 STDMETHODIMP OggMuxInputPin::EndOfStream(void) {
+	
 	mPaginator.finishStream();
 	mMuxStream->setIsEOS(true);
+	
+	
 	//HRESULT locHR = mParentFilter->NotifyEvent(EC_COMPLETE, S_OK, NULL);
 	return S_OK;
 	

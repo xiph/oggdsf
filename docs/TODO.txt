@@ -1,5 +1,3 @@
-* Fix the theora decoder to deal properly with the frame/offset/etc stuff.
-* Fix the long string in the demux prop page.
 * Figure out why the graph hangs at the end of lpayback sometimes. see debugging.txt
 * Fix flac decoder
 * Fix wmp 9 issues, probably by rewriting the decoder :(

@@ -23,7 +23,8 @@ public:
 	INT_PTR OnReceiveMessage(HWND hwnd,  UINT uMsg, WPARAM wParam, LPARAM lParam);
 	HRESULT OnApplyChanges(void);
 
-
+	static unsigned long log2(unsigned long inNum);
+	static unsigned long pow2(unsigned long inNum);
 
 protected:
 
@@ -31,8 +32,7 @@ protected:
 	//void SetupBitrateCombo();
 	//void SetupKeyframeFreqCombo();
 	//LRESULT addNumberToCombo(int inComboID, int inNum);
-	unsigned long log2(unsigned long inNum);
-	unsigned long pow2(unsigned long inNum);
+	
 	void SetDirty();
 	void SetClean();
 	//

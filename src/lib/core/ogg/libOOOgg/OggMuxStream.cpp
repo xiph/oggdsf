@@ -140,6 +140,8 @@ bool OggMuxStream::isProcessable() {
 }
 void OggMuxStream::setIsEOS(bool inIsEOS) {
 	mIsEOS = inIsEOS;
+	//Notify that the streams are in new state.
+	mNotifier->notifyArrival();
 }
 
 bool OggMuxStream::isActive() {

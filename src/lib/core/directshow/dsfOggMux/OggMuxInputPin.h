@@ -42,6 +42,7 @@ class OggMuxFilter;
 
 class OggMuxInputPin
 	:	public CBaseInputPin
+	//,	public BasicSeekable
 {
 public:
 	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);

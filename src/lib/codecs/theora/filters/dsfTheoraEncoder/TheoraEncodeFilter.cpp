@@ -120,11 +120,14 @@ STDMETHODIMP_(bool) TheoraEncodeFilter::setTargetBitrate(unsigned long inBitrate
 	//Needs error checking
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->target_bitrate = inBitrate;
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_data_target_bitrate = (inBitrate * 3)/2;
+	//mTheoraFormatBlock.targetBitrate = inBitrate;
+	//mTheoraFormatBlock.
 	return true;
 
 }
 STDMETHODIMP_(bool) TheoraEncodeFilter::setQuality(unsigned char inQuality) {
 	//Needs error checking
+	
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality = inQuality;
 	return true;
 }
@@ -132,6 +135,8 @@ STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeFreq(unsigned long inKeyframe
 	//Needs error checking
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency = inKeyframeFreq;
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency_force = inKeyframeFreq;
+	//NOTE: If you ever change it so that _force can be higher... you must use the maximum.
+	mTheoraFormatBlock.maxKeyframeInterval = PropsTheoraEncoder::log2(inKeyframeFreq);
 	return true;
 }
 
