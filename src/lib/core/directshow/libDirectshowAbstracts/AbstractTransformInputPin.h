@@ -65,7 +65,7 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 		
 	//Constructors	
-	AbstractTransformInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, vector<CMediaType*> inAcceptMediaType);
+	AbstractTransformInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~AbstractTransformInputPin(void);
 
 	//Pure Virtuals for codec specific methods
@@ -83,7 +83,7 @@ public:
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType) = 0;
 
 	//TODO::: Should be virtual ??
-	STDMETHODIMP Receive(IMediaSample *pSample);
+	virtual STDMETHODIMP Receive(IMediaSample *pSample);
 
 	//Stream Messaging methods
 	virtual STDMETHODIMP EndOfStream(void);

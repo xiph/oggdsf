@@ -53,10 +53,9 @@ public:
 	friend class AbstractTransformInputPin;
 	friend class AbstractTransformOutputPin;
 
-	//COM Setup
+	//COM Initialisation
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	
 
 	//Constructors
 	AbstractTransformFilter(TCHAR* inFilterName, REFCLSID inFilterGUID);

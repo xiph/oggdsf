@@ -33,7 +33,7 @@
 #include "AbstractTransformOutputPin.h"
 
 
-AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> mAcceptableMediaTypes)
+AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> inAcceptableMediaTypes)
 	//Base Classes
 	:	CBaseOutputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
 
@@ -47,6 +47,8 @@ AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* 
 	,	mActualBufferSize(0)
 	,	mActualBufferCount(0)
 
+	,	mAcceptableMediaTypes(inAcceptableMediaTypes)
+
 {
 
 }
@@ -57,7 +59,8 @@ AbstractTransformOutputPin::~AbstractTransformOutputPin(void)
 	mDataQueue = NULL;
 }
 
-STDMETHODIMP AbstractTransformOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+STDMETHODIMP AbstractTransformOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
+{
 	if (riid == IID_IMediaSeeking) {
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
@@ -119,7 +122,6 @@ HRESULT AbstractTransformOutputPin::DecideBufferSize(IMemAllocator* inAllocator,
 }
 HRESULT AbstractTransformOutputPin::CheckMediaType(const CMediaType *inMediaType) 
 {
-
 	for (int i = 0;  i < mAcceptableMediaTypes.size(); i++) {
 		if	(		(inMediaType->majortype == mAcceptableMediaTypes[i]->majortype) 
 				&& 	(inMediaType->subtype == mAcceptableMediaTypes[i]->subtype) 
@@ -133,16 +135,6 @@ HRESULT AbstractTransformOutputPin::CheckMediaType(const CMediaType *inMediaType
 
 	//If it was none of them return false.
 	return S_FALSE;
-
-
-	//if (	(inMediaType->majortype == MEDIATYPE_Audio) && 
-	//		(inMediaType->subtype == MEDIASUBTYPE_PCM) && 
-	//		(inMediaType->formattype == FORMAT_WaveFormatEx)) {
-	//	return S_OK;
-	//} else {
-	//	return S_FALSE;
-	//}
-	
 }
 
 void AbstractTransformOutputPin::FillMediaType(CMediaType* outMediaType, int inPosition) 
@@ -158,13 +150,10 @@ void AbstractTransformOutputPin::FillMediaType(CMediaType* outMediaType, int inP
 	// Sample size of 0 means variable size... so that is almost always acceptable.
 	outMediaType->SetTemporalCompression(FALSE);
 	outMediaType->SetSampleSize(0);
-
 }
-
 
 HRESULT AbstractTransformOutputPin::GetMediaType(int inPosition, CMediaType *outMediaType) 
 {
-
 	if (inPosition < 0) {
 		return E_INVALIDARG;
 	}
@@ -176,16 +165,6 @@ HRESULT AbstractTransformOutputPin::GetMediaType(int inPosition, CMediaType *out
 	} else {
 		return VFW_S_NO_MORE_ITEMS;
 	}
-
-
-	//if (inPosition == 0) {
-	//	FillMediaType(outMediaType);
-	//	WAVEFORMATEX* locWaveFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-	//	FillWaveFormatExBuffer(locWaveFormat);
-	//	return S_OK;
-	//} else {
-	//	return VFW_S_NO_MORE_ITEMS;
-	//}
 }
 
 HRESULT AbstractTransformOutputPin::DeliverNewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 

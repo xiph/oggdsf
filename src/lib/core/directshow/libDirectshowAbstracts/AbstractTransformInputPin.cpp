@@ -33,23 +33,18 @@
 #include "AbstractTransformInputPin.h"
 
 
-AbstractTransformInputPin::AbstractTransformInputPin (AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, vector<CMediaType*> inAcceptMediaTypes)
+AbstractTransformInputPin::AbstractTransformInputPin (AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, vector<CMediaType*> inAcceptableMediaTypes)
 	:	CBaseInputPin (inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
 	,	mOutputPin (inOutputPin)
 	,	mParentFilter (inParentFilter)
 	
 	,	mBegun (false)
 
+	,	mAcceptableMediaTypes(inAcceptableMediaTypes)
+
 
 {
-	
-	//ConstructCodec();
-	//debugLog.open("g:\\logs\\aad.log", ios_base::out);
-
-	//TODO::: Put in init list.
-	mAcceptableMediaTypes = inAcceptMediaTypes;
 	mStreamLock = new CCritSec;			//Deleted in destructor.
-
 }
 
 STDMETHODIMP AbstractTransformInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -82,22 +77,11 @@ HRESULT AbstractTransformInputPin::CompleteConnect (IPin *inReceivePin)
 }
 AbstractTransformInputPin::~AbstractTransformInputPin(void)
 {
-	//DestroyCodec();
-	//debugLog.close();
-	delete mStreamLock;
 
+	delete mStreamLock;
 }
 
 
-//void AbstractTransformInputPin::ResetFrameCount() 
-//{
-//	mUptoFrame = 0;
-//	
-//}
-//void AbstractTransformInputPin::ResetTimeBases() 
-//{
-//	mLastSeenStartGranPos = 0;
-//}
 bool AbstractTransformInputPin::SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime) 
 {
 	outMediaSample->SetTime(inStartTime, inEndTime);
@@ -124,57 +108,21 @@ STDMETHODIMP AbstractTransformInputPin::Receive(IMediaSample* inSample)
 			//TODO::: Do a debug dump or something here with specific error info.
 			return locHR;
 		} else {
-
-
-			////Is any of this needed ???
-			////New start time hacks
-			//REFERENCE_TIME locStart = 0;
-			//REFERENCE_TIME locEnd = 0;
-
-			////More work arounds for that stupid granule pos scheme in theora!
-			//REFERENCE_TIME locTimeBase = 0;
-			//REFERENCE_TIME locDummy = 0;
-			//inSample->GetMediaTime(&locTimeBase, &locDummy);
-			//mSeekTimeBase = locTimeBase;
-			////
-
-			//inSample->GetTime(&locStart, &locEnd);
-			////Error chacks needed here
-			////debugLog<<"Receive : Start    = "<<locStart<<endl;
-			////debugLog<<"Receive : End      = "<<locEnd<<endl;
-			////debugLog<<"Receive : Timebase = "<<locTimeBase<<endl;
-			//
-			////QUERY::: Why are we doing this ???
-			////			Wouldn't it be better to only resset the frame count when we seek (ie in NewSegment)
-			////			then we just use m_tStart as the time base until another seek.
-			//if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
-			//	//debugLog<<"Receive : RESETTING FRAME COUNT !!"<<endl;
-			//	ResetFrameCount();
-			//}
-			////debugLog<<endl;
-			//mLastSeenStartGranPos = locStart;
-			////End of additions
-			
-			//TODO::: Why using this convention... why not use HRESULT ???
 			HRESULT locResult = TransformData(locBuff, inSample->GetActualDataLength());
 			if (locResult == S_OK) {
-
-				//aadDebug<<"Receive Decode : OK"<<endl;
 				return S_OK;
 			} else {
-				//aadDebug<<"Receive Decode : *** FAILED *** "<<locResult<<endl;
 				return S_FALSE;
 			}
 		}
 	} else {
-		//debugLog<<"NOT STREAMING.... "<<endl;
+		//Not streaming - Bail out.
 		return locHR;
 	}
-	
-	return S_OK;
 }
 
-HRESULT AbstractTransformInputPin::CheckMediaType(const CMediaType *inMediaType) {
+HRESULT AbstractTransformInputPin::CheckMediaType(const CMediaType *inMediaType) 
+{
 	//TO DO::: Neaten this up.
 	for (int i = 0; i < mAcceptableMediaTypes.size(); i++) {
 		if	(		(inMediaType->majortype == mAcceptableMediaTypes[i]->majortype) 
@@ -210,7 +158,6 @@ STDMETHODIMP AbstractTransformInputPin::EndFlush() {
 
 STDMETHODIMP AbstractTransformInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) {
 	CAutoLock locLock(mStreamLock);
-	//ResetFrameCount();
 
 	//This is called on BasePin and not BaseInputPin because the implementation is not overriden in BaseOutputPin.
 	CBasePin::NewSegment(inStartTime, inStopTime, inRate);
