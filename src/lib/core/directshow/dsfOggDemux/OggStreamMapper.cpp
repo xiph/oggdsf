@@ -42,8 +42,19 @@ OggStreamMapper::OggStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 OggStreamMapper::~OggStreamMapper(void)
 {
 	for (size_t i = 0; i < mStreamList.size(); i++) {
+		//This is to deal with a circular reference. The pin has a ref on the filter and a filter one on the pin.
+		//If they are both allowed to normal reference count, neither are deleted and both are left with 1 ref each.
+
+		//If the pin just doesn't hold a ref on the filter, an infinite destruction loop occurs.
+		//So to combat this... the pin does not have a ref on the filter... the filter controls the pins lifetime.
+		// And when this destructor is called (which is in the destructor of the filter), we are just going to NULL
+		// out the seekdelegates pointer (which is a apointer to the filter)... since we don't hold a ref on the filter
+		// this isn't a leak.
+		mStreamList[i]->getPin()->SetDelegate(NULL);
 		delete mStreamList[i];
 	}
+	mStreamList.empty();
+	mStreamList.clear();
 }
 
 //Sends the page to *only one* stream if it matches the serial number.

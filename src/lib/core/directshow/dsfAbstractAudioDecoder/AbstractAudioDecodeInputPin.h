@@ -68,7 +68,7 @@ public:
 	virtual bool ConstructCodec() = 0;
 	virtual void DestroyCodec() = 0;
 	
-
+	virtual HRESULT BreakConnect();
 	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	STDMETHODIMP Receive(IMediaSample *pSample);
 	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);

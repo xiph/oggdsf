@@ -57,6 +57,9 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 		//inParentFilter->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 		locSeeker = (IMediaSeeking*)mParentFilter;
 
+		//UNdecided whether this should be adreff or not... if you do you have  a cyclic reference, if you don't see below.
+		//locSeeker->AddRef();				//If you addref theres a weird destructor infinite loop. See the OggStreamMapper Destructor.
+
 	
 	}
 	SetDelegate(locSeeker);
@@ -65,7 +68,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 OggDemuxSourcePin::~OggDemuxSourcePin(void)
 {
 	//debugLog.close();
-	Inactive();
+	
 	delete mDataQueue;
 }
 

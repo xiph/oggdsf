@@ -36,7 +36,13 @@ BasicSeekable::BasicSeekable(void)
 
 }
 
-
+bool BasicSeekable::ReleaseDelegate() {
+	if (mSeekDelegate != NULL) {
+		mSeekDelegate->Release();
+		mSeekDelegate = NULL;
+	}
+	return true;
+}
 
 bool BasicSeekable::SetDelegate(IMediaSeeking* inDelegate) {
 	mSeekDelegate = inDelegate;
@@ -44,8 +50,10 @@ bool BasicSeekable::SetDelegate(IMediaSeeking* inDelegate) {
 }
 BasicSeekable::~BasicSeekable(void)
 {
+	//TODO::: FActor this... use the new releasedelegate function.
 	if (mSeekDelegate != NULL) {
 		mSeekDelegate->Release();
+		mSeekDelegate = NULL;
 	}
 	//seekDebug.close();
 }

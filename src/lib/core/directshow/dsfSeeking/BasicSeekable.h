@@ -11,6 +11,7 @@ public:
 	~BasicSeekable(void);
 
 	bool SetDelegate(IMediaSeeking* inDelegate);
+	bool ReleaseDelegate();
 
 
 	//

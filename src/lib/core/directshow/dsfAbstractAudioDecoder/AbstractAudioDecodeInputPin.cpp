@@ -66,6 +66,12 @@ STDMETHODIMP AbstractAudioDecodeInputPin::NonDelegatingQueryInterface(REFIID rii
 
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
+
+HRESULT AbstractAudioDecodeInputPin::BreakConnect() {
+	//Need a lock ??
+	ReleaseDelegate();
+	return CBaseInputPin::BreakConnect();
+}
 HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
 	CAutoLock locLock(mFilterLock);
 	

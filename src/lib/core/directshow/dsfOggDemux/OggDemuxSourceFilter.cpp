@@ -137,11 +137,18 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 {
 	DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
-	delete m_pLock;
-	delete mStreamLock;
-	delete mSourceFileLock;
-	delete mDemuxLock;
+	
+	//TODO::: For some reason, you can't delete these !!
+
+	//delete m_pLock;
+	//delete mStreamLock;
+	//delete mSourceFileLock;
+	//delete mDemuxLock;
+	
+	
+	
 	delete mStreamMapper;
+	mStreamMapper = NULL;
 
 	
 	if (ThreadExists() == TRUE) {
