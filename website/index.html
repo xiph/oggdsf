@@ -3,7 +3,7 @@
 <head>
   <title>illiminable Ogg Directshow Filters for Speex, Vorbis, Theora and FLAC</title>
   <meta name="description" content="Directshow Ogg demuxer/muxer with vorbis, speex, FLAC and theora decoders and vorbis, speex encoders.">
-  <meta name="keywords" content=" directshow, theora, vorbis, speex, ogg, media player, flac, codec, windows, audio, video, wmp, directX, plugin, plug-in, decoder, encoder, demux, mux, demuxer">
+  <meta name="keywords" content="directshow, theora, vorbis, speex, ogg, media player, flac, codec, windows, audio, video, wmp, directX, plugin, plug-in, decoder, encoder, demux, mux, demuxer">
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#FF00FF" alink="#FF0000">
 <b><u><font size="+2">Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC</font></u></b><br>
@@ -36,32 +36,31 @@ Also, if you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</
 Also any other windows application that uses directshow will also be vorbis/speex/flac/theora compatible.
 <br>
 <br>
-<b><u>Current Version (0.55.0115) - 27/04/2004</u></b><br>
-Vorbis and speex playback are now pretty much finished bar the very rare bug I mention below. I've played dozens of speex and vorbis files and they all seem just fine. Pretty much fully functional.<br>
-The track duration shows up incorrectly in all codecs besides speex and vorbis because I haven't coded it yet !<br>
-A seek table is built as the file is loaded... this is currently done by basicly processing the entire file... so there may be a small delay loading large files. When I get time I'll replace this with a better method that doesn't try and process the entire file, but can skip through to the relevant parts.<br>
-	<li>NOTE: I suggest you don't distribute files encoded with these codecs yet... there may still be problems with them</li>
-	<li>Fixed clumpy playback of divx, bad timestamping</li>
-	<li>Added seeking, duration and position info to vorbis and speex</li>
-	<li>Fixed a few internal errors with regards to timestamping</li>
-	<li>Added a seek table for rapid seeking</li>
+<b><u>Current Version (0.56.6741) - 21/05/2004</u></b><br>
+Most of the changes in this build are internal modifications to better deal with the need to determine start times of all samples in order to properly synchronise multi-stream files. The main externally visible change is the limited ability to seek in theora files without total loss of synch. There are still a few issues to be ironed out though.
+<br>
+	<li>Modified internal timestamping mechanism, to allow resynch easier in theora.</li>
+	<li>Now able to seek in theora (not to keyframe), but occasionally crashes after seek.</li>
+	<li>Speex and vorbis, don't have seg fault any more, though very rarely after a seek there is no audio. Another seek fixes it.</li>
+	<li>Added simple new tool called OOOggStat, to give info on contained streams.</li>
+
 <br>
 <b><u>Known issues.</u></b><br>
-	<li>Rare threading bug can seg fault if you seek very rapidly in speex or vorbis.</li>
-	<li>Duration is wrong for all files except speex and vorbis... doesn't affect playback</li>
-	<li>Granule pos may occasionally be a little off in encoded files... other players may get slight time-stretching defects</li>
+	<li>Seeking in theora occasionally seg faults</li>
+	<li>Seeking in speex and vorbis seeking is sometimes not as responsive as it previously was.</li>
+	<li>Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback</li>
+	<li>Speex encoder is currently broken. Vorbis works but is buggy. <b>No produced encoded files should be distributed.</b></li>
 	<li>I think there may be a little memory leak in the encoders... nothing too serious.</li>
 	<li>Issues with Windows Media Player 9</li>
 	<li>Theora playback requires directX 9.</li>
 	<li>Muxer only does a single stream... won't interleave yet. This is fine for encoding speex and vorbis, or splitting theora+vorbis into component parts</li>
-	<li>Theora sometimes gets out of sync if you stop and restart. Running to end seems ok.</li>
 	<li>Some black bordering when frame size changes mid-stream</li>
 	<li>DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.</li>
 	<li>FLAC will make media player do the error sound or crash on exit</li>
 	<li>Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.</li>
 	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
-	<li><strike>Still no position info or seeking... this is next to be done.</strike> - 0.55.0115</li>
-	<li><strike>ffsdhow playback is clumpy... plays frames in bursts. Only tested with divx.</strike> - 0.55.0115</li>
+	<li><strike>Theora sometimes gets out of sync if you stop and restart. Running to end seems ok.</strike> - 0.56.6741</li>
+	<li><strike>Rare threading bug can seg fault if you seek very rapidly in speex or vorbis.</strike> - 0.56.6741</li>
 <br>
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
@@ -72,11 +71,11 @@ A seek table is built as the file is loaded... this is currently done by basicly
 </TD>
 
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">752,265 bytes</div></DIV></FONT>
+<DIV><div align="right">768,952 bytes</div></DIV></FONT>
 </TD>
 
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.55.0115_small.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.56.6741_small.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -86,11 +85,11 @@ A seek table is built as the file is loaded... this is currently done by basicly
 
 </TD>
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">4,202,285 bytes</div></DIV></FONT>
+<DIV><div align="right">4,218,972 bytes</div></DIV></FONT>
 </TD>
 
 <TD width=40%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.55.0115.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.56.6741.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -98,13 +97,23 @@ A seek table is built as the file is loaded... this is currently done by basicly
 </DIV>
 </FONT>
 <br>
+<b><u>Previous Version (0.55.0115) - 27/04/2004</u></b><br>
+Vorbis and speex playback are now pretty much finished bar the very rare bug I mention below. I've played dozens of speex and vorbis files and they all seem just fine. Pretty much fully functional.<br>
+The track duration shows up incorrectly in all codecs besides speex and vorbis because I haven't coded it yet !<br>
+A seek table is built as the file is loaded... this is currently done by basicly processing the entire file... so there may be a small delay loading large files. When I get time I'll replace this with a better method that doesn't try and process the entire file, but can skip through to the relevant parts.<br>
+	<li>NOTE: I suggest you don't distribute files encoded with these codecs yet... there may still be problems with them</li>
+	<li>Fixed clumpy playback of divx, bad timestamping</li>
+	<li>Added seeking, duration and position info to vorbis and speex</li>
+	<li>Fixed a few internal errors with regards to timestamping</li>
+	<li>Added a seek table for rapid seeking</li>
+<br>
 <b><u>Previous Version (0.52.0093) - 18/04/2004</u></b><br>
 	<li>NOTE: I suggest you don't distribute files encoded with these codecs yet... there may still be problems with them</li>
 	<li>See version 0.50.0090 for information</li>
 	<li>Now checksums pages properly.</li>
 	<li>Properly organises initial header packets in pages.</li>
 	
-<br>
+
 <br>
 <b><u>Previous Version (0.51.0092) - 18/04/2004</u></b><br>
 	<li>See version 0.50.0090 for information</li>
