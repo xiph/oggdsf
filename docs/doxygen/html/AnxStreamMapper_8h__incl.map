@@ -1,0 +1,11 @@
+base referer
+rect $OggStreamMapper_8h.html 96,157 242,183
+rect $OggDemuxSourceFilter_8h.html 206,231 380,258
+rect $oggdllstuff_8h.html 284,7 377,34
+rect $OggStream_8h.html 141,82 242,109
+rect $OggStreamFactory_8h.html 368,82 514,109
+rect $anxdllstuff_8h.html 538,82 632,109
+rect $IOggCallback_8h.html 49,7 164,34
+rect $CMMLStream_8h.html 424,231 538,258
+rect $OggPacket_8h.html 510,7 609,34
+rect $CMMLSourcePin_8h.html 414,157 548,183

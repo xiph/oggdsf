@@ -1,0 +1,8 @@
+base referer
+rect $AbstractVideoEncodeFilter_8h.html 123,231 315,258
+rect $lib_2codecs_2dirac_2filters_2dsfDiracEncodeFilter_2stdafx_8h.html 37,82 106,109
+rect $AbstractVideoEncodeInputPin_8h.html 114,306 325,333
+rect $lib_2codecs_2dirac_2filters_2dsfDiracEncodeFilter_2stdafx_8cpp.html 30,7 113,34
+rect $lib_2codecs_2theora_2filters_2dsfTheoraEncoder_2stdafx_8h.html 333,82 402,109
+rect $dsfTheoraEncoder_8cpp.html 217,7 374,34
+rect $lib_2codecs_2theora_2filters_2dsfTheoraEncoder_2stdafx_8cpp.html 398,7 481,34

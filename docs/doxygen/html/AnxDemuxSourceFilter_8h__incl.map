@@ -1,0 +1,6 @@
+base referer
+rect $anxdllstuff_8h.html 21,8 114,34
+rect $CMMLStream_8h.html 58,82 173,109
+rect $OggDemuxSourceFilter_8h.html 280,157 453,184
+rect $AutoAnxSeekTable_8h.html 477,157 624,184
+rect $AnxStreamMapper_8h.html 109,157 256,184
