@@ -79,6 +79,7 @@ protected:
 	long encodeRGB32toYV12(unsigned char* inBuf, long inNumBytes);
 	long encodeUYVYToYV12(unsigned char* inBuf, long inNumBytes);
 	long encodeYVYUToYV12(unsigned char* inBuf, long inNumBytes);
+	long encodeIYUVToYV12(unsigned char* inBuf, long inNumBytes);
 	//
 //	bool fillTheoraInfo(theora_info* outTheora, sTheoraFormatBlock* inTheoraFormatBlock); 		
 	//
