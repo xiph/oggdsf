@@ -1117,6 +1117,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_timeslice", "..\..\src\
 		{2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4} = {2DA569EC-3E22-4BC9-A242-C7A56EB9C6F4}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testVideoImageGrab", "..\..\src\tests\testVideoImageGrab\testVideoImageGrab.csproj", "{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -2426,6 +2430,26 @@ Global
 		{F8FDD992-E21A-483F-BBE7-305D10163DE4}.Release_SSE.Build.0 = Release|Win32
 		{F8FDD992-E21A-483F-BBE7-305D10163DE4}.Release_SSE2.ActiveCfg = Release|Win32
 		{F8FDD992-E21A-483F-BBE7-305D10163DE4}.Release_SSE2.Build.0 = Release|Win32
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Debug.ActiveCfg = Debug|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Debug.Build.0 = Debug|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Debug Unicode.ActiveCfg = Debug|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Debug Unicode.Build.0 = Debug|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Debug__cdecl.ActiveCfg = Debug|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Debug__cdecl.Build.0 = Debug|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.MakeFile.ActiveCfg = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.MakeFile.Build.0 = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release.ActiveCfg = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release.Build.0 = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release Unicode.ActiveCfg = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release Unicode.Build.0 = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release__cdecl.ActiveCfg = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release__cdecl.Build.0 = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_NoDotNET.ActiveCfg = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_NoDotNET.Build.0 = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_SSE.ActiveCfg = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_SSE.Build.0 = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_SSE2.ActiveCfg = Release|.NET
+		{A7E7277C-1F4A-4F43-97F7-ABD1C61FD6EB}.Release_SSE2.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection

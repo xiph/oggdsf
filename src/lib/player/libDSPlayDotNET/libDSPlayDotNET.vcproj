@@ -241,6 +241,8 @@
 			Name="libCMMLTagsDotNET"/>
 		<AssemblyReference
 			RelativePath="{ReferencesPath}\System.dll"/>
+		<AssemblyReference
+			RelativePath="{ReferencesPath}\System.Drawing.dll"/>
 	</References>
 	<Files>
 		<Filter

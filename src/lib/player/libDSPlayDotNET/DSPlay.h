@@ -52,6 +52,8 @@
 
 #pragma managed
 using namespace System::IO;
+#using "System.Drawing.dll"
+
 #using "libCMMLTagsDotNET.dll"
 using namespace illiminable::libCMMLTagsDotNET;
 #include "libDSPlayDotNet.h"
@@ -83,6 +85,8 @@ namespace libDSPlayDotNET
 		bool isLoaded();
 		Int64 fileSize();
 		Int64 fileDuration();
+
+		System::Drawing::Bitmap* GetImage();
 	
 
 		bool setMediaEventCallback(IDNMediaEvent* inMediaEventCallback);
@@ -101,6 +105,9 @@ namespace libDSPlayDotNET
 		ICMMLAppControl* mCMMLAppControl;
 		IVideoWindow* mVideoWindow;
 
+		IVMRWindowlessControl* mVMR7Window;
+		IVMRWindowlessControl9* mVMR9Window;
+
 		Int32 mLeft;
 		Int32 mTop;
 		Int32 mWidth;
@@ -117,6 +124,16 @@ namespace libDSPlayDotNET
 		__int64 mFileSize;
 		bool isFileAnnodex(String* inFilename);
 
+		
+
+		__value enum eVideoRenderer {
+			VR_VIDEO_WINDOW,
+			VR_VMR7,
+			VR_VMR9,
+			VR_NONE = 100
+
+		};
+		eVideoRenderer mVideoRenderType;
 
 		fstream* debugLog;
 		

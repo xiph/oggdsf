@@ -60,11 +60,15 @@ DSPlay::DSPlay(void)
 	,	mCMMLAppControl(NULL)
 	,	mWindowHandle(NULL)
 	,	mVideoWindow(NULL)
+	,	mVMR7Window(NULL)
+	,	mVMR9Window(NULL)
 	,	mLeft(0)
 	,	mTop(0)
 	,	mWidth(0)
 	,	mHeight(0)
 	,	mFileSize(0)
+	,	mVideoRenderType(VR_NONE)
+
 
 {
 	CoInitialize(NULL);
@@ -84,11 +88,14 @@ DSPlay::DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, 
 	,	mCMMLAppControl(NULL)
 	,	mWindowHandle(inWindowHandle)
 	,	mVideoWindow(NULL)
+	,	mVMR7Window(NULL)
+	,	mVMR9Window(NULL)
 	,	mLeft(inLeft)
 	,	mTop(inTop)
 	,	mWidth(inWidth)
 	,	mHeight(inHeight)
 	,	mFileSize(0)
+	,	mVideoRenderType(VR_NONE)
 {
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
@@ -180,6 +187,22 @@ void DSPlay::releaseInterfaces() {
 		mVideoWindow = NULL;
 	}
 
+	if (mVMR9Window != NULL) {
+		numRef =
+            mVMR9Window->Release();
+
+		*debugLog<<"Video Window VMR9 count = "<<numRef<<endl;
+		mVMR9Window = NULL;
+	}
+
+	if (mVMR7Window != NULL) {
+		numRef =
+            mVMR7Window->Release();
+
+		*debugLog<<"Video Window VMR7 count = "<<numRef<<endl;
+		mVMR7Window = NULL;
+	}
+
 
 	*debugLog<<"After graph release>.."<<endl;
 	//TODO::: Release everything !
@@ -218,34 +241,164 @@ bool DSPlay::loadFile(String* inFileName) {
 	}
 	
 	
-	//If it's an annodex file, then put the VMR 9 in the graph.
-	if (isFileAnnodex(inFileName)) {
-		*debugLog<<"Is annodex"<<endl;
-		IBaseFilter* locVMR9 = NULL;
+	////If it's an annodex file, then put the VMR 9 in the graph.
+	//if (isFileAnnodex(inFileName)) {
+	//	*debugLog<<"Is annodex"<<endl;
+	//	IBaseFilter* locVMR9 = NULL;
 
-		HRESULT locHR2 = S_OK;
-		locHR2 = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
-		if (locVMR9 == NULL) {
-			*debugLog<<"Not in graph... making it !"<<endl;
-			locHR2= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
-			if (locHR2 == S_OK) {
-				locHR2 = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
-				numRef =
-					locVMR9->Release();
-				*debugLog<<"VMR9 ref count = "<<numRef<<endl;
-				
-			}
-		} else {
-			numRef =
-				locVMR9->Release();
+	//	HRESULT locHR2 = S_OK;
+	//	locHR2 = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
+	//	if (locVMR9 == NULL) {
+	//		*debugLog<<"Not in graph... making it !"<<endl;
+	//		locHR2= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
+	//		if (locHR2 == S_OK) {
+	//			locHR2 = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
+	//			numRef =
+	//				locVMR9->Release();
+	//			*debugLog<<"VMR9 ref count = "<<numRef<<endl;
+	//			
+	//		}
+	//	} else {
+	//		numRef =
+	//			locVMR9->Release();
 
-			*debugLog<<"VMR9 ref count = "<<numRef<<endl;
-		}
+	//		*debugLog<<"VMR9 ref count = "<<numRef<<endl;
+	//	}
 
 
+	//	
+
+	//}
+
+	mVideoRenderType = VR_NONE;
+	//Attempt to use VMR9
+	IBaseFilter* locVMR9 = NULL;
+
+	*debugLog<<"Attempting VMR9 creation... making it !"<<endl;
+	locHR= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
+	if (locHR == S_OK) {
+		locHR = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
 		
+		//TODO::: Need an error check ?
 
+		IVMRFilterConfig9* locVMR9Config = NULL;
+		locHR = locVMR9->QueryInterface(IID_IVMRFilterConfig9, (void**)&locVMR9Config);
+
+		if (locHR == S_OK) {
+			locVMR9Config->SetRenderingMode(VMRMode_Windowless);
+			locVMR9Config->Release();
+
+			//Get the windowless control
+			IVMRWindowlessControl9* locVMR9Windowless = NULL;
+			locHR = locVMR9->QueryInterface(IID_IVMRWindowlessControl9, (void**)&locVMR9Windowless);
+
+			if (locHR == S_OK) {
+				mVMR9Window = locVMR9Windowless;
+				mVideoRenderType = VR_VMR9;
+				*debugLog<<"We got our VMR9 window"<<endl;
+			}
+
+		}
+		
+		numRef =
+			locVMR9->Release();
+		*debugLog<<"VMR9 ref count = "<<numRef<<endl;
 	}
+
+	if (mVideoRenderType == VR_NONE) {
+		//Attempt to use VMR7
+		IBaseFilter* locVMR7 = NULL;
+
+		*debugLog<<"Attempting VMR7 creation... making it !"<<endl;
+		locHR= CoCreateInstance(CLSID_VideoMixingRenderer, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR7);
+		if (locHR == S_OK) {
+			locHR = mGraphBuilder->AddFilter(locVMR7, L"Video Mixing Renderer 7");
+			
+			//TODO::: Need an error check ?
+
+			IVMRFilterConfig* locVMR7Config = NULL;
+			locHR = locVMR7->QueryInterface(IID_IVMRFilterConfig, (void**)&locVMR7Config);
+
+			if (locHR == S_OK) {
+				locVMR7Config->SetRenderingMode(VMRMode_Windowless);
+				locVMR7Config->Release();
+
+				//Get the windowless control
+				IVMRWindowlessControl* locVMR7Windowless = NULL;
+				locHR = locVMR7->QueryInterface(IID_IVMRWindowlessControl, (void**)&locVMR7Windowless);
+
+				if (locHR == S_OK) {
+					mVMR7Window = locVMR7Windowless;
+					mVideoRenderType = VR_VMR7;
+				}
+
+			}
+			
+			numRef =
+				locVMR7->Release();
+			*debugLog<<"VMR7 ref count = "<<numRef<<endl;
+		}
+	}
+
+	if (mWindowHandle != NULL) {
+		*debugLog<<"Setting up video window pointer..."<<endl;
+
+		IVMRWindowlessControl9* locVMR9Window = NULL;
+		IVMRWindowlessControl* locVMR7Window = NULL;
+		IVideoWindow* locVideoWindow = NULL;
+
+		switch ((int)mVideoRenderType) {
+			case VR_VMR9:
+				*debugLog<<"Attemping to use VMR9 windowless"<<endl;
+				//Get the IVMRWindowlessControl9 interface.
+				
+				locHR = locVMR9->QueryInterface(IID_IVMRWindowlessControl9, (void**)&locVMR9Window);
+	
+				if (locHR == S_OK) {
+					*debugLog<<"Got VMR9 windowless interface"<<endl;
+					mVMR9Window = locVMR9Window;
+					
+					locHR = mVMR9Window->SetVideoClippingWindow(  ((HWND)((int)mWindowHandle)));
+					if (locHR == S_OK) {
+						*debugLog<<"Clipping window set"<<endl;
+						RECT locRect;
+						locRect.left = mLeft;
+						locRect.top = mTop;
+						locRect.right = mLeft + mWidth;
+						locRect.bottom = mTop + mHeight;
+	
+						locHR = mVMR9Window->SetVideoPosition(NULL, &locRect);
+						if (locHR == S_OK) {
+							*debugLog<<"video pos set"<<endl;
+						} else {
+							*debugLog<<"video pos set FAILED"<<endl;
+						}
+					} else {
+						*debugLog<<"Clipping window set FAILED"<<endl;
+					}
+				}
+				
+
+				break;
+			case VR_VMR7:
+				break;
+			default:
+				//Get the IVideoWindow interface.
+
+				locHR = mGraphBuilder->QueryInterface(IID_IVideoWindow, (void**)&locVideoWindow);
+	
+				if (locHR == S_OK) {
+					mVideoWindow = locVideoWindow;
+					mVideoWindow->put_Owner((int)mWindowHandle);
+					mVideoWindow->SetWindowPosition(mLeft, mTop, mWidth, mHeight);
+					mVideoWindow->put_WindowStyle(WS_CHILD | WS_CLIPCHILDREN);
+				}
+				break;
+		}
+	}
+
+
+
 
 	*debugLog<<"About to call render on "<<endl;
 	//Build the graph
@@ -310,18 +463,6 @@ bool DSPlay::loadFile(String* inFileName) {
 		mEventHandle = locEventHandle;
 	}
 
-	if (mWindowHandle != NULL) {
-		//Get the IVideoWindow interface.
-		IVideoWindow* locVideoWindow = NULL;
-		locHR = mGraphBuilder->QueryInterface(IID_IVideoWindow, (void**)&locVideoWindow);
-
-		if (locHR == S_OK) {
-			mVideoWindow = locVideoWindow;
-			mVideoWindow->put_Owner((int)mWindowHandle);
-			mVideoWindow->SetWindowPosition(mLeft, mTop, mWidth, mHeight);
-			mVideoWindow->put_WindowStyle(WS_CHILD | WS_CLIPCHILDREN);
-		}
-	}
 
 
 //	if (FAILED(hr))
@@ -329,6 +470,56 @@ bool DSPlay::loadFile(String* inFileName) {
 	return true;
 
 
+}
+
+System::Drawing::Bitmap* DSPlay::GetImage() {
+	HRESULT locHR = S_OK;
+	System::Drawing::Bitmap* locBitmap = NULL;
+	BYTE* locBytes = NULL;
+
+	switch (mVideoRenderType) {
+		case VR_VMR9:
+			if (mVMR9Window != NULL) {
+				locHR = mVMR9Window->GetCurrentImage(&locBytes);
+				if (locHR == S_OK) {
+					BITMAPINFOHEADER* locBMIH = (BITMAPINFOHEADER*) locBytes;
+					*debugLog<<"BHIM : Bit count = "<<locBMIH->biBitCount<<endl;
+					*debugLog<<"BHIM : Compresio = "<<locBMIH->biCompression<<endl;
+					*debugLog<<"BHIM : Colours   = "<<locBMIH->biClrUsed<<endl;
+					*debugLog<<"BHIM : Width     = "<<locBMIH->biWidth<<endl;
+					*debugLog<<"BHIM : Height    = "<<locBMIH->biHeight<<endl;
+					*debugLog<<"BHIM : Size Img  = "<<locBMIH->biSizeImage<<endl;
+					*debugLog<<"BHIM : Size      = "<<locBMIH->biSize<<endl;
+					*debugLog<<"BHIM : Size BMIH = "<<sizeof(BITMAPINFOHEADER)<<endl;
+					*debugLog<<"BHIM : Size BMI  = "<<sizeof(BITMAPINFO)<<endl;
+
+					
+
+					
+
+
+					if (locBMIH->biBitCount == 32) {
+						unsigned char* locBuffer = new unsigned char[locBMIH->biSizeImage];
+						memcpy((void*)locBuffer, (const void*)(locBytes + 44), locBMIH->biSizeImage);
+						locBitmap = new System::Drawing::Bitmap(locBMIH->biWidth, locBMIH->biHeight, locBMIH->biWidth * 4, System::Drawing::Imaging::PixelFormat::Format32bppRgb, (System::IntPtr)(locBuffer));
+						locBitmap->RotateFlip(System::Drawing::RotateFlipType::RotateNoneFlipY);
+					}
+
+					/* .... */
+					
+					
+					CoTaskMemFree(locBytes);
+					
+
+				}
+
+			}
+
+		default:
+			break;
+	};
+
+	return locBitmap;;
 }
 
 bool DSPlay::setCMMLCallbacks(IDNCMMLCallbacks* inCMMLCallbacks) {
