@@ -116,10 +116,10 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
 		WAVEFORMATEX* locFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
 		locFormat->wFormatTag = WAVE_FORMAT_PCM;
 
-		locFormat->nChannels = mParentFilter->mNumChannels;
+		locFormat->nChannels = (WORD)mParentFilter->mNumChannels;
 		locFormat->nSamplesPerSec =  mParentFilter->mSampleRate;
-		locFormat->wBitsPerSample = mParentFilter->mBitsPerSample;
-		locFormat->nBlockAlign = (mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3);
+		locFormat->wBitsPerSample = (WORD)mParentFilter->mBitsPerSample;
+		locFormat->nBlockAlign = (WORD)((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3));
 		locFormat->nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
 		locFormat->cbSize = 0;
 	
@@ -181,6 +181,7 @@ HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long in
 	BYTE* locBuffer = NULL;
 	locSample->GetPointer(&locBuffer);
 
+	//*** WARNING 4018 ::: leave this.
 	if (locSample->GetSize() >= inBuffSize) {
 		memcpy((void*)locBuffer, (const void*)inBuff, inBuffSize);
 		locSample->SetActualDataLength(inBuffSize);

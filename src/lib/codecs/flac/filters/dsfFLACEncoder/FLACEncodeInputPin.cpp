@@ -139,7 +139,7 @@ void FLACEncodeInputPin::DestroyCodec()
 			//Send all the headers
 			mTweakedHeaders = true;
 
-			for (int i = 0; i < mHeaderTweaker.numNewHeaders(); i++) {
+			for (unsigned long i = 0; i < mHeaderTweaker.numNewHeaders(); i++) {
 				//Loop through firing out all the headers.
 				//debugLog<<"Sending new header "<<i<<endl;
 
@@ -214,6 +214,7 @@ void FLACEncodeInputPin::DestroyCodec()
 	//Make our pointers set to point to the samples buffer
 	locSample->GetPointer(&locBuffer);
 
+	//**** WARNING 4018::: Leave this alone.
 	if (locSample->GetSize() >= inNumBytes) {
 
 		memcpy((void*)locBuffer, (const void*)inBuffer, inNumBytes);

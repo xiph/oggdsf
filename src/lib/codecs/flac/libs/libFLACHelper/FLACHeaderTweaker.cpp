@@ -97,6 +97,8 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 	locFirstPackBuff[5] = 1;
 	locFirstPackBuff[6] = 0;
 	locFirstPackBuff[7] = 0; //Num header HIGH BYTE
+
+	//*** VERIFY ::: Is this even safe ????
 	locFirstPackBuff[8] = mOldHeaderList.size() - 2; //Num headers LOW BYTE
 	locFirstPackBuff[9] = 'f';
 	locFirstPackBuff[10] = 'L';
@@ -116,7 +118,7 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 	int locCommentNo = -1;
 
 	//Start at 2, 0 is just fLaC, 1 is the stream info
-	for (int i = 2; i < mOldHeaderList.size(); i++) {
+	for (size_t i = 2; i < mOldHeaderList.size(); i++) {
 		//Loop through to find the comment packet...
 		//debugLog<<"Scanning old header "<<i<<endl;
 		if ( ((mOldHeaderList[i]->packetData()[0]) & 127) == 4) {
@@ -134,7 +136,7 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 		throw 0;
 	}
 
-	for (int i = 2; i < mOldHeaderList.size(); i++) {
+	for (size_t i = 2; i < mOldHeaderList.size(); i++) {
 	
 		if (i != locCommentNo) {
 			//debugLog<<"Adding another ehader..."<<endl;
@@ -143,7 +145,7 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 		}
 	}
 
-	for (int i = 1; i < mNewHeaderList.size(); i++) {
+	for (size_t i = 1; i < mNewHeaderList.size(); i++) {
 		//Loop through the new headers and make sure the flags are set right.
 		if (i != mNewHeaderList.size() -1) {
 			//Clear the first bit
@@ -165,9 +167,9 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 }
 
 void FLACHeaderTweaker::deleteOldHeaders() {
-	int locSize = mOldHeaderList.size();
+	size_t locSize = mOldHeaderList.size();
 	//debugLog<<"Num old headers... = "<<locSize<<endl;
-	for (int i = 0; i < locSize; i++) {
+	for (size_t i = 0; i < locSize; i++) {
 		delete mOldHeaderList[i];		
 	}
 	//debugLog<<"Post old delete loop..."<<endl;
@@ -176,9 +178,9 @@ void FLACHeaderTweaker::deleteOldHeaders() {
 }
 
 void FLACHeaderTweaker::deleteNewHeaders() {
-	int locSize = mNewHeaderList.size();
+	size_t locSize = mNewHeaderList.size();
 	//debugLog<<"Num new headers... = "<<locSize<<endl;
-	for (int i = 0; i < locSize; i++) {
+	for (size_t i = 0; i < locSize; i++) {
 		delete mNewHeaderList[i];		
 	}
 	//debugLog<<"Post new delete loop"<<endl;
@@ -187,7 +189,7 @@ void FLACHeaderTweaker::deleteNewHeaders() {
 }
 
 unsigned long FLACHeaderTweaker::numNewHeaders() {
-	return mNewHeaderList.size();
+	return (unsigned long)mNewHeaderList.size();
 }
 OggPacket* FLACHeaderTweaker::getHeader(unsigned long inHeaderNo) {
 	if (inHeaderNo < mNewHeaderList.size() ) {

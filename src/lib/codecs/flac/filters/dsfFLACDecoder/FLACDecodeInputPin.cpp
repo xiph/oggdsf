@@ -124,11 +124,13 @@ HRESULT FLACDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 				locSample->GetPointer(&locBuffer);
 
 
+				//*** WARNING 4018: Leave this.
 				if (locSample->GetSize() >= locStamped->packetSize()) {
 					REFERENCE_TIME locFrameStart = (((__int64)(mUptoFrame * UNITS)) / mFLACDecoder.mSampleRate);
 					
-					//Increment the frame counter - note the returned packet is stamped 0-numSamples
-					mUptoFrame += locStamped->endTime();
+					//Increment the frame counter
+					//NOTE::: The returned packet is stamped 0-numSamples so endTime will be in long range.
+					mUptoFrame += (unsigned long)locStamped->endTime();
 					
 					//	//Make the end frame counter
 
@@ -153,7 +155,6 @@ HRESULT FLACDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 			} else {
 				return S_FALSE;
 			}
-
 		} else {
 			{
 				CAutoLock locCodecLock(mCodecLock);
@@ -164,14 +165,8 @@ HRESULT FLACDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 			} else {
 				return S_FALSE;
 			}
-
-			
-			
 		}
-		//debugLog<<"decodeData : Successful return."<<endl;
 
-		//Should be impossible to get here.
-		return S_OK;
 	} else {
 		//debugLog<<"decodeData : Filter flushing... bad things !!!"<<endl;
 		return S_FALSE;

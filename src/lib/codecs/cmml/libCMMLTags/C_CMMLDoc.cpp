@@ -47,6 +47,14 @@ C_CMMLDoc::~C_CMMLDoc(void)
 	delete mRoot;
 }
 
+C_CMMLDoc* C_CMMLDoc::clone() 
+{
+	C_CMMLDoc* retDoc = new C_CMMLDoc();
+	retDoc->mPreamble = mPreamble;
+	retDoc->mRoot = mRoot->clone();
+
+	return retDoc;
+}
 C_CMMLPreamble* C_CMMLDoc::preamble() {
 	return mPreamble;
 }

@@ -61,7 +61,7 @@ HRESULT FLACDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType,
 		locWaveFormat->wFormatTag = WAVE_FORMAT_PCM;
 		locWaveFormat->nChannels = locFilter->getFLACFormatBlock()->numChannels;
 		locWaveFormat->nSamplesPerSec =  locFilter->getFLACFormatBlock()->samplesPerSec;
-		locWaveFormat->wBitsPerSample = locFilter->getFLACFormatBlock()->numBitsPerSample;
+		locWaveFormat->wBitsPerSample = (WORD)locFilter->getFLACFormatBlock()->numBitsPerSample;
 		locWaveFormat->nBlockAlign = (locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3);
 		locWaveFormat->nAvgBytesPerSec = ((locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3)) * locWaveFormat->nSamplesPerSec;
 		locWaveFormat->cbSize = 0;

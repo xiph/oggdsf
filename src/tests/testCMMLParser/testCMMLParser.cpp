@@ -82,6 +82,45 @@ bool testCMMLFileParse(wstring inFilename) {
 
 }
 
+bool testCMMLClone(wstring inFilename)
+{
+	CMMLParser locParser;
+
+	C_CMMLDoc locDoc;
+	bool locWasOK = locParser.parseDocFromFile(inFilename, &locDoc);
+
+	wcout<<L"Trying to parse "<<inFilename<<endl;
+
+	
+	if (locWasOK) {
+		wstring locDocStr = locDoc.toString();
+
+		wcout<<endl<<L"Original doc to string..."<<endl;
+		wcout<<locDocStr<<endl;
+
+		C_CMMLDoc* clonedDoc = locDoc.clone();
+
+		wcout<<endl<<endl<<L"Cloned version of doc to string"<<endl;
+
+		wstring locCloneDocStr = clonedDoc->toString();
+
+		wcout<<locCloneDocStr<<endl<<endl;
+
+		if (locCloneDocStr == locDocStr) {
+			wcout<<L"Output matches... SUCESS"<<endl;
+
+		} else {
+			wcout<<L"FAILED CLONE TEST !!"<<endl;
+
+		}
+	} else {
+		wcout<<"*** PARSE FAILED ***"<<endl;
+	}
+
+	return locWasOK;
+
+}
+
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 	//Valid minimal
@@ -154,13 +193,14 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	wstring cmml_5 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
 	testCMMLRootParse(cmml_5);
 
-	int x;
-	cin>>x;
 
 	wstring file_1 = L"G:\\Media\\Music Vid\\guru.cmml";
 	testCMMLFileParse(file_1);
 
 
+	cout<<"---------------------------------------------------"<<endl;
+	wstring file_2 = L"G:\\Media\\Music Vid\\guru.cmml";
+	testCMMLClone(file_2);
 
 
 	return 0;
