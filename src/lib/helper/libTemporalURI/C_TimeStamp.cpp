@@ -63,6 +63,7 @@ bool C_TimeStamp::parseSMPT(string inTimeStamp, sFourPartTime* inFPT) {
 				if (locSubSec >= 0) {
 					//TODO::: Verify frames < numframes for type.
 					inFPT->partials = locSubSec;
+
 					return true;
 				} else {
 					return false;
@@ -159,8 +160,9 @@ bool C_TimeStamp::parseSecsOnly(string inTimeStamp) {
 
 	if (locDotPos == string::npos) {
 		//No dot here
-		locSS = StringHelper::stringToNum(inTimeStamp);
-		locNN = 0;
+		mSecs = StringHelper::stringToNum(inTimeStamp);
+		mHuns = 0;
+		mStampType = TS_NPT_SECS;
 		return true;
 	} else {
 		//Dotted time
@@ -176,12 +178,13 @@ bool C_TimeStamp::parseSecsOnly(string inTimeStamp) {
 			locNN = StringHelper::stringToFractNum(locHuns);
 		}
 
-		if (	(locSS >= 0) && (locNN >= 0) && (locSS <= 59) ) {
+		if (	(locSS >= 0) && (locNN >= 0)) {
 			mSecs = locSS;
 			mHuns = locNN;
 			mStampType = TS_NPT_SECS;
 			return true;
 		} else {
+			mStampType = TS_NONE;
 			return false;
 		}
 	}
@@ -213,11 +216,19 @@ bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 				mStampType = TS_NPT_FULL;
 				return true;
 			} else {
+				mStampType = TS_NONE;
 				return false;
 			}
 			
 		} else {
-			return parseSecsOnly(inTimeStamp);
+			bool locIsOK = parseSecsOnly(inTimeStamp);
+			if (locIsOK) {
+				mStampType = TS_NPT_SECS;
+				return true;
+			} else {
+				mStampType = TS_NONE;
+				return false;
+			}	
 		}
 
 	} else if (inTimeStamp.find("smpte-") == 0) {
@@ -238,9 +249,11 @@ bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 				mStampType = TS_SMPT;
 				return true;
 			} else {
+				mStampType = TS_NONE;
 				return false;
 			}
 		} else {
+			mStampType = TS_NONE;
 			return false;
 		}
 
@@ -248,8 +261,14 @@ bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 
 	} else {
 		//Assume it's default numeric npt
-		return parseSecsOnly(inTimeStamp);
-
+		bool locIsOK = parseSecsOnly(inTimeStamp);
+		if (locIsOK) {
+			mStampType = TS_NPT_SECS;
+			return true;
+		} else {
+			mStampType = TS_NONE;
+			return false;
+		}	
 
 
 	}
