@@ -1032,6 +1032,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libCMMLTagsDotNET", "..\..\
 		{AD38DCC6-B431-4B32-8569-74F3376EF2DA} = {AD38DCC6-B431-4B32-8569-74F3376EF2DA}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsfFLACEncoder", "..\..\src\lib\codecs\flac\filters\dsfFLACEncoder\dsfFLACEncoder.vcproj", "{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -1461,6 +1465,16 @@ Global
 		{9B83D147-AFE7-46EF-A3FF-EBEC65F00BA6}.Release.Build.0 = Release|Win32
 		{9B83D147-AFE7-46EF-A3FF-EBEC65F00BA6}.Release Unicode.ActiveCfg = Release|Win32
 		{9B83D147-AFE7-46EF-A3FF-EBEC65F00BA6}.Release Unicode.Build.0 = Release|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Debug.ActiveCfg = Debug|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Debug.Build.0 = Debug|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Debug Unicode.ActiveCfg = Debug|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Debug Unicode.Build.0 = Debug|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.MakeFile.ActiveCfg = Release|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.MakeFile.Build.0 = Release|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Release.ActiveCfg = Release|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Release.Build.0 = Release|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Release Unicode.ActiveCfg = Release|Win32
+		{7143478E-0C1A-4C8B-B12C-4BFEF591F36F}.Release Unicode.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
