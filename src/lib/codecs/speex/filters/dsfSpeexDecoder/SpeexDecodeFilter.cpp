@@ -33,6 +33,7 @@
 #include "StdAfx.h"
 #include "SpeexDecodeFilter.h"
 
+
 //COM Factory Template
 CFactoryTemplate g_Templates[] = 
 {
