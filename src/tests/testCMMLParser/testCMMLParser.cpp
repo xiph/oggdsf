@@ -157,7 +157,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	int x;
 	cin>>x;
 
-	wstring file_1 = L"testcmml.xml";
+	wstring file_1 = L"G:\\Media\\Music Vid\\guru.cmml";
 	testCMMLFileParse(file_1);
 
 
