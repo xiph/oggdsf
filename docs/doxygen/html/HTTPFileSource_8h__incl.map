@@ -1,0 +1,4 @@
+base referer
+rect $oggdllstuff_8h.html 101,82 194,109
+rect $HTTPSocket_8h.html 565,82 674,109
+rect $SingleMediaFileCache_8h.html 373,82 541,109

@@ -1,0 +1,7 @@
+base referer
+rect $ICMMLCallbacks_8h.html 546,82 680,109
+rect $ICMMLAppControl_8h.html 541,157 685,184
+rect $CMMLCallbackProxy_8h.html 709,157 866,184
+rect $libCMMLTags_8h.html 609,8 721,34
+rect $IDNCMMLCallbacks_8h.html 754,82 909,109
+rect $IDNMediaEvent_8h.html 1098,157 1226,184

@@ -1,0 +1,7 @@
+base referer
+rect $IFilterDataSource_8h.html 886,82 1025,109
+rect $FilterFileSource_8h.html 747,157 875,184
+rect $HTTPFileSource_8h.html 487,157 621,184
+rect $HTTPSocket_8h.html 558,82 667,109
+rect $SingleMediaFileCache_8h.html 262,82 430,109
+rect $oggdllstuff_8h.html 94,82 187,109

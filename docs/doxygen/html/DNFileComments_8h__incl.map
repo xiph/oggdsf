@@ -1,0 +1,10 @@
+base referer
+rect $dllstuff_8h.html 36,157 108,184
+rect $DNStreamCommentInfo_8h.html 156,306 332,333
+rect $DNVorbisComments_8h.html 109,232 264,258
+rect $FileComments_8h.html 532,306 766,333
+rect $IOggCallback_8h.html 712,157 826,184
+rect $OggDataBuffer_8h.html 762,232 885,258
+rect $OggPage_8h.html 725,82 813,109
+rect $VorbisComments_8h.html 349,157 485,184
+rect $StreamCommentInfo_8h.html 338,232 496,258

@@ -1,0 +1,12 @@
+base referer
+rect $ClipTag_8h.html 394,231 472,258
+rect $HumReadCMMLTag_8h.html 109,82 261,109
+rect $ImageTag_8h.html 222,157 313,183
+rect $config_8h.html 289,7 358,34
+rect $MetaTagList_8h.html 337,157 441,183
+rect $AnchorTag_8h.html 386,82 485,109
+rect $DescTag_8h.html 509,82 594,109
+rect $TagList_8h.html 594,231 669,258
+rect $C__ClipTag_8h.html 669,157 762,183
+rect $C__ClipTagList_8h.html 734,231 849,258
+rect $C__TagList_8h.html 786,157 880,183

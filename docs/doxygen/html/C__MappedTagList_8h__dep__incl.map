@@ -1,0 +1,11 @@
+base referer
+rect $C__MetaTagList_8h.html 251,158 374,185
+rect $C__ClipTag_8h.html 109,84 202,110
+rect $cpp__lib__cmml_8h.html 159,9 274,36
+rect $C__HeadTag_8h.html 226,84 330,110
+rect $C__ParamTagList_8h.html 619,158 750,185
+rect $C__ImportTag_8h.html 722,84 831,110
+rect $libCMMLTags_8h.html 515,9 627,36
+rect $MetaTagList_8h.html 405,84 509,110
+rect $MappedTagList_8h.html 434,158 557,185
+rect $ParamTagList_8h.html 533,84 647,110
