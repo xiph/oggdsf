@@ -32,8 +32,7 @@
 #include "httpfilesource.h"
 
 HTTPFileSource::HTTPFileSource(void)
-	:	HTTPSocket()
-	,	mBufferLock(NULL)
+	:	mBufferLock(NULL)
 {
 	mBufferLock = new CCritSec;
 	debugLog.open("G:\\logs\\httpdebug.log", ios_base::out);
@@ -73,6 +72,7 @@ void HTTPFileSource::DataProcessLoop() {
 		if (locNumRead == 0) {
 			debugLog<<"Read last bytes..."<<endl;
 			mIsEOF = true;
+			delete locBuff;
 			return;
 		}
 

@@ -33,7 +33,7 @@
 #include <string>
 using namespace std;
 
-class HTTPSocket
+class OGG_DEMUX_API HTTPSocket
 {
 public:
 	HTTPSocket(void);
@@ -56,6 +56,6 @@ protected:
 	bool mIsOpen;
 	bool mSeenResponse;
 
-	fstream debugLog;
+	fstream debugLog2;
 
 };

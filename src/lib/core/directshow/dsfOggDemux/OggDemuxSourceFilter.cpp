@@ -562,6 +562,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	while (!locIsEOF && locKeepGoing) {
 		if(CheckRequest(&locCommand) == TRUE) {
 			//debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
+			delete locBuff;
 			return S_OK;
 		}
 

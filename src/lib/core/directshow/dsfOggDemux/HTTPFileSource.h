@@ -39,13 +39,14 @@
 #include <fstream>
 using namespace std;
 class OGG_DEMUX_API HTTPFileSource
-	:	protected HTTPSocket
-	,	public IFilterDataSource
+	:	public IFilterDataSource
 	,	public CAMThread
+	,	protected HTTPSocket
+	
 {
 public:
 	HTTPFileSource(void);
-	~HTTPFileSource(void);
+	virtual ~HTTPFileSource(void);
 
 	//Thread commands
 	static const int THREAD_RUN = 0;
