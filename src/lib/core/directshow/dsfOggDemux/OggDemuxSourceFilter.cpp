@@ -117,8 +117,8 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out | ios_base::ate | ios_base::app);
 	//debugLog<<"Test..."<<endl;
 	//debugLog.seekp(0, ios_base::end);
-	debugLog<<"Test2..."<<endl;
-	//debugLog << "**************** Starting LOg ********************"<<endl;
+	//debugLog<<"Test2..."<<endl;
+	debugLog << "**************** Starting LOg ********************"<<endl;
 
 }
 
@@ -153,6 +153,7 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 	//delete mSourceFileLock;
 	//delete mDemuxLock;
 	debugLog<<"Deleting Data Source : "<<(int)mDataSource<<endl;
+	mDataSource->close();
 	delete mDataSource;
 	debugLog.close();
 	
@@ -493,6 +494,7 @@ void OggDemuxSourceFilter::resetStream() {
 		//
 		//Before opening make the interface
 		mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
+		debugLog<<"reset Stream"<<endl;
 		mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
 		mDataSource->seek(mStreamMapper->startOfData());   //Should always be zero for now.
 
@@ -642,6 +644,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	//mSourceFile.open(StringHelper::toNarrowStr(mFileName).c_str(), ios_base::in|ios_base::binary);
 	//
 	//Before openeing create the interface
+	debugLog<<"Set up pins..."<<endl;
 	mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
 	mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
 	//

@@ -75,7 +75,7 @@ protected:
 	//stringstream mStreamBuffer;
 	SingleMediaFileCache mFileCache;
 
-	//fstream debugLog;
+	fstream debugLog;
 	//fstream fileDump;
 
 

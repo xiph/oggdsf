@@ -72,6 +72,7 @@ AnxDemuxSourceFilter::AnxDemuxSourceFilter(void)
 
 AnxDemuxSourceFilter::~AnxDemuxSourceFilter(void)
 {
+	anxDebug<<"Deconstructing anx filter"<<endl;
 }
 
 

@@ -210,7 +210,7 @@ __int64 AutoOggSeekTable::fileDuration() {
 }
 bool AutoOggSeekTable::buildTable() {
 	//HACK::: To ensure we don't try and build a table on the network file.
-	debugLog<<"Anx Build table : "<<mFileName<<endl;
+	//debugLog<<"Anx Build table : "<<mFileName<<endl;
 	if (mFileName.find("http") != 0) {
 		
 		debugLog<<"Opening file... "<<endl;

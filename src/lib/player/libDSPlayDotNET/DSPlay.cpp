@@ -112,6 +112,8 @@ bool DSPlay::checkEvents() {
 //	} 
 
 DSPlay::~DSPlay(void) {
+	*debugLog<<"Killing DSPlay"<<endl;
+	debugLog->close();
 	delete debugLog;
 	releaseInterfaces();
 	CoUninitialize();
@@ -151,6 +153,7 @@ void DSPlay::releaseInterfaces() {
 		mCMMLAppControl = NULL;
 	}
 
+	*debugLog<<"Before Graph release..."<<endl;
 	if (mGraphBuilder != NULL) {
 		numRef =
             mGraphBuilder->Release();
@@ -160,7 +163,7 @@ void DSPlay::releaseInterfaces() {
 	}
 
 
-
+	*debugLog<<"After graph release>.."<<endl;
 	//TODO::: Release everything !
 }
 
@@ -222,7 +225,7 @@ bool DSPlay::loadFile(String* inFileName) {
 
 	}
 
-	debugLog<<"About to call render on "<<StringHelper::toNarrowStr(locWFileName)<<endl;
+	*debugLog<<"About to call render on "<<endl;
 	//Build the graph
 	locHR = mGraphBuilder->RenderFile(locWFileName.c_str(), NULL);
 
