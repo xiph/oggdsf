@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\dsfAbstractVideoDecoder;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\libs\libOOTheora;..\..\libs\libtheora\include;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\ogg\libogg\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper\libilliCore;..\..\..\..\helper\iDSHelper"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\dsfAbstractVideoDecoder;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\libs\libOOTheora;..\..\libs\libtheora\include;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\ogg\libogg\include;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\helper\libilliCore;..\..\..\..\helper\iDSHelper"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORADECODER_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"

@@ -31,13 +31,13 @@
 
 #pragma once
 #include "Theoradecoderdllstuff.h"
-#include "BasicSeekable.h"
+#include "BasicSeekPassThrough.h"
 
 #include <fstream>
 using namespace std;
 class TheoraDecodeOutputPin 
 	:	public CTransformOutputPin
-	,	public BasicSeekable
+	,	public BasicSeekPassThrough
 {
 public:
 	//COnstructors
