@@ -137,7 +137,7 @@ string OggPacket::padField(string inString, unsigned long inPadWidth, unsigned c
 }
 string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long inNumChars) {
 	//NOTE::: Also needs reworking
-	const unsigned char BELL = 7;
+	//const unsigned char BELL = 7;  // unused
 	//Set the fill character back to space ' '
 	//cout << setfill(' ');
 
@@ -151,13 +151,13 @@ string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long 
 	//Loop through the characters
 	for (unsigned long i = 0; i < inNumChars; i++) {
 
-		//If they are *not* going to mess up the layout (\r, \n or \t or bell(7))
-		if ( (inStartPoint[i] != '\n') && (inStartPoint[i] != '\r') && (inStartPoint[i] != '\t') && (inStartPoint[i] != BELL )) {
+		//If they are *not* going to mess up the layout (i.e. the thing is printable)
+		if ( (inStartPoint[i] >= 32) && (inStartPoint[i] <= 126) ) {
 			//Write them out
 			retStr += (char)inStartPoint[i];						
 		} else {
-			//Otherwise just write a null char
-			retStr += ((char) 0);
+			//Otherwise just write a placeholder char
+			retStr += ((char) '.');
 		}
 	}
 	retStr += "\n";
