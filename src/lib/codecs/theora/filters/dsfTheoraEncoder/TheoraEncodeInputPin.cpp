@@ -1268,11 +1268,12 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	
 
 	//HACK:::Bit of a hack to convert dshow nanos to a fps num/denom.
-	unsigned long locNum = (((double)10000000) / ((double)mVideoFormat->AvgTimePerFrame)) + (double)0.5;
+	//Now we multiply the numerator and denom by 1000, this gives us 3 d.p. of precision for framerate.
+	unsigned long locNum = (((double)10000000 * 1000) / ((double)mVideoFormat->AvgTimePerFrame)) + (double)0.5;
 
 	//debugLog<<"FPS = "<<locNum<<endl;
 	mTheoraInfo.fps_numerator = locNum;
-	mTheoraInfo.fps_denominator = 1;
+	mTheoraInfo.fps_denominator = 1000;
 	
 	mTheoraInfo.aspect_numerator=0;
 	mTheoraInfo.aspect_denominator=0;
@@ -1293,8 +1294,8 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	mTheoraInfo.keyframe_mindistance=8;
 	mTheoraInfo.noise_sensitivity=1; 
 
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = locNum;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = 1;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = mTheoraInfo.fps_numerator;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = mTheoraInfo.fps_denominator;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.maxKeyframeInterval = 6;   //log2(keyframe_freq) from above
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameHeight = mHeight;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameWidth = mWidth;
