@@ -1,0 +1,8 @@
+base referer
+rect $flacencoderdllstuff_8h.html 32,8 173,34
+rect $FLACEncodeInputPin_8h.html 58,82 221,109
+rect $SpeexEncodeInputPin_8h.html 320,82 485,109
+rect $speexencoderdllstuff_8h.html 241,8 396,34
+rect $vorbisencoderdllstuff_8h.html 528,8 685,34
+rect $VorbisEncodeInputPin_8h.html 584,82 749,109
+rect $lib_2core_2directshow_2dsfAbstractAudioEncoder_2stdafx_8h.html 797,82 866,109
