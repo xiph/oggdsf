@@ -14,10 +14,12 @@ CControlDialog::CControlDialog(CWnd* pParent /*=NULL*/)
 	: CDialog(CControlDialog::IDD, pParent)
 	, mBrowser(NULL)
 {
+	debugLog.open("G:\\logs\\axanx.log", ios_base::out);
 }
 
 CControlDialog::~CControlDialog()
 {
+	debugLog.close();
 	if (mBrowser != NULL) {
 		mBrowser->Release();
 	}
@@ -31,6 +33,8 @@ void CControlDialog::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CControlDialog, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedButton3)
 END_MESSAGE_MAP()
 
 
@@ -39,11 +43,24 @@ END_MESSAGE_MAP()
 void CControlDialog::OnBnClickedButton1()
 {
 	//PLay button.
-	// TODO: Add your control notification handler code here
+	debugLog<<"Play button pushed"<<endl;
 
 }
 
 void CControlDialog::setBrowser(IWebBrowser2* inBrowser) {
+	debugLog<<"Setting browser instance to "<<(int)inBrowser<<endl;
 	mBrowser = inBrowser;
 
+}
+
+void CControlDialog::OnBnClickedButton2()
+{
+	//Pause button
+	debugLog<<"Pause button pushed..."<<endl;
+}
+
+void CControlDialog::OnBnClickedButton3()
+{
+	//Stop button
+	debugLog<<"Stop button pushed.."<<endl;
 }
