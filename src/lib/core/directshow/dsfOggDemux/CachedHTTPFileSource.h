@@ -34,8 +34,8 @@ protected:
 
 	tRangeMap mRangeMap;
 
-	fstream mReadFile;
-	fstream mWriteFile;
+	SingleMediaFileCache mReadFile;
+	SingleMediaFileCache mWriteFile;
 
 	tMapEntry mCurrentReadRange;
 	tMapEntry mCurrentWriteRange;
