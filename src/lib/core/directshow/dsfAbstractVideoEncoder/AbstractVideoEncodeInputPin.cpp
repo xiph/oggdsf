@@ -43,6 +43,11 @@ AbstractVideoEncodeInputPin::AbstractVideoEncodeInputPin(AbstractVideoEncodeFilt
 {
 	//debugLog.open("C:\\temp\\aaein.log", ios_base::out);
 	//ConstructCodec();
+
+	//Set up the seeking path... this tells the output to deliver messages to this pin.
+	IMediaSeeking* locSeeker = NULL;
+	this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	mOutputPin->SetDelegate(locSeeker);
 	
 }
 
@@ -52,6 +57,15 @@ AbstractVideoEncodeInputPin::~AbstractVideoEncodeInputPin(void)
 	//DestroyCodec();
 }
 
+STDMETHODIMP AbstractVideoEncodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+	if (riid == IID_IMediaSeeking) {
+		*ppv = (IMediaSeeking*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+
+	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
+}
 
 void AbstractVideoEncodeInputPin::ResetFrameCount() {
 	mUptoFrame = 0;
@@ -68,7 +82,15 @@ bool AbstractVideoEncodeInputPin::SetSampleParams(IMediaSample* outMediaSample, 
 	return true;
 }
 
-
+HRESULT AbstractVideoEncodeInputPin::CompleteConnect (IPin *inReceivePin) {
+	CAutoLock locLock(m_pLock);
+	
+	//When another filters output pin connects to us, we redirect all outr seek messages to them.
+	IMediaSeeking* locSeeker = NULL;
+	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
+	return CBaseInputPin::CompleteConnect(inReceivePin);
+}
 STDMETHODIMP AbstractVideoEncodeInputPin::Receive(IMediaSample* inSample) {
 
 	//debugLog <<endl<< "Received sample..."<<endl;

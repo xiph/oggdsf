@@ -32,13 +32,18 @@
 #pragma once
 #include "abstractvideoencoderdllstuff.h"
 #include "AbstractVideoEncodeFilter.h"
+#include "BasicSeekable.h"
 class AbstractVideoEncodeFilter;
 class ABS_VIDEO_ENC_API AbstractVideoEncodeOutputPin
 	:	public CBaseOutputPin
+	,	public BasicSeekable
 {
 public:
 	AbstractVideoEncodeOutputPin(AbstractVideoEncodeFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, CMediaType* inOutputMediaType);
 	virtual ~AbstractVideoEncodeOutputPin(void);
+
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	virtual HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES *inReqAllocProps);
 	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);

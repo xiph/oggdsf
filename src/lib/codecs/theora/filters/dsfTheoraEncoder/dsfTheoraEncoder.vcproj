@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\dsfAbstractVideoEncoder;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libOOTheora;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\dsfAbstractVideoEncoder;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libOOTheora;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -74,7 +74,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\dsfAbstractVideoEncoder;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libOOTheora;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\dsfAbstractVideoEncoder;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\libs\libOOTheora;..\..\..\..\core\ogg\libOOOgg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

@@ -3,3 +3,4 @@
 * Fix wmp 9 issues, probably by rewriting the decoder :(
 * Add seeking to annodex
 * Add application cmml interface
+* I don't think non-renderer filters should expose the seeking interface.

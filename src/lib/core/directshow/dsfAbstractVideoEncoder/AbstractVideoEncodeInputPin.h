@@ -33,10 +33,12 @@
 #include "abstractvideoencoderdllstuff.h"
 //#include "AbstractVideoEncodeOutputPin.h"
 #include "AbstractVideoEncodeFilter.h"
+#include "BasicSeekable.h"
 class AbstractVideoEncodeOutputPin;
 class AbstractVideoEncodeFilter;
 class ABS_VIDEO_ENC_API AbstractVideoEncodeInputPin
 	:	public CBaseInputPin
+	,	public BasicSeekable
 {
 public:
 	AbstractVideoEncodeInputPin(AbstractVideoEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractVideoEncodeOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName);
@@ -47,7 +49,8 @@ public:
 	static const signed short SINT_MAX = 32767;
 	static const signed short SINT_MIN = -32768;
 
-	
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	
 
 	//PURE VIRTUALS
@@ -56,6 +59,7 @@ public:
 	virtual void DestroyCodec() = 0;
 	
 
+	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	STDMETHODIMP Receive(IMediaSample *pSample);
 	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
 	virtual HRESULT GetMediaType(int inPosition, CMediaType *outMediaType);

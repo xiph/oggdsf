@@ -35,6 +35,7 @@
 #include "AbstractVideoEncodeOutputPin.h"
 class ABS_VIDEO_ENC_API AbstractVideoEncodeFilter
 	:	public CBaseFilter
+
 {
 public:
 	friend class AbstractVideoEncodeInputPin;
