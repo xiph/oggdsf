@@ -121,7 +121,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 	tempBuff[locVendorLength] = '\0';
 
 	locVendorString = tempBuff;
-	delete tempBuff;
+	delete[] tempBuff;
 	tempBuff = NULL;
 
 	locUpto += locVendorLength;
@@ -159,7 +159,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 		tempBuff[locUserCommentLength] = '\0';
 
         locUserComment = tempBuff;
-		delete tempBuff;
+		delete[] tempBuff;
 		locUpto += locUserCommentLength;
 
 

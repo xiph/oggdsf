@@ -114,7 +114,7 @@ HRESULT PropsTheoraEncoder::OnActivate(void)
 	itoa(mTheoraEncodeSettings->targetBitrate(), locStrBuff, 10);
 	SendDlgItemMessage(m_Dlg, IDC_LABEL_BITRATE, WM_SETTEXT,NOT_USED,  (LPARAM)locStrBuff);
 
-	delete locStrBuff;
+	delete[] locStrBuff;
     return S_OK;
 }
 

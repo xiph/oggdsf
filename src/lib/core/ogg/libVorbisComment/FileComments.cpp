@@ -102,7 +102,7 @@ bool FileComments::loadFile(string inFileName) {
     	locOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 	}
 
-	delete locBuff;
+	delete[] locBuff;
 	
 }
 string FileComments::fileName() {

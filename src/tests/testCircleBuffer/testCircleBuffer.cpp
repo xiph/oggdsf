@@ -82,8 +82,8 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	}
 
 	delete locCircBuf;
-	delete locBuf;
-	delete locReadBuf;
+	delete[] locBuf;
+	delete[] locReadBuf;
 	return 0;
 }
 

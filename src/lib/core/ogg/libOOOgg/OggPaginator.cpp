@@ -217,7 +217,7 @@ bool OggPaginator::setChecksum() {
 			locChecksum=(locChecksum << 8) ^ crc_lookup[locTemp];
 		}
 
-		delete locBuff;
+		delete[] locBuff;
 		locBuff = NULL;
 
 		for(unsigned long i = 0; i < mPendingPage->numPackets(); i++) {

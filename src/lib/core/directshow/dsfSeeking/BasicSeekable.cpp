@@ -15,7 +15,8 @@ BasicSeekable::BasicSeekable(IMediaSeeking* inDelegate)
 						AM_SEEKING_CanGetStopPos |
 						AM_SEEKING_CanGetDuration;
 
-	//seekDebug.open("C:\\temp\\seeker.log", ios_base::out|ios_base::binary);
+	string x = "g:\\logs\\seeker.log";
+	seekDebug.open(x.c_str(), ios_base::out);
 
 }
 
@@ -31,7 +32,8 @@ BasicSeekable::BasicSeekable(void)
 						AM_SEEKING_CanGetStopPos |
 						AM_SEEKING_CanGetDuration;
 	
-	//seekDebug.open("C:\\temp\\seeker.log", ios_base::out|ios_base::binary);
+	string x = "g:\\logs\\seeker.log";
+	seekDebug.open(x.c_str(), ios_base::out);
 	
 
 }
@@ -55,7 +57,7 @@ BasicSeekable::~BasicSeekable(void)
 		mSeekDelegate->Release();
 		mSeekDelegate = NULL;
 	}
-	//seekDebug.close();
+	seekDebug.close();
 }
 //IMediaSeeking Interface
 STDMETHODIMP BasicSeekable::GetCapabilities(DWORD* inCapabilities) {
@@ -77,10 +79,10 @@ STDMETHODIMP BasicSeekable::GetCapabilities(DWORD* inCapabilities) {
 	//return S_OK;
 	
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"GetCaps : Passed on..."<<endl;
+		seekDebug<<"GetCaps : Passed on..."<<endl;
 		return mSeekDelegate->GetCapabilities(inCapabilities);
 	} else {
-		//seekDebug<<"GetCaps : NULL Delegate"<<endl;
+		seekDebug<<"GetCaps : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -102,10 +104,10 @@ STDMETHODIMP BasicSeekable::CheckCapabilities(DWORD* outCapabilities) {
 
 
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"CheckCaps : Passed on..."<<endl;
+		seekDebug<<"CheckCaps : Passed on..."<<endl;
 		return mSeekDelegate->CheckCapabilities(outCapabilities);
 	} else {
-		//seekDebug<<"CheckCaps : NULL Delegate"<<endl;
+		seekDebug<<"CheckCaps : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -123,10 +125,10 @@ STDMETHODIMP BasicSeekable::IsFormatSupported(const GUID* inFormat) {
 	//}
 
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"IsFromatsupp : Passed on..."<<endl;
+		seekDebug<<"IsFromatsupp : Passed on..."<<endl;
 		return mSeekDelegate->IsFormatSupported(inFormat);
 	} else {
-		//seekDebug<<"IsFromatsupp : NULL Delegate"<<endl;
+		seekDebug<<"IsFromatsupp : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -141,10 +143,10 @@ STDMETHODIMP BasicSeekable::QueryPreferredFormat(GUID* outFormat) {
 
 	//return S_OK;
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Query preff : Passed on..."<<endl;
+		seekDebug<<"Query preff : Passed on..."<<endl;
 		return mSeekDelegate->QueryPreferredFormat(outFormat);
 	} else {
-		//seekDebug<<"Query preff : NULL Delegate"<<endl;
+		seekDebug<<"Query preff : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -153,10 +155,10 @@ STDMETHODIMP BasicSeekable::QueryPreferredFormat(GUID* outFormat) {
 STDMETHODIMP BasicSeekable::SetTimeFormat(const GUID* inFormat) {
 
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"SetTimeformat :Passed on..."<<endl;
+		seekDebug<<"SetTimeformat :Passed on..."<<endl;
 		return mSeekDelegate->SetTimeFormat(inFormat);
 	} else {
-		//seekDebug<<"SetTimeformat : NULL Delegate"<<endl;
+		seekDebug<<"SetTimeformat : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -164,10 +166,10 @@ STDMETHODIMP BasicSeekable::SetTimeFormat(const GUID* inFormat) {
 
 STDMETHODIMP  BasicSeekable::GetTimeFormat( GUID *outFormat) {
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Gettimeformat : Passed on..."<<endl;
+		seekDebug<<"Gettimeformat : Passed on..."<<endl;
 		return mSeekDelegate->GetTimeFormat(outFormat);
 	} else {
-		//seekDebug<<"Gettimeformat : NULL Delegate"<<endl;
+		seekDebug<<"Gettimeformat : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -175,10 +177,10 @@ STDMETHODIMP  BasicSeekable::GetTimeFormat( GUID *outFormat) {
 STDMETHODIMP BasicSeekable::GetDuration(LONGLONG* outDuration) {
 
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Getdureation : Passed on..."<<endl;
+		seekDebug<<"Getdureation : Passed on..."<<endl;
 		return mSeekDelegate->GetDuration(outDuration);
 	} else {
-		//seekDebug<<"Getdureation : NULL Delegate"<<endl;
+		seekDebug<<"Getdureation : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -186,10 +188,10 @@ STDMETHODIMP BasicSeekable::GetDuration(LONGLONG* outDuration) {
 }
 STDMETHODIMP BasicSeekable::GetStopPosition(LONGLONG* inStop) {
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Getstoppos : Passed on..."<<endl;
+		seekDebug<<"Getstoppos : Passed on..."<<endl;
 		return mSeekDelegate->GetStopPosition(inStop);
 	} else {
-		//seekDebug<<"Getstoppos : NULL Delegate"<<endl;
+		seekDebug<<"Getstoppos : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -199,10 +201,10 @@ STDMETHODIMP BasicSeekable::GetCurrentPosition(LONGLONG* outCurrent) {
 	//return E_NOTIMPL;
 	
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Getcurrpos : Passed on..."<<endl;
+		seekDebug<<"Getcurrpos : Passed on..."<<endl;
 		return mSeekDelegate->GetCurrentPosition(outCurrent);
 	} else {
-		//seekDebug<<"Getcurrpos : NULL Delegate"<<endl;
+		seekDebug<<"Getcurrpos : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -210,17 +212,17 @@ STDMETHODIMP BasicSeekable::GetCurrentPosition(LONGLONG* outCurrent) {
 STDMETHODIMP BasicSeekable::ConvertTimeFormat(LONGLONG* outTarget, const GUID* inTargetFormat, LONGLONG inSource, const GUID* inSourceFormat) {
 	//return E_NOTIMPL;
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"ConvTimeformat : Passed on..."<<endl;
+		seekDebug<<"ConvTimeformat : Passed on..."<<endl;
 		return mSeekDelegate->ConvertTimeFormat(outTarget, inTargetFormat, inSource, inSourceFormat);
 	} else {
-		//seekDebug<<"ConvTimeformat : NULL Delegate"<<endl;
+		seekDebug<<"ConvTimeformat : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
 }	
 STDMETHODIMP BasicSeekable::SetPositions(LONGLONG* inoutCurrent, DWORD inCurrentFlags, LONGLONG* inStop, DWORD inStopFlags) {
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Set pos : Requested Time : "<<*inoutCurrent<<endl;
+		seekDebug<<"Set pos : Requested Time : "<<*inoutCurrent<<endl;
 		HRESULT locHR = mSeekDelegate->SetPositions(inoutCurrent, inCurrentFlags, inStop, inStopFlags);
 		if (locHR == S_OK) {
 			//mSeekTimeBase = *inoutCurrent;
@@ -229,7 +231,7 @@ STDMETHODIMP BasicSeekable::SetPositions(LONGLONG* inoutCurrent, DWORD inCurrent
 		}
 		return locHR;
 	} else {
-		//seekDebug<<"Set pos : NULL Delegate"<<endl;
+		seekDebug<<"Set pos : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -237,10 +239,10 @@ STDMETHODIMP BasicSeekable::SetPositions(LONGLONG* inoutCurrent, DWORD inCurrent
 }
 STDMETHODIMP BasicSeekable::GetPositions(LONGLONG* outCurrent, LONGLONG* outStop) {
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"GetPos : Passed on..."<<endl;
+		seekDebug<<"GetPos : Passed on..."<<endl;
 		return mSeekDelegate->GetPositions(outCurrent, outStop);
 	} else {
-		//seekDebug<<"GetPos : NULL Delegate"<<endl;
+		seekDebug<<"GetPos : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -248,10 +250,10 @@ STDMETHODIMP BasicSeekable::GetPositions(LONGLONG* outCurrent, LONGLONG* outStop
 }
 STDMETHODIMP BasicSeekable::GetAvailable(LONGLONG* outEarliest, LONGLONG* outLatest) {
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Getavail : Passed on..."<<endl;
+		seekDebug<<"Getavail : Passed on..."<<endl;
 		return mSeekDelegate->GetAvailable(outEarliest, outLatest);
 	} else {
-		//seekDebug<<"Getavail : NULL Delegate"<<endl;
+		seekDebug<<"Getavail : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
@@ -259,40 +261,40 @@ STDMETHODIMP BasicSeekable::GetAvailable(LONGLONG* outEarliest, LONGLONG* outLat
 STDMETHODIMP BasicSeekable::SetRate(double inRate) {
 
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Setrate : Passed on..."<<endl;
+		seekDebug<<"Setrate : Passed on..."<<endl;
 		return mSeekDelegate->SetRate(inRate);
 	} else {
-		//seekDebug<<"Setrate : NULL Delegate"<<endl;
+		seekDebug<<"Setrate : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
 }
 STDMETHODIMP BasicSeekable::GetRate(double* outRate) {
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Getrate : Passed on..."<<endl;
+		seekDebug<<"Getrate : Passed on..."<<endl;
 		return mSeekDelegate->GetRate(outRate);
 	} else {
-		//seekDebug<<"Getrate : NULL Delegate"<<endl;
+		seekDebug<<"Getrate : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
 }
 STDMETHODIMP BasicSeekable::GetPreroll(LONGLONG* outPreroll) {
 	if (mSeekDelegate != NULL) {
-		//seekDebug<<"Getpreroll : Passed on..."<<endl;
+		seekDebug<<"Getpreroll : Passed on..."<<endl;
 		return mSeekDelegate->GetPreroll(outPreroll);
 	} else {
-		//seekDebug<<"Getpreroll : NULL Delegate"<<endl;
+		seekDebug<<"Getpreroll : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}
 }
 STDMETHODIMP BasicSeekable::IsUsingTimeFormat(const GUID* inFormat) {
 if (mSeekDelegate != NULL) {
-		//seekDebug<<"Isusingtimeformat : Passed on..."<<endl;
+		seekDebug<<"Isusingtimeformat : Passed on..."<<endl;
 		return mSeekDelegate->IsUsingTimeFormat(inFormat);
 	} else {
-		//seekDebug<<"Isusingtimeformat : NULL Delegate"<<endl;
+		seekDebug<<"Isusingtimeformat : NULL Delegate"<<endl;
 		//This is probably wrong.
 		return E_NOTIMPL;
 	}

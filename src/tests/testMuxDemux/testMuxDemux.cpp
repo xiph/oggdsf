@@ -97,7 +97,7 @@ int testPageWriter(string inReadFile, string inWriteFile) {
     	testOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 	}
 
-	delete locBuff;
+	delete[] locBuff;
 
 	return 0;
 }

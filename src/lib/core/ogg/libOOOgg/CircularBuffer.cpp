@@ -13,7 +13,7 @@ CircularBuffer::CircularBuffer(unsigned long inBufferSize)
 
 CircularBuffer::~CircularBuffer(void)
 {
-	delete mBuffer;
+	delete[] mBuffer;
 }
 
 unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytesToRead) {

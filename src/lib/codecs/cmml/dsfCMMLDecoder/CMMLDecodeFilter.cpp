@@ -274,13 +274,13 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 
 			} else {
 				//debugLog<<"          : Parse FAILED"<<endl;
-				delete locCMML;
+				delete[] locCMML;
 				return S_FALSE;
 			}
 		}
 
 		//debugLog<<"Returning... "<<endl<<endl;
-		delete locCMML;
+		delete[] locCMML;
 		return S_OK;
 
 	} else {

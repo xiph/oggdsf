@@ -153,7 +153,7 @@ bool OggMuxFilter::acceptOggPage(OggPage* inOggPage) {
 	unsigned char* locPageData = inOggPage->createRawPageData();
 	mOutputFile.write((char*)locPageData, inOggPage->pageSize());
 
-	delete locPageData;
+	delete[] locPageData;
 	return true;
 }
 bool OggMuxFilter::SetupOutput() {

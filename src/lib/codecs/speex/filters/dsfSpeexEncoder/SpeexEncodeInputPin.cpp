@@ -77,7 +77,7 @@ long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	//debugLog<<"Calling encode"<<endl;
 	//FIX::: The 2 is the size of a sample ie 16 bits
 	long locErr = fish_sound_encode(mFishSound, (float**)locFloatBuf, inNumBytes/(mFishInfo.channels*2));
-	delete locFloatBuf;
+	delete[] locFloatBuf;
 	//FIX::: Do something here ?
 	if (locErr < 0) {
 		//debugLog<<"Fishsound reports error"<<endl;

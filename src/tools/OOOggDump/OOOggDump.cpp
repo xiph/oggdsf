@@ -94,7 +94,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
     		testOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 		}
 
-		delete locBuff;
+		delete[] locBuff;
 	}
 
 	return 0;

@@ -72,7 +72,7 @@ void HTTPFileSource::DataProcessLoop() {
 		if (locNumRead == 0) {
 			//debugLog<<"Read last bytes..."<<endl;
 			mIsEOF = true;
-			delete locBuff;
+			delete[] locBuff;
 			return;
 		}
 
@@ -125,7 +125,7 @@ void HTTPFileSource::DataProcessLoop() {
 		} //END CRITICAL SECTION
 	}
 
-	delete locBuff;
+	delete[] locBuff;
 
 
 }

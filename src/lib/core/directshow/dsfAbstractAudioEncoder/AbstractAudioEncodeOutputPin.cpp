@@ -140,7 +140,7 @@ HRESULT AbstractAudioEncodeOutputPin::GetMediaType(int inPosition, CMediaType *o
 			locFormatBuffer = new BYTE[FormatBufferSize()];
 			FillFormatBuffer(locFormatBuffer);
 			outMediaType->SetFormat(locFormatBuffer, FormatBufferSize());
-			delete locFormatBuffer;
+			delete[] locFormatBuffer;
 			//
 			return S_OK;			
 		default:

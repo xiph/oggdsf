@@ -1,0 +1,16 @@
+base referer
+rect $AutoOggSeekTable_8h.html 616,530 765,557
+rect $dllstuff_8h.html 177,232 249,258
+rect $CircularBuffer_8h.html 194,381 309,408
+rect $IFIFOBuffer_8h.html 250,306 354,333
+rect $IOggCallback_8h.html 576,381 690,408
+rect $OggDataBuffer_8h.html 384,456 506,482
+rect $OggPage_8h.html 413,232 501,258
+rect $SerialNoRego_8h.html 434,381 552,408
+rect $OggCallbackRego_8h.html 485,306 626,333
+rect $StampedOggPacket_8h.html 224,157 376,184
+rect $OggPageHeader_8h.html 400,157 533,184
+rect $iLE__Math_8h.html 618,82 709,109
+rect $libilliCore_8h.html 677,8 765,34
+rect $iBE__Math_8h.html 733,82 824,109
+rect $IOggPackSource_8h.html 557,157 690,184

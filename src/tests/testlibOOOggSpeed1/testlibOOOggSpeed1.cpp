@@ -82,7 +82,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
     		testOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 		}
 
-		delete locBuff;
+		delete[] locBuff;
 	}
 	QueryPerformanceCounter(&perfEnd);
     cout<<"Packet count = "<<packetCount<<endl;

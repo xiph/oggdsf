@@ -65,7 +65,7 @@ void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
 	//Copy the next packets data after it
 	memcpy((void*)(locBuff + mPacketSize), (const void*)inMorePacket->mPacketData, inMorePacket->mPacketSize);
 	//Delete our original packet data
-	delete mPacketData;
+	delete[] mPacketData;
 	//Now make our data be the combined data
 	mPacketData = locBuff;
 	//Make the size the sum of both packets

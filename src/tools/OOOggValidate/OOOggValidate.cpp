@@ -74,7 +74,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 		} else {
 			cout<<"File is invalid."<<endl;
 		}
-		delete locBuff;
+		delete[] locBuff;
 	}
 
 	

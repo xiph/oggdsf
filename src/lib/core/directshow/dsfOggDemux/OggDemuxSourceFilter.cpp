@@ -580,7 +580,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	while (!locIsEOF && locKeepGoing) {
 		if(CheckRequest(&locCommand) == TRUE) {
 			//debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
-			delete locBuff;
+			delete[] locBuff;
 			return S_OK;
 		}
 
@@ -625,7 +625,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 	DeliverEOS();
 
 	//Shuold we flush ehre ?
-	delete locBuff;
+	delete[] locBuff;
 	
 	
 	//return value ??
@@ -673,7 +673,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 	mDataSource->seek(0);			//TODO::: This is bad for streams.
 	//Memory leak
 	//FIXED
-	delete locBuff;
+	delete[] locBuff;
 	return S_OK;
 }
 //IOggCallback Interface

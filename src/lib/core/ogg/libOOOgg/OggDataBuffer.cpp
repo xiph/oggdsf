@@ -60,7 +60,7 @@ OggDataBuffer::OggDataBuffer(bool x)
 
 OggDataBuffer::~OggDataBuffer(void)
 {
-	delete mBuffer;
+	delete[] mBuffer;
 	//debugLog.close();
 	delete pendingPage;
 }

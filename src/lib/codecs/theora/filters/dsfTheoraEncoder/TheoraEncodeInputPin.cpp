@@ -50,9 +50,9 @@ TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 {
 	//debugLog.close();
 	DestroyCodec();
-	delete mYUV.y;
-	delete mYUV.u;
-	delete mYUV.v;
+	delete[] mYUV.y;
+	delete[] mYUV.u;
+	delete[] mYUV.v;
 
 }
 
@@ -665,7 +665,7 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 
 	//Still need to pass through to the AYUV conversion.
 	encodeAYUVtoYV12(locAYUVBuf, locNumPixels<<2);
-	delete locAYUVBuf;
+	delete[] locAYUVBuf;
 	locAYUVBuf = NULL;
 
 	return 0;
@@ -774,7 +774,7 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 	//Still need to pass through to the AYUV conversion.
 
 	encodeAYUVtoYV12(locAYUVBuf, inNumBytes);
-	delete locAYUVBuf;
+	delete[] locAYUVBuf;
 	locAYUVBuf = NULL;
 
 	return 0;
