@@ -152,6 +152,11 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 {
 	apr_uri_t *locURI = &(inRequest->parsed_uri);
 
+	// Ignore the request if it's not directed at this module
+	if (strcmp(inRequest->handler, "oggchef")) {
+		return DECLINED;
+	}
+
 	// Grab the local filename (which is determined by the requested URL)
 	string locFilename = inRequest->filename;
 
@@ -192,11 +197,12 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 					  "Couldn't identify filename %s", locFilename.c_str());
 	}
 
-	locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes);
+	if (locRecomposer) {
+		locRecomposer->recomposeStreamFrom(locRequestedStartTime, locOutputMIMETypes);
+		delete locRecomposer;
+	}
 
-	// Clean up
 	delete locOutputMIMETypes;
-	delete locRecomposer;
 
 	return OK;
 }
