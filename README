@@ -18,6 +18,13 @@ You need NASM for FLAC to build. (lifes easier if it's at C:\NASM)
  delete some necessary header files. Don't ask me why !
  Also ignore visual studio hassling you about sourcesafe for flac.
 
+If you do accidentally clean FLAC, you will get a message when you
+ try to build that says "ordinals.h" not found. You need to
+ go to the libFLAC directory and find the file called ordinals.h.in
+ and *copy* it to the same directory without the .in extension.
+ Don't just rename it... you want to keep that file for next time
+ this happens !
+
 You need DirectX 9 SDK installed (lifes easier if it's at C:\DXSDK)
  Otherwise all projcets prefixed with dsf you'll need to change the
  absolute references to that path. I'll try to do something to make

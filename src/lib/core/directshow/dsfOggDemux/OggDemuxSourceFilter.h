@@ -51,7 +51,7 @@ class OGG_DEMUX_API OggDemuxSourceFilter
 		public IOggCallback
 	,	public BasicSeekable
 	,	public ISpecifyPropertyPages
-	
+	,	public IAMFilterMiscFlags
 		
 {
 public:
@@ -71,6 +71,10 @@ public:
 	OggDemuxSourceFilter();
 	OggDemuxSourceFilter(REFCLSID inFilterGUID);
 	virtual ~OggDemuxSourceFilter(void);
+
+	//IAMFilterMiscFlags Interface
+	ULONG STDMETHODCALLTYPE OggDemuxSourceFilter::GetMiscFlags(void);
+	//
 
 	//IFileSource Interface
 	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);

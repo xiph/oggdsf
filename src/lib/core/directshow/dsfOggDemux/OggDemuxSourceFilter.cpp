@@ -82,6 +82,10 @@ STDMETHODIMP OggDemuxSourceFilter::NonDelegatingQueryInterface(REFIID riid, void
 		*ppv = (ISpecifyPropertyPages*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
+	}  else if (riid == IID_IAMFilterMiscFlags) {
+		*ppv = (IAMFilterMiscFlags*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
 	}
 
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
@@ -141,7 +145,10 @@ OggDemuxSourceFilter::~OggDemuxSourceFilter(void)
 	}
 
 }
-
+//IAMFilterMiscFlags Interface
+ULONG OggDemuxSourceFilter::GetMiscFlags(void) {
+	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
+}
 //ISpecifyPropertyPgaes Interface
 STDMETHODIMP OggDemuxSourceFilter::GetPages(CAUUID* outPropPages) {
 	if (outPropPages == NULL) return E_POINTER;
