@@ -56,6 +56,7 @@
 
 #ifdef WIN32
 #include <windef.h>
+#include <io.h>
 #define S_ISREG(x) TRUE
 #endif
  
@@ -130,6 +131,7 @@ anx_register_media_importer_lib (const char * pathname,
 static void
 anx_register_all_media_importers_dir (char * dirname, char * content_type_pattern)
 {
+#ifndef WIN32
   DIR * dir;
   struct dirent * dirent;
   struct stat statbuf;
@@ -142,6 +144,8 @@ anx_register_all_media_importers_dir (char * dirname, char * content_type_patter
     return;
   }
 
+  
+  
   while ((dirent = readdir (dir)) != NULL) {
     snprintf (buf, BUF_LEN, "%s/%s", dirname, dirent->d_name);
     if (lstat (buf, &statbuf) == -1) {
@@ -151,6 +155,30 @@ anx_register_all_media_importers_dir (char * dirname, char * content_type_patter
 	anx_register_media_importer_lib (buf, content_type_pattern);
     }
   }
+#else
+  struct _finddata_t result;
+#define BUF_LEN 256
+  char buf[BUF_LEN];
+  struct _stat statbuf;
+  intptr_t searchHandle = _findfirst(dirname, &result);
+  if (searchHandle == -1) {
+    /* fail silently */
+    return;
+  }
+
+  do {
+    snprintf (buf, BUF_LEN, "%s/%s", dirname, result.name);
+    if (stat (buf, &statbuf) == -1) {
+	  
+      perror ("stat");
+    } else {
+		if (S_ISREG(statbuf.st_mode)) {
+	      anx_register_media_importer_lib (buf, content_type_pattern);
+		}
+    }
+  } while(_findnext(searchHandle, &result));
+#endif
+
 }
 
 void

@@ -1,6 +1,0 @@
-error13.cmml:7:0: Skipped doubly defined tag or tag with missing required attribute
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE cmml SYSTEM "cmml.dtd">
-
-<cmml>
-

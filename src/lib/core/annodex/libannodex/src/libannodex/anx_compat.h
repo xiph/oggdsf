@@ -62,6 +62,7 @@
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 #define snprintf _snprintf
+#define vsnprintf _vsnprintf
 #define random rand
 #define srandom srand
 #define lstat stat

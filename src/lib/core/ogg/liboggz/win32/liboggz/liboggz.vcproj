@@ -35,6 +35,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/liboggz.dll"
 				LinkIncremental="2"
+				ModuleDefinitionFile="..\liboggz.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/liboggz.pdb"
 				SubSystem="2"
