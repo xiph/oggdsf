@@ -141,6 +141,9 @@
 				RelativePath="FilterFileSource.cpp">
 			</File>
 			<File
+				RelativePath="HTTPFileSource.cpp">
+			</File>
+			<File
 				RelativePath="OggDemux.def">
 			</File>
 			<File
@@ -203,6 +206,9 @@
 			</File>
 			<File
 				RelativePath="FilterFileSource.h">
+			</File>
+			<File
+				RelativePath="HTTPFileSource.h">
 			</File>
 			<File
 				RelativePath="IFilterDataSource.h">
