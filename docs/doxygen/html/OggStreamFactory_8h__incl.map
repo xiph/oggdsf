@@ -1,0 +1,10 @@
+base referer
+rect $oggdllstuff_8h.html 274,33 368,59
+rect $VorbisStream_8h.html 80,107 194,134
+rect $SpeexStream_8h.html 466,107 581,134
+rect $FLACStream_8h.html 605,107 717,134
+rect $TheoraStream_8h.html 741,107 861,134
+rect $OggFLAC__1__0__Stream_8h.html 218,107 392,134
+rect $OggPacket_8h.html 408,33 506,59
+rect $OggPage_8h.html 588,33 676,59
+rect $FFDShowVideoStream_8h.html 885,107 1056,134
