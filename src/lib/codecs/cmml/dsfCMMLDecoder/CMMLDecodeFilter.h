@@ -71,7 +71,7 @@ protected:
 	C_HeadTag* mHeadTag;
 	ICMMLCallbacks* mCMMLCallbacks;
 
-	fstream debugLog;
+	//fstream debugLog;
 	
 
 };

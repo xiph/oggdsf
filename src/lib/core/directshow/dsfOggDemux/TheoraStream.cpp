@@ -87,7 +87,7 @@ bool TheoraStream::createFormatBlock() {
 }
 
 void TheoraStream::setLastEndGranPos(__int64 inPos) {
-	debugLog<<"Theora inPos: "<<inPos<<endl;
+	//debugLog<<"Theora inPos: "<<inPos<<endl;
 	LONGLONG locFrameDuration = (UNITS * mTheoraFormatBlock->frameRateDenominator) / (mTheoraFormatBlock->frameRateNumerator);
 
 	LONGLONG locAbsFramePos = inPos / locFrameDuration;
@@ -98,7 +98,7 @@ void TheoraStream::setLastEndGranPos(__int64 inPos) {
 	//LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> locFilter->mTheoraFormatInfo->maxKeyframeInterval) * locMod) + locInterFrameNo;
 	//REFERENCE_TIME locTimeBase = ((locAbsFramePos * mFrameDuration) - locThis->mSeekTimeBase;
 	//mLastEndGranulePos = (inPos * (__int64)mSpeexFormatBlock->samplesPerSec)/ UNITS;
-	debugLog<<"Theora sets End Gran : "<<mLastEndGranulePos<<endl;
+	//debugLog<<"Theora sets End Gran : "<<mLastEndGranulePos<<endl;
 }
 BYTE* TheoraStream::getFormatBlock() {
 

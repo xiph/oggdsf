@@ -35,7 +35,7 @@ HTTPFileSource::HTTPFileSource(void)
 	:	mBufferLock(NULL)
 {
 	mBufferLock = new CCritSec;
-	debugLog.open("G:\\logs\\httpdebug.log", ios_base::out);
+	//debugLog.open("G:\\logs\\httpdebug.log", ios_base::out);
 	//fileDump.open("G:\\filedump.ogg", ios_base::out|ios_base::binary);
 
 
@@ -45,32 +45,32 @@ HTTPFileSource::HTTPFileSource(void)
 
 HTTPFileSource::~HTTPFileSource(void)
 {
-	debugLog<<"Winsock ended"<<endl;
-	debugLog.close();
+	//debugLog<<"Winsock ended"<<endl;
+	//debugLog.close();
 	//fileDump.close();
 	delete mBufferLock;
 	
 }
 
 void HTTPFileSource::DataProcessLoop() {
-	debugLog<<"DataProcessLoop: "<<endl;
+	//debugLog<<"DataProcessLoop: "<<endl;
 	int locNumRead = 0;
 	char* locBuff = NULL;
 	const unsigned long RECV_BUFF_SIZE = 1024;
 	locBuff = new char[RECV_BUFF_SIZE];
 	while(true) {
-		debugLog<<"About to call recv"<<endl;
+		//debugLog<<"About to call recv"<<endl;
 		locNumRead = recv(mSocket, locBuff, RECV_BUFF_SIZE, 0);
-		debugLog<<"recv complete"<<endl;
+		//debugLog<<"recv complete"<<endl;
 		if (locNumRead == SOCKET_ERROR) {
 			int locErr = WSAGetLastError();
-			debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
+			//debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
 			mWasError = true;
 			break;
 		}
 
 		if (locNumRead == 0) {
-			debugLog<<"Read last bytes..."<<endl;
+			//debugLog<<"Read last bytes..."<<endl;
 			mIsEOF = true;
 			delete locBuff;
 			return;
@@ -78,14 +78,14 @@ void HTTPFileSource::DataProcessLoop() {
 
 		{//CRITICAL SECTION - PROTECTING BUFFER STATE
 			CAutoLock locLock(mBufferLock);
-			debugLog <<"Num Read = "<<locNumRead<<endl;
+			//debugLog <<"Num Read = "<<locNumRead<<endl;
 			if (mSeenResponse) {
 				//Add to buffer
 				bool locWriteOK = mFileCache.write((const unsigned char*)locBuff, locNumRead);
 				if (locWriteOK) {
-					debugLog<<"Added to cache "<<locNumRead<<" bytes."<<endl;
+					//debugLog<<"Added to cache "<<locNumRead<<" bytes."<<endl;
 				} else {
-					debugLog<<"Write to cache failed.."<<endl;
+					//debugLog<<"Write to cache failed.."<<endl;
 				}
 				//Dump to file
 				//fileDump.write(locBuff, locNumRead);
@@ -95,7 +95,7 @@ void HTTPFileSource::DataProcessLoop() {
 				size_t locPos = locTemp.find("\r\n\r\n");
 				if (locPos != string::npos) {
 					//Found the break
-					debugLog<<"locPos = "<<locPos<<endl;
+					//debugLog<<"locPos = "<<locPos<<endl;
 					mSeenResponse = true;
 					mLastResponse = locTemp.substr(0, locPos);
 					char* locBuff2 = locBuff + locPos + 4;  //View only - don't delete.
@@ -108,10 +108,10 @@ void HTTPFileSource::DataProcessLoop() {
 					
 
 					if(locWriteOK) {
-						debugLog<<"Added to Buffer "<<locNumRead - (locPos+4)<<" bytes... first after response."<<endl;
+						//debugLog<<"Added to Buffer "<<locNumRead - (locPos+4)<<" bytes... first after response."<<endl;
 						
 					} else {
-						debugLog<<"Buffering failure..."<<endl;
+						//debugLog<<"Buffering failure..."<<endl;
 					}
 
 					//size_t locG, locP;
@@ -159,7 +159,7 @@ unsigned long HTTPFileSource::seek(unsigned long inPos) {
 	//Close the socket down
 	//Open up a new one to the same place.
 	//Make the partial content request.
-	debugLog<<"Seeking to "<<inPos<<endl;
+	//debugLog<<"Seeking to "<<inPos<<endl;
 	if (mFileCache.readSeek(inPos)) {
 		return inPos;
 	} else {
@@ -186,7 +186,7 @@ bool HTTPFileSource::open(string inSourceLocation) {
 	//
 	mSeenResponse = false;
 	mLastResponse = "";
-	debugLog<<"Open: "<<inSourceLocation<<endl;
+	//debugLog<<"Open: "<<inSourceLocation<<endl;
 
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
@@ -198,28 +198,39 @@ bool HTTPFileSource::open(string inSourceLocation) {
 		//TODO::: Get rid of this path.
 		
 		//string locCacheFileName = "filecache.dat";
+		
+		//Init rand number generator
+		LARGE_INTEGER locTicks;
+		QueryPerformanceCounter(&locTicks);
+		srand((unsigned int)locTicks.LowPart);
+
+		int locRand = rand();
+
 		string locCacheFileName = getenv("TEMP");
-		debugLog<<"Temp = "<<locCacheFileName<<endl;
-		locCacheFileName += "\\filecache.dat";
-		debugLog<<"Cache file  = "<<locCacheFileName<<endl;
+		//debugLog<<"Temp = "<<locCacheFileName<<endl;
+		locCacheFileName += "\\filecache";
+		
+		locCacheFileName += StringHelper::numToString(locRand);
+		locCacheFileName += ".ogg";
+		//debugLog<<"Cache file  = "<<locCacheFileName<<endl;
 		if(mFileCache.open(locCacheFileName)) {
-			debugLog<<"OPEN : Cach file opened"<<endl;
+			//debugLog<<"OPEN : Cach file opened"<<endl;
 		}
 	} //END CRITICAL SECTION
 
 	bool locIsOK = setupSocket(inSourceLocation);
 
 	if (!locIsOK) {
-		debugLog<<"Setup socket FAILED"<<endl;
+		//debugLog<<"Setup socket FAILED"<<endl;
 		closeSocket();
 		return false;
 	}
 
-	debugLog<<"Sending request..."<<endl;
+	//debugLog<<"Sending request..."<<endl;
 
 	//How is filename already set ??
 	httpRequest(assembleRequest(mFileName));
-	debugLog<<"Socket ok... starting thread"<<endl;
+	//debugLog<<"Socket ok... starting thread"<<endl;
 	locIsOK = startThread();
 
 
@@ -236,12 +247,12 @@ bool HTTPFileSource::isEOF() {
 		unsigned long locSizeBuffed = mFileCache.bytesAvail();;
 	
 
-		debugLog<<"isEOF : Amount Buffered avail = "<<locSizeBuffed<<endl;
+		//debugLog<<"isEOF : Amount Buffered avail = "<<locSizeBuffed<<endl;
 		if ((locSizeBuffed == 0) && mIsEOF) {
-			debugLog<<"isEOF : It is EOF"<<endl;
+			//debugLog<<"isEOF : It is EOF"<<endl;
 			return true;
 		} else {
-			debugLog<<"isEOF : It's not EOF"<<endl;
+			//debugLog<<"isEOF : It's not EOF"<<endl;
 			return false;
 		}
 	} //END CRITICAL SECTION
@@ -254,9 +265,9 @@ unsigned long HTTPFileSource::read(char* outBuffer, unsigned long inNumBytes) {
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
 		CAutoLock locLock(mBufferLock);
 		
-		debugLog<<"Read:"<<endl;
+		//debugLog<<"Read:"<<endl;
 		if((mFileCache.bytesAvail() == 0) || mWasError) {
-			debugLog<<"read : Can't read is error or eof"<<endl;
+			//debugLog<<"read : Can't read is error or eof"<<endl;
 			return 0;
 		} else {
 			//debugLog<<"Reading from buffer"<<endl;
@@ -266,7 +277,7 @@ unsigned long HTTPFileSource::read(char* outBuffer, unsigned long inNumBytes) {
 				mStreamBuffer.clear();
 			}*/
 
-			debugLog<<locNumRead<<" bytes read from buffer"<<endl;
+			//debugLog<<locNumRead<<" bytes read from buffer"<<endl;
 			return locNumRead;
 		}
 	} //END CRITICAL SECTION

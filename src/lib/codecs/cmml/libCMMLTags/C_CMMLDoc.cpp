@@ -52,6 +52,7 @@ C_CMMLRootTag* C_CMMLDoc::root() {
 	return mRoot;
 }
 void C_CMMLDoc::setRoot(C_CMMLRootTag* inRootTag) {
+	delete mRoot;
 	mRoot = inRootTag;
 }
 string C_CMMLDoc::toString() {

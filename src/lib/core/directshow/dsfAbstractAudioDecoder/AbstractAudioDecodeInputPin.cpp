@@ -47,7 +47,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mSeekTimeBase(0)
 {
 	//ConstructCodec();
-	debugLog.open("g:\\logs\\aad.log", ios_base::out);
+	//debugLog.open("g:\\logs\\aad.log", ios_base::out);
 	mAcceptableMediaType = inAcceptMediaType;
 	mStreamLock = new CCritSec;
 
@@ -105,7 +105,7 @@ HRESULT AbstractAudioDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
 AbstractAudioDecodeInputPin::~AbstractAudioDecodeInputPin(void)
 {
 	//DestroyCodec();
-	debugLog.close();
+	//debugLog.close();
 	delete mStreamLock;
 }
 
@@ -132,8 +132,8 @@ bool AbstractAudioDecodeInputPin::SetSampleParams(IMediaSample* outMediaSample, 
 STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample) 
 {
 	//
-	inSample->AddRef();
-	debugLog<<"Received Sample with refcount = "<<inSample->Release()<<endl;
+	//inSample->AddRef();
+	//debugLog<<"Received Sample with refcount = "<<inSample->Release()<<endl;
 	//
 	//TO DO::: Fix this up...
 	CAutoLock locLock(mStreamLock);
@@ -182,7 +182,7 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 			}
 		}
 	} else {
-		debugLog<<"NOT STREAMING.... "<<endl;
+		//debugLog<<"NOT STREAMING.... "<<endl;
 		return locHR;
 	}
 	

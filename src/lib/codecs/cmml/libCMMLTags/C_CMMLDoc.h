@@ -151,6 +151,8 @@ public:
 protected:
 	C_CMMLPreamble* mPreamble;
 	C_CMMLRootTag* mRoot;
+
+
 	//bool mIsStreamReady;
 	//bool mIsEOF;
 	//bool mIsStreamError;

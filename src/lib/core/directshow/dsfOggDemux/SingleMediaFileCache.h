@@ -62,6 +62,6 @@ protected:
 	unsigned long mBytesWritten;
 	unsigned long mReadPtr;
 	
-	fstream debugLog;
+	//fstream debugLog;
 	bool mIsComplete;
 };

@@ -58,12 +58,6 @@
         "Entry"
         {
         "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
-        "OwnerKey" = "8:_33A59244EB2841E5B6DD26D2B0A96CA0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
         "OwnerKey" = "8:_FC3DA72FCAAA4F0E8B31462D44B32FD6"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -71,12 +65,6 @@
         {
         "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
         "OwnerKey" = "8:_DFF78663650B4CF0A485185D63D04FB5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
-        "OwnerKey" = "8:_C0BA320CDA794057812E2CF28F5EA94C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
-        "OwnerKey" = "8:_26C0712619CB412782A4FF601E1D24E9"
+        "OwnerKey" = "8:_33A59244EB2841E5B6DD26D2B0A96CA0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,12 +106,6 @@
         "Entry"
         {
         "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
-        "OwnerKey" = "8:_33A59244EB2841E5B6DD26D2B0A96CA0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
         "OwnerKey" = "8:_FC3DA72FCAAA4F0E8B31462D44B32FD6"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -131,12 +113,6 @@
         {
         "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
         "OwnerKey" = "8:_DFF78663650B4CF0A485185D63D04FB5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
-        "OwnerKey" = "8:_C0BA320CDA794057812E2CF28F5EA94C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,7 +136,7 @@
         "Entry"
         {
         "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
-        "OwnerKey" = "8:_26C0712619CB412782A4FF601E1D24E9"
+        "OwnerKey" = "8:_33A59244EB2841E5B6DD26D2B0A96CA0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -837,7 +813,7 @@
         {
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_15D86BBDBB4144F5959F2C5175939D6C"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\helper\\libilliCore\\Debug\\libilliCore.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\helper\\libilliCore\\Release\\libilliCore.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
@@ -893,7 +869,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_33A59244EB2841E5B6DD26D2B0A96CA0"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggCommentDump\\Debug\\OOOggCommentDump.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggCommentDump\\Release\\OOOggCommentDump.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
@@ -921,7 +897,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_9061237CE81A4BAC9A988D1713DCE01A"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggValidate\\Debug\\OOOggValidate.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggValidate\\Release\\OOOggValidate.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
@@ -949,7 +925,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_9BF479E16E8E489CA7D9F11A166F5612"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggDump\\Debug\\OOOggDump.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggDump\\Release\\OOOggDump.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
@@ -977,7 +953,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_9EB1B54CEB1D40979ADA34E55D07BB22"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOgg\\Debug\\libOOOgg.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOgg\\Release\\libOOOgg.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
@@ -1005,7 +981,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_C0BA320CDA794057812E2CF28F5EA94C"
             {
-            "SourcePath" = "8:..\\..\\src\\tests\\testCircleBuffer\\Debug\\testCircleBuffer.exe"
+            "SourcePath" = "8:..\\..\\src\\tests\\testCircleBuffer\\Release\\testCircleBuffer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
@@ -1033,7 +1009,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_DFF78663650B4CF0A485185D63D04FB5"
             {
-            "SourcePath" = "8:..\\..\\src\\tools\\OOOggStat\\Debug\\OOOggStat.exe"
+            "SourcePath" = "8:..\\..\\src\\tools\\OOOggStat\\Release\\OOOggStat.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
@@ -1089,7 +1065,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_FC3DA72FCAAA4F0E8B31462D44B32FD6"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libVorbisComment\\Debug\\libVorbisComment.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libVorbisComment\\Release\\libVorbisComment.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"

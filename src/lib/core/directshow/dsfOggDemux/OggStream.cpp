@@ -51,7 +51,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
 	string locLogName = "G:\\logs\\oggstream" + StringHelper::numToString(mSerialNo) + ".log";
-	debugLog.open(locLogName.c_str(), ios_base::out);
+	//debugLog.open(locLogName.c_str(), ios_base::out);
 	mStreamLock = new CCritSec;
 	//This may need to be moved to derived class
 	//Yep, Sure did !
@@ -64,8 +64,8 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 
 OggStream::~OggStream(void)
 {
-	debugLog<<"Destructor..."<<endl;
-	debugLog.close();
+	//debugLog<<"Destructor..."<<endl;
+	//debugLog.close();
 	delete mSourcePin;
 	delete mCodecHeaders;
 	//delete mPartialPacket;
@@ -210,13 +210,13 @@ bool OggStream::AddPin() {
 
 void OggStream::setLastEndGranPos(__int64 inGranPos) {
 	//osDebug<<"*************************** ERROR ERROR ERROR **********************"<<endl;
-	debugLog<<"*************************** ERROR ERROR ERROR **********************"<<endl;
+	//debugLog<<"*************************** ERROR ERROR ERROR **********************"<<endl;
 	mLastEndGranulePos = inGranPos;
 }
 bool OggStream::acceptOggPage(OggPage* inOggPage) {
 	//FIX::: Add proper error checking.
 
-	debugLog<<"acceptOggPage : "<<endl<<inOggPage->header()->toString()<<endl<<endl;;
+	//debugLog<<"acceptOggPage : "<<endl<<inOggPage->header()->toString()<<endl<<endl;;
 	//StampedOggPacket* locPacket = NULL;
 	////osDebug<<"New page sets start gran to "<<mLastEndGranulePos<<endl;
 	mLastStartGranulePos = mLastEndGranulePos;
@@ -243,7 +243,7 @@ bool OggStream::deliverCodecHeaders() {
 
 //ANX::: Maybe also needs override. ??
 bool OggStream::dispatchPacket(StampedOggPacket* inPacket) {
-	debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
+	//debugLog<<"Ogg Stream : Packet stamps = "<<inPacket->startTime()<<" - "<<inPacket->endTime()<<endl;
 	return mSourcePin->deliverOggPacket(inPacket);
 }
 

@@ -77,7 +77,7 @@ public:
 	virtual ~OggDemuxSourceFilter(void);
 
 	//IAMFilterMiscFlags Interface
-	ULONG STDMETHODCALLTYPE OggDemuxSourceFilter::GetMiscFlags(void);
+	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
 	//
 
 	//IFileSource Interface

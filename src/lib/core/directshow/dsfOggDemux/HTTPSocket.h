@@ -56,6 +56,6 @@ protected:
 	bool mIsOpen;
 	bool mSeenResponse;
 
-	fstream debugLog2;
+	//fstream debugLog2;
 
 };

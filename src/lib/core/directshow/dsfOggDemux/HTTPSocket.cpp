@@ -37,7 +37,7 @@ HTTPSocket::HTTPSocket(void)
 	,	mIsOpen(false)
 	,	mSeenResponse(false)
 {
-	debugLog2.open("G:\\logs\\httpsocket.log", ios_base::out);
+	//debugLog2.open("G:\\logs\\httpsocket.log", ios_base::out);
 
 	//Setup the socket API
 	WORD locWinsockVersion = MAKEWORD(1,1);
@@ -47,18 +47,18 @@ HTTPSocket::HTTPSocket(void)
 	locRet = WSAStartup(locWinsockVersion, &locWinsockData);
 	if ((locRet != 0) || (locWinsockData.wVersion != locWinsockVersion)) {
 		//Failed to setup.
-		debugLog2<<"Failed to start winsock V "<<locWinsockData.wVersion<<endl;
+		//debugLog2<<"Failed to start winsock V "<<locWinsockData.wVersion<<endl;
 		WSACleanup();
 		throw 0;
 	}
 
-	debugLog2<<"Winsock started"<<endl;
+	//debugLog2<<"Winsock started"<<endl;
 }
 
 HTTPSocket::~HTTPSocket(void)
 {
-	debugLog2<<"Winsock ended"<<endl;
-	debugLog2.close();
+	//debugLog2<<"Winsock ended"<<endl;
+	//debugLog2.close();
 	
 	WSACleanup();
 }
@@ -66,7 +66,7 @@ HTTPSocket::~HTTPSocket(void)
 
 bool HTTPSocket::setupSocket(string inSourceLocation) {
 	
-	debugLog2<<"Setup Socket:"<<endl;
+	//debugLog2<<"Setup Socket:"<<endl;
 	IN_ADDR locAddress;  //iaHost
 	LPHOSTENT locHostData;;  //lpHost
 
@@ -84,14 +84,14 @@ bool HTTPSocket::setupSocket(string inSourceLocation) {
 
 
 	if (locHostData == NULL) {
-		debugLog2<<"LocHostData is NULL"<<endl;
+		//debugLog2<<"LocHostData is NULL"<<endl;
 		//Failed
 		return false;
 	}
 
 	mSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (mSocket == INVALID_SOCKET) {
-		debugLog2<<"Socket Invalid"<<endl;
+		//debugLog2<<"Socket Invalid"<<endl;
 		//Failed
 		return false;
 	}
@@ -121,7 +121,7 @@ bool HTTPSocket::setupSocket(string inSourceLocation) {
 	int locRetVal = 0;
 	locRetVal = connect(mSocket, (LPSOCKADDR)&locServiceSocketAddr, sizeof(SOCKADDR_IN));
 	if (locRetVal == SOCKET_ERROR) {
-		debugLog2<<"Failed to connect..."<<endl;
+		//debugLog2<<"Failed to connect..."<<endl;
 		closesocket(mSocket);
 		return false;
 	}
@@ -134,16 +134,16 @@ bool HTTPSocket::setupSocket(string inSourceLocation) {
 string HTTPSocket::assembleRequest(string inFilePath) {
 	string retRequest;
 	retRequest = "GET " + inFilePath+ " HTTP/1.1\n" + "Host: " + mServerName+ "\n\n";
-	debugLog2<<"Assembled Req : "<<endl<<retRequest<<endl;
+	//debugLog2<<"Assembled Req : "<<endl<<retRequest<<endl;
 	return retRequest;
 }
 
 bool HTTPSocket::httpRequest(string inRequest) {
-	debugLog2<<"Http Request:"<<endl;
+	//debugLog2<<"Http Request:"<<endl;
 	int locRetVal = send(mSocket, inRequest.c_str(), (int)inRequest.length(), 0);
 
 	if (locRetVal == SOCKET_ERROR) {
-		debugLog2<<"Socket error on send"<<endl;
+		//debugLog2<<"Socket error on send"<<endl;
 		closesocket(mSocket);
 		return false;
 	}
@@ -151,7 +151,7 @@ bool HTTPSocket::httpRequest(string inRequest) {
 }
 
 bool HTTPSocket::splitURL(string inURL) {
-	debugLog2<<"Split url:"<<endl;
+	//debugLog2<<"Split url:"<<endl;
 	string locProtocol;
 	string locServerName;
 	string locPath;
@@ -198,11 +198,11 @@ bool HTTPSocket::splitURL(string inURL) {
 	} else {
 		mPort = 0;
 	}
-	debugLog2<<"Proto : "<<locProtocol<<endl<<"Server : "<<locServerName<<endl<<" Path : "<<mFileName<<" Port : "<<mPort<<endl;
+	//debugLog2<<"Proto : "<<locProtocol<<endl<<"Server : "<<locServerName<<endl<<" Path : "<<mFileName<<" Port : "<<mPort<<endl;
 	return true;
 
 }
 void HTTPSocket::closeSocket() {
-	debugLog2<<"Close Socket:"<<endl;
+	//debugLog2<<"Close Socket:"<<endl;
 	closesocket(mSocket);
 }

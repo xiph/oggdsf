@@ -43,7 +43,7 @@ CMMLSourcePin::CMMLSourcePin(	TCHAR* inObjectName,
 										wstring inPinName) 
 											:	OggDemuxSourcePin(inObjectName, inParentFilter, inFilterLock, inHeaderSource, inMediaType, inPinName, true)
 {
-	debugLog.open("G:\\logs\\cmml_source_pin.log", ios_base::out);
+	//debugLog.open("G:\\logs\\cmml_source_pin.log", ios_base::out);
 }
 
 CMMLSourcePin::~CMMLSourcePin(void)
@@ -155,8 +155,8 @@ bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inPacket->endTime() * 10000;   //CMML Changes here.
 	REFERENCE_TIME locStop = inPacket->endTime() * 10000;
-	debugLog<<"Start   : "<<locStart<<endl;
-	debugLog<<"End     : "<<locStop<<endl;
+	//debugLog<<"Start   : "<<locStart<<endl;
+	//debugLog<<"End     : "<<locStop<<endl;
 	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
 	//DbgLog((LOG_TRACE, 2, ""));
 
@@ -166,7 +166,7 @@ bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 	if (locHR != S_OK) {
 		DbgLog((LOG_TRACE, 2, "Getting Delivery Buff FAILED"));
 		//Stopping, fluching or error
-		debugLog<<"Failure... No buffer"<<endl;
+		//debugLog<<"Failure... No buffer"<<endl;
 		return false;
 	}
 
@@ -193,12 +193,12 @@ bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
 		locHR = mDataQueue->Receive(locSample);
 		
 		if (locHR != S_OK) {
-			debugLog << "Failure... Queue rejected sample..."<<endl;
+			//debugLog << "Failure... Queue rejected sample..."<<endl;
 			//Stopping ??
 			return false;
 			
 		} else {
-			debugLog<<"Delivery OK"<<endl;
+			//debugLog<<"Delivery OK"<<endl;
 			return true;
 		}
 	} else {

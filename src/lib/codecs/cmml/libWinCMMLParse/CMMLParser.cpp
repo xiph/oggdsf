@@ -78,6 +78,7 @@ MSXML2::IXMLDOMNode* CMMLParser::getNamedNode(wstring inXPath, MSXML2::IXMLDOMDo
 	MSXML2::IXMLDOMNode* retNode = NULL;
 	
 	locHR = inDoc->selectSingleNode(locQuery, &retNode);
+	
 
     SysFreeString(locQuery);
 	return retNode;

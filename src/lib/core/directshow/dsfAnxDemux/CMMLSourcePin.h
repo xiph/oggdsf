@@ -61,5 +61,5 @@ public:
 	virtual bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket);
 
 protected:
-	fstream debugLog;
+	//fstream debugLog;
 };

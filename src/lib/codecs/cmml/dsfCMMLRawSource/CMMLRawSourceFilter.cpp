@@ -47,3 +47,36 @@ CBasePin* CMMLRawSourceFilter::GetPin(int inPinNo) {
 		return NULL;
 	}
 }
+
+//IAMFilterMiscFlags Interface
+ULONG CMMLRawSourceFilter::GetMiscFlags(void) {
+	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
+}
+
+	//IFileSource Interface
+STDMETHODIMP CMMLRawSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) {
+	//Return the filename and mediatype of the raw data
+
+	 
+	LPOLESTR x = SysAllocString(mFileName.c_str());
+	*outFileName = x;
+	
+	return S_OK;
+}
+
+//ANX::: Seek table will need modifying to handle this.
+STDMETHODIMP CMMLRawSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) {
+	//Initialise the file here and setup all the streams
+	CAutoLock locLock(m_pLock);
+	mFileName = inFileName;
+
+
+	
+	return S_OK;
+}
+
+STDMETHODIMP CMMLRawSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+
+	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
+}

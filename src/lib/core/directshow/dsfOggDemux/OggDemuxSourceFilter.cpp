@@ -113,7 +113,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 	mStreamMapper = new OggStreamMapper(this);
-	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
+	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
 	//debugLog << "**************** Starting LOg ********************"<<endl;
 
 }
@@ -132,7 +132,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 	mDemuxLock = new CCritSec;
 	mStreamLock = new CCritSec;
 
-	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
+	//debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
 	//When it is derived, it's up to the superclass to set this.
 	//mStreamMapper = new OggStreamMapper(this);
 
@@ -287,7 +287,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 	CAutoLock locLock(m_pLock);
 	
 	if (mSeekTable->enabled())  {
-		debugLog<<"SetPos : Current = "<<*pCurrent<<" Flags = "<<dwCurrentFlags<<" Stop = "<<*pStop<<" dwStopFlags = "<<dwStopFlags<<endl;
+		//debugLog<<"SetPos : Current = "<<*pCurrent<<" Flags = "<<dwCurrentFlags<<" Stop = "<<*pStop<<" dwStopFlags = "<<dwStopFlags<<endl;
 		//debugLog<<"       : Delivering begin flush..."<<endl;
 
 	
@@ -315,7 +315,7 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 		*pCurrent	= mSeekTimeBase 
 					= mSeekTable->getRealStartPos();
 
-		debugLog<<"Corrected pCurrent : "<<mSeekTimeBase<<endl;
+		//debugLog<<"Corrected pCurrent : "<<mSeekTimeBase<<endl;
 		for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
 			mStreamMapper->getOggStream(i)->setSendExcess(locSendExcess);		//Not needed
 			mStreamMapper->getOggStream(i)->setLastEndGranPos(*pCurrent);
@@ -533,7 +533,7 @@ void OggDemuxSourceFilter::DeliverEOS() {
 }
 
 void OggDemuxSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate) {
-	debugLog<<"DeliverNewSegment : Delivering start = "<<tStart<<" end = "<< tStop<<"rate = "<<dRate<<endl;
+	//debugLog<<"DeliverNewSegment : Delivering start = "<<tStart<<" end = "<< tStop<<"rate = "<<dRate<<endl;
 
 
 	IReferenceClock* locRefClock = NULL;
@@ -549,7 +549,7 @@ void OggDemuxSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TI
 	}
 }
 HRESULT OggDemuxSourceFilter::DataProcessLoop() {
-	debugLog<<"Starting DataProcessLoop :"<<endl;
+	//debugLog<<"Starting DataProcessLoop :"<<endl;
 	DWORD locCommand = 0;
 	char* locBuff = new  char[4096];
 	bool locKeepGoing = true;

@@ -34,19 +34,7 @@
         "Entry"
         {
         "MsmKey" = "8:_BF671A3FCECE81CB5B6615E636C543F9"
-        "OwnerKey" = "8:_A60D5EE3D8B74B42BF2AF32A5F2D6726"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BF671A3FCECE81CB5B6615E636C543F9"
         "OwnerKey" = "8:_9297F69221344C25876DCB6577CD4340"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BF671A3FCECE81CB5B6615E636C543F9"
-        "OwnerKey" = "8:_FC4C0390D8BC485BB6D95E4837ECE7B2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -691,7 +679,7 @@
         {
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_85BFDA4CE716439F99B132912ED31125"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\libs\\libspeex\\win32\\libspeex\\Debug\\libspeex.lib"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\libs\\libspeex\\win32\\libspeex\\Release\\libspeex.lib"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_35F67CC352C846C79B8F731AE14D6640"
@@ -719,7 +707,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_9297F69221344C25876DCB6577CD4340"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Debug\\vorbis_d.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Release\\vorbis.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_35F67CC352C846C79B8F731AE14D6640"
@@ -747,7 +735,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_A60D5EE3D8B74B42BF2AF32A5F2D6726"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libogg\\win32\\Dynamic_Debug\\ogg_d.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libogg\\win32\\Dynamic_Release\\libogg.lib"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_35F67CC352C846C79B8F731AE14D6640"
@@ -775,7 +763,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_FC4C0390D8BC485BB6D95E4837ECE7B2"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libtheora\\win32\\libtheora\\Debug\\libtheora.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libtheora\\win32\\libtheora\\Release\\libtheora.lib"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_35F67CC352C846C79B8F731AE14D6640"

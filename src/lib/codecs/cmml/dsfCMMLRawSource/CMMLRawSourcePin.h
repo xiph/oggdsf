@@ -66,7 +66,7 @@ public:
 	virtual HRESULT DeliverEndFlush(void);
 	virtual HRESULT DeliverBeginFlush(void);
 protected:
-	fstream debugLog;
+	//fstream debugLog;
 	HRESULT mFilterHR;
 	COutputQueue* mDataQueue;
 	sCMMLFormatBlock* mCMMLFormatBlock;
