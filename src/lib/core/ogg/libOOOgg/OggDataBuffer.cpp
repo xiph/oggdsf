@@ -283,7 +283,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable()
 
 OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() 
 {
-	unsigned long locPageDataSize = pendingPage->header()->dataSize();
+	//unsigned long locPageDataSize = pendingPage->header()->dataSize();  //unused
 	
 	//debugLog<<"ProcessDataSegment : Page data size = "<<locPageDataSize<<endl;
 	unsigned char* locBuff = NULL;
