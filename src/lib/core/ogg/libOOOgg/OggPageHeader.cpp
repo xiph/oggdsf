@@ -262,7 +262,7 @@ bool OggPageHeader::setBaseHeader(const unsigned char* inBaseHeader) {
 			locOffset++;
 
 			//Set the size of the header
-			setHeaderSize(OGG_BASE_HEADER_SIZE + mSegmentTable->numSegments());
+			setHeaderSize(OGG_BASE_HEADER_SIZE + mNumPageSegments);
 
 			mPageState = BASE_HEAD_SET;
 
