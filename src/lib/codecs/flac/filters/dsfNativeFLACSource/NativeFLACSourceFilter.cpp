@@ -63,7 +63,8 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	,	mBitsPerSample(0)
 	,	mBegun(false)
 	,	mUpto(0)
-	,	mJustStopped(true)
+	,	mJustSeeked(true)
+	,	mSeekRequest(0)
 	,	mTotalNumSamples(0)
 	
 	//,	mDecoder(NULL)
@@ -224,7 +225,8 @@ STDMETHODIMP NativeFLACSourceFilter::Stop(void) {
 	Close();
 	debugLog<<"Stop ##################################################################"<<endl;
 	debugLog<<"Pre seek to 0"<<endl;
-	mJustStopped = true;
+	mJustSeeked = true;
+	mSeekRequest = 0;
 	mUpto = 0;
 	debugLog<<"Post seek to 0"<<endl;
 	mFLACSourcePin->DeliverBeginFlush();
@@ -243,27 +245,28 @@ HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 			
 			return S_OK;
 		}
-		if (mJustStopped) {
-			mJustStopped = false;
-			debugLog<<"!!!!!!!!!!!!!!!!!!!!!!! SEEK ABSOLUTE 0"<<endl;
-			bool res2 = false;
-			{
-				CAutoLock locLock(mCodecLock);
-				res2 = seek_absolute(0);
-			}
-			if (res2) {
-				debugLog<<"Seek absolute success"<<endl;
-			}
-		}
 		{
 			CAutoLock locLock(mCodecLock);
+			if (mJustSeeked) {
+				mJustSeeked = false;
+				debugLog<<"!!!!!!!!!!!!!!!!!!!!!!! SEEK ABSOLUTE 0"<<endl;
+				bool res2 = false;
+				
+				res2 = seek_absolute(mSeekRequest);
+				
+				if (res2) {
+					debugLog<<"Seek absolute success"<<endl;
+				}
+			}
+			
 			debugLog<<"Process it"<<endl;
 			res = process_single();
-		}
-		if (res) {
-			debugLog<<"Process OK"<<endl;
-		} else {
-			debugLog<<"Process FAILED"<<endl;
+			
+			if (res) {
+				debugLog<<"Process OK"<<endl;
+			} else {
+				debugLog<<"Process FAILED"<<endl;
+			}
 		}
 	}
 
@@ -451,7 +454,9 @@ STDMETHODIMP NativeFLACSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCur
 	{
 		CAutoLock locLock(mCodecLock);
 		mUpto = 0;
-		locRes = seek_absolute(locSampleToSeek);
+		//locRes = seek_absolute(locSampleToSeek);
+		mJustSeeked = true;
+		mSeekRequest = locSampleToSeek;
 	}
 	if (locRes) {
 		debugLog<<"Seek suceeded"<<endl;

@@ -132,7 +132,8 @@ protected:
 	fstream debugLog;
 
 	bool mBegun;
-	bool mJustStopped;
+	bool mJustSeeked;
+	__int64 mSeekRequest;
 
 	unsigned long mUpto;
 
