@@ -1,4 +1,5 @@
 Registering protocols for media types
+=====================================
 
 http://msdn.microsoft.com/archive/default.asp?url=/archive/en-us/directx9_c/directx/htm/registeringacustomfiletype.asp
 
@@ -6,3 +7,14 @@ HKEY_CLASSES_ROOT
   <protocol>
      Extensions
          <.ext1> = <Source GUID>
+
+Need to make installer do this for all extensions.
+
+Mime Types
+==========
+Need to register mime types at install.
+
+Media Player
+============
+
+Need to do all the registry keys to get the media types in the drop boxes of ds apps.

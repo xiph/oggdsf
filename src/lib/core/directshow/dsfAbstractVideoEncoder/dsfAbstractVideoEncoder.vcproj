@@ -19,20 +19,24 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="C:\DXSDK\Samples\C++\DirectShow\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFABSTRACTVIDEOENCODER_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="4"
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Strmbasd.lib Msvcrtd.lib Winmm.lib  Strmiids.lib  Quartz.lib"
 				OutputFile="$(OutDir)/dsfAbstractVideoEncoder.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="C:\DXSDK\Lib;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Debug&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/dsfAbstractVideoEncoder.pdb"
 				SubSystem="2"
@@ -64,20 +68,24 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
+				AdditionalIncludeDirectories="C:\DXSDK\Samples\C++\DirectShow\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFABSTRACTVIDEOENCODER_EXPORTS"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Strmbase.lib Msvcrt.lib Winmm.lib Strmiids.lib  Quartz.lib"
 				OutputFile="$(OutDir)/dsfAbstractVideoEncoder.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses\Release&quot;;C:\DXSDK\Lib"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
