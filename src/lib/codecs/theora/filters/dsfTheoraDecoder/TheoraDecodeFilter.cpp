@@ -661,11 +661,11 @@ bool TheoraDecodeFilter::SetSampleParams(IMediaSample* outMediaSample, unsigned 
 	outMediaSample->SetSyncPoint(inIsSync);
 	return true;
 }
-BOOL TheoraDecodeFilter::ShouldSkipFrame(IMediaSample* inSample) {
-	//m_bSkipping = FALSE;
-	debugLog<<"Don't skip"<<endl;
-	return FALSE;
-}
+//BOOL TheoraDecodeFilter::ShouldSkipFrame(IMediaSample* inSample) {
+//	//m_bSkipping = FALSE;
+//	debugLog<<"Don't skip"<<endl;
+//	return FALSE;
+//}
 
 sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock() 
 {
@@ -680,31 +680,21 @@ void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock)
 
 CBasePin* TheoraDecodeFilter::GetPin(int inPinNo)
 {
-    HRESULT hr = S_OK;
+    HRESULT locHR = S_OK;
 
     // Create an input pin if necessary
 
     if (m_pInput == NULL) {
 
-        m_pInput = new TheoraDecodeInputPin(NAME("Theora Input Pin"),
-                                          this,              // Owner filter
-                                          &hr,               // Result code
-                                          L"Theora In");      // Pin name
+        m_pInput = new TheoraDecodeInputPin(this, &locHR);
 
-
-        //  Can't fail
-        ASSERT(SUCCEEDED(hr));
+        
         if (m_pInput == NULL) {
             return NULL;
         }
-        m_pOutput = new TheoraDecodeOutputPin(NAME("Theora Output Pin"),
-                                            this,            // Owner filter
-                                            &hr,             // Result code
-                                            L"YV12 Out");   // Pin name
+        m_pOutput = new TheoraDecodeOutputPin(this, &locHR);
+			
 
-
-        // Can't fail
-        ASSERT(SUCCEEDED(hr));
         if (m_pOutput == NULL) {
             delete m_pInput;
             m_pInput = NULL;
@@ -713,9 +703,9 @@ CBasePin* TheoraDecodeFilter::GetPin(int inPinNo)
 
     // Return the pin
 
-    if (n == 0) {
+    if (inPinNo == 0) {
         return m_pInput;
-    } else if (n == 1) {
+    } else if (inPinNo == 1) {
         return m_pOutput;
     } else {
         return NULL;

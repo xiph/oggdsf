@@ -30,8 +30,17 @@
 //===========================================================================
 
 #pragma once
+#include "Theoradecoderdllstuff.h"
+class TheoraDecodeInputPin 
+	:	public CTransformInputPin
+{
+public:
+
+	TheoraDecodeInputPin(CTransformFilter* inParentFilter, HRESULT* outHR);
+	virtual ~TheoraDecodeInputPin();
 
 
+};
 //----------------------
 //OLD IMPLEMENTATION
 //----------------------

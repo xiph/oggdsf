@@ -32,6 +32,8 @@
 #pragma once
 
 #include "Theoradecoderdllstuff.h"
+#include "theoradecodeoutputpin.h"
+#include "theoradecodeinputpin.h"
 #include <math.h>
 #include "DSStringer.h"
 #include "TheoraDecoder.h"
@@ -58,7 +60,8 @@ public:
 
 	//Overrides
 	virtual HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType);
-	virtual BOOL ShouldSkipFrame(IMediaSample* inSample);
+	//virtual BOOL ShouldSkipFrame(IMediaSample* inSample);
+	virtual CBasePin* TheoraDecodeFilter::GetPin(int inPinNo);
 	//Helpers
 	sTheoraFormatBlock* getTheoraFormatBlock();
 	void setTheoraFormat(sTheoraFormatBlock* inFormatBlock);

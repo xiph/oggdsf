@@ -34,6 +34,14 @@
 
 
 
+TheoraDecodeOutputPin::TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR) 
+	:	CTransformOutputPin(NAME("Theora Output Pin"), inParentFilter, outHR, L"YV12 Out")
+{
+
+}
+TheoraDecodeOutputPin::~TheoraDecodeOutputPin() {
+
+}
 
 
 //----------------------

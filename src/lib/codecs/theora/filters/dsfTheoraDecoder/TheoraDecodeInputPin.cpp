@@ -33,6 +33,16 @@
 #include "theoradecodeinputpin.h"
 
 
+TheoraDecodeInputPin::TheoraDecodeInputPin(CTransformFilter* inParentFilter, HRESULT* outHR) 
+	:	CTransformInputPin(NAME("Theora Input Pin"), inParentFilter, outHR, L"Theora In")
+{
+
+}
+TheoraDecodeInputPin::~TheoraDecodeInputPin() {
+
+}
+
+
 //----------------------
 //OLD IMPLEMENTATION
 //----------------------
