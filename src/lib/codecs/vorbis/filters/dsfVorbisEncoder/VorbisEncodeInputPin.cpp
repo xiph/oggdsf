@@ -39,7 +39,7 @@ VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	mFishSound(NULL)
 	,	mWaveFormat(NULL)
 	,	mUptoFrame(0)
-	,	mVorbisQuality(0.6)
+	,	mVorbisQuality(0.6f)
 {
 	
 }

@@ -312,6 +312,9 @@
 				RelativePath=".\fish_cdecl.h">
 			</File>
 			<File
+				RelativePath=".\IVorbisEncodeSettings.h">
+			</File>
+			<File
 				RelativePath="stdafx.h">
 			</File>
 			<File

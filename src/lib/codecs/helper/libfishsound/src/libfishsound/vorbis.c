@@ -435,9 +435,10 @@ fs_vorbis_enc_init (FishSound * fsound)
 	  fsound->info.samplerate);
 #endif
 
-
+ /* Hackination here */
   vorbis_encode_init_vbr (&fsv->vi, fsound->info.channels,
 			  fsound->info.samplerate, (float)fs_vorbis_quality_setting_variable /* quality */);
+  /* Hackination ends */
 
   vorbis_encode_setup_init (&fsv->vi);
 

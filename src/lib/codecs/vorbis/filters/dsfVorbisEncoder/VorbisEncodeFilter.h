@@ -33,6 +33,7 @@
 
 //Local Includes
 #include "vorbisencoderdllstuff.h"
+#include "IVorbisEncodeSettings.h"
 
 //External Includes
 #include "AbstractTransformFilter.h"
@@ -44,6 +45,7 @@ class VorbisEncodeOutputPin;
 
 class VorbisEncodeFilter
 	:	public AbstractTransformFilter
+	,	public IVorbisEncodeSettings
 {
 public:
 	//Friend Classes
@@ -61,6 +63,13 @@ public:
 	//COM Creator function
 	static CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
+	/// Returns the quality setting for vorbis
+	virtual STDMETHODIMP_(signed char) quality();
+
+	/// Set the quality for vorbis encoding, between 0 and 99 inclusive (equiv to 0.0 to 0.99)
+	virtual STDMETHODIMP_(bool) setQuality(signed char inQuality);
+
+
 protected:
 
 	//Implementation of pure virtuals from AbstractTransformFilter
@@ -68,37 +77,8 @@ protected:
 
 	//Member data
 	sVorbisFormatBlock mVorbisFormatBlock;
+
+
 	
 };
 
-
-//Old imp
-//*************************************
-//#pragma once
-//
-//#include "vorbisencoderdllstuff.h"
-//#include "AbstractAudioEncodeFilter.h"
-//
-////Forward Declarations
-//struct sVorbisFormatBlock;
-//class VorbisEncodeInputPin;
-//class VorbisEncodeOutputPin;
-//
-//class VorbisEncodeFilter
-//	:	public AbstractAudioEncodeFilter
-//{
-//public:
-//	friend class VorbisEncodeInputPin;
-//	friend class VorbisEncodeOutputPin;
-//	VorbisEncodeFilter(void);
-//	virtual ~VorbisEncodeFilter(void);
-//
-//	static CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
-//
-//	//PURE VIRTUAL IMPLEMENTATION
-//	virtual bool ConstructPins();
-//
-//protected:
-//	sVorbisFormatBlock mVorbisFormatBlock;
-//	
-//};

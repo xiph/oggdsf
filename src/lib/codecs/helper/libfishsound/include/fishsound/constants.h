@@ -71,9 +71,9 @@ typedef enum _FishSoundCommand {
 
   /** Set to 1 to interleave, 0 to non-interleave */
   FISH_SOUND_SET_INTERLEAVE      = 0x2001,
-
+  /** Hackination */
   FISH_SOUND_VORBIS_SET_QUALITY = 0x2100,
-
+  /** Hackination ends */
   FISH_SOUND_SET_ENCODE_VBR             = 0x4000,
 
   

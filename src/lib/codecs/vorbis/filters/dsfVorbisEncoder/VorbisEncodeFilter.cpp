@@ -71,6 +71,11 @@ VorbisEncodeFilter::~VorbisEncodeFilter(void)
 }
 
 STDMETHODIMP VorbisEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+	if (riid == IID_IVorbisEncodeSettings) {
+		*ppv = (IVorbisEncodeSettings*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
 	return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv);
 }
 bool VorbisEncodeFilter::ConstructPins() 
@@ -105,4 +110,19 @@ bool VorbisEncodeFilter::ConstructPins()
 	
 	mInputPin = new VorbisEncodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;
+}
+
+
+STDMETHODIMP_(signed char) VorbisEncodeFilter::quality() {
+	return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality * 100 );
+}
+
+
+STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(signed char inQuality) {
+	if ((inQuality >= 0) && (inQuality < 100)) {
+		((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality = (float)inQuality/(float)100;
+		return true;
+	} else {
+		return false;
+	}
 }

@@ -48,6 +48,8 @@ public:
 	VorbisEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~VorbisEncodeInputPin(void);
 
+	friend class VorbisEncodeFilter;
+
 	static int __cdecl VorbisEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
 	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
@@ -58,6 +60,7 @@ protected:
 	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
+
 
 	//Member data
 	HRESULT mHR;
