@@ -54,7 +54,7 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 
 TheoraDecodeFilter::TheoraDecodeFilter() 
-	:	CVideoTransformFilter( NAME("Theora Decode Filter"), NULL, CLSID_TheoraDecodeFilter)
+	:	CTransformFilter( NAME("Theora Decode Filter"), NULL, CLSID_TheoraDecodeFilter)
 	,	mHeight(0)
 	,	mWidth(0)
 	,	mFrameSize(0)
@@ -607,7 +607,7 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 			//Failed... should never be here !
 			throw 0;
 		}
-		return CVideoTransformFilter::SetMediaType(PINDIR_INPUT, inMediaType);
+		return CTransformFilter::SetMediaType(PINDIR_INPUT, inMediaType);//CVideoTransformFilter::SetMediaType(PINDIR_INPUT, inMediaType);
 	} else {
 		debugLog<<"Setting Output Stuff"<<endl;
 		//Output pin SetMediaType
@@ -617,7 +617,7 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 		mFrameSize = (unsigned long)locVideoHeader->bmiHeader.biSizeImage;
 
 		debugLog<<"Size = "<<mWidth<<" x "<<mHeight<<" ("<<mFrameSize<<")"<<endl;
-		return CVideoTransformFilter::SetMediaType(PINDIR_OUTPUT, inMediaType);
+		return CTransformFilter::SetMediaType(PINDIR_OUTPUT, inMediaType);//CVideoTransformFilter::SetMediaType(PINDIR_OUTPUT, inMediaType);
 	}
 }
 
@@ -633,7 +633,7 @@ bool TheoraDecodeFilter::SetSampleParams(IMediaSample* outMediaSample, unsigned 
 	return true;
 }
 BOOL TheoraDecodeFilter::ShouldSkipFrame(IMediaSample* inSample) {
-	m_bSkipping = FALSE;
+	//m_bSkipping = FALSE;
 	debugLog<<"Don't skip"<<endl;
 	return FALSE;
 }

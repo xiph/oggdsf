@@ -38,7 +38,8 @@
 #include <fstream>
 using namespace std;
 class TheoraDecodeFilter 
-	:	public CVideoTransformFilter
+	//:	public CVideoTransformFilter
+	:	public CTransformFilter
 
 {
 public:
