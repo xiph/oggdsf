@@ -44,7 +44,8 @@ void CControlDialog::OnBnClickedButton1()
 {
 	//PLay button.
 	debugLog<<"Play button pushed"<<endl;
-
+	mPlayer.loadFile("G:\\a.mp3");
+	mPlayer.play();
 }
 
 void CControlDialog::setBrowser(IWebBrowser2* inBrowser) {
@@ -57,6 +58,7 @@ void CControlDialog::OnBnClickedButton2()
 {
 	//Pause button
 	debugLog<<"Pause button pushed..."<<endl;
+	mPlayer.pause();
 }
 
 void CControlDialog::OnBnClickedButton3()
