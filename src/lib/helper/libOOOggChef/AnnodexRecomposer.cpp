@@ -300,8 +300,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 					string locMimeType = mimeType(inOggPage->getPacket(0));
 
 					for (unsigned int i = 0; i < mWantedMIMETypes->size(); i++) {
-						if (	mWantedMIMETypes->at(i) == locMimeType
-							||	mWantedMIMETypes->at(i) == "*/*" /* accept all */) {
+						const string locWantedMIMEType = mWantedMIMETypes->at(i);
+						if (	locWantedMIMEType == locMimeType
+							||	locWantedMIMEType == "*/*" /* accept all */
+							||	locWantedMIMEType == "application/x-annodex") {
 							// Create an association of serial no and num headers
 							tSerial_HeadCountPair locMap;
 							locMap.first = locSerialNumber;
