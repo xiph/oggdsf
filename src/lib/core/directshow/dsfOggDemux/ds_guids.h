@@ -88,10 +88,10 @@ struct sFLACFormatBlock {
 
 struct sTheoraFormatBlock {
 	unsigned long theoraVersion;
-	unsigned long width;
-	unsigned long height;
-	unsigned long frameWidth;
-	unsigned long frameHeight;
+	unsigned long outerFrameWidth;
+	unsigned long outerFrameHeight;
+	unsigned long pictureWidth;
+	unsigned long pictureHeight;
 	unsigned long frameRateNumerator;
 	unsigned long frameRateDenominator;
 	unsigned long aspectNumerator;

@@ -67,11 +67,29 @@ bool TheoraStream::createFormatBlock() {
 	//mTheoraFormatBlock->numChannels = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 48);
 	//mTheoraFormatBlock->samplesPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 36);
 
+	//0		-	55			theora ident						0	-	6
+	//56	-	63			ver major							7	-	7
+	//64	-	71			ver minor							8	-	8
+	//72	-	79			ver subversion						9	=	9
+	//80	-	95			width/16							10	-	11
+	//96	-	111			height/16							12	-	13
+	//112	-	135			framewidth							14	-	16
+	//136	-	159			frameheight							17	-	19
+	//160	-	167			xoffset								20	-	20
+	//168	-	175			yoffset								21	-	21
+	//176	-	207			framerateNum						22	-	25
+	//208	-	239			frameratedenom						26	-	29
+	//240	-	263			aspectNum							30	-	32
+	//264	-	287			aspectdenom							33	-	35
+	//288	-	295			colourspace							36	-	36
+	//296	-	319			targetbitrate						37	-	39
+	//320	-	325			targetqual							40	-	40.75
+	//326	-	330			keyframintlog						40.75-  41.375
 	mTheoraFormatBlock->theoraVersion = (iBE_Math::charArrToULong(locIdentHeader + 7)) >>8;
-	mTheoraFormatBlock->width = (iBE_Math::charArrToUShort(locIdentHeader + 10)) * 16;
-	mTheoraFormatBlock->height = (iBE_Math::charArrToUShort(locIdentHeader + 12)) * 16;
-	mTheoraFormatBlock->frameWidth = (iBE_Math::charArrToULong(locIdentHeader + 14)) >>8;
-	mTheoraFormatBlock->frameHeight = (iBE_Math::charArrToULong(locIdentHeader + 17)) >>8;
+	mTheoraFormatBlock->outerFrameWidth = (iBE_Math::charArrToUShort(locIdentHeader + 10)) * 16;
+	mTheoraFormatBlock->outerFrameHeight = (iBE_Math::charArrToUShort(locIdentHeader + 12)) * 16;
+	mTheoraFormatBlock->pictureWidth = (iBE_Math::charArrToULong(locIdentHeader + 14)) >>8;
+	mTheoraFormatBlock->pictureHeight = (iBE_Math::charArrToULong(locIdentHeader + 17)) >>8;
 	mTheoraFormatBlock->xOffset = locIdentHeader[20];
 	mTheoraFormatBlock->yOffset = locIdentHeader[21];
 	mTheoraFormatBlock->frameRateNumerator = iBE_Math::charArrToULong(locIdentHeader + 22);

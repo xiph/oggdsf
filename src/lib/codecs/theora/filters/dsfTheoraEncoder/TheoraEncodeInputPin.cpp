@@ -151,17 +151,20 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	char* locDestUptoPtr = mYUV.y;
 	//
 
-	//Pad top of Y plane buffer with mYOffset lines of width mYUV.y_width
+	//Pad top (which is really bottom of the image) of output Y plane buffer with mYOffset lines of width mYUV.y_width
+	//y_width is the out frame width.
 	if (mYOffset != 0) {
 		memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += (mYOffset * mYUV.y_width);
+		locDestUptoPtr += (mYOffset * mYUV.y_width);							//I'm fairly sure it can be junk... but leave for now !
 	}
 	//Source pointer does not advance
 	//
 
-	//Add mHeight lines of data of width mWidth plus padding of mXOffset at each end
+	//Add mHeight lines of data of width mWidth plus padding of mXOffset at the start of each line
 	if (mXOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
+		//
+		//This branch of the condition does exactly the same as the else branch where mXOffset = 0
 		for (long line = 0; line < mHeight; line++) {
 			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth);
 			locSourceUptoPtr += mWidth;
@@ -178,19 +181,26 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 			locSourceUptoPtr += mWidth;
 			locDestUptoPtr += mWidth;
 
+			//
+			//This is no longer done... we just pad on one side for efficiency
+			//
 			//Pad the end of the line with mXOffset bytes
-			memset((void*)locDestUptoPtr, NULL, mXOffset);
-			locDestUptoPtr += mXOffset;
+			//memset((void*)locDestUptoPtr, NULL, mXOffset);
+			//locDestUptoPtr += mXOffset;
 		}
 
 	}
 
+	//
+	//This is no longer done... we just pad on one side for efficiency
+	//
+
 	//Pad bottom of Y plane buffer with mYOffset lines of width mYUV.y_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += (mYOffset * mYUV.y_width);
-		//Source pointer does not advance
-	}
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += (mYOffset * mYUV.y_width);
+	//	//Source pointer does not advance
+	//}
 	
 
 
@@ -200,6 +210,11 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 
 	//Set the destination poitner
 	locDestUptoPtr = mYUV.v;
+	//
+
+	//ASSERT (mYOffset is EVEN)
+	//ASSERT (mHeight is EVEN)
+	//ASSERT (mWidth is EVEN)
 	//
 
 	//Pad top of V plane buffer with mYOffset/2 lines of width mYUV.uv_width
@@ -230,20 +245,27 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 
-			//Pad the end of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
-			//Source pointer does not advance
+			//
+			//This is no longer done... we just pad on one side for efficiency
+			//
+
+			////Pad the end of the line
+			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
+			//locDestUptoPtr += (mXOffset / 2);
+			////Source pointer does not advance
 		}
 
 	}
+	//
+	//This is no longer done... we just pad on one side for efficiency
+	//
 
-	//Pad bottom of V plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-		//Source pointer does not advance
-	}
+	////Pad bottom of V plane buffer with mYOffset / 2 lines of width mYUV.uv_width
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//	//Source pointer does not advance
+	//}
 	
 
 
@@ -285,20 +307,28 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 			locSourceUptoPtr += (mWidth / 2);
 			locDestUptoPtr += (mWidth / 2);
 
-			//Pad the end of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
-			//Source pointer does not advance
+			//
+			//This is no longer done... we just pad on one side for efficiency
+			//
+
+			////Pad the end of the line
+			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
+			//locDestUptoPtr += (mXOffset / 2);
+			////Source pointer does not advance
 		}
 
 	}
 
-	//Pad bottom of U plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
-		//Source pointer does not advance
-	}
+	//
+	//This is no longer done... we just pad on one side for efficiency
+	//
+
+	////Pad bottom of U plane buffer with mYOffset / 2 lines of width mYUV.uv_width
+	//if (mYOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//	//Source pointer does not advance
+	//}
 
 	//======================================================================================================
 	return 0;
@@ -1201,18 +1231,20 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	//---------------------------------------------------------------------------------------------------------------
 	//mTheoraInfo values
 	//==================
-	//width, height					-	/16 up rounded values
-	//frame_width, frame_height		-	raw video source values
-	//offset_x						-	CENTRED - *half* the difference between width and frame_width
-	//offset_y						-	CENTRED - *half* the difference between height and frame_heigth
+	//width, height					-	/16 up rounded values, size of the outer frame
+	//frame_width, frame_height		-	size of the inner picture region
+	//offset_x						-	Distance at bottom left from frame to picture  <= width - frame_width
+	//offset_y						-	Distance at bottom left from frame to picture  <= height - frame_height
 
 	//mYUV values - for YV12 format
 	//=============================
-	//y_width, y_stride				-	Both equal and equal to the /16 up rounded wdith values
-	//uv_width, uv_stride			-	Both equal and equal to *half* the /16 up rounded width values
+	//y_stride						-	Equal to the /16 up rounded wdith values
+	//y_width						-	Equal to the /16 up rounded wdith values
+	//uv_stride						-	Equal to *half* the /16 up rounded width values
+	//uv_width						-	Equal to *half* the /16 up rounded wdith values
 	//y_height						-	Equal to the /16 up rounded height value
 	//uv_height						-	Equal to *half* the /16 up rounded height value
-	//y								-	Buffer of size y_width*y_height (/16 up rounded values)
+	//y								-	Buffer of size y_stride*y_height (/16 up rounded values)
 	//u,v							-	Buffers each *quarter* the size of the y buffer (/16 up rounded values)
 
 	//Member data
@@ -1223,24 +1255,27 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	//mYOffset						-	y offset
 	//---------------------------------------------------------------------------------------------------------------
 
-	//Width data
+	//Width of the outer frame
 	mTheoraInfo.width			=	mYUV.y_width
 								=	mYUV.y_stride
 								=	(((mVideoFormat->bmiHeader.biWidth + 15)>>4)<<4);
 
+	//Width of the inner picture
 	mTheoraInfo.frame_width		=	mWidth
 								=	mVideoFormat->bmiHeader.biWidth;
 
+	//YUV U&V data
 	mYUV.uv_width				=	mYUV.uv_stride
 								=	mYUV.y_width/2;
 
 	
 	//
 
-	//Height data
+	//Height data of outer frame
 	mTheoraInfo.height			=	mYUV.y_height
 								=	(((mVideoFormat->bmiHeader.biHeight + 15)>>4)<<4);
 
+	//Height of the inner picture
 	mTheoraInfo.frame_height	=	mHeight
 								=	mVideoFormat->bmiHeader.biHeight;
 
@@ -1249,28 +1284,22 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	
 	//
 
-	//Set offset values... centred
+	//Set offset values... no longer centred... all the offset is at the bottom left of the image (ie very start of memory image)
+	//Difference between the outframe dimensions and the inner picture dimensions
 	mTheoraInfo.offset_x		=	mXOffset
-								=	(mTheoraInfo.width - mWidth) / 2;
+								=	(mWidth - mTheoraInfo.frame_width);
 
 	mTheoraInfo.offset_y		=	mYOffset
-								=	(mTheoraInfo.height - mHeight) / 2;
+								=	(mHeight - mTheoraInfo.frame_height);
 	
-	unsigned long locYBuffSize = mYUV.y_height * mYUV.y_width;
+	
+	unsigned long locYBuffSize = mYUV.y_height * mYUV.y_stride;
 	mYUV.y				=	new char[locYBuffSize];
 	mYUV.u				=	new char[locYBuffSize/4];
 	mYUV.v				=	new char[locYBuffSize/4];
 
 	//End YV12 specifics
 	//
-
-	//debugLog<<"Width =y_w = y_s = "<<mWidth<<" ::: "<<"Height=y_h= "<<mHeight<<endl;
-	//debugLog<<"uv_w=uv_s= "<<mYUV.uv_stride<<" ::: " <<"uv_height = "<<mYUV.uv_height<<endl;
-	//=mVideoFormat->bmiHeader.biWidth;
-	//=mVideoFormat->bmiHeader.biHeight;
-	//mTheoraInfo.offset_x=0;
-	//mTheoraInfo.offset_y=0;
-	
 
 	//HACK:::Bit of a hack to convert dshow nanos to a fps num/denom.
 	//Now we multiply the numerator and denom by 1000, this gives us 3 d.p. of precision for framerate.
@@ -1302,13 +1331,15 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = mTheoraInfo.fps_numerator;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = mTheoraInfo.fps_denominator;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.maxKeyframeInterval = 6;   //log2(keyframe_freq) from above
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameHeight = mHeight;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameWidth = mWidth;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.pictureHeight = mHeight;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.pictureWidth = mWidth;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.colourSpace = OC_CS_UNSPECIFIED;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.height = mTheoraInfo.height;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.width = mTheoraInfo.width;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameHeight = mTheoraInfo.height;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameWidth = mTheoraInfo.width;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = mXOffset;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = mYOffset;
+
+	//TODO ::: DO something about aspect ratios
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.aspectDenominator = 0;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.aspectNumerator = 0;
 
