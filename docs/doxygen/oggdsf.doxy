@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           = oggdsf
-PROJECT_NUMBER         = 0.66.8063
+PROJECT_NUMBER         = 0.67.8171
 OUTPUT_DIRECTORY       = G:/Dev/oggdsf/docs/doxygen
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
