@@ -63,10 +63,12 @@ OggPageHeader* OggPageHeader::clone() {
 	retClone->mGranulePos = mGranulePos;
 	retClone->mHeaderFlags = mHeaderFlags;
 	retClone->mHeaderSize = mHeaderSize;
-	//retClone->mNumPageSegments = mNumPageSegments;
+	retClone->mNumPageSegments = mNumPageSegments;
 	retClone->mPageSequenceNo = mPageSequenceNo;
 	retClone->mPageSize = mPageSize;
 	retClone->mPageState = mPageState;
+	retClone->mStreamSerialNo = mStreamSerialNo;
+	retClone->mStructureVersion = mStructureVersion;
 
 	//Copy the segment table.
 	unsigned char* locBuff = new unsigned char[mNumPageSegments];
@@ -74,9 +76,6 @@ OggPageHeader* OggPageHeader::clone() {
 	retClone->mSegmentTable = locBuff;
 	locBuff = NULL;
 	//
-
-	retClone->mStreamSerialNo = mStreamSerialNo;
-	retClone->mStructureVersion = mStructureVersion;
 
 	return retClone;
 }

@@ -4,15 +4,36 @@ BUGS
 * Fix flac decoder
 * Fix wmp 9 issues, probably by rewriting the decoder :(
 * Add seeking to annodex
-* Add application cmml interface
+
 * I don't think non-renderer filters should expose the seeking interface.
 * Fix up the seeking interface to provide choice of seek method.
+
+# Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.
+# There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3
+
+# Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback
+# When transcoding theora, if a media decoder (WMV usually) doesn't advertise its framerate, output may be time distorted
+# Created files are not yet gauranteed to be correct. No produced encoded files should be distributed.
+# I think there may be a little memory leak in the encoders... nothing too serious, but if you try and encode really large files it may be a problem.
+# Theora will not playback with Windows Media Player 9 or 10, but vorbis and speex are just fine, but will in previous WMP's and other DS players like BSPlayer
+# Theora and annodex playback requires directX 9.
+# CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)
+# DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.
+# FLAC will make media player do the error sound or crash on exit
+# Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.
+# Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.
 
 NEXT FEATURES
 =============
 * CMML Application interface
 * Annodex seeking
-* flac encoder
+
 * Raw flac support
 * Annodex Muxer
 * WMP Ripping plug-in for vorbis and flac.
+
+DONE
+====
+* flac encoder
+* Add application cmml interface
+# Seeking in theora occasionally seg faults (Ithink)

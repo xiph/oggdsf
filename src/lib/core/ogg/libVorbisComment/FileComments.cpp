@@ -99,7 +99,7 @@ bool FileComments::loadFile(string inFileName) {
 	while (!locFile.eof()) {
 		locFile.read(locBuff, BUFF_SIZE);
 		locBytesRead = locFile.gcount();
-    	locOggBuff.feed(locBuff, locBytesRead);
+    	locOggBuff.feed((const unsigned char*)locBuff, locBytesRead);
 	}
 
 	delete locBuff;

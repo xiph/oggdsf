@@ -589,7 +589,7 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
 			if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
 				continue;
 			}
-			locKeepGoing = ((mOggBuffer.feed(locBuff, locBytesRead)) == (OggDataBuffer::FEED_OK));;
+			locKeepGoing = ((mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead)) == (OggDataBuffer::FEED_OK));;
 		}
 		if (!locKeepGoing) {
 			//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
@@ -649,7 +649,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 		//
 		//BUG::: Need to actually see how many bytes were read !
 		if (locNumRead > 0) {
-			mOggBuffer.feed(locBuff, locNumRead);
+			mOggBuffer.feed((const unsigned char*)locBuff, locNumRead);
 		}
 
 	}
