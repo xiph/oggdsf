@@ -108,6 +108,8 @@ wstring C_HeadTag::toString() {
 		retStr += L"\"";
 	}
 
+	retStr += makeLangElements();
+
 	if (mProfile.size() != 0) {
 		retStr += L" profile=\"";
 		retStr += mProfile;

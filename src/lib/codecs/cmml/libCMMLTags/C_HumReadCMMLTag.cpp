@@ -65,3 +65,17 @@ void C_HumReadCMMLTag::privateClone(C_CMMLTag* outTag) {
 	locTag->setLang(mLang);
 	locTag->setDirn(mDirn);
 }
+
+wstring C_HumReadCMMLTag::makeLangElements() {
+	wstring retStr = L"";
+
+	if (mLang.size() != 0) {
+		retStr += makeElement(L"lang", mLang);
+	}
+
+	if (mDirn.size() != 0) {
+		retStr += makeElement(L"dir", mDirn);
+	}
+
+	return retStr;
+}

@@ -51,6 +51,9 @@ wstring C_DescTag::toString() {
 	if (mId.size() != 0) {
 		retStr += makeElement(L"id", mId);
 	}
+
+	retStr += makeLangElements();
+
 	retStr += L">";
 	retStr += mText;
 	retStr += L"</desc>\n";

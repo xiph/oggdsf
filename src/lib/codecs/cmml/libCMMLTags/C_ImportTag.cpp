@@ -81,7 +81,11 @@ void C_ImportTag::setSrc(wstring inSrc) {
 	mSrc = inSrc;
 }
 void C_ImportTag::setStart(wstring inStart) {
-	mStart = inStart;
+	if (inStart != L"") {
+		mStart = inStart;
+	} else {
+		mStart = L"0";
+	}
 }
 void C_ImportTag::setEnd(wstring inEnd) {
 	mEnd = inEnd;
@@ -126,6 +130,8 @@ wstring C_ImportTag::toString() {
 	if (mId.size() != 0) {
 		retStr += makeElement(L"id", mId);
 	}
+
+	retStr += makeLangElements();
 
 	if (mGranuleRate.size() != 0) {
 		retStr += makeElement(L"granulerate", mGranuleRate);

@@ -82,6 +82,9 @@ wstring C_ImageTag::toString() {
 	if (mId.size() != 0) {
 		retStr += makeElement(L"id", mId);
 	}
+
+	retStr += makeLangElements();
+
 	retStr += makeElement(L"src", mSrc);
 
 	if (mAlt.size() != 0) {

@@ -46,6 +46,12 @@ C_TitleTag::~C_TitleTag(void)
 wstring C_TitleTag::toString() {
 	//FIX ::: Make this do something
 	wstring retStr = L"<title";
+
+	if (mId.size() != 0) {
+		retStr += makeElement(L"id", mId);
+	}
+
+	retStr += makeLangElements();
 	retStr += L">";
 	retStr += mText;
 	retStr+= L"</title>\n";

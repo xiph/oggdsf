@@ -69,4 +69,6 @@ protected:
 	//Protected Helper Methods
 	virtual void privateClone(C_CMMLTag* outTag);
 
+	
+
 };

@@ -135,6 +135,8 @@ wstring C_ClipTag::toString() {
 		retStr += makeElement(L"id", mId);
 	}
 
+	retStr += makeLangElements();
+
 	//track Element
 	if (mTrack != L"") {
 		retStr += makeElement(L"track", mTrack);

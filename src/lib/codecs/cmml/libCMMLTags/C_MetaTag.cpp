@@ -74,11 +74,19 @@ C_MappedTag* C_MetaTag::mappedClone() {
 wstring C_MetaTag::toString() {
 	//QUERY ::: How are the internationalisation tags included
 	wstring retStr = L"<meta";
-	retStr += L" name=\"";
-	retStr += mName;
-	retStr += L"\" content=\"";
-	retStr += mContent;
-	retStr += L"\"";
+
+	if (mId.size() != 0) {
+		retStr += makeElement(L"id", mId);
+	}
+
+	retStr += makeLangElements();
+	retStr += makeElement(L"name", mName);
+	retStr += makeElement(L"content", mContent);
+
+	if (mScheme != L"") {
+		retStr += makeElement(L"scheme", mScheme);
+	}
+
 	retStr += L"/>\n";
 
 

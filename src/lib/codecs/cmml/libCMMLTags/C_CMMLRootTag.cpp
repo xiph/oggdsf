@@ -103,13 +103,7 @@ wstring C_CMMLRootTag::toString() {
 		retStr += makeElement(L"id", mId);
 	}
 
-	if (mLang.size() != 0) {
-		retStr += makeElement(L"lang", mLang);
-		//Assuming that if lang is set then so is dirn.
-		//Also lets dirn default to "ltr" and still not be displayed
-		//unless the language is defined
-		retStr += makeElement(L"dir", mDirn);
-	}
+	retStr += makeLangElements();
 
 	
 	retStr += L">\n";
