@@ -41,7 +41,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter)
 	,	mPartialPacket(NULL)
 	,	mFirstRun(true)
 	,	mSendExcess(true)
-	,	mLastGranulePos(0)
+	,	mLastEndGranulePos(0)
 {
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
@@ -210,7 +210,7 @@ bool OggStream::acceptOggPage(OggPage* inOggPage) {
 	//FIX::: Add proper error checking.
 
 	StampedOggPacket* locPacket = NULL;
-	mLastGranulePos = inOggPage->header()->GranulePos()->value();
+	mLastEndGranulePos = inOggPage->header()->GranulePos()->value();
 
 	if (!mStreamReady) {
 

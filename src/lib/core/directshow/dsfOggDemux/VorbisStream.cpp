@@ -87,5 +87,5 @@ GUID VorbisStream::getMajorTypeGUID() {
 }
 
 LONGLONG VorbisStream::getCurrentPos() {
-	return (mLastGranulePos * UNITS) / mVorbisFormatBlock->samplesPerSec;
+	return (mLastEndGranulePos * UNITS) / mVorbisFormatBlock->samplesPerSec;
 }

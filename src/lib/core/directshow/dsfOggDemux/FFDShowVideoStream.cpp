@@ -194,12 +194,7 @@ bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 	memcpy((void*)locBuff, (const void*) (inPacket->packetData() + 1), inPacket->packetSize() - 1);
 	
 	
-	/*if (inPacket->endTime() == mLastGranulePos) {
-		mGranuleOffset++;
-	} else {
-		mLastGranulePos = inPacket->endTime();
-		mGranuleOffset = 0;
-	}*/
+
 
 
 	LONGLONG locStart = mLastTimeStamp;

@@ -88,5 +88,5 @@ GUID SpeexStream::getMajorTypeGUID() {
 }
 
 LONGLONG SpeexStream::getCurrentPos() {
-	return (mLastGranulePos * UNITS) / mSpeexFormatBlock->samplesPerSec;
+	return (mLastEndGranulePos * UNITS) / mSpeexFormatBlock->samplesPerSec;
 }

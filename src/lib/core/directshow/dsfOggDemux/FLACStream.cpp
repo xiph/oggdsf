@@ -123,5 +123,5 @@ bool FLACStream::deliverCodecHeaders() {
 }
 
 LONGLONG FLACStream::getCurrentPos() {
-	return (mLastGranulePos * UNITS) / mFLACFormatBlock->samplesPerSec;
+	return (mLastEndGranulePos * UNITS) / mFLACFormatBlock->samplesPerSec;
 }
