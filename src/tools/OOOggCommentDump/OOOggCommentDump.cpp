@@ -56,7 +56,13 @@ bool pageCB(OggPage* inOggPage) {
 			//Comment Packet
 
 			bool locIsOK = gComments.parseOggPacket(locPacket, 7);
+			cout<<"Vorbis Comments"<<endl;
 			cout<<gComments.toString();
+		} else if ((strncmp((char*)locPacket->packetData(), "\201theora", 7)) == 0) {
+			bool locIsOK = gComments.parseOggPacket(locPacket, 7);
+			cout<<"Theora Comments"<<endl;
+			cout<<gComments.toString();
+
 		}
 	}
 	

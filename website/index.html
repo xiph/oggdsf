@@ -65,6 +65,7 @@ This release has a lot of new code added, I'd really appreciate feedback on the 
 
 <br>
 <b><u>Known issues.</u></b><br>
+	<li>Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.</li>
 	<li>There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3</li>
 	<li>Seeking in theora occasionally seg faults</li>
 	<li>Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback</li>
