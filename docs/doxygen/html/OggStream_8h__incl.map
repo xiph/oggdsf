@@ -1,0 +1,14 @@
+base referer
+rect $oggdllstuff_8h.html 103,231 197,258
+rect $StreamHeaders_8h.html 187,306 313,333
+rect $IOggPackSource_8h.html 449,231 582,258
+rect $OggPage_8h.html 574,306 662,333
+rect $OggPacket_8h.html 447,157 546,183
+rect $StringHelper_8h.html 497,82 603,109
+rect $OggPageHeader_8h.html 570,157 703,183
+rect $libilliCore_8h.html 591,7 679,34
+rect $iLE__Math_8h.html 627,82 718,109
+rect $StampedOggPacket_8h.html 273,231 425,258
+rect $IStampedOggPacketSink_8h.html 258,381 442,407
+rect $IOggCallback_8h.html 466,381 581,407
+rect $OggPacketiser_8h.html 481,455 601,482

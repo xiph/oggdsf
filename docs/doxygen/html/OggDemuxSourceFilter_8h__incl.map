@@ -1,0 +1,9 @@
+base referer
+rect $OggDemuxSourcePin_8h.html 714,232 877,258
+rect $OggStreamMapper_8h.html 544,232 690,258
+rect $oggdllstuff_8h.html 890,82 984,109
+rect $AutoOggSeekTable_8h.html 370,82 520,109
+rect $OggDataBuffer_8h.html 328,8 450,34
+rect $IFilterDataSource_8h.html 602,8 741,34
+rect $DataSourceFactory_8h.html 544,82 690,109
+rect $PropsAbout_8h.html 765,82 866,109

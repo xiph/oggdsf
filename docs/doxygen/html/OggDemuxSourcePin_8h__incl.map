@@ -1,0 +1,7 @@
+base referer
+rect $OggDemuxSourceFilter_8h.html 185,232 358,258
+rect $oggdllstuff_8h.html 25,8 118,34
+rect $StreamHeaders_8h.html 109,82 234,109
+rect $OggPage_8h.html 274,8 362,34
+rect $IOggCallback_8h.html 309,82 424,109
+rect $BasicSeekable_8h.html 498,82 618,109

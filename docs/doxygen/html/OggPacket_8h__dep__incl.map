@@ -1,0 +1,13 @@
+base referer
+rect $FLACDecodeInputPin_8h.html 7,82 170,109
+rect $FLACHeaderTweaker_8h.html 194,82 354,109
+rect $CMMLStream_8h.html 378,82 493,109
+rect $FLACStream_8h.html 567,82 679,109
+rect $OggStreamFactory_8h.html 757,8 903,34
+rect $VorbisStream_8h.html 703,82 818,109
+rect $SpeexStream_8h.html 842,82 957,109
+rect $TheoraStream_8h.html 981,82 1101,109
+rect $OggFLAC__1__0__Stream_8h.html 1125,82 1298,109
+rect $IOggPackSource_8h.html 1322,82 1455,109
+rect $libOOOgg_8h.html 1479,82 1573,109
+rect $VorbisComments_8h.html 1597,82 1733,109

@@ -1,0 +1,11 @@
+base referer
+rect $OggFLAC__1__0__Stream_8h.html 434,381 608,408
+rect $oggdllstuff_8h.html 149,306 242,333
+rect $OggPage_8h.html 477,306 565,333
+rect $StampedOggPacket_8h.html 389,232 541,258
+rect $OggPageHeader_8h.html 524,157 657,184
+rect $iLE__Math_8h.html 526,82 617,109
+rect $libilliCore_8h.html 541,8 629,34
+rect $StringHelper_8h.html 641,82 748,109
+rect $OggPacket_8h.html 700,157 798,184
+rect $IOggPackSource_8h.html 616,232 749,258

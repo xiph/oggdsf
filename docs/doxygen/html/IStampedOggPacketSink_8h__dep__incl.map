@@ -1,0 +1,6 @@
+base referer
+rect $OggStream_8h.html 37,82 138,109
+rect $OggPacketiser_8h.html 58,157 178,184
+rect $libOOOgg_8h.html 198,82 292,109
+rect $OggPaginator_8h.html 253,157 368,184
+rect $OOOggPacketDumper_8h.html 241,8 409,34
