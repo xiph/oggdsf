@@ -1,5 +1,8 @@
 #pragma once
 #include "controldialog.h"
+#include <fstream>
+
+using namespace std;
 
 // axAnxOggPlayerCtrl.h : Declaration of the CaxAnxOggPlayerCtrl ActiveX Control class.
 
@@ -51,6 +54,7 @@ public:
 	};
 protected:
 	CControlDialog mDialog;
+	fstream debugLog;
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };

@@ -120,6 +120,8 @@ CaxAnxOggPlayerCtrl::CaxAnxOggPlayerCtrl()
 {
 	InitializeIIDs(&IID_DaxAnxOggPlayer, &IID_DaxAnxOggPlayerEvents);
 	// TODO: Initialize your control's instance data here.
+	debugLog.open("G:\\logs\\ax_cntrol.log", ios_base::out);
+	debugLog<<"Control activated..."<<endl;
 }
 
 
@@ -183,6 +185,7 @@ void CaxAnxOggPlayerCtrl::AboutBox()
 
 BOOL CaxAnxOggPlayerCtrl::PreCreateWindow(CREATESTRUCT& cs)
 {
+	debugLog<<"Pre create..."<<endl;
 	cs.lpszClass = _T("STATIC");
 	return COleControl::PreCreateWindow(cs);
 }
@@ -219,6 +222,7 @@ LRESULT CaxAnxOggPlayerCtrl::OnOcmCommand(WPARAM wParam, LPARAM lParam)
 
 int CaxAnxOggPlayerCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
+	debugLog<<"On create..."<<endl;
 	if (COleControl::OnCreate(lpCreateStruct) == -1)
 		return -1;
 

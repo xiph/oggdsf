@@ -241,7 +241,8 @@ bool DSPlayer::loadFile(wstring inFileName, HWND inWindow, int inLeft, int inTop
 	if (locHR == S_OK) {
 		debugLog<<"We got the IVideoWindow"<<endl;
 
-		locVW->put_MessageDrain((OAHWND)inWindow);
+		
+		//locVW->put_MessageDrain((OAHWND)inWindow);
 
 
 		locVW->put_Owner((OAHWND)inWindow);
