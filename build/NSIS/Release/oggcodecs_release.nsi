@@ -7,7 +7,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "oggcodecs"
-!define PRODUCT_VERSION "0.70"
+!define PRODUCT_VERSION "0.69"
 !define PRODUCT_PUBLISHER "illiminable"
 !define PRODUCT_WEB_SITE "http://www.illiminable.com/ogg/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OOOggDump.exe"
@@ -99,7 +99,7 @@ Section "Ogg Core Files" SEC01
   File "${VS_RUNTIME_LOCATION}\msvcp71.dll"
   ;
   
-  File "..\..\..\src\lib\core\directshow\dsfAbstractVideoEncoder\Release\dsfAbstractVideoEncoder.dll"
+  ;File "..\..\..\src\lib\core\directshow\dsfAbstractVideoEncoder\Release\dsfAbstractVideoEncoder.dll"
   File "..\..\..\src\lib\core\ogg\libOOOgg\Release\libOOOgg.dll"
   File "..\..\..\src\lib\core\ogg\libOOOggSeek\Release\libOOOggSeek.dll"
   File "..\..\..\src\lib\core\directshow\dsfSeeking\Release\dsfSeeking.dll"
@@ -112,7 +112,8 @@ Section "Ogg Core Files" SEC01
   File "..\..\..\AUTHORS"
   File "..\..\..\HISTORY"
   File "..\..\..\src\lib\codecs\cmml\libCMMLTags\Release\libCMMLTags.dll"
-  File "..\..\..\src\lib\codecs\cmml\libWinCMMLParse\Release\libWinCMMLParse.dll"
+  ;File "..\..\..\src\lib\codecs\cmml\libWinCMMLParse\Release\libWinCMMLParse.dll"
+  File "..\..\..\src\lib\codecs\cmml\libCMMLParse\Release\libCMMLParse.dll"
   File "..\..\..\src\lib\codecs\vorbis\libs\libvorbis\win32\Vorbis_Dynamic_Release\vorbis.dll"
   File "..\..\..\src\lib\codecs\theora\libs\libOOTheora\Release\libOOTheora.dll"
   File "..\..\..\src\lib\codecs\flac\libs\libflac\obj\release\bin\libFLAC.dll"
@@ -122,6 +123,7 @@ Section "Ogg Core Files" SEC01
   File "..\..\..\src\tools\OOOggStat\Release\OOOggStat.exe"
   File "..\..\..\src\tools\OOOggValidate\Release\OOOggValidate.exe"
   File "..\..\..\src\tools\OOOggCommentDump\Release\OOOggCommentDump.exe"
+  File "..\..\..\src\lib\helper\libTemporalURI\Release\libTemporalURI.dll"
 
 
 ; Register libraries
@@ -150,9 +152,13 @@ Section "Ogg Core Files" SEC01
   SetOutPath $INSTDIR
   !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\cmml\dsfCMMLDecoder\Release\dsfCMMLDecoder.dll" "$INSTDIR\dsfCMMLDecoder.dll" "$INSTDIR"
   SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\codecs\cmml\dsfCMMLRawSource\Release\dsfCMMLRawSource.dll" "$INSTDIR\dsfCMMLRawSource.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
   !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfSubtitleVMR9\Release\dsfSubtitleVMR9.dll" "$INSTDIR\dsfSubtitleVMR9.dll" "$INSTDIR"
   SetOutPath $INSTDIR
   !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfAnxDemux\Release\dsfAnxDemux.dll" "$INSTDIR\dsfAnxDemux.dll" "$INSTDIR"
+  SetOutPath $INSTDIR
+  !insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "..\..\..\src\lib\core\directshow\dsfAnxMux\Release\dsfAnxMux.dll" "$INSTDIR\dsfAnxMux.dll" "$INSTDIR"
   Sleep 10000
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -230,6 +236,23 @@ Section -Post
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "MIME Types" "audio/x-ogg"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; media_mime_app_anx.reg
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex]
+;@="Anx File"
+;"AlreadyRegistered"="yes"
+;"Extension.Key"=".anx"
+;"Extensions.CommaSep"="anx"
+;"Extensions.SpaceSep"=".anx"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "" "Anx File"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "AlreadyRegistered" "yes"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extension.Key" ".anx"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.CommaSep" "anx"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.SpaceSep" ".anx"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; media_mime_app_ogg.reg
 ;=========================================================
@@ -284,6 +307,22 @@ Section -Post
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "" "Ogg Video File"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "Extension.Key" ".ogv"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; mm_medlib_anx.reg
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx]
+;"AlreadyRegistered"="yes"
+;"MediaType.Description"="Annodex File"
+;"Permissions"=dword:0000000f
+;"Runtime"=dword:00000007
+;"Extension.MIME"="application/x-annodex"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "AlreadyRegistered" "yes"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "MediaType.Description" "Annodex File"
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Permissions" 0x0000000f
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Runtime" 0x00000007
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "Extension.MIME" "application/x-annodex"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -496,10 +535,14 @@ Section Uninstall
   SetOutPath $INSTDIR
   !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfCMMLDecoder.dll"
   SetOutPath $INSTDIR
+  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfCMMLRawSource.dll"
+  SetOutPath $INSTDIR
   !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfSubtitleVMR9.dll"
   SetOutPath $INSTDIR
   !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfAnxDemux.dll"
-  
+  SetOutPath $INSTDIR
+  !insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "$INSTDIR\dsfAnxMux.dll"
+
   
   ; Unregister core ogg libraries
   SetOutPath $INSTDIR
@@ -677,15 +720,17 @@ Section Uninstall
 ; Delete "$INSTDIR\dsfSubtitleVMR9.dll"
 ; Delete "$INSTDIR\dsfAnxDemux.dll"
 ; Delete "$INSTDIR\dsfCMMLDecoder.dll"
-  Delete "$INSTDIR\libWinCMMLParse.dll"
+;  Delete "$INSTDIR\libWinCMMLParse.dll"
+  Delete "$INSTDIR\libCMMLParse.dll"
   Delete "$INSTDIR\libCMMLTags.dll"
   Delete "$INSTDIR\libVorbisComment.dll"
 ; Delete "$INSTDIR\dsfOggDemux.dll"
   Delete "$INSTDIR\dsfSeeking.dll"
   Delete "$INSTDIR\libOOOggSeek.dll"
   Delete "$INSTDIR\libOOOgg.dll"
+  Delete "$INSTDIR\libTemporalURI.dll"
 ; Delete "$INSTDIR\dsfOggMux.dll"
-  Delete "$INSTDIR\dsfAbstractVideoEncoder.dll"
+;  Delete "$INSTDIR\dsfAbstractVideoEncoder.dll"
   Delete "$INSTDIR\ABOUT.rtf"
   Delete "$INSTDIR\VERSIONS"
   Delete "$INSTDIR\README"

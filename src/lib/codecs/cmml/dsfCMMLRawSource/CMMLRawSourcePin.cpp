@@ -173,7 +173,7 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		if ((ANX_VERSION_MAJOR == 2) && (ANX_VERSION_MINOR == 0)) {
 			locStart = locStartStamp.toHunNanos() / 10000;
 		} else if ((ANX_VERSION_MAJOR == 3) && (ANX_VERSION_MINOR == 0)) {
-			locStart = (mLastTime << 32) + (locStartStamp.toHunNanos() / 10000);
+			locStart = (mLastTime << 32) + ((locStartStamp.toHunNanos() - mLastTime) / 10000);
 			
 		} else {
 			//If you are here... you set the constants in the header file wrong
@@ -188,7 +188,7 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		if ((ANX_VERSION_MAJOR == 2) && (ANX_VERSION_MINOR == 0)) {
 			locStop = locEndStamp.toHunNanos() / 10000;
 		} else if ((ANX_VERSION_MAJOR == 3) && (ANX_VERSION_MINOR == 0)) {
-			locStop = (mLastTime << 32) + (locEndStamp.toHunNanos() / 10000);
+			locStop = (mLastTime << 32) + ((locEndStamp.toHunNanos() - mLastTime) / 10000);
 		} else {
 			//If you are here you set the constants in the header file wrong
 			throw 0;
