@@ -64,6 +64,24 @@ bool testCMMLRootParse(wstring inCMMLRootString) {
 
 }
 
+bool testCMMLFileParse(wstring inFilename) {
+	CMMLParser locParser;
+
+	C_CMMLDoc locDoc;
+	bool locWasOK = locParser.parseDocFromFile(inFilename, &locDoc);
+
+	wcout<<"Trying to parse "<<inFilename<<endl;
+
+	if (locWasOK) {
+		wcout<<locDoc.toString()<<endl;
+	} else {
+		wcout<<"*** PARSE FAILED ***"<<endl;
+	}
+
+	return locWasOK;
+
+}
+
 int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 	//Valid minimal
@@ -135,6 +153,13 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 	//INVALID: valid xml but invalid cmml
 	wstring cmml_5 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
 	testCMMLRootParse(cmml_5);
+
+	int x;
+	cin>>x;
+
+	wstring file_1 = L"testcmml.xml";
+	testCMMLFileParse(file_1);
+
 
 
 

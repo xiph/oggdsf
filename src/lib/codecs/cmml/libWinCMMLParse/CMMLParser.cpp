@@ -70,6 +70,69 @@ bool CMMLParser::setupXMLHandles(wstring inText, MSXML2::IXMLDOMDocument** outDo
 	}
 }
 
+bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc) {
+
+	MSXML2::IXMLDOMDocument* locDoc		=	NULL;
+	MSXML2::IXMLDOMNode*		locNode =	NULL;
+	BSTR locQuery	= SysAllocString(L"cmml");;
+	VARIANT locFilename;
+
+	VariantInit(&locFilename);
+	V_BSTR(&locFilename) = SysAllocString(inFilename.c_str());
+	V_VT(&locFilename) = VT_BSTR;
+	//locFilename.vt = VT_BSTR;
+	//locFilename.bstrVal = SysAllocString(inFilename.c_str());
+
+
+	bool retVal = true;
+	HRESULT locHR = S_FALSE;
+
+	
+	locHR = CoCreateInstance(__uuidof(DOMDocument30), NULL, CLSCTX_INPROC_SERVER, IID_IXMLDOMDocument, (void**)&locDoc);
+	if (locHR != S_OK) {
+		retVal = false;
+	} else {
+	
+		
+		VARIANT_BOOL locBool = VARIANT_FALSE;
+		locDoc->put_validateOnParse(locBool);
+		
+		locHR = locDoc->load(locFilename, &locBool);
+		MSXML2::IXMLDOMParseError *locParseError = NULL;
+		locHR = locDoc->get_parseError(&locParseError);
+		long locEC = 0;
+		locParseError->get_errorCode(&locEC);
+		BSTR locStr;
+		locParseError->get_reason(&locStr);
+
+		
+
+		//--------------Child Nodes-----------------
+		locHR = locDoc->selectSingleNode(locQuery, &locNode);
+		if (locHR != S_OK) {
+			retVal = false;
+		} else {
+
+			C_CMMLRootTag* locRootTag = new C_CMMLRootTag;
+
+			retVal = parseCMMLRootTag(locNode, locRootTag);
+			if (retVal) {
+				outCMMLDoc->setRoot(locRootTag);	
+			} else {
+				delete locRootTag;
+			}
+		}
+	}
+
+	//SysFreeString(locFilename.bstrVal);
+	SysFreeString(locQuery);
+	if (&locFilename) VariantClear(&locFilename);
+	if (locDoc != NULL)			locDoc->Release();
+	if (locNode != NULL)		locNode->Release();
+
+	return retVal;
+}
+
 
 
 MSXML2::IXMLDOMNode* CMMLParser::getNamedNode(wstring inXPath, MSXML2::IXMLDOMDocument* inDoc) {

@@ -65,6 +65,9 @@ public:
 	bool parseParamTag(MSXML2::IXMLDOMNode* inParamNode, C_ParamTag* outParam);
 	bool parseCMMLRootTag(MSXML2::IXMLDOMNode* inCMMLRootNode, C_CMMLRootTag* outCMMLRoot);
 
+	
+	bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
+
 
 
 protected:

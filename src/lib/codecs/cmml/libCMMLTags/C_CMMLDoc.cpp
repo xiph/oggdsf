@@ -37,12 +37,14 @@
 C_CMMLDoc::C_CMMLDoc(void)
 {
 	mPreamble = new C_CMMLPreamble;
+	mRoot = new C_CMMLRootTag;
 
 }
 
 C_CMMLDoc::~C_CMMLDoc(void)
 {
 	delete mPreamble;
+	delete mRoot;
 }
 
 C_CMMLPreamble* C_CMMLDoc::preamble() {
