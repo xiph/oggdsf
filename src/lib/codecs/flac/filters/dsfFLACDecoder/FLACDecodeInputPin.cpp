@@ -35,13 +35,18 @@
 FLACDecodeInputPin::FLACDecodeInputPin(AbstractAudioDecodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType)
 	:	AbstractAudioDecodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACDecodeInputPin"), L"FLAC In", inAcceptMediaType)
 	,	mGotMetaData(false)
+	,	mCodecLock(NULL)
 	//,	mNumPacksBuffered(0)
 {
+	debugLog.open("G:\\logs\\flacfilter.log", ios_base::out);
+	mCodecLock = new CCritSec;
 	ConstructCodec();
 }
 
 FLACDecodeInputPin::~FLACDecodeInputPin(void)
 {
+	debugLog.close();
+	delete mCodecLock;
 }
 
 STDMETHODIMP FLACDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -74,10 +79,16 @@ void FLACDecodeInputPin::DestroyCodec()
 ::FLAC__StreamDecoderReadStatus FLACDecodeInputPin::read_callback(FLAC__byte outBuffer[], unsigned* outNumBytes) 
 {
 	//Put some data into the buffer.
-	ASSERT(mPendingPackets.size() == 1);
+	//ASSERT(mPendingPackets.size() == 1);
 	unsigned long locNumPacks = mPendingPackets.size();
 
+	debugLog<<"Read_Callback : numpacks = "<<locNumPacks<<endl;
 	//First packet
+	if (locNumPacks != 1) {
+		//throw 0;
+		debugLog<<"Read_Callback : Bailing out with abort code."<<endl;
+		return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
+	}
 	OggPacket* locPacket = mPendingPackets.front()->clone();
 	
 	delete mPendingPackets.front();
@@ -99,6 +110,7 @@ void FLACDecodeInputPin::DestroyCodec()
 	delete locPacket;
 	locPacket = NULL;
 	
+	debugLog<<"Read_callback : Buffer filled returning sucess"<<endl;
 		//What return value ??
 		return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 }
@@ -106,7 +118,7 @@ void FLACDecodeInputPin::DestroyCodec()
 {
 	//inFrame->header.blocksize
 
-
+	
 		//Do we need to delete the pcm structure ???? 
 	//More of this can go to the abstract class.
 
@@ -151,13 +163,16 @@ void FLACDecodeInputPin::DestroyCodec()
 
 	//Get a pointer to a new sample stamped with our time
 	IMediaSample* locSample;
+	debugLog<<"Write_callback : Calling Getdeliverybuffer................"<<endl;
 	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
 
 	if (FAILED(locHR)) {
+		debugLog<<"Write_Callback : Get deliverybuffer failed. returning abort code."<<endl;
 		//We get here when the application goes into stop mode usually.
 		return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
 	}	
-	
+	debugLog<<"Write_CAllback : Get delivery buffer returned ok"<<endl;
+	debugLog<<"Write_Callback : Sample times "<<locFrameStart <<" to "<<locFrameEnd<<endl;
 	//Set the timestamps
 	//Now done in SetsampleParams
 	//	locSample->SetTime(&locFrameStart, &locFrameEnd);
@@ -203,17 +218,28 @@ void FLACDecodeInputPin::DestroyCodec()
 
 		{
 			CAutoLock locLock(m_pLock);
-			HRESULT locHR = mOutputPin->Deliver(locSample);			
+			debugLog<<"Write_Callback : Calling deliver............"<<endl;
+			
+			
+			//BUGFIX::: I think this is one of the sources of the seeking bug... the base class has a queue
+			//			 on the output pin, this call was bypassing it... however the flush calls were
+			//			 flushing the queue, and thus not the actuall buffer.
+			//HRESULT locHR = mOutputPin->Deliver(locSample);			
+
+			HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);
 			if (locHR != S_OK) {
-				
+				debugLog<<"Write_Callback : Delivery of sample failed. - "<<locHR<<endl;
 			} else {
+				debugLog<<"Write_Callback : Delivery of sample succeeded"<<endl;
 			}
 		}
 
-		locSample->Release();
+		//locSample->Release();
 
+		debugLog<<"WriteCallback : Returning Sucess code."<<endl;
 		return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 	} else {
+		debugLog<<"Write_Callback : Buffer too small."<<endl;
 		throw 0;
 	}
 
@@ -232,16 +258,23 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 {
 	//What happens when another packet arrives and the other one is still there ?
 	//delete mPendingPacket;
-
+	debugLog<<"decodeData : "<<endl;
 	if(!m_bFlushing) {
 		unsigned char* locBuff = new unsigned char[inNumBytes];
 		memcpy((void*)locBuff, (const void*)inBuf, inNumBytes);
 
 		//HACK !!
-		if (mPendingPackets.size() == 1) {
-			delete mPendingPackets.front();
-			mPendingPackets.pop();
+		if (mPendingPackets.size() != 0) {
+			
+			unsigned long locSize = mPendingPackets.size();
+			debugLog<<"decodeData : ERROR packet buffer not empty - "<<locSize<<" packets deleting"<<endl;
+			for (int i = 0; i < locSize; i++) {
+				delete mPendingPackets.front();
+				mPendingPackets.pop();
+			}
 		}
+
+		ASSERT(mPendingPackets.size() == 0);
 		mPendingPackets.push(new OggPacket(locBuff, inNumBytes, true));
 		ASSERT(mPendingPackets.size() == 1);
 		if (mGotMetaData) {
@@ -249,18 +282,24 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 			//for(unsigned long i = 0; i < mPendingPackets.size(); i++) {
 			ASSERT((locBuff[0] == 255) && (locBuff[1] == 248));
 			if (mPendingPackets.size() == 1) {
+				debugLog<<"decodeData : Calling process_single with 1 packet."<<endl;
 				locRet = process_single();
 			} else {
+				debugLog<<"decodeData : Something bad happened !"<<endl;
+				return -1;
 				//Shouldn't be possible to get here !
 			}
 			//}
 			//mNumPacksBuffered = 0;
 		} else {
+			
 			int locRet = process_until_end_of_metadata();
 			mGotMetaData = true;
 		}
+		debugLog<<"decodeData : Successful return."<<endl;
 		return 0;
 	} else {
+		debugLog<<"decodeData : Filter flushing... bad things !!!"<<endl;
 		return -1;
 	}
 	
@@ -278,8 +317,12 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 //}
 
 STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
+	CAutoLock locLock(mFilterLock);
+	CAutoLock locCodecLock(mCodecLock);
+	debugLog<<"BeginFlush : Calling flush on the codec."<<endl;
 	flush();
 	unsigned long locSize = mPendingPackets.size();
+	debugLog<<"BeginFlush : deleting "<<locSize<<" packets."<<endl;
 	for (unsigned long i = 0; i < locSize; i++) {
 		delete mPendingPackets.front();
 		mPendingPackets.pop();

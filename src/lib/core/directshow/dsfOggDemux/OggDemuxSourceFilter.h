@@ -146,6 +146,8 @@ protected:
 
 	OggDataBuffer mOggBuffer;
 
+	bool mJustReset;  //This is pretty dodgy !
+
 	//SOURCE ABSTRACTION::: declaration
 	//fstream mSourceFile;
 	//

@@ -101,6 +101,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	,	mSeekTable(NULL)
 	,	mDataSource(NULL)
 	,	mSeekTimeBase(0)
+	,	mJustReset(true)
 {
 	//LEAK CHECK:::Both get deleted in constructor.
 	m_pLock = new CCritSec;
@@ -119,6 +120,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter(REFCLSID inFilterGUID)
 	,	mSeekTable(NULL)
 	,	mStreamMapper(NULL)
 	,	mSeekTimeBase(0)
+	,	mJustReset(true)
 {
 	//LEAK CHECK:::Both get deleted in constructor.
 	m_pLock = new CCritSec;
@@ -489,6 +491,7 @@ void OggDemuxSourceFilter::resetStream() {
 		mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
 		mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
 		mDataSource->seek(mStreamMapper->startOfData());
+		mJustReset = true;
 		//
 	}
 	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
@@ -577,11 +580,15 @@ HRESULT OggDemuxSourceFilter::DataProcessLoop() {
         	//locBytesRead = mSourceFile.gcount();
 			//
 			locBytesRead = mDataSource->read(locBuff, 4096);
+			mJustReset = false;
 			//
 		}
 		//debugLog <<"DataProcessLoop : gcount = "<<locBytesRead<<endl;
 		{
 			CAutoLock locDemuxLock(mDemuxLock);
+			if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
+				continue;
+			}
 			locKeepGoing = mOggBuffer.feed(locBuff, locBytesRead);
 		}
 		if (!locKeepGoing) {

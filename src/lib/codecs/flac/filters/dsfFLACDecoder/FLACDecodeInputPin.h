@@ -34,6 +34,11 @@
 #include "FLAC++/decoder.h"
 #include "OggPacket.h"
 #include <queue>
+
+//debug only
+#include <fstream>
+//
+
 using namespace std;
 using namespace FLAC::Decoder;
 
@@ -67,6 +72,12 @@ public:
 
 protected:
 	bool mGotMetaData;
+
+	//debug only
+	fstream debugLog;
+	//
+
+	CCritSec* mCodecLock;
 	queue<OggPacket*> mPendingPackets;
 	unsigned long mNumPacksBuffered;
 };
