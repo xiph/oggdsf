@@ -408,8 +408,8 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 		locL += KR * (locR);					//Red
 
 		
-		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (65536*locR) - locL)) / V_FACTOR) + 128);			//V for Victor
-		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (65536*locB) - locL)) / U_FACTOR) + 128);			//U for ugly
+		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
+		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
 		*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
 		*(locDestPtr++) = 255;																		//A for alpha
 	}
