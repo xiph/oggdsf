@@ -66,9 +66,14 @@ bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later..
 		int x = 0;
 		x= x/x;
 	}
-	mPageQueue.push_back(inOggPage);		//AOP::: Clone not required.
-	mNotifier->notifyArrival();
-	return true;
+	if (!mIsEOS) {
+		mPageQueue.push_back(inOggPage);		//AOP::: Clone not required.
+		mNotifier->notifyArrival();
+		return true;
+	} else {
+		delete inOggPage;
+		return true;
+	}
 }
 
 bool OggMuxStream::pushFront(OggPage* inOggPage) {
