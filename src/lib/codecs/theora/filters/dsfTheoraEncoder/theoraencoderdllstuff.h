@@ -71,6 +71,7 @@ const REGPINTYPES TheoraEncodeInputTypes = {
 };
 
 
+
 const REGPINTYPES TheoraEncodeOutputTypes = {
 	&MEDIATYPE_Video,
 	&MEDIASUBTYPE_Theora

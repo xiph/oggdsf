@@ -120,6 +120,7 @@ bool pageCB(OggPage* inOggPage) {
 
 				//It's the Annodex EOS.
 				demuxState = SEEN_ANNODEX_EOS;
+				writePageToOutputFile(inOggPage);
 			} else {
 				demuxState = INVALID;
 			}
@@ -129,6 +130,7 @@ bool pageCB(OggPage* inOggPage) {
 				if (theStreams[i].first == inOggPage->header()->StreamSerialNo()) {
 					if (theStreams[i].second >= 1) {
 						theStreams[i].second--;
+						writePageToOutputFile(inOggPage);
 					} else {
 						demuxState = INVALID;
 					}
@@ -174,7 +176,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 
 	int x;
 	cin>>x;
-	if (argc < 2) {
+	if (argc < 3) {
 		cout<<"Usage : AnxCutter <input_filename> <output_filename> <start_time> <end_time>"<<endl;
 	} else {
 		OggDataBuffer testOggBuff;
