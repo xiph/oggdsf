@@ -1,3 +1,12 @@
+*** libOOOgg
+*** OOOggDump
+*** OOOggValidate
+
+	Zentaro Kavanagh <ogg@illiminable.com>
+		- Design and coding.
+
+	Andre Pang <Andre.Pang@csiro.au>
+		- Mac OS X porting.
 ==============================================================
 *** dsfOggDemux
 *** dsfOggMux	
@@ -20,7 +29,6 @@
 *** libiWrapper
 *** libilliCore
 *** libOOTheora
-*** libOOOgg
 *** libOOOggSeek
 *** libCMMLTags
 *** libCMMLTagsDotNET
@@ -28,10 +36,8 @@
 *** libVorbisComment
 *** libVorbisCommentDotNET
 *** libDSPlayDotNET
-*** OOOggDump
 *** OOOggStat
 *** OOOggCommentDump
-*** OOOggValidate
 *** CLOgg
 *** DNPlay
 *** iOCE
