@@ -81,7 +81,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="..;..\libOOOgg"
+				AdditionalIncludeDirectories="..;..\libOOOgg;..\..\..\helper\libilliCore"
 				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Release"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"

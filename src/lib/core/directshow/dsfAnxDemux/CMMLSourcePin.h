@@ -55,4 +55,6 @@ public:
 	//Implements IStreamBuilder to force the pin tothe cmml filter
 	STDMETHODIMP Render(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
 	STDMETHODIMP Backout(IPin* inOutputPin, IGraphBuilder* inGraphBuilder);
+
+	virtual bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket);
 };

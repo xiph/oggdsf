@@ -85,7 +85,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="C:\DXSDK\Include;&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\ogg\libOOOggSeek;..\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\ogg\libOOOgg;..\..\ogg\libOOOggSeek;..\dsfSeeking;..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX_EXPORTS"
 				StringPooling="TRUE"
 				MinimalRebuild="FALSE"

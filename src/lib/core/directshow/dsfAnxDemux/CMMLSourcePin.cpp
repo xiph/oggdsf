@@ -145,3 +145,59 @@ STDMETHODIMP CMMLSourcePin::Backout(IPin* inOutputPin, IGraphBuilder* inGraphBui
    // return hr;
 	return S_OK;
 }
+
+bool CMMLSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
+
+	//Modified from the base class so that the times are multiplied by a scaling factor... curently 1000.
+	//TODO::: When you properly save annodex header information, you need to account for other time schemes.
+	//Probably issues for -1 gran pos here too.
+	CAutoLock locStreamLock(mParentFilter->mStreamLock);
+	IMediaSample* locSample = NULL;
+	REFERENCE_TIME locStart = inPacket->startTime() * 1000;   //CMML Changes here.
+	REFERENCE_TIME locStop = inPacket->endTime() * 1000;
+	//debugLog<<"Start   : "<<locStart<<endl;
+	//debugLog<<"End     : "<<locStop<<endl;
+	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
+	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
+	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));
+	//Error checks
+	if (locHR != S_OK) {
+		//Stopping, fluching or error
+		//debugLog<<"Failure... No buffer"<<endl;
+		return false;
+	}
+
+	//More hacks so we can send a timebase after a seek, since granule pos in theora
+	// is not convertible in both directions to time.
+	
+	//TIMESTAMP FIXING !
+	locSample->SetTime(&locStart, &locStop);
+	
+	//Yes this is way dodgy !
+	locSample->SetMediaTime(&mParentFilter->mSeekTimeBase, &mParentFilter->mSeekTimeBase);
+	locSample->SetSyncPoint(TRUE);
+	
+
+	// Create a pointer for the samples buffer
+	BYTE* locBuffer = NULL;
+	locSample->GetPointer(&locBuffer);
+
+	if (locSample->GetSize() >= inPacket->packetSize()) {
+
+		memcpy((void*)locBuffer, (const void*)inPacket->packetData(), inPacket->packetSize());
+		locSample->SetActualDataLength(inPacket->packetSize());
+
+		locHR = mDataQueue->Receive(locSample);
+		
+		if (locHR != S_OK) {
+			//debugLog << "Failure... Queue rejected sample..."<<endl;
+			//Stopping ??
+			return false;
+			
+		} else {
+			return true;
+		}
+	} else {
+		throw 0;
+	}
+}

@@ -5,7 +5,7 @@ OggPacketiser::OggPacketiser(void)
 	:	mPacketSink(NULL)
 	,	mPendingPacket(NULL)
 	,	mPacketiserState(PKRSTATE_OK)
-	,	mLooseMode(false)						//FIX::: This affects the validator.
+	,	mLooseMode(true)						//FIX::: This affects the validator.
 	,	mNumIgnorePackets(0)
 	,	mPrevGranPos(0)
 	,	mCurrentGranPos(0)
@@ -17,7 +17,7 @@ OggPacketiser::OggPacketiser(IStampedOggPacketSink* inPacketSink)
 	:	mPacketSink(inPacketSink)
 	,	mPendingPacket(NULL)
 	,	mPacketiserState(PKRSTATE_OK)
-	,	mLooseMode(false)						//FIX::: This affects the validator.
+	,	mLooseMode(true)						//FIX::: This affects the validator.
 	,	mNumIgnorePackets(0)
 	,	mPrevGranPos(0)
 	,	mCurrentGranPos(0)
