@@ -52,8 +52,8 @@ AutoOggSeekTable::AutoOggSeekTable(string inFileName)
 	mFileName = inFileName;
 	mOggDemux = new OggDataBuffer(true);
 	mOggDemux->registerVirtualCallback(this);
-	debugLog.open("G:\\logs\\seektable.log", ios_base::out | ios_base::ate | ios_base::app);
-	debugLog<<"Constructing seek table..."<<endl;
+	debugLog.open("G:\\logs\\seektable.log", ios_base::out);
+	debugLog<<"Constructing seek table for "<<inFileName<<endl;
 }
 
 AutoOggSeekTable::~AutoOggSeekTable(void)
@@ -210,7 +210,9 @@ __int64 AutoOggSeekTable::fileDuration() {
 }
 bool AutoOggSeekTable::buildTable() {
 	//HACK::: To ensure we don't try and build a table on the network file.
+	debugLog<<"Anx Build table : "<<mFileName<<endl;
 	if (mFileName.find("http") != 0) {
+		
 		debugLog<<"Opening file... "<<endl;
 		mFile.open(mFileName.c_str(), ios_base::in | ios_base::binary);
 		const unsigned long BUFF_SIZE = 4096;
@@ -223,6 +225,7 @@ bool AutoOggSeekTable::buildTable() {
 		mFile.close();
 		
 	} else {
+		debugLog<<"Not SEEKABLE"<<endl;
 		mEnabled = false;
 		mSampleRate = 1;
 	}

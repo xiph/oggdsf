@@ -234,6 +234,12 @@ Most of the major functionality bugs are sorted out now, I'm quite happy with th
 </TABLE>
 </DIV>
 </FONT>
+	<li>Can't seek in WMP 6.4 (Thanks RadicalEd)</li>
+	<li>You can't delete .ogg files in explorer because they are locked/in use. To fix this until the next version, run regedit and go to the registry key [HKEY_CLASSES_ROOT\.OGG\ShellEx] 
+		and delete it. This is left over from the Tobis filters, if you ever reinstall them, even if you uninstall, you'll have to do this again. (Thanks RadicalEd for reporting this)</li>
+	<li>Video files encoded with non-integral framerates (ie 29.97) lose sync, due to rounding bug (Thanks RadicalEd)</li>
+	<li>Doesn't play the new ogg flac files produced by FLAC 1.1.1</li>
+	<li>FLAC can't be muxed in a multi-stream file sucessfully (Thanks Bond)</li>
 	<li>Make the installer properly detect if it's already installed. If you don't uninstall the old version you will get multiple identical file masks in WMP</li>
 	<li>If you are getting codec problems, there appears to be a conflict with something in Media Player Classic... it tries to enforce the use of another ogg demultiplexer, either by design or accident.If you see in MPC it complaining about a media subtype with a 
 		GUID {CDDCA2D5-6D75-4F98-840E-737BEDD5C63B}. This is the guid of the old tobias vorbis filter, and this one {8D2FD10B-5841-4a6b-8905-588FEC1ADED9} is CoreVorbis. This is most likely due to the fact that these filters don't clean up the registry when they uninstall.

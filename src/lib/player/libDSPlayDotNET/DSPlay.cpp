@@ -222,6 +222,7 @@ bool DSPlay::loadFile(String* inFileName) {
 
 	}
 
+	debugLog<<"About to call render on "<<StringHelper::toNarrowStr(locWFileName)<<endl;
 	//Build the graph
 	locHR = mGraphBuilder->RenderFile(locWFileName.c_str(), NULL);
 
@@ -231,6 +232,7 @@ bool DSPlay::loadFile(String* inFileName) {
 		return false;
 	}
 
+	*debugLog<<"Render must have been ok"<<endl;
 	if (isFileAnnodex(inFileName)) {
 		*debugLog<<"Is annodex"<<endl;
 		//Get the app control interface for CMML.

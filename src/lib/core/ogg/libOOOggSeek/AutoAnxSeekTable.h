@@ -19,4 +19,6 @@ protected:
 	unsigned long mAnnodexSerialNo;
 	bool mReadyForOgg;
 	bool mSkippedCMML;
+
+	
 };
