@@ -44,75 +44,75 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 STDAPI DllRegisterServer()
 {
 	
-	////TO DO::: Should we be releasing the filter mapper even when we return early ?
- //   HRESULT hr;
- //   IFilterMapper2* locFilterMapper = NULL;
-	//
- //   hr = AMovieDllRegisterServer2(TRUE);
-	//if (FAILED(hr)) {
-	//	
- //       return hr;
-	//}
-	//
-	//
+	//TO DO::: Should we be releasing the filter mapper even when we return early ?
+    HRESULT hr;
+    IFilterMapper2* locFilterMapper = NULL;
+	
+    hr = AMovieDllRegisterServer2(TRUE);
+	if (FAILED(hr)) {
+		
+        return hr;
+	}
+	
+	
 
- //   hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
+    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
 
-	//
-	//if (FAILED(hr)) {
- //       return hr;
-	//}
-	//
-	//hr = locFilterMapper->RegisterFilter(
-	//	CLSID_OggDemuxSourceFilter,						// Filter CLSID. 
-	//	L"Ogg Demux Source Filter",							// Filter name.
- //       NULL,										// Device moniker. 
- //       &CLSID_LegacyAmFilterCategory,				// Direct Show general category
- //       L"Ogg Demux Source Filter",							// Instance data. ???????
- //       &OggDemuxSourceFilterReg								// Pointer to filter information.
- //   );
+	
+	if (FAILED(hr)) {
+        return hr;
+	}
+	
+	hr = locFilterMapper->RegisterFilter(
+		CLSID_NativeFLACSourceFilter,						// Filter CLSID. 
+		L"Native FLAC Source Filter",							// Filter name.
+        NULL,										// Device moniker. 
+        &CLSID_LegacyAmFilterCategory,				// Direct Show general category
+        L"Native FLAC Source Filter",							// Instance data. ???????
+        &NativeFLACSourceFilterReg								// Pointer to filter information.
+    );
 
 
-	////Only call once... if you need multiple you have to fix the hack job in RegWrap !
+	//Only call once... if you need multiple you have to fix the hack job in RegWrap !
 	//RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg;*.ogv;*.oga;*.spx");
 
 
 
 
 
- //   locFilterMapper->Release();
+    locFilterMapper->Release();
 
- //   return hr;
-	return S_OK;
+    return hr;
+	//return S_OK;
 }
 
 STDAPI DllUnregisterServer()
 {
-	////This is not a general purpose function.
+	//This is not a general purpose function.
 	//RegWrap::removeMediaDesc();
 
- //  HRESULT hr;
- //   IFilterMapper2* locFilterMapper = NULL;
+   HRESULT hr;
+    IFilterMapper2* locFilterMapper = NULL;
 
- //   hr = AMovieDllRegisterServer2(FALSE);
-	//if (FAILED(hr)) {
-	//	
- //       return hr;
-	//}
- //
- //   hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
- //           IID_IFilterMapper2, (void **)&locFilterMapper);
+    hr = AMovieDllRegisterServer2(FALSE);
+	if (FAILED(hr)) {
+		
+        return hr;
+	}
+ 
+    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
+            IID_IFilterMapper2, (void **)&locFilterMapper);
 
-	//if (FAILED(hr)) {
- //       return hr;
-	//}
+	if (FAILED(hr)) {
+        return hr;
+	}
+	
+
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
+            L"Native FLAC Source Filter", CLSID_NativeFLACSourceFilter);
+
 	//
-
- //   hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
- //           L"Ogg Demux Source Filter", CLSID_OggDemuxSourceFilter);
-
-	////
- //   locFilterMapper->Release();
- //   return hr;
-	return S_OK;	
+    locFilterMapper->Release();
+    return hr;
+	
 }

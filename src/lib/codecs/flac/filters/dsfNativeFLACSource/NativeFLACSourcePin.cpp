@@ -34,6 +34,7 @@
 NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock)
 	:	CBaseOutputPin(NAME("Native FLAC Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"PCM Out")
 	,	mParentFilter(inParentFilter)
+	,	mDataQueue(NULL)
 
 {
 }
@@ -103,15 +104,15 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
 	//NOTE::: May want to check for null pointers
 	//outMediaType->SetFormat(mMediaType->Format(), mMediaType->FormatLength());
 	if (inPosition == 0) {
-		
+		outMediaType->SetType(&MEDIATYPE_Audio);
+		outMediaType->SetSubtype(&MEDIASUBTYPE_PCM);
+		outMediaType->SetFormatType(&FORMAT_WaveFormatEx);
+		outMediaType->SetTemporalCompression(FALSE);
+		outMediaType->SetSampleSize(0);
 
-		outMediaType->majortype = MEDIATYPE_Audio;
-		outMediaType->subtype = MEDIASUBTYPE_PCM;
-		outMediaType->formattype = FORMAT_WaveFormatEx;
-		outMediaType->cbFormat = sizeof(WAVEFORMATEX);
 
 		WAVEFORMATEX* locFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-			locFormat->wFormatTag = WAVE_FORMAT_PCM;
+		locFormat->wFormatTag = WAVE_FORMAT_PCM;
 
 		locFormat->nChannels = mParentFilter->mNumChannels;
 		locFormat->nSamplesPerSec =  mParentFilter->mSampleRate;
@@ -119,6 +120,7 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
 		locFormat->nBlockAlign = (mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3);
 		locFormat->nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
 		locFormat->cbSize = 0;
+		//outMediaType->pbFormat = locFormat;
 		
 		
 		return S_OK;
@@ -127,7 +129,7 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
 	}
 }
 HRESULT NativeFLACSourcePin::CheckMediaType(const CMediaType* inMediaType) {
-	if ((inMediaType->majortype == MEDIATYPE_Audio) && (inMediaType->subtype == MEDIASUBTYPE_PCM)) {
+	if ((inMediaType->majortype == MEDIATYPE_Audio) && (inMediaType->subtype == MEDIASUBTYPE_PCM) && (inMediaType->formattype == FORMAT_WaveFormatEx)) {
 		return S_OK;
 	} else {
 		return E_FAIL;

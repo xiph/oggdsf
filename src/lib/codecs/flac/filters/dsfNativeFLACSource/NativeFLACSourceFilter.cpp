@@ -34,7 +34,7 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"NativeFLACSourceFilter",						// Name
+		L"Native FLAC SourceFilter",						// Name
 	    &CLSID_NativeFLACSourceFilter,            // CLSID
 	    NativeFLACSourceFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
@@ -66,6 +66,7 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	
 	//,	mDecoder(NULL)
 {
+	m_pLock = new CCritSec;
 	debugLog.open("G:\\logs\\NativeFLAC.log", ios_base::out);
 	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
 }
@@ -137,7 +138,14 @@ STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_T
 	debugLog<<mNumChannels<<" channels with "<<mSampleRate<<" Hz @ "<<mBitsPerSample<<" bits per sample"<<endl;
 	mInputFile.seekg(0, ios_base::beg);
 
-
+	debugLog<<"Pre init"<<endl;
+	init();
+	debugLog<<"Post init"<<endl;
+	bool locResult = process_until_end_of_metadata();
+	debugLog<<"Post meta data call..."<<endl;
+	if (locResult) {
+		debugLog<<"Process meta data ok"<<endl;
+	}
 
 	//Strip the extension...
 	//size_t locDotPos = mFileName.find_last_of('.');
@@ -161,6 +169,11 @@ STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_T
 
 STDMETHODIMP NativeFLACSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
+	if (riid == IID_IFileSourceFilter) {
+		*ppv = (IFileSourceFilter*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
 
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
 }
@@ -205,7 +218,17 @@ STDMETHODIMP NativeFLACSourceFilter::Stop(void) {
 
 HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 
- 
+	debugLog<<"Starting loop"<<endl;
+	DWORD locCommand = 0;
+	while (true) {
+		if(CheckRequest(&locCommand) == TRUE) {
+			debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
+			
+			return S_OK;
+		}
+		debugLog<<"Process it"<<endl;
+		process_single();
+	}
 
 	return S_OK;
 }
