@@ -59,7 +59,8 @@ public:
 	virtual HRESULT Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample);
 
 	//Overrides
-	virtual HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType);
+	virtual HRESULT SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType);
+	virtual HRESULT NewSegment(REFERENCE_TIME inStart, REFERENCE_TIME inEnd, double inRate);
 	//virtual BOOL ShouldSkipFrame(IMediaSample* inSample);
 	virtual CBasePin* TheoraDecodeFilter::GetPin(int inPinNo);
 	//Helpers
@@ -88,7 +89,7 @@ protected:
 	__int64 mLastSeenStartGranPos;
 	//Format Block
 	sTheoraFormatBlock* mTheoraFormatInfo;
-	//fstream debugLog;
+	fstream debugLog;
 };
 //---------------------------------------
 //OLD IMPLOEMENTATION....

@@ -67,7 +67,7 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	,	mLastSeenStartGranPos(0)
 	,	mTheoraFormatInfo(NULL)
 {
-	//debugLog.open("G:\\logs\\newtheofilter.log", ios_base::out);
+	debugLog.open("G:\\logs\\newtheofilter.log", ios_base::out);
 
 	mTheoraDecoder = new TheoraDecoder;
 	mTheoraDecoder->initCodec();
@@ -80,7 +80,7 @@ TheoraDecodeFilter::~TheoraDecodeFilter() {
 
 	delete mTheoraFormatInfo;
 	mTheoraFormatInfo = NULL;
-	//debugLog.close();
+	debugLog.close();
 
 }
 
@@ -315,6 +315,14 @@ void TheoraDecodeFilter::ResetFrameCount() {
 	mFrameCount = 0;
 	
 }
+
+HRESULT TheoraDecodeFilter::NewSegment(REFERENCE_TIME inStart, REFERENCE_TIME inEnd, double inRate) 
+{
+	debugLog<<"Resetting frame count"<<endl;
+	ResetFrameCount();
+	return CTransformFilter::NewSegment(inStart, inEnd, inRate);
+
+}
 HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) {
 
 	//CAutoLock locLock(mStreamLock);
@@ -353,7 +361,11 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 		
 		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
 			//debugLog<<"Resetting frame count"<<endl;
-			ResetFrameCount();
+
+			//FIXXX:::
+			//ResetFrameCount();
+			//
+
 			mLastSeenStartGranPos = locStart;
 			//debugLog<<"Setting base gran pos to "<<locStart<<endl;
 		}
@@ -409,61 +421,31 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 		
 	}
 
-	//debugLog<<"y_height x width = "<<inYUVBuffer->y_height<<" x "<<inYUVBuffer->y_width<<"  ("<<inYUVBuffer->y_stride<<endl;
-	//debugLog<<"uv_height x width = "<<inYUVBuffer->uv_height<<" x "<<inYUVBuffer->uv_width<<"  ("<<inYUVBuffer->y_stride<<endl;
-
-	//debugLog<<"mWidth x mHeight = "<<mWidth<<" x "<<mHeight<<endl;
-	//debugLog<<"mFrameSize = "<<mFrameSize<<endl;
-	//debugLog<<"Offsets x,y = "<<mXOffset<<", "<<mYOffset<<endl;
-	////FIX::: Most of this will be obselete... the demux does it all.
-	//
 
 	////TO DO::: Fix this up... needs to move around order and some only needs to be done once, move it into the block aboce and use member data
 
-	////Make the start timestamp
-	////FIX:::Abstract this calculation
-	//DbgLog((LOG_TRACE,1,TEXT("Frame Count = %d"), mFrameCount));
-	//debugLog<<"Frame Count = "<<mFrameCount<<endl;
-	//REFERENCE_TIME locFrameStart = CurrentStartTime() + (mFrameCount * mFrameDuration);
 
+	//-----------------------
+	//OLD CODE... FIXXX:::
 	//Timestamp hacks start here...
-	unsigned long locMod = (unsigned long)pow(2, mTheoraFormatInfo->maxKeyframeInterval);
-	
-	//DbgLog((LOG_TRACE,1,TEXT("locSeenGranPos = %d"), mLastSeenStartGranPos));
-	//DbgLog((LOG_TRACE,1,TEXT("locMod = %d"), locMod));
-	
-	//debugLog<<"locMod = "<<locMod<<endl;
-	unsigned long locInterFrameNo = (mLastSeenStartGranPos) % locMod;
-	
-	//DbgLog((LOG_TRACE,1,TEXT("InterFrameNo = %d"), locInterFrameNo));
-	//debugLog<<"Interframe No = "<<locInterFrameNo<<endl;
-	LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> mTheoraFormatInfo->maxKeyframeInterval)) + locInterFrameNo;
-	
-	//debugLog<<"Abs frame No = "<<locAbsFramePos<<endl;
-	//DbgLog((LOG_TRACE,1,TEXT("AbsFrameNo = %d"), locAbsFramePos));
-	//DbgLog((LOG_TRACE,1,TEXT("mSeekTimeBase = %d"), mSeekTimeBase));
-	
-	//debugLog<<"Seek time base = "<<mSeekTimeBase<<endl;
-	REFERENCE_TIME locTimeBase = (locAbsFramePos * mFrameDuration) - mSeekTimeBase;
+			//unsigned long locMod = (unsigned long)pow(2, mTheoraFormatInfo->maxKeyframeInterval);
+			//unsigned long locInterFrameNo = (mLastSeenStartGranPos) % locMod;
+			//LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> mTheoraFormatInfo->maxKeyframeInterval)) + locInterFrameNo;
+			//REFERENCE_TIME locTimeBase = (locAbsFramePos * mFrameDuration) - mSeekTimeBase;
+			//REFERENCE_TIME locFrameStart = locTimeBase + (mFrameCount * mFrameDuration);
+			////Increment the frame counter
+			//mFrameCount++;
+			////Make the end frame counter
+			//REFERENCE_TIME locFrameEnd = locTimeBase + (mFrameCount * mFrameDuration);
+	//------------------------
 
-	//debugLog<<"LocTimeBase = "<<locTimeBase<<endl;
-	
-	DbgLog((LOG_TRACE,1,TEXT("locTimeBase = %d"), locTimeBase));
-	//
-	//
 
-	REFERENCE_TIME locFrameStart = locTimeBase + (mFrameCount * mFrameDuration);
-	//Increment the frame counter
+	REFERENCE_TIME locFrameStart = (mFrameCount * mFrameDuration);
 	mFrameCount++;
-	
-	//Make the end frame counter
-	//REFERENCE_TIME locFrameEnd = CurrentStartTime() + (mFrameCount * mFrameDuration);
-	REFERENCE_TIME locFrameEnd = locTimeBase + (mFrameCount * mFrameDuration);
-
-
+	REFERENCE_TIME locFrameEnd = (mFrameCount * mFrameDuration);
 
 	
-	//debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<endl;
+	debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<"  frame "<<mFrameCount<<endl;
 	
 	//FILTER_STATE locFS;
 	//GetState(0, &locFS);
@@ -607,8 +589,8 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	//debugLog<<"Frame Size = "<<mFrameSize<<endl;
 
 	//Set the sample parameters.
-	BOOL locIsKeyFrame = (locInterFrameNo == 0);
-	locIsKeyFrame = TRUE;
+	//BOOL locIsKeyFrame = (locInterFrameNo == 0);
+	BOOL locIsKeyFrame = TRUE;
 	if (locIsKeyFrame == TRUE) {
 		//debugLog<<"KEY FRAME ++++++"<<endl;
 	};
