@@ -30,10 +30,11 @@
 //===========================================================================
 
 #pragma once
+#include <vector>
 #include <fstream>
 using namespace std;
 #include "vorbisdecoderdllstuff.h"
-#include "AbstractAudioDecodeInputPin.h"
+#include "AbstractTransformInputPin.h"
 #include "VorbisDecodeInputPin.h"
 
 #include "VorbisDecodeFilter.h"
@@ -46,26 +47,30 @@ extern "C" {
 class VorbisDecodeOutputPin;
 
 class VorbisDecodeInputPin 
-	:	public AbstractAudioDecodeInputPin
+	:	public AbstractTransformInputPin
 {
 public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
+	VorbisDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~VorbisDecodeInputPin(void);
 	static int __cdecl VorbisDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
-	//FIX:::These should be protected.
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
+	virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
 
-	long decodeData(unsigned char* inBuf, long inNumBytes);
 
 protected:
+	fstream debugLog;
+
+
+
+	//Implementation of virtuals from AbstractTransform Filter
+	virtual bool ConstructCodec();
+	virtual void DestroyCodec();
+	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
 
 	HRESULT mHR;
 	bool mBegun;
@@ -73,4 +78,58 @@ protected:
 	FishSound* mFishSound;
 	FishSoundInfo mFishInfo; 
 
+	int mNumChannels;
+	int mFrameSize;
+	int mSampleRate;
+	unsigned int mUptoFrame;
+
 };
+
+
+//Old imp
+//************************************************************
+//#pragma once
+//#include <fstream>
+//using namespace std;
+//#include "vorbisdecoderdllstuff.h"
+//#include "AbstractAudioDecodeInputPin.h"
+//#include "VorbisDecodeInputPin.h"
+//
+//#include "VorbisDecodeFilter.h"
+//
+//extern "C" {
+////#include <fishsound/fishsound.h>
+//#include "fish_cdecl.h"
+//}
+//
+//class VorbisDecodeOutputPin;
+//
+//class VorbisDecodeInputPin 
+//	:	public AbstractAudioDecodeInputPin
+//{
+//public:
+//
+//	DECLARE_IUNKNOWN
+//	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+//	VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
+//	virtual ~VorbisDecodeInputPin(void);
+//	static int __cdecl VorbisDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
+//
+//	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+//
+//	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
+//	//FIX:::These should be protected.
+//	virtual bool ConstructCodec();
+//	virtual void DestroyCodec();
+//
+//	long decodeData(unsigned char* inBuf, long inNumBytes);
+//
+//protected:
+//
+//	HRESULT mHR;
+//	bool mBegun;
+//
+//	FishSound* mFishSound;
+//	FishSoundInfo mFishInfo; 
+//
+//};

@@ -39,8 +39,6 @@ AbstractTransformInputPin::AbstractTransformInputPin (AbstractTransformFilter* i
 	,	mOutputPin (inOutputPin)
 	,	mParentFilter (inParentFilter)
 	
-	,	mBegun (false)
-
 	,	mAcceptableMediaTypes(inAcceptableMediaTypes)
 
 

@@ -29,12 +29,11 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-
 #include "StdAfx.h"
 #include "Vorbisdecodeoutputpin.h"
 
-VorbisDecodeOutputPin::VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock)
-	: AbstractAudioDecodeOutputPin(inParentFilter, inFilterLock,NAME("VorbisDecodeOutputPin"), L"PCM Out")
+VorbisDecodeOutputPin::VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
+	: AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("VorbisDecodeOutputPin"), L"PCM Out", 65536, 20, inAcceptableMediaTypes)
 {
 
 		
@@ -56,13 +55,61 @@ STDMETHODIMP VorbisDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, voi
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-bool VorbisDecodeOutputPin::FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer) {
-	inFormatBuffer->wFormatTag = WAVE_FORMAT_PCM;
-	inFormatBuffer->nChannels = ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->numChannels;
-	inFormatBuffer->nSamplesPerSec =  ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->samplesPerSec;
-	inFormatBuffer->wBitsPerSample = 16;
-	inFormatBuffer->nBlockAlign = (inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3);
-	inFormatBuffer->nAvgBytesPerSec = ((inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3)) * inFormatBuffer->nSamplesPerSec;
-	inFormatBuffer->cbSize = 0;
-	return true;
+HRESULT VorbisDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+{
+	if (inPosition == 0) {
+		WAVEFORMATEX* locWaveFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
+		//TODO::: Check for null ?
+
+		locWaveFormat->wFormatTag = WAVE_FORMAT_PCM;
+		locWaveFormat->nChannels = ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->numChannels;
+		locWaveFormat->nSamplesPerSec =  ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->samplesPerSec;
+		locWaveFormat->wBitsPerSample = 16;
+		locWaveFormat->nBlockAlign = (locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3);
+		locWaveFormat->nAvgBytesPerSec = ((locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3)) * locWaveFormat->nSamplesPerSec;
+		locWaveFormat->cbSize = 0;
+		return S_OK;
+	} else {
+        return S_FALSE;
+	}
 }
+
+
+//Old imp
+//****************************************************
+//#include "StdAfx.h"
+//#include "Vorbisdecodeoutputpin.h"
+//
+//VorbisDecodeOutputPin::VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock)
+//	: AbstractAudioDecodeOutputPin(inParentFilter, inFilterLock,NAME("VorbisDecodeOutputPin"), L"PCM Out")
+//{
+//
+//		
+//}
+//VorbisDecodeOutputPin::~VorbisDecodeOutputPin(void)
+//{
+//	
+//	
+//}
+//
+//STDMETHODIMP VorbisDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+//{
+//	if (riid == IID_IMediaSeeking) {
+//		*ppv = (IMediaSeeking*)this;
+//		((IUnknown*)*ppv)->AddRef();
+//		return NOERROR;
+//	}
+//
+//	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
+//}
+//
+//bool VorbisDecodeOutputPin::FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer) {
+//	inFormatBuffer->wFormatTag = WAVE_FORMAT_PCM;
+//	inFormatBuffer->nChannels = ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->numChannels;
+//	inFormatBuffer->nSamplesPerSec =  ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->samplesPerSec;
+//	inFormatBuffer->wBitsPerSample = 16;
+//	inFormatBuffer->nBlockAlign = (inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3);
+//	inFormatBuffer->nAvgBytesPerSec = ((inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3)) * inFormatBuffer->nSamplesPerSec;
+//	inFormatBuffer->cbSize = 0;
+//	return true;
+//}

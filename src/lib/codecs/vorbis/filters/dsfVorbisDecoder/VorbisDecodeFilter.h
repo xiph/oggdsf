@@ -29,10 +29,11 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
+
 #pragma once
 //Include Files
 #include "vorbisdecoderdllstuff.h"
-#include "AbstractAudioDecodeFilter.h"
+#include "AbstractTransformFilter.h"
 
 //Forward Declarations
 struct sVorbisFormatBlock;
@@ -42,7 +43,7 @@ class VorbisDecodeOutputPin;
 //Class Interface
 class VorbisDecodeFilter
 	//Base Classes
-	:	public AbstractAudioDecodeFilter
+	:	public AbstractTransformFilter
 {
 public:
 	//Friends
@@ -69,3 +70,49 @@ protected:
 	//Format Block
 	sVorbisFormatBlock* mVorbisFormatInfo;
 };
+
+
+
+
+//Old implementation
+//**********************************************
+//#pragma once
+////Include Files
+//#include "vorbisdecoderdllstuff.h"
+//#include "AbstractAudioDecodeFilter.h"
+//
+////Forward Declarations
+//struct sVorbisFormatBlock;
+//class VorbisDecodeInputPin;
+//class VorbisDecodeOutputPin;
+//
+////Class Interface
+//class VorbisDecodeFilter
+//	//Base Classes
+//	:	public AbstractAudioDecodeFilter
+//{
+//public:
+//	//Friends
+//	friend class VorbisDecodeInputPin;
+//	friend class VorbisDecodeOutputPin;
+//
+//	//Constructors and Destructors
+//	VorbisDecodeFilter(void);
+//	virtual ~VorbisDecodeFilter(void);
+//
+//	//COM Creator Function
+//	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+//
+//
+//
+//	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
+//	virtual bool ConstructPins();
+//
+//	//FIX::: Do we need these ? Aren't they all friends ??
+//	virtual sVorbisFormatBlock* getVorbisFormatBlock();
+//	virtual void setVorbisFormat(sVorbisFormatBlock* inFormatBlock);
+//
+//protected:
+//	//Format Block
+//	sVorbisFormatBlock* mVorbisFormatInfo;
+//};

@@ -68,11 +68,6 @@ public:
 	AbstractTransformInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~AbstractTransformInputPin(void);
 
-	//Pure Virtuals for codec specific methods
-	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes) = 0;
-	virtual bool ConstructCodec() = 0;
-	virtual void DestroyCodec() = 0;
-	
 	//Pin Conenction Methods
 	virtual HRESULT BreakConnect();
 	virtual HRESULT CompleteConnect(IPin *inReceivePin);
@@ -97,10 +92,15 @@ protected:
 	static const signed short SINT_MAX = 32767;
 	static const signed short SINT_MIN = -32768;
 
+	//Pure Virtuals for codec specific methods
+	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes) = 0;
+	virtual bool ConstructCodec() = 0;
+	virtual void DestroyCodec() = 0;
+
 	virtual bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime);
 
 	HRESULT mHR;
-	bool mBegun;
+
 
 	//TODO::: Couldn't this be gotten from the parent filter if we make them friends ??
 	AbstractTransformOutputPin* mOutputPin;
