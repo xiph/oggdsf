@@ -89,6 +89,9 @@ Put the following code in the destructor for the dialog class.
 
 Repeat procedure for adding play button to add pause and stop button.
 
+Add a generic class class called DSPlayer... steal all the internal code from DSPlay (the .NET player library for DNPlay)
+Change all the managed code parts back to unmanaged equivalents.
+
 
 
 
