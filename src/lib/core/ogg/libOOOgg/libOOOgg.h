@@ -31,7 +31,7 @@
 
 #include "dllstuff.h"
 
-#include "libilliCore.h"
+
 
 #include "OggTypeDefs.h"
 #include "IOggCallback.h"

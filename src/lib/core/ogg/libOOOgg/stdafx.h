@@ -60,7 +60,7 @@ using namespace std;
 
 // TODO: reference additional headers your program requires here
 //#include "StringHelper.h"
-#include "libilliCore.h"
+
 //#include "iLE_Math.h"
 //#include "iBE_Math.h"
 //#include "StringHelper.h"

@@ -42,8 +42,6 @@
 //
 using namespace std;
 
-
-
 //Forward Declarations
 class AbstractTransformOutputPin;
 class AbstractTransformFilter;
@@ -98,7 +96,6 @@ protected:
 	virtual bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime);
 
 	HRESULT mHR;
-
 
 	//TODO::: Couldn't this be gotten from the parent filter if we make them friends ??
 	AbstractTransformOutputPin* mOutputPin;

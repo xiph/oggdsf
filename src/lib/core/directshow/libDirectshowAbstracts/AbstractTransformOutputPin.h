@@ -84,7 +84,7 @@ protected:
 	COutputQueue* mDataQueue;
 	vector<CMediaType*> mAcceptableMediaTypes;
 	
-	HRESULT mHR;
+	HRESULT mHR;		//Is this even used ??
 
 	//Buffer parameter member data
 	int mDesiredBufferSize;

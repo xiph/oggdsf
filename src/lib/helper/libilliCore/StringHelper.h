@@ -34,8 +34,8 @@
 
 #include <string>
 using namespace std;
-#include "libilliCore.h"
-class LIBILLICORE_API StringHelper
+
+class StringHelper
 {
 public:
 	StringHelper(void);

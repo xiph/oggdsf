@@ -30,13 +30,13 @@
 //===========================================================================
 
 #pragma once
-#include "libilliCore.h"
-class LIBILLICORE_API iBE_Math
+
+class iBE_Math
 {
 public:
 	iBE_Math(void);
 	~iBE_Math(void);
-	static 	unsigned long charArrToULong(unsigned char* inCharArray);
+	static unsigned long charArrToULong(unsigned char* inCharArray);
 	static void ULongToCharArr(unsigned long inLong, unsigned char* outCharArray);
 	static unsigned short charArrToUShort(unsigned char* inCharArray);
 
