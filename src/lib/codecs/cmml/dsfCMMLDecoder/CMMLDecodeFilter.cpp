@@ -60,14 +60,14 @@ CMMLDecodeFilter::CMMLDecodeFilter(void)
 	,	mHeadTag(NULL)
 {
 	mCMMLParser = new CMMLParser;
-	debugLog.open("C:\\Temp\\cmmlfilter.log", ios_base::out);
-	debugLog<<"*** Log Begins ***"<<endl;
+	//debugLog.open("C:\\Temp\\cmmlfilter.log", ios_base::out);
+	//debugLog<<"*** Log Begins ***"<<endl;
 }
 
 CMMLDecodeFilter::~CMMLDecodeFilter(void)
 {
-	debugLog<<"*** Log Ends ***"<<endl;
-	debugLog.close();
+	//debugLog<<"*** Log Ends ***"<<endl;
+	//debugLog.close();
 	delete mCMMLParser;
 }
 
@@ -86,7 +86,7 @@ HRESULT CMMLDecodeFilter::CheckInputType(const CMediaType* inInputMediaType) {
 			(inInputMediaType->subtype == MEDIASUBTYPE_CMML) &&
 			(inInputMediaType->formattype == FORMAT_CMML) ){
 
-		debugLog<<"Input Type Accepted"<<endl;
+		//debugLog<<"Input Type Accepted"<<endl;
 		return S_OK;
 	} else {
 		return VFW_E_TYPE_NOT_ACCEPTED;
@@ -99,7 +99,7 @@ HRESULT CMMLDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, con
 			(inOutputMediaType->majortype == MEDIATYPE_Text) &&
 			(inOutputMediaType->subtype == MEDIASUBTYPE_SubtitleVMR9) ){
 
-		debugLog << "Transform Accepted"<<endl;
+		//debugLog << "Transform Accepted"<<endl;
 		return S_OK;
 	} else {
 		return VFW_E_TYPE_NOT_ACCEPTED;
@@ -182,43 +182,43 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 	string locTextStr;
 	unsigned long locTextSize = 0;
 
-	debugLog<<"Transform : Input Sample Size = "<<locSize<<endl;
+	//debugLog<<"Transform : Input Sample Size = "<<locSize<<endl;
 	if (locSize > 0) {
 		locCMML = new char[locSize+1];
 		locCMML[locSize] = '\0';
 		
 		locHR = inSample->GetPointer(&locInBuff);
 		memcpy((void*)locCMML, (const void*) locInBuff, locSize);
-		debugLog<<"           : Sample Text = "<<locCMML<<endl<<endl;
+		//debugLog<<"           : Sample Text = "<<locCMML<<endl<<endl;
 		locWCMML = toWStr(locCMML);
 		if (mSeenHead == false) {
-			debugLog << "           : Processing a head tag"<<endl;
+			//debugLog << "           : Processing a head tag"<<endl;
 			//Head tag... needs error checks
 			mSeenHead = true;
 			mHeadTag = new C_HeadTag;
 			bool locParseOK = mCMMLParser->parseHeadTag(locWCMML, mHeadTag);
 			if (locParseOK) {
-				debugLog<<"          : Parse OK"<<endl;
+				//debugLog<<"          : Parse OK"<<endl;
 
 				locHR = outSample->GetPointer(&locOutBuff);
 				locTextSize = mHeadTag->title()->text().size();
 				locTextStr = mHeadTag->title()->text();
 				
-				debugLog<<"            : Title Text = "<<locTextStr<<endl;
+				//debugLog<<"            : Title Text = "<<locTextStr<<endl;
 				memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
 				locOutBuff[locTextSize] = '\0';
 				outSample->SetActualDataLength(locTextSize + 1);
 			} else {
-				debugLog<<"          : Parse FAILED"<<endl;
+				//debugLog<<"          : Parse FAILED"<<endl;
 			}
 
 		} else {
 			//Clip Tag... needs error checks
-			debugLog << "           : Processing a clip tag"<<endl;
+			//debugLog << "           : Processing a clip tag"<<endl;
 			C_ClipTag locClipTag;
 			bool locParseOK = mCMMLParser->parseClipTag(locWCMML, &locClipTag);
 			if (locParseOK) {
-				debugLog<<"          : Parse OK"<<endl;
+				//debugLog<<"          : Parse OK"<<endl;
 			
 
 				locHR = outSample->GetPointer(&locOutBuff);
@@ -226,11 +226,11 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 				locTextStr = locClipTag.anchor()->text();
 				memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
 				
-				debugLog << "               : Clip Text = "<<locTextStr<<endl;
+				//debugLog << "               : Clip Text = "<<locTextStr<<endl;
 				locOutBuff[locTextSize] = '\0';
 				outSample->SetActualDataLength(locTextSize + 1);
 			} else {
-				debugLog<<"          : Parse FAILED"<<endl;
+				//debugLog<<"          : Parse FAILED"<<endl;
 			}
 		}
 

@@ -3,7 +3,7 @@
 
 #include <commctrl.h>
 //Debug
-#include <fstream>
+//#include <fstream>
 using namespace std;
 //
 class PropsTheoraEncoder
@@ -40,6 +40,6 @@ protected:
 
 	//Debug
 
-	fstream debugLog;
+	//fstream debugLog;
 	//
 };

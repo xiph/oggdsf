@@ -36,7 +36,7 @@
 #include "IOggCallback.h"
 
 //Only needed for debugging
-#include <fstream>
+//#include <fstream>
 //
 using namespace std;
 
@@ -89,7 +89,7 @@ protected:
 	vector<IOggCallback*> mVirtualCallbackList;
 
 	//DEBUG
-	fstream debugLog;
+	//fstream debugLog;
 	//
 
 private:

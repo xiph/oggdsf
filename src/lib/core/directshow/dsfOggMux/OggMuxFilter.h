@@ -95,7 +95,7 @@ protected:
 	OggPageInterleaver* mInterleaver;
 
 	fstream mOutputFile;
-	fstream debugLog;
+	//fstream debugLog;
 	HRESULT mHR;
 
 

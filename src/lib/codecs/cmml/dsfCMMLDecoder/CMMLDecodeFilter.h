@@ -63,7 +63,7 @@ protected:
 	bool mSeenHead;
 	C_HeadTag* mHeadTag;
 
-	fstream debugLog;
+	//fstream debugLog;
 	
 
 };

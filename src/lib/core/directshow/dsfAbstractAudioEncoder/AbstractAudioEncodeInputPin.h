@@ -32,8 +32,11 @@
 #pragma once
 
 #include "abstractaudioencodedllstuff.h"
-#include <fstream>
-using namespace std;
+
+//Debug Only
+//#include <fstream>
+//
+//using namespace std;
 
 class AbstractAudioEncodeOutputPin;
 class AbstractAudioEncodeFilter;
@@ -85,7 +88,10 @@ protected:
 	AbstractAudioEncodeFilter* mParentFilter;
 	CMediaType* mAcceptableMediaType;
 
-	fstream debugLog;
+	//Debug only
+	//fstream debugLog;
+	//
+
 	//unsigned long mFrameSize;
 	//unsigned long mNumChannels;
 	//unsigned long mSampleRate;

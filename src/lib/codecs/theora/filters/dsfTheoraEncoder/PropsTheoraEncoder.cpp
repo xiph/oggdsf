@@ -6,13 +6,13 @@ PropsTheoraEncoder::PropsTheoraEncoder(LPUNKNOWN inUnk, HRESULT* outHR)
 	,	mTheoraEncodeSettings(NULL)
 
 {
-	debugLog.open("G:\\logs\\TheoProps.log", ios_base::out);
+	//debugLog.open("G:\\logs\\TheoProps.log", ios_base::out);
 	*outHR = S_OK;
 }
 
 PropsTheoraEncoder::~PropsTheoraEncoder(void)
 {
-	debugLog.close();
+	//debugLog.close();
 }
 
 CUnknown* PropsTheoraEncoder::CreateInstance(LPUNKNOWN inUnk, HRESULT* outHR)

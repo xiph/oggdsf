@@ -34,7 +34,7 @@
 //#include <stdlib.h>
 #include <string>
 #include <sstream>
-#include <fstream>
+//#include <fstream>
 using namespace std;
 class OGG_DEMUX_API HTTPFileSource
 	:	public IFilterDataSource
@@ -78,8 +78,8 @@ protected:
 	SOCKET mSocket;
 	stringstream mStreamBuffer;
 
-	fstream debugLog;
-	fstream fileDump;
+	//fstream debugLog;
+	//fstream fileDump;
 	bool mIsEOF;
 	bool mWasError;
 	bool mIsOpen;

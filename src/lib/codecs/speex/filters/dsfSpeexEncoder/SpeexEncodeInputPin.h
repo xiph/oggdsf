@@ -42,8 +42,8 @@ extern "C" {
 //#include <../src/libfishsound/private.h>
 }
 
-#include <fstream>
-using namespace std;
+//#include <fstream>
+//using namespace std;
 class SpeexEncodeInputPin
 	:	public AbstractAudioEncodeInputPin
 {
@@ -64,7 +64,7 @@ protected:
 	//SpeexDecodeOutputPin* mOutputPin;
 	//__int64 mUptoFrame;
 
-	fstream debugLog;
+	//fstream debugLog;
 	FishSound* mFishSound;
 	FishSoundInfo mFishInfo; 
 

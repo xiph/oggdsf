@@ -35,7 +35,8 @@
 #include <vector>
 
 //DEBUG ONLY
-#include <fstream>
+//#include <fstream>
+//
 using namespace std;
 class LIBOOOGG_API OggPageInterleaver
 	:	public INotifyArrival
@@ -61,6 +62,6 @@ protected:
 	INotifyComplete* mNotifier;
 
 	//DEBUG ONLY
-	fstream debugLog;
+	//fstream debugLog;
 	//
 };

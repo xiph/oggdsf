@@ -100,13 +100,13 @@ OggMuxFilter::OggMuxFilter()
 
 	m_pLock = new CCritSec;
 	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
-	debugLog.open("C:\\temp\\muxer.log", ios_base::out);
+	//debugLog.open("C:\\temp\\muxer.log", ios_base::out);
 	
 }
 
 OggMuxFilter::~OggMuxFilter(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
 	delete m_pLock;
 	
@@ -144,7 +144,7 @@ HRESULT OggMuxFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaT
 }
 
 bool OggMuxFilter::acceptOggPage(OggPage* inOggPage) {
-	debugLog<<"Page accepted... writing..."<<endl;
+	//debugLog<<"Page accepted... writing..."<<endl;
 	unsigned char* locPageData = inOggPage->createRawPageData();
 	mOutputFile.write((char*)locPageData, inOggPage->pageSize());
 

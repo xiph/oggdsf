@@ -36,12 +36,12 @@ SpeexEncodeInputPin::SpeexEncodeInputPin(AbstractAudioEncodeFilter* inParentFilt
 	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("SpeexEncodeInputPin"), L"PCM In")
 	,	mFishSound(NULL)
 {
-	debugLog.open("C:\\temp\\speexenc.log", ios_base::out);
+	//debugLog.open("C:\\temp\\speexenc.log", ios_base::out);
 }
 
 SpeexEncodeInputPin::~SpeexEncodeInputPin(void)
 {
-	debugLog.close();
+	//debugLog.close();
 	DestroyCodec();
 }
 
@@ -50,7 +50,7 @@ SpeexEncodeInputPin::~SpeexEncodeInputPin(void)
 long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
 
-	debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
+	//debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
 	
 	float* locFloatBuf = new float[inNumBytes/2];
 	short locTempShort = 0;
@@ -69,13 +69,13 @@ long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 		locTempFloat /= 32767.0;
 		locFloatBuf[i/2] = locTempFloat;;
 	}
-	debugLog<<"Calling encode"<<endl;
+	//debugLog<<"Calling encode"<<endl;
 	//FIX::: The 2 is the size of a sample ie 16 bits
 	long locErr = fish_sound_encode(mFishSound, (float**)locFloatBuf, inNumBytes/(mFishInfo.channels*2));
 	delete locFloatBuf;
 	//FIX::: Do something here ?
 	if (locErr < 0) {
-		debugLog<<"Fishsound reports error"<<endl;
+		//debugLog<<"Fishsound reports error"<<endl;
 	} else {
 	
 	}
@@ -112,7 +112,7 @@ int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* in
 	//For convenience we do all these cast once and for all here.
 	SpeexEncodeInputPin* locThis = reinterpret_cast<SpeexEncodeInputPin*> (inThisPointer);
 	SpeexEncodeFilter* locFilter = reinterpret_cast<SpeexEncodeFilter*>(locThis->m_pFilter);
-	locThis->debugLog << "SpeexEncoded called with "<<inNumBytes<< " byte of data"<<endl;
+	//locThis->debugLog << "SpeexEncoded called with "<<inNumBytes<< " byte of data"<<endl;
 
 	//Time stamps are granule pos not directshow times
 	LONGLONG locFrameStart = locThis->mUptoFrame;
@@ -120,14 +120,14 @@ int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* in
 							= fish_sound_get_frameno(locThis->mFishSound);
 
 	
-	locThis->debugLog << "Stamping packet "<<locFrameStart<< " to "<<locFrameEnd<<endl;
+	//locThis->debugLog << "Stamping packet "<<locFrameStart<< " to "<<locFrameEnd<<endl;
 	//Get a pointer to a new sample stamped with our time
 	IMediaSample* locSample;
 	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
 
 	if (FAILED(locHR)) {
 		//We get here when the application goes into stop mode usually.
-		locThis->debugLog<<"Getting buffer failed"<<endl;
+		//locThis->debugLog<<"Getting buffer failed"<<endl;
 		return locHR;
 	}	
 	
@@ -153,9 +153,9 @@ int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* in
 			//locSample->AddRef();
 			HRESULT locHR = locThis->mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 			if (locHR != S_OK) {
-				locThis->debugLog<<"Sample rejected"<<endl;
+				//locThis->debugLog<<"Sample rejected"<<endl;
 			} else {
-				locThis->debugLog<<"Sample Delivered"<<endl;
+				//locThis->debugLog<<"Sample Delivered"<<endl;
 			}
 		}
 

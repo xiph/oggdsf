@@ -39,7 +39,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFi
 	
 
 {
-	debugLog.open("g:\\logs\\theoencfilt.log", ios_base::out);
+	//debugLog.open("g:\\logs\\theoencfilt.log", ios_base::out);
 	mYUV.y = NULL;
 	mYUV.u = NULL;
 	mYUV.v = NULL;
@@ -58,7 +58,7 @@ TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 
 
 HRESULT TheoraEncodeInputPin::deliverData(LONGLONG inStart, LONGLONG inEnd, unsigned char* inBuf, unsigned long inNumBytes) {
-	debugLog <<" deliverData : "<<inStart<<" - "<<inEnd<<"  :: size = "<<inNumBytes<<endl;
+	//debugLog <<" deliverData : "<<inStart<<" - "<<inEnd<<"  :: size = "<<inNumBytes<<endl;
 	//Get a pointer to a new sample stamped with our time
 	IMediaSample* locSample;
 	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &inStart, &inEnd, NULL);
@@ -90,7 +90,7 @@ HRESULT TheoraEncodeInputPin::deliverData(LONGLONG inStart, LONGLONG inEnd, unsi
 			} else {
 			}
 		}
-		debugLog<<"deliverData : SUCCESS"<<endl;
+		//debugLog<<"deliverData : SUCCESS"<<endl;
 		return S_OK;
 	} else {
 		throw 0;
@@ -108,7 +108,7 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	LONGLONG locFrameEnd = 0;
 	HRESULT locHR = S_OK;
 	if (!mBegun) {
-		debugLog<<"encodeData : First time"<<endl;
+		//debugLog<<"encodeData : First time"<<endl;
 		mBegun = true;
 		
 		StampedOggPacket** locHeaders;
@@ -401,8 +401,8 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	//End YV12 specifics
 	//
 
-	debugLog<<"Width =y_w = y_s = "<<mWidth<<" ::: "<<"Height=y_h= "<<mHeight<<endl;
-	debugLog<<"uv_w=uv_s= "<<mYUV.uv_stride<<" ::: " <<"uv_height = "<<mYUV.uv_height<<endl;
+	//debugLog<<"Width =y_w = y_s = "<<mWidth<<" ::: "<<"Height=y_h= "<<mHeight<<endl;
+	//debugLog<<"uv_w=uv_s= "<<mYUV.uv_stride<<" ::: " <<"uv_height = "<<mYUV.uv_height<<endl;
 	//=mVideoFormat->bmiHeader.biWidth;
 	//=mVideoFormat->bmiHeader.biHeight;
 	//mTheoraInfo.offset_x=0;
@@ -412,7 +412,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	//HACK:::Bit of a hack to convert dshow nanos to a fps num/denom.
 	unsigned long locNum = (((double)10000000) / ((double)mVideoFormat->AvgTimePerFrame)) + (double)0.5;
 
-	debugLog<<"FPS = "<<locNum<<endl;
+	//debugLog<<"FPS = "<<locNum<<endl;
 	mTheoraInfo.fps_numerator = locNum;
 	mTheoraInfo.fps_denominator = 1;
 	
