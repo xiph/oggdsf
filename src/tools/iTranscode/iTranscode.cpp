@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include <dshow.h>
 #include <iostream>
 #include <windows.h>
 using namespace std;

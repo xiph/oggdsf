@@ -80,8 +80,21 @@ AnxDemuxSourceFilter::~AnxDemuxSourceFilter(void)
 STDMETHODIMP AnxDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) {
 	//Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
+	
+
 	mFileName = inFileName;
-	//anxDebug<<"Anx opens : "<<StringHelper::toNarrowStr(mFileName)<<endl;
+
+	//WARNING::: This nasty hack is to account for the fact that directshow doesn't know how to
+	// properly parse url's given to it... because it does a dumb string match for extension at the end of the file,
+	// urls with fragments or queries, won't match the extension... so this hack is for the ff plug-in so
+	// that it appends another .anx after the fragment/query, which is stripped off here, before sending to the
+	// server.
+	if (mFileName.find(L"?") != string::npos){
+		mFileName = mFileName.substr(0, mFileName.size() - 4);
+		
+	}
+	
+
 
 	//ANX::: Needs to override ??? Or just modify the seeker.
 	mSeekTable = new AutoAnxSeekTable(StringHelper::toNarrowStr(mFileName));
