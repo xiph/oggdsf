@@ -26,7 +26,7 @@ void AnxPageInterleaver::addAnnodex_2_0_BOS() {
 	unsigned char* locUTC = new unsigned char[20];
 	memset((void*)locUTC, 0, 20);
 
-	OggPage* locBOSPage =			AnxPacketMaker::makeAnnodexBOS(		mAnxSerialNo
+	OggPage* locBOSPage =			AnxPacketMaker::makeAnnodexBOS_2_0(		mAnxSerialNo
 																	,	2
 																	,	0
 																	,	0

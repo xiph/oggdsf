@@ -1,0 +1,12 @@
+VERSION 2.0
+===========
+
+* Needs to make an annodex BOS page.
+	* Need timebase and UTC from CMML stream.
+* Needs to make an anxdata page (same serial as annodex) for each stream
+	* Need to know how many following headers.
+	* Need to know granule rate.
+	* Additional header fields - where from ?
+* Needs to ensure a CMML Stream ?
+* Needs to put an annodex BOS after the anxdata BOS's
+* Then mux pages as normal, but take the BOS flag off of the codec headers.

@@ -9,7 +9,7 @@ AnxPacketMaker::~AnxPacketMaker(void)
 {
 }
 
-OggPage* AnxPacketMaker::makeAnnodexBOS	(					unsigned long inSerialNo
+OggPage* AnxPacketMaker::makeAnnodexBOS_2_0	(					unsigned long inSerialNo
 														,	unsigned short inVersionMajor
 														,	unsigned short inVersionMinor
 														,	unsigned __int64 inTimebaseNum
@@ -72,7 +72,7 @@ OggPage* AnxPacketMaker::makeAnnodexBOS	(					unsigned long inSerialNo
 	}
 }
 
-StampedOggPacket* AnxPacketMaker::makeAnxData	(			unsigned short inVersionMajor
+StampedOggPacket* AnxPacketMaker::makeAnxData_2_0	(			unsigned short inVersionMajor
 														,	unsigned short inVersionMinor
 														,	unsigned __int64 inGranuleRateNum
 														,	unsigned __int64 inGranuleRateDenom
@@ -137,38 +137,77 @@ StampedOggPacket* AnxPacketMaker::makeAnxData	(			unsigned short inVersionMajor
 	}
 }
 
-StampedOggPacket* AnxPacketMaker::makeAnxData_2_0 (OggMuxStream* inMuxStream, OggPaginator* inPaginator) 
-{
-	return makeAnxData(			2
-							,	0
-							,	inMuxStream->granuleNumerator()
-							,	inMuxStream->granuleDenominator()
-							,	inPaginator->numHeaders()
-							,	makeMessageHeaders(inMuxStream));
-}
+//StampedOggPacket* AnxPacketMaker::makeAnxData_2_0 (OggMuxStream* inMuxStream, OggPaginator* inPaginator) 
+//{
+//	return makeAnxData_2_0(		2
+//							,	0
+//							,	inMuxStream->granuleNumerator()
+//							,	inMuxStream->granuleDenominator()
+//							,	inPaginator->numHeaders()
+//							,	makeMessageHeaders(inMuxStream));
+//}
 
-StreamHeaders::eCodecType AnxPacketMaker::IdentifyCodec(OggPacket* inOggPacket) {
-	if (strncmp((char*)inOggPacket->packetData(), "\001vorbis", 7) == 0) {
-		return StreamHeaders::VORBIS;
-	} else if (strncmp((char*)inOggPacket->packetData(), "Speex   ", 8) == 0) {
-		return StreamHeaders::SPEEX;
-	} else if ((strncmp((char*)inOggPacket->packetData(), "fLaC", 4)) == 0) {
-		return StreamHeaders::FLAC;
-	} else if ((strncmp((char*)inOggPacket->packetData(), "\177FLAC", 5)) == 0) {
-		return StreamHeaders::OGG_FLAC_1_0;
-	} else if ((strncmp((char*)inOggPacket->packetData(), "\200theora", 7)) == 0) {
-		return StreamHeaders::THEORA;
-	} else if ((strncmp((char*)inOggPacket->packetData(), "\001video\000\000\000", 9)) == 0) {
-		return StreamHeaders::FFDSHOW_VIDEO;
-	}
-	
-	return StreamHeaders::NONE;
-	
-}
-vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream) {
+//StreamHeaders::eCodecType AnxPacketMaker::IdentifyCodec(OggPacket* inOggPacket) {
+//	if (strncmp((char*)inOggPacket->packetData(), "\001vorbis", 7) == 0) {
+//		return StreamHeaders::VORBIS;
+//	} else if (strncmp((char*)inOggPacket->packetData(), "Speex   ", 8) == 0) {
+//		return StreamHeaders::SPEEX;
+//	} else if ((strncmp((char*)inOggPacket->packetData(), "fLaC", 4)) == 0) {
+//		return StreamHeaders::FLAC;
+//	} else if ((strncmp((char*)inOggPacket->packetData(), "\177FLAC", 5)) == 0) {
+//		return StreamHeaders::OGG_FLAC_1_0;
+//	} else if ((strncmp((char*)inOggPacket->packetData(), "\200theora", 7)) == 0) {
+//		return StreamHeaders::THEORA;
+//	} else if ((strncmp((char*)inOggPacket->packetData(), "\001video\000\000\000", 9)) == 0) {
+//		return StreamHeaders::FFDSHOW_VIDEO;
+//	}
+//	
+//	return StreamHeaders::NONE;
+//	
+//}
+
+
+//vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream) {
+//	string locTempString = "";
+//	vector<string> retVector;
+//	switch(IdentifyCodec(inMuxStream->peekFront()->getPacket(0))) {
+//		case StreamHeaders::VORBIS:
+//			locTempString = "Content-type: audio/x-vorbis";
+//			retVector.push_back(locTempString);
+//			break;
+//		case StreamHeaders::SPEEX:
+//			locTempString = "Content-type: audio/x-speex";
+//			retVector.push_back(locTempString);
+//			break;
+//		case StreamHeaders::FLAC:
+//			locTempString = "Content-type: audio/x-flac";
+//			retVector.push_back(locTempString);
+//			break;
+//		case StreamHeaders::OGG_FLAC_1_0:
+//			locTempString = "Content-type: audio/x-flac_1_0";
+//			retVector.push_back(locTempString);
+//			break;
+//		case StreamHeaders::THEORA:
+//			locTempString = "Content-type: video/x-theora";
+//			retVector.push_back(locTempString);
+//			break;
+//		case StreamHeaders::FFDSHOW_VIDEO:
+//			locTempString = "Content-type: video/x-ogm";
+//			retVector.push_back(locTempString);
+//			break;
+//		case StreamHeaders::NONE:
+//		default:
+//			break;
+//	}
+//
+//	return retVector;
+//}
+
+
+vector<string> AnxPacketMaker::makeMessageHeaders(StreamHeaders::eCodecType inCodecType) {
 	string locTempString = "";
 	vector<string> retVector;
-	switch(IdentifyCodec(inMuxStream->peekFront()->getPacket(0))) {
+	switch(inCodecType) {
 		case StreamHeaders::VORBIS:
 			locTempString = "Content-type: audio/x-vorbis";
 			retVector.push_back(locTempString);
@@ -200,4 +239,3 @@ vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream) {
 
 	return retVector;
 }
-

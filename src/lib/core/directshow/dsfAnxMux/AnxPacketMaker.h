@@ -10,7 +10,7 @@ public:
 
 	static const ANX_2_0_ANNODEX_BOS_SIZE = 48;
 
-	static OggPage* makeAnnodexBOS	(				unsigned long inSerialNo
+	static OggPage* makeAnnodexBOS_2_0	(				unsigned long inSerialNo
 												,	unsigned short inVersionMajor
 												,	unsigned short inVersionMinor
 												,	unsigned __int64 inTimebaseNum
@@ -18,7 +18,7 @@ public:
 												,	const unsigned char* inUTC
 											);
 
-	static StampedOggPacket* makeAnxData	(		unsigned short inVersionMajor
+	static StampedOggPacket* makeAnxData_2_0	(		unsigned short inVersionMajor
 												,	unsigned short inVersionMinor
 												,	unsigned __int64 inGranuleRateNum
 												,	unsigned __int64 inGranuleDenom
@@ -27,9 +27,10 @@ public:
 											);
 
 	static StampedOggPacket* makeAnxData_2_0 (OggMuxStream* inMuxStream, OggPaginator* inPaginator);
-	static StampedOggPacket* makeAnxData (OggMuxStream* inMuxStream, OggPaginator* inPaginator);
+	//static StampedOggPacket* makeAnxData (OggMuxStream* inMuxStream, OggPaginator* inPaginator);
 
-	static StreamHeaders::eCodecType AnxPacketMaker::IdentifyCodec(OggPacket* inOggPacket);
-	static vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream);
+	//static StreamHeaders::eCodecType AnxPacketMaker::IdentifyCodec(OggPacket* inOggPacket);
+	//static vector<string> AnxPacketMaker::makeMessageHeaders(OggMuxStream* inMuxStream);
+	static vector<string> AnxPacketMaker::makeMessageHeaders(StreamHeaders::eCodecType inCodecType);
 
 };
