@@ -61,9 +61,9 @@ wstring SpeexStream::getPinName() {
 bool SpeexStream::createFormatBlock() {
 	mSpeexFormatBlock = new sSpeexFormatBlock;
 	//Fix the format block data... use header version and other version.
-	mSpeexFormatBlock->speexVersion = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 28);
-	mSpeexFormatBlock->numChannels = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 48);
-	mSpeexFormatBlock->samplesPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 36);
+	mSpeexFormatBlock->speexVersion = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 28);
+	mSpeexFormatBlock->numChannels = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 48);
+	mSpeexFormatBlock->samplesPerSec = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 36);
 	return true;
 }
 BYTE* SpeexStream::getFormatBlock() {

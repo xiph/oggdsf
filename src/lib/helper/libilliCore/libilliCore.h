@@ -10,3 +10,6 @@
 #define LIBILLICORE_API __declspec(dllimport)
 #endif
 
+//#include "iLE_Math.h"
+//#include "iBE_Math.h"
+//#include "StringHelper.h"

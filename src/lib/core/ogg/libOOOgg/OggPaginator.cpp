@@ -233,7 +233,9 @@ bool OggPaginator::setChecksum() {
 }
 bool OggPaginator::deliverCurrentPage() {
 	mPendingPage->header()->setSegmentTable((const unsigned char*)mSegmentTable, mSegmentTableSize);
-	mPendingPage->header()->setDataSize(mCurrentPageSize - mPendingPage->headerSize());
+	mPendingPage->header()->setDataSize(mCurrentPageSize - mPendingPage->headerSize());  //This is odd
+
+
 	//mPendingPage->header()->setHeaderSize(OggPageHeader::OGG_BASE_HEADER_SIZE + mSegmentTableSize);
 	//mPendingPage->header()->setNumPageSegments(mSegmentTableSize);
 	
@@ -242,7 +244,7 @@ bool OggPaginator::deliverCurrentPage() {
 	//}
 	setChecksum();
 	
-	//Should catch and propagate return value.
+	//TODO::: Should catch and propagate return value.
 	mPageCallback->acceptOggPage(mPendingPage);
 	createFreshPage();
 	return true;
@@ -344,6 +346,7 @@ bool OggPaginator::addPartOfPacketToPage(StampedOggPacket* inOggPacket, unsigned
 	StampedOggPacket* locPartialPacket = new StampedOggPacket(	locBuff, 
 																inLength, 
 																locIsLastOfPacket,
+																false,   //Not continuation
 																inOggPacket->startTime(), 
 																inOggPacket->endTime(), 
 																inOggPacket->mStampType);

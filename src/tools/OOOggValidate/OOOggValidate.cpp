@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "OggValidationState.h"
 #include "libOOOgg.h"
+#include <fstream>
+using namespace std;
 
 
 

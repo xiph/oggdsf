@@ -30,7 +30,7 @@
 //===========================================================================
 
 #pragma once
-
+#include "libilliCore.h"
 class LIBILLICORE_API iBE_Math
 {
 public:

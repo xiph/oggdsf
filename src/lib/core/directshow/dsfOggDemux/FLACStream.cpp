@@ -31,7 +31,7 @@
 
 #include "StdAfx.h"
 #include "FLACstream.h"
-#include "FLACMath.h"
+//#include "FLACMath.h"
 
 FLACStream::FLACStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek)
 	:	OggStream(inBOSPage, inOwningFilter, inAllowSeek)
@@ -70,7 +70,7 @@ bool FLACStream::createFormatBlock() {
 	//Fix the format block data... use header version and other version.
 	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
 	mFLACFormatBlock->numChannels = (((mCodecHeaders->getPacket(1)->packetData()[16]) & FLAC_CHANNEL_MASK) >> 1) + 1;
-	mFLACFormatBlock->sampleRate = (FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 14)) >> 12;
+	mFLACFormatBlock->sampleRate = (iBE_Math::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 14)) >> 12;
 	
 	mFLACFormatBlock->numBitsPerSample =	(((mCodecHeaders->getPacket(1)->packetData()[16] & FLAC_BPS_START_MASK) << 4)	|
 											((mCodecHeaders->getPacket(1)->packetData()[17] & FLAC_BPS_END_MASK) >> 4)) + 1;	
@@ -101,11 +101,11 @@ bool FLACStream::processHeaderPacket(StampedOggPacket* inPacket) {
 	//FIX::: Return values
 	const unsigned char MORE_HEADERS_MASK = 128;   //10000000
 	//We don't delete the packet... the codecheader list will delete when it's done.
-	StampedOggPacket* locPacket = processPacket(inPacket);
-	if (locPacket != NULL) {
+	//StampedOggPacket* locPacket = processPacket(inPacket);
+	if (inPacket != NULL) {
 		//We got a comlpete packet
-		mCodecHeaders->addPacket(locPacket);
-		if ((locPacket->packetData()[0] & MORE_HEADERS_MASK) != 0) {
+		mCodecHeaders->addPacket(inPacket);
+		if ((inPacket->packetData()[0] & MORE_HEADERS_MASK) != 0) {
 			mNumHeadersNeeded--;
 		}
 	}

@@ -39,7 +39,7 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	,	mSourcePin(NULL)
 	,	mNumHeadersNeeded(0)
 	,	mStreamReady(false)
-	,	mPartialPacket(NULL)
+	//,	mPartialPacket(NULL)
 	,	mFirstRun(true)
 	,	mSendExcess(true)
 	,	mLastEndGranulePos(0)
@@ -54,6 +54,8 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	//Yep, Sure did !
 	//InitCodec(inBOSPage->getPacket(0));
 
+	//Get the packetisers callback to our acceptstampedoggpacket function.
+	mPacketiser.setPacketSink(this);
 
 }
 
@@ -62,7 +64,7 @@ OggStream::~OggStream(void)
 	//osDebug.close();
 	delete mSourcePin;
 	delete mCodecHeaders;
-	delete mPartialPacket;
+	//delete mPartialPacket;
 	delete mStreamLock;
 	//Don't try to delete owning filter !!
 }
@@ -75,68 +77,95 @@ bool OggStream::streamReady() {
 unsigned long OggStream::serialNo() {
 	return mSerialNo;
 }
-StampedOggPacket* OggStream::processPacket(StampedOggPacket* inPacket) {
-	//You always get your own copy of a packet back from this function... you must delete it !!!
-	CAutoLock locLock(mStreamLock);
-	if (inPacket->isComplete()) {
-		if (mPartialPacket == NULL) {
-			//CASE 1 : New packet is complete and there is no partial packet.
-			//===============================================================
-			
-			//Just return a *copy* of the incoming packet
-			return (StampedOggPacket*)inPacket->clone();
-		} else {
-			//CASE 2 : New packet is complete and there *is* a partial packet.
-			//================================================================
-			//Merge the packets together old one first and return them
 
-			//Merge new packet onto old one
-			mPartialPacket->merge(inPacket);
-			//Make a copy of the merged packet
-			StampedOggPacket* locPacket = (StampedOggPacket*)mPartialPacket->clone();
-			//Delete the old one
-			delete mPartialPacket;
-			mPartialPacket = NULL;
-			//Return the copy of the merged packet
-			return locPacket;
+bool OggStream::acceptStampedOggPacket(StampedOggPacket* inPacket) {
+    if (!mStreamReady) {
+		//Streams not ready, still headers.
+		//Stream is ready when all header packets are seen.
+		// Any data packets the are on the same page as the headers are excess packets. ???? Maybe not any more.
+		processHeaderPacket(inPacket);
+
+		if(mNumHeadersNeeded <= 0) {
+			//Make sure we create the pin if we got everything already
+			AddPin();
+			//Add pin will set streamready to true if it was all good.
 		}
 	} else {
-		if (mPartialPacket == NULL) {
-			//CASE 3 : New packet is *incomplete* and there is no partial packet
-			//==================================================================
-			//Hold onto a copy of this packet and wait for the rest.
+		//Data packets...
+		if (mFirstRun) {
+			mFirstRun = false;
 
-			//Take a copy of the packet and hold onto for later.
-			mPartialPacket = (StampedOggPacket*)inPacket->clone();
-			return NULL;
-		} else {
-			//CASE 4 : New packet is *incomlpete* and there *is* a partial packet
-			//===================================================================
-			//Merge the packets old first and wait for the rest
-
-			//Merge the packets together old one first
-			mPartialPacket->merge(inPacket);
-			
-			return NULL;
-
-			//Heres the bug retard !!
-			//OggPacket* locPacket = mPartialPacket->clone();
-			//delete mPartialPacket;
-			//mPartialPacket = NULL;
-			//return locPacket;
-		}
+			//Deliver the header data
+			deliverCodecHeaders();
+		}		
+		
+		processDataPacket(inPacket);
 	}
+	
+	return true;
 }
+//bool OggStream::processPacket(StampedOggPacket* inPacket) {
+	//You always get your own copy of a packet back from this function... you must delete it !!!
+	//CAutoLock locLock(mStreamLock);
+	//if (inPacket->isComplete()) {
+	//	if (mPartialPacket == NULL) {
+	//		//CASE 1 : New packet is complete and there is no partial packet.
+	//		//===============================================================
+	//		
+	//		//Just return a *copy* of the incoming packet
+	//		return (StampedOggPacket*)inPacket->clone();
+	//	} else {
+	//		//CASE 2 : New packet is complete and there *is* a partial packet.
+	//		//================================================================
+	//		//Merge the packets together old one first and return them
+
+	//		//Merge new packet onto old one
+	//		mPartialPacket->merge(inPacket);
+	//		//Make a copy of the merged packet
+	//		StampedOggPacket* locPacket = (StampedOggPacket*)mPartialPacket->clone();
+	//		//Delete the old one
+	//		delete mPartialPacket;
+	//		mPartialPacket = NULL;
+	//		//Return the copy of the merged packet
+	//		return locPacket;
+	//	}
+	//} else {
+	//	if (mPartialPacket == NULL) {
+	//		//CASE 3 : New packet is *incomplete* and there is no partial packet
+	//		//==================================================================
+	//		//Hold onto a copy of this packet and wait for the rest.
+
+	//		//Take a copy of the packet and hold onto for later.
+	//		mPartialPacket = (StampedOggPacket*)inPacket->clone();
+	//		return NULL;
+	//	} else {
+	//		//CASE 4 : New packet is *incomlpete* and there *is* a partial packet
+	//		//===================================================================
+	//		//Merge the packets old first and wait for the rest
+
+	//		//Merge the packets together old one first
+	//		mPartialPacket->merge(inPacket);
+	//		
+	//		return NULL;
+
+	//		//Heres the bug retard !!
+	//		//OggPacket* locPacket = mPartialPacket->clone();
+	//		//delete mPartialPacket;
+	//		//mPartialPacket = NULL;
+	//		//return locPacket;
+	//	}
+	//}
+//}
 
 //ANX::: Need to override here to ensure the anxdata header isn't passed through.
 bool OggStream::processHeaderPacket(StampedOggPacket* inPacket) {
 	//FIX::: Return values
 
 	//We don't delete the packet... the codecheader list will delete when it's done.
-	StampedOggPacket* locPacket = processPacket(inPacket);
-	if (locPacket != NULL) {
+	//StampedOggPacket* locPacket = processPacket(inPacket);
+	if (inPacket != NULL) {
 		//We got a comlpete packet
-		mCodecHeaders->addPacket(locPacket);
+		mCodecHeaders->addPacket(inPacket);
 		mNumHeadersNeeded--;
 	}
 	return true;
@@ -144,34 +173,34 @@ bool OggStream::processHeaderPacket(StampedOggPacket* inPacket) {
 
 bool OggStream::processDataPacket(StampedOggPacket* inPacket) {
 	//We must delete the packet we get back when we have finished
-	StampedOggPacket* locPacket = processPacket(inPacket);
-	if (locPacket != NULL) {
-		dispatchPacket(locPacket);
-		delete locPacket;
-		locPacket = NULL;
+	//StampedOggPacket* locPacket = processPacket(inPacket);
+	if (inPacket != NULL) {
+		dispatchPacket(inPacket);
+		//delete locPacket;
+		inPacket = NULL;
 	}
 
 	return true;
 }
 
-bool OggStream::processExcessPacket(StampedOggPacket* inPacket) {
-	//FIX::: Return values
-
-	////We don't delete the packet we get back.. the excess list will delete when it's been sent.
-	//OggPacket* locPacket = processPacket(inPacket);
-	//if (locPacket != NULL) {
-	//	//We got a complete packet
-	//	mExcessPackets.push_back(locPacket);
-	//}
-	//New modification to fix the problem where if the last excess packet is an incomplete packet it gets lost as
-	// we don't get back a complete packet... hence we don't store it. This means when we restart we only send the 
-	// full packets we saved, and then the new data. But the start of the new data is not a complete packet.
-	// This is bad !!
-
-	//New solution is to store them as partials and reassemble them whe we send.
-	mExcessPackets.push_back((StampedOggPacket*)inPacket->clone());
-	return true;
-}
+//bool OggStream::processExcessPacket(StampedOggPacket* inPacket) {
+//	//FIX::: Return values
+//
+//	////We don't delete the packet we get back.. the excess list will delete when it's been sent.
+//	//OggPacket* locPacket = processPacket(inPacket);
+//	//if (locPacket != NULL) {
+//	//	//We got a complete packet
+//	//	mExcessPackets.push_back(locPacket);
+//	//}
+//	//New modification to fix the problem where if the last excess packet is an incomplete packet it gets lost as
+//	// we don't get back a complete packet... hence we don't store it. This means when we restart we only send the 
+//	// full packets we saved, and then the new data. But the start of the new data is not a complete packet.
+//	// This is bad !!
+//
+//	//New solution is to store them as partials and reassemble them whe we send.
+//	mExcessPackets.push_back(inPacket);
+//	return true;
+//}
 OggDemuxSourcePin* OggStream::getPin() {
 	return mSourcePin;
 }
@@ -194,8 +223,10 @@ CMediaType* OggStream::createMediaType(GUID inMajorType, GUID inSubType, GUID in
 
 void OggStream::flush() {
 	CAutoLock locLock(mStreamLock);
-	delete mPartialPacket;
-	mPartialPacket = NULL;
+	//delete mPartialPacket;
+	//TODO::: Tell the packetiser to flush.
+	//mPartialPacket = NULL;
+	mPacketiser.reset();
 }
 //ANX::: Need to override here to create anx pins
 bool OggStream::AddPin() {
@@ -228,69 +259,71 @@ void OggStream::setLastEndGranPos(__int64 inGranPos) {
 bool OggStream::acceptOggPage(OggPage* inOggPage) {
 	//FIX::: Add proper error checking.
 
-	StampedOggPacket* locPacket = NULL;
-	//osDebug<<"New page sets start gran to "<<mLastEndGranulePos<<endl;
+	//StampedOggPacket* locPacket = NULL;
+	////osDebug<<"New page sets start gran to "<<mLastEndGranulePos<<endl;
 	mLastStartGranulePos = mLastEndGranulePos;
 	mLastEndGranulePos = inOggPage->header()->GranulePos();
 
-	if (!mStreamReady) {
+	//Put the page through the packetiser.
+	return mPacketiser.acceptOggPage(inOggPage);
+	//if (!mStreamReady) {
 
-		for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
-			locPacket = inOggPage->getStampedPacket(i);
-			//Add a start stamp.
-			
-			if (mNumHeadersNeeded > 0) {
-				//We are still getting headers
-				processHeaderPacket(locPacket);
-			} else {
-				processExcessPacket(locPacket);
-			}
-			locPacket = NULL;
-		}
+	//	for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
+	//		locPacket = inOggPage->getStampedPacket(i);
+	//		//Add a start stamp.
+	//		
+	//		if (mNumHeadersNeeded > 0) {
+	//			//We are still getting headers
+	//			processHeaderPacket(locPacket);
+	//		} else {
+	//			processExcessPacket(locPacket);
+	//		}
+	//		locPacket = NULL;
+	//	}
 
-		if(mNumHeadersNeeded <= 0) {
-			//Make sure we create the pin if we got everything already
-			AddPin();
-		}
+	//	if(mNumHeadersNeeded <= 0) {
+	//		//Make sure we create the pin if we got everything already
+	//		AddPin();
+	//	}
 
-		//Maybe need a check here to make sure the pin is added
-	} else {
-		//First time round send the headers
-		if (mFirstRun) {
-			mFirstRun = false;
+	//	//Maybe need a check here to make sure the pin is added
+	//} else {
+	//	//First time round send the headers
+	//	if (mFirstRun) {
+	//		mFirstRun = false;
 
-			//Deliver the header data
-			deliverCodecHeaders();
-		}
+	//		//Deliver the header data
+	//		deliverCodecHeaders();
+	//	}
 
-		//On the first run and after stop/restart resend excess packets.
-		if (mSendExcess) {
-			mSendExcess = false;
-			unsigned long locNumExcess = (unsigned long)mExcessPackets.size();
+	//	//On the first run and after stop/restart resend excess packets.
+	//	if (mSendExcess) {
+	//		mSendExcess = false;
+	//		unsigned long locNumExcess = (unsigned long)mExcessPackets.size();
 
-			//for (unsigned long i = 0; i < locNumExcess; i++) {
-			//	dispatchPacket(mExcessPackets[i]);
-	
-			//}
+	//		//for (unsigned long i = 0; i < locNumExcess; i++) {
+	//		//	dispatchPacket(mExcessPackets[i]);
+	//
+	//		//}
 
-			//New solution... se Send Exces packets for more info.
+	//		//New solution... se Send Exces packets for more info.
 
-			for (unsigned long i = 0; i < locNumExcess; i++) {
-				processDataPacket(mExcessPackets[i]);
-			}
-		}
+	//		for (unsigned long i = 0; i < locNumExcess; i++) {
+	//			processDataPacket(mExcessPackets[i]);
+	//		}
+	//	}
 
-		//Process the data packets.
-		for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
-            locPacket = inOggPage->getStampedPacket(i);
-			//Timestamp hack
-			locPacket->setStartTime(mLastStartGranulePos);
-			//
-			processDataPacket(locPacket);
-			locPacket = NULL;
-		}
-	}
-	return true;
+	//	//Process the data packets.
+	//	for (unsigned long i = 0; i < inOggPage->numPackets(); i++) {
+ //           locPacket = inOggPage->getStampedPacket(i);
+	//		//Timestamp hack
+	//		locPacket->setStartTime(mLastStartGranulePos);
+	//		//
+	//		processDataPacket(locPacket);
+	//		locPacket = NULL;
+	//	}
+	//}
+	//return true;
 }
 
 void OggStream::setSendExcess(bool inSendExcess) {

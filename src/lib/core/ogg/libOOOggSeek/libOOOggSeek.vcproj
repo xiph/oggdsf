@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\libOOOgg"
+				AdditionalIncludeDirectories="..\libOOOgg;..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBOOOGGSEEK_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"

@@ -151,7 +151,8 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	long locBuffSize = inSample->GetActualDataLength();
 	unsigned char* locBuff = new unsigned char[locBuffSize];
 	memcpy((void*)locBuff, (const void*)locSampleBuff, inSample->GetActualDataLength());
-	StampedOggPacket* locPacket = new StampedOggPacket(locBuff, inSample->GetActualDataLength(), true, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
+																								//Not truncated or contuned... its a full packet.
+	StampedOggPacket* locPacket = new StampedOggPacket(locBuff, inSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 	
 	mPaginator.acceptStampedOggPacket(locPacket);
 

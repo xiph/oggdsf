@@ -65,12 +65,12 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 	//TODO ::: Some of this could be shared from other places.
 	if (!mFoundStreamInfo) {
 		if (strncmp((const char*)inOggPage->getPacket(0)->packetData(), "\001vorbis", 7) == 0) {
-			mSampleRate = OggMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 12);
+			mSampleRate = iLE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 12);
 			mNumHeaders = 3;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			mFoundStreamInfo = true;
 		} else if (strncmp((const char*)inOggPage->getPacket(0)->packetData(), "Speex   ", 8) == 0) {
-			mSampleRate = OggMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 36);
+			mSampleRate = iLE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 36);
 			mNumHeaders = 2;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			mFoundStreamInfo = true;
@@ -81,7 +81,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			isTheora = true;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			mGranulePosShift = (((inOggPage->getPacket(0)->packetData()[40]) % 4) << 3) + ((inOggPage->getPacket(0)->packetData()[41]) >> 5);
-			mSampleRate = FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 22) / FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 26);
+			mSampleRate = iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 22) / iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 26);
 			mNumHeaders = 3;
 			mFoundStreamInfo = true;
 			//Need denominators
@@ -103,7 +103,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 				mNumHeaders++;
 				if ((inOggPage->getPacket(i)->packetData()[0] & FLAC_HEADER_MASK) == FLAC_STREAM_INFO_ID) {
                     //Catch the stream info packet.
-                    mSampleRate = FLACMath::charArrToULong(inOggPage->getPacket(0)->packetData() + 14) >> 12;
+                    mSampleRate = iBE_Math::charArrToULong(inOggPage->getPacket(0)->packetData() + 14) >> 12;
 					//mFoundStreamInfo = true;
 				}
 				if ((inOggPage->getPacket(i)->packetData()[0] & FLAC_LAST_HEADERS_FLAG)) {

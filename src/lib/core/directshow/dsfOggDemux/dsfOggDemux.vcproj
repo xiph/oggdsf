@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\ogg\libOOOgg;..\..\ogg\libOOOggSeek;..\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\ogg\libOOOgg;..\..\ogg\libOOOggSeek;..\dsfSeeking;..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX_EXPORTS"
 				GeneratePreprocessedFile="0"
 				MinimalRebuild="TRUE"

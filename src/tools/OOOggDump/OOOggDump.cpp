@@ -53,8 +53,11 @@ bool pageCB(OggPage* inOggPage) {
 		locPack = inOggPage->getPacket(i);
 		cout << "------ Packet  " << i << " (" << locPack->packetSize() << " bytes) -------";
 		
-		if (!locPack->isComplete()) {
-			cout<<"  ** INCOMPLETE **";
+		if (locPack->isContinuation()) {
+			cout<<"  ** CONT **";
+		}
+		if (locPack->isTruncated()) {
+			cout<<" ** TRUNC **";
 		}
 		cout<<endl;
 		cout << locPack->toPackDumpString();

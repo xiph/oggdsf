@@ -36,6 +36,7 @@
 #include "OggDataBuffer.h"
 #include <string>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 

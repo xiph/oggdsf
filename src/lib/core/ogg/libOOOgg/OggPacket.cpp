@@ -33,18 +33,20 @@
 #include "oggpacket.h"
 
 OggPacket::OggPacket(void)
-	:	mPacketSize(0),
-		mPacketData(NULL),
-		mIsComplete(false)
+	:	mPacketSize(0)
+	,	mPacketData(NULL)
+	,	mIsContinuation(false)
+	,	mIsTruncated(false)
 		
 {
 
 }
 
-OggPacket::OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete)
-	:	mPacketSize(inPacketSize),
-		mPacketData(inPackData),
-		mIsComplete(inIsComplete)
+OggPacket::OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation)
+	:	mPacketSize(inPacketSize)
+	,	mPacketData(inPackData)
+	,	mIsContinuation(inIsContinuation)
+	,	mIsTruncated(inIsTruncated)
 		
 {
 }
@@ -56,7 +58,7 @@ OggPacket* OggPacket::clone() {
 	memcpy((void*)locBuff, (const void*)mPacketData, mPacketSize);
 
 	//Create the new packet
-	OggPacket* retPack = new OggPacket(locBuff, mPacketSize, mIsComplete);
+	OggPacket* retPack = new OggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation);
 	return retPack;
 }
 
@@ -169,15 +171,20 @@ unsigned long OggPacket::packetSize() const {
 unsigned char* OggPacket::packetData() {
 	return mPacketData;
 }
-
-
-bool OggPacket::isComplete() const {
-	return mIsComplete;
+bool OggPacket::isTruncated() const {
+	return mIsTruncated;
+}
+bool OggPacket::isContinuation() const {
+	return mIsContinuation;
 }
 
-void OggPacket::setIsComplete(bool inIsComplete) {
-	mIsComplete = inIsComplete;
-}
+//bool OggPacket::isComplete() const {
+//	return mIsComplete;
+//}
+
+//void OggPacket::setIsComplete(bool inIsComplete) {
+//	mIsComplete = inIsComplete;
+//}
 void OggPacket::setPacketSize(unsigned long inPacketSize) {
 	mPacketSize = inPacketSize;
 }
@@ -202,9 +209,11 @@ void OggPacket::merge(OggPacket* inMorePacket) {
 	mPacketSize += inMorePacket->mPacketSize;
 
 	//If the next part of the packet isn't complete then this packet is not complete.
-	mIsComplete = inMorePacket->mIsComplete;
-	//Should we do this ????
-	//NO !!! It will munt the page it is contained in !
-	//delete inMorePacket;
+	//mIsComplete = inMorePacket->mIsComplete;
+	//The new packet is truncated only if the incoming packet is
+	mIsTruncated = inMorePacket->isTruncated();
+
+	//This is not a continuation... a continuation is a packet that does not start at the start of the real packet.
+	mIsContinuation = false;
 
 }

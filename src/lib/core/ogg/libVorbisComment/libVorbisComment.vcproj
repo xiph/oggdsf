@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\libOOOgg"
+				AdditionalIncludeDirectories="..\libOOOgg;..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBVORBISCOMMENT_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -78,7 +78,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="..\libOOOgg"
+				AdditionalIncludeDirectories="..\libOOOgg;..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBVORBISCOMMENT_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

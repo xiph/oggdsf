@@ -38,7 +38,7 @@
 #include "IFIFOBuffer.h"
 
 //Only needed for debugging
-#include <fstream>
+//#include <fstream>
 //
 using namespace std;
 
@@ -61,13 +61,13 @@ public:
 
 	enum eDispatchResult {
 		DISPATCH_OK,
-		DISPATCH_NO_CALLBACK = 512,
+		DISPATCH_NO_CALLBACK = 256,
 		DISPATCH_FALSE
 	};
 
 	enum eProcessResult {
 		PROCESS_OK,
-		PROCESS_UNKNOWN_INTERNAL_ERROR = 256,
+		PROCESS_UNKNOWN_INTERNAL_ERROR = 512,
 		PROCESS_STREAM_READ_ERROR,
 		PROCESS_DISPATCH_FAILED,
 		PROCESS_FAILED_TO_SET_HEADER,
@@ -123,6 +123,6 @@ protected:
 	virtual eDispatchResult dispatch(OggPage* inOggPage);
 
 	//DEBUG
-	fstream debugLog;
+	//fstream debugLog;
 	//
 };

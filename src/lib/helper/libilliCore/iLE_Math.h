@@ -31,6 +31,7 @@
 
 #pragma once
 
+#include "libilliCore.h"
 class LIBILLICORE_API iLE_Math
 {
 public:

@@ -37,7 +37,7 @@
 using namespace std;
 #include "SingleVorbisComment.h"
 #include "OggPacket.h"
-#include "OggMath.h"
+#include "iLE_Math.h"
 
 class LIBVORBISCOMMENT_API VorbisComments
 {

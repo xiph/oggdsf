@@ -38,7 +38,7 @@ class LIBOOOGG_API StampedOggPacket
 public:
 	//Constructors
 	StampedOggPacket(void);
-	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete, __int64 inStartTime, __int64 inEndTime, unsigned short inStampType);
+	StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, __int64 inStartTime, __int64 inEndTime, unsigned short inStampType);
 	virtual ~StampedOggPacket(void);
 	virtual OggPacket* clone();
 

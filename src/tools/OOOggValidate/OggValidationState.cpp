@@ -275,13 +275,17 @@ bool OggValidationState::acceptOggPage(OggPage* inOggPage) {
 
 	//Check for incomplete last packet
 	if (inOggPage->numPackets() > 0) {
-		if (inOggPage->getPacket(inOggPage->numPackets() - 1)->isComplete() == false)  {
+		if (inOggPage->getPacket(inOggPage->numPackets() - 1)->isTruncated() == true)  {
 			//Valid case
 			//If the last packet is incomplete.
 			if (OggStreamValidationState::VS_SEEN_BOS) {
+				//...And we've seen a BOS page
+
+				//Now we wait for the continuation
 				locStreamState->mState = OggStreamValidationState::VS_WAITING_FOR_CONTINUATION;
 			} else {
 				//Does this mean anythign ?
+				//Normal untruncated packet.
 			}
 		}
 	}
@@ -340,7 +344,6 @@ void OggValidationState::error_write(short int inErrNo, OggPage* inOggPage, OggS
 		default:
 			locErrorString = "Unnamed Error"; 
 			break;
-
 	}
 
 	if (inStreamState != NULL) {

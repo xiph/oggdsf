@@ -100,6 +100,7 @@ public:
 	CircularBuffer(unsigned long inBufferSize);
 	~CircularBuffer(void);
 
+	//IFIFOBuffer Implementation
 	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead);
 	virtual unsigned long write(const unsigned char* inData, unsigned long inBytesToWrite);
 
@@ -107,6 +108,7 @@ public:
 	virtual unsigned long spaceLeft();
 
 	virtual void reset();
+	//
 protected:
 	unsigned long mBufferSize;
 	unsigned long mReadPtr;

@@ -51,9 +51,6 @@ public:
 	bool acceptStampedOggPacket(StampedOggPacket* inOggPacket);
 
 	bool setPageCallback(IOggCallback* inPageCallback);
-
-	
-
 	bool finishStream();
 
 protected:

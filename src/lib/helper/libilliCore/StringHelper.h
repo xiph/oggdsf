@@ -31,9 +31,10 @@
 
 #pragma once
 
-#include "dllstuff.h"
-#include <string.h>
+
+#include <string>
 using namespace std;
+#include "libilliCore.h"
 class LIBILLICORE_API StringHelper
 {
 public:

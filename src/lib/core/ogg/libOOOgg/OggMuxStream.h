@@ -42,13 +42,18 @@ class LIBOOOGG_API OggMuxStream
 public:
 	OggMuxStream(INotifyArrival* inNotifier);
 	virtual ~OggMuxStream(void);
+	
 	static const __int64 INT64_MAX = 9223372036854775807;
 
+	//IOggCallback implementaion.
 	virtual bool acceptOggPage(OggPage* inOggPage);
+
 	virtual OggPage* popFront();
 	virtual OggPage* peekFront();
+	
 	virtual __int64 frontTime();
 	virtual __int64 scaledFrontTime();
+	
 	virtual bool isEmpty();
 	virtual bool isEOS();
 	virtual bool isProcessable();
@@ -58,9 +63,9 @@ public:
 
 	virtual bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor, __int64 inTheoraLogKFI);
 	bool setConversionParams(__int64 inNumerator, __int64 inDenominator, __int64 inScaleFactor);
-
 	
 protected:
+	INotifyArrival* mNotifier;
 	__int64 convertTime(__int64 inGranulePos);
 
 	bool mIsEOS;
@@ -72,6 +77,4 @@ protected:
 	__int64 mConvScaleFactor;
 	__int64 mConvTheoraLogKeyFrameInterval;
 	deque<OggPage*> mPageQueue;
-	INotifyArrival* mNotifier;
-
 };

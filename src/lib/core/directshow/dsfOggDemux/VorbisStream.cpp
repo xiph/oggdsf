@@ -60,12 +60,12 @@ BYTE* VorbisStream::getFormatBlock() {
 bool VorbisStream::createFormatBlock() {
 	//Check where this gets deleted
 	mVorbisFormatBlock = new sVorbisFormatBlock;
-	mVorbisFormatBlock->vorbisVersion = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 7);
+	mVorbisFormatBlock->vorbisVersion = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 7);
 	mVorbisFormatBlock->numChannels = mCodecHeaders->getPacket(0)->packetData()[11];
-	mVorbisFormatBlock->samplesPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 12);
-	mVorbisFormatBlock->maxBitsPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 16);
-	mVorbisFormatBlock->avgBitsPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 20);
-	mVorbisFormatBlock->minBitsPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 24);
+	mVorbisFormatBlock->samplesPerSec = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 12);
+	mVorbisFormatBlock->maxBitsPerSec = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 16);
+	mVorbisFormatBlock->avgBitsPerSec = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 20);
+	mVorbisFormatBlock->minBitsPerSec = iLE_Math::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 24);
 
 	return true;
 }

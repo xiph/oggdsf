@@ -34,7 +34,9 @@
 #include "dllstuff.h"
 #include "IOggCallback.h"
 #include "OggDataBuffer.h"
-#include "FLACMath.h"
+#include "iBE_Math.h"
+#include "iLE_Math.h"
+//#include "FLACMath.h"
 #include "math.h"
 #include <fstream>
 using namespace std;

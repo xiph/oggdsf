@@ -89,7 +89,8 @@ StampedOggPacket* TheoraEncoder::oldToNewPacket(ogg_packet* inOldPacket) {
 	//Need to clone the packet data
 	unsigned char* locBuff = new unsigned char[inOldPacket->bytes];
 	memcpy((void*)locBuff, (const void*)inOldPacket->packet, inOldPacket->bytes);
-	StampedOggPacket* locOggPacket = new StampedOggPacket(locBuff, inOldPacket->bytes, true, NOT_USED, inOldPacket->granulepos, StampedOggPacket::OGG_END_ONLY);
+																					//Not truncated or continued... it's a full packet.
+	StampedOggPacket* locOggPacket = new StampedOggPacket(locBuff, inOldPacket->bytes, false, false, NOT_USED, inOldPacket->granulepos, StampedOggPacket::OGG_END_ONLY);
 	return locOggPacket;
 
 }

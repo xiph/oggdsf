@@ -1,0 +1,33 @@
+Pagination modes.
+
+* Fixed page size
+* Bounded variable page size
+
+
+Fixed Page Size
+===============
+
+if  leftoverPacket != NULL then
+    -- There is some packet left
+    while (amountLeftover) > 0 do
+          packet_out(inPacket, startFrom = packetUpto, length = MIN(spaceLeft, amountLeftOver))
+    wend
+
+
+input inPacket
+  if  inPacket.size <= spaceLeft then
+      --add inPacket to page
+      packet_out( inPacket, startFrom = 0, length = inPacket.size)
+  else
+      -- Packet must span over page
+      packet_out( inPacket, startFrom = packetUpto, length = spaceLeft)
+      
+  endif       
+copy spaceLeft bytes of packet into halfPacket
+      -- Other stuff
+      
+
+  endif
+
+    
+write min(packet.size, bufferLeft) 

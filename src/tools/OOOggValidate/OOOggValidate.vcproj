@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg"
+				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;..\..\lib\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -77,7 +77,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg"
+				AdditionalIncludeDirectories="..\..\lib\core\ogg\libOOOgg;..\..\lib\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"

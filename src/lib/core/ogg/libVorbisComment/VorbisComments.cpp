@@ -102,7 +102,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 		return false;
 	}
 
-	locVendorLength = OggMath::charArrToULong(inPacket->packetData() + locUpto);
+	locVendorLength = iLE_Math::charArrToULong(inPacket->packetData() + locUpto);
 	locUpto+=4;
 
 	if (locPackSize < locUpto + locVendorLength - 1) {
@@ -131,7 +131,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 		return false;
 	}
 
-	locNumComments = OggMath::charArrToULong(locPackBuff + locUpto);
+	locNumComments = iLE_Math::charArrToULong(locPackBuff + locUpto);
 	locUpto += 4;
 
 	unsigned long locUserCommentLength = 0;
@@ -144,7 +144,7 @@ bool VorbisComments::parseOggPacket(OggPacket* inPacket, unsigned long inStartOf
 			return false;
 		}
 
-		locUserCommentLength = OggMath::charArrToULong(locPackBuff + locUpto);
+		locUserCommentLength = iLE_Math::charArrToULong(locPackBuff + locUpto);
 		locUpto += 4;
 
 
@@ -245,17 +245,17 @@ OggPacket* VorbisComments::toOggPacket(unsigned char* inPrefixBuff, unsigned lon
 		locPackData = new unsigned char[locPackSize];
 	}
 	
-	OggMath::ULongToCharArr((unsigned long)mVendorString.length(), locPackData + locUpto);
+	iLE_Math::ULongToCharArr((unsigned long)mVendorString.length(), locPackData + locUpto);
 	locUpto += 4;
 
 	memcpy((void*)(locPackData + locUpto), (const void*)mVendorString.c_str(), mVendorString.length());
 	locUpto += (unsigned long)mVendorString.length();
 
-	OggMath::ULongToCharArr((unsigned long)mCommentList.size(), locPackData + locUpto);
+	iLE_Math::ULongToCharArr((unsigned long)mCommentList.size(), locPackData + locUpto);
 	locUpto += 4;
 
 	for (size_t i = 0; i < mCommentList.size(); i++) {
-		OggMath::ULongToCharArr(mCommentList[i]->length(), locPackData + locUpto);
+		iLE_Math::ULongToCharArr(mCommentList[i]->length(), locPackData + locUpto);
 		locUpto += 4;
 
 		memcpy((void*)(locPackData + locUpto), (const void*)mCommentList[i]->toString().c_str(), mCommentList[i]->length());
@@ -265,7 +265,8 @@ OggPacket* VorbisComments::toOggPacket(unsigned char* inPrefixBuff, unsigned lon
 	locPackData[locUpto] = 1;
 
 	OggPacket* locPacket = NULL;
-	locPacket = new OggPacket(locPackData, locPackSize, true);
+													//Full packet not truncated or continued.
+	locPacket = new OggPacket(locPackData, locPackSize, false, false);
 
 	return locPacket;
 

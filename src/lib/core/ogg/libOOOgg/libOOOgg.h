@@ -30,15 +30,24 @@
 //===========================================================================
 
 #include "dllstuff.h"
-//#include <string>
-//#include <vector>
-#include "SerialNoRego.h"
-#include "CallbackRego.h"
-#include "OggDataBuffer.h"
-//#include "OggInt64.h"
-#include "OggPage.h"
-//#include "OggSegmentTable.h"
+
+#include "libilliCore.h"
+
 #include "OggTypeDefs.h"
 #include "IOggCallback.h"
-//#include "OggBOSPage.h"
-#include "OggMath.h"
+#include "IStampedOggPacketSink.h"
+
+#include "OggPageHeader.h"
+#include "OggPage.h"
+#include "OggPacket.h"
+#include "StampedOggPacket.h"
+
+#include "OggPacketiser.h"
+#include "OggPaginatorSettings.h"
+#include "OggPaginator.h"
+#include "OggPageInterleaver.h"
+
+#include "OggDataBuffer.h"
+
+
+

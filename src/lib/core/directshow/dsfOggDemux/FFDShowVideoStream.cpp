@@ -141,10 +141,10 @@ bool FFDShowVideoStream::createFormatBlock() {
 	//------------------------------------------
 
 	
-	__int64 locTimePerBlock = OggMath::CharArrToInt64(mHeaderPack->packetData() + 17);
+	__int64 locTimePerBlock = iLE_Math::CharArrToInt64(mHeaderPack->packetData() + 17);
 
 	
-	__int64 locSamplesPerBlock = OggMath::CharArrToInt64(mHeaderPack->packetData() + 25);
+	__int64 locSamplesPerBlock = iLE_Math::CharArrToInt64(mHeaderPack->packetData() + 25);
 
 
 	mFFDShowVideoFormatBlock->AvgTimePerFrame = locTimePerBlock / locSamplesPerBlock;
@@ -159,8 +159,8 @@ bool FFDShowVideoStream::createFormatBlock() {
 	mFFDShowVideoFormatBlock->bmiHeader.biClrUsed = 0;        //Use max colour depth
 	mFFDShowVideoFormatBlock->bmiHeader.biCompression = mFourCCCode;
 
-	unsigned long locHeight = OggMath::charArrToULong(mHeaderPack->packetData() + 49);
-	unsigned long locWidth =  OggMath::charArrToULong(mHeaderPack->packetData() + 45);
+	unsigned long locHeight = iLE_Math::charArrToULong(mHeaderPack->packetData() + 49);
+	unsigned long locWidth =  iLE_Math::charArrToULong(mHeaderPack->packetData() + 45);
 
 	mFFDShowVideoFormatBlock->dwBitRate = 0;
 
@@ -204,7 +204,8 @@ bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 													:	mLastTimeStamp;
 
 	//debugLog << "Packet :    Start   =   "<<locStart<<"     -   End   =   "<<locEnd<<endl;
-	StampedOggPacket* locPack = new StampedOggPacket(locBuff, inPacket->packetSize() - 1, true, locStart, locEnd, StampedOggPacket::DIRECTSHOW);
+																					//We should only be delivering full packets here.
+	StampedOggPacket* locPack = new StampedOggPacket(locBuff, inPacket->packetSize() - 1, false, false, locStart, locEnd, StampedOggPacket::DIRECTSHOW);
 	return OggStream::dispatchPacket(locPack);
 }
 BYTE* FFDShowVideoStream::getFormatBlock() {

@@ -277,7 +277,8 @@ long FLACDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes)
 		}
 
 		ASSERT(mPendingPackets.size() == 0);
-		mPendingPackets.push(new OggPacket(locBuff, inNumBytes, true));
+														//Packet not truncated or continued.. it's a full packet.
+		mPendingPackets.push(new OggPacket(locBuff, inNumBytes, false, false));
 		ASSERT(mPendingPackets.size() == 1);
 		if (mGotMetaData) {
 			int locRet = 0;

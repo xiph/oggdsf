@@ -45,13 +45,15 @@ StampedOggPacket::~StampedOggPacket(void)
 {
 }
 
-StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete, __int64 inStartTime = 0, __int64 inEndTime = 0, unsigned short inStampType = 0)
-	:	OggPacket(inPackData, inPacketSize, inIsComplete)
+StampedOggPacket::StampedOggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation, __int64 inStartTime = 0, __int64 inEndTime = 0, unsigned short inStampType = 0)
+	:	OggPacket(inPackData, inPacketSize, inIsTruncated, inIsContinuation)
 	,	mStartTime(inStartTime)
 	,	mEndTime(inEndTime)
+	,	mStampType(inStampType)
+	
 	
 {
-	mStampType =inStampType;
+	//mStampType =inStampType;
 }
 
 void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
@@ -78,8 +80,15 @@ void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
 	mEndTime = inMorePacket->endTime();
 	mStampType = inMorePacket->mStampType;
 
+	//---::: Changed, uses two flags no.
 	//If the next part of the packet isn't complete then this packet is not complete.
-	mIsComplete = inMorePacket->mIsComplete;
+	//mIsComplete = inMorePacket->mIsComplete;
+
+	//The new packet is truncated only if the incoming packet is
+	mIsTruncated = inMorePacket->isTruncated();
+
+	//This is not a continuation... a continuation is a packet that does not start at the start of the real packet.
+	mIsContinuation = false;
 }
 
 OggPacket* StampedOggPacket::clone() {
@@ -90,7 +99,7 @@ OggPacket* StampedOggPacket::clone() {
 	memcpy((void*)locBuff, (const void*)mPacketData, mPacketSize);
 
 	//Create the new packet
-	StampedOggPacket* retPack = new StampedOggPacket(locBuff, mPacketSize, mIsComplete,mStartTime, mEndTime, mStampType);
+	StampedOggPacket* retPack = new StampedOggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation, mStartTime, mEndTime, mStampType);
 	return retPack;
 }
 __int64 StampedOggPacket::startTime() {

@@ -30,11 +30,11 @@
 //===========================================================================
 
 #pragma once
-
+#include "iLE_Math.h"
 #include "StringHelper.h"
 //#include "OggSegmentTable.h"
 //#include "OggInt64.h"
-#include "OggMath.h"
+//#include "OggMath.h"
 
 
 using namespace std;
@@ -71,6 +71,7 @@ public:
 	};
 
 	enum eHeadFlags {
+		CONTINUATION = 1,
 		BOS = 2,
 		EOS = 4
 	};
@@ -83,6 +84,7 @@ public:
 	void setPageState(ePageState inPageState);
 
 	//Access header flags
+	bool isContinuation();
 	bool isBOS();
 	bool isEOS();	
 

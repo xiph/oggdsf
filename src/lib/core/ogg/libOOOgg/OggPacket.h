@@ -33,13 +33,14 @@
 
 #include <string>
 using namespace std;
+#include "StringHelper.h"
 
 class LIBOOOGG_API OggPacket
 {
 public:
 	//Constructors
 	OggPacket(void);
-	OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsComplete);
+	OggPacket(unsigned char* inPackData, unsigned long inPacketSize, bool inIsTruncated, bool inIsContinuation);
 	virtual ~OggPacket(void);
 	virtual OggPacket* clone();
 
@@ -48,10 +49,15 @@ public:
 	//Packet accessors
 	unsigned long packetSize() const;
 	unsigned char* packetData();
-	bool isComplete() const;
+	//bool isComplete() const;
+	bool isTruncated() const;
+	bool isContinuation() const;
 
 	//Packet Mutators
-	void setIsComplete (bool inIsComplete );
+	//void setIsComplete (bool inIsComplete );
+
+	void setIsTruncated(bool inIsTruncated);
+	void setIsContinuation(bool inIsContinuation);
 	void setPacketSize (unsigned long inPacketSize );
 	void setPacketData (unsigned char* inPacketData );
 
@@ -65,7 +71,9 @@ protected:
 	//Packet member data
 	unsigned long mPacketSize;
 	unsigned char* mPacketData;
-	bool mIsComplete;
+	//bool mIsComplete;
+	bool mIsTruncated;
+	bool mIsContinuation;
 
 	//TODO::Should these be here ?
 	string OggPacket::dumpNCharsToString(unsigned char* inStartPoint, unsigned long inNumChars) ;

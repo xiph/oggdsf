@@ -33,6 +33,8 @@
 #include "oggdllstuff.h"
 #include "StreamHeaders.h"
 #include "IOggCallback.h"
+#include "IStampedOggPacketSink.h"
+#include "OggPacketiser.h"
 
 #include "OggPage.h"
 #include <fstream>
@@ -45,6 +47,8 @@ class StreamHeaders;
 
 class OGG_DEMUX_API OggStream
 	:	public IOggCallback
+	,	protected IStampedOggPacketSink
+
 {
 public:
 	OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, bool inAllowSeek);
@@ -82,13 +86,15 @@ public:
 	bool streamReady();
 	void flush();
 protected:
-
-	virtual StampedOggPacket* processPacket(StampedOggPacket* inPacket);
+	virtual bool acceptStampedOggPacket(StampedOggPacket* inPacket);
+	
+	//virtual bool processPacket(StampedOggPacket* inPacket);
 	virtual bool processHeaderPacket(StampedOggPacket* inPacket);
 	virtual bool processDataPacket(StampedOggPacket* inPacket);
-	virtual bool processExcessPacket(StampedOggPacket* inPacket);
+	//virtual bool processExcessPacket(StampedOggPacket* inPacket);
 
-	StampedOggPacket* mPartialPacket;
+	OggPacketiser mPacketiser;
+	//StampedOggPacket* mPartialPacket;
 	StreamHeaders* mCodecHeaders;
 	vector<StampedOggPacket*> mExcessPackets;
 	unsigned long mSerialNo;

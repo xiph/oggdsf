@@ -66,19 +66,19 @@ bool TheoraStream::createFormatBlock() {
 	//mTheoraFormatBlock->numChannels = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 48);
 	//mTheoraFormatBlock->samplesPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 36);
 
-	mTheoraFormatBlock->theoraVersion = (FLACMath::charArrToULong(locIdentHeader + 7)) >>8;
-	mTheoraFormatBlock->width = (FLACMath::charArrToUShort(locIdentHeader + 10)) * 16;
-	mTheoraFormatBlock->height = (FLACMath::charArrToUShort(locIdentHeader + 12)) * 16;
-	mTheoraFormatBlock->frameWidth = (FLACMath::charArrToULong(locIdentHeader + 14)) >>8;
-	mTheoraFormatBlock->frameHeight = (FLACMath::charArrToULong(locIdentHeader + 17)) >>8;
+	mTheoraFormatBlock->theoraVersion = (iBE_Math::charArrToULong(locIdentHeader + 7)) >>8;
+	mTheoraFormatBlock->width = (iBE_Math::charArrToUShort(locIdentHeader + 10)) * 16;
+	mTheoraFormatBlock->height = (iBE_Math::charArrToUShort(locIdentHeader + 12)) * 16;
+	mTheoraFormatBlock->frameWidth = (iBE_Math::charArrToULong(locIdentHeader + 14)) >>8;
+	mTheoraFormatBlock->frameHeight = (iBE_Math::charArrToULong(locIdentHeader + 17)) >>8;
 	mTheoraFormatBlock->xOffset = locIdentHeader[20];
 	mTheoraFormatBlock->yOffset = locIdentHeader[21];
-	mTheoraFormatBlock->frameRateNumerator = FLACMath::charArrToULong(locIdentHeader + 22);
-	mTheoraFormatBlock->frameRateDenominator = FLACMath::charArrToULong(locIdentHeader + 26);
-	mTheoraFormatBlock->aspectNumerator = (FLACMath::charArrToULong(locIdentHeader + 30)) >>8;
-	mTheoraFormatBlock->aspectDenominator = (FLACMath::charArrToULong(locIdentHeader + 33)) >>8;
+	mTheoraFormatBlock->frameRateNumerator = iBE_Math::charArrToULong(locIdentHeader + 22);
+	mTheoraFormatBlock->frameRateDenominator = iBE_Math::charArrToULong(locIdentHeader + 26);
+	mTheoraFormatBlock->aspectNumerator = (iBE_Math::charArrToULong(locIdentHeader + 30)) >>8;
+	mTheoraFormatBlock->aspectDenominator = (iBE_Math::charArrToULong(locIdentHeader + 33)) >>8;
 	mTheoraFormatBlock->colourSpace = locIdentHeader[36];
-	mTheoraFormatBlock->targetBitrate = (FLACMath::charArrToULong(locIdentHeader + 37)) >>8;
+	mTheoraFormatBlock->targetBitrate = (iBE_Math::charArrToULong(locIdentHeader + 37)) >>8;
 	mTheoraFormatBlock->targetQuality = (locIdentHeader[40]) >> 2;
 
 	mTheoraFormatBlock->maxKeyframeInterval= (((locIdentHeader[40]) % 4) << 3) + (locIdentHeader[41] >> 5);

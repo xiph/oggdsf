@@ -304,7 +304,8 @@ int TheoraDecodeInputPin::TheoraDecoded (yuv_buffer* inYUVBuffer)
 long TheoraDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes, LONGLONG inStart, LONGLONG inEnd) 
 {
 	DbgLog((LOG_TRACE,1,TEXT("decodeData")));
-	StampedOggPacket* locPacket = new StampedOggPacket(inBuf, inNumBytes, true, inStart, inEnd, StampedOggPacket::OGG_END_ONLY);
+																	//Not truncated or continued... it's a full packet
+	StampedOggPacket* locPacket = new StampedOggPacket(inBuf, inNumBytes, false, false, inStart, inEnd, StampedOggPacket::OGG_END_ONLY);
 	yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
 	if (locYUV != NULL) {
 		if (TheoraDecoded(locYUV) != 0) {

@@ -207,7 +207,7 @@ void OggPageHeader::setGranulePos(__int64 inGranulePos)
 }
 void OggPageHeader::setGranulePos(const unsigned char* inPtr)
 {
-	mGranulePos = OggMath::CharArrToInt64(inPtr);
+	mGranulePos = iLE_Math::CharArrToInt64(inPtr);
 }
 
 void OggPageHeader::setStreamSerialNo(unsigned long inVal)
@@ -216,7 +216,7 @@ void OggPageHeader::setStreamSerialNo(unsigned long inVal)
 }
 void OggPageHeader::setStreamSerialNo(const unsigned char* inPtr)
 {
-	mStreamSerialNo = OggMath::charArrToULong(inPtr);
+	mStreamSerialNo = iLE_Math::charArrToULong(inPtr);
 }
 void OggPageHeader::setPageSequenceNo(unsigned long inVal)
 {
@@ -224,7 +224,7 @@ void OggPageHeader::setPageSequenceNo(unsigned long inVal)
 }
 void OggPageHeader::setPageSequenceNo(const unsigned char* inPtr)
 {
-	mPageSequenceNo = OggMath::charArrToULong(inPtr);;
+	mPageSequenceNo = iLE_Math::charArrToULong(inPtr);;
 }
 void OggPageHeader::setCRCChecksum(unsigned long inVal)
 {
@@ -233,7 +233,7 @@ void OggPageHeader::setCRCChecksum(unsigned long inVal)
 void OggPageHeader::setCRCChecksum(const unsigned char* inPtr)
 {
 	
-	mCRCChecksum = OggMath::charArrToULong(inPtr);;
+	mCRCChecksum = iLE_Math::charArrToULong(inPtr);;
 }
 
 void OggPageHeader::setNumPageSegments(unsigned char inVal)
@@ -293,10 +293,10 @@ bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 	outData[3] = 'S';
 	outData[4] = mStructureVersion;
 	outData[5] = mHeaderFlags;
-	OggMath::Int64ToCharArr(mGranulePos, &outData[6]);
-	OggMath::ULongToCharArr(mStreamSerialNo, &outData[14]);
-	OggMath::ULongToCharArr(mPageSequenceNo, &outData[18]);
-	OggMath::ULongToCharArr(mCRCChecksum, &outData[22]);
+	iLE_Math::Int64ToCharArr(mGranulePos, &outData[6]);
+	iLE_Math::ULongToCharArr(mStreamSerialNo, &outData[14]);
+	iLE_Math::ULongToCharArr(mPageSequenceNo, &outData[18]);
+	iLE_Math::ULongToCharArr(mCRCChecksum, &outData[22]);
 	outData[26] = mNumPageSegments;
 
 	//TODO::: Validate the length of all this.
@@ -307,18 +307,14 @@ bool OggPageHeader::rawData(unsigned char* outData, unsigned long inBuffSize) {
 
 
 bool OggPageHeader::isBOS() {
-	if ( (mHeaderFlags & eHeadFlags::BOS) != 0 ) {
-		return true;
-	} else {
-		return false;
-	}
+	return ((mHeaderFlags & eHeadFlags::BOS) != 0 );
 }
 bool OggPageHeader::isEOS() {
-	if ( (mHeaderFlags & eHeadFlags::EOS) != 0 ) {
-		return true;
-	} else {
-		return false;
-	}
+	return ((mHeaderFlags & eHeadFlags::EOS) != 0 );
+}
+
+bool OggPageHeader::isContinuation() {
+	return ((mHeaderFlags & eHeadFlags::CONTINUATION) != 0 );
 }
 
 

@@ -35,25 +35,25 @@
 #include <vector>
 
 //DEBUG ONLY
-#include <fstream>
+//#include <fstream>
 //
 using namespace std;
 class LIBOOOGG_API OggPageInterleaver
 	:	public INotifyArrival
 {
 public:
-
 	OggPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier);
 	virtual ~OggPageInterleaver(void);
 
 	virtual OggMuxStream* newStream();
+	virtual void processData();
+	virtual void writeLowest();
+
 	virtual bool isProcessable();
 	virtual bool isAllEOS();
 	virtual bool isAllEmpty();
-	virtual void processData();
 
-	virtual void writeLowest();
-
+	//INotifyArrival Implementation
 	virtual void notifyArrival();
 
 protected:

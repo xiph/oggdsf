@@ -19,6 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBOOOGG_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -76,11 +77,13 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
+				AdditionalIncludeDirectories="..\..\..\helper\libilliCore"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBOOOGG_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				EnableFunctionLevelLinking="TRUE"
+				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="3"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
@@ -128,16 +131,10 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath="CallbackRego.cpp">
-			</File>
-			<File
 				RelativePath=".\CircularBuffer.cpp">
 			</File>
 			<File
 				RelativePath="libOOOgg.cpp">
-			</File>
-			<File
-				RelativePath="OggCallbackRego.cpp">
 			</File>
 			<File
 				RelativePath="OggDataBuffer.cpp">
@@ -147,6 +144,9 @@
 			</File>
 			<File
 				RelativePath="OggPacket.cpp">
+			</File>
+			<File
+				RelativePath=".\OggPacketiser.cpp">
 			</File>
 			<File
 				RelativePath="OggPage.cpp">
@@ -162,9 +162,6 @@
 			</File>
 			<File
 				RelativePath="OggPaginatorSettings.cpp">
-			</File>
-			<File
-				RelativePath="SerialNoRego.cpp">
 			</File>
 			<File
 				RelativePath="StampedOggPacket.cpp">
@@ -184,16 +181,10 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="StringHelper.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
-			<File
-				RelativePath="CallbackRego.h">
-			</File>
 			<File
 				RelativePath=".\CircularBuffer.h">
 			</File>
@@ -222,9 +213,6 @@
 				RelativePath="libOOOgg.h">
 			</File>
 			<File
-				RelativePath="OggCallbackRego.h">
-			</File>
-			<File
 				RelativePath="OggDataBuffer.h">
 			</File>
 			<File
@@ -232,6 +220,9 @@
 			</File>
 			<File
 				RelativePath="OggPacket.h">
+			</File>
+			<File
+				RelativePath=".\OggPacketiser.h">
 			</File>
 			<File
 				RelativePath="OggPage.h">
@@ -252,16 +243,10 @@
 				RelativePath="OggTypeDefs.h">
 			</File>
 			<File
-				RelativePath="SerialNoRego.h">
-			</File>
-			<File
 				RelativePath="StampedOggPacket.h">
 			</File>
 			<File
 				RelativePath="stdafx.h">
-			</File>
-			<File
-				RelativePath="StringHelper.h">
 			</File>
 		</Filter>
 		<Filter
