@@ -141,7 +141,7 @@ void C_ClipTag::privateClone(C_CMMLTag* outTag) {
 	locTag->setStart(mStart);
 	locTag->setEnd(mEnd);
 	//locTag->mMetaList = mMetaList->clone();
-	for (int i = 0; i < mMetaList->numTags(); i++) {
+	for (unsigned int i = 0; i < mMetaList->numTags(); i++) {
 		locTag->metaList()->addTag(mMetaList->getTag(i)->clone());
 	}
 }

@@ -281,7 +281,6 @@ bool CMMLParser::parseClipTag(MSXML2::IXMLDOMNode* inClipNode, C_ClipTag* outCli
 }
 
 bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip) {
-	HRESULT						locHR			= S_FALSE;
 	MSXML2::IXMLDOMDocument*	locXMLClipFrag	= NULL;
 	MSXML2::IXMLDOMNode*		locClipNode		= NULL;
 		
@@ -417,7 +416,6 @@ bool CMMLParser::parseCMMLRootTag(MSXML2::IXMLDOMNode* inCMMLRootNode, C_CMMLRoo
 
 
 bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot) {
-	HRESULT						locHR				= S_FALSE;
 	MSXML2::IXMLDOMDocument*	locXMLCMMLRootFrag	= NULL;
 	MSXML2::IXMLDOMNode*		locCMMLRootNode			= NULL;
 		
@@ -528,7 +526,6 @@ bool CMMLParser::parseHeadTag(MSXML2::IXMLDOMNode* inHeadNode, C_HeadTag* outHea
 }
 
 bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead) {
-	HRESULT locHR = S_FALSE;
 	MSXML2::IXMLDOMDocument* locXMLHeadFrag = NULL;
 	MSXML2::IXMLDOMNode* locHeadNode  = NULL;
 		

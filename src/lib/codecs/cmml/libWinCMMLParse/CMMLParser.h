@@ -52,13 +52,20 @@ public:
 	CMMLParser(void);
 	~CMMLParser(void);
 
-	/// Parses the given string at inText and places the result in outDoc.
-	bool setupXMLHandles(wstring inText, MSXML2::IXMLDOMDocument** outDoc);
 	//C_CMMLTag* genericParseTag(string inCMMLText);
 	//bool parseCMMLDoc(string inCMMLDocText, C_CMMLDoc* outDoc);
 	bool parseClipTag(wstring inClipText, C_ClipTag* outClip);
 	bool parseHeadTag(wstring inHeadText, C_HeadTag* outHead);
 	bool parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot);
+
+	
+	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
+
+
+
+protected:
+	/// Parses the given string at inText and places the result in outDoc.
+	bool setupXMLHandles(wstring inText, MSXML2::IXMLDOMDocument** outDoc);
 
 	bool parseHeadTag(MSXML2::IXMLDOMNode* inHeadNode, C_HeadTag* outHead);
 	bool parseAnchorTag(MSXML2::IXMLDOMNode* inAnchorNode, C_AnchorTag* outAnchor);
@@ -73,12 +80,6 @@ public:
 	bool parseParamTag(MSXML2::IXMLDOMNode* inParamNode, C_ParamTag* outParam);
 	bool parseCMMLRootTag(MSXML2::IXMLDOMNode* inCMMLRootNode, C_CMMLRootTag* outCMMLRoot);
 
-	
-	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
-
-
-
-protected:
 	wstring getNamedAttribValue(wstring inAttribName, MSXML2::IXMLDOMNamedNodeMap* inAttribMap);
 	MSXML2::IXMLDOMNode* getNamedNode(wstring inXPath, MSXML2::IXMLDOMDocument* inDoc);
 	//string toNarrowStr(wstring inString);
