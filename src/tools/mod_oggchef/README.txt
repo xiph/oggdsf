@@ -1,10 +1,50 @@
-mod_timeslice
-=============
+mod_oggchef
+===========
 
-mod_timeslice is an Apache 2 module which enables server-side seeking into
-media files via timed URIs.  Currently, if a media player client wishes to
-start playback of a multimedia file from an HTTP server at 15 seconds
-(i.e. seek to 15 seconds), it has two choices.  It can:
+mod_oggchef is an Apache 2 module which enables the web server to
+dynamically recompose media, according to the client's wishes.  It can:
+
+* Serve out only certain tracks (logical bitstreams) from the host's Ogg
+  file, by using the HTTP "Accept:" header field.  For example, an HTTP
+  request with the header "Accept: video/x-theora" can be used to serve
+  out only the video track, with no audio track.
+
+* Serve out the media with a specific time interval via timed URIs.  For
+  example, a web client can request playback of the media beginning at 30
+  minutes into a movie.
+
+
+Extracting Tracks
+-----------------
+
+Track extraction is performed via the HTTP "Accept:" header.  mod_oggchef
+maintains a map of MIME types to logical bitstream formats, as follows:
+
+* application/x-annodex: Annodex-encapsulated file (i.e. serve out the
+  entire media file)
+* application/ogg & application/x-ogg: Ogg-encapsulated file (i.e. serve
+  out the entire media file).  Note that if the host file is an Annodex
+  file, the Annodex headers will be stripped off, so a standard Ogg file
+  is delivered.
+* audio/x-speex: the Speex audio codec encapsulated inside an Ogg
+  stream.
+* audio/x-vorbis: the Vorbis audio codec encapsulated inside an Ogg
+  stream.
+* text/x-cmml: CMML metadata.
+* video/x-theora: the Theora video codec encapsulated inside an Ogg
+  stream.
+
+
+Timed URIs (server-side seeking)
+--------------------------------
+
+NOTE: This is currently broken, so currently, requested timed URIs won't
+work (it'll just be served out from the starting time, always).  I'll fix
+it up over the next day or two.
+
+Currently, if a media player client wishes to start playback of
+a multimedia file from an HTTP server at 15 seconds (i.e. seek to 15
+seconds), it has two choices.  It can:
 
     1.  Download the media file from the beginning, and simply wait until
 	15 seconds of data have been received.  This is what many media
@@ -17,7 +57,7 @@ start playback of a multimedia file from an HTTP server at 15 seconds
 	client generally has to perform a bisection search (such as
 	a binary search) over the network.
 
-With mod_timeslice, the client can ask the web server to play back
+With mod_oggchef, the client can ask the web server to play back
 a resource at a particular time point by using a timed URI.  As an
 example, to play back the media file http://example.com/foo.anx starting
 at 15 seconds, the client simply appends the timed URI query '?t=15', e.g.
@@ -29,16 +69,16 @@ at 15 seconds.  For more information on timed URIs, including various
 different time scheme formats, see
 <http://www.annodex.net/specifications.html>.
 
-Note that mod_timeslice is effectively a re-implementation of the timed
+Note that mod_oggchef is effectively a re-implementation of the timed
 URI capability of mod_annodex <http://www.annodex.net/installation.html>.
 mod_annodex is far more powerful, being able to dynamically generate
 Annodex media from CMML files, and serve out only the CMML portion of
 Annodex media.  These features will be added in the future, though
-possibly not to mod_timeslice itself.
+possibly not to mod_oggchef itself.
 
 
-What Works
-----------
+Restrictions
+------------
 
 * Currently, only Annodex media files are supported.  Support for Ogg
   files will be forthcoming.
@@ -68,7 +108,7 @@ Building
 
 Windows:
 
-* Windows developers can simply open up the mod_timeslice.vcproj Visual
+* Windows developers can simply open up the mod_oggchef.vcproj Visual
   Studio project file and build that.  Note that the project file is
   pre-configured to use the standard Apache 2 installation path of
   C:\Program Files\Apache Group\Apache2, and of course requires the Apache
@@ -91,14 +131,14 @@ Installing
 * Add the "application/x-annodex" MIME type to your Apache's mime.types
   file, for file extensions anx, axa and axv.
 
-* Edit your httpd.conf file to enable mod_timeslice by inserting the
+* Edit your httpd.conf file to enable mod_oggchef by inserting the
   following line:
 
-  LoadModule timeslice_module /path/to/mod_timeslice.so
+  LoadModule oggchef_module /path/to/mod_oggchef.so
 
 Windows:
 
-* Copy mod_timeslice.so (and mod_timeslice.pdb, if you want to use the
+* Copy mod_oggchef.so (and mod_oggchef.pdb, if you want to use the
   Visual Studio Debugger with Apache) to Apache's module directory,
   usually at C:\Program Files\Apache Group\Apache2\modules.
 
