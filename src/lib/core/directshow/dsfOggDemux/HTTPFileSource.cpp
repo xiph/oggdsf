@@ -171,12 +171,17 @@ bool HTTPFileSource::setupSocket(string inSourceLocation) {
 
 	LPSERVENT locServiceData; //lpServEnt
 	SOCKADDR_IN locServiceSocketAddr; //saServer
-
-	locServiceData = getservbyname("http", "tcp");
-	if (locServiceData == NULL) {
-		locServiceSocketAddr.sin_port = htons(80);
+	
+	if (mPort == 0) {
+		locServiceData = getservbyname("http", "tcp");
+		if (locServiceData == NULL) {
+			locServiceSocketAddr.sin_port = htons(80);
+		} else {
+			locServiceSocketAddr.sin_port = locServiceData->s_port;
+		}
 	} else {
-		locServiceSocketAddr.sin_port = locServiceData->s_port;
+		//Explicit port
+		locServiceSocketAddr.sin_port = htons(mPort);
 	}
 
 
@@ -253,6 +258,7 @@ bool HTTPFileSource::splitURL(string inURL) {
 	string locProtocol;
 	string locServerName;
 	string locPath;
+	string locPort;
 	string locTemp;
 	size_t locPos2;
 	size_t locPos = inURL.find(':');
@@ -271,8 +277,17 @@ bool HTTPFileSource::splitURL(string inURL) {
 			if (locPos == string::npos) {
 				return false;
 			} else {
-				locServerName = locTemp.substr(0, locPos);
-				locPath = locTemp.substr(locPos);
+				locPos2 = locTemp.find(':');
+				if (locPos2 == string::npos) {
+					locServerName = locTemp.substr(0, locPos);
+					locPath = locTemp.substr(locPos);
+				} else if (locPos2 < locPos) {
+					//Explicit port specification
+					locPort = locTemp.substr(locPos2 + 1, locPos - locPos2 - 1);
+					locServerName = locTemp.substr(0, locPos2);
+					locPath = locTemp.substr(locPos);
+				}
+
 			}
 		}
 		
@@ -280,7 +295,12 @@ bool HTTPFileSource::splitURL(string inURL) {
 
 	mServerName = locServerName;
 	mFileName = locPath;
-	debugLog<<"Proto : "<<locProtocol<<endl<<"Server : "<<locServerName<<endl<<"Path : "<<mFileName<<endl;
+	if (locPort != "") {
+		mPort = atoi(locPort.c_str());
+	} else {
+		mPort = 0;
+	}
+	debugLog<<"Proto : "<<locProtocol<<endl<<"Server : "<<locServerName<<endl<<" Path : "<<mFileName<<" Port : "<<mPort<<endl;
 	return true;
 
 }

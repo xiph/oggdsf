@@ -73,6 +73,7 @@ protected:
 	void DataProcessLoop();
 	string mServerName;
 	string mFileName;
+	unsigned short mPort;
 	string mLastResponse;
 	SOCKET mSocket;
 	stringstream mStreamBuffer;
