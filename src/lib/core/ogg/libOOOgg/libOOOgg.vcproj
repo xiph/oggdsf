@@ -219,6 +219,9 @@
 				RelativePath="FLACMath.h">
 			</File>
 			<File
+				RelativePath=".\IFIFOBuffer.h">
+			</File>
+			<File
 				RelativePath="INotifyArrival.h">
 			</File>
 			<File

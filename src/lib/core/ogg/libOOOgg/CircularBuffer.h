@@ -1,18 +1,20 @@
 #pragma once
 #include "dllstuff.h"
+#include "IFIFOBuffer.h"
 class LIBOOOGG_API CircularBuffer
+	:	public IFIFOBuffer
 {
 public:
 	CircularBuffer(unsigned long inBufferSize);
 	~CircularBuffer(void);
 
-	unsigned long read(unsigned char* outData, unsigned long inBytesToRead);
-	unsigned long write(const unsigned char* inData, unsigned long inBytesToWrite);
+	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead);
+	virtual unsigned long write(const unsigned char* inData, unsigned long inBytesToWrite);
 
-	unsigned long numBytesAvail();
-	unsigned long spaceLeft();
+	virtual unsigned long numBytesAvail();
+	virtual unsigned long spaceLeft();
 
-	void reset();
+	virtual void reset();
 protected:
 	unsigned long mBufferSize;
 	unsigned long mReadPtr;

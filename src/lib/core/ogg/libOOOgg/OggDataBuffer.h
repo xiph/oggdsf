@@ -40,10 +40,6 @@
 //
 using namespace std;
 
-
-
-
-
 class LIBOOOGG_API OggDataBuffer 
 	
 	
