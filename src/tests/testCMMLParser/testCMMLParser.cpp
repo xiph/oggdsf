@@ -5,63 +5,83 @@
 
 #include "libCMMLTags/libCMMLTags.h"
 
-#include <libWinCMMLParse/libWinCMMLParse.h>
-#include <libWinCMMLParse/CMMLParser.h>
+#include <libCMMLParse/libCMMLParse.h>
+#include <libCMMLParse/CMMLParser.h>
 
 
-bool testHeadParse(wstring inHeadString) {
+static int headTestNumber = 0;
+static int clipTestNumber = 0;
+static int rootTestNumber = 0;
+
+void testHeadParse(wstring inHeadString, bool inShouldPass) {
+
 	CMMLParser locParser;
-
-	wcout << "Original"<<endl<<inHeadString<<endl<<endl;
-
 	C_HeadTag locHead;
 	
 	bool locWasOK = locParser.parseHeadTag(inHeadString, &locHead);
 
-	if (locWasOK) {
-		wcout<<"Parsed OK"<<endl<<endl<<locHead.toString()<<endl<<endl;
-	} else {
-		wcout<<"*** PARSE FAILED ***"<<endl<<endl;
-	}
+	headTestNumber++;
 
-	return locWasOK;
+	if (locWasOK == inShouldPass) {
+		// Either we correctly failed, or correctly passed
+	} else if (locWasOK) {
+		// We incorrectly passed
+		wcout << "*** INCORRECTLY PASSED (Head) ***" << " " << headTestNumber << endl;
+		wcout << "Original: " << endl << inHeadString << endl;
+		wcout << "Parsed output:" << endl << locHead.toString() << endl << endl;
+	} else {
+		// We incorrectly failed
+		wcout << "*** INCORRECTLY FAILED (Head) ***" << " " << headTestNumber << endl;
+		wcout << "Original: " << endl << inHeadString << endl << endl;
+	}
 }
 
-bool testClipParse(wstring inClipString) {
+bool testClipParse(wstring inClipString, bool inShouldPass) {
 	CMMLParser locParser;
-
-	wcout << "Original"<<endl<<inClipString<<endl<<endl;
-
 	C_ClipTag locClip;
 	
 	bool locWasOK = locParser.parseClipTag(inClipString, &locClip);
 
-	if (locWasOK) {
-		wcout<<"Parsed OK"<<endl<<endl<<locClip.toString()<<endl<<endl;
+	clipTestNumber++;
+
+	if (locWasOK == inShouldPass) {
+		// Either we correctly failed, or correctly passed
+	} else if (locWasOK) {
+		// We incorrectly passed
+		wcout << "*** INCORRECTLY PASSED (Clip) ***" << " " << clipTestNumber << endl;
+		wcout << "Original: " << endl << inClipString << endl;
+		wcout << "Parsed output:" << endl << locClip.toString() << endl << endl;
 	} else {
-		wcout<<"*** PARSE FAILED ***"<<endl<<endl;
+		// We incorrectly failed
+		wcout << "*** INCORRECTLY FAILED (Clip) ***" << " " << clipTestNumber << endl;
+		wcout << "Original: " << endl << inClipString << endl << endl;
 	}
 
 	return locWasOK;
 }
 
-bool testCMMLRootParse(wstring inCMMLRootString) {
+bool testCMMLRootParse(wstring inCMMLRootString, bool inShouldPass) {
 	CMMLParser locParser;
-
-	wcout << "Original"<<endl<<inCMMLRootString<<endl<<endl;
-
 	C_CMMLRootTag locCMMLRoot;
 	
 	bool locWasOK = locParser.parseCMMLRootTag(inCMMLRootString, &locCMMLRoot);
 
-	if (locWasOK) {
-		wcout<<"Parsed OK"<<endl<<endl<<locCMMLRoot.toString()<<endl<<endl;
+	rootTestNumber++;
+
+	if (locWasOK == inShouldPass) {
+		// Either we correctly failed, or correctly passed
+	} else if (locWasOK) {
+		// We incorrectly passed
+		wcout << "*** INCORRECTLY PASSED (Root) ***" << " " << rootTestNumber << endl;
+		wcout << "Original: " << endl << inCMMLRootString << endl;
+		wcout << "Parsed output:" << endl << locCMMLRoot.toString() << endl << endl;
 	} else {
-		wcout<<"*** PARSE FAILED ***"<<endl<<endl;
+		// We incorrectly failed
+		wcout << "*** INCORRECTLY FAILED (Root) ***" << " " << rootTestNumber << endl;
+		wcout << "Original: " << endl << inCMMLRootString << endl << endl;
 	}
 
 	return locWasOK;
-
 }
 
 bool testCMMLFileParse(wstring inFilename) {
@@ -125,73 +145,73 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 {
 	//Valid minimal
 	wstring head_1 = L"<head><title>Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head>";
-	testHeadParse(head_1);
+	testHeadParse(head_1, true);
 
 	//INVALID: Random data
 	wstring head_2 = L"asdfasdfasdfasdf";
-	testHeadParse(head_2);
+	testHeadParse(head_2, false);
 
 	//INVALID: Valid xml, invalid cmml
 	wstring head_3 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
-	testHeadParse(head_3);
+	testHeadParse(head_3, false);
 
 	//INVALID: No title tag
 	wstring head_4 = L"<head><meta name=\"Producer\" content=\"Joe Ordinary\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head>";
-	testHeadParse(head_4);
+	testHeadParse(head_4, false);
 
 	//Valid use most
 	wstring head_5 = L"<head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base href=\"http://baseurl.com\"/><title lang=\"fr\">Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head>";
-	testHeadParse(head_5);
+	testHeadParse(head_5, true);
 
 	//INVALID: Missing closing xml tag on option element.
 	wstring head_6 = L"<head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base href=\"http://baseurl.com\"/><title lang=\"fr\">Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"></head>";
-	testHeadParse(head_6);
+	testHeadParse(head_6, false);
 
 
 	//Valid minimal
 	wstring clip_1 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
-	testClipParse(clip_1);
+	testClipParse(clip_1, true);
 
 	//INVALID: Random data
 	wstring clip_2 = L"asdjhaskdljfhksladf";
-	testClipParse(clip_2);
+	testClipParse(clip_2, false);
 
 	//INVALID: valid xml but invalid cmml
 	wstring clip_3 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
-	testClipParse(clip_3);
+	testClipParse(clip_3, false);
 
 	//Valid
 	wstring clip_4 = L"<clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
-	testClipParse(clip_4);
+	testClipParse(clip_4, true);
 
 	//INVALID: Missing equals on href=
 	wstring clip_5 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><a href\"http:\\linktome.com\" class=\"someClass\">Random anchor text</a><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
-	testClipParse(clip_5);
+	testClipParse(clip_5, false);
 
 	//Valid
 	wstring clip_6 = L"<clip id=\"dolphin\" start=\"npt:3.5\" end=\"npt:5:5.9\"><a href=\"http:\\linktome.com\" class=\"someClass\">Random anchor text</a><img src=\"dolphin.jpg\"/><desc>Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip>";
-	testClipParse(clip_6);
+	testClipParse(clip_6, true);
 
 
 	//Valid
 	wstring cmml_1 = L"<cmml lang=\"en\"><head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base href=\"http://baseurl.com\"/><title lang=\"fr\">Types of fish</title><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head><clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip></cmml>";
-	testCMMLRootParse(cmml_1);
+	testCMMLRootParse(cmml_1, true);
 
 	//INVALID: No title
 	wstring cmml_2 = L"<cmml lang=\"en\"><head id=\"headID\" lang=\"en\" dir=\"ltr\" profile=\"some profile\"><base href=\"http://baseurl.com\"/><meta name=\"Producer\" content=\"Joe Ordinary\" scheme=\"some scheme\"/><meta name=\"DC.Author\" content=\"Joe's friend\"/></head><clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip></cmml>";
-	testCMMLRootParse(cmml_2);
+	testCMMLRootParse(cmml_2, false);
 
 	//INVALID: No head
 	wstring cmml_3 = L"<cmml lang=\"en\"><clip id=\"dolphin\" lang=\"en\" start=\"npt:3.5\" end=\"npt:5:5.9\"><img alt=\"Picture of dolphin\" src=\"dolphin.jpg\"/><desc id=\"descID\" lang=\"fr\">Here, Joe caught sight of a dolphin in the ocean.</desc><meta name=\"Subject\" content=\"dolphin\"/></clip></cmml>";
-	testCMMLRootParse(cmml_3);
+	testCMMLRootParse(cmml_3, false);
 
 	//INVALID: Random data
 	wstring cmml_4 = L"asdfasd fasd fasdf ds ";
-	testCMMLRootParse(cmml_4);
+	testCMMLRootParse(cmml_4, false);
 
 	//INVALID: valid xml but invalid cmml
 	wstring cmml_5 = L"<blue><red>random stuff</red><green>But still valid XML</green></blue>";
-	testCMMLRootParse(cmml_5);
+	testCMMLRootParse(cmml_5, false);
 
 
 	wstring file_1 = L"G:\\Media\\Music Vid\\guru.cmml";
