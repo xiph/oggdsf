@@ -228,14 +228,21 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 			if (locParseOK) {
 				//debugLog<<"          : Parse OK"<<endl;
 
-				locHR = outSample->GetPointer(&locOutBuff);
-				locTextSize = mHeadTag->title()->text().size();
-				locTextStr = mHeadTag->title()->text();
+				//:::Comment out the subtitle sending for now.
+				//------------------------------------------------------------
+				//locHR = outSample->GetPointer(&locOutBuff);
+				//locTextSize = mHeadTag->title()->text().size();
+				//locTextStr = mHeadTag->title()->text();
+				//
+				////debugLog<<"            : Title Text = "<<locTextStr<<endl;
+				//memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
+				//locOutBuff[locTextSize] = '\0';
+				//outSample->SetActualDataLength(locTextSize + 1);
+				//------------------------------------------------------------
+				outSample->SetActualDataLength(0);
+				//------------------------------------------------------------
 				
-				//debugLog<<"            : Title Text = "<<locTextStr<<endl;
-				memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
-				locOutBuff[locTextSize] = '\0';
-				outSample->SetActualDataLength(locTextSize + 1);
+
 				if (mCMMLCallbacks != NULL) {
 					mCMMLCallbacks->headCallback(mHeadTag->clone());
 				}
@@ -251,23 +258,26 @@ HRESULT CMMLDecodeFilter::Transform(IMediaSample* inSample, IMediaSample* outSam
 			if (locParseOK) {
 				//debugLog<<"          : Parse OK"<<endl;
 			
-
-				locHR = outSample->GetPointer(&locOutBuff);
-				locTextSize = locClipTag.anchor()->text().size();
-				locTextStr = locClipTag.anchor()->text();
-				memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
-				
-				//debugLog << "               : Clip Text = "<<locTextStr<<endl;
-				locOutBuff[locTextSize] = '\0';
-				outSample->SetActualDataLength(locTextSize + 1);
-				//debugLog<<"Setting Sample time "<<locClipTag.start()<<endl;
-				//LONGLONG locSampleTime = ;
-				outSample->SetTime(&locSampleTime, &locSampleTime);
-				outSample->SetMediaTime(NULL, NULL);
-				outSample->SetSyncPoint(TRUE);
-				outSample->SetDiscontinuity(FALSE);
-				outSample->SetPreroll(FALSE);
-
+				//::: Comment out the subtitle part for now
+				//------------------------------------------------------------
+				//locHR = outSample->GetPointer(&locOutBuff);
+				//locTextSize = locClipTag.anchor()->text().size();
+				//locTextStr = locClipTag.anchor()->text();
+				//memcpy((void*)locOutBuff, (const void*) locTextStr.c_str(), locTextSize);
+				//
+				////debugLog << "               : Clip Text = "<<locTextStr<<endl;
+				//locOutBuff[locTextSize] = '\0';
+				//outSample->SetActualDataLength(locTextSize + 1);
+				////debugLog<<"Setting Sample time "<<locClipTag.start()<<endl;
+				////LONGLONG locSampleTime = ;
+				//outSample->SetTime(&locSampleTime, &locSampleTime);
+				//outSample->SetMediaTime(NULL, NULL);
+				//outSample->SetSyncPoint(TRUE);
+				//outSample->SetDiscontinuity(FALSE);
+				//outSample->SetPreroll(FALSE);
+				//------------------------------------------------------------
+				outSample->SetActualDataLength(0);
+				//------------------------------------------------------------
 				if (mCMMLCallbacks != NULL) {
 					mCMMLCallbacks->clipCallback(locClipTag.clone());
 				}
