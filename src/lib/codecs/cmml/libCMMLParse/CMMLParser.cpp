@@ -40,93 +40,12 @@
 #include <libilliCore/StringHelper.h>
 
 #include <fstream>
-#include <iostream>
+
 
 using namespace std;
 
 // TODO: Properly parse preamble
 // TODO: i18n?
-// TODO: Macrofy non-macrofied bits.  Woo macros!
-// TODO: Do actual memory management :}
-
-// Macros are evil, macros are evil, can't sleep, clown'll eat me ...
-
-#define XTAG_PARSE_INTO(tagParser, parseMethod, TagType, parentTagSetter, parentTag) \
-	{ \
-		TagType *locTag = new TagType; \
-		if (!parseMethod(tagParser, locTag)) { \
-			return false; \
-		} \
-		parentTag->parentTagSetter(locTag); \
-		/* delete locTag; */ \
-	};
-
-#define XTAG_SET_ATTRIBUTE(tagParser, attributeName, tag, attributeSetter) \
-	{ \
-		const char *locAttributeCString = xtag_get_attribute(tagParser, attributeName); \
-		if (locAttributeCString) { \
-			tag->attributeSetter(StringHelper::toWStr(locAttributeCString)); \
-			/* free((void *) locAttributeCString); */ \
-		} \
-	};
-
-#define XTAG_REQUIRED_ATTRIBUTE(tagParser, attributeName, tag) \
-	{ \
-		const char *locAttributeCString = xtag_get_attribute(tagParser, attributeName); \
-		if (!locAttributeCString) { \
-			cout << "Failed 3" << endl; \
-			return false; \
-		} else { \
-			/* free((void *) locAttributeCString); */ \
-		} \
-	};
-
-#define XTAG_PARSE_CHILD(parentParser, tagName, tagParser, tagType, setterMethod, parentTag) \
-	{ \
-		XTag *locParser = NULL; \
-		locParser = xtag_first_child(parentParser, tagName); \
-		if (locParser) { \
-			XTAG_PARSE_INTO(locParser, tagParser, tagType, setterMethod, parentTag); \
-		} \
-	};
-
-#define XTAG_EXACTLY_ONE_CHILD(parentParser, tagName) \
-	{ \
-		XTag *locParser = xtag_first_child(parentParser, tagName); \
-		if (locParser != NULL) { \
-			/* Found at least one child */ \
-			locParser = xtag_next_child(parentParser, tagName); \
-			if (locParser) { \
-				/* Danger will robinson, found more than one child */ \
-				cout << "Failed 1" << endl; \
-				return false; \
-			} \
-		} else { \
-			/* Found no child */ \
-			cout << "Failed 2" << endl; \
-			return false; \
-		} \
-	};
-
-#define XTAG_PARSE_LIST(TagType, listTagName, tagParser, parentParser, parentTag, parentGetListMethod) \
-	{ \
-		XTag *locTagListParser = NULL; \
-		for (	locTagListParser = xtag_first_child(parentParser, listTagName); \
-				locTagListParser != NULL; \
-				locTagListParser = xtag_next_child(parentParser, listTagName)) { \
-			XTAG_PARSE_INTO(locTagListParser, tagParser, TagType, addTag, parentTag->parentGetListMethod()); \
-		} \
-	};
-
-#define XTAG_SET_CDATA(tagParser, tag) \
-	{ \
-		const char *locCData = xtag_get_pcdata(tagParser); \
-		if (locCData) { \
-			tag->setText(StringHelper::toWStr(locCData)); \
-			/* free((void *) locCData); */ \
-		} \
-	};
-
 
 CMMLParser::CMMLParser(void)
 {
@@ -157,9 +76,9 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 	// Look ma, the world's most portable file-size-getting-function-thing
 	locFile.seekg(0, ios::end);
 	size_t locCMMLFileSize = locFile.tellg();
+	locFile.clear();
 
 	// Read the entirety of the file into the buffer
-	locFile.clear();
 	locFile.seekg(0);
 
 	unsigned short BUFFER_SIZE = 8192;
@@ -188,8 +107,7 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 	}
 
 	// Clean up
-	//delete locRootTag;
-	//delete [] locBuffer;
+	delete [] locBuffer;
 
 	return locReturnValue;
 }
@@ -203,80 +121,25 @@ bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMML
 
 	// Sanity check against a NULL output pointer
 	if (!outCMMLRoot) {
-		cout << "outCMMLRoot is NULL" << endl;
 		return false;
 	}
 
 	// Narrow the text given us, so we can pass it to XTag
 	string locCMMLRootText = StringHelper::toNarrowStr(inCMMLRootText);
 
-	// Look for a <cmml> tag
+	// Look for a tag, any tag
 	XTag *locRootParser = NULL;
 	locRootParser = xtag_new_parse(locCMMLRootText.c_str(), locCMMLRootText.size());
-	if (!locRootParser) {
-		// Couldn't find a tag at all
-		locReturnValue = false;
-		goto cleanup;
+	if (locRootParser) {
+		// Is it a <cmml> tag?
+		if (strcmp(xtag_get_name(locRootParser), "cmml") == 0) {
+			// Found a <cmml> tag
+			locReturnValue = parseRootTag(locRootParser, outCMMLRoot);
+		}
 	}
-
-	// Ensure we found a <cmml> tag
-
-	if (strcmp(xtag_get_name(locRootParser), "cmml") != 0) {
-		// This ain't no CMML tag!
-		locReturnValue = false;
-		goto cleanup;
-	}
-
-	XTag *locCMMLParser = locRootParser;
-
-	// Look for a <stream> tag
-	
-	XTag *locStreamParser = NULL;
-	locStreamParser = xtag_first_child(locCMMLParser, "stream");
-	if (locStreamParser) {
-		// We found a stream tag, so go parse it
-		XTAG_PARSE_INTO(locStreamParser, parseStreamTag, C_StreamTag, setStream, outCMMLRoot);
-	}
-
-	// Look for a <head> tag
-	
-	XTag *locHeadParser = NULL;
-	locHeadParser = xtag_first_child(locCMMLParser, "head");
-	if (locHeadParser) {
-		// We found a head tag, so go parse it
-		XTAG_PARSE_INTO(locHeadParser, parseHeadTag, C_HeadTag, setHead, outCMMLRoot);
-	} else {
-		// I have no head!  I am invalid!
-		locReturnValue = false;
-		goto cleanup;
-	}
-
-	// Look for multiple <clip> tags, and shove them into a clip list
-	
-	C_ClipTagList *locClipList = new C_ClipTagList;
-	XTag *locClipParser = NULL;
-	bool locFoundAtLeastOneClip = false;
-	for (	locClipParser = xtag_first_child(locCMMLParser, "clip");
-			locClipParser != NULL;
-			locClipParser = xtag_next_child(locCMMLParser, "clip")) {
-		locFoundAtLeastOneClip = true;
-		XTAG_PARSE_INTO(locClipParser, parseClipTag, C_ClipTag, addTag, locClipList);
-	}
-
-	if (locFoundAtLeastOneClip) {
-		outCMMLRoot->setClipList(locClipList);
-	}
-
-	//delete locClipList;
-
-	// If we got to here, we got a successful parse
-
-	locReturnValue = true;
-
-cleanup:
 
 	if (locRootParser) {
-		//xtag_free(locRootParser);
+		xtag_free(locRootParser);
 	}
 
 	return locReturnValue;
@@ -308,7 +171,9 @@ bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip)
 		}
 	}
 
-	//xtag_free(locClipParser);
+	if (locClipParser) {
+		xtag_free(locClipParser);
+	}
 
 	return locReturnValue;
 }
@@ -337,12 +202,90 @@ bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead)
 		}
 	}
 
-	//xtag_free(locTextParser);
+	if (locHeadParser) {
+		xtag_free(locHeadParser);
+	}
 
 	return locReturnValue;
 }
 
 
+// Macros are evil, macros are evil, can't sleep, clown'll eat me ...
+
+#define XTAG_PARSE_INTO(tagParser, parseMethod, TagType, parentTagSetter, parentTag) \
+	{ \
+		TagType *locTag = new TagType; \
+		if (!parseMethod(tagParser, locTag)) { \
+			return false; \
+		} \
+		parentTag->parentTagSetter(locTag); \
+	};
+
+#define XTAG_SET_ATTRIBUTE(tagParser, attributeName, tag, attributeSetter) \
+	{ \
+		const char *locAttributeCString = xtag_get_attribute(tagParser, attributeName); \
+		if (locAttributeCString) { \
+			tag->attributeSetter(StringHelper::toWStr(locAttributeCString)); \
+			/* free((void *) locAttributeCString); */ \
+		} \
+	};
+
+#define XTAG_REQUIRED_ATTRIBUTE(tagParser, attributeName, tag) \
+	{ \
+		const char *locAttributeCString = xtag_get_attribute(tagParser, attributeName); \
+		if (!locAttributeCString) { \
+			return false; \
+		} else { \
+			/* free((void *) locAttributeCString); */ \
+		} \
+	};
+
+#define XTAG_PARSE_CHILD(parentParser, tagName, tagParser, tagType, setterMethod, parentTag) \
+	{ \
+		XTag *locParser = NULL; \
+		locParser = xtag_first_child(parentParser, tagName); \
+		if (locParser) { \
+			XTAG_PARSE_INTO(locParser, tagParser, tagType, setterMethod, parentTag); \
+		} \
+	};
+
+#define XTAG_EXACTLY_ONE_CHILD(parentParser, tagName) \
+	{ \
+		XTag *locParser = xtag_first_child(parentParser, tagName); \
+		if (locParser != NULL) { \
+			/* Found at least one child */ \
+			locParser = xtag_next_child(parentParser, tagName); \
+			if (locParser) { \
+				/* Danger will robinson, found more than one child */ \
+				return false; \
+			} \
+		} else { \
+			/* Found no child */ \
+			return false; \
+		} \
+	};
+
+#define XTAG_PARSE_LIST(TagType, listTagName, tagParser, parentParser, parentTag, parentGetListMethod) \
+	{ \
+		XTag *locTagListParser = NULL; \
+		for (	locTagListParser = xtag_first_child(parentParser, listTagName); \
+				locTagListParser != NULL; \
+				locTagListParser = xtag_next_child(parentParser, listTagName)) { \
+			XTAG_PARSE_INTO(locTagListParser, tagParser, TagType, addTag, parentTag->parentGetListMethod()); \
+		} \
+	};
+
+#define XTAG_SET_CDATA(tagParser, tag) \
+	{ \
+		const char *locCData = xtag_get_pcdata(tagParser); \
+		if (locCData) { \
+			tag->setText(StringHelper::toWStr(locCData)); \
+			/* free((void *) locCData); */ \
+		} \
+	};
+
+
+// Look ma, it's declarative programming!
 
 bool CMMLParser::parseStreamTag(XTag* inStreamParser, C_StreamTag* outStream)
 {
@@ -356,6 +299,23 @@ bool CMMLParser::parseStreamTag(XTag* inStreamParser, C_StreamTag* outStream)
 	return true;
 }
 
+
+bool CMMLParser::parseRootTag(XTag* inCMMLRootParser, C_CMMLRootTag* outCMMLRoot)
+{
+	XTAG_SET_ATTRIBUTE(inCMMLRootParser, "id", outCMMLRoot, setId);
+
+	XTAG_EXACTLY_ONE_CHILD(inCMMLRootParser, "head");
+	XTAG_PARSE_CHILD(inCMMLRootParser, "head", parseHeadTag, C_HeadTag, setHead, outCMMLRoot);
+	XTAG_PARSE_CHILD(inCMMLRootParser, "stream", parseStreamTag, C_StreamTag, setStream, outCMMLRoot);
+
+	XTAG_PARSE_LIST(C_ClipTag, "clip", parseClipTag, inCMMLRootParser, outCMMLRoot, clipList);
+
+	// i18n
+	XTAG_SET_ATTRIBUTE(inCMMLRootParser, "lang", outCMMLRoot, setLang);
+	XTAG_SET_ATTRIBUTE(inCMMLRootParser, "dir", outCMMLRoot, setDirn);
+
+	return true;
+}
 
 bool CMMLParser::parseHeadTag(XTag* inHeadParser, C_HeadTag* outHead)
 {

@@ -50,16 +50,13 @@ public:
 	CMMLParser(void);
 	~CMMLParser(void);
 
-	//C_CMMLTag* genericParseTag(string inCMMLText);
-	//bool parseCMMLDoc(string inCMMLDocText, C_CMMLDoc* outDoc);
 	bool parseClipTag(wstring inClipText, C_ClipTag* outClip);
 	bool parseHeadTag(wstring inHeadText, C_HeadTag* outHead);
 	bool parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot);
 	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
 
-
-
 protected:
+	bool parseRootTag(XTag* inCMMLRootParser, C_CMMLRootTag* outCMMLRoot);
 	bool parseStreamTag(XTag* inStreamParser, C_StreamTag* outStream);
 	bool parseHeadTag(XTag* inHeadParser, C_HeadTag* outHead);
 	bool parseClipTag(XTag* inClipParser, C_ClipTag* outClip);

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-#include "libCMMLTags/libCMMLTags.h"
+#include <libCMMLTags/libCMMLTags.h>
 
 #if 1
 #include <libCMMLParse/libCMMLParse.h>
@@ -29,11 +29,12 @@ void testHeadParse(wstring inHeadString, bool inShouldPass) {
 
 	if (locWasOK && inShouldPass) {
 		// We correctly passed: print it out for verification
-		cout << "+++ Correctly passed:" << " " << headTestNumber << endl;
+		cout << "+++ Correctly passed (Head):" << " " << headTestNumber << endl;
 		wcout << L"Original: " << endl << inHeadString << endl;
 		wcout << L"Parsed output:" << endl << locHead.toString() << endl << endl;
 	} else if (!locWasOK && !inShouldPass) {
 		// We correctly failed
+		cout << "+++ Correctly failed (Head):" << " " << headTestNumber << endl;
 	} else if (locWasOK) {
 		// We incorrectly passed
 		cout << "*** INCORRECTLY PASSED (Head) ***" << " " << headTestNumber << endl;
@@ -56,11 +57,12 @@ bool testClipParse(wstring inClipString, bool inShouldPass) {
 
 	if (locWasOK && inShouldPass) {
 		// We correctly passed: print it out for verification
-		cout << "+++ Correctly passed:" << " " << clipTestNumber << endl;
+		cout << "+++ Correctly passed (Clip):" << " " << clipTestNumber << endl;
 		wcout << L"Original: " << endl << inClipString << endl;
 		wcout << L"Parsed output:" << endl << locClip.toString() << endl << endl;
 	} else if (!locWasOK && !inShouldPass) {
 		// We correctly failed
+		cout << "+++ Correctly failed (Clip):" << " " << clipTestNumber << endl;
 	} else if (locWasOK) {
 		// We incorrectly passed
 		cout << "*** INCORRECTLY PASSED (Clip) ***" << " " << clipTestNumber << endl;
@@ -85,11 +87,12 @@ bool testCMMLRootParse(wstring inCMMLRootString, bool inShouldPass) {
 
 	if (locWasOK && inShouldPass) {
 		// We correctly passed: print it out for verification
-		cout << "+++ Correctly passed:" << " " << rootTestNumber << endl;
+		cout << "+++ Correctly passed (Root):" << " " << rootTestNumber << endl;
 		wcout << L"Original: " << endl << inCMMLRootString << endl;
 		wcout << L"Parsed output:" << endl << locCMMLRoot.toString() << endl << endl;
 	} else if (!locWasOK && !inShouldPass) {
 		// We correctly failed
+		cout << "+++ Correctly failed (Root):" << " " << rootTestNumber << endl;
 	} else if (locWasOK) {
 		// We incorrectly passed
 		cout << "*** INCORRECTLY PASSED (Root) ***" << " " << rootTestNumber << endl;
