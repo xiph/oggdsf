@@ -94,6 +94,7 @@ bool SpeexEncodeInputPin::ConstructCodec() {
 	//Change to fill in vorbis format block so muxer can work
 	((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.numChannels = mWaveFormat->nChannels;
 	((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.samplesPerSec = mWaveFormat->nSamplesPerSec;
+	
 	//
 	
 	mFishSound = fish_sound_new (FISH_SOUND_ENCODE, &mFishInfo);

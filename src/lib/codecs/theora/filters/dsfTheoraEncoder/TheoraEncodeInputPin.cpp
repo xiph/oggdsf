@@ -1296,6 +1296,14 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = locNum;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = 1;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.maxKeyframeInterval = 6;   //log2(keyframe_freq) from above
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameHeight = mHeight;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameWidth = mWidth;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.colourSpace = OC_CS_UNSPECIFIED;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.height = mTheoraInfo.height;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.width = mTheoraInfo.width;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = mXOffset;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = mYOffset;
+
 	return true;
 
 }

@@ -15,7 +15,7 @@ int __cdecl _tmain(int argc, _TCHAR* argv[])
 		QueryPerformanceCounter(&perfStart);
   int pageCount = 0;
   int packetCount = 0;
-  const unsigned short BUFF_SIZE = 4096;
+  const unsigned short BUFF_SIZE = 8092;
   ogg_sync_state   syncState; /* sync and verify incoming physical bitstream */
  
   ogg_page         oggPage; /* one Ogg bitstream page.  Vorbis packets are inside */
