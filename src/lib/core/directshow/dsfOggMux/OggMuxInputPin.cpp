@@ -205,6 +205,7 @@ HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
 }
 
 STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
+	CAutoLock locLock(mParentFilter->mStreamLock);
 	LONGLONG locStart = 0;
 	LONGLONG locEnd = 0;
 	BYTE* locSampleBuff;

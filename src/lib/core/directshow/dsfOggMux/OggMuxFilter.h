@@ -58,6 +58,7 @@ public:
 	virtual ~OggMuxFilter(void);
 
 
+	friend class OggMuxInputPin;
 	//Com Stuff
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
@@ -94,6 +95,8 @@ protected:
 	vector<OggMuxInputPin*> mInputPins;
 
 	OggPageInterleaver* mInterleaver;
+
+	CCritSec* mStreamLock;
 
 	fstream mOutputFile;
 	//fstream debugLog;

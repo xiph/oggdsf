@@ -99,6 +99,7 @@ OggMuxFilter::OggMuxFilter()
 	//LEAK CHECK:::Both get deleted in constructor.
 
 	m_pLock = new CCritSec;
+	mStreamLock = new CCritSec;
 	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 	//debugLog.open("C:\\temp\\muxer.log", ios_base::out);
 
@@ -118,6 +119,7 @@ OggMuxFilter::OggMuxFilter(REFCLSID inFilterGUID)
 	
 
 	m_pLock = new CCritSec;
+	mStreamLock = new CCritSec;
 
 	//In the derived class
 	//mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
@@ -135,6 +137,7 @@ OggMuxFilter::~OggMuxFilter(void)
 	//debugLog.close();
 	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
 	delete m_pLock;
+	delete mStreamLock;
 	
 	//Need to delete the pins !!
 

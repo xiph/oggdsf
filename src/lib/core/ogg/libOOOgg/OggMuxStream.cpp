@@ -62,6 +62,10 @@ unsigned long OggMuxStream::numAvail() {
 }
 bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later... still needs deleting in destructor
 	mIsEOS = false;
+	if (inOggPage == NULL) {
+		int x = 0;
+		x= x/x;
+	}
 	mPageQueue.push_back(inOggPage);		//AOP::: Clone not required.
 	mNotifier->notifyArrival();
 	return true;

@@ -46,12 +46,12 @@ AnxStreamMapper::AnxStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 	,	mAnnodexHeader(NULL)
 {
 
-	//debugLog.open("G:\\logs\\anxmapper.log", ios_base::out);
+	debugLog.open("G:\\logs\\anxmapper.log", ios_base::out);
 }
 
 AnxStreamMapper::~AnxStreamMapper(void)
 {
-	//debugLog.close();
+	debugLog.close();
 }
 
 bool AnxStreamMapper::isReady() {
@@ -82,9 +82,9 @@ bool AnxStreamMapper::isReady() {
 	}
 	//=======================================================================
 	if (locWasAny && retVal) {
-		//debugLog<<"Streams READY"<<endl;
+		debugLog<<"Streams READY"<<endl;
 	} else {
-		//debugLog<<"Streams NOT READY"<<endl;
+		debugLog<<"Streams NOT READY"<<endl;
 	}
 	return locWasAny && retVal;
 }
@@ -150,6 +150,7 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 
 	vector<unsigned long>::iterator it;
 	int i = 0;
+	debugLog<<"handleAnxVersion_2_0 : State = "<<mDemuxState<<endl;
 	switch (mDemuxState) {
 		case SEEN_NOTHING:
 			//debugLog<<"SEEN_NOTHING"<<endl;
@@ -221,18 +222,18 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 			// The CMML stream is already made.
 
 			for(i = 0, it = mSeenStreams.begin(); it != mSeenStreams.end(); i++, ++it) {
-			
+				debugLog<<"handleAnxVersion_2_0 : Checking seen stream "<<i<<endl;
 				if (mSeenStreams[i] == inOggPage->header()->StreamSerialNo()) {
 					//If the page is a BOS we need to start a new stream
 					const bool ALLOW_OTHERS_TO_SEEK = true;
-					//debugLog<<"Creating strem.... ***"<<endl;
+					debugLog<<"handleAnxVersion_2_0 : Creating stream "<<endl;
 					OggStream* locStream = OggStreamFactory::CreateStream(inOggPage, mOwningFilter, ALLOW_OTHERS_TO_SEEK);
 					//FIX::: Need to check for NULL
 					if (locStream != NULL) {
-						//debugLog<<"Creating strem.... ***"<<endl;
+						debugLog<<"handleAnxVersion_2_0 : Stream Created "<<endl;
 						mStreamList.push_back(locStream);
 					} else {
-						//debugLog<<"Lost a packet..."<<endl;
+						debugLog<<"handleAnxVersion_2_0 : ***** Stream NOT Created *****"<<endl;
 					}
 					mSeenStreams.erase(it);
 					delete inOggPage;
@@ -242,19 +243,19 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 
 			//If we are here, the stream is not in the list.
 			//At the moment we assume it's because it's been seen, and removed... this is a bad assumption !
-			//debugLog<<"Dispatchinig.........."<<endl;
+			debugLog<<"handleAnxVersion_2_0 : Dispatching page "<<endl;
 
 			locTemp = dispatchPage(inOggPage);
 			if (locTemp) {
-				//debugLog<<"Dispatch ok"<<endl;
+				debugLog<<"handleAnxVersion_2_0 : Sispatch oK "<<endl;
 			} else {
-				//debugLog<<"Dispatch failed"<<endl;
+				debugLog<<"handleAnxVersion_2_0 : Dispatch faild "<<endl;
 			}
 			return locTemp;
 			break;
 		case INVALID_STATE:
 		default:
-			//debugLog<<"INVALID"<<endl;
+			debugLog<<"handleAnxVersion_2_0 : INVALID STATE "<<endl;
 			return false;
 			break;
 
@@ -379,6 +380,7 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)			//Deletes or gives awa
 }
 
 bool AnxStreamMapper::toStartOfData() {
+	debugLog<<"toStartOfData : S "<<endl;
 	//Specialise for anx... adds one extra ignore packet to the flush to account for the anxdata pages only
 	// if it's 2.0 version.
 	//debugLog<<"ANX::: To start of data size = "<<mStreamList.size()<<endl;

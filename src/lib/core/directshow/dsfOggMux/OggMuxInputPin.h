@@ -50,6 +50,7 @@ public:
 	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
 	virtual ~OggMuxInputPin(void);
 
+
 	//COM Setup
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);

@@ -88,5 +88,7 @@ protected:
 	vector<OggPacket*> mAnxDataHeaders;
 	unsigned long mAnxVersion;
 	eAnxDemuxState mDemuxState;
+
+	fstream debugLog;
 	
 };

@@ -100,10 +100,10 @@ bool AnxPageInterleaver::gotAllHeaders() {
 	bool locIsOK = true;
 	for (int i = 0; i < mInputStreams.size(); i++) {
 		if (mInputStreams[i]->isActive()) {
-			locWasAny = true;
+			
 			//if ((mInputStreams[i]->peekFront() != NULL) || (!mInputStreams[i]->isActive())) {
 			if (mInputStreams[i]->numAvail() > 1) {
-			
+				locWasAny = true;
 				locIsOK = locIsOK && true;
 			} else {
 				locIsOK = false;
