@@ -577,42 +577,35 @@
 				RelativePath="..\..\include\FLAC\metadata.h">
 			</File>
 			<File
-				RelativePath="..\..\include\FLAC\ordinals.h.in">
+				RelativePath="..\..\include\Flac\ordinals.h">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="echo on
-"
-						AdditionalDependencies="..\..\include\FLAC\ordinals.h.in;"
-						Outputs="$(InputDir)ordinals.h"/>
+						AdditionalDependencies="ordinals.vc2003.h.in"
+						Outputs="$(OutputFile)"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="echo on
-"
-						AdditionalDependencies="..\..\include\FLAC\ordinals.h.in;"
-						Outputs="$(InputDir)ordinals.h"/>
+						CommandLine="copy $(InputPath).vc2003 $(InputPath)"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
+						Outputs="$(InputPath)"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release_SSE2|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="echo on
-"
-						AdditionalDependencies="..\..\include\FLAC\ordinals.h.in;"
-						Outputs="$(InputDir)ordinals.h"/>
+						AdditionalDependencies="ordinals.vc2003.h.in"
+						Outputs="$(OutputFile)"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release_SSE|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="echo on
-"
-						AdditionalDependencies="..\..\include\FLAC\ordinals.h.in;"
-						Outputs="$(InputDir)ordinals.h"/>
+						AdditionalDependencies="ordinals.vc2003.h.in"
+						Outputs="$(OutputFile)"/>
 				</FileConfiguration>
 			</File>
 			<File
