@@ -80,18 +80,21 @@ public:
 protected:
 	//Helper methods
 	void FillMediaType(CMediaType* outMediaType, int inPosition);
-	//Member data
+
+	//Pin member data
 	AbstractTransformFilter* mParentFilter;
 	COutputQueue* mDataQueue;
-
 	vector<CMediaType*> mAcceptableMediaTypes;
+	
+	HRESULT mHR;
 
+	//Buffer parameter member data
 	int mDesiredBufferSize;
 	int mDesiredBufferCount;
 	int mActualBufferSize;
 	int mActualBufferCount;
 
-	HRESULT mHR;
+	
 };
 
 

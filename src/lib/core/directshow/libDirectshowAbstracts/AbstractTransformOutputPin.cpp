@@ -34,10 +34,8 @@
 
 
 AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> inAcceptableMediaTypes)
-	//Base Classes
 	:	CBaseOutputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
 
-	//Member initialisation
 	,	mParentFilter(inParentFilter)
 	,	mDataQueue(NULL)
 	
@@ -48,7 +46,6 @@ AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* 
 	,	mActualBufferCount(0)
 
 	,	mAcceptableMediaTypes(inAcceptableMediaTypes)
-
 {
 
 }

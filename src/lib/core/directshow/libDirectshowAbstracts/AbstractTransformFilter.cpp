@@ -39,10 +39,8 @@
 
 //Constructors
 AbstractTransformFilter::AbstractTransformFilter(TCHAR* inFilterName, REFCLSID inFilterGUID)
-	//Base Classes
 	:	CBaseFilter(inFilterName, NULL, m_pLock, inFilterGUID)
 
-	//Member initialisations
 	,	mInputPin(NULL)
 	,	mOutputPin(NULL)
 	
