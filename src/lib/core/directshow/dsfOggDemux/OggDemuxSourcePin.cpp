@@ -49,7 +49,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 {
 	debugLog.open("G:\\logs\\sourcefilterpin.log", ios_base::out);
 	IMediaSeeking* locSeeker = NULL;
-	if (inAllowSeek) {
+	//if (inAllowSeek) {
 		debugLog<<"Allowing seek"<<endl;
 		//Subvert COM and do this directly... this way, the source filter won't expose the interface to the
 		// graph but we can still delegate to it.
@@ -61,7 +61,7 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 		//locSeeker->AddRef();				//If you addref theres a weird destructor infinite loop. See the OggStreamMapper Destructor.
 
 	
-	}
+	//}
 	SetDelegate(locSeeker);
 }
 
