@@ -103,6 +103,7 @@ protected:
 
 	OggDemuxSourcePin* mSourcePin;
 	OggDemuxSourceFilter* mOwningFilter;
+	CCritSec* mStreamLock;
 
 	//fstream osDebug;
 };

@@ -44,11 +44,12 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	,	mSendExcess(true)
 	,	mLastEndGranulePos(0)
 	,	mLastStartGranulePos(0)
+	,	mStreamLock(NULL)
 {
 	//osDebug.open("C:\\ostream.log", ios_base::out);
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
-	
+	mStreamLock = new CCritSec;
 	//This may need to be moved to derived class
 	//Yep, Sure did !
 	//InitCodec(inBOSPage->getPacket(0));
@@ -62,6 +63,7 @@ OggStream::~OggStream(void)
 	delete mSourcePin;
 	delete mCodecHeaders;
 	delete mPartialPacket;
+	delete mStreamLock;
 	//Don't try to delete owning filter !!
 }
 
@@ -75,7 +77,7 @@ unsigned long OggStream::serialNo() {
 }
 StampedOggPacket* OggStream::processPacket(StampedOggPacket* inPacket) {
 	//You always get your own copy of a packet back from this function... you must delete it !!!
-
+	CAutoLock locLock(mStreamLock);
 	if (inPacket->isComplete()) {
 		if (mPartialPacket == NULL) {
 			//CASE 1 : New packet is complete and there is no partial packet.
@@ -191,6 +193,7 @@ CMediaType* OggStream::createMediaType(GUID inMajorType, GUID inSubType, GUID in
 }
 
 void OggStream::flush() {
+	CAutoLock locLock(mStreamLock);
 	delete mPartialPacket;
 	mPartialPacket = NULL;
 }
