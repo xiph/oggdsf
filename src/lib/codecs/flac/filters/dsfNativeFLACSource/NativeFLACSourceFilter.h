@@ -134,6 +134,7 @@ protected:
 	bool mBegun;
 	bool mJustSeeked;
 	__int64 mSeekRequest;
+	bool mWasEOF;
 
 	unsigned long mUpto;
 

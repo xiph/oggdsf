@@ -66,6 +66,7 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	,	mJustSeeked(true)
 	,	mSeekRequest(0)
 	,	mTotalNumSamples(0)
+	,	mWasEOF(false)
 	
 	//,	mDecoder(NULL)
 {
@@ -261,15 +262,21 @@ HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 			
 			debugLog<<"Process it"<<endl;
 			res = process_single();
-			
 			if (res) {
 				debugLog<<"Process OK"<<endl;
 			} else {
 				debugLog<<"Process FAILED"<<endl;
 			}
+			if (mWasEOF) {
+				break;
+			}
+			
 		}
 	}
 
+	mInputFile.clear();
+	mInputFile.seekg(0);
+	mWasEOF = false;
 	mFLACSourcePin->DeliverEndOfStream();
 	return S_OK;
 }
@@ -309,6 +316,11 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 	mInputFile.read((char*)outBuffer, BUFF_SIZE);
 	*outNumBytes = mInputFile.gcount();
 	debugLog<<"Read num bytes = "<<*outNumBytes<<endl;
+	if (mInputFile.eof()) {
+		mWasEOF = true;
+	} else {
+		mWasEOF=false;
+	}
 	return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK;
 }
 ::FLAC__SeekableStreamDecoderSeekStatus NativeFLACSourceFilter::seek_callback(FLAC__uint64 inSeekPos) {
