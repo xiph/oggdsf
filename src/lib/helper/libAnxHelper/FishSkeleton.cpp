@@ -198,10 +198,14 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 														
 											)
 {
+	const LOOG_INT64 DEFAULT_TIMEBASE_DENOMINATOR = 1000;
+	const LOOG_INT64 DEFAULT_PRESENTATION_TIME_DENOMINATOR = 1000;
+
 	unsigned char* locBuff = NULL;
 	StampedOggPacket* locPack = NULL;
 	OggPage* retPage = NULL;
 	unsigned char* locSegTable = NULL;
+
 	switch (inVersionMajor) {
 		case 3:
 			locBuff = new unsigned char[FishSkeleton::FISHEAD_3_0_PACKET_SIZE];
@@ -212,7 +216,7 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 			// 12	-  19		Presentation Num
 			// 20	-  27		Presentation Denom
 			// 28	-  35		Basetime Num
-			// 36	-  43	
+			// 36	-  43	    Basetime Denom
 			// 44	-  63		UTC
 			locBuff[0] = 'f';
 			locBuff[1] = 'i';
@@ -225,9 +229,28 @@ OggPage* FishSkeleton::makeFishHeadBOS_3_0	(		unsigned long inSerialNo
 			iLE_Math::UShortToCharArr(inVersionMajor, locBuff + 8);
 			iLE_Math::UShortToCharArr(inVersionMinor, locBuff + 10);
 			iLE_Math::Int64ToCharArr(inPresentTimeNum, locBuff + 12);
-			iLE_Math::Int64ToCharArr(inPresentTimeDenom, locBuff + 20);
+
+			// Ensure that the presentation time denominator is not zero
+			if (inPresentTimeNum == 0 && inPresentTimeDenom == 0) {
+				iLE_Math::Int64ToCharArr(DEFAULT_PRESENTATION_TIME_DENOMINATOR, locBuff + 20);
+			} else {
+				// XXX: Should we handle the case wher the numerator is not
+				// zero and the denominator is zero?
+				iLE_Math::Int64ToCharArr(inPresentTimeDenom, locBuff + 20);
+			}
+
 			iLE_Math::Int64ToCharArr(inTimebaseNum, locBuff + 28);
-			iLE_Math::Int64ToCharArr(inTimebaseDenom, locBuff + 36);
+
+			// Ensure that the timebase denominator is not zero
+			if (inTimebaseNum == 0 && inTimebaseDenom == 0) {
+				iLE_Math::Int64ToCharArr(DEFAULT_TIMEBASE_DENOMINATOR, locBuff + 36);
+			} else {
+				// XXX: Should we handle the case wher the numerator is not
+				// zero and the denominator is zero?
+				iLE_Math::Int64ToCharArr(inTimebaseDenom, locBuff + 36);
+			}
+
+			
 			for (int i = 0; i < 20; i++) {
 				locBuff[44 + i] = inUTC[i];
 			}
