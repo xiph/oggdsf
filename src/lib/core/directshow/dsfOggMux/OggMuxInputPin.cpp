@@ -75,13 +75,16 @@ STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv
 HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_Theora)) {
 		//Theora
+		
 		sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
+		debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
 		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
 
 	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
 			//Vorbis
 			sVorbisFormatBlock* locVorbis = (sVorbisFormatBlock*)inMediaType->pbFormat;
+			debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
 			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
 			
 		} else if (inMediaType->subtype == MEDIASUBTYPE_Speex) {

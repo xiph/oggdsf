@@ -334,14 +334,23 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//The amount of space left in the page is the minimum of
 	// a) The number of segments left * 255
 	// b) The number of bytes less than the desired maximum page size.
+
+	debugLog<<"Remains in packet = "<<inRemaining<<endl;
+	debugLog<<"Start at = "<<inStartAt<<endl;
+	debugLog<<"Segtable size = "<<mSegmentTableSize<<endl;
+	debugLog<<"Max page size = "<<mSettings->mMaxPageSize<<endl;
+	debugLog<<"Current page size = "<<mCurrentPageSize<<endl;
+
     unsigned long locSpaceLeft =	MIN(((255 - mSegmentTableSize) * 255) - 1, mSettings->mMaxPageSize - mCurrentPageSize);
 
+	debugLog<<"Space left = "<<locSpaceLeft<<endl;
 	//debugLog<<"Space left = "<<locSpaceLeft<<endl;
 	//Round down to nearest multiple of 255
 	//
 	//This is important when the packet gets broken because inRemaining is gt locSpace left
 	// In this case where the packet gets broken the final segment on the page must be 255.
 	locSpaceLeft -= (locSpaceLeft % 255);
+	debugLog<<"Adjust space left = "<<locSpaceLeft<<endl;
 
 	//How much we add is the minimum of
 	// a) How much space is left
@@ -350,17 +359,21 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//If (a) is the minimum then we know that the how much we are adding is a multiple of 255.
 	unsigned long locHowMuchToAdd = MIN(locSpaceLeft, inRemaining);
 
+	debugLog<<"How much to add..."<<endl;
 	//debugLog<<"How much to add = "<<locHowMuchToAdd<<endl;
 	
 	//mPending page has data is useless, it was set before this function is called... need to fix that. maybe move into add part of pack into apge
 	if ((!mPendingPageHasData) && (inStartAt != 0)) {
 		mPendingPage->header()->setHeaderFlags(mPendingPage->header()->HeaderFlags() | 1);	
 	}
-	addPartOfPacketToPage(inOggPacket, inStartAt, locHowMuchToAdd);
+
+	if (locHowMuchToAdd > 0) {
+		addPartOfPacketToPage(inOggPacket, inStartAt, locHowMuchToAdd);
+	}
 
 
 	//This puts only a single packet on the first page...
-	if ((mCurrentPageSize >= mSettings->mMinPageSize) || (mPendingPage->header()->PageSequenceNo() == 0)) {
+	if ((mCurrentPageSize >= mSettings->mMinPageSize) || (mPendingPage->header()->PageSequenceNo() == 0) || (locHowMuchToAdd == 0)) {
 		deliverCurrentPage();
 	}
 	return locHowMuchToAdd;
