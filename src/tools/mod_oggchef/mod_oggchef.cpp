@@ -231,6 +231,9 @@ static int AP_MODULE_ENTRY_POINT oggchef_handler(request_rec *inRequest)
 	IRecomposer *locRecomposer = NULL;
 	if (isAnnodexFile(locFilename)) {
 		locRecomposer = new AnnodexRecomposer(locFilename, httpDataSender, inRequest, locCachedSeekTableFilename);
+		if (wantOnlyCMML(locOutputMIMETypes)) {
+			inRequest->content_type = "text/x-cmml";
+		}
 	} else if (isOggFile(locFilename)) {
 		//locRecomposer = new OggRecomposer(locOutputMIMETypes);
 	} else if (isCMMLFile(locFilename)) {
