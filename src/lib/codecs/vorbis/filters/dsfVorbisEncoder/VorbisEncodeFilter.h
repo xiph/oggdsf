@@ -54,6 +54,10 @@ public:
 	VorbisEncodeFilter(void);
 	virtual ~VorbisEncodeFilter(void);
 
+	//COM Initialisation
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+
 	//COM Creator function
 	static CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 

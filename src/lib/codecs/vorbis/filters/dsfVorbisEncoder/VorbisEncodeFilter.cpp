@@ -70,6 +70,9 @@ VorbisEncodeFilter::~VorbisEncodeFilter(void)
 {
 }
 
+STDMETHODIMP VorbisEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+	return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv);
+}
 bool VorbisEncodeFilter::ConstructPins() 
 {
 	//Inputs Audio / PCM / WaveFormatEx

@@ -70,6 +70,7 @@ bool transcodeToVorbis(string inFileName) {
 				if (!locHasOutputs) {
 					//Renderer filter here. Remove it from the graph.
 					locHR = locGraphBuilder->RemoveFilter(locFilter);
+					
 					//Break out of the filter loop.
 					break;
 				}
@@ -86,6 +87,7 @@ bool transcodeToVorbis(string inFileName) {
 	if (locHR == S_OK) {
 		//Created a vorbis filter...
 		locGraphBuilder->AddFilter(locVorbisEncoder, L"Vorbis Encode Filter");
+
 		
 		////UPTO HERE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 

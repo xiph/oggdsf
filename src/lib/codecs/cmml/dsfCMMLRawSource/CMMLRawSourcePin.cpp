@@ -179,9 +179,10 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 	locSample->SetDiscontinuity(FALSE);
 	locSample->SetSyncPoint(TRUE);
 
-	
+	locHR = Deliver(locSample);
 
-	return Deliver(locSample);
+	int x = locSample->Release();
+	return locHR;
 
 
 }
