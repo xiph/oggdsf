@@ -48,6 +48,13 @@ bool OggMuxStream::isEOS() {
 	return mIsEOS;
 }
 
+bool OggMuxStream::isProcessable() {
+	if (isEmpty() &&  !isEOS()) {
+		return false;
+	} else {
+		return true;
+	}
+}
 void OggMuxStream::setIsEOS(bool inIsEOS) {
 	mIsEOS = inIsEOS;
 }

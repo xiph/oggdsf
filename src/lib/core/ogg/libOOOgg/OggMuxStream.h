@@ -18,6 +18,7 @@ public:
 	virtual __int64 frontTime();
 	virtual bool isEmpty();
 	virtual bool isEOS();
+	virtual bool isProcessable();
 	virtual void setIsEOS(bool inIsEOS);
 	
 protected:
