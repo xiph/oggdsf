@@ -4,3 +4,4 @@
 
 #pragma once
 
+#using "libiWrapper.dll"
