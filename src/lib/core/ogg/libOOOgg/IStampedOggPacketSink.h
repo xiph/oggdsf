@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "StampedOggPacket.h"
+#include <libOOOgg/StampedOggPacket.h>
 
 class LIBOOOGG_API IStampedOggPacketSink
 {

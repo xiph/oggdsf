@@ -31,8 +31,8 @@
 
 #pragma once
 
-#include "libilliCore.h"
-#include "libOOOggSeek.h"
+#include <libilliCore/libilliCore.h>
+#include <libOOOggSeek/libOOOggSeek.h>
 
 #include <fstream>
 #include <map>

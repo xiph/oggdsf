@@ -40,7 +40,7 @@
 // any program that uses these libraries must already have the headers for the stl classes. They
 // are not exposed by the dll itself.
 #pragma warning (disable:4251)
-#include "dllstuff.h"
+#include <libOOOgg/dllstuff.h>
 
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers

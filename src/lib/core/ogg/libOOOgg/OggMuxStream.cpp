@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "stdafx.h"
-#include "OggMuxStream.h"
+#include <libOOOgg/OggMuxStream.h>
 
 OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	:	mIsEOS(false)

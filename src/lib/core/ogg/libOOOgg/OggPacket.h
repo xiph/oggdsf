@@ -33,7 +33,7 @@
 
 #include <string>
 using namespace std;
-#include "StringHelper.h"
+#include <libilliCore/StringHelper.h>
 
 class LIBOOOGG_API OggPacket
 {

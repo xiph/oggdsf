@@ -33,7 +33,7 @@
 //
 
 #include "stdafx.h"
-#include "libOOOggSeek.h"
+#include <libOOOggSeek/libOOOggSeek.h>
 
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 

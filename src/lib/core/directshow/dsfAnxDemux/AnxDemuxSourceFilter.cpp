@@ -35,7 +35,7 @@
 #include "stdafx.h"
 #include "AnxDemuxSourceFilter.h"
 
-#include "AutoAnxSeekTable.h"
+#include <libOOOggSeek/AutoAnxSeekTable.h>
 
 
 //-------------------

@@ -35,8 +35,8 @@
 
 //Library Includes
 #include "FLAC++/decoder.h"
-#include "StringHelper.h"
-#include "iBE_Math.h"
+#include <libilliCore/StringHelper.h>
+#include <libilliCore/iBE_Math.h>
 using namespace FLAC::Decoder;
 
 //STL Includes

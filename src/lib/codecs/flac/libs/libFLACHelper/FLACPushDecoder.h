@@ -1,7 +1,7 @@
 #pragma once
-#include "dllstuff.h"
-#include "StampedOggPacket.h"
-#include "OggPacket.h"
+#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/StampedOggPacket.h>
+#include <libOOOgg/OggPacket.h>
 #include "FLAC++/decoder.h"
 using namespace FLAC::Decoder;
 class FLACPushDecoder

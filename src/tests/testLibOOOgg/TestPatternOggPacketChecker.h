@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IStampedOggPacketSink.h"
+#include <libOOOgg/IStampedOggPacketSink.h>
 class TestPatternOggPacketChecker
 	:	public IStampedOggPacketSink
 {

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "OggSeekPoint.h"
+#include <libOOOggSeek/OggSeekPoint.h>
 
 OggSeekPoint::OggSeekPoint(void)
 	:	mTime(0)

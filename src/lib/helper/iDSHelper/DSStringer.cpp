@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include ".\dsstringer.h"
-#include "StringHelper.h"
+#include <libilliCore/StringHelper.h>
 string DSStringer::GUID2String(const GUID* inGUID) {
 	string retStr = "{" + StringHelper::numToString(inGUID->Data1) + 
 					"-" + StringHelper::numToString(inGUID->Data2) + 

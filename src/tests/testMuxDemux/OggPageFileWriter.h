@@ -1,10 +1,10 @@
 #pragma once
 
-//#include "dllstuff.h"
-#include "libOOOgg.h"
+//#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/libOOOgg.h>
 #include <fstream>
 using namespace std;
-//#include "IOggCallback.h"
+//#include <libOOOgg/IOggCallback.h>
 class OggPageFileWriter
 	:	public IOggCallback
 {

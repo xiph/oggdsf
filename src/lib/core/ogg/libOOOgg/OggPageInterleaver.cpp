@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "stdafx.h"
-#include "OggPageInterleaver.h"
+#include <libOOOgg/OggPageInterleaver.h>
 
 OggPageInterleaver::OggPageInterleaver(IOggCallback* inFileWriter, INotifyComplete* inNotifier)
 	:	mFileWriter(inFileWriter)

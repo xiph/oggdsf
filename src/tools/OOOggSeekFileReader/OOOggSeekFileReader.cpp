@@ -3,8 +3,8 @@
 
 #include "stdafx.h"
 
-#include "illicoreconfig.h"
-#include "iLE_Math.h"
+#include <libilliCore/illicoreconfig.h>
+#include <libilliCore/iLE_Math.h>
 #include <iostream>
 #include <fstream>
 using namespace std;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libOOOggSeek.h"
+#include <libOOOggSeek/libOOOggSeek.h>
 
 class IOggSeeker {
 

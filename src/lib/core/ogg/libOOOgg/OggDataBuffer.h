@@ -31,11 +31,11 @@
 
 #pragma once
 //#include <sstream>
-#include "CircularBuffer.h"
-#include "OggPage.h"
-#include "OggTypeDefs.h"
-#include "IOggCallback.h"
-#include "IFIFOBuffer.h"
+#include <libOOOgg/CircularBuffer.h>
+#include <libOOOgg/OggPage.h>
+#include <libOOOgg/OggTypeDefs.h>
+#include <libOOOgg/IOggCallback.h>
+#include <libOOOgg/IFIFOBuffer.h>
 
 //Only needed for debugging
 //#include <fstream>

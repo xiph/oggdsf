@@ -32,8 +32,8 @@
 
 #include "oggdllstuff.h"
 
-#include <IOggPackSource.h>
-#include <StampedOggPacket.h>
+#include <libOOOgg/IOggPackSource.h>
+#include <libOOOgg/StampedOggPacket.h>
 //This holds the preliminary headers for a logical stream... then the output pins of the demux can give them to the codec at their leisure.
 //The demux will never present these headers again... seeking to the start of the file will seek to the start
 //of the data. ie the first page after the headers.

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "OGGSRecogniser.h"
+#include <libOOOggSeek/OGGSRecogniser.h>
 
 OGGSRecogniser::OGGSRecogniser(void)
 :	mState(OGGSRecogniser::STATE_START)

@@ -44,7 +44,7 @@ libOOOggSeek_la_SOURCES = \
 	../src/lib/core/ogg/libOOOggSeek/OGGSRecogniser.cpp \
 	$(NULL)
 
-libOOOggSeekdir = $(includedir)
+libOOOggSeekdir = $(includedir)/libOOOggSeek
 libOOOggSeek_HEADERS = \
 	../src/lib/core/ogg/libOOOggSeek/AutoAnxSeekTable.h \
 	../src/lib/core/ogg/libOOOggSeek/AutoOggSeekTable.h \
@@ -70,7 +70,7 @@ libilliCore_la_SOURCES = \
 	../src/lib/helper/libilliCore/iBE_Math.cpp \
 	../src/lib/helper/libilliCore/iLE_Math.cpp \
 	$(NULL)
-libilliCoredir = $(includedir)
+libilliCoredir = $(includedir)/libilliCore
 libilliCore_HEADERS = \
 	../src/lib/helper/libilliCore/config.h \
 	../src/lib/helper/libilliCore/iBE_Math.h \
@@ -94,7 +94,7 @@ libOOOgg_la_SOURCES = \
 	../src/lib/core/ogg/libOOOgg/OggPaginatorSettings.cpp \
 	../src/lib/core/ogg/libOOOgg/StampedOggPacket.cpp \
 	$(NULL)
-libOOOggdir = $(includedir)
+libOOOggdir = $(includedir)/libOOOgg
 libOOOgg_HEADERS = \
 	../src/lib/core/ogg/libOOOgg/CircularBuffer.h \
 	../src/lib/core/ogg/libOOOgg/dllstuff.h \

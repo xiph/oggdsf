@@ -1,8 +1,8 @@
 #pragma once
 
-#include "libOOOggSeek.h"
+#include <libOOOggSeek/libOOOggSeek.h>
 
-#include "AutoOggSeekTable.h"
+#include <libOOOggSeek/AutoOggSeekTable.h>
 
 #include <string>
 

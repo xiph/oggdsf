@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "OggDataBuffer.h"
+#include <libOOOgg/OggDataBuffer.h>
 
 
 //LEAK CHECKED - 2004/10/17		-	OK.

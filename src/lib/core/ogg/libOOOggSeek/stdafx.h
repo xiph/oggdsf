@@ -42,4 +42,4 @@
 # include <windows.h>
 #endif
 
-#include "libOOOggSeek.h"
+#include <libOOOggSeek/libOOOggSeek.h>

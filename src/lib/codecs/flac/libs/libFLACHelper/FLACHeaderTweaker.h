@@ -30,8 +30,8 @@
 //===========================================================================
 
 #pragma once
-#include "dllstuff.h"
-#include "OggPacket.h"
+#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/OggPacket.h>
 #include <vector>
 #include <fstream>
 using namespace std;

@@ -35,7 +35,7 @@
 #pragma once
 
 #include "anxdllstuff.h"
-#include "OggPacket.h"
+#include <libOOOgg/OggPacket.h>
 #include "OggStream.h"
 #include "CMMLSourcePin.h"
 class CMMLStream

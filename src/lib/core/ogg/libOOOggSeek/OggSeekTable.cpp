@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "OggSeekTable.h"
+#include <libOOOggSeek/OggSeekTable.h>
 
 OggSeekTable::OggSeekTable(void)
 	:	mEnabled(true)

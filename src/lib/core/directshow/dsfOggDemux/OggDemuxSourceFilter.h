@@ -36,8 +36,8 @@
 #include "oggdllstuff.h"
 #include "OggDemuxSourcePin.h"
 #include "OggStreamMapper.h"
-#include "AutoOggSeekTable.h"
-#include <OggDataBuffer.h>
+#include <libOOOggSeek/AutoOggSeekTable.h>
+#include <libOOOgg/OggDataBuffer.h>
 #include "IFilterDataSource.h"
 #include "DataSourceFactory.h"
 #include "PropsAbout.h"

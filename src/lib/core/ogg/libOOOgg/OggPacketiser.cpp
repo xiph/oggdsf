@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "stdafx.h"
-#include "OggPacketiser.h"
+#include <libOOOgg/OggPacketiser.h>
 
 OggPacketiser::OggPacketiser(void) 
 	:	mPacketSink(NULL)

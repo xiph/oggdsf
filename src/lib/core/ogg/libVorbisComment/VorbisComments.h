@@ -36,8 +36,8 @@
 
 using namespace std;
 #include "SingleVorbisComment.h"
-#include "OggPacket.h"
-#include "iLE_Math.h"
+#include <libOOOgg/OggPacket.h>
+#include <libilliCore/iLE_Math.h>
 
 class LIBVORBISCOMMENT_API VorbisComments
 {

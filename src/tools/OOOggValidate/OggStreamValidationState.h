@@ -1,6 +1,6 @@
 #pragma once
 
-#include <libilliCore.h>
+#include <libilliCore/libilliCore.h>
 
 class OggStreamValidationState
 {

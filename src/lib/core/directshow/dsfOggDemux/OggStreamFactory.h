@@ -38,8 +38,8 @@
 #include "OggFLAC_1_0_Stream.h"
 
 
-#include "OggPage.h"
-#include "OggPacket.h"
+#include <libOOOgg/OggPage.h>
+#include <libOOOgg/OggPacket.h>
 class OggDemuxSourceFilter;
 class StreamHeaders;
 

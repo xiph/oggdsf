@@ -34,10 +34,10 @@
 #undef MIN
 #define MIN(a,b) (((a)<(b))?(a):(b))
 
-#include "IStampedOggPacketSink.h"
-#include "OggPaginatorSettings.h"
-#include "IOggCallback.h"
-#include "StampedOggPacket.h"
+#include <libOOOgg/IStampedOggPacketSink.h>
+#include <libOOOgg/OggPaginatorSettings.h>
+#include <libOOOgg/IOggCallback.h>
+#include <libOOOgg/StampedOggPacket.h>
 
 #include <fstream>
 using namespace std;

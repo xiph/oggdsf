@@ -31,8 +31,8 @@
 
 #pragma once
 #include "libootheora.h"
-#include "dllstuff.h"
-#include "StampedOggPacket.h"
+#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/StampedOggPacket.h>
 extern "C" {
 #include "theora_cdecl.h"
 }

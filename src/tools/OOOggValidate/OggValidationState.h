@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-#include "libOOOgg.h"
+#include <libOOOgg/libOOOgg.h>
 #include "OggStreamValidationState.h"
 class OggValidationState
 	:	public IOggCallback

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "StringHelper.h"
+#include <libilliCore/StringHelper.h>
 
 StringHelper::StringHelper(void)
 {

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #pragma once
-#include "OggPage.h"
+#include <libOOOgg/OggPage.h>
 //TODO::: Consider changing the return type to allow better feedback.
 class LIBOOOGG_API IOggCallback
 {

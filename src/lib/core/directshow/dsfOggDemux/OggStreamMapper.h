@@ -30,7 +30,7 @@
 //===========================================================================
 #pragma once
 #include "oggdllstuff.h"
-#include "IOggCallback.h"
+#include <libOOOgg/IOggCallback.h>
 #include "OggStream.h"
 #include "OggStreamFactory.h"
 #include "OggDemuxSourceFilter.h"

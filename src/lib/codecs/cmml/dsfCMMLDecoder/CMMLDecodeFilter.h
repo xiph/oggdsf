@@ -36,7 +36,7 @@
 #include "cmmldecoderdllstuff.h"
 #include <string>
 #include <fstream>
-#include "StringHelper.h"
+#include <libilliCore/StringHelper.h>
 #include "libWinCMMLParse.h"
 #include "CMMLParser.h"
 #include "libCMMLTags.h"

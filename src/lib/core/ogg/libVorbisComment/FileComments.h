@@ -30,10 +30,10 @@
 //===========================================================================
 
 #pragma once
-#include "IOggCallback.h"
+#include <libOOOgg/IOggCallback.h>
 #include "StreamCommentInfo.h"
-#include "OggPage.h"
-#include "OggDataBuffer.h"
+#include <libOOOgg/OggPage.h>
+#include <libOOOgg/OggDataBuffer.h>
 #include <string>
 #include <vector>
 #include <fstream>

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "CircularBuffer.h"
+#include <libOOOgg/CircularBuffer.h>
 
 //Leak checked : 20041017 - OK
 CircularBuffer::CircularBuffer(unsigned long inBufferSize)

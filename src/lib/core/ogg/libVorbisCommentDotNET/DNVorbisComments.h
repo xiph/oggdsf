@@ -1,6 +1,6 @@
 #pragma once
 #pragma unmanaged
-#include "dllstuff.h"
+#include <libOOOgg/dllstuff.h>
 #include "libVorbisComment/VorbisComments.h"
 
 #pragma managed

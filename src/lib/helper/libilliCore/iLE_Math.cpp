@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "iLE_Math.h"
+#include <libilliCore/iLE_Math.h>
 
 iLE_Math::iLE_Math(void)
 {

@@ -30,9 +30,9 @@
 //===========================================================================
 #pragma once
 
-#include "OggPage.h"
-#include "IOggCallback.h"
-#include "INotifyArrival.h"
+#include <libOOOgg/OggPage.h>
+#include <libOOOgg/IOggCallback.h>
+#include <libOOOgg/INotifyArrival.h>
 #include <math.h>
 #include <deque>
 #include <fstream>

@@ -31,7 +31,7 @@
 
 #pragma once
 #include "stdafx.h"
-#include "OggPacket.h"
+#include <libOOOgg/OggPacket.h>
 
 class LIBOOOGG_API StampedOggPacket 
 	:	public OggPacket

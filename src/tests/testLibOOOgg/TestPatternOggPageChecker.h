@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IOggCallback.h"
+#include <libOOOgg/IOggCallback.h>
 #include "TestPatternOggPacketChecker.h"
 class TestPatternOggPageChecker
 	:	public IOggCallback

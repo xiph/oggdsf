@@ -32,11 +32,11 @@
 
 #include "oggdllstuff.h"
 #include "StreamHeaders.h"
-#include "IOggCallback.h"
-#include "IStampedOggPacketSink.h"
-#include "OggPacketiser.h"
+#include <libOOOgg/IOggCallback.h>
+#include <libOOOgg/IStampedOggPacketSink.h>
+#include <libOOOgg/OggPacketiser.h>
 
-#include "OggPage.h"
+#include <libOOOgg/OggPage.h>
 #include <fstream>
 using namespace std;
 

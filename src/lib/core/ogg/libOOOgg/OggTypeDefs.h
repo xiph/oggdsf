@@ -31,5 +31,5 @@
 
 //Callback function for oggpages.
 #pragma once
-#include "OggPage.h"
+#include <libOOOgg/OggPage.h>
 typedef bool (*fPageCallback) (OggPage* inOggPage);

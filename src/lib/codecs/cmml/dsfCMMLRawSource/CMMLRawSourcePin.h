@@ -34,7 +34,7 @@
 
 #pragma once
 #include "cmmlrawsourcedllstuff.h"
-#include "StringHelper.h"
+#include <libilliCore/StringHelper.h>
 #include <fstream>
 using namespace std;
 

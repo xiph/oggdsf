@@ -36,9 +36,9 @@
 //
 
 #include "stdafx.h"
-#include "libOOOgg.h"
-#include "dllstuff.h"
-#include "AutoAnxSeekTable.h"
+#include <libOOOgg/libOOOgg.h>
+#include <libOOOgg/dllstuff.h>
+#include <libOOOggSeek/AutoAnxSeekTable.h>
 
 #include <iostream>
 #include <fstream>

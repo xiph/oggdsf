@@ -36,7 +36,7 @@
 
 #include "OggStreamMapper.h"
 #include "CMMLStream.h"
-#include "iLE_Math.h"
+#include <libilliCore/iLE_Math.h>
 
 #include <fstream>
 using namespace std;

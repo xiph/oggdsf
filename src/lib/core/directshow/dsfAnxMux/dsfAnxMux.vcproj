@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper;..\..\..\core\directshow\dsfOggDemux"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg;..\..\directshow\dsfOggMux;..\..\..\helper;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper;..\..\..\core\directshow\dsfOggDemux"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -72,7 +72,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg\libOOOgg;..\..\directshow\dsfOggMux;..\..\..\helper\libilliCore;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper;..\..\..\core\directshow\dsfOggDemux"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;..\..\ogg;..\..\directshow\dsfOggMux;..\..\..\helper;..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\codecs\flac\libs\libFLACHelper;..\..\..\core\directshow\dsfOggDemux"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXMUX_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"

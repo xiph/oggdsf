@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\ogg\libOOOgg;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux"
+				AdditionalIncludeDirectories="..\..\ogg;..\..\..\helper;..\..\..\core\directshow\dsfOggDemux"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBOOANNODEX_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -68,7 +68,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\ogg\libOOOgg;..\..\..\helper\libilliCore;..\..\..\core\directshow\dsfOggDemux"
+				AdditionalIncludeDirectories="..\..\ogg;..\..\..\helper;..\..\..\core\directshow\dsfOggDemux"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBOOANNODEX_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="3"

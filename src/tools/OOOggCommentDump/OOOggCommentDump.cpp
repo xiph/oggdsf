@@ -34,8 +34,8 @@
 //
 
 #include "stdafx.h"
-#include <libOOOgg.h>
-#include <dllstuff.h>
+#include <libOOOgg/libOOOgg.h>
+#include <libOOOgg/dllstuff.h>
 #include <VorbisComments.h>
 #include "FileComments.h"
 #include "StreamCommentInfo.h"

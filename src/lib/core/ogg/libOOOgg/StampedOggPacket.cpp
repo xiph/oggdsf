@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "StampedOggPacket.h"
+#include <libOOOgg/StampedOggPacket.h>
 
 StampedOggPacket::StampedOggPacket(void)
 	//:	OggPacket()

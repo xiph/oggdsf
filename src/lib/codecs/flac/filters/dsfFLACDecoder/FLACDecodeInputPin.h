@@ -36,8 +36,8 @@
 
 //External Includes
 #include "FLACPushDecoder.h"
-#include "OggPacket.h"
-#include "StampedOggPacket.h"
+#include <libOOOgg/OggPacket.h>
+#include <libOOOgg/StampedOggPacket.h>
 
 //STL Includes
 //debug only

@@ -36,9 +36,9 @@
 using namespace std;
 
 //Class Includes
-#include "StampedOggPacket.h"
-#include "OggPageHeader.h"
-#include "IOggPackSource.h"
+#include <libOOOgg/StampedOggPacket.h>
+#include <libOOOgg/OggPageHeader.h>
+#include <libOOOgg/IOggPackSource.h>
 
 //OggPage represents an Ogg Encapsulation Format page
 class LIBOOOGG_API OggPage

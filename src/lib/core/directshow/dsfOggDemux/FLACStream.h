@@ -31,8 +31,8 @@
 #pragma once
 #include "oggdllstuff.h"
 
-#include "OggPage.h"
-#include "OggPacket.h"
+#include <libOOOgg/OggPage.h>
+#include <libOOOgg/OggPacket.h>
 class OggStream;
 class FLACStream
 	:	public OggStream

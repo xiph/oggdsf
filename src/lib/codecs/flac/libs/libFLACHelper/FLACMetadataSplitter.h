@@ -29,9 +29,9 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-#include "dllstuff.h"
-#include "OggPacket.h"
-#include "StampedOggPacket.h"
+#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/OggPacket.h>
+#include <libOOOgg/StampedOggPacket.h>
 #include "FLACHeaderTweaker.h"
 
 #include <fstream>

@@ -33,8 +33,8 @@
 //
 
 #include "stdafx.h"
-#include "AutoOggSeekTable.h"
-#include "AutoAnxSeekTable.h"
+#include <libOOOggSeek/AutoOggSeekTable.h>
+#include <libOOOggSeek/AutoAnxSeekTable.h>
 
 
 #include <iostream>

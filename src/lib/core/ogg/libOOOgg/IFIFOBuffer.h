@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-#include "dllstuff.h"
+#include <libOOOgg/dllstuff.h>
 class LIBOOOGG_API IFIFOBuffer {
 public:
 	//Empty Constructor and destructor to ensure proper deletion

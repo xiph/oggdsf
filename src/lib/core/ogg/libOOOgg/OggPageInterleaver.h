@@ -29,9 +29,9 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-#include "IOggCallback.h"
-#include "INotifyComplete.h"
-#include "OggMuxStream.h"
+#include <libOOOgg/IOggCallback.h>
+#include <libOOOgg/INotifyComplete.h>
+#include <libOOOgg/OggMuxStream.h>
 #include <vector>
 
 //DEBUG ONLY

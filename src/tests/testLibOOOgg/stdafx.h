@@ -8,6 +8,6 @@
 
 #include <iostream>
 #include <tchar.h>
-#include "dllstuff.h"
-#include "libOOOgg.h"
+#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/libOOOgg.h>
 // TODO: reference additional headers your program requires here

@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "CircularBuffer.h"
+#include <libOOOgg/CircularBuffer.h>
 
 #include <iostream>
 using namespace std;

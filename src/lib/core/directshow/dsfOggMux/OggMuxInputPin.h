@@ -31,8 +31,8 @@
 #pragma once
 #include "oggmuxdllstuff.h"
 #include "OggMuxFilter.h"
-#include "OggPaginator.h"
-#include "OggMuxStream.h"
+#include <libOOOgg/OggPaginator.h>
+#include <libOOOgg/OggMuxStream.h>
 #include "BasicSeekPassThrough.h"
 #include "FLACMetadataSplitter.h"
 #include <time.h>

@@ -30,8 +30,8 @@
 //===========================================================================
 
 #pragma once
-#include "iLE_Math.h"
-#include "StringHelper.h"
+#include <libilliCore/iLE_Math.h>
+#include <libilliCore/StringHelper.h>
 //#include "OggSegmentTable.h"
 //#include "OggInt64.h"
 //#include "OggMath.h"

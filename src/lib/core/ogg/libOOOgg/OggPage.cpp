@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "OggPage.h"
+#include <libOOOgg/OggPage.h>
 //LEACK CHECKED::: 20041018 - OK.
 OggPage::OggPage(void)
 {

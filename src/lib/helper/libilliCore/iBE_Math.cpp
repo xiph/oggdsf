@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "iBE_Math.h"
+#include <libilliCore/iBE_Math.h>
 
 iBE_Math::iBE_Math(void)
 {

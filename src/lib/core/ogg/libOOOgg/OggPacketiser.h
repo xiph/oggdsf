@@ -29,9 +29,9 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-#include "IOggCallback.h"
-#include "IStampedOggPacketSink.h"
-#include "OggPage.h"
+#include <libOOOgg/IOggCallback.h>
+#include <libOOOgg/IStampedOggPacketSink.h>
+#include <libOOOgg/OggPage.h>
 
 //Debug only
 #include <fstream>

@@ -33,15 +33,15 @@
 #include "oggmuxdllstuff.h"
 #include "OggMuxInputPin.h"
 #include "BasicSeekPassThrough.h"
-#include "OggPageInterleaver.h"
-#include "INotifyComplete.h"
+#include <libOOOgg/OggPageInterleaver.h>
+#include <libOOOgg/INotifyComplete.h>
 
 #include <string>
 
 #include <fstream>
-#include "IOggCallback.h"
+#include <libOOOgg/IOggCallback.h>
 using namespace std;
-#include "StringHelper.h"
+#include <libilliCore/StringHelper.h>
 class OggMuxInputPin;
 
 class OGG_MUX_API OggMuxFilter

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #pragma once
-#include "OggPacket.h"
+#include <libOOOgg/OggPacket.h>
 
 class LIBOOOGG_API IOggPackSource
 {

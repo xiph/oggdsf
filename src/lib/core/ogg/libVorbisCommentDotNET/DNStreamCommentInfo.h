@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma unmanaged
-#include "dllstuff.h"
+#include <libOOOgg/dllstuff.h>
 #include "libVorbisComment/VorbisComments.h"
 #include "libVorbisComment/StreamCommentInfo.h"
 

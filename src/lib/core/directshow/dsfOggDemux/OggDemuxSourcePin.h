@@ -31,8 +31,8 @@
 #pragma once
 #include "oggdllstuff.h"
 #include "StreamHeaders.h"
-#include <OggPage.h>
-#include <IOggCallback.h>
+#include <libOOOgg/OggPage.h>
+#include <libOOOgg/IOggCallback.h>
 #include "BasicSeekPassThrough.h"
 #include <fstream>
 #include "OggDemuxSourceFilter.h"

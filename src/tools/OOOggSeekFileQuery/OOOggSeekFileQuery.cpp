@@ -5,10 +5,10 @@
 
 #include "stdafx.h"
 
-#include "illicoreconfig.h"
-#include "iLE_Math.h"
-#include "StringHelper.h"
-#include "OggSeekTable.h"
+#include <libilliCore/illicoreconfig.h>
+#include <libilliCore/iLE_Math.h>
+#include <libilliCore/StringHelper.h>
+#include <libOOOggSeek/OggSeekTable.h>
 #include <iostream>
 #include <fstream>
 using namespace std;

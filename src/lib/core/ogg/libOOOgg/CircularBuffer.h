@@ -29,8 +29,8 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-#include "dllstuff.h"
-#include "IFIFOBuffer.h"
+#include <libOOOgg/dllstuff.h>
+#include <libOOOgg/IFIFOBuffer.h>
 
 
 //Empty Buffer

@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include;..\..\helper\libilliCore"
+				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include;..\..\helper"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -83,7 +83,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include;..\..\helper\libilliCore"
+				AdditionalIncludeDirectories="..\..\codecs\cmml\dsfCMMLDecoder;..\..\codecs\cmml\libCMMLTags;C:\DXSDK\Include;..\..\helper"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="TRUE"

@@ -35,7 +35,7 @@
 #pragma once
 #include "anxdllstuff.h"
 #include "OggDemuxSourceFilter.h"
-#include "AutoAnxSeekTable.h"
+#include <libOOOggSeek/AutoAnxSeekTable.h>
 #include "AnxStreamMapper.h"
 #include "CMMLStream.h"
 #include <fstream>
