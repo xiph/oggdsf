@@ -10,3 +10,7 @@
 #include <windows.h>
 
 // TODO: reference additional headers your program requires here
+#include <vector>
+#include <fstream>
+#include <iostream>
+using namespace std;

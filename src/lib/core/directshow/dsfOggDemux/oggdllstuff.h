@@ -43,7 +43,13 @@
 #endif
 
 
-
+#ifdef DSFOGGDEMUX_EXPORTS
+#pragma message("----> Exporting from Ogg Demux...")
+#define OGG_DEMUX_API __declspec(dllexport)
+#else
+#pragma message("<---- Importing from Ogg Demux...")
+#define OGG_DEMUX_API __declspec(dllimport)
+#endif
 
 
 //New section

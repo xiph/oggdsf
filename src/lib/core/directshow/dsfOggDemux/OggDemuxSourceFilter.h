@@ -41,7 +41,7 @@ using namespace std;
 
 class OggStreamMapper;
 
-class OggDemuxSourceFilter 
+class OGG_DEMUX_API OggDemuxSourceFilter 
 	:	public CBaseFilter,
 		public CAMThread,
 		public IFileSourceFilter,

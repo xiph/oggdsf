@@ -1,7 +1,8 @@
 #include "StdAfx.h"
 #include "anxdemuxsourcepin.h"
 
-AnxDemuxSourcePin::AnxDemuxSourcePin(void)
+AnxDemuxSourcePin::AnxDemuxSourcePin(AnxDemuxSourceFilter* inParentFilter, CCritSec* inLock)
+	:	OggDemuxSourcePin(NAME("AnxDemuxSourcePin"), inParentFilter, 
 {
 }
 

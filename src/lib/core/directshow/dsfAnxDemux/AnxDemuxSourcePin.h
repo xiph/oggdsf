@@ -1,4 +1,5 @@
 #pragma once
+#include "anxdllstuff.h"
 #include "OggDemuxSourcePin.h"
 class AnxDemuxSourcePin
 	:	public OggDemuxSourcePin

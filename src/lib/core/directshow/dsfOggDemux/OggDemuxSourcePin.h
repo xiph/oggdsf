@@ -38,6 +38,8 @@
 #include "OggDemuxSourceFilter.h"
 using namespace std;
 
+class OggDemuxSourceFilter;
+
 class OggDemuxSourcePin
 	:	public CBaseOutputPin
 	,	public BasicSeekable
