@@ -66,7 +66,7 @@ string SingleVorbisComment::toString() {
 
 unsigned long SingleVorbisComment::length() {
 	//FIX::: This would be faster to add them manually.
-	return toString().length();
+	return (unsigned long)toString().length();
 }
 
 bool SingleVorbisComment::parseComment(string inCommentString) {

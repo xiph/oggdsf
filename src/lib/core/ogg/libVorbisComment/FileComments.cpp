@@ -104,6 +104,7 @@ bool FileComments::loadFile(string inFileName) {
 	}
 
 	delete[] locBuff;
+	return true;
 	
 }
 string FileComments::fileName() {
