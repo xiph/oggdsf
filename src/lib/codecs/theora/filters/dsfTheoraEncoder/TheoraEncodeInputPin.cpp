@@ -611,8 +611,9 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 			//NextUpto							^
 
 			//Ignore the alpha channel
-			locSourceUptoPtr++;
-			locSourceNextLine++;
+			//--
+			//locSourceUptoPtr++;			//Optimised away... merged into increment below
+			//locSourceNextLine++;			// "	"	"	"	"	"	"	"	"	"	"
 
 			//						v	u	y	a	v	u	y	a
 			//SourceUpto							^
@@ -625,7 +626,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 			//--
 
 			//Current line extra Y for yellows.
-			locSourceUptoPtr += 2;					//Skip the U and V samples
+			locSourceUptoPtr += 3;					//Skip the A and U and V samples
 			*(locYUpto++) = *(locSourceUptoPtr);	//get the Y for yellow sample		
 			locSourceUptoPtr += 2;					//Advance 1 for the Y for yellow and Skip the A sample.
 
@@ -635,7 +636,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 
 
 			//Next line extra Y for yellows.
-			locSourceNextLine += 2;							//Skip the U and V samples
+			locSourceNextLine += 3;							//Skip the A and U and V samples
 			*(locDestNextLine++) = *(locSourceNextLine);	//get the Y for yellow sample		
 			locSourceNextLine += 2;							//Advance 1 for the Y for yellow and Skip the A sample.
 
