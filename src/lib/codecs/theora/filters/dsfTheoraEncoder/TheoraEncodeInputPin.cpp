@@ -203,6 +203,9 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 
 
 	StampedOggPacket* locPacket = mTheoraEncoder.encodeTheora(&mYUV);
+	if (locPacket == NULL) {
+		return S_FALSE;
+	}
 	locFrameEnd		= mUptoFrame 
 					= locPacket->endTime();
 
@@ -229,6 +232,11 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 
 	mYUV.uv_height		=	mHeight/2;
 
+	//Round up to multiple of 16
+	mTheoraInfo.width = (((mTheoraInfo.width + 15)>>4)<<4);
+	mTheoraInfo.height = (((mTheoraInfo.height + 15)>>4)<<4);
+
+
 	mYUV.y				=	new char[(mHeight * mWidth)];
 	mYUV.u				=	new char[(mHeight * mWidth)/4];
 	mYUV.v				=	new char[(mHeight * mWidth)/4];
@@ -250,7 +258,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	//I don't think this is right !
 	mTheoraInfo.aspect_numerator=0;//mVideoFormat->bmiHeader.biWidth;//video_an;
 	mTheoraInfo.aspect_denominator=0;//mVideoFormat->bmiHeader.biHeight;//video_ad;
-	//
+	
 	mTheoraInfo.colorspace=OC_CS_UNSPECIFIED;
 	mTheoraInfo.target_bitrate=400000; //mVideoFormat->dwBitRate;
 

@@ -101,7 +101,16 @@ StampedOggPacket* TheoraEncoder::encodeTheora(yuv_buffer* inYUVBuffer) {
 	ogg_packet locOldOggPacket;
 	retVal = theora_encode_YUVin(&mTheoraState, inYUVBuffer);
 	
+	if (retVal != 0) {
+		//FAILED
+		return NULL;
+	}
+
 	retVal = theora_encode_packetout(&mTheoraState, NOT_LAST_FRAME, &locOldOggPacket);
+	if (retVal != 1) {
+		//Weird return convention.
+		return NULL;
+	}
 
 	return oldToNewPacket(&locOldOggPacket);
 	
