@@ -366,21 +366,25 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 								=	mYUV.y_stride
 								=	(((mVideoFormat->bmiHeader.biWidth + 15)>>4)<<4);
 
+	mTheoraInfo.frame_width		=	mWidth
+								=	mVideoFormat->bmiHeader.biWidth;
+
 	mYUV.uv_width				=	mYUV.uv_stride
 								=	mWidth/2;
 
-	mTheoraInfo.frame_width		=	mWidth
-								=	mVideoFormat->bmiHeader.biWidth;
+	
 	//
 
 	//Height data
 	mTheoraInfo.height			=	mYUV.y_height
 								=	(((mVideoFormat->bmiHeader.biHeight + 15)>>4)<<4);
 
-	mYUV.uv_height				=	mHeight/2;
-
 	mTheoraInfo.frame_height	=	mHeight
 								=	mVideoFormat->bmiHeader.biHeight;
+
+	mYUV.uv_height				=	mHeight/2;
+
+	
 	//
 
 	//Set offset values... centred
