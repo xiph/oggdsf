@@ -34,13 +34,13 @@
 //#include <pullpin.h>
 //#include <initguid.h>
 
-#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
-#pragma message("----> Exporting from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllexport)
-#else
-#pragma message("<---- Importing from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllimport)
-#endif
+//#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
+//#pragma message("----> Exporting from Abstract Library...")
+//#define ABS_AUDIO_DEC_API __declspec(dllexport)
+//#else
+//#pragma message("<---- Importing from Abstract Library...")
+//#define ABS_AUDIO_DEC_API __declspec(dllimport)
+//#endif
 
 #ifdef LIBOOOGG_EXPORTS
 #define LIBOOOGG_API __declspec(dllexport)

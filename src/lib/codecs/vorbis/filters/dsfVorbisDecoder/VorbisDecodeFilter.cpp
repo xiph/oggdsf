@@ -66,12 +66,10 @@ VorbisDecodeFilter::VorbisDecodeFilter()
 
 bool VorbisDecodeFilter::ConstructPins() 
 {
-
-	//TODO::: FIX THIS UP !!!
-	DbgLog((LOG_TRACE,1,TEXT("Vorbis Constructor...")));
-
+	//Vector to hold our set of media types we want to accept.
 	vector<CMediaType*> locAcceptableTypes;
 
+	//Setup the media types for the output pin.
 	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
 	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
@@ -81,21 +79,17 @@ bool VorbisDecodeFilter::ConstructPins()
 	//Output pin must be done first because it's passed to the input pin.
 	mOutputPin = new VorbisDecodeOutputPin(this, m_pLock, locAcceptableTypes);			//Deleted in base class destructor
 
+	//Clear out the vector, now we've already passed it to the output pin.
 	locAcceptableTypes.clear();
+
+	//Setup the media Types for the input pin.
 	locAcceptMediaType = NULL;
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
 
 	locAcceptMediaType->subtype = MEDIASUBTYPE_Vorbis;
 	locAcceptMediaType->formattype = FORMAT_Vorbis;
-	
-	
-
-
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
-
-	
-	
 	
 	mInputPin = new VorbisDecodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;

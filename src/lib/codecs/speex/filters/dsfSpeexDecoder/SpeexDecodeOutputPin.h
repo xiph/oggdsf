@@ -31,22 +31,26 @@
 
 #pragma once
 #include "speexdecoderdllstuff.h"
-#include "AbstractAudioDecodeOutputPin.h"
+#include "AbstractTransformInputPin.h"
 
 
 class SpeexDecodeFilter;
 class SpeexDecodeOutputPin :
-	public AbstractAudioDecodeOutputPin
+	public AbstractTransformOutputPin
 {
 public:
+
+	friend class SpeexDecodeInputPin;
+
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	SpeexDecodeOutputPin(SpeexDecodeFilter* inParentFilter,CCritSec* inFilterLock);
+	SpeexDecodeOutputPin(SpeexDecodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexDecodeOutputPin(void);
 
-	virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
-	
+	//virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
+protected:
+	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
 
 };
 

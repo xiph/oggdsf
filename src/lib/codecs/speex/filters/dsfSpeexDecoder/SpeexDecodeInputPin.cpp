@@ -33,9 +33,16 @@
 #include "SpeexDecodeInputPin.h"
 
 
-SpeexDecodeInputPin::SpeexDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType)
-	:	AbstractAudioDecodeInputPin(inFilter, inFilterLock, inOutputPin, NAME("SpeexDecodeInputPin"), L"Speex In", inAcceptMediaType)
+SpeexDecodeInputPin::SpeexDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(inFilter, inFilterLock, inOutputPin, NAME("SpeexDecodeInputPin"), L"Speex In", inAcceptableMediaTypes)
 	,	mFishSound(NULL)
+
+	,	mNumChannels(0)
+	,	mFrameSize(0)
+	,	mSampleRate(0)
+	,	mUptoFrame(0)
+
+	,	mBegun(false)
 {
 	ConstructCodec();
 }
@@ -70,7 +77,14 @@ STDMETHODIMP SpeexDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void 
 
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
-
+STDMETHODIMP SpeexDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 
+{
+	CAutoLock locLock(mStreamLock);
+	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
+	mUptoFrame = 0;
+	return AbstractTransformInputPin::NewSegment(inStartTime, inStopTime, inRate);
+	
+}
 
 int SpeexDecodeInputPin::SpeexDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer) 
 {
@@ -92,45 +106,19 @@ int SpeexDecodeInputPin::SpeexDecoded (FishSound* inFishSound, float** inPCM, lo
 		locThis->mSampleRate = locThis->mFishInfo.samplerate;
 
 	}
+	
+	//TO DO::: Move this somewhere else
+	unsigned long locActualSize = inFrames * locThis->mFrameSize;
+	unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
 
-
-	//************************ OLD WAY
-	//REFERENCE_TIME locFrameStart = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * HUNDRED_NANOS)) / locThis->mSampleRate);
-	//REFERENCE_TIME locFrameStart = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-	////Increment the frame counter
-	//locThis->mUptoFrame += inFrames;
-	////Make the end frame counter
-	////REFERENCE_TIME locFrameEnd = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * HUNDRED_NANOS)) / locThis->mSampleRate);
-	//REFERENCE_TIME locFrameEnd = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-	//***********************************************
-
-		//Start time hacks
-	REFERENCE_TIME locTimeBase = ((locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate) - locThis->mSeekTimeBase;
-
-	//Temp - this will break seeking
-	REFERENCE_TIME locFrameStart = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
+	REFERENCE_TIME locFrameStart = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 	//Increment the frame counter
 	locThis->mUptoFrame += inFrames;
 	//Make the end frame counter
 
-	//REFERENCE_TIME locFrameEnd = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-	REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-
-
-	//locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
-	//locThis->aadDebug<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
-	//locThis->aadDebug<<"Time Base  : " << locTimeBase << endl;
-	//locThis->aadDebug<<"FrameCount : " <<locThis->mUptoFrame<<endl;
-	//locThis->aadDebug<<"Seek TB    : " <<locThis->mSeekTimeBase<<endl;
-
-	//TO DO::: Move this somewhere else
-	unsigned long locActualSize = inFrames * locThis->mFrameSize;
-	unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
 	
-	//Make the start timestamp
-	//FIX:::Abstract this calculation
+	REFERENCE_TIME locFrameEnd = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
 
-	
 
 	IMediaSample* locSample;
 	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
@@ -178,7 +166,7 @@ int SpeexDecodeInputPin::SpeexDecoded (FishSound* inFishSound, float** inPCM, lo
 
 		{
 			CAutoLock locLock(locThis->m_pLock);
-			HRESULT locHR = locThis->mOutputPin->mDataQueue->Receive(locSample);
+			HRESULT locHR = ((SpeexDecodeOutputPin*)(locThis->mOutputPin))->mDataQueue->Receive(locSample);
 			if (locHR != S_OK) {
 				return locHR;				
 			}
@@ -194,7 +182,7 @@ int SpeexDecodeInputPin::SpeexDecoded (FishSound* inFishSound, float** inPCM, lo
 
 
 
-long SpeexDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes) 
+long SpeexDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
 {
 	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
 	return locErr;
@@ -208,7 +196,7 @@ HRESULT SpeexDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 
 	if (inMediaType->subtype == MEDIASUBTYPE_Speex) {
 		((SpeexDecodeFilter*)mParentFilter)->setSpeexFormat((sSpeexFormatBlock*)inMediaType->pbFormat);
-		mParentFilter->mAudioFormat = AbstractAudioDecodeFilter::SPEEX;
+
 	} else {
 		throw 0;
 	}

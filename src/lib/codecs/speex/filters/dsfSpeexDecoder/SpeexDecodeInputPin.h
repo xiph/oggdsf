@@ -31,7 +31,7 @@
 
 #pragma once
 #include "speexdecoderdllstuff.h"
-#include "AbstractAudioDecodeInputPin.h"
+#include "AbstractTransformInputPin.h"
 #include "SpeexDecodeInputPin.h"
 
 #include "SpeexDecodeFilter.h"
@@ -43,28 +43,33 @@ extern "C" {
 class SpeexDecodeOutputPin;
 
 class SpeexDecodeInputPin 
-	:	public AbstractAudioDecodeInputPin
+	:	public AbstractTransformInputPin
 {
 public:
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	SpeexDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
+	SpeexDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexDecodeInputPin(void);
 	static int SpeexDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
 
 
-	HRESULT SetMediaType(const CMediaType* inMediaType);
-
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
-	//FIX:::These should be protected.
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
-
-	long decodeData(unsigned char* inBuf, long inNumBytes);
+	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+	virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
 
 protected:
+	//Implementation of pure virtuals from AbstractTransformInputPin
+	virtual bool ConstructCodec();
+	virtual void DestroyCodec();
+	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
 
 	FishSound* mFishSound;
 	FishSoundInfo mFishInfo; 
+
+	int mNumChannels;
+	int mFrameSize;
+	int mSampleRate;
+	unsigned int mUptoFrame;
+
+	bool mBegun;
 
 };

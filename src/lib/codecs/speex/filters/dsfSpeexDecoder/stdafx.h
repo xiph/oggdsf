@@ -42,9 +42,9 @@
 
 // TODO: reference additional headers your program requires here
 
-#include "AbstractAudioDecodeFilter.h"
-#include "AbstractAudioDecodeInputPin.h"
-#include "AbstractAudioDecodeOutputPin.h"
+#include "AbstractTransformFilter.h"
+#include "AbstractTransformInputPin.h"
+#include "AbstractTransformOutputPin.h"
 #include "SpeexDecodeInputPin.h"
 #include "SpeexDecodeOutputPin.h"
 #include "SpeexDecodeFilter.h"

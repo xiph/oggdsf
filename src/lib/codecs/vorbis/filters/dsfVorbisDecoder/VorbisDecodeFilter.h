@@ -57,16 +57,14 @@ public:
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-
-
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
-	virtual bool ConstructPins();
-
 	//FIX::: Do we need these ? Aren't they all friends ??
 	virtual sVorbisFormatBlock* getVorbisFormatBlock();
 	virtual void setVorbisFormat(sVorbisFormatBlock* inFormatBlock);
 
 protected:
+	//VIRTUAL FUNCTIONS - AbstractTransformFilter
+	virtual bool ConstructPins();
+
 	//Format Block
 	sVorbisFormatBlock* mVorbisFormatInfo;
 };

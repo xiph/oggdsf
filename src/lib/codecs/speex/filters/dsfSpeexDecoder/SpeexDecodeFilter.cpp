@@ -50,11 +50,8 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
-
-
-//*************************************************************************************************
 SpeexDecodeFilter::SpeexDecodeFilter()
-	:	AbstractAudioDecodeFilter(NAME("Speex Audio Decoder"), CLSID_SpeexDecodeFilter, SPEEX)
+	:	AbstractTransformFilter(NAME("Speex Audio Decoder"), CLSID_SpeexDecodeFilter)
 	,	mSpeexFormatInfo(NULL)
 {
 
@@ -63,14 +60,35 @@ SpeexDecodeFilter::SpeexDecodeFilter()
 
 bool SpeexDecodeFilter::ConstructPins() 
 {
-	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new SpeexDecodeOutputPin(this, m_pLock);
 
-	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);
+	//Vector to hold our set of media types we want to accept.
+	vector<CMediaType*> locAcceptableTypes;
+
+	//Setup the media types for the output pin.
+	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
+	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
+	
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//Output pin must be done first because it's passed to the input pin.
+	mOutputPin = new SpeexDecodeOutputPin(this, m_pLock, locAcceptableTypes);			//Deleted in base class destructor
+
+	//Clear out the vector, now we've already passed it to the output pin.
+	locAcceptableTypes.clear();
+
+	//Setup the media Types for the input pin.
+	locAcceptMediaType = NULL;
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
+
 	locAcceptMediaType->subtype = MEDIASUBTYPE_Speex;
 	locAcceptMediaType->formattype = FORMAT_Speex;
-	mInputPin = new SpeexDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+	
+	mInputPin = new SpeexDecodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;
+
 }
 
 SpeexDecodeFilter::~SpeexDecodeFilter(void)

@@ -65,11 +65,12 @@ public:
 	CBasePin* GetPin(int inPinNo);
 	int GetPinCount(void);
 
-	//Pin Creation Method.
-	virtual bool ConstructPins() = 0;
+
 
 protected:
-	//Pin destruction method.
+	//Pin Creation Methods
+	virtual bool ConstructPins() = 0;
+	
 	virtual void DestroyPins();
 
 	//Pin Member Data

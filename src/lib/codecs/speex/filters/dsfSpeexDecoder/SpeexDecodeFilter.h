@@ -32,7 +32,7 @@
 #pragma once
 //Include Files
 #include "speexdecoderdllstuff.h"
-#include "AbstractAudioDecodeFilter.h"
+#include "AbstractTransformFilter.h"
 
 //Forward Declarations
 struct sSpeexFormatBlock;
@@ -42,7 +42,7 @@ class SpeexDecodeOutputPin;
 //Class Interface
 class SpeexDecodeFilter
 	//Base Classes
-	:	public AbstractAudioDecodeFilter
+	:	public AbstractTransformFilter
 {
 public:
 	//Friends
@@ -56,14 +56,15 @@ public:
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
-	virtual bool ConstructPins();
-
+	
 	//FIX::: Do we need these ? Aren't they all friends ??
 	virtual sSpeexFormatBlock* getSpeexFormatBlock();
 	virtual void setSpeexFormat(sSpeexFormatBlock* inFormatBlock);
 
 protected:
+	//Pure Virtuals from AbstracttransformFilter
+	virtual bool ConstructPins();
+
 	//Format Block
 	sSpeexFormatBlock* mSpeexFormatInfo;
 };

@@ -32,8 +32,8 @@
 #include "StdAfx.h"
 #include "speexdecodeoutputpin.h"
 
-SpeexDecodeOutputPin::SpeexDecodeOutputPin(SpeexDecodeFilter* inParentFilter, CCritSec* inFilterLock)
-	: AbstractAudioDecodeOutputPin(inParentFilter, inFilterLock,NAME("SpeexDecodeOutputPin"), L"PCM Out")
+SpeexDecodeOutputPin::SpeexDecodeOutputPin(SpeexDecodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
+	: AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("SpeexDecodeOutputPin"), L"PCM Out", 65536, 20, inAcceptableMediaTypes)
 {
 
 		
@@ -54,13 +54,19 @@ STDMETHODIMP SpeexDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void
 
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
-bool SpeexDecodeOutputPin::FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer) {
-	inFormatBuffer->wFormatTag = WAVE_FORMAT_PCM;
-	inFormatBuffer->nChannels = ((SpeexDecodeFilter*)m_pFilter)->mSpeexFormatInfo->numChannels;
-	inFormatBuffer->nSamplesPerSec =  ((SpeexDecodeFilter*)m_pFilter)->mSpeexFormatInfo->samplesPerSec;
-	inFormatBuffer->wBitsPerSample = 16;
-	inFormatBuffer->nBlockAlign = (inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3);
-	inFormatBuffer->nAvgBytesPerSec = ((inFormatBuffer->nChannels) * (inFormatBuffer->wBitsPerSample >> 3)) * inFormatBuffer->nSamplesPerSec;
-	inFormatBuffer->cbSize = 0;
-	return true;
+HRESULT SpeexDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+{
+	if (inPosition == 0) {
+		WAVEFORMATEX* locWaveFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
+		locWaveFormat->wFormatTag = WAVE_FORMAT_PCM;
+		locWaveFormat->nChannels = ((SpeexDecodeFilter*)m_pFilter)->mSpeexFormatInfo->numChannels;
+		locWaveFormat->nSamplesPerSec =  ((SpeexDecodeFilter*)m_pFilter)->mSpeexFormatInfo->samplesPerSec;
+		locWaveFormat->wBitsPerSample = 16;
+		locWaveFormat->nBlockAlign = (locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3);
+		locWaveFormat->nAvgBytesPerSec = ((locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3)) * locWaveFormat->nSamplesPerSec;
+		locWaveFormat->cbSize = 0;
+		return S_OK;
+	} else {
+		return S_FALSE;
+	}
 }
