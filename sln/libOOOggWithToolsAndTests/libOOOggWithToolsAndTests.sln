@@ -19,6 +19,7 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "libOOOggWithToolsAndTests",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOOggValidate", "..\..\src\tools\OOOggValidate\OOOggValidate.vcproj", "{B5BF942B-4864-414C-9855-65E5CC923401}"
 	ProjectSection(ProjectDependencies) = postProject
+		{223ACC19-608E-4E1B-A054-067F0CACB272} = {223ACC19-608E-4E1B-A054-067F0CACB272}
 	EndProjectSection
 EndProject
 Global

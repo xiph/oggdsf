@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_9061237CE81A4BAC9A988D1713DCE01A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9BF479E16E8E489CA7D9F11A166F5612"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -28,13 +34,19 @@
         "Entry"
         {
         "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
-        "OwnerKey" = "8:_9EB1B54CEB1D40979ADA34E55D07BB22"
+        "OwnerKey" = "8:_9061237CE81A4BAC9A988D1713DCE01A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
         "OwnerKey" = "8:_DFF78663650B4CF0A485185D63D04FB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BBD7397A8E5F1E7433D3C7836DB3EE7F"
+        "OwnerKey" = "8:_9EB1B54CEB1D40979ADA34E55D07BB22"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -46,13 +58,19 @@
         "Entry"
         {
         "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
-        "OwnerKey" = "8:_9EB1B54CEB1D40979ADA34E55D07BB22"
+        "OwnerKey" = "8:_9061237CE81A4BAC9A988D1713DCE01A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
         "OwnerKey" = "8:_DFF78663650B4CF0A485185D63D04FB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DCF47080823151CD8BF79A8AE0EA1C5D"
+        "OwnerKey" = "8:_9EB1B54CEB1D40979ADA34E55D07BB22"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -221,18 +239,18 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:libOOOggWithToolsAndTests"
         "ProductCode" = "8:{E213AA75-8F79-4E6E-A8AE-A131AA8B4058}"
-        "PackageCode" = "8:{72ED2554-0A9E-4347-B8D2-B9399055CDBC}"
+        "PackageCode" = "8:{F715599B-15C0-4FB2-A8FF-A61AC3488477}"
         "UpgradeCode" = "8:{EC58A5EB-BA29-4AA6-B91D-26DFDB021492}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:illiminable"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:libOOOggWithToolsAndTests"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:Zentaro Kavanagh"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
@@ -721,6 +739,34 @@
         }
         "ProjectOutput"
         {
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_9061237CE81A4BAC9A988D1713DCE01A"
+            {
+            "SourcePath" = "8:..\\..\\src\\tools\\oooggvalidate\\debug\\OOOggValidate.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_ADE7E20E4D77439FB3A1B61B3F803F3B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{B5BF942B-4864-414C-9855-65E5CC923401}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_9BF479E16E8E489CA7D9F11A166F5612"
             {
             "SourcePath" = "8:..\\..\\src\\tools\\OOOggDump\\Debug\\OOOggDump.exe"

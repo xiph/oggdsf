@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 using namespace std;
+
+#include "OggStreamValidationState.h"
 class OggValidationState
 {
 public:
