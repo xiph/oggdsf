@@ -162,6 +162,16 @@
                     DependentUpon = "frmDNPlay.cs"
                     BuildAction = "EmbeddedResource"
                 />
+                <File
+                    RelPath = "frmOpenURL.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "frmOpenURL.resx"
+                    DependentUpon = "frmOpenURL.cs"
+                    BuildAction = "EmbeddedResource"
+                />
             </Include>
         </Files>
     </CSHARP>

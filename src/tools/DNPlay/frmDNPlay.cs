@@ -44,6 +44,7 @@ namespace DNPlay
 		private System.Windows.Forms.Label lblClipDesc;
 		private System.Windows.Forms.Button cmdFollowLink;
 		private System.Windows.Forms.Label lblAnchorLink;
+		private System.Windows.Forms.Label lblTitle;
 		protected HeadTag mHeadTag;
 
 		enum eEventCodes 
@@ -82,13 +83,20 @@ namespace DNPlay
 		protected void updateProgressBar() 
 		{
 			double locProgRatio = 0;
+			Int32 locProgWidth = 0;
 			if (mFileDuration != 0) 
 			{
-				locProgRatio =  Convert.ToDouble(mLastSync + (mNumTicks * 10000000)) / mFileDuration;
+				try 
+				{
+					locProgRatio =  Convert.ToDouble(mLastSync + (mNumTicks * 10000000)) / mFileDuration;
+					locProgWidth = Convert.ToInt32(locProgRatio * lblProgressBkgd.Width);
+				} 
+				catch (System.OverflowException)
+				{
+				    locProgWidth = 0;
+				}
 			}
-
-
-			Int32 locProgWidth = Convert.ToInt32(locProgRatio * lblProgressBkgd.Width);
+			
 			lblProgressFgnd.Width = locProgWidth;
 		}
 		public bool eventNotification(Int32 inEventCode, Int32 inParam1, Int32 inParam2) 
@@ -112,6 +120,7 @@ namespace DNPlay
 		public bool headCallback(HeadTag inHeadTag) 
 		{
 			mHeadTag = inHeadTag;
+			lblTitle.Text = mHeadTag.title().text();
 			return true;
 		}
 		//
@@ -177,6 +186,7 @@ namespace DNPlay
 			this.lblClipDesc = new System.Windows.Forms.Label();
 			this.cmdFollowLink = new System.Windows.Forms.Button();
 			this.lblAnchorLink = new System.Windows.Forms.Label();
+			this.lblTitle = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -205,6 +215,7 @@ namespace DNPlay
 			// 
 			this.menuItem4.Index = 1;
 			this.menuItem4.Text = "Open &URL...";
+			this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click);
 			// 
 			// menuItem5
 			// 
@@ -231,7 +242,7 @@ namespace DNPlay
 			// 
 			// cmdPlay
 			// 
-			this.cmdPlay.Location = new System.Drawing.Point(8, 56);
+			this.cmdPlay.Location = new System.Drawing.Point(8, 80);
 			this.cmdPlay.Name = "cmdPlay";
 			this.cmdPlay.Size = new System.Drawing.Size(56, 24);
 			this.cmdPlay.TabIndex = 0;
@@ -252,7 +263,7 @@ namespace DNPlay
 			// 
 			// cmdStop
 			// 
-			this.cmdStop.Location = new System.Drawing.Point(72, 56);
+			this.cmdStop.Location = new System.Drawing.Point(72, 80);
 			this.cmdStop.Name = "cmdStop";
 			this.cmdStop.Size = new System.Drawing.Size(56, 24);
 			this.cmdStop.TabIndex = 5;
@@ -261,7 +272,7 @@ namespace DNPlay
 			// 
 			// cmdPause
 			// 
-			this.cmdPause.Location = new System.Drawing.Point(136, 56);
+			this.cmdPause.Location = new System.Drawing.Point(136, 80);
 			this.cmdPause.Name = "cmdPause";
 			this.cmdPause.Size = new System.Drawing.Size(56, 24);
 			this.cmdPause.TabIndex = 6;
@@ -272,7 +283,7 @@ namespace DNPlay
 			// 
 			this.lblDuration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lblDuration.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblDuration.Location = new System.Drawing.Point(240, 56);
+			this.lblDuration.Location = new System.Drawing.Point(240, 80);
 			this.lblDuration.Name = "lblDuration";
 			this.lblDuration.Size = new System.Drawing.Size(168, 24);
 			this.lblDuration.TabIndex = 7;
@@ -287,7 +298,7 @@ namespace DNPlay
 			// 
 			this.lblProgressBkgd.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.lblProgressBkgd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblProgressBkgd.Location = new System.Drawing.Point(8, 32);
+			this.lblProgressBkgd.Location = new System.Drawing.Point(8, 56);
 			this.lblProgressBkgd.Name = "lblProgressBkgd";
 			this.lblProgressBkgd.Size = new System.Drawing.Size(400, 16);
 			this.lblProgressBkgd.TabIndex = 8;
@@ -298,7 +309,7 @@ namespace DNPlay
 			// 
 			this.lblProgressFgnd.BackColor = System.Drawing.Color.SeaGreen;
 			this.lblProgressFgnd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblProgressFgnd.Location = new System.Drawing.Point(8, 32);
+			this.lblProgressFgnd.Location = new System.Drawing.Point(8, 56);
 			this.lblProgressFgnd.Name = "lblProgressFgnd";
 			this.lblProgressFgnd.Size = new System.Drawing.Size(232, 16);
 			this.lblProgressFgnd.TabIndex = 9;
@@ -312,14 +323,14 @@ namespace DNPlay
 			// lblClipDesc
 			// 
 			this.lblClipDesc.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblClipDesc.Location = new System.Drawing.Point(8, 96);
+			this.lblClipDesc.Location = new System.Drawing.Point(8, 120);
 			this.lblClipDesc.Name = "lblClipDesc";
 			this.lblClipDesc.Size = new System.Drawing.Size(400, 104);
 			this.lblClipDesc.TabIndex = 10;
 			// 
 			// cmdFollowLink
 			// 
-			this.cmdFollowLink.Location = new System.Drawing.Point(312, 208);
+			this.cmdFollowLink.Location = new System.Drawing.Point(312, 232);
 			this.cmdFollowLink.Name = "cmdFollowLink";
 			this.cmdFollowLink.Size = new System.Drawing.Size(96, 24);
 			this.cmdFollowLink.TabIndex = 11;
@@ -328,15 +339,24 @@ namespace DNPlay
 			// 
 			// lblAnchorLink
 			// 
-			this.lblAnchorLink.Location = new System.Drawing.Point(56, 208);
+			this.lblAnchorLink.Location = new System.Drawing.Point(56, 232);
 			this.lblAnchorLink.Name = "lblAnchorLink";
 			this.lblAnchorLink.Size = new System.Drawing.Size(248, 24);
 			this.lblAnchorLink.TabIndex = 12;
 			// 
+			// lblTitle
+			// 
+			this.lblTitle.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblTitle.Location = new System.Drawing.Point(8, 32);
+			this.lblTitle.Name = "lblTitle";
+			this.lblTitle.Size = new System.Drawing.Size(400, 16);
+			this.lblTitle.TabIndex = 13;
+			// 
 			// frmDNPlay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(416, 247);
+			this.ClientSize = new System.Drawing.Size(416, 295);
+			this.Controls.Add(this.lblTitle);
 			this.Controls.Add(this.lblAnchorLink);
 			this.Controls.Add(this.cmdFollowLink);
 			this.Controls.Add(this.lblClipDesc);
@@ -400,18 +420,27 @@ namespace DNPlay
 			tmrUpdateDuration.Enabled = false;
 			lblFileLocation.Text = inFileName;
 			bool locRes = mPlayer.loadFile(inFileName);
-			//Error check
-			mFileDuration = mPlayer.fileDuration();
-			setDurationText(mFileDuration);
-			//lblDuration.Text = mFileDuration.ToString();
 
-			mNumTicks = 0;
-			mLastSync = 0;
-			updateProgressBar();
+			if (locRes) 
+			{
+				//Error check
+				mFileDuration = mPlayer.fileDuration();
+				setDurationText(mFileDuration);
+				//lblDuration.Text = mFileDuration.ToString();
 
-			mPlayer.setMediaEventCallback(this);
-			mPlayer.setCMMLCallbacks(this);
-			cmdPlay.Enabled = true;
+				mNumTicks = 0;
+				mLastSync = 0;
+				updateProgressBar();
+
+				mPlayer.setMediaEventCallback(this);
+				mPlayer.setCMMLCallbacks(this);
+				cmdPlay.Enabled = true;
+			} 
+			else 
+			{
+				MessageBox.Show("Failed!");
+			
+			}
 		}
 		
 		private void menuItem3_Click(object sender, System.EventArgs e)
@@ -536,6 +565,18 @@ namespace DNPlay
 //			mPlayer.setCMMLCallbacks(this);
 //			cmdPlay.Enabled = true;
 //			StartPlayback();
+		}
+
+		private void menuItem4_Click(object sender, System.EventArgs e)
+		{
+			frmOpenURL locOpenDialog = new frmOpenURL();
+			locOpenDialog.ShowDialog(this);
+			if (locOpenDialog.wasOK) 
+			{
+				LoadFile(locOpenDialog.URLToOpen);
+				StartPlayback();
+				
+			}
 		}
 
 	}
