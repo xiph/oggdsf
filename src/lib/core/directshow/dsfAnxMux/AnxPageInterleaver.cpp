@@ -98,6 +98,8 @@ void AnxPageInterleaver::addAnnodexEOS() {
 	mFileWriter->acceptOggPage(locEOSPage);
 }
 
+//ANX3::: Need to make a new version of this which only returns true, when we actually have *ALL* the
+// header for the stream not just the first one.
 bool AnxPageInterleaver::gotAllHeaders() {
 	//TODO::: The isActive needs to be clarified so we don't start empty streams because wasany goes to true
 
@@ -134,6 +136,7 @@ void AnxPageInterleaver::processData()
 	
 		if (!mIsAnxSetup) {
 			if (gotAllHeaders()) {
+				
 				mIsAnxSetup = true;
 				addAnnodex_2_0_BOS();
 				addAllAnxData_2_0_BOS();
@@ -143,6 +146,31 @@ void AnxPageInterleaver::processData()
 		} else {
 			OggPageInterleaver::processData();
 		}
+	} else if ((mVersionMajor == 3) && (mVersionMinor == 0)) {
+		if (!mIsAnxSetup) {
+			if (gotAllHeaders()) {
+				//ANX3::: We need to make sure every stream has all of their headers
+				//
+				//Then we write :
+				//Fishhead
+				//Codec CMML BOS
+				//Codec 2 BOS
+				//Fishbones...
+				//All other codec secondary headers...
+
+				mIsAnxSetup = true;
+				//addAnnodex_2_0_BOS();
+				//addAllAnxData_2_0_BOS();
+				//addAnnodexEOS();	
+
+				//addFishyBits();
+
+				//TODO::: Pump out these start pages.
+			}
+		} else {
+			OggPageInterleaver::processData();
+		}
+
 	} else {
 		throw 0;
 	}

@@ -56,6 +56,7 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 STDMETHODIMP AnxMuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
+	//ANX3::: Maybe need an interface to set the anx version here.
 	return OggMuxFilter::NonDelegatingQueryInterface(riid, ppv); 
 }
 
@@ -71,6 +72,7 @@ AnxMuxFilter::AnxMuxFilter(void)
 	:	OggMuxFilter(CLSID_AnxMuxFilter)
 {
 
+	//ANX3::: Need to have a better way to set this.
 	mInterleaver = new AnxPageInterleaver(this, this, 2, 0);
 	mInputPins.push_back(new AnxMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 

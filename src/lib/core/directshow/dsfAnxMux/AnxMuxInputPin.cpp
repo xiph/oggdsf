@@ -57,6 +57,7 @@ HRESULT AnxMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 
 	HRESULT locHR = mParentFilter->addAnotherPin();
 	if ((locHR == S_OK) && (mAnxDataPacket != NULL)) {
+		//ANX3::: Only do this for anx2... in anx 3 we need to get the fishbone some other way.
 		mPaginator.acceptStampedOggPacket(mAnxDataPacket);
 		return S_OK;
 	} else {
@@ -159,6 +160,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 		}
 	}
 	if (locWasOK) {
+		//ANX3::: Need to make our fishbone here.
 		//Save the packet, we'll push it into the stream when the connection is established
 		mAnxDataPacket = AnxPacketMaker::makeAnxData_2_0(2,0, locGranRateNum, locGranRateDenom, locNumHeaders, AnxPacketMaker::makeMessageHeaders(locCodecID));
         return S_OK;
