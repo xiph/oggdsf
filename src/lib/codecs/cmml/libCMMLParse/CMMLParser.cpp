@@ -95,6 +95,14 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 	// Widen the file stream
 	wstring locCMMLFileWString = StringHelper::toWStr(locBuffer);
 
+	// XTag doesn't currently handle preambles, so we'll have to skip until we find
+	// a <cmml> tag which it can handle ... (note that XML is case-sensitive, so
+	// we don't need to scan for "<CMML"
+	size_t locCMMLTagIndex = locCMMLFileWString.find(L"<cmml", 0);
+	if (locCMMLTagIndex != string::npos) {
+		locCMMLFileWString = locCMMLFileWString.substr(locCMMLTagIndex);
+	}
+
 	// Parse ourselves the CMML
 	C_CMMLRootTag* locRootTag = new C_CMMLRootTag;
 	locReturnValue = parseCMMLRootTag(locCMMLFileWString, locRootTag);
