@@ -59,7 +59,7 @@ bool OggFLAC_1_0_Stream::InitCodec(StampedOggPacket* inOggPacket) {
 	//NEW::: Since the ogg flac 1.0 mapping there's now another option... if the new first header
 	// specifies the number of headers, we can count directly, otherwise we stll use the old
 	// method for maximum compatability.
-	mNumHeadersNeeded = iBE_Math::charArrToUShort(inOggPacket->packetData() + 7) - 1;
+	mNumHeadersNeeded = iBE_Math::charArrToUShort(inOggPacket->packetData() + 7);
 	debugLog<<"Num FLAC Headers needed = "<<mNumHeadersNeeded<<endl;
 	if (mNumHeadersNeeded == 0) {
 		//Variable number

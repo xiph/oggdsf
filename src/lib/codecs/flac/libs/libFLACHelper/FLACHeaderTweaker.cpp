@@ -63,7 +63,7 @@ bool FLACHeaderTweaker::createNewHeaderList() {
 	locFirstPackBuff[5] = 1;
 	locFirstPackBuff[6] = 0;
 	locFirstPackBuff[7] = 0; //Num header HIGH BYTE
-	locFirstPackBuff[8] = mOldHeaderList.size() - 1; //Num headers LOW BYTE
+	locFirstPackBuff[8] = mOldHeaderList.size() - 2; //Num headers LOW BYTE
 	locFirstPackBuff[9] = 'f';
 	locFirstPackBuff[10] = 'L';
 	locFirstPackBuff[11] = 'a';

@@ -119,7 +119,7 @@ bool AutoOggSeekTable::acceptOggPage(OggPage* inOggPage) {
 			debugLog<<"Identified new flac..."<<endl;
 			//mPacketCount--;
 			//POTENTIAL BUG::: Only looks at low order byte
-			mNumHeaders = inOggPage->getPacket(0)->packetData()[8];
+			mNumHeaders = inOggPage->getPacket(0)->packetData()[8] + 1;
 			debugLog<<"Header says there are this many headers "<<mNumHeaders<<endl;
 			mSerialNoToTrack = inOggPage->header()->StreamSerialNo();
 			if (mNumHeaders == 0) {

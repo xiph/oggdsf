@@ -50,8 +50,8 @@ OggStream::OggStream(OggPage* inBOSPage, OggDemuxSourceFilter* inOwningFilter, b
 	
 	//Need to do something here !
 	mSerialNo = inBOSPage->header()->StreamSerialNo();
-	//string locLogName = "G:\\logs\\oggstream" + StringHelper::numToString(mSerialNo) + ".log";
-	//debugLog.open(locLogName.c_str(), ios_base::out);
+	string locLogName = "G:\\logs\\oggstream" + StringHelper::numToString(mSerialNo) + ".log";
+	debugLog.open(locLogName.c_str(), ios_base::out);
 	mStreamLock = new CCritSec;
 	//This may need to be moved to derived class
 	//Yep, Sure did !
