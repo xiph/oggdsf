@@ -676,6 +676,7 @@ STDMETHODIMP OggDemuxSourceFilter::Stop(void)
 	Close();
 	DeliverBeginFlush();
 	DeliverEndFlush();
+	
 	return CBaseFilter::Stop();
 }
 
