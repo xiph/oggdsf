@@ -120,5 +120,5 @@ void StampedOggPacket::setEndTime(LOOG_INT64 inEndTime) {
 void StampedOggPacket::setTimeStamp(LOOG_INT64 inStartTime, LOOG_INT64 inEndTime, StampedOggPacket::eStampType inStampType) {
 	mStartTime = inStartTime;
 	mEndTime = inEndTime;
-	mStampType = inStampType;
+	mStampType = (unsigned short)inStampType;
 }

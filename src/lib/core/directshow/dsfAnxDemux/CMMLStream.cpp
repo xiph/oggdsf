@@ -74,7 +74,7 @@ bool CMMLStream::InitCodec(StampedOggPacket* inOggPacket) {
 	mCodecHeaders->mCodecType = StreamHeaders::CMML;
 	mAnxDataPacket = inOggPacket->clone();
 	//mCodecHeaders->addPacket((StampedOggPacket*)inOggPacket->clone());
-	mNumHeadersNeeded = 0;		//TODO::: This should be 1 ???
+	mNumHeadersNeeded = 1;		//TODO::: This should be 1 ???
 	return true;
 }
 

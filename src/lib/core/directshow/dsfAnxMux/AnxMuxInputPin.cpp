@@ -148,7 +148,7 @@ HRESULT AnxMuxInputPin::SetMediaType(const CMediaType* inMediaType)
 			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locCMML->granuleNumerator, locCMML->granuleDenominator, 10000000);
 			mPaginator.setNumHeaders(1);
-			mPaginator.setNumHeaders(1);
+			mMuxStream->setNumHeaders(1);
 
 
 			locWasOK = true;

@@ -350,7 +350,7 @@ unsigned long OggPaginator::addAsMuchPacketAsPossible(StampedOggPacket* inOggPac
 	//mPending page has data is useless, it was set before this function is called... need to fix that. maybe move into add part of pack into apge
 	if ((!mPendingPageHasData) && (inStartAt != 0)) {
 		debugLog<<"addAsMuchPacketAsPossible : Setting continuation flag"<<endl;
-		mPendingPage->header()->setHeaderFlags(mPendingPage->header()->HeaderFlags() | OggPageHeader::CONTINUATION);	
+		mPendingPage->header()->setHeaderFlags(mPendingPage->header()->HeaderFlags() | (unsigned char)OggPageHeader::CONTINUATION);	
 		
 	}
 

@@ -170,6 +170,20 @@ bool OggMuxStream::isEOS() {
 	return mIsEOS;
 }
 
+//a) All inactive streams are processable.
+//b) All EOS empty streams are processable.
+
+//Empty				EOS				Active		Processable
+//=========================================================
+// T				T				T				T	-b
+// T				T				F				T	-a
+// T				F				T				F 
+// T				F				F				T	-a
+// F				T				T				T	-b
+// F				T				F				T	-a
+// F				F				T				T 
+// F				F				F				T	-a
+
 bool OggMuxStream::isProcessable() {
 	if (isEmpty() &&  !isEOS() && isActive()) {
 		return false;

@@ -145,17 +145,21 @@ void OggPageInterleaver::writeLowest() {
 					//In english this means... any bos pages go first... then any no gran pos pages (-1 gran pos).. 
 					// then any remaining streams with headers then whoevers got the lowest time.
 					if (
+						//Precedence goes to BOS pages.
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							(mInputStreams[i]->peekFront()->header()->isBOS()) ) ||
 						
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							((mInputStreams[i]->peekFront()->header()->GranulePos()) == -1) ) ||
 							
-						//Only choose a stream which hasn't sent all it's headers if the best one so far isn't a BOS
+						//If the tested page hasn't sent all it's headers and the current one either
+						// a) Has already sent all it's pages OR
+						// b) Has sent more than the test page
 						(	(mInputStreams[i]->peekFront() != NULL) && 
 							(!mInputStreams[i]->sentAllHeaders()) &&
 							//(!locLowestStream->peekFront()->header()->isBOS()) ) ||
-							(mInputStreams[i]->packetsSent() < locLowestStream->packetsSent()) ) ||
+							((locLowestStream->sentAllHeaders()) ||
+							(mInputStreams[i]->packetsSent() < locLowestStream->packetsSent())) ) ||
 						
 						(
 							(locTestLowTime < locCurrLowTime))
@@ -174,7 +178,7 @@ void OggPageInterleaver::writeLowest() {
 
 						if	((mInputStreams[i]->peekFront() != NULL) && 
 							(!mInputStreams[i]->sentAllHeaders()) &&
-							(!locLowestStream->peekFront()->header()->isBOS()) ) {
+							(mInputStreams[i]->packetsSent() < locLowestStream->packetsSent()) ) {
 
 									debugLog<<"WriteLowest : Selecting because hasn't sent all headers"<<endl;
 						}

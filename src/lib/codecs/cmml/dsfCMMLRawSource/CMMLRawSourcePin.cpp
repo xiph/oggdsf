@@ -170,6 +170,9 @@ HRESULT CMMLRawSourcePin::deliverTag(C_CMMLTag* inTag) {
 		
 
 	}
+
+	debugLog<<"Tag time = "<<locStart<<" - "<<locStop<<endl;
+	debugLog<<locNarrowStr<<endl<<endl;
 	locSample->SetActualDataLength(locNarrowStr.size());
 	locSample->SetTime(&locStart, &locStop);
 	locSample->SetMediaTime(NULL, NULL);
