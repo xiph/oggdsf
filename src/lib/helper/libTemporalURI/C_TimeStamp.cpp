@@ -33,6 +33,7 @@ bool C_TimeStamp::parseNPT(string inTimeStamp, sFourPartTime* inFPT) {
 				
 				if (locSubSec >= 0) {
 					inFPT->partials = locSubSec;
+					return true;
 				} else {
 					return false;
 				}
@@ -57,11 +58,14 @@ bool C_TimeStamp::parseSMPT(string inTimeStamp, sFourPartTime* inFPT) {
 				inFPT->partials = 0;
 				return true;
 			} else {
-				long locSubSec = StringHelper::stringToNum(locLeftOver);
+				long locSubSec = (long)StringHelper::stringToNum(locLeftOver);
 				
 				if (locSubSec >= 0) {
 					//TODO::: Verify frames < numframes for type.
 					inFPT->partials = locSubSec;
+					return true;
+				} else {
+					return false;
 				}
 			}
 		} else {
@@ -80,9 +84,9 @@ bool C_TimeStamp::parseThreePartTime(string inTimeStamp, sFourPartTime* inFPT, s
 	string locMins;
 	string locSecs;
 
-	long locHH = 0;
-	long locMM = 0;
-	long locSS = 0;
+	LOOG_INT64 locHH = 0;
+	LOOG_INT64 locMM = 0;
+	LOOG_INT64 locSS = 0;
 
 	if (locColonPos != string::npos) {
 		locHours = inTimeStamp.substr(0, locColonPos);
@@ -129,8 +133,8 @@ bool C_TimeStamp::parseThreePartTime(string inTimeStamp, sFourPartTime* inFPT, s
 
 		//Other wise, everything is ok.
 		inFPT->hours = locHH;
-		inFPT->minutes = locMM;
-		inFPT->seconds = locSS;
+		inFPT->minutes = (short)locMM;
+		inFPT->seconds = (short)locSS;
 		inFPT->partials = 0;
 		*outLeftOver = inTimeStamp;
 		return true;
@@ -157,6 +161,7 @@ bool C_TimeStamp::parseSecsOnly(string inTimeStamp) {
 		//No dot here
 		locSS = StringHelper::stringToNum(inTimeStamp);
 		locNN = 0;
+		return true;
 	} else {
 		//Dotted time
 
