@@ -119,7 +119,8 @@ namespace DNPlay
 		//Implementing IDNCMMLCallbacks
 		public bool clipCallback(ClipTag inClipTag) 
 		{
-			MessageBox.Show("Clip Callback");
+			//MessageBox.Show("Clip Callback");
+			cmdFollowLink.Enabled = true;
 			mCurrentClip = inClipTag;
 			lblClipDesc.Text = inClipTag.desc().text();
 			lblAnchorLink.Text = inClipTag.anchor().href();
@@ -468,6 +469,8 @@ namespace DNPlay
 				lblFileLocation.Text = inFileName;
 				lblAnchorLink.Text = "";
 				lblClipDesc.Text = "";
+				lblTitle.Text = "";
+				cmdFollowLink.Enabled = false;
 
 
 				
