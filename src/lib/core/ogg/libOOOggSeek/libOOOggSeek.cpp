@@ -33,6 +33,9 @@
 //
 
 #include "stdafx.h"
+//These ignore unreferenced formal parameter (lpReserved and hModule since they are unused)
+#pragma warning( push )
+#pragma warning( disable : 4100 )
 #include <libOOOggSeek/libOOOggSeek.h>
 
 BOOL APIENTRY DllMain( HANDLE hModule, 
@@ -51,3 +54,4 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return TRUE;
 }
 
+#pragma warning( pop )
