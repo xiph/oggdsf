@@ -291,6 +291,7 @@ HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
 	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 	SetDelegate(locSeeker);
 	
+	
 	mMuxStream->setIsActive(true);
 	return mParentFilter->addAnotherPin();
 

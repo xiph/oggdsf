@@ -129,9 +129,14 @@ OggMuxFilter::OggMuxFilter()
 	mInputPins.push_back(new OggMuxInputPin(this, m_pLock, &mHR, mInterleaver->newStream()));
 	debugLog.open("g:\\logs\\muxer.log", ios_base::out);
 
-	//Make our delegate pin[0], the top pin... we send all out requests there.
-	IMediaSeeking* locSeeker = NULL;
-	mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	////Make our delegate pin[0], the top pin... we send all out requests there.
+	//IMediaSeeking* locSeeker = NULL;
+	//mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	//SetDelegate(locSeeker);
+
+	//To avoid a circular reference... we do this without the addref.
+	// This is safe because we control the lifetime of this pin, and it won't be deleted until we are.
+	IMediaSeeking* locSeeker = (IMediaSeeking*)mInputPins[0];
 	SetDelegate(locSeeker);
 	
 }
@@ -155,6 +160,9 @@ OggMuxFilter::OggMuxFilter(REFCLSID inFilterGUID)
 	//IMediaSeeking* locSeeker = NULL;
 	//mInputPins[0]->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 	//SetDelegate(locSeeker);
+
+
+
 	
 }
 
@@ -162,6 +170,15 @@ OggMuxFilter::~OggMuxFilter(void)
 {
 	//debugLog.close();
 	//DbgLog((LOG_ERROR, 1, TEXT("****************** DESTRUCTOR **********************")));
+
+	//ReleaseDelegate();
+	
+	delete mInterleaver;
+	for (size_t i = 0; i < mInputPins.size(); i++) {
+		delete mInputPins[i];
+	}
+
+
 	delete m_pLock;
 	delete mStreamLock;
 	
