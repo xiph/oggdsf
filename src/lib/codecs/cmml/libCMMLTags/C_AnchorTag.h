@@ -50,17 +50,25 @@ public:
 	C_AnchorTag(void);
 	virtual ~C_AnchorTag(void);
 
-	//Accessors
+	/// Returns the style sheet attribute
 	wstring cls();
+
+	/// Returns the uri that this anchor tag links to
 	wstring href();
 
-	//Mutators
+	/// Sets the style sheet attribute
 	void setCls(wstring inCls);
+
+	/// Sets the uri this anchor tag links to.
 	void setHref(wstring inHref);
 
-	//Other
+	/// Convert this anchor tag to an xml string.
 	virtual wstring toString();
+
+	/// Performs a deep copy and returns you a pointer you can keep
 	C_AnchorTag* clone();
+
+	/// Performs a deep copy and returns you a pointer to the base class you can keep (Virtual contructor)
 	virtual C_CMMLTag* genericClone();
 
 protected:
@@ -68,7 +76,7 @@ protected:
 	wstring mCls;
 	wstring mHref;
 
-	//Protected Helper Methods
+	/// Internal method which performs deep copying
 	virtual void privateClone(C_CMMLTag* outTag);
 
 };
