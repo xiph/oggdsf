@@ -84,7 +84,7 @@ namespace DNPlay
 		{
 			double locProgRatio = 0;
 			Int32 locProgWidth = 0;
-			if (mFileDuration != 0) 
+			if (mFileDuration > 0) 
 			{
 				try 
 				{
@@ -93,6 +93,8 @@ namespace DNPlay
 				} 
 				catch (System.OverflowException)
 				{
+					//MessageBox.Show(mFileDuration.ToString());
+					
 				    locProgWidth = 0;
 				}
 			}
