@@ -600,7 +600,7 @@ namespace DNPlay
 
 		private bool setBaseURIFromFullPath(String inFullPath) 
 		{
-			//MessageBox.Show(inFullPath);
+			MessageBox.Show(inFullPath);
 			Uri locURI = null;
 			Uri locBaseURI = null;
 			try 
@@ -616,8 +616,8 @@ namespace DNPlay
 
 			if (locURI != null) 
 			{
-				//MessageBox.Show(locURI.ToString());
-				//MessageBox.Show(locURI.GetLeftPart(UriPartial.Authority));
+				MessageBox.Show(locURI.ToString());
+				MessageBox.Show(locURI.GetLeftPart(UriPartial.Authority));
 				String locPartial = locURI.GetLeftPart(UriPartial.Authority);
 
 				if (locPartial.Equals("")) 
@@ -632,7 +632,7 @@ namespace DNPlay
 					{
 						//Strip off the filename part at the end
 						locPartial = locPartial.Substring(0, locDelimPos + 1);
-						//MessageBox.Show("Parital : " + locPartial);
+						MessageBox.Show("Parital : " + locPartial);
 					} 
 					else 
 					{
@@ -644,7 +644,7 @@ namespace DNPlay
 				if (!locPartial.Equals("")) 
 				{
 					locBaseURI = new Uri(locPartial);
-					//MessageBox.Show(locBaseURI.ToString());
+					MessageBox.Show(locBaseURI.ToString());
 				}
 				
 			} 
@@ -664,10 +664,10 @@ namespace DNPlay
 				Uri locURI = null;
 				try 
 				{
-					//MessageBox.Show("Base is "+mBaseURI.ToString());
+					MessageBox.Show("Base is "+mBaseURI.ToString());
 					//try and make a URI using the base and the href from the clip (relative)
 					locURI = new Uri(mBaseURI, mCurrentClip.anchor().href());	
-					//MessageBox.Show("New URI is "+locURI.ToString());
+					MessageBox.Show("New URI is "+locURI.ToString());
 				} 
 				catch(System.UriFormatException) 
 				{
@@ -732,6 +732,7 @@ namespace DNPlay
 			locOpenDialog.ShowDialog(this);
 			if (locOpenDialog.wasOK) 
 			{
+				MessageBox.Show(locOpenDialog.URLToOpen);
 				LoadFile(locOpenDialog.URLToOpen);
 				
 				
