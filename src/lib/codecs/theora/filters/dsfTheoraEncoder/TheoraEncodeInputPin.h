@@ -61,8 +61,8 @@ protected:
 	//
 //	bool fillTheoraInfo(theora_info* outTheora, sTheoraFormatBlock* inTheoraFormatBlock); 		
 	//
-	TheoraEncodeOutputPin* mOutputPin;
-	__int64 mUptoFrame;
+	//TheoraEncodeOutputPin* mOutputPin; //Already in the base class. Naughty c++
+	//__int64 mUptoFrame;	//Already in base class stupid !
 
 	TheoraEncoder mTheoraEncoder;
 	theora_info mTheoraInfo;

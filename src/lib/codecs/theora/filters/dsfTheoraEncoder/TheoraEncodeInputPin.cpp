@@ -35,6 +35,7 @@
 TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractVideoEncodeOutputPin* inOutputPin)
 	:	AbstractVideoEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("TheoraEncodeInputPin"), L"YV12 In")
 	,	mBegun(false)
+	
 
 {
 	mYUV.y = NULL;
@@ -304,7 +305,6 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 
 	mTheoraInfo.height	=	mHeight
 						=	mYUV.y_height
-						=	mYUV.y_width
 						=	mVideoFormat->bmiHeader.biHeight;
 
 	mYUV.uv_height		=	mHeight/2;
