@@ -49,6 +49,7 @@ class OGG_DEMUX_API OggDemuxSourceFilter
 		public IFileSourceFilter,
 		public IOggCallback
 	,	public BasicSeekable
+	,	
 {
 public:
 	friend class OggStream;

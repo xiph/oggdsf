@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2004 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -28,16 +28,12 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#pragma once
-#include "IFilterDataSource.h"
-#include "FilterFileSource.h"
-#include "HTTPFileSource.h"
-class OGG_DEMUX_API DataSourceFactory
-{
-public:
-	DataSourceFactory(void);
-	~DataSourceFactory(void);
 
-	static IFilterDataSource* createDataSource(string inSourceLocation);
-	static string identifySourceType(string inSourceLocation);
-};
+// stdafx.cpp : source file that includes just the standard includes
+// CLOgg.pch will be the pre-compiled header
+// stdafx.obj will contain the pre-compiled type information
+
+#include "stdafx.h"
+
+// TODO: reference any additional headers you need in STDAFX.H
+// and not in this file

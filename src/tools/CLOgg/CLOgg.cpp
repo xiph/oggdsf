@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2004 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -28,16 +28,34 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#pragma once
-#include "IFilterDataSource.h"
-#include "FilterFileSource.h"
-#include "HTTPFileSource.h"
-class OGG_DEMUX_API DataSourceFactory
-{
-public:
-	DataSourceFactory(void);
-	~DataSourceFactory(void);
 
-	static IFilterDataSource* createDataSource(string inSourceLocation);
-	static string identifySourceType(string inSourceLocation);
-};
+// CLOgg.cpp : Command line minimalist audio player.
+//
+
+#include "stdafx.h"
+#include <dshow.h>
+#include <windows.h>
+#include <iostream>
+using namespace std;
+int __cdecl _tmain(int argc, _TCHAR* argv[])
+{
+	IGraphBuilder* locGraphBuilder = NULL;
+	IMediaControl* locMediaControl = NULL;
+	HRESULT locHR;
+	CoInitialize(NULL);
+	locHR = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&locGraphBuilder);
+	locHR = locGraphBuilder->RenderFile(L"http://www.illiminable.com/th/m.mp3", NULL);
+
+	locHR = locGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&locMediaControl);
+
+	locHR = locMediaControl->Run();
+
+	int x;
+	cin>>x;
+	locMediaControl->Release();
+	locGraphBuilder->Release();
+	CoUninitialize();
+
+	return 0;
+}
+
