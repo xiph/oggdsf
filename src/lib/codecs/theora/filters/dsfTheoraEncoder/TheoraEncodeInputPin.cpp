@@ -34,7 +34,6 @@
 
 TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractVideoEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractVideoEncodeOutputPin* inOutputPin)
 	:	AbstractVideoEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("TheoraEncodeInputPin"), L"YV12 In")
-	,	mBegun(false)
 	,	mXOffset(0)
 	,	mYOffset(0)
 	
@@ -248,8 +247,8 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 			locDestUptoPtr += (mWidth / 2);
 
 			//Pad the end of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset);
-			locDestUptoPtr += mXOffset;
+			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
+			locDestUptoPtr += (mXOffset / 2);
 			//Source pointer does not advance
 		}
 
@@ -258,7 +257,7 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	//Pad bottom of V plane buffer with mYOffset / 2 lines of width mYUV.uv_width
 	if (mYOffset != 0) {
 		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.y_width) / 2);
+		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
 		//Source pointer does not advance
 	}
 	
@@ -303,8 +302,8 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 			locDestUptoPtr += (mWidth / 2);
 
 			//Pad the end of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset);
-			locDestUptoPtr += mXOffset;
+			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
+			locDestUptoPtr += (mXOffset / 2);
 			//Source pointer does not advance
 		}
 
@@ -313,7 +312,7 @@ long TheoraEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	//Pad bottom of U plane buffer with mYOffset / 2 lines of width mYUV.uv_width
 	if (mYOffset != 0) {
 		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.y_width) / 2);
+		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
 		//Source pointer does not advance
 	}
 
@@ -370,7 +369,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 								=	mVideoFormat->bmiHeader.biWidth;
 
 	mYUV.uv_width				=	mYUV.uv_stride
-								=	mWidth/2;
+								=	mYUV.y_width/2;
 
 	
 	//
@@ -382,7 +381,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	mTheoraInfo.frame_height	=	mHeight
 								=	mVideoFormat->bmiHeader.biHeight;
 
-	mYUV.uv_height				=	mHeight/2;
+	mYUV.uv_height				=	mYUV.y_height/2;
 
 	
 	//

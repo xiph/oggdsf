@@ -1,0 +1,16 @@
+Source(Theora) + Theora + V Renderer = NO
+Source(Theora) + NULL Renderer = NO
+Source(Vorbis) + NULL Renderer = NO
+Source(Vorbis) + Vorbis + NULL Renderer = NO
+Source(Theora) + Theora + NULL Renderer = NO
+Source + Speex + Vorbis + NULL Renderer(Speex) + A Renderer(Vorbis) = NO
+Source + Theo + Vorbis + A&V Renderer = NO
+
+Source + Speex + Vorbis + 2*A Renderer = YES
+Source + 2*Vorbis + 2*A Renderer = YES
+Source + Vorbis + ffdshow(DIVX) + A&V Renderer = YES
+Source + Vorbis + A Renderer = YES
+Source + Speex + Vorbis + A Renderer(Vorbis) + Dump Renderer(Speex) = YES
+Source + Theora + Vorbis + A Renderer(Vorbis) + Dump Renderer(Theora) = YES
+Source + Theora + Dump = YES
+

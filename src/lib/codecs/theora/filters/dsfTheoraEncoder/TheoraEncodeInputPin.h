@@ -63,7 +63,7 @@ public:
 
 protected:
 	HRESULT mHR;
-	bool mBegun;
+	//bool mBegun;	//Already in base class !
 
 	HRESULT deliverData(LONGLONG inStart, LONGLONG inEnd, unsigned char* inBuf, unsigned long inNumBytes);
 	//
