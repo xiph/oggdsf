@@ -193,11 +193,61 @@ void FLACEncodeInputPin::DestroyCodec() {
 //	}
 //}
 
-::FLAC__StreamEncoderWriteStatus FLACEncodeInputPin::write_callback(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame) {
+::FLAC__StreamEncoderWriteStatus FLACEncodeInputPin::write_callback(const FLAC__byte inBuffer[], unsigned inNumBytes, unsigned inNumSamples, unsigned inCurrentFrame) {
 
 	//This is called back with encoded data after raw data is fed in by stream_encoder_process or
 	// stream_encoder_process_interleaved.
-	return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
+
+	LONGLONG locFrameStart = mUptoFrame;
+	if (inNumSamples != 0) {
+		mUptoFrame += inNumSamples;
+	} else {
+		//??????
+		throw 0;
+	}
+	LONGLONG locFrameEnd = mUptoFrame;
+
+
+	//Get a pointer to a new sample stamped with our time
+	IMediaSample* locSample;
+	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
+
+	if (FAILED(locHR)) {
+		//We get here when the application goes into stop mode usually.
+		//locThis->debugLog<<"Getting buffer failed"<<endl;
+		return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
+	}	
+	
+	BYTE* locBuffer = NULL;
+
+	//Make our pointers set to point to the samples buffer
+	locSample->GetPointer(&locBuffer);
+
+	if (locSample->GetSize() >= inNumBytes) {
+
+		memcpy((void*)locBuffer, (const void*)inBuffer, inNumBytes);
+		
+		//Set the sample parameters.
+		SetSampleParams(locSample, inNumBytes, &locFrameStart, &locFrameEnd);
+
+		{
+			CAutoLock locLock(m_pLock);
+
+			
+			HRESULT locHR = mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+			if (locHR != S_OK) {
+				//locThis->debugLog<<"Sample rejected"<<endl;
+			} else {
+				//locThis->debugLog<<"Sample Delivered"<<endl;
+			}
+		}
+
+		return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
+	} else {
+		throw 0;
+	}
+
+
 }
 void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadata) {
 	//This is called back at the *end* of encoding with the headers that need to be written at the *start* of the stream.
