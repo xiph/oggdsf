@@ -105,7 +105,7 @@
 				AssemblerListingLocation="./"
 				ObjectFile="./"
 				ProgramDataBaseFileName="./"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
 				CallingConvention="0"
