@@ -343,6 +343,16 @@ void DSPlay::GetVideoInformation() {
 						mVideoWidth = locVideoInfo->bmiHeader.biWidth;
 						mVideoHeight = locVideoInfo->bmiHeader.biHeight;
 
+					} else if (locMediaType.formattype == FORMAT_VideoInfo2) {
+						VIDEOINFOHEADER2* locVideoInfo = (VIDEOINFOHEADER2*)locMediaType.pbFormat;
+						//Get the info we need
+						mAvgTimePerFrame = locVideoInfo->AvgTimePerFrame;
+						mVideoWidth = locVideoInfo->bmiHeader.biWidth;
+						mVideoHeight = locVideoInfo->bmiHeader.biHeight;
+					} else {
+						mAvgTimePerFrame = 0;
+						mVideoWidth = 0;
+						mVideoHeight = 0;
 					}
 
 					//Free the format block
