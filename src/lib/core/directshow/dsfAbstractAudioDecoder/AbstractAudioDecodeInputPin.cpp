@@ -119,7 +119,7 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 		inSample->GetTime(&locStart, &locEnd);
 		//Error chacks needed here
 		//aadDebug<<"Receive : Start = "<<locStart<<endl;
-		if (mLastSeenStartGranPos != locStart) {
+		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
 			ResetFrameCount();
 		}
 		mLastSeenStartGranPos = locStart;

@@ -169,7 +169,7 @@ HRESULT AbstractAudioDecodeOutputPin::DeliverBeginFlush(void) {
 HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 	HRESULT locHR = S_OK;
 
-	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 10);
+	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 20);
 	if (FAILED(locHR)) {
 		locHR = locHR;
 	}
