@@ -2,14 +2,24 @@ AUTOMAKE_OPTIONS = foreign
 
 AM_CXXFLAGS = -w
 
-bin_PROGRAMS = OOOggDump
+bin_PROGRAMS = OOOggDump OOOggValidate OOOggStat OOOggChainSplitter
 
-lib_LTLIBRARIES = libOOOgg.la
+lib_LTLIBRARIES = libOOOgg.la libVorbisComment.la
 
-INCLUDES = -I@top_srcdir@/../src/lib/helper/libilliCore -I@top_srcdir@/../src/lib/core/ogg/libOOOgg
+INCLUDES = \
+	   -I@top_srcdir@/../src/lib/helper/libilliCore \
+	   -I@top_srcdir@/../src/lib/core/ogg/libOOOgg \
+	   -I@top_srcdir@/../src/lib/core/ogg/libVorbisComment
 
 libOOOgg_la_SOURCES = $(libilliCore_SOURCES) $(libOOOggCore_SOURCES)
 
+libVorbisComment_la_LIBADD = libOOOgg.la
+libVorbisComment_la_SOURCES = \
+	../src/lib/core/ogg/libVorbisComment/FileComments.cpp \
+	../src/lib/core/ogg/libVorbisComment/SingleVorbisComment.cpp \
+	../src/lib/core/ogg/libVorbisComment/StreamCommentInfo.cpp \
+	../src/lib/core/ogg/libVorbisComment/VorbisComments.cpp
+	
 libilliCore_SOURCES = \
 	../src/lib/helper/libilliCore/StringHelper.cpp \
 	../src/lib/helper/libilliCore/iBE_Math.cpp \
@@ -31,4 +41,18 @@ libOOOggCore_SOURCES = \
 OOOggDump_LDADD = libOOOgg.la
 OOOggDump_SOURCES = \
 	../src/tools/OOOggDump/OOOggDump.cpp
+
+OOOggValidate_LDADD = libOOOgg.la
+OOOggValidate_SOURCES = \
+	../src/tools/OOOggValidate/OOOggValidate.cpp \
+	../src/tools/OOOggValidate/OggStreamValidationState.cpp \
+	../src/tools/OOOggValidate/OggValidationState.cpp
+
+OOOggStat_LDADD = libOOOgg.la
+OOOggStat_SOURCES = \
+	../src/tools/OOOggStat/OOOggStat.cpp
+
+OOOggChainSplitter_LDADD = libOOOgg.la libVorbisComment.la
+OOOggChainSplitter_SOURCES = \
+	../src/tools/oggChainSplitter/oggChainSplitter.cpp
 
