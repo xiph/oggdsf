@@ -89,6 +89,11 @@
                     AssemblyName = "System.XML"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
+                <Reference
+                    Name = "libVorbisCommentDotNET"
+                    Project = "{CD8398F5-6FF7-4BDA-9E48-ADF6C64A4747}"
+                    Package = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
+                />
             </References>
         </Build>
         <Files>
