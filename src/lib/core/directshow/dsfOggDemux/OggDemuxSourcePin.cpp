@@ -37,16 +37,22 @@ OggDemuxSourcePin::OggDemuxSourcePin(	TCHAR* inObjectName,
 										StreamHeaders* inHeaderSource, 
 										CMediaType* inMediaType,
 										wstring inPinName,
-										bool inAllowSeek)
-	:	CBaseOutputPin(NAME("Ogg Demux Output Pin"), inParentFilter, inFilterLock, &mFilterHR, inPinName.c_str()),
-		mHeaders(inHeaderSource),
-		mParentFilter(inParentFilter),
-		mMediaType(inMediaType),
-		mDataQueue(NULL),
-		mFirstRun(true),
-		mPartialPacket(NULL)
+										bool inAllowSeek )
+	:	CBaseOutputPin(			NAME("Ogg Demux Output Pin")
+							,	inParentFilter
+							,	inFilterLock
+							,	&mFilterHR
+							,	inPinName.c_str() )
+	,	mHeaders(inHeaderSource)
+	,	mParentFilter(inParentFilter)
+	,	mMediaType(inMediaType)
+	,	mDataQueue(NULL)
+	,	mFirstRun(true)
+	,	mPartialPacket(NULL)
 		
 {
+	//TODO::: Something about this is causing a COM reference leak.
+
 	//debugLog.open("G:\\logs\\sourcefilterpin.log", ios_base::out);
 	IMediaSeeking* locSeeker = NULL;
 	//if (inAllowSeek) {
@@ -84,13 +90,9 @@ STDMETHODIMP OggDemuxSourcePin::NonDelegatingQueryInterface(REFIID riid, void **
 
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
-bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) {
+bool OggDemuxSourcePin::deliverOggPacket(StampedOggPacket* inPacket) 
+{
 	CAutoLock locStreamLock(mParentFilter->mStreamLock);
-
-	//Hack to try and suport chaining (only for non-seekables)
-	
-	//
-
 
 
 	IMediaSample* locSample = NULL;

@@ -291,12 +291,12 @@ STDMETHODIMP OggDemuxSourceFilter::GetStopPosition(LONGLONG *pStop){
 		return E_NOTIMPL;
 	}
 }
-STDMETHODIMP OggDemuxSourceFilter::GetCurrentPosition(LONGLONG *pCurrent){
+STDMETHODIMP OggDemuxSourceFilter::GetCurrentPosition(LONGLONG *pCurrent)
+{
+	//TODO::: Implement this properly
+
 	//debugLog<<"GetCurrentPos = NOT_IMPL"<<endl;
 	return E_NOTIMPL;
-	//debugLog <<"GetCurrPos = HARD CODED = 6 secs"<< endl;
-	 *pCurrent = 6 * UNITS;
-	return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat){
 	//debugLog<<"ConvertTimeForamt : NOT IMPL"<<endl;
@@ -358,13 +358,11 @@ STDMETHODIMP OggDemuxSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurre
 
 	return S_OK;
 }
-STDMETHODIMP OggDemuxSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop){
+STDMETHODIMP OggDemuxSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop)
+{
 	//debugLog<<"Getpos : Not IMPL"<<endl;
 	//debugLog<<"GetPos : Current = HARDCODED 2 secs , Stop = "<<mSeekTable->fileDuration()/UNITS <<" secs."<<endl;
 	return E_NOTIMPL;
-	//*pCurrent = 2 * UNITS;
-	//*pStop = mSeekTable->fileDuration();
-	//return S_OK;
 }
 STDMETHODIMP OggDemuxSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest){
 	//debugLog<<"****GetAvailable : NOT IMPL"<<endl;
@@ -373,6 +371,7 @@ STDMETHODIMP OggDemuxSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *p
 		*pEarliest = 0;
 		//debugLog<<"+++++ Duration is "<<mSeekTable->fileDuration()<<endl;
 		*pLatest = mSeekTable->fileDuration();
+		return S_OK;
 	} else {
 		return E_NOTIMPL;
 	}
@@ -413,7 +412,9 @@ int OggDemuxSourceFilter::GetPinCount()
 }
 CBasePin* OggDemuxSourceFilter::GetPin(int inPinNo) 
 {
-	if ((inPinNo >= 0) && (inPinNo < mStreamMapper->numStreams())) {
+	//The cast in thesecond condition removes a warning C4018 signed/unsigned mismatch.
+	// Since the first condition would short circuit if inPinNo was < 0, the cast is safe.
+	if ((inPinNo >= 0) && ((unsigned long)inPinNo < mStreamMapper->numStreams())) {
 		return mStreamMapper->getOggStream(inPinNo)->getPin();
 	} else {
 		return NULL;
