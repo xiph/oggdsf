@@ -51,9 +51,30 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	mAcceptableMediaType = inAcceptMediaType;
 	mStreamLock = new CCritSec;
 
-	IMediaSeeking* locSeeker = NULL;
-	this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
-	mOutputPin->SetDelegate(locSeeker);
+	//This is causing a problem... since every addref on a pin automatically
+	// adds a ref to the filter... we get the situation, where on shutdown
+	// the output pin still hold a ref on the input pin due to this bit of code
+	// So at shutdown, 
+	// the input pin has a ref count of 1
+	// the output pin has a ref count of 0 (it's released by the downstream filter)
+	// the filter has a ref count of 1 by way of the automatic addref from the input pin
+	// This means that even when everything else releases all it's refs on the filter
+	// it still has a ref count of 1... and since currently the ref that the
+	// output pin holds on the input pin isn't release until the output pin is
+	// destroyed, and the output pin isn't destroyed until the filter is
+	// we get a circular reference.
+	//
+	//New solution is to attach this reference (from output to input) on the
+	// complete connect method of the output pin via mParentfilter
+	// and to release it when on the break conncet of the output pin.
+	// This means that now as soon as the downstream filter releases the output
+	// pin, it will release it's ref on the input pin, leaving the pins and the filer with
+	// zero ref counts... well thats the plan anyway.
+	//
+	//IMediaSeeking* locSeeker = NULL;
+	//this->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	//mOutputPin->SetDelegate(locSeeker);
+	//
 }
 
 STDMETHODIMP AbstractAudioDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)

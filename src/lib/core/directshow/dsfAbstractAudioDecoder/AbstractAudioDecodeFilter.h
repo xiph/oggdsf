@@ -53,7 +53,7 @@ public:
 	//COM Setup
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-
+	//STDMETHODIMP_(ULONG) NonDelegatingRelease();
 	//Constants and Enumerations
 	static const long NUM_PINS = 2;
 	enum eAudioFormat {

@@ -8,7 +8,7 @@ class DSFSEEKING_API BasicSeekable
 public:
 	BasicSeekable(void);
 	BasicSeekable(IMediaSeeking* inDelegate);
-	~BasicSeekable(void);
+	virtual ~BasicSeekable(void);
 
 	bool SetDelegate(IMediaSeeking* inDelegate);
 	bool ReleaseDelegate();

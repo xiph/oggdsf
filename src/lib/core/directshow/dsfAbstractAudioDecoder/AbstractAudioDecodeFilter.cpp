@@ -47,6 +47,10 @@ AbstractAudioDecodeFilter::~AbstractAudioDecodeFilter(void)
 	
 }
 
+//STDMETHODIMP_(ULONG) AbstractAudioDecodeFilter::NonDelegatingRelease() {
+//	ULONG x = CBaseFilter::NonDelegatingRelease();
+//	return x;
+//}
 void AbstractAudioDecodeFilter::DestroyPins() {
 	delete mOutputPin;
 	delete mInputPin;

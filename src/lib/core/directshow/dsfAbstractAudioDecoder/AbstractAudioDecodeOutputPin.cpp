@@ -42,7 +42,7 @@ AbstractAudioDecodeOutputPin::AbstractAudioDecodeOutputPin(AbstractAudioDecodeFi
 }
 AbstractAudioDecodeOutputPin::~AbstractAudioDecodeOutputPin(void)
 {	
-
+	ReleaseDelegate();
 	delete mDataQueue;
 	mDataQueue = NULL;
 }
@@ -167,11 +167,19 @@ HRESULT AbstractAudioDecodeOutputPin::DeliverBeginFlush(void) {
 	//QUERY:: Locks ???
 	mDataQueue->BeginFlush();
     return S_OK;
+	
 }
 
 HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 	HRESULT locHR = S_OK;
 
+	//Here when another pin connects to us, we internally connect the seek delegate
+	// from this output pin onto the input pin... and we release it on breakconnect.
+	//
+	IMediaSeeking* locSeeker = NULL;
+	mParentFilter->mInputPin->NonDelegatingQueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
+	SetDelegate(locSeeker);
+	//
 	mDataQueue = new COutputQueue (inReceivePin, &locHR, FALSE, TRUE, 1, TRUE, 20);
 	if (FAILED(locHR)) {
 		locHR = locHR;
@@ -181,8 +189,9 @@ HRESULT AbstractAudioDecodeOutputPin::CompleteConnect (IPin *inReceivePin) {
 }
 
 HRESULT AbstractAudioDecodeOutputPin::BreakConnect(void) {
-	HRESULT locHR = CBaseOutputPin::BreakConnect();
+
+	ReleaseDelegate();
 	delete mDataQueue;
 	mDataQueue = NULL;
-	return locHR;
+	return CBaseOutputPin::BreakConnect();
 }

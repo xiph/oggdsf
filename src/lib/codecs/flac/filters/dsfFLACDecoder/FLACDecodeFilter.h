@@ -39,6 +39,7 @@ public:
 	FLACDecodeFilter(void);
 	virtual ~FLACDecodeFilter(void);
 
+
 	friend class FLACDecodeInputPin;
 	friend class FLACDecodeOutputPin;
 

@@ -53,6 +53,7 @@ public:
 	FLACDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
 	virtual ~FLACDecodeInputPin(void);
 
+
 	HRESULT SetMediaType(const CMediaType* inMediaType);
 
 	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte buffer[], unsigned *bytes);

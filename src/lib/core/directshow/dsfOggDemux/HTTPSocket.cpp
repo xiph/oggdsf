@@ -193,7 +193,7 @@ bool HTTPSocket::splitURL(string inURL) {
 	mServerName = locServerName;
 	mFileName = locPath;
 	if (locPort != "") {
-		//Error checking needed
+		//TODO::: Error checking needed
 		mPort = atoi(locPort.c_str());
 	} else {
 		mPort = 0;
