@@ -67,18 +67,14 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	,	mSeekRequest(0)
 	,	mTotalNumSamples(0)
 	,	mWasEOF(false)
-	
-	//,	mDecoder(NULL)
 {
 	m_pLock = new CCritSec;
 	mCodecLock = new CCritSec;
-	debugLog.open("G:\\logs\\NativeFLAC.log", ios_base::out);
 	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
 }
 
 NativeFLACSourceFilter::~NativeFLACSourceFilter(void)
 {
-	debugLog.close();
 	delete mFLACSourcePin;
 	mFLACSourcePin = NULL;
 	delete mCodecLock;
@@ -89,7 +85,6 @@ int NativeFLACSourceFilter::GetPinCount() {
 	return 1;
 }
 CBasePin* NativeFLACSourceFilter::GetPin(int inPinNo) {
-
 	if (inPinNo == 0) {
 		return mFLACSourcePin;
 	} else {
@@ -104,18 +99,14 @@ ULONG NativeFLACSourceFilter::GetMiscFlags(void) {
 
 	//IFileSource Interface
 STDMETHODIMP NativeFLACSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) {
-	//Return the filename and mediatype of the raw data
-
-	 
 	LPOLESTR x = SysAllocString(mFileName.c_str());
 	*outFileName = x;
-	
 	return S_OK;
 }
 
-//ANX::: Seek table will need modifying to handle this.
+
 STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) {
-	//Initialise the file here and setup all the streams
+	//Initialise the file here and setup the stream
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
 
@@ -124,7 +115,6 @@ STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_T
 	mInputFile.seekg(0, ios_base::end);
 	mFileSize = mInputFile.tellg();
 	mInputFile.seekg(0, ios_base::beg);
-	debugLog<<"File size is = "<<mFileSize<<endl;
 
 	unsigned char locBuff[64];
 	mInputFile.read((char*)&locBuff, 64);
@@ -132,49 +122,17 @@ STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_T
 	const unsigned char FLAC_BPS_START_MASK = 1; //00000001
 	const unsigned char FLAC_BPS_END_MASK = 240;  //11110000
 
-	//Fix the format block data... use header version and other version.
-	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
 	mNumChannels = (((locBuff[20]) & FLAC_CHANNEL_MASK) >> 1) + 1;
 	mSampleRate = (iBE_Math::charArrToULong(&locBuff[18])) >> 12;
-	
-	mBitsPerSample =	(((locBuff[20] & FLAC_BPS_START_MASK) << 4)	|
-											((locBuff[21] & FLAC_BPS_END_MASK) >> 4)) + 1;	
-
-
+	mBitsPerSample =	(((locBuff[20] & FLAC_BPS_START_MASK) << 4)	| ((locBuff[21] & FLAC_BPS_END_MASK) >> 4)) + 1;	
 	mTotalNumSamples = (((__int64)(locBuff[21] % 16)) << 32) + ((__int64)(iBE_Math::charArrToULong(&locBuff[22])));
-	debugLog<<mNumChannels<<" channels with "<<mSampleRate<<" Hz @ "<<mBitsPerSample<<" bits per sample"<<endl;
-	debugLog<<"Total num samples = "<<mTotalNumSamples<<endl;
-
 
 	//TODO::: NEed to handle the case where the number of samples is zero by making it non-seekable.
 	mInputFile.seekg(0, ios_base::beg);
 
-	debugLog<<"Pre init"<<endl;
 	init();
-	debugLog<<"Post init"<<endl;
 	bool locResult = process_until_end_of_metadata();
-	debugLog<<"Post meta data call..."<<endl;
-	if (locResult) {
-		debugLog<<"Process meta data ok"<<endl;
-	}
 
-	//Strip the extension...
-	//size_t locDotPos = mFileName.find_last_of('.');
-	//if (locDotPos != ios_base::npos) {
-	//	mHDRFileName = mFileName.substr(0, locDotPos);
-	//	mHDRFileName += ".hdr";
-	//} else {
-	//	return S_FALSE;
-	//}
-
-	//mInputFile.open(StringHelper::toNarrowStr(mFileName), ios_base::in | ios_base::binary);
-
-	//if (!mInputFile.is_open()) {
-	//	return S_FALSE;
-	//}
-
-
-	
 	return S_OK;
 }
 
@@ -192,81 +150,51 @@ STDMETHODIMP NativeFLACSourceFilter::NonDelegatingQueryInterface(REFIID riid, vo
 
 //IMEdiaStreaming
 STDMETHODIMP NativeFLACSourceFilter::Run(REFERENCE_TIME tStart) {
-	debugLog<<"RUN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl;
-	const REFERENCE_TIME A_LONG_TIME = UNITS * 1000;
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"Run  :  time = "<<tStart<<endl;
-	//DeliverNewSegment(tStart, tStart + A_LONG_TIME, 1.0);
 	return CBaseFilter::Run(tStart);
-	
-
 }
 STDMETHODIMP NativeFLACSourceFilter::Pause(void) {
 	CAutoLock locLock(m_pLock);
-	//debugLog << "** Pause called **"<<endl;
-	debugLog<<"PAUSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<endl;
 	if (m_State == State_Stopped) {
-		//debugLog << "Was in stopped state... starting thread"<<endl;
 		if (ThreadExists() == FALSE) {
 			Create();
 		}
 		CallWorker(THREAD_RUN);
 	}
-	//debugLog<<"Was NOT is stopped state, not doing much at all..."<<endl;
-	
+
 	HRESULT locHR = CBaseFilter::Pause();
-	
 	return locHR;
 	
 }
 STDMETHODIMP NativeFLACSourceFilter::Stop(void) {
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"** Stop Called ** "<<endl;
 	CallWorker(THREAD_EXIT);
 	Close();
-	debugLog<<"Stop ##################################################################"<<endl;
-	debugLog<<"Pre seek to 0"<<endl;
 	mJustSeeked = true;
 	mSeekRequest = 0;
 	mUpto = 0;
-	debugLog<<"Post seek to 0"<<endl;
 	mFLACSourcePin->DeliverBeginFlush();
 	mFLACSourcePin->DeliverEndFlush();
 	return CBaseFilter::Stop();
 }
 
 HRESULT NativeFLACSourceFilter::DataProcessLoop() {
-
-	debugLog<<"Starting loop ***********************************************"<<endl;
 	DWORD locCommand = 0;
 	bool res = false;
 	while (true) {
 		if(CheckRequest(&locCommand) == TRUE) {
-			debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
-			
 			return S_OK;
 		}
 		{
 			CAutoLock locLock(mCodecLock);
 			if (mJustSeeked) {
 				mJustSeeked = false;
-				debugLog<<"!!!!!!!!!!!!!!!!!!!!!!! SEEK ABSOLUTE 0"<<endl;
 				bool res2 = false;
-				
 				res2 = seek_absolute(mSeekRequest);
-				
-				if (res2) {
-					debugLog<<"Seek absolute success"<<endl;
-				}
 			}
 			
-			debugLog<<"Process it"<<endl;
 			res = process_single();
-			if (res) {
-				debugLog<<"Process OK"<<endl;
-			} else {
-				debugLog<<"Process FAILED"<<endl;
-			}
+
 			if (mWasEOF) {
 				break;
 			}
@@ -283,29 +211,18 @@ HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 
 //CAMThread Stuff
 DWORD NativeFLACSourceFilter::ThreadProc(void) {
-	//debugLog << "Thread Proc Called..."<<endl;
 	while(true) {
 		DWORD locThreadCommand = GetRequest();
-		//debugLog << "Command = "<<locThreadCommand<<endl;
 		switch(locThreadCommand) {
 			case THREAD_EXIT:
-				//debugLog << "EXIT ** "<<endl;
 				Reply(S_OK);
 				return S_OK;
 
-			//case THREAD_PAUSE:
-			//	// we are paused already
-			//	Reply(S_OK);
-			//	break;
-
 			case THREAD_RUN:
-				//debugLog << "RUN ** "<<endl;
 				Reply(S_OK);
 				DataProcessLoop();
 				break;
 		}
-	
-	
 	}
 	return S_OK;
 }
@@ -315,71 +232,48 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 	const unsigned long BUFF_SIZE = 8192;
 	mInputFile.read((char*)outBuffer, BUFF_SIZE);
 	*outNumBytes = mInputFile.gcount();
-	debugLog<<"Read num bytes = "<<*outNumBytes<<endl;
-	if (mInputFile.eof()) {
-		mWasEOF = true;
-	} else {
-		mWasEOF=false;
-	}
+	mWasEOF = mInputFile.eof();
 	return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK;
 }
 ::FLAC__SeekableStreamDecoderSeekStatus NativeFLACSourceFilter::seek_callback(FLAC__uint64 inSeekPos) {
-	debugLog<<"Seeking to "<<inSeekPos<<endl;
 	mInputFile.seekg(inSeekPos);
 	return FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_OK;
 }
 ::FLAC__SeekableStreamDecoderTellStatus NativeFLACSourceFilter::tell_callback(FLAC__uint64* outTellPos) {
 	*outTellPos = mInputFile.tellg();
-	debugLog<<"Tell = "<<*outTellPos<<endl;
 	return FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_OK;
 }
 ::FLAC__SeekableStreamDecoderLengthStatus NativeFLACSourceFilter::length_callback(FLAC__uint64* outLength) {
 	*outLength = mFileSize;
-	debugLog<<"Requested length = "<<mFileSize<<endl;
 	return FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_OK;
 }
 ::FLAC__StreamDecoderWriteStatus NativeFLACSourceFilter::write_callback(const FLAC__Frame* inFrame,const FLAC__int32 *const inBuffer[]) {
 	//Do the magic !
 	if (! mBegun) {
-	
+		//This may not even be needed any more.	
 		mBegun = true;
 		const int SIZE_16_BITS = 2;
 		mNumChannels = inFrame->header.channels;
 		mFrameSize = mNumChannels * SIZE_16_BITS;
 		mSampleRate = inFrame->header.sample_rate;
-		
 	}
-	debugLog<<"Write callback"<<endl;
+
 	unsigned long locNumFrames = inFrame->header.blocksize;
 	unsigned long locActualSize = locNumFrames * mFrameSize;
 	unsigned long locTotalFrameCount = locNumFrames * mNumChannels;
 
-	//BUG::: There's a bug here. Implicitly assumes 2 channels.
+	//BUG::: There's a bug here. Implicitly assumes 2 channels. I think.
 	unsigned char* locBuff = new unsigned char[locActualSize];			//Gives to the deliverdata method
 	//It could actually be a single buffer for the class.
-
 
 	signed short* locShortBuffer = (signed short*)locBuff;		//Don't delete this.
 	
 	signed short tempInt = 0;
 	int tempLong = 0;
 	float tempFloat = 0;
-	
-	//FIX:::Move the clipping to the abstract function
-	//Make sure our sample buffer is big enough
-
-	//Modified for FLAC int32 not float
-
-		
-	//Must interleave and convert sample size.
 	for(unsigned long i = 0; i < locNumFrames; i++) {
 		for (unsigned long j = 0; j < mNumChannels; j++) {
-			
-			
-				//No clipping required for ints
-				//FIX:::Take out the unnescessary variable.
 			tempLong = inBuffer[j][i];
-				//Convert 32 bit to 16 bit
 
 			//FIX::: Why on earth are you dividing by 2 ? It does not make sense !
 			tempInt = (signed short)(tempLong/2);
@@ -388,23 +282,19 @@ DWORD NativeFLACSourceFilter::ThreadProc(void) {
 			locShortBuffer++;
 		}
 	}
-
-
-	debugLog<<"Size = "<<locActualSize<<"Frames from "<<mUpto<<" for "<<locNumFrames<<endl;
 	
 	mFLACSourcePin->deliverData(locBuff, locActualSize, (mUpto*UNITS) / mSampleRate, ((mUpto+locNumFrames)*UNITS) / mSampleRate);
 	mUpto += locNumFrames;
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
 void NativeFLACSourceFilter::metadata_callback(const FLAC__StreamMetadata* inMetaData) {
-	debugLog<<"Meta callback..."<<endl;
+
 }
 void NativeFLACSourceFilter::error_callback(FLAC__StreamDecoderErrorStatus inStatus) {
-	debugLog<<"Error callback..."<<endl;
+
 }
 
 bool NativeFLACSourceFilter::eof_callback(void) {
-	debugLog<<"EOF Req"<<endl;
 	return mInputFile.eof();
 }
 
@@ -424,10 +314,8 @@ STDMETHODIMP NativeFLACSourceFilter::CheckCapabilities(DWORD *pCapabilities) {
 }
 STDMETHODIMP NativeFLACSourceFilter::IsFormatSupported(const GUID *pFormat) {
 	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
-		//debugLog<<"IsFormatSupported	: TRUE"<<endl;
 		return S_OK;
 	} else {
-		//debugLog<<"IsFormatSupported	: FALSE !!!"<<endl;
 		return S_FALSE;
 	}
 }
@@ -457,36 +345,26 @@ STDMETHODIMP NativeFLACSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const 
 	return E_NOTIMPL;
 }
 STDMETHODIMP NativeFLACSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags){
-	debugLog<<"Request seek to "<<*pCurrent<<endl;
-	
 	unsigned __int64 locSampleToSeek = (*pCurrent) * mSampleRate/ UNITS;
-	debugLog<<"W**** Which is sample no = "<<locSampleToSeek<<endl;
 	mFLACSourcePin->DeliverBeginFlush();
 	mFLACSourcePin->DeliverEndFlush();
+
 	bool locRes = false;
 	{
 		CAutoLock locLock(mCodecLock);
 		mUpto = 0;
-		//locRes = seek_absolute(locSampleToSeek);
 		mJustSeeked = true;
 		mSeekRequest = locSampleToSeek;
-	}
-	if (locRes) {
-		debugLog<<"Seek suceeded"<<endl;
-	} else {
-		debugLog<<"Seek failed"<<endl;
 	}
 	
 	return S_OK;
 }
 STDMETHODIMP NativeFLACSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop){
-	debugLog<<"Calling get positions _ NOTIMPL"<<endl;
 	return E_NOTIMPL;
 }
 STDMETHODIMP NativeFLACSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest){
 	*pEarliest = 0;
 	*pLatest = (mTotalNumSamples * UNITS) / mSampleRate;
-	debugLog<<"Get available"<<endl;
 	return S_OK;
 }
 STDMETHODIMP NativeFLACSourceFilter::SetRate(double dRate){
@@ -502,10 +380,8 @@ STDMETHODIMP NativeFLACSourceFilter::GetPreroll(LONGLONG *pllPreroll){
 }
 STDMETHODIMP NativeFLACSourceFilter::IsUsingTimeFormat(const GUID *pFormat){
 	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
-		//debugLog<<"IsFormatSupported	: TRUE"<<endl;
 		return S_OK;
 	} else {
-		//debugLog<<"IsFormatSupported	: FALSE !!!"<<endl;
 		return S_FALSE;
 	}
 }

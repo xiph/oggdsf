@@ -94,43 +94,7 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_B721259605524EFE965E8E131C1558D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
+        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,6 +124,18 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_B721259605524EFE965E8E131C1558D5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_AC8962A7F212481095173AB7C8C89025"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -172,6 +148,18 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_5EB08DD30B564283AA9C9F27D80CF9E4"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -179,6 +167,12 @@
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_58F56CD02F64413B9459F3E151760A57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -202,19 +196,25 @@
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
+        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
         "OwnerKey" = "8:_14E3067B71584FB5A245A2DA9D65D139"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_0A1E63E5852E4F759F1A27E8F097727B"
+        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_46A378A9B03E4612A645053EDB884C20"
-        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
+        "OwnerKey" = "8:_0A1E63E5852E4F759F1A27E8F097727B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -262,73 +262,13 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_B721259605524EFE965E8E131C1558D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_83AF8D74700947168B69E69E5160F082"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
+        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_FD547F0196C24DFBB9CAFCCEC06561BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_695A6D70DADB417491C0662D82245C2B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -346,6 +286,12 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_E4B8E67DA0E54BB3BB025BFCF536BF3B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_E1E372FA955046E6928BF533EA0AE6C3"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -358,7 +304,25 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_DB60960DC12343B89500B86D5AB10D02"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_D2048C8B212841C88E42F6ADDCA8B0A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_C6ED1B8B0AAC495E9D25CDE58FC9E711"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_B721259605524EFE965E8E131C1558D5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -388,13 +352,37 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_8976C400668B453CB941859C4F3C6E27"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_83AF8D74700947168B69E69E5160F082"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_72A8CAFC6236498AA2DE5E1CBCAFC91B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_695A6D70DADB417491C0662D82245C2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_65EFE52655DF4119A626446C8F593760"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_65015192414F476999A68339F89BEA57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -407,6 +395,12 @@
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_58F56CD02F64413B9459F3E151760A57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_578B89273D59478F861AA5BC3600D074"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -436,6 +430,12 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
+        "OwnerKey" = "8:_273D851AE72C4D2EA8020A712DBFE5A3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
         "OwnerKey" = "8:_24A1793CB89A464FB683A8A3BDA774DB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -454,13 +454,13 @@
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_0A1E63E5852E4F759F1A27E8F097727B"
+        "OwnerKey" = "8:_0D0DD40A31F842C68B09BE0CBDE1996B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_655D5383153A6AB10D15352A7EABCC7A"
-        "OwnerKey" = "8:_02E7D9728C8944F1BD021329177F5140"
+        "OwnerKey" = "8:_0A1E63E5852E4F759F1A27E8F097727B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -967,7 +967,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{7E4AA44E-5561-436B-89E7-46D1EA1E1249}"
-        "PackageCode" = "8:{9857E825-AA73-44CB-A0F2-D4FB2154E79B}"
+        "PackageCode" = "8:{FE8E8C2D-148B-4522-B67B-0682D00A42A0}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1189,6 +1189,44 @@
                                                                             }
                                                                         }
                                                                     }
+                                                                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_78CCE626DAF841CF8528C157820BB815"
+                                                                    {
+                                                                    "Name" = "8:FLAC"
+                                                                    "Condition" = "8:"
+                                                                    "AlwaysCreate" = "11:FALSE"
+                                                                    "DeleteAtUninstall" = "11:FALSE"
+                                                                    "Transitive" = "11:FALSE"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3A5F902E0F5C4F0B86BB17AB31356E8E"
+                                                                            {
+                                                                            "Name" = "8:"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:FLAC File (flac)"
+                                                                            }
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_BBA372C6E312498EA87B42BB7B26E087"
+                                                                            {
+                                                                            "Name" = "8:Extensions"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:.flac"
+                                                                            }
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_F2298C4C3EED4E7798F4937911D94677"
+                                                                            {
+                                                                            "Name" = "8:MIME Types"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:audio/x-flac"
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                                 "Values"
                                                                 {
@@ -1383,6 +1421,68 @@
                                                                     "Transitive" = "11:FALSE"
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:Ogg File"
+                                                                    }
+                                                                }
+                                                            }
+                                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_7E0566F3D11A47D5BC5527993DAF5F47"
+                                                            {
+                                                            "Name" = "8:.flac"
+                                                            "Condition" = "8:"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "DeleteAtUninstall" = "11:FALSE"
+                                                            "Transitive" = "11:FALSE"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_167FF10A216841A683A231157B36A459"
+                                                                    {
+                                                                    "Name" = "8:Permissions"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:15"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_24701FBC2CA74F24AAA5EF7C3BE57753"
+                                                                    {
+                                                                    "Name" = "8:MediaType.Description"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:FLAC Audio"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_2A6FF123CACE475F9758A9E0E54B0CCA"
+                                                                    {
+                                                                    "Name" = "8:Runtime"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:7"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3B1B0BA13C9F45F5983560AD055295F7"
+                                                                    {
+                                                                    "Name" = "8:Extension.MIME"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:audio/x-flac"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_80C60F01DA8044E396925087984CA42D"
+                                                                    {
+                                                                    "Name" = "8:AlreadyRegistered"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:yes"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_BBCCC12D6165481DB5CBFD742D21BCEA"
+                                                                    {
+                                                                    "Name" = "8:PerceivedType"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:audio"
                                                                     }
                                                                 }
                                                             }
@@ -1608,6 +1708,44 @@
                                                                     }
                                                                 }
                                                             }
+                                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_FCC0B29DBB924EF38625CC21BBF899C0"
+                                                            {
+                                                            "Name" = "8:audio/x-flac"
+                                                            "Condition" = "8:"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "DeleteAtUninstall" = "11:FALSE"
+                                                            "Transitive" = "11:FALSE"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_025F14D25C1544F09A6D432CFFE3E912"
+                                                                    {
+                                                                    "Name" = "8:AlreadyRegistered"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:yes"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_10A652EC622948C3BA7E41346CE51186"
+                                                                    {
+                                                                    "Name" = "8:Extension.Key"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:.flac"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3ECE01D4772C49FC9A12B71A3990C976"
+                                                                    {
+                                                                    "Name" = "8:"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:FLAC Audio File"
+                                                                    }
+                                                                }
+                                                            }
                                                         }
                                                         "Values"
                                                         {
@@ -1653,7 +1791,7 @@
                                                         }
                                                         "Values"
                                                         {
-                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3B5FBBF0E10E4437A623BDCD8E8B776F"
+                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_481F36A8DC234AA4B99E8210448C8CBF"
                                                             {
                                                             "Name" = "8:spx"
                                                             "Condition" = "8:"
@@ -1664,6 +1802,14 @@
                                                             "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_8EB8CB28401840CBB007D922F51637B2"
                                                             {
                                                             "Name" = "8:oga"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "ValueTypes" = "3:1"
+                                                            "Value" = "8:audio"
+                                                            }
+                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_90EFFA39D9174144A494435F06F460A2"
+                                                            {
+                                                            "Name" = "8:flac"
                                                             "Condition" = "8:"
                                                             "Transitive" = "11:FALSE"
                                                             "ValueTypes" = "3:1"
@@ -2731,7 +2877,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_273D851AE72C4D2EA8020A712DBFE5A3"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfnativeflacsource\\debug\\dsfNativeFLACSource.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\flac\\filters\\dsfNativeFLACSource\\Debug\\dsfNativeFLACSource.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"

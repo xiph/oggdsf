@@ -1,0 +1,19 @@
+Release procedure.
+
+Update VERSIONS file.
+Update version information in installer.
+Update version in doxygen file.
+Update version in About file
+Update version in filter about box.
+Clean all versions
+Build all versions
+Package all versions
+Create source distribution
+Package source distribution
+Create help files
+Package help files
+Upload web help and packaged help.
+Upload versions
+Update index and history and sse html files.
+
+Inform all carrying sites of update.

@@ -30,26 +30,30 @@
 //===========================================================================
 
 #pragma once
-#include "dsfNativeFLACSource.h"
-//#include "NativeFLACSourceFilter.h"
-#include "BasicSeekable.h"
-#include <fstream>
-using namespace std;
 
+//Local Includes
+#include "dsfNativeFLACSource.h"
+
+//Library Includes
+#include "BasicSeekable.h"
+
+//Forward Declararions.
 class NativeFLACSourceFilter;
 class NativeFLACSourcePin
+	//Base classes.
 	:	public CBaseOutputPin
 	,	public BasicSeekable
 {
 public:
-
+	//COM Stuff
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
+	//Constructors.
 	NativeFLACSourcePin(	NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock);
-					
 	virtual ~NativeFLACSourcePin(void);
 
+	//Constants
 	static const unsigned long BUFFER_SIZE = 65536;			//What should this be ????
 	static const unsigned long NUM_BUFFERS = 10;
 
@@ -58,8 +62,7 @@ public:
 	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
 	virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
 
-
-	//IPin
+	//IPin virtuals
 	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 	virtual HRESULT BreakConnect(void);
 	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
@@ -67,15 +70,12 @@ public:
 	virtual HRESULT DeliverEndFlush(void);
 	virtual HRESULT DeliverBeginFlush(void);
 
-	//
+	//Helper method
 	HRESULT deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd);
 protected:
-	//fstream debugLog;
 	HRESULT mFilterHR;
-	COutputQueue* mDataQueue;
-
-	NativeFLACSourceFilter* mParentFilter;
-
-	fstream debugLog;
 	
+	//Member variables.
+	COutputQueue* mDataQueue;
+	NativeFLACSourceFilter* mParentFilter;
 };

@@ -37,10 +37,6 @@ NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter,
 	,	mDataQueue(NULL)
 
 {
-
-	debugLog.open("G:\\logs\\flacsourcepin_.log", ios_base::out);
-
-
 	//Subvert COM and do this directly... this way, the source filter won't expose the interface to the
 	// graph but we can still delegate to it.
 	IMediaSeeking* locSeeker = NULL;
@@ -51,7 +47,8 @@ NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter,
 NativeFLACSourcePin::~NativeFLACSourcePin(void)
 {
 	SetDelegate(NULL);		//Avoid infinite destructor loop.
-	debugLog.close();
+	delete mDataQueue;
+	mDataQueue = NULL;
 }
 
 STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -66,28 +63,24 @@ STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void 
 
 HRESULT NativeFLACSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-	debugLog<<"New seg "<<tStart<<" - "<<tStop<<endl;
 	mDataQueue->NewSegment(tStart, tStop, dRate);
 
 	return S_OK;
 }
 HRESULT NativeFLACSourcePin::DeliverEndOfStream(void)
 {
-	debugLog<<"EOS"<<endl;
 	mDataQueue->EOS();
     return S_OK;
 }
 
 HRESULT NativeFLACSourcePin::DeliverEndFlush(void)
 {
-	debugLog<<"End flush"<<endl;
 	mDataQueue->EndFlush();
     return S_OK;
 }
 
 HRESULT NativeFLACSourcePin::DeliverBeginFlush(void)
 {
-	debugLog<<"Begin flush"<<endl;
 	mDataQueue->BeginFlush();
     return S_OK;
 }
@@ -95,12 +88,10 @@ HRESULT NativeFLACSourcePin::DeliverBeginFlush(void)
 HRESULT NativeFLACSourcePin::CompleteConnect (IPin *inReceivePin)
 {
 	mFilterHR = S_OK;
-	//Set the delegate for seeking
-	//((BasicSeekable*)(inReceivePin))->SetDelegate(this);
-	//This may cause issue if pins are disconnected and reconnected
-	//DELETE in DEStructor
+	//Deleted in destructor
 	mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, NUM_BUFFERS);
 	if (FAILED(mFilterHR)) {
+		//TODO::: Probably should handle this !
 		mFilterHR = mFilterHR;
 	}
 	
@@ -115,17 +106,12 @@ HRESULT NativeFLACSourcePin::BreakConnect(void) {
 
 	//CSourceStream virtuals
 HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) {
-	//Put it in from the info we got in the constructor.
-	//NOTE::: May have missed some fields ????
-	//NOTE::: May want to check for null pointers
-	//outMediaType->SetFormat(mMediaType->Format(), mMediaType->FormatLength());
 	if (inPosition == 0) {
 		outMediaType->SetType(&MEDIATYPE_Audio);
 		outMediaType->SetSubtype(&MEDIASUBTYPE_PCM);
 		outMediaType->SetFormatType(&FORMAT_WaveFormatEx);
 		outMediaType->SetTemporalCompression(FALSE);
 		outMediaType->SetSampleSize(0);
-
 
 		WAVEFORMATEX* locFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
 		locFormat->wFormatTag = WAVE_FORMAT_PCM;
@@ -136,9 +122,7 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
 		locFormat->nBlockAlign = (mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3);
 		locFormat->nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
 		locFormat->cbSize = 0;
-		//outMediaType->pbFormat = locFormat;
-		
-		
+	
 		return S_OK;
 	} else {
 		return VFW_S_NO_MORE_ITEMS;
@@ -152,12 +136,10 @@ HRESULT NativeFLACSourcePin::CheckMediaType(const CMediaType* inMediaType) {
 	}
 }
 HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) {
-
 	HRESULT locHR = S_OK;
 
 	ALLOCATOR_PROPERTIES locReqAlloc;
 	ALLOCATOR_PROPERTIES locActualAlloc;
-
 
 	locReqAlloc.cbAlign = 1;
 	locReqAlloc.cbBuffer = BUFFER_SIZE;
@@ -173,71 +155,47 @@ HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALL
 	locHR = inoutAllocator->Commit();
 
 	return locHR;
-
 }
 
 //This method is responsible for deleting the incoming buffer.
 HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) {
 	//Locks !!
-	debugLog<<"Deliver data..."<<endl;
+	
 	IMediaSample* locSample = NULL;
 	REFERENCE_TIME locStart = inStart;
 	REFERENCE_TIME locStop = inEnd;
-	debugLog<<"Times = "<<inStart<<" - "<<inEnd<<endl;
-	//debugLog<<"Start   : "<<locStart<<endl;
-	//debugLog<<"End     : "<<locStop<<endl;
-	DbgLog((LOG_TRACE, 2, "Getting Buffer in Source Pin..."));
+	
 	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
-	DbgLog((LOG_TRACE, 2, "* After get Buffer in Source Pin..."));
+	
 	//Error checks
 	if (locHR != S_OK) {
-		debugLog<<"********************************************** FAILED !!"<<endl;
-		//Stopping, fluching or error
-		//debugLog<<"Failure... No buffer"<<endl;
 		delete[] inBuff;
 		return locHR;
 	}
 
-	//More hacks so we can send a timebase after a seek, since granule pos in theora
-	// is not convertible in both directions to time.
-	
-	//TIMESTAMP FIXING !
 	locSample->SetTime(&locStart, &locStop);
 	
-	//Yes this is way dodgy !
-	//locSample->SetMediaTime(&mParentFilter->mSeekTimeBase, &mParentFilter->mSeekTimeBase);
 	locSample->SetSyncPoint(TRUE);
-	
 
 	// Create a pointer for the samples buffer
 	BYTE* locBuffer = NULL;
 	locSample->GetPointer(&locBuffer);
 
-	//DbgLog((LOG_TRACE, 2, "* Packet size is %d"));
 	if (locSample->GetSize() >= inBuffSize) {
-
 		memcpy((void*)locBuffer, (const void*)inBuff, inBuffSize);
 		locSample->SetActualDataLength(inBuffSize);
 
 		locHR = mDataQueue->Receive(locSample);
 
-		//REF_CHECK::: In theory should release here.
-		//The sample has ref_count of 1 by virtue of it's creation... we should release that 1 ref count here.
-		
 		if (locHR != S_OK) {
-			//debugLog << "Failure... Queue rejected sample..."<<endl;
-			//Stopping ??
-			debugLog<<"FAILED TO RECEIVE !!!"<<endl;
 			delete[] inBuff;
 			return locHR;
 			
 		} else {
-			debugLog<<" $$$$$ Everythings sweet"<<endl;
 			delete[] inBuff;
 			return S_OK;
 		}
 	} else {
-		DbgLog((LOG_TRACE, 2, "* BUFFER TOO SMALL... FATALITY !!"));
 		delete[] inBuff;
 		throw 0;
 	}

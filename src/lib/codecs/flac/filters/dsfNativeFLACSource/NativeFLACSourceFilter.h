@@ -29,18 +29,25 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
+//Local Includes
 #include "dsfNativeFLACSource.h"
 #include "NativeFLACSourcePin.h"
+
+//Library Includes
 #include "FLAC++/decoder.h"
 #include "StringHelper.h"
 #include "iBE_Math.h"
-#include <string>
-using namespace std;
 using namespace FLAC::Decoder;
 
+//STL Includes
+#include <string>
+using namespace std;
 
+//Forward Declarations
 class NativeFLACSourcePin;
+
 class NativeFLACSourceFilter
+	//Base Classes
 	:	public CBaseFilter
 	,	public IFileSourceFilter
 	,	public IAMFilterMiscFlags
@@ -49,19 +56,24 @@ class NativeFLACSourceFilter
 	,	protected FLAC::Decoder::SeekableStream
 {
 public:
+	//Friends
 	friend class NativeFLACSourcePin;
+
+	//Constants
 	enum eThreadCommands {
 		THREAD_EXIT = 0,
 		THREAD_PAUSE = 1,
 		THREAD_RUN = 2
 	};
+
+	//COM Stuff
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
+	//Constructors
 	NativeFLACSourceFilter(void);
 	virtual ~NativeFLACSourceFilter(void);
-
-	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
 	//IBaseFilter Pure Virtuals
 	virtual int GetPinCount();
@@ -69,7 +81,6 @@ public:
 
 	//IAMFilterMiscFlags Interface
 	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
-	//
 
 	//IFileSource Interface
 	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
@@ -84,66 +95,61 @@ public:
 	virtual DWORD ThreadProc(void);
 
 	//FLAC Virtuals
+	virtual ::FLAC__SeekableStreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes);
+	virtual ::FLAC__SeekableStreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
+	virtual ::FLAC__SeekableStreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
+	virtual ::FLAC__SeekableStreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
+	virtual ::FLAC__StreamDecoderWriteStatus write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]);
+	virtual void metadata_callback(const FLAC__StreamMetadata* inMetaData);
+	virtual void error_callback(FLAC__StreamDecoderErrorStatus inStatus);
+	virtual bool eof_callback(void);
 
-	::FLAC__SeekableStreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes);
-	::FLAC__SeekableStreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
-	::FLAC__SeekableStreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
-	::FLAC__SeekableStreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
-	::FLAC__StreamDecoderWriteStatus write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]);
-	void metadata_callback(const FLAC__StreamMetadata* inMetaData);
-	void error_callback(FLAC__StreamDecoderErrorStatus inStatus);
-
-
-	bool eof_callback(void);
-	//
 	//IMediaSeeking Interface
-	 virtual STDMETHODIMP GetCapabilities(DWORD *pCapabilities);
-	 virtual STDMETHODIMP CheckCapabilities(DWORD *pCapabilities);
-	 virtual STDMETHODIMP IsFormatSupported(const GUID *pFormat);
-	 virtual STDMETHODIMP QueryPreferredFormat(GUID *pFormat);
-	 virtual STDMETHODIMP SetTimeFormat(const GUID *pFormat);
-	 virtual STDMETHODIMP GetTimeFormat( GUID *pFormat);
-	 virtual STDMETHODIMP GetDuration(LONGLONG *pDuration);
-	 virtual STDMETHODIMP GetStopPosition(LONGLONG *pStop);
-	 virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
-	 virtual STDMETHODIMP ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat);
-	 virtual STDMETHODIMP SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags);
-	 virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
-	 virtual STDMETHODIMP GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest);
-	 virtual STDMETHODIMP SetRate(double dRate);
-	 virtual STDMETHODIMP GetRate(double *dRate);
-	 virtual STDMETHODIMP GetPreroll(LONGLONG *pllPreroll);
-	 virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
-	//
-
-
+	virtual STDMETHODIMP GetCapabilities(DWORD *pCapabilities);
+	virtual STDMETHODIMP CheckCapabilities(DWORD *pCapabilities);
+	virtual STDMETHODIMP IsFormatSupported(const GUID *pFormat);
+	virtual STDMETHODIMP QueryPreferredFormat(GUID *pFormat);
+	virtual STDMETHODIMP SetTimeFormat(const GUID *pFormat);
+	virtual STDMETHODIMP GetTimeFormat( GUID *pFormat);
+	virtual STDMETHODIMP GetDuration(LONGLONG *pDuration);
+	virtual STDMETHODIMP GetStopPosition(LONGLONG *pStop);
+	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
+	virtual STDMETHODIMP ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat);
+	virtual STDMETHODIMP SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags);
+	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
+	virtual STDMETHODIMP GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest);
+	virtual STDMETHODIMP SetRate(double dRate);
+	virtual STDMETHODIMP GetRate(double *dRate);
+	virtual STDMETHODIMP GetPreroll(LONGLONG *pllPreroll);
+	virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
 
 protected:
-
+	//Helper Methods
 	HRESULT DataProcessLoop();
+
+	//Pin Class
 	NativeFLACSourcePin* mFLACSourcePin;
+
+	//Source File Members
 	wstring mFileName;
-	wstring mHDRFileName;
-
 	fstream mInputFile;
-
 	unsigned long mFileSize;
 
-	fstream debugLog;
-
+	//State Variables
 	bool mBegun;
 	bool mJustSeeked;
 	__int64 mSeekRequest;
 	bool mWasEOF;
-
 	unsigned long mUpto;
 
+	//Stream info data.
 	unsigned long mNumChannels;
 	unsigned long mFrameSize;
 	unsigned long mSampleRate;
 	unsigned long mBitsPerSample;
 	__int64 mTotalNumSamples;
 
+	//Critical Section to protect codec.
 	CCritSec* mCodecLock;
 
 };
