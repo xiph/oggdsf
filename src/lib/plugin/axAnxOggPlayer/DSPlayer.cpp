@@ -49,7 +49,26 @@ DSPlayer::DSPlayer(void)
 	//mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
 	
 	debugLog.open("G:\\logs\\DSPlayer.log", ios_base::out);
+
+	//Something about the way the activeX control links won't let us do the normal
+	// DEFINE_GUID macro... so this is manually assigning it to a memeber variable so it links.
+	Y_IID_ICMMLAppControl.Data1 = 0x6188ad0c;
+	Y_IID_ICMMLAppControl.Data2 = 0x62cb;
+	Y_IID_ICMMLAppControl.Data3 = 0x4658;
+	Y_IID_ICMMLAppControl.Data4[0] = 0xa1;
+	Y_IID_ICMMLAppControl.Data4[1] = 0x4e;
+	Y_IID_ICMMLAppControl.Data4[2] = 0xcd;
+	Y_IID_ICMMLAppControl.Data4[3] = 0x23;
+	Y_IID_ICMMLAppControl.Data4[4] = 0xcf;
+	Y_IID_ICMMLAppControl.Data4[5] = 0x84;
+	Y_IID_ICMMLAppControl.Data4[6] = 0xec;
+	Y_IID_ICMMLAppControl.Data4[7] = 0x31;
+
 }
+//		// {6188AD0C-62CB-4658-A14E-CD23CF84EC31}
+//DEFINE_GUID(Y_IID_ICMMLAppControl, 
+//0x6188ad0c, 0x62cb, 0x4658, 0xa1, 0x4e, 0xcd, 0x23, 0xcf, 0x84, 0xec, 0x31);
+//}
 
 bool DSPlayer::checkEvents() {
 	const DWORD TIMEOUT_WAIT = 0;  //Wait this many ms for handle
@@ -131,7 +150,17 @@ void DSPlayer::releaseInterfaces() {
 	debugLog<<"After graph release>.."<<endl;
 	//TODO::: Release everything !
 }
+wstring DSPlayer::toWStr(string inString) {
+	wstring retVal;
 
+	//LPCWSTR retPtr = new wchar_t[retVal.length() + 1];
+	for (std::string::const_iterator i = inString.begin(); i != inString.end(); i++) {
+		retVal.append(1, *i);
+	}
+	
+
+	return retVal;
+}
 bool DSPlayer::loadFile(string inFileName) {
 
 	//Debugging only
@@ -144,7 +173,7 @@ bool DSPlayer::loadFile(string inFileName) {
 
 	
 	debugLog<<"File = "<<inFileName<<endl;
-	wstring locWFileName = StringHelper::toWStr(inFileName);
+	wstring locWFileName = toWStr(inFileName);
 	
 	
 	
@@ -211,7 +240,7 @@ bool DSPlayer::loadFile(string inFileName) {
 		if (locCMMLFilter != NULL) {
 			ICMMLAppControl* locCMMLAppControl = NULL;
 			
-			locHR = locCMMLFilter->QueryInterface(X_IID_ICMMLAppControl, (void**)&locCMMLAppControl);
+			locHR = locCMMLFilter->QueryInterface(Y_IID_ICMMLAppControl, (void**)&locCMMLAppControl);
 			if (locCMMLAppControl != NULL) {
 				mCMMLAppControl = locCMMLAppControl;
 				

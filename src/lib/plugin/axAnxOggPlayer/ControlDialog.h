@@ -1,5 +1,5 @@
 #pragma once
-
+#include "DSPlayer.h"
 #include <fstream>
 using namespace std;
 // CControlDialog dialog
@@ -19,6 +19,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	IWebBrowser2* mBrowser;
 	fstream debugLog;
+	DSPlayer mPlayer;
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButton1();
