@@ -163,6 +163,156 @@ wstring DSPlayer::toWStr(string inString) {
 
 	return retVal;
 }
+
+bool DSPlayer::loadFile(string inFileName, HWND inWindow, int inLeft, int inTop, int inWidth, int inHeight) {
+	//Debugging only
+	ULONG numRef = 0;
+	//
+
+
+	releaseInterfaces();
+	HRESULT locHR = S_OK;
+
+	
+	debugLog<<"File = "<<inFileName<<endl;
+	wstring locWFileName = toWStr(inFileName);
+	
+	
+	
+
+	//Have to use a local pointer or taking the adress of a member function makes the second level
+	// of indirection a __gc pointer.
+	IGraphBuilder* locGraphBuilder = NULL;
+	locHR = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&locGraphBuilder);
+	mGraphBuilder = locGraphBuilder;
+	
+	if (locHR != S_OK) {
+		mIsLoaded = false;
+		debugLog<<"Faild to make graph"<<endl;
+		return false;
+	}
+	
+	
+	//If it's an annodex file, then put the VMR 9 in the graph.
+	if (isFileAnnodex(inFileName)) {
+		debugLog<<"Is annodex"<<endl;
+		IBaseFilter* locVMR9 = NULL;
+
+		HRESULT locHR2 = S_OK;
+		locHR2 = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
+		if (locVMR9 == NULL) {
+			debugLog<<"Not in graph... making it !"<<endl;
+			locHR2= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
+			if (locHR2 == S_OK) {
+				locHR2 = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
+				numRef =
+					locVMR9->Release();
+				debugLog<<"VMR9 ref count = "<<numRef<<endl;
+				
+			}
+		} else {
+			numRef =
+				locVMR9->Release();
+
+			debugLog<<"VMR9 ref count = "<<numRef<<endl;
+		}
+
+
+		
+
+	}
+
+	debugLog<<"About to call render on "<<endl;
+	//Build the graph
+	locHR = mGraphBuilder->RenderFile(locWFileName.c_str(), NULL);
+	debugLog<<"After render call..."<<endl;
+	if (locHR != S_OK) {
+		debugLog<<"Render File FAILED !!"<<endl;
+		mIsLoaded = false;
+		return false;
+	}
+
+
+	//CHANGES HERE FOR EMBEDDED WINDOW
+	debugLog<<"Looking for IVideo Window"<<endl;
+	IVideoWindow* locVW = NULL;
+	locHR = locGraphBuilder->QueryInterface(IID_IVideoWindow, (void **)&locVW);
+
+	if (locHR == S_OK) {
+		debugLog<<"We got the IVideoWindow"<<endl;
+
+		locVW->put_MessageDrain((OAHWND)inWindow);
+
+
+		locVW->put_Owner((OAHWND)inWindow);
+		debugLog<<"Setting stuff..."<<endl;
+		locVW->SetWindowPosition(inLeft, inTop, inWidth, inHeight);
+		debugLog<<"Releasing windows"<<endl;
+		locVW->Release();
+
+		debugLog<<"Post release"<<endl;
+	}
+
+	//
+
+	debugLog<<"Render must have been ok"<<endl;
+	if (isFileAnnodex(inFileName)) {
+		debugLog<<"Is annodex"<<endl;
+		//Get the app control interface for CMML.
+		IBaseFilter* locCMMLFilter = NULL;
+		locHR = mGraphBuilder->FindFilterByName(L"CMML Decode Filter", &locCMMLFilter);
+		
+
+		if (locCMMLFilter != NULL) {
+			ICMMLAppControl* locCMMLAppControl = NULL;
+			
+			locHR = locCMMLFilter->QueryInterface(Y_IID_ICMMLAppControl, (void**)&locCMMLAppControl);
+			if (locCMMLAppControl != NULL) {
+				mCMMLAppControl = locCMMLAppControl;
+				
+				mCMMLAppControl->setCallbacks(mCMMLCallback);
+			}
+			numRef = 
+                locCMMLFilter->Release();
+
+			debugLog<<"CMML Filter ref Count = "<<numRef<<endl;
+		}
+
+	}
+	debugLog<<"After CMML Code..."<<endl;
+
+	//Get the media control interface
+	IMediaControl* locMediaControl = NULL;
+	locHR = mGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&locMediaControl);
+	mMediaControl = locMediaControl;
+
+	if (locHR != S_OK) {
+		mIsLoaded = false;
+		return false;
+	} else {
+		mIsLoaded = true;
+	}
+
+	//get the media seeking interface if its available.
+	IMediaSeeking* locMediaSeeking = NULL;
+	locHR = mGraphBuilder->QueryInterface(IID_IMediaSeeking, (void**)&locMediaSeeking);
+	mMediaSeeking = locMediaSeeking;
+
+	//Get the media event interface
+	IMediaEvent* locMediaEvent = NULL;
+	locHR = locGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&locMediaEvent);
+
+	if (locHR == S_OK) {
+		mMediaEvent = locMediaEvent;
+		HANDLE locEventHandle = INVALID_HANDLE_VALUE;
+		locHR = locMediaEvent->GetEventHandle((OAEVENT*)&locEventHandle);
+		mEventHandle = locEventHandle;
+	}
+
+//	if (FAILED(hr))
+
+	return true;
+}
 bool DSPlayer::loadFile(string inFileName) {
 
 	//Debugging only

@@ -37,6 +37,7 @@ public:
 	
 
 		bool loadFile(string inFileName);
+		bool loadFile(string inFileName, HWND inWindow, int inLeft, int inTop, int inWidth, int inHeight);
 		bool play();
 		bool pause();
 		bool stop();

@@ -44,7 +44,8 @@ void CControlDialog::OnBnClickedButton1()
 {
 	//PLay button.
 	debugLog<<"Play button pushed"<<endl;
-	mPlayer.loadFile("G:\\a.mp3");
+	mPlayer.loadFile("G:\\a.ogg", this->m_hWnd, 10, 100, 384, 240);
+	//mPlayer.loadFile("G:\\h.ogv");
 	mPlayer.play();
 }
 
