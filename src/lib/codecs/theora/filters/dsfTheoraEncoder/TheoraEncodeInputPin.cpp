@@ -417,9 +417,72 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 
 
 	//Still need to pass through to the AYUV conversion.
+	encodeAYUVtoYV12(locAYUVBuf, locNumPixels<<2);
+	delete locAYUVBuf;
+	locAYUVBuf = NULL;
 
 	return 0;
 }
+
+
+
+long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumBytes) {
+	//Blue Green Red Alpha Blue Green Red Alpha
+	unsigned long locNumPixels = (inNumBytes/4);
+	unsigned char* locAYUVBuf = new unsigned char[inNumBytes];   //4 bytes per pixel
+
+
+
+	//Scaled by factor of 65536 to integerise.
+	const int KR = 19596;
+	const int KB = 7472;
+	
+	const int ROUNDER = 32768;
+
+	const int G_FACTOR = 38470;
+	const int U_FACTOR = 12716213;
+	const int V_FACTOR = 10061022;
+
+	int locL = 0;
+	int locB = 0;
+	int locR = 0;
+
+	//unsigned char* locSourcePtr = inBuf;
+	unsigned char* locDestPtr = locAYUVBuf;
+
+    //SOURCE: Blue Green Red Blue Green Red.
+	//DEST: v u y a
+
+	unsigned char* locSourceEnds = inBuf + (inNumBytes);
+	for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 4) {
+		locB = locSourcePtr[0];					//Blue
+		locL = KB * (locB);						//Blue
+		
+		locL += G_FACTOR * (locSourcePtr[1]);	//Green
+
+		locR = locSourcePtr[2];					//Red
+		locL += KR * (locR);					//Red
+
+		
+		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (65536*locR) - locL)) / V_FACTOR) + 128);			//V for Victor
+		*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (65536*locB) - locL)) / U_FACTOR) + 128);			//U for ugly
+		*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
+		*(locDestPtr++) = locSourcePtr[3];																		//A for alpha
+	}
+	
+
+
+	//Still need to pass through to the AYUV conversion.
+	encodeAYUVtoYV12(locAYUVBuf, inNumBytes);
+	delete locAYUVBuf;
+	locAYUVBuf = NULL;
+
+	return 0;
+}
+
+
+
+
 long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumBytes) {
 
 	//Victor Ugly Yellow Alpha --fonts are fuzzy late at night-- (Yellow is not colour yellow)
