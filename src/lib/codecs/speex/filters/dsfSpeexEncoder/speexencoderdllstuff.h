@@ -31,15 +31,6 @@
 
 #pragma once
 
-
-#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
-#pragma message("----> Exporting from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllexport)
-#else
-#pragma message("<---- Importing from Abstract Library...")
-#define ABS_AUDIO_DEC_API __declspec(dllimport)
-#endif
-
 struct sSpeexFormatBlock {
 	unsigned long speexVersion;
 	unsigned long samplesPerSec;
@@ -49,9 +40,9 @@ struct sSpeexFormatBlock {
 	unsigned long numChannels;
 
 };
-#include "AbstractAudioEncodeFilter.h"
-#include "AbstractAudioEncodeInputPin.h"
-#include "AbstractAudioEncodeOutputPin.h"
+#include "AbstractTransformFilter.h"
+#include "AbstractTransformInputPin.h"
+#include "AbstractTransformOutputPin.h"
 #include "SpeexEncodeInputPin.h"
 #include "SpeexEncodeOutputPin.h"
 #include "SpeexEncodeFilter.h"

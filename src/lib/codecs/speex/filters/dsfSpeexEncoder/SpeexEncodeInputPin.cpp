@@ -30,11 +30,14 @@
 //===========================================================================
 
 #include "StdAfx.h"
-#include "Speexencodeinputpin.h"
+#include "SpeexEncodeInputPin.h"
 
-SpeexEncodeInputPin::SpeexEncodeInputPin(AbstractAudioEncodeFilter* inParentFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin)
-	:	AbstractAudioEncodeInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("SpeexEncodeInputPin"), L"PCM In")
+SpeexEncodeInputPin::SpeexEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("SpeexEncodeInputPin"), L"PCM In", inAcceptableMediaTypes)
 	,	mFishSound(NULL)
+	,	mWaveFormat(NULL)
+
+	,	mUptoFrame(0)
 {
 	//debugLog.open("C:\\temp\\speexenc.log", ios_base::out);
 }
@@ -47,7 +50,7 @@ SpeexEncodeInputPin::~SpeexEncodeInputPin(void)
 
 
 //PURE VIRTUALS
-long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
+HRESULT SpeexEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) {
 
 	//TODO::: There is a problem when we get 8 bit samples.
 	//=====================================================
@@ -61,13 +64,7 @@ long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	short locTempShort = 0;
 	float locTempFloat = 0;
 
-	//__int64 locGranPos = 0;
-	//Removed hack for gran pos
-	//fish_sound_command(mFishSound, 8, &locGranPos, sizeof(__int64));
-	//
-	//locGranPos = fish_sound_get_frameno(mFishSound);
-	//mUptoFrame = locGranPos;
-	//__int64 locTemp = ((FishSoundSpeexInfo*)mFishSound->codec_data)->vd.pcm_returned;
+
 	for (int i = 0; i < inNumBytes; i += 2) {
 		locTempShort = *((short*)(inBuf + i));
 		locTempFloat = (float)locTempShort;
@@ -84,7 +81,7 @@ long SpeexEncodeInputPin::encodeData(unsigned char* inBuf, long inNumBytes) {
 	} else {
 	
 	}
-	return locErr;
+	return S_OK;
 }
 bool SpeexEncodeInputPin::ConstructCodec() {
 	mFishInfo.channels = mWaveFormat->nChannels;
@@ -118,7 +115,7 @@ void SpeexEncodeInputPin::DestroyCodec() {
 int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) 
 {
 
-	//For convenience we do all these cast once and for all here.
+
 	SpeexEncodeInputPin* locThis = reinterpret_cast<SpeexEncodeInputPin*> (inThisPointer);
 	SpeexEncodeFilter* locFilter = reinterpret_cast<SpeexEncodeFilter*>(locThis->m_pFilter);
 	//locThis->debugLog << "SpeexEncoded called with "<<inNumBytes<< " byte of data"<<endl;
@@ -163,7 +160,7 @@ int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* in
 			//NO - It alrady has a ref on it.
 
 			//TODO::: Need to propagate error states.
-			HRESULT locHR = locThis->mOutputPin->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+			HRESULT locHR = ((SpeexEncodeOutputPin*)(locThis->mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
 			if (locHR != S_OK) {
 				//locThis->debugLog<<"Sample rejected"<<endl;
 			} else {
@@ -178,11 +175,25 @@ int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* in
 }
 
 
-HRESULT SpeexEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
-	AbstractAudioEncodeInputPin::SetMediaType(inMediaType);
+HRESULT SpeexEncodeInputPin::SetMediaType(const CMediaType* inMediaType) 
+{
+	
+	if (	(inMediaType->subtype == MEDIASUBTYPE_PCM) &&
+			(inMediaType->formattype == FORMAT_WaveFormatEx)) {
 
+		mWaveFormat = (WAVEFORMATEX*)inMediaType->pbFormat;
+		
+	} else {
+		//Failed... should never be here !
+		throw 0;
+	}
+	//This is here and not the constructor because we need audio params from the
+	// input pin to construct properly.	
+	
 	ConstructCodec();
 
-	return S_OK;
+	return CBaseInputPin::SetMediaType(inMediaType);
+
+	
 	
 }

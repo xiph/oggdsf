@@ -28,7 +28,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"
-				CallingConvention="0"
+				CallingConvention="2"
 				DisableSpecificWarnings="4275"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -90,7 +90,7 @@
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="0"
-				CallingConvention="0"/>
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -154,7 +154,7 @@
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="0"
-				CallingConvention="0"/>
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -218,7 +218,7 @@
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="0"
-				CallingConvention="0"/>
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -309,6 +309,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\fish_cdecl.h">
+			</File>
 			<File
 				RelativePath="SpeexDecodeFilter.h">
 			</File>

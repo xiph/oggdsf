@@ -31,8 +31,11 @@
 
 #pragma once
 
-#include "Speexencoderdllstuff.h"
-#include "AbstractAudioEncodeFilter.h"
+//Local Includes
+#include "speexencoderdllstuff.h"
+
+//External Includes
+#include "AbstractTransformFilter.h"
 
 //Forward Declarations
 struct sSpeexFormatBlock;
@@ -40,21 +43,27 @@ class SpeexEncodeInputPin;
 class SpeexEncodeOutputPin;
 
 class SpeexEncodeFilter
-	:	public AbstractAudioEncodeFilter
+	//Base Classes
+	:	public AbstractTransformFilter
 {
 public:
-
+	//Friend Classes
 	friend class SpeexEncodeOutputPin;
 	friend class SpeexEncodeInputPin;
+
+	//Constructors
 	SpeexEncodeFilter(void);
 	virtual ~SpeexEncodeFilter(void);
 
+	//COM Creator function
 	static CUnknown* WINAPI SpeexEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//PURE VIRTUAL IMPLEMENTATION
-	virtual bool ConstructPins();
 
 protected:
+	//Implementation of pure virtual from AbstractTransformFilter.
+	virtual bool ConstructPins();
+
+	//Member data
 	sSpeexFormatBlock mSpeexFormatBlock;
 	
 };

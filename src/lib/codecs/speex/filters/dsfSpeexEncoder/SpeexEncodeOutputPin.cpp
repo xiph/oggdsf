@@ -32,8 +32,8 @@
 #include "StdAfx.h"
 #include "Speexencodeoutputpin.h"
 
-SpeexEncodeOutputPin::SpeexEncodeOutputPin(SpeexEncodeFilter* inParentFilter,CCritSec* inFilterLock, CMediaType* inOutputMediaType)
-	:	AbstractAudioEncodeOutputPin(inParentFilter, inFilterLock,NAME("SpeexDecodeOutputPin"), L"Speex Out", inOutputMediaType)
+SpeexEncodeOutputPin::SpeexEncodeOutputPin(SpeexEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("SpeexDecodeOutputPin"), L"Speex Out", 65536, 5, inAcceptableMediaTypes)
 {
 }
 
@@ -41,11 +41,23 @@ SpeexEncodeOutputPin::~SpeexEncodeOutputPin(void)
 {
 }
 
-bool SpeexEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
-	SpeexEncodeFilter* locParentFilter = (SpeexEncodeFilter*)mParentFilter;
-	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mSpeexFormatBlock), sizeof(sSpeexFormatBlock));
-	return true;
+HRESULT SpeexEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+{
+	if (inPosition == 0) {
+		sSpeexFormatBlock* locSpeexFormat = (sSpeexFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sSpeexFormatBlock));
+		//TODO::: Check for null ?
+
+		memcpy((void*)locSpeexFormat, (const void*) &(((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock), sizeof(sSpeexFormatBlock));
+		return S_OK;
+	} else {
+        return S_FALSE;
+	}
 }
-unsigned long SpeexEncodeOutputPin::FormatBufferSize() {
-	return sizeof(sSpeexFormatBlock);
-}
+//bool SpeexEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
+//	SpeexEncodeFilter* locParentFilter = (SpeexEncodeFilter*)mParentFilter;
+//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mSpeexFormatBlock), sizeof(sSpeexFormatBlock));
+//	return true;
+//}
+//unsigned long SpeexEncodeOutputPin::FormatBufferSize() {
+//	return sizeof(sSpeexFormatBlock);
+//}

@@ -29,10 +29,17 @@ Do something with the various _cdecl.h files floating around to consolidate them
 
 Sort all the GUIDs and format blocks to a common place.
 
-DONE::::
-
-Fix the leaks caused by the accept media types.
+Review media type naming convention... should the major type for the outputs of the mux be MEDIATYPE_OggPacket instead ?
 
 Change type of mUptoFrame everywhere to __int64
 
 Check use of mHR which is scattered about the enc/dec filters.
+
+Review the exposure of IMediaSeeking on encoders
+
+Find COM resource leak in encoders. (Probably to do with delegation of seeking)
+
+DONE::::
+
+Fix the leaks caused by the accept media types.
+

@@ -31,24 +31,28 @@
 
 #pragma once
 
+//Local Includes
 #include "Speexencoderdllstuff.h"
-#include "AbstractAudioEncodeOutputPin.h"
 
+//External Includes
+#include "AbstractTransformOutputPin.h"
+
+//Forward Declarations
 class SpeexEncodeFilter;
 struct sSpeexFormatBlock;
 
 class SpeexEncodeOutputPin
-	:	public	AbstractAudioEncodeOutputPin
+	//Base Classes
+	:	public	AbstractTransformOutputPin
 {
 public:
-	SpeexEncodeOutputPin(SpeexEncodeFilter* inParentFilter, CCritSec* inFilterLock, CMediaType* inOutputMediaType);
+	//Friend Classes
+	friend class SpeexEncodeInputPin;
+
+	//Constructors
+	SpeexEncodeOutputPin(SpeexEncodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexEncodeOutputPin(void);
 
-	//PURE VIRTUAL IMPLEMENTATION
-	virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
-	virtual unsigned long FormatBufferSize();
-
-
 protected:
-	
+	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
 };

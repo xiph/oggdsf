@@ -37,7 +37,8 @@
 #include "SpeexDecodeFilter.h"
 
 extern "C" {
-#include <fishsound/fishsound.h>
+//#include <fishsound/fishsound.h>
+#include "fish_cdecl.h"
 }
 
 class SpeexDecodeOutputPin;
@@ -50,7 +51,8 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	SpeexDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexDecodeInputPin(void);
-	static int SpeexDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
+	
+	static int __cdecl SpeexDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
 
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);

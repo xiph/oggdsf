@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\dsfAbstractAudioEncoder;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\core\directshow\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFSPEEXENCODER_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -28,7 +28,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"
-				CallingConvention="0"/>
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -80,7 +80,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\dsfAbstractAudioEncoder;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\core\directshow\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFSPEEXENCODER_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -89,7 +89,7 @@
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="0"
-				CallingConvention="0"/>
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -143,7 +143,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\dsfAbstractAudioEncoder;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\core\directshow\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFSPEEXENCODER_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -153,7 +153,7 @@
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="0"
-				CallingConvention="0"/>
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -207,7 +207,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\dsfAbstractAudioEncoder;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\core\directshow\dsfSeeking"
+				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg\libOOOgg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFSPEEXENCODER_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -217,7 +217,7 @@
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="0"
-				CallingConvention="0"/>
+				CallingConvention="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -308,6 +308,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\fish_cdecl.h">
+			</File>
 			<File
 				RelativePath="SpeexEncodeFilter.h">
 			</File>

@@ -32,37 +32,39 @@
 #pragma once
 
 
-#include "AbstractAudioEncodeInputPin.h"
+#include "AbstractTransformInputPin.h"
 #include "SpeexEncodeInputPin.h"
 
 #include "SpeexEncodeFilter.h"
 
 extern "C" {
-#include <fishsound/fishsound.h>
-//#include <../src/libfishsound/private.h>
+//#include <fishsound/fishsound.h>
+#include "fish_cdecl.h"
 }
 
 //#include <fstream>
 //using namespace std;
 class SpeexEncodeInputPin
-	:	public AbstractAudioEncodeInputPin
+	:	public AbstractTransformInputPin
 {
 public:
-	SpeexEncodeInputPin(AbstractAudioEncodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioEncodeOutputPin* inOutputPin);
+	SpeexEncodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexEncodeInputPin(void);
 
-	static int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
-	//PURE VIRTUALS
-	virtual long encodeData(unsigned char* inBuf, long inNumBytes);
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
+	static int __cdecl SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
+	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
 protected:
 	HRESULT mHR;
-	//bool mBegun;			//Already in base class stupid !
-	//SpeexDecodeOutputPin* mOutputPin;
-	//__int64 mUptoFrame;
+//PURE VIRTUALS
+	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
+	virtual bool ConstructCodec();
+	virtual void DestroyCodec();
+
+
+	WAVEFORMATEX* mWaveFormat;
+	__int64 mUptoFrame;
 
 	//fstream debugLog;
 	FishSound* mFishSound;
