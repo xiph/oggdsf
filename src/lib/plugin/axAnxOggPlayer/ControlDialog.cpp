@@ -18,6 +18,9 @@ CControlDialog::CControlDialog(CWnd* pParent /*=NULL*/)
 
 CControlDialog::~CControlDialog()
 {
+	if (mBrowser != NULL) {
+		mBrowser->Release();
+	}
 }
 
 void CControlDialog::DoDataExchange(CDataExchange* pDX)

@@ -222,6 +222,18 @@ int CaxAnxOggPlayerCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (COleControl::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
+	IServiceProvider* locISP = NULL;
+	IWebBrowser2* locBrowser = NULL;
+
+	HRESULT locHR = GetClientSite()->QueryInterface(IID_IServiceProvider, (void **)&locISP);
+	if (locHR == S_OK) {
+		locHR = locISP->QueryService(IID_IWebBrowserApp, IID_IWebBrowser2, (void **)&locBrowser);
+		if (locHR == S_OK) {
+			mDialog.setBrowser(locBrowser);
+			
+		}
+		locISP->Release();
+	}
 	// TODO:  Add your specialized creation code here
 	mDialog.Create(IDD_DIALOG1, this);
 	mDialog.ShowWindow(TRUE);

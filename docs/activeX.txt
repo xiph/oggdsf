@@ -60,6 +60,29 @@ In the constructor... initialise to NULL.
 
 Manually implement a function for setBrowser in ControlDialog.cpp, which assingsg inBrowser to mBrowser.
 
+Add the following code into the ctrl classes OnCreate method to grab the browser interface and send it to the
+ dialog.
+
+	IServiceProvider* locISP = NULL;
+	IWebBrowser2* locBrowser = NULL;
+
+	HRESULT locHR = GetClientSite()->QueryInterface(IID_IServiceProvider, (void **)&locISP);
+	if (locHR == S_OK) {
+		locHR = locISP->QueryService(IID_IWebBrowserApp, IID_IWebBrowser2, (void **)&locBrowser);
+		if (locHR == S_OK) {
+			mDialog.setBrowser(locBrowser);
+			
+		}
+		locISP->Release();
+
+	}
+
+
+Put the following code in the destructor for the dialog class.
+
+	if (mBrowser != NULL) {
+		mBrowser->Release();
+	}
 
 
 
