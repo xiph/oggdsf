@@ -145,10 +145,7 @@ HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, c
 		((inOutputMediaType->majortype == MEDIATYPE_Video) && (inOutputMediaType->subtype == MEDIASUBTYPE_YV12) && (inOutputMediaType->formattype == FORMAT_VideoInfo)
 		)) {
 
-		VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inOutputMediaType->Format();
-		mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
-		mWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
-		mFrameSize = (unsigned long)locVideoHeader->bmiHeader.biSizeImage;
+	
 		return S_OK;
 	} else {
 		return S_FALSE;
@@ -593,6 +590,31 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 }
 
 
+HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType) {
+
+	if (inDirection == PINDIR_INPUT) {
+		if (inMediaType->subtype == MEDIASUBTYPE_Theora) {
+			setTheoraFormat((sTheoraFormatBlock*)inMediaType->pbFormat);
+			
+			//Set some other stuff here too...
+			mXOffset = ((sTheoraFormatBlock*)inMediaType->pbFormat)->xOffset;
+			mYOffset = ((sTheoraFormatBlock*)inMediaType->pbFormat)->yOffset;
+
+		} else {
+			//Failed... should never be here !
+			throw 0;
+		}
+		return CVideoTransformFilter::SetMediaType(PINDIR_INPUT, inMediaType);
+	} else {
+		//Output pin SetMediaType
+		VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inMediaType->Format();
+		mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+		mWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+		mFrameSize = (unsigned long)locVideoHeader->bmiHeader.biSizeImage;
+		return CVideoTransformFilter::SetMediaType(PINDIR_OUTPUT, inMediaType);
+	}
+}
+
 
 bool TheoraDecodeFilter::SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync) 
 {
@@ -605,7 +627,16 @@ bool TheoraDecodeFilter::SetSampleParams(IMediaSample* outMediaSample, unsigned 
 	return true;
 }
 
-
+sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock() 
+{
+	return mTheoraFormatInfo;
+}
+void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock) 
+{
+	delete mTheoraFormatInfo;
+	mTheoraFormatInfo = new sTheoraFormatBlock;
+	*mTheoraFormatInfo = *inFormatBlock;
+}
 //---------------------------------------
 //OLD IMPLOEMENTATION....
 //---------------------------------------

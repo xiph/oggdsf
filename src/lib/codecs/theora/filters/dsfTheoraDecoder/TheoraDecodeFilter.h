@@ -55,6 +55,12 @@ public:
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outOutputMediaType);
 	virtual HRESULT Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample);
 
+	//Overrides
+	virtual HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType);
+
+	//Helpers
+	sTheoraFormatBlock* getTheoraFormatBlock();
+	void setTheoraFormat(sTheoraFormatBlock* inFormatBlock);
 protected:
 	virtual void ResetFrameCount();
 	void FillMediaType(CMediaType* outMediaType, unsigned long inSampleSize);
