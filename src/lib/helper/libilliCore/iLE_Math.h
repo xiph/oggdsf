@@ -50,7 +50,7 @@ public:
 	/// Reads 8 bytes (Little Endian) and returns an int 64.
 	static LOOG_INT64 CharArrToInt64(const unsigned char* inCharArray);
 
-	/// Takes an  int64 and writes 8 bytes (Little Endian) into the buffer you pass.
+	/// Takes an int64 and writes 8 bytes (Little Endian) into the buffer you pass.
 	static void Int64ToCharArr(LOOG_INT64 inInt64, unsigned char* outCharArray);
 
 	/// Reads 2 bytes (Little Endian) and returns an unsigned short

@@ -236,6 +236,7 @@ void OggPageHeader::setPageSequenceNo(const unsigned char* inPtr)
 {
 	mPageSequenceNo = iLE_Math::charArrToULong(inPtr);;
 }
+
 void OggPageHeader::setCRCChecksum(unsigned long inVal)
 {
 	mCRCChecksum = inVal;

@@ -1,4 +1,4 @@
-//===========================================================================
+`//===========================================================================
 //Copyright (C) 2005 Zentaro Kavanagh
 //Copyright (C) 2005 Commonwealth Scientific and Industrial Research
 //                   Organisation (CSIRO) Australia
@@ -173,7 +173,7 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	locFile.seekg(locRequestedStartTimeOffset);
 
 #ifdef DEBUG
-	mDebugFile << "locRequestedStartTime: " << locRequestedStartTime << endl;
+	mDebugFile << "mRequestedStartTime: " << mRequestedStartTime << endl;
 	mDebugFile << "locRequestedStartTimeOffset: " << locRequestedStartTimeOffset << endl;
 	mDebugFile << "Current position: " << locFile.tellg() << endl;
 #endif
@@ -182,8 +182,19 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	// really shouldn't ...
 	size_t locCurrentPosition = locFile.tellg();
 	if (locCurrentPosition == 0) {
+#ifdef DEBUG
+		mDebugFile << "Resetting mDemuxState to SEEN_NOTHING bofore LOOK_FOR_BODY" << endl;
+#endif
 		mDemuxState = SEEN_NOTHING;
 	}
+
+#ifdef DEBUG
+	for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
+		mDebugFile << "Serialno: " << mWantedStreamSerialNumbers[i].first << endl;
+	}
+
+	mDebugFile << "mDemuxState before LOOK_FOR_BODY is " << mDemuxState << endl;
+#endif
 
 	mDemuxParserState = LOOK_FOR_BODY;
 	{
@@ -291,7 +302,7 @@ string mimeType(OggPacket* inPacket)
 	const unsigned short CONTENT_TYPE_OFFSET = 28;
 
 	if (strncasecmp((char *) inPacket->packetData() + CONTENT_TYPE_OFFSET,
-		        "Content-Type: ", 14) == 0)
+	    "Content-Type: ", 14) == 0)
 	{
 		const unsigned short MIME_TYPE_OFFSET = 28 + 14;
 		const unsigned short MAX_MIME_TYPE_LENGTH = 256;
@@ -357,9 +368,9 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 
 							// Add the association to our stream list
 							mWantedStreamSerialNumbers.push_back(locMap);
-
-							// Add the association to the list of pending secondary headers
-							mPendingSecondaryHeaders.push_back(locMap);
+#ifdef DEBUG
+							mDebugFile << "Added serialno " << locSerialNumber << " to mWantedStreamSerialNumbers" << endl;
+#endif
 
 							if (!wantOnlyPacketBody(mWantedMIMETypes)) {
 								unsigned char *locRawPageData = inOggPage->createRawPageData();
@@ -387,10 +398,10 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 				{
 					// Only output headers for the streams that the user wants
 					// in their request
-					for (unsigned int i = 0; i < mPendingSecondaryHeaders.size(); i++) {
-						if (mPendingSecondaryHeaders[i].first == inOggPage->header()->StreamSerialNo()) {
-							if (mPendingSecondaryHeaders[i].second >= 1) {
-								mPendingSecondaryHeaders[i].second--;
+					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
+						if (mWantedStreamSerialNumbers[i].first == inOggPage->header()->StreamSerialNo()) {
+							if (mWantedStreamSerialNumbers[i].second >= 1) {
+								mWantedStreamSerialNumbers[i].second--;
 								if (wantOnlyPacketBody(mWantedMIMETypes)) {
 									OggPacket* locPacket = inOggPage->getPacket(0);
 									mBufferWriter(locPacket->packetData(),
@@ -411,8 +422,8 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 					}
 
 					bool allEmpty = true;
-					for (unsigned int i = 0; i < mPendingSecondaryHeaders.size(); i++) {
-						if (mPendingSecondaryHeaders[i].second != 0) {
+					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
+						if (mWantedStreamSerialNumbers[i].second != 0) {
 							allEmpty = false;
 						}
 					}
@@ -457,38 +468,8 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 				break;
 
 			case SEEN_ANNODEX_EOS:
-				{
-					// Only output headers for the streams that the user wants
-					// in their request
-					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
-						if (mWantedStreamSerialNumbers[i].first == inOggPage->header()->StreamSerialNo()) {
-							if (mWantedStreamSerialNumbers[i].second >= 1) {
-								mWantedStreamSerialNumbers[i].second--;
-							} 
-#if 0
-							else {
-								mDemuxState = INVALID;
-							}
-#endif
-						}
-					}
-
-					// Check whether we've seen all the secondary headers yet:
-					// if we have, change our state to indicate that, and start
-					// delivering the data to the user
-
-					bool allEmpty = true;
-					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
-						if (mWantedStreamSerialNumbers[i].second != 0) {
-							allEmpty = false;
-						}
-					}
-
-					if (allEmpty) {
-						mDemuxState = SEEN_ALL_CODEC_HEADERS;
-					}
-				}
-				break;
+				mDemuxState = SEEN_ALL_CODEC_HEADERS;
+				// Fallthrough!
 
 			case SEEN_ALL_CODEC_HEADERS:
 				{
@@ -499,8 +480,14 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 
 					// Only output streams which the user requested
 					for (unsigned int i = 0; i < mWantedStreamSerialNumbers.size(); i++) {
+#ifdef DEBUG
+						mDebugFile << "Encountered page with serialno " << inOggPage->header()->StreamSerialNo() << endl;
+#endif
 						if (	mWantedStreamSerialNumbers[i].first
 							==	inOggPage->header()->StreamSerialNo()) {
+#ifdef DEBUG
+							mDebugFile << "Outputting page for serialno " << mWantedStreamSerialNumbers[i].first << endl;
+#endif
 							if (wantOnlyPacketBody(mWantedMIMETypes)) {
 								for (unsigned long j = 0; j < inOggPage->numPackets(); j++) {
 									OggPacket* locPacket = inOggPage->getPacket(j);
@@ -528,9 +515,6 @@ bool AnnodexRecomposer::acceptOggPage(OggPage* inOggPage)
 	} else {
 		// Should never get here!
 		assert(0);
-	}
-
-	if (mDemuxState == INVALID) {
 	}
 
 	// Tidy up

@@ -172,6 +172,10 @@ unsigned long OggPacket::packetSize() const {
 	return mPacketSize;
 }
 
+/** Note that you should reset the checksum on the Ogg page via
+    OggPage::computeAndSetCRCChecksum() if you change the packet data, otherwise
+	you'll end up with an invalid page.  (Arguably this should automatically
+	be done for you, but that's the way it is for now.) */
 unsigned char* OggPacket::packetData() {
 	return mPacketData;
 }
@@ -193,7 +197,11 @@ void OggPacket::setPacketSize(unsigned long inPacketSize) {
 	mPacketSize = inPacketSize;
 }
 
-//This function accepts responsibility for the pointer it is passed, and it deletes it in the destructor.
+/** This function accepts responsibility for the pointer it is passed, and it
+    deletes it in the destructor.  Note that you should reset the checksum on
+	the Ogg page via OggPage::computeAndSetCRCChecksum(), otherwise you'll end up
+	with an invalid page.  (Arguably this should automatically be done for you,
+	but that's the way it is for now.) */
 void OggPacket::setPacketData(unsigned char* inPacketData) {
 	mPacketData = inPacketData;
 }
