@@ -125,7 +125,18 @@ HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType) {
 	}
 }
 HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType) {
-	return S_OK;
+	if ((CheckInputType(inInputMediaType) == S_OK) &&
+		((inOutputMediaType->majortype == MEDIATYPE_Video) && (inOutputMediaType->subtype == MEDIASUBTYPE_YV12) && (inOutputMediaType->formattype == FORMAT_VideoInfo)
+		)) {
+
+		VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inOutputMediaType->Format();
+		mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+		mWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+		mFrameSize = (unsigned long)locVideoHeader->bmiHeader.biSizeImage;
+		return S_OK;
+	} else {
+		return S_FALSE;
+	}
 }
 HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) {
 	debugLog<<endl;	debugLog<<"DecideBufferSize :"<<endl;	//FIX::: Abstract this out properly	

@@ -56,6 +56,9 @@ public:
 protected:
 	void FillMediaType(CMediaType* outMediaType, unsigned long inSampleSize);
 	bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
+	unsigned long mHeight;
+	unsigned long mWidth;
+	unsigned long mFrameSize;
 	//Format Block
 	sTheoraFormatBlock* mTheoraFormatInfo;
 	fstream debugLog;
