@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "filecomments.h"
+#include "FileComments.h"
 
 FileComments::FileComments(void)
 	:	mMinorStreamCount(0)

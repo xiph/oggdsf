@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "vorbiscomments.h"
+#include "VorbisComments.h"
 
 VorbisComments::VorbisComments(void)
 {

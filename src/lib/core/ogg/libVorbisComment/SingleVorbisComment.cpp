@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "singlevorbiscomment.h"
+#include "SingleVorbisComment.h"
 
 SingleVorbisComment::SingleVorbisComment(void)
 {

@@ -30,7 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "streamcommentinfo.h"
+#include "StreamCommentInfo.h"
 
 StreamCommentInfo::StreamCommentInfo(void)
 	:	mIsDirty(false)
