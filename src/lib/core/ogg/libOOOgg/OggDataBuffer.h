@@ -34,7 +34,12 @@
 #include "OggPage.h"
 #include "SerialNoRego.h"
 #include "IOggCallback.h"
+
+//Only needed for debugging
+#include <fstream>
+//
 using namespace std;
+
 
 
 
@@ -82,6 +87,10 @@ protected:
 	vector<OggCallbackRego*> mAlwaysCallList;
 	vector<SerialNoRego*> mSerialNoCallList;
 	vector<IOggCallback*> mVirtualCallbackList;
+
+	//DEBUG
+	fstream debugLog;
+	//
 
 private:
 	void processBaseHeader();

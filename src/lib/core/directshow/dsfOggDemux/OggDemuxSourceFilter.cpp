@@ -589,7 +589,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins() {
 		//
 		//BUG::: Need to actually see how many bytes were read !
 		if (locNumRead > 0) {
-			mOggBuffer.feed(locBuff, RAW_BUFFER_SIZE);
+			mOggBuffer.feed(locBuff, locNumRead);
 		}
 
 	}
