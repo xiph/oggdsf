@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\ogg\libOOOgg;..\..\..\..\helper\libilliCore"
+				AdditionalIncludeDirectories="..\..\..\..\core\ogg\libOOOgg;..\..\..\..\helper\libilliCore;..\libflac\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -108,6 +108,9 @@
 				RelativePath=".\FLACMetadataSplitter.cpp">
 			</File>
 			<File
+				RelativePath=".\FLACPushDecoder.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -132,6 +135,9 @@
 			</File>
 			<File
 				RelativePath=".\FLACMetadataSplitter.h">
+			</File>
+			<File
+				RelativePath=".\FLACPushDecoder.h">
 			</File>
 			<File
 				RelativePath=".\stdafx.h">
