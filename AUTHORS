@@ -8,6 +8,7 @@
 *** dsfSpeexDecoder
 *** dsfSpeexEncoder
 *** dsfFLACDecoder
+*** dsfFLACEncoder
 *** dsfTheoraDecoder
 *** dsfTheoraEncoder
 *** dsfAbstractAudioDecoder
@@ -16,16 +17,25 @@
 *** dsfAbstractVideoEncoder
 *** dsfSeeking
 *** dsfSubtitleVMR9
+*** libiWrapper
+*** libilliCore
 *** libOOTheora
 *** libOOOgg
 *** libOOOggSeek
 *** libCMMLTags
+*** libCMMLTagsDotNET
 *** libWinCMMLParse
 *** libVorbisComment
+*** libVorbisCommentDotNET
+*** libDSPlayDotNET
 *** OOOggDump
 *** OOOggStat
 *** OOOggCommentDump
+*** OOOggValidate
 *** CLOgg
+*** DNPlay
+*** iOCE
+
 	Zentaro Kavanagh <ogg@illiminable.com>
 		- Design and coding.
 ==============================================================

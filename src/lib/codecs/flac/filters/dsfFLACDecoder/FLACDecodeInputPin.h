@@ -74,7 +74,7 @@ protected:
 	bool mGotMetaData;
 	
 	//debug only
-	fstream debugLog;
+	//fstream debugLog;
 	//
 
 	CCritSec* mCodecLock;

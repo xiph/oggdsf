@@ -38,7 +38,7 @@ class LIBOOOGG_API IStampedOggPacketSink
 public:
 	//All callers to acceptStampedOggPacket give away their pointer
 	// to this function. All methods implementing this interface
-	// are responsible for deleting this page. All callers
+	// are responsible for deleting this packet. All callers
 	// should NULL their pointer immediately after calling
 	// to avoid reusing them.
 	// 

@@ -52,5 +52,5 @@ protected:
 	bool processPage(OggPage* inOggPage, bool inIncludeFirst, bool inIncludeLast);
 	ePacketiserState mPacketiserState;
 
-	fstream debugLog;
+	//fstream debugLog;
 };
