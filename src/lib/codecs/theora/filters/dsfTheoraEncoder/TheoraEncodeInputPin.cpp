@@ -302,7 +302,86 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 
 long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumBytes) {
 
+	//Victor Ugly Yellow Alpha --fonts are fuzzy late at night-- (Yellow is not colour yellow)
 
+	//AYUV is VUYA VUYA VUYA VUYA 4:4:4 sampling
+	// Twice the vertical and horizontal sampling of YV12 in chrominance
+
+	//Strategy : Process two lines and 2 cols at a time averaging 4 U and V around the position where a
+	// YV12 chroma sample will be... leave luminance samples... ignore alpha samples
+
+	ASSERT (mHeight % 2 == 0);
+	ASSERT (mWidth % 2 == 0);
+
+	unsigned char* locSourceUptoPtr = inBuf;						//View only... don't delete locUptoPtr
+	unsigned char* locSourceNextLine = locSourceUptoPtr + mWidth;	//View only don't delete
+	
+	char* locYUpto = mYUV.y;
+	char* locUUpto = mYUV.u;
+	char* locVUpto = mYUV.v;
+	//Pointer to the same pixel on next line
+	char* locDestNextLine = locYUpto + mWidth;				//View only... don't delete
+
+	int temp = 0;
+
+	//Process 2 lines at a time
+	for (int line = 0; line < mHeight; line += 2) {
+		
+		ASSERT (locSourceNextLine == locSourceUptoPtr + mWidth);
+		ASSERT(locDestNextLine == locYUpto + mWidth);
+
+		//Columns also done 2 at a time
+		for (int col = 0; col < mWidth; col += 2) {
+			//V for Victor samples
+			temp =	*(locSourceUptoPtr++);			//Current pixel
+			temp += *(locSourceUptoPtr);			//Pixel to right
+			temp += *(locSourceNextLine++);			//Pixel below
+			temp += *(locSourceNextLine);			//Pixel below right
+			temp >>= 2;								//Divide by 4 to average.
+			*(locYUpto++) = (unsigned char)temp;
+
+
+			//U for Ugly samples
+			temp =	*(locSourceUptoPtr++);			//Current pixel
+			temp += *(locSourceUptoPtr);			//Pixel to right
+			temp += *(locSourceNextLine++);			//Pixel below
+			temp += *(locSourceNextLine);			//Pixel below right
+			temp >>= 2;								//Divide by 4 to average.
+			*(locUUpto++) = (unsigned char)temp;
+
+			//Y for Yellow samples.
+			*(locYUpto++) = *(locSourceUptoPtr++);
+			*(locDestNextLine++) = *(locSourceNextLine++);
+			
+			//Ignore the alpha channel
+			locSourceUptoPtr++;
+			locSourceNextLine++;
+
+			//--
+			//Source and next pointer have advanced four bytes so far.
+			//Added 2 Y for yellows (one from each line) and one each of U and V, ignore an A on each line
+			//--
+
+			//Current line extra Y for yellows.
+			locSourceUptoPtr += 2;					//Skip the U and V samples
+			*(locYUpto++) = *(locSourceUptoPtr);	//get the Y for yellow sample		
+			locSourceUptoPtr += 2;					//Advance 1 for the Y for yellow and Skip the A sample.
+
+
+			//Next line extra Y for yellows.
+			locSourceNextLine += 2;							//Skip the U and V samples
+			*(locDestNextLine++) = *(locSourceNextLine);	//get the Y for yellow sample		
+			locSourceNextLine += 2;							//Advance 1 for the Y for yellow and Skip the A sample.
+
+			//--
+			//In total source and next pointer advanced 8 bytes on each line, and we got 4 Y for yellows (2 each line)
+			// and one each U, V, ignored 4 A's (2 each line)
+			//--
+
+
+		}
+	}
+	return 0;
 }
 long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumBytes) {
 	unsigned char* locSourceUptoPtr = inBuf;  //View only... don't delete locUptoPtr
