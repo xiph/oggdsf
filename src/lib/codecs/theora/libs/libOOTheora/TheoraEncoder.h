@@ -43,28 +43,29 @@ public:
 	~TheoraEncoder(void);
 
 
-
+	/// Initialise the code, We get back three packets we must delete.
 	StampedOggPacket** initCodec(theora_info inTheoraInfo);
-	//bool resetPackCount();
-	//bool clearAll();
+
+	/// Encode the frame buffer. We get back a packet to delete or NULL.
 	StampedOggPacket* encodeTheora(yuv_buffer* inYUVBuffer);
 	
-
-	StampedOggPacket* oldToNewPacket(ogg_packet* inPacket);
-
-
 	
-	//unsigned char* convertYUV(yuv_buffer* inBuffer, unsigned long inFormat);
+
+	//bool resetPackCount();
+	//bool clearAll();
 protected:
-	bool encodeHeader();
+
+	/// Converts an xiph like ogg packet into a StampedOggPacket.
+	StampedOggPacket* oldToNewPacket(ogg_packet* inPacket);
+	//bool encodeHeader();
 
 	theora_info mTheoraInfo;
 	theora_comment mTheoraComment;
 	theora_state mTheoraState;
 	
-	yuv_buffer mYUVBuffer;		//Needed ??
+	//yuv_buffer mYUVBuffer;		//Needed ??
 
-	StampedOggPacket* mPartialPacket; //TEMP !!
+	//StampedOggPacket* mPartialPacket; //TEMP !!
 
 	unsigned long mHeadersSeen;
 	bool mFirstPacket;

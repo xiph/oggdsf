@@ -82,6 +82,8 @@ namespace libDSPlayDotNET
 		Int64 seekStart();
 		Int64 queryPosition();
 
+		void repaint();
+
 		bool isLoaded();
 		Int64 fileSize();
 		Int64 fileDuration();

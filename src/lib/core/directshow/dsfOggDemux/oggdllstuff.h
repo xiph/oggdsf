@@ -32,9 +32,19 @@
 
 #ifndef INC_OGGDLLSTUFF
 #define INC_OGGDLLSTUFF
+
+
+
+////Ignore the wanrings in the directshow base classses
+//#pragma warning( push )
+//#pragma warning( disable : 4312 )
+
+
 #include <streams.h>
 #include <pullpin.h>
 #include <initguid.h>
+
+//#pragma warning( pop )
 
 
 #ifdef LIBOOOGG_EXPORTS

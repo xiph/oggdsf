@@ -33,9 +33,9 @@
 #include "theoradecoder.h"
 
 TheoraDecoder::TheoraDecoder(void)
-: mFirstPacket(true)
-, mFirstHeader(true)
-, mPacketCount(0)
+	: mFirstPacket(true)
+	, mFirstHeader(true)
+	, mPacketCount(0)
 {
 }
 
@@ -43,14 +43,15 @@ TheoraDecoder::~TheoraDecoder(void)
 {
 }
 
-bool TheoraDecoder::initCodec() {
+bool TheoraDecoder::initCodec() 
+{
 	theora_comment_init(&mTheoraComment);
 	theora_info_init(&mTheoraInfo);
 	
 	return true;
  }
 
-//This is temporary... get it out of here after testing
+
 
 yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts packet and deletes it.
 

@@ -334,7 +334,7 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 	locHR = inInputSample->GetPointer(&locBuff);
 
 	//TODO::: This should be after the return value check !!
-	BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];
+	BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];		//This gets put into a packet.
 	memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
 
 
@@ -386,7 +386,7 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 		StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 
 		bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(locPacket);
-		yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);
+		yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);		//This accept the packet and deletes it
 		if (locYUV != NULL) {
 			if (TheoraDecoded(locYUV, outOutputSample, locIsKeyFrame) != 0) {
 				//debugLog<<"Decoded *** FALSE ***"<<endl;

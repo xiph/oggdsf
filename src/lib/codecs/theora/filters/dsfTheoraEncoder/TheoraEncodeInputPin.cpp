@@ -1169,12 +1169,16 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 
 		for (int i = 0; i < 3; i++) {
 			locHR = deliverData(0,0,locHeaders[i]->packetData(), locHeaders[i]->packetSize());
+			delete locHeaders[i];
 			if (locHR != S_OK) {
 				return locHR;
 			}
 		}
 	}
 
+
+	//This big if block merely takes the buffer and copies it into the yuv_buffer structure which
+	// is used below to encode.
 	if (mPinInputType.subtype == MEDIASUBTYPE_YUY2) {
 		//debugLog<<"About to encode YUY2 to YV12"<<endl;
 		encodeYUY2ToYV12(inBuf, inNumBytes);
@@ -1222,7 +1226,11 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 	locFrameEnd		= mUptoFrame 
 					= locPacket->endTime();
 	//debugLog<<"Delivering..."<<endl;
-	return deliverData(locFrameStart, locFrameEnd, locPacket->packetData(), locPacket->packetSize());
+
+	//We still own the packet after this, we have to delete it.
+	locHR = deliverData(locFrameStart, locFrameEnd, locPacket->packetData(), locPacket->packetSize());
+	delete locPacket;
+	return locHR;
 
 }
 bool TheoraEncodeInputPin::ConstructCodec() {

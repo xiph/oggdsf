@@ -120,7 +120,7 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 
 				debugLog<<"Chunk reamining "<<mChunkRemains<<endl;
 				//The size of the crlf 's and the chunk size value
-				unsigned long locGuffSize = (locChunkSizeStr.size() + 2);
+				unsigned long locGuffSize = (unsigned long)(locChunkSizeStr.size() + 2);
 				locWorkingBuffPtr +=  locGuffSize;
 				locNumBytesLeft -= locGuffSize;
 			} else {

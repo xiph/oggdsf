@@ -40,8 +40,10 @@ TheoraEncoder::~TheoraEncoder(void)
 {
 }
 
-//Not happy about exposing this here... should abstract it later.
-StampedOggPacket** TheoraEncoder::initCodec(theora_info inTheoraInfo) {
+/** Returns three header packets which you must delete when done. Give it a theora_info.
+ */
+StampedOggPacket** TheoraEncoder::initCodec(theora_info inTheoraInfo)
+{
 	mTheoraInfo = inTheoraInfo;
 	theora_encode_init(&mTheoraState,&mTheoraInfo);
 
@@ -61,29 +63,16 @@ StampedOggPacket** TheoraEncoder::initCodec(theora_info inTheoraInfo) {
 	
 	locHeaders[2] = oldToNewPacket(&locOldPacket);
 
+	//This should really have some error checking ! And trash packets if faild.
 	return locHeaders;
 }
 
 
-
-//ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) {
-//	const unsigned char NOT_USED = 0;
-//	ogg_packet* locOldPacket = new ogg_packet;
-//	if (mFirstHeader) {
-//		locOldPacket->b_o_s = 1;
-//		mFirstHeader = false;
-//	} else {
-//		locOldPacket->b_o_s = NOT_USED;
-//	}
-//	locOldPacket->e_o_s = NOT_USED;
-//	locOldPacket->bytes = inPacket->packetSize();
-//	locOldPacket->granulepos = inPacket->endTime();
-//	locOldPacket->packet = inPacket->packetData();
-//	locOldPacket->packetno = NOT_USED;
-//	return locOldPacket;
-//}
-
-StampedOggPacket* TheoraEncoder::oldToNewPacket(ogg_packet* inOldPacket) {
+/** Converts our StampedOggPacket into a packet that the theora library will accept.
+	You still own the old packet. But you must delete the returned packet.
+ */
+StampedOggPacket* TheoraEncoder::oldToNewPacket(ogg_packet* inOldPacket)
+{
 	const unsigned char NOT_USED = 0;
 
 	//Need to clone the packet data
@@ -94,10 +83,15 @@ StampedOggPacket* TheoraEncoder::oldToNewPacket(ogg_packet* inOldPacket) {
 	return locOggPacket;
 
 }
-StampedOggPacket* TheoraEncoder::encodeTheora(yuv_buffer* inYUVBuffer) {
+
+/** Returns a packet you must delete, otherwise returns NULL if it fails. Pass it a yuv frame buffer which you own.
+ */
+StampedOggPacket* TheoraEncoder::encodeTheora(yuv_buffer* inYUVBuffer) 
+{
 	const int NOT_LAST_FRAME = 0;
 	//const int IS_LAST_FRAME = 1;
 	int retVal = 0;
+
 
 	ogg_packet locOldOggPacket;
 	retVal = theora_encode_YUVin(&mTheoraState, inYUVBuffer);
@@ -107,7 +101,9 @@ StampedOggPacket* TheoraEncoder::encodeTheora(yuv_buffer* inYUVBuffer) {
 		return NULL;
 	}
 
+	//We don't delete the buffer we get back in the old ogg packet, it's owned by libtheora
 	retVal = theora_encode_packetout(&mTheoraState, NOT_LAST_FRAME, &locOldOggPacket);
+	
 	if (retVal != 1) {
 		//Weird return convention.
 		return NULL;

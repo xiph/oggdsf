@@ -136,6 +136,19 @@ DSPlay::~DSPlay(void) {
 	CoUninitialize();
 }
 
+
+void DSPlay::repaint() 
+{
+	if ((mVideoRenderType == VR_VMR9) && (mVMR9Window != NULL)) {
+		HDC locHDC = GetDC(NULL);
+
+		mVMR9Window->RepaintVideo((HWND)((int)mWindowHandle), locHDC);
+
+
+	}
+
+
+}
 void DSPlay::releaseInterfaces() {
 	*debugLog<<"Releasing interfaces"<<endl;
 	ULONG numRef = 0;

@@ -43,8 +43,14 @@
 // Windows Header Files:
 #include <windows.h>
 
+//Ignore the wanrings in the directshow base classses
+//#pragma warning( push )
+//#pragma warning( disable : 4312 )
+
 #include <streams.h>
 #include <initguid.h>
+
+//#pragma warning( pop )
 
 // TODO: reference additional headers your program requires here
 #include <libOOOgg/libOOOgg.h>

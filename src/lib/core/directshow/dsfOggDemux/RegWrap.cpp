@@ -61,7 +61,7 @@ LONG RegWrap::addKeyVal(HKEY inHive, string inKeyName, string inValueName, strin
 								NULL,
 								REG_SZ,
 								(const BYTE*)inValue.c_str(),
-								inValue.length()+1);
+								(DWORD)(inValue.length()+1));
 
 	if (retVal != ERROR_SUCCESS) {
 		//debugLog<<"Set Value Failed"<<endl;
