@@ -90,7 +90,7 @@ protected:
 	bool mBegun;
 	AbstractAudioDecodeOutputPin* mOutputPin;
 	__int64 mUptoFrame;
-	__int64 mLastSeenGranPos;
+	__int64 mLastSeenStartGranPos;
 	AbstractAudioDecodeFilter* mParentFilter;
 	CMediaType* mAcceptableMediaType;
 

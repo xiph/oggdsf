@@ -70,7 +70,7 @@ public:
 	virtual bool deliverCodecHeaders();
 
 	//IOggcalback Interface
-	virtual bool acceptOggPage(OggPage* inOggPage);
+	virtual bool acceptOggPage(OggPage* inOggPage);   //Beware if you override this further
 
 	virtual OggDemuxSourcePin* getPin();
 	virtual bool OggStream::AddPin();

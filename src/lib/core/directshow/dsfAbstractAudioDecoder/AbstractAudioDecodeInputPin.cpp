@@ -43,7 +43,7 @@ AbstractAudioDecodeInputPin::AbstractAudioDecodeInputPin(AbstractAudioDecodeFilt
 	,	mNumChannels(0)
 	,	mSampleRate(0)
 	,	mFilterLock(inFilterLock)
-	,	mLastSeenGranPos(0)
+	,	mLastSeenStartGranPos(0)
 {
 	//ConstructCodec();
 	mAcceptableMediaType = inAcceptMediaType;
@@ -108,6 +108,11 @@ STDMETHODIMP AbstractAudioDecodeInputPin::Receive(IMediaSample* inSample)
 		
 		return locHR;
 	} else {
+		//New start time hacks
+		//REFERENCE_TIME locStart = 0;
+		//REFERENCE_TIME locEnd = 0;
+		//inSample->GetTime(&locStart, &locEnd);
+		//Error chacks needed here
 		
 		long locResult = decodeData(locBuff, inSample->GetActualDataLength());
 		if (locResult == 0) {

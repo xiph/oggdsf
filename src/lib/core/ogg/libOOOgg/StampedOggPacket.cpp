@@ -72,7 +72,9 @@ void StampedOggPacket::merge(StampedOggPacket* inMorePacket) {
 	//Copy time stamping
 
 	
-	mStartTime = inMorePacket->startTime();
+	//Don't copy start stamp, keep the current packets start stamp.
+	//mStartTime = inMorePacket->startTime();
+	//
 	mEndTime = inMorePacket->endTime();
 	mStampType = inMorePacket->mStampType;
 
