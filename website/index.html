@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>illiminable Ogg Directshow Filters for Speex, Vorbis, Theora and FLAC</title>
-  <meta name="description" content="Directshow Ogg demuxer/muxer with vorbis, speex, FLAC and theora decoders and vorbis, speex encoders.">
+  <meta name="description" content="Directshow Ogg demuxer/muxer with vorbis, speex, FLAC and theora decoders and encoders.">
   <meta name="keywords" content="directshow, theora, vorbis, speex, ogg, media player, flac, codec, windows, audio, video, wmp, directX, plugin, plug-in, decoder, encoder, demux, mux, demuxer">
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#FF00FF" alink="#FF0000">
@@ -30,16 +30,17 @@ Then media player or any other directshow application (ie BSPlayer) will be able
 <li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
 <li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
 <li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.61.7571.zip">zipped source code</a> (7 MB zipped, 25MB unzipped) ?</li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.62.7673.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
 <li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
 <br>
-<b><u>Current Version (0.61.7571) - 16/08/2004</u></b><br>
+<b><u>Current Version (0.62.7673) - 01/09/2004</u></b><br>
 To stop people unnecessarily downloading the windows installer over and over, the packages will no longer include the installer. If you have a pre-XP 
 windows, and don't already have the windows installer on your system (almost everyone who has ever installed something should have it already) you can
 download the installer seperately from the links at the top of the page.<br>
 <br>
-Fixed a few bugs in theora, seeking almost never crashes now. FLAC playback and seeking now works properly, though not extensively tested. Includes a FLAC encoder filter. Starting from the
-next release I will start offering different build configurations, ie minimal decode only installation, builds with SSE2 optimisations etc.<br>
+Fixed the network streaming, and removed all the .NET sample apps from this release. <a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a><br>
+Changed the installer a bit so people realise when they download via download "shell sites", which hide the true source of the download, where it came from and where to look for updates.<br>
+
 <br>
 <FONT size=2 color="#000000" face="Arial">
 <DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
@@ -56,11 +57,11 @@ next release I will start offering different build configurations, ie minimal de
 
 
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">1,076,031 bytes</div></DIV></FONT>
+<DIV><div align="right">942,859 bytes</div></DIV></FONT>
 </TD>
 
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.61.7571.zip">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.62.7673.zip">Download Now</a></div></DIV></FONT>
 </TD>
 
 </TR>
@@ -69,19 +70,17 @@ next release I will start offering different build configurations, ie minimal de
 </FONT>
 <br>
 <b><u>Changes this version</u></b><br>
-	<li>Fixed seeking crash problems with theora</li>
-	<li>Fixed FLAC playback</li>
-	<li>Added a FLAC encoder filter</li>
-	<li>Added a very simple .NET media player called DNPlay</li>
-	<li>Added a .NET directshow playback library</li>
-	<li>Added a validation program for ogg files OOOggValidate</li>
+	<li>Fixed a few memory leaks... there are still more left though.</li>
+	<li>Removed all the .NET sample applications to avoid those without .NET being forced to install it.</li>
+	<li>Streaming greatly improved. Will now cache a file as it streams in the TEMP directory as specified in environment variables.</li>
+	<li>Made experimental SSE/SSE2 optimised builds of all libraries.</li>
+	<li>Changed the installer so that you have to click through the BSD licenses, and to show where the software came from as many sites are linking directly to the .zip files so users are not getting the opportunity to read about known issues, or even know if they are getting the current version.</li>
 <br>
 <br>
 <b><u>Known issues.</u></b><br>
+	<li>Cannot handle any chained multiplexed files or streams</li>
 	<li>Muxer creates broken files when packets are very large (usually high quality theora)</li>
-	<li>I've been told that the installer tries to force you to install .NET if you don't already have it... the filters don't need .NET, it's only for the example player application. The next version will fix this installation problem</li>
 	<li>FLAC seems to lose the first 1/2 second of audio if you stop then play again</li>
-	<li>Realised I broke the limited network streaming the previous version had. Don't try and stream anything. This is already resolved and will be in the next version coming soon.</li>
 	<li>Seeking is slightly less responsive in this latest version. Most noticable in speex.</li>
 	<li>Seeking very close to the end of speex or vorbis files, causes all audio to cease, requiring stop/play to resolve. Particularly noticable in small files, seems roughly 5 secs from end where this occurs.</li>
 	<li>There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3</li>
@@ -92,12 +91,8 @@ next release I will start offering different build configurations, ie minimal de
 	<li>Theora and annodex playback requires directX 9.</li>
 	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
 	<li>Only plays Ogg encapsulated FLAC. Won't play normal FLAC files.</li>
-	<li><strike>Duration is wrong for all files except speex, vorbis and theora... doesn't affect playback</strike></li>
-	<li><strike>Seeking in theora occasionally seg faults</strike></li>	
-	<li><strike>Only plays FLAC with 16 bit 2 channel 44100Hz settings. Still hardcoded.</strike></li>
-	<li><strike>FLAC will make media player do the error sound or crash on exit</strike></li>
-	<li><strike>DON'T try to stop a FLAC stream. It crashes. Running to the end is ok.</strike></li>
-
+	<li><strike>Realised I broke the limited network streaming the previous version had. Don't try and stream anything. This is already resolved and will be in the next version coming soon.</strike></li>
+	<li><strike>I've been told that the installer tries to force you to install .NET if you don't already have it... the filters don't need .NET, it's only for the example player application. The next version will fix this installation problem</strike></li>
 <br>
 <br>
 

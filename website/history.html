@@ -26,6 +26,49 @@ On the 1st of May 2004, this project began to be maintained in the <a href="http
 <b><u><font size="+1">Previous Versions</font></u></b><br>
 <b><font size="+1">Only download these if you have problems with the <a href="http://www.illiminable.com/ogg/">new version</a>.</font></b><br>
 <br>
+<b><u>Previous Version (0.61.7571) - 16/08/2004</u></b><br>
+To stop people unnecessarily downloading the windows installer over and over, the packages will no longer include the installer. If you have a pre-XP 
+windows, and don't already have the windows installer on your system (almost everyone who has ever installed something should have it already) you can
+download the installer seperately from the links at the top of the page.<br>
+<br>
+Fixed a few bugs in theora, seeking almost never crashes now. FLAC playback and seeking now works properly, though not extensively tested. Includes a FLAC encoder filter. Starting from the
+next release I will start offering different build configurations, ie minimal decode only installation, builds with SSE2 optimisations etc.<br>
+<br>
+<FONT size=2 color="#000000" face="Arial">
+<DIV><TABLE width=100% bgcolor="#FFFFFF" border=1 cellpadding=2 cellspacing=2>
+<TR valign=top>
+
+<TD width=40%><FONT size=2 color="#000000" face="Arial">
+<DIV>Ogg Codecs for windows</DIV>
+</FONT>
+</TD>
+<TD width=20%><FONT size=2 color="#000000" face="Arial">
+<DIV>Windows 98/ME/NT/2K/XP</DIV>
+</FONT>
+</TD>
+
+
+<TD width=20%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right">1,076,031 bytes</div></DIV></FONT>
+</TD>
+
+<TD width=20%><FONT size=2 color="#000000" face="Arial">
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.61.7571.zip">Download Now</a></div></DIV></FONT>
+</TD>
+
+</TR>
+</TABLE>
+</DIV>
+</FONT>
+<br>
+<b><u>Changes this version</u></b><br>
+	<li>Fixed seeking crash problems with theora</li>
+	<li>Fixed FLAC playback</li>
+	<li>Added a FLAC encoder filter</li>
+	<li>Added a very simple .NET media player called DNPlay</li>
+	<li>Added a .NET directshow playback library</li>
+	<li>Added a validation program for ogg files OOOggValidate</li>
+<br>
 <b><u>Previous Version (0.60.7043) - 08/07/2004</u></b><br>
 Quite a fair bit added this time, most notably an encoder for theora... see <a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">Encoding theora</a><br>
 Only a few encoding parameters are currently exposed via a filter property page. Also modified the demuxer so it can handle http streams though there are some issues. The buffering is very simple, it doesn't optimise buffer based on bandwidth. Network steams are currently non-seekable. Also only non-chained
