@@ -92,12 +92,20 @@ wstring C_CMMLTag::replaceAll(wstring inOriginal, wchar_t inReplaceThis, wstring
 wstring C_CMMLTag::escapeEntities(wstring inString)
 {
 	wstring retStr = inString;
-	//Do the ampersand first !!
-	retStr = replaceAll(retStr, L'&', L"&amp;");
-	retStr = replaceAll(retStr, L'<', L"&lt;");
-	retStr = replaceAll(retStr, L'>', L"&gt;");
-	retStr = replaceAll(retStr, L'"', L"&quot;");
-	retStr = replaceAll(retStr, L'\'', L"&apos;");
+
+	// Note: We don't escape try to escape entities right now, since otherwise
+	// anything XML files that get encoded more than once by libCMMLTags will
+	// get encoded twice  (e.g. < will get encoded the first time as &lt;
+	// which is correct, but that'll then get encoded as &amp;lt;, which is
+	// incorrect.)  Better to leave these few characters alone for now rather
+	// than have very ugly doubly-escaped characters!
+
+	////Do the ampersand first !!
+	//retStr = replaceAll(retStr, L'&', L"&amp;");
+	//retStr = replaceAll(retStr, L'<', L"&lt;");
+	//retStr = replaceAll(retStr, L'>', L"&gt;");
+	//retStr = replaceAll(retStr, L'"', L"&quot;");
+	//retStr = replaceAll(retStr, L'\'', L"&apos;");
 
 	return retStr;
 
