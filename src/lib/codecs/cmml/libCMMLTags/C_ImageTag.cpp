@@ -91,7 +91,7 @@ wstring C_ImageTag::toString() {
 		retStr += makeAttribute(L"alt", mAlt);
 	}
 	
-	retStr += L"/>\n";
+	retStr += L"/>\r\n";
 
 	return retStr;
 

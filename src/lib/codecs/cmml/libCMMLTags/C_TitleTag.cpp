@@ -54,7 +54,7 @@ wstring C_TitleTag::toString() {
 	retStr += makeLangElements();
 	retStr += L">";
 	retStr += escapeEntities(mText);
-	retStr+= L"</title>\n";
+	retStr+= L"</title>\r\n";
 	return retStr;
 }
 void C_TitleTag::privateClone(C_CMMLTag* outTag) {

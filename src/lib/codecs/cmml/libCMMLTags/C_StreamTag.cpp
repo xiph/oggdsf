@@ -102,9 +102,9 @@ wstring C_StreamTag::toString() {
 	if (mUtc.size() != 0) {
 		retStr += makeAttribute(L"utc", mUtc);
 	}
-	retStr += L">\n";
+	retStr += L">\r\n";
 	retStr += mImportList->toString();
-	retStr += L"</stream>\n\n";
+	retStr += L"</stream>\r\n\r\n";
 
 	return retStr;
 }

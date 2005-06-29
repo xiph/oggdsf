@@ -87,7 +87,7 @@ wstring C_AnchorTag::toString()  {
 
 	retStr += L">";
 	retStr += escapeEntities(mText);
-	retStr += L"</a>\n";
+	retStr += L"</a>\r\n";
 	
 	return retStr;
 }

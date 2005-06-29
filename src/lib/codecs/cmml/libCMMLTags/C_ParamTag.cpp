@@ -52,7 +52,7 @@ wstring C_ParamTag::toString() {
 	retStr += makeLangElements();
 	retStr += makeAttribute(L"name", mName);
 	retStr += makeAttribute(L"value", mContent);
-	retStr += L"/>\n";
+	retStr += L"/>\r\n";
 	return retStr;
 
 }

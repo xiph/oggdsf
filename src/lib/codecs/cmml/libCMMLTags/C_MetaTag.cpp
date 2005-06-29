@@ -87,7 +87,7 @@ wstring C_MetaTag::toString() {
 		retStr += makeAttribute(L"scheme", mScheme);
 	}
 
-	retStr += L"/>\n";
+	retStr += L"/>\r\n";
 
 
 	return retStr;

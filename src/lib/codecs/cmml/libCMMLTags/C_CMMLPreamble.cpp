@@ -85,10 +85,10 @@ wstring C_CMMLPreamble::toString() {
 	retStr += mXmlEncoding;
 	retStr += L"\" standalone=\"";
 	retStr += mXmlStandAlone;
-	retStr += L"\"?>\n";
+	retStr += L"\"?>\r\n";
 	
 	//TO DO::: Make this more generalised properly
-	retStr += L"<!DOCTYPE cmml SYSTEM \"cmml.dtd\">\n";
+	retStr += L"<!DOCTYPE cmml SYSTEM \"cmml.dtd\">\r\n";
 
 	return retStr;
 

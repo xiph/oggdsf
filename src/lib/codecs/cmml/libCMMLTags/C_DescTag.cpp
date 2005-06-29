@@ -56,7 +56,7 @@ wstring C_DescTag::toString() {
 
 	retStr += L">";
 	retStr += escapeEntities(mText);
-	retStr += L"</desc>\n";
+	retStr += L"</desc>\r\n";
 	return retStr;
 }
 

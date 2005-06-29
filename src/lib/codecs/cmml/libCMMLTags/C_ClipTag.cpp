@@ -169,7 +169,7 @@ wstring C_ClipTag::toString() {
 		retStr += makeAttribute(L"end", mEnd);
 	}
 
-	retStr += L">\n";
+	retStr += L">\r\n";
 
 	if (mAnchor != NULL) {
 		retStr += mAnchor->toString();
@@ -182,6 +182,6 @@ wstring C_ClipTag::toString() {
 	}
 
 	retStr += mMetaList->toString();
-	retStr += L"</clip>\n\n";
+	retStr += L"</clip>\r\n\r\n";
 	return retStr;
 }

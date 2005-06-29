@@ -109,13 +109,13 @@ wstring C_CMMLRootTag::toString() {
 	retStr += makeAttribute(L"xmlns", L"http://www.annodex.net/cmml");
 
 	
-	retStr += L">\n";
+	retStr += L">\r\n";
 	if (mStream != NULL) {
 		retStr += mStream->toString();
 	}
 
 	retStr += mHead->toString();
 	retStr += mClipList->toString();
-	retStr += L"</cmml>\n";
+	retStr += L"</cmml>\r\n";
 	return retStr;
 }

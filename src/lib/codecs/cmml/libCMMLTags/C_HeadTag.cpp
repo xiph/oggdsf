@@ -121,7 +121,7 @@ wstring C_HeadTag::toString() {
 		retStr += escapeEntities(mProfile);
 		retStr += L"\"";
 	}
-	retStr+= L">\n";
+	retStr+= L">\r\n";
 	
 	if (mBase != NULL)  {
 		retStr += mBase->toString();
@@ -129,6 +129,6 @@ wstring C_HeadTag::toString() {
 
 	retStr += mTitle->toString();
 	retStr += mMetaList->toString();
-	retStr += L"</head>\n\n";
+	retStr += L"</head>\r\n\r\n";
 	return retStr;
 }

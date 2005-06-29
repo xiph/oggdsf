@@ -151,11 +151,11 @@ wstring C_ImportTag::toString() {
 		retStr += makeAttribute(L"title", mTitle);
 	}
 
-	retStr += L">\n";
+	retStr += L">\r\n";
 
 	retStr += mParamList->toString();
 
-	retStr += L"</import>\n";
+	retStr += L"</import>\r\n";
 	return retStr;
 
 }
