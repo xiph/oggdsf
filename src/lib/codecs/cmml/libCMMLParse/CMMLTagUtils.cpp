@@ -46,7 +46,7 @@
 C_ClipTagList *CMMLTagUtils::getClipsFrom(C_ClipTagList *inClipTagList, LOOG_INT64 inTimeInDirectShowUnits)
 {
 
-#ifdef DEBUG
+#ifdef OGGCODECS_LOGGING
 	fstream locDebugFile;
 	locDebugFile.open("G:\\Logs\\getClipsFrom.log", ios_base::out);
 #endif
