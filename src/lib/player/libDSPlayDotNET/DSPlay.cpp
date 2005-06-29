@@ -118,7 +118,9 @@ DSPlay::DSPlay(IntPtr inWindowHandle, Int32 inLeft, Int32 inTop, Int32 inWidth, 
 	CoInitialize(NULL);
 	mCMMLProxy = new CMMLCallbackProxy;			//Need to delete this !
 	debugLog = new fstream;
+#ifdef OGGCODECS_LOGGING
 	debugLog->open("G:\\logs\\dsplay.log", ios_base::out | ios_base::app);
+#endif
 	*debugLog<<"Starting new log"<<endl;
 }
 
@@ -484,8 +486,7 @@ bool DSPlay::loadFile(String* inFileName) {
 
 		}
 		
-		//numRef =
-		//	locVMR9->Release();
+		numRef = locVMR9->Release();
 		//*debugLog<<"VMR9 ref count = "<<numRef<<endl;
 		mVideoRenderFilter = locVMR9;
 	}
@@ -519,8 +520,7 @@ bool DSPlay::loadFile(String* inFileName) {
 
 			}
 			
-			//numRef =
-			//	locVMR7->Release();
+			numRef = locVMR7->Release();
 			//*debugLog<<"VMR7 ref count = "<<numRef<<endl;
 
 			mVideoRenderFilter = locVMR7;
