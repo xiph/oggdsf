@@ -7,10 +7,13 @@ namespace illiminable {
 namespace libCMMLParserDotNET {
 CMML_Parser::CMML_Parser(void)
 {
+	mCMMLParser = new CMMLParser();
 }
 
 CMML_Parser::~CMML_Parser(void)
 {
+	delete mCMMLParser;
+	mCMMLParser = NULL;
 }
 
 bool CMML_Parser::parseDocFromFile(String* inFileName, CMMLDoc* outCMMLDoc) 
@@ -19,8 +22,6 @@ bool CMML_Parser::parseDocFromFile(String* inFileName, CMMLDoc* outCMMLDoc)
 	wstring locFileName = locWS;
 
 	bool retVal = mCMMLParser->parseDocFromFile(locFileName, outCMMLDoc->getMe());
-
-	mCMMLParser = new CMMLParser();
 	
 	Wrappers::releaseWStr(locWS);
 	
@@ -29,4 +30,3 @@ bool CMML_Parser::parseDocFromFile(String* inFileName, CMMLDoc* outCMMLDoc)
 
 }	//End libCMMLParserDotNNET
 }	//End illiminable
-
