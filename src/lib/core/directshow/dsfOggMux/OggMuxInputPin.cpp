@@ -319,3 +319,14 @@ STDMETHODIMP OggMuxInputPin::EndOfStream(void) {
 	return S_OK;
 	
 }
+
+unsigned long OggMuxInputPin::PaginatorMaximumPacketsPerPage()
+{
+	return mPaginator.parameters()->mMaxPacksPerPage;
+}
+
+void OggMuxInputPin::SetPaginatorMaximumPacketsPerPage(unsigned long inMaxPacketsPerPage)
+{
+	mPaginator.parameters()->mMaxPacksPerPage = inMaxPacketsPerPage;
+}
+

@@ -74,6 +74,12 @@ public:
 
 	/// Notification the output pin of an upstream filter has been disconnected.
 	virtual HRESULT BreakConnect();
+
+	/// Find out the maximum number of packets per page this input pin's paginator is using
+	unsigned long PaginatorMaximumPacketsPerPage();
+
+	/// Set the maximum number of packets per page for the Ogg paginator
+	void SetPaginatorMaximumPacketsPerPage(unsigned long inMaxPacketsPerPage);
 	
 	//virtual HRESULT DeliverEndFlush(void);
 	//virtual HRESULT DeliverBeginFlush(void);

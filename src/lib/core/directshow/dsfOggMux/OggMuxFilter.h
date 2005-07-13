@@ -33,6 +33,8 @@
 #include "oggmuxdllstuff.h"
 #include "OggMuxInputPin.h"
 #include "IOggMuxProgress.h"
+#include "IOggMuxSettings.h"
+#include "PropsOggMux.h"
 #include "BasicSeekPassThrough.h"
 #include <libOOOgg/OggPageInterleaver.h>
 #include <libOOOgg/INotifyComplete.h>
@@ -53,6 +55,8 @@ class OGG_MUX_API OggMuxFilter
 	,	public BasicSeekPassThrough
 	,	public INotifyComplete
 	,	public IOggMuxProgress
+	,	public IOggMuxSettings
+	,	public ISpecifyPropertyPages
 {
 public:
 	OggMuxFilter(void);
@@ -131,6 +135,14 @@ public:
 	//IMediaSeeking Override to give progress. - This is unreliable !!
 	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
 	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
+
+	//IOggMuxSettings Implementation
+	STDMETHODIMP_(unsigned long) maxPacketsPerPage();
+	STDMETHODIMP_(bool) setMaxPacketsPerPage(unsigned long inMaxPacketsPerPage);
+
+	//SpecifyPropertyPages Implementation
+	STDMETHODIMP OggMuxFilter::GetPages(CAUUID* outPropPages);
+
 protected:
 
 	bool SetupOutput();

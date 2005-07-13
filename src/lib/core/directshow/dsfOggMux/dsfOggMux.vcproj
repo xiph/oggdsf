@@ -282,6 +282,9 @@
 				RelativePath="OggMuxInputPin.cpp">
 			</File>
 			<File
+				RelativePath=".\PropsOggMux.cpp">
+			</File>
+			<File
 				RelativePath="stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -316,6 +319,9 @@
 				RelativePath=".\IOggMuxProgress.h">
 			</File>
 			<File
+				RelativePath=".\IOggMuxSettings.h">
+			</File>
+			<File
 				RelativePath="oggmuxdllstuff.h">
 			</File>
 			<File
@@ -325,12 +331,21 @@
 				RelativePath="OggMuxInputPin.h">
 			</File>
 			<File
+				RelativePath=".\PropsOggMux.h">
+			</File>
+			<File
+				RelativePath=".\resource.h">
+			</File>
+			<File
 				RelativePath="stdafx.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath=".\dsfOggMux.rc">
+			</File>
 		</Filter>
 		<File
 			RelativePath="ReadMe.txt">
