@@ -43,14 +43,15 @@ CFactoryTemplate g_Templates[] =
 	    OggMuxFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
-    },
-    { 
-		L"Ogg Muxer Properties",						// Name
-	    &CLSID_PropsOggMux,            // CLSID
-	    PropsOggMux::CreateInstance,	// Method to create an instance of MyComponent
-        NULL,									// Initialization function
-        NULL									// Set-up information (for filters)
     }
+	//,
+ //   { 
+	//	L"Ogg Muxer Properties",						// Name
+	//    &CLSID_PropsOggMux,            // CLSID
+	//    PropsOggMux::CreateInstance,	// Method to create an instance of MyComponent
+ //       NULL,									// Initialization function
+ //       NULL									// Set-up information (for filters)
+ //   }
 
 };
 
@@ -98,11 +99,12 @@ STDMETHODIMP OggMuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 		*ppv = (IOggMuxSettings*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
-	} else if (riid == IID_ISpecifyPropertyPages) {
-		*ppv = (ISpecifyPropertyPages*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
 	}
+	//else if (riid == IID_ISpecifyPropertyPages) {
+	//	*ppv = (ISpecifyPropertyPages*)this;
+	//	((IUnknown*)*ppv)->AddRef();
+	//	return NOERROR;
+	//}
 
 	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
 }
@@ -427,22 +429,22 @@ STDMETHODIMP OggMuxFilter::GetCurrentPosition(LONGLONG *pCurrent) {
 }
 
 //SpecifyPropertyPages Implementation
-STDMETHODIMP OggMuxFilter::GetPages(CAUUID* outPropPages) {
-	if (outPropPages == NULL) return E_POINTER;
-
-	const int NUM_PROP_PAGES = 1;
-    outPropPages->cElems = NUM_PROP_PAGES;
-    outPropPages->pElems = (GUID*)(CoTaskMemAlloc(sizeof(GUID) * NUM_PROP_PAGES));
-    if (outPropPages->pElems == NULL) 
-    {
-        return E_OUTOFMEMORY;
-    }
-
-	outPropPages->pElems[0] = CLSID_PropsOggMux;
-    
-    return S_OK;
-
-}
+//STDMETHODIMP OggMuxFilter::GetPages(CAUUID* outPropPages) {
+//	if (outPropPages == NULL) return E_POINTER;
+//
+//	const int NUM_PROP_PAGES = 1;
+//    outPropPages->cElems = NUM_PROP_PAGES;
+//    outPropPages->pElems = (GUID*)(CoTaskMemAlloc(sizeof(GUID) * NUM_PROP_PAGES));
+//    if (outPropPages->pElems == NULL) 
+//    {
+//        return E_OUTOFMEMORY;
+//    }
+//
+//	outPropPages->pElems[0] = CLSID_PropsOggMux;
+//    
+//    return S_OK;
+//
+//}
 
 STDMETHODIMP_(bool) OggMuxFilter::setMaxPacketsPerPage(unsigned long inMaxPacketsPerPage) {
 	for (std::vector<OggMuxInputPin*>::iterator locPinIterator = mInputPins.begin();

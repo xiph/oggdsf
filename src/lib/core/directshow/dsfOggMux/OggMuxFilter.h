@@ -56,7 +56,7 @@ class OGG_MUX_API OggMuxFilter
 	,	public INotifyComplete
 	,	public IOggMuxProgress
 	,	public IOggMuxSettings
-	,	public ISpecifyPropertyPages
+	//,	public ISpecifyPropertyPages
 {
 public:
 	OggMuxFilter(void);
@@ -141,7 +141,7 @@ public:
 	STDMETHODIMP_(bool) setMaxPacketsPerPage(unsigned long inMaxPacketsPerPage);
 
 	//SpecifyPropertyPages Implementation
-	STDMETHODIMP OggMuxFilter::GetPages(CAUUID* outPropPages);
+	//STDMETHODIMP OggMuxFilter::GetPages(CAUUID* outPropPages);
 
 protected:
 
