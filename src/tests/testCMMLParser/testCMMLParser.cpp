@@ -254,12 +254,14 @@ int main(int, char **)
 	testCMMLRootParse(cmml_5, false);
 
 
-	wstring file_1 = L"G:\\Media\\Music Vid\\guru.cmml";
+	int x;
+	cin>>x;
+	wstring file_1 = L"G:\\xxxx.cmml";
 	testCMMLFileParse(file_1);
 
 
 	cout<<"---------------------------------------------------"<<endl;
-	wstring file_2 = L"G:\\Media\\Music Vid\\guru.cmml";
+	wstring file_2 = L"G:\\xxxx.cmml";
 	testCMMLClone(file_2);
 
 

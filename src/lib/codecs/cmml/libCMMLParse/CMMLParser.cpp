@@ -87,7 +87,7 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 	// Read the entirety of the file into the buffer
 	locFile.seekg(0);
 
-	unsigned short BUFFER_SIZE = 8192;
+	unsigned long BUFFER_SIZE = 262144;
 	char *locBuffer = new char[locCMMLFileSize];
 	size_t locBytesRead = 0;
 
