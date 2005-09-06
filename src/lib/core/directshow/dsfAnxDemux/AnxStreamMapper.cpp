@@ -35,6 +35,7 @@
 #include "stdafx.h"
 #include "anxstreammapper.h"
 
+#define OGGCODECS_LOGGING
 AnxStreamMapper::AnxStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 	:	OggStreamMapper(inOwningFilter)
 	,	mAnnodexSerial(0)
@@ -56,38 +57,44 @@ AnxStreamMapper::~AnxStreamMapper(void)
 }
 
 bool AnxStreamMapper::isReady() {
-	bool retVal = true;
-	bool locWasAny = false;
-	//Use 1 instead of 0... cmml is always ready and terminates the graph creation early.
-	//We want to know when everything else is ready.
+	if (mAnxVersion == 0) {
+		return false;
+	} else if (mAnxVersion == ANX_VERSION_3_0) {
+		return OggStreamMapper::isReady();
+	} else {
+		bool retVal = true;
+		bool locWasAny = false;
+		//Use 1 instead of 0... cmml is always ready and terminates the graph creation early.
+		//We want to know when everything else is ready.
 
-	//XXXXXXXXXXXXXX:::: Big dirty hack to deal with badly ordered header packets !!
-	//=======================================================================
-	//The side effect is... a file will hang if it has unknown streams.
-	//=======================================================================
-	if (mSeenStreams.size() == 0) {
-		retVal = true;
-	} else {
-		retVal = false;
-	}
-	
-	for (unsigned long i = 1; i < mStreamList.size(); i++) {
-		locWasAny = true;
-		retVal = retVal && mStreamList[i]->streamReady();
-		//debugLog<<"Stream "<<i<<" ";
-		if (retVal) {
-			//debugLog<<"READY !!!!!!"<<endl;
+		//XXXXXXXXXXXXXX:::: Big dirty hack to deal with badly ordered header packets !!
+		//=======================================================================
+		//The side effect is... a file will hang if it has unknown streams.
+		//=======================================================================
+		if (mSeenStreams.size() == 0) {
+			retVal = true;
 		} else {
-			//debugLog<<"NOT READY !!!!"<<endl;
+			retVal = false;
 		}
+		
+		for (unsigned long i = 1; i < mStreamList.size(); i++) {
+			locWasAny = true;
+			retVal = retVal && mStreamList[i]->streamReady();
+			//debugLog<<"Stream "<<i<<" ";
+			if (retVal) {
+				//debugLog<<"READY !!!!!!"<<endl;
+			} else {
+				//debugLog<<"NOT READY !!!!"<<endl;
+			}
+		}
+		//=======================================================================
+		if (locWasAny && retVal) {
+			debugLog<<"Streams READY"<<endl;
+		} else {
+			debugLog<<"Streams NOT READY"<<endl;
+		}
+		return locWasAny && retVal;
 	}
-	//=======================================================================
-	if (locWasAny && retVal) {
-		debugLog<<"Streams READY"<<endl;
-	} else {
-		debugLog<<"Streams NOT READY"<<endl;
-	}
-	return locWasAny && retVal;
 }
 
 bool AnxStreamMapper::isAnnodexEOS(OggPage* inOggPage) {
@@ -110,6 +117,16 @@ bool AnxStreamMapper::isAnnodexBOS(OggPage* inOggPage) {
 	}
 }
 
+bool AnxStreamMapper::isFisheadBOS(OggPage* inOggPage) {
+	if  ((inOggPage->numPackets() != 1) ||
+				//(inOggPage->getPacket(0)->packetSize() < 12) ||
+				(strncmp((const char*)inOggPage->getPacket(0)->packetData(), "fishead\0", 8) != 0) || 
+				(!inOggPage->header()->isBOS())) {
+		return false;
+	} else {
+		return true;
+	}
+}
 bool AnxStreamMapper::isAnxDataPage(OggPage* inOggPage, bool inAnxDataAreBOS) {
 
 	//isBOS			inAnxDataAreBOS		isValid
@@ -134,6 +151,8 @@ bool AnxStreamMapper::isAnxDataPage(OggPage* inOggPage, bool inAnxDataAreBOS) {
 unsigned long AnxStreamMapper::getAnxVersion(OggPage* inOggPage) {
 	if (isAnnodexBOS(inOggPage)) {
 			//8 and 10 are the offsets into the header for version number.
+			return ((iLE_Math::charArrToUShort(inOggPage->getPacket(0)->packetData() + 8)) << 16) + iLE_Math::charArrToUShort(inOggPage->getPacket(0)->packetData() + 10);
+	} else if (isFisheadBOS(inOggPage)) {
 			return ((iLE_Math::charArrToUShort(inOggPage->getPacket(0)->packetData() + 8)) << 16) + iLE_Math::charArrToUShort(inOggPage->getPacket(0)->packetData() + 10);
 	} else {
 		return 0;
@@ -265,25 +284,28 @@ bool AnxStreamMapper::handleAnxVersion_2_0(OggPage* inOggPage) {
 	}
 }
 
-bool AnxStreamMapper::handleAnxVersion_3_0(OggPage* inOggPage) {
-	switch (mDemuxState) {
-		case SEEN_NOTHING:
-			//We must find an annodex BOS page.
-			break;
-		case SEEN_ANNODEX_BOS:
-			break;
-		case SEEN_AN_ANXDATA:
-			break;
-		case OGG_STATE:
-			break;
-		case INVALID_STATE:
-		default:
-			break;
+bool AnxStreamMapper::handleAnxVersion_3_0(OggPage* inOggPage) 
+{
+	mDemuxState = OGG_STATE;
+	return OggStreamMapper::acceptOggPage(inOggPage);
+	//switch (mDemuxState) {
+	//	case SEEN_NOTHING:
+	//		//We must find an annodex BOS page.
+	//		break;
+	//	case SEEN_ANNODEX_BOS:
+	//		break;
+	//	case SEEN_AN_ANXDATA:
+	//		break;
+	//	case OGG_STATE:
+	//		break;
+	//	case INVALID_STATE:
+	//	default:
+	//		break;
 
 
 
-	}
-	return false;
+	//}
+	//return false;
 }
 
 bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)			//Deletes or gives away page.
@@ -301,6 +323,7 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)			//Deletes or gives awa
 			return handleAnxVersion_2_0(inOggPage);
 			break;
 		case ANX_VERSION_3_0:
+			debugLog<<"handleAnxVersion_3_0 "<<endl;
 			return handleAnxVersion_3_0(inOggPage);
 		default:
 			mDemuxState = INVALID_STATE;
@@ -381,23 +404,28 @@ bool AnxStreamMapper::acceptOggPage(OggPage* inOggPage)			//Deletes or gives awa
 }
 
 bool AnxStreamMapper::toStartOfData() {
-	debugLog<<"toStartOfData : S "<<endl;
-	//Specialise for anx... adds one extra ignore packet to the flush to account for the anxdata pages only
-	// if it's 2.0 version.
-	//debugLog<<"ANX::: To start of data size = "<<mStreamList.size()<<endl;
-	if (isReady()) {  //CHECK::: Should check for allow dsipatch ???
-		for (unsigned long i = 0; i < mStreamList.size(); i++) {
-			//Flush each stream, then ignore the codec headers.
-			if (mAnxVersion == ANX_VERSION_2_0) {
-				//debugLog<<"Flushing stream "<<i<<" for "<<mStreamList[i]->numCodecHeaders() + 1<<endl;
-				mStreamList[i]->flush((unsigned short)(mStreamList[i]->numCodecHeaders() + 1));  //+1 = AnxData Header...
-			} else {
-				mStreamList[i]->flush((unsigned short)(mStreamList[i]->numCodecHeaders()));
-			}
-		}	
-		return true;
+
+	if (mAnxVersion == ANX_VERSION_3_0) {
+		return OggStreamMapper::toStartOfData();
 	} else {
-		//debugLog<<"Something bad happened !!!!&&&&"<<endl;
-		return false;
+		debugLog<<"toStartOfData : S "<<endl;
+		//Specialise for anx... adds one extra ignore packet to the flush to account for the anxdata pages only
+		// if it's 2.0 version.
+		//debugLog<<"ANX::: To start of data size = "<<mStreamList.size()<<endl;
+		if (isReady()) {  //CHECK::: Should check for allow dsipatch ???
+			for (unsigned long i = 0; i < mStreamList.size(); i++) {
+				//Flush each stream, then ignore the codec headers.
+				if (mAnxVersion == ANX_VERSION_2_0) {
+					//debugLog<<"Flushing stream "<<i<<" for "<<mStreamList[i]->numCodecHeaders() + 1<<endl;
+					mStreamList[i]->flush((unsigned short)(mStreamList[i]->numCodecHeaders() + 1));  //+1 = AnxData Header...
+				} else {
+					mStreamList[i]->flush((unsigned short)(mStreamList[i]->numCodecHeaders()));
+				}
+			}	
+			return true;
+		} else {
+			//debugLog<<"Something bad happened !!!!&&&&"<<endl;
+			return false;
+		}
 	}
 }

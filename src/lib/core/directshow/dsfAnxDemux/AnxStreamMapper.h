@@ -59,6 +59,7 @@ public:
 	};
 
 	enum eAnxVersions {
+		ANX_TREAT_AS_OGG = 0,
 		ANX_VERSION_2_0 = 2 << 16,
 		ANX_VERSION_3_0 = 3 << 16
 	};
@@ -77,6 +78,8 @@ protected:
 	unsigned long getAnxVersion(OggPage* inOggPage);
 	bool handleAnxVersion_2_0(OggPage* inOggPage);
 	bool handleAnxVersion_3_0(OggPage* inOggPage);
+
+	bool isFisheadBOS(OggPage* inOggPage);
 
 	//Member Data
 	vector<unsigned long> mSeenStreams;
