@@ -62,6 +62,9 @@ public:
 	/// Parse a string representation of a cmml document into the provided CMMLDoc object.
 	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
 
+	/// DLB. 9/9/2005. Parse a string representation of a cmml document into the provided CMMLDoc object.
+	bool parseDoc(wstring inBuffer, C_CMMLDoc* outCMMLDoc);
+
 protected:
 	/// Parse an XTag representation of a cmml root tag into the provided CMMLRoot object.
 	bool parseRootTag(XTag* inCMMLRootParser, C_CMMLRootTag* outCMMLRoot);

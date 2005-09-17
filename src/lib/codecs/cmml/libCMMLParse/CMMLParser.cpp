@@ -56,10 +56,41 @@ CMMLParser::~CMMLParser(void)
 {
 }
 
+bool CMMLParser::parseDoc(wstring locCMMLFileWString, C_CMMLDoc* outCMMLDoc)
+{
+	// Assume we are unsuccessful unless we explicitly change that
+	bool locReturnValue = false;
+
+	// Sanity check against a NULL output pointer
+	if (!outCMMLDoc) {
+		return false;
+	}
+
+	// XTag doesn't currently handle preambles, so we'll have to skip until we find
+	// a <cmml> tag which it can handle ... (note that XML is case-sensitive, so
+	// we don't need to scan for "<CMML")
+	size_t locCMMLTagIndex = locCMMLFileWString.find(L"<cmml", 0);
+	if (locCMMLTagIndex != string::npos) {
+		locCMMLFileWString = locCMMLFileWString.substr(locCMMLTagIndex);
+	}
+
+	// Parse ourselves the CMML
+	C_CMMLRootTag* locRootTag = new C_CMMLRootTag;
+	locReturnValue = parseCMMLRootTag(locCMMLFileWString, locRootTag);
+	if (locReturnValue) {
+		// Successfully parsed the CMML
+		outCMMLDoc->setRoot(locRootTag);
+	} else {
+		// Parsing CMML failed
+		outCMMLDoc = NULL;
+	}
+
+	return locReturnValue;
+}
+
 bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 {
 	// Assume we are unsuccessful unless we explicitly change that
-
 	bool locReturnValue = false;
 
 	// Sanity check against a NULL output pointer
@@ -139,7 +170,9 @@ bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMML
 	}
 
 	// Narrow the text given us, so we can pass it to XTag
-	string locCMMLRootText = StringHelper::toNarrowStr(inCMMLRootText);
+	// Changed by DLB. 10/9/2005. Handle i18n in things, particularly descriptions.
+	//string locCMMLRootText = StringHelper::toNarrowStr(inCMMLRootText);
+	string locCMMLRootText = StringHelper::toUTF8Str(inCMMLRootText);
 
 	// Look for a tag, any tag
 	XTag *locRootParser = NULL;
@@ -172,7 +205,9 @@ bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip)
 	}
 
 	// Narrow the text given us, so we can pass it to XTag
-	string locClipText = StringHelper::toNarrowStr(inClipText);
+	// Changed by DLB. 10/9/2005. Handle i18n in things, particularly descriptions.
+	//string locClipText = StringHelper::toNarrowStr(inClipText);
+	string locClipText = StringHelper::toUTF8Str(inClipText);
 
 	// Look for a <clip> tag
 	XTag *locClipParser = NULL;
@@ -205,7 +240,9 @@ bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead)
 	}
 
 	// Narrow the text given us, so we can pass it to XTag
-	string locHeadText = StringHelper::toNarrowStr(inHeadText);
+	// Changed by DLB. 10/9/2005. Handle i18n in things, particularly descriptions.
+	//string locHeadText = StringHelper::toNarrowStr(inHeadText);
+	string locHeadText = StringHelper::toUTF8Str(inHeadText);
 
 	// Set up an XTag parser
 	XTag *locHeadParser = NULL;
@@ -293,7 +330,9 @@ bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead)
 	{ \
 		const char *locCData = xtag_get_pcdata(tagParser); \
 		if (locCData) { \
-			tag->setText(StringHelper::toWStr(locCData)); \
+			/*tag->setText(StringHelper::toWStr(locCData)); */ \
+			/* Changed by DLB. 10/9/2005. Handle i18n in things, particularly descriptions.*/ \
+			tag->setText(StringHelper::fromUTF8Str(locCData)); \
 			/* free((void *) locCData); */ \
 		} \
 	};
