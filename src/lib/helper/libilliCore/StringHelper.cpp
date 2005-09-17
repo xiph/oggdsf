@@ -40,6 +40,7 @@ StringHelper::~StringHelper(void)
 {
 }
 
+
 wstring StringHelper::toWStr(string inString) {
 	wstring retVal;
 
@@ -48,10 +49,105 @@ wstring StringHelper::toWStr(string inString) {
 		retVal.append(1, *i);
 	}
 	
+	return retVal;
+}
+
+string StringHelper::toUTF8Str(wstring inString) {
+	string retVal;
+
+	unsigned char a;
+	//LPCWSTR retPtr = new wchar_t[retVal.length() + 1];
+	for (std::wstring::const_iterator i = inString.begin(); i != inString.end(); i++) 
+	{
+		// 0xxxxxxx
+		if (*i < 0x80)
+		{
+			retVal.append(1, (unsigned char) *i);
+		}
+		// 110xxxxx 10xxxxxx
+		else if (*i < 0x800)
+		{
+			a = (unsigned char)(0xC0 | (unsigned int)*i >> 6);
+ 			retVal.append(1, a);
+			a = (unsigned char)(0x80 | (unsigned int)*i & 0x3F);
+ 			retVal.append(1, a);
+		}
+		// 1110xxxx 10xxxxxx 10xxxxxx
+		else if (*i < 0x10000)
+		{
+			a = (unsigned char)(0xE0 | (unsigned int)*i >> 12);
+ 			retVal.append(1, a);
+			a = (unsigned char)(0x80 | (unsigned int)*i >> 6 & 0x3F);
+ 			retVal.append(1, a);
+			a = (unsigned char)(0x80 | (unsigned int)*i & 0x3F);
+ 			retVal.append(1, a);
+		}
+		// 1111xxxx 10xxxxxx 10xxxxxx 10xxxxxx
+		else if (*i < 0x200000)
+		{
+			a = (unsigned char)(0xF0 | (unsigned int)*i >> 18);
+ 			retVal.append(1, a);
+			a = (unsigned char)(0x80 | (unsigned int)*i >> 12 & 0x3F);
+ 			retVal.append(1, a);
+			a = (unsigned char)(0x80 | (unsigned int)*i >> 6 & 0x3F);
+ 			retVal.append(1, a);
+			a = (unsigned char)(0x80 | (unsigned int)*i & 0x3F);
+ 			retVal.append(1, a);
+		}
+	}
 
 	return retVal;
 }
 
+
+wstring StringHelper::fromUTF8Str(string inString) {
+	wstring retVal;
+
+    wchar_t a;
+
+	//LPCWSTR retPtr = new wchar_t[retVal.length() + 1];
+	for (int i=0; i < inString.length(); )
+	{
+		// 0xxxxxxx
+		if ((inString[i] & 0x80) == 0)
+		{
+			a = inString[i];
+			i++;
+		}
+		// 1111xxxx 10xxxxxx 10xxxxxx 10xxxxxx
+		else if ((inString[i] & 0xF0) == 0xF0)
+		{
+			a = ((inString[i] & 0x0F) << 18) | 
+				((inString[i+1] & 0x3F) << 12) | 
+				((inString[i+2] & 0x3F) << 6) | 
+				(inString[i+3] & 0x3F);
+			i += 3;
+		}
+		// 1110xxxx 10xxxxxx 10xxxxxx
+		else if ((inString[i] & 0xE0) == 0xE0)
+		{
+			a = ((inString[i] & 0x0F) << 12) | 
+				((inString[i+1] & 0x3F) << 6) | 
+				(inString[i+2] & 0x3F);
+			i += 3;
+		}
+		// 110xxxxx 10xxxxxx
+		else if ((inString[i] & 0xC0) == 0xC0)
+		{
+			a = ((inString[i] & 0x1F) << 6) | (inString[i+1] & 0x3F);
+			i += 2;
+		}
+		else
+		{
+			// something has gone wrong. Get out!
+			break;
+		}
+
+		retVal.append(1, a);
+	}
+
+	return retVal;
+}
 
 string StringHelper::toNarrowStr(wstring inString) {
 	string retVal;

@@ -66,5 +66,10 @@ public:
 	/// Converts a wide (2 byte) string to a narrow string.
 	static string toNarrowStr(wstring inString);
 
+	/// DLB. 10/9/2005. Converts a wide (2 byte) string to a UTF-8 narrow string.
+	static string toUTF8Str(wstring inString);
+
+	/// DLB. 10/9/2005. Converts a UTF-8 narrow string to a wide (2 byte) string.
+	static wstring fromUTF8Str(string inString);
 
 };
