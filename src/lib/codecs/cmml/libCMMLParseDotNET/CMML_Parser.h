@@ -35,6 +35,9 @@ public:
 	//bool parseCMMLRootTag(wstring inCMMLRootText, CMMLRootTag* outCMMLRoot);
 
 	bool parseDocFromFile(String* inFileName, CMMLDoc* outCMMLDoc);
+
+	bool parseDoc(String* inBuffer, CMMLDoc* outCMMLDoc);
+
 protected:
 	CMMLParser* mCMMLParser;
 };

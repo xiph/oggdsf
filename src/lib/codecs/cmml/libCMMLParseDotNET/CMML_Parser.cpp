@@ -16,6 +16,18 @@ CMML_Parser::~CMML_Parser(void)
 	mCMMLParser = NULL;
 }
 
+bool CMML_Parser::parseDoc(String* inBuffer, CMMLDoc* outCMMLDoc) 
+{
+	wchar_t* locWS = Wrappers::netStrToWStr(inBuffer);
+	wstring locBuffer = locWS;
+
+	bool retVal = mCMMLParser->parseDoc(locBuffer, outCMMLDoc->getMe());
+	
+	Wrappers::releaseWStr(locWS);
+	
+	return retVal;
+}
+
 bool CMML_Parser::parseDocFromFile(String* inFileName, CMMLDoc* outCMMLDoc) 
 {
 	wchar_t* locWS = Wrappers::netStrToWStr(inFileName);
