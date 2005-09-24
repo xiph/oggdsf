@@ -14,7 +14,36 @@ using namespace System;
 namespace illiminable {
 namespace libCMMLParserDotNET {
 
-	
+
+// DLB. 21/9/2005. Allow parse error information to be sent back to caller
+public __gc class CMMLError
+{
+public:
+	CMMLError()
+	{
+		mCMMLError = new C_CMMLError();
+	}
+
+	void SetLineNumber(int lLineNumber)
+	{
+		mCMMLError->SetLineNumber(lLineNumber);
+	}
+
+	int GetLineNumber()
+	{
+		return mCMMLError->GetLineNumber();
+	}
+
+	C_CMMLError* getMe()
+	{
+		return (C_CMMLError*)mCMMLError;
+	}
+
+
+private:
+	C_CMMLError* mCMMLError;
+};
+
 
 //Original interface
 //==============
@@ -36,7 +65,8 @@ public:
 
 	bool parseDocFromFile(String* inFileName, CMMLDoc* outCMMLDoc);
 
-	bool parseDoc(String* inBuffer, CMMLDoc* outCMMLDoc);
+	// DLB. 20/9/2005. Parse the DOC using an already read-in file
+	bool parseDoc(String* inBuffer, CMMLDoc* outCMMLDoc, CMMLError* outCMMLError);
 
 protected:
 	CMMLParser* mCMMLParser;

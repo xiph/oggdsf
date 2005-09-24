@@ -16,12 +16,12 @@ CMML_Parser::~CMML_Parser(void)
 	mCMMLParser = NULL;
 }
 
-bool CMML_Parser::parseDoc(String* inBuffer, CMMLDoc* outCMMLDoc) 
+bool CMML_Parser::parseDoc(String* inBuffer, CMMLDoc* outCMMLDoc, CMMLError* outCMMLError) 
 {
 	wchar_t* locWS = Wrappers::netStrToWStr(inBuffer);
 	wstring locBuffer = locWS;
 
-	bool retVal = mCMMLParser->parseDoc(locBuffer, outCMMLDoc->getMe());
+	bool retVal = mCMMLParser->parseDoc(locBuffer, outCMMLDoc->getMe(), outCMMLError->getMe());
 	
 	Wrappers::releaseWStr(locWS);
 	
