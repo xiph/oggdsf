@@ -43,6 +43,29 @@
 
 using namespace std;
 
+// DLB. 21/9/2005. Allow parse error information to be sent back to caller
+class LIBCMMLPARSE_API C_CMMLError
+{
+public:
+	C_CMMLError()
+	{
+		// DLB. 20/9/2005. Clear the return ERROR info to start with
+		this->LineNumber = 0;
+	}
+
+	void SetLineNumber(int lLineNumber)
+	{
+		LineNumber = lLineNumber;
+	}
+
+	int GetLineNumber()
+	{
+		return LineNumber;
+	}
+
+private:
+	int   LineNumber;
+};
 
 class LIBCMMLPARSE_API CMMLParser
 {
@@ -57,13 +80,13 @@ public:
 	bool parseHeadTag(wstring inHeadText, C_HeadTag* outHead);
 
 	/// Parse a string representation of a cmml root tag into the provided CMMLRoot object.
-	bool parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot);
+	bool parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot, C_CMMLError* outCMMLError=NULL);
 
 	/// Parse a string representation of a cmml document into the provided CMMLDoc object.
-	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc);
+	bool parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc, C_CMMLError* outCMMLError=NULL);
 
 	/// DLB. 9/9/2005. Parse a string representation of a cmml document into the provided CMMLDoc object.
-	bool parseDoc(wstring inBuffer, C_CMMLDoc* outCMMLDoc);
+	bool parseDoc(wstring inBuffer, C_CMMLDoc* outCMMLDoc, C_CMMLError* outCMMLError=NULL);
 
 protected:
 	/// Parse an XTag representation of a cmml root tag into the provided CMMLRoot object.

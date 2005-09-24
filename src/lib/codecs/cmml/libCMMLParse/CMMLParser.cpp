@@ -56,7 +56,7 @@ CMMLParser::~CMMLParser(void)
 {
 }
 
-bool CMMLParser::parseDoc(wstring locCMMLFileWString, C_CMMLDoc* outCMMLDoc)
+bool CMMLParser::parseDoc(wstring locCMMLFileWString, C_CMMLDoc* outCMMLDoc, C_CMMLError* outCMMLError)
 {
 	// Assume we are unsuccessful unless we explicitly change that
 	bool locReturnValue = false;
@@ -71,24 +71,27 @@ bool CMMLParser::parseDoc(wstring locCMMLFileWString, C_CMMLDoc* outCMMLDoc)
 	// we don't need to scan for "<CMML")
 	size_t locCMMLTagIndex = locCMMLFileWString.find(L"<cmml", 0);
 	if (locCMMLTagIndex != string::npos) {
-		locCMMLFileWString = locCMMLFileWString.substr(locCMMLTagIndex);
-	}
+		wstring locCMMLFileWString1 = locCMMLFileWString.substr(locCMMLTagIndex);
 
-	// Parse ourselves the CMML
-	C_CMMLRootTag* locRootTag = new C_CMMLRootTag;
-	locReturnValue = parseCMMLRootTag(locCMMLFileWString, locRootTag);
-	if (locReturnValue) {
-		// Successfully parsed the CMML
-		outCMMLDoc->setRoot(locRootTag);
+		// Parse ourselves the CMML
+		C_CMMLRootTag* locRootTag = new C_CMMLRootTag;
+		locReturnValue = parseCMMLRootTag(locCMMLFileWString1, locRootTag, outCMMLError);
+		if (locReturnValue) {
+			// Successfully parsed the CMML
+			outCMMLDoc->setRoot(locRootTag);
+		} else {
+			// Parsing CMML failed
+			outCMMLDoc = NULL;
+		}
 	} else {
-		// Parsing CMML failed
+		// No <CMML> tag
 		outCMMLDoc = NULL;
 	}
 
 	return locReturnValue;
 }
 
-bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
+bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc, C_CMMLError* outCMMLError)
 {
 	// Assume we are unsuccessful unless we explicitly change that
 	bool locReturnValue = false;
@@ -142,7 +145,7 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 
 	// Parse ourselves the CMML
 	C_CMMLRootTag* locRootTag = new C_CMMLRootTag;
-	locReturnValue = parseCMMLRootTag(locCMMLFileWString, locRootTag);
+	locReturnValue = parseCMMLRootTag(locCMMLFileWString, locRootTag, outCMMLError);
 	if (locReturnValue) {
 		// Successfully parsed the CMML
 		outCMMLDoc->setRoot(locRootTag);
@@ -157,11 +160,9 @@ bool CMMLParser::parseDocFromFile(wstring inFilename, C_CMMLDoc* outCMMLDoc)
 	return locReturnValue;
 }
 
-
-bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot)
+bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMMLRoot, C_CMMLError* outCMMLError )
 {
 	// Assume we are unsuccessful unless we explicitly change that
-
 	bool locReturnValue = false;
 
 	// Sanity check against a NULL output pointer
@@ -176,12 +177,33 @@ bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMML
 
 	// Look for a tag, any tag
 	XTag *locRootParser = NULL;
-	locRootParser = xtag_new_parse(locCMMLRootText.c_str(), (int)locCMMLRootText.size());
+	int ErrorOffset = 0;
+	locRootParser = xtag_new_parse(locCMMLRootText.c_str(), (int)locCMMLRootText.size(), &ErrorOffset);
 	if (locRootParser) {
 		// Is it a <cmml> tag?
 		if (strcmp(xtag_get_name(locRootParser), "cmml") == 0) {
 			// Found a <cmml> tag
 			locReturnValue = parseRootTag(locRootParser, outCMMLRoot);
+		}
+	}
+	else
+	{
+		// Count the number of lines down we are
+		int LineNumber = 0;
+		size_t Offset=0;
+		for ( ;Offset != string::npos, Offset < ErrorOffset; Offset++)
+		{
+			Offset = locCMMLRootText.find("\n", Offset);
+			LineNumber++;
+			if (Offset == string::npos)
+			{
+				break;
+			}
+		}
+
+		if (outCMMLError != NULL)
+		{
+			outCMMLError->SetLineNumber(LineNumber);
 		}
 	}
 
@@ -211,7 +233,8 @@ bool CMMLParser::parseClipTag(wstring inClipText, C_ClipTag* outClip)
 
 	// Look for a <clip> tag
 	XTag *locClipParser = NULL;
-	locClipParser = xtag_new_parse(locClipText.c_str(), (int)locClipText.size());
+	int ErrorOffset = 0;
+	locClipParser = xtag_new_parse(locClipText.c_str(), (int)locClipText.size(), &ErrorOffset);
 	if (locClipParser) {
 		// Found some sort of tag
 		if (strcmp(xtag_get_name(locClipParser), "clip") == 0) {
@@ -246,7 +269,8 @@ bool CMMLParser::parseHeadTag(wstring inHeadText, C_HeadTag* outHead)
 
 	// Set up an XTag parser
 	XTag *locHeadParser = NULL;
-	locHeadParser = xtag_new_parse(locHeadText.c_str(), (int)locHeadText.size());
+	int ErrorOffset = 0;
+	locHeadParser = xtag_new_parse(locHeadText.c_str(), (int)locHeadText.size(), &ErrorOffset);
 	if (locHeadParser) {
 		if (strcmp(xtag_get_name(locHeadParser), "head") == 0) {
 			locReturnValue = parseHeadTag(locHeadParser, outHead);

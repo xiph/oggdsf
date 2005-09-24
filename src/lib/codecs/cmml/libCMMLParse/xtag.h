@@ -42,7 +42,8 @@ extern "C" {
 typedef void XTag;
 #endif /* XTAG_INTERNAL */
 
-XTag * xtag_new_parse (const char * s, int n);
+//XTag * xtag_new_parse (const char * s, int n);
+XTag * xtag_new_parse (const char * s, int n, int* ErrorOffset);
 
 char * xtag_get_name (XTag * xtag);
 

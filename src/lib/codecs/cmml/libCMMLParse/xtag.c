@@ -444,7 +444,7 @@ xtag_free (XTag * xtag)
 }
 
 XTag *
-xtag_new_parse (const char * s, int n)
+xtag_new_parse (const char * s, int n, int* ErrorOffset)
 {
   XTagParser parser;
   XTag * tag, * ttag, * wrapper;
@@ -464,6 +464,7 @@ xtag_new_parse (const char * s, int n)
 
   if (!parser.valid) {
     xtag_free (tag);
+	*ErrorOffset = parser.start - s;	// DLB. 20/9/05
     return NULL;
   }
 
@@ -471,6 +472,7 @@ xtag_new_parse (const char * s, int n)
 
     if (!parser.valid) {
       xtag_free (ttag);
+	  ErrorOffset = parser.start - s;	// DLB. 20/9/05
       return tag;
     }
 
@@ -489,14 +491,18 @@ xtag_new_parse (const char * s, int n)
 
       if (!parser.valid) {
         xtag_free (ttag);
+		ErrorOffset = parser.start - s;	// DLB. 20/9/05
         return wrapper;
       }
 
       wrapper->children = xlist_append (wrapper->children, ttag);
     }
+
+	ErrorOffset = parser.start - s;	// DLB. 20/9/05
     return wrapper;
   }
 
+  ErrorOffset = parser.start - s;	// DLB. 20/9/05
   return tag;
 }
 
