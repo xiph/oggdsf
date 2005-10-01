@@ -239,6 +239,7 @@ void HTTPFileSource::DataProcessLoop() {
 					if (locResponseCode == 301) {
 						size_t locLocPos = mLastResponse.find("Location: ");
 						if (locLocPos != string::npos) {
+							locLocPos += 10;
 							size_t locEndPos = mLastResponse.find("\r", locLocPos);
 							if (locEndPos != string::npos) {
 								if (locEndPos > locLocPos) {

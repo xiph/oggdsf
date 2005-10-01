@@ -621,6 +621,8 @@ HRESULT OggDemuxSourceFilter::SetUpPins()
 	CAutoLock locDemuxLock(mDemuxLock);
 	CAutoLock locSourceLock(mSourceFileLock);
 	
+	unsigned short locRetryCount = 0;
+	const unsigned short RETRY_THRESHOLD = 3;
 	debugLog<<"SETUP PINS"<<endl;
 	//Create and open a data source
 	mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
@@ -644,8 +646,18 @@ HRESULT OggDemuxSourceFilter::SetUpPins()
 		}
 
 		if (mDataSource->isEOF() || mDataSource->isError()) {
-			debugLog<<"Bailing out"<<endl;
-			return VFW_E_CANNOT_RENDER;
+			if (mDataSource->isError() && (mDataSource->shouldRetryAt() != "") && (locRetryCount < RETRY_THRESHOLD)) {
+				mOggBuffer.clearData();
+				string locNewLocation = mDataSource->shouldRetryAt();
+				debugLog<<"Retrying at : "<<locNewLocation<<endl;
+				delete mDataSource;
+				mDataSource = DataSourceFactory::createDataSource(locNewLocation.c_str());
+				mDataSource->open(locNewLocation.c_str());
+				locRetryCount++;
+			} else {
+				debugLog<<"Bailing out"<<endl;
+				return VFW_E_CANNOT_RENDER;
+			}
 		}
 	}
 	
