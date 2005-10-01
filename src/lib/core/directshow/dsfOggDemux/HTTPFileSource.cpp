@@ -31,6 +31,7 @@
 #include "stdafx.h"
 #include "httpfilesource.h"
 
+#define OGGCODECS_LOGGING
 HTTPFileSource::HTTPFileSource(void)
 	:	mBufferLock(NULL)
 	,	mIsChunked(false)
@@ -68,7 +69,7 @@ void HTTPFileSource::unChunk(unsigned char* inBuff, unsigned long inNumBytes)
 	//This method is a bit rough and ready !!
 	ASSERT(inNumBytes > 2);
 	rawDump.write((char*)inBuff, inNumBytes);
-	//debugLog<<"UnChunk"<<endl;
+	debugLog<<"UnChunk"<<endl;
 	unsigned long locNumBytesLeft = inNumBytes;
 
 	memcpy((void*)(mInterBuff + mNumLeftovers), (const void*)inBuff, inNumBytes);
@@ -170,12 +171,13 @@ void HTTPFileSource::DataProcessLoop() {
 	char* locBuff = NULL;
 	DWORD locCommand = 0;
 	bool locSeenAny = false;
+	debugLog<<"Starting dataprocessloop"<<endl;
 
 	locBuff = new char[RECV_BUFF_SIZE];
 
 	while(true) {
 		if(CheckRequest(&locCommand) == TRUE) {
-			//debugLog<<"Thread Data Process loop received breakout signal..."<<endl;
+			debugLog<<"Thread Data Process loop received breakout signal..."<<endl;
 			delete[] locBuff;
 			return;
 		}
@@ -184,13 +186,13 @@ void HTTPFileSource::DataProcessLoop() {
 		//debugLog<<"recv complete"<<endl;
 		if (locNumRead == SOCKET_ERROR) {
 			int locErr = WSAGetLastError();
-			//debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
+			debugLog<<"Socket error receiving - Err No = "<<locErr<<endl;
 			mWasError = true;
 			break;
 		}
 
 		if (locNumRead == 0) {
-			//debugLog<<"Read last bytes..."<<endl;
+			debugLog<<"Read last bytes..."<<endl;
 			mIsEOF = true;
 			delete[] locBuff;
 			return;
@@ -228,6 +230,34 @@ void HTTPFileSource::DataProcessLoop() {
 					//debugLog<<"locPos = "<<locPos<<endl;
 					mSeenResponse = true;
 					mLastResponse = locTemp.substr(0, locPos);
+					debugLog<<"HTTP Response:"<<endl;
+					debugLog<<mLastResponse<<endl;
+
+					unsigned short locResponseCode = getHTTPResponseCode(mLastResponse);
+
+					mRetryAt = "";
+					if (locResponseCode == 301) {
+						size_t locLocPos = mLastResponse.find("Location: ");
+						if (locLocPos != string::npos) {
+							size_t locEndPos = mLastResponse.find("\r", locLocPos);
+							if (locEndPos != string::npos) {
+								if (locEndPos > locLocPos) {
+									mRetryAt = mLastResponse.substr(locLocPos, locEndPos - locLocPos);
+									debugLog<<"Retry URL = "<<mRetryAt<<endl;
+								}
+							}
+						}
+
+						debugLog<<"Setting error to true"<<endl;
+						mIsEOF = true;
+						mWasError = true;
+						//close();
+					} else if (locResponseCode >= 300) {
+						debugLog<<"Setting error to true"<<endl;
+						mIsEOF = true;
+						mWasError = true;
+						//close();
+					}
 
 					if (locTemp.find("Transfer-Encoding: chunked") != string::npos) {
 						mIsChunked = true;
@@ -237,10 +267,14 @@ void HTTPFileSource::DataProcessLoop() {
 					locTemp = locBuff2;
 
 					if (mIsChunked) {
-						unChunk((unsigned char*)locBuff2, locNumRead - locPos - 4);
+						if (locNumRead - locPos - 4 > 0) {
+							unChunk((unsigned char*)locBuff2, locNumRead - locPos - 4);
+						}
 					} else {
                         //debugLog<<"Start of data follows"<<endl<<locTemp<<endl;
-						mFileCache.write((const unsigned char*)locBuff2, (locNumRead - (locPos + 4)));
+						if (locNumRead - locPos - 4 > 0) {
+							mFileCache.write((const unsigned char*)locBuff2, (locNumRead - (locPos + 4)));
+						}
 					}
 				}
 			}
@@ -250,6 +284,25 @@ void HTTPFileSource::DataProcessLoop() {
 	delete[] locBuff;
 }
 
+unsigned short HTTPFileSource::getHTTPResponseCode(string inHTTPResponse)
+{
+	size_t locPos = inHTTPResponse.find(" ");
+	if (locPos != string::npos) {
+		string locCodeString = inHTTPResponse.substr(locPos + 1, 3);
+		try {
+			unsigned short locCode = (unsigned short)StringHelper::stringToNum(locCodeString);
+			return locCode;
+		} catch(...) {
+			return 0;
+		}
+	} else {
+		return 0;
+	}
+}
+string HTTPFileSource::shouldRetryAt()
+{
+	return mRetryAt;
+}
 
 DWORD HTTPFileSource::ThreadProc(void) {
 	//debugLog<<"ThreadProc:"<<endl;
@@ -268,6 +321,8 @@ DWORD HTTPFileSource::ThreadProc(void) {
 				DataProcessLoop();
 				break;
 		}
+
+
 	}
 	return S_OK;
 }
@@ -295,6 +350,8 @@ void HTTPFileSource::close() {
 		Close();
 		//debugLog<<"After Close called on CAMThread"<<endl;
 	}
+
+
 	
 	//debugLog<<"Closing socket..."<<endl;
 	//Close the socket down.
@@ -357,8 +414,14 @@ bool HTTPFileSource::open(string inSourceLocation) {
 }
 void HTTPFileSource::clear() {
 	//Reset flags.
+	debugLog<<"Setting error to false";
 	mIsEOF = false;
 	mWasError = false;
+	mRetryAt = "";
+}
+bool HTTPFileSource::isError()
+{
+	return mWasError;
 }
 bool HTTPFileSource::isEOF() {
 	{ //CRITICAL SECTION - PROTECTING STREAM BUFFER
@@ -388,7 +451,7 @@ unsigned long HTTPFileSource::read(char* outBuffer, unsigned long inNumBytes) {
 			//debugLog<<"read : Can't read is error or eof"<<endl;
 			return 0;
 		} else {
-			//debugLog<<"Reading from buffer"<<endl;
+			debugLog<<"Reading from buffer"<<endl;
 			
 			unsigned long locNumRead = mFileCache.read((unsigned char*)outBuffer, inNumBytes);
 

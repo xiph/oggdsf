@@ -32,6 +32,8 @@
 #include "stdafx.h"
 #include "oggdemuxsourcefilter.h"
 
+#define OGGCODECS_LOGGING
+
 //-------------------
 // This template lets the Object factory create us properly and work with COM infrastructure.
 CFactoryTemplate g_Templates[] = 
@@ -117,7 +119,7 @@ OggDemuxSourceFilter::OggDemuxSourceFilter()
 	mStreamMapper = new OggStreamMapper(this);
 
 #ifdef OGGCODECS_LOGGING
-	debugLog.open("g:\\logs\\sourcelog.log", ios_base::out);
+	debugLog.open("d:\\zen\\logs\\sourcelog.log", ios_base::out);
 #endif
 
 }
@@ -220,9 +222,9 @@ STDMETHODIMP OggDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	CAutoLock locLock(m_pLock);
 	mFileName = inFileName;
 
-	//debugLog<<"Loading : "<<StringHelper::toNarrowStr(mFileName)<<endl;
+	debugLog<<"Loading : "<<StringHelper::toNarrowStr(mFileName)<<endl;
 
-	//debugLog << "Opening source file : "<<StringHelper::toNarrowStr(mFileName)<<endl;
+	debugLog << "Opening source file : "<<StringHelper::toNarrowStr(mFileName)<<endl;
 	mSeekTable = new AutoOggSeekTable(StringHelper::toNarrowStr(mFileName));
 	mSeekTable->buildTable();
 	
@@ -619,7 +621,7 @@ HRESULT OggDemuxSourceFilter::SetUpPins()
 	CAutoLock locDemuxLock(mDemuxLock);
 	CAutoLock locSourceLock(mSourceFileLock);
 	
-
+	debugLog<<"SETUP PINS"<<endl;
 	//Create and open a data source
 	mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
 	mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
@@ -639,6 +641,11 @@ HRESULT OggDemuxSourceFilter::SetUpPins()
 	
 		if (locNumRead > 0) {
 			mOggBuffer.feed((const unsigned char*)locBuff, locNumRead);
+		}
+
+		if (mDataSource->isEOF() || mDataSource->isError()) {
+			debugLog<<"Bailing out"<<endl;
+			return VFW_E_CANNOT_RENDER;
 		}
 	}
 	

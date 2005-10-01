@@ -31,6 +31,7 @@
 #pragma once
 
 #include <fstream>
+#include <string>
 
 using namespace std;
 #include "IFilterDataSource.h"
@@ -47,7 +48,9 @@ public:
 	virtual bool open(string inSourceLocation);
 	virtual void clear();
 	virtual bool isEOF();
+	virtual bool isError()								{	return false;	}
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
+	virtual string shouldRetryAt()						{		return "";		}
 	//
 
 protected:

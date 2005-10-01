@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0334FF23A9CE7C3807ABB7808659A808"
+        "OwnerKey" = "8:_A0E68123D9D541DFA9691752981C903A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_054BE8EA6F5E45A7AB2066734E998570"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -735,6 +741,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_CE3F3614A250A32BEFE6FA8B7C33D4B9"
+        "OwnerKey" = "8:_A0E68123D9D541DFA9691752981C903A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D2048C8B212841C88E42F6ADDCA8B0A2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -889,6 +901,26 @@
         }
         "File"
         {
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_0334FF23A9CE7C3807ABB7808659A808"
+            {
+            "SourcePath" = "8:libCMMLParse.dll"
+            "TargetName" = "8:libCMMLParse.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{A582A373-4685-4296-BEFE-614B80A702C3}:_1ED42AE022EB477985E46FA18A63F9A5"
             {
             "SourcePath" = "8:..\\..\\AUTHORS"
@@ -1093,6 +1125,26 @@
             {
             "SourcePath" = "8:libOOOgg.dll"
             "TargetName" = "8:libOOOgg.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_CE3F3614A250A32BEFE6FA8B7C33D4B9"
+            {
+            "SourcePath" = "8:libCMMLTags.dll"
+            "TargetName" = "8:libCMMLTags.dll"
             "Tag" = "8:"
             "Folder" = "8:_371AD289B6DB4693BDF7568485051F1E"
             "Condition" = "8:"

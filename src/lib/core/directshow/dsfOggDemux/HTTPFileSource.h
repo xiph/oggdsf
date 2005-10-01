@@ -58,13 +58,16 @@ public:
 	virtual bool open(string inSourceLocation);
 	virtual void clear();
 	virtual bool isEOF();
+	virtual bool isError();
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
+	virtual string shouldRetryAt();
 
 	//CAMThread pure virtuals
 	DWORD HTTPFileSource::ThreadProc();
 
 protected:
 	void unChunk(unsigned char* inBuff, unsigned long inNumBytes);
+	unsigned short getHTTPResponseCode(string inHTTPResponse);
 	bool startThread();
 	void DataProcessLoop();
 
@@ -74,6 +77,7 @@ protected:
 	unsigned long mChunkRemains;
 
 	bool mIsFirstChunk;
+	string mRetryAt;
 
 	fstream debugLog;
 	fstream fileDump;

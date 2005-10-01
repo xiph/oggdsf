@@ -43,6 +43,8 @@ public:
 	virtual bool open(string inSourceLocation) = 0;
 	virtual void clear() = 0;
 	virtual bool isEOF() = 0;
+	virtual bool isError() = 0;
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes) = 0;
+	virtual string shouldRetryAt() = 0;
 	
 };
