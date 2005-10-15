@@ -1237,7 +1237,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{D65F0073-A820-4085-B997-A061171595A7}"
-        "PackageCode" = "8:{9896FEB1-732F-4B6B-B5D2-F1736E84C1AF}"
+        "PackageCode" = "8:{B644656B-3A9C-4D07-B5C3-3048776D5C1A}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -3177,7 +3177,7 @@
                         {
                         }
                     }
-                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_E099D6CE02014386B82DCD5D56E7DB9C"
+                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_C3CB89BDEFB2406DAE146E0CCF273751"
                     {
                     "Name" = "8:http"
                     "Condition" = "8:"
@@ -3186,7 +3186,7 @@
                     "Transitive" = "11:FALSE"
                         "Keys"
                         {
-                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_10AAA4F3BF334244AC649D39A6217F2B"
+                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_00B0693148284E08974406686067D4DD"
                             {
                             "Name" = "8:Extensions"
                             "Condition" = "8:"
@@ -3198,23 +3198,31 @@
                                 }
                                 "Values"
                                 {
-                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_395D45330E184F58AFA9A8680F0B884A"
+                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3708094ECDC040A799151C5062725510"
                                     {
-                                    "Name" = "8:.OGA"
+                                    "Name" = "8:.AXA"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
+                                    }
+                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_61786364170C478BB5AFC954CE7E515C"
+                                    {
+                                    "Name" = "8:.OGG"
                                     "Condition" = "8:"
                                     "Transitive" = "11:FALSE"
                                     "ValueTypes" = "3:1"
                                     "Value" = "8:{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
                                     }
-                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_561FB4D1462746CAA051E22EA9F856B5"
+                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_79FA5F057AF94216ABE9E7276DDA8E47"
                                     {
-                                    "Name" = "8:.OGV"
+                                    "Name" = "8:.AXV"
                                     "Condition" = "8:"
                                     "Transitive" = "11:FALSE"
                                     "ValueTypes" = "3:1"
-                                    "Value" = "8:{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
+                                    "Value" = "8:{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
                                     }
-                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_69AD9A754BDD4C5D9E371F0A401BF272"
+                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_A3128F7341634B409FFE2D43C73D45DF"
                                     {
                                     "Name" = "8:.SPX"
                                     "Condition" = "8:"
@@ -3222,21 +3230,29 @@
                                     "ValueTypes" = "3:1"
                                     "Value" = "8:{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
                                     }
-                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_721E4EB293C54F4DBDD549162B0B55EF"
+                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_C827677C2B2E4FB0B606E0F088F509FF"
+                                    {
+                                    "Name" = "8:.OGA"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
+                                    }
+                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_DF88D2C6144D4136A0E7E4014467CAE7"
+                                    {
+                                    "Name" = "8:.OGV"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
+                                    }
+                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_E07BC72942134FBE92878F642AA75D76"
                                     {
                                     "Name" = "8:.ANX"
                                     "Condition" = "8:"
                                     "Transitive" = "11:FALSE"
                                     "ValueTypes" = "3:1"
                                     "Value" = "8:{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
-                                    }
-                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_F0B48DB4549F477994AEE0AA25058A35"
-                                    {
-                                    "Name" = "8:.OGG"
-                                    "Condition" = "8:"
-                                    "Transitive" = "11:FALSE"
-                                    "ValueTypes" = "3:1"
-                                    "Value" = "8:{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
                                     }
                                 }
                             }
