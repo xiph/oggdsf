@@ -1237,7 +1237,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:oggcodecs"
         "ProductCode" = "8:{D65F0073-A820-4085-B997-A061171595A7}"
-        "PackageCode" = "8:{8F2D8A4B-190D-4C38-9988-4A9DFB64136A}"
+        "PackageCode" = "8:{9896FEB1-732F-4B6B-B5D2-F1736E84C1AF}"
         "UpgradeCode" = "8:{1A644FEB-7597-4FAB-AADE-C2C7C64C5984}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1755,6 +1755,44 @@
                                                                             }
                                                                         }
                                                                     }
+                                                                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_FD9ED9408738475C92DAC6FDEA9E8BC6"
+                                                                    {
+                                                                    "Name" = "8:AXV"
+                                                                    "Condition" = "8:"
+                                                                    "AlwaysCreate" = "11:FALSE"
+                                                                    "DeleteAtUninstall" = "11:FALSE"
+                                                                    "Transitive" = "11:FALSE"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_1C3534889946495394D67D5D9B7A3915"
+                                                                            {
+                                                                            "Name" = "8:Extensions"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:.axv"
+                                                                            }
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_33639C78D962449BAACB9C4DC95899CC"
+                                                                            {
+                                                                            "Name" = "8:"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:Annodex File (axv)"
+                                                                            }
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_C803691466B243DE9F666CBD8432AEF8"
+                                                                            {
+                                                                            "Name" = "8:MIME Types"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:video/x-annodex"
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                                 "Values"
                                                                 {
@@ -1769,6 +1807,44 @@
                                                             "Transitive" = "11:FALSE"
                                                                 "Keys"
                                                                 {
+                                                                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_04BC8D3C324C4877813F745E9D3A07E1"
+                                                                    {
+                                                                    "Name" = "8:AXA"
+                                                                    "Condition" = "8:"
+                                                                    "AlwaysCreate" = "11:FALSE"
+                                                                    "DeleteAtUninstall" = "11:FALSE"
+                                                                    "Transitive" = "11:FALSE"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_009701BFD6504197A9B1F2CB8F2FD129"
+                                                                            {
+                                                                            "Name" = "8:MIME Types"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:audio/x-annodex"
+                                                                            }
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_D094E91F4EF04643819257828E94660C"
+                                                                            {
+                                                                            "Name" = "8:"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:Annodex File (axa)"
+                                                                            }
+                                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_F2A35AB55B5449F595F386015693CC1E"
+                                                                            {
+                                                                            "Name" = "8:Extensions"
+                                                                            "Condition" = "8:"
+                                                                            "Transitive" = "11:FALSE"
+                                                                            "ValueTypes" = "3:1"
+                                                                            "Value" = "8:.axa"
+                                                                            }
+                                                                        }
+                                                                    }
                                                                     "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_34D4ECF28C3E44D49230C3E10BB16006"
                                                                     {
                                                                     "Name" = "8:OGA"
@@ -2026,6 +2102,68 @@
                                                                     }
                                                                 }
                                                             }
+                                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_2EE56BDB83184BC489BB86E6166A78E2"
+                                                            {
+                                                            "Name" = "8:.axv"
+                                                            "Condition" = "8:"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "DeleteAtUninstall" = "11:FALSE"
+                                                            "Transitive" = "11:FALSE"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_0AED6D0413F142719C62A585CF022A51"
+                                                                    {
+                                                                    "Name" = "8:Runtime"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:7"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_22D7F180F6394F1EAF1B7FA538B75454"
+                                                                    {
+                                                                    "Name" = "8:Permissions"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:15"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_4CFBB5C2F61C4AA4BC4C6FE0A1C91C2E"
+                                                                    {
+                                                                    "Name" = "8:MediaType.Description"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Annodex Video"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_727DDB65AB5B451DB6B3033AC89820D3"
+                                                                    {
+                                                                    "Name" = "8:Extension.MIME"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:video/x-annodex"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_7C8CD8551CDD40FDB84C92A264C7FD27"
+                                                                    {
+                                                                    "Name" = "8:AlreadyRegistered"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:yes"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_B27A8BB32EA4414E971D1604E3C028F8"
+                                                                    {
+                                                                    "Name" = "8:PerceivedType"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:video"
+                                                                    }
+                                                                }
+                                                            }
                                                             "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_3B9396972065492A8D4404C57DD52128"
                                                             {
                                                             "Name" = "8:.ogg"
@@ -2204,6 +2342,68 @@
                                                                     }
                                                                 }
                                                             }
+                                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_C103DE094A764C139CC81E44C9B62F25"
+                                                            {
+                                                            "Name" = "8:.axa"
+                                                            "Condition" = "8:"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "DeleteAtUninstall" = "11:FALSE"
+                                                            "Transitive" = "11:FALSE"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_006C7AEAA7EE468087BEA8DED0A283F0"
+                                                                    {
+                                                                    "Name" = "8:Permissions"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:15"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3396B15A559A4EED9A50C55BB3B6D15E"
+                                                                    {
+                                                                    "Name" = "8:PerceivedType"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:audio"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3936C61703E04BFD8786622473CC5D0B"
+                                                                    {
+                                                                    "Name" = "8:AlreadyRegistered"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:yes"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_5FE415B5FBEF4747B453E5A138E7093B"
+                                                                    {
+                                                                    "Name" = "8:Runtime"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:7"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_72BDBB3C38D749049A6F5F5911D2C570"
+                                                                    {
+                                                                    "Name" = "8:Extension.MIME"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:audio/x-annodex"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_8FC1E028A12749CEAA0FD7EB67F31207"
+                                                                    {
+                                                                    "Name" = "8:MediaType.Description"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Annodex Audio"
+                                                                    }
+                                                                }
+                                                            }
                                                             "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_CC049D7218C34A69BEB764DF9EAF9D38"
                                                             {
                                                             "Name" = "8:.anx"
@@ -2272,6 +2472,114 @@
                                                     "Transitive" = "11:FALSE"
                                                         "Keys"
                                                         {
+                                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_09B1699B754B47BF96F3A69AA5A85BA4"
+                                                            {
+                                                            "Name" = "8:application/x-annodex"
+                                                            "Condition" = "8:"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "DeleteAtUninstall" = "11:FALSE"
+                                                            "Transitive" = "11:FALSE"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_004EB4DB004C4F5CA1E0602AA2FA90EE"
+                                                                    {
+                                                                    "Name" = "8:AlreadyRegistered"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:yes"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_01B5CC88208441B09D052E7F3260A2E5"
+                                                                    {
+                                                                    "Name" = "8:Extensions.CommaSep"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:anx,axa,axv"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_74B4A26B1C1E47A08D6568A45533E79D"
+                                                                    {
+                                                                    "Name" = "8:Extension.Key"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:.anx"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_9C5A8030ACB746778A75D56A313B1A92"
+                                                                    {
+                                                                    "Name" = "8:"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Anx File"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_AB4A7D0E8E474EC2B73039E2E915DB29"
+                                                                    {
+                                                                    "Name" = "8:Extensions.SpaceSep"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:.anx .axa .axv"
+                                                                    }
+                                                                }
+                                                            }
+                                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_0F54370C9C044DBD81676E9B93074F80"
+                                                            {
+                                                            "Name" = "8:video/x-annodex"
+                                                            "Condition" = "8:"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "DeleteAtUninstall" = "11:FALSE"
+                                                            "Transitive" = "11:FALSE"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_0B615E12143A4896881A353C8B8F987F"
+                                                                    {
+                                                                    "Name" = "8:Extension.Key"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:.axv"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_3974CC30E40F4485979577E0A8F5EFFA"
+                                                                    {
+                                                                    "Name" = "8:"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Annodex Video File"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_A7F689A621D645B6A0A171E2223CBD1D"
+                                                                    {
+                                                                    "Name" = "8:Extensions.CommaSep"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:axv,anx"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_CCFB433607304D0291E90784709B0C52"
+                                                                    {
+                                                                    "Name" = "8:AlreadyRegistered"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:yes"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_E333FF521990424FBB73C03EB28346D7"
+                                                                    {
+                                                                    "Name" = "8:Extensions.SpaceSep"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:.axv .anx"
+                                                                    }
+                                                                }
+                                                            }
                                                             "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_7FD508F3954D4C388D603050923CFD6D"
                                                             {
                                                             "Name" = "8:video/x-ogg"
@@ -2418,6 +2726,60 @@
                                                                     }
                                                                 }
                                                             }
+                                                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_D2EB8172995C4E1DAB799903ABC2B24E"
+                                                            {
+                                                            "Name" = "8:audio/x-annodex"
+                                                            "Condition" = "8:"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "DeleteAtUninstall" = "11:FALSE"
+                                                            "Transitive" = "11:FALSE"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_656D929225F148D687BCB9243B018BD4"
+                                                                    {
+                                                                    "Name" = "8:Extensions.SpaceSep"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:.axa .anx"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_9D7706272FC64FFE9CE4FEB6A6F54F64"
+                                                                    {
+                                                                    "Name" = "8:Extensions.CommaSep"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:axa,anx"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_AEE1D6C184B04C128F9EF24EEF405AFF"
+                                                                    {
+                                                                    "Name" = "8:"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Annodex Audio File"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_C9D550FDD2FB44B7A4F98AC7184C4D8A"
+                                                                    {
+                                                                    "Name" = "8:AlreadyRegistered"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:yes"
+                                                                    }
+                                                                    "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_CEA390F4DC3D4A119C1E2DEB3439235E"
+                                                                    {
+                                                                    "Name" = "8:Extension.Key"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:.axa"
+                                                                    }
+                                                                }
+                                                            }
                                                             "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_FCC0B29DBB924EF38625CC21BBF899C0"
                                                             {
                                                             "Name" = "8:audio/x-flac"
@@ -2501,7 +2863,7 @@
                                                         }
                                                         "Values"
                                                         {
-                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_481F36A8DC234AA4B99E8210448C8CBF"
+                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_213E75C4576242D39A190ECA38D3D2E0"
                                                             {
                                                             "Name" = "8:spx"
                                                             "Condition" = "8:"
@@ -2509,17 +2871,33 @@
                                                             "ValueTypes" = "3:1"
                                                             "Value" = "8:audio"
                                                             }
-                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_8EB8CB28401840CBB007D922F51637B2"
+                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_2C136F152D7A4FACADD8B07BC0C232B2"
                                                             {
-                                                            "Name" = "8:oga"
+                                                            "Name" = "8:axa"
                                                             "Condition" = "8:"
                                                             "Transitive" = "11:FALSE"
                                                             "ValueTypes" = "3:1"
                                                             "Value" = "8:audio"
                                                             }
-                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_90EFFA39D9174144A494435F06F460A2"
+                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_5A7FCCE69FB44E8B9D2E0CDF434A4094"
                                                             {
                                                             "Name" = "8:flac"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "ValueTypes" = "3:1"
+                                                            "Value" = "8:audio"
+                                                            }
+                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_722D76A0C545440BB1D38228C09BBD5A"
+                                                            {
+                                                            "Name" = "8:axv"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "ValueTypes" = "3:1"
+                                                            "Value" = "8:video"
+                                                            }
+                                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_8EB8CB28401840CBB007D922F51637B2"
+                                                            {
+                                                            "Name" = "8:oga"
                                                             "Condition" = "8:"
                                                             "Transitive" = "11:FALSE"
                                                             "ValueTypes" = "3:1"
@@ -2679,6 +3057,28 @@
                                             }
                                         }
                                     }
+                                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_8BA938A825AD41FFB22F0F59D0E3A65D"
+                                    {
+                                    "Name" = "8:.axv"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "DeleteAtUninstall" = "11:FALSE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_ACDED5EDA1C24B8FBD02A30DF2A00C0C"
+                                            {
+                                            "Name" = "8:Source Filter"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
+                                            }
+                                        }
+                                    }
                                     "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_A2D19647BE4C46348E4F0BEB26639AA7"
                                     {
                                     "Name" = "8:.anx"
@@ -2742,6 +3142,28 @@
                                             "Transitive" = "11:FALSE"
                                             "ValueTypes" = "3:1"
                                             "Value" = "8:{6DDA37BA-0553-499a-AE0D-BEBA67204548}"
+                                            }
+                                        }
+                                    }
+                                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_F1E1886311904ED09EFE438362F37E34"
+                                    {
+                                    "Name" = "8:.axa"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "DeleteAtUninstall" = "11:FALSE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{35AE352C-BC79-4EF9-ABD8-61F467188583}:_69896F987B724383B5C4974870BC5E4B"
+                                            {
+                                            "Name" = "8:Source Filter"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
                                             }
                                         }
                                     }

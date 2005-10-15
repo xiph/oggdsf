@@ -41,7 +41,7 @@ HTTPFileSource::HTTPFileSource(void)
 {
 	mBufferLock = new CCritSec;
 #ifdef OGGCODECS_LOGGING
-	debugLog.open("d:\\zen\\logs\\htttp.log", ios_base::out);
+	debugLog.open("d:\\zen\\logs\\htttp.log", ios_base::out | ios_base::app);
 	fileDump.open("d:\\zen\\logs\\filedump.ogg", ios_base::out|ios_base::binary);
 	rawDump.open("D:\\zen\\logs\\rawdump.out", ios_base::out|ios_base::binary);
 #endif

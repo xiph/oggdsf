@@ -1,0 +1,7 @@
+The following files were modified since 0.69, and need to have this reflected in the nsis installer.
+
+As well as the addition of the various files related to axa and axv
+
+mdia_miim_app_anx
+
+wmp_mls
