@@ -311,14 +311,36 @@ bool C_TimeStamp::parseTimeStamp(string inTimeStamp)
 
 		} else {
 			//Assume it's default numeric npt
-			bool locIsOK = parseSecsOnly(inTimeStamp);
-			if (locIsOK) {
-				mStampType = TS_NPT_SECS;
-				return true;
+			if (inTimeStamp.find(":") != string::npos) {
+				//We have four part time
+				sFourPartTime locFPT;
+				if ( parseNPT(inTimeStamp, &locFPT) ) {
+					mFPT = locFPT;
+					mStampType = TS_NPT_FULL;
+					return true;
+				} else {
+					mStampType = TS_NONE;
+					return false;
+				}
+				
 			} else {
-				mStampType = TS_NONE;
-				return false;
-			}	
+				bool locIsOK = parseSecsOnly(inTimeStamp);
+				if (locIsOK) {
+					mStampType = TS_NPT_SECS;
+					return true;
+				} else {
+					mStampType = TS_NONE;
+					return false;
+				}	
+			}
+			//bool locIsOK = parseSecsOnly(inTimeStamp);
+			//if (locIsOK) {
+			//	mStampType = TS_NPT_SECS;
+			//	return true;
+			//} else {
+			//	mStampType = TS_NONE;
+			//	return false;
+			//}	
 
 
 		}
