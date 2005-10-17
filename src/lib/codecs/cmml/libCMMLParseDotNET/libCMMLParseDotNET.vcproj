@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".."
+				AdditionalIncludeDirectories="..;..\..\..\helper"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
@@ -71,7 +71,7 @@
 			ManagedExtensions="TRUE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".."
+				AdditionalIncludeDirectories="..;..\..\..\helper"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
 				RuntimeLibrary="2"
