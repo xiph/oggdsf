@@ -66,7 +66,7 @@ public:
 	bool parseDocFromFile(String* inFileName, CMMLDoc* outCMMLDoc);
 
 	// DLB. 20/9/2005. Parse the DOC using an already read-in file
-	bool parseDoc(String* inBuffer, CMMLDoc* outCMMLDoc, CMMLError* outCMMLError);
+	bool parseDocFromBuffer(String* inBuffer, CMMLDoc* outCMMLDoc, CMMLError* outCMMLError);
 
 protected:
 	CMMLParser* mCMMLParser;
