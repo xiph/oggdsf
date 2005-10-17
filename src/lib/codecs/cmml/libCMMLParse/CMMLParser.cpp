@@ -56,7 +56,7 @@ CMMLParser::~CMMLParser(void)
 {
 }
 
-bool CMMLParser::parseDoc(wstring locCMMLFileWString, C_CMMLDoc* outCMMLDoc, C_CMMLError* outCMMLError)
+bool CMMLParser::parseDocFromBuffer(wstring locCMMLFileWString, C_CMMLDoc* outCMMLDoc, C_CMMLError* outCMMLError)
 {
 	// Assume we are unsuccessful unless we explicitly change that
 	bool locReturnValue = false;
