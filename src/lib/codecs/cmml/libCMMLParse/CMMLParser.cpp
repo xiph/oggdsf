@@ -191,9 +191,9 @@ bool CMMLParser::parseCMMLRootTag(wstring inCMMLRootText, C_CMMLRootTag* outCMML
 		// Count the number of lines down we are
 		int LineNumber = 0;
 		size_t Offset=0;
-		for ( ;Offset != string::npos, Offset < ErrorOffset; Offset++)
+		for ( ;Offset != string::npos, Offset < (size_t)ErrorOffset; Offset++)
 		{
-			Offset = locCMMLRootText.find("\n", Offset);
+			Offset = locCMMLRootText.find("\n", (size_t)Offset);
 			LineNumber++;
 			if (Offset == string::npos)
 			{
