@@ -68,9 +68,10 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="0"
 				AdditionalIncludeDirectories="..\..\lib\core\ogg;.;..\..\lib\helper;..\..\lib\codecs\cmml"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="0"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
@@ -84,8 +85,8 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
