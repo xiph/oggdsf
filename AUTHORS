@@ -16,8 +16,17 @@
 	Andre Pang <Andre.Pang@csiro.au>
 		- Mac OS X and UNIX porting.
 ==============================================================
-*** CMMLDump
 *** libCMMLParse
+	Zentaro Kavanagh <ogg@illiminable.com>
+		- Design and coding.
+
+	Andre Pang <Andre.Pang@csiro.au>
+		- Design and coding.
+
+	David Badham
+		- Bugfixes and enhancements
+==============================================================
+*** CMMLDump
 *** libOOOggChef
 *** mod_oggchef
 
@@ -26,6 +35,13 @@
 
 	Andre Pang <Andre.Pang@csiro.au>
 		- Design and coding.
+==============================================================
+*** libDSPlayDotNET
+	Zentaro Kavanagh <ogg@illiminable.com>
+		- Design and coding.
+
+	David Badham
+		- Bugfixes and enhancements
 ==============================================================
 *** AnxCutter
 *** axAnxOggPlayer
@@ -61,7 +77,6 @@
 *** libCMMLTags
 *** libCMMLTagsDotNET
 *** libDirectshowAbstracts
-*** libDSPlayDotNET
 *** libFLACHelper
 *** libiWrapper
 *** libOOTheora
