@@ -106,7 +106,7 @@ wstring StringHelper::fromUTF8Str(string inString) {
     wchar_t a;
 
 	//LPCWSTR retPtr = new wchar_t[retVal.length() + 1];
-	for (int i=0; i < inString.length(); )
+	for (unsigned int i=0; i < inString.length(); )
 	{
 		// 0xxxxxxx
 		if ((inString[i] & 0x80) == 0)
