@@ -5,8 +5,14 @@
 
 #pragma once
 
+#ifdef WIN32
+	#include <tchar.h>
+#endif
 
 #include <iostream>
-#include <tchar.h>
+#include <fstream>
+#include <ios>
+#include <string>
+#include <stdio.h>
 
 // TODO: reference additional headers your program requires here
