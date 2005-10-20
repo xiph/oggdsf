@@ -7,7 +7,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "oggcodecs"
-!define PRODUCT_VERSION "0.69.8924"
+!define PRODUCT_VERSION "0.70.0208"
 !define PRODUCT_PUBLISHER "illiminable"
 !define PRODUCT_WEB_SITE "http://www.illiminable.com/ogg/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OOOggDump.exe"
