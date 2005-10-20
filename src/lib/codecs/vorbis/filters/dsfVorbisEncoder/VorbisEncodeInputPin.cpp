@@ -39,7 +39,7 @@ VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	mFishSound(NULL)
 	,	mWaveFormat(NULL)
 	,	mUptoFrame(0)
-	,	mVorbisQuality(0.6f)
+	,	mVorbisQuality(0.3f)
 {
 #ifdef OGGCODECS_LOGGING
 	debugLog.open("G:\\logs\\vorbisenc.logs", ios_base::out);
