@@ -29,10 +29,17 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <stdio.h>
 #if !defined WIN32 && !defined _WIN32
 #include <unistd.h>
 #include <getopt.h>
+#endif
+#ifndef HAVE_GETOPT_LONG
+#include "getopt_win.h"
 #endif
 #include <stdlib.h>
 #include <string.h>
@@ -77,7 +84,7 @@
 #include <speex/speex_header.h>
 #include <speex/speex_stereo.h>
 #include <speex/speex_callbacks.h>
-#include "misc.h"
+#include "wav_io.h"
 
 #define MAX_FRAME_SIZE 2000
 
@@ -295,7 +302,7 @@ void version_short()
 static void *process_header(ogg_packet *op, int enh_enabled, int *frame_size, int *rate, int *nframes, int forceMode, int *channels, SpeexStereoState *stereo, int *extra_headers, int quiet)
 {
    void *st;
-   SpeexMode *mode;
+   const SpeexMode *mode;
    SpeexHeader *header;
    int modeID;
    SpeexCallback callback;
@@ -316,7 +323,8 @@ static void *process_header(ogg_packet *op, int enh_enabled, int *frame_size, in
    modeID = header->mode;
    if (forceMode!=-1)
       modeID = forceMode;
-   mode = speex_mode_list[modeID];
+
+   mode = speex_lib_get_mode (modeID);
    
    if (header->speex_version_id > 1)
    {
@@ -400,7 +408,7 @@ int main(int argc, char **argv)
    char *inFile, *outFile;
    FILE *fin, *fout=NULL;
    short out[MAX_FRAME_SIZE];
-   float output[MAX_FRAME_SIZE];
+   short output[MAX_FRAME_SIZE];
    int frame_size=0;
    void *st=NULL;
    SpeexBits bits;
@@ -541,7 +549,7 @@ int main(int argc, char **argv)
       outFile = "";
    wav_format = strlen(outFile)>=4 && (
                                        strcmp(outFile+strlen(outFile)-4,".wav")==0
-                                       || strcmp(inFile+strlen(inFile)-4,".WAV")==0);
+                                       || strcmp(outFile+strlen(outFile)-4,".WAV")==0);
    /*Open input file*/
    if (strcmp(inFile, "-")==0)
    {
@@ -640,9 +648,12 @@ int main(int argc, char **argv)
                   int ret;
                   /*Decode frame*/
                   if (!lost)
-                     ret = speex_decode(st, &bits, output);
+                     ret = speex_decode_int(st, &bits, output);
                   else
-                     ret = speex_decode(st, NULL, output);
+                     ret = speex_decode_int(st, NULL, output);
+
+                  /*for (i=0;i<frame_size*channels;i++)
+                    printf ("%d\n", (int)output[i]);*/
 
                   if (ret==-1)
                      break;
@@ -657,7 +668,7 @@ int main(int argc, char **argv)
                      break;
                   }
                   if (channels==2)
-                     speex_decode_stereo(output, frame_size, &stereo);
+                     speex_decode_stereo_int(output, frame_size, &stereo);
 
                   if (print_bitrate) {
                      int tmp;
@@ -666,22 +677,14 @@ int main(int argc, char **argv)
                      fputc (ch, stderr);
                      fprintf (stderr, "Bitrate is use: %d bps     ", tmp);
                   }
-                  /*PCM saturation (just in case)*/
-                  for (i=0;i<frame_size*channels;i++)
-                  {
-                     if (output[i]>32000.0)
-                        output[i]=32000.0;
-                     else if (output[i]<-32000.0)
-                        output[i]=-32000.0;
-                  }
                   /*Convert to short and save to output file*/
 		  if (strlen(outFile)!=0)
                   {
                      for (i=0;i<frame_size*channels;i++)
-                        out[i]=(short)le_short((short)floor(.5+output[i]));
+                        out[i]=le_short(output[i]);
 		  } else {
                      for (i=0;i<frame_size*channels;i++)
-                        out[i]=(short)floor(.5+output[i]);
+                        out[i]=output[i];
 		  }
                   {
                      int frame_offset = 0;

@@ -30,8 +30,13 @@
 */
 
 #ifndef WAV_IO_H
+#define WAV_IO_H
 
 #include <stdio.h>
+
+unsigned short be_short(unsigned short s);
+unsigned short le_short(unsigned short s);
+unsigned short le_int(unsigned int s);
 
 int read_wav_header(FILE *file, int *rate, int *channels, int *format, int *size);
 

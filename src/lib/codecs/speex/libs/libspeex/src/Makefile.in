@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $Id: Makefile.am,v 1.9.2.1 2003/05/31 06:10:43 jm Exp $
+# $Id: Makefile.am,v 1.11 2004/02/18 06:59:40 jm Exp $
 
 # Disable automatic dependency tracking if using other tools than gcc and gmake
 #AUTOMAKE_OPTIONS = no-dependencies
@@ -49,10 +49,11 @@ DIST_COMMON = $(include_HEADERS) $(noinst_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.in
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(includedir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -61,12 +62,12 @@ am_speexdec_OBJECTS = speexdec.$(OBJEXT) wav_io.$(OBJEXT)
 speexdec_OBJECTS = $(am_speexdec_OBJECTS)
 am__DEPENDENCIES_1 =
 speexdec_DEPENDENCIES = $(top_builddir)/libspeex/libspeex.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 am_speexenc_OBJECTS = speexenc.$(OBJEXT) wav_io.$(OBJEXT)
 speexenc_OBJECTS = $(am_speexenc_OBJECTS)
 speexenc_DEPENDENCIES = $(top_builddir)/libspeex/libspeex.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-DEFAULT_INCLUDES = -I. -I$(srcdir)
+	$(am__DEPENDENCIES_1)
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/speexdec.Po \
@@ -133,8 +134,7 @@ MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
 MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
 OBJEXT = @OBJEXT@
-OGG_INCLUDES = @OGG_INCLUDES@
-OGG_LDFLAGS = @OGG_LDFLAGS@
+OGG_CFLAGS = @OGG_CFLAGS@
 OGG_LIBS = @OGG_LIBS@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -146,9 +146,12 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SIZE16 = @SIZE16@
+SIZE32 = @SIZE32@
 SPEEX_LT_AGE = @SPEEX_LT_AGE@
 SPEEX_LT_CURRENT = @SPEEX_LT_CURRENT@
 SPEEX_LT_REVISION = @SPEEX_LT_REVISION@
+SPEEX_VERSION = @SPEEX_VERSION@
 STRIP = @STRIP@
 VERSION = @VERSION@
 ac_ct_AR = @ac_ct_AR@
@@ -193,15 +196,19 @@ sharedstatedir = @sharedstatedir@
 src = @src@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/libspeex  $(OGG_INCLUDES)
+INCLUDES = -I$(top_srcdir)/include -I$(top_builddir)/include -I$(top_builddir) @OGG_CFLAGS@
 man_MANS = speexenc.1 speexdec.1
 EXTRA_DIST = $(man_MANS) getopt_win.h getopt.c getopt1.c wave_out.c wave_out.h
 include_HEADERS = 
 noinst_HEADERS = wav_io.h
 speexenc_SOURCES = speexenc.c wav_io.c
-speexenc_LDADD = $(top_builddir)/libspeex/libspeex.la $(OGG_LDFLAGS) $(OGG_LIBS)
+speexenc_LDADD = $(top_builddir)/libspeex/libspeex.la \
+	$(OGG_LIBS)
+
 speexdec_SOURCES = speexdec.c wav_io.c
-speexdec_LDADD = $(top_builddir)/libspeex/libspeex.la $(OGG_LDFLAGS) $(OGG_LIBS)
+speexdec_LDADD = $(top_builddir)/libspeex/libspeex.la \
+	$(OGG_LIBS)
+
 all: all-am
 
 .SUFFIXES:

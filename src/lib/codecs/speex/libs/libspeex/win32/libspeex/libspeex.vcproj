@@ -21,8 +21,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN32,_DEBUG,_WINDOWS"
+				AdditionalIncludeDirectories="..\..\include;.."
+				PreprocessorDefinitions="WIN32,_DEBUG,_WINDOWS,HAVE_CONFIG_H"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -80,8 +80,8 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS"
+				AdditionalIncludeDirectories="..\..\include;.."
+				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,HAVE_CONFIG_H"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				UsePrecompiledHeader="0"
@@ -137,8 +137,8 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS"
+				AdditionalIncludeDirectories="..\..\include;.."
+				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,HAVE_CONFIG_H"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				EnableEnhancedInstructionSet="2"
@@ -195,8 +195,8 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
-				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS"
+				AdditionalIncludeDirectories="..\..\include;.."
+				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,HAVE_CONFIG_H"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				EnableEnhancedInstructionSet="1"
@@ -286,6 +286,12 @@
 				RelativePath="..\..\libspeex\high_lsp_tables.c">
 			</File>
 			<File
+				RelativePath="..\..\libspeex\jitter.c">
+			</File>
+			<File
+				RelativePath="..\..\libspeex\lbr_48k_tables.c">
+			</File>
+			<File
 				RelativePath="..\..\libspeex\lpc.c">
 			</File>
 			<File
@@ -301,6 +307,9 @@
 				RelativePath="..\..\libspeex\math_approx.c">
 			</File>
 			<File
+				RelativePath="..\..\libspeex\mdf.c">
+			</File>
+			<File
 				RelativePath="..\..\libspeex\misc.c">
 			</File>
 			<File
@@ -310,10 +319,19 @@
 				RelativePath="..\..\libspeex\nb_celp.c">
 			</File>
 			<File
+				RelativePath="..\..\libspeex\preprocess.c">
+			</File>
+			<File
 				RelativePath="..\..\libspeex\quant_lsp.c">
 			</File>
 			<File
 				RelativePath="..\..\libspeex\sb_celp.c">
+			</File>
+			<File
+				RelativePath="..\..\libspeex\smallft.c">
+			</File>
+			<File
+				RelativePath="..\..\libspeex\speex.c">
 			</File>
 			<File
 				RelativePath="..\..\libspeex\speex_callbacks.c">
@@ -336,6 +354,9 @@
 			Filter="h;hpp;hxx;hm;inl">
 			<File
 				RelativePath="..\..\libspeex\cb_search.h">
+			</File>
+			<File
+				RelativePath="..\config.h">
 			</File>
 			<File
 				RelativePath="..\..\libspeex\filters.h">

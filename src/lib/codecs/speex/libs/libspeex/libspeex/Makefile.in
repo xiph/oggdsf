@@ -14,14 +14,11 @@
 
 @SET_MAKE@
 
-# $Id: Makefile.am,v 1.49 2003/03/17 22:40:57 jm Exp $
-
 # Disable automatic dependency tracking if using other tools than gcc and gmake
 #AUTOMAKE_OPTIONS = no-dependencies
 
 
-
-SOURCES = $(libspeex_la_SOURCES) $(testenc_SOURCES) $(testenc_uwb_SOURCES) $(testenc_wb_SOURCES)
+SOURCES = $(libspeex_la_SOURCES)
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -44,17 +41,16 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_triplet = @host@
-noinst_PROGRAMS = testenc$(EXEEXT) testenc_wb$(EXEEXT) \
-	testenc_uwb$(EXEEXT)
 subdir = libspeex
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.in
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(libdir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
@@ -62,24 +58,15 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libspeex_la_LIBADD =
 am_libspeex_la_OBJECTS = nb_celp.lo sb_celp.lo lpc.lo ltp.lo lsp.lo \
 	quant_lsp.lo lsp_tables_nb.lo gain_table.lo gain_table_lbr.lo \
-	cb_search.lo filters.lo bits.lo modes.lo vq.lo \
+	cb_search.lo filters.lo bits.lo modes.lo speex.lo vq.lo \
 	high_lsp_tables.lo vbr.lo hexc_table.lo exc_5_256_table.lo \
 	exc_5_64_table.lo exc_8_128_table.lo exc_10_32_table.lo \
 	exc_10_16_table.lo exc_20_32_table.lo hexc_10_32_table.lo \
 	misc.lo speex_header.lo speex_callbacks.lo math_approx.lo \
-	stereo.lo
+	stereo.lo preprocess.lo smallft.lo lbr_48k_tables.lo jitter.lo \
+	mdf.lo
 libspeex_la_OBJECTS = $(am_libspeex_la_OBJECTS)
-PROGRAMS = $(noinst_PROGRAMS)
-am_testenc_OBJECTS = testenc.$(OBJEXT)
-testenc_OBJECTS = $(am_testenc_OBJECTS)
-testenc_DEPENDENCIES = libspeex.la
-am_testenc_uwb_OBJECTS = testenc_uwb.$(OBJEXT)
-testenc_uwb_OBJECTS = $(am_testenc_uwb_OBJECTS)
-testenc_uwb_DEPENDENCIES = libspeex.la
-am_testenc_wb_OBJECTS = testenc_wb.$(OBJEXT)
-testenc_wb_OBJECTS = $(am_testenc_wb_OBJECTS)
-testenc_wb_DEPENDENCIES = libspeex.la
-DEFAULT_INCLUDES = -I. -I$(srcdir)
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/bits.Plo ./$(DEPDIR)/cb_search.Plo \
@@ -94,16 +81,18 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/hexc_10_32_table.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/hexc_table.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/high_lsp_tables.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/lpc.Plo ./$(DEPDIR)/lsp.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/lsp_tables_nb.Plo ./$(DEPDIR)/ltp.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/math_approx.Plo ./$(DEPDIR)/misc.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/jitter.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/lbr_48k_tables.Plo ./$(DEPDIR)/lpc.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/lsp.Plo ./$(DEPDIR)/lsp_tables_nb.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ltp.Plo ./$(DEPDIR)/math_approx.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/mdf.Plo ./$(DEPDIR)/misc.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/modes.Plo ./$(DEPDIR)/nb_celp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/preprocess.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/quant_lsp.Plo ./$(DEPDIR)/sb_celp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/smallft.Plo ./$(DEPDIR)/speex.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/speex_callbacks.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/speex_header.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/stereo.Plo ./$(DEPDIR)/testenc.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/testenc_uwb.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/testenc_wb.Po ./$(DEPDIR)/vbr.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/stereo.Plo ./$(DEPDIR)/vbr.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/vq.Plo
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -113,10 +102,8 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(libspeex_la_SOURCES) $(testenc_SOURCES) \
-	$(testenc_uwb_SOURCES) $(testenc_wb_SOURCES)
-DIST_SOURCES = $(libspeex_la_SOURCES) $(testenc_SOURCES) \
-	$(testenc_uwb_SOURCES) $(testenc_wb_SOURCES)
+SOURCES = $(libspeex_la_SOURCES)
+DIST_SOURCES = $(libspeex_la_SOURCES)
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -165,8 +152,7 @@ MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
 MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
 OBJEXT = @OBJEXT@
-OGG_INCLUDES = @OGG_INCLUDES@
-OGG_LDFLAGS = @OGG_LDFLAGS@
+OGG_CFLAGS = @OGG_CFLAGS@
 OGG_LIBS = @OGG_LIBS@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -178,9 +164,12 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SIZE16 = @SIZE16@
+SIZE32 = @SIZE32@
 SPEEX_LT_AGE = @SPEEX_LT_AGE@
 SPEEX_LT_CURRENT = @SPEEX_LT_CURRENT@
 SPEEX_LT_REVISION = @SPEEX_LT_REVISION@
+SPEEX_VERSION = @SPEEX_VERSION@
 STRIP = @STRIP@
 VERSION = @VERSION@
 ac_ct_AR = @ac_ct_AR@
@@ -225,7 +214,8 @@ sharedstatedir = @sharedstatedir@
 src = @src@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-INCLUDES = -I$(top_srcdir)/include
+EXTRA_DIST = testenc.c testenc_wb.c testenc_uwb.c testdenoise.c testecho.c
+INCLUDES = -I$(top_srcdir)/include -I$(top_builddir)/include -I$(top_builddir) @OGG_CFLAGS@
 lib_LTLIBRARIES = libspeex.la
 
 # Sources for compilation in the library
@@ -242,6 +232,7 @@ libspeex_la_SOURCES = nb_celp.c \
 	filters.c \
 	bits.c \
 	modes.c \
+	speex.c \
 	vq.c \
 	high_lsp_tables.c \
 	vbr.c \
@@ -257,32 +248,50 @@ libspeex_la_SOURCES = nb_celp.c \
 	speex_header.c \
 	speex_callbacks.c \
 	math_approx.c \
-	stereo.c
+	stereo.c \
+	preprocess.c \
+	smallft.c \
+	lbr_48k_tables.c \
+	jitter.c \
+	mdf.c
 
 noinst_HEADERS = lsp.h \
 	nb_celp.h \
 	lpc.h \
+	lpc_bfin.h \
 	ltp.h \
 	quant_lsp.h \
 	cb_search.h \
 	filters.h \
 	stack_alloc.h \
 	vq.h \
+	vq_sse.h \
+	vq_arm4.h \
+	vq_bfin.h \
 	modes.h \
 	sb_celp.h \
 	vbr.h \
 	misc.h \
+	misc_bfin.h \
 	ltp_sse.h \
+	ltp_arm4.h \
+	ltp_bfin.h \
 	filters_sse.h \
-	math_approx.h
+	filters_arm4.h \
+	filters_bfin.h \
+	math_approx.h \
+	smallft.h \
+	arch.h \
+	fixed_arm4.h \
+	fixed_arm5e.h \
+	fixed_bfin.h \
+	fixed_debug.h \
+	fixed_generic.h \
+	cb_search_sse.h \
+	cb_search_arm4.h \
+	cb_search_bfin.h
 
 libspeex_la_LDFLAGS = -version-info @SPEEX_LT_CURRENT@:@SPEEX_LT_REVISION@:@SPEEX_LT_AGE@
-testenc_SOURCES = testenc.c
-testenc_LDADD = libspeex.la
-testenc_wb_SOURCES = testenc_wb.c
-testenc_wb_LDADD = libspeex.la
-testenc_uwb_SOURCES = testenc_uwb.c
-testenc_uwb_LDADD = libspeex.la
 all: all-am
 
 .SUFFIXES:
@@ -346,22 +355,6 @@ clean-libLTLIBRARIES:
 libspeex.la: $(libspeex_la_OBJECTS) $(libspeex_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libspeex_la_LDFLAGS) $(libspeex_la_OBJECTS) $(libspeex_la_LIBADD) $(LIBS)
 
-clean-noinstPROGRAMS:
-	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
-	  f=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  echo " rm -f $$p $$f"; \
-	  rm -f $$p $$f ; \
-	done
-testenc$(EXEEXT): $(testenc_OBJECTS) $(testenc_DEPENDENCIES) 
-	@rm -f testenc$(EXEEXT)
-	$(LINK) $(testenc_LDFLAGS) $(testenc_OBJECTS) $(testenc_LDADD) $(LIBS)
-testenc_uwb$(EXEEXT): $(testenc_uwb_OBJECTS) $(testenc_uwb_DEPENDENCIES) 
-	@rm -f testenc_uwb$(EXEEXT)
-	$(LINK) $(testenc_uwb_LDFLAGS) $(testenc_uwb_OBJECTS) $(testenc_uwb_LDADD) $(LIBS)
-testenc_wb$(EXEEXT): $(testenc_wb_OBJECTS) $(testenc_wb_DEPENDENCIES) 
-	@rm -f testenc_wb$(EXEEXT)
-	$(LINK) $(testenc_wb_LDFLAGS) $(testenc_wb_OBJECTS) $(testenc_wb_LDADD) $(LIBS)
-
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -382,22 +375,25 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hexc_10_32_table.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hexc_table.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/high_lsp_tables.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jitter.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lbr_48k_tables.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lpc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lsp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lsp_tables_nb.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ltp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/math_approx.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mdf.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/misc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/modes.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nb_celp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preprocess.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quant_lsp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sb_celp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/smallft.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/speex.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/speex_callbacks.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/speex_header.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stereo.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testenc.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testenc_uwb.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testenc_wb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vbr.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vq.Plo@am__quote@
 
@@ -512,7 +508,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
@@ -544,7 +540,7 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstPROGRAMS mostlyclean-am
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -593,17 +589,17 @@ ps-am:
 uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool clean-noinstPROGRAMS ctags \
-	distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-libLTLIBRARIES install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am \
-	uninstall-info-am uninstall-libLTLIBRARIES
+	clean-libLTLIBRARIES clean-libtool ctags distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-exec \
+	install-exec-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am \
+	uninstall-libLTLIBRARIES
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

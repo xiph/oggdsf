@@ -23,9 +23,9 @@ CFG=libspeex - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
-CPP=xicl6.exe
+# PROP Scc_ProjName "Perforce Project"
+# PROP Scc_LocalPath "..\.."
+CPP=cl.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "libspeex - Win32 Release"
@@ -42,13 +42,13 @@ RSC=rc.exe
 # PROP Target_Dir ""
 F90=df.exe
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /GX /Ox /Ot /Og /Oi /Ob2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /GX /Ox /Ot /Og /Oi /Ob2 /I "../../include" /I "../" /D inline=__inline /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "HAVE_CONFIG_H" /YX /FD /c
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
-# ADD RSC /l 0x409 /d "NDEBUG"
+# ADD RSC /l 0x809 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-LIB32=xilink6.exe -lib
+LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
@@ -66,13 +66,13 @@ LIB32=xilink6.exe -lib
 # PROP Target_Dir ""
 F90=df.exe
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /GX /Ox /Ot /Og /Oi /Ob2 /I "../../include" /I "../" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "HAVE_CONFIG_H" /YX /FD /c
 # ADD BASE RSC /l 0x809 /d "_DEBUG"
-# ADD RSC /l 0x409 /d "_DEBUG"
+# ADD RSC /l 0x809 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-LIB32=xilink6.exe -lib
+LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
@@ -175,11 +175,23 @@ SOURCE=..\..\libspeex\nb_celp.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\libspeex\preprocess.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\libspeex\quant_lsp.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\libspeex\sb_celp.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\libspeex\smallft.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\libspeex\speex.c
 # End Source File
 # Begin Source File
 
@@ -227,10 +239,6 @@ SOURCE=..\..\libspeex\ltp.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\libspeex\math_approx.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\libspeex\misc.h
 # End Source File
 # Begin Source File
@@ -251,6 +259,10 @@ SOURCE=..\..\libspeex\sb_celp.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\libspeex\smallft.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\libspeex\speex.h
 # End Source File
 # Begin Source File
@@ -260,6 +272,10 @@ SOURCE=..\..\libspeex\speex_bits.h
 # Begin Source File
 
 SOURCE=..\..\libspeex\speex_callbacks.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\libspeex\speex_denoise.h
 # End Source File
 # Begin Source File
 

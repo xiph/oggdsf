@@ -1,5 +1,5 @@
 %define name     speex
-%define ver      1.0.4
+%define ver      1.1.10
 %define rel      1
 
 Summary: An open-source, patent-free speech codec
@@ -41,7 +41,7 @@ Speex development files.
 %setup
 
 %build
-export CFLAGS='-O3 -DRELEASE'
+export CFLAGS='-O3'
 ./configure --prefix=/usr --enable-shared --enable-static
 make
 
@@ -64,7 +64,6 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libspeex*.la
-%{_includedir}/speex*.h
 %{_includedir}/speex/speex*.h
 /usr/share/aclocal/speex.m4
 %{_libdir}/pkgconfig/speex.pc
