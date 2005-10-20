@@ -32,7 +32,7 @@
 #include "stdafx.h"
 #include "oggdemuxsourcefilter.h"
 
-#define OGGCODECS_LOGGING
+//#define OGGCODECS_LOGGING
 
 //-------------------
 // This template lets the Object factory create us properly and work with COM infrastructure.

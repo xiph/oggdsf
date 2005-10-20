@@ -35,7 +35,7 @@
 #include "stdafx.h"
 #include "anxstreammapper.h"
 
-#define OGGCODECS_LOGGING
+//#define OGGCODECS_LOGGING
 AnxStreamMapper::AnxStreamMapper(OggDemuxSourceFilter* inOwningFilter)
 	:	OggStreamMapper(inOwningFilter)
 	,	mAnnodexSerial(0)
