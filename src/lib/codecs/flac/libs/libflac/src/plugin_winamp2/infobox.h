@@ -1,5 +1,5 @@
 /* in_flac - Winamp2 FLAC input plugin
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
  */
 
 ULONGLONG FileSize(const char *fileName);
-void ReadTags(const char *fileName, FLAC_Plugin__CanonicalTag *tag, BOOL forDisplay);
+void ReadTags(const char *fileName, FLAC__StreamMetadata **tags, BOOL forDisplay);
 
 void InitInfobox();
 void DeinitInfobox();

@@ -1,5 +1,5 @@
 #  libFLAC - Free Lossless Audio Codec library
-#  Copyright (C) 2004  Josh Coalson
+#  Copyright (C) 2004,2005  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -28,15 +28,4 @@
 #  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-SUFFIXES = .s .lo
-
-STRIP_NON_ASM = sh $(top_srcdir)/strip_non_asm_libtool_args.sh
-
-# For some unknown reason libtool can't figure out the tag for 'as', so
-# we fake it with --tag=CC and strip out unwanted options.
-.s.lo:
-	$(LIBTOOL) --tag=CC --mode=compile $(STRIP_NON_ASM) as -force_cpusubtype_ALL -o $@ $<
-
-noinst_LTLIBRARIES = libFLAC-asm.la
-libFLAC_asm_la_SOURCES = \
-	lpc_asm.s
+SUBDIRS = as gas

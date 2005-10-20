@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -19,10 +19,7 @@
 # instead of FLAC__ since autoconf triggers off 'AC_' in strings
 
 AC_INIT(src/flac/main.c)
-AM_INIT_AUTOMAKE(flac, 1.1.1)
-
-dnl In order to have access to any available wcsdup() and wcscasecmp()
-AC_GNU_SOURCE
+AM_INIT_AUTOMAKE(flac, 1.1.2)
 
 # Don't automagically regenerate autoconf/automake generated files unless
 # explicitly requested.  Eases autobuilding -mdz
@@ -39,14 +36,12 @@ AM_PROG_AS
 AC_PROG_CXX
 AC_PROG_MAKE_SET
 
+AC_CHECK_TYPES(socklen_t, [], [])
+
 dnl check for getopt in standard library
 dnl AC_CHECK_FUNCS(getopt_long , , [LIBOBJS="$LIBOBJS getopt.o getopt1.o"] )
 AC_CHECK_FUNCS(getopt_long, [], [])
 
-dnl Check for uncommon wide char functions
-AC_CHECK_FUNCS(wcsdup, wcscasecmp, [], [])
-
-AC_CANONICAL_HOST
 case "$host_cpu" in
 	i*86)	cpu_ia32=true ; AC_DEFINE(FLAC__CPU_IA32) ;;
 	powerpc)	cpu_ppc=true ; AC_DEFINE(FLAC__CPU_PPC) ;;
@@ -60,6 +55,12 @@ case "$host" in
 	*) OBJ_FORMAT=elf ;;
 esac
 AC_SUBST(OBJ_FORMAT)
+case "$host" in
+	*-pc-linux-gnu) sys_linux=true ; AC_DEFINE(FLAC__SYS_LINUX) ;;
+	*-*-darwin*) sys_darwin=true ; AC_DEFINE(FLAC__SYS_DARWIN) ;;
+esac
+AM_CONDITIONAL(FLaC__SYS_DARWIN, test x$sys_darwin = xtrue)
+AM_CONDITIONAL(FLaC__SYS_LINUX, test x$sys_linux = xtrue)
 
 if test x$cpu_ia32 = xtrue ; then
 AC_DEFINE(FLAC__ALIGN_MALLOC_DATA)
@@ -175,10 +176,24 @@ if test -n "$DOCBOOK_TO_MAN" ; then
 AC_DEFINE(FLAC__HAS_DOCBOOK_TO_MAN)
 fi
 
+# only matters for x86
 AC_CHECK_PROGS(NASM, nasm)
 AM_CONDITIONAL(FLaC__HAS_NASM, test -n "$NASM")
 if test -n "$NASM" ; then
 AC_DEFINE(FLAC__HAS_NASM)
+fi
+
+# only matters for PowerPC
+AC_CHECK_PROGS(AS, as)
+AC_CHECK_PROGS(GAS, gas)
+AM_CONDITIONAL(FLaC__HAS_AS, test -n "$AS")
+AM_CONDITIONAL(FLaC__HAS_GAS, test -n "$GAS")
+if test -n "$AS" ; then
+AC_DEFINE(FLAC__HAS_AS)
+fi
+if test -n "$GAS" ; then
+# funniest. macro. ever.
+AC_DEFINE(FLAC__HAS_GAS)
 fi
 
 OUR_CFLAGS_HEAD='-I$(top_builddir) -I$(srcdir)/include -I$(top_srcdir)/include'
@@ -193,16 +208,24 @@ fi
 CFLAGS="$OUR_CFLAGS_HEAD $CFLAGS"
 CXXFLAGS="$OUR_CFLAGS_HEAD $CXXFLAGS"
 
+#@@@@@@
+AM_CONDITIONAL(FLaC__HAS_AS__TEMPORARILY_DISABLED, test "yes" = "no")
+AM_CONDITIONAL(FLaC__HAS_GAS__TEMPORARILY_DISABLED, test "yes" = "no")
+
 AM_CONFIG_HEADER(config.h)
 AH_TEMPLATE(FLAC__ALIGN_MALLOC_DATA,  [define to align allocated memory on 32-byte boundaries])
 AH_TEMPLATE(FLAC__CPU_IA32,  [define if building for ia32/i386])
 AH_TEMPLATE(FLAC__CPU_PPC,  [define if building for PowerPC])
 AH_TEMPLATE(FLAC__CPU_SPARC,  [define if building for SPARC])
+AH_TEMPLATE(FLAC__SYS_DARWIN,  [define if building for Darwin / MacOS X])
+AH_TEMPLATE(FLAC__SYS_LINUX,  [define if building for Linux])
 AH_TEMPLATE(FLAC__EXHAUSTIVE_TESTS,  [define to run even more tests])
 AH_TEMPLATE(FLAC__VALGRIND_TESTING,  [define to enable use of Valgrind in testers])
 AH_TEMPLATE(FLAC__HAS_DOXYGEN,  [define if you have Doxygen])
 AH_TEMPLATE(FLAC__HAS_DOCBOOK_TO_MAN,  [define if you have docbook-to-man or docbook2man])
-AH_TEMPLATE(FLAC__HAS_NASM,  [define if you have the NASM assembler])
+AH_TEMPLATE(FLAC__HAS_NASM,  [define if you are compiling for x86 and have the NASM assembler])
+AH_TEMPLATE(FLAC__HAS_AS,  [define if you are compiling for PowerPC and have the 'as' assembler])
+AH_TEMPLATE(FLAC__HAS_GAS,  [define if you are compiling for PowerPC and have the 'gas' assembler])
 AH_TEMPLATE(FLAC__HAS_OGG,  [define if you have the ogg library])
 AH_TEMPLATE(FLAC__NO_ASM,  [define to disable use of assembly code])
 AH_TEMPLATE(FLAC__SSE_OS,  [define if your operating system supports SSE instructions])
@@ -215,6 +238,8 @@ AC_OUTPUT( \
 	src/libFLAC/Makefile \
 	src/libFLAC/ia32/Makefile \
 	src/libFLAC/ppc/Makefile \
+	src/libFLAC/ppc/as/Makefile \
+	src/libFLAC/ppc/gas/Makefile \
 	src/libFLAC/include/Makefile \
 	src/libFLAC/include/private/Makefile \
 	src/libFLAC/include/protected/Makefile \

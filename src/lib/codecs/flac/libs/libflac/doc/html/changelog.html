@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<!-- Copyright (c)  2004  Josh Coalson -->
+<!-- Copyright (c)  2004,2005  Josh Coalson -->
 <!-- Permission is granted to copy, distribute and/or modify this document -->
 <!-- under the terms of the GNU Free Documentation License, Version 1.1 -->
 <!-- or any later version published by the Free Software Foundation; -->
@@ -82,6 +82,119 @@
 
 	<P>
 		This is an informal changelog, a summary of changes in each release.  Particulary important for developers is the precise description of changes to the library interfaces.
+	</P>
+
+	<P>
+		<A NAME="flac_1_1_2"><B>FLAC 1.1.2</B></A>
+	</P>
+	<P>
+	<UL>
+		<LI>
+			General:
+			<UL>
+				<LI>Sped up decoding by a few percent overall.<LI>
+				<LI>Sped up encoding when not using LPC (i.e. when using <TT>flac</TT> options <TT>-0</TT>, <TT>-1</TT>, <TT>-2</TT>, or <TT>-l 0</TT>).</LI>
+				<LI>Fixed a decoding bug that could cause sync errors with some ID3v1-tagged FLAC files.</LI>
+				<LI>Added <A HREF="documentation.html#metaflac">HTML documentation for metaflac</A>.</LI>
+			</UL>
+		</LI>
+		<LI>
+			FLAC format:
+			<UL>
+				<LI>(none)</LI>
+			</UL>
+		</LI>
+		<LI>
+			Ogg FLAC format:
+			<UL>
+				<LI>(none)</LI>
+			</UL>
+		</LI>
+		<LI>
+			flac:
+			<UL>
+				<LI>New option <A HREF="documentation.html#flac_options_input_size"><TT>--input-size</TT></A> to manually specify the input size when encoding raw samples from stdin.</LI>
+			</UL>
+		</LI>
+		<LI>
+			metaflac:
+			<UL>
+				<LI>(none)</LI>
+			</UL>
+		</LI>
+		<LI>
+			plugins:
+			<UL>
+				<LI>Added support for HTTP streaming in XMMS plugin.  <B>NOTE</B>: there is a <A HREF="http://bugs.xmms.org/show_bug.cgi?id=2038">bug</A> in the XMMS mpg123 plugin that hijacks FLAC streams; to fix it you will need to add the '.flac' extension to the list of exceptions in <TT>Input/mpg123/mpg123.c:is_our_file()</TT> in the XMMS sources and recompile.</LI>
+			</UL>
+		</LI>
+		<LI>
+			build system:
+			<UL>
+				<LI>(none)</LI>
+			</UL>
+		</LI>
+		<LI>
+			libraries:
+			<UL>
+				<LI>libFLAC: Sped up Rice block decoding in the bitbuffer, resulting in decoding speed gains of a few percent.</LI>
+				<LI>libFLAC: Sped up encoding when not using LPC (i.e. <TT>max_lpc_order == 0</TT>).</LI>
+				<LI>libFLAC: Trailing NUL characters maintained on Vorbis comment entries so they can be treated like C strings.</LI>
+				<LI>libFLAC: More FLAC tag (i.e. Vorbis comment) validation.</LI>
+				<LI>libFLAC: Fixed a bug in the logic that determines the frame or sample number in a frame header; the bug could cause sync errors with some ID3v1-tagged FLAC files.</LI>
+				<LI>libFLAC, libOggFLAC: Can now be compiled to use only integer instructions, including encoding.  The decoder is almost completely integer anyway but there were a couple places that needed a fixed-point replacement.  There is no fixed-point version of LPC analysis yet, so if libFLAC is compiled integer-only, the encoder will behave as if the max LPC order is 0 (i.e. used fixed predictors only).  LPC decoding is supported in all cases as it always was integer-only.</LI>
+			</UL>
+		</LI>
+		<LI>
+			Interface changes:
+			<UL>
+				<LI>
+					libFLAC:
+					<UL>
+						<LI><B>Changed:</B> Metadata object interface now maintains a trailing NUL on Vorbis comment entries for convenience.</LI>
+						<LI><B>Changed:</B> Metadata object interface now validates all Vorbis comment entries on input and returns false if an entry does not conform to the Vorbis comment spec.</LI>
+						<LI><B>Added</B> FLAC__format_vorbiscomment_entry_name_is_legal()</LI>
+						<LI><B>Added</B> FLAC__format_vorbiscomment_entry_value_is_legal()</LI>
+						<LI><B>Added</B> FLAC__format_vorbiscomment_entry_is_legal()</LI>
+						<LI><B>Added</B> FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair()</LI>
+						<LI><B>Added</B> FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair()</LI>
+						<LI><B>Changed</B> the signature of FLAC__metadata_object_vorbiscomment_entry_matches(): the first argument is now <TT>FLAC__StreamMetadata_VorbisComment_Entry entry</TT> (was <TT>const FLAC__StreamMetadata_VorbisComment_Entry *entry</TT>), i.e. <TT>entry</TT> is now pass-by-value.</LI>
+					</UL>
+				</LI>
+				<LI>
+					libFLAC++:
+					<UL>
+						<LI><B>Changed:</B> Metadata object interface now maintains a trailing NUL on Vorbis comment values for convenience.</LI>
+						<LI><B>Changed:</B> Metadata object interface now validates all Vorbis comment entries on input and returns false if an entry does not conform to the Vorbis comment spec.</LI>
+						<LI><B>Changed:</B> All Metadata objects' operator=() methods now return a reference to themselves.</LI>
+						<LI><B>Added</B> methods to FLAC::Metadata::VorbisComment::Entry for setting comment values from null-terminated strings:
+							<UL>
+								<LI>Entry(const char *field)</LI>
+								<LI>Entry(const char *field_name, const char *field_value)</LI>
+								<LI>bool set_field(const char *field)</LI>
+								<LI>bool set_field_value(const char *field_value)</LI>
+							</UL>
+						</LI>
+						<LI><B>Changed</B> the signature of FLAC::Metadata::VorbisComment::get_vendor_string() and FLAC::Metadata::VorbisComment::set_vendor_string() to use a UTF-8, NUL-terminated string <TT>const FLAC__byte *</TT> for the vendor string instead of <TT>FLAC::Metadata::VorbisComment::Entry</TT>.</LI>
+						<LI><B>Added</B> FLAC::Metadata::*::assign() to all Metadata objects.</LI>
+						<LI><B>Added</B> bool FLAC::Metadata::get_tags(const char *filename, VorbisComment &amp;tags)</LI>
+					</UL>
+				</LI>
+				<LI>
+					libOggFLAC:
+					<UL>
+						<LI>(none)</LI>
+					</UL>
+				</LI>
+				<LI>
+					libOggFLAC++:
+					<UL>
+						<LI>(none)</LI>
+					</UL>
+				</LI>
+			</UL>
+		</LI>
+	</UL>
 	</P>
 
 	<P>
@@ -288,7 +401,7 @@
 
 </CENTER>
 
-<P>&nbsp;Copyright (c) 2004 Josh Coalson</P>
+<P>&nbsp;Copyright (c) 2004,2005  Josh Coalson</P>
 
 </BODY>
 </HTML>

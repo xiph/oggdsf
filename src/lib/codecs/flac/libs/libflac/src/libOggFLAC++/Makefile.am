@@ -1,5 +1,5 @@
 #  libOggFLAC++ - Free Lossless Audio Codec + Ogg library
-#  Copyright (C) 2002,2003,2004  Josh Coalson
+#  Copyright (C) 2002,2003,2004,2005  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -29,7 +29,6 @@
 #  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 lib_LTLIBRARIES = libOggFLAC++.la
-CXXFLAGS = @CXXFLAGS@
 
 m4datadir = $(datadir)/aclocal
 m4data_DATA = libOggFLAC++.m4
@@ -41,7 +40,7 @@ EXTRA_DIST = \
 	libOggFLAC++.m4
 
 # see 'http://www.gnu.org/software/libtool/manual.html#SEC35' for numbering convention
-libOggFLAC___la_LDFLAGS = -version-info 1:1:1
+libOggFLAC___la_LDFLAGS = -version-info 2:0:0
 libOggFLAC___la_LIBADD = ../libOggFLAC/libOggFLAC.la
 
 libOggFLAC___la_SOURCES = \

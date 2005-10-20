@@ -1,5 +1,5 @@
 #  libFLAC - Free Lossless Audio Codec library
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -36,10 +36,10 @@ topdir = ../..
 
 LIB_NAME = libFLAC
 ifeq ($(DARWIN_BUILD),yes)
-DEFINES = -DFLAC__NO_NASM -DFLAC__ALIGN_MALLOC_DATA
+DEFINES = -DFLAC__CPU_PPC -DFLAC__USE_ALTIVEC -DFLAC__ALIGN_MALLOC_DATA
 else
 ifeq ($(SOLARIS_BUILD),yes)
-DEFINES = -DFLAC__NO_NASM -DFLAC__ALIGN_MALLOC_DATA
+DEFINES = -DFLAC__NO_ASM -DFLAC__ALIGN_MALLOC_DATA
 else
 DEFINES = -DFLAC__CPU_IA32 -DFLAC__USE_3DNOW -DFLAC__HAS_NASM -DFLAC__ALIGN_MALLOC_DATA
 endif
@@ -48,6 +48,8 @@ INCLUDES = -I./include -I$(topdir)/include
 DEBUG_CFLAGS = -DFLAC__OVERFLOW_DETECT
 
 ifeq ($(DARWIN_BUILD),yes)
+SRCS_S = \
+	ppc/as/lpc_asm.s
 else
 ifeq ($(SOLARIS_BUILD),yes)
 else
@@ -66,6 +68,7 @@ SRCS_C = \
 	file_decoder.c \
 	file_encoder.c \
 	fixed.c \
+	float.c \
 	format.c \
 	lpc.c \
 	md5.c \

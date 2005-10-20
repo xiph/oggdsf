@@ -1,5 +1,5 @@
 /* libFLAC++ - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -75,7 +75,7 @@ namespace FLAC {
 				return ret;
 			}
 
-		};
+		}
 
 		FLACPP_API Prototype *clone(const Prototype *object)
 		{
@@ -152,27 +152,39 @@ namespace FLAC {
 			object_ = 0;
 		}
 
-		void Prototype::operator=(const Prototype &object)
+		Prototype &Prototype::operator=(const Prototype &object)
 		{
 			FLAC__ASSERT(object.is_valid());
 			clear();
 			is_reference_ = false;
 			object_ = ::FLAC__metadata_object_clone(object.object_);
+			return *this;
 		}
 
-		void Prototype::operator=(const ::FLAC__StreamMetadata &object)
+		Prototype &Prototype::operator=(const ::FLAC__StreamMetadata &object)
 		{
 			clear();
 			is_reference_ = false;
 			object_ = ::FLAC__metadata_object_clone(&object);
+			return *this;
 		}
 
-		void Prototype::operator=(const ::FLAC__StreamMetadata *object)
+		Prototype &Prototype::operator=(const ::FLAC__StreamMetadata *object)
 		{
 			FLAC__ASSERT(0 != object);
 			clear();
 			is_reference_ = false;
 			object_ = ::FLAC__metadata_object_clone(object);
+			return *this;
+		}
+
+		Prototype &Prototype::assign_object(::FLAC__StreamMetadata *object, bool copy)
+		{
+			FLAC__ASSERT(0 != object);
+			clear();
+			object_ = (copy? ::FLAC__metadata_object_clone(object) : object);
+			is_reference_ = false;
+			return *this;
 		}
 
 		bool Prototype::get_is_last() const
@@ -461,10 +473,22 @@ namespace FLAC {
 			construct(field, field_length);
 		}
 
+		VorbisComment::Entry::Entry(const char *field)
+		{
+			zero();
+			construct(field);
+		}
+
 		VorbisComment::Entry::Entry(const char *field_name, const char *field_value, unsigned field_value_length)
 		{
 			zero();
 			construct(field_name, field_value, field_value_length);
+		}
+
+		VorbisComment::Entry::Entry(const char *field_name, const char *field_value)
+		{
+			zero();
+			construct(field_name, field_value);
 		}
 
 		VorbisComment::Entry::Entry(const Entry &entry)
@@ -474,11 +498,12 @@ namespace FLAC {
 			construct((const char *)entry.entry_.entry, entry.entry_.length);
 		}
 
-		void VorbisComment::Entry::operator=(const Entry &entry)
+		VorbisComment::Entry &VorbisComment::Entry::operator=(const Entry &entry)
 		{
 			FLAC__ASSERT(entry.is_valid());
 			clear();
 			construct((const char *)entry.entry_.entry, entry.entry_.length);
+			return *this;
 		}
 
 		VorbisComment::Entry::~Entry()
@@ -538,24 +563,36 @@ namespace FLAC {
 			FLAC__ASSERT(is_valid());
 			FLAC__ASSERT(0 != field);
 
+			if(!::FLAC__format_vorbiscomment_entry_is_legal((const ::FLAC__byte*)field, field_length))
+				return is_valid_ = false;
+
 			clear_entry();
 
-			if(0 == (entry_.entry = (FLAC__byte*)malloc(field_length))) {
+			if(0 == (entry_.entry = (FLAC__byte*)malloc(field_length+1))) {
 				is_valid_ = false;
 			}
 			else {
 				entry_.length = field_length;
 				memcpy(entry_.entry, field, field_length);
+				entry_.entry[field_length] = '\0';
 				(void) parse_field();
 			}
 
 			return is_valid_;
 		}
 
+		bool VorbisComment::Entry::set_field(const char *field)
+		{
+			return set_field(field, strlen(field));
+		}
+
 		bool VorbisComment::Entry::set_field_name(const char *field_name)
 		{
 			FLAC__ASSERT(is_valid());
 			FLAC__ASSERT(0 != field_name);
+
+			if(!::FLAC__format_vorbiscomment_entry_name_is_legal(field_name))
+				return is_valid_ = false;
 
 			clear_field_name();
 
@@ -575,18 +612,27 @@ namespace FLAC {
 			FLAC__ASSERT(is_valid());
 			FLAC__ASSERT(0 != field_value);
 
+			if(!::FLAC__format_vorbiscomment_entry_value_is_legal((const FLAC__byte*)field_value, field_value_length))
+				return is_valid_ = false;
+
 			clear_field_value();
 
-			if(0 == (field_value_ = (char *)malloc(field_value_length))) {
+			if(0 == (field_value_ = (char *)malloc(field_value_length+1))) {
 				is_valid_ = false;
 			}
 			else {
 				field_value_length_ = field_value_length;
 				memcpy(field_value_, field_value, field_value_length);
+				field_value_[field_value_length] = '\0';
 				compose_field();
 			}
 
 			return is_valid_;
+		}
+
+		bool VorbisComment::Entry::set_field_value(const char *field_value)
+		{
+			return set_field_value(field_value, strlen(field_value));
 		}
 
 		void VorbisComment::Entry::zero()
@@ -641,17 +687,27 @@ namespace FLAC {
 				parse_field();
 		}
 
+		void VorbisComment::Entry::construct(const char *field)
+		{
+			construct(field, strlen(field));
+		}
+
 		void VorbisComment::Entry::construct(const char *field_name, const char *field_value, unsigned field_value_length)
 		{
 			if(set_field_name(field_name) && set_field_value(field_value, field_value_length))
 				compose_field();
 		}
 
+		void VorbisComment::Entry::construct(const char *field_name, const char *field_value)
+		{
+			construct(field_name, field_value, strlen(field_value));
+		}
+
 		void VorbisComment::Entry::compose_field()
 		{
 			clear_entry();
 
-			if(0 == (entry_.entry = (FLAC__byte*)malloc(field_name_length_ + 1 + field_value_length_))) {
+			if(0 == (entry_.entry = (FLAC__byte*)malloc(field_name_length_ + 1 + field_value_length_ + 1))) {
 				is_valid_ = false;
 			}
 			else {
@@ -661,6 +717,7 @@ namespace FLAC {
 				entry_.length += 1;
 				memcpy(entry_.entry + entry_.length, field_value_, field_value_length_);
 				entry_.length += field_value_length_;
+				entry_.entry[entry_.length] = '\0';
 				is_valid_ = true;
 			}
 		}
@@ -692,11 +749,12 @@ namespace FLAC {
 			}
 			else {
 				field_value_length_ = entry_.length - field_name_length_ - 1;
-				if(0 == (field_value_ = (char *)malloc(field_value_length_))) {
+				if(0 == (field_value_ = (char *)malloc(field_value_length_ + 1))) { // +1 for the trailing \0
 					is_valid_ = false;
 					return;
 				}
 				memcpy(field_value_, ++p, field_value_length_);
+				field_value_[field_value_length_] = '\0';
 			}
 
 			is_valid_ = true;
@@ -720,10 +778,10 @@ namespace FLAC {
 			return object_->data.vorbis_comment.num_comments;
 		}
 
-		VorbisComment::Entry VorbisComment::get_vendor_string() const
+		const FLAC__byte *VorbisComment::get_vendor_string() const
 		{
 			FLAC__ASSERT(is_valid());
-			return Entry((const char *)object_->data.vorbis_comment.vendor_string.entry, object_->data.vorbis_comment.vendor_string.length);
+			return object_->data.vorbis_comment.vendor_string.entry;
 		}
 
 		VorbisComment::Entry VorbisComment::get_comment(unsigned index) const
@@ -733,13 +791,11 @@ namespace FLAC {
 			return Entry((const char *)object_->data.vorbis_comment.comments[index].entry, object_->data.vorbis_comment.comments[index].length);
 		}
 
-		bool VorbisComment::set_vendor_string(const VorbisComment::Entry &entry)
+		bool VorbisComment::set_vendor_string(const FLAC__byte *string)
 		{
 			FLAC__ASSERT(is_valid());
 			// vendor_string is a special kind of entry
-			::FLAC__StreamMetadata_VorbisComment_Entry vendor_string;
-			vendor_string.length = entry.get_field_name_length();
-			vendor_string.entry = (FLAC__byte*)entry.get_field_name(); // we can cheat on const-ness because we make a copy below:
+			const ::FLAC__StreamMetadata_VorbisComment_Entry vendor_string = { strlen((const char *)string), (FLAC__byte*)string }; // we can cheat on const-ness because we make a copy below:
 			return (bool)::FLAC__metadata_object_vorbiscomment_set_vendor_string(object_, vendor_string, /*copy=*/true);
 		}
 
@@ -755,6 +811,12 @@ namespace FLAC {
 			FLAC__ASSERT(is_valid());
 			FLAC__ASSERT(index <= object_->data.vorbis_comment.num_comments);
 			return (bool)::FLAC__metadata_object_vorbiscomment_insert_comment(object_, index, entry.get_entry(), /*copy=*/true);
+		}
+
+		bool VorbisComment::append_comment(const VorbisComment::Entry &entry)
+		{
+			FLAC__ASSERT(is_valid());
+			return (bool)::FLAC__metadata_object_vorbiscomment_append_comment(object_, entry.get_entry(), /*copy=*/true);
 		}
 
 		bool VorbisComment::delete_comment(unsigned index)
@@ -781,11 +843,12 @@ namespace FLAC {
 		object_(::FLAC__metadata_object_cuesheet_track_clone(track.object_))
 		{ }
 
-		void CueSheet::Track::operator=(const Track &track)
+		CueSheet::Track &CueSheet::Track::operator=(const Track &track)
 		{
 			if(0 != object_)
 				::FLAC__metadata_object_cuesheet_track_delete(object_);
 			object_ = ::FLAC__metadata_object_cuesheet_track_clone(track.object_);
+			return *this;
 		}
 
 		CueSheet::Track::~Track()
@@ -1005,6 +1068,20 @@ namespace FLAC {
 
 			if(::FLAC__metadata_get_tags(filename, &object)) {
 				tags = new VorbisComment(object, /*copy=*/false);
+				return true;
+			}
+			else
+				return false;
+		}
+
+		FLACPP_API bool get_tags(const char *filename, VorbisComment &tags)
+		{
+			FLAC__ASSERT(0 != filename);
+
+			::FLAC__StreamMetadata *object;
+
+			if(::FLAC__metadata_get_tags(filename, &object)) {
+				tags.assign(object, /*copy=*/false);
 				return true;
 			}
 			else
@@ -1283,5 +1360,5 @@ namespace FLAC {
 			return ret;
 		}
 
-	};
-};
+	}
+}

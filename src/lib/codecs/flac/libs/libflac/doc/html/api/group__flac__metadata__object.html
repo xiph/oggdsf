@@ -12,7 +12,7 @@
 </h1>This module contains methods for manipulating FLAC metadata objects. 
 <a href="#_details">More...</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Functions</h2></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a0">FLAC__metadata_object_new</a> (<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> type)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a0">FLAC__metadata_object_new</a> (<a class="el" href="group__flac__format.html#a97">FLAC__MetadataType</a> type)</td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a1">FLAC__metadata_object_clone</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a2">FLAC__metadata_object_delete</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a3">FLAC__metadata_object_is_equal</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block1, const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block2)</td></tr>
@@ -31,23 +31,27 @@
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a16">FLAC__metadata_object_vorbiscomment_resize_comments</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned new_num_comments)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a17">FLAC__metadata_object_vorbiscomment_set_comment</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned comment_num, <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy)</td></tr>
 <tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a18">FLAC__metadata_object_vorbiscomment_insert_comment</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned comment_num, <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a19">FLAC__metadata_object_vorbiscomment_delete_comment</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned comment_num)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a20">FLAC__metadata_object_vorbiscomment_entry_matches</a> (const <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> *entry, const char *field_name, unsigned field_name_length)</td></tr>
-<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a21">FLAC__metadata_object_vorbiscomment_find_entry_from</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned offset, const char *field_name)</td></tr>
-<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a22">FLAC__metadata_object_vorbiscomment_remove_entry_matching</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, const char *field_name)</td></tr>
-<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a23">FLAC__metadata_object_vorbiscomment_remove_entries_matching</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, const char *field_name)</td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a24">FLAC__metadata_object_cuesheet_track_new</a> ()</td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a25">FLAC__metadata_object_cuesheet_track_clone</a> (const <a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object)</td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a26">FLAC__metadata_object_cuesheet_track_delete</a> (<a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a27">FLAC__metadata_object_cuesheet_track_resize_indices</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned new_num_indices)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a28">FLAC__metadata_object_cuesheet_track_insert_index</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned index_num, <a class="el" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> index)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a29">FLAC__metadata_object_cuesheet_track_insert_blank_index</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned index_num)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a30">FLAC__metadata_object_cuesheet_track_delete_index</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned index_num)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a31">FLAC__metadata_object_cuesheet_resize_tracks</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned new_num_tracks)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a32">FLAC__metadata_object_cuesheet_insert_track</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, <a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a33">FLAC__metadata_object_cuesheet_insert_blank_track</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a34">FLAC__metadata_object_cuesheet_delete_track</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num)</td></tr>
-<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a35">FLAC__metadata_object_cuesheet_is_legal</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__bool check_cd_da_subset, const char **violation)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a19">FLAC__metadata_object_vorbiscomment_append_comment</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a20">FLAC__metadata_object_vorbiscomment_replace_comment</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool all, FLAC__bool copy)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a21">FLAC__metadata_object_vorbiscomment_delete_comment</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned comment_num)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a22">FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair</a> (<a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> *entry, const char *field_name, const char *field_value)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a23">FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair</a> (const <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, char **field_name, char **field_value)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a24">FLAC__metadata_object_vorbiscomment_entry_matches</a> (const <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, const char *field_name, unsigned field_name_length)</td></tr>
+<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a25">FLAC__metadata_object_vorbiscomment_find_entry_from</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned offset, const char *field_name)</td></tr>
+<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a26">FLAC__metadata_object_vorbiscomment_remove_entry_matching</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, const char *field_name)</td></tr>
+<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a27">FLAC__metadata_object_vorbiscomment_remove_entries_matching</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, const char *field_name)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a28">FLAC__metadata_object_cuesheet_track_new</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a29">FLAC__metadata_object_cuesheet_track_clone</a> (const <a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object)</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a30">FLAC__metadata_object_cuesheet_track_delete</a> (<a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a31">FLAC__metadata_object_cuesheet_track_resize_indices</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned new_num_indices)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a32">FLAC__metadata_object_cuesheet_track_insert_index</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned index_num, <a class="el" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> index)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a33">FLAC__metadata_object_cuesheet_track_insert_blank_index</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned index_num)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a34">FLAC__metadata_object_cuesheet_track_delete_index</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, unsigned index_num)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a35">FLAC__metadata_object_cuesheet_resize_tracks</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned new_num_tracks)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a36">FLAC__metadata_object_cuesheet_insert_track</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num, <a class="el" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a37">FLAC__metadata_object_cuesheet_insert_blank_track</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a38">FLAC__metadata_object_cuesheet_delete_track</a> (<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, unsigned track_num)</td></tr>
+<tr><td nowrap align=right valign=top>FLAC__bool&nbsp;</td><td valign=bottom><a class="el" href="group__flac__metadata__object.html#a39">FLAC__metadata_object_cuesheet_is_legal</a> (const <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__bool check_cd_da_subset, const char **violation)</td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This module contains methods for manipulating FLAC metadata objects.
@@ -62,6 +66,10 @@ The <a class="el" href="group__flac__metadata__object.html#a0">FLAC__metadata_ob
 <p>
 We don't have the convenience of C++ here, so note that the library relies on you to keep the types straight. In other words, if you pass, for example, a <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a>* that represents a STREAMINFO block to <a class="el" href="group__flac__metadata__object.html#a4">FLAC__metadata_object_application_set_data</a>(), you will get an assertion failure.
 <p>
+For convenience the FLAC__metadata_object_vorbiscomment_*() functions maintain a trailing NUL on each Vorbis comment entry. This is not counted toward the length or stored in the stream, but it can make working with plain comments (those that don't contain embedded-NULs in the value) easier. Entries passed into these functions have trailing NULs added if missing, and returned entries are guaranteed to have a trailing NUL.
+<p>
+The FLAC__metadata_object_vorbiscomment_*() functions that take a Vorbis comment entry/name/value will first validate that it complies with the Vorbis comment specification and return false if it does not.
+<p>
 There is no need to recalculate the length field on metadata blocks you have modified. They will be calculated automatically before they are written back to a file. <hr><h2>Function Documentation</h2>
 <a name="a0" doxytag="metadata.h::FLAC__metadata_object_new"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
@@ -71,7 +79,7 @@ There is no need to recalculate the length field on metadata blocks you have mod
         <tr>
           <td class="md" nowrap valign="top"> <a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a>* FLAC__metadata_object_new </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__flac__format.html#a97">FLAC__MetadataType</a>&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>type</em>          </td>
           <td class="md" valign="top">)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -301,7 +309,7 @@ Return values: </b><dd>
 <p>
 Sets the application data of an APPLICATION block.
 <p>
-If <em>copy</em> is <code>true</code>, a copy of the data is stored; otherwise, the object takes ownership of the pointer. Returns <code>false</code> if <em>copy</em> == <code>true</code> and malloc fails.<dl compact><dt><b>
+If <em>copy</em> is <code>true</code>, a copy of the data is stored; otherwise, the object takes ownership of the pointer.<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
@@ -316,14 +324,14 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a99">FLAC__METADATA_TYPE_APPLICATION</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a99">FLAC__METADATA_TYPE_APPLICATION</a> 
 </pre></div> <div class="fragment"><pre>(data != NULL &amp;&amp; length &gt; 0) ||
  (data == NULL &amp;&amp; length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if <em>copy</em> is <code>true</code> and malloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if <em>copy</em> is <code>true</code> and malloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
@@ -376,7 +384,7 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.seek_table.points == NULL &amp;&amp; object-&gt;data.seek_table.num_points == 0) ||
  (object-&gt;data.seek_table.points != NULL &amp;&amp; object-&gt;data.seek_table.num_points &gt; 0) 
 </pre></div> </dl><dl compact><dt><b>
@@ -442,7 +450,7 @@ The point to set. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.seek_table.num_points &gt; point_num 
 </pre></div> </dl>    </td>
   </tr>
@@ -501,7 +509,7 @@ The point to set. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.seek_table.num_points &gt;= point_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
@@ -558,7 +566,7 @@ Index into seekpoint array to set. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.seek_table.num_points &gt; point_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
@@ -604,7 +612,7 @@ A pointer to an existing SEEKTABLE object. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -664,7 +672,7 @@ The number of placeholder points to append. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -724,7 +732,7 @@ The sample number of the seek point template. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -792,7 +800,7 @@ The number of seek point templates to append. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -860,7 +868,7 @@ The total number of samples to be encoded; the seekpoints will be spaced approxi
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -911,17 +919,17 @@ Parameters: </b><dd>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
 A pointer to a seek table to be sorted. </td></tr>
 <tr><td valign=top><em>compact</em>&nbsp;</td><td>
-If <code>false</code>, behaves like <a class="el" href="group__flac__format.html#a70">FLAC__format_seektable_sort</a>(). If <code>true</code>, duplicates are deleted and the seek table is shrunk appropriately; the number of placeholder points present in the seek table will be the same after the call as before. </td></tr>
+If <code>false</code>, behaves like <a class="el" href="group__flac__format.html#a73">FLAC__format_seektable_sort</a>(). If <code>true</code>, duplicates are deleted and the seek table is shrunk appropriately; the number of placeholder points present in the seek table will be the same after the call as before. </td></tr>
 </table>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a100">FLAC__METADATA_TYPE_SEEKTABLE</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if realloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if realloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
@@ -969,7 +977,13 @@ Return values: </b><dd>
 <p>
 Sets the vendor string in a VORBIS_COMMENT block.
 <p>
-If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry-&gt;entry</code> pointer. Returns <code>false</code> if <em>copy</em> == <code>true</code> and malloc fails.<dl compact><dt><b>
+For convenience, a trailing NUL is added to the entry if it doesn't have one already.
+<p>
+If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry.entry</code> pointer.
+<p>
+<dl compact><dt><b>
+Note: </b><dd>
+If this function returns <code>false</code>, the caller still owns the pointer.</dl><dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
@@ -982,14 +996,14 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
-</pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
- (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0) 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>(entry.entry != NULL &amp;&amp; entry.length &gt; 0) ||
+ (entry.entry == NULL &amp;&amp; entry.length == 0) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if <em>copy</em> is <code>true</code> and malloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if memory allocation fails or <em>entry</em> does not comply with the Vorbis comment specification, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
@@ -1042,14 +1056,14 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.vorbis_comment.comments == NULL &amp;&amp; object-&gt;data.vorbis_comment.num_comments == 0) ||
  (object-&gt;data.vorbis_comment.comments != NULL &amp;&amp; object-&gt;data.vorbis_comment.num_comments &gt; 0) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if memory allocation error, else <code>true</code>. </td></tr>
+<code>false</code> if memory allocation fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
@@ -1103,7 +1117,13 @@ Return values: </b><dd>
 <p>
 Sets a comment in a VORBIS_COMMENT block.
 <p>
-If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry-&gt;entry</code> pointer. Returns <code>false</code> if <em>copy</em> == <code>true</code> and malloc fails.<dl compact><dt><b>
+For convenience, a trailing NUL is added to the entry if it doesn't have one already.
+<p>
+If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry.entry</code> pointer.
+<p>
+<dl compact><dt><b>
+Note: </b><dd>
+If this function returns <code>false</code>, the caller still owns the pointer.</dl><dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
@@ -1118,15 +1138,15 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>comment_num &lt; object-&gt;data.vorbis_comment.num_comments 
-</pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
- (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0) 
+</pre></div> <div class="fragment"><pre>(entry.entry != NULL &amp;&amp; entry.length &gt; 0) ||
+ (entry.entry == NULL &amp;&amp; entry.length == 0) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if <em>copy</em> is <code>true</code> and malloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if memory allocation fails or <em>entry</em> does not comply with the Vorbis comment specification, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
@@ -1180,7 +1200,13 @@ Return values: </b><dd>
 <p>
 Insert a comment in a VORBIS_COMMENT block at the given index.
 <p>
-If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry-&gt;entry</code> pointer. Returns <code>false</code> if <em>copy</em> == <code>true</code> and malloc fails.<dl compact><dt><b>
+For convenience, a trailing NUL is added to the entry if it doesn't have one already.
+<p>
+If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry.entry</code> pointer.
+<p>
+<dl compact><dt><b>
+Note: </b><dd>
+If this function returns <code>false</code>, the caller still owns the pointer.</dl><dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
@@ -1195,20 +1221,178 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.vorbis_comment.num_comments &gt;= comment_num 
-</pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
- (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
+</pre></div> <div class="fragment"><pre>(entry.entry != NULL &amp;&amp; entry.length &gt; 0) ||
+ (entry.entry == NULL &amp;&amp; entry.length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if <em>copy</em> is <code>true</code> and malloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if memory allocation fails or <em>entry</em> does not comply with the Vorbis comment specification, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a19" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_delete_comment"></a><p>
+<a name="a19" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_append_comment"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> FLAC__bool FLAC__metadata_object_vorbiscomment_append_comment </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>object</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a>&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>FLAC__bool&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>copy</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Appends a comment to a VORBIS_COMMENT block.
+<p>
+For convenience, a trailing NUL is added to the entry if it doesn't have one already.
+<p>
+If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry.entry</code> pointer.
+<p>
+<dl compact><dt><b>
+Note: </b><dd>
+If this function returns <code>false</code>, the caller still owns the pointer.</dl><dl compact><dt><b>
+Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>object</em>&nbsp;</td><td>
+A pointer to an existing VORBIS_COMMENT object. </td></tr>
+<tr><td valign=top><em>entry</em>&nbsp;</td><td>
+The comment to insert. </td></tr>
+<tr><td valign=top><em>copy</em>&nbsp;</td><td>
+See above. </td></tr>
+</table>
+</dl><dl compact><dt><b>
+Assertions:</b><dd>
+ <div class="fragment"><pre>object != NULL 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>(entry.entry != NULL &amp;&amp; entry.length &gt; 0) ||
+ (entry.entry == NULL &amp;&amp; entry.length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
+</pre></div> </dl><dl compact><dt><b>
+Return values: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
+<code>false</code> if memory allocation fails or <em>entry</em> does not comply with the Vorbis comment specification, else <code>true</code>. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a20" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_replace_comment"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> FLAC__bool FLAC__metadata_object_vorbiscomment_replace_comment </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>object</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a>&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>FLAC__bool&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>all</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>FLAC__bool&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>copy</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Replaces comments in a VORBIS_COMMENT block with a new one.
+<p>
+For convenience, a trailing NUL is added to the entry if it doesn't have one already.
+<p>
+Depending on the the value of <em>all</em>, either all or just the first comment whose field name(s) match the given entry's name will be replaced by the given entry. If no comments match, <em>entry</em> will simply be appended.
+<p>
+If <em>copy</em> is <code>true</code>, a copy of the entry is stored; otherwise, the object takes ownership of the <code>entry.entry</code> pointer.
+<p>
+<dl compact><dt><b>
+Note: </b><dd>
+If this function returns <code>false</code>, the caller still owns the pointer.</dl><dl compact><dt><b>
+Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>object</em>&nbsp;</td><td>
+A pointer to an existing VORBIS_COMMENT object. </td></tr>
+<tr><td valign=top><em>entry</em>&nbsp;</td><td>
+The comment to insert. </td></tr>
+<tr><td valign=top><em>all</em>&nbsp;</td><td>
+If <code>true</code>, all comments whose field name matches <em>entry's</em> field name will be removed, and <em>entry</em> will be inserted at the position of the first matching comment. If <code>false</code>, only the first comment whose field name matches <em>entry's</em> field name will be replaced with <em>entry</em>. </td></tr>
+<tr><td valign=top><em>copy</em>&nbsp;</td><td>
+See above. </td></tr>
+</table>
+</dl><dl compact><dt><b>
+Assertions:</b><dd>
+ <div class="fragment"><pre>object != NULL 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>(entry.entry != NULL &amp;&amp; entry.length &gt; 0) ||
+ (entry.entry == NULL &amp;&amp; entry.length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
+</pre></div> </dl><dl compact><dt><b>
+Return values: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
+<code>false</code> if memory allocation fails or <em>entry</em> does not comply with the Vorbis comment specification, else <code>true</code>. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a21" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_delete_comment"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1254,20 +1438,153 @@ The index of the comment to delete. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.vorbis_comment.num_comments &gt; comment_num 
-</pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) ||
- (entry-&gt;entry == NULL &amp;&amp; entry-&gt;length == 0 &amp;&amp; copy == <font class="keyword">false</font>) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if realloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if realloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a20" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_entry_matches"></a><p>
+<a name="a22" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> FLAC__bool FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>field_name</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>field_value</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Creates a Vorbis comment entry from NUL-terminated name and value strings.
+<p>
+On return, the filled-in <em>entry-&gt;entry</em> pointer will point to malloc()ed memory and shall be owned by the caller. For convenience the entry will have a terminating NUL.<dl compact><dt><b>
+Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>entry</em>&nbsp;</td><td>
+A pointer to a Vorbis comment entry. The entry's <code>entry</code> pointer should not point to allocated memory as it will be overwritten. </td></tr>
+<tr><td valign=top><em>field_name</em>&nbsp;</td><td>
+The field name in ASCII, <code>NUL</code> terminated. </td></tr>
+<tr><td valign=top><em>field_value</em>&nbsp;</td><td>
+The field value in UTF-8, <code>NUL</code> terminated. </td></tr>
+</table>
+</dl><dl compact><dt><b>
+Assertions:</b><dd>
+ <div class="fragment"><pre>entry != NULL 
+</pre></div> <div class="fragment"><pre>field_name != NULL 
+</pre></div> <div class="fragment"><pre>field_value != NULL 
+</pre></div> </dl><dl compact><dt><b>
+Return values: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
+<code>false</code> if malloc() fails, or if <em>field_name</em> or <em>field_value</em> does not comply with the Vorbis comment specification, else <code>true</code>. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a23" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> FLAC__bool FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a>&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>char **&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>field_name</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>char **&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>field_value</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Splits a Vorbis comment entry into NUL-terminated name and value strings.
+<p>
+The returned pointers to name and value will be allocated by malloc() and shall be owned by the caller.<dl compact><dt><b>
+Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>entry</em>&nbsp;</td><td>
+An existing Vorbis comment entry. </td></tr>
+<tr><td valign=top><em>field_name</em>&nbsp;</td><td>
+The address of where the returned pointer to the field name will be stored. </td></tr>
+<tr><td valign=top><em>field_value</em>&nbsp;</td><td>
+The address of where the returned pointer to the field value will be stored. </td></tr>
+</table>
+</dl><dl compact><dt><b>
+Assertions:</b><dd>
+ <div class="fragment"><pre>(entry.entry != NULL &amp;&amp; entry.length &gt; 0) 
+</pre></div> <div class="fragment"><pre>memchr(entry.entry, <font class="charliteral">'='</font>, entry.length) != NULL 
+</pre></div> <div class="fragment"><pre>field_name != NULL 
+</pre></div> <div class="fragment"><pre>field_value != NULL 
+</pre></div> </dl><dl compact><dt><b>
+Return values: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
+<code>false</code> if memory allocation fails or <em>entry</em> does not comply with the Vorbis comment specification, else <code>true</code>. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a24" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_entry_matches"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1275,7 +1592,7 @@ Return values: </b><dd>
         <tr>
           <td class="md" nowrap valign="top"> FLAC__bool FLAC__metadata_object_vorbiscomment_entry_matches </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a>&nbsp;</td>
           <td class="mdname" nowrap>&nbsp; <em>entry</em>, </td>
         </tr>
         <tr>
@@ -1312,16 +1629,15 @@ Check if the given Vorbis comment entry's field name matches the given field nam
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>entry</em>&nbsp;</td><td>
-A pointer to an existing Vorbis comment entry. </td></tr>
+An existing Vorbis comment entry. </td></tr>
 <tr><td valign=top><em>field_name</em>&nbsp;</td><td>
 The field name to check. </td></tr>
 <tr><td valign=top><em>field_name_length</em>&nbsp;</td><td>
-The length of <em>field_name</em>, not including the terminating <code>NULL</code>. </td></tr>
+The length of <em>field_name</em>, not including the terminating <code>NUL</code>. </td></tr>
 </table>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
- <div class="fragment"><pre>entry != NULL 
-</pre></div> <div class="fragment"><pre>(entry-&gt;entry != NULL &amp;&amp; entry-&gt;length &gt; 0) 
+ <div class="fragment"><pre>(entry.entry != NULL &amp;&amp; entry.length &gt; 0) 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1331,7 +1647,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a21" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_find_entry_from"></a><p>
+<a name="a25" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_find_entry_from"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1387,7 +1703,8 @@ The field name of the comment to find. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>field_name != NULL 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1397,7 +1714,7 @@ The offset in the comment array of the first comment whose field name matches <e
 </dl>    </td>
   </tr>
 </table>
-<a name="a22" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_remove_entry_matching"></a><p>
+<a name="a26" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_remove_entry_matching"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1443,7 +1760,7 @@ The field name of comment to delete. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1453,7 +1770,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a23" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_remove_entries_matching"></a><p>
+<a name="a27" doxytag="metadata.h::FLAC__metadata_object_vorbiscomment_remove_entries_matching"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1499,7 +1816,7 @@ The field name of comments to delete. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a101">FLAC__METADATA_TYPE_VORBIS_COMMENT</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -1509,7 +1826,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a24" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_new"></a><p>
+<a name="a28" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_new"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1545,7 +1862,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a25" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_clone"></a><p>
+<a name="a29" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_clone"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1573,7 +1890,7 @@ Return values: </b><dd>
 <p>
 Create a copy of an existing CUESHEET track object.
 <p>
-The copy is a "deep" copy, i.e. dynamically allocated data within the object is also copied. The caller takes ownership of the new object and is responsible for freeing it with <a class="el" href="group__flac__metadata__object.html#a26">FLAC__metadata_object_cuesheet_track_delete</a>().<dl compact><dt><b>
+The copy is a "deep" copy, i.e. dynamically allocated data within the object is also copied. The caller takes ownership of the new object and is responsible for freeing it with <a class="el" href="group__flac__metadata__object.html#a30">FLAC__metadata_object_cuesheet_track_delete</a>().<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
@@ -1591,7 +1908,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a26" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_delete"></a><p>
+<a name="a30" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_delete"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1629,7 +1946,7 @@ Assertions:</b><dd>
 </pre></div> </dl>    </td>
   </tr>
 </table>
-<a name="a27" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_resize_indices"></a><p>
+<a name="a31" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_resize_indices"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1685,7 +2002,7 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.cue_sheet.tracks[track_num].indices == NULL &amp;&amp; object-&gt;data.cue_sheet.tracks[track_num].num_indices == 0) ||
  (object-&gt;data.cue_sheet.tracks[track_num].indices != NULL &amp;&amp; object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt; 0) 
@@ -1698,7 +2015,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a28" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_insert_index"></a><p>
+<a name="a32" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_insert_index"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1760,19 +2077,19 @@ The index point to insert. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt;= index_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if realloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if realloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a29" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_insert_blank_index"></a><p>
+<a name="a33" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_insert_blank_index"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1828,19 +2145,19 @@ The index into the track's index array at which to insert the index point. NOTE:
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt;= index_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if realloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if realloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a30" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_delete_index"></a><p>
+<a name="a34" doxytag="metadata.h::FLAC__metadata_object_cuesheet_track_delete_index"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1894,19 +2211,19 @@ The index into the track's index array of the index to delete. NOTE: this is not
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.tracks[track_num].num_indices &gt; index_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if realloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if realloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a31" doxytag="metadata.h::FLAC__metadata_object_cuesheet_resize_tracks"></a><p>
+<a name="a35" doxytag="metadata.h::FLAC__metadata_object_cuesheet_resize_tracks"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1954,7 +2271,7 @@ The desired length of the array; may be <code>0</code>. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>(object-&gt;data.cue_sheet.tracks == NULL &amp;&amp; object-&gt;data.cue_sheet.num_tracks == 0) ||
  (object-&gt;data.cue_sheet.tracks != NULL &amp;&amp; object-&gt;data.cue_sheet.num_tracks &gt; 0) 
 </pre></div> </dl><dl compact><dt><b>
@@ -1966,7 +2283,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<a name="a32" doxytag="metadata.h::FLAC__metadata_object_cuesheet_insert_track"></a><p>
+<a name="a36" doxytag="metadata.h::FLAC__metadata_object_cuesheet_insert_track"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -2015,7 +2332,7 @@ Return values: </b><dd>
 <p>
 Sets a track in a CUESHEET block.
 <p>
-If <em>copy</em> is <code>true</code>, a copy of the track is stored; otherwise, the object takes ownership of the <em>track</em> pointer. Returns <code>false</code> if <em>copy</em> == <code>true</code> and malloc fails.<dl compact><dt><b>
+If <em>copy</em> is <code>true</code>, a copy of the track is stored; otherwise, the object takes ownership of the <em>track</em> pointer.<dl compact><dt><b>
 Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>object</em>&nbsp;</td><td>
@@ -2030,26 +2347,26 @@ See above. </td></tr>
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>track_num &lt; object-&gt;data.cue_sheet.num_tracks 
 </pre></div> <div class="fragment"><pre>(track-&gt;indices != NULL &amp;&amp; track-&gt;num_indices &gt; 0) ||
  (track-&gt;indices == NULL &amp;&amp; track-&gt;num_indices == 0)
  \retval FLAC__bool
-    \c <font class="keyword">false</font> <font class="keywordflow">if</font> \a copy is \c <font class="keyword">true</font> and malloc fails, <font class="keywordflow">else</font> \c <font class="keyword">true</font>.
+    \c <font class="keyword">false</font> <font class="keywordflow">if</font> \a copy is \c <font class="keyword">true</font> and malloc() fails, <font class="keywordflow">else</font> \c <font class="keyword">true</font>.
  */
    FLAC__bool FLAC__metadata_object_cuesheet_set_track(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy);
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt;= track_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if <em>copy</em> is <code>true</code> and malloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if <em>copy</em> is <code>true</code> and malloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a33" doxytag="metadata.h::FLAC__metadata_object_cuesheet_insert_blank_track"></a><p>
+<a name="a37" doxytag="metadata.h::FLAC__metadata_object_cuesheet_insert_blank_track"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -2097,18 +2414,18 @@ The index at which to insert the track. NOTE: this is not necessarily the same a
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt;= track_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if <em>copy</em> is <code>true</code> and malloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if <em>copy</em> is <code>true</code> and malloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a34" doxytag="metadata.h::FLAC__metadata_object_cuesheet_delete_track"></a><p>
+<a name="a38" doxytag="metadata.h::FLAC__metadata_object_cuesheet_delete_track"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -2154,18 +2471,18 @@ The index into the track array of the track to delete. NOTE: this is not necessa
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> <div class="fragment"><pre>object-&gt;data.cue_sheet.num_tracks &gt; track_num 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>FLAC__bool</em>&nbsp;</td><td>
-<code>false</code> if realloc fails, else <code>true</code>. </td></tr>
+<code>false</code> if realloc() fails, else <code>true</code>. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a35" doxytag="metadata.h::FLAC__metadata_object_cuesheet_is_legal"></a><p>
+<a name="a39" doxytag="metadata.h::FLAC__metadata_object_cuesheet_is_legal"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -2219,7 +2536,7 @@ Address of a pointer to a string. If there is a violation, a pointer to a string
 </dl><dl compact><dt><b>
 Assertions:</b><dd>
  <div class="fragment"><pre>object != NULL 
-</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a94a102">FLAC__METADATA_TYPE_CUESHEET</a> 
+</pre></div> <div class="fragment"><pre>object-&gt;type == <a class="code" href="format_8h.html#a97a102">FLAC__METADATA_TYPE_CUESHEET</a> 
 </pre></div> </dl><dl compact><dt><b>
 Return values: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
@@ -2229,7 +2546,7 @@ Return values: </b><dd>
 </dl>    </td>
   </tr>
 </table>
-<hr><address><small>Generated on Tue Sep 28 21:19:44 2004 for FLAC by
+<hr><address><small>Generated on Fri Feb 4 18:39:16 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

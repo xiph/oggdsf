@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -23,9 +23,23 @@ die ()
 	exit 1
 }
 
-LD_LIBRARY_PATH=../src/libFLAC/.libs:../obj/release/lib:../obj/debug/lib:$LD_LIBRARY_PATH
+if [ x = x"$1" ] ; then 
+	BUILD=debug
+else
+	BUILD="$1"
+fi
+
+LD_LIBRARY_PATH=../src/libFLAC/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/libOggFLAC/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/grabbag/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/getopt/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/replaygain_analysis/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/replaygain_synthesis/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/utf8/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../obj/$BUILD/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-PATH=../src/flac:../obj/release/bin:../obj/debug/bin:$PATH
+PATH=../src/flac:$PATH
+PATH=../obj/$BUILD/bin:$PATH
 BINS_PATH=../../test_files/bins
 
 flac --help 1>/dev/null 2>/dev/null || die "ERROR can't find flac executable"
@@ -48,7 +62,7 @@ test_file ()
 	bps=$3
 	encode_options="$4"
 
-	echo -n "$name (--channels=$channels --bps=$bps $encode_options): encode..."
+	echo -n "$name.bin (--channels=$channels --bps=$bps $encode_options): encode..."
 	cmd="run_flac --verify --silent --force --force-raw-format --endian=big --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options $name.bin"
 	echo "### ENCODE $name #######################################################" >> ./streams.log
 	echo "###    cmd=$cmd" >> ./streams.log
@@ -72,8 +86,8 @@ test_file ()
 
 echo "Testing bins..."
 for f in b00 b01 b02 b03 b04 ; do
-	binfile=$BINS_PATH/$f.bin
-	if [ -f $binfile ] ; then
+	binfile=$BINS_PATH/$f
+	if [ -f $binfile.bin ] ; then
 		for disable in '' '--disable-verbatim-subframes --disable-constant-subframes' '--disable-verbatim-subframes --disable-constant-subframes --disable-fixed-subframes' ; do
 			for channels in 1 2 4 8 ; do
 				for bps in 8 16 24 ; do

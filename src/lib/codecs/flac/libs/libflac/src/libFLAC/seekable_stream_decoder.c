@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -35,6 +35,7 @@
 #include "FLAC/assert.h"
 #include "protected/seekable_stream_decoder.h"
 #include "protected/stream_decoder.h"
+#include "private/float.h" /* for FLAC__double */
 #include "private/md5.h"
 
 /* adjust for compilers that can't understand using LLU suffix for uint64_t literals */
@@ -743,7 +744,7 @@ FLAC__StreamDecoderReadStatus read_callback_(const FLAC__StreamDecoder *decoder,
 	if(seekable_stream_decoder->private_->eof_callback(seekable_stream_decoder, seekable_stream_decoder->private_->client_data)) {
 		*bytes = 0;
 #if 0
-@@@@@@ verify that this is not needed
+		/*@@@@@@ verify that this is not needed */
 		seekable_stream_decoder->protected_->state = FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM;
 #endif
 		return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
@@ -756,7 +757,7 @@ FLAC__StreamDecoderReadStatus read_callback_(const FLAC__StreamDecoder *decoder,
 		if(*bytes == 0) {
 			if(seekable_stream_decoder->private_->eof_callback(seekable_stream_decoder, seekable_stream_decoder->private_->client_data)) {
 #if 0
-@@@@@@ verify that this is not needed
+				/*@@@@@@ verify that this is not needed */
 				seekable_stream_decoder->protected_->state = FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM;
 #endif
 				return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
@@ -948,12 +949,20 @@ FLAC__bool seek_to_absolute_sample_(FLAC__SeekableStreamDecoder *decoder, FLAC__
 		else if(upper_seek_point >= 0) {
 			const FLAC__uint64 target_offset = target_sample - decoder->private_->seek_table->points[lower_seek_point].sample_number;
 			const FLAC__uint64 range_samples = decoder->private_->seek_table->points[upper_seek_point].sample_number - decoder->private_->seek_table->points[lower_seek_point].sample_number;
-			const FLAC__uint64 range_bytes = upper_bound - lower_bound;
+			const FLAC__uint64 range_bytes = (upper_bound>lower_bound? upper_bound - lower_bound - 1 : 0);
+#ifndef FLAC__INTEGER_ONLY_LIBRARY
 #if defined _MSC_VER || defined __MINGW32__
-			/* with VC++ you have to spoon feed it the casting */
-			pos = (FLAC__int64)lower_bound + (FLAC__int64)((double)(FLAC__int64)target_offset / (double)(FLAC__int64)range_samples * (double)(FLAC__int64)(range_bytes-1)) - approx_bytes_per_frame;
+			/* with MSVC you have to spoon feed it the casting */
+			pos = (FLAC__int64)lower_bound + (FLAC__int64)(((FLAC__double)(FLAC__int64)target_offset / (FLAC__double)(FLAC__int64)range_samples) * (FLAC__double)(FLAC__int64)(range_bytes-1)) - approx_bytes_per_frame;
 #else
-			pos = (FLAC__int64)lower_bound + (FLAC__int64)((double)target_offset / (double)range_samples * (double)(range_bytes-1)) - approx_bytes_per_frame;
+			pos = (FLAC__int64)lower_bound + (FLAC__int64)(((FLAC__double)target_offset / (FLAC__double)range_samples) * (FLAC__double)range_bytes) - approx_bytes_per_frame;
+#endif
+#else
+			/* a little less accurate: */
+			if (range_bytes <= 0xffffffff)
+				pos = (FLAC__int64)lower_bound + (FLAC__int64)((target_offset * range_bytes) / range_samples) - approx_bytes_per_frame;
+			else /* @@@ WATCHOUT, ~2TB limit */
+				pos = (FLAC__int64)lower_bound + (FLAC__int64)(((target_offset>>8) * (range_bytes>>8)) / (range_samples>>16)) - approx_bytes_per_frame;
 #endif
 		}
 	}
@@ -964,11 +973,25 @@ FLAC__bool seek_to_absolute_sample_(FLAC__SeekableStreamDecoder *decoder, FLAC__
 	 * frame with the correct sample.
 	 */
 	if(pos < 0 && total_samples > 0) {
+		/*
+		 * For max accuracy we should be using
+		 * (stream_length-first_frame_offset-1) in the divisor, but the
+		 * difference is trivial and (stream_length-first_frame_offset)
+		 * has no chance of underflow.
+		 */
+#ifndef FLAC__INTEGER_ONLY_LIBRARY
 #if defined _MSC_VER || defined __MINGW32__
 		/* with VC++ you have to spoon feed it the casting */
-		pos = (FLAC__int64)first_frame_offset + (FLAC__int64)((double)(FLAC__int64)target_sample / (double)(FLAC__int64)total_samples * (double)(FLAC__int64)(stream_length-first_frame_offset-1)) - approx_bytes_per_frame;
+		pos = (FLAC__int64)first_frame_offset + (FLAC__int64)(((FLAC__double)(FLAC__int64)target_sample / (FLAC__double)(FLAC__int64)total_samples) * (FLAC__double)(FLAC__int64)(stream_length-first_frame_offset)) - approx_bytes_per_frame;
 #else
-		pos = (FLAC__int64)first_frame_offset + (FLAC__int64)((double)target_sample / (double)total_samples * (double)(stream_length-first_frame_offset-1)) - approx_bytes_per_frame;
+		pos = (FLAC__int64)first_frame_offset + (FLAC__int64)(((FLAC__double)target_sample / (FLAC__double)total_samples) * (FLAC__double)(stream_length-first_frame_offset)) - approx_bytes_per_frame;
+#endif
+#else
+		/* a little less accurate: */
+		if (stream_length < 0xffffffff)
+			pos = (FLAC__int64)first_frame_offset + (FLAC__int64)((target_sample * (stream_length-first_frame_offset)) / total_samples) - approx_bytes_per_frame;
+		else /* @@@ WATCHOUT, ~2TB limit */
+			pos = (FLAC__int64)first_frame_offset + (FLAC__int64)(((target_sample>>8) * ((stream_length-first_frame_offset)>>8)) / (total_samples>>16)) - approx_bytes_per_frame;
 #endif
 	}
 
@@ -1039,7 +1062,8 @@ FLAC__bool seek_to_absolute_sample_(FLAC__SeekableStreamDecoder *decoder, FLAC__
 			}
 		}
 		/* our write callback will change the state when it gets to the target frame */
-		if(decoder->protected_->state != FLAC__SEEKABLE_STREAM_DECODER_SEEKING) {
+		/* actually, we could have got_a_frame if our decoder is at FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM so we need to check for that also */
+		if(decoder->protected_->state != FLAC__SEEKABLE_STREAM_DECODER_SEEKING && decoder->protected_->state != FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM) {
 			break;
 		}
 		else { /* we need to narrow the search */

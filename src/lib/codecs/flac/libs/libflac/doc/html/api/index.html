@@ -8,7 +8,7 @@
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="hierarchy.html">Class Hierarchy</a> &nbsp; <a class="qindex" href="classes.html">Alphabetical List</a> &nbsp; <a class="qindex" href="annotated.html">Compound List</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Compound Members</a> &nbsp; <a class="qindex" href="globals.html">File Members</a> &nbsp; </center>
 <hr><h1>FLAC Documentation</h1>
 <p>
-<h3 align="center">1.1.1</h3> <a name="intro"><h2>Introduction</h2></a>
+<h3 align="center">1.1.2</h3> <a name="intro"><h2>Introduction</h2></a>
 
 <p>
 This is the documentation for the FLAC C and C++ APIs. It is highly interconnected; this introduction should give you a top level idea of the structure and how to find the information you need. As a prerequisite you should have at least a basic knowledge of the FLAC format, documented <a href="../format.html">here</a>.
@@ -53,7 +53,7 @@ It is easiest to just describe the dependencies:
 <li>All modules depend on the <a class="el" href="group__flac__format.html">Format</a> module.<li>The decoders and encoders are independent of each other.<li>The metadata interface requires the file decoder.<li>The decoder and encoder layers depend on the layers below them, but not above them; e.g. the seekable stream decoder depends on the stream decoder but not the file decoder</ul>
 For example, if your application only requires the stream decoder, no encoders, and no metadata interface, you can remove the seekable stream decoder, file decoder, all encoders, and the metadata interface, which will greatly reduce the size of the library.
 <p>
-<hr><address><small>Generated on Tue Sep 28 21:19:40 2004 for FLAC by
+<hr><address><small>Generated on Fri Feb 4 18:39:08 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -110,6 +110,7 @@ FLAC__bool do_major_operation_on_file(const char *filename, const CommandLineOpt
 
 	if(!FLAC__metadata_chain_read(chain, filename)) {
 		print_error_with_chain_status(chain, "%s: ERROR: reading metadata", filename);
+		FLAC__metadata_chain_delete(chain);
 		return false;
 	}
 

@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -57,6 +57,7 @@ typedef struct {
 
 typedef struct {
 	FLAC__bool altivec;
+	FLAC__bool ppc64;
 } FLAC__CPUInfo_PPC;
 
 extern const unsigned FLAC__CPUINFO_IA32_CPUID_CMOV;

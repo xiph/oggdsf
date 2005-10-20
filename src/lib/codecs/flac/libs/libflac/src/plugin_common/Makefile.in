@@ -14,6 +14,23 @@
 
 @SET_MAKE@
 
+#  plugin_common - Routines common to several plugins
+#  Copyright (C) 2002,2003,2004,2005  Josh Coalson
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 2
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 
 SOURCES = $(libplugin_common_la_SOURCES)
 
@@ -50,15 +67,13 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libplugin_common_la_LIBADD =
-am_libplugin_common_la_OBJECTS = canonical_tag.lo charset.lo dither.lo \
-	vorbiscomment.lo
+am_libplugin_common_la_OBJECTS = charset.lo dither.lo tags.lo
 libplugin_common_la_OBJECTS = $(am_libplugin_common_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/canonical_tag.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/charset.Plo ./$(DEPDIR)/dither.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/vorbiscomment.Plo
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/charset.Plo ./$(DEPDIR)/dither.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/tags.Plo
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) \
@@ -77,6 +92,7 @@ ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
 AMTAR = @AMTAR@
+AS = @AS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -112,10 +128,18 @@ FLaC__CPU_SPARC_FALSE = @FLaC__CPU_SPARC_FALSE@
 FLaC__CPU_SPARC_TRUE = @FLaC__CPU_SPARC_TRUE@
 FLaC__EXHAUSTIVE_TESTS_FALSE = @FLaC__EXHAUSTIVE_TESTS_FALSE@
 FLaC__EXHAUSTIVE_TESTS_TRUE = @FLaC__EXHAUSTIVE_TESTS_TRUE@
+FLaC__HAS_AS_FALSE = @FLaC__HAS_AS_FALSE@
+FLaC__HAS_AS_TRUE = @FLaC__HAS_AS_TRUE@
+FLaC__HAS_AS__TEMPORARILY_DISABLED_FALSE = @FLaC__HAS_AS__TEMPORARILY_DISABLED_FALSE@
+FLaC__HAS_AS__TEMPORARILY_DISABLED_TRUE = @FLaC__HAS_AS__TEMPORARILY_DISABLED_TRUE@
 FLaC__HAS_DOCBOOK_TO_MAN_FALSE = @FLaC__HAS_DOCBOOK_TO_MAN_FALSE@
 FLaC__HAS_DOCBOOK_TO_MAN_TRUE = @FLaC__HAS_DOCBOOK_TO_MAN_TRUE@
 FLaC__HAS_DOXYGEN_FALSE = @FLaC__HAS_DOXYGEN_FALSE@
 FLaC__HAS_DOXYGEN_TRUE = @FLaC__HAS_DOXYGEN_TRUE@
+FLaC__HAS_GAS_FALSE = @FLaC__HAS_GAS_FALSE@
+FLaC__HAS_GAS_TRUE = @FLaC__HAS_GAS_TRUE@
+FLaC__HAS_GAS__TEMPORARILY_DISABLED_FALSE = @FLaC__HAS_GAS__TEMPORARILY_DISABLED_FALSE@
+FLaC__HAS_GAS__TEMPORARILY_DISABLED_TRUE = @FLaC__HAS_GAS__TEMPORARILY_DISABLED_TRUE@
 FLaC__HAS_NASM_FALSE = @FLaC__HAS_NASM_FALSE@
 FLaC__HAS_NASM_TRUE = @FLaC__HAS_NASM_TRUE@
 FLaC__HAS_OGG_FALSE = @FLaC__HAS_OGG_FALSE@
@@ -128,12 +152,17 @@ FLaC__NO_ASM_FALSE = @FLaC__NO_ASM_FALSE@
 FLaC__NO_ASM_TRUE = @FLaC__NO_ASM_TRUE@
 FLaC__SSE_OS_FALSE = @FLaC__SSE_OS_FALSE@
 FLaC__SSE_OS_TRUE = @FLaC__SSE_OS_TRUE@
+FLaC__SYS_DARWIN_FALSE = @FLaC__SYS_DARWIN_FALSE@
+FLaC__SYS_DARWIN_TRUE = @FLaC__SYS_DARWIN_TRUE@
+FLaC__SYS_LINUX_FALSE = @FLaC__SYS_LINUX_FALSE@
+FLaC__SYS_LINUX_TRUE = @FLaC__SYS_LINUX_TRUE@
 FLaC__USE_3DNOW_FALSE = @FLaC__USE_3DNOW_FALSE@
 FLaC__USE_3DNOW_TRUE = @FLaC__USE_3DNOW_TRUE@
 FLaC__USE_ALTIVEC_FALSE = @FLaC__USE_ALTIVEC_FALSE@
 FLaC__USE_ALTIVEC_TRUE = @FLaC__USE_ALTIVEC_TRUE@
 FLaC__VALGRIND_TESTING_FALSE = @FLaC__VALGRIND_TESTING_FALSE@
 FLaC__VALGRIND_TESTING_TRUE = @FLaC__VALGRIND_TESTING_TRUE@
+GAS = @GAS@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -222,18 +251,16 @@ INCLUDES = -I$(top_srcdir)/include
 noinst_LTLIBRARIES = libplugin_common.la
 noinst_HEADERS = \
 	all.h \
-	canonical_tag.h \
 	charset.h \
 	defs.h \
 	dither.h \
 	locale_hack.h \
-	vorbiscomment.h
+	tags.h
 
 libplugin_common_la_SOURCES = \
-	canonical_tag.c \
 	charset.c \
 	dither.c \
-	vorbiscomment.c
+	tags.c
 
 EXTRA_DIST = \
 	Makefile.lite \
@@ -291,10 +318,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/canonical_tag.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/charset.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dither.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vorbiscomment.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tags.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \

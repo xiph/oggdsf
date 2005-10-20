@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -25,9 +25,14 @@ debug    : BUILD = debug
 valgrind : BUILD = debug
 release  : BUILD = release
 
+# override LINKAGE on OS X until we figure out how to get 'cc -static' to work
+ifeq ($(DARWIN_BUILD),yes)
+LINKAGE = 
+else
 debug    : LINKAGE = -static
 valgrind : LINKAGE = -dynamic
 release  : LINKAGE = -static
+endif
 
 all default: $(DEFAULT_BUILD)
 
@@ -35,6 +40,12 @@ all default: $(DEFAULT_BUILD)
 # GNU makefile fragment for emulating stuff normally done by configure
 #
 
-VERSION=\"1.1.1\"
+VERSION=\"1.1.2\"
 
-CONFIG_CFLAGS=-D_GNU_SOURCE -DHAVE_INTTYPES_H -DHAVE_WCSDUP -DHAVE_WCSCASECMP
+CONFIG_CFLAGS=-DHAVE_INTTYPES_H -DHAVE_ICONV -DHAVE_SOCKLEN_T -DFLAC__HAS_OGG
+
+ICONV_INCLUDE_DIR=$(HOME)/local.i18n/include
+ICONV_LIB_DIR=$(HOME)/local.i18n/lib
+
+OGG_INCLUDE_DIR=$(HOME)/local/include
+OGG_LIB_DIR=$(HOME)/local/lib

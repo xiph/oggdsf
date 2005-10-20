@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -122,7 +122,7 @@ static FLAC__bool set_vc_field(FLAC__StreamMetadata *block, const Argument_VcFie
 
 	entry.length = strlen((const char *)entry.entry);
 
-	if(!FLAC__metadata_object_vorbiscomment_insert_comment(block, block->data.vorbis_comment.num_comments, entry, /*copy=*/true)) {
+	if(!FLAC__metadata_object_vorbiscomment_append_comment(block, entry, /*copy=*/true)) {
 		if(needs_free)
 			free(converted);
 		*violation = "memory allocation failure";

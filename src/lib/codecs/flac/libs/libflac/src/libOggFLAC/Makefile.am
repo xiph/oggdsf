@@ -1,5 +1,5 @@
 #  libOggFLAC - Free Lossless Audio Codec + Ogg library
-#  Copyright (C) 2002,2003,2004  Josh Coalson
+#  Copyright (C) 2002,2003,2004,2005  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -32,7 +32,8 @@ lib_LTLIBRARIES = libOggFLAC.la
 if DEBUG
 DEBUGCFLAGS = 
 endif
-CFLAGS = @CFLAGS@ @OGG_CFLAGS@ $(DEBUGCFLAGS)
+
+AM_CFLAGS = @OGG_CFLAGS@ $(DEBUGCFLAGS)
 
 SUBDIRS = include .
 
@@ -47,7 +48,7 @@ EXTRA_DIST = \
 
 libOggFLAC_la_LIBADD = @OGG_LIBS@ ../libFLAC/libFLAC.la
 # see 'http://www.gnu.org/software/libtool/manual.html#SEC35' for numbering convention
-libOggFLAC_la_LDFLAGS = -version-info 2:1:1
+libOggFLAC_la_LDFLAGS = -version-info 3:0:0
 
 libOggFLAC_la_SOURCES = \
 	file_decoder.c \

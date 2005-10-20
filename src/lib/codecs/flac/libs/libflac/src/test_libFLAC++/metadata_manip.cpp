@@ -1,5 +1,5 @@
 /* test_libFLAC++ - Unit tester for libFLAC++
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -500,8 +500,8 @@ static bool generate_file_()
 		vorbiscomment.type = FLAC__METADATA_TYPE_VORBIS_COMMENT;
 		vorbiscomment.length = (4 + vendor_string_length) + 4;
 		vorbiscomment.data.vorbis_comment.vendor_string.length = vendor_string_length;
-		vorbiscomment.data.vorbis_comment.vendor_string.entry = (FLAC__byte*)malloc_or_die_(vendor_string_length);
-		memcpy(vorbiscomment.data.vorbis_comment.vendor_string.entry, FLAC__VENDOR_STRING, vendor_string_length);
+		vorbiscomment.data.vorbis_comment.vendor_string.entry = (FLAC__byte*)malloc_or_die_(vendor_string_length+1);
+		memcpy(vorbiscomment.data.vorbis_comment.vendor_string.entry, FLAC__VENDOR_STRING, vendor_string_length+1);
 		vorbiscomment.data.vorbis_comment.num_comments = 0;
 		vorbiscomment.data.vorbis_comment.comments = 0;
 	}
@@ -591,7 +591,6 @@ static bool remove_file_(const char *filename)
 static bool test_level_0_()
 {
 	FLAC::Metadata::StreamInfo streaminfo;
-	FLAC::Metadata::VorbisComment *tags = 0;
 
 	printf("\n\n++++++ testing level 0 interface\n");
 
@@ -620,18 +619,37 @@ static bool test_level_0_()
 
 	printf("OK\n");
 
-	printf("testing FLAC::Metadata::get_tags()... ");
+	{
+		printf("testing FLAC::Metadata::get_tags(VorbisComment *&)... ");
 
-	if(!FLAC::Metadata::get_tags(flacfile_, tags))
-		return die_("during FLAC::Metadata::get_tags()");
+		FLAC::Metadata::VorbisComment *tags = 0;
 
-	/* check to see if some basic data matches (c.f. generate_file_()) */
-	if(tags->get_num_comments() != 0)
-		return die_("mismatch in tags->get_num_comments()");
+		if(!FLAC::Metadata::get_tags(flacfile_, tags))
+			return die_("during FLAC::Metadata::get_tags()");
 
-	printf("OK\n");
+		/* check to see if some basic data matches (c.f. generate_file_()) */
+		if(tags->get_num_comments() != 0)
+			return die_("mismatch in tags->get_num_comments()");
 
-	delete tags;
+		printf("OK\n");
+
+		delete tags;
+	}
+
+	{
+		printf("testing FLAC::Metadata::get_tags(VorbisComment &)... ");
+
+		FLAC::Metadata::VorbisComment tags;
+
+		if(!FLAC::Metadata::get_tags(flacfile_, tags))
+			return die_("during FLAC::Metadata::get_tags()");
+
+		/* check to see if some basic data matches (c.f. generate_file_()) */
+		if(tags.get_num_comments() != 0)
+			return die_("mismatch in tags.get_num_comments()");
+
+		printf("OK\n");
+	}
 
 	if(!remove_file_(flacfile_))
 		return false;

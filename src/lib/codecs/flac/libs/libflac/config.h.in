@@ -15,13 +15,19 @@
 /* define to run even more tests */
 #undef FLAC__EXHAUSTIVE_TESTS
 
+/* define if you are compiling for PowerPC and have the 'as' assembler */
+#undef FLAC__HAS_AS
+
 /* define if you have docbook-to-man or docbook2man */
 #undef FLAC__HAS_DOCBOOK_TO_MAN
 
 /* define if you have Doxygen */
 #undef FLAC__HAS_DOXYGEN
 
-/* define if you have the NASM assembler */
+/* define if you are compiling for PowerPC and have the 'gas' assembler */
+#undef FLAC__HAS_GAS
+
+/* define if you are compiling for x86 and have the NASM assembler */
 #undef FLAC__HAS_NASM
 
 /* define if you have the ogg library */
@@ -32,6 +38,12 @@
 
 /* define if your operating system supports SSE instructions */
 #undef FLAC__SSE_OS
+
+/* define if building for Darwin / MacOS X */
+#undef FLAC__SYS_DARWIN
+
+/* define if building for Linux */
+#undef FLAC__SYS_LINUX
 
 /* define to enable use of 3Dnow! instructions */
 #undef FLAC__USE_3DNOW
@@ -60,6 +72,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define to 1 if the system has the type `socklen_t'. */
+#undef HAVE_SOCKLEN_T
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
@@ -80,9 +95,6 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* Define to 1 if you have the `wcsdup' function. */
-#undef HAVE_WCSDUP
 
 /* Define as const if the declaration of iconv() needs const. */
 #undef ICONV_CONST
@@ -110,8 +122,3 @@
 
 /* Version number of package */
 #undef VERSION
-
-/* Enable GNU extensions on systems that have them.  */
-#ifndef _GNU_SOURCE
-# undef _GNU_SOURCE
-#endif

@@ -1,5 +1,5 @@
 #  libxmms-flac - XMMS FLAC input plugin
-#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -25,9 +25,12 @@ EXTRA_DIST = \
 noinst_HEADERS = \
 	charset.h \
 	configure.h \
+	http.h \
+	plugin.h \
 	tag.h
 
-CFLAGS = @CFLAGS@ @XMMS_CFLAGS@
+AM_CFLAGS = @XMMS_CFLAGS@
+
 INCLUDES = -I$(top_srcdir)/src
 if FLaC__INSTALL_XMMS_PLUGIN_LOCALLY
 xmmsinputplugindir = $(HOME)/.xmms/Plugins
@@ -40,7 +43,7 @@ LIBTOOL = $(top_builddir)/libtool-disable-static
 
 xmmsinputplugin_LTLIBRARIES = libxmms-flac.la
 
-plugin_sources = charset.c configure.c plugin.c tag.c fileinfo.c
+plugin_sources = charset.c configure.c fileinfo.c http.c plugin.c tag.c
 
 libxmms_flac_la_SOURCES = $(plugin_sources)
 
@@ -60,5 +63,6 @@ libxmms_flac_la_LIBADD = \
 	$(top_builddir)/src/share/utf8/libutf8.la \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
 	-L$(top_builddir)/src/libFLAC/.libs \
-	@XMMS_LIBS@
+	@XMMS_LIBS@ \
+	@LIBICONV@
 libxmms_flac_la_LDFLAGS = -module -avoid-version

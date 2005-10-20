@@ -1,5 +1,5 @@
 #  libFLAC - Free Lossless Audio Codec library
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -32,7 +32,20 @@ lib_LTLIBRARIES = libFLAC.la
 if DEBUG
 DEBUGCFLAGS = -DFLAC__OVERFLOW_DETECT
 endif
-CFLAGS = @CFLAGS@ $(DEBUGCFLAGS)
+if FLaC__CPU_PPC
+# The -force_cpusubtype_ALL is needed to insert a ppc64 instruction
+# into cpu.c with an asm().
+if FLaC__SYS_DARWIN
+#@@@@@@ PPC optimizations temporarily disabled
+CPUCFLAGS = -faltivec -force_cpusubtype_ALL -DFLAC__NO_ASM
+else
+# Linux-gcc for PPC does not have -force_cpusubtype_ALL, it is Darwin-specific
+#@@@@@@ PPC optimizations temporarily disabled
+CPUCFLAGS = -maltivec -mabi=altivec -DFLAC__NO_ASM
+endif
+endif
+
+AM_CFLAGS = $(DEBUGCFLAGS) $(CPUCFLAGS)
 
 if FLaC__NO_ASM
 else
@@ -44,7 +57,13 @@ endif
 endif
 if FLaC__CPU_PPC
 ARCH_SUBDIRS = ppc
-libFLAC_la_LIBADD = ppc/libFLAC-asm.la
+if FLaC__HAS_AS__TEMPORARILY_DISABLED
+libFLAC_la_LIBADD = ppc/as/libFLAC-asm.la
+else
+if FLaC__HAS_GAS__TEMPORARILY_DISABLED
+libFLAC_la_LIBADD = ppc/gas/libFLAC-asm.la
+endif
+endif
 LOCAL_EXTRA_LDFLAGS = "-Wl,-read_only_relocs,warning"
 endif
 endif
@@ -61,7 +80,7 @@ EXTRA_DIST = \
 	libFLAC.m4
 
 # see 'http://www.gnu.org/software/libtool/manual.html#SEC35' for numbering convention
-libFLAC_la_LDFLAGS = -version-info 6:1:0 -lm $(LOCAL_EXTRA_LDFLAGS)
+libFLAC_la_LDFLAGS = -version-info 7:0:0 -lm $(LOCAL_EXTRA_LDFLAGS)
 libFLAC_la_SOURCES = \
 	bitbuffer.c \
 	bitmath.c \
@@ -70,6 +89,7 @@ libFLAC_la_SOURCES = \
 	file_decoder.c \
 	file_encoder.c \
 	fixed.c \
+	float.c \
 	format.c \
 	lpc.c \
 	md5.c \

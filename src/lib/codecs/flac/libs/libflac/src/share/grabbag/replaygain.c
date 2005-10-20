@@ -1,5 +1,5 @@
 /* grabbag - Convenience lib for various routines common to several tools
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -102,7 +102,7 @@ static FLAC__bool append_tag_(FLAC__StreamMetadata *block, const char *format, c
 	entry.entry = (FLAC__byte *)buffer;
 	entry.length = strlen(buffer);
 
-	return FLAC__metadata_object_vorbiscomment_insert_comment(block, block->data.vorbis_comment.num_comments, entry, /*copy=*/true);
+	return FLAC__metadata_object_vorbiscomment_append_comment(block, entry, /*copy=*/true);
 }
 
 FLAC__bool grabbag__replaygain_is_valid_sample_frequency(unsigned sample_frequency)

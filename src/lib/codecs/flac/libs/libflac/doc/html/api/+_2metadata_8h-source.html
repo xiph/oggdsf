@@ -7,7 +7,7 @@
 <center>
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="hierarchy.html">Class Hierarchy</a> &nbsp; <a class="qindex" href="classes.html">Alphabetical List</a> &nbsp; <a class="qindex" href="annotated.html">Compound List</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Compound Members</a> &nbsp; <a class="qindex" href="globals.html">File Members</a> &nbsp; </center>
 <hr><h1>include/FLAC++/metadata.h</h1><a href="+_2metadata_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre>00001 <font class="comment">/* libFLAC++ - Free Lossless Audio Codec library</font>
-00002 <font class="comment"> * Copyright (C) 2002,2003,2004  Josh Coalson</font>
+00002 <font class="comment"> * Copyright (C) 2002,2003,2004,2005  Josh Coalson</font>
 00003 <font class="comment"> *</font>
 00004 <font class="comment"> * Redistribution and use in source and binary forms, with or without</font>
 00005 <font class="comment"> * modification, are permitted provided that the following conditions</font>
@@ -70,568 +70,597 @@
 00125             Prototype(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy);
 00126 
 00128 
-00129             <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> Prototype &amp;);
-00130             <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;);
-00131             <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *);
+00129             Prototype &amp;operator=(<font class="keyword">const</font> Prototype &amp;);
+00130             Prototype &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;);
+00131             Prototype &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *);
 00133 
-00136             <font class="keyword">virtual</font> <font class="keywordtype">void</font> clear();
-00137 
-00138             ::FLAC__StreamMetadata *object_;
-00139         <font class="keyword">public</font>:
-00142             <font class="keyword">virtual</font> ~Prototype();
-00143 
-00145 
-00146             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Prototype &amp;) <font class="keyword">const</font>;
-00147             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;) <font class="keyword">const</font>;
-00148             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *) <font class="keyword">const</font>;
+00137             Prototype &amp;assign_object(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy);
+00138 
+00141             <font class="keyword">virtual</font> <font class="keywordtype">void</font> clear();
+00142 
+00143             ::FLAC__StreamMetadata *object_;
+00144         <font class="keyword">public</font>:
+00147             <font class="keyword">virtual</font> ~Prototype();
+00148 
 00150 
-00152 
-00153             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Prototype &amp;) <font class="keyword">const</font>;
-00154             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;) <font class="keyword">const</font>;
-00155             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *) <font class="keyword">const</font>;
+00151             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Prototype &amp;) <font class="keyword">const</font>;
+00152             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;) <font class="keyword">const</font>;
+00153             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *) <font class="keyword">const</font>;
+00155 
 00157 
-00158             <font class="keyword">friend</font> <font class="keyword">class </font>SimpleIterator;
-00159             <font class="keyword">friend</font> <font class="keyword">class </font>Iterator;
-00160 
-00165             <font class="keyword">inline</font> <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
-00166 
-00173             <font class="keywordtype">bool</font> get_is_last() <font class="keyword">const</font>;
-00174 
-00180             ::FLAC__MetadataType get_type() <font class="keyword">const</font>;
-00181 
-00191             <font class="keywordtype">unsigned</font> get_length() <font class="keyword">const</font>;
-00192 
-00199             <font class="keywordtype">void</font> set_is_last(<font class="keywordtype">bool</font>);
-00200 
-00208             <font class="keyword">inline</font> operator const ::FLAC__StreamMetadata *() <font class="keyword">const</font>;
-00209         <font class="keyword">private</font>:
-00211             Prototype();
-00212 
-00213             <font class="comment">// These are used only by Iterator</font>
-00214             <font class="keywordtype">bool</font> is_reference_;
-00215             <font class="keyword">inline</font> <font class="keywordtype">void</font> set_reference(<font class="keywordtype">bool</font> x) { is_reference_ = x; }
-00216         };
+00158             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Prototype &amp;) <font class="keyword">const</font>;
+00159             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;) <font class="keyword">const</font>;
+00160             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *) <font class="keyword">const</font>;
+00162 
+00163             <font class="keyword">friend</font> <font class="keyword">class </font>SimpleIterator;
+00164             <font class="keyword">friend</font> <font class="keyword">class </font>Iterator;
+00165 
+00170             <font class="keyword">inline</font> <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
+00171 
+00178             <font class="keywordtype">bool</font> get_is_last() <font class="keyword">const</font>;
+00179 
+00185             ::FLAC__MetadataType get_type() <font class="keyword">const</font>;
+00186 
+00196             <font class="keywordtype">unsigned</font> get_length() <font class="keyword">const</font>;
+00197 
+00204             <font class="keywordtype">void</font> set_is_last(<font class="keywordtype">bool</font>);
+00205 
+00213             <font class="keyword">inline</font> operator const ::FLAC__StreamMetadata *() <font class="keyword">const</font>;
+00214         <font class="keyword">private</font>:
+00216             Prototype();
 00217 
-00218 <font class="preprocessor">#ifdef _MSC_VER</font>
-00219 <font class="preprocessor"></font><font class="comment">// warning C4800: 'int' : forcing to bool 'true' or 'false' (performance warning)</font>
-00220 <font class="preprocessor">#pragma warning ( disable : 4800 )</font>
-00221 <font class="preprocessor"></font><font class="preprocessor">#endif</font>
-00222 <font class="preprocessor"></font>
-<a name="l00223"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">00223</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator==(<font class="keyword">const</font> Prototype &amp;object)<font class="keyword"> const</font>
-00224 <font class="keyword">        </font>{ <font class="keywordflow">return</font> (bool)::FLAC__metadata_object_is_equal(object_, object.object_); }
-00225 
-<a name="l00226"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a2">00226</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const</font>
-00227 <font class="keyword">        </font>{ <font class="keywordflow">return</font> (bool)::FLAC__metadata_object_is_equal(object_, &amp;object); }
-00228 
-<a name="l00229"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a3">00229</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const</font>
-00230 <font class="keyword">        </font>{ <font class="keywordflow">return</font> (bool)::FLAC__metadata_object_is_equal(object_, object); }
-00231 
-00232 <font class="preprocessor">#ifdef _MSC_VER</font>
-00233 <font class="preprocessor"></font><font class="comment">// @@@ how to re-enable?  the following doesn't work</font>
-00234 <font class="comment">// #pragma warning ( enable : 4800 )</font>
-00235 <font class="preprocessor">#endif</font>
-00236 <font class="preprocessor"></font>
-<a name="l00237"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a4">00237</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator!=(<font class="keyword">const</font> Prototype &amp;object)<font class="keyword"> const</font>
-00238 <font class="keyword">        </font>{ <font class="keywordflow">return</font> !<a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">operator==</a>(object); }
-00239 
-<a name="l00240"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a5">00240</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const</font>
-00241 <font class="keyword">        </font>{ <font class="keywordflow">return</font> !<a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">operator==</a>(object); }
-00242 
-<a name="l00243"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a6">00243</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const</font>
-00244 <font class="keyword">        </font>{ <font class="keywordflow">return</font> !<a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">operator==</a>(object); }
-00245 
-<a name="l00246"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a7">00246</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::is_valid()<font class="keyword"> const</font>
-00247 <font class="keyword">        </font>{ <font class="keywordflow">return</font> 0 != object_; }
-00248 
-<a name="l00249"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a8">00249</a>         <font class="keyword">inline</font> Prototype::operator const ::FLAC__StreamMetadata *()<font class="keyword"> const</font>
-00250 <font class="keyword">        </font>{ <font class="keywordflow">return</font> object_; }
-00251 
-00253         FLACPP_API Prototype *clone(<font class="keyword">const</font> Prototype *);
-00254 
-00255 
-<a name="l00259"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html">00259</a>         <font class="keyword">class </font>FLACPP_API StreamInfo : <font class="keyword">public</font> Prototype {
-00260         <font class="keyword">public</font>:
-00261             StreamInfo();
-00262 
-00264 
-<a name="l00267"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z4_0">00267</a>             <font class="keyword">inline</font> StreamInfo(<font class="keyword">const</font> StreamInfo &amp;object): Prototype(object) { }
-<a name="l00268"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z4_1">00268</a>             <font class="keyword">inline</font> StreamInfo(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
-<a name="l00269"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z4_2">00269</a>             <font class="keyword">inline</font> StreamInfo(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
-00271 
-<a name="l00275"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#a1">00275</a>             <font class="keyword">inline</font> StreamInfo(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00218             <font class="comment">// These are used only by Iterator</font>
+00219             <font class="keywordtype">bool</font> is_reference_;
+00220             <font class="keyword">inline</font> <font class="keywordtype">void</font> set_reference(<font class="keywordtype">bool</font> x) { is_reference_ = x; }
+00221         };
+00222 
+00223 <font class="preprocessor">#ifdef _MSC_VER</font>
+00224 <font class="preprocessor"></font><font class="comment">// warning C4800: 'int' : forcing to bool 'true' or 'false' (performance warning)</font>
+00225 <font class="preprocessor">#pragma warning ( disable : 4800 )</font>
+00226 <font class="preprocessor"></font><font class="preprocessor">#endif</font>
+00227 <font class="preprocessor"></font>
+<a name="l00228"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">00228</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator==(<font class="keyword">const</font> Prototype &amp;object)<font class="keyword"> const</font>
+00229 <font class="keyword">        </font>{ <font class="keywordflow">return</font> (bool)::FLAC__metadata_object_is_equal(object_, object.object_); }
+00230 
+<a name="l00231"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a2">00231</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const</font>
+00232 <font class="keyword">        </font>{ <font class="keywordflow">return</font> (bool)::FLAC__metadata_object_is_equal(object_, &amp;object); }
+00233 
+<a name="l00234"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a3">00234</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const</font>
+00235 <font class="keyword">        </font>{ <font class="keywordflow">return</font> (bool)::FLAC__metadata_object_is_equal(object_, object); }
+00236 
+00237 <font class="preprocessor">#ifdef _MSC_VER</font>
+00238 <font class="preprocessor"></font><font class="comment">// @@@ how to re-enable?  the following doesn't work</font>
+00239 <font class="comment">// #pragma warning ( enable : 4800 )</font>
+00240 <font class="preprocessor">#endif</font>
+00241 <font class="preprocessor"></font>
+<a name="l00242"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a4">00242</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator!=(<font class="keyword">const</font> Prototype &amp;object)<font class="keyword"> const</font>
+00243 <font class="keyword">        </font>{ <font class="keywordflow">return</font> !<a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">operator==</a>(object); }
+00244 
+<a name="l00245"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a5">00245</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const</font>
+00246 <font class="keyword">        </font>{ <font class="keywordflow">return</font> !<a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">operator==</a>(object); }
+00247 
+<a name="l00248"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a6">00248</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const</font>
+00249 <font class="keyword">        </font>{ <font class="keywordflow">return</font> !<a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a1">operator==</a>(object); }
+00250 
+<a name="l00251"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a7">00251</a>         <font class="keyword">inline</font> <font class="keywordtype">bool</font> Prototype::is_valid()<font class="keyword"> const</font>
+00252 <font class="keyword">        </font>{ <font class="keywordflow">return</font> 0 != object_; }
+00253 
+<a name="l00254"></a><a class="code" href="classFLAC_1_1Metadata_1_1Prototype.html#a8">00254</a>         <font class="keyword">inline</font> Prototype::operator const ::FLAC__StreamMetadata *()<font class="keyword"> const</font>
+00255 <font class="keyword">        </font>{ <font class="keywordflow">return</font> object_; }
+00256 
+00258         FLACPP_API Prototype *clone(<font class="keyword">const</font> Prototype *);
+00259 
+00260 
+<a name="l00264"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html">00264</a>         <font class="keyword">class </font>FLACPP_API StreamInfo : <font class="keyword">public</font> Prototype {
+00265         <font class="keyword">public</font>:
+00266             StreamInfo();
+00267 
+00269 
+<a name="l00272"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z4_0">00272</a>             <font class="keyword">inline</font> StreamInfo(<font class="keyword">const</font> StreamInfo &amp;object): Prototype(object) { }
+<a name="l00273"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z4_1">00273</a>             <font class="keyword">inline</font> StreamInfo(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
+<a name="l00274"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z4_2">00274</a>             <font class="keyword">inline</font> StreamInfo(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
 00276 
-00277             ~StreamInfo();
-00278 
-00280 
-<a name="l00281"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5_0">00281</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> StreamInfo &amp;object) { Prototype::operator=(object); }
-<a name="l00282"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5_1">00282</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); }
-<a name="l00283"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5_2">00283</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); }
+<a name="l00280"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#a1">00280</a>             <font class="keyword">inline</font> StreamInfo(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00281 
+00282             ~StreamInfo();
+00283 
 00285 
-00287 
-<a name="l00288"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z6_0">00288</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> StreamInfo &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00289"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z6_1">00289</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00290"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z6_2">00290</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-00292 
-00294 
-<a name="l00295"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z7_0">00295</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> StreamInfo &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00296"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z7_1">00296</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00297"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z7_2">00297</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-00299 
-00301 
-00302             <font class="keywordtype">unsigned</font> get_min_blocksize() <font class="keyword">const</font>;
-00303             <font class="keywordtype">unsigned</font> get_max_blocksize() <font class="keyword">const</font>;
-00304             <font class="keywordtype">unsigned</font> get_min_framesize() <font class="keyword">const</font>;
-00305             <font class="keywordtype">unsigned</font> get_max_framesize() <font class="keyword">const</font>;
-00306             <font class="keywordtype">unsigned</font> get_sample_rate() <font class="keyword">const</font>;
-00307             <font class="keywordtype">unsigned</font> get_channels() <font class="keyword">const</font>;
-00308             <font class="keywordtype">unsigned</font> get_bits_per_sample() <font class="keyword">const</font>;
-00309             FLAC__uint64 get_total_samples() <font class="keyword">const</font>;
-00310             <font class="keyword">const</font> FLAC__byte *get_md5sum() <font class="keyword">const</font>;
+<a name="l00286"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5_0">00286</a>             <font class="keyword">inline</font> StreamInfo &amp;operator=(<font class="keyword">const</font> StreamInfo &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00287"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5_1">00287</a>             <font class="keyword">inline</font> StreamInfo &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00288"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5_2">00288</a>             <font class="keyword">inline</font> StreamInfo &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00290 
+<a name="l00294"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#a3">00294</a>             <font class="keyword">inline</font> StreamInfo &amp;assign(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy) { Prototype::assign_object(object, copy); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00295 
+00297 
+<a name="l00298"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z6_0">00298</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> StreamInfo &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00299"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z6_1">00299</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00300"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z6_2">00300</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+00302 
+00304 
+<a name="l00305"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z7_0">00305</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> StreamInfo &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00306"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z7_1">00306</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00307"></a><a class="code" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z7_2">00307</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+00309 
 00311 
-00312             <font class="keywordtype">void</font> set_min_blocksize(<font class="keywordtype">unsigned</font> value);
-00313             <font class="keywordtype">void</font> set_max_blocksize(<font class="keywordtype">unsigned</font> value);
-00314             <font class="keywordtype">void</font> set_min_framesize(<font class="keywordtype">unsigned</font> value);
-00315             <font class="keywordtype">void</font> set_max_framesize(<font class="keywordtype">unsigned</font> value);
-00316             <font class="keywordtype">void</font> set_sample_rate(<font class="keywordtype">unsigned</font> value);
-00317             <font class="keywordtype">void</font> set_channels(<font class="keywordtype">unsigned</font> value);
-00318             <font class="keywordtype">void</font> set_bits_per_sample(<font class="keywordtype">unsigned</font> value);
-00319             <font class="keywordtype">void</font> set_total_samples(FLAC__uint64 value);
-00320             <font class="keywordtype">void</font> set_md5sum(<font class="keyword">const</font> FLAC__byte value[16]);
-00322         };
-00323 
-<a name="l00327"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html">00327</a>         <font class="keyword">class </font>FLACPP_API Padding : <font class="keyword">public</font> Prototype {
-00328         <font class="keyword">public</font>:
-00329             Padding();
-00330 
-00332 
-<a name="l00335"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z9_0">00335</a>             <font class="keyword">inline</font> Padding(<font class="keyword">const</font> Padding &amp;object): Prototype(object) { }
-<a name="l00336"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z9_1">00336</a>             <font class="keyword">inline</font> Padding(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
-<a name="l00337"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z9_2">00337</a>             <font class="keyword">inline</font> Padding(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
-00339 
-<a name="l00343"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#a1">00343</a>             <font class="keyword">inline</font> Padding(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
-00344 
-00345             ~Padding();
-00346 
-00348 
-<a name="l00349"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z10_0">00349</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> Padding &amp;object) { Prototype::operator=(object); }
-<a name="l00350"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z10_1">00350</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); }
-<a name="l00351"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z10_2">00351</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); }
-00353 
-00355 
-<a name="l00356"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z11_0">00356</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Padding &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00357"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z11_1">00357</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00358"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z11_2">00358</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-00360 
-00362 
-<a name="l00363"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z12_0">00363</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Padding &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00364"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z12_1">00364</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00365"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z12_2">00365</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-00367 
-00368             <font class="keywordtype">void</font> set_length(<font class="keywordtype">unsigned</font> length);
-00369         };
+00312             <font class="keywordtype">unsigned</font> get_min_blocksize() <font class="keyword">const</font>;
+00313             <font class="keywordtype">unsigned</font> get_max_blocksize() <font class="keyword">const</font>;
+00314             <font class="keywordtype">unsigned</font> get_min_framesize() <font class="keyword">const</font>;
+00315             <font class="keywordtype">unsigned</font> get_max_framesize() <font class="keyword">const</font>;
+00316             <font class="keywordtype">unsigned</font> get_sample_rate() <font class="keyword">const</font>;
+00317             <font class="keywordtype">unsigned</font> get_channels() <font class="keyword">const</font>;
+00318             <font class="keywordtype">unsigned</font> get_bits_per_sample() <font class="keyword">const</font>;
+00319             FLAC__uint64 get_total_samples() <font class="keyword">const</font>;
+00320             <font class="keyword">const</font> FLAC__byte *get_md5sum() <font class="keyword">const</font>;
+00321 
+00322             <font class="keywordtype">void</font> set_min_blocksize(<font class="keywordtype">unsigned</font> value);
+00323             <font class="keywordtype">void</font> set_max_blocksize(<font class="keywordtype">unsigned</font> value);
+00324             <font class="keywordtype">void</font> set_min_framesize(<font class="keywordtype">unsigned</font> value);
+00325             <font class="keywordtype">void</font> set_max_framesize(<font class="keywordtype">unsigned</font> value);
+00326             <font class="keywordtype">void</font> set_sample_rate(<font class="keywordtype">unsigned</font> value);
+00327             <font class="keywordtype">void</font> set_channels(<font class="keywordtype">unsigned</font> value);
+00328             <font class="keywordtype">void</font> set_bits_per_sample(<font class="keywordtype">unsigned</font> value);
+00329             <font class="keywordtype">void</font> set_total_samples(FLAC__uint64 value);
+00330             <font class="keywordtype">void</font> set_md5sum(<font class="keyword">const</font> FLAC__byte value[16]);
+00332         };
+00333 
+<a name="l00337"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html">00337</a>         <font class="keyword">class </font>FLACPP_API Padding : <font class="keyword">public</font> Prototype {
+00338         <font class="keyword">public</font>:
+00339             Padding();
+00340 
+00342 
+<a name="l00345"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z9_0">00345</a>             <font class="keyword">inline</font> Padding(<font class="keyword">const</font> Padding &amp;object): Prototype(object) { }
+<a name="l00346"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z9_1">00346</a>             <font class="keyword">inline</font> Padding(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
+<a name="l00347"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z9_2">00347</a>             <font class="keyword">inline</font> Padding(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
+00349 
+<a name="l00353"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#a1">00353</a>             <font class="keyword">inline</font> Padding(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00354 
+00355             ~Padding();
+00356 
+00358 
+<a name="l00359"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z10_0">00359</a>             <font class="keyword">inline</font> Padding &amp;operator=(<font class="keyword">const</font> Padding &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00360"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z10_1">00360</a>             <font class="keyword">inline</font> Padding &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00361"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z10_2">00361</a>             <font class="keyword">inline</font> Padding &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00363 
+<a name="l00367"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#a3">00367</a>             <font class="keyword">inline</font> Padding &amp;assign(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy) { Prototype::assign_object(object, copy); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00368 
 00370 
-<a name="l00374"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html">00374</a>         <font class="keyword">class </font>FLACPP_API Application : <font class="keyword">public</font> Prototype {
-00375         <font class="keyword">public</font>:
-00376             Application();
-00377             <font class="comment">//</font>
-00379 <font class="comment">            /** Constructs a copy of the given object.  This form</font>
-00380              *  always performs a deep copy.
-00381              */
-<a name="l00382"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z13_0">00382</a>             <font class="keyword">inline</font> Application(<font class="keyword">const</font> Application &amp;object): Prototype(object) { }
-<a name="l00383"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z13_1">00383</a>             <font class="keyword">inline</font> Application(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
-<a name="l00384"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z13_2">00384</a>             <font class="keyword">inline</font> Application(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
-00386 
-<a name="l00390"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#a1">00390</a>             <font class="keyword">inline</font> Application(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
-00391 
-00392             ~Application();
-00393 
-00395 
-<a name="l00396"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z14_0">00396</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> Application &amp;object) { Prototype::operator=(object); }
-<a name="l00397"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z14_1">00397</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); }
-<a name="l00398"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z14_2">00398</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); }
-00400 
-00402 
-<a name="l00403"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z15_0">00403</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Application &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00404"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z15_1">00404</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00405"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z15_2">00405</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-00407 
-00409 
-<a name="l00410"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z16_0">00410</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Application &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00411"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z16_1">00411</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00412"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z16_2">00412</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-00414 
-00415             <font class="keyword">const</font> FLAC__byte *get_id() <font class="keyword">const</font>;
-00416             <font class="keyword">const</font> FLAC__byte *get_data() <font class="keyword">const</font>;
-00417 
-00418             <font class="keywordtype">void</font> set_id(<font class="keyword">const</font> FLAC__byte value[4]);
-00420             <font class="keywordtype">bool</font> set_data(<font class="keyword">const</font> FLAC__byte *data, <font class="keywordtype">unsigned</font> length);
-00421             <font class="keywordtype">bool</font> set_data(FLAC__byte *data, <font class="keywordtype">unsigned</font> length, <font class="keywordtype">bool</font> copy);
-00422         };
-00423 
-<a name="l00427"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html">00427</a>         <font class="keyword">class </font>FLACPP_API SeekTable : <font class="keyword">public</font> Prototype {
-00428         <font class="keyword">public</font>:
-00429             SeekTable();
-00430 
-00432 
-<a name="l00435"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z17_0">00435</a>             <font class="keyword">inline</font> SeekTable(<font class="keyword">const</font> SeekTable &amp;object): Prototype(object) { }
-<a name="l00436"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z17_1">00436</a>             <font class="keyword">inline</font> SeekTable(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
-<a name="l00437"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z17_2">00437</a>             <font class="keyword">inline</font> SeekTable(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
-00439 
-<a name="l00443"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#a1">00443</a>             <font class="keyword">inline</font> SeekTable(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
-00444 
-00445             ~SeekTable();
-00446 
-00448 
-<a name="l00449"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z18_0">00449</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> SeekTable &amp;object) { Prototype::operator=(object); }
-<a name="l00450"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z18_1">00450</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); }
-<a name="l00451"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z18_2">00451</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); }
-00453 
-00455 
-<a name="l00456"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z19_0">00456</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> SeekTable &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00457"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z19_1">00457</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00458"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z19_2">00458</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-00460 
-00462 
-<a name="l00463"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z20_0">00463</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> SeekTable &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00464"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z20_1">00464</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00465"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z20_2">00465</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-00467 
-00468             <font class="keywordtype">unsigned</font> get_num_points() <font class="keyword">const</font>;
-00469             ::FLAC__StreamMetadata_SeekPoint get_point(<font class="keywordtype">unsigned</font> index) <font class="keyword">const</font>;
-00470 
-00472             <font class="keywordtype">void</font> set_point(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> &amp;point);
+<a name="l00371"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z11_0">00371</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Padding &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00372"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z11_1">00372</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00373"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z11_2">00373</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+00375 
+00377 
+<a name="l00378"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z12_0">00378</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Padding &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00379"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z12_1">00379</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00380"></a><a class="code" href="classFLAC_1_1Metadata_1_1Padding.html#z12_2">00380</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+00382 
+00383             <font class="keywordtype">void</font> set_length(<font class="keywordtype">unsigned</font> length);
+00384         };
+00385 
+<a name="l00389"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html">00389</a>         <font class="keyword">class </font>FLACPP_API Application : <font class="keyword">public</font> Prototype {
+00390         <font class="keyword">public</font>:
+00391             Application();
+00392             <font class="comment">//</font>
+00394 <font class="comment">            /** Constructs a copy of the given object.  This form</font>
+00395              *  always performs a deep copy.
+00396              */
+<a name="l00397"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z13_0">00397</a>             <font class="keyword">inline</font> Application(<font class="keyword">const</font> Application &amp;object): Prototype(object) { }
+<a name="l00398"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z13_1">00398</a>             <font class="keyword">inline</font> Application(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
+<a name="l00399"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z13_2">00399</a>             <font class="keyword">inline</font> Application(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
+00401 
+<a name="l00405"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#a1">00405</a>             <font class="keyword">inline</font> Application(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00406 
+00407             ~Application();
+00408 
+00410 
+<a name="l00411"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z14_0">00411</a>             <font class="keyword">inline</font> Application &amp;operator=(<font class="keyword">const</font> Application &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00412"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z14_1">00412</a>             <font class="keyword">inline</font> Application &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00413"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z14_2">00413</a>             <font class="keyword">inline</font> Application &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00415 
+<a name="l00419"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#a3">00419</a>             <font class="keyword">inline</font> Application &amp;assign(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy) { Prototype::assign_object(object, copy); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00420 
+00422 
+<a name="l00423"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z15_0">00423</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Application &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00424"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z15_1">00424</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00425"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z15_2">00425</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+00427 
+00429 
+<a name="l00430"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z16_0">00430</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Application &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00431"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z16_1">00431</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00432"></a><a class="code" href="classFLAC_1_1Metadata_1_1Application.html#z16_2">00432</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+00434 
+00435             <font class="keyword">const</font> FLAC__byte *get_id() <font class="keyword">const</font>;
+00436             <font class="keyword">const</font> FLAC__byte *get_data() <font class="keyword">const</font>;
+00437 
+00438             <font class="keywordtype">void</font> set_id(<font class="keyword">const</font> FLAC__byte value[4]);
+00440             <font class="keywordtype">bool</font> set_data(<font class="keyword">const</font> FLAC__byte *data, <font class="keywordtype">unsigned</font> length);
+00441             <font class="keywordtype">bool</font> set_data(FLAC__byte *data, <font class="keywordtype">unsigned</font> length, <font class="keywordtype">bool</font> copy);
+00442         };
+00443 
+<a name="l00447"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html">00447</a>         <font class="keyword">class </font>FLACPP_API SeekTable : <font class="keyword">public</font> Prototype {
+00448         <font class="keyword">public</font>:
+00449             SeekTable();
+00450 
+00452 
+<a name="l00455"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z17_0">00455</a>             <font class="keyword">inline</font> SeekTable(<font class="keyword">const</font> SeekTable &amp;object): Prototype(object) { }
+<a name="l00456"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z17_1">00456</a>             <font class="keyword">inline</font> SeekTable(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
+<a name="l00457"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z17_2">00457</a>             <font class="keyword">inline</font> SeekTable(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
+00459 
+<a name="l00463"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#a1">00463</a>             <font class="keyword">inline</font> SeekTable(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00464 
+00465             ~SeekTable();
+00466 
+00468 
+<a name="l00469"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z18_0">00469</a>             <font class="keyword">inline</font> SeekTable &amp;operator=(<font class="keyword">const</font> SeekTable &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00470"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z18_1">00470</a>             <font class="keyword">inline</font> SeekTable &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00471"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z18_2">00471</a>             <font class="keyword">inline</font> SeekTable &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
 00473 
-00475             <font class="keywordtype">bool</font> insert_point(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> &amp;point);
-00476 
-00478             <font class="keywordtype">bool</font> delete_point(<font class="keywordtype">unsigned</font> index);
-00479 
-00481             <font class="keywordtype">bool</font> is_legal() <font class="keyword">const</font>;
-00482         };
-00483 
-<a name="l00487"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html">00487</a>         <font class="keyword">class </font>FLACPP_API VorbisComment : <font class="keyword">public</font> Prototype {
-00488         <font class="keyword">public</font>:
-<a name="l00513"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html">00513</a>             <font class="keyword">class </font>FLACPP_API Entry {
-00514             <font class="keyword">public</font>:
-00515                 Entry();
-00516                 Entry(<font class="keyword">const</font> <font class="keywordtype">char</font> *field, <font class="keywordtype">unsigned</font> field_length);
-00517                 Entry(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_value, <font class="keywordtype">unsigned</font> field_value_length);
-00518                 Entry(<font class="keyword">const</font> Entry &amp;entry);
-00519                 <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> Entry &amp;entry);
-00520 
-00521                 <font class="keyword">virtual</font> ~Entry();
-00522 
-00523                 <font class="keyword">virtual</font> <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
-00524 
-00525                 <font class="keywordtype">unsigned</font> get_field_length() <font class="keyword">const</font>;
-00526                 <font class="keywordtype">unsigned</font> get_field_name_length() <font class="keyword">const</font>;
-00527                 <font class="keywordtype">unsigned</font> get_field_value_length() <font class="keyword">const</font>;
-00528 
-00529                 ::FLAC__StreamMetadata_VorbisComment_Entry get_entry() <font class="keyword">const</font>;
-00530                 <font class="keyword">const</font> <font class="keywordtype">char</font> *get_field() <font class="keyword">const</font>;
-00531                 <font class="keyword">const</font> <font class="keywordtype">char</font> *get_field_name() <font class="keyword">const</font>;
-00532                 <font class="keyword">const</font> <font class="keywordtype">char</font> *get_field_value() <font class="keyword">const</font>;
-00533 
-00534                 <font class="keywordtype">bool</font> set_field(<font class="keyword">const</font> <font class="keywordtype">char</font> *field, <font class="keywordtype">unsigned</font> field_length);
-00535                 <font class="keywordtype">bool</font> set_field_name(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
-00536                 <font class="keywordtype">bool</font> set_field_value(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_value, <font class="keywordtype">unsigned</font> field_value_length);
-00537             <font class="keyword">protected</font>:
-00538                 <font class="keywordtype">bool</font> is_valid_;
-00539                 ::FLAC__StreamMetadata_VorbisComment_Entry entry_;
-00540                 <font class="keywordtype">char</font> *field_name_;
-00541                 <font class="keywordtype">unsigned</font> field_name_length_;
-00542                 <font class="keywordtype">char</font> *field_value_;
-00543                 <font class="keywordtype">unsigned</font> field_value_length_;
-00544             <font class="keyword">private</font>:
-00545                 <font class="keywordtype">void</font> zero();
-00546                 <font class="keywordtype">void</font> clear();
-00547                 <font class="keywordtype">void</font> clear_entry();
-00548                 <font class="keywordtype">void</font> clear_field_name();
-00549                 <font class="keywordtype">void</font> clear_field_value();
-00550                 <font class="keywordtype">void</font> construct(<font class="keyword">const</font> <font class="keywordtype">char</font> *field, <font class="keywordtype">unsigned</font> field_length);
-00551                 <font class="keywordtype">void</font> construct(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_value, <font class="keywordtype">unsigned</font> field_value_length);
-00552                 <font class="keywordtype">void</font> compose_field();
-00553                 <font class="keywordtype">void</font> parse_field();
-00554             };
-00555 
-00556             VorbisComment();
-00557 
-00559 
-<a name="l00562"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z21_0">00562</a>             <font class="keyword">inline</font> VorbisComment(<font class="keyword">const</font> VorbisComment &amp;object): Prototype(object) { }
-<a name="l00563"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z21_1">00563</a>             <font class="keyword">inline</font> VorbisComment(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
-<a name="l00564"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z21_2">00564</a>             <font class="keyword">inline</font> VorbisComment(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
-00566 
-<a name="l00570"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#a1">00570</a>             <font class="keyword">inline</font> VorbisComment(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
-00571 
-00572             ~VorbisComment();
-00573 
-00575 
-<a name="l00576"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z22_0">00576</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> VorbisComment &amp;object) { Prototype::operator=(object); }
-<a name="l00577"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z22_1">00577</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); }
-<a name="l00578"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z22_2">00578</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); }
-00580 
-00582 
-<a name="l00583"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z23_0">00583</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> VorbisComment &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00584"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z23_1">00584</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00585"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z23_2">00585</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-00587 
-00589 
-<a name="l00590"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z24_0">00590</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> VorbisComment &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00591"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z24_1">00591</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00592"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z24_2">00592</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-00594 
-00595             <font class="keywordtype">unsigned</font> get_num_comments() <font class="keyword">const</font>;
-00596             Entry get_vendor_string() <font class="keyword">const</font>; <font class="comment">// only the Entry's field name should be used</font>
-00597             Entry get_comment(<font class="keywordtype">unsigned</font> index) <font class="keyword">const</font>;
-00598 
-00601             <font class="keywordtype">bool</font> set_vendor_string(<font class="keyword">const</font> Entry &amp;entry);
-00602 
-00604             <font class="keywordtype">bool</font> set_comment(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> Entry &amp;entry);
-00605 
-00607             <font class="keywordtype">bool</font> insert_comment(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> Entry &amp;entry);
-00608 
-00610             <font class="keywordtype">bool</font> delete_comment(<font class="keywordtype">unsigned</font> index);
-00611         };
-00612 
-<a name="l00616"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html">00616</a>         <font class="keyword">class </font>FLACPP_API CueSheet : <font class="keyword">public</font> Prototype {
-00617         <font class="keyword">public</font>:
-<a name="l00624"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html">00624</a>             <font class="keyword">class </font>FLACPP_API Track {
-00625             <font class="keyword">protected</font>:
-00626                 ::FLAC__StreamMetadata_CueSheet_Track *object_;
-00627             <font class="keyword">public</font>:
-00628                 Track();
-00629                 Track(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track);
-00630                 Track(<font class="keyword">const</font> Track &amp;track);
-00631                 <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> Track &amp;track);
+<a name="l00477"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#a3">00477</a>             <font class="keyword">inline</font> SeekTable &amp;assign(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy) { Prototype::assign_object(object, copy); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00478 
+00480 
+<a name="l00481"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z19_0">00481</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> SeekTable &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00482"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z19_1">00482</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00483"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z19_2">00483</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+00485 
+00487 
+<a name="l00488"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z20_0">00488</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> SeekTable &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00489"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z20_1">00489</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00490"></a><a class="code" href="classFLAC_1_1Metadata_1_1SeekTable.html#z20_2">00490</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+00492 
+00493             <font class="keywordtype">unsigned</font> get_num_points() <font class="keyword">const</font>;
+00494             ::FLAC__StreamMetadata_SeekPoint get_point(<font class="keywordtype">unsigned</font> index) <font class="keyword">const</font>;
+00495 
+00497             <font class="keywordtype">void</font> set_point(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> &amp;point);
+00498 
+00500             <font class="keywordtype">bool</font> insert_point(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> &amp;point);
+00501 
+00503             <font class="keywordtype">bool</font> delete_point(<font class="keywordtype">unsigned</font> index);
+00504 
+00506             <font class="keywordtype">bool</font> is_legal() <font class="keyword">const</font>;
+00507         };
+00508 
+<a name="l00512"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html">00512</a>         <font class="keyword">class </font>FLACPP_API VorbisComment : <font class="keyword">public</font> Prototype {
+00513         <font class="keyword">public</font>:
+<a name="l00543"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html">00543</a>             <font class="keyword">class </font>FLACPP_API Entry {
+00544             <font class="keyword">public</font>:
+00545                 Entry();
+00546 
+00547                 Entry(<font class="keyword">const</font> <font class="keywordtype">char</font> *field, <font class="keywordtype">unsigned</font> field_length);
+00548                 Entry(<font class="keyword">const</font> <font class="keywordtype">char</font> *field); <font class="comment">// assumes \a field is NUL-terminated</font>
+00549 
+00550                 Entry(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_value, <font class="keywordtype">unsigned</font> field_value_length);
+00551                 Entry(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_value); <font class="comment">// assumes \a field_value is NUL-terminated</font>
+00552 
+00553                 Entry(<font class="keyword">const</font> Entry &amp;entry);
+00554 
+00555                 Entry &amp;operator=(<font class="keyword">const</font> Entry &amp;entry);
+00556 
+00557                 <font class="keyword">virtual</font> ~Entry();
+00558 
+00559                 <font class="keyword">virtual</font> <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
+00560 
+00561                 <font class="keywordtype">unsigned</font> get_field_length() <font class="keyword">const</font>;
+00562                 <font class="keywordtype">unsigned</font> get_field_name_length() <font class="keyword">const</font>;
+00563                 <font class="keywordtype">unsigned</font> get_field_value_length() <font class="keyword">const</font>;
+00564 
+00565                 ::FLAC__StreamMetadata_VorbisComment_Entry get_entry() <font class="keyword">const</font>;
+00566                 <font class="keyword">const</font> <font class="keywordtype">char</font> *get_field() <font class="keyword">const</font>;
+00567                 <font class="keyword">const</font> <font class="keywordtype">char</font> *get_field_name() <font class="keyword">const</font>;
+00568                 <font class="keyword">const</font> <font class="keywordtype">char</font> *get_field_value() <font class="keyword">const</font>;
+00569 
+00570                 <font class="keywordtype">bool</font> set_field(<font class="keyword">const</font> <font class="keywordtype">char</font> *field, <font class="keywordtype">unsigned</font> field_length);
+00571                 <font class="keywordtype">bool</font> set_field(<font class="keyword">const</font> <font class="keywordtype">char</font> *field); <font class="comment">// assumes \a field is NUL-terminated</font>
+00572                 <font class="keywordtype">bool</font> set_field_name(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
+00573                 <font class="keywordtype">bool</font> set_field_value(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_value, <font class="keywordtype">unsigned</font> field_value_length);
+00574                 <font class="keywordtype">bool</font> set_field_value(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_value); <font class="comment">// assumes \a field_value is NUL-terminated</font>
+00575             <font class="keyword">protected</font>:
+00576                 <font class="keywordtype">bool</font> is_valid_;
+00577                 ::FLAC__StreamMetadata_VorbisComment_Entry entry_;
+00578                 <font class="keywordtype">char</font> *field_name_;
+00579                 <font class="keywordtype">unsigned</font> field_name_length_;
+00580                 <font class="keywordtype">char</font> *field_value_;
+00581                 <font class="keywordtype">unsigned</font> field_value_length_;
+00582             <font class="keyword">private</font>:
+00583                 <font class="keywordtype">void</font> zero();
+00584                 <font class="keywordtype">void</font> clear();
+00585                 <font class="keywordtype">void</font> clear_entry();
+00586                 <font class="keywordtype">void</font> clear_field_name();
+00587                 <font class="keywordtype">void</font> clear_field_value();
+00588                 <font class="keywordtype">void</font> construct(<font class="keyword">const</font> <font class="keywordtype">char</font> *field, <font class="keywordtype">unsigned</font> field_length);
+00589                 <font class="keywordtype">void</font> construct(<font class="keyword">const</font> <font class="keywordtype">char</font> *field); <font class="comment">// assumes \a field is NUL-terminated</font>
+00590                 <font class="keywordtype">void</font> construct(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_value, <font class="keywordtype">unsigned</font> field_value_length);
+00591                 <font class="keywordtype">void</font> construct(<font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_value); <font class="comment">// assumes \a field_value is NUL-terminated</font>
+00592                 <font class="keywordtype">void</font> compose_field();
+00593                 <font class="keywordtype">void</font> parse_field();
+00594             };
+00595 
+00596             VorbisComment();
+00597 
+00599 
+<a name="l00602"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z21_0">00602</a>             <font class="keyword">inline</font> VorbisComment(<font class="keyword">const</font> VorbisComment &amp;object): Prototype(object) { }
+<a name="l00603"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z21_1">00603</a>             <font class="keyword">inline</font> VorbisComment(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
+<a name="l00604"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z21_2">00604</a>             <font class="keyword">inline</font> VorbisComment(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
+00606 
+<a name="l00610"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#a1">00610</a>             <font class="keyword">inline</font> VorbisComment(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00611 
+00612             ~VorbisComment();
+00613 
+00615 
+<a name="l00616"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z22_0">00616</a>             <font class="keyword">inline</font> VorbisComment &amp;operator=(<font class="keyword">const</font> VorbisComment &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00617"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z22_1">00617</a>             <font class="keyword">inline</font> VorbisComment &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00618"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z22_2">00618</a>             <font class="keyword">inline</font> VorbisComment &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00620 
+<a name="l00624"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#a3">00624</a>             <font class="keyword">inline</font> VorbisComment &amp;assign(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy) { Prototype::assign_object(object, copy); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00625 
+00627 
+<a name="l00628"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z23_0">00628</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> VorbisComment &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00629"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z23_1">00629</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00630"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z23_2">00630</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
 00632 
-00633                 <font class="keyword">virtual</font> ~Track();
 00634 
-00635                 <font class="keyword">virtual</font> <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
-00636 
-00637                 <font class="keyword">inline</font> FLAC__uint64 get_offset()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;offset; }
-00638                 <font class="keyword">inline</font> FLAC__byte get_number()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;number; }
-00639                 <font class="keyword">inline</font> <font class="keyword">const</font> <font class="keywordtype">char</font> *get_isrc()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;isrc; }
-00640                 <font class="keyword">inline</font> <font class="keywordtype">unsigned</font> get_type()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;type; }
-00641                 <font class="keyword">inline</font> <font class="keywordtype">bool</font> get_pre_emphasis()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;pre_emphasis; }
-00642 
-00643                 <font class="keyword">inline</font> FLAC__byte get_num_indices()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;num_indices; }
-00644                 ::FLAC__StreamMetadata_CueSheet_Index get_index(<font class="keywordtype">unsigned</font> i) <font class="keyword">const</font>;
-00645 
-00646                 <font class="keyword">inline</font> const ::FLAC__StreamMetadata_CueSheet_Track *get_track()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_; }
-00647 
-00648                 <font class="keyword">inline</font> <font class="keywordtype">void</font> set_offset(FLAC__uint64 value) { object_-&gt;offset = value; }
-00649                 <font class="keyword">inline</font> <font class="keywordtype">void</font> set_number(FLAC__byte value) { object_-&gt;number = value; }
-00650                 <font class="keywordtype">void</font> set_isrc(<font class="keyword">const</font> <font class="keywordtype">char</font> value[12]);
-00651                 <font class="keywordtype">void</font> set_type(<font class="keywordtype">unsigned</font> value);
-00652                 <font class="keyword">inline</font> <font class="keywordtype">void</font> set_pre_emphasis(<font class="keywordtype">bool</font> value) { object_-&gt;pre_emphasis = value? 1 : 0; }
-00653 
-00654                 <font class="keywordtype">void</font> set_index(<font class="keywordtype">unsigned</font> i, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> &amp;index);
-00655                 <font class="comment">//@@@ It's awkward but to insert/delete index points</font>
-00656                 <font class="comment">//@@@ you must use the routines in the CueSheet class.</font>
-00657             };
-00658 
-00659             CueSheet();
-00660 
-00662 
-<a name="l00665"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z25_0">00665</a>             <font class="keyword">inline</font> CueSheet(<font class="keyword">const</font> CueSheet &amp;object): Prototype(object) { }
-<a name="l00666"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z25_1">00666</a>             <font class="keyword">inline</font> CueSheet(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
-<a name="l00667"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z25_2">00667</a>             <font class="keyword">inline</font> CueSheet(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
-00669 
-<a name="l00673"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#a1">00673</a>             <font class="keyword">inline</font> CueSheet(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
-00674 
-00675             ~CueSheet();
-00676 
-00678 
-<a name="l00679"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z26_0">00679</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> CueSheet &amp;object) { Prototype::operator=(object); }
-<a name="l00680"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z26_1">00680</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); }
-<a name="l00681"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z26_2">00681</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); }
+<a name="l00635"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z24_0">00635</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> VorbisComment &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00636"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z24_1">00636</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00637"></a><a class="code" href="classFLAC_1_1Metadata_1_1VorbisComment.html#z24_2">00637</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+00639 
+00640             <font class="keywordtype">unsigned</font> get_num_comments() <font class="keyword">const</font>;
+00641             <font class="keyword">const</font> FLAC__byte *get_vendor_string() <font class="keyword">const</font>; <font class="comment">// NUL-terminated UTF-8 string</font>
+00642             Entry get_comment(<font class="keywordtype">unsigned</font> index) <font class="keyword">const</font>;
+00643 
+00645             <font class="keywordtype">bool</font> set_vendor_string(<font class="keyword">const</font> FLAC__byte *string); <font class="comment">// NUL-terminated UTF-8 string</font>
+00646 
+00648             <font class="keywordtype">bool</font> set_comment(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> Entry &amp;entry);
+00649 
+00651             <font class="keywordtype">bool</font> insert_comment(<font class="keywordtype">unsigned</font> index, <font class="keyword">const</font> Entry &amp;entry);
+00652 
+00654             <font class="keywordtype">bool</font> append_comment(<font class="keyword">const</font> Entry &amp;entry);
+00655 
+00657             <font class="keywordtype">bool</font> delete_comment(<font class="keywordtype">unsigned</font> index);
+00658         };
+00659 
+<a name="l00663"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html">00663</a>         <font class="keyword">class </font>FLACPP_API CueSheet : <font class="keyword">public</font> Prototype {
+00664         <font class="keyword">public</font>:
+<a name="l00671"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html">00671</a>             <font class="keyword">class </font>FLACPP_API Track {
+00672             <font class="keyword">protected</font>:
+00673                 ::FLAC__StreamMetadata_CueSheet_Track *object_;
+00674             <font class="keyword">public</font>:
+00675                 Track();
+00676                 Track(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track);
+00677                 Track(<font class="keyword">const</font> Track &amp;track);
+00678                 Track &amp;operator=(<font class="keyword">const</font> Track &amp;track);
+00679 
+00680                 <font class="keyword">virtual</font> ~Track();
+00681 
+00682                 <font class="keyword">virtual</font> <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
 00683 
-00685 
-<a name="l00686"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z27_0">00686</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> CueSheet &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00687"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z27_1">00687</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00688"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z27_2">00688</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-00690 
+00684                 <font class="keyword">inline</font> FLAC__uint64 get_offset()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;offset; }
+00685                 <font class="keyword">inline</font> FLAC__byte get_number()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;number; }
+00686                 <font class="keyword">inline</font> <font class="keyword">const</font> <font class="keywordtype">char</font> *get_isrc()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;isrc; }
+00687                 <font class="keyword">inline</font> <font class="keywordtype">unsigned</font> get_type()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;type; }
+00688                 <font class="keyword">inline</font> <font class="keywordtype">bool</font> get_pre_emphasis()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;pre_emphasis; }
+00689 
+00690                 <font class="keyword">inline</font> FLAC__byte get_num_indices()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_-&gt;num_indices; }
+00691                 ::FLAC__StreamMetadata_CueSheet_Index get_index(<font class="keywordtype">unsigned</font> i) <font class="keyword">const</font>;
 00692 
-<a name="l00693"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z28_0">00693</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> CueSheet &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00694"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z28_1">00694</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00695"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z28_2">00695</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-00697 
-00698             <font class="keyword">const</font> <font class="keywordtype">char</font> *get_media_catalog_number() <font class="keyword">const</font>;
-00699             FLAC__uint64 get_lead_in() <font class="keyword">const</font>;
-00700             <font class="keywordtype">bool</font> get_is_cd() <font class="keyword">const</font>;
-00701 
-00702             <font class="keywordtype">unsigned</font> get_num_tracks() <font class="keyword">const</font>;
-00703             Track get_track(<font class="keywordtype">unsigned</font> i) <font class="keyword">const</font>;
-00704 
-00705             <font class="keywordtype">void</font> set_media_catalog_number(<font class="keyword">const</font> <font class="keywordtype">char</font> value[128]);
-00706             <font class="keywordtype">void</font> set_lead_in(FLAC__uint64 value);
-00707             <font class="keywordtype">void</font> set_is_cd(<font class="keywordtype">bool</font> value);
-00708 
-00709             <font class="keywordtype">void</font> set_index(<font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> &amp;index);
-00710 
-00712             <font class="keywordtype">bool</font> insert_index(<font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> &amp;index);
-00713 
-00715             <font class="keywordtype">bool</font> delete_index(<font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num);
+00693                 <font class="keyword">inline</font> const ::FLAC__StreamMetadata_CueSheet_Track *get_track()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> object_; }
+00694 
+00695                 <font class="keyword">inline</font> <font class="keywordtype">void</font> set_offset(FLAC__uint64 value) { object_-&gt;offset = value; }
+00696                 <font class="keyword">inline</font> <font class="keywordtype">void</font> set_number(FLAC__byte value) { object_-&gt;number = value; }
+00697                 <font class="keywordtype">void</font> set_isrc(<font class="keyword">const</font> <font class="keywordtype">char</font> value[12]);
+00698                 <font class="keywordtype">void</font> set_type(<font class="keywordtype">unsigned</font> value);
+00699                 <font class="keyword">inline</font> <font class="keywordtype">void</font> set_pre_emphasis(<font class="keywordtype">bool</font> value) { object_-&gt;pre_emphasis = value? 1 : 0; }
+00700 
+00701                 <font class="keywordtype">void</font> set_index(<font class="keywordtype">unsigned</font> i, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> &amp;index);
+00702                 <font class="comment">//@@@ It's awkward but to insert/delete index points</font>
+00703                 <font class="comment">//@@@ you must use the routines in the CueSheet class.</font>
+00704             };
+00705 
+00706             CueSheet();
+00707 
+00709 
+<a name="l00712"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z25_0">00712</a>             <font class="keyword">inline</font> CueSheet(<font class="keyword">const</font> CueSheet &amp;object): Prototype(object) { }
+<a name="l00713"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z25_1">00713</a>             <font class="keyword">inline</font> CueSheet(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
+<a name="l00714"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z25_2">00714</a>             <font class="keyword">inline</font> CueSheet(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
 00716 
-00718             <font class="keywordtype">bool</font> set_track(<font class="keywordtype">unsigned</font> i, <font class="keyword">const</font> Track &amp;track);
-00719 
-00721             <font class="keywordtype">bool</font> insert_track(<font class="keywordtype">unsigned</font> i, <font class="keyword">const</font> Track &amp;track);
-00722 
-00724             <font class="keywordtype">bool</font> delete_track(<font class="keywordtype">unsigned</font> i);
+<a name="l00720"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#a1">00720</a>             <font class="keyword">inline</font> CueSheet(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00721 
+00722             ~CueSheet();
+00723 
 00725 
-00727             <font class="keywordtype">bool</font> is_legal(<font class="keywordtype">bool</font> check_cd_da_subset = <font class="keyword">false</font>, <font class="keyword">const</font> <font class="keywordtype">char</font> **violation = 0) <font class="keyword">const</font>;
-00728         };
-00729 
-<a name="l00735"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html">00735</a>         <font class="keyword">class </font>FLACPP_API Unknown : <font class="keyword">public</font> Prototype {
-00736         <font class="keyword">public</font>:
-00737             Unknown();
-00738             <font class="comment">//</font>
-00740 <font class="comment">            /** Constructs a copy of the given object.  This form</font>
-00741              *  always performs a deep copy.
-00742              */
-<a name="l00743"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z29_0">00743</a>             <font class="keyword">inline</font> Unknown(<font class="keyword">const</font> Unknown &amp;object): Prototype(object) { }
-<a name="l00744"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z29_1">00744</a>             <font class="keyword">inline</font> Unknown(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
-<a name="l00745"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z29_2">00745</a>             <font class="keyword">inline</font> Unknown(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
-00747 
-<a name="l00751"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#a1">00751</a>             <font class="keyword">inline</font> Unknown(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
-00752 
-00753             ~Unknown();
-00754 
+<a name="l00726"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z26_0">00726</a>             <font class="keyword">inline</font> CueSheet &amp;operator=(<font class="keyword">const</font> CueSheet &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00727"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z26_1">00727</a>             <font class="keyword">inline</font> CueSheet &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00728"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z26_2">00728</a>             <font class="keyword">inline</font> CueSheet &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00730 
+<a name="l00734"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#a3">00734</a>             <font class="keyword">inline</font> CueSheet &amp;assign(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy) { Prototype::assign_object(object, copy); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00735 
+00737 
+<a name="l00738"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z27_0">00738</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> CueSheet &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00739"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z27_1">00739</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00740"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z27_2">00740</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+00742 
+00744 
+<a name="l00745"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z28_0">00745</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> CueSheet &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00746"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z28_1">00746</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00747"></a><a class="code" href="classFLAC_1_1Metadata_1_1CueSheet.html#z28_2">00747</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+00749 
+00750             <font class="keyword">const</font> <font class="keywordtype">char</font> *get_media_catalog_number() <font class="keyword">const</font>;
+00751             FLAC__uint64 get_lead_in() <font class="keyword">const</font>;
+00752             <font class="keywordtype">bool</font> get_is_cd() <font class="keyword">const</font>;
+00753 
+00754             <font class="keywordtype">unsigned</font> get_num_tracks() <font class="keyword">const</font>;
+00755             Track get_track(<font class="keywordtype">unsigned</font> i) <font class="keyword">const</font>;
 00756 
-<a name="l00757"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z30_0">00757</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> Unknown &amp;object) { Prototype::operator=(object); }
-<a name="l00758"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z30_1">00758</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); }
-<a name="l00759"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z30_2">00759</a>             <font class="keyword">inline</font> <font class="keywordtype">void</font> operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); }
-00761 
-00763 
-<a name="l00764"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z31_0">00764</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Unknown &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00765"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z31_1">00765</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
-<a name="l00766"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z31_2">00766</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+00757             <font class="keywordtype">void</font> set_media_catalog_number(<font class="keyword">const</font> <font class="keywordtype">char</font> value[128]);
+00758             <font class="keywordtype">void</font> set_lead_in(FLAC__uint64 value);
+00759             <font class="keywordtype">void</font> set_is_cd(<font class="keywordtype">bool</font> value);
+00760 
+00761             <font class="keywordtype">void</font> set_index(<font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> &amp;index);
+00762 
+00764             <font class="keywordtype">bool</font> insert_index(<font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num, <font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> &amp;index);
+00765 
+00767             <font class="keywordtype">bool</font> delete_index(<font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num);
 00768 
-00770 
-<a name="l00771"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z32_0">00771</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Unknown &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00772"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z32_1">00772</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-<a name="l00773"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z32_2">00773</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
-00775 
-00776             <font class="keyword">const</font> FLAC__byte *get_data() <font class="keyword">const</font>;
+00770             <font class="keywordtype">bool</font> set_track(<font class="keywordtype">unsigned</font> i, <font class="keyword">const</font> Track &amp;track);
+00771 
+00773             <font class="keywordtype">bool</font> insert_track(<font class="keywordtype">unsigned</font> i, <font class="keyword">const</font> Track &amp;track);
+00774 
+00776             <font class="keywordtype">bool</font> delete_track(<font class="keywordtype">unsigned</font> i);
 00777 
-00779             <font class="keywordtype">bool</font> set_data(<font class="keyword">const</font> FLAC__byte *data, <font class="keywordtype">unsigned</font> length);
-00780             <font class="keywordtype">bool</font> set_data(FLAC__byte *data, <font class="keywordtype">unsigned</font> length, <font class="keywordtype">bool</font> copy);
-00781         };
-00782 
-00783         <font class="comment">/* \} */</font>
-00784 
-00785 
-00798 
-00799         FLACPP_API <font class="keywordtype">bool</font> get_streaminfo(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename, StreamInfo &amp;streaminfo);
-00800         <font class="comment">//</font>
-00802 <font class="comment">        FLACPP_API bool get_tags(const char *filename, VorbisComment *&amp;tags);</font>
-00803 
-00804         <font class="comment">/* \} */</font>
-00805 
+00779             <font class="keywordtype">bool</font> is_legal(<font class="keywordtype">bool</font> check_cd_da_subset = <font class="keyword">false</font>, <font class="keyword">const</font> <font class="keywordtype">char</font> **violation = 0) <font class="keyword">const</font>;
+00780         };
+00781 
+<a name="l00787"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html">00787</a>         <font class="keyword">class </font>FLACPP_API Unknown : <font class="keyword">public</font> Prototype {
+00788         <font class="keyword">public</font>:
+00789             Unknown();
+00790             <font class="comment">//</font>
+00792 <font class="comment">            /** Constructs a copy of the given object.  This form</font>
+00793              *  always performs a deep copy.
+00794              */
+<a name="l00795"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z29_0">00795</a>             <font class="keyword">inline</font> Unknown(<font class="keyword">const</font> Unknown &amp;object): Prototype(object) { }
+<a name="l00796"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z29_1">00796</a>             <font class="keyword">inline</font> Unknown(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object): Prototype(object) { }
+<a name="l00797"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z29_2">00797</a>             <font class="keyword">inline</font> Unknown(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object): Prototype(object) { }
+00799 
+<a name="l00803"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#a1">00803</a>             <font class="keyword">inline</font> Unknown(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy): Prototype(object, copy) { }
+00804 
+00805             ~Unknown();
 00806 
-<a name="l00839"></a><a class="code" href="classFLAC_1_1Metadata_1_1SimpleIterator.html">00839</a>         <font class="keyword">class </font>FLACPP_API SimpleIterator {
-00840         <font class="keyword">public</font>:
-00841             <font class="keyword">class </font>FLACPP_API Status {
-00842             <font class="keyword">public</font>:
-00843                 <font class="keyword">inline</font> Status(::<a class="code" href="metadata_8h.html#a14">FLAC__Metadata_SimpleIteratorStatus</a> status): status_(status) { }
-00844                 <font class="keyword">inline</font> <a class="code" href="metadata_8h.html#a14">operator ::FLAC__Metadata_SimpleIteratorStatus</a>()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> status_; }
-00845                 <font class="keyword">inline</font> <font class="keyword">const</font> <font class="keywordtype">char</font> *as_cstring()<font class="keyword"> const </font>{ return ::FLAC__Metadata_SimpleIteratorStatusString[status_]; }
-00846             <font class="keyword">protected</font>:
-00847                 ::FLAC__Metadata_SimpleIteratorStatus status_;
-00848             };
-00849 
-00850             SimpleIterator();
-00851             <font class="keyword">virtual</font> ~SimpleIterator();
-00852 
-00853             <font class="keywordtype">bool</font> init(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename, <font class="keywordtype">bool</font> read_only, <font class="keywordtype">bool</font> preserve_file_stats);
-00854 
-00855             <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
-00856             Status status();
-00857             <font class="keywordtype">bool</font> is_writable() <font class="keyword">const</font>;
-00858 
-00859             <font class="keywordtype">bool</font> next();
-00860             <font class="keywordtype">bool</font> prev();
+00808 
+<a name="l00809"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z30_0">00809</a>             <font class="keyword">inline</font> Unknown &amp;operator=(<font class="keyword">const</font> Unknown &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00810"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z30_1">00810</a>             <font class="keyword">inline</font> Unknown &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+<a name="l00811"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z30_2">00811</a>             <font class="keyword">inline</font> Unknown &amp;operator=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object) { Prototype::operator=(object); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00813 
+<a name="l00817"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#a3">00817</a>             <font class="keyword">inline</font> Unknown &amp;assign(::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">bool</font> copy) { Prototype::assign_object(object, copy); <font class="keywordflow">return</font> *<font class="keyword">this</font>; }
+00818 
+00820 
+<a name="l00821"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z31_0">00821</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> Unknown &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00822"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z31_1">00822</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+<a name="l00823"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z31_2">00823</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator==(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator==(object); }
+00825 
+00827 
+<a name="l00828"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z32_0">00828</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> Unknown &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00829"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z32_1">00829</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> &amp;object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+<a name="l00830"></a><a class="code" href="classFLAC_1_1Metadata_1_1Unknown.html#z32_2">00830</a>             <font class="keyword">inline</font> <font class="keywordtype">bool</font> operator!=(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object)<font class="keyword"> const </font>{ <font class="keywordflow">return</font> Prototype::operator!=(object); }
+00832 
+00833             <font class="keyword">const</font> FLAC__byte *get_data() <font class="keyword">const</font>;
+00834 
+00836             <font class="keywordtype">bool</font> set_data(<font class="keyword">const</font> FLAC__byte *data, <font class="keywordtype">unsigned</font> length);
+00837             <font class="keywordtype">bool</font> set_data(FLAC__byte *data, <font class="keywordtype">unsigned</font> length, <font class="keywordtype">bool</font> copy);
+00838         };
+00839 
+00840         <font class="comment">/* \} */</font>
+00841 
+00842 
+00855 
+00856         FLACPP_API <font class="keywordtype">bool</font> get_streaminfo(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename, StreamInfo &amp;streaminfo);
+00857 
+00859         FLACPP_API <font class="keywordtype">bool</font> get_tags(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename, VorbisComment *&amp;tags);
+00860         FLACPP_API <font class="keywordtype">bool</font> get_tags(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename, VorbisComment &amp;tags);
 00861 
-00862             ::FLAC__MetadataType get_block_type() <font class="keyword">const</font>;
-00863             Prototype *get_block();
-00864             <font class="keywordtype">bool</font> set_block(Prototype *block, <font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>);
-00865             <font class="keywordtype">bool</font> insert_block_after(Prototype *block, <font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>);
-00866             <font class="keywordtype">bool</font> delete_block(<font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>);
-00867 
-00868         <font class="keyword">protected</font>:
-00869             ::FLAC__Metadata_SimpleIterator *iterator_;
-00870             <font class="keywordtype">void</font> clear();
-00871         };
-00872 
-00873         <font class="comment">/* \} */</font>
-00874 
-00875 
-<a name="l00916"></a><a class="code" href="classFLAC_1_1Metadata_1_1Chain.html">00916</a>         <font class="keyword">class </font>FLACPP_API Chain {
-00917         <font class="keyword">public</font>:
-00918             <font class="keyword">class </font>FLACPP_API Status {
-00919             <font class="keyword">public</font>:
-00920                 <font class="keyword">inline</font> Status(::<a class="code" href="metadata_8h.html#a25">FLAC__Metadata_ChainStatus</a> status): status_(status) { }
-00921                 <font class="keyword">inline</font> <a class="code" href="metadata_8h.html#a25">operator ::FLAC__Metadata_ChainStatus</a>()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> status_; }
-00922                 <font class="keyword">inline</font> <font class="keyword">const</font> <font class="keywordtype">char</font> *as_cstring()<font class="keyword"> const </font>{ return ::FLAC__Metadata_ChainStatusString[status_]; }
-00923             <font class="keyword">protected</font>:
-00924                 ::FLAC__Metadata_ChainStatus status_;
-00925             };
-00926 
-00927             Chain();
-00928             <font class="keyword">virtual</font> ~Chain();
-00929 
-00930             <font class="keyword">friend</font> <font class="keyword">class </font>Iterator;
-00931 
-00932             <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
-00933             Status status();
-00934 
-00935             <font class="keywordtype">bool</font> read(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename);
-00936             <font class="keywordtype">bool</font> read(FLAC__IOHandle handle, <a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> callbacks);
-00937 
-00938             <font class="keywordtype">bool</font> check_if_tempfile_needed(<font class="keywordtype">bool</font> use_padding);
-00939 
-00940             <font class="keywordtype">bool</font> write(<font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>, <font class="keywordtype">bool</font> preserve_file_stats = <font class="keyword">false</font>);
-00941             <font class="keywordtype">bool</font> write(<font class="keywordtype">bool</font> use_padding, ::FLAC__IOHandle handle, ::<a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> callbacks);
-00942             <font class="keywordtype">bool</font> write(<font class="keywordtype">bool</font> use_padding, ::FLAC__IOHandle handle, ::<a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> callbacks, ::FLAC__IOHandle temp_handle, ::<a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> temp_callbacks);
-00943 
-00944             <font class="keywordtype">void</font> merge_padding();
-00945             <font class="keywordtype">void</font> sort_padding();
-00946 
-00947         <font class="keyword">protected</font>:
-00948             ::FLAC__Metadata_Chain *chain_;
-00949             <font class="keyword">virtual</font> <font class="keywordtype">void</font> clear();
-00950         };
-00951 
-<a name="l00955"></a><a class="code" href="classFLAC_1_1Metadata_1_1Iterator.html">00955</a>         <font class="keyword">class </font>FLACPP_API Iterator {
-00956         <font class="keyword">public</font>:
-00957             Iterator();
-00958             <font class="keyword">virtual</font> ~Iterator();
-00959 
-00960             <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
-00961 
-00962             <font class="keywordtype">void</font> init(Chain &amp;chain);
-00963 
-00964             <font class="keywordtype">bool</font> next();
-00965             <font class="keywordtype">bool</font> prev();
-00966 
-00967             ::FLAC__MetadataType get_block_type() <font class="keyword">const</font>;
-00968             Prototype *get_block();
-00969             <font class="keywordtype">bool</font> set_block(Prototype *block);
-00970             <font class="keywordtype">bool</font> delete_block(<font class="keywordtype">bool</font> replace_with_padding);
-00971             <font class="keywordtype">bool</font> insert_block_before(Prototype *block);
-00972             <font class="keywordtype">bool</font> insert_block_after(Prototype *block);
-00973 
-00974         <font class="keyword">protected</font>:
-00975             ::FLAC__Metadata_Iterator *iterator_;
-00976             <font class="keyword">virtual</font> <font class="keywordtype">void</font> clear();
-00977         };
-00978 
-00979         <font class="comment">/* \} */</font>
-00980 
-00981     };
-00982 };
-00983 
-00984 <font class="preprocessor">#endif</font>
-</pre></div><hr><address><small>Generated on Tue Sep 28 21:19:41 2004 for FLAC by
+00862         <font class="comment">/* \} */</font>
+00863 
+00864 
+<a name="l00897"></a><a class="code" href="classFLAC_1_1Metadata_1_1SimpleIterator.html">00897</a>         <font class="keyword">class </font>FLACPP_API SimpleIterator {
+00898         <font class="keyword">public</font>:
+00899             <font class="keyword">class </font>FLACPP_API Status {
+00900             <font class="keyword">public</font>:
+00901                 <font class="keyword">inline</font> Status(::<a class="code" href="metadata_8h.html#a14">FLAC__Metadata_SimpleIteratorStatus</a> status): status_(status) { }
+00902                 <font class="keyword">inline</font> <a class="code" href="metadata_8h.html#a14">operator ::FLAC__Metadata_SimpleIteratorStatus</a>()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> status_; }
+00903                 <font class="keyword">inline</font> <font class="keyword">const</font> <font class="keywordtype">char</font> *as_cstring()<font class="keyword"> const </font>{ return ::FLAC__Metadata_SimpleIteratorStatusString[status_]; }
+00904             <font class="keyword">protected</font>:
+00905                 ::FLAC__Metadata_SimpleIteratorStatus status_;
+00906             };
+00907 
+00908             SimpleIterator();
+00909             <font class="keyword">virtual</font> ~SimpleIterator();
+00910 
+00911             <font class="keywordtype">bool</font> init(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename, <font class="keywordtype">bool</font> read_only, <font class="keywordtype">bool</font> preserve_file_stats);
+00912 
+00913             <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
+00914             Status status();
+00915             <font class="keywordtype">bool</font> is_writable() <font class="keyword">const</font>;
+00916 
+00917             <font class="keywordtype">bool</font> next();
+00918             <font class="keywordtype">bool</font> prev();
+00919 
+00920             ::FLAC__MetadataType get_block_type() <font class="keyword">const</font>;
+00921             Prototype *get_block();
+00922             <font class="keywordtype">bool</font> set_block(Prototype *block, <font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>);
+00923             <font class="keywordtype">bool</font> insert_block_after(Prototype *block, <font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>);
+00924             <font class="keywordtype">bool</font> delete_block(<font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>);
+00925 
+00926         <font class="keyword">protected</font>:
+00927             ::FLAC__Metadata_SimpleIterator *iterator_;
+00928             <font class="keywordtype">void</font> clear();
+00929         };
+00930 
+00931         <font class="comment">/* \} */</font>
+00932 
+00933 
+<a name="l00974"></a><a class="code" href="classFLAC_1_1Metadata_1_1Chain.html">00974</a>         <font class="keyword">class </font>FLACPP_API Chain {
+00975         <font class="keyword">public</font>:
+00976             <font class="keyword">class </font>FLACPP_API Status {
+00977             <font class="keyword">public</font>:
+00978                 <font class="keyword">inline</font> Status(::<a class="code" href="metadata_8h.html#a25">FLAC__Metadata_ChainStatus</a> status): status_(status) { }
+00979                 <font class="keyword">inline</font> <a class="code" href="metadata_8h.html#a25">operator ::FLAC__Metadata_ChainStatus</a>()<font class="keyword"> const </font>{ <font class="keywordflow">return</font> status_; }
+00980                 <font class="keyword">inline</font> <font class="keyword">const</font> <font class="keywordtype">char</font> *as_cstring()<font class="keyword"> const </font>{ return ::FLAC__Metadata_ChainStatusString[status_]; }
+00981             <font class="keyword">protected</font>:
+00982                 ::FLAC__Metadata_ChainStatus status_;
+00983             };
+00984 
+00985             Chain();
+00986             <font class="keyword">virtual</font> ~Chain();
+00987 
+00988             <font class="keyword">friend</font> <font class="keyword">class </font>Iterator;
+00989 
+00990             <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
+00991             Status status();
+00992 
+00993             <font class="keywordtype">bool</font> read(<font class="keyword">const</font> <font class="keywordtype">char</font> *filename);
+00994             <font class="keywordtype">bool</font> read(FLAC__IOHandle handle, <a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> callbacks);
+00995 
+00996             <font class="keywordtype">bool</font> check_if_tempfile_needed(<font class="keywordtype">bool</font> use_padding);
+00997 
+00998             <font class="keywordtype">bool</font> write(<font class="keywordtype">bool</font> use_padding = <font class="keyword">true</font>, <font class="keywordtype">bool</font> preserve_file_stats = <font class="keyword">false</font>);
+00999             <font class="keywordtype">bool</font> write(<font class="keywordtype">bool</font> use_padding, ::FLAC__IOHandle handle, ::<a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> callbacks);
+01000             <font class="keywordtype">bool</font> write(<font class="keywordtype">bool</font> use_padding, ::FLAC__IOHandle handle, ::<a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> callbacks, ::FLAC__IOHandle temp_handle, ::<a class="code" href="structFLAC____IOCallbacks.html">FLAC__IOCallbacks</a> temp_callbacks);
+01001 
+01002             <font class="keywordtype">void</font> merge_padding();
+01003             <font class="keywordtype">void</font> sort_padding();
+01004 
+01005         <font class="keyword">protected</font>:
+01006             ::FLAC__Metadata_Chain *chain_;
+01007             <font class="keyword">virtual</font> <font class="keywordtype">void</font> clear();
+01008         };
+01009 
+<a name="l01013"></a><a class="code" href="classFLAC_1_1Metadata_1_1Iterator.html">01013</a>         <font class="keyword">class </font>FLACPP_API Iterator {
+01014         <font class="keyword">public</font>:
+01015             Iterator();
+01016             <font class="keyword">virtual</font> ~Iterator();
+01017 
+01018             <font class="keywordtype">bool</font> is_valid() <font class="keyword">const</font>;
+01019 
+01020             <font class="keywordtype">void</font> init(Chain &amp;chain);
+01021 
+01022             <font class="keywordtype">bool</font> next();
+01023             <font class="keywordtype">bool</font> prev();
+01024 
+01025             ::FLAC__MetadataType get_block_type() <font class="keyword">const</font>;
+01026             Prototype *get_block();
+01027             <font class="keywordtype">bool</font> set_block(Prototype *block);
+01028             <font class="keywordtype">bool</font> delete_block(<font class="keywordtype">bool</font> replace_with_padding);
+01029             <font class="keywordtype">bool</font> insert_block_before(Prototype *block);
+01030             <font class="keywordtype">bool</font> insert_block_after(Prototype *block);
+01031 
+01032         <font class="keyword">protected</font>:
+01033             ::FLAC__Metadata_Iterator *iterator_;
+01034             <font class="keyword">virtual</font> <font class="keywordtype">void</font> clear();
+01035         };
+01036 
+01037         <font class="comment">/* \} */</font>
+01038 
+01039     }
+01040 }
+01041 
+01042 <font class="preprocessor">#endif</font>
+</pre></div><hr><address><small>Generated on Fri Feb 4 18:39:10 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

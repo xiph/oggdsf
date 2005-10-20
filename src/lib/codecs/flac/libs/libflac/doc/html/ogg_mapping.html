@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<!-- Copyright (c)  2004  Josh Coalson -->
+<!-- Copyright (c)  2004,2005  Josh Coalson -->
 <!-- Permission is granted to copy, distribute and/or modify this document -->
 <!-- under the terms of the GNU Free Documentation License, Version 1.1 -->
 <!-- or any later version published by the Free Software Foundation; -->
@@ -33,7 +33,7 @@
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="download.html">download</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="features.html">features</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="goals.html">goals</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
-					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="format,html">format</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
+					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="format.html">format</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="id.html">id</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="comparison.html">comparison</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
 					<TD           BGCOLOR="#D3D4C5" ALIGN=CENTER NOWRAP>&nbsp;&nbsp;<A CLASS="topnav" HREF="documentation.html">documentation</A>&nbsp;&nbsp;</TD><TD BGCOLOR="#D3D4C5" ALIGN=CENTER>|</TD>
@@ -110,7 +110,7 @@
 					<LI>The four-byte ASCII signature "FLAC", i.e. 0x46, 0x4C, 0x41, 0x43</LI>
 					<LI>A one-byte binary major version number for the mapping, e.g. 0x01 for mapping version 1.0</LI>
 					<LI>A one-byte binary minor version number for the mapping, e.g. 0x00 for mapping version 1.0</LI>
-					<LI>A two-byte, big-endian binary number signifying the number of header (non-audio) packets, including this one.  This number may be zero (0x0000) to signify 'unknown' but be aware that some decoders may not be able to handle such streams.<!--@@@verify--></LI>
+					<LI>A two-byte, big-endian binary number signifying the number of header (non-audio) packets, not including this one.  This number may be zero (0x0000) to signify 'unknown' but be aware that some decoders may not be able to handle such streams.</LI>
 					<LI>The four-byte ASCII native FLAC signature "fLaC" according to the <A HREF="format.html#stream">FLAC format specification</A></LI>
 					<LI>The <A HREF="format.html#metadata_block">STREAMINFO</A> metadata block for the stream.</LI>
 				</UL>
@@ -158,7 +158,7 @@
 
 </CENTER>
 
-<P>&nbsp;Copyright (c) 2004 Josh Coalson</P>
+<P>&nbsp;Copyright (c) 2004,2005  Josh Coalson</P>
 
 </BODY>
 </HTML>

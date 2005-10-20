@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -28,6 +28,7 @@ else
 CC          = gcc
 CCC         = g++
 endif
+AS          = as
 NASM        = nasm
 LINK        = ar cru
 OBJPATH     = $(topdir)/obj
@@ -56,17 +57,17 @@ LINKD       = $(CC) -shared
 endif
 
 debug   : CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
-valgrind: CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) -DFLAC__VALGRIND_TESTING -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
+valgrind: CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -DFLAC__VALGRIND_TESTING -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
 release : CFLAGS = -O3 -fomit-frame-pointer -funroll-loops -finline-functions -DNDEBUG $(CONFIG_CFLAGS) $(RELEASE_CFLAGS) -Wall -W -Winline -DFLaC__INLINE=__inline__ -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
 
 LFLAGS  = -L$(LIBPATH)
 
-DEBUG_OBJS = $(SRCS_C:%.c=%.debug.o) $(SRCS_CC:%.cc=%.debug.o) $(SRCS_CPP:%.cpp=%.debug.o) $(SRCS_NASM:%.nasm=%.debug.o)
-RELEASE_OBJS = $(SRCS_C:%.c=%.release.o) $(SRCS_CC:%.cc=%.release.o) $(SRCS_CPP:%.cpp=%.release.o) $(SRCS_NASM:%.nasm=%.release.o)
+DEBUG_OBJS = $(SRCS_C:%.c=%.debug.o) $(SRCS_CC:%.cc=%.debug.o) $(SRCS_CPP:%.cpp=%.debug.o) $(SRCS_NASM:%.nasm=%.debug.o) $(SRCS_S:%.s=%.debug.o)
+RELEASE_OBJS = $(SRCS_C:%.c=%.release.o) $(SRCS_CC:%.cc=%.release.o) $(SRCS_CPP:%.cpp=%.release.o) $(SRCS_NASM:%.nasm=%.release.o) $(SRCS_S:%.s=%.release.o)
 
-debug   : $(ORDINALS_H) $(DEBUG_STATIC_LIB) $(DEBUG_DYNAMIC_LIB)
-valgrind: $(ORDINALS_H) $(DEBUG_STATIC_LIB) $(DEBUG_DYNAMIC_LIB)
-release : $(ORDINALS_H) $(RELEASE_STATIC_LIB) $(RELEASE_DYNAMIC_LIB)
+debug   : $(DEBUG_STATIC_LIB) $(DEBUG_DYNAMIC_LIB)
+valgrind: $(DEBUG_STATIC_LIB) $(DEBUG_DYNAMIC_LIB)
+release : $(RELEASE_STATIC_LIB) $(RELEASE_DYNAMIC_LIB)
 
 $(DEBUG_STATIC_LIB): $(DEBUG_OBJS)
 	$(LINK) $@ $(DEBUG_OBJS) && ranlib $@
@@ -76,14 +77,14 @@ $(RELEASE_STATIC_LIB): $(RELEASE_OBJS)
 
 $(DEBUG_DYNAMIC_LIB) : $(DEBUG_OBJS)
 ifeq ($(DARWIN_BUILD),yes)
-	$(LINKD) -o $@ $(DEBUG_OBJS) $(LFLAGS) $(LIBS) -lc
+	echo Not building dynamic lib, command is: $(LINKD) -o $@ $(DEBUG_OBJS) $(LFLAGS) $(LIBS) -lc
 else
 	$(LINKD) -o $@ $(DEBUG_OBJS) $(LFLAGS) $(LIBS)
 endif
 
 $(RELEASE_DYNAMIC_LIB) : $(RELEASE_OBJS)
 ifeq ($(DARWIN_BUILD),yes)
-	$(LINKD) -o $@ $(RELEASE_OBJS) $(LFLAGS) $(LIBS) -lc
+	echo Not building dynamic lib, command is: $(LINKD) -o $@ $(RELEASE_OBJS) $(LFLAGS) $(LIBS) -lc
 else
 	$(LINKD) -o $@ $(RELEASE_OBJS) $(LFLAGS) $(LIBS)
 endif
@@ -101,12 +102,20 @@ endif
 %.debug.i %.release.i : %.cpp
 	$(CCC) $(CFLAGS) -E $< -o $@
 
+%.debug.o %.release.o : %.s
+ifeq ($(DARWIN_BUILD),yes)
+	#$(CC) -c -arch ppc -Wall -force_cpusubtype_ALL $< -o $@
+	$(AS) -arch ppc -force_cpusubtype_ALL $< -o $@
+else
+	$(AS) $< -o $@
+endif
+
 %.debug.o %.release.o : %.nasm
 	$(NASM) -f elf -d OBJ_FORMAT_elf -i ia32/ $< -o $@
 
 .PHONY : clean
 clean :
-	-rm -f $(DEBUG_OBJS) $(RELEASE_OBJS) $(OBJPATH)/*/lib/$(STATIC_LIB_NAME) $(OBJPATH)/*/lib/$(DYNAMIC_LIB_NAME) $(ORDINALS_H)
+	-rm -f $(DEBUG_OBJS) $(RELEASE_OBJS) $(OBJPATH)/*/lib/$(STATIC_LIB_NAME) $(OBJPATH)/*/lib/$(DYNAMIC_LIB_NAME)
 
 .PHONY : depend
 depend:

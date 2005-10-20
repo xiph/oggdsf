@@ -1,5 +1,5 @@
 /* in_flac - Winamp2 FLAC input plugin
- * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -72,7 +72,7 @@ static void metadata_callback(const FLAC__FileDecoder *decoder, const FLAC__Stre
 			file_info->abort_flag = true;
 			return;
 		}
-		file_info->length_in_msec = file_info->total_samples * 10 / (file_info->sample_rate / 100);
+		file_info->length_in_msec = (unsigned)((double)file_info->total_samples / (double)file_info->sample_rate * 1000.0 + 0.5);
 	}
 	else if (metadata->type == FLAC__METADATA_TYPE_VORBIS_COMMENT)
 	{

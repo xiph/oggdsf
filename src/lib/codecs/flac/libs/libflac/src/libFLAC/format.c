@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -56,9 +56,9 @@ FLAC_API const char *FLAC__VERSION_STRING = VERSION;
 
 #if defined _MSC_VER || defined __MINW32__
 /* yet one more hack because of MSVC6: */
-FLAC_API const char *FLAC__VENDOR_STRING = "reference libFLAC 1.1.1 20041001";
+FLAC_API const char *FLAC__VENDOR_STRING = "reference libFLAC 1.1.2 20050205";
 #else
-FLAC_API const char *FLAC__VENDOR_STRING = "reference libFLAC " VERSION " 20041001";
+FLAC_API const char *FLAC__VENDOR_STRING = "reference libFLAC " VERSION " 20050205";
 #endif
 
 FLAC_API const FLAC__byte FLAC__STREAM_SYNC_STRING[4] = { 'f','L','a','C' };
@@ -252,6 +252,77 @@ FLAC_API unsigned FLAC__format_seektable_sort(FLAC__StreamMetadata_SeekTable *se
 	}
 
 	return j;
+}
+
+static __inline unsigned utf8len_(const FLAC__byte *utf8)
+{
+	FLAC__ASSERT(0 != utf8);
+	if ((utf8[0] & 0x80) == 0)
+		return 1;
+	else if ((utf8[0] & 0xE0) == 0xC0 && (utf8[1] & 0xC0) == 0x80)
+		return 2;
+	else if ((utf8[0] & 0xF0) == 0xE0 && (utf8[1] & 0xC0) == 0x80 && (utf8[2] & 0xC0) == 0x80)
+		return 3;
+	else
+		return 0;
+}
+
+FLAC_API FLAC__bool FLAC__format_vorbiscomment_entry_name_is_legal(const char *name)
+{
+	char c;
+	for(c = *name; c; c = *(++name))
+		if(c < 0x20 || c == 0x3d || c > 0x7d)
+			return false;
+	return true;
+}
+
+FLAC_API FLAC__bool FLAC__format_vorbiscomment_entry_value_is_legal(const FLAC__byte *value, unsigned length)
+{
+	if(length == (unsigned)(-1)) {
+		while(*value) {
+			unsigned n = utf8len_(value);
+			if(n == 0)
+				return false;
+			value += n;
+		}
+	}
+	else {
+		const FLAC__byte *end = value + length;
+		while(value < end) {
+			unsigned n = utf8len_(value);
+			if(n == 0)
+				return false;
+			value += n;
+		}
+		if(value != end)
+			return false;
+	}
+	return true;
+}
+
+FLAC_API FLAC__bool FLAC__format_vorbiscomment_entry_is_legal(const FLAC__byte *entry, unsigned length)
+{
+	const FLAC__byte *s, *end;
+
+	for(s = entry, end = s + length; s < end && *s != '='; s++) {
+		if(*s < 0x20 || *s > 0x7D)
+			return false;
+	}
+	if(s == end)
+		return false;
+
+	s++; /* skip '=' */
+
+	while(s < end) {
+		unsigned n = utf8len_(s);
+		if(n == 0)
+			return false;
+		s += n;
+	}
+	if(s != end)
+		return false;
+
+	return true;
 }
 
 FLAC_API FLAC__bool FLAC__format_cuesheet_is_legal(const FLAC__StreamMetadata_CueSheet *cue_sheet, FLAC__bool check_cd_da_subset, const char **violation)

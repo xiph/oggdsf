@@ -1,5 +1,5 @@
 /* plugin_common - Routines common to several plugins
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * Only slightly modified charset.c from:
  *  EasyTAG - Tag editor for MP3 and OGG files
@@ -83,7 +83,7 @@ char* FLAC_plugin__charset_convert_string (const char *string, char *from, char 
 	/* Due to a GLIBC bug, round outbuf_size up to a multiple of 4 */
 	/* + 1 for nul in case len == 1 */
 	outsize = ((length + 3) & ~3) + 1;
-	out = malloc(outsize);
+	out = (char*)malloc(outsize);
 	outleft = outsize - 1;
 	outptr = out;
 

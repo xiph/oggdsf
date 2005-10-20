@@ -1,5 +1,5 @@
 /* libxmms-flac - XMMS FLAC input plugin
- * Copyright (C) 2002,2003,2004  Daisuke Shimamura
+ * Copyright (C) 2002,2003,2004,2005  Daisuke Shimamura
  *
  * Based on mpg123 plugin
  *
@@ -30,6 +30,21 @@ typedef struct {
 		gboolean convert_char_set;
 		gchar *user_char_set;
 	} title;
+
+	struct {
+		gint http_buffer_size;
+		gint http_prebuffer;
+		gboolean use_proxy; 
+		gchar *proxy_host;
+		gint proxy_port;
+		gboolean proxy_use_auth;
+		gchar *proxy_user;
+		gchar	*proxy_pass;
+		gboolean save_http_stream;
+		gchar *save_http_path;
+		gboolean cast_title_streaming;
+		gboolean use_udp_channel;
+	} stream;
 
 	struct {
 		struct {

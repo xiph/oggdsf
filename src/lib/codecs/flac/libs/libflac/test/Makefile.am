@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -44,6 +44,7 @@ TESTS = \
 	./test_flac.sh \
 	./test_metaflac.sh \
 	./test_grabbag.sh \
+	./test_seeking.sh \
 	./test_streams.sh \
 	./test_bins.sh
 
@@ -59,6 +60,7 @@ EXTRA_DIST = \
 	test_flac.sh \
 	test_metaflac.sh \
 	test_grabbag.sh \
+	test_seeking.sh \
 	test_streams.sh \
 	test_bins.sh
 

@@ -1,5 +1,5 @@
 #  test_libFLAC - Unit tester for libFLAC
-#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -19,7 +19,6 @@ EXTRA_DIST = \
 	Makefile.lite \
 	test_libFLAC.dsp
 
-CFLAGS = @CFLAGS@
 INCLUDES = -I$(top_srcdir)/src/libFLAC/include
 
 noinst_PROGRAMS = test_libFLAC
@@ -33,6 +32,7 @@ test_libFLAC_SOURCES = \
 	decoders.c \
 	encoders.c \
 	file_utils.c \
+	format.c \
 	main.c \
 	metadata.c \
 	metadata_manip.c \
@@ -42,5 +42,6 @@ test_libFLAC_SOURCES = \
 	decoders.h \
 	encoders.h \
 	file_utils.h \
+	format.h \
 	metadata.h \
 	metadata_utils.h

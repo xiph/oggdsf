@@ -1,5 +1,5 @@
 /* libFLAC++ - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -141,7 +141,7 @@ namespace FLAC {
 			virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata) = 0;
 			virtual void error_callback(::FLAC__StreamDecoderErrorStatus status) = 0;
 
-#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96)))
+#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96))) || (defined __SUNPRO_CC)
 			// lame hack: some MSVC/GCC versions can't see a protected decoder_ from nested State::resolved_as_cstring()
 			friend State;
 #endif
@@ -236,7 +236,7 @@ namespace FLAC {
 			virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata) = 0;
 			virtual void error_callback(::FLAC__StreamDecoderErrorStatus status) = 0;
 
-#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96)))
+#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96))) || (defined __SUNPRO_CC)
 			// lame hack: some MSVC/GCC versions can't see a protected decoder_ from nested State::resolved_as_cstring()
 			friend State;
 #endif
@@ -329,7 +329,7 @@ namespace FLAC {
 			virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata) = 0;
 			virtual void error_callback(::FLAC__StreamDecoderErrorStatus status) = 0;
 
-#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96)))
+#if (defined _MSC_VER) || (defined __GNUG__ && (__GNUG__ < 2 || (__GNUG__ == 2 && __GNUC_MINOR__ < 96))) || (defined __SUNPRO_CC)
 			// lame hack: some MSVC/GCC versions can't see a protected decoder_ from nested State::resolved_as_cstring()
 			friend State;
 #endif
@@ -346,7 +346,7 @@ namespace FLAC {
 
 		/* \} */
 
-	};
-};
+	}
+}
 
 #endif

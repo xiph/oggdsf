@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -29,10 +29,6 @@ CC          = gcc
 CCC         = g++
 endif
 NASM        = nasm
-# override to -dynamic on OSX
-ifeq ($(DARWIN_BUILD),yes)
-LINKAGE     = -dynamic
-endif
 LINK        = $(CC) $(LINKAGE)
 OBJPATH     = $(topdir)/obj
 BINPATH     = $(OBJPATH)/$(BUILD)/bin
@@ -54,15 +50,25 @@ LFLAGS  = -L$(LIBPATH)
 DEBUG_OBJS = $(SRCS_C:%.c=%.debug.o) $(SRCS_CC:%.cc=%.debug.o) $(SRCS_CPP:%.cpp=%.debug.o) $(SRCS_NASM:%.nasm=%.debug.o)
 RELEASE_OBJS = $(SRCS_C:%.c=%.release.o) $(SRCS_CC:%.cc=%.release.o) $(SRCS_CPP:%.cpp=%.release.o) $(SRCS_NASM:%.nasm=%.release.o)
 
-debug   : $(ORDINALS_H) $(DEBUG_PROGRAM)
-valgrind: $(ORDINALS_H) $(DEBUG_PROGRAM)
-release : $(ORDINALS_H) $(RELEASE_PROGRAM)
+debug   : $(DEBUG_PROGRAM)
+valgrind: $(DEBUG_PROGRAM)
+release : $(RELEASE_PROGRAM)
+
+# by default on OS X we link with static libs as much as possible
 
 $(DEBUG_PROGRAM) : $(DEBUG_OBJS)
+ifeq ($(DARWIN_BUILD),yes)
+	$(LINK) -o $@ $(DEBUG_OBJS) $(EXPLICIT_LIBS)
+else
 	$(LINK) -o $@ $(DEBUG_OBJS) $(LFLAGS) $(LIBS)
+endif
 
 $(RELEASE_PROGRAM) : $(RELEASE_OBJS)
+ifeq ($(DARWIN_BUILD),yes)
+	$(LINK) -o $@ $(RELEASE_OBJS) $(EXPLICIT_LIBS)
+else
 	$(LINK) -o $@ $(RELEASE_OBJS) $(LFLAGS) $(LIBS)
+endif
 
 %.debug.o %.release.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@

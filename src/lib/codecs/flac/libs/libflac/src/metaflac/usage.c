@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ static void usage_header(FILE *out)
 {
 	fprintf(out, "==============================================================================\n");
 	fprintf(out, "metaflac - Command-line FLAC metadata editor version %s\n", FLAC__VERSION_STRING);
-	fprintf(out, "Copyright (C) 2001,2002,2003,2004  Josh Coalson\n");
+	fprintf(out, "Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson\n");
 	fprintf(out, "\n");
 	fprintf(out, "This program is free software; you can redistribute it and/or\n");
 	fprintf(out, "modify it under the terms of the GNU General Public License\n");
@@ -57,7 +57,7 @@ static void usage_summary(FILE *out)
 	fprintf(out, "                      (the default if more than one FLAC file is specified)\n");
 	fprintf(out, "--no-filename         Do not prefix each output line with the FLAC file name\n");
 	fprintf(out, "                      (the default if only one FLAC file is specified)\n");
-	fprintf(out, "--no-utf8-convert     Do not convert Vorbis comments from UTF-8 to local charset,\n");
+	fprintf(out, "--no-utf8-convert     Do not convert tags from UTF-8 to local charset,\n");
 	fprintf(out, "                      or vice versa.  This is useful for scripts.\n");
 	fprintf(out, "--dont-use-padding    By default metaflac tries to use padding where possible\n");
 	fprintf(out, "                      to avoid rewriting the entire file if the metadata size\n");
@@ -130,12 +130,12 @@ int long_usage(const char *message, ...)
 	fprintf(out, "--export-tags-to=FILE Export tags to a file.  Use '-' for stdin.  Each line\n");
 	fprintf(out, "                      will be of the form NAME=VALUE.  Specify\n");
 	fprintf(out, "                      --no-utf8-convert if necessary.\n");
-	fprintf(out, "--import-cuesheet-from=FILE  Import a cuesheet from a file.  Only one FLAC\n");
-	fprintf(out, "                      file may be specified.  A seekpoint will be added for\n");
-	fprintf(out, "                      each index point in the cuesheet to the SEEKTABLE unless\n");
-	fprintf(out, "                      --no-cued-seekpoints is specified.\n");
+	fprintf(out, "--import-cuesheet-from=FILE  Import a cuesheet from a file.  Use '-' for stdin.\n");
+	fprintf(out, "                      Only one FLAC file may be specified.  A seekpoint will be\n");
+	fprintf(out, "                      added for each index point in the cuesheet to the SEEKTABLE\n");
+	fprintf(out, "                      unless --no-cued-seekpoints is specified.\n");
 	fprintf(out, "--export-cuesheet-to=FILE  Export CUESHEET block to a cuesheet file, suitable\n");
-	fprintf(out, "                      for use by CD authoring software.  Use '-' for stdin.\n");
+	fprintf(out, "                      for use by CD authoring software.  Use '-' for stdout.\n");
 	fprintf(out, "                      Only one FLAC file may be specified on the command line.\n");
 	fprintf(out, "--add-replay-gain     Calculates the title and album gains/peaks of the given\n");
 	fprintf(out, "                      FLAC files as if all the files were part of one album,\n");
@@ -180,7 +180,7 @@ int long_usage(const char *message, ...)
 	fprintf(out, "\n");
 	fprintf(out, "    --block-type=type[,type[...]]\n");
 	fprintf(out, "    --except-block-type=type[,type[...]]\n");
-	fprintf(out, "    An optional comma-separated list of block types to included or ignored\n");
+	fprintf(out, "    An optional comma-separated list of block types to be included or ignored\n");
 	fprintf(out, "    with this option.  Use only one of --block-type or --except-block-type.\n");
 	fprintf(out, "    The valid block types are: STREAMINFO, PADDING, APPLICATION, SEEKTABLE,\n");
 	fprintf(out, "    VORBIS_COMMENT.  You may narrow down the types of APPLICATION blocks\n");

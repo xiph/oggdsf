@@ -1,5 +1,5 @@
 /* libOggFLAC - Free Lossless Audio Codec + Ogg library
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -35,6 +35,7 @@
 #include "FLAC/assert.h"
 #include "protected/seekable_stream_decoder.h"
 #include "protected/stream_decoder.h"
+#include "../libFLAC/include/private/float.h" /* @@@ ugly hack, but how else to do?  we need to reuse the float formats but don't want to expose it */
 #include "../libFLAC/include/private/md5.h" /* @@@ ugly hack, but how else to do?  we need to reuse the md5 code but don't want to expose it */
 
 /***********************************************************************
@@ -721,6 +722,11 @@ FLAC__StreamDecoderReadStatus read_callback_(const OggFLAC__StreamDecoder *decod
 	(void)decoder;
 	if(seekable_stream_decoder->private_->eof_callback(seekable_stream_decoder, seekable_stream_decoder->private_->client_data)) {
 		*bytes = 0;
+#if 0
+		/*@@@@@@ we used to do this: */
+		seekable_stream_decoder->protected_->state = OggFLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM;
+		/* but it causes a problem because the Ogg decoding layer reads as much as it can to get pages, so the state will get to end-of-stream before the bitbuffer does */
+#endif
 		return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
 	}
 	else if(*bytes > 0) {
@@ -730,6 +736,11 @@ FLAC__StreamDecoderReadStatus read_callback_(const OggFLAC__StreamDecoder *decod
 		}
 		if(*bytes == 0) {
 			if(seekable_stream_decoder->private_->eof_callback(seekable_stream_decoder, seekable_stream_decoder->private_->client_data)) {
+#if 0
+				/*@@@@@@ we used to do this: */
+				seekable_stream_decoder->protected_->state = OggFLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM;
+				/* but it causes a problem because the Ogg decoding layer reads as much as it can to get pages, so the state will get to end-of-stream before the bitbuffer does */
+#endif
 				return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
 			}
 			else
@@ -831,7 +842,7 @@ FLAC__bool seek_to_absolute_sample_(OggFLAC__SeekableStreamDecoder *decoder, FLA
 	FLAC__uint64 left_pos = 0, right_pos = stream_length;
 	FLAC__uint64 left_sample = 0, right_sample = decoder->private_->stream_info.total_samples;
 	FLAC__uint64 this_frame_sample = 0; /* only initialized to avoid compiler warning */
-	FLAC__uint64 pos; /* only initialized to avoid compiler warning */
+	FLAC__uint64 pos = 0; /* only initialized to avoid compiler warning */
 	FLAC__bool did_a_seek;
 	unsigned iteration = 0;
 
@@ -862,11 +873,19 @@ FLAC__bool seek_to_absolute_sample_(OggFLAC__SeekableStreamDecoder *decoder, FLA
 				pos = (right_pos + left_pos) / 2;
 			}
 			else {
+#ifndef FLAC__INTEGER_ONLY_LIBRARY
 #if defined _MSC_VER || defined __MINGW32__
 				/* with MSVC you have to spoon feed it the casting */
-				pos = (FLAC__uint64)((double)(FLAC__int64)(target_sample - left_sample) / (double)(FLAC__int64)(right_sample - left_sample) * (double)(FLAC__int64)(right_pos - left_pos));
+				pos = (FLAC__uint64)((FLAC__double)(FLAC__int64)(target_sample - left_sample) / (FLAC__double)(FLAC__int64)(right_sample - left_sample) * (FLAC__double)(FLAC__int64)(right_pos - left_pos));
 #else
-				pos = (FLAC__uint64)((double)(target_sample - left_sample) / (double)(right_sample - left_sample) * (double)(right_pos - left_pos));
+				pos = (FLAC__uint64)((FLAC__double)(target_sample - left_sample) / (FLAC__double)(right_sample - left_sample) * (FLAC__double)(right_pos - left_pos));
+#endif
+#else
+				/* a little less accurate: */
+				if ((target_sample-left_sample <= 0xffffffff) && (right_pos-left_pos <= 0xffffffff))
+					pos = (FLAC__int64)(((target_sample-left_sample) * (right_pos-left_pos)) / (right_sample-left_sample));
+				else /* @@@ WATCHOUT, ~2TB limit */
+					pos = (FLAC__int64)((((target_sample-left_sample)>>8) * ((right_pos-left_pos)>>8)) / ((right_sample-left_sample)>>16));
 #endif
 				/* @@@ TODO: might want to limit pos to some distance
 				 * before EOF, to make sure we land before the last frame,

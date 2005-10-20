@@ -7,7 +7,7 @@
 <center>
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="hierarchy.html">Class Hierarchy</a> &nbsp; <a class="qindex" href="classes.html">Alphabetical List</a> &nbsp; <a class="qindex" href="annotated.html">Compound List</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Compound Members</a> &nbsp; <a class="qindex" href="globals.html">File Members</a> &nbsp; </center>
 <hr><h1>include/FLAC/metadata.h</h1><a href="metadata_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre>00001 <font class="comment">/* libFLAC - Free Lossless Audio Codec library</font>
-00002 <font class="comment"> * Copyright (C) 2001,2002,2003,2004  Josh Coalson</font>
+00002 <font class="comment"> * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson</font>
 00003 <font class="comment"> *</font>
 00004 <font class="comment"> * Redistribution and use in source and binary forms, with or without</font>
 00005 <font class="comment"> * modification, are permitted provided that the following conditions</font>
@@ -99,7 +99,7 @@
 00366 
 00379 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a8">FLAC__metadata_simple_iterator_prev</a>(<a class="code" href="metadata_8h.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator);
 00380 
-00394 FLAC_API <a class="code" href="format_8h.html#a94">FLAC__MetadataType</a> <a class="code" href="metadata_8h.html#a9">FLAC__metadata_simple_iterator_get_block_type</a>(<font class="keyword">const</font> <a class="code" href="metadata_8h.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator);
+00394 FLAC_API <a class="code" href="format_8h.html#a97">FLAC__MetadataType</a> <a class="code" href="metadata_8h.html#a9">FLAC__metadata_simple_iterator_get_block_type</a>(<font class="keyword">const</font> <a class="code" href="metadata_8h.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator);
 00395 
 00411 FLAC_API <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *<a class="code" href="metadata_8h.html#a10">FLAC__metadata_simple_iterator_get_block</a>(<a class="code" href="metadata_8h.html#a0">FLAC__Metadata_SimpleIterator</a> *iterator);
 00412 
@@ -176,7 +176,7 @@
 00936 
 00949 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a18">FLAC__metadata_iterator_prev</a>(<a class="code" href="metadata_8h.html#a1">FLAC__Metadata_Iterator</a> *iterator);
 00950 
-00961 FLAC_API <a class="code" href="format_8h.html#a94">FLAC__MetadataType</a> <a class="code" href="metadata_8h.html#a19">FLAC__metadata_iterator_get_block_type</a>(<font class="keyword">const</font> <a class="code" href="metadata_8h.html#a1">FLAC__Metadata_Iterator</a> *iterator);
+00961 FLAC_API <a class="code" href="format_8h.html#a97">FLAC__MetadataType</a> <a class="code" href="metadata_8h.html#a19">FLAC__metadata_iterator_get_block_type</a>(<font class="keyword">const</font> <a class="code" href="metadata_8h.html#a1">FLAC__Metadata_Iterator</a> *iterator);
 00962 
 00982 FLAC_API <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *<a class="code" href="metadata_8h.html#a20">FLAC__metadata_iterator_get_block</a>(<a class="code" href="metadata_8h.html#a1">FLAC__Metadata_Iterator</a> *iterator);
 00983 
@@ -191,92 +191,96 @@
 01056 <font class="comment">/* \} */</font>
 01057 
 01058 
-01113 FLAC_API <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *<a class="code" href="metadata_8h.html#a0">FLAC__metadata_object_new</a>(<a class="code" href="format_8h.html#a94">FLAC__MetadataType</a> type);
-01114 
-01127 FLAC_API <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *<a class="code" href="metadata_8h.html#a1">FLAC__metadata_object_clone</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object);
-01128 
-01138 FLAC_API <font class="keywordtype">void</font> <a class="code" href="metadata_8h.html#a2">FLAC__metadata_object_delete</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object);
+01124 FLAC_API <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *<a class="code" href="metadata_8h.html#a0">FLAC__metadata_object_new</a>(<a class="code" href="format_8h.html#a97">FLAC__MetadataType</a> type);
+01125 
+01138 FLAC_API <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *<a class="code" href="metadata_8h.html#a1">FLAC__metadata_object_clone</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object);
 01139 
-01153 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a3">FLAC__metadata_object_is_equal</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block1, <font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block2);
-01154 
-01173 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a4">FLAC__metadata_object_application_set_data</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__byte *data, <font class="keywordtype">unsigned</font> length, FLAC__bool copy);
-01174 
-01190 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a5">FLAC__metadata_object_seektable_resize_points</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> new_num_points);
-01191 
-01202 FLAC_API <font class="keywordtype">void</font> <a class="code" href="metadata_8h.html#a6">FLAC__metadata_object_seektable_set_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> point_num, <a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> point);
-01203 
-01216 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a7">FLAC__metadata_object_seektable_insert_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> point_num, <a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> point);
-01217 
-01229 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a8">FLAC__metadata_object_seektable_delete_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> point_num);
-01230 
-01242 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a9">FLAC__metadata_object_seektable_is_legal</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object);
-01243 
-01259 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a10">FLAC__metadata_object_seektable_template_append_placeholders</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> num);
-01260 
-01276 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a11">FLAC__metadata_object_seektable_template_append_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__uint64 sample_number);
-01277 
-01294 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a12">FLAC__metadata_object_seektable_template_append_points</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__uint64 sample_numbers[], <font class="keywordtype">unsigned</font> num);
-01295 
-01315 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a13">FLAC__metadata_object_seektable_template_append_spaced_points</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> num, FLAC__uint64 total_samples);
-01316 
-01332 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a14">FLAC__metadata_object_seektable_template_sort</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__bool compact);
-01333 
-01351 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a15">FLAC__metadata_object_vorbiscomment_set_vendor_string</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy);
-01352 
-01368 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a16">FLAC__metadata_object_vorbiscomment_resize_comments</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> new_num_comments);
-01369 
-01389 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a17">FLAC__metadata_object_vorbiscomment_set_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> comment_num, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy);
-01390 
-01413 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a18">FLAC__metadata_object_vorbiscomment_insert_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> comment_num, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy);
-01414 
-01428 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a19">FLAC__metadata_object_vorbiscomment_delete_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> comment_num);
-01429 
-01430 <font class="comment">/*@@@@ add to unit tests */</font>
-01444 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a20">FLAC__metadata_object_vorbiscomment_entry_matches</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> *entry, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keywordtype">unsigned</font> field_name_length);
-01445 
-01446 <font class="comment">/*@@@@ add to unit tests */</font>
-01463 FLAC_API <font class="keywordtype">int</font> <a class="code" href="metadata_8h.html#a21">FLAC__metadata_object_vorbiscomment_find_entry_from</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> offset, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
-01464 
-01465 <font class="comment">/*@@@@ add to unit tests */</font>
-01477 FLAC_API <font class="keywordtype">int</font> <a class="code" href="metadata_8h.html#a22">FLAC__metadata_object_vorbiscomment_remove_entry_matching</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
-01478 
-01479 <font class="comment">/*@@@@ add to unit tests */</font>
-01491 FLAC_API <font class="keywordtype">int</font> <a class="code" href="metadata_8h.html#a23">FLAC__metadata_object_vorbiscomment_remove_entries_matching</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
-01492 
-01500 FLAC_API <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *<a class="code" href="metadata_8h.html#a24">FLAC__metadata_object_cuesheet_track_new</a>();
-01501 
-01515 FLAC_API <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *<a class="code" href="metadata_8h.html#a25">FLAC__metadata_object_cuesheet_track_clone</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object);
-01516 
-01523 FLAC_API <font class="keywordtype">void</font> <a class="code" href="metadata_8h.html#a26">FLAC__metadata_object_cuesheet_track_delete</a>(<a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object);
-01524 
-01543 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a27">FLAC__metadata_object_cuesheet_track_resize_indices</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> new_num_indices);
-01544 
-01566 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a28">FLAC__metadata_object_cuesheet_track_insert_index</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> index);
-01567 
-01590 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a29">FLAC__metadata_object_cuesheet_track_insert_blank_index</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num);
-01591 
-01609 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a30">FLAC__metadata_object_cuesheet_track_delete_index</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num);
-01610 
-01626 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a31">FLAC__metadata_object_cuesheet_resize_tracks</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> new_num_tracks);
-01627 
-01649 FLAC_API FLAC__bool FLAC__metadata_object_cuesheet_set_track(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy);
-01650 
-01673 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a32">FLAC__metadata_object_cuesheet_insert_track</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy);
-01674 
-01692 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a33">FLAC__metadata_object_cuesheet_insert_blank_track</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num);
-01693 
-01707 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a34">FLAC__metadata_object_cuesheet_delete_track</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num);
-01708 
-01728 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a35">FLAC__metadata_object_cuesheet_is_legal</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__bool check_cd_da_subset, <font class="keyword">const</font> <font class="keywordtype">char</font> **violation);
-01729 
-01730 <font class="comment">/* \} */</font>
-01731 
-01732 <font class="preprocessor">#ifdef __cplusplus</font>
-01733 <font class="preprocessor"></font>}
-01734 <font class="preprocessor">#endif</font>
-01735 <font class="preprocessor"></font>
-01736 <font class="preprocessor">#endif</font>
-</pre></div><hr><address><small>Generated on Tue Sep 28 21:19:41 2004 for FLAC by
+01149 FLAC_API <font class="keywordtype">void</font> <a class="code" href="metadata_8h.html#a2">FLAC__metadata_object_delete</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object);
+01150 
+01164 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a3">FLAC__metadata_object_is_equal</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block1, <font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *block2);
+01165 
+01183 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a4">FLAC__metadata_object_application_set_data</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__byte *data, <font class="keywordtype">unsigned</font> length, FLAC__bool copy);
+01184 
+01200 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a5">FLAC__metadata_object_seektable_resize_points</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> new_num_points);
+01201 
+01212 FLAC_API <font class="keywordtype">void</font> <a class="code" href="metadata_8h.html#a6">FLAC__metadata_object_seektable_set_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> point_num, <a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> point);
+01213 
+01226 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a7">FLAC__metadata_object_seektable_insert_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> point_num, <a class="code" href="structFLAC____StreamMetadata__SeekPoint.html">FLAC__StreamMetadata_SeekPoint</a> point);
+01227 
+01239 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a8">FLAC__metadata_object_seektable_delete_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> point_num);
+01240 
+01252 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a9">FLAC__metadata_object_seektable_is_legal</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object);
+01253 
+01269 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a10">FLAC__metadata_object_seektable_template_append_placeholders</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> num);
+01270 
+01286 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a11">FLAC__metadata_object_seektable_template_append_point</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__uint64 sample_number);
+01287 
+01304 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a12">FLAC__metadata_object_seektable_template_append_points</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__uint64 sample_numbers[], <font class="keywordtype">unsigned</font> num);
+01305 
+01325 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a13">FLAC__metadata_object_seektable_template_append_spaced_points</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> num, FLAC__uint64 total_samples);
+01326 
+01342 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a14">FLAC__metadata_object_seektable_template_sort</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__bool compact);
+01343 
+01367 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a15">FLAC__metadata_object_vorbiscomment_set_vendor_string</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy);
+01368 
+01384 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a16">FLAC__metadata_object_vorbiscomment_resize_comments</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> new_num_comments);
+01385 
+01411 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a17">FLAC__metadata_object_vorbiscomment_set_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> comment_num, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy);
+01412 
+01441 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a18">FLAC__metadata_object_vorbiscomment_insert_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> comment_num, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy);
+01442 
+01466 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a19">FLAC__metadata_object_vorbiscomment_append_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool copy);
+01467 
+01501 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a20">FLAC__metadata_object_vorbiscomment_replace_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, FLAC__bool all, FLAC__bool copy);
+01502 
+01514 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a21">FLAC__metadata_object_vorbiscomment_delete_comment</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> comment_num);
+01515 
+01535 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a22">FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair</a>(<a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> *entry, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_value);
+01536 
+01556 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a23">FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, <font class="keywordtype">char</font> **field_name, <font class="keywordtype">char</font> **field_value);
+01557 
+01570 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a24">FLAC__metadata_object_vorbiscomment_entry_matches</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata__VorbisComment__Entry.html">FLAC__StreamMetadata_VorbisComment_Entry</a> entry, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name, <font class="keywordtype">unsigned</font> field_name_length);
+01571 
+01589 FLAC_API <font class="keywordtype">int</font> <a class="code" href="metadata_8h.html#a25">FLAC__metadata_object_vorbiscomment_find_entry_from</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> offset, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
+01590 
+01602 FLAC_API <font class="keywordtype">int</font> <a class="code" href="metadata_8h.html#a26">FLAC__metadata_object_vorbiscomment_remove_entry_matching</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
+01603 
+01615 FLAC_API <font class="keywordtype">int</font> <a class="code" href="metadata_8h.html#a27">FLAC__metadata_object_vorbiscomment_remove_entries_matching</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keyword">const</font> <font class="keywordtype">char</font> *field_name);
+01616 
+01624 FLAC_API <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *<a class="code" href="metadata_8h.html#a28">FLAC__metadata_object_cuesheet_track_new</a>();
+01625 
+01639 FLAC_API <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *<a class="code" href="metadata_8h.html#a29">FLAC__metadata_object_cuesheet_track_clone</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object);
+01640 
+01647 FLAC_API <font class="keywordtype">void</font> <a class="code" href="metadata_8h.html#a30">FLAC__metadata_object_cuesheet_track_delete</a>(<a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *object);
+01648 
+01667 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a31">FLAC__metadata_object_cuesheet_track_resize_indices</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> new_num_indices);
+01668 
+01690 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a32">FLAC__metadata_object_cuesheet_track_insert_index</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Index.html">FLAC__StreamMetadata_CueSheet_Index</a> index);
+01691 
+01714 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a33">FLAC__metadata_object_cuesheet_track_insert_blank_index</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num);
+01715 
+01733 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a34">FLAC__metadata_object_cuesheet_track_delete_index</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <font class="keywordtype">unsigned</font> index_num);
+01734 
+01750 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a35">FLAC__metadata_object_cuesheet_resize_tracks</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> new_num_tracks);
+01751 
+01772 FLAC_API FLAC__bool FLAC__metadata_object_cuesheet_set_track(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy);
+01773 
+01795 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a36">FLAC__metadata_object_cuesheet_insert_track</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num, <a class="code" href="structFLAC____StreamMetadata__CueSheet__Track.html">FLAC__StreamMetadata_CueSheet_Track</a> *track, FLAC__bool copy);
+01796 
+01814 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a37">FLAC__metadata_object_cuesheet_insert_blank_track</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num);
+01815 
+01829 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a38">FLAC__metadata_object_cuesheet_delete_track</a>(<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, <font class="keywordtype">unsigned</font> track_num);
+01830 
+01850 FLAC_API FLAC__bool <a class="code" href="metadata_8h.html#a39">FLAC__metadata_object_cuesheet_is_legal</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, FLAC__bool check_cd_da_subset, <font class="keyword">const</font> <font class="keywordtype">char</font> **violation);
+01851 
+01852 <font class="comment">/* \} */</font>
+01853 
+01854 <font class="preprocessor">#ifdef __cplusplus</font>
+01855 <font class="preprocessor"></font>}
+01856 <font class="preprocessor">#endif</font>
+01857 <font class="preprocessor"></font>
+01858 <font class="preprocessor">#endif</font>
+</pre></div><hr><address><small>Generated on Fri Feb 4 18:39:10 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1,5 +1,5 @@
 #  test_libOggFLAC++ - Unit tester for libOggFLAC++
-#  Copyright (C) 2002,2003,2004  Josh Coalson
+#  Copyright (C) 2002,2003,2004,2005  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ EXTRA_DIST = \
 	README \
 	test_libOggFLAC++.dsp
 
-CFLAGS = @CFLAGS@ @OGG_CFLAGS@
+AM_CFLAGS = @OGG_CFLAGS@
 
 noinst_PROGRAMS = test_libOggFLAC++
 test_libOggFLAC___LDADD = \

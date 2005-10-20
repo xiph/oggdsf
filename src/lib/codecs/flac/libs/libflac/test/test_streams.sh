@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -23,9 +23,17 @@ die ()
 	exit 1
 }
 
-LD_LIBRARY_PATH=../src/libFLAC/.libs:../obj/release/lib:../obj/debug/lib:$LD_LIBRARY_PATH
+if [ x = x"$1" ] ; then 
+	BUILD=debug
+else
+	BUILD="$1"
+fi
+
+LD_LIBRARY_PATH=../obj/$BUILD/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-PATH=../src/flac:../src/test_streams:../obj/release/bin:../obj/debug/bin:$PATH
+PATH=../src/flac:$PATH
+PATH=../src/test_streams:$PATH
+PATH=../obj/$BUILD/bin:$PATH
 
 flac --help 1>/dev/null 2>/dev/null || die "ERROR can't find flac executable"
 
@@ -55,13 +63,13 @@ test_file ()
 	encode_options="$4"
 
 	echo -n "$name (--channels=$channels --bps=$bps $encode_options): encode..."
-	cmd="run_flac --verify --silent --force --force-raw-format --endian=big --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options $name.raw"
+	cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options $name.raw"
 	echo "### ENCODE $name #######################################################" >> ./streams.log
 	echo "###    cmd=$cmd" >> ./streams.log
 	$cmd 2>>./streams.log || die "ERROR during encode of $name"
 
 	echo -n "decode..."
-	cmd="run_flac --silent --force --endian=big --sign=signed --decode --force-raw-format --output-name=$name.cmp $name.flac"
+	cmd="run_flac --silent --force --endian=little --sign=signed --decode --force-raw-format --output-name=$name.cmp $name.flac"
 	echo "### DECODE $name #######################################################" >> ./streams.log
 	echo "###    cmd=$cmd" >> ./streams.log
 	$cmd 2>>./streams.log || die "ERROR during decode of $name"
@@ -91,24 +99,24 @@ test_file_piped ()
 
 	echo -n "$name: encode via pipes..."
 	if [ $is_win = yes ] ; then
-		cmd="run_flac --verify --silent --force --force-raw-format --endian=big --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --stdout $name.raw"
+		cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --stdout $name.raw"
 		echo "### ENCODE $name #######################################################" >> ./streams.log
 		echo "###    cmd=$cmd" >> ./streams.log
 		$cmd 1>$name.flac 2>>./streams.log || die "ERROR during encode of $name"
 	else
-		cmd="run_flac --verify --silent --force --force-raw-format --endian=big --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --stdout -"
+		cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --stdout -"
 		echo "### ENCODE $name #######################################################" >> ./streams.log
 		echo "###    cmd=$cmd" >> ./streams.log
 		cat $name.raw | $cmd 1>$name.flac 2>>./streams.log || die "ERROR during encode of $name"
 	fi
 	echo -n "decode via pipes..."
 	if [ $is_win = yes ] ; then
-		cmd="run_flac --silent --force --endian=big --sign=signed --decode --force-raw-format --stdout $name.flac"
+		cmd="run_flac --silent --force --endian=little --sign=signed --decode --force-raw-format --stdout $name.flac"
 		echo "### DECODE $name #######################################################" >> ./streams.log
 		echo "###    cmd=$cmd" >> ./streams.log
 		$cmd 1>$name.cmp 2>>./streams.log || die "ERROR during decode of $name"
 	else
-		cmd="run_flac --silent --force --endian=big --sign=signed --decode --force-raw-format --stdout -"
+		cmd="run_flac --silent --force --endian=little --sign=signed --decode --force-raw-format --stdout -"
 		echo "### DECODE $name #######################################################" >> ./streams.log
 		echo "###    cmd=$cmd" >> ./streams.log
 		cat $name.flac | $cmd 1>$name.cmp 2>>./streams.log || die "ERROR during decode of $name"

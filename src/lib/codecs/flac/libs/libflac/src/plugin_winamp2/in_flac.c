@@ -1,5 +1,5 @@
 /* in_flac - Winamp2 FLAC input plugin
- * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 #include "infobox.h"
 #include "tagz.h"
 
-#define PLUGIN_VERSION          "1.1.1"
+#define PLUGIN_VERSION          "1.1.2"
 
 static In_Module mod_;                      /* the input module (declared near the bottom of this file) */
 static char lastfn_[MAX_PATH];              /* currently playing file (used for getting info on the current file) */
@@ -265,37 +265,61 @@ static DWORD WINAPI DecodeThread(void *unused)
  *  title formatting
  */
 
-static const T_CHAR *get_tag(const T_CHAR *tag, void *param)
+static T_CHAR *get_tag(const T_CHAR *tag, void *param)
 {
-	FLAC_Plugin__CanonicalTag *t = (FLAC_Plugin__CanonicalTag*)param;
-	const T_CHAR *val = FLAC_plugin__canonical_get(t, tag);
+	FLAC__StreamMetadata *tags = (FLAC__StreamMetadata*)param;
+	char *tagname, *p;
+	T_CHAR *val;
+
+	if (!tag)
+		return 0;
+	/* Vorbis comment names must be ASCII, so convert 'tag' first */
+	tagname = malloc(wcslen(tag)+1);
+	for(p=tagname;*tag;) {
+		if(*tag > 0x7d) {
+			free(tagname);
+			return 0;
+		}
+		else
+			*p++ = (char)(*tag++);
+	}
+	*p++ = '\0';
+	/* now get it */
+	val = FLAC_plugin__tags_get_tag_ucs2(tags, tagname);
+	free(tagname);
 	/* some "user friendly cheavats" */
 	if (!val)
 	{
 		if (!wcsicmp(tag, L"ARTIST"))
 		{
-			val = FLAC_plugin__canonical_get(t, L"PERFORMER");
-			if (!val) val = FLAC_plugin__canonical_get(t, L"COMPOSER");
+			val = FLAC_plugin__tags_get_tag_ucs2(tags, "PERFORMER");
+			if (!val) val = FLAC_plugin__tags_get_tag_ucs2(tags, "COMPOSER");
 		}
 		else if (!wcsicmp(tag, L"YEAR") || !wcsicmp(tag, L"DATE"))
 		{
-			val = FLAC_plugin__canonical_get(t, L"YEAR_RECORDED");
-			if (!val) val = FLAC_plugin__canonical_get(t, L"YEAR_PERFORMED");
+			val = FLAC_plugin__tags_get_tag_ucs2(tags, "YEAR_RECORDED");
+			if (!val) val = FLAC_plugin__tags_get_tag_ucs2(tags, "YEAR_PERFORMED");
 		}
 	}
 
 	return val;
 }
 
+static void free_tag(T_CHAR *tag, void *param)
+{
+	(void)param;
+	free(tag);
+}
+
 static void format_title(const char *filename, WCHAR *title, unsigned max_size)
 {
-	FLAC_Plugin__CanonicalTag tag;
+	FLAC__StreamMetadata *tags;
 
-	ReadTags(filename, &tag, true);
+	ReadTags(filename, &tags, /*forDisplay=*/true);
 
-	tagz_format(flac_cfg.title.tag_format_w, get_tag, NULL, &tag, title, max_size);
+	tagz_format(flac_cfg.title.tag_format_w, get_tag, free_tag, tags, title, max_size);
 
-	FLAC_plugin__canonical_tag_clear(&tag);
+	FLAC_plugin__tags_destroy(&tags);
 }
 
 static void getfileinfo(char *filename, char *title, int *length_in_msec)
@@ -307,7 +331,7 @@ static void getfileinfo(char *filename, char *title, int *length_in_msec)
 		filename = lastfn_;
 		if (length_in_msec)
 		{
-			*length_in_msec = file_info_.length_in_msec;
+			*length_in_msec = (int)file_info_.length_in_msec;
 			length_in_msec  = 0;    /* force skip in following code */
 		}
 	}
@@ -327,7 +351,8 @@ static void getfileinfo(char *filename, char *title, int *length_in_msec)
 	}
 
 	if (length_in_msec)
-		*length_in_msec = (int)(streaminfo.data.stream_info.total_samples*10 / (streaminfo.data.stream_info.sample_rate/100));
+		/* with VC++ you have to spoon feed it the casting from uint64->int64->double */
+		*length_in_msec = (int)((double)(FLAC__int64)streaminfo.data.stream_info.total_samples / (double)streaminfo.data.stream_info.sample_rate * 1000.0 + 0.5);
 }
 
 /*
@@ -368,7 +393,7 @@ static int infobox(char *fn, HWND hwnd)
 static In_Module mod_ =
 {
 	IN_VER,
-	"Reference FLAC Decoder v" PLUGIN_VERSION,
+	"FLAC Decoder v" PLUGIN_VERSION,
 	0,                                    /* hMainWindow */
 	0,                                    /* hDllInstance */
 	"FLAC\0FLAC Audio File (*.FLAC)\0",

@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -1155,10 +1155,11 @@ void print_error_with_state(const DecoderSession *d, const char *message)
 		flac__utils_printf(stderr, 1,
 			"\n"
 			"The FLAC stream may have been created by a more advanced encoder.  Try\n"
-			"  metaflac --show-vc-vendor %s\n"
+			"  metaflac --show-vendor-tag %s\n"
 			"If the version number is greater than %s, this decoder is probably\n"
-			"not able to decode the file.  If the version number is not, you may\n"
-			"have found a bug.  In this case please submit a bug report to\n"
+			"not able to decode the file.  If the version number is not, the file\n"
+			"may be corrupted, or you may have found a bug.  In this case please\n"
+			"submit a bug report to\n"
 			"    http://sourceforge.net/bugs/?func=addbug&group_id=13478\n"
 			"Make sure to include an email contact in the comment and/or use the\n"
 			"\"Monitor\" feature to monitor the bug status.\n",
@@ -1183,7 +1184,7 @@ void print_stats(const DecoderSession *decoder_session)
 {
 	if(flac__utils_verbosity_ >= 2) {
 #if defined _MSC_VER || defined __MINGW32__
-		/* with VC++ you have to spoon feed it the casting */
+		/* with MSVC you have to spoon feed it the casting */
 		const double progress = (double)(FLAC__int64)decoder_session->samples_processed / (double)(FLAC__int64)decoder_session->total_samples * 100.0;
 #else
 		const double progress = (double)decoder_session->samples_processed / (double)decoder_session->total_samples * 100.0;

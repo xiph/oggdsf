@@ -1,5 +1,5 @@
 /* libOggFLAC - Free Lossless Audio Codec + Ogg library
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -33,7 +33,6 @@
 #define OggFLAC__PROTECTED__FILE_DECODER_H
 
 #include "OggFLAC/file_decoder.h"
-#include "private/ogg_decoder_aspect.h"
 
 typedef struct OggFLAC__FileDecoderProtected {
 	OggFLAC__FileDecoderState state;

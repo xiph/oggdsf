@@ -1,5 +1,5 @@
 #  flac - Command-line FLAC encoder/decoder
-#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -16,7 +16,8 @@
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 bin_PROGRAMS = flac
-CFLAGS = @CFLAGS@ @OGG_CFLAGS@
+
+AM_CFLAGS = @OGG_CFLAGS@
 
 if FLaC__HAS_OGG
 NEED_OGGFLAC_LIB = $(top_builddir)/src/libOggFLAC/libOggFLAC.la

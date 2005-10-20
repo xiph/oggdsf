@@ -7,7 +7,7 @@
 <center>
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="hierarchy.html">Class Hierarchy</a> &nbsp; <a class="qindex" href="classes.html">Alphabetical List</a> &nbsp; <a class="qindex" href="annotated.html">Compound List</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Compound Members</a> &nbsp; <a class="qindex" href="globals.html">File Members</a> &nbsp; </center>
 <hr><h1>include/FLAC/seekable_stream_decoder.h</h1><a href="seekable__stream__decoder_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre>00001 <font class="comment">/* libFLAC - Free Lossless Audio Codec library</font>
-00002 <font class="comment"> * Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson</font>
+00002 <font class="comment"> * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson</font>
 00003 <font class="comment"> *</font>
 00004 <font class="comment"> * Redistribution and use in source and binary forms, with or without</font>
 00005 <font class="comment"> * modification, are permitted provided that the following conditions</font>
@@ -168,13 +168,13 @@
 00576 
 00589 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a24">FLAC__seekable_stream_decoder_set_client_data</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder, <font class="keywordtype">void</font> *value);
 00590 
-00604 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a25">FLAC__seekable_stream_decoder_set_metadata_respond</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder, <a class="code" href="format_8h.html#a94">FLAC__MetadataType</a> type);
+00604 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a25">FLAC__seekable_stream_decoder_set_metadata_respond</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder, <a class="code" href="format_8h.html#a97">FLAC__MetadataType</a> type);
 00605 
 00619 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a26">FLAC__seekable_stream_decoder_set_metadata_respond_application</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder, <font class="keyword">const</font> FLAC__byte id[4]);
 00620 
 00632 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a27">FLAC__seekable_stream_decoder_set_metadata_respond_all</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder);
 00633 
-00647 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a28">FLAC__seekable_stream_decoder_set_metadata_ignore</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder, <a class="code" href="format_8h.html#a94">FLAC__MetadataType</a> type);
+00647 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a28">FLAC__seekable_stream_decoder_set_metadata_ignore</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder, <a class="code" href="format_8h.html#a97">FLAC__MetadataType</a> type);
 00648 
 00662 FLAC_API FLAC__bool <a class="code" href="seekable__stream__decoder_8h.html#a29">FLAC__seekable_stream_decoder_set_metadata_ignore_application</a>(<a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder, <font class="keyword">const</font> FLAC__byte id[4]);
 00663 
@@ -190,7 +190,7 @@
 00725 
 00735 FLAC_API <font class="keywordtype">unsigned</font> <a class="code" href="seekable__stream__decoder_8h.html#a35">FLAC__seekable_stream_decoder_get_channels</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder);
 00736 
-00746 FLAC_API <a class="code" href="format_8h.html#a92">FLAC__ChannelAssignment</a> <a class="code" href="seekable__stream__decoder_8h.html#a36">FLAC__seekable_stream_decoder_get_channel_assignment</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder);
+00746 FLAC_API <a class="code" href="format_8h.html#a95">FLAC__ChannelAssignment</a> <a class="code" href="seekable__stream__decoder_8h.html#a36">FLAC__seekable_stream_decoder_get_channel_assignment</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder);
 00747 
 00757 FLAC_API <font class="keywordtype">unsigned</font> <a class="code" href="seekable__stream__decoder_8h.html#a37">FLAC__seekable_stream_decoder_get_bits_per_sample</a>(<font class="keyword">const</font> <a class="code" href="structFLAC____SeekableStreamDecoder.html">FLAC__SeekableStreamDecoder</a> *decoder);
 00758 
@@ -225,7 +225,7 @@
 00929 <font class="preprocessor">#endif</font>
 00930 <font class="preprocessor"></font>
 00931 <font class="preprocessor">#endif</font>
-</pre></div><hr><address><small>Generated on Tue Sep 28 21:19:41 2004 for FLAC by
+</pre></div><hr><address><small>Generated on Fri Feb 4 18:39:10 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

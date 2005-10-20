@@ -7,7 +7,7 @@
 <center>
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="hierarchy.html">Class Hierarchy</a> &nbsp; <a class="qindex" href="classes.html">Alphabetical List</a> &nbsp; <a class="qindex" href="annotated.html">Compound List</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Compound Members</a> &nbsp; <a class="qindex" href="globals.html">File Members</a> &nbsp; </center>
 <hr><h1>include/OggFLAC++/encoder.h</h1><a href="OggFLAC++_2encoder_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre>00001 <font class="comment">/* libOggFLAC++ - Free Lossless Audio Codec + Ogg library</font>
-00002 <font class="comment"> * Copyright (C) 2002,2003,2004  Josh Coalson</font>
+00002 <font class="comment"> * Copyright (C) 2002,2003,2004,2005  Josh Coalson</font>
 00003 <font class="comment"> *</font>
 00004 <font class="comment"> * Redistribution and use in source and binary forms, with or without</font>
 00005 <font class="comment"> * modification, are permitted provided that the following conditions</font>
@@ -130,7 +130,7 @@
 00162             virtual ::FLAC__StreamEncoderWriteStatus write_callback(<font class="keyword">const</font> FLAC__byte buffer[], <font class="keywordtype">unsigned</font> bytes, <font class="keywordtype">unsigned</font> samples, <font class="keywordtype">unsigned</font> current_frame) = 0;
 00163             <font class="keyword">virtual</font> <font class="keywordtype">void</font> metadata_callback(<font class="keyword">const</font> ::<a class="code" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *metadata) = 0;
 00164 
-00165 <font class="preprocessor">#if (defined _MSC_VER) || (defined __GNUG__ &amp;&amp; (__GNUG__ &lt; 2 || (__GNUG__ == 2 &amp;&amp; __GNUC_MINOR__ &lt; 96)))</font>
+00165 <font class="preprocessor">#if (defined _MSC_VER) || (defined __GNUG__ &amp;&amp; (__GNUG__ &lt; 2 || (__GNUG__ == 2 &amp;&amp; __GNUC_MINOR__ &lt; 96))) || (defined __SUNPRO_CC)</font>
 00166 <font class="preprocessor"></font>            <font class="comment">// lame hack: some MSVC/GCC versions can't see a protected encoder_ from nested State::resolved_as_cstring()</font>
 00167             <font class="keyword">friend</font> State;
 00168 <font class="preprocessor">#endif</font>
@@ -218,7 +218,7 @@
 00263             virtual ::FLAC__SeekableStreamEncoderTellStatus tell_callback(FLAC__uint64 *absolute_byte_offset) = 0;
 00264             virtual ::FLAC__StreamEncoderWriteStatus write_callback(<font class="keyword">const</font> FLAC__byte buffer[], <font class="keywordtype">unsigned</font> bytes, <font class="keywordtype">unsigned</font> samples, <font class="keywordtype">unsigned</font> current_frame) = 0;
 00265 
-00266 <font class="preprocessor">#if (defined _MSC_VER) || (defined __GNUG__ &amp;&amp; (__GNUG__ &lt; 2 || (__GNUG__ == 2 &amp;&amp; __GNUC_MINOR__ &lt; 96)))</font>
+00266 <font class="preprocessor">#if (defined _MSC_VER) || (defined __GNUG__ &amp;&amp; (__GNUG__ &lt; 2 || (__GNUG__ == 2 &amp;&amp; __GNUC_MINOR__ &lt; 96))) || (defined __SUNPRO_CC)</font>
 00267 <font class="preprocessor"></font>            <font class="comment">// lame hack: some MSVC/GCC versions can't see a protected encoder_ from nested State::resolved_as_cstring()</font>
 00268             <font class="keyword">friend</font> State;
 00269 <font class="preprocessor">#endif</font>
@@ -307,7 +307,7 @@
 00365         <font class="keyword">protected</font>:
 00366             <font class="keyword">virtual</font> <font class="keywordtype">void</font> progress_callback(FLAC__uint64 bytes_written, FLAC__uint64 samples_written, <font class="keywordtype">unsigned</font> frames_written, <font class="keywordtype">unsigned</font> total_frames_estimate);
 00367 
-00368 <font class="preprocessor">#if (defined _MSC_VER) || (defined __GNUG__ &amp;&amp; (__GNUG__ &lt; 2 || (__GNUG__ == 2 &amp;&amp; __GNUC_MINOR__ &lt; 96)))</font>
+00368 <font class="preprocessor">#if (defined _MSC_VER) || (defined __GNUG__ &amp;&amp; (__GNUG__ &lt; 2 || (__GNUG__ == 2 &amp;&amp; __GNUC_MINOR__ &lt; 96))) || (defined __SUNPRO_CC)</font>
 00369 <font class="preprocessor"></font>            <font class="comment">// lame hack: some MSVC/GCC versions can't see a protected encoder_ from nested State::resolved_as_cstring()</font>
 00370             <font class="keyword">friend</font> State;
 00371 <font class="preprocessor">#endif</font>
@@ -322,11 +322,11 @@
 00380 
 00381         <font class="comment">/* \} */</font>
 00382 
-00383     };
-00384 };
+00383     }
+00384 }
 00385 
 00386 <font class="preprocessor">#endif</font>
-</pre></div><hr><address><small>Generated on Tue Sep 28 21:19:41 2004 for FLAC by
+</pre></div><hr><address><small>Generated on Fri Feb 4 18:39:09 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1112,224 +1112,224 @@
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_METADATA_TYPE_CODE</name>
-      <anchor>a72</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>FLAC__MIN_BLOCK_SIZE</name>
-      <anchor>a73</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>FLAC__MAX_BLOCK_SIZE</name>
-      <anchor>a74</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>FLAC__MAX_CHANNELS</name>
       <anchor>a75</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MIN_BITS_PER_SAMPLE</name>
+      <name>FLAC__MIN_BLOCK_SIZE</name>
       <anchor>a76</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_BITS_PER_SAMPLE</name>
+      <name>FLAC__MAX_BLOCK_SIZE</name>
       <anchor>a77</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__REFERENCE_CODEC_MAX_BITS_PER_SAMPLE</name>
+      <name>FLAC__MAX_CHANNELS</name>
       <anchor>a78</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_SAMPLE_RATE</name>
+      <name>FLAC__MIN_BITS_PER_SAMPLE</name>
       <anchor>a79</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_LPC_ORDER</name>
+      <name>FLAC__MAX_BITS_PER_SAMPLE</name>
       <anchor>a80</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MIN_QLP_COEFF_PRECISION</name>
+      <name>FLAC__REFERENCE_CODEC_MAX_BITS_PER_SAMPLE</name>
       <anchor>a81</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_QLP_COEFF_PRECISION</name>
+      <name>FLAC__MAX_SAMPLE_RATE</name>
       <anchor>a82</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_FIXED_ORDER</name>
+      <name>FLAC__MAX_LPC_ORDER</name>
       <anchor>a83</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_RICE_PARTITION_ORDER</name>
+      <name>FLAC__MIN_QLP_COEFF_PRECISION</name>
       <anchor>a84</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__SUBSET_MAX_RICE_PARTITION_ORDER</name>
+      <name>FLAC__MAX_QLP_COEFF_PRECISION</name>
       <anchor>a85</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_SYNC_LENGTH</name>
+      <name>FLAC__MAX_FIXED_ORDER</name>
       <anchor>a86</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_METADATA_STREAMINFO_LENGTH</name>
+      <name>FLAC__MAX_RICE_PARTITION_ORDER</name>
       <anchor>a87</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_METADATA_SEEKPOINT_LENGTH</name>
+      <name>FLAC__SUBSET_MAX_RICE_PARTITION_ORDER</name>
       <anchor>a88</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_METADATA_HEADER_LENGTH</name>
+      <name>FLAC__STREAM_SYNC_LENGTH</name>
       <anchor>a89</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__STREAM_METADATA_STREAMINFO_LENGTH</name>
+      <anchor>a90</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__STREAM_METADATA_SEEKPOINT_LENGTH</name>
+      <anchor>a91</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__STREAM_METADATA_HEADER_LENGTH</name>
+      <anchor>a92</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__EntropyCodingMethodType</name>
-      <anchor>a90</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE</name>
-      <anchor>a90a86</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SubframeType</name>
-      <anchor>a91</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_CONSTANT</name>
-      <anchor>a91a87</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_VERBATIM</name>
-      <anchor>a91a88</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_FIXED</name>
-      <anchor>a91a89</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_LPC</name>
-      <anchor>a91a90</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__ChannelAssignment</name>
-      <anchor>a92</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT</name>
-      <anchor>a92a91</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE</name>
-      <anchor>a92a92</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_RIGHT_SIDE</name>
-      <anchor>a92a93</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_MID_SIDE</name>
-      <anchor>a92a94</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__FrameNumberType</name>
       <anchor>a93</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
-      <name>FLAC__FRAME_NUMBER_TYPE_FRAME_NUMBER</name>
-      <anchor>a93a95</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FRAME_NUMBER_TYPE_SAMPLE_NUMBER</name>
-      <anchor>a93a96</anchor>
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE</name>
+      <anchor>a93a86</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
-      <name>FLAC__MetadataType</name>
+      <name>FLAC__SubframeType</name>
       <anchor>a94</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_CONSTANT</name>
+      <anchor>a94a87</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_VERBATIM</name>
+      <anchor>a94a88</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_FIXED</name>
+      <anchor>a94a89</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_LPC</name>
+      <anchor>a94a90</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__ChannelAssignment</name>
+      <anchor>a95</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT</name>
+      <anchor>a95a91</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE</name>
+      <anchor>a95a92</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_RIGHT_SIDE</name>
+      <anchor>a95a93</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_MID_SIDE</name>
+      <anchor>a95a94</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__FrameNumberType</name>
+      <anchor>a96</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__FRAME_NUMBER_TYPE_FRAME_NUMBER</name>
+      <anchor>a96a95</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__FRAME_NUMBER_TYPE_SAMPLE_NUMBER</name>
+      <anchor>a96a96</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__MetadataType</name>
+      <anchor>a97</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_STREAMINFO</name>
-      <anchor>a94a97</anchor>
+      <anchor>a97a97</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_PADDING</name>
-      <anchor>a94a98</anchor>
+      <anchor>a97a98</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_APPLICATION</name>
-      <anchor>a94a99</anchor>
+      <anchor>a97a99</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_SEEKTABLE</name>
-      <anchor>a94a100</anchor>
+      <anchor>a97a100</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_VORBIS_COMMENT</name>
-      <anchor>a94a101</anchor>
+      <anchor>a97a101</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_CUESHEET</name>
-      <anchor>a94a102</anchor>
+      <anchor>a97a102</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_UNDEFINED</name>
-      <anchor>a94a103</anchor>
+      <anchor>a97a103</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
@@ -1340,20 +1340,38 @@
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__format_seektable_is_legal</name>
+      <name>FLAC__format_vorbiscomment_entry_name_is_legal</name>
       <anchor>a69</anchor>
+      <arglist>(const char *name)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_vorbiscomment_entry_value_is_legal</name>
+      <anchor>a70</anchor>
+      <arglist>(const FLAC__byte *value, unsigned length)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_vorbiscomment_entry_is_legal</name>
+      <anchor>a71</anchor>
+      <arglist>(const FLAC__byte *entry, unsigned length)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_seektable_is_legal</name>
+      <anchor>a72</anchor>
       <arglist>(const FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__format_seektable_sort</name>
-      <anchor>a70</anchor>
+      <anchor>a73</anchor>
       <arglist>(FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_cuesheet_is_legal</name>
-      <anchor>a71</anchor>
+      <anchor>a74</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet *cue_sheet, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
     </member>
     <member kind="variable">
@@ -2274,104 +2292,128 @@
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__metadata_object_vorbiscomment_delete_comment</name>
+      <name>FLAC__metadata_object_vorbiscomment_append_comment</name>
       <anchor>a19</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_replace_comment</name>
+      <anchor>a20</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool all, FLAC__bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_delete_comment</name>
+      <anchor>a21</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair</name>
+      <anchor>a22</anchor>
+      <arglist>(FLAC__StreamMetadata_VorbisComment_Entry *entry, const char *field_name, const char *field_value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair</name>
+      <anchor>a23</anchor>
+      <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, char **field_name, char **field_value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_matches</name>
-      <anchor>a20</anchor>
-      <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry *entry, const char *field_name, unsigned field_name_length)</arglist>
+      <anchor>a24</anchor>
+      <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, const char *field_name, unsigned field_name_length)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_find_entry_from</name>
-      <anchor>a21</anchor>
+      <anchor>a25</anchor>
       <arglist>(const FLAC__StreamMetadata *object, unsigned offset, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entry_matching</name>
-      <anchor>a22</anchor>
+      <anchor>a26</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entries_matching</name>
-      <anchor>a23</anchor>
+      <anchor>a27</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_new</name>
-      <anchor>a24</anchor>
+      <anchor>a28</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_clone</name>
-      <anchor>a25</anchor>
+      <anchor>a29</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_cuesheet_track_delete</name>
-      <anchor>a26</anchor>
+      <anchor>a30</anchor>
       <arglist>(FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_resize_indices</name>
-      <anchor>a27</anchor>
+      <anchor>a31</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned new_num_indices)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_index</name>
-      <anchor>a28</anchor>
+      <anchor>a32</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num, FLAC__StreamMetadata_CueSheet_Index index)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_blank_index</name>
-      <anchor>a29</anchor>
+      <anchor>a33</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_delete_index</name>
-      <anchor>a30</anchor>
+      <anchor>a34</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_resize_tracks</name>
-      <anchor>a31</anchor>
+      <anchor>a35</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_tracks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_track</name>
-      <anchor>a32</anchor>
+      <anchor>a36</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, FLAC__StreamMetadata_CueSheet_Track *track, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_blank_track</name>
-      <anchor>a33</anchor>
+      <anchor>a37</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_delete_track</name>
-      <anchor>a34</anchor>
+      <anchor>a38</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_is_legal</name>
-      <anchor>a35</anchor>
+      <anchor>a39</anchor>
       <arglist>(const FLAC__StreamMetadata *object, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
     </member>
     <member kind="variable">
@@ -6648,224 +6690,224 @@
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_METADATA_TYPE_CODE</name>
-      <anchor>a72</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>FLAC__MIN_BLOCK_SIZE</name>
-      <anchor>a73</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>FLAC__MAX_BLOCK_SIZE</name>
-      <anchor>a74</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>FLAC__MAX_CHANNELS</name>
       <anchor>a75</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MIN_BITS_PER_SAMPLE</name>
+      <name>FLAC__MIN_BLOCK_SIZE</name>
       <anchor>a76</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_BITS_PER_SAMPLE</name>
+      <name>FLAC__MAX_BLOCK_SIZE</name>
       <anchor>a77</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__REFERENCE_CODEC_MAX_BITS_PER_SAMPLE</name>
+      <name>FLAC__MAX_CHANNELS</name>
       <anchor>a78</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_SAMPLE_RATE</name>
+      <name>FLAC__MIN_BITS_PER_SAMPLE</name>
       <anchor>a79</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_LPC_ORDER</name>
+      <name>FLAC__MAX_BITS_PER_SAMPLE</name>
       <anchor>a80</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MIN_QLP_COEFF_PRECISION</name>
+      <name>FLAC__REFERENCE_CODEC_MAX_BITS_PER_SAMPLE</name>
       <anchor>a81</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_QLP_COEFF_PRECISION</name>
+      <name>FLAC__MAX_SAMPLE_RATE</name>
       <anchor>a82</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_FIXED_ORDER</name>
+      <name>FLAC__MAX_LPC_ORDER</name>
       <anchor>a83</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__MAX_RICE_PARTITION_ORDER</name>
+      <name>FLAC__MIN_QLP_COEFF_PRECISION</name>
       <anchor>a84</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__SUBSET_MAX_RICE_PARTITION_ORDER</name>
+      <name>FLAC__MAX_QLP_COEFF_PRECISION</name>
       <anchor>a85</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_SYNC_LENGTH</name>
+      <name>FLAC__MAX_FIXED_ORDER</name>
       <anchor>a86</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_METADATA_STREAMINFO_LENGTH</name>
+      <name>FLAC__MAX_RICE_PARTITION_ORDER</name>
       <anchor>a87</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_METADATA_SEEKPOINT_LENGTH</name>
+      <name>FLAC__SUBSET_MAX_RICE_PARTITION_ORDER</name>
       <anchor>a88</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>FLAC__STREAM_METADATA_HEADER_LENGTH</name>
+      <name>FLAC__STREAM_SYNC_LENGTH</name>
       <anchor>a89</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__STREAM_METADATA_STREAMINFO_LENGTH</name>
+      <anchor>a90</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__STREAM_METADATA_SEEKPOINT_LENGTH</name>
+      <anchor>a91</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__STREAM_METADATA_HEADER_LENGTH</name>
+      <anchor>a92</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__EntropyCodingMethodType</name>
-      <anchor>a90</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE</name>
-      <anchor>a90a86</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SubframeType</name>
-      <anchor>a91</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_CONSTANT</name>
-      <anchor>a91a87</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_VERBATIM</name>
-      <anchor>a91a88</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_FIXED</name>
-      <anchor>a91a89</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SUBFRAME_TYPE_LPC</name>
-      <anchor>a91a90</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__ChannelAssignment</name>
-      <anchor>a92</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT</name>
-      <anchor>a92a91</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE</name>
-      <anchor>a92a92</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_RIGHT_SIDE</name>
-      <anchor>a92a93</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__CHANNEL_ASSIGNMENT_MID_SIDE</name>
-      <anchor>a92a94</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__FrameNumberType</name>
       <anchor>a93</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
-      <name>FLAC__FRAME_NUMBER_TYPE_FRAME_NUMBER</name>
-      <anchor>a93a95</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FRAME_NUMBER_TYPE_SAMPLE_NUMBER</name>
-      <anchor>a93a96</anchor>
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE</name>
+      <anchor>a93a86</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
-      <name>FLAC__MetadataType</name>
+      <name>FLAC__SubframeType</name>
       <anchor>a94</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_CONSTANT</name>
+      <anchor>a94a87</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_VERBATIM</name>
+      <anchor>a94a88</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_FIXED</name>
+      <anchor>a94a89</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__SUBFRAME_TYPE_LPC</name>
+      <anchor>a94a90</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__ChannelAssignment</name>
+      <anchor>a95</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT</name>
+      <anchor>a95a91</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE</name>
+      <anchor>a95a92</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_RIGHT_SIDE</name>
+      <anchor>a95a93</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__CHANNEL_ASSIGNMENT_MID_SIDE</name>
+      <anchor>a95a94</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__FrameNumberType</name>
+      <anchor>a96</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__FRAME_NUMBER_TYPE_FRAME_NUMBER</name>
+      <anchor>a96a95</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__FRAME_NUMBER_TYPE_SAMPLE_NUMBER</name>
+      <anchor>a96a96</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__MetadataType</name>
+      <anchor>a97</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_STREAMINFO</name>
-      <anchor>a94a97</anchor>
+      <anchor>a97a97</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_PADDING</name>
-      <anchor>a94a98</anchor>
+      <anchor>a97a98</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_APPLICATION</name>
-      <anchor>a94a99</anchor>
+      <anchor>a97a99</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_SEEKTABLE</name>
-      <anchor>a94a100</anchor>
+      <anchor>a97a100</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_VORBIS_COMMENT</name>
-      <anchor>a94a101</anchor>
+      <anchor>a97a101</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_CUESHEET</name>
-      <anchor>a94a102</anchor>
+      <anchor>a97a102</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_UNDEFINED</name>
-      <anchor>a94a103</anchor>
+      <anchor>a97a103</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
@@ -6876,20 +6918,38 @@
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__format_seektable_is_legal</name>
+      <name>FLAC__format_vorbiscomment_entry_name_is_legal</name>
       <anchor>a69</anchor>
+      <arglist>(const char *name)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_vorbiscomment_entry_value_is_legal</name>
+      <anchor>a70</anchor>
+      <arglist>(const FLAC__byte *value, unsigned length)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_vorbiscomment_entry_is_legal</name>
+      <anchor>a71</anchor>
+      <arglist>(const FLAC__byte *entry, unsigned length)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_seektable_is_legal</name>
+      <anchor>a72</anchor>
       <arglist>(const FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__format_seektable_sort</name>
-      <anchor>a70</anchor>
+      <anchor>a73</anchor>
       <arglist>(FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_cuesheet_is_legal</name>
-      <anchor>a71</anchor>
+      <anchor>a74</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet *cue_sheet, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
     </member>
     <member kind="variable">
@@ -7846,104 +7906,128 @@
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__metadata_object_vorbiscomment_delete_comment</name>
+      <name>FLAC__metadata_object_vorbiscomment_append_comment</name>
       <anchor>a19</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_replace_comment</name>
+      <anchor>a20</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool all, FLAC__bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_delete_comment</name>
+      <anchor>a21</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair</name>
+      <anchor>a22</anchor>
+      <arglist>(FLAC__StreamMetadata_VorbisComment_Entry *entry, const char *field_name, const char *field_value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair</name>
+      <anchor>a23</anchor>
+      <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, char **field_name, char **field_value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_matches</name>
-      <anchor>a20</anchor>
-      <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry *entry, const char *field_name, unsigned field_name_length)</arglist>
+      <anchor>a24</anchor>
+      <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, const char *field_name, unsigned field_name_length)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_find_entry_from</name>
-      <anchor>a21</anchor>
+      <anchor>a25</anchor>
       <arglist>(const FLAC__StreamMetadata *object, unsigned offset, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entry_matching</name>
-      <anchor>a22</anchor>
+      <anchor>a26</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entries_matching</name>
-      <anchor>a23</anchor>
+      <anchor>a27</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_new</name>
-      <anchor>a24</anchor>
+      <anchor>a28</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_clone</name>
-      <anchor>a25</anchor>
+      <anchor>a29</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_cuesheet_track_delete</name>
-      <anchor>a26</anchor>
+      <anchor>a30</anchor>
       <arglist>(FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_resize_indices</name>
-      <anchor>a27</anchor>
+      <anchor>a31</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned new_num_indices)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_index</name>
-      <anchor>a28</anchor>
+      <anchor>a32</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num, FLAC__StreamMetadata_CueSheet_Index index)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_blank_index</name>
-      <anchor>a29</anchor>
+      <anchor>a33</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_delete_index</name>
-      <anchor>a30</anchor>
+      <anchor>a34</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_resize_tracks</name>
-      <anchor>a31</anchor>
+      <anchor>a35</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_tracks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_track</name>
-      <anchor>a32</anchor>
+      <anchor>a36</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, FLAC__StreamMetadata_CueSheet_Track *track, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_blank_track</name>
-      <anchor>a33</anchor>
+      <anchor>a37</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_delete_track</name>
-      <anchor>a34</anchor>
+      <anchor>a38</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_is_legal</name>
-      <anchor>a35</anchor>
+      <anchor>a39</anchor>
       <arglist>(const FLAC__StreamMetadata *object, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
     </member>
   </compound>
@@ -9752,6 +9836,12 @@
       <name>get_tags</name>
       <anchor>a1</anchor>
       <arglist>(const char *filename, VorbisComment *&amp;tags)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLACPP_API bool</type>
+      <name>get_tags</name>
+      <anchor>a2</anchor>
+      <arglist>(const char *filename, VorbisComment &amp;tags)</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -12902,10 +12992,16 @@
       <anchor>b0</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
     </member>
+    <member kind="function" protection="public">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchor>b1</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
     <member kind="function" protection="public" virtualness="virtual">
       <type>virtual void</type>
       <name>clear</name>
-      <anchor>b1</anchor>
+      <anchor>b2</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="public">
@@ -12927,19 +13023,19 @@
       <arglist>(const::FLAC__StreamMetadata *)</arglist>
     </member>
     <member kind="function" protection="public">
-      <type>void</type>
+      <type>Prototype &amp;</type>
       <name>operator=</name>
       <anchor>z1_0</anchor>
       <arglist>(const Prototype &amp;)</arglist>
     </member>
     <member kind="function" protection="public">
-      <type>void</type>
+      <type>Prototype &amp;</type>
       <name>operator=</name>
       <anchor>z1_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;)</arglist>
     </member>
     <member kind="function" protection="public">
-      <type>void</type>
+      <type>Prototype &amp;</type>
       <name>operator=</name>
       <anchor>z1_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *)</arglist>
@@ -12986,6 +13082,12 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>StreamInfo &amp;</type>
+      <name>assign</name>
+      <anchor>a3</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
       <type></type>
       <name>StreamInfo</name>
       <anchor>z4_0</anchor>
@@ -13004,19 +13106,19 @@
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>StreamInfo &amp;</type>
       <name>operator=</name>
       <anchor>z5_0</anchor>
       <arglist>(const StreamInfo &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>StreamInfo &amp;</type>
       <name>operator=</name>
       <anchor>z5_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>StreamInfo &amp;</type>
       <name>operator=</name>
       <anchor>z5_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
@@ -13189,9 +13291,15 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>Padding &amp;</type>
+      <name>assign</name>
+      <anchor>a3</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
       <type>void</type>
       <name>set_length</name>
-      <anchor>a3</anchor>
+      <anchor>a4</anchor>
       <arglist>(unsigned length)</arglist>
     </member>
     <member kind="function">
@@ -13213,19 +13321,19 @@
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Padding &amp;</type>
       <name>operator=</name>
       <anchor>z10_0</anchor>
       <arglist>(const Padding &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Padding &amp;</type>
       <name>operator=</name>
       <anchor>z10_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Padding &amp;</type>
       <name>operator=</name>
       <anchor>z10_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
@@ -13290,33 +13398,39 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>Application &amp;</type>
+      <name>assign</name>
+      <anchor>a3</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_id</name>
-      <anchor>a3</anchor>
+      <anchor>a4</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_data</name>
-      <anchor>a4</anchor>
+      <anchor>a5</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_id</name>
-      <anchor>a5</anchor>
+      <anchor>a6</anchor>
       <arglist>(const FLAC__byte value[4])</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a6</anchor>
+      <anchor>a7</anchor>
       <arglist>(const FLAC__byte *data, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a7</anchor>
+      <anchor>a8</anchor>
       <arglist>(FLAC__byte *data, unsigned length, bool copy)</arglist>
     </member>
     <member kind="function">
@@ -13338,19 +13452,19 @@
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Application &amp;</type>
       <name>operator=</name>
       <anchor>z14_0</anchor>
       <arglist>(const Application &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Application &amp;</type>
       <name>operator=</name>
       <anchor>z14_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Application &amp;</type>
       <name>operator=</name>
       <anchor>z14_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
@@ -13415,39 +13529,45 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>SeekTable &amp;</type>
+      <name>assign</name>
+      <anchor>a3</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
       <type>unsigned</type>
       <name>get_num_points</name>
-      <anchor>a3</anchor>
+      <anchor>a4</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>::FLAC__StreamMetadata_SeekPoint</type>
       <name>get_point</name>
-      <anchor>a4</anchor>
+      <anchor>a5</anchor>
       <arglist>(unsigned index) const</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_point</name>
-      <anchor>a5</anchor>
-      <arglist>(unsigned index, const::FLAC__StreamMetadata_SeekPoint &amp;point)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>insert_point</name>
       <anchor>a6</anchor>
       <arglist>(unsigned index, const::FLAC__StreamMetadata_SeekPoint &amp;point)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>delete_point</name>
+      <name>insert_point</name>
       <anchor>a7</anchor>
+      <arglist>(unsigned index, const::FLAC__StreamMetadata_SeekPoint &amp;point)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>delete_point</name>
+      <anchor>a8</anchor>
       <arglist>(unsigned index)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>is_legal</name>
-      <anchor>a8</anchor>
+      <anchor>a9</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
@@ -13469,19 +13589,19 @@
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>SeekTable &amp;</type>
       <name>operator=</name>
       <anchor>z18_0</anchor>
       <arglist>(const SeekTable &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>SeekTable &amp;</type>
       <name>operator=</name>
       <anchor>z18_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>SeekTable &amp;</type>
       <name>operator=</name>
       <anchor>z18_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
@@ -13546,45 +13666,57 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>VorbisComment &amp;</type>
+      <name>assign</name>
+      <anchor>a3</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
       <type>unsigned</type>
       <name>get_num_comments</name>
-      <anchor>a3</anchor>
+      <anchor>a4</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
-      <type>Entry</type>
+      <type>const FLAC__byte *</type>
       <name>get_vendor_string</name>
-      <anchor>a4</anchor>
+      <anchor>a5</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>Entry</type>
       <name>get_comment</name>
-      <anchor>a5</anchor>
+      <anchor>a6</anchor>
       <arglist>(unsigned index) const</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_vendor_string</name>
-      <anchor>a6</anchor>
-      <arglist>(const Entry &amp;entry)</arglist>
+      <anchor>a7</anchor>
+      <arglist>(const FLAC__byte *string)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_comment</name>
-      <anchor>a7</anchor>
-      <arglist>(unsigned index, const Entry &amp;entry)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>insert_comment</name>
       <anchor>a8</anchor>
       <arglist>(unsigned index, const Entry &amp;entry)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>delete_comment</name>
+      <name>insert_comment</name>
       <anchor>a9</anchor>
+      <arglist>(unsigned index, const Entry &amp;entry)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>append_comment</name>
+      <anchor>a10</anchor>
+      <arglist>(const Entry &amp;entry)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>delete_comment</name>
+      <anchor>a11</anchor>
       <arglist>(unsigned index)</arglist>
     </member>
     <member kind="function">
@@ -13606,19 +13738,19 @@
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>VorbisComment &amp;</type>
       <name>operator=</name>
       <anchor>z22_0</anchor>
       <arglist>(const VorbisComment &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>VorbisComment &amp;</type>
       <name>operator=</name>
       <anchor>z22_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>VorbisComment &amp;</type>
       <name>operator=</name>
       <anchor>z22_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
@@ -13679,91 +13811,115 @@
       <type></type>
       <name>Entry</name>
       <anchor>a2</anchor>
-      <arglist>(const char *field_name, const char *field_value, unsigned field_value_length)</arglist>
+      <arglist>(const char *field)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Entry</name>
       <anchor>a3</anchor>
+      <arglist>(const char *field_name, const char *field_value, unsigned field_value_length)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Entry</name>
+      <anchor>a4</anchor>
+      <arglist>(const char *field_name, const char *field_value)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Entry</name>
+      <anchor>a5</anchor>
       <arglist>(const Entry &amp;entry)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Entry &amp;</type>
       <name>operator=</name>
-      <anchor>a4</anchor>
+      <anchor>a6</anchor>
       <arglist>(const Entry &amp;entry)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual</type>
       <name>~Entry</name>
-      <anchor>a5</anchor>
+      <anchor>a7</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a6</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_field_length</name>
-      <anchor>a7</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_field_name_length</name>
       <anchor>a8</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
-      <name>get_field_value_length</name>
+      <name>get_field_length</name>
       <anchor>a9</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_field_name_length</name>
+      <anchor>a10</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_field_value_length</name>
+      <anchor>a11</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>::FLAC__StreamMetadata_VorbisComment_Entry</type>
       <name>get_entry</name>
-      <anchor>a10</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>get_field</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>get_field_name</name>
       <anchor>a12</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
-      <name>get_field_value</name>
+      <name>get_field</name>
       <anchor>a13</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>get_field_name</name>
+      <anchor>a14</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>get_field_value</name>
+      <anchor>a15</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field</name>
-      <anchor>a14</anchor>
+      <anchor>a16</anchor>
       <arglist>(const char *field, unsigned field_length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
+      <name>set_field</name>
+      <anchor>a17</anchor>
+      <arglist>(const char *field)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
       <name>set_field_name</name>
-      <anchor>a15</anchor>
+      <anchor>a18</anchor>
       <arglist>(const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field_value</name>
-      <anchor>a16</anchor>
+      <anchor>a19</anchor>
       <arglist>(const char *field_value, unsigned field_value_length)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>set_field_value</name>
+      <anchor>a20</anchor>
+      <arglist>(const char *field_value)</arglist>
     </member>
     <member kind="variable" protection="public">
       <type>bool</type>
@@ -13821,91 +13977,115 @@
       <type></type>
       <name>Entry</name>
       <anchor>a2</anchor>
-      <arglist>(const char *field_name, const char *field_value, unsigned field_value_length)</arglist>
+      <arglist>(const char *field)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Entry</name>
       <anchor>a3</anchor>
+      <arglist>(const char *field_name, const char *field_value, unsigned field_value_length)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Entry</name>
+      <anchor>a4</anchor>
+      <arglist>(const char *field_name, const char *field_value)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Entry</name>
+      <anchor>a5</anchor>
       <arglist>(const Entry &amp;entry)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Entry &amp;</type>
       <name>operator=</name>
-      <anchor>a4</anchor>
+      <anchor>a6</anchor>
       <arglist>(const Entry &amp;entry)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual</type>
       <name>~Entry</name>
-      <anchor>a5</anchor>
+      <anchor>a7</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a6</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_field_length</name>
-      <anchor>a7</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_field_name_length</name>
       <anchor>a8</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
-      <name>get_field_value_length</name>
+      <name>get_field_length</name>
       <anchor>a9</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_field_name_length</name>
+      <anchor>a10</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_field_value_length</name>
+      <anchor>a11</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>::FLAC__StreamMetadata_VorbisComment_Entry</type>
       <name>get_entry</name>
-      <anchor>a10</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>get_field</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>get_field_name</name>
       <anchor>a12</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
-      <name>get_field_value</name>
+      <name>get_field</name>
       <anchor>a13</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>get_field_name</name>
+      <anchor>a14</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>get_field_value</name>
+      <anchor>a15</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field</name>
-      <anchor>a14</anchor>
+      <anchor>a16</anchor>
       <arglist>(const char *field, unsigned field_length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
+      <name>set_field</name>
+      <anchor>a17</anchor>
+      <arglist>(const char *field)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
       <name>set_field_name</name>
-      <anchor>a15</anchor>
+      <anchor>a18</anchor>
       <arglist>(const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field_value</name>
-      <anchor>a16</anchor>
+      <anchor>a19</anchor>
       <arglist>(const char *field_value, unsigned field_value_length)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>set_field_value</name>
+      <anchor>a20</anchor>
+      <arglist>(const char *field_value)</arglist>
     </member>
     <member kind="variable" protection="public">
       <type>bool</type>
@@ -13967,93 +14147,99 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>CueSheet &amp;</type>
+      <name>assign</name>
+      <anchor>a3</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
       <type>const char *</type>
       <name>get_media_catalog_number</name>
-      <anchor>a3</anchor>
+      <anchor>a4</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>FLAC__uint64</type>
       <name>get_lead_in</name>
-      <anchor>a4</anchor>
+      <anchor>a5</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>get_is_cd</name>
-      <anchor>a5</anchor>
+      <anchor>a6</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_num_tracks</name>
-      <anchor>a6</anchor>
+      <anchor>a7</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>Track</type>
       <name>get_track</name>
-      <anchor>a7</anchor>
+      <anchor>a8</anchor>
       <arglist>(unsigned i) const</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_media_catalog_number</name>
-      <anchor>a8</anchor>
+      <anchor>a9</anchor>
       <arglist>(const char value[128])</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_lead_in</name>
-      <anchor>a9</anchor>
+      <anchor>a10</anchor>
       <arglist>(FLAC__uint64 value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_is_cd</name>
-      <anchor>a10</anchor>
+      <anchor>a11</anchor>
       <arglist>(bool value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_index</name>
-      <anchor>a11</anchor>
-      <arglist>(unsigned track_num, unsigned index_num, const::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>insert_index</name>
       <anchor>a12</anchor>
       <arglist>(unsigned track_num, unsigned index_num, const::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>delete_index</name>
+      <name>insert_index</name>
       <anchor>a13</anchor>
+      <arglist>(unsigned track_num, unsigned index_num, const::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>delete_index</name>
+      <anchor>a14</anchor>
       <arglist>(unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_track</name>
-      <anchor>a14</anchor>
-      <arglist>(unsigned i, const Track &amp;track)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>insert_track</name>
       <anchor>a15</anchor>
       <arglist>(unsigned i, const Track &amp;track)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>delete_track</name>
+      <name>insert_track</name>
       <anchor>a16</anchor>
+      <arglist>(unsigned i, const Track &amp;track)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>delete_track</name>
+      <anchor>a17</anchor>
       <arglist>(unsigned i)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>is_legal</name>
-      <anchor>a17</anchor>
+      <anchor>a18</anchor>
       <arglist>(bool check_cd_da_subset=false, const char **violation=0) const</arglist>
     </member>
     <member kind="function">
@@ -14075,19 +14261,19 @@
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>CueSheet &amp;</type>
       <name>operator=</name>
       <anchor>z26_0</anchor>
       <arglist>(const CueSheet &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>CueSheet &amp;</type>
       <name>operator=</name>
       <anchor>z26_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>CueSheet &amp;</type>
       <name>operator=</name>
       <anchor>z26_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
@@ -14151,7 +14337,7 @@
       <arglist>(const Track &amp;track)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Track &amp;</type>
       <name>operator=</name>
       <anchor>a3</anchor>
       <arglist>(const Track &amp;track)</arglist>
@@ -14281,7 +14467,7 @@
       <arglist>(const Track &amp;track)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Track &amp;</type>
       <name>operator=</name>
       <anchor>a3</anchor>
       <arglist>(const Track &amp;track)</arglist>
@@ -14412,21 +14598,27 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>Unknown &amp;</type>
+      <name>assign</name>
+      <anchor>a3</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_data</name>
-      <anchor>a3</anchor>
+      <anchor>a4</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a4</anchor>
+      <anchor>a5</anchor>
       <arglist>(const FLAC__byte *data, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a5</anchor>
+      <anchor>a6</anchor>
       <arglist>(FLAC__byte *data, unsigned length, bool copy)</arglist>
     </member>
     <member kind="function">
@@ -14448,19 +14640,19 @@
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Unknown &amp;</type>
       <name>operator=</name>
       <anchor>z30_0</anchor>
       <arglist>(const Unknown &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Unknown &amp;</type>
       <name>operator=</name>
       <anchor>z30_1</anchor>
       <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>Unknown &amp;</type>
       <name>operator=</name>
       <anchor>z30_2</anchor>
       <arglist>(const::FLAC__StreamMetadata *object)</arglist>

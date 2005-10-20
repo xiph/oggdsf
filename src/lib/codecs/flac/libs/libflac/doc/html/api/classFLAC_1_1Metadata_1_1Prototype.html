@@ -27,7 +27,7 @@
 <tr><td nowrap align=right valign=top>virtual&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#a0">~Prototype</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="group__flacpp__metadata__object.html#a7">is_valid</a> () const</td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#a2">get_is_last</a> () const</td></tr>
-<tr><td nowrap align=right valign=top>::<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a>&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#a3">get_type</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>::<a class="el" href="group__flac__format.html#a97">FLAC__MetadataType</a>&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#a3">get_type</a> () const</td></tr>
 <tr><td nowrap align=right valign=top>unsigned&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#a4">get_length</a> () const</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#a5">set_is_last</a> (bool)</td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="group__flacpp__metadata__object.html#a8">operator const ::FLAC__StreamMetadata *</a> () const</td></tr>
@@ -41,15 +41,16 @@
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="group__flacpp__metadata__object.html#a6">operator!=</a> (const::FLAC__StreamMetadata *) const</td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#b0">Prototype</a> (::<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, bool copy)</td></tr>
-<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#b1">clear</a> ()</td></tr>
+<tr><td nowrap align=right valign=top>Prototype &amp;&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#b1">assign_object</a> (::<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *object, bool copy)</td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#b2">clear</a> ()</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z0_0">Prototype</a> (const Prototype &amp;)</td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z0_1">Prototype</a> (const::FLAC__StreamMetadata &amp;)</td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z0_2">Prototype</a> (const::FLAC__StreamMetadata *)</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z1_0">operator=</a> (const Prototype &amp;)</td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z1_1">operator=</a> (const::FLAC__StreamMetadata &amp;)</td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z1_2">operator=</a> (const::FLAC__StreamMetadata *)</td></tr>
+<tr><td nowrap align=right valign=top>Prototype &amp;&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z1_0">operator=</a> (const Prototype &amp;)</td></tr>
+<tr><td nowrap align=right valign=top>Prototype &amp;&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z1_1">operator=</a> (const::FLAC__StreamMetadata &amp;)</td></tr>
+<tr><td nowrap align=right valign=top>Prototype &amp;&nbsp;</td><td valign=bottom><a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#z1_2">operator=</a> (const::FLAC__StreamMetadata *)</td></tr>
 <tr><td colspan=2><br><h2>Protected Attributes</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="n0" doxytag="FLAC::Metadata::Prototype::object_"></a>
 ::<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td><td valign=bottom><b>object_</b></td></tr>
@@ -226,7 +227,7 @@ Deletes the underlying FLAC__StreamMetadata object.     </td>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> void FLAC::Metadata::Prototype::operator= </td>
+          <td class="md" nowrap valign="top"> Prototype&amp; FLAC::Metadata::Prototype::operator= </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const Prototype &amp;&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
@@ -255,7 +256,7 @@ Assign from another object. Always performs a deep copy.     </td>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> void FLAC::Metadata::Prototype::operator= </td>
+          <td class="md" nowrap valign="top"> Prototype&amp; FLAC::Metadata::Prototype::operator= </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const::FLAC__StreamMetadata &amp;&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
@@ -286,7 +287,7 @@ Reimplemented in <a class="el" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> void FLAC::Metadata::Prototype::operator= </td>
+          <td class="md" nowrap valign="top"> Prototype&amp; FLAC::Metadata::Prototype::operator= </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const::FLAC__StreamMetadata *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
@@ -311,7 +312,45 @@ Assign from another object. Always performs a deep copy.
 Reimplemented in <a class="el" href="classFLAC_1_1Metadata_1_1StreamInfo.html#z5_2">FLAC::Metadata::StreamInfo</a>.    </td>
   </tr>
 </table>
-<a name="b1" doxytag="FLAC::Metadata::Prototype::clear"></a><p>
+<a name="b1" doxytag="FLAC::Metadata::Prototype::assign_object"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> Prototype&amp; FLAC::Metadata::Prototype::assign_object </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">::<a class="el" href="structFLAC____StreamMetadata.html">FLAC__StreamMetadata</a> *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>object</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>copy</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [protected]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Assigns an object with copy control. See <a class="el" href="classFLAC_1_1Metadata_1_1Prototype.html#b0">Prototype</a>(::FLAC__StreamMetadata *object, bool copy).     </td>
+  </tr>
+</table>
+<a name="b2" doxytag="FLAC::Metadata::Prototype::clear"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -376,7 +415,7 @@ Assertions:</b><dd>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> ::<a class="el" href="group__flac__format.html#a94">FLAC__MetadataType</a> FLAC::Metadata::Prototype::get_type </td>
+          <td class="md" nowrap valign="top"> ::<a class="el" href="group__flac__format.html#a97">FLAC__MetadataType</a> FLAC::Metadata::Prototype::get_type </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
           <td class="md" valign="top">)&nbsp;</td>
@@ -470,7 +509,7 @@ Assertions:</b><dd>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>include/FLAC++/<a class="el" href="+_2metadata_8h-source.html">metadata.h</a></ul>
-<hr><address><small>Generated on Tue Sep 28 21:19:47 2004 for FLAC by
+<hr><address><small>Generated on Fri Feb 4 18:39:20 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

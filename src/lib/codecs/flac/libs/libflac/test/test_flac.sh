@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -23,9 +23,25 @@ die ()
 	exit 1
 }
 
-LD_LIBRARY_PATH=../src/libFLAC/.libs:../obj/release/lib:../obj/debug/lib:$LD_LIBRARY_PATH
+if [ x = x"$1" ] ; then 
+	BUILD=debug
+else
+	BUILD="$1"
+fi
+
+LD_LIBRARY_PATH=../src/libFLAC/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/libOggFLAC/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/grabbag/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/getopt/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/replaygain_analysis/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/replaygain_synthesis/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../src/share/utf8/.libs:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../obj/$BUILD/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-PATH=../src/flac:../src/metaflac:../src/test_streams:../obj/release/bin:../obj/debug/bin:$PATH
+PATH=../src/flac:$PATH
+PATH=../src/metaflac:$PATH
+PATH=../src/test_streams:$PATH
+PATH=../obj/$BUILD/bin:$PATH
 
 flac --help 1>/dev/null 2>/dev/null || die "ERROR can't find flac executable"
 
@@ -41,7 +57,7 @@ run_flac ()
 run_metaflac ()
 {
 	if [ x"$FLAC__VALGRIND" = xyes ] ; then
-		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --logfile-fd=4 metaflac $* 4>>test_metaflac.valgrind.log
+		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --logfile-fd=4 metaflac $* 4>>test_flac.valgrind.log
 	else
 		metaflac $*
 	fi
@@ -551,6 +567,25 @@ done
 
 rm noise.flac z.wav
 
+
+############################################################################
+# test --input-size
+############################################################################
+
+#@@@@@@ cat will not work on old cygwin, need to fix
+if [ $is_win = no ] ; then
+	echo -n "testing --input-size=50 --skip=10... "
+	cat 50c.raw | run_flac $raw_eopt --input-size=50 --skip=10 -o z50c.skip10.flac - || die "ERROR generating FLAC file"
+	run_flac $raw_dopt -o z50c.skip10.raw z50c.skip10.flac || die "ERROR decoding FLAC file"
+	cmp 50c.skip10.raw z50c.skip10.raw || die "ERROR: file mismatch for --input-size=50 --skip=10"
+	rm -f z50c.skip10.raw z50c.skip10.flac
+	echo OK
+fi
+
+
+############################################################################
+# test --skip and --until
+############################################################################
 
 ############################################################################
 # test --cue

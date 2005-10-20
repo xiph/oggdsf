@@ -270,7 +270,7 @@ The encoder is bound to the "streamable subset" but other settings violate it. <
 An error occurred while writing the stream; usually, the write_callback returned an error. </td></tr>
 <tr><td valign=top><em><a name="a52a20" doxytag="FLAC__STREAM_ENCODER_INVALID_METADATA"></a><em>FLAC__STREAM_ENCODER_INVALID_METADATA</em></em>&nbsp;</td><td>
 The metadata input to the encoder is invalid, in one of the following ways:<ul>
-<li><a class="el" href="group__flac__stream__encoder.html#a23">FLAC__stream_encoder_set_metadata</a>() was called with a null pointer but a block count &gt; 0<li>One of the metadata blocks contains an undefined type<li>It contains an illegal CUESHEET as checked by <a class="el" href="group__flac__format.html#a71">FLAC__format_cuesheet_is_legal</a>()<li>It contains an illegal SEEKTABLE as checked by <a class="el" href="group__flac__format.html#a69">FLAC__format_seektable_is_legal</a>()<li>It contains more than one SEEKTABLE block or more than one VORBIS_COMMENT block </ul>
+<li><a class="el" href="group__flac__stream__encoder.html#a23">FLAC__stream_encoder_set_metadata</a>() was called with a null pointer but a block count &gt; 0<li>One of the metadata blocks contains an undefined type<li>It contains an illegal CUESHEET as checked by <a class="el" href="group__flac__format.html#a74">FLAC__format_cuesheet_is_legal</a>()<li>It contains an illegal SEEKTABLE as checked by <a class="el" href="group__flac__format.html#a72">FLAC__format_seektable_is_legal</a>()<li>It contains more than one SEEKTABLE block or more than one VORBIS_COMMENT block </ul>
 </td></tr>
 <tr><td valign=top><em><a name="a52a21" doxytag="FLAC__STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING"></a><em>FLAC__STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING</em></em>&nbsp;</td><td>
 An error occurred while writing the stream; usually, the write_callback returned an error. </td></tr>
@@ -2868,7 +2868,7 @@ Maps a FLAC__StreamEncoderWriteStatus to a C string.
 Using a FLAC__StreamEncoderWriteStatus as the index to this array will give the string equivalent. The contents should not be modified.     </td>
   </tr>
 </table>
-<hr><address><small>Generated on Tue Sep 28 21:19:45 2004 for FLAC by
+<hr><address><small>Generated on Fri Feb 4 18:39:18 2005 for FLAC by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.14 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

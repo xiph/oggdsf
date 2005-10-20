@@ -35,7 +35,7 @@ progpath="$0"
 
 #@@@[JEC] There is a bug somewhere in libtool/autoconf where the libtool
 #@@@[JEC] generated after `configure' does not set $SED, so to catch that
-#@@@[JEC] case, we pick let `sed' come from the path:
+#@@@[JEC] case, we let `sed' come from the path:
 if [ "x$SED" = x ] ; then
     SED=sed
 fi

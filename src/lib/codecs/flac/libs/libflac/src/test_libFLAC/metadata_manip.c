@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2002,2003,2004  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -507,8 +507,8 @@ static FLAC__bool generate_file_()
 		vorbiscomment.type = FLAC__METADATA_TYPE_VORBIS_COMMENT;
 		vorbiscomment.length = (4 + vendor_string_length) + 4;
 		vorbiscomment.data.vorbis_comment.vendor_string.length = vendor_string_length;
-		vorbiscomment.data.vorbis_comment.vendor_string.entry = malloc_or_die_(vendor_string_length);
-		memcpy(vorbiscomment.data.vorbis_comment.vendor_string.entry, FLAC__VENDOR_STRING, vendor_string_length);
+		vorbiscomment.data.vorbis_comment.vendor_string.entry = malloc_or_die_(vendor_string_length+1);
+		memcpy(vorbiscomment.data.vorbis_comment.vendor_string.entry, FLAC__VENDOR_STRING, vendor_string_length+1);
 		vorbiscomment.data.vorbis_comment.num_comments = 0;
 		vorbiscomment.data.vorbis_comment.comments = 0;
 	}

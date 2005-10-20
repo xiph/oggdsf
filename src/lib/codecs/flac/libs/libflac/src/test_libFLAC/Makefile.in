@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #  test_libFLAC - Unit tester for libFLAC
-#  Copyright (C) 2000,2001,2002,2003,2004  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -66,8 +66,8 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_libFLAC_OBJECTS = bitbuffer.$(OBJEXT) decoders.$(OBJEXT) \
-	encoders.$(OBJEXT) file_utils.$(OBJEXT) main.$(OBJEXT) \
-	metadata.$(OBJEXT) metadata_manip.$(OBJEXT) \
+	encoders.$(OBJEXT) file_utils.$(OBJEXT) format.$(OBJEXT) \
+	main.$(OBJEXT) metadata.$(OBJEXT) metadata_manip.$(OBJEXT) \
 	metadata_object.$(OBJEXT) metadata_utils.$(OBJEXT)
 test_libFLAC_OBJECTS = $(am_test_libFLAC_OBJECTS)
 test_libFLAC_DEPENDENCIES =  \
@@ -79,8 +79,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/bitbuffer.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/decoders.Po ./$(DEPDIR)/encoders.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/file_utils.Po ./$(DEPDIR)/main.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/metadata.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/file_utils.Po ./$(DEPDIR)/format.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/metadata.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/metadata_manip.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/metadata_object.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/metadata_utils.Po
@@ -101,6 +101,7 @@ ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
 AMTAR = @AMTAR@
+AS = @AS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -136,10 +137,18 @@ FLaC__CPU_SPARC_FALSE = @FLaC__CPU_SPARC_FALSE@
 FLaC__CPU_SPARC_TRUE = @FLaC__CPU_SPARC_TRUE@
 FLaC__EXHAUSTIVE_TESTS_FALSE = @FLaC__EXHAUSTIVE_TESTS_FALSE@
 FLaC__EXHAUSTIVE_TESTS_TRUE = @FLaC__EXHAUSTIVE_TESTS_TRUE@
+FLaC__HAS_AS_FALSE = @FLaC__HAS_AS_FALSE@
+FLaC__HAS_AS_TRUE = @FLaC__HAS_AS_TRUE@
+FLaC__HAS_AS__TEMPORARILY_DISABLED_FALSE = @FLaC__HAS_AS__TEMPORARILY_DISABLED_FALSE@
+FLaC__HAS_AS__TEMPORARILY_DISABLED_TRUE = @FLaC__HAS_AS__TEMPORARILY_DISABLED_TRUE@
 FLaC__HAS_DOCBOOK_TO_MAN_FALSE = @FLaC__HAS_DOCBOOK_TO_MAN_FALSE@
 FLaC__HAS_DOCBOOK_TO_MAN_TRUE = @FLaC__HAS_DOCBOOK_TO_MAN_TRUE@
 FLaC__HAS_DOXYGEN_FALSE = @FLaC__HAS_DOXYGEN_FALSE@
 FLaC__HAS_DOXYGEN_TRUE = @FLaC__HAS_DOXYGEN_TRUE@
+FLaC__HAS_GAS_FALSE = @FLaC__HAS_GAS_FALSE@
+FLaC__HAS_GAS_TRUE = @FLaC__HAS_GAS_TRUE@
+FLaC__HAS_GAS__TEMPORARILY_DISABLED_FALSE = @FLaC__HAS_GAS__TEMPORARILY_DISABLED_FALSE@
+FLaC__HAS_GAS__TEMPORARILY_DISABLED_TRUE = @FLaC__HAS_GAS__TEMPORARILY_DISABLED_TRUE@
 FLaC__HAS_NASM_FALSE = @FLaC__HAS_NASM_FALSE@
 FLaC__HAS_NASM_TRUE = @FLaC__HAS_NASM_TRUE@
 FLaC__HAS_OGG_FALSE = @FLaC__HAS_OGG_FALSE@
@@ -152,12 +161,17 @@ FLaC__NO_ASM_FALSE = @FLaC__NO_ASM_FALSE@
 FLaC__NO_ASM_TRUE = @FLaC__NO_ASM_TRUE@
 FLaC__SSE_OS_FALSE = @FLaC__SSE_OS_FALSE@
 FLaC__SSE_OS_TRUE = @FLaC__SSE_OS_TRUE@
+FLaC__SYS_DARWIN_FALSE = @FLaC__SYS_DARWIN_FALSE@
+FLaC__SYS_DARWIN_TRUE = @FLaC__SYS_DARWIN_TRUE@
+FLaC__SYS_LINUX_FALSE = @FLaC__SYS_LINUX_FALSE@
+FLaC__SYS_LINUX_TRUE = @FLaC__SYS_LINUX_TRUE@
 FLaC__USE_3DNOW_FALSE = @FLaC__USE_3DNOW_FALSE@
 FLaC__USE_3DNOW_TRUE = @FLaC__USE_3DNOW_TRUE@
 FLaC__USE_ALTIVEC_FALSE = @FLaC__USE_ALTIVEC_FALSE@
 FLaC__USE_ALTIVEC_TRUE = @FLaC__USE_ALTIVEC_TRUE@
 FLaC__VALGRIND_TESTING_FALSE = @FLaC__VALGRIND_TESTING_FALSE@
 FLaC__VALGRIND_TESTING_TRUE = @FLaC__VALGRIND_TESTING_TRUE@
+GAS = @GAS@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -257,6 +271,7 @@ test_libFLAC_SOURCES = \
 	decoders.c \
 	encoders.c \
 	file_utils.c \
+	format.c \
 	main.c \
 	metadata.c \
 	metadata_manip.c \
@@ -266,6 +281,7 @@ test_libFLAC_SOURCES = \
 	decoders.h \
 	encoders.h \
 	file_utils.h \
+	format.h \
 	metadata.h \
 	metadata_utils.h
 
@@ -323,6 +339,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/decoders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/encoders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_utils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/format.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata_manip.Po@am__quote@
