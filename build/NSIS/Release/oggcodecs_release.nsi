@@ -16,7 +16,6 @@
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
 
-
 SetCompressor lzma
 
 ; MUI 1.67 compatible ------
