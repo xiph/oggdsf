@@ -7,7 +7,7 @@
 <section id="vorbis-spec-floor0">
 <sectioninfo>
 <releaseinfo>
-  $Id: 06-floor0.xml 7186 2004-07-20 07:19:25Z xiphmont $
+  $Id: 06-floor0.xml 8547 2004-12-29 03:33:51Z giles $
 </releaseinfo>
 </sectioninfo>  
 <title>Floor type 0 setup and decode</title>
@@ -170,7 +170,7 @@ synthesized:</para>
     and
                 
     \begin{math}
-      \mathrm{bark}(x) = 13.1 \arctan (.00074x) + 2.24 \arctan (.0000000158x^2)+.0001x
+      \mathrm{bark}(x) = 13.1 \arctan (.00074x) + 2.24 \arctan (.0000000185x^2 + .0001x)
     \end{math}
     ]]>
    </phrase></textobject>

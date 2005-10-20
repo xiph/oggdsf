@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: PCM data envelope analysis 
- last mod: $Id: envelope.c 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: envelope.c 8921 2005-02-14 23:03:43Z msmith $
 
  ********************************************************************/
 
@@ -278,7 +278,7 @@ long _ve_envelope_search(vorbis_dsp_state *v){
       if(ve->mark[j/ve->searchstep]){
 	if(j>centerW){
 
-	  #if 0
+#if 0
 	  if(j>ve->curmark){
 	    float *marker=alloca(v->pcm_current*sizeof(*marker));
 	    int l,m;
@@ -361,13 +361,13 @@ void _ve_envelope_shift(envelope_lookup *e,long shift){
 
   memmove(e->mark,e->mark+smallshift,(smallsize-smallshift)*sizeof(*e->mark));
   
-  #if 0
+#if 0
   for(i=0;i<VE_BANDS*e->ch;i++)
     memmove(e->filter[i].markers,
 	    e->filter[i].markers+smallshift,
 	    (1024-smallshift)*sizeof(*(*e->filter).markers));
   totalshift+=shift;
-  #endif 
+#endif 
 
   e->current-=shift;
   if(e->curmark>=0)
