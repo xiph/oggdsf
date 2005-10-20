@@ -4,7 +4,7 @@ libspeex	-	1.0.4
 libvorbis	-	1.1.0
 libfishsound	-	0.6.3
 libogg		-	1.1.1
-libtheora	-	1.0alpha4
+libtheora	-	1.0alpha5
 libFLAC		-	1.1.1
 
 * Whilst under early development, filters and all other 
