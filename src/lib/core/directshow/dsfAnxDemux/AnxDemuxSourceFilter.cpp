@@ -91,8 +91,11 @@ STDMETHODIMP AnxDemuxSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYP
 	// urls with fragments or queries, won't match the extension... so this hack is for the ff plug-in so
 	// that it appends another .anx after the fragment/query, which is stripped off here, before sending to the
 	// server.
-	if (mFileName.find(L"?") != string::npos){
-		mFileName = mFileName.substr(0, mFileName.size() - 4);
+
+	//NOTE::: This magic string also appears in the hacked version of dsplayer in the IE plugin.
+	//The number 18 is the length of the magic string
+	if (mFileName.find(L"XsZZfQ__WiiPFD.anx") == mFileName.size() - 18){
+		mFileName = mFileName.substr(0, mFileName.size() - 18);
 		
 	}
 	
