@@ -17,7 +17,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "encoder_internal.h"
+#include "codec_internal.h"
 
 
 #define GOLDEN_FRAME_THRESH_Q   50
@@ -136,9 +136,12 @@ static void ExpandKFBlock ( PB_INSTANCE *pbi, ogg_int32_t FragmentNumber ){
   if ( FragmentNumber<(ogg_int32_t)pbi->YPlaneFragments ){
     ReconPixelsPerLine = pbi->YStride;
     pbi->dequant_coeffs = pbi->dequant_Y_coeffs;
+  }else if ( FragmentNumber<(ogg_int32_t)(pbi->YPlaneFragments + pbi->UVPlaneFragments) ){
+    ReconPixelsPerLine = pbi->UVStride;
+    pbi->dequant_coeffs = pbi->dequant_U_coeffs;
   }else{
     ReconPixelsPerLine = pbi->UVStride;
-    pbi->dequant_coeffs = pbi->dequant_UV_coeffs;
+    pbi->dequant_coeffs = pbi->dequant_V_coeffs;
   }
 
   /* Set up pointer into the quantisation buffer. */
@@ -183,7 +186,7 @@ static void ExpandBlock ( PB_INSTANCE *pbi, ogg_int32_t FragmentNumber ){
                                         pixel is used */
 
   /* Get coding mode for this block */
-  if ( GetFrameType(pbi) == BASE_FRAME ){
+  if ( GetFrameType(pbi) == KEY_FRAME ){
     pbi->CodingMode = CODE_INTRA;
   }else{
     /* Get Motion vector and mode for this block. */
@@ -200,7 +203,7 @@ static void ExpandBlock ( PB_INSTANCE *pbi, ogg_int32_t FragmentNumber ){
     if ( pbi->CodingMode == CODE_INTRA )
       pbi->dequant_coeffs = pbi->dequant_Y_coeffs;
     else
-      pbi->dequant_coeffs = pbi->dequant_Inter_coeffs;
+      pbi->dequant_coeffs = pbi->dequant_InterY_coeffs;
   }else{
     ReconPixelsPerLine = pbi->UVStride;
     MvShift = 2;
@@ -208,9 +211,17 @@ static void ExpandBlock ( PB_INSTANCE *pbi, ogg_int32_t FragmentNumber ){
 
     /* Select appropriate dequantiser matrix. */
     if ( pbi->CodingMode == CODE_INTRA )
-      pbi->dequant_coeffs = pbi->dequant_UV_coeffs;
+      if ( FragmentNumber < 
+		(ogg_int32_t)(pbi->YPlaneFragments + pbi->UVPlaneFragments) )
+        pbi->dequant_coeffs = pbi->dequant_U_coeffs;
+      else
+        pbi->dequant_coeffs = pbi->dequant_V_coeffs;
     else
-      pbi->dequant_coeffs = pbi->dequant_Inter_coeffs;
+      if ( FragmentNumber < 
+		(ogg_int32_t)(pbi->YPlaneFragments + pbi->UVPlaneFragments) )
+        pbi->dequant_coeffs = pbi->dequant_InterU_coeffs;
+      else
+        pbi->dequant_coeffs = pbi->dequant_InterV_coeffs;
   }
 
   /* Set up pointer into the quantisation buffer. */
@@ -673,7 +684,7 @@ void ClearDownQFragData(PB_INSTANCE *pbi){
   for ( i = 0; i < pbi->CodedBlockIndex; i++ ) {
     /* Get the linear index for the current fragment. */
     QFragPtr = pbi->QFragData[pbi->CodedBlockList[i]];
-    for ( j = 0; j < 64; j++ ) QFragPtr[j]  = 0;
+    memset(QFragPtr, 0, 64*sizeof(Q_LIST_ENTRY));
   }
 }
 
@@ -1083,7 +1094,7 @@ void ReconRefFrames (PB_INSTANCE *pbi){
 
   void (*ExpandBlockA) ( PB_INSTANCE *pbi, ogg_int32_t FragmentNumber );
 
-  if ( GetFrameType(pbi) == BASE_FRAME )
+  if ( GetFrameType(pbi) == KEY_FRAME )
     ExpandBlockA=ExpandKFBlock;
   else
     ExpandBlockA=ExpandBlock;
@@ -1127,7 +1138,7 @@ void ReconRefFrames (PB_INSTANCE *pbi){
 
         /* only do 2 prediction if fragment coded and on non intra or
            if all fragments are intra */
-        if( pbi->display_fragments[i] || (GetFrameType(pbi) == BASE_FRAME) ){
+        if( pbi->display_fragments[i] || (GetFrameType(pbi) == KEY_FRAME) ){
           /* Type of Fragment */
           WhichFrame = Mode2Frame[pbi->FragCodingMethod[i]];
 
@@ -1220,7 +1231,7 @@ void ReconRefFrames (PB_INSTANCE *pbi){
 
   /* Reconstruct the golden frame if necessary.
      For VFW codec only on key frames */
-  if ( GetFrameType(pbi) == BASE_FRAME ){
+  if ( GetFrameType(pbi) == KEY_FRAME ){
     CopyRecon( pbi, pbi->GoldenFrame, pbi->LastFrameRecon );
     /* We may need to update the UMV border */
     UpdateUMVBorder(pbi, pbi->GoldenFrame);

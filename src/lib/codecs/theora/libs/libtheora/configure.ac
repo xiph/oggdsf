@@ -4,7 +4,7 @@ dnl ------------------------------------------------
 dnl Initialization and Versioning
 dnl ------------------------------------------------
 
-AC_INIT(libtheora,[1.0alpha4])
+AC_INIT(libtheora,[1.0alpha5])
 
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
@@ -16,12 +16,15 @@ AM_MAINTAINER_MODE
 
 dnl Library versioning
 
-V_LIB_CURRENT=1
+V_LIB_CURRENT=2
 V_LIB_REVISION=0
-V_LIB_AGE=1
+V_LIB_AGE=2
 AC_SUBST(V_LIB_CURRENT)
 AC_SUBST(V_LIB_REVISION)
 AC_SUBST(V_LIB_AGE)
+
+dnl Extra linker options (for version script)
+SHLIB_VERSION_ARG=""
 
 dnl --------------------------------------------------  
 dnl Check for programs
@@ -36,6 +39,9 @@ CFLAGS="$cflags_save"
 
 AM_PROG_LIBTOOL
 
+dnl Add parameters for aclocal
+AC_SUBST(ACLOCAL_AMFLAGS, "-I m4")
+
 dnl Check for doxygen
 AC_CHECK_PROG(HAVE_DOXYGEN, doxygen, true, false)
 AM_CONDITIONAL(HAVE_DOXYGEN,$HAVE_DOXYGEN)
@@ -46,6 +52,30 @@ fi
 dnl Check for python
 AC_CHECK_PROG(HAVE_PYTHON, python, true, false)
 AM_CONDITIONAL(HAVE_PYTHON,$HAVE_PYTHON)
+
+dnl Check for valgrind
+VALGRIND_ENVIRONMENT=""
+ac_enable_valgrind=no
+AC_ARG_ENABLE(valgrind-testing,
+     [  --enable-valgrind-testing     enable running of tests inside Valgrind ],     [ ac_enable_valgrind=yes ], [ ac_enable_valgrind=no] )
+
+if test "x${ac_enable_valgrind}" = xyes ; then
+  if test "x${enable_shared}" = xyes ; then
+    VALGRIND_ENVIRONMENT="libtool --mode=execute "
+  fi
+
+  AC_CHECK_PROG(HAVE_VALGRIND, valgrind, yes, no)
+  if test "x$HAVE_VALGRIND" = xyes ; then
+    VALGRIND_ENVIRONMENT="$VALGRIND_ENVIRONMENT valgrind -q --leak-check=yes --show-reachable=yes --num-callers=100"
+    AC_SUBST(VALGRIND_ENVIRONMENT)
+    TESTS_INFO="Type 'make check' to run test suite. Tests will be run under:
+  ${VALGRIND_ENVIRONMENT}"
+  else
+    TESTS_INFO="Type 'make check' to run test suite (Valgrind not found)"
+  fi
+else
+  TESTS_INFO="Type 'make check' to run test suite (Valgrind testing not enabled)"
+fi
 
 dnl --------------------------------------------------
 dnl Set build flags based on environment
@@ -67,66 +97,26 @@ else
         case $host in 
         *)
                 DEBUG="-g -W -D__NO_MATH_INLINES"
-                CFLAGS="-O2 -Wall"
+                CFLAGS="-g -O2 -Wall"
                 PROFILE="-W -pg -g -O2 -fno-inline-functions";;
         esac
 fi
 CFLAGS="$CFLAGS $cflags_save"
 LDFLAGS="$LDFLAGS $ldflags_save"
 
-dnl --------------------------------------------------
-dnl Overall build configuration options
-dnl --------------------------------------------------
-
-dnl Configuration option for building of floating point code.
-
-ac_enable_float=yes
-AC_ARG_ENABLE(float,
-     [  --disable-float         disable use of floating point code ],
-     [ ac_enable_float=no ], [ ac_enable_float=yes] )
-
-if test "x${ac_enable_float}" = xyes ; then
-    AC_DEFINE(THEORA_SUPPORT_FLOAT, [1], [Build floating point code])
-else
-    AC_DEFINE(THEORA_SUPPORT_FLOAT, [0], [Do not build floating point code])
-fi
-AM_CONDITIONAL(THEORA_SUPPORT_FLOAT, [test "x${ac_enable_float}" = "xyes"])
-
-dnl Configuration option for building of encoding support.
-
-ac_enable_encode=yes
-AC_ARG_ENABLE(encode,
-     [  --disable-encode        disable encoding support ],
-     [ ac_enable_encode=no ], [ ac_enable_encode=yes] )
-
-if test "x${ac_enable_encode}" = xyes ; then
-    BUILDABLE_EXAMPLES="$BUILDABLE_EXAMPLES encoder_example"
-    AC_DEFINE(THEORA_SUPPORT_ENCODE, [1], [Build encoding support])
-else
-    AC_DEFINE(THEORA_SUPPORT_ENCODE, [0], [Do not build encoding support])
-fi
-AM_CONDITIONAL(THEORA_SUPPORT_ENCODE, [test "x${ac_enable_encode}" = "xyes"])
+dnl Set extra linker options
+case "$target_os" in
+	linux* | solaris* )
+		SHLIB_VERSION_ARG="-Wl,--version-script=Version_script"
+		;;
+	*)
+		;;
+esac
+AC_SUBST(SHLIB_VERSION_ARG)
 
 dnl --------------------------------------------------
-dnl Check for headers
+dnl Checks for support libraries and headers
 dnl --------------------------------------------------
-
-dnl none here
-
-dnl --------------------------------------------------
-dnl Check for typedefs, structures, etc
-dnl --------------------------------------------------
-
-dnl none
-
-dnl --------------------------------------------------
-dnl Check for library functions
-dnl --------------------------------------------------
-
-dnl substitue the included getopt if the system doesn't support long options
-AC_CHECK_FUNC(getopt_long, [GETOPT_OBJS=''], [GETOPT_OBJS='getopt.$(OBJEXT) getopt1.$(OBJEXT)'])
-AC_SUBST(GETOPT_OBJS)
-
 
 dnl check for Ogg
 HAVE_OGG=no
@@ -152,13 +142,13 @@ then
   CFLAGS="$CFLAGS $OGG_CFLAGS"
   LIBS="$LIBS $OGG_LIBS"
   AC_CHECK_FUNC(oggpackB_read, , [
-    AC_MSG_ERROR([newer libogg version (>1.0) required])
+    AC_MSG_ERROR([newer libogg version (1.1 or later) required])
   ])
   CFLAGS=$cflags_save
   LIBS=$libs_save
 fi
 
-dnl the examples use Vorbis and SDL
+
 dnl check for Vorbis
 HAVE_VORBIS=no
 
@@ -179,18 +169,84 @@ then
   XIPH_PATH_VORBIS(HAVE_VORBIS=yes, HAVE_VORBIS=no)
 fi
 
+dnl check for SDL
+HAVE_SDL=no
 
 AM_PATH_SDL(,[
 	HAVE_SDL=yes
 	SDL_LIBS=`$SDL_CONFIG --libs`
 ],AC_MSG_WARN([*** Unable to find SDL -- Not compiling example players ***]))
 
+dnl check for OSS
+HAVE_OSS=no
+
 AC_CHECK_HEADERS([sys/soundcard.h soundcard.h machine/soundcard.h],[
   HAVE_OSS=yes
   break
-],AC_MSG_WARN([OSS audio support not found -- not compiling player_example]))
+])
+if test x$HAVE_OSS != xyes; then
+  AC_MSG_WARN([OSS audio support not found -- not compiling player_example])
+fi
 
-if test x$HAVE_SDL = xyes -a x$HAVE_OSS = xyes; then
+dnl --------------------------------------------------
+dnl Overall build configuration options
+dnl --------------------------------------------------
+
+dnl Configuration option for building of floating point code.
+
+ac_enable_float=yes
+AC_ARG_ENABLE(float,
+     [  --disable-float         disable use of floating point code ],
+     [ ac_enable_float=$enableval ], [ ac_enable_float=yes] )
+
+if test "x${ac_enable_float}" != xyes ; then
+    AC_DEFINE([THEORA_DISABLE_FLOAT], [], 
+	[Define to exclude floating point code from the build])
+fi
+AM_CONDITIONAL(THEORA_DISABLE_FLOAT, [test "x${ac_enable_float}" != xyes])
+
+dnl Configuration option for building of encoding support.
+
+ac_enable_encode=yes
+AC_ARG_ENABLE(encode,
+     [  --disable-encode        disable encoding support ],
+     [ ac_enable_encode=$enableval ], [ ac_enable_encode=yes] )
+
+if test "x${ac_enable_encode}" != xyes ; then
+    AC_DEFINE([THEORA_DISABLE_ENCODE], [],
+	[Define to exclude encode support from the build])
+else
+    if test x$HAVE_VORBIS = xyes; then
+      BUILDABLE_EXAMPLES="$BUILDABLE_EXAMPLES encoder_example"
+    else
+      AC_MSG_NOTICE([Vorbis missing, cannot build example encoder])
+    fi
+fi
+AM_CONDITIONAL(THEORA_DISABLE_ENCODE, [test "x${ac_enable_encode}" != xyes])
+
+dnl --------------------------------------------------
+dnl Check for headers
+dnl --------------------------------------------------
+
+dnl none here
+
+dnl --------------------------------------------------
+dnl Check for typedefs, structures, etc
+dnl --------------------------------------------------
+
+dnl none
+
+dnl --------------------------------------------------
+dnl Check for library functions
+dnl --------------------------------------------------
+
+dnl substitute the included getopt if the system doesn't support long options
+AC_CHECK_FUNC(getopt_long,
+              [GETOPT_OBJS=''],
+              [GETOPT_OBJS='getopt.$(OBJEXT) getopt1.$(OBJEXT)'])
+AC_SUBST(GETOPT_OBJS)
+
+if test x$HAVE_SDL = xyes -a x$HAVE_OSS = xyes -a x$HAVE_VORBIS = xyes; then
   BUILDABLE_EXAMPLES="$BUILDABLE_EXAMPLES player_example"
 fi
 AC_SUBST(BUILDABLE_EXAMPLES)
@@ -208,7 +264,42 @@ AC_OUTPUT([
   examples/Makefile
   doc/Makefile doc/Doxyfile
   debian/Makefile
+  tests/Makefile
+  lib/Version_script
   libtheora.spec
   theora.pc
   theora-uninstalled.pc
 ])
+
+AS_AC_EXPAND(LIBDIR, ${libdir})
+AS_AC_EXPAND(INCLUDEDIR, ${includedir})
+AS_AC_EXPAND(BINDIR, ${bindir})
+AS_AC_EXPAND(DOCDIR, ${datadir}/doc)
+
+AC_MSG_RESULT([
+------------------------------------------------------------------------
+  $PACKAGE $VERSION:  Automatic configuration OK.
+
+  General configuration:
+
+    Encoding support: ............ ${ac_enable_encode}
+    Floating point support: ...... ${ac_enable_float}
+
+  Installation paths:
+
+    libtheora: ................... ${LIBDIR}
+    C header files: .............. ${INCLUDEDIR}/theora
+    Documentation: ............... ${DOCDIR}/$PACKAGE
+
+  Building:
+
+    Type 'make' to compile $PACKAGE.
+
+    Type 'make install' to install $PACKAGE.
+
+    ${TESTS_INFO}
+
+  Example programs will be built but not installed.
+------------------------------------------------------------------------
+])
+

@@ -15,13 +15,13 @@
 
  ********************************************************************/
 
-#include "encoder_internal.h"
+#include "codec_internal.h"
 
 static void CreateMapping ( ogg_int32_t (*BlockMap)[4][4],
                             ogg_uint32_t FirstSB,
                             ogg_uint32_t FirstFrag, ogg_uint32_t HFrags,
                             ogg_uint32_t VFrags ){
-  ogg_uint32_t i, j;
+  ogg_uint32_t i, j = 0;
   ogg_uint32_t xpos;
   ogg_uint32_t ypos;
   ogg_uint32_t SBrow, SBcol;

@@ -16,9 +16,10 @@
  ********************************************************************/
 
 #include <string.h>
-#include "encoder_internal.h"
+#include "codec_internal.h"
 #include "block_inline.h"
 
+/* Long run bit string coding */
 static ogg_uint32_t FrArrayCodeSBRun( CP_INSTANCE *cpi, ogg_uint32_t value ){
   ogg_uint32_t CodedVal = 0;
   ogg_uint32_t CodedBits = 0;
@@ -55,13 +56,15 @@ static ogg_uint32_t FrArrayCodeSBRun( CP_INSTANCE *cpi, ogg_uint32_t value ){
     CodedVal = 0x3F000 + (value - 34);
     CodedBits = 18;
   }
+  /* todo: handle value > 4129 extension */
 
   /* Add the bits to the encode holding buffer. */
-  oggpackB_write( cpi->oggbuffer, CodedVal, (ogg_uint32_t)CodedBits );
+  oggpackB_write( cpi->oggbuffer, CodedVal, CodedBits );
 
   return CodedBits;
 }
 
+/* Short run bit string coding */
 static ogg_uint32_t FrArrayCodeBlockRun( CP_INSTANCE *cpi,
                                          ogg_uint32_t value ) {
   ogg_uint32_t CodedVal = 0;
@@ -100,7 +103,7 @@ static ogg_uint32_t FrArrayCodeBlockRun( CP_INSTANCE *cpi,
  }
 
   /* Add the bits to the encode holding buffer. */
-  oggpackB_write( cpi->oggbuffer, CodedVal, (ogg_uint32_t)CodedBits );
+  oggpackB_write( cpi->oggbuffer, CodedVal, CodedBits );
 
   return CodedBits;
 }
@@ -228,6 +231,7 @@ static void FrArrayDeCodeInit(PB_INSTANCE *pbi){
   pbi->bits_so_far = 0;
 }
 
+/* Short run bit string decoding */
 static int FrArrayDeCodeBlockRun(  PB_INSTANCE *pbi, ogg_uint32_t bit_value,
                             ogg_int32_t * run_value ){
   int  ret_val = 0;
@@ -296,6 +300,7 @@ static int FrArrayDeCodeBlockRun(  PB_INSTANCE *pbi, ogg_uint32_t bit_value,
   return ret_val;
 }
 
+/* Long run bit string decoding */
 static int FrArrayDeCodeSBRun (PB_INSTANCE *pbi, ogg_uint32_t bit_value,
                         ogg_int32_t * run_value ){
   int ret_val = 0;
@@ -372,6 +377,8 @@ static int FrArrayDeCodeSBRun (PB_INSTANCE *pbi, ogg_uint32_t bit_value,
     ret_val = 0;
     break;
   }
+
+  /* todo: handle additional bits for values over 4129 */
 
   return ret_val;
 }
@@ -456,7 +463,7 @@ void QuadDecodeDisplayFragments ( PB_INSTANCE *pbi ){
 
   /* For "Key frames" mark all blocks as coded and return. */
   /* Else initialise the ArrayPtr array to 0 (all blocks uncoded by default) */
-  if ( GetFrameType(pbi) == BASE_FRAME ) {
+  if ( GetFrameType(pbi) == KEY_FRAME ) {
     memset( pbi->SBFullyFlags, 1, pbi->SuperBlocks );
     memset( pbi->SBCodedFlags, 1, pbi->SuperBlocks );
         memset( pbi->MBCodedFlags, 0, pbi->MacroBlocks );

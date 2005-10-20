@@ -1,11 +1,13 @@
 INCLUDES = -I$(top_srcdir)/include
 
+EXTRA_DIST = Version_script.in
+
 lib_LTLIBRARIES = libtheora.la
 
-if THEORA_SUPPORT_ENCODE
-encoder_sources = dct_encode.c encode.c encoder_toplevel.c
-else
+if THEORA_DISABLE_ENCODE
 encoder_sources = encoder_disabled.c
+else
+encoder_sources = dct_encode.c encode.c encoder_toplevel.c
 endif
 
 libtheora_la_SOURCES = \
@@ -30,7 +32,7 @@ libtheora_la_SOURCES = \
 
 noinst_HEADERS = \
 	block_inline.h \
-	encoder_internal.h \
+	codec_internal.h \
 	encoder_lookup.h \
 	huffman.h \
 	hufftables.h \
@@ -40,8 +42,8 @@ noinst_HEADERS = \
 	toplevel_lookup.h
 
 libtheora_la_CFLAGS = $(OGG_CFLAGS)
-libtheora_la_LDFLAGS = -version-info @V_LIB_CURRENT@:@V_LIB_REVISION@:@V_LIB_AGE@
-libtheora_la_LIBS = $(OGG_LIBS)
+libtheora_la_LDFLAGS = -version-info @V_LIB_CURRENT@:@V_LIB_REVISION@:@V_LIB_AGE@ @SHLIB_VERSION_ARG@
+libtheora_la_LIBADD = $(OGG_LIBS)
 
 debug:
 	$(MAKE) all CFLAGS="@DEBUG@" LDFLAGS="-lefence"	

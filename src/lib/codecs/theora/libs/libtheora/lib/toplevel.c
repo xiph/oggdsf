@@ -5,7 +5,7 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE Theora SOURCE CODE IS COPYRIGHT (C) 2002-2003                *
+ * THE Theora SOURCE CODE IS COPYRIGHT (C) 2002-2005                *
  * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
@@ -71,8 +71,11 @@ void theora_info_init(theora_info *c) {
 
 void theora_info_clear(theora_info *c) {
   codec_setup_info *ci=c->codec_setup;
+  int i;
   if(ci){
     if(ci->qmats) _ogg_free(ci->qmats);
+    for(i=0;i<6;i++)
+      if(ci->range_table[i]) _ogg_free(ci->range_table[i]);
     ClearHuffmanTrees(ci->HuffRoot);
     _ogg_free(ci);
   }
@@ -144,13 +147,16 @@ static int _theora_unpack_info(theora_info *ci, oggpack_buffer *opb){
   theora_read(opb,24,&ret);
   ci->target_bitrate=ret;
   theora_read(opb,6,&ret);
-  ci->quality=ret=ret;
+  ci->quality=ret;
 
   theora_read(opb,5,&ret);
   ci->keyframe_frequency_force=1<<ret;
 
+  theora_read(opb,2,&ret);
+  ci->pixelformat=ret;
+
   /* spare configuration bits */
-  if ( theora_read(opb,5,&ret) == -1 )
+  if ( theora_read(opb,3,&ret) == -1 )
     return (OC_BADHEADER);
 
   return(0);
@@ -158,9 +164,9 @@ static int _theora_unpack_info(theora_info *ci, oggpack_buffer *opb){
 
 static int _theora_unpack_comment(theora_comment *tc, oggpack_buffer *opb){
   int i;
-  int len;
+  long len;
 
-   _tp_readlsbint(opb,(long *) &len);
+   _tp_readlsbint(opb,&len);
   if(len<0)return(OC_BADHEADER);
   tc->vendor=_ogg_calloc(1,len+1);
   _tp_readbuffer(opb,tc->vendor, len);
@@ -171,7 +177,7 @@ static int _theora_unpack_comment(theora_comment *tc, oggpack_buffer *opb){
   tc->user_comments=_ogg_calloc(tc->comments,sizeof(*tc->user_comments));
   tc->comment_lengths=_ogg_calloc(tc->comments,sizeof(*tc->comment_lengths));
   for(i=0;i<tc->comments;i++){
-    _tp_readlsbint(opb,(long *)&len);
+    _tp_readlsbint(opb,&len);
     if(len<0)goto parse_err;
     tc->user_comments[i]=_ogg_calloc(1,len+1);
     _tp_readbuffer(opb,tc->user_comments[i],len);
@@ -291,7 +297,9 @@ int theora_decode_init(theora_state *th, theora_info *c){
   codec_setup_info *ci;
 
   ci=(codec_setup_info *)c->codec_setup;
+  memset(th, 0, sizeof(*th));
   th->internal_decode=pbi=_ogg_calloc(1,sizeof(*pbi));
+  th->internal_encode=NULL;
 
   InitPBInstance(pbi);
   memcpy(&pbi->info,c,sizeof(*c));
@@ -309,7 +317,7 @@ int theora_decode_init(theora_state *th, theora_info *c){
   /* Clear down the YUVtoRGB conversion skipped list. */
   memset(pbi->skipped_display_fragments, 0, pbi->UnitFragments );
 
-  /* Initialise version specific quantiser and in-loop filter values */
+  /* Initialise quantiser and in-loop filter */
   CopyQTables(pbi, ci);
   CopyFilterTables(pbi, ci);
 
@@ -349,7 +357,7 @@ int theora_decode_packetin(theora_state *th,ogg_packet *op){
       if(th->granulepos==-1){
         th->granulepos=0;
       }else{
-        if(pbi->FrameType==BASE_FRAME){
+        if(pbi->FrameType==KEY_FRAME){
           long frames= th->granulepos & ((1<<pbi->keyframe_granule_shift)-1);
           th->granulepos>>=pbi->keyframe_granule_shift;
           th->granulepos+=frames+1;
@@ -400,7 +408,7 @@ int theora_decode_YUVout(theora_state *th,yuv_buffer *yuv){
 /* returns, in seconds, absolute time of current packet in given
    logical stream */
 double theora_granule_time(theora_state *th,ogg_int64_t granulepos){
-#if THEORA_SUPPORT_FLOAT
+#ifndef THEORA_DISABLE_FLOAT
   CP_INSTANCE *cpi=(CP_INSTANCE *)(th->internal_encode);
   PB_INSTANCE *pbi=(PB_INSTANCE *)(th->internal_decode);
 
@@ -416,7 +424,7 @@ double theora_granule_time(theora_state *th,ogg_int64_t granulepos){
   }
 #endif
 
-  return(-1);
+  return(-1); /* negative granulepos or float calculations disabled */
 }
 
 /* check for header flag */
@@ -430,6 +438,12 @@ int theora_packet_iskeyframe(ogg_packet *op)
 {
   if (op->packet[0] & 0x80) return -1; /* not a data packet */
   return (op->packet[0] & 0x40) ? 0 : 1; /* inter or intra */
+}
+
+/* returns the shift radix used to split the granulepos into two fields */
+int theora_granule_shift(theora_info *ti)
+{
+  return _ilog(ti->keyframe_frequency_force - 1);
 }
 
 /* returns frame number of current packet in given logical stream */
