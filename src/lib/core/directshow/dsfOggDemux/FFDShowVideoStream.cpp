@@ -82,7 +82,7 @@ bool FFDShowVideoStream::InitCodec(StampedOggPacket* inOggPacket) {
 bool FFDShowVideoStream::deliverCodecHeaders() {
 	StampedOggPacket* locPacket = NULL;
 
-	//TODO::: Why 2 ?
+	//TODO::: Why 2 ? - there is a comment header
 	for (unsigned long i = 2; i < mCodecHeaders->numPackets(); i++) {
 		locPacket = mCodecHeaders->getPacket(i);
 
@@ -98,28 +98,6 @@ wstring FFDShowVideoStream::getPinName() {
 
 bool FFDShowVideoStream::createFormatBlock() {
 	mFFDShowVideoFormatBlock = new VIDEOINFOHEADER;
-	////Fix the format block data... use header version and other version.
-	//unsigned char* locIdentHeader = mCodecHeaders->getPacket(0)->packetData();
-	////mTheoraFormatBlock->TheoraVersion = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 28);
-	////mTheoraFormatBlock->numChannels = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 48);
-	////mTheoraFormatBlock->samplesPerSec = OggMath::charArrToULong(mCodecHeaders->getPacket(0)->packetData() + 36);
-
-	//mTheoraFormatBlock->theoraVersion = (FLACMath::charArrToULong(locIdentHeader + 7)) >>8;
-	//mTheoraFormatBlock->width = (FLACMath::charArrToUShort(locIdentHeader + 10)) * 16;
-	//mTheoraFormatBlock->height = (FLACMath::charArrToUShort(locIdentHeader + 12)) * 16;
-	//mTheoraFormatBlock->frameWidth = (FLACMath::charArrToULong(locIdentHeader + 14)) >>8;
-	//mTheoraFormatBlock->frameHeight = (FLACMath::charArrToULong(locIdentHeader + 17)) >>8;
-	//mTheoraFormatBlock->xOffset = locIdentHeader[20];
-	//mTheoraFormatBlock->yOffset = locIdentHeader[21];
-	//mTheoraFormatBlock->frameRateNumerator = FLACMath::charArrToULong(locIdentHeader + 22);
-	//mTheoraFormatBlock->frameRateDenominator = FLACMath::charArrToULong(locIdentHeader + 26);
-	//mTheoraFormatBlock->aspectNumerator = (FLACMath::charArrToULong(locIdentHeader + 30)) >>8;
-	//mTheoraFormatBlock->aspectDenominator = (FLACMath::charArrToULong(locIdentHeader + 33)) >>8;
-	//mTheoraFormatBlock->colourSpace = locIdentHeader[36];
-	//mTheoraFormatBlock->targetBitrate = (FLACMath::charArrToULong(locIdentHeader + 37)) >>8;
-	//mTheoraFormatBlock->targetQuality = (locIdentHeader[40]) >> 2;
-	////FIX:: When you can be bothered spanning bits over bytes.
-	//mTheoraFormatBlock->maxKeyframeInterval= 0;
 
 
 
@@ -196,8 +174,9 @@ bool FFDShowVideoStream::createFormatBlock() {
 
 bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 	//This is to get aroudn the extra mystery byte that ogg encapsulated divx gets at the start :|
+	unsigned long locLenBytes = ((((unsigned long)inPacket->packetData()[0]) >> 4) | (inPacket->packetData()[0] & 2)) >> 1;
 	unsigned char* locBuff = new unsigned char[inPacket->packetSize() - 1];
-	memcpy((void*)locBuff, (const void*) (inPacket->packetData() + 1), inPacket->packetSize() - 1);
+	memcpy((void*)locBuff, (const void*) (inPacket->packetData() + locLenBytes), inPacket->packetSize() - locLenBytes);
 	
 
 	//This is to help ffdshow handle timestamps the way it likes them.
@@ -228,7 +207,7 @@ bool FFDShowVideoStream::dispatchPacket(StampedOggPacket* inPacket) {
 
 	//debugLog << "Packet :    Start   =   "<<locStart<<"     -   End   =   "<<locEnd<<endl;
 																					//We should only be delivering full packets here.
-	StampedOggPacket* locPack = new StampedOggPacket(locBuff, inPacket->packetSize() - 1, false, false, locStart, locEnd, StampedOggPacket::DIRECTSHOW);
+	StampedOggPacket* locPack = new StampedOggPacket(locBuff, inPacket->packetSize() - locLenBytes, false, false, locStart, locEnd, StampedOggPacket::DIRECTSHOW);
 	return OggStream::dispatchPacket(locPack);
 }
 BYTE* FFDShowVideoStream::getFormatBlock() {
