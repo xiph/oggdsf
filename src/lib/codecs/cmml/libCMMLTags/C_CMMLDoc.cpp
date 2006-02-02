@@ -50,7 +50,7 @@ C_CMMLDoc::~C_CMMLDoc(void)
 C_CMMLDoc* C_CMMLDoc::clone() 
 {
 	C_CMMLDoc* retDoc = new C_CMMLDoc();
-	retDoc->mPreamble = mPreamble;
+	retDoc->mPreamble = mPreamble->clone();
 	retDoc->mRoot = mRoot->clone();
 
 	return retDoc;
