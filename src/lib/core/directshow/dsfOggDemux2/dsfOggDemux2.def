@@ -1,0 +1,7 @@
+LIBRARY	dsfOggDemux2
+EXPORTS 
+	DllMain				PRIVATE
+    DllGetClassObject   PRIVATE
+    DllCanUnloadNow     PRIVATE
+    DllRegisterServer   PRIVATE
+    DllUnregisterServer PRIVATE
