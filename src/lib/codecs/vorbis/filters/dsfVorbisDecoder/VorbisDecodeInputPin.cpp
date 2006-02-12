@@ -53,16 +53,26 @@ VorbisDecodeInputPin::VorbisDecodeInputPin	(		AbstractTransformFilter* inFilter
 	,	mFrameSize(0)
 	,	mSampleRate(0)
 	,	mUptoFrame(0)
+	,	mSetupState(VSS_SEEN_NOTHING)
+	,	mDecodedBuffer(NULL)
+	,	mDecodedByteCount(0)
+	,	mRateNumerator(RATE_DENOMINATOR)
+	,	mOggOutputPinInterface(NULL)
+	,	mSentStreamOffset(false)
 		
 {
 	//debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
 	ConstructCodec();
+
+	mDecodedBuffer = new unsigned char[DECODED_BUFFER_SIZE];
 }
 
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
 	//debugLog.close();
 	DestroyCodec();
+	delete[] mDecodedBuffer;
+
 }
 //Is this needed ??
 STDMETHODIMP VorbisDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -71,6 +81,11 @@ STDMETHODIMP VorbisDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
+	} else if (riid == IID_IOggDecoder) {
+		*ppv = (IOggDecoder*)this;
+		//((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+
 	}
 
 	return AbstractTransformInputPin::NonDelegatingQueryInterface(riid, ppv); 
@@ -99,8 +114,21 @@ STDMETHODIMP VorbisDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERE
 	CAutoLock locLock(mStreamLock);
 	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
 	mUptoFrame = 0;
+	mRateNumerator = RATE_DENOMINATOR * inRate;
+	if (mRateNumerator > RATE_DENOMINATOR) {
+		mRateNumerator = RATE_DENOMINATOR;
+	}
 	return AbstractTransformInputPin::NewSegment(inStartTime, inStopTime, inRate);
 	
+}
+
+STDMETHODIMP VorbisDecodeInputPin::EndFlush()
+{
+	CAutoLock locLock(m_pLock);
+	
+	HRESULT locHR = AbstractTransformInputPin::EndFlush();
+	mDecodedByteCount = 0;
+	return locHR;
 }
 
 int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer) 
@@ -110,55 +138,23 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 	VorbisDecodeFilter* locFilter = reinterpret_cast<VorbisDecodeFilter*>(locThis->m_pFilter);
 
 	if (locThis->CheckStreaming() == S_OK) {
-		if (! locThis->mBegun) {
-			//locThis->debugLog<<"First Time"<<endl;
-			//Set up fishsound		
-			fish_sound_command (locThis->mFishSound, FISH_SOUND_GET_INFO, &(locThis->mFishInfo), sizeof (FishSoundInfo)); 
-			locThis->mBegun = true;
-			
-			locThis->mNumChannels = locThis->mFishInfo.channels;
-			locThis->mFrameSize = locThis->mNumChannels * SIZE_16_BITS;
-			locThis->mSampleRate = locThis->mFishInfo.samplerate;
-
-		}
-
 
 		unsigned long locActualSize = inFrames * locThis->mFrameSize;
 		unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
-		
-		//locThis->debugLog<<"m_tStart = "<<locThis->m_tStart<<endl;
-		//locThis->debugLog<<"mUptoFrame = "<<locThis->mUptoFrame<<endl;
-		//Make the start presentation time
-		REFERENCE_TIME locFrameStart = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-
-		//Increment the frame counter
-		locThis->mUptoFrame += inFrames;
-
-		//Make the end presentation time
-		REFERENCE_TIME locFrameEnd = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-
-		//locThis->debugLog<<"Sample time = "<<locFrameStart<<" - "<<locFrameEnd<<endl;
-		IMediaSample* locSample;
-		HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
-		if (locHR != S_OK) {
-			return -1;
-		}	
+		unsigned long locBufferRemaining = DECODED_BUFFER_SIZE - locThis->mDecodedByteCount;
 		
 
-		//Create pointers for the samples buffer to be assigned to
-		BYTE* locBuffer = NULL;
-		signed short* locShortBuffer = NULL;
+
+		//Create a pointer into the buffer		
+		signed short* locShortBuffer = (signed short*)&locThis->mDecodedBuffer[locThis->mDecodedByteCount];
 		
-		locSample->GetPointer(&locBuffer);
-		locShortBuffer = (short *) locBuffer;
 		
 		signed short tempInt = 0;
 		float tempFloat = 0;
 		
 		//FIX:::Move the clipping to the abstract function
 
-		if (locSample->GetSize() >= locActualSize) {
+		if (locBufferRemaining >= locActualSize) {
 			//Do float to int conversion with clipping
 			const float SINT_MAX_AS_FLOAT = 32767.0f;
 			for (unsigned long i = 0; i < locTotalFrameCount; i++) {
@@ -178,22 +174,8 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 				*locShortBuffer = tempInt;
 				locShortBuffer++;
 			}
-			
-			//Set the sample parameters.
-			locThis->SetSampleParams(locSample, locActualSize, &locFrameStart, &locFrameEnd);
 
-			{
-		
-				CAutoLock locLock(locThis->m_pLock);
-
-				//TODO::: Explain why we don't addref or release.
-				HRESULT locHR = ((VorbisDecodeOutputPin*)(locThis->mOutputPin))->mDataQueue->Receive(locSample);
-				if (locHR != S_OK) {
-					DbgLog((LOG_TRACE,1,TEXT("Queue rejected us...")));
-					return -1;
-				}
-			}
-
+			locThis->mDecodedByteCount += locActualSize;
 			
 			return 0;
 		} else {
@@ -206,7 +188,121 @@ int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float**
 
 }
 
+STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample) 
+{
+	CAutoLock locLock(mStreamLock);
 
+	HRESULT locHR = CheckStreaming();
+
+	if (locHR == S_OK) {
+
+
+		BYTE* locBuff = NULL;
+		locHR = inSample->GetPointer(&locBuff);
+
+		if (locHR != S_OK) {
+			//TODO::: Do a debug dump or something here with specific error info.
+			return locHR;
+		} else {
+			REFERENCE_TIME locStart = -1;
+			REFERENCE_TIME locEnd = -1;
+			__int64 locSampleDuration = 0;
+			inSample->GetTime(&locStart, &locEnd);
+
+			HRESULT locResult = TransformData(locBuff, inSample->GetActualDataLength());
+			if (locResult != S_OK) {
+				return S_FALSE;
+			}
+			if (locEnd > 0) {
+				//Can dump it all downstream now	
+				IMediaSample* locSample;
+				unsigned long locBytesCopied = 0;
+				unsigned long locBytesToCopy = 0;
+
+				locStart = convertGranuleToTime(locEnd) - (((mDecodedByteCount / mFrameSize) * UNITS) / mSampleRate);
+
+				REFERENCE_TIME locGlobalOffset = 0;
+				//Handle stream offsetting
+				if (!mSentStreamOffset && (mOggOutputPinInterface != NULL)) {
+					mOggOutputPinInterface->notifyStreamBaseTime(locStart);
+					mSentStreamOffset = true;
+					
+				}
+
+				if (mOggOutputPinInterface != NULL) {
+					locGlobalOffset = mOggOutputPinInterface->getGlobalBaseTime();
+				}
+
+				do {
+					HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
+					if (locHR != S_OK) {
+						return locHR;
+					}
+
+					BYTE* locBuffer = NULL;
+					locHR = locSample->GetPointer(&locBuffer);
+				
+					if (locHR != S_OK) {
+						return locHR;
+					}
+
+					locBytesToCopy = ((mDecodedByteCount - locBytesCopied) <= locSample->GetSize()) ? (mDecodedByteCount - locBytesCopied) : locSample->GetSize();
+					//locBytesCopied += locBytesToCopy;
+
+					locSampleDuration = (((locBytesToCopy/mFrameSize) * UNITS) / mSampleRate);
+					locEnd = locStart + locSampleDuration;
+
+					//Adjust the time stamps for rate and seeking
+					REFERENCE_TIME locAdjustedStart = (locStart * RATE_DENOMINATOR) / mRateNumerator;
+					REFERENCE_TIME locAdjustedEnd = (locEnd * RATE_DENOMINATOR) / mRateNumerator;
+					locAdjustedStart -= (m_tStart + locGlobalOffset);
+					locAdjustedEnd -= (m_tStart + locGlobalOffset);
+
+					__int64 locSeekStripOffset = 0;
+					if (locAdjustedEnd < 0) {
+						locSample->Release();
+					} else {
+						if (locAdjustedStart < 0) {
+							locSeekStripOffset = (-locAdjustedStart) * mSampleRate;
+							locSeekStripOffset *= mFrameSize;
+							locSeekStripOffset /= UNITS;
+							locSeekStripOffset += (mFrameSize - (locSeekStripOffset % mFrameSize));
+							__int64 locStrippedDuration = (((locSeekStripOffset/mFrameSize) * UNITS) / mSampleRate);
+							locAdjustedStart += locStrippedDuration;
+						}
+							
+
+					
+
+						memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
+
+						locSample->SetTime(&locAdjustedStart, &locAdjustedEnd);
+						locSample->SetMediaTime(&locStart, &locEnd);
+						locSample->SetSyncPoint(TRUE);
+						locSample->SetActualDataLength(locBytesToCopy - locSeekStripOffset);
+						locHR = ((VorbisDecodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);
+						if (locHR != S_OK) {
+							return locHR;
+						}
+						locStart += locSampleDuration;
+
+					}
+					locBytesCopied += locBytesToCopy;
+
+				
+				} while(locBytesCopied < mDecodedByteCount);
+
+				mDecodedByteCount = 0;
+				
+			}
+			return S_OK;
+
+		}
+	} else {
+		//Not streaming - Bail out.
+		return S_FALSE;
+	}
+}
 
 HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
 {
@@ -228,240 +324,129 @@ HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 }
 
 
-HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {
+HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType) 
+{
 	//FIX:::Error checking
-	//RESOLVED::: Bit better.
 
-	if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
-		((VorbisDecodeFilter*)mParentFilter)->setVorbisFormat((sVorbisFormatBlock*)inMediaType->pbFormat);
+	if (CheckMediaType(inMediaType) == S_OK) {
+		((VorbisDecodeFilter*)mParentFilter)->setVorbisFormat(inMediaType->pbFormat);
 		
 	} else {
 		throw 0;
 	}
 	return CBaseInputPin::SetMediaType(inMediaType);
 }
+HRESULT VorbisDecodeInputPin::CheckMediaType(const CMediaType *inMediaType)
+{
+	if (AbstractTransformInputPin::CheckMediaType(inMediaType) == S_OK) {
+		if (inMediaType->cbFormat == VORBIS_IDENT_HEADER_SIZE) {
+			if (strncmp((char*)inMediaType->pbFormat, "\001vorbis", 7) == 0) {
+				//TODO::: Possibly verify version
+				return S_OK;
+			}
+		}
+	}
+	return S_FALSE;
+	
+}
 
+HRESULT VorbisDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps)
+{
+	outRequestedProps->cbBuffer = VORBIS_BUFFER_SIZE;
+	outRequestedProps->cBuffers = VORBIS_NUM_BUFFERS;
+	outRequestedProps->cbAlign = 1;
+	outRequestedProps->cbPrefix = 0;
 
+	return S_OK;
+}
 
+LOOG_INT64 VorbisDecodeInputPin::convertGranuleToTime(LOOG_INT64 inGranule)
+{
+	if (mBegun) {	
+		return (inGranule * UNITS) / mSampleRate;
+	} else {
+		return -1;
+	}
+}
 
-//Old imp
-//*************************************************
-//#include "stdafx.h"
-//
-//#include "VorbisDecodeInputPin.h"
-//
-//
-//VorbisDecodeInputPin::VorbisDecodeInputPin(AbstractAudioDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractAudioDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType)
-//	:	AbstractAudioDecodeInputPin(inFilter, inFilterLock, inOutputPin, NAME("VorbisDecodeInputPin"), L"Vorbis In", inAcceptMediaType),
-//		mBegun(false)
-//	,	mFishSound(NULL)
-//		
-//{
-//	//debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
-//	ConstructCodec();
-//}
-//
-//STDMETHODIMP VorbisDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
-//{
-//	if (riid == IID_IMediaSeeking) {
-//		*ppv = (IMediaSeeking*)this;
-//		((IUnknown*)*ppv)->AddRef();
-//		return NOERROR;
-//	}
-//
-//	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
-//}
-//bool VorbisDecodeInputPin::ConstructCodec() {
-//	mFishSound = fish_sound_new (FISH_SOUND_DECODE, &mFishInfo);			//Deleted by destroycodec from destructor.
-//
-//	int i = 1;
-//	//FIX::: Use new API for interleave setting
-//	fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
-//
-//	fish_sound_set_decoded_callback (mFishSound, VorbisDecodeInputPin::VorbisDecoded, this);
-//	//FIX::: Proper return value
-//	return true;
-//}
-//void VorbisDecodeInputPin::DestroyCodec() {
-//	fish_sound_delete(mFishSound);
-//	mFishSound = NULL;
-//}
-//VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
-//{
-//	//debugLog.close();
-//	DestroyCodec();
-//}
-//
-//
-//
-//int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer) 
-//{
-//
-//	DbgLog((LOG_TRACE,1,TEXT("Decoded... Sending...")));
-//	//Do we need to delete the pcm structure ???? 
-//	//More of this can go to the abstract class.
-//
-//	//For convenience we do all these cast once and for all here.
-//	VorbisDecodeInputPin* locThis = reinterpret_cast<VorbisDecodeInputPin*> (inThisPointer);
-//	VorbisDecodeFilter* locFilter = reinterpret_cast<VorbisDecodeFilter*>(locThis->m_pFilter);
-//	
-//
-//	if (locThis->CheckStreaming() == S_OK) {
-//		if (! locThis->mBegun) {
-//
-//		
-//			fish_sound_command (locThis->mFishSound, FISH_SOUND_GET_INFO, &(locThis->mFishInfo), sizeof (FishSoundInfo)); 
-//			locThis->mBegun = true;
-//			
-//			locThis->mNumChannels = locThis->mFishInfo.channels;
-//			locThis->mFrameSize = locThis->mNumChannels * SIZE_16_BITS;
-//			locThis->mSampleRate = locThis->mFishInfo.samplerate;
-//
-//		}
-//
-//		//FIX::: Most of this will be obselete... the demux does it all.
-//		
-//
-//		unsigned long locActualSize = inFrames * locThis->mFrameSize;
-//		unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
-//		
-//		//REFERENCE_TIME locFrameStart = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-//
-//
-//		//New hacks for chaining.
-//		if (locThis->mSeekTimeBase == -1) {
-//			//locThis->debugLog<<"Chaining was detected... setting chain time base to : "<<locThis->mPreviousEndTime<<endl;
-//			//This is our signal this is the start of a chain...
-//			// This can only happen on non-seekable streams.
-//			locThis->mChainTimeBase = locThis->mPreviousEndTime;
-//			
-//			locThis->mSeekTimeBase = 0;
-//		}
-//
-//		//Start time hacks
-//		REFERENCE_TIME locTimeBase = ((locThis->mLastSeenStartGranPos * UNITS) / locThis->mSampleRate) - locThis->mSeekTimeBase + locThis->mChainTimeBase;
-//	
-//		
-//		
-//		//locThis->aadDebug<<"Last Seen  : " <<locThis->mLastSeenStartGranPos<<endl;
-//		//locThis->debugLog<<"Last Seen  : " << locThis->mLastSeenStartGranPos<<endl;
-//		//locThis->debugLog<<"Time Base  : " << locTimeBase << endl;
-//		//locThis->debugLog<<"FrameCount : " <<locThis->mUptoFrame<<endl;
-//		//locThis->debugLog<<"Seek TB    : " <<locThis->mSeekTimeBase<<endl;
-//
-//		//Temp - this will break seeking
-//		REFERENCE_TIME locFrameStart = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-//		//Increment the frame counter
-//		locThis->mUptoFrame += inFrames;
-//		//Make the end frame counter
-//
-//		//REFERENCE_TIME locFrameEnd = locThis->CurrentStartTime() + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-//		REFERENCE_TIME locFrameEnd = locTimeBase + (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-//		locThis->mPreviousEndTime = locFrameEnd;
-//
-//
-//
-//		//locThis->debugLog<<"Start      : "<<locFrameStart<<endl;
-//		//locThis->debugLog<<"End        : "<<locFrameEnd<<endl;
-//		//locThis->debugLog<<"=================================================="<<endl;
-//		IMediaSample* locSample;
-//		HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-//
-//		if (locHR != S_OK) {
-//			return -1;
-//		}	
-//		
-//
-//		//Create pointers for the samples buffer to be assigned to
-//		BYTE* locBuffer = NULL;
-//		signed short* locShortBuffer = NULL;
-//		
-//		locSample->GetPointer(&locBuffer);
-//		locShortBuffer = (short *) locBuffer;
-//		
-//		signed short tempInt = 0;
-//		float tempFloat = 0;
-//		
-//		//FIX:::Move the clipping to the abstract function
-//
-//		if (locSample->GetSize() >= locActualSize) {
-//			//Do float to int conversion with clipping
-//			const float SINT_MAX_AS_FLOAT = 32767.0f;
-//			for (unsigned long i = 0; i < locTotalFrameCount; i++) {
-//				//Clipping because vorbis puts out floats out of range -1 to 1
-//				if (((float*)inPCM)[i] <= -1.0f) {
-//					tempInt = SINT_MIN;	
-//				} else if (((float*)inPCM)[i] >= 1.0f) {
-//					tempInt = SINT_MAX;
-//				} else {
-//					//FIX:::Take out the unnescessary variable.
-//					tempFloat = ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-//					//ASSERT((tempFloat <= 32767.0f) && (tempFloat >= -32786.0f));
-//					tempInt = (signed short)(tempFloat);
-//					//tempInt = (signed short) ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-//				}
-//				
-//				*locShortBuffer = tempInt;
-//				locShortBuffer++;
-//			}
-//			
-//			//Set the sample parameters.
-//			locThis->SetSampleParams(locSample, locActualSize, &locFrameStart, &locFrameEnd);
-//
-//			{
-//		
-//				CAutoLock locLock(locThis->m_pLock);
-//
-//				//Add a reference so it isn't deleted en route.... or not
-//				//locSample->AddRef();
-//				HRESULT lHR = locThis->mOutputPin->mDataQueue->Receive(locSample);
-//				if (lHR != S_OK) {
-//					DbgLog((LOG_TRACE,1,TEXT("Queue rejected us...")));
-//					return -1;
-//				}
-//			}
-//
-//			//Don't Release the sample it gets done for us !
-//			//locSample->Release();
-//
-//			return 0;
-//		} else {
-//			throw 0;
-//		}
-//	} else {
-//		DbgLog((LOG_TRACE,1,TEXT("Fishsound sending stuff we aren't ready for...")));
-//		return -1;
-//	}
-//
-//}
-//
-//
-//
-//long VorbisDecodeInputPin::decodeData(BYTE* inBuf, long inNumBytes) 
-//{
-//	//debugLog << "Decode called... Last Gran Pos : "<<mLastSeenStartGranPos<<endl;
-//	DbgLog((LOG_TRACE,1,TEXT("decodeData")));
-//	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
-//	//FIX::: Do something here ?
-//	if (locErr < 0) {
-//		//debugLog <<"** Fish Sound error **"<<endl;
-//	} else {
-//		//debugLog << "Fish Sound OK >=0 "<<endl;
-//	}
-//	return locErr;
-//}
-//
-//
-//HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType) {
-//	//FIX:::Error checking
-//	//RESOLVED::: Bit better.
-//
-//	if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
-//		((VorbisDecodeFilter*)mParentFilter)->setVorbisFormat((sVorbisFormatBlock*)inMediaType->pbFormat);
-//		mParentFilter->mAudioFormat = AbstractAudioDecodeFilter::VORBIS;
-//	} else {
-//		throw 0;
-//	}
-//	return CBaseInputPin::SetMediaType(inMediaType);
-//}
-//
+LOOG_INT64 VorbisDecodeInputPin::mustSeekBefore(LOOG_INT64 inGranule)
+{
+	//TODO::: Get adjustment from block size info... for now, it doesn't matter if no preroll
+	return inGranule;
+}
+IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacket* inCodecHeaderPacket)
+{
+	switch (mSetupState) {
+		case VSS_SEEN_NOTHING:
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\001vorbis", 7) == 0) {
+				//TODO::: Possibly verify version
+				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
+					mSetupState = VSS_SEEN_BOS;
+					return IOggDecoder::AHR_MORE_HEADERS_TO_COME;
+				}
+			}
+			return IOggDecoder::AHR_INVALID_HEADER;
+			
+			
+		case VSS_SEEN_BOS:
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\003vorbis", 7) == 0) {
+				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
+					mSetupState = VSS_SEEN_COMMENT;
+					return IOggDecoder::AHR_MORE_HEADERS_TO_COME;
+				}
+				
+				
+			}
+			return IOggDecoder::AHR_INVALID_HEADER;
+			
+			
+		case VSS_SEEN_COMMENT:
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\005vorbis", 7) == 0) {
+				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
+		
+					fish_sound_command (mFishSound, FISH_SOUND_GET_INFO, &(mFishInfo), sizeof (FishSoundInfo)); 
+					//Is mBegun useful ?
+					mBegun = true;
+			
+					mNumChannels = mFishInfo.channels;
+					mFrameSize = mNumChannels * SIZE_16_BITS;
+					mSampleRate = mFishInfo.samplerate;
+
+		
+					mSetupState = VSS_ALL_HEADERS_SEEN;
+					return IOggDecoder::AHR_ALL_HEADERS_RECEIVED;
+				}
+				
+			}
+			return IOggDecoder::AHR_INVALID_HEADER;
+			
+		case VSS_ALL_HEADERS_SEEN:
+		case VSS_ERROR:
+		default:
+			return IOggDecoder::AHR_UNEXPECTED;
+	}
+}
+string VorbisDecodeInputPin::getCodecShortName()
+{
+	return "vorbis";
+}
+string VorbisDecodeInputPin::getCodecIdentString()
+{
+	//TODO:::
+	return "vorbis";
+}
+
+HRESULT VorbisDecodeInputPin::CompleteConnect(IPin *inReceivePin)
+{
+	IOggOutputPin* locOggOutput = NULL;
+	mSentStreamOffset = false;
+	HRESULT locHR = inReceivePin->QueryInterface(IID_IOggOutputPin, (void**)&locOggOutput);
+	if (locHR == S_OK) {
+		mOggOutputPinInterface = locOggOutput;
+		
+	} else {
+		mOggOutputPinInterface = NULL;
+	}
+	return AbstractTransformInputPin::CompleteConnect(inReceivePin);
+	
+}

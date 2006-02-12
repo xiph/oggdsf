@@ -36,6 +36,7 @@
 
 //External Includes
 #include "FLACPushDecoder.h"
+#include "IOggDecoder.h"
 #include <libOOOgg/OggPacket.h>
 #include <libOOOgg/StampedOggPacket.h>
 
@@ -49,6 +50,7 @@ using namespace std;
 class FLACDecodeInputPin
 	//Base Classes
 	:	public AbstractTransformInputPin
+	,	public IOggDecoder
 {
 public:
 	//COM Initialisation
@@ -59,13 +61,32 @@ public:
 	FLACDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~FLACDecodeInputPin(void);
 
-	HRESULT SetMediaType(const CMediaType* inMediaType);
+	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
 
 	virtual STDMETHODIMP BeginFlush();
+	virtual STDMETHODIMP EndFlush();
 	virtual STDMETHODIMP EndOfStream(void);
 	virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
+
+	virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
+
+	virtual STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample);
+
+	//IOggDecoder Interface
+	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule);
+	virtual LOOG_INT64 mustSeekBefore(LOOG_INT64 inGranule);
+	virtual IOggDecoder::eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket);
+	virtual string getCodecShortName();
+	virtual string getCodecIdentString();
 	
 protected:
+
+	static const unsigned long DECODED_BUFFER_SIZE = 1<<20;		//1 Meg buffer
+	
+	static const unsigned long FLAC_NUM_BUFFERS = 75;
+	static const unsigned long FLAC_BUFFER_SIZE = 65536; //Check
+
 	//Implementation of pure virtuals from AbstractTransformInputPin
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
@@ -76,6 +97,34 @@ protected:
 	FLACPushDecoder mFLACDecoder;
 	CCritSec* mCodecLock;
 	unsigned long mUptoFrame;
+
+	OggPacket* mMetadataPacket;
+
+	enum eFLACType {
+		FT_UNKNOWN,
+		FT_CLASSIC,
+		FT_OGG_FLAC_1,
+	};
+
+	eFLACType mFLACType;
+
+	enum eFLACSetupState {
+		VSS_SEEN_NOTHING,
+		VSS_SEEN_BOS,
+		VSS_SEEN_COMMENT,
+		VSS_ALL_HEADERS_SEEN,
+		VSS_ERROR
+	};
+
+	eFLACSetupState mSetupState;
+
+	unsigned long mDecodedByteCount;
+	unsigned char* mDecodedBuffer;
+
+	__int64 mRateNumerator;
+	static const __int64 RATE_DENOMINATOR = 65536;
+
+
 	
 	//debug only
 	//fstream debugLog;

@@ -36,6 +36,8 @@
 //External INcludes
 #include "FLAC++/decoder.h"
 
+#include <libilliCore/iBE_Math.h>
+
 class FLACDecodeFilter
 	//Base Classes
 	:	public AbstractTransformFilter
@@ -52,8 +54,8 @@ public:
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	void FLACDecodeFilter::setFLACFormatBlock(sFLACFormatBlock* inFormatBlock) ;
-	sFLACFormatBlock* FLACDecodeFilter::getFLACFormatBlock();
+	void setFLACFormatBlock(BYTE* inFormatBlock) ;
+	sFLACFormatBlock* getFLACFormatBlock();
 protected:
 	//Implemenation of Pue Virtuals from AbstractTransformFilter
 	virtual bool ConstructPins();

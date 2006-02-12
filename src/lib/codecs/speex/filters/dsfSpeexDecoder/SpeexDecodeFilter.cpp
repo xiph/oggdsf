@@ -79,10 +79,13 @@ bool SpeexDecodeFilter::ConstructPins()
 
 	//Setup the media Types for the input pin.
 	locAcceptMediaType = NULL;
-	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_OggPacketStream);			//Deleted by pin
 
-	locAcceptMediaType->subtype = MEDIASUBTYPE_Speex;
-	locAcceptMediaType->formattype = FORMAT_Speex;
+	//locAcceptMediaType->subtype = MEDIASUBTYPE_Speex;
+	//locAcceptMediaType->formattype = FORMAT_Speex;
+
+	locAcceptMediaType->subtype = MEDIASUBTYPE_None;
+	locAcceptMediaType->formattype = FORMAT_OggIdentHeader;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 	
@@ -112,9 +115,16 @@ sSpeexFormatBlock* SpeexDecodeFilter::getSpeexFormatBlock()
 {
 	return mSpeexFormatInfo;
 }
-void SpeexDecodeFilter::setSpeexFormat(sSpeexFormatBlock* inFormatBlock) 
+void SpeexDecodeFilter::setSpeexFormat(BYTE* inFormatBlock) 
 {
 	delete mSpeexFormatInfo;
 	mSpeexFormatInfo = new sSpeexFormatBlock;
-	*mSpeexFormatInfo = *inFormatBlock;
+
+	mSpeexFormatInfo->speexVersion = iLE_Math::charArrToULong(inFormatBlock + 28);
+	mSpeexFormatInfo->numChannels = iLE_Math::charArrToULong(inFormatBlock + 48);
+	mSpeexFormatInfo->samplesPerSec = iLE_Math::charArrToULong(inFormatBlock + 36);
+	mSpeexFormatInfo->avgBitsPerSec = 0;
+	mSpeexFormatInfo->maxBitsPerSec = 0;
+	mSpeexFormatInfo->minBitsPerSec = 0;
+
 }

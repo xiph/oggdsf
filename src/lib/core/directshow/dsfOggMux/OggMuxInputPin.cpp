@@ -122,6 +122,11 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
 			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			mNeedsFLACHeaderTweak = true;
+		} else if (inMediaType->subtype == MEDIASUBTYPE_RawOggAudio) {
+			sOggRawAudioFormatBlock* locRawAudio = (sOggRawAudioFormatBlock*)inMediaType->pbFormat;
+			mMuxStream->setConversionParams(locRawAudio->samplesPerSec, 1, 10000000);
+			mMuxStream->setNumHeaders(locRawAudio->numHeaders);
+			mPaginator.setNumHeaders(locRawAudio->numHeaders);
 		}
 
 		
@@ -166,6 +171,11 @@ HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 			outMediaType->subtype = MEDIASUBTYPE_CMML;
 			return S_OK;
 
+		case 6:
+			outMediaType->majortype = MEDIATYPE_Audio;
+			outMediaType->subtype = MEDIASUBTYPE_RawOggAudio;
+			return S_OK;
+
 
 		default:
 			return VFW_S_NO_MORE_ITEMS;
@@ -192,6 +202,10 @@ HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
 			(inMediaType->majortype == MEDIATYPE_Audio
 				&&	inMediaType->subtype == MEDIASUBTYPE_FLAC
 				&&	inMediaType->formattype == FORMAT_FLAC)
+			||
+			(inMediaType->majortype == MEDIATYPE_Audio
+				&&	inMediaType->subtype == MEDIASUBTYPE_RawOggAudio
+				&&	inMediaType->formattype == FORMAT_RawOggAudio)
 			||
 			(inMediaType->majortype == MEDIATYPE_Text
 				&&	inMediaType->subtype == MEDIASUBTYPE_CMML

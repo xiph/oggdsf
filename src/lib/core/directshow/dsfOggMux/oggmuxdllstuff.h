@@ -129,7 +129,13 @@ DEFINE_GUID(MEDIASUBTYPE_CMML,
 0x5a656e74, 0x6172, 0x6f26, 0xb7, 0x9c, 0xd6, 0x41, 0x6e, 0x64, 0x72, 0x82);
 //Structure defining the registration details of the filter
 
+// {37535B3C-F068-4f93-9763-E7208277D71F}
+DEFINE_GUID(MEDIASUBTYPE_RawOggAudio, 
+0x37535b3c, 0xf068, 0x4f93, 0x97, 0x63, 0xe7, 0x20, 0x82, 0x77, 0xd7, 0x1f);
 
+// {232D3C8F-16BF-404b-99AE-296F3DBB77EE}
+DEFINE_GUID(FORMAT_RawOggAudio, 
+0x232d3c8f, 0x16bf, 0x404b, 0x99, 0xae, 0x29, 0x6f, 0x3d, 0xbb, 0x77, 0xee);
 const REGPINTYPES OggMuxInputTypes[] = {
 	{	
 		&MEDIATYPE_Audio,
@@ -152,6 +158,10 @@ const REGPINTYPES OggMuxInputTypes[] = {
 		&MEDIASUBTYPE_FLAC
 	},
 	{
+		&MEDIATYPE_Audio,
+		&MEDIASUBTYPE_RawOggAudio
+	},
+	{
 		&MEDIATYPE_Text,
 		&MEDIASUBTYPE_CMML
 	}
@@ -166,7 +176,7 @@ const REGFILTERPINS OggMuxPinReg = {
 	FALSE,								//Cannot have more than one instance of this pin
 	NULL,								//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
-	6,									//upport two media type
+	7,									//upport two media type
 	OggMuxInputTypes					//Pointer to media type (Audio/Vorbis or Audio/Speex)
 };
 
@@ -223,8 +233,17 @@ struct sTheoraFormatBlock {
 	unsigned char yOffset;
 	unsigned char colourSpace;
 };
+struct sOggRawAudioFormatBlock {
+	unsigned long samplesPerSec;
+	unsigned long numHeaders;
+	unsigned long numChannels;
+	unsigned long bitsPerSample;
+	unsigned long maxFramesPerPacket;
 
+
+};
 struct sCMMLFormatBlock {
 	__int64 granuleNumerator;
 	__int64 granuleDenominator;
+	unsigned short granuleSplitBits;
 };

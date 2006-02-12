@@ -59,7 +59,6 @@
 *** dsfDiracEncodeFilter
 *** dsfFLACDecoder
 *** dsfFLACEncoder
-*** dsfNativeFLACSource
 *** dsfOggDemux
 *** dsfOggMux	
 *** dsfSeeking
@@ -86,6 +85,14 @@
 
 	Zentaro Kavanagh <ogg@illiminable.com>
 		- Design and coding.
+
+*** dsfNativeFLACSource
+
+	Zentaro Kavanagh <ogg@illiminable.com>
+		- Design and coding.
+
+	Christophe Thibault
+		- Patch to handle files with id3 tags.
 ==============================================================
 *** libfishsound
 	Conrad Parker <conrad@metadecks.org>

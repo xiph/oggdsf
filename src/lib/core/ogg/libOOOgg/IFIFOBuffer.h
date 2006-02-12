@@ -37,7 +37,7 @@ public:
 	virtual ~IFIFOBuffer(void)		{}
 
 	/// Read bytes from the internal buffer. Returns how many actually read.
-	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead) = 0;
+	virtual unsigned long read(unsigned char* outData, unsigned long inBytesToRead, bool inAllowShortRead = false  ) = 0;
 
 	/// Write bytes into the internal buffer. Returns how many written.
 	virtual unsigned long write(const unsigned char* inData, unsigned long inBytesToWrite) = 0;

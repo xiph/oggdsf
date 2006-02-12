@@ -34,6 +34,7 @@
 
 #pragma once
 #include "cmmldecoderdllstuff.h"
+#include "CMMLDecodeInputPin.h"
 #include <string>
 #include <fstream>
 #include <libilliCore/StringHelper.h>
@@ -42,6 +43,8 @@
 #include <libCMMLTags/libCMMLTags.h>
 #include "ICMMLAppControl.h"
 using namespace std;
+
+class OGMDecodeInputPin;
 class CMMLDecodeFilter
 	:	public CTransformFilter
 	,	public ICMMLAppControl
@@ -61,6 +64,8 @@ public:
 	HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
 	HRESULT Transform(IMediaSample* inSample, IMediaSample* outSample);
 
+	CBasePin* CMMLDecodeFilter::GetPin(int inPinNo);
+
 	//Implement ICMMLAppControl
 	virtual STDMETHODIMP_(bool) setCallbacks(ICMMLCallbacks* inCallbacks);
 	virtual STDMETHODIMP_(ICMMLCallbacks*) getCallbacks();
@@ -70,6 +75,8 @@ protected:
 	bool mSeenHead;
 	C_HeadTag* mHeadTag;
 	ICMMLCallbacks* mCMMLCallbacks;
+
+	CMMLDecodeInputPin* mInputPin;
 
 	//fstream debugLog;
 	

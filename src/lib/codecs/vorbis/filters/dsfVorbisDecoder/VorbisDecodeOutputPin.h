@@ -44,31 +44,10 @@ public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+
 	VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~VorbisDecodeOutputPin(void);
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
-	//virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
 };
-
-//Old imp
-//*************************************
-//#pragma once
-//#include "vorbisdecoderdllstuff.h"
-//#include "AbstractAudioDecodeOutputPin.h"
-//
-//
-//class VorbisDecodeFilter;
-//class VorbisDecodeOutputPin :
-//	public AbstractAudioDecodeOutputPin
-//{
-//public:
-//	DECLARE_IUNKNOWN
-//	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-//	VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter,CCritSec* inFilterLock);
-//	virtual ~VorbisDecodeOutputPin(void);
-//
-//	virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
-//};
-
 

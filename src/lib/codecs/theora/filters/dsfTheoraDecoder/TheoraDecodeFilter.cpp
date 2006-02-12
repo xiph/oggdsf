@@ -65,6 +65,10 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	,	mBegun(false)
 	,	mSeekTimeBase(0)
 	,	mLastSeenStartGranPos(0)
+
+	,	mSegStart(0)
+	,	mSegEnd(0)
+	,	mPlaybackRate(0.0)
 	,	mTheoraFormatInfo(NULL)
 {
 #ifdef OGGCODECS_LOGGING
@@ -134,16 +138,24 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer) {
 	return true;
 }
 
-HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType) {
+HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType) 
+{
+
 	
-	if	( (inMediaType->majortype == MEDIATYPE_Video) &&
-			(inMediaType->subtype == MEDIASUBTYPE_Theora) && (inMediaType->formattype == FORMAT_Theora)
+	if	( (inMediaType->majortype == MEDIATYPE_OggPacketStream) &&
+			(inMediaType->subtype == MEDIASUBTYPE_None) && (inMediaType->formattype == FORMAT_OggIdentHeader)
 		)
 	{
-		return S_OK;
-	} else {
-		return S_FALSE;
+		if (inMediaType->cbFormat == THEORA_IDENT_HEADER_SIZE) {
+			if (strncmp((char*)inMediaType->pbFormat, "\200theora", 7) == 0) {
+				//TODO::: Possibly verify version
+				return S_OK;
+			}
+		}
+
 	}
+	return S_FALSE;
+	
 }
 HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType) {
 	if ((CheckInputType(inInputMediaType) == S_OK) &&
@@ -316,7 +328,9 @@ HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMe
 	}
 }
 
-void TheoraDecodeFilter::ResetFrameCount() {
+void TheoraDecodeFilter::ResetFrameCount() 
+{
+	//XTODO::: Maybe not needed
 	mFrameCount = 0;
 	
 }
@@ -325,174 +339,312 @@ HRESULT TheoraDecodeFilter::NewSegment(REFERENCE_TIME inStart, REFERENCE_TIME in
 {
 	debugLog<<"Resetting frame count"<<endl;
 	ResetFrameCount();
+	mSegStart = inStart;
+	mSegEnd = inEnd;
+	mPlaybackRate = inRate;
 	return CTransformFilter::NewSegment(inStart, inEnd, inRate);
 
 }
-HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) {
 
-	//CAutoLock locLock(mStreamLock);
-	//debugLog<<endl<<"Transform "<<endl;
-	//debugLog<<"outOutputSample Size = "<<outOutputSample->
-	HRESULT locHR;
+HRESULT TheoraDecodeFilter::Receive(IMediaSample* inInputSample)
+{
+
+
 	BYTE* locBuff = NULL;
 	//Get a source poitner into the input buffer
-	locHR = inInputSample->GetPointer(&locBuff);
-
-	//TODO::: This should be after the return value check !!
-	BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];		//This gets put into a packet.
-	memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
-
+	HRESULT locHR = inInputSample->GetPointer(&locBuff);
 
 	if (locHR != S_OK) {
 		//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
 		return S_FALSE;
 	} else {
-		//debugLog<<"Receive : Get pointer succeeds..."<<endl;	
-		//New start time hacks
+
+		if ((inInputSample->GetActualDataLength() > 0) && ((locBuff[0] & 128) != 0)) {
+			//inInputSample->Release();
+
+			//This is a header, so ignore it
+			return S_OK;
+		}
+		//Make a copy of the packet buffer
+		BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];		//This gets put into a packet.
+		memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
+
+
 		REFERENCE_TIME locStart = 0;
 		REFERENCE_TIME locEnd = 0;
 		inInputSample->GetTime(&locStart, &locEnd);
-		//Error chacks needed here
-		//debugLog<<"Input Sample Time - "<<locStart<<" to "<<locEnd<<endl;
-		
-		//More work arounds for that stupid granule pos scheme in theora!
-		REFERENCE_TIME locTimeBase = 0;
-		REFERENCE_TIME locDummy = 0;
-		inInputSample->GetMediaTime(&locTimeBase, &locDummy);
-		mSeekTimeBase = locTimeBase;
-		//
 
-		//debugLog<<"SeekTimeBase = "<<mSeekTimeBase<<endl;
-		
-		if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
-			//debugLog<<"Resetting frame count"<<endl;
+		debugLog<<"Theora::Receive - Sample: Size = "<<inInputSample->GetActualDataLength()<<" Time: "<<locStart<<" - "<<locEnd<<endl;
 
-			//FIXXX:::
-			//ResetFrameCount();
-			//
-
-			mLastSeenStartGranPos = locStart;
-			//debugLog<<"Setting base gran pos to "<<locStart<<endl;
-		}
-		
-		//End of additions
-
-
-
-		AM_MEDIA_TYPE* locMediaType = NULL;
-		inInputSample->GetMediaType(&locMediaType);
-		if (locMediaType == NULL) {
-			//debugLog<<"No dynamic change..."<<endl;
-		} else {
-			//debugLog<<"Attempting dynamic change..."<<endl;
-		}
-		
-		//This packet is given to the decoder.
+		//This packet is given to the decoder or buffered for later
 		StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 
-		bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(locPacket);
-		yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);		//This accept the packet and deletes it
-		if (locYUV != NULL) {
-			if (TheoraDecoded(locYUV, outOutputSample, locIsKeyFrame) != 0) {
-				//debugLog<<"Decoded *** FALSE ***"<<endl;
-				return S_FALSE;
-			}
-		} else {
-			//debugLog<<"!@&#^()!&@#!()*@#&)!(*@#&()!*@# NULL Decode"<<endl;
-			return S_FALSE;
-		}
+		//Buffer all packets, even if we are about to send them anyway
+		mBufferedPackets.push_back(locPacket);
 
-		return S_OK;
+		if (locEnd < 0) {
+
+			//The packet was ok, but we just aren't going to deliver it yet
+			return S_OK;
+		} else {
+			//Now we have one with a stamp, we can send all the previous ones.
+			TheoraDecodeInputPin* locInputPin = (TheoraDecodeInputPin*)m_pInput;
+			REFERENCE_TIME locGlobalEnd = locInputPin->convertGranuleToTime(locEnd);
+			unsigned long locNumBufferedFrames = mBufferedPackets.size();
+			REFERENCE_TIME locGlobalStart = locGlobalEnd - (locNumBufferedFrames * mFrameDuration);
+
+			locStart = locGlobalStart;
+
+
+			//Offsetting
+			REFERENCE_TIME locGlobalOffset = 0;
+			//Handle stream offsetting
+			if (!locInputPin->getSentStreamOffset() && (locInputPin->getOutputPinInterface() != NULL)) {
+				locInputPin->getOutputPinInterface()->notifyStreamBaseTime(locStart);
+				locInputPin->setSentStreamOffset(true);
+				
+			}
+
+			if (locInputPin->getOutputPinInterface() != NULL) {
+				locGlobalOffset = locInputPin->getOutputPinInterface()->getGlobalBaseTime();
+			}
+			
+			debugLog<<"Theora::Receive - "<<locNumBufferedFrames<<" frames buffered"<<endl;
+			for (unsigned long i = 0; i < locNumBufferedFrames; i++) {
+				debugLog<<"Theora::Receive - Processing buffered frame "<<i<<endl;
+				bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(mBufferedPackets[i]);
+				yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(mBufferedPackets[i]);		//This accept the packet and deletes it
+				locEnd = locStart + mFrameDuration;
+				REFERENCE_TIME locAdjustedStart = locStart - mSegStart - locGlobalOffset;
+				REFERENCE_TIME locAdjustedEnd = locEnd - mSegStart - locGlobalOffset;
+
+				if (locAdjustedStart < 0) {
+					locAdjustedStart = 0;
+				}
+
+				if (locAdjustedEnd >= 0) { 
+					if (locYUV != NULL) {
+						IMediaSample* locOutSample = NULL;
+						debugLog<<"Theora::Receive - Pre output sample initialisation"<<endl;
+						locHR = InitializeOutputSample(inInputSample, &locOutSample);
+						if (locHR != S_OK) {
+							//XTODO::: We need to trash our buffered packets
+							debugLog<<"Theora::Receive - Output sample initialisation failed"<<endl;
+							
+							deleteBufferedPacketsAfter(i);
+							
+							return S_FALSE;
+						}
+						debugLog<<"Theora::Receive - Output sample initialisation suceeded"<<endl;
+
+						//REFERENCE_TIME locAdjustedStart = (locStart * RATE_DENOMINATOR) / mRateNumerator;
+						//REFERENCE_TIME locAdjustedEnd = (locEnd * RATE_DENOMINATOR) / mRateNumerator;
+
+
+						//Fill the sample info
+						if (TheoraDecoded(locYUV, locOutSample, locIsKeyFrame, locAdjustedStart, locAdjustedEnd) != S_OK) {
+							
+							//XTODO::: We need to trash our buffered packets
+							locOutSample->Release();
+							deleteBufferedPacketsAfter(i);
+							return S_FALSE;
+						} else {
+							//Deliver the sample
+							debugLog<<"Theora::Receive - Delivering: "<<locAdjustedStart<<" to "<<locAdjustedEnd<<(locIsKeyFrame ? "KEYFRAME": " ")<<endl;
+							
+							locHR = m_pOutput->Deliver(locOutSample);
+							locOutSample->Release();
+							debugLog<<"Theora::Receive - Post delivery"<<endl;
+							if (locHR != S_OK) {
+								//XTODO::: We need to trash our buffered packets
+								debugLog<<"Theora::Receive - Delivery failed"<<endl;
+								locOutSample->Release();
+								deleteBufferedPacketsAfter(i);
+								return S_FALSE;
+							}
+							debugLog<<"Theora::Receive - Delivery Suceeded"<<endl;
+
+						}
+					} else {
+						//XTODO::: We need to trash our buffered packets
+						deleteBufferedPacketsAfter(i);
+						return S_FALSE;
+					}
+				}
+				locStart = locEnd;
+			}
+
+			mBufferedPackets.clear();
+
+
+
+			return S_OK;
+
+		}
 		
 	}
+}
+
+void TheoraDecodeFilter::deleteBufferedPacketsAfter(unsigned long inPacketIndex)
+{
+	for (size_t i = inPacketIndex + 1; i < mBufferedPackets.size(); i++) {
+		delete mBufferedPackets[i];
+	}
+
+	mBufferedPackets.clear();
+}
+HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) 
+{
+	//HRESULT locHR;
+	//BYTE* locBuff = NULL;
+	////Get a source poitner into the input buffer
+	//locHR = inInputSample->GetPointer(&locBuff);
+
+	//if (locHR != S_OK) {
+	//	//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
+	//	return S_FALSE;
+	//} else {
+	//	//Make a copy of the packet buffer
+	//	BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];		//This gets put into a packet.
+	//	memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
+
+
+	//	REFERENCE_TIME locStart = 0;
+	//	REFERENCE_TIME locEnd = 0;
+	//	inInputSample->GetTime(&locStart, &locEnd);
+
+	//	//This packet is given to the decoder or buffered for later
+	//	StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
+
+	//	//Buffer all packets, even if we are about to send them anyway
+	//	mBufferedPackets.push_back(locPacket);
+
+	//	if (locEnd < 0) {
+
+	//		//S_FALSE is an agreement with CTransform filter, to not deliver the presented output sample
+	//		//XXX::: There may be some problems doing this, since it causes a quality message, and thinks we
+	//		//		are dropping samples. It also may present a problem when we try to dump many frames
+	//		//		downstream in one go.
+	//		return S_FALSE;
+	//	} else {
+	//		//Now we have one with a stamp, we can send all the previous ones.
+	//		TheoraDecodeInputPin* locInputPin = (TheoraDecodeInputPin*)m_pInput;
+	//		REFERENCE_TIME locGlobalEnd = locInputPin->convertGranuleToTime(locEnd);
+	//		unsigned long locNumBufferedFrames = mBufferedPackets.size();
+	//		REFERENCE_TIME locGlobalStart = locGlobalEnd - (locNumBufferedFrames * mFrameDuration);
+
+	//		locStart = locGlobalStart;
+	//		
+	//		for (unsigned long i = 0; i < locNumBufferedFrames; i++) {
+	//			bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(mBufferedPackets[i]);
+	//			yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(mBufferedPackets[i]);		//This accept the packet and deletes it
+	//			locEnd = locStart + mFrameDuration;
+	//			if (locYUV != NULL) {
+	//				if (TheoraDecoded(locYUV, outOutputSample, locIsKeyFrame) != 0) {
+	//					//debugLog<<"Decoded *** FALSE ***"<<endl;
+	//					return S_FALSE;
+	//				}
+	//			} else {
+	//				//debugLog<<"!@&#^()!&@#!()*@#&)!(*@#&()!*@# NULL Decode"<<endl;
+	//				return S_FALSE;
+	//			}					
+	//		}
+
+
+
+	//		return S_OK;
+
+	//	}
+	//	
+	//}
+
+
+
+
+
+
+
+	//HRESULT locHR;
+	//BYTE* locBuff = NULL;
+	////Get a source poitner into the input buffer
+	//locHR = inInputSample->GetPointer(&locBuff);
+
+	////TODO::: This should be after the return value check !!
+	//BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];		//This gets put into a packet.
+	//memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
+
+
+	//if (locHR != S_OK) {
+	//	//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
+	//	return S_FALSE;
+	//} else {
+	//	//debugLog<<"Receive : Get pointer succeeds..."<<endl;	
+	//	//New start time hacks
+	//	REFERENCE_TIME locStart = 0;
+	//	REFERENCE_TIME locEnd = 0;
+	//	inInputSample->GetTime(&locStart, &locEnd);
+	//	//Error chacks needed here
+	//	//debugLog<<"Input Sample Time - "<<locStart<<" to "<<locEnd<<endl;
+	//	
+	//	//More work arounds for that stupid granule pos scheme in theora!
+	//	REFERENCE_TIME locTimeBase = 0;
+	//	REFERENCE_TIME locDummy = 0;
+	//	inInputSample->GetMediaTime(&locTimeBase, &locDummy);
+	//	mSeekTimeBase = locTimeBase;
+	//	//
+
+	//	//debugLog<<"SeekTimeBase = "<<mSeekTimeBase<<endl;
+	//	
+	//	if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
+	//		//debugLog<<"Resetting frame count"<<endl;
+
+	//		//FIXXX:::
+	//		//ResetFrameCount();
+	//		//
+
+	//		mLastSeenStartGranPos = locStart;
+	//		//debugLog<<"Setting base gran pos to "<<locStart<<endl;
+	//	}
+	//	
+	//	//End of additions
+
+
+
+	//	AM_MEDIA_TYPE* locMediaType = NULL;
+	//	inInputSample->GetMediaType(&locMediaType);
+	//	if (locMediaType == NULL) {
+	//		//debugLog<<"No dynamic change..."<<endl;
+	//	} else {
+	//		//debugLog<<"Attempting dynamic change..."<<endl;
+	//	}
+	//	
+	//	//This packet is given to the decoder.
+	//	StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
+
+	//	bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(locPacket);
+	//	yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);		//This accept the packet and deletes it
+	//	if (locYUV != NULL) {
+	//		if (TheoraDecoded(locYUV, outOutputSample, locIsKeyFrame) != 0) {
+	//			//debugLog<<"Decoded *** FALSE ***"<<endl;
+	//			return S_FALSE;
+	//		}
+	//	} else {
+	//		//debugLog<<"!@&#^()!&@#!()*@#&)!(*@#&()!*@# NULL Decode"<<endl;
+	//		return S_FALSE;
+	//	}
+
+	//	return S_OK;
+	//	
+	//}
+
+	debugLog<<"Theora::Transform NOT IMPLEMENTED"<<endl;
+
+	return E_NOTIMPL;
 	
 }
 
-int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame) 
+HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) 
 {
-	//debugLog<<"TheoraDecoded... #################### "<<endl;
-	
-		
-	if (!mBegun) {
-		//debugLog<<"First time..."<<endl;
-		mBegun = true;
-		
-		//How many UNITS does one frame take.
-		mFrameDuration = (UNITS * mTheoraFormatInfo->frameRateDenominator) / (mTheoraFormatInfo->frameRateNumerator);
-
-		mFrameSize = (mHeight * mWidth * 3) / 2;
-		mFrameCount = 0;
-		//debugLog<<"Frame Durn = "<<mFrameDuration<<endl;
-		//debugLog<<"FrameSize = "<<mFrameSize<<endl;
-		
-		
-	}
-
-
-	////TO DO::: Fix this up... needs to move around order and some only needs to be done once, move it into the block aboce and use member data
-
-
-	//-----------------------
-	//OLD CODE... FIXXX:::
-	//Timestamp hacks start here...
-			//unsigned long locMod = (unsigned long)pow(2, mTheoraFormatInfo->maxKeyframeInterval);
-			//unsigned long locInterFrameNo = (mLastSeenStartGranPos) % locMod;
-			//LONGLONG locAbsFramePos = ((mLastSeenStartGranPos >> mTheoraFormatInfo->maxKeyframeInterval)) + locInterFrameNo;
-			//REFERENCE_TIME locTimeBase = (locAbsFramePos * mFrameDuration) - mSeekTimeBase;
-			//REFERENCE_TIME locFrameStart = locTimeBase + (mFrameCount * mFrameDuration);
-			////Increment the frame counter
-			//mFrameCount++;
-			////Make the end frame counter
-			//REFERENCE_TIME locFrameEnd = locTimeBase + (mFrameCount * mFrameDuration);
-	//------------------------
-
-
-	REFERENCE_TIME locFrameStart = (mFrameCount * mFrameDuration);
-	mFrameCount++;
-	REFERENCE_TIME locFrameEnd = (mFrameCount * mFrameDuration);
-
-	
-	debugLog<<"Sample times = "<<locFrameStart<<" to "<<locFrameEnd<<"  frame "<<mFrameCount<<" KF = "<<((inIsKeyFrame) ? "YES" : "NO")<<endl;
-	
-	//FILTER_STATE locFS;
-	//GetState(0, &locFS);
-	//debugLog<<"State Before = "<<locFS<<endl;
-	//HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, locFlags);
-	//GetState(0, &locFS);
-	//debugLog<<"State After = "<<locFS<<endl;
-	
-	
-
-	//Debuggin code
-	AM_MEDIA_TYPE* locMediaType = NULL;
-	outSample->GetMediaType(&locMediaType);
-	if (locMediaType == NULL) {
-		//debugLog<<"No dynamic change..."<<endl;
-	} else {
-		//debugLog<<"Attempting dynamic change..."<<endl;
-		if (locMediaType->majortype == MEDIATYPE_Video) {
-			//debugLog<<"Still MEDIATYPE_Video"<<endl;
-		}
-
-		if (locMediaType->subtype == MEDIASUBTYPE_YV12) {
-			//debugLog<<"Still MEDIASUBTYPE_YV12"<<endl;
-		}
-
-		if (locMediaType->formattype == FORMAT_VideoInfo) {
-			//debugLog<<"Still FORMAT_VideoInfo"<<endl;
-			VIDEOINFOHEADER* locVF = (VIDEOINFOHEADER*)locMediaType->pbFormat;
-			//debugLog<<"Size = "<<locVF->bmiHeader.biSizeImage<<endl;
-			//debugLog<<"Dim   = "<<locVF->bmiHeader.biWidth<<" x " <<locVF->bmiHeader.biHeight<<endl;
-		}
-
-		//debugLog<<"Major  : "<<DSStringer::GUID2String(&locMediaType->majortype);
-		//debugLog<<"Minor  : "<<DSStringer::GUID2String(&locMediaType->subtype);
-		//debugLog<<"Format : "<<DSStringer::GUID2String(&locMediaType->formattype);
-		//debugLog<<"Form Sz: "<<locMediaType->cbFormat;
-
-
-	}
-	//
 
 	////Create pointers for the samples buffer to be assigned to
 	BYTE* locBuffer = NULL;
@@ -500,13 +652,12 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	//
 	////Make our pointers set to point to the samples buffer
 	outSample->GetPointer(&locBuffer);
-	
-	
-
 
 	//Fill the buffer with yuv data...
 	//	
 
+	REFERENCE_TIME locStart = inStart;
+	REFERENCE_TIME locEnd = inEnd;
 
 
 	//Set up the pointers
@@ -526,7 +677,9 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	//NEW WAY with offsets Y Data
 	long locTopPad = inYUVBuffer->y_height - mHeight - mYOffset;
 	//debugLog<<"--------- PAD = "<<locTopPad<<endl;
-	ASSERT(locTopPad >= 0);
+
+
+	//ASSERT(locTopPad >= 0);
 	if (locTopPad < 0) {
 		locTopPad = 0;
 	} else {
@@ -601,11 +754,11 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 	if (inIsKeyFrame) {
 		locIsKeyFrame = TRUE;
 	};
-	SetSampleParams(outSample, mFrameSize, &locFrameStart, &locFrameEnd, locIsKeyFrame);
+	SetSampleParams(outSample, mFrameSize, &locStart, &locEnd, locIsKeyFrame);
 
 	
 	
-	return 0;
+	return S_OK;
 
 
 }
@@ -614,18 +767,19 @@ int TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* ou
 HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType) {
 
 	if (inDirection == PINDIR_INPUT) {
-		if (inMediaType->subtype == MEDIASUBTYPE_Theora) {
+		if (CheckInputType(inMediaType) == S_OK) {
 			//debugLog<<"Setting format block"<<endl;
-			setTheoraFormat((sTheoraFormatBlock*)inMediaType->pbFormat);
+			setTheoraFormat(inMediaType->pbFormat);
 			
 			//Set some other stuff here too...
-			mXOffset = ((sTheoraFormatBlock*)inMediaType->pbFormat)->xOffset;
-			mYOffset = ((sTheoraFormatBlock*)inMediaType->pbFormat)->yOffset;
-			//mHeight = ((sTheoraFormatBlock*)inMediaType->pbFormat)->frameHeight;
-			//mWidth = ((sTheoraFormatBlock*)inMediaType->pbFormat)->frameWidth;
-			//debugLog<<"Setting height width to "<<mWidth<<" x "<<mHeight<<endl;
-			//debugLog<<"Frame Dims were "<<((sTheoraFormatBlock*)inMediaType->pbFormat)->frameWidth<<" x "<<((sTheoraFormatBlock*)inMediaType->pbFormat)->frameHeight<<endl;
+			mXOffset = mTheoraFormatInfo->xOffset;
+			mYOffset = mTheoraFormatInfo->xOffset;
 
+			//How many UNITS does one frame take.
+			mFrameDuration = (UNITS * mTheoraFormatInfo->frameRateDenominator) / (mTheoraFormatInfo->frameRateNumerator);
+
+			mFrameSize = (mHeight * mWidth * 3) / 2;
+			mFrameCount = 0;
 		} else {
 			//Failed... should never be here !
 			throw 0;
@@ -668,11 +822,48 @@ sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock()
 {
 	return mTheoraFormatInfo;
 }
-void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock) 
+void TheoraDecodeFilter::setTheoraFormat(BYTE* inFormatBlock) 
 {
+
 	delete mTheoraFormatInfo;
 	mTheoraFormatInfo = new sTheoraFormatBlock;			//Deelted in destructor.
-	*mTheoraFormatInfo = *inFormatBlock;
+
+	//0		-	55			theora ident						0	-	6
+	//56	-	63			ver major							7	-	7
+	//64	-	71			ver minor							8	-	8
+	//72	-	79			ver subversion						9	=	9
+	//80	-	95			width/16							10	-	11
+	//96	-	111			height/16							12	-	13
+	//112	-	135			framewidth							14	-	16
+	//136	-	159			frameheight							17	-	19
+	//160	-	167			xoffset								20	-	20
+	//168	-	175			yoffset								21	-	21
+	//176	-	207			framerateNum						22	-	25
+	//208	-	239			frameratedenom						26	-	29
+	//240	-	263			aspectNum							30	-	32
+	//264	-	287			aspectdenom							33	-	35
+	//288	-	295			colourspace							36	-	36
+	//296	-	319			targetbitrate						37	-	39
+	//320	-	325			targetqual							40	-	40.75
+	//326	-	330			keyframintlog						40.75-  41.375
+
+	unsigned char* locIdentHeader = inFormatBlock;
+	mTheoraFormatInfo->theoraVersion = (iBE_Math::charArrToULong(locIdentHeader + 7)) >>8;
+	mTheoraFormatInfo->outerFrameWidth = (iBE_Math::charArrToUShort(locIdentHeader + 10)) * 16;
+	mTheoraFormatInfo->outerFrameHeight = (iBE_Math::charArrToUShort(locIdentHeader + 12)) * 16;
+	mTheoraFormatInfo->pictureWidth = (iBE_Math::charArrToULong(locIdentHeader + 14)) >>8;
+	mTheoraFormatInfo->pictureHeight = (iBE_Math::charArrToULong(locIdentHeader + 17)) >>8;
+	mTheoraFormatInfo->xOffset = locIdentHeader[20];
+	mTheoraFormatInfo->yOffset = locIdentHeader[21];
+	mTheoraFormatInfo->frameRateNumerator = iBE_Math::charArrToULong(locIdentHeader + 22);
+	mTheoraFormatInfo->frameRateDenominator = iBE_Math::charArrToULong(locIdentHeader + 26);
+	mTheoraFormatInfo->aspectNumerator = (iBE_Math::charArrToULong(locIdentHeader + 30)) >>8;
+	mTheoraFormatInfo->aspectDenominator = (iBE_Math::charArrToULong(locIdentHeader + 33)) >>8;
+	mTheoraFormatInfo->colourSpace = locIdentHeader[36];
+	mTheoraFormatInfo->targetBitrate = (iBE_Math::charArrToULong(locIdentHeader + 37)) >>8;
+	mTheoraFormatInfo->targetQuality = (locIdentHeader[40]) >> 2;
+
+	mTheoraFormatInfo->maxKeyframeInterval= (((locIdentHeader[40]) % 4) << 3) + (locIdentHeader[41] >> 5);
 }
 
 CBasePin* TheoraDecodeFilter::GetPin(int inPinNo)
@@ -708,90 +899,3 @@ CBasePin* TheoraDecodeFilter::GetPin(int inPinNo)
         return NULL;
     }
 }
-//---------------------------------------
-//OLD IMPLOEMENTATION....
-//---------------------------------------
-//#include "theoradecodefilter.h"
-//
-//
-//
-////COM Factory Template
-//CFactoryTemplate g_Templates[] = 
-//{
-//    { 
-//		L"Theora Decode Filter",					// Name
-//	    &CLSID_TheoraDecodeFilter,				// CLSID
-//	    TheoraDecodeFilter::CreateInstance,		// Method to create an instance of Theora Decoder
-//        NULL,									// Initialization function
-//        NULL									// Set-up information (for filters)
-//    }
-//
-//};
-//
-//// Generic way of determining the number of items in the template
-//int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
-//
-//
-//
-////Theora Decode Filter Implementation
-////==================================
-//TheoraDecodeFilter::TheoraDecodeFilter()
-//	:	AbstractVideoDecodeFilter(NAME("Ogg Video Decoder"), CLSID_TheoraDecodeFilter, THEORA)
-//	,	mTheoraFormatInfo(NULL)
-//{
-//
-//	bool locWasConstructed = ConstructPins();
-//}
-//
-//bool TheoraDecodeFilter::ConstructPins() 
-//{
-//	
-//	//Output pin must be done first because it's passed to the input pin.
-//	mOutputPin = new TheoraDecodeOutputPin(this, m_pLock);
-//
-//	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);
-//	locAcceptMediaType->subtype = MEDIASUBTYPE_Theora;
-//	locAcceptMediaType->formattype = FORMAT_Theora;
-//	mInputPin = new TheoraDecodeInputPin(this, m_pLock, mOutputPin, locAcceptMediaType);
-//	return true;
-//}
-//
-//TheoraDecodeFilter::~TheoraDecodeFilter(void)
-//{
-//	//DestroyPins();
-//	delete mTheoraFormatInfo;
-//}
-//
-//CUnknown* WINAPI TheoraDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
-//{
-//	//This routine is the COM implementation to create a new Filter
-//	TheoraDecodeFilter *pNewObject = new TheoraDecodeFilter();
-//    if (pNewObject == NULL) {
-//        *pHr = E_OUTOFMEMORY;
-//    }
-//	return pNewObject;
-//} 
-//
-//STDMETHODIMP TheoraDecodeFilter::GetState(DWORD dw, FILTER_STATE *pState)
-//{
-//    CheckPointer(pState, E_POINTER);
-//    *pState = m_State;
-//	if (m_State == State_Paused) {
-//        return VFW_S_CANT_CUE;
-//	} else {
-//        return S_OK;
-//	}
-//}
-//
-////QUERY::: Do we need these ? Aren't we all friedns here ??
-////RESULT::: Keep them, set function must be kept... get could go... but keep for consistency
-//sTheoraFormatBlock* TheoraDecodeFilter::getTheoraFormatBlock() 
-//{
-//	return mTheoraFormatInfo;
-//}
-//void TheoraDecodeFilter::setTheoraFormat(sTheoraFormatBlock* inFormatBlock) 
-//{
-//	delete mTheoraFormatInfo;
-//	mTheoraFormatInfo = new sTheoraFormatBlock;
-//	*mTheoraFormatInfo = *inFormatBlock;
-//}

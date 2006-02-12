@@ -30,6 +30,7 @@
 //===========================================================================
 
 #pragma once
+#include "libOOOgg/OggPacket.h"
 //#include <streams.h>
 //#include <pullpin.h>
 //#include <initguid.h>
@@ -51,15 +52,27 @@
 // {7605E26C-DE38-4b82-ADD8-FE2568CC0B25}
 DEFINE_GUID(CLSID_SpeexDecodeFilter, 
 0x7605e26c, 0xde38, 0x4b82, 0xad, 0xd8, 0xfe, 0x25, 0x68, 0xcc, 0xb, 0x25);
+//
+//// {25A9729D-12F6-420e-BD53-1D631DC217DF}
+//DEFINE_GUID(MEDIASUBTYPE_Speex, 
+//0x25a9729d, 0x12f6, 0x420e, 0xbd, 0x53, 0x1d, 0x63, 0x1d, 0xc2, 0x17, 0xdf);
+//
+//// {78701A27-EFB5-4157-9553-38A7854E3E81}
+//DEFINE_GUID(FORMAT_Speex, 
+//0x78701a27, 0xefb5, 0x4157, 0x95, 0x53, 0x38, 0xa7, 0x85, 0x4e, 0x3e, 0x81);
 
-// {25A9729D-12F6-420e-BD53-1D631DC217DF}
-DEFINE_GUID(MEDIASUBTYPE_Speex, 
-0x25a9729d, 0x12f6, 0x420e, 0xbd, 0x53, 0x1d, 0x63, 0x1d, 0xc2, 0x17, 0xdf);
 
-// {78701A27-EFB5-4157-9553-38A7854E3E81}
-DEFINE_GUID(FORMAT_Speex, 
-0x78701a27, 0xefb5, 0x4157, 0x95, 0x53, 0x38, 0xa7, 0x85, 0x4e, 0x3e, 0x81);
-//This structure defines the type of input we accept on the input pin... Stream/Annodex
+// {60891713-C24F-4767-B6C9-6CA05B3338FC}
+DEFINE_GUID(MEDIATYPE_OggPacketStream, 
+0x60891713, 0xc24f, 0x4767, 0xb6, 0xc9, 0x6c, 0xa0, 0x5b, 0x33, 0x38, 0xfc);
+
+// {95388704-162C-42a9-8149-C3577C12AAF9}
+DEFINE_GUID(FORMAT_OggIdentHeader, 
+0x95388704, 0x162c, 0x42a9, 0x81, 0x49, 0xc3, 0x57, 0x7c, 0x12, 0xaa, 0xf9);
+
+// {43F0F818-10B0-4c86-B9F1-F6B6E2D33462}
+DEFINE_GUID(IID_IOggDecoder, 
+0x43f0f818, 0x10b0, 0x4c86, 0xb9, 0xf1, 0xf6, 0xb6, 0xe2, 0xd3, 0x34, 0x62);
 
 const REGPINTYPES SpeexDecodeOutputTypes = {
     &MEDIATYPE_Audio,
@@ -67,8 +80,8 @@ const REGPINTYPES SpeexDecodeOutputTypes = {
 };
 
 const REGPINTYPES SpeexDecodeInputTypes = {
-	&MEDIATYPE_Audio,
-	&MEDIASUBTYPE_Speex
+	&MEDIATYPE_OggPacketStream,
+	&MEDIASUBTYPE_None
 };
 const REGFILTERPINS SpeexDecodePinReg[] = {
 	{

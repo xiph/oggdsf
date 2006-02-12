@@ -207,6 +207,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader()
 		
 		if (locNumRead < OggPageHeader::OGG_BASE_HEADER_SIZE) {
 			//TODO::: Handle this case... we read less than we expected.
+			//The buffer handles it for us, it won't let us read less, and will return 0
+			//	This is fine for valid files, but still needs to be reviewed.
 
 			//debugLog<<"ProcessBaseHeader : ###### Read was short."<<endl;
 			//debugLog<<"ProcessBaseHeader : ** "<<mBuffer->numBytesAvail()<<" avail, "<<mBuffer->spaceLeft()<<" space left."<<endl;

@@ -31,6 +31,7 @@
 
 #pragma once
 #include "speexdecoderdllstuff.h"
+#include "IOggDecoder.h"
 #include "AbstractTransformInputPin.h"
 #include "SpeexDecodeInputPin.h"
 
@@ -45,6 +46,7 @@ class SpeexDecodeOutputPin;
 
 class SpeexDecodeInputPin 
 	:	public AbstractTransformInputPin
+	,	public IOggDecoder
 {
 public:
 	DECLARE_IUNKNOWN
@@ -56,9 +58,28 @@ public:
 
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
 	virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
+	virtual STDMETHODIMP EndFlush();
+
+	virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
+
+	virtual STDMETHODIMP Receive(IMediaSample* inSample);
+
+	//IOggDecoder Interface
+	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule);
+	virtual LOOG_INT64 mustSeekBefore(LOOG_INT64 inGranule);
+	virtual IOggDecoder::eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket);
+	virtual string getCodecShortName();
+	virtual string getCodecIdentString();
+
 
 protected:
+	static const unsigned long DECODED_BUFFER_SIZE = 1<<20;		//1 Meg buffer
+	static const unsigned long SPEEX_IDENT_HEADER_SIZE = 80;
+	static const unsigned long SPEEX_NUM_BUFFERS = 75;
+	static const unsigned long SPEEX_BUFFER_SIZE = 65536;
+
 	//Implementation of pure virtuals from AbstractTransformInputPin
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
@@ -73,5 +94,24 @@ protected:
 	unsigned int mUptoFrame;
 
 	bool mBegun;
+
+	unsigned char* mDecodedBuffer;
+
+	unsigned long mDecodedByteCount;
+
+	enum eSpeexSetupState {
+		VSS_SEEN_NOTHING,
+		VSS_SEEN_BOS,
+		VSS_SEEN_COMMENT,
+		VSS_ALL_HEADERS_SEEN,
+		VSS_ERROR
+	};
+
+	eSpeexSetupState mSetupState;
+
+	__int64 mRateNumerator;
+	static const __int64 RATE_DENOMINATOR = 65536;
+
+
 
 };

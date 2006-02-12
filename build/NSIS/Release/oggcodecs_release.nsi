@@ -7,7 +7,10 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "oggcodecs"
-!define PRODUCT_VERSION "0.70.0210"
+
+;	CHANGE EVERY VERSION
+!define PRODUCT_VERSION "0.70.0753"					
+
 !define PRODUCT_PUBLISHER "illiminable"
 !define PRODUCT_WEB_SITE "http://www.illiminable.com/ogg/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OOOggDump.exe"
@@ -15,6 +18,13 @@
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
+
+; Path from .nsi to oggcodecs root
+!define OGGCODECS_ROOT_DIR "..\..\.."
+
+; Local Build Path for configuration
+!define OGGCODECS_CONFIG_PATH "Release"
+!define OGGCODECS_VORBIS_CONFIG_PATH "Vorbis_Dynamic_Release"
 
 SetCompressor lzma
 
@@ -38,7 +48,7 @@ SetCompressor lzma
 !insertmacro MUI_PAGE_WELCOME
 ; License page
 !define MUI_LICENSEPAGE_CHECKBOX
-!insertmacro MUI_PAGE_LICENSE "..\..\..\COPYRIGHTS.rtf"
+!insertmacro MUI_PAGE_LICENSE "${OGGCODECS_ROOT_DIR}\COPYRIGHTS.rtf"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Start menu page
@@ -93,88 +103,99 @@ Section "Ogg Core Files" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
 
-  ; Runtime libraries from visual studio
+  ; Runtime libraries from visual studio - 2
   File "${VS_RUNTIME_LOCATION}\msvcr71.dll"
   File "${VS_RUNTIME_LOCATION}\msvcp71.dll"
 
 
-  ; Libraries
-  File "..\..\..\src\lib\core\ogg\libOOOgg\Release\libOOOgg.dll"
-  File "..\..\..\src\lib\core\ogg\libOOOggSeek\Release\libOOOggSeek.dll"
-  File "..\..\..\src\lib\codecs\cmml\libCMMLTags\Release\libCMMLTags.dll"
-  File "..\..\..\src\lib\codecs\cmml\libCMMLParse\Release\libCMMLParse.dll"
-  File "..\..\..\src\lib\codecs\vorbis\libs\libvorbis\win32\Vorbis_Dynamic_Release\vorbis.dll"
+  ; Libraries - 11
+  File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libOOOgg\${OGGCODECS_CONFIG_PATH}\libOOOgg.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libOOOggSeek\${OGGCODECS_CONFIG_PATH}\libOOOggSeek.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\libCMMLTags\${OGGCODECS_CONFIG_PATH}\libCMMLTags.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\libCMMLParse\${OGGCODECS_CONFIG_PATH}\libCMMLParse.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\vorbis\libs\libvorbis\win32\${OGGCODECS_VORBIS_CONFIG_PATH}\vorbis.dll"
  
-  File "..\..\..\src\lib\codecs\theora\libs\libOOTheora\Release\libOOTheora.dll"
-  File "..\..\..\src\lib\codecs\flac\libs\libflac\obj\release\bin\libFLAC.dll"
-  File "..\..\..\src\lib\codecs\flac\libs\libflac\obj\release\bin\libFLAC++.dll"
-  File "..\..\..\src\lib\codecs\helper\libfishsound\win32\Release\libfishsound.dll"
-  File "..\..\..\src\lib\core\ogg\libVorbisComment\Release\libVorbisComment.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\theora\libs\libOOTheora\${OGGCODECS_CONFIG_PATH}\libOOTheora.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\libs\libflac\obj\${OGGCODECS_CONFIG_PATH}\bin\libFLAC.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\libs\libflac\obj\${OGGCODECS_CONFIG_PATH}\bin\libFLAC++.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\helper\libfishsound\win32\${OGGCODECS_CONFIG_PATH}\libfishsound.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libVorbisComment\${OGGCODECS_CONFIG_PATH}\libVorbisComment.dll"
 
-  File "..\..\..\src\lib\helper\libTemporalURI\Release\libTemporalURI.dll"
-
-
-
-  ; Utilites
-  File "..\..\..\src\tools\OOOggDump\Release\OOOggDump.exe"
-  File "..\..\..\src\tools\OOOggStat\Release\OOOggStat.exe"
-  File "..\..\..\src\tools\OOOggValidate\Release\OOOggValidate.exe"
-  File "..\..\..\src\tools\OOOggCommentDump\Release\OOOggCommentDump.exe"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\helper\libTemporalURI\${OGGCODECS_CONFIG_PATH}\libTemporalURI.dll"
 
 
-  ; Text files
-  File "..\..\..\ABOUT.rtf"
-  File "..\..\..\VERSIONS"
-  File "..\..\..\README"
-  File "..\..\..\COPYRIGHTS.rtf"
-  File "..\..\..\COPYRIGHTS"
 
-  File "..\..\..\AUTHORS"
-  File "..\..\..\HISTORY"
+  ; Utilites - 4
+  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggDump\${OGGCODECS_CONFIG_PATH}\OOOggDump.exe"
+  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggStat\${OGGCODECS_CONFIG_PATH}\OOOggStat.exe"
+  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggValidate\${OGGCODECS_CONFIG_PATH}\OOOggValidate.exe"
+  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggCommentDump\${OGGCODECS_CONFIG_PATH}\OOOggCommentDump.exe"
 
 
-  ; Install Filters
-  File "..\..\..\src\lib\core\directshow\dsfSeeking\Release\dsfSeeking.dll"
-  File "..\..\..\src\lib\codecs\flac\filters\dsfFLACEncoder\Release\dsfFLACEncoder.dll"
-  File "..\..\..\src\lib\codecs\speex\filters\dsfSpeexEncoder\Release\dsfSpeexEncoder.dll"
-  File "..\..\..\src\lib\codecs\theora\filters\dsfTheoraEncoder\Release\dsfTheoraEncoder.dll"
-  File "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisEncoder\Release\dsfVorbisEncoder.dll"
+  ; Text files - 7
+  File "${OGGCODECS_ROOT_DIR}\ABOUT.rtf"
+  File "${OGGCODECS_ROOT_DIR}\VERSIONS"
+  File "${OGGCODECS_ROOT_DIR}\README"
+  File "${OGGCODECS_ROOT_DIR}\COPYRIGHTS.rtf"
+  File "${OGGCODECS_ROOT_DIR}\COPYRIGHTS"
 
-  File "..\..\..\src\lib\codecs\flac\filters\dsfNativeFLACSource\Release\dsfNativeFLACSource.dll"
-  File "..\..\..\src\lib\codecs\speex\filters\dsfSpeexDecoder\Release\dsfSpeexDecoder.dll"
-  File "..\..\..\src\lib\codecs\theora\filters\dsfTheoraDecoder\Release\dsfTheoraDecoder.dll"
-  File "..\..\..\src\lib\codecs\flac\filters\dsfFLACDecoder\Release\dsfFLACDecoder.dll"
-  File "..\..\..\src\lib\codecs\vorbis\filters\dsfVorbisDecoder\Release\dsfVorbisDecoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\AUTHORS"
+  File "${OGGCODECS_ROOT_DIR}\HISTORY"
 
-  File "..\..\..\src\lib\core\directshow\dsfOggDemux\Release\dsfOggDemux.dll"
-  File "..\..\..\src\lib\core\directshow\dsfOggMux\Release\dsfOggMux.dll"
-  File "..\..\..\src\lib\codecs\cmml\dsfCMMLDecoder\Release\dsfCMMLDecoder.dll"
-  File "..\..\..\src\lib\codecs\cmml\dsfCMMLRawSource\Release\dsfCMMLRawSource.dll"
-  File "..\..\..\src\lib\core\directshow\dsfSubtitleVMR9\Release\dsfSubtitleVMR9.dll"
 
-  File "..\..\..\src\lib\core\directshow\dsfAnxDemux\Release\dsfAnxDemux.dll"
-  File "..\..\..\src\lib\core\directshow\dsfAnxMux\Release\dsfAnxMux.dll"
+  ; Install Filters - 16
+  
 
-; Register libraries
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\filters\dsfFLACEncoder\${OGGCODECS_CONFIG_PATH}\dsfFLACEncoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\speex\filters\dsfSpeexEncoder\${OGGCODECS_CONFIG_PATH}\dsfSpeexEncoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\theora\filters\dsfTheoraEncoder\${OGGCODECS_CONFIG_PATH}\dsfTheoraEncoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\vorbis\filters\dsfVorbisEncoder\${OGGCODECS_CONFIG_PATH}\dsfVorbisEncoder.dll"
+
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\filters\dsfNativeFLACSource\${OGGCODECS_CONFIG_PATH}\dsfNativeFLACSource.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\speex\filters\dsfSpeexDecoder\${OGGCODECS_CONFIG_PATH}\dsfSpeexDecoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\theora\filters\dsfTheoraDecoder\${OGGCODECS_CONFIG_PATH}\dsfTheoraDecoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\filters\dsfFLACDecoder\${OGGCODECS_CONFIG_PATH}\dsfFLACDecoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\vorbis\filters\dsfVorbisDecoder\${OGGCODECS_CONFIG_PATH}\dsfVorbisDecoder.dll"
+
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\ogm\filters\dsfOGMDecoder\${OGGCODECS_CONFIG_PATH}\dsfOGMDecoder.dll"
+
+  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfOggDemux2\${OGGCODECS_CONFIG_PATH}\dsfOggDemux2.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfOggMux\${OGGCODECS_CONFIG_PATH}\dsfOggMux.dll"
+
+  ; File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfSeeking\${OGGCODECS_CONFIG_PATH}\dsfSeeking.dll"
+
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\dsfCMMLDecoder\${OGGCODECS_CONFIG_PATH}\dsfCMMLDecoder.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\dsfCMMLRawSource\${OGGCODECS_CONFIG_PATH}\dsfCMMLRawSource.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfSubtitleVMR9\${OGGCODECS_CONFIG_PATH}\dsfSubtitleVMR9.dll"
+
+  ; File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfAnxDemux\${OGGCODECS_CONFIG_PATH}\dsfAnxDemux.dll"
+  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfAnxMux\${OGGCODECS_CONFIG_PATH}\dsfAnxMux.dll"
+
+  ; Register libraries - 16
+
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfFLACEncoder.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSpeexEncoder.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfTheoraEncoder.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfVorbisEncoder.dll"'
+  
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfNativeFLACSource.dll"'
-
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSpeexDecoder.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfTheoraDecoder.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfFLACDecoder.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfVorbisDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOggDemux.dll"'
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOGMDecoder.dll"'
 
+  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOggDemux2.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOggMux.dll"'
+
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfCMMLDecoder.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfCMMLRawSource.dll"'
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSubtitleVMR9.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxDemux.dll"'
 
   ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxMux.dll"'
+
+  ; ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxDemux.dll"'
+
 
 
   ;Sleep 10000
@@ -203,11 +224,36 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Registry Entries for directshow and WMP
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;	*	Media Group Entries for WMP
+;;;			-	flac (audio)
+;;;			-	oga
+;;;			-	ogv
+;;;			-	axa
+;;;			-	axv
+;;;			-	spx
+;;;			-	ogm(????? TODO:::)
+;;;			-	ogg(TODO::: Check if can have no group)
+;;;	*	Mime Type Entries for WMP
+;;;	*	Extension Entries for WMP - TODO::: Other entries, icons
+;;;	*	Media Type Entries/Filter association for Directshow
+;;;	*	MLS(?) Entries for WMP
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Media Group Entries - 6
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_flac.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\FLAC]
 ;@="FLAC File (flac)"
@@ -219,7 +265,6 @@ Section -Post
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_oga.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA]
 ;@="Ogg File (oga)"
@@ -231,7 +276,6 @@ Section -Post
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_ogv.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV]
 ;@="Ogg File (ogv)"
@@ -242,8 +286,31 @@ Section -Post
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "MIME Types" "video/x-ogg"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_spx.reg
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA]
+;@="Annodex File (axa)"
+;"Extensions"=".axa"
+;"MIME Types"="audio/x-annodex"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "" "Annodex File (axa)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "Extensions" ".axa"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "MIME Types" "audio/x-annodex"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV]
+;@="Annodex File (axv)"
+;"Extensions"=".axv"
+;"MIME Types"="video/x-annodex"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "" "Annodex File (axv)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "Extensions" ".axv"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "MIME Types" "video/x-annodex"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX]
 ;@="Ogg File (spx)"
@@ -255,24 +322,32 @@ Section -Post
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;	WMP Mime type entries - 7
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_app_anx.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex]
-;@="Anx File"
+;@="Annodex File"
 ;"AlreadyRegistered"="yes"
 ;"Extension.Key"=".anx"
-;"Extensions.CommaSep"="anx"
-;"Extensions.SpaceSep"=".anx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "" "Anx File"
+;"Extensions.CommaSep"="anx,axa,axv"
+;"Extensions.SpaceSep"=".anx .axa .axv"
+
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "" "Annodex File"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extension.Key" ".anx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.CommaSep" "anx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.SpaceSep" ".anx"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.CommaSep" "anx,axa,axv"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.SpaceSep" ".anx .axa .axv"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_app_ogg.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg]
 ;@="Ogg File"
@@ -280,6 +355,7 @@ Section -Post
 ;"Extension.Key"=".ogg"
 ;"Extensions.CommaSep"="ogg,oga,ogv,spx"
 ;"Extensions.SpaceSep"=".ogg .oga .ogv .spx"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "" "Ogg File"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "Extension.Key" ".ogg"
@@ -288,47 +364,82 @@ Section -Post
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_aud_flac.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac]
 ;@="FLAC Audio File"
 ;"AlreadyRegistered"="yes"
 ;"Extension.Key"=".flac"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac" "" "FLAC Audio File"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac" "Extension.Key" ".flac"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_aud_ogg.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg]
 ;@="Ogg Audio File"
 ;"AlreadyRegistered"="yes"
 ;"Extension.Key"=".oga"
-;"Extensions.CommaSep"="ogg,spx"
-;"Extensions.SpaceSep"=".ogg .spx"
+;"Extensions.CommaSep"="oga,spx"
+;"Extensions.SpaceSep"=".oga .spx"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "" "Ogg Audio File"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extension.Key" ".oga"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extensions.CommaSep" "ogg,spx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extensions.SpaceSep" ".ogg .spx"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extensions.CommaSep" "oga,spx"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extensions.SpaceSep" ".oga .spx"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_vid_ogg.reg
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg]
 ;@="Ogg Video File"
 ;"AlreadyRegistered"="yes"
 ;"Extension.Key"=".ogv"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "" "Ogg Video File"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "Extension.Key" ".ogv"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mm_medlib_anx.reg
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex]
+;@="Annodex Audio File"
+;"AlreadyRegistered"="yes"
+;"Extension.Key"=".axa"
+;"Extensions.CommaSep"="axa"
+;"Extensions.SpaceSep"=".axa"
+
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "" "Annodex Audio File"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "AlreadyRegistered" "yes"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "Extension.Key" ".axa"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "Extensions.CommaSep" "axa"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "Extensions.SpaceSep" ".axa"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex]
+;@="Annodex Video File"
+;"AlreadyRegistered"="yes"
+;"Extension.Key"=".axv"
+
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex" "" "Annodex Video File"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex" "AlreadyRegistered" "yes"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex" "Extension.Key" ".axv"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;	WMP extension entries - 8
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx]
 ;"AlreadyRegistered"="yes"
@@ -336,15 +447,52 @@ Section -Post
 ;"Permissions"=dword:0000000f
 ;"Runtime"=dword:00000007
 ;"Extension.MIME"="application/x-annodex"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "MediaType.Description" "Annodex File"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Permissions" 0x0000000f
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "Extension.MIME" "application/x-annodex"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Extension.MIME" "application/x-annodex"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mm_medlib_flac.reg
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa]
+;"AlreadyRegistered"="yes"
+;"MediaType.Description"="Annodex File"
+;"Permissions"=dword:0000000f
+;"Runtime"=dword:00000007
+;"PerceivedType"="audio"
+;"Extension.MIME"="audio/x-annodex"
+
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "AlreadyRegistered" "yes"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "MediaType.Description" "Annodex File"
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Permissions" 0x0000000f
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Runtime" 0x00000007
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "PerceivedType" "audio"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Extension.MIME" "audio/x-annodex"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv]
+;"AlreadyRegistered"="yes"
+;"MediaType.Description"="Annodex File"
+;"Permissions"=dword:0000000f
+;"Runtime"=dword:00000007
+;"Extension.MIME"="video/x-annodex"
+
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "AlreadyRegistered" "yes"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "MediaType.Description" "Annodex File"
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Permissions" 0x0000000f
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Runtime" 0x00000007
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "PerceivedType" "video"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Extension.MIME" "video/x-annodex"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;=========================================================
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac]
 ;"AlreadyRegistered"="yes"
@@ -353,6 +501,7 @@ Section -Post
 ;"Runtime"=dword:00000007
 ;"PerceivedType"="audio"
 ;"Extension.MIME"="audio/x-flac"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "MediaType.Description" "FLAC Audio"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "Permissions" 0x0000000f
@@ -371,6 +520,7 @@ Section -Post
 ;"Runtime"=dword:00000007
 ;"PerceivedType"="audio"
 ;"Extension.MIME"="audio/x-ogg"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "MediaType.Description" "Ogg Audio"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "Permissions" 0x0000000f
@@ -388,6 +538,7 @@ Section -Post
 ;"Permissions"=dword:0000000f
 ;"Runtime"=dword:00000007
 ;"Extension.MIME"="application/ogg"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "MediaType.Description" "Ogg File"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "Permissions" 0x0000000f
@@ -405,6 +556,7 @@ Section -Post
 ;"Runtime"=dword:00000007
 ;"PerceivedType"="video"
 ;"Extension.MIME"="video/x-ogg"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "MediaType.Description" "Ogg Video"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "Permissions" 0x0000000f
@@ -423,6 +575,7 @@ Section -Post
 ;"Runtime"=dword:00000007
 ;"PerceivedType"="audio"
 ;"Extension.MIME"="audio/x-ogg"
+
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "AlreadyRegistered" "yes"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "MediaType.Description" "Ogg Speex Audio"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "Permissions" 0x0000000f
@@ -431,69 +584,103 @@ Section -Post
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "Extension.MIME" "audio/x-ogg"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_anx.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.anx]
-;"Source Filter"="{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
-  WriteRegStr HKCR "Media Type\Extensions\.anx" "Source Filter" "{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;	Directshow extension to filter mapping - 8
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_flac.reg
+;=========================================================
+;[HKEY_CLASSES_ROOT\Media Type\Extensions\.anx]
+;"Source Filter"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "Media Type\Extensions\.anx" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_CLASSES_ROOT\Media Type\Extensions\.axa]
+;"Source Filter"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "Media Type\Extensions\.axa" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_CLASSES_ROOT\Media Type\Extensions\.axv]
+;"Source Filter"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "Media Type\Extensions\.axv" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;=========================================================
 ;[HKEY_CLASSES_ROOT\Media Type\Extensions\.flac]
 ;"Source Filter"="{6DDA37BA-0553-499a-AE0D-BEBA67204548}"
+
   WriteRegStr HKCR "Media Type\Extensions\.flac" "Source Filter" "{6DDA37BA-0553-499a-AE0D-BEBA67204548}"
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_CLASSES_ROOT\Media Type\Extensions\.oga]
+;"Source Filter"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "Media Type\Extensions\.oga" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_CLASSES_ROOT\Media Type\Extensions\.ogg]
+;"Source Filter"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "Media Type\Extensions\.ogg" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_CLASSES_ROOT\Media Type\Extensions\.ogv]
+;"Source Filter"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "Media Type\Extensions\.ogv" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;=========================================================
+;[HKEY_CLASSES_ROOT\Media Type\Extensions\.spx]
+;"Source Filter"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "Media Type\Extensions\.spx" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;	Directshow extension to filter mapping for HTTP - 7
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; mt_http.reg
 ;=========================================================
 ;[HKEY_CLASSES_ROOT\http\Extensions]
-;".OGG"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".OGV"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".OGA"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".SPX"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".ANX"="{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
-  WriteRegStr HKCR "http\Extensions" ".OGG" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "http\Extensions" ".OGV" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "http\Extensions" ".OGA" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "http\Extensions" ".SPX" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "http\Extensions" ".ANX" "{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
+;".OGG"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+;".OGV"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+;".OGA"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+;".SPX"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+;".ANX"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+;".AXV"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+;".AXA"="{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+
+  WriteRegStr HKCR "http\Extensions" ".OGG" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "http\Extensions" ".OGV" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "http\Extensions" ".OGA" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "http\Extensions" ".SPX" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "http\Extensions" ".ANX" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "http\Extensions" ".AXV" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "http\Extensions" ".AXA" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_oga.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.oga]
-;"Source Filter"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "Media Type\Extensions\.oga" "Source Filter" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_ogg.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.ogg]
-;"Source Filter"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "Media Type\Extensions\.ogg" "Source Filter" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_ogv.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.ogv]
-;"Source Filter"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "Media Type\Extensions\.ogv" "Source Filter" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_spx.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.spx]
-;"Source Filter"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-  WriteRegStr HKCR "Media Type\Extensions\.spx" "Source Filter" "{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;	MLS Perceived type - 6
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; wmp_mls.reg
@@ -501,10 +688,14 @@ Section -Post
 ;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions]
 ;"ogv"="video"
 ;"oga"="audio"
+;"axv"="video"
+;"axa"="audio"
 ;"spx"="audio"
 ;"flac"="audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogv" "video"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "oga" "audio"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "axv" "video"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "axa" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac" "audio"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -523,18 +714,22 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-; Unregister libraries
+
+
+  ; Unregister libraries - 16
 
   ; Unregister core annodex libraries
+  
   ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfSubtitleVMR9.dll"'
   ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfCMMLDecoder.dll"'
   ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfCMMLRawSource.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfAnxDemux.dll"'
+  
+  ; ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfAnxDemux.dll"'
   ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfAnxMux.dll"'
 
   
   ; Unregister core ogg libraries
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOggDemux.dll"'
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOggDemux2.dll"'
   ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOggMux.dll"'
 
 
@@ -552,165 +747,94 @@ Section Uninstall
   ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfFLACDecoder.dll"'
   ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfVorbisDecoder.dll"'
 
+  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOGMDecoder.dll"'
 
 
-  
+
 
 
 ; Get rid of all the registry keys we made for directshow and WMP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_flac.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\FLAC]
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\FLAC"
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_oga.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA]
+  ; Media Type Groups entries - 6
+
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\FLAC"  
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_ogv.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV]
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_groups_spx.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX]
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA"
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_app_ogg.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg]
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV"
+
+
+  ; MIME Type entries	- 7
+
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_aud_flac.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac]
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_aud_ogg.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg]
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; media_mime_vid_ogg.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg]
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mm_medlib_flac.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac]
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex"
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mm_medlib_oga.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga]
+
+  ; File Extension Entries - 8
+
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac"
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mm_medlib_ogg.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg]
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mm_medlib_ogv.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv]
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mm_medlib_spx.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx]
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv"
+
   
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_anx.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.anx]
+  ; Extension to filter mapping - 8
+
   DeleteRegKey HKCR "Media Type\Extensions\.anx"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_flac.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.flac]
+  DeleteRegKey HKCR "Media Type\Extensions\.axa"
+  DeleteRegKey HKCR "Media Type\Extensions\.axv"
   DeleteRegKey HKCR "Media Type\Extensions\.flac"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_http.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\http\Extensions]
-;".OGG"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".OGV"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".OGA"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".SPX"="{31CA0186-1FF0-4181-AA38-3CA4040BD260}"
-;".ANX"="{6F767551-E3E1-461f-A8E5-C8ED36342ED1}"
+  DeleteRegKey HKCR "Media Type\Extensions\.oga"
+  DeleteRegKey HKCR "Media Type\Extensions\.ogg"
+  DeleteRegKey HKCR "Media Type\Extensions\.ogv"
+  DeleteRegKey HKCR "Media Type\Extensions\.spx"
+
+
+  ; Extension to filter mapping for http - 7
   DeleteRegValue HKCR "http\Extensions" ".OGG"
   DeleteRegValue HKCR "http\Extensions" ".OGV"
   DeleteRegValue HKCR "http\Extensions" ".OGA"
   DeleteRegValue HKCR "http\Extensions" ".SPX"
   DeleteRegValue HKCR "http\Extensions" ".ANX"
+  DeleteRegValue HKCR "http\Extensions" ".AXA"
+  DeleteRegValue HKCR "http\Extensions" ".AXV"
+  ; TODO::: FLAC
   
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_oga.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.oga]
-  DeleteRegKey HKCR "Media Type\Extensions\.oga"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_ogg.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.ogg]
-  DeleteRegKey HKCR "Media Type\Extensions\.ogg"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_ogv.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.ogv]
-  DeleteRegKey HKCR "Media Type\Extensions\.ogv"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mt_spx.reg
-;=========================================================
-;[HKEY_CLASSES_ROOT\Media Type\Extensions\.spx]
-  DeleteRegKey HKCR "Media Type\Extensions\.spx"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; wmp_mls.reg
-;=========================================================
-;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions]
-;"ogv"="video"
-;"oga"="audio"
-;"spx"="audio"
-;"flac"="audio"
+
+  ; MLS Perceived type - 6
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogv"
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "oga"
+  DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "axa"
+  DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "axv"
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx"
-  DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac"
+  DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac"  
+
+  
+
 
 
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
-  ;Delete utils
+  ; Delete utils - 4
   Delete "$INSTDIR\OOOggCommentDump.exe"
   Delete "$INSTDIR\OOOggValidate.exe"
   Delete "$INSTDIR\OOOggStat.exe"
   Delete "$INSTDIR\OOOggDump.exe"
 
 
-  ;Delete libraries
+  ; Delete libraries - 11
   Delete "$INSTDIR\libFLAC++.dll"
   Delete "$INSTDIR\libFLAC.dll"
   Delete "$INSTDIR\libfishsound.dll"
@@ -726,30 +850,37 @@ Section Uninstall
   Delete "$INSTDIR\libTemporalURI.dll"
 
 
-  ;Delete Filter
+  ;Delete Filters - 16
   Delete "$INSTDIR\dsfVorbisEncoder.dll"
   Delete "$INSTDIR\dsfTheoraEncoder.dll"
   Delete "$INSTDIR\dsfSpeexEncoder.dll"
   Delete "$INSTDIR\dsfFLACEncoder.dll"
-  Delete "$INSTDIR\dsfVorbisDecoder.dll"
 
+  Delete "$INSTDIR\dsfVorbisDecoder.dll"
   Delete "$INSTDIR\dsfFLACDecoder.dll"
   Delete "$INSTDIR\dsfTheoraDecoder.dll"
   Delete "$INSTDIR\dsfSpeexDecoder.dll"
+  Delete "$INSTDIR\dsfOGMDecoder.dll"
+
   Delete "$INSTDIR\dsfNativeFLACSource.dll"
-  Delete "$INSTDIR\dsfSubtitleVMR9.dll"
 
-  Delete "$INSTDIR\dsfAnxDemux.dll"
   Delete "$INSTDIR\dsfCMMLDecoder.dll"
-  Delete "$INSTDIR\dsfOggDemux.dll"
-  Delete "$INSTDIR\dsfSeeking.dll"
-  Delete "$INSTDIR\dsfOggMux.dll"
-
-  Delete "$INSTDIR\dsfAnxMux.dll"
   Delete "$INSTDIR\dsfCMMLRawSource.dll"
 
+  Delete "$INSTDIR\dsfSubtitleVMR9.dll"
+  
+  Delete "$INSTDIR\dsfOggDemux2.dll"
+  Delete "$INSTDIR\dsfOggMux.dll"
 
-  ;Delete text files
+  ; Delete "$INSTDIR\dsfSeeking.dll"
+  
+
+  Delete "$INSTDIR\dsfAnxMux.dll"
+  ; Delete "$INSTDIR\dsfAnxDemux.dll"
+
+
+
+  ; Delete text files - 7
   Delete "$INSTDIR\ABOUT.rtf"
   Delete "$INSTDIR\VERSIONS"
   Delete "$INSTDIR\README"
@@ -760,7 +891,7 @@ Section Uninstall
   Delete "$INSTDIR\HISTORY"
 
 
-  ;Delete runtimes
+  ; Delete runtimes - 2
   Delete "$INSTDIR\msvcr71.dll"
   Delete "$INSTDIR\msvcp71.dll"
 

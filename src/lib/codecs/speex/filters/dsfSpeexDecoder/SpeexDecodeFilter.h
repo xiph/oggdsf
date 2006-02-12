@@ -33,6 +33,7 @@
 //Include Files
 #include "speexdecoderdllstuff.h"
 #include "AbstractTransformFilter.h"
+#include <libilliCore/iLE_Math.h>
 
 //Forward Declarations
 struct sSpeexFormatBlock;
@@ -59,7 +60,7 @@ public:
 	
 	//FIX::: Do we need these ? Aren't they all friends ??
 	virtual sSpeexFormatBlock* getSpeexFormatBlock();
-	virtual void setSpeexFormat(sSpeexFormatBlock* inFormatBlock);
+	virtual void setSpeexFormat(BYTE* inFormatBlock);
 
 protected:
 	//Pure Virtuals from AbstracttransformFilter

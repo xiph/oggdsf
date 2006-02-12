@@ -371,10 +371,16 @@
 				RelativePath=".\AutoAnxSeekTable.cpp">
 			</File>
 			<File
+				RelativePath=".\AutoOggChainGranuleSeekTable.cpp">
+			</File>
+			<File
 				RelativePath="AutoOggSeekTable.cpp">
 			</File>
 			<File
 				RelativePath="libOOOggSeek.cpp">
+			</File>
+			<File
+				RelativePath=".\OggGranuleSeekTable.cpp">
 			</File>
 			<File
 				RelativePath="OggSeekPoint.cpp">
@@ -432,13 +438,22 @@
 				RelativePath=".\AutoAnxSeekTable.h">
 			</File>
 			<File
+				RelativePath=".\AutoOggChainGranuleSeekTable.h">
+			</File>
+			<File
 				RelativePath="AutoOggSeekTable.h">
+			</File>
+			<File
+				RelativePath=".\IOggDecoderSeek.h">
 			</File>
 			<File
 				RelativePath=".\IOggSeeker.h">
 			</File>
 			<File
 				RelativePath="libOOOggSeek.h">
+			</File>
+			<File
+				RelativePath=".\OggGranuleSeekTable.h">
 			</File>
 			<File
 				RelativePath="OggSeekPoint.h">

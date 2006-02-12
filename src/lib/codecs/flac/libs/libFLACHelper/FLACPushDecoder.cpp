@@ -121,7 +121,9 @@ StampedOggPacket* FLACPushDecoder::decodeFLAC(OggPacket* inPacket) {
 				//Convert 32 bit to 16 bit
 
 			//FIX::: Why on earth are you dividing by 2 ? It does not make sense !
-			tempInt = (signed short)(tempLong/2);
+			//tempInt = (signed short)(tempLong/2);
+			tempInt = (signed short)(tempLong);
+
 		
 			*locShortBuffer = tempInt;
 			locShortBuffer++;

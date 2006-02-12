@@ -83,36 +83,37 @@ FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPa
 
 }
 
-bool FLACHeaderTweaker::createNewHeaderList() {
-	
+bool FLACHeaderTweaker::createNewHeaderList() 
+{
 	//debugLog<<"Create new header list method"<<endl;
-	
 	//debugLog<<"Filling first pack"<<endl;
-	unsigned char* locFirstPackBuff = new unsigned char[51];
-	locFirstPackBuff[0] = '\177';
-	locFirstPackBuff[1] = 'F';
-	locFirstPackBuff[2] = 'L';
-	locFirstPackBuff[3] = 'A';
-	locFirstPackBuff[4] = 'C';
-	locFirstPackBuff[5] = 1;
-	locFirstPackBuff[6] = 0;
-	locFirstPackBuff[7] = 0; //Num header HIGH BYTE
+	
+	
+	unsigned char* locFirstPacketBuffur = new unsigned char[51];
+	locFirstPacketBuffur[0] = '\177';
+	locFirstPacketBuffur[1] = 'F';
+	locFirstPacketBuffur[2] = 'L';
+	locFirstPacketBuffur[3] = 'A';
+	locFirstPacketBuffur[4] = 'C';
+	locFirstPacketBuffur[5] = 1;
+	locFirstPacketBuffur[6] = 0;
+	locFirstPacketBuffur[7] = 0; //Num header HIGH BYTE
 
 	//*** VERIFY ::: Is this even safe ie -2 ... are we sure this can't go negative ????
-	locFirstPackBuff[8] = mOldHeaderList.size() - 2; //Num headers LOW BYTE
-	locFirstPackBuff[9] = 'f';
-	locFirstPackBuff[10] = 'L';
-	locFirstPackBuff[11] = 'a';
-	locFirstPackBuff[12] = 'C';
+	locFirstPacketBuffur[8] = mOldHeaderList.size() - 2; //Num headers LOW BYTE
+	locFirstPacketBuffur[9] = 'f';
+	locFirstPacketBuffur[10] = 'L';
+	locFirstPacketBuffur[11] = 'a';
+	locFirstPacketBuffur[12] = 'C';
 
 	//debugLog<<"Copying in packet data"<<endl;
-	memcpy((void*)(locFirstPackBuff + 13), (const void*) mOldHeaderList[1]->packetData(), 38);
+	memcpy((void*)(locFirstPacketBuffur + 13), (const void*) mOldHeaderList[1]->packetData(), 38);
 
 	mNewHeaderList.empty();
 	mNewHeaderList.clear();
 	//debugLog<<"Putting first header into new list"<<endl;
-	mNewHeaderList.push_back(new OggPacket(locFirstPackBuff, 51, false, false));
-	locFirstPackBuff = NULL;
+	mNewHeaderList.push_back(new OggPacket(locFirstPacketBuffur, 51, false, false));
+	locFirstPacketBuffur = NULL;
 
 	bool locFoundComment = false;
 	int locCommentNo = -1;

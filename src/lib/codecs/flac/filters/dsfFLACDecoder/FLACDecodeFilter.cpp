@@ -84,8 +84,9 @@ bool FLACDecodeFilter::ConstructPins()
 	locAcceptMediaType = NULL;
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
 
-	locAcceptMediaType->subtype = MEDIASUBTYPE_FLAC;
-	locAcceptMediaType->formattype = FORMAT_FLAC;
+	locAcceptMediaType->majortype = MEDIATYPE_OggPacketStream;
+	locAcceptMediaType->subtype = MEDIASUBTYPE_None;
+	locAcceptMediaType->formattype = FORMAT_OggIdentHeader;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 	
@@ -108,9 +109,26 @@ sFLACFormatBlock* FLACDecodeFilter::getFLACFormatBlock()
 {
 	return mFLACFormatBlock;
 }
-void FLACDecodeFilter::setFLACFormatBlock(sFLACFormatBlock* inFormatBlock) 
+void FLACDecodeFilter::setFLACFormatBlock(BYTE* inFormatBlock) 
 {
 	delete mFLACFormatBlock;
 	mFLACFormatBlock = new sFLACFormatBlock;		//Deleted in destructor.
-	*mFLACFormatBlock = *inFormatBlock;
+
+	const unsigned char FLAC_CHANNEL_MASK = 14;  //00001110
+	const unsigned char FLAC_BPS_START_MASK = 1; //00000001
+	const unsigned char FLAC_BPS_END_MASK = 240;  //11110000
+	mFLACFormatBlock = new sFLACFormatBlock;
+	//Fix the format block data... use header version and other version.
+	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
+
+
+	//This is ogg flac classic
+	mFLACFormatBlock->numChannels = (((inFormatBlock[20]) & FLAC_CHANNEL_MASK) >> 1) + 1;
+	mFLACFormatBlock->samplesPerSec = (iBE_Math::charArrToULong(inFormatBlock + 18)) >> 12;
+	
+	mFLACFormatBlock->numBitsPerSample =	(((inFormatBlock[20] & FLAC_BPS_START_MASK) << 4)	|
+											((inFormatBlock[21] & FLAC_BPS_END_MASK) >> 4)) + 1;	
+
+	//*mFLACFormatBlock = *inFormatBlock;
+
 }

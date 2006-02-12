@@ -40,6 +40,8 @@
 // Windows Header Files:
 #include <windows.h>
 
+#include <libOOOgg/libOOOgg.h>
+
 // TODO: reference additional headers your program requires here
 
 #include "AbstractTransformFilter.h"

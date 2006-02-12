@@ -30,14 +30,19 @@
 //===========================================================================
 
 #pragma once
+#include "IOggDecoder.h"
+#include "IOggOutputPin.h"
 #include "Theoradecoderdllstuff.h"
 #include "BasicSeekPassThrough.h"
+
+#include "TheoraDecodeFilter.h"
 
 #include <fstream>
 using namespace std;
 class TheoraDecodeInputPin 
 	:	public CTransformInputPin
 	,	public BasicSeekPassThrough
+	,	public IOggDecoder
 {
 public:
 
@@ -52,54 +57,35 @@ public:
 	virtual HRESULT BreakConnect();
 	virtual HRESULT CompleteConnect (IPin *inReceivePin);
 
+	//XTODO::: Add a new segment override to get an integer rate change
+	//XTODO::: Possibly add an endflush override to clear buffered data
+	virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
+	//XTODO::: Implement getallocator requirements to tell demux what buffers to use
+
+	//IOggDecoder Interface
+	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule);
+	virtual LOOG_INT64 mustSeekBefore(LOOG_INT64 inGranule);
+	virtual IOggDecoder::eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket);
+	virtual string getCodecShortName();
+	virtual string getCodecIdentString();
 	//fstream debugLog;
+
+	virtual IOggOutputPin* getOutputPinInterface()		{		return mOggOutputPinInterface;	}
+	virtual bool getSentStreamOffset()					{		return mSentStreamOffset;		}
+	virtual void setSentStreamOffset(bool inSentStreamOffset)	{	mSentStreamOffset = inSentStreamOffset;	}
+protected:
+	static const unsigned long THEORA_NUM_BUFFERS = 50;
+	enum eTheoraSetupState {
+		VSS_SEEN_NOTHING,
+		VSS_SEEN_BOS,
+		VSS_SEEN_COMMENT,
+		VSS_ALL_HEADERS_SEEN,
+		VSS_ERROR
+	};
+
+	eTheoraSetupState mSetupState;
+
+
+	IOggOutputPin* mOggOutputPinInterface;
+	bool mSentStreamOffset;
 };
-//----------------------
-//OLD IMPLEMENTATION
-//----------------------
-//
-//#include "Theoradecoderdllstuff.h"
-////#include "AbstractVideoDecodeInputPin.h"
-////#include "TheoraDecodeInputPin.h"
-//
-////#include "TheoraDecodeFilter.h"
-//#include "DSStringer.h"
-//#include "TheoraDecoder.h"
-//#include <math.h>
-//#include <fstream>
-//using namespace std;
-//
-//
-//class TheoraDecodeOutputPin;
-//
-//class TheoraDecodeInputPin 
-//	:	public AbstractVideoDecodeInputPin
-//{
-//public:
-//	TheoraDecodeInputPin(AbstractVideoDecodeFilter* inFilter, CCritSec* inFilterLock, AbstractVideoDecodeOutputPin* inOutputPin, CMediaType* inAcceptMediaType);
-//	virtual ~TheoraDecodeInputPin(void);
-//	int TheoraDecoded (yuv_buffer* inYUVBuffer);
-//
-//		DECLARE_IUNKNOWN
-//	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-//
-//	HRESULT SetMediaType(const CMediaType* inMediaType);
-//
-//	//VIRTUAL FUNCTIONS - AbstractAudioDecodeInputPin
-//	//FIX:::These should be protected.
-//	virtual bool ConstructCodec();
-//	virtual void DestroyCodec();
-//
-//	long decodeData(BYTE* inBuf, long inNumBytes, LONGLONG inStart, LONGLONG inEnd) ;
-//
-//protected:
-//	fstream debugLog;
-//	//FishSound* mFishSound;
-//	//FishSoundInfo mFishInfo; 
-//	TheoraDecoder* mTheoraDecoder;
-//	unsigned long mXOffset;
-//	unsigned long mYOffset;
-//	
-//
-//
-//};

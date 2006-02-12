@@ -134,7 +134,17 @@ OggPacket* OggPage::getPacket(unsigned long inPacketNo) {
 //Returns a view on the packet only
 StampedOggPacket* OggPage::getStampedPacket(unsigned long inPacketNo) {
 	if (inPacketNo < numPackets()) {
-		return mPacketList[inPacketNo];
+		StampedOggPacket* retPacket = mPacketList[inPacketNo];
+		
+		if ((int)inPacketNo != ((int)numPackets() - (mPacketList[numPackets() - 1]->isTruncated() ? 2 : 1))) {
+			//It's not the last complete packet, so it gets a -1 stamp
+			retPacket->setTimeStamp(-1, -1, StampedOggPacket::OGG_END_ONLY);
+		} else {
+			//It is the last complete packet
+			
+			retPacket->setTimeStamp(-1, header()->GranulePos(), StampedOggPacket::OGG_END_ONLY);
+		}
+		return retPacket;
 	} else {
 		return NULL;
 	}

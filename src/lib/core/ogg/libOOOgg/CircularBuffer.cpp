@@ -48,19 +48,30 @@ CircularBuffer::~CircularBuffer(void)
 	delete[] mBuffer;
 }
 
-unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytesToRead) {
+unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytesToRead, bool inAllowShortRead) {
 
-	//Returns early.
+	//Returns early. - why?
+	//TODO::: This is probably a bug?
 	if (inBytesToRead >  spaceLeft()) {
 		return 0;
 	}
     	
 	unsigned long locBytesToRead =	inBytesToRead;
 	
-	bufASSERT(locBytesToRead <= mBufferSize);
+	if (inAllowShortRead) {
+		locBytesToRead = (inBytesToRead <= numBytesAvail())		?	inBytesToRead
+																:	numBytesAvail();
+	}
+
+	if (locBytesToRead == 0) {
+		return 0;
+	}
+	
 		//	(inBytesToRead <= numBytesAvail())	?	inBytesToRead
 		//											:	numBytesAvail();
 	//locBytesToRead = the lower of numBytesAvail() and inBytesToRead
+
+	bufASSERT(locBytesToRead <= mBufferSize);
 	bufASSERT(locBytesToRead <= inBytesToRead);
 	bufASSERT(locBytesToRead <= numBytesAvail());
 	

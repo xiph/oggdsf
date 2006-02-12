@@ -29,7 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-// OggDump.cpp : Defines the entry point for the console application.
+// OOOggPageInfo.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -39,17 +39,50 @@
 #include <iostream>
 #include <fstream>
 
+struct sOggStreamInfo {
+	unsigned long mSerialNo;
+	unsigned long mNumPages;
+	unsigned long mMinPageSize;
+	unsigned long mMaxPageSize;
+	unsigned long mMinPacksPerPage;
+	unsigned long mMaxPacksPerPage;
+	unsigned long mTotalPacketCount;
+	unsigned long mTotalStreamSize;
+	unsigned long mTotalDataSize;
+
+};
+
+void dumpStreamInfo(sOggStreamInfo* inInfo)
+{
+
+	cout<<"=== Stream "<<inInfo->mSerialNo<<endl;
+	cout<<"=================="<<endl;
+	cout<<"Num Pages      :  "<<inInfo->mNumPages<<endl;
+
+	cout<<"Min Page Size  :  "<<inInfo->mMinPageSize<<endl;
+	cout<<"Max Page Size  :  "<<inInfo->mMaxPageSize<<endl;
+	cout<<"Avg Page Size  :  "<<inInfo->mTotalStreamSize / inInfo->mNumPages<<endl;
+	cout<<"Num Pages      :  "<<inInfo->mNumPages<<endl;
+	cout<<"Num Pages      :  "<<inInfo->mNumPages<<endl;
+	cout<<"Num Pages      :  "<<inInfo->mNumPages<<endl;
+	cout<<"Num Pages      :  "<<inInfo->mNumPages<<endl;
+	cout<<"Num Pages      :  "<<inInfo->mNumPages<<endl;
+	cout<<"Num Pages      :  "<<inInfo->mNumPages<<endl<<endl;
+
+}
 unsigned long bytePos;
-vector<unsigned long> streamSerials;
-vector<unsigned long*> maxPacks;
+//vector<unsigned long> streamSerials;
+//vector<unsigned long*> maxPacks;
+vector<sOggStreamInfo*> streamInfos;
+
 //This will be called by the callback
 bool pageCB(OggPage* inOggPage, void* inUserData /* ignored */) {
 	bool locFoundStream = false;
 	size_t locFoundPos = 0;
 
 	unsigned long locSerialNo = inOggPage->header()->StreamSerialNo();
-	for (size_t i = 0; i < streamSerials.size(); i++) {
-		if (locSerialNo == streamSerials[i]) {
+	for (size_t i = 0; i < streamInfos.size(); i++) {
+		if (locSerialNo == streamInfos[i]->mSerialNo) {
 			locFoundStream = true;
 			locFoundPos = i;
 			break;
@@ -57,14 +90,54 @@ bool pageCB(OggPage* inOggPage, void* inUserData /* ignored */) {
 	}
 	
 	if (!locFoundStream) {
-		streamSerials.push_back(locSerialNo);
-		maxPacks.push_back(new unsigned long(0));
+		//streamSerials.push_back(locSerialNo);
+		//maxPacks.push_back(new unsigned long(0));
+		sOggStreamInfo* locStreamInfo = new sOggStreamInfo;
+		locStreamInfo->mMaxPacksPerPage = 0;
+		locStreamInfo->mMaxPageSize = 0;
+		locStreamInfo->mMinPacksPerPage = (unsigned long)-1;
+		locStreamInfo->mMinPageSize = (unsigned long)-1;
+		locStreamInfo->mNumPages = 0;
+		locStreamInfo->mSerialNo = locSerialNo;
+		locStreamInfo->mTotalDataSize = 0;
+		locStreamInfo->mTotalPacketCount = 0;
+		locStreamInfo->mTotalStreamSize = 0;
+
+		streamInfos.push_back(locStreamInfo);
 	}
 	unsigned long locNumPacks = 0;
-	for (size_t i = 0; i < streamSerials.size(); i++) {
+	for (size_t i = 0; i < streamInfos.size(); i++) {
 		
-		if (locSerialNo == streamSerials[i]) {
+		if (locSerialNo == streamInfos[i]->mSerialNo) {
 			locFoundPos = i;
+			
+			//Fill in the stats
+
+			if (streamInfos[i]->mMaxPacksPerPage < inOggPage->numPackets()) {
+				streamInfos[i]->mMaxPacksPerPage = inOggPage->numPackets();
+			}
+
+			if (streamInfos[i]->mMaxPageSize < inOggPage->pageSize()) {
+				streamInfos[i]->mMaxPageSize = inOggPage->pageSize();
+			}
+
+			if (streamInfos[i]->mMinPacksPerPage > inOggPage->numPackets()) {
+				streamInfos[i]->mMinPacksPerPage = inOggPage->numPackets();
+			}
+
+			if (streamInfos[i]->mMinPageSize > inOggPage->pageSize()) {
+
+				streamInfos[i]->mMinPageSize = inOggPage->pageSize();
+			}
+
+			streamInfos[i]->mNumPages++;
+			//streamInfos[i]->mSerialNo = locSerialNo;
+			streamInfos[i]->mTotalDataSize += inOggPage->dataSize();
+			streamInfos[i]->mTotalPacketCount += inOggPage->numPackets();
+			streamInfos[i]->mTotalStreamSize += inOggPage->pageSize();
+
+
+
 			cout << "Stream "<<(unsigned long)i<<"  : Granule = "<<inOggPage->header()->GranulePos()<<"   - ";
 			locNumPacks = 0;
 			if (inOggPage->numPackets() == 0) {
@@ -109,9 +182,9 @@ bool pageCB(OggPage* inOggPage, void* inUserData /* ignored */) {
 	}
 
 	
-	if (*maxPacks[locFoundPos] < locNumPacks) {
-		*maxPacks[locFoundPos] = locNumPacks;
-	}
+	//if (*maxPacks[locFoundPos] < locNumPacks) {
+	//	*maxPacks[locFoundPos] = locNumPacks;
+	//}
 
 	return true;
 }
@@ -151,13 +224,14 @@ int main (int argc, char * argv[])
 		cout<<endl;
 		cout<<endl;
 
-		for (size_t i = 0; i < maxPacks.size(); i++) {
-			cout<<"Stream "<<(unsigned long)i<<" max Packets = "<<*maxPacks[i]<<endl;
+		for (size_t i = 0; i < streamInfos.size(); i++) {
+			dumpStreamInfo(streamInfos[i]);
+			//cout<<"Stream "<<(unsigned long)i<<" max Packets = "<<*maxPacks[i]<<endl;
 		}
 
 
-		for (size_t i = 0; i < maxPacks.size(); i++) {
-			delete maxPacks[i];
+		for (size_t i = 0; i < streamInfos.size(); i++) {
+			delete streamInfos[i];
 		}
 
 		delete[] locBuff;

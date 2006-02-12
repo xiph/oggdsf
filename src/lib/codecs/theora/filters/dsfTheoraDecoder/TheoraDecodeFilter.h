@@ -31,9 +31,13 @@
 
 #pragma once
 
+#define OGGCODECS_LOGGING
+
 #include "Theoradecoderdllstuff.h"
 #include "theoradecodeoutputpin.h"
 #include "theoradecodeinputpin.h"
+
+#include <libilliCore/iBE_Math.h>
 #include <math.h>
 //#include "DSStringer.h"
 #include "TheoraDecoder.h"
@@ -45,6 +49,7 @@ class TheoraDecodeFilter
 
 {
 public:
+	friend class TheoraDecodeInputPin;
 	TheoraDecodeFilter(void);
 	virtual ~TheoraDecodeFilter(void);
 
@@ -59,15 +64,21 @@ public:
 	virtual HRESULT Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample);
 
 	//Overrides
+	virtual HRESULT Receive(IMediaSample* inSample);
+
 	virtual HRESULT SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType);
 	virtual HRESULT NewSegment(REFERENCE_TIME inStart, REFERENCE_TIME inEnd, double inRate);
 	//virtual BOOL ShouldSkipFrame(IMediaSample* inSample);
 	virtual CBasePin* TheoraDecodeFilter::GetPin(int inPinNo);
 	//Helpers
 	sTheoraFormatBlock* getTheoraFormatBlock();
-	void setTheoraFormat(sTheoraFormatBlock* inFormatBlock);
+	void setTheoraFormat(BYTE* inFormatBlock);
 protected:
+
+	static const unsigned long THEORA_IDENT_HEADER_SIZE = 42;
 	virtual void ResetFrameCount();
+
+	void deleteBufferedPacketsAfter(unsigned long inPacketIndex);
 	void FillMediaType(CMediaType* outMediaType, unsigned long inSampleSize);
 	bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
 	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
@@ -81,9 +92,13 @@ protected:
 	bool mBegun;
 	TheoraDecoder* mTheoraDecoder;
 	
+	vector<StampedOggPacket*> mBufferedPackets;
 
-	int TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame);
+	HRESULT TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd);
 
+	REFERENCE_TIME mSegStart;
+	REFERENCE_TIME mSegEnd;
+	double mPlaybackRate;
 
 	__int64 mSeekTimeBase;
 	__int64 mLastSeenStartGranPos;
@@ -91,51 +106,3 @@ protected:
 	sTheoraFormatBlock* mTheoraFormatInfo;
 	fstream debugLog;
 };
-//---------------------------------------
-//OLD IMPLOEMENTATION....
-//---------------------------------------
-////Include Files
-//#include "Theoradecoderdllstuff.h"
-//#include "AbstractVideoDecodeFilter.h"
-//
-////Forward Declarations
-//struct sTheoraFormatBlock;
-//class TheoraDecodeInputPin;
-//class TheoraDecodeOutputPin;
-//
-////Class Interface
-//class TheoraDecodeFilter
-//	//Base Classes
-//	:	public AbstractVideoDecodeFilter
-//{
-//public:
-//	//Friends
-//	friend class TheoraDecodeInputPin;
-//	friend class TheoraDecodeOutputPin;
-//
-//	
-//	
-//
-//	//Constructors and Destructors
-//	TheoraDecodeFilter(void);
-//	virtual ~TheoraDecodeFilter(void);
-//
-//	//COM Creator Function
-//	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
-//
-//	//IMediaFilter OVerride - This lets us tell the graph we may not produce data in pause state so don't block.
-//	virtual STDMETHODIMP GetState(DWORD dw, FILTER_STATE *pState);
-//
-//	
-//
-//	//VIRTUAL FUNCTIONS - AbstractAudioDecodeFilter
-//	virtual bool ConstructPins();
-//
-//	//FIX::: Do we need these ? Aren't they all friends ??
-//	virtual sTheoraFormatBlock* getTheoraFormatBlock();
-//	virtual void setTheoraFormat(sTheoraFormatBlock* inFormatBlock);
-//
-//protected:
-//	//Format Block
-//	sTheoraFormatBlock* mTheoraFormatInfo;
-//};

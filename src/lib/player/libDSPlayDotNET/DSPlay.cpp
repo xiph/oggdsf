@@ -427,34 +427,6 @@ bool DSPlay::loadFile(String* inFileName) {
 	}
 	
 	
-	////If it's an annodex file, then put the VMR 9 in the graph.
-	//if (isFileAnnodex(inFileName)) {
-	//	*debugLog<<"Is annodex"<<endl;
-	//	IBaseFilter* locVMR9 = NULL;
-
-	//	HRESULT locHR2 = S_OK;
-	//	locHR2 = mGraphBuilder->FindFilterByName(L"Video Mixing Renderer 9", &locVMR9);
-	//	if (locVMR9 == NULL) {
-	//		*debugLog<<"Not in graph... making it !"<<endl;
-	//		locHR2= CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&locVMR9);
-	//		if (locHR2 == S_OK) {
-	//			locHR2 = mGraphBuilder->AddFilter(locVMR9, L"Video Mixing Renderer 9");
-	//			numRef =
-	//				locVMR9->Release();
-	//			*debugLog<<"VMR9 ref count = "<<numRef<<endl;
-	//			
-	//		}
-	//	} else {
-	//		numRef =
-	//			locVMR9->Release();
-
-	//		*debugLog<<"VMR9 ref count = "<<numRef<<endl;
-	//	}
-
-
-	//	
-
-	//}
 
 	mVideoRenderType = VR_NONE;
 	//Attempt to use VMR9
