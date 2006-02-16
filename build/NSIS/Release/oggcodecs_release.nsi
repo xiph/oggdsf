@@ -9,7 +9,7 @@
 !define PRODUCT_NAME "oggcodecs"
 
 ;	CHANGE EVERY VERSION
-!define PRODUCT_VERSION "0.70.0753"					
+!define PRODUCT_VERSION "0.70.0827"					
 
 !define PRODUCT_PUBLISHER "illiminable"
 !define PRODUCT_WEB_SITE "http://www.illiminable.com/ogg/"
@@ -133,7 +133,7 @@ Section "Ogg Core Files" SEC01
 
 
   ; Text files - 7
-  File "${OGGCODECS_ROOT_DIR}\ABOUT.rtf"
+  File "${OGGCODECS_ROOT_DIR}\ABOUT.txt"
   File "${OGGCODECS_ROOT_DIR}\VERSIONS"
   File "${OGGCODECS_ROOT_DIR}\README"
   File "${OGGCODECS_ROOT_DIR}\COPYRIGHTS.rtf"
@@ -881,7 +881,7 @@ Section Uninstall
 
 
   ; Delete text files - 7
-  Delete "$INSTDIR\ABOUT.rtf"
+  Delete "$INSTDIR\ABOUT.txt"
   Delete "$INSTDIR\VERSIONS"
   Delete "$INSTDIR\README"
   Delete "$INSTDIR\COPYRIGHTS.rtf"

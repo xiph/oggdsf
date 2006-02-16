@@ -31,7 +31,7 @@
 #include "stdafx.h"
 #include "HTTPStreamingFileSource.h"
 
-#define OGGCODECS_LOGGING
+//#define OGGCODECS_LOGGING
 HTTPStreamingFileSource::HTTPStreamingFileSource(void)
 	:	mBufferLock(NULL)
 	,	mIsChunked(false)
