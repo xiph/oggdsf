@@ -130,7 +130,7 @@
 </TD>
 
 <TD width=15%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/about_sdk.html">About SDK</a></DIV>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/about_sdk.html">About</a></DIV>
 </FONT>
 </TD>
 
@@ -183,7 +183,7 @@
 </FONT>
 <li>Uninstall any previous version of these filters.(<b>This is important!</b>) Go to add remove programs, remove oggcodecs</li>
 <li>Make sure media player or any directshow applications are closed.</li>
-<li>Unzip the setup package(download below) to a temp directory then run setup.</li>
+<li>Run the installer.</li>
 <br>
 Then Windows Media Player or any other directshow application (eg. BSPlayer) will be able to play Ogg Vorbis, Ogg Speex, Ogg Theora, Ogg FLAC and native FLAC.<br>
 <br>
@@ -193,7 +193,7 @@ Then Windows Media Player or any other directshow application (eg. BSPlayer) wil
 <DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
 <TR valign=top>
 <TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.69.8924) - 15/02/2005</b></DIV>
+<DIV><div align="left"><b>Current Version (0.70.0827) - 16/02/2006</b></DIV>
 </FONT>
 </TD>
 </TR>
@@ -202,7 +202,10 @@ Then Windows Media Player or any other directshow application (eg. BSPlayer) wil
 </FONT>
 
 <br>
-Lots of bufixes, especially memory leaks and memory management. Along with a new installer based on <a href="http://nsis.sourceforge.net/">NSIS</a>, which is just click-and-run.
+Wow... has it been a whole year :) Yes, this project is still alive! There's a fair bit of new code, so if you have problems you might want to try the <a href="http://www.illiminable.com/ogg/history.html">history</a> page and get version 0.69. One notable thing that this new version does not do correctly, is it no longer handles chained icecast streams, but it handles streaming static files on a server much better. The previous solution for icecast was a real hack which is no longer possible, it will be fixed properly fairly soon.
+<br>
+<br>
+I'm releasing now, because otherwise you'll be waiting forever! Releases should be coming much more frequently hopefully. As always, email me your bugs and feature requests. The unicode filenames will be fixed as soon as I can, sorry, I keep putting that one off.
 <br>
 <br>
 
@@ -219,10 +222,10 @@ Lots of bufixes, especially memory leaks and memory management. Along with a new
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">816,782 bytes</div></DIV></FONT>
+<DIV><div align="right">824,581 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.69.8924.exe">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.70.0827.exe">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -248,14 +251,14 @@ Lots of bufixes, especially memory leaks and memory management. Along with a new
 </DIV>
 </FONT>
 <b><u></u></b><br>
-	<li>Removed several major memory leaks in encoders and decoders</li>
-	<li>More intelligent buffer sizing, reduces memory footprint about about 5-10 fold</li>
-	<li>Much more <a href="http://www.illiminable.com/ogg/docs/index.html">documentation</a></li>
-	<li>Vorbis encoder has programmatic interface for setting quality</li>
-	<li>Annodex Muxing support</li>
-	<li>Programmitic interface for encoding progress</li>
-	<li>Can seek in WMP6.4</li>
-	<li>Several other tools (not included in this binary) for server side seeking, and .NET media players added to <a href="http://www.illiminable.com/ogg/about_sdk.html">SDK</a></li>
+	<li>Theora can seek without artefacts to any frame, even non-keyframes.(95% of the time, there's still a slight bug)</li>
+	<li>All seeking in all codecs is accurate to within a single audio sample (ie. sub-second)</li>
+	<li>Complete rewrite of demux, it's much easier for me to continue now.</li>
+	<li>OGM support is improved a bit, still not great. It does not associate with the .ogm extension to avoid messing with other solutions for .ogm you might have. But renaming the .ogm file to .ogg it will attempt to play it.</li>
+	<li>Improved handling of static files on servers (still not seeking over http)</li>
+	<li>Be aware that it builds a seektable for all on-disk files. For really large files (>250MB) it may take a little while for the file to load</li>
+	<li>Updated most libraries, vorbis is still at 1.1.1, speex still 1.1.10. Another release soonish may rectify this. I just want to release what I've got now, or it will keep being put off.</li>
+
 <br>
 <br>
 
@@ -278,17 +281,8 @@ Lots of bufixes, especially memory leaks and memory management. Along with a new
 	<li>Make the installer properly detect if it's already installed. If you don't uninstall the old version you will get multiple identical file masks in WMP</li>
 	<li>If you are getting codec problems, there appears to be a conflict with something in Media Player Classic... it tries to enforce the use of another ogg demultiplexer, either by design or accident.If you see in MPC it complaining about a media subtype with a 
 		GUID {CDDCA2D5-6D75-4F98-840E-737BEDD5C63B}. This is the guid of the old tobias vorbis filter, and this one {8D2FD10B-5841-4a6b-8905-588FEC1ADED9} is CoreVorbis. This is most likely due to the fact that these filters don't clean up the registry when they uninstall.
-		I am working on something to "clean up" all these remnants from the registry. You can also apparently an option to disable the inbuilt demuxer (Thanks Bond)</li>
-	<li>Cannot handle any chained multiplexed files or streams, except vorbis icecast streams.</li>
-	<li>Old Ogg FLAC seems to lose the first 1/2 second of audio if you stop then play again</li>
-	<li>Theora and annodex playback requires directX 9.</li>
-	<li>CMML decoding requires MSXML3.dll to be present. (it was installed with IE6)</li>
-
-	<li><strike>Can't seek in WMP 6.4 (Thanks RadicalEd)</strike></li>
-	<li><strike>There is no way to alter the audio encoding parameters, vorbis defaults to quality 0.3</strike></li>
-	<li><strike>Created files are not yet gauranteed to be correct. <b>No produced encoded files should be distributed.</b></strike></li>
-	<li><strike>When transcoding theora, if a media decoder (WMV usually) doesn't advertise its framerate, output may be time distorted</strike></li>
-	<li><strike>I think there may be a little memory leak in the encoders... nothing too serious, but if you try and encode really large files it may be a problem.</strike></li>
+		I am working on something to "clean up" all these remnants from the registry (don't expect it too soon though... it's not that high priority). You can also apparently an option to disable the inbuilt demuxer (Thanks Bond)</li>
+	<li>Cannot handle any chained multiplexed files or streams.</li>
 
 <br>
 <br>
@@ -311,10 +305,10 @@ Lots of bufixes, especially memory leaks and memory management. Along with a new
 <li>Also you can encode vorbis, speex, FLAC and theora files using graphedit(<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en">DirectX9 SDK</a>) or other similar program.</li>
 <li><a href="http://www.illiminable.com/ogg/graphedit.html">See audio encoding example filter graphs</a></li>
 <li><a href="http://www.illiminable.com/ogg/enc_theora_graphedit.html">Theora encoding how-to</a></li>
-<li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm style *video only* files (ie OGM\DivX in one stream and non-OGM vorbis in the other).</li>
+<li>If you install <a href="http://sourceforge.net/projects/ffdshow">ffdshow</a>, you will be able to play ogm files (sometimes at least!)</li>
 <li>Also, if you download, install and register <a href="http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=84799">Gabests .cda directshow source</a> you can rip CD's using graphedit</li>
 <li>Looking for <a href="http://www.illiminable.com/ogg/history.html">old versions</a> ?</li>
-<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.68.8333.zip">zipped source code</a> (8.5 MB zipped, 30MB unzipped) ?</li>
+<li>Want the <a href="http://www.illiminable.com/ogg/oggcodecs_src_0.70.0827.zip">zipped source code</a> (10.5 MB zipped, 37MB unzipped) ?</li>
 <li>Want to <a href="http://svn.xiph.org/trunk/oggdsf/">browse the source on the web</a> </li>
 <li><a href="http://www.illiminable.com/ogg/sse_builds.html">Experimental SSE/SSE2 builds can be found here</a></li>
 <li>Some basic <a href="http://www.illiminable.com/ogg/docs/index.html">API documentation</a> for developers</li>

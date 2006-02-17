@@ -286,7 +286,10 @@ void HTTPStreamingFileSource::DataProcessLoop() {
 					unsigned short locResponseCode = getHTTPResponseCode(mLastResponse);
 
 					mRetryAt = "";
-					if (locResponseCode == 301) {
+					if (		(locResponseCode == 301)
+							||	(locResponseCode == 302)
+							||	(locResponseCode == 303)
+							||	(locResponseCode == 307)) {
 						size_t locLocPos = mLastResponse.find("Location: ");
 						if (locLocPos != string::npos) {
 							locLocPos += 10;
