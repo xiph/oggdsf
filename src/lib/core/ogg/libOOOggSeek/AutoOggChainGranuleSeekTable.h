@@ -36,6 +36,8 @@ protected:
 
 	vector<sStreamMapping> mStreamMaps;
 
+	bool isUnstampedPage(OggPage* inOggPage);
+
 	bool mIsEnabled;
 
 	LOOG_INT64 mDuration;

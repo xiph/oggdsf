@@ -88,10 +88,32 @@ LOOG_INT64 AutoOggChainGranuleSeekTable::fileDuration()
 {
 	return mDuration;
 }
+
+bool AutoOggChainGranuleSeekTable::isUnstampedPage(OggPage* inOggPage)
+{
+	//This handles all the broken files out there which incorrectly have non -1 gran pos
+	//	when they should have -1.
+	//
+	//A page is now considered unstamped (and thus should according to the spec have -1 gran pos)
+	//	if it does in fact have -1 gran pos
+	//	OR 
+	//	if there is only one packet, and that packet is truncated.
+	if (inOggPage->header()->GranulePos() == -1) {
+		return true;
+	} else if ((inOggPage->numPackets() == 1) && (inOggPage->getPacket(0)->isTruncated())) {
+		return true;
+	} else {
+		return false;
+	}
+}
 bool AutoOggChainGranuleSeekTable::acceptOggPage(OggPage* inOggPage)
 {
+	//Get the granule pos of this page
 	LOOG_INT64 locGranule = inOggPage->header()->GranulePos();
+
+	//Get the serial number of this page
 	unsigned long locSerialNo = inOggPage->header()->StreamSerialNo();
+
 	sStreamMapping locMapping = getMapping(locSerialNo);
 
 	//There can be upto 2 incomplete packets on any page, one at the end and one at the start
@@ -100,7 +122,8 @@ bool AutoOggChainGranuleSeekTable::acceptOggPage(OggPage* inOggPage)
 		locNumBrokenPacks += (inOggPage->getPacket(inOggPage->numPackets() - 1)->isTruncated() ? 1 : 0);
 	}
 	//Exclude pages, with -1 granule pos, or that have no complete packets
-	if (locGranule != -1) { 
+	//if (locGranule != -1) { 
+	if (!isUnstampedPage(inOggPage)) {
 		LOOG_INT64 locRealTime = -1;
 		if ((inOggPage->numPackets() > locNumBrokenPacks)) {
 			

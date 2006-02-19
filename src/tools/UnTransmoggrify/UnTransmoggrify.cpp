@@ -216,7 +216,7 @@ int main (int argc, char * argv[])
 	bytePos = 0;
 
 	if (argc < 3) {
-		cout<<"Usage : OOOggDump <filename>"<<endl;
+		cout<<"Usage : Untransmoggrify <in filename> <out filename>"<<endl;
 	} else {
 
 		int x;

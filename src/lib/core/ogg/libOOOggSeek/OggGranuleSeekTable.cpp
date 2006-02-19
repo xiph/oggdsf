@@ -72,10 +72,15 @@ OggGranuleSeekTable::tSeekPair OggGranuleSeekTable::getStartPos(LOOG_INT64 inTim
 {
 	// Finds the upper bound of the requested time in mSeekMap, which will always be in the range
 	// (0, maxItems], and return the element _before_ the upper bound
-    return *(--(mSeekMap.upper_bound(inTime)));
-	 //mRealStartPos = locValue.first;
-	 //stDebug<<"Get Point : Time Req = "<<inTime<<"   --   Time Given = "<<mRealStartPos<<"   --   Byte Pos : "<<locValue.second<<endl;
-	 //return locValue.second;
+    //return *(--(mSeekMap.upper_bound(inTime)));
+
+
+	tSeekMap::iterator locIt = mSeekMap.lower_bound(inTime);
+	if (locIt == mSeekMap.begin()) {
+		return *(locIt);
+	} else {
+		return *(--locIt);
+	}
 }
 
 /** Note that this method returns a copy of the seek table, not the actual seek table used by
