@@ -216,7 +216,7 @@ void OggDemuxPacketSourceFilter::DeliverEndFlush()
 void OggDemuxPacketSourceFilter::DeliverEOS() 
 {
 	//mStreamMapper->toStartOfData();
-
+	//CAutoLock locLock(m_pLock);
 	for (unsigned long i = 0; i < mStreamMapper->numPins(); i++) {
 		//mStreamMapper->getOggStream(i)->flush();
 		mStreamMapper->getPinByIndex(i)->DeliverEndOfStream();
@@ -494,6 +494,9 @@ HRESULT OggDemuxPacketSourceFilter::DataProcessLoop()
 	bool locKeepGoing = true;
 	unsigned long locBytesRead = 0;
 	bool locIsEOF = true;
+
+	OggDataBuffer::eFeedResult locFeedResult;
+
 	{
 		CAutoLock locSourceLock(mSourceFileLock);
 		locIsEOF = mDataSource->isEOF();
@@ -520,7 +523,8 @@ HRESULT OggDemuxPacketSourceFilter::DataProcessLoop()
 			if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
 				continue;
 			}
-			locKeepGoing = ((mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead)) == (OggDataBuffer::FEED_OK));;
+			locFeedResult = mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead);
+			locKeepGoing = ((locFeedResult == (OggDataBuffer::FEED_OK)) || (locFeedResult == OggDataBuffer::PROCESS_DISPATCH_FALSE));;
 		}
 		if (!locKeepGoing) {
 			//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
@@ -641,8 +645,10 @@ STDMETHODIMP OggDemuxPacketSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD d
 	
 	if ((mSeekTable != NULL) && (mSeekTable->enabled()))  {
 	
+		
 		CAutoLock locSourceLock(mSourceFileLock);
 		DeliverBeginFlush();
+		
 
 		//Find the byte position for this time.
 		if (*pCurrent > mSeekTable->fileDuration()) {
