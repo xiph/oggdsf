@@ -453,12 +453,14 @@ HRESULT TheoraDecodeFilter::Receive(IMediaSample* inInputSample)
 							debugLog<<"Theora::Receive - Delivering: "<<locAdjustedStart<<" to "<<locAdjustedEnd<<(locIsKeyFrame ? "KEYFRAME": " ")<<endl;
 							
 							locHR = m_pOutput->Deliver(locOutSample);
-							locOutSample->Release();
+							ULONG locTempRefCount = locOutSample->Release();
+							debugLog<<"Theora::Receive - After deliver refcount = "<<locTempRefCount<<endl;
 							debugLog<<"Theora::Receive - Post delivery"<<endl;
 							if (locHR != S_OK) {
 								//XTODO::: We need to trash our buffered packets
 								debugLog<<"Theora::Receive - Delivery failed"<<endl;
-								locOutSample->Release();
+								debugLog<<"Theora::Receive - locHR = "<<locHR<<endl;
+								//locOutSample->Release();
 								deleteBufferedPacketsAfter(i);
 								return S_FALSE;
 							}
