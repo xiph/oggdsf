@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -82,9 +82,15 @@ protected:
 	void FillMediaType(CMediaType* outMediaType, unsigned long inSampleSize);
 	bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
 	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
-	unsigned long mHeight;
-	unsigned long mWidth;
-	unsigned long mFrameSize;
+	
+	unsigned long mBMIHeight;
+	unsigned long mBMIWidth;
+	unsigned long mBMIFrameSize;
+
+	unsigned long mPictureHeight;
+	unsigned long mPictureWidth;
+
+	
 	unsigned long mFrameCount;
 	unsigned long mYOffset;
 	unsigned long mXOffset;

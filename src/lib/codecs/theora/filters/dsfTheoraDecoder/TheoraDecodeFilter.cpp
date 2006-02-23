@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -55,9 +55,11 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 TheoraDecodeFilter::TheoraDecodeFilter() 
 	:	CTransformFilter( NAME("Theora Decode Filter"), NULL, CLSID_TheoraDecodeFilter)
-	,	mHeight(0)
-	,	mWidth(0)
-	,	mFrameSize(0)
+	//,	mHeight(0)
+	//,	mWidth(0)
+	,	mPictureWidth(0)
+	,	mPictureHeight(0)
+	,	mBMIFrameSize(0)
 	,	mFrameCount(0)
 	,	mYOffset(0)
 	,	mXOffset(0)
@@ -165,8 +167,10 @@ HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, c
 
 	//	if ((locVideoHeader->bmiHeader.biHeight == mTheoraFormatInfo->pictureHeight) && (locVideoHeader->bmiHeader.biWidth == mTheoraFormatInfo->pictureWidth)) {
 
-			mHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
-			mWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+			mBMIHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+			mBMIWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+
+			mBMIFrameSize = (mBMIHeight * mBMIWidth * 3) / 2;
 			return S_OK;
 	//	} else {
 	//		return S_FALSE;
@@ -497,147 +501,7 @@ void TheoraDecodeFilter::deleteBufferedPacketsAfter(unsigned long inPacketIndex)
 }
 HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) 
 {
-	//HRESULT locHR;
-	//BYTE* locBuff = NULL;
-	////Get a source poitner into the input buffer
-	//locHR = inInputSample->GetPointer(&locBuff);
 
-	//if (locHR != S_OK) {
-	//	//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
-	//	return S_FALSE;
-	//} else {
-	//	//Make a copy of the packet buffer
-	//	BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];		//This gets put into a packet.
-	//	memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
-
-
-	//	REFERENCE_TIME locStart = 0;
-	//	REFERENCE_TIME locEnd = 0;
-	//	inInputSample->GetTime(&locStart, &locEnd);
-
-	//	//This packet is given to the decoder or buffered for later
-	//	StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
-
-	//	//Buffer all packets, even if we are about to send them anyway
-	//	mBufferedPackets.push_back(locPacket);
-
-	//	if (locEnd < 0) {
-
-	//		//S_FALSE is an agreement with CTransform filter, to not deliver the presented output sample
-	//		//XXX::: There may be some problems doing this, since it causes a quality message, and thinks we
-	//		//		are dropping samples. It also may present a problem when we try to dump many frames
-	//		//		downstream in one go.
-	//		return S_FALSE;
-	//	} else {
-	//		//Now we have one with a stamp, we can send all the previous ones.
-	//		TheoraDecodeInputPin* locInputPin = (TheoraDecodeInputPin*)m_pInput;
-	//		REFERENCE_TIME locGlobalEnd = locInputPin->convertGranuleToTime(locEnd);
-	//		unsigned long locNumBufferedFrames = mBufferedPackets.size();
-	//		REFERENCE_TIME locGlobalStart = locGlobalEnd - (locNumBufferedFrames * mFrameDuration);
-
-	//		locStart = locGlobalStart;
-	//		
-	//		for (unsigned long i = 0; i < locNumBufferedFrames; i++) {
-	//			bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(mBufferedPackets[i]);
-	//			yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(mBufferedPackets[i]);		//This accept the packet and deletes it
-	//			locEnd = locStart + mFrameDuration;
-	//			if (locYUV != NULL) {
-	//				if (TheoraDecoded(locYUV, outOutputSample, locIsKeyFrame) != 0) {
-	//					//debugLog<<"Decoded *** FALSE ***"<<endl;
-	//					return S_FALSE;
-	//				}
-	//			} else {
-	//				//debugLog<<"!@&#^()!&@#!()*@#&)!(*@#&()!*@# NULL Decode"<<endl;
-	//				return S_FALSE;
-	//			}					
-	//		}
-
-
-
-	//		return S_OK;
-
-	//	}
-	//	
-	//}
-
-
-
-
-
-
-
-	//HRESULT locHR;
-	//BYTE* locBuff = NULL;
-	////Get a source poitner into the input buffer
-	//locHR = inInputSample->GetPointer(&locBuff);
-
-	////TODO::: This should be after the return value check !!
-	//BYTE* locNewBuff = new unsigned char[inInputSample->GetActualDataLength()];		//This gets put into a packet.
-	//memcpy((void*)locNewBuff, (const void*)locBuff, inInputSample->GetActualDataLength());
-
-
-	//if (locHR != S_OK) {
-	//	//debugLog<<"Receive : Get pointer failed..."<<locHR<<endl;	
-	//	return S_FALSE;
-	//} else {
-	//	//debugLog<<"Receive : Get pointer succeeds..."<<endl;	
-	//	//New start time hacks
-	//	REFERENCE_TIME locStart = 0;
-	//	REFERENCE_TIME locEnd = 0;
-	//	inInputSample->GetTime(&locStart, &locEnd);
-	//	//Error chacks needed here
-	//	//debugLog<<"Input Sample Time - "<<locStart<<" to "<<locEnd<<endl;
-	//	
-	//	//More work arounds for that stupid granule pos scheme in theora!
-	//	REFERENCE_TIME locTimeBase = 0;
-	//	REFERENCE_TIME locDummy = 0;
-	//	inInputSample->GetMediaTime(&locTimeBase, &locDummy);
-	//	mSeekTimeBase = locTimeBase;
-	//	//
-
-	//	//debugLog<<"SeekTimeBase = "<<mSeekTimeBase<<endl;
-	//	
-	//	if ((mLastSeenStartGranPos != locStart) && (locStart != -1)) {
-	//		//debugLog<<"Resetting frame count"<<endl;
-
-	//		//FIXXX:::
-	//		//ResetFrameCount();
-	//		//
-
-	//		mLastSeenStartGranPos = locStart;
-	//		//debugLog<<"Setting base gran pos to "<<locStart<<endl;
-	//	}
-	//	
-	//	//End of additions
-
-
-
-	//	AM_MEDIA_TYPE* locMediaType = NULL;
-	//	inInputSample->GetMediaType(&locMediaType);
-	//	if (locMediaType == NULL) {
-	//		//debugLog<<"No dynamic change..."<<endl;
-	//	} else {
-	//		//debugLog<<"Attempting dynamic change..."<<endl;
-	//	}
-	//	
-	//	//This packet is given to the decoder.
-	//	StampedOggPacket* locPacket = new StampedOggPacket(locNewBuff, inInputSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
-
-	//	bool locIsKeyFrame = mTheoraDecoder->isKeyFrame(locPacket);
-	//	yuv_buffer* locYUV = mTheoraDecoder->decodeTheora(locPacket);		//This accept the packet and deletes it
-	//	if (locYUV != NULL) {
-	//		if (TheoraDecoded(locYUV, outOutputSample, locIsKeyFrame) != 0) {
-	//			//debugLog<<"Decoded *** FALSE ***"<<endl;
-	//			return S_FALSE;
-	//		}
-	//	} else {
-	//		//debugLog<<"!@&#^()!&@#!()*@#&)!(*@#&()!*@# NULL Decode"<<endl;
-	//		return S_FALSE;
-	//	}
-
-	//	return S_OK;
-	//	
-	//}
 
 	debugLog<<"Theora::Transform NOT IMPLEMENTED"<<endl;
 
@@ -670,15 +534,24 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 	long locYStride = inYUVBuffer->y_stride;
 	long locUVStride = inYUVBuffer->uv_stride;
 
-	//debugLog<<"Y Stride = "<<locYStride<<endl;
-	//debugLog<<"UV Stride = "<<locUVStride<<endl;
+
+
+	debugLog<<"Y Stride = "<<locYStride<<endl;
+	debugLog<<"UV Stride = "<<locUVStride<<endl;
+
+	debugLog<<"PictureHeight = "<<mPictureHeight<<endl;
+	debugLog<<"PictureWidth = "<<mPictureWidth<<endl;
+
+	debugLog<<"BMIHeight = "<<mBMIHeight<<endl;
+	debugLog<<"BMIWidth = "<<mBMIWidth<<endl;
+
 	//
 	//Y DATA
 	//
 
-	//NEW WAY with offsets Y Data
-	long locTopPad = inYUVBuffer->y_height - mHeight - mYOffset;
-	//debugLog<<"--------- PAD = "<<locTopPad<<endl;
+	//Offsets Y Data
+	long locTopPad = inYUVBuffer->y_height - mPictureHeight - mYOffset;
+	debugLog<<"--------- TOP PAD = "<<locTopPad<<endl;
 
 
 	//ASSERT(locTopPad >= 0);
@@ -688,16 +561,25 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 		
 	}
 
-	//Skip the top padding
+	//Skip the offset padding
 	locSourceUptoPtr += (mYOffset * locYStride);
 
-	for (unsigned long line = 0; line < mHeight; line++) {
-		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + mXOffset), mWidth);
+	for (unsigned long line = 0; line < mPictureHeight; line++) {
+		//Ignore the x offset, and copy mPictureWidth bytes onto the destination
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + mXOffset), mPictureWidth);
+
+		//Advance the source pointer by the stride
 		locSourceUptoPtr += locYStride;
-		locDestUptoPtr += mWidth;
+
+		//Advance the destination pointer by the BMI Width
+		locDestUptoPtr += mBMIWidth;
 	}
 
+	//Skip the other padding
 	locSourceUptoPtr += (locTopPad * locYStride);
+
+	//Advance the destination to pad to the size the video renderer wants
+	locDestUptoPtr += ((mBMIHeight - mPictureHeight) * mBMIWidth);
 
 	//debugLog<<"Dest Distance(y) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
 
@@ -708,6 +590,8 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 	//V DATA
 	//
 
+	//TODO::: May be issue here with odd numbers
+
 	//Half the padding for uv planes... is this correct ? 
 	locTopPad = locTopPad /2;
 	
@@ -716,12 +600,14 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 	//Skip the top padding
 	locSourceUptoPtr += ((mYOffset/2) * locYStride);
 
-	for (unsigned long line = 0; line < mHeight / 2; line++) {
-		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+	for (unsigned long line = 0; line < mPictureHeight / 2; line++) {
+		//Ignore the x offset and copy mPictureWidth/2 bytes to the destination
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mPictureWidth / 2);
 		locSourceUptoPtr += locUVStride;
-		locDestUptoPtr += (mWidth / 2);
+		locDestUptoPtr += (mBMIWidth / 2);
 	}
 	locSourceUptoPtr += (locTopPad * locUVStride);
+	locDestUptoPtr += (((mBMIHeight/2) - (mPictureHeight/2)) * (mBMIWidth/2));
 
 	//Source advances by (locTopPad + mYOffset/2 + mHeight /2) * uv_stride
 	//where locTopPad for uv = (inYUVBuffer->y_height - mHeight - mYOffset) / 2
@@ -740,12 +626,15 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 	//Skip the top padding
 	locSourceUptoPtr += ((mYOffset/2) * locYStride);
 
-	for (unsigned long line = 0; line < mHeight / 2; line++) {
-		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+	for (unsigned long line = 0; line < mPictureHeight / 2; line++) {
+		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mPictureWidth / 2);
 		locSourceUptoPtr += locUVStride;
-		locDestUptoPtr += (mWidth / 2);
+		locDestUptoPtr += (mBMIWidth / 2);
 	}
+
+	//Redundant
 	locSourceUptoPtr += (locTopPad * locUVStride);
+	locDestUptoPtr += (((mBMIHeight/2) - (mPictureHeight/2)) * (mBMIWidth/2));
 
 	//debugLog<<"Dest Distance(U) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
 	//debugLog<<"Frame Size = "<<mFrameSize<<endl;
@@ -756,7 +645,7 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 	if (inIsKeyFrame) {
 		locIsKeyFrame = TRUE;
 	};
-	SetSampleParams(outSample, mFrameSize, &locStart, &locEnd, locIsKeyFrame);
+	SetSampleParams(outSample, mBMIFrameSize, &locStart, &locEnd, locIsKeyFrame);
 
 	
 	
@@ -764,6 +653,127 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 
 
 }
+
+
+//HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) 
+//{
+//
+//	////Create pointers for the samples buffer to be assigned to
+//	BYTE* locBuffer = NULL;
+//	
+//	//
+//	////Make our pointers set to point to the samples buffer
+//	outSample->GetPointer(&locBuffer);
+//
+//	//Fill the buffer with yuv data...
+//	//	
+//
+//	REFERENCE_TIME locStart = inStart;
+//	REFERENCE_TIME locEnd = inEnd;
+//
+//
+//	//Set up the pointers
+//	unsigned char* locDestUptoPtr = locBuffer;
+//	char* locSourceUptoPtr = inYUVBuffer->y;
+//
+//	//Strides from theora are generally -'ve
+//	long locYStride = inYUVBuffer->y_stride;
+//	long locUVStride = inYUVBuffer->uv_stride;
+//
+//	//debugLog<<"Y Stride = "<<locYStride<<endl;
+//	//debugLog<<"UV Stride = "<<locUVStride<<endl;
+//	//
+//	//Y DATA
+//	//
+//
+//	//NEW WAY with offsets Y Data
+//	long locTopPad = inYUVBuffer->y_height - mHeight - mYOffset;
+//	//debugLog<<"--------- PAD = "<<locTopPad<<endl;
+//
+//
+//	//ASSERT(locTopPad >= 0);
+//	if (locTopPad < 0) {
+//		locTopPad = 0;
+//	} else {
+//		
+//	}
+//
+//	//Skip the top padding
+//	locSourceUptoPtr += (mYOffset * locYStride);
+//
+//	for (unsigned long line = 0; line < mHeight; line++) {
+//		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + mXOffset), mWidth);
+//		locSourceUptoPtr += locYStride;
+//		locDestUptoPtr += mWidth;
+//	}
+//
+//	locSourceUptoPtr += (locTopPad * locYStride);
+//
+//	//debugLog<<"Dest Distance(y) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
+//
+//	//Source advances by (y_height * y_stride)
+//	//Dest advances by (mHeight * mWidth)
+//
+//	//
+//	//V DATA
+//	//
+//
+//	//Half the padding for uv planes... is this correct ? 
+//	locTopPad = locTopPad /2;
+//	
+//	locSourceUptoPtr = inYUVBuffer->v;
+//
+//	//Skip the top padding
+//	locSourceUptoPtr += ((mYOffset/2) * locYStride);
+//
+//	for (unsigned long line = 0; line < mHeight / 2; line++) {
+//		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+//		locSourceUptoPtr += locUVStride;
+//		locDestUptoPtr += (mWidth / 2);
+//	}
+//	locSourceUptoPtr += (locTopPad * locUVStride);
+//
+//	//Source advances by (locTopPad + mYOffset/2 + mHeight /2) * uv_stride
+//	//where locTopPad for uv = (inYUVBuffer->y_height - mHeight - mYOffset) / 2
+//	//						=	(inYUVBuffer->yheight/2 - mHeight/2 - mYOffset/2)
+//	// so source advances by (y_height/2) * uv_stride
+//	//Dest advances by (mHeight * mWidth) /4
+//
+//
+//	//debugLog<<"Dest Distance(V) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
+//	//
+//	//U DATA
+//	//
+//
+//	locSourceUptoPtr = inYUVBuffer->u;
+//
+//	//Skip the top padding
+//	locSourceUptoPtr += ((mYOffset/2) * locYStride);
+//
+//	for (unsigned long line = 0; line < mHeight / 2; line++) {
+//		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mWidth / 2);
+//		locSourceUptoPtr += locUVStride;
+//		locDestUptoPtr += (mWidth / 2);
+//	}
+//	locSourceUptoPtr += (locTopPad * locUVStride);
+//
+//	//debugLog<<"Dest Distance(U) = "<<(unsigned long)(locDestUptoPtr - locBuffer)<<endl;
+//	//debugLog<<"Frame Size = "<<mFrameSize<<endl;
+//
+//	//Set the sample parameters.
+//	//BOOL locIsKeyFrame = (locInterFrameNo == 0);
+//	BOOL locIsKeyFrame = FALSE;
+//	if (inIsKeyFrame) {
+//		locIsKeyFrame = TRUE;
+//	};
+//	SetSampleParams(outSample, mFrameSize, &locStart, &locEnd, locIsKeyFrame);
+//
+//	
+//	
+//	return S_OK;
+//
+//
+//}
 
 
 HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMediaType* inMediaType) {
@@ -775,12 +785,20 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 			
 			//Set some other stuff here too...
 			mXOffset = mTheoraFormatInfo->xOffset;
-			mYOffset = mTheoraFormatInfo->xOffset;
+			mYOffset = mTheoraFormatInfo->yOffset;
+
+			mPictureWidth = mTheoraFormatInfo->pictureWidth;
+			mPictureHeight = mTheoraFormatInfo->pictureHeight;
 
 			//How many UNITS does one frame take.
 			mFrameDuration = (UNITS * mTheoraFormatInfo->frameRateDenominator) / (mTheoraFormatInfo->frameRateNumerator);
 
-			mFrameSize = (mHeight * mWidth * 3) / 2;
+			//Added
+			//mHeight = mTheoraFormatInfo->pictureHeight; //(unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+			//mWidth = mTheoraFormatInfo->pictureWidth; //(unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+
+
+			//mFrameSize = (mPictureHeight * mPictureWidth * 3) / 2;
 			mFrameCount = 0;
 		} else {
 			//Failed... should never be here !
