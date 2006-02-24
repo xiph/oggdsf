@@ -193,7 +193,7 @@ Then Windows Media Player or any other directshow application (eg. BSPlayer) wil
 <DIV><TABLE width=100% bgcolor="#BBBBBB" border=0 cellpadding=2 cellspacing=2>
 <TR valign=top>
 <TD width=100%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="left"><b>Current Version (0.70.0827) - 16/02/2006</b></DIV>
+<DIV><div align="left"><b>Current Version (0.71.0946) - 24/02/2006</b></DIV>
 </FONT>
 </TD>
 </TR>
@@ -202,10 +202,7 @@ Then Windows Media Player or any other directshow application (eg. BSPlayer) wil
 </FONT>
 
 <br>
-Wow... has it been a whole year :) Yes, this project is still alive! There's a fair bit of new code, so if you have problems you might want to try the <a href="http://www.illiminable.com/ogg/history.html">history</a> page and get version 0.69. One notable thing that this new version does not do correctly, is it no longer handles chained icecast streams, but it handles streaming static files on a server much better. The previous solution for icecast was a real hack which is no longer possible, it will be fixed properly fairly soon.
-<br>
-<br>
-I'm releasing now, because otherwise you'll be waiting forever! Releases should be coming much more frequently hopefully. As always, email me your bugs and feature requests. The unicode filenames will be fixed as soon as I can, sorry, I keep putting that one off.
+More bugfixes, particularly to theora. See 0.70 release for more details about recent changes. Docs and source package will be updated on the weekend, there's no major changes there from 0.70. This version is fairly stable now it seems.
 <br>
 <br>
 
@@ -222,10 +219,10 @@ I'm releasing now, because otherwise you'll be waiting forever! Releases should 
 </FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right">824,581 bytes</div></DIV></FONT>
+<DIV><div align="right">824,901 bytes</div></DIV></FONT>
 </TD>
 <TD width=20%><FONT size=2 color="#000000" face="Arial">
-<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.70.0827.exe">Download Now</a></div></DIV></FONT>
+<DIV><div align="right"><a href="http://www.illiminable.com/ogg/oggcodecs_0.71.0946.exe">Download Now</a></div></DIV></FONT>
 </TD>
 </TR>
 
@@ -251,13 +248,12 @@ I'm releasing now, because otherwise you'll be waiting forever! Releases should 
 </DIV>
 </FONT>
 <b><u></u></b><br>
-	<li>Theora can seek without artefacts to any frame, even non-keyframes.(95% of the time, there's still a slight bug)</li>
-	<li>All seeking in all codecs is accurate to within a single audio sample (ie. sub-second)</li>
-	<li>Complete rewrite of demux, it's much easier for me to continue now.</li>
-	<li>OGM support is improved a bit, still not great. It does not associate with the .ogm extension to avoid messing with other solutions for .ogm you might have. But renaming the .ogm file to .ogg it will attempt to play it.</li>
-	<li>Improved handling of static files on servers (still not seeking over http)</li>
-	<li>Be aware that it builds a seektable for all on-disk files. For really large files (>250MB) it may take a little while for the file to load</li>
-	<li>Updated most libraries, vorbis is still at 1.1.1, speex still 1.1.10. Another release soonish may rectify this. I just want to release what I've got now, or it will keep being put off.</li>
+	<li>Fixed the theora seeking bug, should accurately seek to any frame without artefacts.</li>
+	<li>Fixed bug not handling WMP doing hardware video acceleration, caused crash on some files (Thanks slashdot!)</li>
+	<li>Fixed handling of missing 3xx http response codes</li>
+	<li>Fixed bug where player would crash if you dragged it from one monitor to another while playing</li>
+	<li>Fixed COM reference double-release bug</li>
+	<li>Fixed race condition which could crash or hang sometimes after a seek.</li>
 
 <br>
 <br>
