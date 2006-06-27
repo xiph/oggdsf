@@ -23,7 +23,7 @@
 !define PRODUCT_NAME "oggcodecs"
 
 ;	CHANGE EVERY VERSION
-!define PRODUCT_VERSION "0.72.1638"					
+!define PRODUCT_VERSION "0.72.1659"					
 
 !define PRODUCT_PUBLISHER "illiminable"
 !define PRODUCT_WEB_SITE "http://www.illiminable.com/ogg/"
@@ -188,6 +188,12 @@ Section "Oggcodecs Core Files" SEC_CORE
   ; Unicows for old windows with no unicode - 1
   File "${VS_RUNTIME_LOCATION}\unicows.dll"
 
+  ; ico files - 1 (One file contains all these packed)
+  File "${OGGCODECS_ROOT_DIR}\bin\xifish.ico"
+  ;File "${OGGCODECS_ROOT_DIR}\bin\xifish-16.ico"
+  ;File "${OGGCODECS_ROOT_DIR}\bin\xifish-32.ico"
+  ;File "${OGGCODECS_ROOT_DIR}\bin\xifish-48.ico"
+
 
   ; Libraries - 11
   File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libOOOgg\${OGGCODECS_CONFIG_PATH}\libOOOgg.dll"
@@ -314,32 +320,32 @@ Section "Oggcodecs Core Files" SEC_CORE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA" "" "Ogg File (oga)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA" "" "Ogg Audio File (oga)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA" "Extensions" ".oga"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA" "MIME Types" "audio/x-ogg"
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "" "Ogg File (ogv)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "" "Ogg Video File (ogv)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "Extensions" ".ogv"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "MIME Types" "video/x-ogg"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "" "Annodex File (axa)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "" "Annodex Audio File (axa)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "Extensions" ".axa"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "MIME Types" "audio/x-annodex"
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "" "Annodex File (axv)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "" "Annodex Video File (axv)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "Extensions" ".axv"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "MIME Types" "video/x-annodex"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "" "Ogg File (spx)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "" "Speex File (spx)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "Extensions" ".spx"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "MIME Types" "audio/x-ogg"
   
@@ -420,7 +426,7 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "MediaType.Description" "Annodex File"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "MediaType.Description" "Annodex"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Permissions" 0x0000000f
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Runtime" 0x00000007
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Extension.MIME" "application/x-annodex"
@@ -429,7 +435,7 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "MediaType.Description" "Annodex File"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "MediaType.Description" "Annodex Audio"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Permissions" 0x0000000f
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Runtime" 0x00000007
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "PerceivedType" "audio"
@@ -439,7 +445,7 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "MediaType.Description" "Annodex File"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "MediaType.Description" "Annodex Video"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Permissions" 0x0000000f
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Runtime" 0x00000007
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "PerceivedType" "video"
@@ -470,7 +476,7 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "MediaType.Description" "Ogg File"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "MediaType.Description" "Ogg"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "Permissions" 0x0000000f
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "Runtime" 0x00000007
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "Extension.MIME" "application/ogg"
@@ -489,7 +495,7 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "MediaType.Description" "Ogg Speex Audio"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "MediaType.Description" "Speex Audio"
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "Permissions" 0x0000000f
   WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "Runtime" 0x00000007
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "PerceivedType" "audio"
@@ -631,24 +637,32 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
   
   ; Handler key for ogg
   WriteRegStr HKCR "WMP.OggFile" "" "Ogg File"
+
+
   WriteRegStr HKCR "WMP.OggFile\shell" "" "open"
+
+
   WriteRegStr HKCR "WMP.OggFile\shell\open" "" "&Open"
   WriteRegStr HKCR "WMP.OggFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
   
   WriteRegStr HKCR "WMP.OggFile\shell\play" "" "&Play"
   WriteRegStr HKCR "WMP.OggFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
+
+  WriteRegStr HKCR "WMP.OggFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
   
   ; Handler key for oga
-  WriteRegStr HKCR "WMP.OgaFile" "" "Oga File"
+  WriteRegStr HKCR "WMP.OgaFile" "" "Ogg Audio File"
   WriteRegStr HKCR "WMP.OgaFile\shell" "" "open"
   WriteRegStr HKCR "WMP.OgaFile\shell\open" "" "&Open"
   WriteRegStr HKCR "WMP.OgaFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
   
   WriteRegStr HKCR "WMP.OgaFile\shell\play" "" "&Play"
   WriteRegStr HKCR "WMP.OgaFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
+
+  WriteRegStr HKCR "WMP.OgaFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
   
   ; Handler key for ogv
-  WriteRegStr HKCR "WMP.OgvFile" "" "Ogv File"
+  WriteRegStr HKCR "WMP.OgvFile" "" "Ogg Video File"
   WriteRegStr HKCR "WMP.OgvFile\shell" "" "open"
   WriteRegStr HKCR "WMP.OgvFile\shell\open" "" "&Open"
   WriteRegStr HKCR "WMP.OgvFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
@@ -656,6 +670,8 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
   WriteRegStr HKCR "WMP.OgvFile\shell\play" "" "&Play"
   WriteRegStr HKCR "WMP.OgvFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
    
+  WriteRegStr HKCR "WMP.OgvFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
+
   goto done_wmp
   
 fail_wmp:
@@ -676,7 +692,7 @@ LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_CORE} $(DESC_OggCoreSection)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_OGG_AUDIO_DEFAULT} $(DESC_OggExtensionAudioByDefault)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_USE_WMP_FOR_OGG} ${DESC_OggOpensInWMP}
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_USE_WMP_FOR_OGG} $(DESC_OggOpensInWMP)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
@@ -914,6 +930,13 @@ Section Uninstall
 
   ; Delete unicows - 1
   Delete "$INSTDIR\unicows.dll"
+
+  ; Delete icons - 3
+  Delete "$INSTDIR\xifish.ico"
+  ;Delete "$INSTDIR\xifish-16.ico"
+  ;Delete "$INSTDIR\xifish-32.ico"
+  ;Delete "$INSTDIR\xifish-48.ico"
+
 
   ;Delete accesory files, links etc.
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"

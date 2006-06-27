@@ -169,6 +169,10 @@ In order to build you need the following
     projects which have wm5 configs (most of them)
     without installing this.
 
+ * Doxygen with DOT if you want to create the doc files
+
+ * NSIS (currently using 2.17) to build the installers
+
 
 
 You need all these things if you want to build this project.

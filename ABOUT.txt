@@ -1,8 +1,9 @@
 http://www.illiminable.com/ogg/
 
-Version - 0.70.0827
 
 This is pre-release software, if you didn't download this from the site above, please visit it to ensure you have the latest version and are aware of the known issues with this software. Please check back regularly as this software is still under development.
+
+You can see which version this is in the VERSIONS file.
 
 Report new bugs and suggestions to ogg@illiminable.com
 
