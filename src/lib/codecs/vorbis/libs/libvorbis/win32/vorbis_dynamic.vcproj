@@ -1,29 +1,60 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="8.00"
 	Name="libvorbis"
 	ProjectGUID="{95720FE9-89D5-4DCD-9A75-EE73BDF58AB2}"
-	SccProjectName=""
-	SccLocalPath="">
+	RootNamespace="libvorbis"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
+		<Platform
+			Name="Pocket PC 2003 (ARMV4)"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\Vorbis_Dynamic_Debug"
 			IntermediateDirectory=".\Vorbis_Dynamic_Debug"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
@@ -31,284 +62,1399 @@
 				ObjectFile=".\Vorbis_Dynamic_Debug/"
 				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
 				WarningLevel="4"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				CallingConvention="0"
 				CompileAs="1"
-				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
 				LinkIncremental="2"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile=".\vorbis.def"
-				GenerateDebugInformation="TRUE"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
-				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"/>
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"/>
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+				TargetMachine="0"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\Vorbis_Dynamic_Release"
 			IntermediateDirectory=".\Vorbis_Dynamic_Release"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2"
-			WholeProgramOptimization="TRUE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Release/vorbis_dynamic.tlb"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				GlobalOptimizations="TRUE"
+				Optimization="2"
 				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				OmitFramePointers="TRUE"
-				OptimizeForProcessor="3"
+				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER"
-				StringPooling="TRUE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER"
+				StringPooling="true"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				EnableFunctionLevelLinking="TRUE"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Vorbis_Dynamic_Release/vorbis_dynamic.pch"
 				AssemblerListingLocation=".\Vorbis_Dynamic_Release/"
 				ObjectFile=".\Vorbis_Dynamic_Release/"
 				ProgramDataBaseFileName=".\Vorbis_Dynamic_Release/"
 				WarningLevel="4"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				CallingConvention="0"
 				CompileAs="1"
-				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				OutputFile="Vorbis_Dynamic_Release/vorbis.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile=".\vorbis.def"
 				ProgramDatabaseFile=".\Vorbis_Dynamic_Release/vorbis.pdb"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				OptimizeForWindows98="1"
-				ImportLibrary=".\Vorbis_Dynamic_Release/vorbis.lib"/>
+				ImportLibrary=".\Vorbis_Dynamic_Release/vorbis.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Vorbis_Dynamic_Release/vorbis_dynamic.tlb"/>
+				TypeLibraryName=".\Vorbis_Dynamic_Release/vorbis_dynamic.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Release/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Release/"
+				ObjectFile=".\Vorbis_Dynamic_Release/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Release/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Release/vorbis.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Release/vorbis.pdb"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				ImportLibrary=".\Vorbis_Dynamic_Release/vorbis.lib"
+				TargetMachine="0"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 		<Configuration
-			Name="Release_SSE2|Win32"
+			Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Release/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Release/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Release/"
+				ObjectFile=".\Vorbis_Dynamic_Release/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Release/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Release/vorbis.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Release/vorbis.pdb"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				ImportLibrary=".\Vorbis_Dynamic_Release/vorbis.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_CE_ARM|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2"
-			WholeProgramOptimization="TRUE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="TRUE"
-				OptimizeForProcessor="3"
+				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER"
-				StringPooling="TRUE"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				EnableFunctionLevelLinking="TRUE"
-				EnableEnhancedInstructionSet="2"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Vorbis_Dynamic_Release/vorbis_dynamic.pch"
-				AssemblerListingLocation=".\Vorbis_Dynamic_Release/"
-				ObjectFile=".\Vorbis_Dynamic_Release/"
-				ProgramDataBaseFileName=".\Vorbis_Dynamic_Release/"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
 				WarningLevel="4"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
 				CallingConvention="0"
 				CompileAs="1"
-				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				OutputFile="Vorbis_Dynamic_Release/vorbis.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile=".\vorbis.def"
-				ProgramDatabaseFile=".\Vorbis_Dynamic_Release/vorbis.pdb"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
-				ImportLibrary=".\Vorbis_Dynamic_Release/vorbis.lib"/>
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+			/>
 			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Vorbis_Dynamic_Release/vorbis_dynamic.tlb"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
-			Name="Release_SSE|Win32"
+			Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_WIN32_WCE=0x420;UNDER_CE;WIN32_PLATFORM_PSPC;WINCE;_ARM_;ARM;_DEBUG;_WINDOWS;_USRDLL"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="false"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				SubSystem="0"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+				TargetMachine="3"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_CE_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_WM5_PPC_ARM|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2"
-			WholeProgramOptimization="TRUE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="TRUE"
-				OptimizeForProcessor="3"
+				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER"
-				StringPooling="TRUE"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				EnableFunctionLevelLinking="TRUE"
-				EnableEnhancedInstructionSet="1"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Vorbis_Dynamic_Release/vorbis_dynamic.pch"
-				AssemblerListingLocation=".\Vorbis_Dynamic_Release/"
-				ObjectFile=".\Vorbis_Dynamic_Release/"
-				ProgramDataBaseFileName=".\Vorbis_Dynamic_Release/"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
 				WarningLevel="4"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
 				CallingConvention="0"
 				CompileAs="1"
-				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"/>
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				OutputFile="Vorbis_Dynamic_Release/vorbis.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile=".\vorbis.def"
-				ProgramDatabaseFile=".\Vorbis_Dynamic_Release/vorbis.pdb"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
-				ImportLibrary=".\Vorbis_Dynamic_Release/vorbis.lib"/>
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Vorbis_Dynamic_Release/vorbis_dynamic.tlb"/>
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+				TargetMachine="0"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release_WM5_PPC_ARM|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
+				CallingConvention="0"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				OutputFile="Vorbis_Dynamic_Debug/vorbis_d.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile=".\vorbis.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Vorbis_Dynamic_Debug/vorbis_d.pdb"
+				ImportLibrary=".\Vorbis_Dynamic_Debug/vorbis_d.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Vorbis_Dynamic_Debug/vorbis_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..\..\..\..\..\core\ogg\libogg\include;..\include;..\win32\src;..\..\vorbis\lib"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				PrecompiledHeaderFile=".\Vorbis_Dynamic_Debug/vorbis_dynamic.pch"
+				AssemblerListingLocation=".\Vorbis_Dynamic_Debug/"
+				ObjectFile=".\Vorbis_Dynamic_Debug/"
+				ProgramDataBaseFileName=".\Vorbis_Dynamic_Debug/"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				CompileAs="1"
+				DisableSpecificWarnings="4244;4305;4100;4127;4189;4701;4706"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -316,154 +1462,203 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			>
 			<File
-				RelativePath="..\lib\analysis.c">
+				RelativePath="..\lib\analysis.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\bitrate.c">
+				RelativePath="..\lib\bitrate.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\block.c">
+				RelativePath="..\lib\block.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\codebook.c">
+				RelativePath="..\lib\codebook.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\envelope.c">
+				RelativePath="..\lib\envelope.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\floor0.c">
+				RelativePath="..\lib\floor0.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\floor1.c">
+				RelativePath="..\lib\floor1.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\info.c">
+				RelativePath="..\lib\info.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\lookup.c">
+				RelativePath="..\lib\lookup.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\lpc.c">
+				RelativePath="..\lib\lpc.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\lsp.c">
+				RelativePath="..\lib\lsp.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\mapping0.c">
+				RelativePath="..\lib\mapping0.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\mdct.c">
+				RelativePath="..\lib\mdct.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\psy.c">
+				RelativePath="..\lib\psy.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\registry.c">
+				RelativePath="..\lib\registry.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\res0.c">
+				RelativePath="..\lib\res0.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\sharedbook.c">
+				RelativePath="..\lib\sharedbook.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\smallft.c">
+				RelativePath="..\lib\smallft.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\synthesis.c">
+				RelativePath="..\lib\synthesis.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\vorbisenc.c">
+				RelativePath="..\lib\vorbisenc.c"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\window.c">
+				RelativePath="..\lib\window.c"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl">
+			Filter="h;hpp;hxx;hm;inl"
+			>
 			<File
-				RelativePath="..\lib\backends.h">
+				RelativePath="..\lib\backends.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\bitbuffer.h">
+				RelativePath="..\lib\bitbuffer.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\bitrate.h">
+				RelativePath="..\lib\bitrate.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\codebook.h">
+				RelativePath="..\lib\codebook.h"
+				>
 			</File>
 			<File
-				RelativePath="..\include\vorbis\codec.h">
+				RelativePath="..\include\vorbis\codec.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\codec_internal.h">
+				RelativePath="..\lib\codec_internal.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\envelope.h">
+				RelativePath="..\lib\envelope.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\highlevel.h">
+				RelativePath="..\lib\highlevel.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\lookup.h">
+				RelativePath="..\lib\lookup.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\lookup_data.h">
+				RelativePath="..\lib\lookup_data.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\lpc.h">
+				RelativePath="..\lib\lpc.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\lsp.h">
+				RelativePath="..\lib\lsp.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\masking.h">
+				RelativePath="..\lib\masking.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\mdct.h">
+				RelativePath="..\lib\mdct.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\misc.h">
+				RelativePath="..\lib\misc.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\os.h">
+				RelativePath="..\lib\os.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\psy.h">
+				RelativePath="..\lib\psy.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\registry.h">
+				RelativePath="..\lib\registry.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\scales.h">
+				RelativePath="..\lib\scales.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\smallft.h">
+				RelativePath="..\lib\smallft.h"
+				>
 			</File>
 			<File
-				RelativePath="..\include\vorbis\vorbisenc.h">
+				RelativePath="..\include\vorbis\vorbisenc.h"
+				>
 			</File>
 			<File
-				RelativePath="..\include\vorbis\vorbisfile.h">
+				RelativePath="..\include\vorbis\vorbisfile.h"
+				>
 			</File>
 			<File
-				RelativePath="..\lib\window.h">
+				RelativePath="..\lib\window.h"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Other Files"
-			Filter=".def">
+			Filter=".def"
+			>
 			<File
-				RelativePath=".\vorbis.def">
+				RelativePath=".\vorbis.def"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+			>
 		</Filter>
 	</Files>
 	<Globals>

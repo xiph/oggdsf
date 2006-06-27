@@ -147,6 +147,7 @@ protected:
 	unsigned long mFrameSize;
 	unsigned long mSampleRate;
 	unsigned long mBitsPerSample;
+    unsigned long mSignificantBitsPerSample;
 	__int64 mTotalNumSamples;
 
 	//Critical Section to protect codec.

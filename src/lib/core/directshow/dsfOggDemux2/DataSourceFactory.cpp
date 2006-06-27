@@ -39,46 +39,59 @@ DataSourceFactory::~DataSourceFactory(void)
 {
 }
 
-IFilterDataSource* DataSourceFactory::createDataSource(string inSourceLocation) {
-	string locType = identifySourceType(inSourceLocation);
+IFilterDataSource* DataSourceFactory::createDataSource(wstring inSourceLocation) {
+	wstring locType = identifySourceType(inSourceLocation);
 
 	if(locType.length() == 1) {
 		//File...
 		return new FilterFileSource;
-	} else if (locType == "\\\\") {
+	} else if (locType == L"\\\\") {
 		//Network share...
 		return new FilterFileSource;
-	} else if (locType == "http") {
+	} else if (locType == L"http") {
 		//Http stream
 		//return new HTTPFileSource;
 		return new HTTPStreamingFileSource;
+#ifdef WINCE
+	} else if (locType == "\\") {
+		//WinCE absolute file path
+		return new FilterFileSource;
+#endif
 	} else {
 		//Something else
 		return NULL;
 	}
 }
 
-string DataSourceFactory::identifySourceType(string inSourceLocation) {
+wstring DataSourceFactory::identifySourceType(wstring inSourceLocation) {
 	size_t locPos = inSourceLocation.find(':');
 	if (locPos == string::npos) {
 		//No colon... not a normal file. See if it's a network share...
 
 		//Make sure it's long enough...
 		if (inSourceLocation.length() > 2) {
-			string retStr = inSourceLocation.substr(0,2);
-			if (retStr == "\\\\") {
+			wstring retStr = inSourceLocation.substr(0,2);
+			if (retStr == L"\\\\") {
 				//A "\\" is a network share
 				return retStr;
 			} else {
+#ifdef WINCE
+				retStr = inSourceLocation.substr(0,1);
+
+				if (retStr == L"\\") {
+					//WinCE absolute path
+					return retStr;
+				}
+#endif
 				//Not a network share.
-				return "";
+				return L"";
 			}
 		} else {
 			//Too short
-			return "";
+			return L"";
 		}
 	} else {
-		string retStr = inSourceLocation.substr(0,locPos);
+		wstring retStr = inSourceLocation.substr(0,locPos);
 		return retStr;
 	}
 	

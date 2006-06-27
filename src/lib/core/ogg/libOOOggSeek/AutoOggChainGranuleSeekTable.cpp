@@ -1,7 +1,11 @@
 #include "StdAfx.h"
 #include ".\autooggchaingranuleseektable.h"
 
+#ifdef UNICODE
+AutoOggChainGranuleSeekTable::AutoOggChainGranuleSeekTable(wstring inFilename)
+#else
 AutoOggChainGranuleSeekTable::AutoOggChainGranuleSeekTable(string inFilename)
+#endif
 	:	mFilename(inFilename)
 	,	mFilePos(0)
 	,	mOggDemux(NULL)
@@ -26,7 +30,7 @@ AutoOggChainGranuleSeekTable::~AutoOggChainGranuleSeekTable(void)
 
 bool AutoOggChainGranuleSeekTable::buildTable()
 {
-	if (mFilename.find("http") != 0) {
+	if (mFilename.find(TEXT("http")) != 0) {
 		
 		//mSeekMap.clear();
 		//addSeekPoint(0, 0);

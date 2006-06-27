@@ -43,7 +43,7 @@ public:
 
 
 
-	static const ANX_2_0_ANNODEX_BOS_SIZE = 48;
+	static const unsigned long ANX_2_0_ANNODEX_BOS_SIZE = 48;
 
 	static OggPage* makeAnnodexBOS_2_0	(				unsigned long inSerialNo
 												,	unsigned short inVersionMajor

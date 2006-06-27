@@ -33,7 +33,7 @@
 #include "AbstractTransformOutputPin.h"
 
 
-AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, CHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> inAcceptableMediaTypes)
+AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, TCHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> inAcceptableMediaTypes)
 	:	CBaseOutputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
 
 	,	mParentFilter(inParentFilter)

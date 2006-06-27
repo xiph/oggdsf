@@ -1,407 +1,1218 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="8.00"
 	Name="libCMMLTagsDotNET"
 	ProjectGUID="{9B83D147-AFE7-46EF-A3FF-EBEC65F00BA6}"
-	Keyword="ManagedCProj">
+	RootNamespace="libCMMLTagsDotNET"
+	Keyword="ManagedCProj"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
+		<Platform
+			Name="Pocket PC 2003 (ARMV4)"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
 			ConfigurationType="2"
-			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
 				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
-				PreprocessorDefinitions="WIN32;_DEBUG"
-				MinimalRebuild="FALSE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				WarningLevel="4"
 				DebugInformationFormat="3"
-				CallingConvention="2"/>
+				CallingConvention="2"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
 				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"
-				ResourceOnlyDLL="FALSE"/>
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
-			CharacterSet="2"
-			ManagedExtensions="TRUE"
-			WholeProgramOptimization="FALSE">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				GlobalOptimizations="TRUE"
+				Optimization="2"
 				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				OptimizeForProcessor="3"
+				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
 				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Release"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				MinimalRebuild="FALSE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG"
+				MinimalRebuild="false"
 				RuntimeLibrary="2"
-				WarningLevel="3"
-				CallingConvention="2"/>
+				WarningLevel="4"
+				CallingConvention="2"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
 				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"
+				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"/>
+				OptimizeForWindows98="1"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
-			Name="Release_SSE2|Win32"
+			Name="Release|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Release"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="2"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Release"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="2"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_CE_ARM|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
-			ManagedExtensions="TRUE"
-			WholeProgramOptimization="FALSE">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
-				OptimizeForProcessor="3"
+				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
-				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Release"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				MinimalRebuild="FALSE"
-				RuntimeLibrary="2"
-				EnableEnhancedInstructionSet="2"
-				WarningLevel="3"/>
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"/>
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
-			Name="Release_SSE|Win32"
+			Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_CE_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_WM5_PPC_ARM|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
-			ManagedExtensions="TRUE"
-			WholeProgramOptimization="FALSE">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
-				OptimizeForProcessor="3"
+				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
-				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Release"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				MinimalRebuild="FALSE"
-				RuntimeLibrary="2"
-				EnableEnhancedInstructionSet="1"
-				WarningLevel="3"/>
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"/>
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
+			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\helper\libiWrapper;..;..\..\..\helper"
+				AdditionalUsingDirectories="..\..\..\helper\libiWrapper\Debug"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="3"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/libCMMLTagsDotNET.dll"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				ResourceOnlyDLL="false"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{FCFE729D-EADE-45BA-9506-7E82A46403F7}"
-			Name="libiWrapper"/>
+			RelativePathToProject="..\..\src\lib\helper\libiWrapper\libiWrapper.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
+			>
 			<File
-				RelativePath="AnchorTag.cpp">
+				RelativePath="AnchorTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="AssemblyInfo.cpp">
+				RelativePath="AssemblyInfo.cpp"
+				>
 			</File>
 			<File
-				RelativePath="BaseTag.cpp">
+				RelativePath="BaseTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="ClipTag.cpp">
+				RelativePath="ClipTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="ClipTagList.cpp">
+				RelativePath="ClipTagList.cpp"
+				>
 			</File>
 			<File
-				RelativePath="CMMLDoc.cpp">
+				RelativePath="CMMLDoc.cpp"
+				>
 			</File>
 			<File
-				RelativePath="CMMLPreamble.cpp">
+				RelativePath="CMMLPreamble.cpp"
+				>
 			</File>
 			<File
-				RelativePath="CMMLRootTag.cpp">
+				RelativePath="CMMLRootTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="CMMLTag.cpp">
+				RelativePath="CMMLTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="DescTag.cpp">
+				RelativePath="DescTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="HeadTag.cpp">
+				RelativePath="HeadTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="HumReadCMMLTag.cpp">
+				RelativePath="HumReadCMMLTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="ImageTag.cpp">
+				RelativePath="ImageTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="ImportTag.cpp">
+				RelativePath="ImportTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="ImportTagList.cpp">
+				RelativePath="ImportTagList.cpp"
+				>
 			</File>
 			<File
-				RelativePath="libCMMLTagsDotNET.cpp">
+				RelativePath="libCMMLTagsDotNET.cpp"
+				>
 			</File>
 			<File
-				RelativePath="MappedTag.cpp">
+				RelativePath="MappedTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="MappedTagList.cpp">
+				RelativePath="MappedTagList.cpp"
+				>
 			</File>
 			<File
-				RelativePath="MetaTag.cpp">
+				RelativePath="MetaTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="MetaTagList.cpp">
+				RelativePath="MetaTagList.cpp"
+				>
 			</File>
 			<File
-				RelativePath="ParamTag.cpp">
+				RelativePath="ParamTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="ParamTagList.cpp">
+				RelativePath="ParamTagList.cpp"
+				>
 			</File>
 			<File
-				RelativePath="Stdafx.cpp">
+				RelativePath="Stdafx.cpp"
+				>
 			</File>
 			<File
-				RelativePath="StreamTag.cpp">
+				RelativePath="StreamTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="TagList.cpp">
+				RelativePath="TagList.cpp"
+				>
 			</File>
 			<File
-				RelativePath="TextFieldTag.cpp">
+				RelativePath="TextFieldTag.cpp"
+				>
 			</File>
 			<File
-				RelativePath="TitleTag.cpp">
+				RelativePath="TitleTag.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc">
+			Filter="h;hpp;hxx;hm;inl;inc"
+			>
 			<File
-				RelativePath="AnchorTag.h">
+				RelativePath="AnchorTag.h"
+				>
 			</File>
 			<File
-				RelativePath="BaseTag.h">
+				RelativePath="BaseTag.h"
+				>
 			</File>
 			<File
-				RelativePath="ClipTag.h">
+				RelativePath="ClipTag.h"
+				>
 			</File>
 			<File
-				RelativePath="ClipTagList.h">
+				RelativePath="ClipTagList.h"
+				>
 			</File>
 			<File
-				RelativePath="CMMLDoc.h">
+				RelativePath="CMMLDoc.h"
+				>
 			</File>
 			<File
-				RelativePath="CMMLPreamble.h">
+				RelativePath="CMMLPreamble.h"
+				>
 			</File>
 			<File
-				RelativePath="CMMLRootTag.h">
+				RelativePath="CMMLRootTag.h"
+				>
 			</File>
 			<File
-				RelativePath="CMMLTag.h">
+				RelativePath="CMMLTag.h"
+				>
 			</File>
 			<File
-				RelativePath="DescTag.h">
+				RelativePath="DescTag.h"
+				>
 			</File>
 			<File
-				RelativePath="HeadTag.h">
+				RelativePath="HeadTag.h"
+				>
 			</File>
 			<File
-				RelativePath="HumReadCMMLTag.h">
+				RelativePath="HumReadCMMLTag.h"
+				>
 			</File>
 			<File
-				RelativePath="ImageTag.h">
+				RelativePath="ImageTag.h"
+				>
 			</File>
 			<File
-				RelativePath="ImportTag.h">
+				RelativePath="ImportTag.h"
+				>
 			</File>
 			<File
-				RelativePath="ImportTagList.h">
+				RelativePath="ImportTagList.h"
+				>
 			</File>
 			<File
-				RelativePath="libCMMLTagsDotNET.h">
+				RelativePath="libCMMLTagsDotNET.h"
+				>
 			</File>
 			<File
-				RelativePath="MappedTag.h">
+				RelativePath="MappedTag.h"
+				>
 			</File>
 			<File
-				RelativePath="MappedTagList.h">
+				RelativePath="MappedTagList.h"
+				>
 			</File>
 			<File
-				RelativePath="MetaTag.h">
+				RelativePath="MetaTag.h"
+				>
 			</File>
 			<File
-				RelativePath="MetaTagList.h">
+				RelativePath="MetaTagList.h"
+				>
 			</File>
 			<File
-				RelativePath="ParamTag.h">
+				RelativePath="ParamTag.h"
+				>
 			</File>
 			<File
-				RelativePath="ParamTagList.h">
+				RelativePath="ParamTagList.h"
+				>
 			</File>
 			<File
-				RelativePath="resource.h">
+				RelativePath="resource.h"
+				>
 			</File>
 			<File
-				RelativePath="Stdafx.h">
+				RelativePath="Stdafx.h"
+				>
 			</File>
 			<File
-				RelativePath="StreamTag.h">
+				RelativePath="StreamTag.h"
+				>
 			</File>
 			<File
-				RelativePath="TagList.h">
+				RelativePath="TagList.h"
+				>
 			</File>
 			<File
-				RelativePath="TextFieldTag.h">
+				RelativePath="TextFieldTag.h"
+				>
 			</File>
 			<File
-				RelativePath="TitleTag.h">
+				RelativePath="TitleTag.h"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;r">
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;r"
+			>
 			<File
-				RelativePath="app.rc">
+				RelativePath="app.rc"
+				>
 			</File>
 		</Filter>
 	</Files>

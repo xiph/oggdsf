@@ -31,7 +31,7 @@
 #pragma once
 #include <string>
 using namespace std;
-class OGG_DEMUX2_API IFilterDataSource
+class IFilterDataSource
 {
 public:
 	//Empty Constructor and destructor to ensure proper deletion
@@ -40,11 +40,11 @@ public:
 
 	virtual unsigned long seek(unsigned long inPos) = 0;
 	virtual void close()  = 0;
-	virtual bool open(string inSourceLocation, unsigned long inStartByte = 0) = 0;
+	virtual bool open(wstring inSourceLocation, unsigned long inStartByte = 0) = 0;
 	virtual void clear() = 0;
 	virtual bool isEOF() = 0;
 	virtual bool isError() = 0;
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes) = 0;
-	virtual string shouldRetryAt() = 0;
+	virtual wstring shouldRetryAt() = 0;
 	
 };

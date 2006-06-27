@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -34,7 +34,19 @@
 #include <libOOOgg/dllstuff.h>
 #include <libOOOgg/StampedOggPacket.h>
 extern "C" {
+#define USE_THEORA_EXP
+
+#ifdef USE_THEORA_EXP
+#include "theora/codec.h"
+#include "theora/theoradec.h"
+
+//Need this for yuv_buffer for now.
 #include "theora_cdecl.h"
+
+
+#else
+#include "theora_cdecl.h"
+#endif
 }
 class LIBOOTHEORA_API TheoraDecoder
 {
@@ -45,16 +57,16 @@ public:
 	/// Initialise the internal theora decoder.
 	bool initCodec();
 
-	//bool resetPackCount();
-	//bool clearAll();
-
 	/// Decode a theora packet returning a yuv_buffer struct. Now owns your packet.
 	yuv_buffer* decodeTheora(StampedOggPacket* inPacket);
 
 	/// Returns true if the packet is a keyframe.
 	bool isKeyFrame(StampedOggPacket* inPacket);
-
+#ifdef USE_THEORA_EXP
+	th_info mTheoraInfo;
+#else
 	theora_info mTheoraInfo;
+#endif
 protected:
 
 	/// Moves the pointers around to make it look like a xiph ogg packet.
@@ -64,8 +76,15 @@ protected:
 	bool decodeHeader(StampedOggPacket* inHeaderPacket);
 
 	//theora_info mTheoraInfo;
+#ifdef USE_THEORA_EXP
+	th_ycbcr_buffer mYCbCrBuffer;
+	th_comment mTheoraComment;
+	th_setup_info* mTheoraSetup;
+	th_dec_ctx* mTheoraState;
+#else
 	theora_comment mTheoraComment;
 	theora_state mTheoraState;
+#endif
 	yuv_buffer mYUVBuffer;
 
 	StampedOggPacket* mPartialPacket; //TEMP !!

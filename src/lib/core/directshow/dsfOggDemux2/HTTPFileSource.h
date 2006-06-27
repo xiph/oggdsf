@@ -61,7 +61,7 @@ public:
 	virtual bool isEOF();
 	virtual bool isError();
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
-	virtual string shouldRetryAt();
+	virtual wstring shouldRetryAt();
 
 	//CAMThread pure virtuals
 	DWORD HTTPFileSource::ThreadProc();

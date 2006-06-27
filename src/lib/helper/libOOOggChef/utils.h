@@ -52,7 +52,16 @@ bool LIBOOOGGCHEF_API wantOnlyCMML(const vector<string>* inWantedMIMETypes);
 bool LIBOOOGGCHEF_API wantOnlyPacketBody(const vector<string>* inWantedMIMETypes);
 
 /// a.k.a. World's most stupid stat() function
+#ifdef UNICODE
+bool LIBOOOGGCHEF_API fileExists(const wstring inFilename);
+#else
 bool LIBOOOGGCHEF_API fileExists(const string inFilename);
+#endif
 
 /// Push out the entire contents of file to the inBufferWriter function
+
+#ifdef UNICODE
+bool LIBOOOGGCHEF_API sendFile(const wstring inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
+#else
 bool LIBOOOGGCHEF_API sendFile(const string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
+#endif

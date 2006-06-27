@@ -11,7 +11,7 @@
 
 
 // TODO: reference additional headers your program requires here
-#ifdef WIN32
+# if (defined(WIN32) || defined(WINCE))
 #include <windows.h>
 # define LOOG_INT64 signed __int64
 # define LOOG_UINT64 unsigned __int64

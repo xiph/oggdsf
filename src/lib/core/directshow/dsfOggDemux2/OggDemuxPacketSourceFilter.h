@@ -32,10 +32,12 @@
 #include "BasicSeekPassThrough.h"
 #include "IFilterDataSource.h"
 #include "IOggBaseTime.h"
+#include "ICustomSource.h"
 //#include "OggStreamMapper.h"
 #include <libOOOgg/OggDataBuffer.h>
 
 #include <libOOOggSeek/AutoOggChainGranuleSeekTable.h>
+#include "CustomOggChainGranuleSeekTable.h"
 #include "DataSourceFactory.h"
 
 class OggStreamMapper;
@@ -46,6 +48,7 @@ class OggDemuxPacketSourceFilter
 	,	public IFileSourceFilter
 	,	public IOggCallback
 	,	public IOggBaseTime
+	,	public ICustomSource
 	,	public BasicSeekPassThrough
 	//,	public ISpecifyPropertyPages
 	,	public IAMFilterMiscFlags
@@ -70,6 +73,10 @@ public:
 	STDMETHODIMP Pause(void);
 	STDMETHODIMP Stop(void);
 
+#ifdef WINCE
+	virtual LPAMOVIESETUP_FILTER GetSetupData();
+#endif
+
 	//IOggCallback Interface
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
@@ -83,6 +90,9 @@ public:
 	//IFileSource Interface
 	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
 	virtual STDMETHODIMP Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
+
+	//ICustomSource Interface
+	virtual HRESULT setCustomSourceAndLoad(IFilterDataSource* inDataSource);
 
 	//IAMFilterMiscFlags Interface
 	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
@@ -150,11 +160,19 @@ protected:
 
 	AutoOggChainGranuleSeekTable* mSeekTable;
 
+	//Custom source
+	bool mUsingCustomSource;
+	//bool mQueriedIFileSource;
+	//bool mQueriedICustomSource;
+	//
+
 
 	bool mJustReset;
 
 	//HHHH:::
 	__int64 mGlobalBaseTime;
+
+	wfstream debugLog;
 
 	//double mPlaybackRate;
 };

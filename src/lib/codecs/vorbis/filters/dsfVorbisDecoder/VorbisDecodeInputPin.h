@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -44,10 +44,13 @@ using namespace std;
 
 #include "VorbisDecodeFilter.h"
 
-extern "C" {
-//#include <fishsound/fishsound.h>
-#include "fish_cdecl.h"
-}
+#ifdef USING_TREMOR
+#include "TremorDecoder.h"
+#define VorbisDecoder TremorDecoder
+#else
+#include "VorbisDecoder.h"
+#endif
+
 
 class VorbisDecodeOutputPin;
 
@@ -59,9 +62,9 @@ public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+
 	VorbisDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~VorbisDecodeInputPin(void);
-	static int __cdecl VorbisDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
@@ -81,10 +84,8 @@ public:
 	virtual string getCodecShortName();
 	virtual string getCodecIdentString();
 
-
-
 protected:
-	//fstream debugLog;
+	fstream debugLog;
 
 	static const unsigned long DECODED_BUFFER_SIZE = 1<<20;		//1 Meg buffer
 
@@ -99,24 +100,34 @@ protected:
 	eVorbisSetupState mSetupState;
 
 	static const unsigned long VORBIS_IDENT_HEADER_SIZE = 30;
+
+#ifdef WINCE
+	static const unsigned long VORBIS_NUM_BUFFERS = 50;
+	static const unsigned long VORBIS_BUFFER_SIZE = 8192;
+
+#else
 	static const unsigned long VORBIS_NUM_BUFFERS = 75;
 	static const unsigned long VORBIS_BUFFER_SIZE = 65536;
+#endif
 
 	//Implementation of virtuals from AbstractTransform Filter
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
 
-	HRESULT mHR;
-	bool mBegun;
+	
 
-	FishSound* mFishSound;
-	FishSoundInfo mFishInfo; 
+	//TODO::: Are these needed?
+	bool mBegun;
+	unsigned int mUptoFrame;
+	HRESULT mHR;
 
 	int mNumChannels;
 	int mFrameSize;
 	int mSampleRate;
-	unsigned int mUptoFrame;
+
+
+	VorbisDecoder mVorbisDecoder;
 
 	unsigned char* mDecodedBuffer;
 	unsigned long mDecodedByteCount;

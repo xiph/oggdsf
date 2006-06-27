@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 		cout << "Usage : OOOggSeekFileReader <seek_table_file>"<<endl;
 
 	} else {
-		AutoOggSeekTable *locSeekTable = new AutoOggSeekTable("foo");  // Filename doesn't matter
+		AutoOggSeekTable *locSeekTable = new AutoOggSeekTable(TEXT("foo"));  // Filename doesn't matter
 		locSeekTable->buildTableFromFile(argv[1]);
 		OggSeekTable::tSeekMap locSeekMap = locSeekTable->getSeekMap();
 

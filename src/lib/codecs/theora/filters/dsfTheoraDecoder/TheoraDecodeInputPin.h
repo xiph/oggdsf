@@ -68,13 +68,17 @@ public:
 	virtual IOggDecoder::eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket);
 	virtual string getCodecShortName();
 	virtual string getCodecIdentString();
-	//fstream debugLog;
+	fstream debugLog;
 
 	virtual IOggOutputPin* getOutputPinInterface()		{		return mOggOutputPinInterface;	}
 	virtual bool getSentStreamOffset()					{		return mSentStreamOffset;		}
 	virtual void setSentStreamOffset(bool inSentStreamOffset)	{	mSentStreamOffset = inSentStreamOffset;	}
 protected:
+#ifdef WINCE
+	static const unsigned long THEORA_NUM_BUFFERS = 20;
+#else
 	static const unsigned long THEORA_NUM_BUFFERS = 50;
+#endif
 	enum eTheoraSetupState {
 		VSS_SEEN_NOTHING,
 		VSS_SEEN_BOS,

@@ -1,0 +1,32 @@
+LIBRARY libDSPlay.dll
+EXPORTS
+
+	c_initialise
+	c_destroy
+	c_loadFile
+	c_loadFileWithParams
+	c_setWindowPosition
+	c_play
+	c_pause
+	c_stop
+	c_getVolume
+	c_getBalance
+	c_setVolume
+	c_setBalance
+	c_averageTimePerFrame
+	c_averageFrameRate
+	c_videoWidth
+	c_videoHeight
+	c_stepFrame
+	c_canStepFrame
+	c_seek
+	c_seekStart
+	c_queryPosition
+	c_repaint
+	c_isLoaded
+	c_fileSize
+	c_fileDuration
+	c_setMediaEventCallback
+	;getMediaEventCallback
+	c_checkEvents
+	c_releaseInterfaces

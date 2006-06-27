@@ -74,7 +74,7 @@ STDAPI DllRegisterServer()
 		L"Annodex Mux Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Annodex Mux Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &AnxMuxFilterReg								// Pointer to filter information.
     );
 	
@@ -107,7 +107,7 @@ STDAPI DllUnregisterServer()
 	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
-            L"Annodex Mux Filter", CLSID_AnxMuxFilter);
+            NULL, CLSID_AnxMuxFilter);
 
 	//
     locFilterMapper->Release();

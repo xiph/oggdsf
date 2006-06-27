@@ -65,7 +65,7 @@ STDAPI DllRegisterServer()
 		L"Ogg Mux Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Ogg Mux Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &OggMuxFilterReg								// Pointer to filter information.
     );
 
@@ -96,7 +96,7 @@ STDAPI DllUnregisterServer()
 	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
-            L"Ogg Mux Filter", CLSID_OggMuxFilter);
+            NULL, CLSID_OggMuxFilter);
 
 	//
     locFilterMapper->Release();

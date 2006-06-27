@@ -69,7 +69,7 @@ STDAPI DllRegisterServer()
 		L"CMML Raw Source Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"CMML Raw Source Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &CMMLRawSourceFilterReg								// Pointer to filter information.
     );
 
@@ -104,7 +104,7 @@ STDAPI DllUnregisterServer()
 	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
-            L"CMML Raw Source Filter", CLSID_CMMLRawSourceFilter);
+            NULL, CLSID_CMMLRawSourceFilter);
 
 	//
     locFilterMapper->Release();

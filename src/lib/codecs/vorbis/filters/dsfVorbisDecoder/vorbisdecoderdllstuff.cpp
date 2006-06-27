@@ -35,6 +35,7 @@
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
+	//MessageBox(NULL, L"asda", L"ASD", MB_OK);
     return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
 }
 
@@ -43,14 +44,19 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 STDAPI DllRegisterServer()
 {
 
+	//MessageBox(NULL, L"xxxxx", L"xxxxx", MB_OK);
+	//return S_OK;
     HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-
+    
+#ifdef WINCE
+	hr = AMovieDllRegisterServer();//AMovieDLLRegisterServer(TRUE);
+#else
     hr = AMovieDllRegisterServer2(TRUE);
+#endif
+	//MessageBox(NULL, L"asdfsdfsdf", L"xzzzzz", MB_OK);
 
-
-	
-
+#ifndef WINCE
+	IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
 
 
@@ -59,12 +65,12 @@ STDAPI DllRegisterServer()
 		L"Vorbis Decode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Vorbis Decode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &VorbisDecodeFilterReg								// Pointer to filter information.
     );
 
     locFilterMapper->Release();
-
+#endif
     return hr;
 
 }
@@ -72,14 +78,18 @@ STDAPI DllRegisterServer()
 STDAPI DllUnregisterServer()
 {
    HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-
+   //return S_OK;
+#ifdef WINCE
+   hr = AMovieDllUnregisterServer();
+#else
     hr = AMovieDllRegisterServer2(FALSE);
+#endif
 	if (FAILED(hr)) {
 		
         return hr;
 	}
- 
+#ifndef WINCE
+	IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
             IID_IFilterMapper2, (void **)&locFilterMapper);
 
@@ -88,11 +98,12 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Vorbis Decode Filter", CLSID_VorbisDecodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_VorbisDecodeFilter);
 
 
 	//
     locFilterMapper->Release();
+#endif
     return hr;
 
 }

@@ -56,7 +56,7 @@ STDAPI DllRegisterServer()
 		L"FLAC Decode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"FLAC Decode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &FLACDecodeFilterReg								// Pointer to filter information.
     );
 
@@ -85,7 +85,7 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"FLAC Decode Filter", CLSID_FLACDecodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_FLACDecodeFilter);
 
 
 	//

@@ -46,13 +46,16 @@ STDAPI DllRegisterServer()
 
 	//TO DO::: Should we be releasing the filter mapper even when we return early ?
     HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-
+    
+#ifndef WINCE
     hr = AMovieDllRegisterServer2(TRUE);
+#else
+	hr = AMovieDllRegisterServer();
+#endif
 
 
-	
-
+#ifndef WINCE
+	IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
 
 
@@ -61,12 +64,12 @@ STDAPI DllRegisterServer()
 		L"Theora Decode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Theora Decode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &TheoraDecodeFilterReg								// Pointer to filter information.
     );
 
     locFilterMapper->Release();
-
+#endif
     return hr;
 
 }
@@ -74,14 +77,15 @@ STDAPI DllRegisterServer()
 STDAPI DllUnregisterServer()
 {
    HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
+    
 
     hr = AMovieDllRegisterServer2(FALSE);
 	if (FAILED(hr)) {
 		
         return hr;
 	}
- 
+#ifndef WINCE
+	IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
             IID_IFilterMapper2, (void **)&locFilterMapper);
 
@@ -90,11 +94,12 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Theora Decode Filter", CLSID_TheoraDecodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_TheoraDecodeFilter);
 
 
 	//
     locFilterMapper->Release();
+#endif
     return hr;
 
 }

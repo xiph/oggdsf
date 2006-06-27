@@ -83,7 +83,12 @@ bool FileComments::acceptOggPage(OggPage* inOggPage) {		//Correctly deletes page
 	return true;
 
 }
+
+#ifdef UNICODE
+bool FileComments::loadFile(wstring inFileName) {
+#else
 bool FileComments::loadFile(string inFileName) {
+#endif
 	mBytePos = 0;
 	const unsigned long BUFF_SIZE = 4096;
 	OggDataBuffer locOggBuff;

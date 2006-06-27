@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -35,6 +35,8 @@
 
 
 class SpeexDecodeFilter;
+
+
 class SpeexDecodeOutputPin :
 	public AbstractTransformOutputPin
 {
@@ -48,8 +50,8 @@ public:
 	SpeexDecodeOutputPin(SpeexDecodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexDecodeOutputPin(void);
 
-	//virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
 protected:
+	///Internal method to setup format buffer
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
 
 };

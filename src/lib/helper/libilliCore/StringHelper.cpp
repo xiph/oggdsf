@@ -226,6 +226,26 @@ LOOG_UINT64 StringHelper::stringToNum(string inString) {
 
 }
 
+LOOG_UINT64 StringHelper::stringToNum(wstring inString) {
+	int locDigit = 0;
+	LOOG_UINT64 retVal = 0;
+	size_t locStrLen = inString.length();
+
+	for (unsigned long i = 0; i < locStrLen; i++) {
+		locDigit = inString[i] - '0';
+		//If it's not in the range 0-9 we bail out
+		if ( !((locDigit >= 0) && (locDigit <=9)) ) {
+			//FIX::: throw exception
+			throw 0;
+		}
+		retVal *= 10;
+		retVal += locDigit;
+
+	}
+	return retVal;
+
+}
+
 
 unsigned char StringHelper::digitToHex(unsigned char inDigit) {
 	

@@ -47,8 +47,11 @@ bool wantOnlyCMML(const vector<string>* inWantedMIMETypes)
 			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
 }
 
-
+#ifdef UNICODE
+bool fileExists(const wstring inFilename)
+#else
 bool fileExists(const string inFilename)
+#endif
 {
 	// Behold, the world's most C++-portable filename-checking mechanism!
 
@@ -74,8 +77,11 @@ bool wantOnlyPacketBody(const vector<string>* inWantedMIMETypes)
 			&&	inWantedMIMETypes->at(0) == "text/x-cmml");
 }
 
-
+#ifdef UNICODE
+bool sendFile(const wstring inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
+#else
 bool sendFile(const string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
+#endif
 {
 	// If I had a dollar for every single time I've had to write this silly loop ...
 

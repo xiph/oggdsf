@@ -32,7 +32,11 @@
 #include "stdafx.h"
 #include <libOOOggSeek/AutoOggSeekTable.h>
 
+#ifdef UNICODE
+AutoOggSeekTable::AutoOggSeekTable(wstring inFileName)
+#else
 AutoOggSeekTable::AutoOggSeekTable(string inFileName)
+#endif
 	:	mFilePos(0)
 	,	mLastSeekTime(0)
 	,	mPacketCount(0)
@@ -246,7 +250,11 @@ bool AutoOggSeekTable::serialiseInto(unsigned char* inBuff, unsigned long inBuff
 	}
 }
 
+#ifdef UNICODE
+bool AutoOggSeekTable::serialiseInto(const wstring inSeekTableFilename)
+#else
 bool AutoOggSeekTable::serialiseInto(const string inSeekTableFilename)
+#endif
 {
 	unsigned long locSerialisedSeekTableSize = serialisedSize();
 	unsigned char *locBuffer = new unsigned char[locSerialisedSeekTableSize];
@@ -276,7 +284,7 @@ bool AutoOggSeekTable::buildTable()
 {
 	//HACK::: To ensure we don't try and build a table on the network file.
 	//debugLog<<"Anx Build table : "<<mFileName<<endl;
-	if (mFileName.find("http") != 0) {
+	if (mFileName.find(TEXT("http")) != 0) {
 		
 		mSeekMap.clear();
 		addSeekPoint(0, 0);
@@ -321,7 +329,12 @@ bool AutoOggSeekTable::buildTableFromBuffer(const unsigned char *inBuffer, const
 	as a cache, you must check yourself that the cached seek table is not
 	out of date).
   */
+
+#ifdef UNICODE
+bool AutoOggSeekTable::buildTableFromFile(const wstring inCachedSeekTableFilename)
+#else
 bool AutoOggSeekTable::buildTableFromFile(const string inCachedSeekTableFilename)
+#endif
 {
 	LOOG_INT64 locTimePoint;
 	unsigned long locBytePosition;

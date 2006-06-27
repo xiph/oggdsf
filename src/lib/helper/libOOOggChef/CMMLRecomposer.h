@@ -49,7 +49,11 @@ class LIBOOOGGCHEF_API CMMLRecomposer : public IRecomposer, public IOggCallback
 {
 public:
 	CMMLRecomposer(void);
+#ifdef UNICODE
+	CMMLRecomposer(wstring inCMMLFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
+#else
 	CMMLRecomposer(string inCMMLFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData);
+#endif
 	~CMMLRecomposer(void);
 
 	bool recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
@@ -64,8 +68,11 @@ protected:
 	void* mBufferWriterUserData;
 
 	fstream mDebugFile;
-
+#ifdef UNICODE
+	wstring mCMMLFilename;
+#else
 	string mCMMLFilename;
+#endif
 
 	const vector<string>* mWantedMIMETypes;
 };

@@ -61,7 +61,7 @@ STDAPI DllRegisterServer()
 		L"Theora Encode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Theora Encode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &TheoraEncodeFilterReg								// Pointer to filter information.
     );
 
@@ -90,7 +90,7 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Theora Encode Filter", CLSID_TheoraEncodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_TheoraEncodeFilter);
 
 
 	//

@@ -39,7 +39,12 @@ RegWrap::~RegWrap(void)
 {
 }
 
-LONG RegWrap::addKeyVal(HKEY inHive, string inKeyName, string inValueName, string inValue) {
+#ifdef UNICODE
+LONG RegWrap::addKeyVal(HKEY inHive, wstring inKeyName, wstring inValueName, wstring inValue) 
+#else
+LONG RegWrap::addKeyVal(HKEY inHive, string inKeyName, string inValueName, string inValue) 
+#endif
+{
 	//Open or create keyname
 	//Add a value called ValueName with value inValue.
 
@@ -104,8 +109,15 @@ LONG RegWrap::addKeyVal(HKEY inHive, string inKeyName, string inValueName, strin
 	return retVal;
 
 }
+#ifdef UNICODE
+bool RegWrap::deleteKeyRecurse(HKEY inHive, wstring inKeyName, wstring inSubKeyToDelete) 
+#else
+bool RegWrap::deleteKeyRecurse(HKEY inHive, string inKeyName, string inSubKeyToDelete) 
+#endif
 
-bool RegWrap::deleteKeyRecurse(HKEY inHive, string inKeyName, string inSubKeyToDelete) {
+{
+
+#ifndef WINCE
 	HKEY locKey;
 	LONG retVal;
 
@@ -120,15 +132,22 @@ bool RegWrap::deleteKeyRecurse(HKEY inHive, string inKeyName, string inSubKeyToD
 		return false;
 	}
 
-	retVal = SHDeleteKeyA(locKey, inSubKeyToDelete.c_str());
+	retVal = SHDeleteKey(locKey, inSubKeyToDelete.c_str());
 	RegCloseKey(locKey);
+#endif
 	return true;
 
 }
 
 
-
-bool RegWrap::removeKeyVal(HKEY inHive, string inKeyName, string inValueName) {
+#ifdef UNICODE
+//NOTE::: For various reasons this is all ansi, all strings are internal, not user created.
+// ---- No longer true
+bool RegWrap::removeKeyVal(HKEY inHive, wstring inKeyName, wstring inValueName) 
+#else
+bool RegWrap::removeKeyVal(HKEY inHive, string inKeyName, string inValueName) 
+#endif
+{
 	//LONG RegDeleteValue(
 	//	HKEY hKey,
 	//	LPCTSTR lpValueName
@@ -157,7 +176,12 @@ bool RegWrap::removeKeyVal(HKEY inHive, string inKeyName, string inValueName) {
 	}
 }
 
-bool RegWrap::valueExists(HKEY inHive, string inKeyName, string inValueName) {
+#ifdef UNICODE
+bool RegWrap::valueExists(HKEY inHive, wstring inKeyName, wstring inValueName) 
+#else
+bool RegWrap::valueExists(HKEY inHive, string inKeyName, string inValueName) 
+#endif
+{
 
 	//LONG RegQueryValueEx(
 	//	HKEY hKey,
@@ -211,14 +235,28 @@ bool RegWrap::valueExists(HKEY inHive, string inKeyName, string inValueName) {
 	}
 
 }
-
-string RegWrap::findNextEmptyMediaPlayerDesc() {
+#ifdef UNICODE
+wstring RegWrap::findNextEmptyMediaPlayerDesc() 
+#else
+string RegWrap::findNextEmptyMediaPlayerDesc() 
+#endif
+{
 	char locNum[6];
+#ifdef UNICODE
+	wstring foundNum = L"";
+#else
 	string foundNum = "";
+#endif
 	for (long i = 1; i < 24; i++) {
-		itoa(i, (char*)&locNum, 10);
-		if (!RegWrap::valueExists(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions", (char*)&locNum)) {
-			foundNum = (char*)&locNum;
+		_itoa(i, (char*)&locNum, 10);
+#ifdef UNICODE
+		string locTemp = locNum;
+		wstring locNumString = StringHelper::toWStr(locTemp);
+#else
+		string locNumString = locNum;
+#endif
+		if (!RegWrap::valueExists(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions"), /*(char*)&locNum)*/ locNumString)) {
+			foundNum = locNumString; //(char*)&locNum;
 			break;
 		}
 
@@ -226,12 +264,14 @@ string RegWrap::findNextEmptyMediaPlayerDesc() {
 	return foundNum;
 }
 
-bool RegWrap::removeMediaDesc() {
+bool RegWrap::removeMediaDesc() 
+{
+	//NOTE::: This function is deliberately all ansi
 	HKEY locKey;
 	LONG retVal;
 
 	retVal = RegOpenKeyEx(	HKEY_LOCAL_MACHINE,
-							"SOFTWARE\\illiminable\\oggcodecs",
+							TEXT("SOFTWARE\\illiminable\\oggcodecs"),
 							NULL,
 							KEY_ALL_ACCESS,
 							&locKey);
@@ -241,25 +281,34 @@ bool RegWrap::removeMediaDesc() {
 		return false;
 	}
 
-	DWORD locBuffSize = 16;
-	char locBuff[16];
+
+
+	DWORD locBuffSize = 64;
+	char locBuff[64];
 
 	retVal = RegQueryValueEx(	locKey,
-								"MediaDescNum",
+								TEXT("MediaDescNum"),
 								NULL,
 								NULL,
 								(BYTE*)&locBuff,
 								&locBuffSize);
+
+
+#ifdef UNICODE
+	wstring locBuffStr = (wchar_t*)locBuff;
+#else
+	string locBuffStr = locBuff;
+#endif
 
 	RegCloseKey(locKey);
 	if (retVal != ERROR_SUCCESS) {
 		//debugLog<<"Value not found"<<endl;
 		return false;
 	} else {
-		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions", locBuff);
-		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\MUIDescriptions", locBuff);
-		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types", locBuff);
-		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\illiminable\\oggcodecs", "MediaDescNum");
+		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions"), locBuffStr.c_str());
+		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\MUIDescriptions"), locBuffStr.c_str());
+		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types"), locBuffStr.c_str());
+		RegWrap::removeKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\illiminable\\oggcodecs"), TEXT("MediaDescNum"));
 		//debugLog<<"Value found"<<endl;
 		return true;
 		
@@ -267,19 +316,34 @@ bool RegWrap::removeMediaDesc() {
 
 
 }
-bool RegWrap::addMediaPlayerDesc(string inDesc, string inExts) {
-	if (!RegWrap::valueExists(HKEY_LOCAL_MACHINE, "SOFTWARE\\illiminable\\oggcodecs", "MediaDescNum")) {
-		string locDescNum = "";
-		string locFull = inDesc+" ("+inExts+")";
+
+#ifdef UNICODE
+bool RegWrap::addMediaPlayerDesc(wstring inDesc, wstring inExts) 
+#else
+bool RegWrap::addMediaPlayerDesc(string inDesc, string inExts) 
+#endif
+{
+	if (!RegWrap::valueExists(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\illiminable\\oggcodecs"), TEXT("MediaDescNum"))) {
+#ifdef UNICODE
+	wstring locDescNum;
+	wstring locFull;
+#else
+	string locDescNum;
+	string locFull;
+#endif
+		locDescNum = TEXT("");
+		locFull = inDesc+ TEXT(" (") + inExts + TEXT(")");
 		locDescNum = RegWrap::findNextEmptyMediaPlayerDesc();
-		if (locDescNum == "") {
+		if (locDescNum == TEXT("")) {
 			return false;
 		}
-		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\illiminable\\oggcodecs", "MediaDescNum", locDescNum.c_str());
-		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions", locDescNum, locFull.c_str());
-		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\MUIDescriptions", locDescNum, inDesc.c_str());
-		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types", locDescNum, inExts.c_str());
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\illiminable\\oggcodecs"), TEXT("MediaDescNum"), locDescNum.c_str());
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Descriptions"), locDescNum, locFull.c_str());
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\MUIDescriptions"), locDescNum, inDesc.c_str());
+		RegWrap::addKeyVal(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\MediaPlayer\\Player\\Extensions\\Types"), locDescNum, inExts.c_str());
 		return true;
+	} else {
+		return false;
 	}
 
 }

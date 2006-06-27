@@ -64,7 +64,6 @@ STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void 
 HRESULT NativeFLACSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	mDataQueue->NewSegment(tStart, tStop, dRate);
-
 	return S_OK;
 }
 HRESULT NativeFLACSourcePin::DeliverEndOfStream(void)
@@ -92,6 +91,8 @@ HRESULT NativeFLACSourcePin::CompleteConnect (IPin *inReceivePin)
 	mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, NUM_BUFFERS);
 	if (FAILED(mFilterHR)) {
 		//TODO::: Probably should handle this !
+        //CHECK::: See if it ever silently reports failure but actually does work before bailing here.
+        
 		mFilterHR = mFilterHR;
 	}
 	
@@ -104,9 +105,67 @@ HRESULT NativeFLACSourcePin::BreakConnect(void) {
 	return CBaseOutputPin::BreakConnect();
 }
 
-	//CSourceStream virtuals
-HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) {
+
+
+HRESULT NativeFLACSourcePin::SetMediaType(const CMediaType* inMediaType)
+{
+
+    if (((WAVEFORMATEX*)inMediaType->pbFormat)->wFormatTag == WAVE_FORMAT_EXTENSIBLE) {
+        //mUsingExtendedWave = true;
+    } else if (((WAVEFORMATEX*)inMediaType->pbFormat)->wFormatTag == WAVE_FORMAT_PCM) {
+        //mUsingExtendedWave = false;
+    }
+
+    return CBaseOutputPin::SetMediaType(inMediaType);
+
+}
+HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) 
+{
+    //WFE::: Also offer extensible format
 	if (inPosition == 0) {
+		outMediaType->SetType(&MEDIATYPE_Audio);
+		outMediaType->SetSubtype(&MEDIASUBTYPE_PCM);
+		outMediaType->SetFormatType(&FORMAT_WaveFormatEx);
+		outMediaType->SetTemporalCompression(FALSE);
+		outMediaType->SetSampleSize(0);
+
+		WAVEFORMATEXTENSIBLE* locFormatEx = (WAVEFORMATEXTENSIBLE*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
+        
+		locFormatEx->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+
+		locFormatEx->Format.nChannels = (WORD)mParentFilter->mNumChannels;
+		locFormatEx->Format.nSamplesPerSec =  mParentFilter->mSampleRate;
+
+        
+        locFormatEx->Samples.wValidBitsPerSample = (WORD)mParentFilter->mSignificantBitsPerSample;
+
+        //TODO::: Map this properly! What is the correct mapping ???
+        locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT
+                                        |   SPEAKER_FRONT_RIGHT
+                                        |   SPEAKER_FRONT_CENTER
+                                        |   SPEAKER_LOW_FREQUENCY
+                                        |   SPEAKER_BACK_LEFT
+                                        |   SPEAKER_BACK_RIGHT
+                                        ;
+
+        ////TODO::: Round up to multiple of 8 or something
+        //if (mParentFilter->mBitsPerSample <= 16) {
+        //    //Round up to multiple of 8, ie 8 or 16
+        //    locFormatEx->Format.wBitsPerSample = (WORD)(mParentFilter->mBitsPerSample + 7) & 0xfff8;
+        //} else if (mParentFilter->mBitsPerSample <= 32) {
+        //    //Just use 32
+        //    locFormatEx->Format.wBitsPerSample = 32;
+        //}
+		locFormatEx->Format.wBitsPerSample = (WORD)mParentFilter->mBitsPerSample;
+		locFormatEx->Format.nBlockAlign = (WORD)((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3));
+		locFormatEx->Format.nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
+		locFormatEx->Format.cbSize = 22; //sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
+        locFormatEx->SubFormat = KSDATAFORMAT_SUBTYPE_PCM;
+
+        return S_OK;
+
+        //mUsingExtendedWav = true;
+    } else if (inPosition == 1) {
 		outMediaType->SetType(&MEDIATYPE_Audio);
 		outMediaType->SetSubtype(&MEDIASUBTYPE_PCM);
 		outMediaType->SetFormatType(&FORMAT_WaveFormatEx);
@@ -122,20 +181,27 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
 		locFormat->nBlockAlign = (WORD)((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3));
 		locFormat->nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
 		locFormat->cbSize = 0;
+        //mUsingExtendedWav = false;
 	
 		return S_OK;
-	} else {
+
+    } else {
 		return VFW_S_NO_MORE_ITEMS;
 	}
 }
-HRESULT NativeFLACSourcePin::CheckMediaType(const CMediaType* inMediaType) {
-	if ((inMediaType->majortype == MEDIATYPE_Audio) && (inMediaType->subtype == MEDIASUBTYPE_PCM) && (inMediaType->formattype == FORMAT_WaveFormatEx)) {
+HRESULT NativeFLACSourcePin::CheckMediaType(const CMediaType* inMediaType) 
+{
+    //WFE::: Do check for extensible type
+	if (               (inMediaType->majortype == MEDIATYPE_Audio) 
+                    &&  (inMediaType->subtype == MEDIASUBTYPE_PCM) 
+                    && (inMediaType->formattype == FORMAT_WaveFormatEx)) {
 		return S_OK;
 	} else {
 		return E_FAIL;
 	}
 }
-HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) {
+HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) 
+{
 	HRESULT locHR = S_OK;
 
 	ALLOCATOR_PROPERTIES locReqAlloc;
@@ -158,7 +224,8 @@ HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALL
 }
 
 //This method is responsible for deleting the incoming buffer.
-HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) {
+HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) 
+{
 	//Locks !!
 	
 	IMediaSample* locSample = NULL;

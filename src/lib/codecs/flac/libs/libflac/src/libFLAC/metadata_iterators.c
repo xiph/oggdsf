@@ -29,20 +29,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+//CHANGED BY ZEN There is no errno.h, sys/utime, io.h, or sys/stat.h
+#ifndef WINCE
 #include <errno.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #if defined _MSC_VER || defined __MINGW32__
+
+#ifndef WINCE
 #include <sys/utime.h> /* for utime() */
 #include <io.h> /* for chmod() */
+#endif
+
 #else
 #include <sys/types.h> /* some flavors of BSD (like OS X) require this to get time_t */
 #include <utime.h> /* for utime() */
 #include <unistd.h> /* for chown(), unlink() */
 #endif
+
+#ifndef WINCE
 #include <sys/stat.h> /* for stat(), maybe chmod() */
+#endif
 
 #include "private/metadata.h"
 

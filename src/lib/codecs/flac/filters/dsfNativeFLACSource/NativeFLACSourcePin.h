@@ -37,6 +37,10 @@
 //Library Includes
 #include "BasicSeekPassThrough.h"
 
+//Kernel streaming header for KSDATA_FORMAT_SUBTYPE_PCM
+#include "ks.h"
+#include "ksmedia.h"
+
 //Forward Declararions.
 class NativeFLACSourceFilter;
 class NativeFLACSourcePin
@@ -59,6 +63,7 @@ public:
 
 	//CBaseOutputPin virtuals
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
+    virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
 	virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
 

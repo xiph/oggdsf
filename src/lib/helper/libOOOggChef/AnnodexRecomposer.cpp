@@ -61,10 +61,19 @@ using namespace std;
 	given.  (If the file cannot be written for any reason, you will receive no
 	warning.  Yell at me if this is a serious issue.)
  */
+
+#ifdef UNICODE
+AnnodexRecomposer::AnnodexRecomposer(wstring inFilename,
+									 BufferWriter inBufferWriter,
+									 void* inBufferWriterUserData,
+									 wstring inCachedSeekTableFilename)
+
+#else
 AnnodexRecomposer::AnnodexRecomposer(string inFilename,
 									 BufferWriter inBufferWriter,
 									 void* inBufferWriterUserData,
 									 string inCachedSeekTableFilename)
+#endif
 	:	mDemuxState(SEEN_NOTHING)
 	,	mDemuxParserState(LOOK_FOR_HEADERS)
 	,	mBufferWriter(inBufferWriter)
@@ -100,7 +109,12 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	// Optimisation: If the client only wants CMML, and a file with .cmml
 	// exists, recompose from that instead of the original .anx file, which
 	// will be orders of magnitudes faster!
-	string locCMMLFilename = mFilename + ".cmml";
+#ifdef UNICODE
+	wstring locCMMLFilename;
+#else
+	string locCMMLFilename;
+#endif
+	locCMMLFilename = mFilename + TEXT(".cmml");
 	if (wantOnlyCMML(mWantedMIMETypes) && fileExists(locCMMLFilename)) {
 #ifdef DEBUG
 		mDebugFile << "Client wants CMML: " + locCMMLFilename + " exists" << endl;
@@ -122,13 +136,13 @@ bool AnnodexRecomposer::recomposeStreamFrom(double inStartingTimeOffset,
 	// the stream headers, and the byte position of the user's requested start
 	// time
 	AutoAnxSeekTable *locSeekTable = new AutoAnxSeekTable(mFilename);
-	if (mCachedSeekTableFilename != "" && fileExists(mCachedSeekTableFilename)) {
+	if ((mCachedSeekTableFilename != TEXT("")) && fileExists(mCachedSeekTableFilename)) {
 		locSeekTable->buildTableFromFile(mCachedSeekTableFilename);
 	} else {
 		locSeekTable->buildTable();
 	}
 
-	if (mCachedSeekTableFilename != "" && !fileExists(mCachedSeekTableFilename)) {
+	if ((mCachedSeekTableFilename != TEXT("")) && !fileExists(mCachedSeekTableFilename)) {
 		locSeekTable->serialiseInto(mCachedSeekTableFilename);
 	}
 	

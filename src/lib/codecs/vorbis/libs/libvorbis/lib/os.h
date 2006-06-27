@@ -115,8 +115,9 @@ static inline int vorbis_ftoi(double f){  /* yes, double!  Otherwise,
 }
 #endif
 
-
-#if defined(_WIN32) && !defined(__GNUC__) && !defined(__BORLANDC__)
+//ZEN::: I added !defined(WINCE) here, since WIN32 isn't necessarily x86
+//			though some WINCE is x86, so it's not really a perfect solution
+#if defined(_WIN32) && !defined(__GNUC__) && !defined(__BORLANDC__) && !defined(WINCE)
 #  define VORBIS_FPU_CONTROL
 
 typedef ogg_int16_t vorbis_fpu_control;

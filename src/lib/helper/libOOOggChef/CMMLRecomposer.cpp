@@ -54,7 +54,11 @@ using namespace std;
 
 #undef DEBUG
 
+#ifdef UNICODE
+CMMLRecomposer::CMMLRecomposer(wstring inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
+#else 
 CMMLRecomposer::CMMLRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData)
+#endif
 	:	mCMMLFilename(inFilename)
 	,	mBufferWriter(inBufferWriter)
 	,	mBufferWriterUserData(inBufferWriterUserData)
@@ -83,7 +87,7 @@ bool CMMLRecomposer::recomposeStreamFrom(double inStartingTimeOffset, const vect
 	// Parse in the CMML into a C_CMMLDoc class
 	C_CMMLDoc *locCMML = new C_CMMLDoc;
 	CMMLParser locCMMLParser;
-	locCMMLParser.parseDocFromFile(StringHelper::toWStr(mCMMLFilename), locCMML);
+	locCMMLParser.parseDocFromFile(mCMMLFilename, locCMML);
 
 	// We assume that CMML recomposition fails unless explicitly set otherwise
 	bool locReturnValue = false;

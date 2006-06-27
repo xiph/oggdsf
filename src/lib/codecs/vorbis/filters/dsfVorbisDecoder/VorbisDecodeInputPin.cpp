@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -47,7 +47,6 @@ VorbisDecodeInputPin::VorbisDecodeInputPin	(		AbstractTransformFilter* inFilter
 												,	L"Vorbis In", inAcceptableMediaTypes
 											)
 	,	mBegun(false)
-	,	mFishSound(NULL)
 
 	,	mNumChannels(0)
 	,	mFrameSize(0)
@@ -61,15 +60,17 @@ VorbisDecodeInputPin::VorbisDecodeInputPin	(		AbstractTransformFilter* inFilter
 	,	mSentStreamOffset(false)
 		
 {
-	//debugLog.open("g:\\logs\\vorbislog.log", ios_base::out);
+	debugLog.open(L"\\Memory Card\\vorbinpin.txt", ios_base::out);
+	debugLog<<"Pin constructor"<<endl;
 	ConstructCodec();
+	debugLog<<"Pin constructor - post construct codec"<<endl;
 
 	mDecodedBuffer = new unsigned char[DECODED_BUFFER_SIZE];
 }
 
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	DestroyCodec();
 	delete[] mDecodedBuffer;
 
@@ -92,20 +93,12 @@ STDMETHODIMP VorbisDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void
 }
 bool VorbisDecodeInputPin::ConstructCodec() 
 {
-	mFishSound = fish_sound_new (FISH_SOUND_DECODE, &mFishInfo);			//Deleted by destroycodec from destructor.
-
-	int i = 1;
-	//FIX::: Use new API for interleave setting
-	fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
-
-	fish_sound_set_decoded_callback (mFishSound, VorbisDecodeInputPin::VorbisDecoded, this);
-	//FIX::: Proper return value
 	return true;
+	//Vorbis decoder should be good to go
 }
 void VorbisDecodeInputPin::DestroyCodec() 
 {
-	fish_sound_delete(mFishSound);
-	mFishSound = NULL;
+
 }
 
 
@@ -131,62 +124,7 @@ STDMETHODIMP VorbisDecodeInputPin::EndFlush()
 	return locHR;
 }
 
-int __cdecl VorbisDecodeInputPin::VorbisDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer) 
-{
-	
-	VorbisDecodeInputPin* locThis = reinterpret_cast<VorbisDecodeInputPin*> (inThisPointer);
-	VorbisDecodeFilter* locFilter = reinterpret_cast<VorbisDecodeFilter*>(locThis->m_pFilter);
 
-	if (locThis->CheckStreaming() == S_OK) {
-
-		unsigned long locActualSize = inFrames * locThis->mFrameSize;
-		unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
-		unsigned long locBufferRemaining = DECODED_BUFFER_SIZE - locThis->mDecodedByteCount;
-		
-
-
-		//Create a pointer into the buffer		
-		signed short* locShortBuffer = (signed short*)&locThis->mDecodedBuffer[locThis->mDecodedByteCount];
-		
-		
-		signed short tempInt = 0;
-		float tempFloat = 0;
-		
-		//FIX:::Move the clipping to the abstract function
-
-		if (locBufferRemaining >= locActualSize) {
-			//Do float to int conversion with clipping
-			const float SINT_MAX_AS_FLOAT = 32767.0f;
-			for (unsigned long i = 0; i < locTotalFrameCount; i++) {
-				//Clipping because vorbis puts out floats out of range -1 to 1
-				if (((float*)inPCM)[i] <= -1.0f) {
-					tempInt = SINT_MIN;	
-				} else if (((float*)inPCM)[i] >= 1.0f) {
-					tempInt = SINT_MAX;
-				} else {
-					//FIX:::Take out the unnescessary variable.
-					tempFloat = ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-					//ASSERT((tempFloat <= 32767.0f) && (tempFloat >= -32786.0f));
-					tempInt = (signed short)(tempFloat);
-					//tempInt = (signed short) ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-				}
-				
-				*locShortBuffer = tempInt;
-				locShortBuffer++;
-			}
-
-			locThis->mDecodedByteCount += locActualSize;
-			
-			return 0;
-		} else {
-			throw 0;
-		}
-	} else {
-		DbgLog((LOG_TRACE,1,TEXT("Fishsound sending stuff we aren't ready for...")));
-		return -1;
-	}
-
-}
 
 STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample) 
 {
@@ -246,7 +184,10 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 						return locHR;
 					}
 
+					debugLog<<"Sample Size = "<<locSample->GetSize()<<endl;
 					locBytesToCopy = ((mDecodedByteCount - locBytesCopied) <= locSample->GetSize()) ? (mDecodedByteCount - locBytesCopied) : locSample->GetSize();
+					debugLog<<"Filled size = "<<locBytesToCopy<<endl;
+					debugLog<<"Actual Buffer count = "<<mOutputPin->actualBufferCount()<<endl;
 					//locBytesCopied += locBytesToCopy;
 
 					locSampleDuration = (((locBytesToCopy/mFrameSize) * UNITS) / mSampleRate);
@@ -308,19 +249,22 @@ HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 {
 	//TODO::: Return types !!!
 
-	//debugLog << "Decode called... Last Gran Pos : "<<mLastSeenStartGranPos<<endl;
-	DbgLog((LOG_TRACE,1,TEXT("decodeData")));
-	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
-	//FIX::: Do something here ?
-	if (locErr < 0) {
-		DbgLog((LOG_TRACE,1,TEXT("decodeData : fishsound returns < 0")));
-		return S_FALSE;
-		//debugLog <<"** Fish Sound error **"<<endl;
-	} else {
+	VorbisDecoder::eVorbisResult locResult;
+	unsigned long locNumSamples = 0;
+	locResult = mVorbisDecoder.decodePacket(	inBuf
+											,	inNumBytes
+											,	(short*)(mDecodedBuffer + mDecodedByteCount)
+											,	DECODED_BUFFER_SIZE - mDecodedByteCount
+											,	&locNumSamples);
+
+	if (locResult == VorbisDecoder::VORBIS_DATA_OK) {
+		mDecodedByteCount += locNumSamples * mFrameSize;
 		return S_OK;
-		//debugLog << "Fish Sound OK >=0 "<<endl;
 	}
-	//return locErr;
+
+	//For now, just silently ignore busted packets.
+	return S_OK;
+
 }
 
 
@@ -330,7 +274,7 @@ HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType)
 
 	if (CheckMediaType(inMediaType) == S_OK) {
 		((VorbisDecodeFilter*)mParentFilter)->setVorbisFormat(inMediaType->pbFormat);
-		
+		debugLog<<"Set media type"<<endl;
 	} else {
 		throw 0;
 	}
@@ -342,10 +286,12 @@ HRESULT VorbisDecodeInputPin::CheckMediaType(const CMediaType *inMediaType)
 		if (inMediaType->cbFormat == VORBIS_IDENT_HEADER_SIZE) {
 			if (strncmp((char*)inMediaType->pbFormat, "\001vorbis", 7) == 0) {
 				//TODO::: Possibly verify version
+				debugLog<<"Check media type ok"<<endl;
 				return S_OK;
 			}
 		}
 	}
+	debugLog<<"Check media type failed"<<endl;
 	return S_FALSE;
 	
 }
@@ -376,12 +322,18 @@ LOOG_INT64 VorbisDecodeInputPin::mustSeekBefore(LOOG_INT64 inGranule)
 }
 IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacket* inCodecHeaderPacket)
 {
+	unsigned long locDummy;
 	switch (mSetupState) {
 		case VSS_SEEN_NOTHING:
 			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\001vorbis", 7) == 0) {
 				//TODO::: Possibly verify version
-				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
+				if (mVorbisDecoder.decodePacket(		inCodecHeaderPacket->packetData()
+													,	inCodecHeaderPacket->packetSize()
+													,	NULL
+													,	0
+													,	&locDummy) == VorbisDecoder::VORBIS_HEADER_OK) {
 					mSetupState = VSS_SEEN_BOS;
+					debugLog<<"Saw first header"<<endl;
 					return IOggDecoder::AHR_MORE_HEADERS_TO_COME;
 				}
 			}
@@ -390,8 +342,14 @@ IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacke
 			
 		case VSS_SEEN_BOS:
 			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\003vorbis", 7) == 0) {
-				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
+				if (mVorbisDecoder.decodePacket(		inCodecHeaderPacket->packetData()
+													,	inCodecHeaderPacket->packetSize()
+													,	NULL
+													,	0
+													,	&locDummy) == VorbisDecoder::VORBIS_COMMENT_OK) {
+
 					mSetupState = VSS_SEEN_COMMENT;
+					debugLog<<"Saw second header"<<endl;
 					return IOggDecoder::AHR_MORE_HEADERS_TO_COME;
 				}
 				
@@ -402,18 +360,23 @@ IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacke
 			
 		case VSS_SEEN_COMMENT:
 			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\005vorbis", 7) == 0) {
-				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
+				if (mVorbisDecoder.decodePacket(		inCodecHeaderPacket->packetData()
+													,	inCodecHeaderPacket->packetSize()
+													,	NULL
+													,	0
+													,	&locDummy) == VorbisDecoder::VORBIS_CODEBOOK_OK) {
+
 		
-					fish_sound_command (mFishSound, FISH_SOUND_GET_INFO, &(mFishInfo), sizeof (FishSoundInfo)); 
 					//Is mBegun useful ?
 					mBegun = true;
 			
-					mNumChannels = mFishInfo.channels;
+					mNumChannels = mVorbisDecoder.numChannels();
 					mFrameSize = mNumChannels * SIZE_16_BITS;
-					mSampleRate = mFishInfo.samplerate;
+					mSampleRate = mVorbisDecoder.sampleRate(); 
 
 		
 					mSetupState = VSS_ALL_HEADERS_SEEN;
+					debugLog<<"Saw third header"<<endl;
 					return IOggDecoder::AHR_ALL_HEADERS_RECEIVED;
 				}
 				
@@ -432,7 +395,7 @@ string VorbisDecodeInputPin::getCodecShortName()
 }
 string VorbisDecodeInputPin::getCodecIdentString()
 {
-	//TODO:::
+	//TODO::: Get full ident string
 	return "vorbis";
 }
 
@@ -447,6 +410,7 @@ HRESULT VorbisDecodeInputPin::CompleteConnect(IPin *inReceivePin)
 	} else {
 		mOggOutputPinInterface = NULL;
 	}
+	debugLog<<"Complete Connect"<<endl;
 	return AbstractTransformInputPin::CompleteConnect(inReceivePin);
 	
 }

@@ -67,8 +67,9 @@ bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)
 			}
 			break;
 		case STRMAP_FINISHED:
-			return false;
-		case STRMAP_ERROR:
+        case STRMAP_ERROR:
+        default:
+		
 			return false;
 			
 	}

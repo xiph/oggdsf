@@ -48,8 +48,12 @@ public:
 	~FileComments(void);
 
 	
-
+#ifdef UNICODE
+	bool loadFile(wstring inFileName);
+#else
 	bool loadFile(string inFileName);
+#endif
+	//bool loadFile(string inFileName);
 	string fileName();
 
 	bool writeOutAll(string inFileName);

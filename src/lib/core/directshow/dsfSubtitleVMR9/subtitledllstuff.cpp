@@ -60,7 +60,7 @@ STDAPI DllRegisterServer()
 		L"Subtitle VMR9 Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Subtitle VMR9 Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &SubtitleVMR9FilterReg								// Pointer to filter information.
     );
 
@@ -89,7 +89,7 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Vorbis Decode Filter", CLSID_SubtitleVMR9Filter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_SubtitleVMR9Filter);
 
 
 	//

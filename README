@@ -1,4 +1,214 @@
+Information for builds after 0.71
+=================================
+
+This project now uses VS2005. VS2003/2002/6.0 will *not*
+ be able to open or build this project.
+
+This also means it uses V8.0 of the run time libraries.
+Depending if i have suppressed the warnings, you may
+see lots of compiler warnings about things in the C
+library being deprecated. As of V8.0 most of the standard
+C library is marked deprecated and it is recommended to
+use new and semantically different functions from the new
+secure CRT. Since there are so many of these occurences,
+and some of the code needs to be portable, these warnings
+are mostly suppressed/ignored.
+
+In order to fix unicode problems on modern systems without
+ dropping support for 9X/ME machines, a custom built
+ C runtime needs to be used. These are in the repository
+ in the bin directory. You need to overwrite some of your
+ Visual Studio files to build the version that can run
+ on the old versions. At this stage i haven't checked
+ whether it is now unbuildable without doing this (i don't
+ think it will be, just you will get a binary that only
+ works on NT/2K/XP systems)
+
+(More info to come on this)  
+
+You need to set up several things in your build environment
+ in order to build this project. It depends on several
+ Microsoft SDK's. Without these you cannot build this
+ project.
+
+The directshow SDK is now part of the core platforms SDK.
+ You will need this as well as the DirectX SDK.
+
+There are no longer hardcoded paths into the directx sdk,
+ all the projects now use the environment variables that
+ are created by installing the SDK's.
+
+The main solution is in \sln\oggdsf_all
+
+Some projects in the solution may not build. You should
+ build the distribution project called oggcodecs, to
+ ensure you are build all and only the projects that are
+ part of the core distribution. VS Express, may or may not
+ properly handle distribution project.
+
+If you are using the distribution project from the IDE
+ it is important that before you
+ install using that installer, that you uninstall any
+ version of the official distribution. Similarly, if
+ you are going to install the official distribution
+ after you have used this feature, you need to unistall
+ the official distribution.
+ They use two different installer technologies, and each
+  will install over the other without the other one
+  knowing.
+
+In order to build you need the following
+ * Visual Studio 2005 - I develop and test with the professional
+    edition. This is the recommended way to build.
+
+    It should/may also be possible to build with the
+    free Express edition. To build the directshow filters
+    core package, you'll need VC++ 2005 Express. Other
+    projects not part of the core distribution are in C#
+    so if you want to be able to open every project in the
+    solution you will also need this. I have not tested
+    using the express edition yet. If you try and it works
+    let me know, or tell me anything special you had to do.
+
+    You can download express edition for free from
+    http://msdn.microsoft.com/vstudio/express/visualc/default.aspx
+
+    
+ * Windows Server 2003 SP1 Platform SDK - Yes, even if you
+    are using XP or whatever operating system.
+
+    You can download it from (~400MB, getting the disk image is easiest)
+    http://www.microsoft.com/downloads/details.aspx?FamilyId=A55B6B43-E24F-4EA3-A93E-40C0EC4F68E5&displaylang=en
+
+   You will need to update the build paths in VS2005, whether
+    you use express or the full version. The following link explains
+    how to do that (see step 3). If using express, you will need
+    to follow all the steps on this link.
+
+   http://msdn.microsoft.com/vstudio/express/visualc/usingpsdk/
+
+   See step 3. 
+
+   eg. in the Executable files list *at the top* of the list
+    ad $(MSSdk)\Bin and in the include list $(MSSdk)\include
+   They must be at the top (or at least above the other
+    references to the built in platform sdk), 
+    otherwise the compiler will
+    still use the old version it came with.
+
+   In the installer there is one item not checked at the top
+    This option adds the MSSdk environment variable. It
+    warns this could affect other programs that use older
+    versions of the platform sdk. It caused no problem for
+    me, but if you have development projects depending 
+    on this variable and/or older versions of the platform
+    SDK, you'll have to work out what works for you. That
+    warning is pretty big and bold.
+
+   If you don't take this option, you'll need to hardcode in
+    the path you installed the platform sdk to as it does
+    suggest in step 3 of the link above, however this still
+    changes VS's global settings could also cause problems.
+
+   Alternatively, if you don't take this option, and later 
+    realise that this issue will not affect you, you can
+    add the MSSdk user and system variable yourself if you
+    choose.
+
+   Hardcoding the path will force VS to always use this
+    version, and you'll have to update it if a new one
+    comes out. Using the environment variable will cause
+    it to always use the latest version (really whatever version
+    the variable points to). Each option has it's ups and
+    downs, depending on what other development work you do.
+
+   Also note: That big bold warning says you can register with
+    visual studio by using a link in the start menu. This
+    *does not* work for VS2005. The platform SDK was released
+    before VS2005, it's probably updating the build paths
+    in vs2003. This is the reason you have to manaully update
+    the paths in options. It's likely when a new platform
+    SDK is released it will work properly for VS2005.
+   
+
+   You mileage mary vary if you have the express edition.
+
+ * DirectX SDK February 2006 (or probably later will work too)
+
+    You can download it from (~350MB, validation required)
+    http://www.microsoft.com/downloads/details.aspx?FamilyID=EDB98FFA-A59C-4C23-9B92-BA304F188314&displaylang=en
+
+    You will also need to add to your include paths in
+     Visual Studio the path to the DX include files.
+    This DX SDK creates the environment variable DXSDK_DIR
+
+    So you need to add to the include list (as you did above)
+    $(DXSDK_DIR)include
+
+ * WMP 10 SDK - At this time not required, but may be by
+    the time you read this if i forget to update this doc.
+    I'll try to remember!
+
+   You can download from here
+   http://msdn.microsoft.com/windowsmedia/downloads/default.aspx
+
+ * NASM 0.98.38/0.98.39 - This is required for flac. Best to
+    install it to it's default at C:\NASM.
+
+   You can download from here
+   http://sourceforge.net/projects/nasm
+
+ * Windows Mobile 5.0 Developer Resource Kit (~900MB)
+    http://www.microsoft.com/downloads/details.aspx?familyid=3BAA5B7D-04C1-4EC2-83DC-61B21EC5FE57&displaylang=en
+
+   The express edition can not do mobile development.
+   I have no idea whether it will let you open the project
+    and ignore the mobile configurations or whether
+    it will just refuse to let you. I'm not sure if
+    the professional edition will even let you open the
+    projects which have wm5 configs (most of them)
+    without installing this.
+
+
+
+You need all these things if you want to build this project.
+ If you already do directx/multimedia development you may already
+ have some or all of these sdk's. You only need them once to setup
+ your build environment.
+
+It may seem excessive that you need to download 2 gigabytes of stuff
+ just to build. This project uses technologies from several sdk's, 
+ and there is no way around that. Once you set up these things, the
+ project is very easy to build, with the professional edition and
+ above that is, possibly the standard edition. 
+
+The baseclasses library is no longer used from the platform
+ SDK (but you still need it). There is a modified version
+ of the baseclasses libraries that is part of this source.
+ The version in the platform SDK won't build in VS2005 as it
+ is, the modifed version that is part of this source has
+ fixes so that it builds correctly with the new compiler.
+
+This project now uses V8 of the runtime libraries. As of
+ version 8, there are changes to the way the operating system
+ handles these libraries. The first release to use this is/will be
+ 0.72.xxxx
+
+The release distributions are built using NSIS. There is
+ an MSI installer project in the solution, this is only
+ for developer convenience. It is often not fully up to
+ date, and/or correct. It should *never* be used as a means
+ of distribution.
+   
+
+==========================================================
+The below information is left for reference, where the 
+ information above conflicts with this, the information
+ above should take precedence. Much of the information 
+ below is no longer relevant.
+==========================================================
 Updated after 0.62 release.
+==========================
 
 These are probably not very build friendly at the moment.
 I will make them a bit more user friendly in the future.

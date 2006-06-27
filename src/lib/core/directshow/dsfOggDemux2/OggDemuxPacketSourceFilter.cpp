@@ -40,7 +40,11 @@ CFactoryTemplate g_Templates[] =
 	    &CLSID_OggDemuxPacketSourceFilter,            // CLSID
 	    OggDemuxPacketSourceFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
+#ifdef WINCE
+		&OggDemuxPacketSourceFilterReg
+#else
         NULL									// Set-up information (for filters)
+#endif
     }
 	
 	//,
@@ -58,6 +62,13 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
+
+#ifdef WINCE
+LPAMOVIESETUP_FILTER OggDemuxPacketSourceFilter::GetSetupData()
+{	
+	return (LPAMOVIESETUP_FILTER)&OggDemuxPacketSourceFilterReg;	
+}
+#endif
 //COM Creator Function
 CUnknown* WINAPI OggDemuxPacketSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
@@ -70,10 +81,23 @@ CUnknown* WINAPI OggDemuxPacketSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRES
 //COM Interface query function
 STDMETHODIMP OggDemuxPacketSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	if (riid == IID_IFileSourceFilter) {
+
+	//TODO::: Possibly want to add a check when someone queries for ICustomSource and then disallow IFileSource
+	//			and vice versa, but that could cause a problem if applications just want to query out of
+	//			curiosity but not actually use it.
+	//
+	//			For now, using ICustomSource is pretty much unsupported, so if you are using it, you just have to
+	//			be careful you don't try and load a file twice by accident.
+	if ((riid == IID_IFileSourceFilter)) {
 		*ppv = (IFileSourceFilter*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
+	} else if (riid == IID_ICustomSource) {
+		*ppv = (ICustomSource*)this;
+		//((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+
+
 	//} else if (riid == IID_IMediaSeeking) {
 	//	*ppv = (IMediaSeeking*)this;
 	//	((IUnknown*)*ppv)->AddRef();
@@ -112,7 +136,13 @@ OggDemuxPacketSourceFilter::OggDemuxPacketSourceFilter(void)
 	,	mJustReset(true)
 	,	mSeekTable(NULL)
 	,	mGlobalBaseTime(0)
+
+	,	mUsingCustomSource(false)
+
 {
+    debugLog.open(L"c:\\demux.log", ios_base::out);
+	debugLog<<L"Constructor"<<endl;
+
 	//Why do we do this, should the base class do it ?
 	m_pLock = new CCritSec;
 
@@ -127,9 +157,13 @@ OggDemuxPacketSourceFilter::OggDemuxPacketSourceFilter(void)
 
 OggDemuxPacketSourceFilter::~OggDemuxPacketSourceFilter(void)
 {
+	debugLog<<L"Destructor"<<endl;
+	debugLog.close();
 	delete mStreamMapper;
 	delete mSeekTable;
 	//TODO::: Delete the locks
+
+
 
 	delete mDemuxLock;
 	delete mStreamLock;
@@ -142,6 +176,7 @@ OggDemuxPacketSourceFilter::~OggDemuxPacketSourceFilter(void)
 STDMETHODIMP OggDemuxPacketSourceFilter::Run(REFERENCE_TIME tStart) 
 {
 	CAutoLock locLock(m_pLock);
+    debugLog<<L"Run ------- "<<endl;
 	return CBaseFilter::Run(tStart);
 
 	
@@ -150,13 +185,19 @@ STDMETHODIMP OggDemuxPacketSourceFilter::Run(REFERENCE_TIME tStart)
 STDMETHODIMP OggDemuxPacketSourceFilter::Pause(void) 
 {
 	CAutoLock locLock(m_pLock);
+    debugLog<<L"Pause post-lock"<<endl;
 	if (m_State == State_Stopped) {
+        debugLog<<L"Pause -- was stopped"<<endl;
 		if (ThreadExists() == FALSE) {
+            debugLog<<L"Pause -- CREATING THREAD"<<endl;
 			Create();
 		}
+        debugLog<<L"Pause -- RUNNING THREAD"<<endl;
 		CallWorker(THREAD_RUN);
 	}
 	HRESULT locHR = CBaseFilter::Pause();
+
+    debugLog<<L"Pause ()() COMPLETE"<<endl;
 	
 	return locHR;
 	
@@ -164,6 +205,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::Pause(void)
 STDMETHODIMP OggDemuxPacketSourceFilter::Stop(void) 
 {
 	CAutoLock locLock(m_pLock);
+    debugLog<<L"Stop -- KILLING!! THREAD"<<endl;
 	CallWorker(THREAD_EXIT);
 	Close();
 	DeliverBeginFlush();
@@ -177,6 +219,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::Stop(void)
 void OggDemuxPacketSourceFilter::DeliverBeginFlush() 
 {
 	CAutoLock locLock(m_pLock);
+    debugLog<<"%%% Begin Flush"<<endl;
 	
 	for (unsigned long i = 0; i < mStreamMapper->numPins(); i++) {
 		mStreamMapper->getPinByIndex(i)->DeliverBeginFlush();
@@ -191,32 +234,18 @@ void OggDemuxPacketSourceFilter::DeliverBeginFlush()
 void OggDemuxPacketSourceFilter::DeliverEndFlush() 
 {
 	CAutoLock locLock(m_pLock);
+    debugLog<<L"$$$ End Flush"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numPins(); i++) {
 		//mStreamMapper->getOggStream(i)->flush();
 		mStreamMapper->getPinByIndex(i)->DeliverEndFlush();
 	}
 
-	
-	//if (mSetIgnorePackets == true) {
-	//	mStreamMapper->toStartOfData();
-	//	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-	//		//mStreamMapper->getOggStream(i)->flush();
-	//		mStreamMapper->getOggStream(i)->getPin()->DeliverEndFlush();
-	//	}
-
-	//} else {
-	//
-	//	for (unsigned long i = 0; i < mStreamMapper->numStreams(); i++) {
-	//		mStreamMapper->getOggStream(i)->flush();
-	//		mStreamMapper->getOggStream(i)->getPin()->DeliverEndFlush();
-	//	}
-	//}
-	//mSetIgnorePackets = false;
 }
 void OggDemuxPacketSourceFilter::DeliverEOS() 
 {
 	//mStreamMapper->toStartOfData();
-	//CAutoLock locLock(m_pLock);
+    CAutoLock locStreamLock(mStreamLock);
+    debugLog<<L"### Deliver EOS"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numPins(); i++) {
 		//mStreamMapper->getOggStream(i)->flush();
 		mStreamMapper->getPinByIndex(i)->DeliverEndOfStream();
@@ -228,7 +257,8 @@ void OggDemuxPacketSourceFilter::DeliverEOS()
 
 void OggDemuxPacketSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate) 
 {
-	
+    CAutoLock locStreamLock(mStreamLock);
+	debugLog<<L"Deliver New Segment"<<endl;
 	for (unsigned long i = 0; i < mStreamMapper->numPins(); i++) {
 		mStreamMapper->getPinByIndex(i)->DeliverNewSegment(tStart, tStop, dRate);
 	}
@@ -236,28 +266,35 @@ void OggDemuxPacketSourceFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERE
 
 void OggDemuxPacketSourceFilter::resetStream() {
 	{
+        
 		CAutoLock locDemuxLock(mDemuxLock);
 		CAutoLock locSourceLock(mSourceFileLock);
-
-		//Close up the data source
-		mDataSource->clear();
-
-		mDataSource->close();
-		delete mDataSource;
-		mDataSource = NULL;
-		
+        debugLog<<L"---RESET STREAM::: post locks"<<endl;
 
 		mOggBuffer.clearData();
 
-		//Before opening make the interface
-		mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
 
-		mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
+
+		//For a custom data source, we send it a clear request to reset any error state.
+		//For normal source, we close down the source and re-open it.
+		mDataSource->clear();
+
+		if (!mUsingCustomSource) {
+			mDataSource->close();
+			delete mDataSource;
+			mDataSource = NULL;
+
+			//Before opening make the interface
+			mDataSource = DataSourceFactory::createDataSource(mFileName);
+
+			mDataSource->open(mFileName);
+		}
 		mDataSource->seek(0);   //Should always be zero for now.
 
 		//TODO::: Should be doing stuff with the demux state here ? or packetiser ?>?
 		
 		mJustReset = true;   //TODO::: Look into this !
+        debugLog<<L"---RESET STREAM::: JUST RESET = TRUE"<<endl;
 	}
 }
 bool OggDemuxPacketSourceFilter::acceptOggPage(OggPage* inOggPage)
@@ -268,6 +305,7 @@ bool OggDemuxPacketSourceFilter::acceptOggPage(OggPage* inOggPage)
 			mBufferedPages.push_back(inOggPage);
 			return true;
 		} else {
+			debugLog<<"Found BOS"<<endl;
 			return mStreamMapper->acceptOggPage(inOggPage);
 		}
 	} else if (!mSeenPositiveGranulePos) {
@@ -283,15 +321,33 @@ bool OggDemuxPacketSourceFilter::acceptOggPage(OggPage* inOggPage)
 }
 HRESULT OggDemuxPacketSourceFilter::SetUpPins()
 {
+	
 	CAutoLock locDemuxLock(mDemuxLock);
 	CAutoLock locSourceLock(mSourceFileLock);
 	
+	debugLog<<L"Setup Pins - Post lock"<<endl;
 	unsigned short locRetryCount = 0;
 	const unsigned short RETRY_THRESHOLD = 3;
 
-	//Create and open a data source
-	mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
-	mDataSource->open(StringHelper::toNarrowStr(mFileName).c_str());
+	//For custom sources, we expect that the source will be provided open and ready
+	if (!mUsingCustomSource) {
+		//Create and open a data source if we are using the standard source.
+
+		debugLog<<L"Pre data source creation"<<endl;
+		//mDataSource = DataSourceFactory::createDataSource(StringHelper::toNarrowStr(mFileName).c_str());
+        mDataSource = DataSourceFactory::createDataSource(mFileName);
+		debugLog<<L"Post data source creation"<<endl;
+		if (mDataSource == NULL) {
+			return VFW_E_CANNOT_RENDER;
+		}
+		
+		if (!mDataSource->open(mFileName)) {
+			return VFW_E_CANNOT_RENDER;
+		}
+	} else {
+		//For custom sources seek to the start, just in case
+		mDataSource->seek(0);
+	}
 	
 	//Error check
 	
@@ -311,16 +367,17 @@ HRESULT OggDemuxPacketSourceFilter::SetUpPins()
 		}
 
 		if (mDataSource->isEOF() || mDataSource->isError()) {
-			if (mDataSource->isError() && (mDataSource->shouldRetryAt() != "") && (locRetryCount < RETRY_THRESHOLD)) {
+			if (mDataSource->isError() && (mDataSource->shouldRetryAt() != L"") && (locRetryCount < RETRY_THRESHOLD) && (!mUsingCustomSource)) {
 				mOggBuffer.clearData();
-				string locNewLocation = mDataSource->shouldRetryAt();
+				wstring locNewLocation = mDataSource->shouldRetryAt();
 				//debugLog<<"Retrying at : "<<locNewLocation<<endl;
 				delete mDataSource;
-				mDataSource = DataSourceFactory::createDataSource(locNewLocation.c_str());
-				mDataSource->open(locNewLocation.c_str());
+				mDataSource = DataSourceFactory::createDataSource(locNewLocation);
+				mDataSource->open(locNewLocation);
 				locRetryCount++;
-			} else {
-				//debugLog<<"Bailing out"<<endl;
+			//This prevents us dying on small files, if we hit eof but we also saw a +'ve gran pos, this file is ok.
+			} else if (!(mDataSource->isEOF() && mSeenPositiveGranulePos)) {
+				debugLog<<L"Bailing out"<<endl;
 				delete[] locBuff;
 				return VFW_E_CANNOT_RENDER;
 			}
@@ -330,9 +387,10 @@ HRESULT OggDemuxPacketSourceFilter::SetUpPins()
 	//mStreamMapper->setAllowDispatch(true);
 	//mStreamMapper->();			//Flushes all streams and sets them to ignore the right number of headers.
 	mOggBuffer.clearData();
+	//mDataSource->clear();
 	mDataSource->seek(0);			//TODO::: This is bad for streams.
 
-	//debugLog<<"COMPLETED SETUP"<<endl;
+	debugLog<<"COMPLETED SETUP"<<endl;
 	delete[] locBuff;
 	return S_OK;
 
@@ -379,6 +437,15 @@ CBasePin* OggDemuxPacketSourceFilter::GetPin(int inPinNo)
 	return mStreamMapper->getPinByIndex(inPinNo);
 }
 
+HRESULT OggDemuxPacketSourceFilter::setCustomSourceAndLoad(IFilterDataSource* inDataSource)
+{
+	CAutoLock locLock(m_pLock);
+	mDataSource = inDataSource;
+	mFileName = L"";
+	mUsingCustomSource = true;
+
+	return SetUpPins();
+}
 //IFileSource Interface
 STDMETHODIMP OggDemuxPacketSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) 
 {
@@ -394,12 +461,16 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_ME
 
 STDMETHODIMP OggDemuxPacketSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) 
 {
+	
 	////Initialise the file here and setup all the streams
 	CAutoLock locLock(m_pLock);
 
+	debugLog<<L"Load - post lock"<<endl;
 
-
+	
 	mFileName = inFileName;
+
+	debugLog<<L"File :"<<mFileName<<endl;
 
 	if (mFileName.find(L"XsZZfQ__WiiPFD.anx") == mFileName.size() - 18){
 		mFileName = mFileName.substr(0, mFileName.size() - 18);
@@ -426,8 +497,11 @@ STDMETHODIMP OggDemuxPacketSourceFilter::Load(LPCOLESTR inFileName, const AM_MED
 		//	mSeekTable->addStream(locPin->getSerialNo(), locPin->getDecoderInterface());
 		//}
 		//mSeekTable->buildTable();
+
+		debugLog<<L"Load OK"<<endl;
 		return S_OK;
 	} else {
+		debugLog<<L"Load Fail "<<locHR<<endl;
 		return locHR;
 	}
 
@@ -451,12 +525,14 @@ DWORD OggDemuxPacketSourceFilter::ThreadProc(void) {
 			case THREAD_EXIT:
 	
 				Reply(S_OK);
+                debugLog<<L"Thread Proc --- THREAD IS EXITING"<<endl;
 				return S_OK;
 
 			case THREAD_RUN:
 	
 				Reply(S_OK);
 				DataProcessLoop();
+                debugLog<<L"Thread Proc --- Data Process Loop has returnsed"<<endl;
 				break;
 		}
 	}
@@ -465,20 +541,36 @@ DWORD OggDemuxPacketSourceFilter::ThreadProc(void) {
 
 void OggDemuxPacketSourceFilter::notifyPinConnected()
 {
+	debugLog<<L"Notify pin connected"<<endl;
 	if (mStreamMapper->allStreamsReady()) {
 		//Setup the seek table.
 		if (mSeekTable == NULL) {
-			mSeekTable = new AutoOggChainGranuleSeekTable(StringHelper::toNarrowStr(mFileName));
+			//CUSTOM SOURCE:::
+			if (!mUsingCustomSource) {
+				debugLog<<L"Setting up seek table"<<endl;
+				//ZZUNICODE:::
+				//mSeekTable = new AutoOggChainGranuleSeekTable(StringHelper::toNarrowStr(mFileName));
+				mSeekTable = new AutoOggChainGranuleSeekTable(mFileName);
+				debugLog<<L"After Setting up seek table"<<endl;
+			} else {
+				mSeekTable = new CustomOggChainGranuleSeekTable(mDataSource);
+			}
 			int locNumPins = GetPinCount();
 
 			OggDemuxPacketSourcePin* locPin = NULL;
 			for (int i = 0; i < locNumPins; i++) {
 				locPin = (OggDemuxPacketSourcePin*)GetPin(i);
 				
-				
+				debugLog<<L"Adding decoder interface to sek table"<<endl;
 				mSeekTable->addStream(locPin->getSerialNo(), locPin->getDecoderInterface());
 			}
+			debugLog<<L"Pre seek table build"<<endl;
+//#ifndef WINCE
 			mSeekTable->buildTable();
+//#else
+			//mSeekTable->disableTable();
+//#endif
+			debugLog<<L"Post seek table build"<<endl;
 		}
 	}
 }
@@ -504,7 +596,7 @@ HRESULT OggDemuxPacketSourceFilter::DataProcessLoop()
 
 	while(true) {
 		if(CheckRequest(&locCommand) == TRUE) {
-			//debugLog<<"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
+			debugLog<<L"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
 			delete[] locBuff;
 			return S_OK;
 		}
@@ -521,28 +613,37 @@ HRESULT OggDemuxPacketSourceFilter::DataProcessLoop()
 			CAutoLock locDemuxLock(mDemuxLock);
 			//CAutoLock locStreamLock(mStreamLock);
 			if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
+                debugLog<<L"DataProcessLoop : Detected JustRest condition"<<endl;
 				continue;
 			}
 			locFeedResult = mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead);
 			locKeepGoing = ((locFeedResult == (OggDataBuffer::FEED_OK)) || (locFeedResult == OggDataBuffer::PROCESS_DISPATCH_FALSE));;
+            if (locFeedResult != OggDataBuffer::FEED_OK)
+            {
+                debugLog << L"Feed result = "<<locFeedResult<<endl;
+                break;
+            }
 		}
-		if (!locKeepGoing) {
-			//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
-			//debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
-			DeliverEOS();
-		}
+		//if (!locKeepGoing) {
+		//	//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
+  //          CAutoLock locStreamLock(mStreamLock);
+		//	debugLog<<L"DataProcessLoop : Keep going false Deliver EOS"<<endl;
+  //          debugLog<<L"Feed Result = "<<locFeedResult<<endl;
+		//	DeliverEOS();
+		//}
 		{
 			CAutoLock locSourceLock(mSourceFileLock);
 			locIsEOF = mDataSource->isEOF();
 		}
 		if (locIsEOF) {
 			//debugLog << "DataProcessLoop : EOF"<<endl;
-			//debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
+            CAutoLock locStreamLock(mStreamLock);
+			debugLog<<L"DataProcessLoop : EOF Deliver EOS"<<endl;
 			DeliverEOS();
 		}
 	}
 
-	//debugLog<<"DataProcessLoop : Exiting. Deliver EOS"<<endl;
+	debugLog<<L"DataProcessLoop : Left loop., balinig out"<<endl;
 
 	//Shuold we flush ehre ?
 	delete[] locBuff;

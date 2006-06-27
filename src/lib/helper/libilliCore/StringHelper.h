@@ -57,6 +57,9 @@ public:
 	/// Takes a string and returns an unsigned int64
 	static LOOG_UINT64 stringToNum(string inString);
 
+	/// Takes a wide string and returns an unsigned int64
+	static LOOG_UINT64 stringToNum(wstring inString);
+
 	/// Takes a string and Returns a value between 0 and 9 999 999 to represent a fraction / 10 000 000.
 	static LOOG_UINT64 stringToFractNum(string inString);
 

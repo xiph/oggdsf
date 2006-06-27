@@ -61,7 +61,7 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 		
 	//Constructors	
-	AbstractTransformInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, CHAR* inObjectName, LPCWSTR inPinDisplayName, vector<CMediaType*> inAcceptableMediaTypes);
+	AbstractTransformInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, TCHAR* inObjectName, LPCWSTR inPinDisplayName, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~AbstractTransformInputPin(void);
 
 	//Pin Conenction Methods

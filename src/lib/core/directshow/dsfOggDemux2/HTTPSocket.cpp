@@ -74,7 +74,7 @@ bool HTTPSocket::setupSocket(string inSourceLocation)
 
 	bool locValidURL = splitURL(inSourceLocation);
 
-	locAddress.S_un.S_addr = inet_addr(mServerName.c_str());
+    locAddress.S_un.S_addr = inet_addr(mServerName.c_str());
 	
 
 	if (locAddress.S_un.S_addr == INADDR_NONE) {
@@ -103,12 +103,16 @@ bool HTTPSocket::setupSocket(string inSourceLocation)
 	SOCKADDR_IN locServiceSocketAddr; //saServer
 	
 	if (mPort == 0) {
+#ifdef WINCE
+		locServiceSocketAddr.sin_port = htons(80);
+#else
 		locServiceData = getservbyname("http", "tcp");
 		if (locServiceData == NULL) {
 			locServiceSocketAddr.sin_port = htons(80);
 		} else {
 			locServiceSocketAddr.sin_port = locServiceData->s_port;
 		}
+#endif
 	} else {
 		//Explicit port
 		locServiceSocketAddr.sin_port = htons(mPort);
@@ -158,7 +162,9 @@ bool HTTPSocket::httpRequest(string inRequest) {
 	return true;
 }
 
-bool HTTPSocket::splitURL(string inURL) {
+bool HTTPSocket::splitURL(string inURL) 
+{
+	//UNICODE::: Note explicit ansi usage in this method
 	//debugLog2<<"Split url:"<<endl;
 	string locProtocol;
 	string locServerName;
@@ -202,7 +208,8 @@ bool HTTPSocket::splitURL(string inURL) {
 	mFileName = locPath;
 	if (locPort != "") {
 		//TODO::: Error checking needed
-		mPort = atoi(locPort.c_str());
+		//UNICODE::: Note explicit ansi usage in this method
+		mPort = atoiA(locPort.c_str());
 	} else {
 		mPort = 0;
 	}

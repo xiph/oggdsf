@@ -57,7 +57,11 @@ public:
 	// associated file ...
 
 	/// Create a new AutoOggSeekTable associated with the filename passed into inFileName.
+#ifdef UNICODE
+	AutoOggSeekTable(wstring inFileName);
+#else
 	AutoOggSeekTable(string inFileName);
+#endif
 	virtual ~AutoOggSeekTable(void);
 
 	static const LOOG_INT64 DS_UNITS = 10000000;
@@ -79,13 +83,22 @@ public:
 	bool serialiseInto(unsigned char* inBuff, unsigned long inBuffSize);
 
 	/// Serialise the seek table into a file, which may be useful for e.g. caching.
+#ifdef UNICODE
+	bool serialiseInto(const wstring inSeekTableFilename);
+#else
 	bool serialiseInto(const string inSeekTableFilename);
+#endif
+	
 
 	/// Build a seek table from a buffer previously written to with serialiseInto().
 	virtual bool buildTableFromBuffer(const unsigned char *inBuffer, const unsigned long inBufferSize);
 
 	/// Build a seek table from a file previously serialised into with serialiseInto().
+#ifdef UNICODE
+	virtual bool buildTableFromFile(const wstring inCachedSeekTableFilename);
+#else
 	virtual bool buildTableFromFile(const string inCachedSeekTableFilename);
+#endif
 
 protected:
 	unsigned long mFilePos;
@@ -103,7 +116,12 @@ protected:
 	LOOG_INT64 mLastSeekTime;
 	LOOG_INT64 mFileDuration;
 	fstream mFile;
+
+#ifdef UNICODE
+	wstring mFileName;
+#else
 	string mFileName;
+#endif
 	//Changed for debugging to *
 	OggDataBuffer* mOggDemux;
 

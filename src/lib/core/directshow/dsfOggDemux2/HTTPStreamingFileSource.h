@@ -59,12 +59,12 @@ public:
 	//IFilterDataSource Interface
 	virtual unsigned long seek(unsigned long inPos);
 	virtual void close() ;
-	virtual bool open(string inSourceLocation, unsigned long inStartByte = 0);
+	virtual bool open(wstring inSourceLocation, unsigned long inStartByte = 0);
 	virtual void clear();
 	virtual bool isEOF();
 	virtual bool isError();
 	virtual unsigned long read(char* outBuffer, unsigned long inNumBytes);
-	virtual string shouldRetryAt();
+	virtual wstring shouldRetryAt();
 
 	
 	//CAMThread pure virtuals
@@ -87,7 +87,7 @@ protected:
 	bool mIsBufferFilling;
 
 	bool mIsFirstChunk;
-	string mRetryAt;
+	wstring mRetryAt;
 
 	fstream debugLog;
 	fstream fileDump;

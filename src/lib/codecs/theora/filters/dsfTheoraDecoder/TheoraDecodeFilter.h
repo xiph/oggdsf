@@ -31,7 +31,7 @@
 
 #pragma once
 
-#define OGGCODECS_LOGGING
+//#define OGGCODECS_LOGGING
 
 #include "Theoradecoderdllstuff.h"
 #include "theoradecodeoutputpin.h"
@@ -73,14 +73,22 @@ public:
 	//Helpers
 	sTheoraFormatBlock* getTheoraFormatBlock();
 	void setTheoraFormat(BYTE* inFormatBlock);
+
+#ifdef WINCE
+	virtual LPAMOVIESETUP_FILTER GetSetupData(); //		{	return (LPAMOVIESETUP_FILTER)&VorbisDecodeFilterReg;	}
+	virtual HRESULT Register();
+#endif
+
+
 protected:
 
 	static const unsigned long THEORA_IDENT_HEADER_SIZE = 42;
 	virtual void ResetFrameCount();
 
+	HRESULT CheckOutputType(const CMediaType* inMediaType);
 	void deleteBufferedPacketsAfter(unsigned long inPacketIndex);
-	void FillMediaType(CMediaType* outMediaType, unsigned long inSampleSize);
-	bool FillVideoInfoHeader(VIDEOINFOHEADER* inFormatBuffer);
+	void FillMediaType(int inPosition, CMediaType* outMediaType, unsigned long inSampleSize);
+	bool FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* inFormatBuffer);
 	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
 	
 	unsigned long mBMIHeight;
@@ -101,6 +109,25 @@ protected:
 	vector<StampedOggPacket*> mBufferedPackets;
 
 	HRESULT TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd);
+	HRESULT DecodeToYUY2(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+	HRESULT DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+	HRESULT DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+	HRESULT DecodeToRGB24(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+
+
+
+
+	vector<CMediaType*> mOutputMediaTypes;
+	struct sOutputVideoParams {
+		WORD bitsPerPixel;
+		DWORD fourCC;
+	};
+
+	HRESULT YV12ToYUY2(IMediaSample* inoutSample);
+	BYTE* mScratchBuffer;
+	GUID mCurrentOutputSubType;
+
+	vector<sOutputVideoParams> mOutputVideoParams;
 
 	REFERENCE_TIME mSegStart;
 	REFERENCE_TIME mSegEnd;

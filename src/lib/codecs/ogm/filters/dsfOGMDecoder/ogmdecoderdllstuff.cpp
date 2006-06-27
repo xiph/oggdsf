@@ -60,7 +60,7 @@ STDAPI DllRegisterServer()
 		L"OGM Decode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"OGM Decode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &OGMDecodeFilterReg								// Pointer to filter information.
     );
 
@@ -89,7 +89,7 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"OGM Decode Filter", CLSID_OGMDecodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_OGMDecodeFilter);
 
 
 	//

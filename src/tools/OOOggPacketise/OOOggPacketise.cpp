@@ -110,7 +110,7 @@ int main (int argc, char * argv[])
 		//testOggBuff.registerVirtualCallback(testPacketiser);
 		
 
-		const BUFF_SIZE = 8092;
+		const unsigned long BUFF_SIZE = 8092;
 		testOggBuff.registerStaticCallback(&pageCB, NULL);
 
 		fstream testFile;

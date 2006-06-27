@@ -74,8 +74,11 @@ void _analysis_output_always(char *base,int i,float *v,int n,int bark,int dB,ogg
   /*  if(i==5870){*/
     sprintf(buffer,"%s_%d.m",base,i);
     of=fopen(buffer,"w");
-    
+   
+//ZEN::: perror does seem to be part of WinCE SDK for now, just gaurd against WINCE. Not great, but will do for now.
+#ifndef WINCE
     if(!of)perror("failed to open data dump file");
+#endif
     
     for(j=0;j<n;j++){
       if(bark){

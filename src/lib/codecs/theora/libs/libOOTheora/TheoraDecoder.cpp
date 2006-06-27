@@ -36,6 +36,10 @@ TheoraDecoder::TheoraDecoder(void)
 	: mFirstPacket(true)
 	, mFirstHeader(true)
 	, mPacketCount(0)
+#ifdef USE_THEORA_EXP
+	, mTheoraSetup(NULL)
+	, mTheoraState(NULL)
+#endif
 {
 }
 
@@ -45,8 +49,14 @@ TheoraDecoder::~TheoraDecoder(void)
 
 bool TheoraDecoder::initCodec() 
 {
+#ifdef USE_THEORA_EXP
+	th_comment_init(&mTheoraComment);
+	th_info_init(&mTheoraInfo);
+
+#else
 	theora_comment_init(&mTheoraComment);
 	theora_info_init(&mTheoraInfo);
+#endif
 	
 	return true;
  }
@@ -57,13 +67,24 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts
 
 	if (mPacketCount < 3) {
 		decodeHeader(inPacket);		//Accepts header and deletes it.
+
+		if (mPacketCount == 3) {
+#ifdef USE_THEORA_EXP
+			mTheoraState = th_decode_alloc(&mTheoraInfo, mTheoraSetup);
+#else
+			theora_decode_init(&mTheoraState, &mTheoraInfo);
+#endif
+			//TODO::: Post processing http://people.xiph.org/~tterribe/doc/libtheora-exp/theoradec_8h.html#a1
+
+		}
+
 		
 		return NULL;
 	} else {
-		if (mFirstPacket) {
-			theora_decode_init(&mTheoraState, &mTheoraInfo);
-			mFirstPacket = false;
-		}
+		//if (mFirstPacket) {
+		//	theora_decode_init(&mTheoraState, &mTheoraInfo);
+		//	mFirstPacket = false;
+		//}
 		if ((inPacket->packetSize() > 0) && ((inPacket->packetData()[0] & 128) != 0)) {
 			//Ignore header packets
 			delete inPacket;
@@ -71,12 +92,48 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts
 		}
 
 		ogg_packet* locOldPack = simulateOldOggPacket(inPacket);		//Accepts the packet and deletes it.
+
+#ifdef USE_THEORA_EXP
+
+		th_decode_packetin(mTheoraState, locOldPack, NULL);
+#else
 		theora_decode_packetin(&mTheoraState, locOldPack);
+#endif
 		delete locOldPack->packet;
 		delete locOldPack;
 		
+#ifdef USE_THEORA_EXP
+		th_decode_ycbcr_out(mTheoraState, mYCbCrBuffer);
+
+		//TODO:::
+		//This is slightly nasty for now... since changing the return type
+		// will screw with other stuff
+		//
+		//Need to probably use the theora-exp buffer type and change all the
+		// uses of yuv_buffer to handle this, and avoid assumptions about
+		// the relative size of the Y and U and V buffers
+
+		if (	!	(	(mYCbCrBuffer[1].width == mYCbCrBuffer[2].width)
+					&&	(mYCbCrBuffer[1].height == mYCbCrBuffer[2].height)
+					&&	(mYCbCrBuffer[1].ystride == mYCbCrBuffer[2].ystride)
+					)) {
+			throw "Not 4:2:0 - OOTheora needs fixing";
+		}
+
+		mYUVBuffer.y_width = mYCbCrBuffer[0].width;
+		mYUVBuffer.y_height = mYCbCrBuffer[0].height;
+		mYUVBuffer.y_stride = mYCbCrBuffer[0].ystride;
+		mYUVBuffer.y = (char*)mYCbCrBuffer[0].data;
+		mYUVBuffer.uv_width = mYCbCrBuffer[1].width;
+		mYUVBuffer.uv_height = mYCbCrBuffer[1].height;
+		mYUVBuffer.uv_stride = mYCbCrBuffer[1].ystride;
+		mYUVBuffer.u = (char*)mYCbCrBuffer[1].data;
+		mYUVBuffer.v = (char*)mYCbCrBuffer[2].data;
+
+#else
 		//Ignore return value... always returns 0 (or crashes :)
 		theora_decode_YUVout(&mTheoraState, &mYUVBuffer);
+#endif
 		
 		return &mYUVBuffer;
 	}
@@ -114,10 +171,17 @@ bool TheoraDecoder::isKeyFrame(StampedOggPacket* inPacket)
 		return false;
 	}
 }
-bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket) {		//inHeaderPacket is accepted and deleted.
+bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket) 
+{		//inHeaderPacket is accepted and deleted.
+	//TODO::: Error handling
 
 	ogg_packet* locOldPack = simulateOldOggPacket(inHeaderPacket);		//Accepts packet and deletes it.
+
+#ifdef USE_THEORA_EXP
+	th_decode_headerin(&mTheoraInfo, &mTheoraComment, &mTheoraSetup, locOldPack);
+#else
 	theora_decode_header(&mTheoraInfo, &mTheoraComment, locOldPack);
+#endif
 
 	delete locOldPack->packet;
 	delete locOldPack;

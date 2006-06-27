@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -40,14 +40,16 @@ FilterFileSource::~FilterFileSource(void)
 	mSourceFile.close();
 }
 
-unsigned long FilterFileSource::seek(unsigned long inPos) {
+unsigned long FilterFileSource::seek(unsigned long inPos) 
+{
+	mSourceFile.clear();
 	mSourceFile.seekg(inPos, ios_base::beg);
 	return mSourceFile.tellg();
 }
 void FilterFileSource::close() {
 	mSourceFile.close();
 }
-bool FilterFileSource::open(string inSourceLocation, unsigned long) {
+bool FilterFileSource::open(wstring inSourceLocation, unsigned long) {
 	mSourceFile.open(inSourceLocation.c_str(), ios_base::in|ios_base::binary);
 	return mSourceFile.is_open();
 }

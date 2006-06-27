@@ -79,6 +79,7 @@ HRESULT FLACEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes)
 	}
 
 	bool locRetVal = process_interleaved(locFLACBuff, locNumSamplesPerChannel);
+	delete[] locFLACBuff;
 
 	if (locRetVal == true) {
 		return 0;

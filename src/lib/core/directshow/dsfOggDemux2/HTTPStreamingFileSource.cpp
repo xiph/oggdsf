@@ -285,7 +285,7 @@ void HTTPStreamingFileSource::DataProcessLoop() {
 
 					unsigned short locResponseCode = getHTTPResponseCode(mLastResponse);
 
-					mRetryAt = "";
+					mRetryAt = L"";
 					if (		(locResponseCode == 301)
 							||	(locResponseCode == 302)
 							||	(locResponseCode == 303)
@@ -296,8 +296,8 @@ void HTTPStreamingFileSource::DataProcessLoop() {
 							size_t locEndPos = mLastResponse.find("\r", locLocPos);
 							if (locEndPos != string::npos) {
 								if (locEndPos > locLocPos) {
-									mRetryAt = mLastResponse.substr(locLocPos, locEndPos - locLocPos);
-									debugLog<<"Retry URL = "<<mRetryAt<<endl;
+                                    mRetryAt = StringHelper::toWStr(mLastResponse.substr(locLocPos, locEndPos - locLocPos));
+									//debugLog<<"Retry URL = "<<mRetryAt<<endl;
 								}
 							}
 						}
@@ -375,7 +375,7 @@ unsigned short HTTPStreamingFileSource::getHTTPResponseCode(string inHTTPRespons
 		return 0;
 	}
 }
-string HTTPStreamingFileSource::shouldRetryAt()
+wstring HTTPStreamingFileSource::shouldRetryAt()
 {
 	return mRetryAt;
 }
@@ -430,7 +430,7 @@ unsigned long HTTPStreamingFileSource::seek(unsigned long inPos)
 			closeSocket();
 			clear();
 
-			open(mSourceLocation, inPos);
+            open(StringHelper::toWStr(mSourceLocation), inPos);
 			return inPos;
 
 		} else {
@@ -471,7 +471,7 @@ bool HTTPStreamingFileSource::startThread() {
 	CallWorker(THREAD_RUN);
 	return true;
 }
-bool HTTPStreamingFileSource::open(string inSourceLocation, unsigned long inStartByte) {
+bool HTTPStreamingFileSource::open(wstring inSourceLocation, unsigned long inStartByte) {
 	//Open network connection and start feeding data into a buffer
 	//
 	mSeenResponse = false;
@@ -502,7 +502,7 @@ bool HTTPStreamingFileSource::open(string inSourceLocation, unsigned long inStar
 		mMemoryBuffer->reset();
 	} //END CRITICAL SECTION
 
-	bool locIsOK = setupSocket(inSourceLocation);
+    bool locIsOK = setupSocket(StringHelper::toNarrowStr(inSourceLocation));
 
 	if (!locIsOK) {
 		//debugLog<<"Setup socket FAILED"<<endl;
@@ -525,7 +525,7 @@ void HTTPStreamingFileSource::clear() {
 	debugLog<<"Setting error to false";
 	mIsEOF = false;
 	mWasError = false;
-	mRetryAt = "";
+	mRetryAt = L"";
 	mIsFirstChunk = true;
 	mChunkRemains = 0;
 	mNumLeftovers = 0;

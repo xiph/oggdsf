@@ -50,14 +50,18 @@ class LIBOOOGGCHEF_API AnnodexRecomposer : public IRecomposer, public IOggCallba
 {
 public:
 	AnnodexRecomposer(void);
-	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, string inCachedSeekTableFilename = "");
+#ifdef UNICODE
+	AnnodexRecomposer(wstring inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, wstring inCachedSeekTableFilename = TEXT(""));
+#else
+	AnnodexRecomposer(string inFilename, BufferWriter inBufferWriter, void* inBufferWriterUserData, string inCachedSeekTableFilename = TEXT(""));
+#endif
 	~AnnodexRecomposer(void);
 
 	bool recomposeStreamFrom(double inStartingTimeOffset, const vector<string>* inWantedMIMETypes);
 	bool acceptOggPage(OggPage* inOggPage);
 
     AnnodexRecomposer(const AnnodexRecomposer&);  // Don't copy me
-    AnnodexRecomposer &operator=(const AnnodexRecomposer&);  // Don't assign men
+    AnnodexRecomposer &operator=(const AnnodexRecomposer&);  // Don't assign me
 
 protected:
 
@@ -81,8 +85,14 @@ protected:
 
 	fstream mDebugFile;
 
+#ifdef UNICODE
+	wstring mFilename;
+	wstring mCachedSeekTableFilename;
+
+#else
 	string mFilename;
 	string mCachedSeekTableFilename;
+#endif
 
 	unsigned long mAnnodexSerialNumber;
 

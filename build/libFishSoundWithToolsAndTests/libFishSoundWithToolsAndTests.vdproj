@@ -1,7 +1,7 @@
 "DeployProject"
 {
-"VSVersion" = "3:701"
-"ProjectType" = "8:{2C2AF0D9-9B47-4FE5-BEF2-169778172667}"
+"VSVersion" = "3:800"
+"ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
 "ProjectName" = "8:libFishSoundWithToolsAndTests"
 "LanguageId" = "3:1033"
@@ -21,20 +21,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_96E8D4E9AC634EBDA2A61EB30C4FC497"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_3A6F9C776D324CA799464FB4A9D1DBD5"
+        "OwnerKey" = "8:_4359A71F66DC4B7487275F7DE582430B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AD913F4D20B945418BDA3F488A47C242"
+        "MsmKey" = "8:_4359A71F66DC4B7487275F7DE582430B"
         "OwnerKey" = "8:_28CCE3E286304EA1AFE50DB7B2DE97F8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AD913F4D20B945418BDA3F488A47C242"
+        "MsmKey" = "8:_4359A71F66DC4B7487275F7DE582430B"
         "OwnerKey" = "8:_96E8D4E9AC634EBDA2A61EB30C4FC497"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_96E8D4E9AC634EBDA2A61EB30C4FC497"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -55,6 +61,71 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
+        }
+        "Debug_CE_ARM"
+        {
+        "DisplayName" = "8:Debug_CE_ARM"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Debug_CE_ARM\\libFishSoundWithToolsAndTests.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
+        }
+        "Debug_WM5_PPC_ARM"
+        {
+        "DisplayName" = "8:Debug_WM5_PPC_ARM"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Debug_WM5_PPC_ARM\\libFishSoundWithToolsAndTests.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
         }
         "Release"
         {
@@ -71,6 +142,17 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
         }
         "Release_SSE"
         {
@@ -87,6 +169,17 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
         }
         "Release_SSE2"
         {
@@ -103,6 +196,17 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
         }
     }
     "Deployable"
@@ -122,9 +226,6 @@
             {
             }
         }
-        "Feature"
-        {
-        }
         "File"
         {
         }
@@ -133,7 +234,7 @@
         }
         "Folder"
         {
-            "{78BAF5CE-F2E5-45BE-83BC-DB6AF387E941}:_1DBE6E3F99DF46B691E0E861FCDD874E"
+            "{1525181F-901A-416C-8A58-119130FE478E}:_1DBE6E3F99DF46B691E0E861FCDD874E"
             {
             "Name" = "8:#1916"
             "AlwaysCreate" = "11:FALSE"
@@ -144,7 +245,7 @@
                 {
                 }
             }
-            "{78BAF5CE-F2E5-45BE-83BC-DB6AF387E941}:_31986AE8E29341F8A7E75314C628F263"
+            "{1525181F-901A-416C-8A58-119130FE478E}:_31986AE8E29341F8A7E75314C628F263"
             {
             "Name" = "8:#1919"
             "AlwaysCreate" = "11:FALSE"
@@ -155,7 +256,7 @@
                 {
                 }
             }
-            "{58C0ADA3-3CEA-43BD-A3B3-2EA121BC8217}:_398A5F7D291247B7826810E37F282369"
+            "{3C67513D-01DD-4637-8A68-80971EB9504F}:_398A5F7D291247B7826810E37F282369"
             {
             "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
@@ -188,6 +289,7 @@
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
+        "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Default Company Name"
         "ARPHELPTELEPHONE" = "8:"
@@ -202,6 +304,10 @@
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
+        "TargetPlatform" = "3:0"
+        "PreBuildEvent" = "8:"
+        "PostBuildEvent" = "8:"
+        "RunPostBuildEvent" = "3:0"
         }
         "Registry"
         {
@@ -209,7 +315,7 @@
             {
                 "Keys"
                 {
-                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_F4A478CBA1484B119AEB955BBB2891E9"
+                    "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_F4A478CBA1484B119AEB955BBB2891E9"
                     {
                     "Name" = "8:Software"
                     "Condition" = "8:"
@@ -218,7 +324,7 @@
                     "Transitive" = "11:FALSE"
                         "Keys"
                         {
-                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_D720802798194D59948CE15625E5E2AA"
+                            "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_D720802798194D59948CE15625E5E2AA"
                             {
                             "Name" = "8:[Manufacturer]"
                             "Condition" = "8:"
@@ -243,7 +349,7 @@
             {
                 "Keys"
                 {
-                    "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_E2319A68C0AE45F8ACB3329F5B1627A4"
+                    "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_E2319A68C0AE45F8ACB3329F5B1627A4"
                     {
                     "Name" = "8:Software"
                     "Condition" = "8:"
@@ -252,7 +358,7 @@
                     "Transitive" = "11:FALSE"
                         "Keys"
                         {
-                            "{6A471EEF-D31B-40F8-BCF6-C9E8EC783F36}:_D405168AE17C4082A87C1FA33442EBFD"
+                            "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_D405168AE17C4082A87C1FA33442EBFD"
                             {
                             "Name" = "8:[Manufacturer]"
                             "Condition" = "8:"
@@ -300,14 +406,14 @@
         }
         "UserInterface"
         {
-            "{8D9DEE8B-DD8B-4F48-9072-C4364E4F4011}:_1F521F30B35F429381A0C1820AA190DB"
+            "{DF760B10-853B-4699-99F2-AFF7185B4A62}:_1F521F30B35F429381A0C1820AA190DB"
             {
             "Name" = "8:#1901"
             "Sequence" = "3:2"
             "Attributes" = "3:2"
                 "Dialogs"
                 {
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_63ED11EF5E6B436283449EA245DF1FC4"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_63ED11EF5E6B436283449EA245DF1FC4"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Progress"
@@ -344,14 +450,14 @@
                     }
                 }
             }
-            "{8D9DEE8B-DD8B-4F48-9072-C4364E4F4011}:_692A24CB6A8B4971A4B046D7DAEDAAE1"
+            "{DF760B10-853B-4699-99F2-AFF7185B4A62}:_692A24CB6A8B4971A4B046D7DAEDAAE1"
             {
             "Name" = "8:#1900"
             "Sequence" = "3:1"
             "Attributes" = "3:1"
                 "Dialogs"
                 {
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_3C1DF0C52F3A4E9F910C039DCBBE9B1E"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_3C1DF0C52F3A4E9F910C039DCBBE9B1E"
                     {
                     "Sequence" = "3:200"
                     "DisplayName" = "8:Installation Folder"
@@ -371,9 +477,22 @@
                             "Setting" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
+                            "InstallAllUsersVisible"
+                            {
+                            "Name" = "8:InstallAllUsersVisible"
+                            "DisplayName" = "8:#1059"
+                            "Description" = "8:#1159"
+                            "Type" = "3:5"
+                            "ContextData" = "8:1;True=1;False=0"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:0"
+                            "Value" = "3:1"
+                            "DefaultValue" = "3:1"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
                         }
                     }
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_5694462BC3DD47A38A050C8D9EEBB66C"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_5694462BC3DD47A38A050C8D9EEBB66C"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Welcome"
@@ -421,7 +540,7 @@
                             }
                         }
                     }
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_B70CF5069F6F42D08EAC9EA6D75E8611"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_B70CF5069F6F42D08EAC9EA6D75E8611"
                     {
                     "Sequence" = "3:300"
                     "DisplayName" = "8:Confirm Installation"
@@ -445,14 +564,14 @@
                     }
                 }
             }
-            "{8D9DEE8B-DD8B-4F48-9072-C4364E4F4011}:_AAE24A893F01449C818D895AF88B2348"
+            "{DF760B10-853B-4699-99F2-AFF7185B4A62}:_AAE24A893F01449C818D895AF88B2348"
             {
             "Name" = "8:#1900"
             "Sequence" = "3:2"
             "Attributes" = "3:1"
                 "Dialogs"
                 {
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_2983486020FA4356A57980A46731FC58"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_2983486020FA4356A57980A46731FC58"
                     {
                     "Sequence" = "3:200"
                     "DisplayName" = "8:Installation Folder"
@@ -474,7 +593,7 @@
                             }
                         }
                     }
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_516901249B434D6F9DAB9E582DC9BE64"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_516901249B434D6F9DAB9E582DC9BE64"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Welcome"
@@ -522,7 +641,7 @@
                             }
                         }
                     }
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_D7760480895A4D9088096F2C8B4DAE4F"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_D7760480895A4D9088096F2C8B4DAE4F"
                     {
                     "Sequence" = "3:300"
                     "DisplayName" = "8:Confirm Installation"
@@ -546,14 +665,14 @@
                     }
                 }
             }
-            "{8D9DEE8B-DD8B-4F48-9072-C4364E4F4011}:_AE16F4B1ABF04851904D05797D41D7BA"
+            "{DF760B10-853B-4699-99F2-AFF7185B4A62}:_AE16F4B1ABF04851904D05797D41D7BA"
             {
             "Name" = "8:#1902"
             "Sequence" = "3:1"
             "Attributes" = "3:3"
                 "Dialogs"
                 {
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_A70007970C4A4B29B9894E99FD769668"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_A70007970C4A4B29B9894E99FD769668"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Finished"
@@ -590,14 +709,14 @@
                     }
                 }
             }
-            "{8D9DEE8B-DD8B-4F48-9072-C4364E4F4011}:_D23CB2849F4742748C6BF843CEB7059D"
+            "{DF760B10-853B-4699-99F2-AFF7185B4A62}:_D23CB2849F4742748C6BF843CEB7059D"
             {
             "Name" = "8:#1902"
             "Sequence" = "3:2"
             "Attributes" = "3:3"
                 "Dialogs"
                 {
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_48D428BE1960423F96CD176B1159956D"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_48D428BE1960423F96CD176B1159956D"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Finished"
@@ -621,14 +740,14 @@
                     }
                 }
             }
-            "{8D9DEE8B-DD8B-4F48-9072-C4364E4F4011}:_E6E57F4F393942E88184AD3234838350"
+            "{DF760B10-853B-4699-99F2-AFF7185B4A62}:_E6E57F4F393942E88184AD3234838350"
             {
             "Name" = "8:#1901"
             "Sequence" = "3:1"
             "Attributes" = "3:2"
                 "Dialogs"
                 {
-                    "{18ADD6EC-89FE-4ED7-AD3E-211C40278470}:_FAA4041AE6264219BBF7AF4943D5575C"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_FAA4041AE6264219BBF7AF4943D5575C"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Progress"
@@ -665,13 +784,13 @@
                     }
                 }
             }
-            "{B654A020-6903-4E6A-A86C-75DC463DB54B}:_F07F07F5B2C544A290984C66B06D45A2"
+            "{2479F3F5-0309-486D-8047-8187E2CE5BA0}:_F07F07F5B2C544A290984C66B06D45A2"
             {
             "UseDynamicProperties" = "11:FALSE"
             "IsDependency" = "11:FALSE"
             "SourcePath" = "8:<VsdDialogDir>\\VsdBasicDialogs.wim"
             }
-            "{B654A020-6903-4E6A-A86C-75DC463DB54B}:_FAD10371BD76463CB49D248E23031414"
+            "{2479F3F5-0309-486D-8047-8187E2CE5BA0}:_FAD10371BD76463CB49D248E23031414"
             {
             "UseDynamicProperties" = "11:FALSE"
             "IsDependency" = "11:FALSE"
@@ -680,11 +799,25 @@
         }
         "MergeModule"
         {
-            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_AD913F4D20B945418BDA3F488A47C242"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_3A6F9C776D324CA799464FB4A9D1DBD5"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:vc_user_crt71_rtl_x86_---.msm"
+            "SourcePath" = "8:policy_8_0_microsoft_vc80_debugcrt_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_4359A71F66DC4B7487275F7DE582430B"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:Microsoft_VC80_DebugCRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -697,7 +830,7 @@
         }
         "ProjectOutput"
         {
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_28CCE3E286304EA1AFE50DB7B2DE97F8"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_28CCE3E286304EA1AFE50DB7B2DE97F8"
             {
             "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\libs\\libvorbis\\win32\\Vorbis_Dynamic_Release\\vorbis.dll"
             "TargetName" = "8:"
@@ -725,9 +858,9 @@
                 {
                 }
             }
-            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_96E8D4E9AC634EBDA2A61EB30C4FC497"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_96E8D4E9AC634EBDA2A61EB30C4FC497"
             {
-            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\helper\\libfishsound\\win32\\release_sse\\libfishsound.dll"
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\helper\\libfishsound\\win32\\Release\\libfishsound.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_398A5F7D291247B7826810E37F282369"

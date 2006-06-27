@@ -48,13 +48,13 @@ STDAPI DllRegisterServer()
 
 	
     HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
+
 
     hr = AMovieDllRegisterServer2(TRUE);
 
 
-	
-
+#ifndef WINCE
+    IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
 
 
@@ -63,12 +63,12 @@ STDAPI DllRegisterServer()
 		L"CMML Decode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"CMML Decode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &CMMLDecodeFilterReg								// Pointer to filter information.
     );
 
     locFilterMapper->Release();
-
+#endif
     return hr;
 
 }
@@ -76,14 +76,15 @@ STDAPI DllRegisterServer()
 STDAPI DllUnregisterServer()
 {
    HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
+    
 
     hr = AMovieDllRegisterServer2(FALSE);
 	if (FAILED(hr)) {
 		
         return hr;
 	}
- 
+#ifndef WINCE
+	IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
             IID_IFilterMapper2, (void **)&locFilterMapper);
 
@@ -92,11 +93,12 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"CMML Decode Filter", CLSID_CMMLDecodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_CMMLDecodeFilter);
 
 
 	//
     locFilterMapper->Release();
+#endif
     return hr;
 
 }

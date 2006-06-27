@@ -45,13 +45,17 @@ STDAPI DllRegisterServer()
 
 	
     HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
+    
 
+#ifdef WINCE
+	hr = AMovieDllRegisterServer();//AMovieDLLRegisterServer(TRUE);
+#else
     hr = AMovieDllRegisterServer2(TRUE);
+#endif
 
 
-	
-
+#ifndef WINCE	
+	IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
 
 
@@ -60,12 +64,12 @@ STDAPI DllRegisterServer()
 		L"Speex Decode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Speex Decode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &SpeexDecodeFilterReg								// Pointer to filter information.
     );
 
     locFilterMapper->Release();
-
+#endif
     return hr;
 
 }
@@ -73,14 +77,18 @@ STDAPI DllRegisterServer()
 STDAPI DllUnregisterServer()
 {
    HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-
+    
+#ifdef WINCE
+   hr = AMovieDllUnregisterServer();
+#else
     hr = AMovieDllRegisterServer2(FALSE);
+#endif
 	if (FAILED(hr)) {
 		
         return hr;
 	}
- 
+#ifndef WINCE
+	IFilterMapper2* locFilterMapper = NULL;
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
             IID_IFilterMapper2, (void **)&locFilterMapper);
 
@@ -89,11 +97,12 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Speex Decode Filter", CLSID_SpeexDecodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_SpeexDecodeFilter);
 
 
 	//
     locFilterMapper->Release();
+#endif
     return hr;
 
 }

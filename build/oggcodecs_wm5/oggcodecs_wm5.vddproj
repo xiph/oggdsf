@@ -1,0 +1,1606 @@
+"DeployProject"
+{
+"VSVersion" = "3:701"
+"ProjectType" = "8:{AB322303-2255-48EF-A496-5904EB18DA55}"
+"IsWebType" = "8:FALSE"
+"ProjectName" = "8:oggcodecs_wm5"
+"LanguageId" = "3:1033"
+"CodePage" = "3:1252"
+"SccProjectName" = "8:"
+"SccLocalPath" = "8:"
+"SccAuxPath" = "8:"
+"SccProvider" = "8:"
+    "Hierarchy"
+    {
+        "Entry"
+        {
+        "MsmKey" = "8:_07061F9B96124E73928A0D625D4EAC43"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2CCC3C09CD9E45FD8DD46EAE62034604"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_39EDB4404AB742F1971B32144EDFF907"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3C1ED3991BEE4DE79ABEF31F6AEBC705"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78B83888966E4D28897A832EC1CB59EB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7CC0F388C7734C2B8ECED59713F156C7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8690122600E2456DA8E47A2A13A844AB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_898F68EFD6EB479185D2277F89249261"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A468F930F587443BA9529CBFA90E8D29"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E3036F3DC7294931BA2ED09C5AFA0761"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+    }
+    "Configurations"
+    {
+        "Debug"
+        {
+        "DisplayName" = "8:Debug"
+        "IsDebugOnly" = "11:TRUE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Debug\\oggcodecs_wm5.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
+        "Debug_WM5_PPC_ARM"
+        {
+        "DisplayName" = "8:Debug_WM5_PPC_ARM"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Debug_WM5_PPC_ARM\\oggcodecs_wm5.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
+        "Release"
+        {
+        "DisplayName" = "8:Release"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:TRUE"
+        "OutputFilename" = "8:Release\\oggcodecs_wm5.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
+        "Release_WM5_PPC_ARM"
+        {
+        "DisplayName" = "8:Release_WM5_PPC_ARM"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Release_WM5_PPC_ARM\\oggcodecs_wm5.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
+    }
+    "Deployable"
+    {
+        "File"
+        {
+            "{BA458234-9B71-4F46-8107-E91156377184}:_39EDB4404AB742F1971B32144EDFF907"
+            {
+            "SourcePath" = "8:V:\\Program Files\\Microsoft Visual Studio 8\\VC\\ce\\Dll\\armv4i\\msvcr80.dll"
+            "TargetName" = "8:msvcr80.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+        }
+        "Folder"
+        {
+            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_34F71BD39B32414896561F3E1D68A1FA"
+            {
+            "Name" = "8:#1911"
+            "Condition" = "8:"
+            "Property" = "8:%CE1%"
+                "Folders"
+                {
+                }
+            }
+            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_4F94174C36AD4B1B8302678AD372CE00"
+            {
+            "Name" = "8:#1912"
+            "Condition" = "8:"
+            "Property" = "8:%CE2%"
+                "Folders"
+                {
+                }
+            }
+            "{D5B00AC1-E6C3-4CC5-90FF-8E0F53D9E5E0}:_8BE9216FDC6E4FB1B98829D8873DE833"
+            {
+            "DefaultLocation" = "8:%InstallDir%"
+            "Name" = "8:#1920"
+            "Condition" = "8:"
+            "Property" = "8:%InstallDir%"
+                "Folders"
+                {
+                }
+            }
+        }
+        "Product"
+        {
+        "Name" = "8:Microsoft Visual Studio"
+        "ProductName" = "8:oggcodecs_wm5"
+        "Manufacturer" = "8:illiminable Software"
+        "OSVersionMin" = "8:4.0"
+        "OSVersionMax" = "8:5.99"
+        "NoUninstall" = "11:FALSE"
+        "Compress" = "11:TRUE"
+        "CESetupDLL" = "8:"
+        }
+        "ProjectOutput"
+        {
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_07061F9B96124E73928A0D625D4EAC43"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOggSeek\\Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\\Release_WM5_PPC_ARM\\libOOOggSeek.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{9A14F6AC-BC6E-401A-A300-07369BD6C5FE}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_2CCC3C09CD9E45FD8DD46EAE62034604"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\vorbis\\filters\\dsfVorbisDecoder\\Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\\Release_WM5_PPC_ARM\\dsfVorbisDecoder.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{C2B7DBC0-5AB3-46F5-90E9-05EF1B230AE2}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_3C1ED3991BEE4DE79ABEF31F6AEBC705"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\directshow\\dsfOggDemux2\\Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\\Release_WM5_PPC_ARM\\dsfOggDemux2.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{304B710A-7355-471C-A4A8-9E8F6D640E6D}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_78B83888966E4D28897A832EC1CB59EB"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\core\\ogg\\libOOOgg\\Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\\Release_WM5_PPC_ARM\\libOOOgg.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{223ACC19-608E-4E1B-A054-067F0CACB272}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_7CC0F388C7734C2B8ECED59713F156C7"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\libs\\libootheora\\windows mobile 5.0 pocket pc sdk (armv4i)\\release_wm5_ppc_arm\\libOOTheora.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{6B20BD7A-644B-4087-9CAC-71B2D68D0231}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_8690122600E2456DA8E47A2A13A844AB"
+            {
+            "SourcePath" = "8:..\\..\\src\\tests\\testLoadLib\\Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\\Release_WM5_PPC_ARM\\testLoadLib.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{D3DE90D9-0D36-462C-B2D3-9460071681E5}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_898F68EFD6EB479185D2277F89249261"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\theora\\filters\\dsftheoradecoder\\windows mobile 5.0 pocket pc sdk (armv4i)\\release_wm5_ppc_arm\\dsfTheoraDecoder.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{11CBDFD6-0D73-40C0-95DF-997C5FD873F2}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_A468F930F587443BA9529CBFA90E8D29"
+            {
+            "SourcePath" = "8:..\\..\\sln\\oggdsf_wm5\\windows mobile 5.0 pocket pc sdk (armv4i)\\release_wm5_ppc_arm\\libDSPlay.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{213C8003-BD07-4534-ACFC-D630C6D0D75F}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_E3036F3DC7294931BA2ED09C5AFA0761"
+            {
+            "SourcePath" = "8:..\\..\\src\\lib\\codecs\\speex\\filters\\dsfSpeexDecoder\\Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\\Release_WM5_PPC_ARM\\dsfSpeexDecoder.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4F94174C36AD4B1B8302678AD372CE00"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{3FB9B20E-790A-402F-A02C-B0FBDC5938E3}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+        }
+        "Registry"
+        {
+            "HKLM"
+            {
+                "Keys"
+                {
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_0C931A26466449309510AFF8D1A4BBA7"
+                    {
+                    "Name" = "8:Software"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_C8D04B86817E4707A195CA310DF3EFF9"
+                            {
+                            "Name" = "8:Microsoft"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_28E0E5256F454FD5BDBA68370B802400"
+                                    {
+                                    "Name" = "8:MediaPlayer"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_5A35F2361F654D9EA488BF438E60E59C"
+                                            {
+                                            "Name" = "8:MLS"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_A3DF367E58DB4DC992ED578250BC69F7"
+                                                    {
+                                                    "Name" = "8:Extensions"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                        }
+                                                        "Values"
+                                                        {
+                                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_EDDAE08FF8604B97B08788B8A4C8BD13"
+                                                            {
+                                                            "Name" = "8:ogg"
+                                                            "Condition" = "8:"
+                                                            "ValueTypes" = "3:1"
+                                                            "Value" = "8:audio"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_8E05F953E55841948A98CB919EAD9360"
+                                    {
+                                    "Name" = "8:Multimedia"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_C1C08221BA28442582A29CC7AC96A859"
+                                            {
+                                            "Name" = "8:WMPlayer"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_0183D3C8663B41BB83909AACFA277D24"
+                                                    {
+                                                    "Name" = "8:Extensions"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_19D550750A16424A87CF48B5EB4FC542"
+                                                            {
+                                                            "Name" = "8:.ogg"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_253E836655CB451FA2D5829EA8BEC516"
+                                                                    {
+                                                                    "Name" = "8:Runtime"
+                                                                    "Condition" = "8:"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:7"
+                                                                    }
+                                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_2DFEDA231FDE4588BDFF1EAFF29F7792"
+                                                                    {
+                                                                    "Name" = "8:Permissions"
+                                                                    "Condition" = "8:"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:31"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                }
+                            }
+                        }
+                        "Values"
+                        {
+                        }
+                    }
+                }
+            }
+            "HKCU"
+            {
+                "Keys"
+                {
+                }
+            }
+            "HKCR"
+            {
+                "Keys"
+                {
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_13166AA0F32C47FF8C8C1A62BC908AE7"
+                    {
+                    "Name" = "8:Filter"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_04B5D446BDC9400EAA628A46A11453E9"
+                            {
+                            "Name" = "8:{05187161-5c36-4324-a734-22bf37509f2d}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_1043E213A0CC4D749E3808456291E6CC"
+                                    {
+                                    "Name" = "8:"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:Theora Decode Filter"
+                                    }
+                                }
+                            }
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_A4ECEE7EB51447C58A3D455C6550D28C"
+                            {
+                            "Name" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_F8F8A54D5B174134BC7E35BCFBEA6A36"
+                                    {
+                                    "Name" = "8:"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:Ogg Demux Packet Source Filter"
+                                    }
+                                }
+                            }
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_D4B8E9E8512241E98EBF35826C90B1D3"
+                            {
+                            "Name" = "8:{05A1D945-A794-44EF-B41A-2F851A117155}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_0C2E6921D9BB4652AE0E290851C5F2E7"
+                                    {
+                                    "Name" = "8:"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:Vorbis Decode Filter"
+                                    }
+                                }
+                            }
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_ECE052F4956141309C9A9855B5AD5DFA"
+                            {
+                            "Name" = "8:{7605E26C-DE38-4B82-ADD8-FE2568CC0B25}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                }
+                                "Values"
+                                {
+                                }
+                            }
+                        }
+                        "Values"
+                        {
+                        }
+                    }
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_44EB0524B97D41C9849F15B7578AD9B3"
+                    {
+                    "Name" = "8:Media Type"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_453E96C260F54D378A59B91D9827FDAF"
+                            {
+                            "Name" = "8:Extensions"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_33C6100E0ADA46EBA34505BFE38CF3C5"
+                                    {
+                                    "Name" = "8:.anx"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_B3FB609B097E4899A04C815E32C499F8"
+                                            {
+                                            "Name" = "8:Source Filter"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                            }
+                                        }
+                                    }
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_67D56AD7C7AF4CCCB562EB196756EE00"
+                                    {
+                                    "Name" = "8:.ogg"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_5C46718AEC554F7CAD0A7D20CB68F7B3"
+                                            {
+                                            "Name" = "8:Source Filter"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                            }
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                }
+                            }
+                        }
+                        "Values"
+                        {
+                        }
+                    }
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_498103A598E34B28873B6A65379081DE"
+                    {
+                    "Name" = "8:.ogg"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                        }
+                        "Values"
+                        {
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_6D925355F1C14C968509382A2EE8503A"
+                            {
+                            "Name" = "8:"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:OggFile"
+                            }
+                        }
+                    }
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_4F62671469714FD987BF9ED305AF5129"
+                    {
+                    "Name" = "8:OggFile"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_7479DA63F369438BAFE377EC76E3F662"
+                            {
+                            "Name" = "8:Shell"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_016854A3CBA84E61A2DE31CA3C6241F8"
+                                    {
+                                    "Name" = "8:Open"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_3F7EC1DDD36E4A7090317C0C4BF03F4C"
+                                            {
+                                            "Name" = "8:Command"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_ACC02E097DA14B43AA552C08DABC43F2"
+                                                    {
+                                                    "Name" = "8:"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:wmplayer.exe \"%%1\""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                }
+                            }
+                        }
+                        "Values"
+                        {
+                        }
+                    }
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_C8DF4AD673E74B619D9BA0134B32AF65"
+                    {
+                    "Name" = "8:CLSID"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_2BC35630F4664405832F0BDF055A2290"
+                            {
+                            "Name" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_3D0D83F3724D4668B63FA87627971BE0"
+                                    {
+                                    "Name" = "8:Pins"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_6A6A5DD5C4784D26A2511C976B115187"
+                                            {
+                                            "Name" = "8:Ogg Packet Out"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_1A63365315CC42B9BE68F00DDBA48076"
+                                                    {
+                                                    "Name" = "8:Types"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_FA61605D14DE41ED81A7E7A94289B737"
+                                                            {
+                                                            "Name" = "8:{60891713-C24F-4767-B6C9-6CA05B3338FC}"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_83EA47D6761947BC81BF35439B695163"
+                                                                    {
+                                                                    "Name" = "8:{E436EB8E-524F-11CE-9F53-0020AF0BA770}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_00912C2D8DBC48A2B3F46D9F72D5BC78"
+                                                    {
+                                                    "Name" = "8:AllowedZero"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:1"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_4112ECC4D8DC433B936A2700244FEF44"
+                                                    {
+                                                    "Name" = "8:Direction"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:1"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_A4E8099BB8284254B4A4E5003B111B65"
+                                                    {
+                                                    "Name" = "8:IsRendered"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_BCB08C99258748DC815E271613F1E995"
+                                                    {
+                                                    "Name" = "8:AllowedMany"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:1"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_749A6A9E54104EFEBC511F2F990D649D"
+                                    {
+                                    "Name" = "8:InprocServer32"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_0A43A221DA374005A7ECDD60CE3BBF29"
+                                            {
+                                            "Name" = "8:"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:\\Windows\\dsfOggDemux2.dll"
+                                            }
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_C2B2A35E29D547ED83AD0ECA7B22A7EF"
+                                            {
+                                            "Name" = "8:ThreadingModel"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:Both"
+                                            }
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_10D69EA3795C4047BE0C68651429017E"
+                                    {
+                                    "Name" = "8:Merit"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:3"
+                                    "Value" = "3:6291456"
+                                    }
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_BD004C60FC204E33B2A64465C700A20A"
+                                    {
+                                    "Name" = "8:"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:OggDemuxFilter"
+                                    }
+                                }
+                            }
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_747F747BFA424806A2776B2FC9E51A7E"
+                            {
+                            "Name" = "8:{05A1D945-A794-44EF-B41A-2F851A117155}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_54D691BB7424476BB7BC45AB1AD18A20"
+                                    {
+                                    "Name" = "8:Pins"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_184AE9314EDB4FF7A0D44FA62ABAAC7F"
+                                            {
+                                            "Name" = "8:Vorbis Input"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_1A388E85D15B40E4A173D58020D4978F"
+                                                    {
+                                                    "Name" = "8:Types"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_60827F5B9C944FE58517F2E9042AED66"
+                                                            {
+                                                            "Name" = "8:{60891713-C24F-4767-B6C9-6CA05B3338FC}"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_F0E81CBF61734662A3418DA06D0E8C4B"
+                                                                    {
+                                                                    "Name" = "8:{E436EB8E-524F-11CE-9F53-0020AF0BA770}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_778CB2ED2243490C8EEF26C81C079460"
+                                                    {
+                                                    "Name" = "8:AllowedMany"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_D005DB1E20BD438A824774505ED9117F"
+                                                    {
+                                                    "Name" = "8:AllowedZero"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_D5E0BDF6FB7F4B4080A1F605A4DCE7CC"
+                                                    {
+                                                    "Name" = "8:Direction"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_E0A44224C9794031A2AC9366F6C5C2FB"
+                                                    {
+                                                    "Name" = "8:IsRendered"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                }
+                                            }
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_5A8E20AEA69C4CE89998A1540B134FD5"
+                                            {
+                                            "Name" = "8:PCM Output"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_3900963145074C93A86045E4E307BE75"
+                                                    {
+                                                    "Name" = "8:Types"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_A7A6465ECD39466383BCD6EFBC42F86F"
+                                                            {
+                                                            "Name" = "8:{73647561-0000-0010-8000-00AA00389B71}"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_8F27A80936F2440889FA1AC764CFA902"
+                                                                    {
+                                                                    "Name" = "8:{00000001-0000-0010-8000-00AA00389B71}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_041F5EB0E9F94366A57E15FEFEF6B252"
+                                                    {
+                                                    "Name" = "8:AllowedZero"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_0CA4F001051F432DA10A90AFAC92EE18"
+                                                    {
+                                                    "Name" = "8:IsRendered"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_98186D9012EE45569A48B01BE7404A7B"
+                                                    {
+                                                    "Name" = "8:AllowedMany"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_C5ED16EDA0F1455F8CCB0FE03B8D04C6"
+                                                    {
+                                                    "Name" = "8:Direction"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:1"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_D7428F5DDDE94C88AFA992F5BC61AE8E"
+                                    {
+                                    "Name" = "8:InprocServer32"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_DD7EAD47B79A44FCA487479B6EC89A2A"
+                                            {
+                                            "Name" = "8:ThreadingModel"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:Both"
+                                            }
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_EC90DDF5CBCA4F56A3F7D78BE7A9B466"
+                                            {
+                                            "Name" = "8:"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:\\Windows\\dsfVorbisDecoder.dll"
+                                            }
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_700BEF1BBC8C46E28FB4E4E64B2F1577"
+                                    {
+                                    "Name" = "8:Merit"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:3"
+                                    "Value" = "3:6291456"
+                                    }
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_D7AF9821293E4F7B8B6E2584D45090F3"
+                                    {
+                                    "Name" = "8:"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:Vorbis Decode Filter"
+                                    }
+                                }
+                            }
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_7E097ED6530F4180BB5A128279B91E22"
+                            {
+                            "Name" = "8:{05187161-5c36-4324-a734-22bf37509f2d}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_124979AC70B243CF9F9081E625D590DF"
+                                    {
+                                    "Name" = "8:InprocServer32"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_09B792B843844BACB4E149F379EAAE27"
+                                            {
+                                            "Name" = "8:"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:\\Windows\\dsfTheoraDecoder.dll"
+                                            }
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_FF006B8A766D4F159742DC2D5DD45167"
+                                            {
+                                            "Name" = "8:ThreadingModel"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:Both"
+                                            }
+                                        }
+                                    }
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_8B04BD0076D54151ADB2FE38AF496E83"
+                                    {
+                                    "Name" = "8:Pins"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_0E674779ED5A401EB9C8F3FB2D49FA36"
+                                            {
+                                            "Name" = "8:Video Out"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_1C846AE4037E40FEBE93C216E90182B0"
+                                                    {
+                                                    "Name" = "8:Types"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_5787DB0BAE4C474CAEA755AA1565FC91"
+                                                            {
+                                                            "Name" = "8:{73646976-0000-0010-8000-00aa00389b71}"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_2E72C40C74B2457BAC86ACC4E3121279"
+                                                                    {
+                                                                    "Name" = "8:{32595559-0000-0010-8000-00aa00389b71}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_A038907E476D46F5A454150FBB210623"
+                                                                    {
+                                                                    "Name" = "8:{32315659-0000-0010-8000-00aa00389b71}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_E050D34ABD4243E392EF4088C7AC2F32"
+                                                                    {
+                                                                    "Name" = "8:{e436eb7b-524f-11ce-9f53-0020af0ba770}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_1CD240B708F648D2A1F51B2772E61CA5"
+                                                    {
+                                                    "Name" = "8:IsRendered"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_354B3DEAB9404D01A11BC6622B0173FC"
+                                                    {
+                                                    "Name" = "8:AllowedMany"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_5E006B5120B54E958F3264154EC72496"
+                                                    {
+                                                    "Name" = "8:Direction"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:1"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_EA0038B245234C6A9F63CB64D35B3068"
+                                                    {
+                                                    "Name" = "8:AllowedZero"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                }
+                                            }
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_7CD77CA56F71482CBC9E10BAB70A963C"
+                                            {
+                                            "Name" = "8:Theora Input"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_236FD90F5083435C9BF440A5B64465EA"
+                                                    {
+                                                    "Name" = "8:Types"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_AB9FCFB5E8684283BD5B7BF152FF33D5"
+                                                            {
+                                                            "Name" = "8:{60891713-c24f-4767-b6c9-6ca05b3338fc}"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_C885C4EA2AF14D8CB519416C9B627113"
+                                                                    {
+                                                                    "Name" = "8:{e436eb8e-524f-11ce-9f53-0020af0ba770}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_AE8826735578409E872E8DF0281A0E77"
+                                                    {
+                                                    "Name" = "8:IsRendered"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_B4C5B78FF42F461D91503F5CDC8170CD"
+                                                    {
+                                                    "Name" = "8:AllowedMany"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_C7DF144BBBEE42C4A2CC341CF04B2964"
+                                                    {
+                                                    "Name" = "8:AllowedZero"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_FED08049A8424D038DEC8921E638D3EE"
+                                                    {
+                                                    "Name" = "8:Direction"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_4612E37C3A0045999732EF4DE738517D"
+                                    {
+                                    "Name" = "8:Merit"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:3"
+                                    "Value" = "3:6291457"
+                                    }
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_EF10443CE659412297A8D66D929E0E2B"
+                                    {
+                                    "Name" = "8:"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:Theora Decode Filter"
+                                    }
+                                }
+                            }
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_C246C769287546778DF7F9BC5C999676"
+                            {
+                            "Name" = "8:{7605E26C-DE38-4B82-ADD8-FE2568CC0B25}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_AD08E5173CCB435F9FDF71988D11FBFA"
+                                    {
+                                    "Name" = "8:Pins"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_67C7390933284EC2ABDA9B9933862F70"
+                                            {
+                                            "Name" = "8:Speex Input"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_0153EA5E18474EAF97FE09083D7587EF"
+                                                    {
+                                                    "Name" = "8:Types"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_4D0E0CF8E7AA4ECB9C9AC13BA1867884"
+                                                            {
+                                                            "Name" = "8:{60891713-C24F-4767-B6C9-6CA05B3338FC}"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_905FBFCF20F44FC280E49C0565FCC485"
+                                                                    {
+                                                                    "Name" = "8:{E436EB8E-524F-11CE-9F53-0020AF0BA770}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_022180B9060E4D65A826FEF6CD89F847"
+                                                    {
+                                                    "Name" = "8:IsRendered"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_104277C8F4E04A428A551D6953EE640F"
+                                                    {
+                                                    "Name" = "8:Direction"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_8A201885F5D84DB1A94BCB92F0DEE003"
+                                                    {
+                                                    "Name" = "8:AllowedMany"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_A11F245FFB89448ABBC932A6575EAC26"
+                                                    {
+                                                    "Name" = "8:AllowedZero"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                }
+                                            }
+                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_BA2D3D2669184AA898FC168E5A3BC286"
+                                            {
+                                            "Name" = "8:PCM Output"
+                                            "Condition" = "8:"
+                                                "Keys"
+                                                {
+                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_110ECB9E50DC47C284F5FF6CBB6627C0"
+                                                    {
+                                                    "Name" = "8:Types"
+                                                    "Condition" = "8:"
+                                                        "Keys"
+                                                        {
+                                                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_1D13503CA7EE421CB29BACC2C79903B4"
+                                                            {
+                                                            "Name" = "8:{73647561-0000-0010-8000-00AA00389B71}"
+                                                            "Condition" = "8:"
+                                                                "Keys"
+                                                                {
+                                                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_450F8903E37742E2A9C733DE118DC8AE"
+                                                                    {
+                                                                    "Name" = "8:{00000001-0000-0010-8000-00AA00389B71}"
+                                                                    "Condition" = "8:"
+                                                                        "Keys"
+                                                                        {
+                                                                        }
+                                                                        "Values"
+                                                                        {
+                                                                        }
+                                                                    }
+                                                                }
+                                                                "Values"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                        "Values"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                                "Values"
+                                                {
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_13627F3D5B7545379CA2E4856A14125F"
+                                                    {
+                                                    "Name" = "8:Direction"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:1"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_D4671FD893AE481381E9F1500677F9B0"
+                                                    {
+                                                    "Name" = "8:AllowedMany"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_DD1220E2360349BE87F2F3BDD4D16C40"
+                                                    {
+                                                    "Name" = "8:AllowedZero"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_F2CC3D488F734C09BA43B284A5AFB1D3"
+                                                    {
+                                                    "Name" = "8:IsRendered"
+                                                    "Condition" = "8:"
+                                                    "ValueTypes" = "3:3"
+                                                    "Value" = "3:0"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_E41CDD5075FB4C99AE38791D5427A309"
+                                    {
+                                    "Name" = "8:InprocServer32"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_53467AC7072E4CAE9A40DB79BB953471"
+                                            {
+                                            "Name" = "8:"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:\\Windows\\dsfSpeexDecoder.dll"
+                                            }
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_CC219369DA4C4202A3369BDEFC98B910"
+                                            {
+                                            "Name" = "8:ThreadingModel"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:Both"
+                                            }
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_7D6343868848431ABF12BFC46B02A4A3"
+                                    {
+                                    "Name" = "8:Merit"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:3"
+                                    "Value" = "3:6291456"
+                                    }
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_7F63F66517F042FC8EC15C78A14E94B3"
+                                    {
+                                    "Name" = "8:"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:Speex Decode Filter"
+                                    }
+                                }
+                            }
+                        }
+                        "Values"
+                        {
+                        }
+                    }
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_F8308018008249EA88EDAC5B5114B19F"
+                    {
+                    "Name" = "8:http"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_4D913C4D62F248FE95A6B4A4E0CD26D7"
+                            {
+                            "Name" = "8:Extensions"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_1C237950894C498B99C9C8710D8FC5AB"
+                                    {
+                                    "Name" = "8:.ogg"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                    }
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_7F81A2BE3F38444F844F3143DA64B77A"
+                                    {
+                                    "Name" = "8:.anx"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                    }
+                                }
+                            }
+                        }
+                        "Values"
+                        {
+                        }
+                    }
+                }
+            }
+            "HKU"
+            {
+                "Keys"
+                {
+                }
+            }
+            "HKPU"
+            {
+                "Keys"
+                {
+                }
+            }
+        }
+        "Shortcut"
+        {
+        }
+    }
+}

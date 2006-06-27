@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -35,15 +35,16 @@
 
 SpeexDecodeInputPin::SpeexDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
 	:	AbstractTransformInputPin(inFilter, inFilterLock, inOutputPin, NAME("SpeexDecodeInputPin"), L"Speex In", inAcceptableMediaTypes)
-	,	mFishSound(NULL)
 
 	,	mNumChannels(0)
-	,	mFrameSize(0)
+	,	mSampleFrameSize(0)
 	,	mSampleRate(0)
+	,	mSpeexFrameSize(0)
 	,	mUptoFrame(0)
 
 	,	mDecodedByteCount(0)
 	,	mDecodedBuffer(NULL)
+
 	,	mRateNumerator(RATE_DENOMINATOR)
 
 	,	mSetupState(VSS_SEEN_NOTHING)
@@ -55,30 +56,28 @@ SpeexDecodeInputPin::SpeexDecodeInputPin(AbstractTransformFilter* inFilter, CCri
 	mDecodedBuffer = new unsigned char[DECODED_BUFFER_SIZE];
 }
 
-bool SpeexDecodeInputPin::ConstructCodec() {
-	mFishSound = fish_sound_new (FISH_SOUND_DECODE, &mFishInfo);
-
-	int i = 1;
-	//FIX::: Use new API for interleave setting
-	fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
-
-	fish_sound_set_decoded_callback (mFishSound, SpeexDecodeInputPin::SpeexDecoded, this);
-	//FIX::: Proper return value
+bool SpeexDecodeInputPin::ConstructCodec() 
+{
+	//TODO::: Allow force options
+	
+	//Don't need to do much... mSpeexDecoder is good to go
 	return true;
+
 }
-void SpeexDecodeInputPin::DestroyCodec() {
-	fish_sound_delete(mFishSound);
-	mFishSound = NULL;
+void SpeexDecodeInputPin::DestroyCodec() 
+{
+
 }
 SpeexDecodeInputPin::~SpeexDecodeInputPin(void)
 {
 	DestroyCodec();
 
-	delete mDecodedBuffer;
+	delete[] mDecodedBuffer;
 }
 
 STDMETHODIMP SpeexDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
+	//TODO::: Make the IOggDecoder interface a proper COM interface
 	if (riid == IID_IMediaSeeking) {
 		*ppv = (IMediaSeeking*)this;
 		((IUnknown*)*ppv)->AddRef();
@@ -98,6 +97,7 @@ STDMETHODIMP SpeexDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFEREN
 	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
 	mUptoFrame = 0;
 
+	//Denominator and numerator are a 16 bit fraction
 	mRateNumerator = RATE_DENOMINATOR * inRate;
 	if (mRateNumerator > RATE_DENOMINATOR) {
 		mRateNumerator = RATE_DENOMINATOR;
@@ -122,167 +122,12 @@ HRESULT SpeexDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outR
 
 	return S_OK;
 }
-int SpeexDecodeInputPin::SpeexDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer) 
-{
 
-	SpeexDecodeInputPin* locThis = reinterpret_cast<SpeexDecodeInputPin*> (inThisPointer);
-	SpeexDecodeFilter* locFilter = reinterpret_cast<SpeexDecodeFilter*>(locThis->m_pFilter);
-
-	if (locThis->CheckStreaming() == S_OK) {
-
-		unsigned long locActualSize = inFrames * locThis->mFrameSize;
-		unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
-		unsigned long locBufferRemaining = DECODED_BUFFER_SIZE - locThis->mDecodedByteCount;
-		
-
-
-		//Create a pointer into the buffer		
-		signed short* locShortBuffer = (signed short*)&locThis->mDecodedBuffer[locThis->mDecodedByteCount];
-		
-		
-		signed short tempInt = 0;
-		float tempFloat = 0;
-		
-		//FIX:::Move the clipping to the abstract function
-
-		if (locBufferRemaining >= locActualSize) {
-			//Do float to int conversion with clipping
-			const float SINT_MAX_AS_FLOAT = 32767.0f;
-			for (unsigned long i = 0; i < locTotalFrameCount; i++) {
-				//Clipping because vorbis puts out floats out of range -1 to 1
-				if (((float*)inPCM)[i] <= -1.0f) {
-					tempInt = SINT_MIN;	
-				} else if (((float*)inPCM)[i] >= 1.0f) {
-					tempInt = SINT_MAX;
-				} else {
-					//FIX:::Take out the unnescessary variable.
-					tempFloat = ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-					//ASSERT((tempFloat <= 32767.0f) && (tempFloat >= -32786.0f));
-					tempInt = (signed short)(tempFloat);
-					//tempInt = (signed short) ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-				}
-				
-				*locShortBuffer = tempInt;
-				locShortBuffer++;
-			}
-
-			locThis->mDecodedByteCount += locActualSize;
-			
-			return 0;
-		} else {
-			throw 0;
-		}
-	} else {
-		DbgLog((LOG_TRACE,1,TEXT("Fishsound sending stuff we aren't ready for...")));
-		return -1;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-	////Do we need to delete the pcm structure ???? 
-	////More of this can go to the abstract class.
-
-	////For convenience we do all these cast once and for all here.
-	//SpeexDecodeInputPin* locThis = reinterpret_cast<SpeexDecodeInputPin*> (inThisPointer);
-	//SpeexDecodeFilter* locFilter = reinterpret_cast<SpeexDecodeFilter*>(locThis->m_pFilter);
-	//
-
-	//if (! locThis->mBegun) {
-	//
-	//	fish_sound_command (locThis->mFishSound, FISH_SOUND_GET_INFO, &(locThis->mFishInfo), sizeof (FishSoundInfo)); 
-	//	locThis->mBegun = true;
-	//	
-	//	locThis->mNumChannels = locThis->mFishInfo.channels;
-	//	locThis->mFrameSize = locThis->mNumChannels * SIZE_16_BITS;
-	//	locThis->mSampleRate = locThis->mFishInfo.samplerate;
-
-	//}
-	//
-	////TO DO::: Move this somewhere else
-	//unsigned long locActualSize = inFrames * locThis->mFrameSize;
-	//unsigned long locTotalFrameCount = inFrames * locThis->mNumChannels;
-
-	//REFERENCE_TIME locFrameStart = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-	////Increment the frame counter
-	//locThis->mUptoFrame += inFrames;
-	////Make the end frame counter
-
-	//
-	//REFERENCE_TIME locFrameEnd = (((__int64)(locThis->mUptoFrame * UNITS)) / locThis->mSampleRate);
-
-
-	//IMediaSample* locSample;
-	//HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
-	//if (locHR != S_OK) {
-	//	return locHR;
-	//}	
-	//
-	////Create pointers for the samples buffer to be assigned to
-	//BYTE* locBuffer = NULL;
-	//signed short* locShortBuffer = NULL;
-	//
-	////Make our pointers set to point to the samples buffer
-	//locSample->GetPointer(&locBuffer);
-	//locShortBuffer = (short *) locBuffer;
-	//
-	//signed short tempInt = 0;
-	//float tempFloat = 0;
-	//
-	////FIX:::Move the clipping to the abstract function
-
-	//if (locSample->GetSize() >= locActualSize) {
-	//	//Do float to int conversion with clipping
-	//	float SINT_MAX_AS_FLOAT = 32767.0f;
-	//	for (unsigned long i = 0; i < locTotalFrameCount; i++) {
-	//		//Clipping because vorbis puts out floats out of range -1 to 1
-	//		if (((float*)inPCM)[i] <= -1.0f) {
-	//			tempInt = SINT_MIN;	
-	//		} else if (((float*)inPCM)[i] >= 1.0f) {
-	//			tempInt = SINT_MAX;
-	//		} else {
-	//			//FIX:::Take out the unnescessary variable.
-	//			tempFloat = ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-	//			//ASSERT((tempFloat <= 32767.0f) && (tempFloat >= -32786.0f));
-	//			tempInt = (signed short)(tempFloat);
-	//			//tempInt = (signed short) ((( (float*) inPCM )[i]) * SINT_MAX_AS_FLOAT);
-	//		}
-	//		
-	//		*locShortBuffer = tempInt;
-	//		locShortBuffer++;
-	//	}
-	//	
-	//	//Set the sample parameters.
-	//	locThis->SetSampleParams(locSample, locActualSize, &locFrameStart, &locFrameEnd);
-
-	//	{
-	//		CAutoLock locLock(locThis->m_pLock);
-	//		HRESULT locHR = ((SpeexDecodeOutputPin*)(locThis->mOutputPin))->mDataQueue->Receive(locSample);
-	//		if (locHR != S_OK) {
-	//			return locHR;				
-	//		}
-	//	}
-
-	//	
-	//	return 0;
-	//} else {
-	//	throw 0;
-	//}
-
-}
 
 STDMETHODIMP SpeexDecodeInputPin::Receive(IMediaSample* inSample) 
 {
+	//TODO::: All the internal buffer handling should be abstracted - it's duped in vorbis speex and flac
+	//TODO::: Document the buffer end point cutting better
 	CAutoLock locLock(mStreamLock);
 
 	HRESULT locHR = CheckStreaming();
@@ -312,7 +157,7 @@ STDMETHODIMP SpeexDecodeInputPin::Receive(IMediaSample* inSample)
 				unsigned long locBytesCopied = 0;
 				unsigned long locBytesToCopy = 0;
 
-				locStart = convertGranuleToTime(locEnd) - (((mDecodedByteCount / mFrameSize) * UNITS) / mSampleRate);
+				locStart = convertGranuleToTime(locEnd) - (((mDecodedByteCount / mSampleFrameSize) * UNITS) / mSampleRate);
 				do {
 					HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
 					if (locHR != S_OK) {
@@ -329,7 +174,7 @@ STDMETHODIMP SpeexDecodeInputPin::Receive(IMediaSample* inSample)
 					locBytesToCopy = ((mDecodedByteCount - locBytesCopied) <= locSample->GetSize()) ? (mDecodedByteCount - locBytesCopied) : locSample->GetSize();
 					//locBytesCopied += locBytesToCopy;
 
-					locSampleDuration = (((locBytesToCopy/mFrameSize) * UNITS) / mSampleRate);
+					locSampleDuration = (((locBytesToCopy/mSampleFrameSize) * UNITS) / mSampleRate);
 					locEnd = locStart + locSampleDuration;
 
 					//Adjust the time stamps for rate and seeking
@@ -344,10 +189,10 @@ STDMETHODIMP SpeexDecodeInputPin::Receive(IMediaSample* inSample)
 					} else {
 						if (locAdjustedStart < 0) {
 							locSeekStripOffset = (-locAdjustedStart) * mSampleRate;
-							locSeekStripOffset *= mFrameSize;
+							locSeekStripOffset *= mSampleFrameSize;
 							locSeekStripOffset /= UNITS;
-							locSeekStripOffset += (mFrameSize - (locSeekStripOffset % mFrameSize));
-							__int64 locStrippedDuration = (((locSeekStripOffset/mFrameSize) * UNITS) / mSampleRate);
+							locSeekStripOffset += (mSampleFrameSize - (locSeekStripOffset % mSampleFrameSize));
+							__int64 locStrippedDuration = (((locSeekStripOffset/mSampleFrameSize) * UNITS) / mSampleRate);
 							locAdjustedStart += locStrippedDuration;
 						}
 							
@@ -387,20 +232,27 @@ STDMETHODIMP SpeexDecodeInputPin::Receive(IMediaSample* inSample)
 
 HRESULT SpeexDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
 {
-	long locErr = fish_sound_decode(mFishSound, inBuf, inNumBytes);
-	if (locErr == 0) {
+
+	//TODO::: Verify size of remaining buffer
+	SpeexDecoder::eSpeexResult locResult;
+	locResult = mSpeexDecoder.decodePacket(		inBuf
+											,	inNumBytes
+											,	(short*)(mDecodedBuffer + mDecodedByteCount)
+											,	DECODED_BUFFER_SIZE - mDecodedByteCount);
+
+	if (locResult == SpeexDecoder::SPEEX_DATA_OK) {
+		mDecodedByteCount += mSpeexFrameSize;
 		return S_OK;
-	} else {
-		return S_FALSE;
 	}
+
+	//For now, just silently ignore busted packets.
+	return S_OK;
 }
 
 
 
 HRESULT SpeexDecodeInputPin::SetMediaType(const CMediaType* inMediaType) 
 {
-	//FIX:::Error checking
-	//RESOLVED::: Bit better.
 	if (CheckMediaType(inMediaType) == S_OK) {
 		((SpeexDecodeFilter*)mParentFilter)->setSpeexFormat(inMediaType->pbFormat);
 		
@@ -409,13 +261,7 @@ HRESULT SpeexDecodeInputPin::SetMediaType(const CMediaType* inMediaType)
 	}
 	return CBaseInputPin::SetMediaType(inMediaType);
 
-	//if (inMediaType->subtype == MEDIASUBTYPE_Speex) {
-	//	((SpeexDecodeFilter*)mParentFilter)->setSpeexFormat((sSpeexFormatBlock*)inMediaType->pbFormat);
 
-	//} else {
-	//	throw 0;
-	//}
-	//return CBaseInputPin::SetMediaType(inMediaType);
 }
 
 HRESULT SpeexDecodeInputPin::CheckMediaType(const CMediaType *inMediaType)
@@ -446,13 +292,15 @@ LOOG_INT64 SpeexDecodeInputPin::mustSeekBefore(LOOG_INT64 inGranule)
 	//TODO::: Get adjustment from block size info... for now, it doesn't matter if no preroll
 	return inGranule;
 }
+
 IOggDecoder::eAcceptHeaderResult SpeexDecodeInputPin::showHeaderPacket(OggPacket* inCodecHeaderPacket)
 {
 	switch (mSetupState) {
 		case VSS_SEEN_NOTHING:
 			if (strncmp((char*)inCodecHeaderPacket->packetData(), "Speex   ", 8) == 0) {
 				//TODO::: Possibly verify version
-				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
+
+				if (mSpeexDecoder.decodePacket(	inCodecHeaderPacket->packetData(),	inCodecHeaderPacket->packetSize(),	NULL, 0) == SpeexDecoder::SPEEX_HEADER_OK) {
 					mSetupState = VSS_SEEN_BOS;
 					return IOggDecoder::AHR_MORE_HEADERS_TO_COME;
 				}
@@ -462,27 +310,22 @@ IOggDecoder::eAcceptHeaderResult SpeexDecodeInputPin::showHeaderPacket(OggPacket
 			
 		case VSS_SEEN_BOS:
 			//The comment packet can't be easily identified in speex.
-			//Just ignore the second packet we see, and hope fishsound does better.
+			//Just ignore the second packet we see, and hope for the best
 
-			//if (strncmp((char*)inCodecHeaderPacket->packetData(), "\003vorbis", 7) == 0) {
-				if (fish_sound_decode(mFishSound, inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize()) >= 0) {
-					mSetupState = VSS_ALL_HEADERS_SEEN;
+			if (mSpeexDecoder.decodePacket(	inCodecHeaderPacket->packetData(),	inCodecHeaderPacket->packetSize(),	NULL, 0) == SpeexDecoder::SPEEX_COMMENT_OK) {
+				mSetupState = VSS_ALL_HEADERS_SEEN;
 
-					fish_sound_command (mFishSound, FISH_SOUND_GET_INFO, &(mFishInfo), sizeof (FishSoundInfo)); 
-					mBegun = true;
-			
-					mNumChannels = mFishInfo.channels;
-					mFrameSize = mNumChannels * SIZE_16_BITS;
-					mSampleRate = mFishInfo.samplerate;
+				mBegun = true;
+		
+				mNumChannels = mSpeexDecoder.numChannels();//mFishInfo.channels;
+				mSampleFrameSize = mNumChannels * SIZE_16_BITS;
+				mSampleRate = mSpeexDecoder.sampleRate(); //mFishInfo.samplerate;
+				mSpeexFrameSize = mSampleFrameSize * mSpeexDecoder.frameSize();
 
-					return IOggDecoder::AHR_ALL_HEADERS_RECEIVED;
-				}
+				return IOggDecoder::AHR_ALL_HEADERS_RECEIVED;
+			}
 				
-				
-			//}
 			return IOggDecoder::AHR_INVALID_HEADER;
-			
-			
 	
 		case VSS_ALL_HEADERS_SEEN:
 		case VSS_ERROR:
@@ -494,9 +337,10 @@ string SpeexDecodeInputPin::getCodecShortName()
 {
 	return "speex";
 }
+
 string SpeexDecodeInputPin::getCodecIdentString()
 {
-	//TODO:::
+	//TODO::: Get the full ident string from the decoder
 	return "speex";
 }
 

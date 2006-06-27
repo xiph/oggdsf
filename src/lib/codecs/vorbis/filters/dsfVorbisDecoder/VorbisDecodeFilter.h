@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -54,13 +54,17 @@ public:
 	VorbisDecodeFilter(void);
 	virtual ~VorbisDecodeFilter(void);
 
-	//COM Creator Function
+	///COM CreateInstance Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
 	//FIX::: Do we need these ? Aren't they all friends ??
 	virtual sVorbisFormatBlock* getVorbisFormatBlock();
 	virtual void setVorbisFormat(BYTE* inFormatBlock);
 
+#ifdef WINCE
+	virtual LPAMOVIESETUP_FILTER GetSetupData();
+	virtual HRESULT Register();
+#endif
 protected:
 	//VIRTUAL FUNCTIONS - AbstractTransformFilter
 	virtual bool ConstructPins();

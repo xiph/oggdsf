@@ -60,7 +60,7 @@ STDAPI DllRegisterServer()
 		L"Vorbis Encode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Vorbis Encode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &VorbisEncodeFilterReg								// Pointer to filter information.
     );
 
@@ -89,7 +89,7 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Vorbis Encode Filter", CLSID_VorbisEncodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_VorbisEncodeFilter);
 
 
 	//

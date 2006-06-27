@@ -59,7 +59,7 @@ STDAPI DllRegisterServer()
 		L"Speex Encode Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Speex Encode Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &SpeexEncodeFilterReg								// Pointer to filter information.
     );
 
@@ -88,7 +88,7 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Speex Encode Filter", CLSID_SpeexEncodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_SpeexEncodeFilter);
 
 
 	//

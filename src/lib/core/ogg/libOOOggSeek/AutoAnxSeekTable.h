@@ -12,7 +12,12 @@ class LIBOOOGGSEEK_API AutoAnxSeekTable
 	:	public AutoOggSeekTable
 {
 public:
+#ifdef UNICODE
+	AutoAnxSeekTable(wstring inFileName);
+#else
 	AutoAnxSeekTable(string inFileName);
+#endif
+
 	virtual ~AutoAnxSeekTable(void);
 
 	//virtual bool buildTable();

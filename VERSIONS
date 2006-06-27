@@ -1,6 +1,6 @@
-PACKAGE		-	0.71.0946
+PACKAGE		-	0.71.0946 
 =================================
-libspeex	-	1.1.10
+libspeex	-	1.1.12 r11188
 libvorbis	-	1.1.1
 libfishsound	-	0.6.3
 libogg		-	1.1.1
@@ -8,4 +8,4 @@ libtheora	-	1.0alpha5
 libFLAC		-	1.1.2
 
 * Whilst under early development, filters and all other 
-  libraries have same version number as packages.
+  libraries have same version number as packages. 

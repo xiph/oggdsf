@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -44,7 +44,11 @@ CFactoryTemplate g_Templates[] =
 	    &CLSID_VorbisDecodeFilter,            // CLSID
 	    VorbisDecodeFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
+#ifdef WINCE
+		&VorbisDecodeFilterReg
+#else
         NULL									// Set-up information (for filters)
+#endif
     }
 
 };
@@ -52,7 +56,17 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
+#ifdef WINCE
+LPAMOVIESETUP_FILTER VorbisDecodeFilter::GetSetupData()
+{	
+	return (LPAMOVIESETUP_FILTER)&VorbisDecodeFilterReg;	
+}
 
+HRESULT VorbisDecodeFilter::Register()
+{
+	return CBaseFilter::Register();
+}
+#endif
 
 //*************************************************************************************************
 VorbisDecodeFilter::VorbisDecodeFilter()
@@ -98,7 +112,7 @@ bool VorbisDecodeFilter::ConstructPins()
 VorbisDecodeFilter::~VorbisDecodeFilter(void)
 {
 	DbgLog((LOG_TRACE,1,TEXT("Vorbis Destructor...")));
-	//DestroyPins();
+	
 	delete mVorbisFormatInfo;
 }
 

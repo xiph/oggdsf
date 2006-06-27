@@ -59,7 +59,7 @@ STDAPI DllRegisterServer()
 		L"Ogg Raw Audio Inserter Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Ogg Raw Audio Inserter Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &OggRawAudioInserterFilterReg								// Pointer to filter information.
     );
 
@@ -88,7 +88,7 @@ STDAPI DllUnregisterServer()
 	}
 	
 
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, L"Ogg Raw Audio Inserter Filter", CLSID_OggRawAudioInserterFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_OggRawAudioInserterFilter);
 
 
 	//

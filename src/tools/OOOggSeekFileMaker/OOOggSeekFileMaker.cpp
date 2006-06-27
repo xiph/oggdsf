@@ -49,10 +49,14 @@ int main(int argc, char * argv[])
 	if (argc < 3) {
 		cout<<"Usage : OOOggSeekFileMaker <in_ogg_file> <out_seek_table_file>"<<endl;
 	} else {
-
-		string inFileName = argv[1];
+#ifdef UNICODE
+		wstring inFileName;
+#else
+		string inFileName;
+#endif
+		inFileName = argv[1];
 		AutoOggSeekTable* locSeekTable = NULL;
-		if (inFileName.find(".anx") != string::npos) {
+		if (inFileName.find(TEXT(".anx")) != string::npos) {
 			locSeekTable = new AutoAnxSeekTable(argv[1]);
 		} else {
 			locSeekTable = new AutoOggSeekTable(argv[1]);

@@ -40,6 +40,6 @@ public:
 	DataSourceFactory(void);
 	~DataSourceFactory(void);
 
-	static IFilterDataSource* createDataSource(string inSourceLocation);
-	static string identifySourceType(string inSourceLocation);
+	static IFilterDataSource* createDataSource(wstring inSourceLocation);
+	static wstring identifySourceType(wstring inSourceLocation);
 };

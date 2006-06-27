@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -37,11 +37,9 @@
 
 #include "SpeexDecodeFilter.h"
 
-extern "C" {
-//#include <fishsound/fishsound.h>
-#include "fish_cdecl.h"
-}
+#include "SpeexDecoder.h"
 
+//Forward declaration
 class SpeexDecodeOutputPin;
 
 class SpeexDecodeInputPin 
@@ -51,26 +49,44 @@ class SpeexDecodeInputPin
 public:
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	SpeexDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
+
+	SpeexDecodeInputPin(		AbstractTransformFilter* inFilter
+							,	CCritSec* inFilterLock
+							,	AbstractTransformOutputPin* inOutputPin
+							,	vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexDecodeInputPin(void);
 	
-	static int __cdecl SpeexDecoded (FishSound* inFishSound, float** inPCM, long inFrames, void* inThisPointer);
-
-
+	///Called when the connection type is determined
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+
+	///Called to check if the media type is acceptable to this pin
 	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
+
+	///New segment messages pass downstream to inform a new segment is about to play
 	virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
+
+	///Called at the end of a flush operation
 	virtual STDMETHODIMP EndFlush();
 
+	///Called by the connecting pin to ask this pins buffer requirements
 	virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
 
+	///Receive is the main data path, data travels downstream through successive Receive's
 	virtual STDMETHODIMP Receive(IMediaSample* inSample);
 
-	//IOggDecoder Interface
+	///Called by upstream(demux) to get a conversion from granules to time
 	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule);
+
+	///Called by upstream to determine preroll data, ie how far back to seek to decode the given granule
 	virtual LOOG_INT64 mustSeekBefore(LOOG_INT64 inGranule);
+
+	///Called during pin setup to prime the decoder
 	virtual IOggDecoder::eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket);
+
+	///Returns the short name for this codec "speex"
 	virtual string getCodecShortName();
+
+	///Returns the codec ident string, could include version, build etc info. Purely for display purposes.
 	virtual string getCodecIdentString();
 
 
@@ -83,21 +99,23 @@ protected:
 	//Implementation of pure virtuals from AbstractTransformInputPin
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
+
+	///Internal method for doing decoding into the main buffer
 	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
 
-	FishSound* mFishSound;
-	FishSoundInfo mFishInfo; 
-
-	int mNumChannels;
-	int mFrameSize;
-	int mSampleRate;
-	unsigned int mUptoFrame;
-
-	bool mBegun;
-
 	unsigned char* mDecodedBuffer;
-
 	unsigned long mDecodedByteCount;
+
+	SpeexDecoder mSpeexDecoder;
+
+	unsigned long mNumChannels;
+	unsigned long mSampleFrameSize;
+	unsigned long mSpeexFrameSize;
+	unsigned long mSampleRate;
+
+	//TODO::: NEEDED???
+	unsigned int mUptoFrame;
+	bool mBegun;
 
 	enum eSpeexSetupState {
 		VSS_SEEN_NOTHING,
@@ -111,7 +129,5 @@ protected:
 
 	__int64 mRateNumerator;
 	static const __int64 RATE_DENOMINATOR = 65536;
-
-
 
 };

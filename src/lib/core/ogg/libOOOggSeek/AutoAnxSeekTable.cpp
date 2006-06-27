@@ -3,7 +3,11 @@
 
 #undef DEBUG
 
+#ifdef UNICODE
+AutoAnxSeekTable::AutoAnxSeekTable(wstring inFileName)
+#else
 AutoAnxSeekTable::AutoAnxSeekTable(string inFileName)
+#endif
 	:	AutoOggSeekTable(inFileName)
 	,	mAnxPackets(0)
 	,	mSeenAnything(false)

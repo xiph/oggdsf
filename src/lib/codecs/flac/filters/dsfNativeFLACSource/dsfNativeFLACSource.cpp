@@ -68,7 +68,7 @@ STDAPI DllRegisterServer()
 		L"Native FLAC Source Filter",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        L"Native FLAC Source Filter",							// Instance data. ???????
+        NULL,							// Instance data. ???????
         &NativeFLACSourceFilterReg								// Pointer to filter information.
     );
 
@@ -109,7 +109,7 @@ STDAPI DllUnregisterServer()
 	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
-            L"Native FLAC Source Filter", CLSID_NativeFLACSourceFilter);
+            NULL, CLSID_NativeFLACSourceFilter);
 
 	//
     locFilterMapper->Release();
