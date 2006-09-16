@@ -1,10 +1,11 @@
-PACKAGE		-	0.71.0946 
+PACKAGE		-	0.72.1838
 =================================
-libspeex	-	1.1.12 r11188
+libspeex	-	1.2 beta 1
 libvorbis	-	1.1.1
 libfishsound	-	0.6.3
 libogg		-	1.1.1
-libtheora	-	1.0alpha5
+libtheora	-	1.0alpha7-trunk r11838
+libtheora-exp	-	trunk r11838
 libFLAC		-	1.1.2
 
 * Whilst under early development, filters and all other 
