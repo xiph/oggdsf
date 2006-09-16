@@ -153,7 +153,8 @@ In order to build you need the following
    http://msdn.microsoft.com/windowsmedia/downloads/default.aspx
 
  * NASM 0.98.38/0.98.39 - This is required for flac. Best to
-    install it to it's default at C:\NASM.
+    install it to it's default at C:\NASM. Where "best to"
+    means if you don't want to be screwing around.
 
    You can download from here
    http://sourceforge.net/projects/nasm
@@ -170,6 +171,10 @@ In order to build you need the following
     without installing this.
 
  * Doxygen with DOT if you want to create the doc files
+   - Most recently used graphviz (DOT) V2.8 from
+     http://www.graphviz.org/Download_windows.php
+   - And doxygen version 1.4.7 from
+     http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc
 
  * NSIS (currently using 2.17) to build the installers
 
