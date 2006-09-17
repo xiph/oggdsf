@@ -71,4 +71,7 @@ protected:
 
 	//Format Block
 	sVorbisFormatBlock* mVorbisFormatInfo;
+
+
+    static const bool USE_CORRECT_VORBIS_CHANNEL_MAPPING = true;
 };

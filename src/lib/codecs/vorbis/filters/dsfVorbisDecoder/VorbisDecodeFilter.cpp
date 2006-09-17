@@ -90,6 +90,13 @@ bool VorbisDecodeFilter::ConstructPins()
 	
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
+	//Second one the same type... they are actually different one is the extensible format. See CreateAndFill
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
+	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
+	
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
 	//Output pin must be done first because it's passed to the input pin.
 	mOutputPin = new VorbisDecodeOutputPin(this, m_pLock, locAcceptableTypes);			//Deleted in base class destructor
 

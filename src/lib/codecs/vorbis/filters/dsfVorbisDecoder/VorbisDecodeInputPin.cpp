@@ -215,7 +215,8 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 
 					
 
-						memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
+						//memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
+                        reorderChannels(locBuffer, &mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
 
 						locSample->SetTime(&locAdjustedStart, &locAdjustedEnd);
 						locSample->SetMediaTime(&locStart, &locEnd);
@@ -243,6 +244,53 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 		//Not streaming - Bail out.
 		return S_FALSE;
 	}
+}
+
+void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const unsigned char* inSourceBuffer, unsigned long inNumBytes)
+{
+    //memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
+
+    if (((VorbisDecodeFilter*)m_pFilter)->USE_CORRECT_VORBIS_CHANNEL_MAPPING && ((mNumChannels == 6)  || (mNumChannels == 3))) {
+        //We only have to reorder the channels if we are using the extended format, we have declared that we want to map correctly
+        // and teh number channels is 3 or 6. All other cases we just memcpy
+
+        
+        unsigned long locSampleCount = inNumBytes / (mNumChannels * sizeof(short));
+
+        short* locDest = (short*)inDestBuffer;
+        const short* locSource = (short*)inSourceBuffer;
+
+        if (mNumChannels == 3)
+        {
+            for (unsigned long i = 0; i < locSampleCount; i++)
+            {
+                *locDest++ = *locSource;
+                *locDest++ = locSource[2];
+                *locDest++ = locSource[1];
+                locSource += 3;
+            }
+        } else {
+            for (unsigned long i = 0; i < locSampleCount; i++)
+            {
+                //Must be 6.
+                *locDest++ = *locSource;
+                *locDest++ = locSource[2];
+                *locDest++ = locSource[1];
+                *locDest++ = locSource[5];
+                *locDest++ = locSource[3];
+                *locDest++ = locSource[4];
+
+                locSource += 6;
+                }
+
+
+        }
+        return;
+    }
+    
+    memcpy((void*)inDestBuffer, (const void*)inSourceBuffer, inNumBytes);
+    
+
 }
 
 HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 

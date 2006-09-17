@@ -33,6 +33,9 @@
 #include "vorbisdecoderdllstuff.h"
 #include "AbstractTransformOutputPin.h"
 
+//Kernel streaming header for KSDATA_FORMAT_SUBTYPE_PCM
+#include "ks.h"
+#include "ksmedia.h"
 
 class VorbisDecodeFilter;
 class VorbisDecodeOutputPin :
@@ -49,5 +52,7 @@ public:
 	virtual ~VorbisDecodeOutputPin(void);
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
+
+
 };
 

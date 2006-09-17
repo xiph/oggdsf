@@ -35,13 +35,10 @@
 using namespace std;
 #include "vorbisdecoderdllstuff.h"
 
-
-
 #include "IOggDecoder.h"
 #include "IOggOutputPin.h"
 #include "AbstractTransformInputPin.h"
 #include "VorbisDecodeInputPin.h"
-
 #include "VorbisDecodeFilter.h"
 
 #ifdef USING_TREMOR
@@ -50,7 +47,6 @@ using namespace std;
 #else
 #include "VorbisDecoder.h"
 #endif
-
 
 class VorbisDecodeOutputPin;
 
@@ -114,6 +110,8 @@ protected:
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
+
+    void reorderChannels(unsigned char* inDestBuffer, const unsigned char* inSourceBuffer, unsigned long inNumBytes);
 
 	
 
