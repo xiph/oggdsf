@@ -250,7 +250,7 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
 {
     //memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
 
-    if (((VorbisDecodeFilter*)m_pFilter)->USE_CORRECT_VORBIS_CHANNEL_MAPPING && ((mNumChannels == 6)  || (mNumChannels == 3))) {
+    if (((VorbisDecodeFilter*)m_pFilter)->USE_CORRECT_VORBIS_CHANNEL_MAPPING && ((mNumChannels == 6)  || (mNumChannels == 3) || (mNumChannels == 5))) {
         //We only have to reorder the channels if we are using the extended format, we have declared that we want to map correctly
         // and teh number channels is 3 or 6. All other cases we just memcpy
 
@@ -260,19 +260,11 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
         short* locDest = (short*)inDestBuffer;
         const short* locSource = (short*)inSourceBuffer;
 
-        if (mNumChannels == 3)
+        if (mNumChannels == 6)
         {
             for (unsigned long i = 0; i < locSampleCount; i++)
             {
-                *locDest++ = *locSource;
-                *locDest++ = locSource[2];
-                *locDest++ = locSource[1];
-                locSource += 3;
-            }
-        } else {
-            for (unsigned long i = 0; i < locSampleCount; i++)
-            {
-                //Must be 6.
+                
                 *locDest++ = *locSource;
                 *locDest++ = locSource[2];
                 *locDest++ = locSource[1];
@@ -281,9 +273,28 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
                 *locDest++ = locSource[4];
 
                 locSource += 6;
-                }
+             }
 
-
+        } else if (mNumChannels == 3) {
+            //3 channels
+            for (unsigned long i = 0; i < locSampleCount; i++)
+            {
+                *locDest++ = *locSource;
+                *locDest++ = locSource[2];
+                *locDest++ = locSource[1];
+                locSource += 3;
+            }
+        } else {
+            //5 channels
+            for (unsigned long i = 0; i < locSampleCount; i++)
+            {
+                *locDest++ = *locSource;
+                *locDest++ = locSource[2];
+                *locDest++ = locSource[1];
+                *locDest++ = locSource[3];
+                *locDest++ = locSource[4];
+                locSource += 5;
+            }
         }
         return;
     }
