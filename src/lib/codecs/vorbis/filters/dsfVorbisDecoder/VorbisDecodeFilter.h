@@ -35,6 +35,8 @@
 #include "vorbisdecoderdllstuff.h"
 #include "AbstractTransformFilter.h"
 
+//#include "wmpservices.h"
+
 //Forward Declarations
 struct sVorbisFormatBlock;
 class VorbisDecodeInputPin;
@@ -44,6 +46,7 @@ class VorbisDecodeOutputPin;
 class VorbisDecodeFilter
 	//Base Classes
 	:	public AbstractTransformFilter
+    //,   public IWMPTranscodePolicy
 {
 public:
 	//Friends
@@ -53,6 +56,14 @@ public:
 	//Constructors and Destructors
 	VorbisDecodeFilter(void);
 	virtual ~VorbisDecodeFilter(void);
+
+
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+
+    //IWMPTranscodePolicy interface -- it's documented... but it doesn't really exist.
+    //HRESULT allowTranscode(VARIANT_BOOL* outAllowTranscode);
+
 
 	///COM CreateInstance Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);

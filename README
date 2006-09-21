@@ -145,12 +145,17 @@ In order to build you need the following
     So you need to add to the include list (as you did above)
     $(DXSDK_DIR)include
 
- * WMP 10 SDK - At this time not required, but may be by
-    the time you read this if i forget to update this doc.
-    I'll try to remember!
+ * WMP 10 SDK - Need after 0.72 release.
 
    You can download from here
    http://msdn.microsoft.com/windowsmedia/downloads/default.aspx
+
+   You need to add the include path to visual studio. In
+   tools->options->projects and solutions->vC++ dirs
+ 
+
+   Add the WMP include path to the include list (drop down at top)
+   default install path will be c:\WMSDK\WMPSDK10\include
 
  * NASM 0.98.38/0.98.39 - This is required for flac. Best to
     install it to it's default at C:\NASM. Where "best to"

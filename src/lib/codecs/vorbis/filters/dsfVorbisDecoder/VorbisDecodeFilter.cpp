@@ -78,6 +78,22 @@ VorbisDecodeFilter::VorbisDecodeFilter()
 	//TODO::: Error check !
 }
 
+STDMETHODIMP VorbisDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+	//if (riid == IID_IWMPTranscodePolicy) {
+	//	*ppv = (IWMPTranscodePolicy*)this;
+	//	((IUnknown*)*ppv)->AddRef();
+	//	return NOERROR;
+	//}
+
+	return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv); 
+}
+
+//HRESULT VorbisDecodeFilter::allowTranscode(VARIANT_BOOL* outAllowTranscode)
+//{
+//    *outAllowTranscode = VARIANT_TRUE;
+//    return S_OK;
+//}
 bool VorbisDecodeFilter::ConstructPins() 
 {
 	//Vector to hold our set of media types we want to accept.
