@@ -68,7 +68,7 @@ OGMDecodeFilter::OGMDecodeFilter()
 
 OGMDecodeFilter::~OGMDecodeFilter(void)
 {
-
+    deleteBufferedPackets();
 }
 
 CUnknown* WINAPI OGMDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
