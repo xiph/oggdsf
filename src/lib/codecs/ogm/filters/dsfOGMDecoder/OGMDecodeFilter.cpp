@@ -357,7 +357,29 @@ HRESULT OGMDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* in
 	//}
 
 
+    //TODO::: Should this be E_NOTIMPL?
 	return S_OK;
+}
+
+STDMETHODIMP OGMDecodeFilter::GetState(DWORD dw, FILTER_STATE *pState)
+{
+    CheckPointer(pState, E_POINTER);
+    *pState = m_State;
+
+    //This lets us return a special code to indicate that we shouldn't necessarily expect anything to
+    // become queued from the text filter. Problem is because text is so sparse, all the other streams
+    // will likely fill all their buffers before any text is apparent.
+    //
+    //This can cause the graph to block. It has no performance impact because text is instantaneous
+    // however if you did this for video output, the graph would try and start before any video frames
+    // had been decoded and this would likely make it start too early and skip while it proeprly
+    // fills the buffers.
+    //
+    if ((m_State == State_Paused) && (mInputPin->getOGMMediaType() == OGMDecodeInputPin::OGM_TEXT_TYPE)) {
+        return VFW_S_CANT_CUE;
+	} else {
+        return S_OK;
+	}
 }
 
 CBasePin* OGMDecodeFilter::GetPin(int inPinNo)

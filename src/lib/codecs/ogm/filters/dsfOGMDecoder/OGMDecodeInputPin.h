@@ -92,7 +92,7 @@ protected:
 	__int64 mGranuleRateDenominator;
 
 	static const unsigned long OGM_IDENT_HEADER_SIZE = 57;
-	static const unsigned long OGM_NUM_BUFFERS = 50;
+	static const unsigned long OGM_NUM_BUFFERS = 100;
 	static const unsigned long OGM_BUFFER_SIZE = 1024*512*3;;
 
 };

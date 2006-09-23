@@ -69,6 +69,9 @@ public:
 
 	virtual CBasePin* GetPin(int inPinNo);
 
+    //IMediaFilter OVerride - This lets us tell the graph we may not produce data in pause state so don't block.
+	virtual STDMETHODIMP GetState(DWORD dw, FILTER_STATE *pState);
+
 
 protected:
 	void deleteBufferedPackets();

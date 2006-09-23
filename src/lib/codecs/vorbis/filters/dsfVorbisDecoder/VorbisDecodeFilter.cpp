@@ -29,9 +29,6 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-#include "stdafx.h"
-#include "vorbisdecodefilter.h"
-
 //Include Files
 #include "stdafx.h"
 #include "VorbisDecodeFilter.h"
