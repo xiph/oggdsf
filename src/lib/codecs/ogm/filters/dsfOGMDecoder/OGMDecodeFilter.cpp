@@ -248,6 +248,7 @@ HRESULT OGMDecodeFilter::Receive(IMediaSample* inSample)
 				locPackTime |= ((__int64)locInBuff[1+i] << (i * 8));
 			}
 		} else {
+            //TODO::: There's a default length field
 			locPackTime = 1;
 		}
 		
@@ -266,8 +267,16 @@ HRESULT OGMDecodeFilter::Receive(IMediaSample* inSample)
 			//__int64 locFrameDuration = mInputPin->getVideoFormatBlock()->AvgTimePerFrame;		//VS:::
 			__int64 locNumBuffered = mPacketBuffer.size();
 
-			locGlobalEnd = mInputPin->convertGranuleToTime(locEnd); //locEnd * locFrameDuration;											//VS:::
-			locGlobalStart = locGlobalEnd - (mInputPin->convertGranuleToTime(mOGMGranulesBuffered));//locGlobalEnd - (mOGMGranulesBuffered * locFrameDuration);				//VS:::
+            if (mInputPin->getOGMMediaType() == OGMDecodeInputPin::OGM_TEXT_TYPE) {
+                //An ogg end/page time in the discontinuous codec is a start time
+                locGlobalStart = mInputPin->convertGranuleToTime(locEnd);
+                locGlobalEnd = locGlobalStart + (mInputPin->convertGranuleToTime(mOGMGranulesBuffered));
+            } else {
+    			locGlobalEnd = mInputPin->convertGranuleToTime(locEnd); //locEnd * locFrameDuration;											//VS:::
+    			locGlobalStart = locGlobalEnd - (mInputPin->convertGranuleToTime(mOGMGranulesBuffered));//locGlobalEnd - (mOGMGranulesBuffered * locFrameDuration);				//VS:::
+
+            }
+
 
 			__int64 locUptoStart = locGlobalStart;
 			__int64 locUptoEnd = locGlobalStart;

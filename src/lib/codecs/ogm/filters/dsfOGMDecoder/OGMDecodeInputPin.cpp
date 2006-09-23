@@ -133,7 +133,20 @@ LOOG_INT64 OGMDecodeInputPin::convertGranuleToTime(LOOG_INT64 inGranule)
 LOOG_INT64 OGMDecodeInputPin::mustSeekBefore(LOOG_INT64 inGranule)
 {
 	//TODO::: Get adjustment from block size info... for now, it doesn't matter if no preroll
-	return inGranule;
+
+    return inGranule;
+
+ //   LOOG_INT64 locTempGranule = 0;
+	//switch (mOGMMediaType) {
+	//	case OGM_VIDEO_TYPE:
+	//		locTempGranule = inGranule - 64;
+ //           return (locTempGranule <= 0) ? 0 : locTempGranule;
+	//	case OGM_AUDIO_TYPE:
+	//	case OGM_TEXT_TYPE:
+	//	default:
+	//		return inGranule;
+ //   };
+
 }
 IOggDecoder::eAcceptHeaderResult OGMDecodeInputPin::showHeaderPacket(OggPacket* inCodecHeaderPacket)
 {
