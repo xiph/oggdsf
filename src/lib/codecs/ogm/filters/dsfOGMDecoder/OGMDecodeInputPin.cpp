@@ -122,7 +122,8 @@ LOOG_INT64 OGMDecodeInputPin::convertGranuleToTime(LOOG_INT64 inGranule)
 		case OGM_AUDIO_TYPE:
 			return (inGranule * UNITS) / mAudioFormatBlock->nSamplesPerSec;
 		case OGM_TEXT_TYPE:
-			return (inGranule * UNITS * mGranuleRateDenominator) / mGranuleRateNumerator;
+			//return (inGranule * UNITS * mGranuleRateDenominator) / mGranuleRateNumerator;
+            return (inGranule * mGranuleRateNumerator) / mGranuleRateDenominator;
 		default:
 			return 0;
 	};

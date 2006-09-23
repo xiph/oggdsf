@@ -184,9 +184,10 @@ HRESULT OGMDecodeFilter::GetMediaType(int inPosition, CMediaType* outMediaType)
 			break;
 			case OGMDecodeInputPin::OGM_TEXT_TYPE:
 
+                outMediaType->InitMediaType();
 				outMediaType->majortype = MEDIATYPE_Text;
-				outMediaType->subtype = MEDIASUBTYPE_None;
-				outMediaType->formattype = FORMAT_None;
+				//outMediaType->subtype = MEDIASUBTYPE_NULL; //MEDIASUBTYPE_None;
+				//outMediaType->formattype = FORMAT_NULL; //FORMAT_None;
 				break;
 
 			default:
