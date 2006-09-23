@@ -62,13 +62,32 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//ITheoraEncodeSettings Implementation
-	STDMETHODIMP_(unsigned long) targetBitrate();
-	STDMETHODIMP_(unsigned char) quality();
-	STDMETHODIMP_(unsigned long) keyframeFreq();
+	virtual STDMETHODIMP_(unsigned long) targetBitrate();
+	virtual STDMETHODIMP_(unsigned char) quality();
+	virtual STDMETHODIMP_(unsigned long) keyframeFreq();
 
-	STDMETHODIMP_(bool) setTargetBitrate(unsigned long inBitrate);
-	STDMETHODIMP_(bool) setQuality(unsigned char inQuality);
-	STDMETHODIMP_(bool) setKeyframeFreq(unsigned long inKeyframeFreq);
+	virtual STDMETHODIMP_(bool) setTargetBitrate(unsigned long inBitrate);
+	virtual STDMETHODIMP_(bool) setQuality(unsigned char inQuality);
+	virtual STDMETHODIMP_(bool) setKeyframeFreq(unsigned long inKeyframeFreq);
+
+    virtual STDMETHODIMP_(unsigned long) keyFrameDataBitrate();
+
+    virtual STDMETHODIMP_(long) sharpness();
+    virtual STDMETHODIMP_(long) noiseSensitivity();
+
+    virtual STDMETHODIMP_(bool) isFixedKeyframeInterval();
+    virtual STDMETHODIMP_(bool) allowDroppedFrames();
+	virtual STDMETHODIMP_(unsigned long) keyframeFreqMin();
+    virtual STDMETHODIMP_(long) keyframeAutoThreshold();
+
+
+    virtual STDMETHODIMP_(bool) setKeyframeDataBitrate(unsigned long inBitrate);
+    virtual STDMETHODIMP_(bool) setSharpness(long inSharpness);
+    virtual STDMETHODIMP_(bool) setNoiseSensitivity(long inNoiseSensitivity);
+    virtual STDMETHODIMP_(bool) setIsFixedKeyframeInterval(bool inIsFixedKeyframeInterval);
+    virtual STDMETHODIMP_(bool) setAllowDroppedFrames(bool inAllowDroppedFrames);
+    virtual STDMETHODIMP_(bool) setKeyframeFreqMin(unsigned long inKeyframeFreqMin);
+    virtual STDMETHODIMP_(bool) setKeyframeAutoThreshold(long inKeyframeAutoThreshold);
 	//
 
 

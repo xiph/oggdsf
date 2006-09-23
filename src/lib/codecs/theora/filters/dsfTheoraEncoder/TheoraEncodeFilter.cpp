@@ -178,15 +178,50 @@ bool TheoraEncodeFilter::ConstructPins()
 }
 
 //Implementation of ITheoraEncodeSEttings
-STDMETHODIMP_(unsigned long) TheoraEncodeFilter::targetBitrate() {
+STDMETHODIMP_(unsigned long) TheoraEncodeFilter::targetBitrate() 
+{
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->target_bitrate;
 }
-STDMETHODIMP_(unsigned char) TheoraEncodeFilter::quality() {
+STDMETHODIMP_(unsigned char) TheoraEncodeFilter::quality() 
+{
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality;
 }
-STDMETHODIMP_(unsigned long) TheoraEncodeFilter::keyframeFreq() {
+STDMETHODIMP_(unsigned long) TheoraEncodeFilter::keyframeFreq() 
+{
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_frequency;
 }
+STDMETHODIMP_(unsigned long) TheoraEncodeFilter::keyFrameDataBitrate()
+{
+    return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_data_target_bitrate;
+}
+
+STDMETHODIMP_(long) TheoraEncodeFilter::sharpness()
+{
+    return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->sharpness;    
+}
+STDMETHODIMP_(long) TheoraEncodeFilter::noiseSensitivity()
+{
+    return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->noise_sensitivity;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::isFixedKeyframeInterval()
+{
+    return !((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_auto_p;
+}
+STDMETHODIMP_(bool) TheoraEncodeFilter::allowDroppedFrames()
+{
+    return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->dropframes_p;
+}
+STDMETHODIMP_(unsigned long) TheoraEncodeFilter::keyframeFreqMin()
+{
+    return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_mindistance;
+}
+STDMETHODIMP_(long) TheoraEncodeFilter::keyframeAutoThreshold()
+{
+    return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_auto_threshold;
+}
+
+
 
 STDMETHODIMP_(bool) TheoraEncodeFilter::setTargetBitrate(unsigned long inBitrate) {
 	//Needs error checking
@@ -210,6 +245,49 @@ STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeFreq(unsigned long inKeyframe
 	//NOTE: If you ever change it so that _force can be higher... you must use the maximum.
 	mTheoraFormatBlock.maxKeyframeInterval = PropsTheoraEncoder::log2(inKeyframeFreq);
 	return true;
+}
+
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeDataBitrate(unsigned long inBitrate)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_data_target_bitrate = inBitrate;   
+    return true;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setSharpness(long inSharpness)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->sharpness = inSharpness;
+    return true;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setNoiseSensitivity(long inNoiseSensitivity)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->noise_sensitivity = inNoiseSensitivity;
+    return true;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setIsFixedKeyframeInterval(bool inIsFixedKeyframeInterval)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_auto_p = inIsFixedKeyframeInterval ? 0 : 1;
+    return true;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setAllowDroppedFrames(bool inAllowDroppedFrames)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->dropframes_p = inAllowDroppedFrames;
+    return true;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeFreqMin(unsigned long inKeyframeFreqMin)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_mindistance = inKeyframeFreqMin;
+    return true;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeAutoThreshold(long inKeyframeAutoThreshold)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->keyframe_auto_threshold = inKeyframeAutoThreshold;
+    return true;
 }
 
 //SpecifyPropertyPages Implementation
