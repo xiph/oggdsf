@@ -62,12 +62,19 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//ITheoraEncodeSettings Implementation
+    virtual STDMETHODIMP_(bool) canModifySettings();
+
 	virtual STDMETHODIMP_(unsigned long) targetBitrate();
 	virtual STDMETHODIMP_(unsigned char) quality();
+    virtual STDMETHODIMP_(bool) isUsingQualityMode();
+    virtual STDMETHODIMP_(bool) isUsingQuickMode();
 	virtual STDMETHODIMP_(unsigned long) keyframeFreq();
 
 	virtual STDMETHODIMP_(bool) setTargetBitrate(unsigned long inBitrate);
 	virtual STDMETHODIMP_(bool) setQuality(unsigned char inQuality);
+    virtual STDMETHODIMP_(bool) setIsUsingQualityMode(bool inIsUsingQualityMode);
+    virtual STDMETHODIMP_(bool) setIsUsingQuickMode(bool inIsUsingQuickMode);
+    
 	virtual STDMETHODIMP_(bool) setKeyframeFreq(unsigned long inKeyframeFreq);
 
     virtual STDMETHODIMP_(unsigned long) keyFrameDataBitrate();
@@ -102,5 +109,7 @@ protected:
 
 	//Member data
 	sTheoraFormatBlock mTheoraFormatBlock;
+
+    bool mUsingQualityMode;
 	
 };

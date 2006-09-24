@@ -32,6 +32,9 @@ protected:
 	//void SetupBitrateCombo();
 	//void SetupKeyframeFreqCombo();
 	//LRESULT addNumberToCombo(int inComboID, int inNum);
+
+    void setDialogQualityModeView(bool inUsingQualityMode);
+    void setFixedKFIModeView(bool inIsFixedKFIMode);
 	
 	void SetDirty();
 	void SetClean();

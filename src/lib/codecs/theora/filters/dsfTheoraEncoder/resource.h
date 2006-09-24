@@ -29,13 +29,14 @@
 #define IDC_STATIC_Q_VALUE              1031
 #define IDC_CHECK_ALLOW_DROP_FRAMES     1032
 #define IDC_STATIC_KF_MAX               1033
-#define IDC_STATIC_BITRATE3             1034
+#define IDC_STATIC_KFI_MIN              1034
 #define IDC_STATIC_BITRATE4             1035
+#define IDC_STATIC_KFI_THRESHOLD        1035
 #define IDC_STATIC_BITRATE5             1036
 #define IDC_STATIC_BITRATE6             1037
-#define IDC_CHECK3                      1038
-#define IDC_STATIC_BITRATE2             1039
+#define IDC_CHECK_QUALITY_MODE          1038
 #define IDC_STATIC_BITRATE_KEYFRAME     1039
+#define IDC_CHECK_QUICK_MODE            1040
 
 // Next default values for new objects
 // 
@@ -43,7 +44,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1039
+#define _APS_NEXT_CONTROL_VALUE         1041
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

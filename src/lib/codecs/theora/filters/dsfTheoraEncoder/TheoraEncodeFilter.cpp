@@ -83,6 +83,7 @@ STDMETHODIMP TheoraEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void *
 
 TheoraEncodeFilter::TheoraEncodeFilter(void)
 	:	AbstractTransformFilter(NAME("Theora Encoder"), CLSID_TheoraEncodeFilter)
+    ,   mUsingQualityMode(true)
 {
 	bool locWasConstructed = ConstructPins();
 }
@@ -178,6 +179,12 @@ bool TheoraEncodeFilter::ConstructPins()
 }
 
 //Implementation of ITheoraEncodeSEttings
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::canModifySettings()
+{
+    //TODO::: Need to check whether we are connected etc.
+    return true;
+}
 STDMETHODIMP_(unsigned long) TheoraEncodeFilter::targetBitrate() 
 {
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->target_bitrate;
@@ -185,6 +192,16 @@ STDMETHODIMP_(unsigned long) TheoraEncodeFilter::targetBitrate()
 STDMETHODIMP_(unsigned char) TheoraEncodeFilter::quality() 
 {
 	return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::isUsingQualityMode()
+{
+    return mUsingQualityMode;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::isUsingQuickMode()
+{
+    return ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quick_p;
 }
 STDMETHODIMP_(unsigned long) TheoraEncodeFilter::keyframeFreq() 
 {
@@ -237,6 +254,17 @@ STDMETHODIMP_(bool) TheoraEncodeFilter::setQuality(unsigned char inQuality) {
 	
 	((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quality = inQuality;
 	return true;
+}
+
+STDMETHODIMP_(bool) TheoraEncodeFilter::setIsUsingQualityMode(bool inIsUsingQualityMode)
+{
+    mUsingQualityMode = inIsUsingQualityMode;
+    return true;
+}
+STDMETHODIMP_(bool) TheoraEncodeFilter::setIsUsingQuickMode(bool inIsUsingQuickMode)
+{
+    ((TheoraEncodeInputPin*)mInputPin)->theoraInfo()->quick_p = (inIsUsingQuickMode ? 1 : 0);
+    return true;
 }
 STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeFreq(unsigned long inKeyframeFreq) {
 	//Needs error checking
