@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -69,16 +69,10 @@ public:
 	/// Set the quality for vorbis encoding, between 0 and 99 inclusive (equiv to 0.0 to 0.99)
 	virtual STDMETHODIMP_(bool) setQuality(signed char inQuality);
 
-
 protected:
-
 	//Implementation of pure virtuals from AbstractTransformFilter
 	virtual bool ConstructPins();
 
 	//Member data
 	sVorbisFormatBlock mVorbisFormatBlock;
-
-
-	
 };
-

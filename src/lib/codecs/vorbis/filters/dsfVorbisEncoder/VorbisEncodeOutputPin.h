@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -38,48 +38,18 @@ class VorbisEncodeFilter;
 struct sVorbisFormatBlock;
 
 class VorbisEncodeOutputPin
-	:	public	AbstractTransformOutputPin
+	:	public AbstractTransformOutputPin
 {
 public:
 
 	friend class VorbisEncodeInputPin;
 
-	VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptabletMediaTypes);
+	VorbisEncodeOutputPin(      VorbisEncodeFilter* inParentFilter
+                            ,   CCritSec* inFilterLock
+                            ,   vector<CMediaType*> inAcceptabletMediaTypes);
 	virtual ~VorbisEncodeOutputPin(void);
-
-	//PURE VIRTUAL IMPLEMENTATION
-	//virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
-	//virtual unsigned long FormatBufferSize();
-
 
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
 	
 };
-
-
-//Old impl
-//*********************************************
-//#pragma once
-//
-//#include "vorbisencoderdllstuff.h"
-//#include "AbstractAudioEncodeOutputPin.h"
-//
-//class VorbisEncodeFilter;
-//struct sVorbisFormatBlock;
-//
-//class VorbisEncodeOutputPin
-//	:	public	AbstractAudioEncodeOutputPin
-//{
-//public:
-//	VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter, CCritSec* inFilterLock, CMediaType* inOutputMediaType);
-//	virtual ~VorbisEncodeOutputPin(void);
-//
-//	//PURE VIRTUAL IMPLEMENTATION
-//	virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
-//	virtual unsigned long FormatBufferSize();
-//
-//
-//protected:
-//	
-//};

@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -37,9 +37,9 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"Vorbis Encode Filter",						// Name
-	    &CLSID_VorbisEncodeFilter,            // CLSID
-	    VorbisEncodeFilter::CreateInstance,	// Method to create an instance of MyComponent
+		L"Vorbis Encode Filter",				// Name
+	    &CLSID_VorbisEncodeFilter,              // CLSID
+	    VorbisEncodeFilter::CreateInstance,	    // Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
     }
@@ -68,9 +68,11 @@ VorbisEncodeFilter::VorbisEncodeFilter(void)
 
 VorbisEncodeFilter::~VorbisEncodeFilter(void)
 {
+
 }
 
-STDMETHODIMP VorbisEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) {
+STDMETHODIMP VorbisEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
+{
 	if (riid == IID_IVorbisEncodeSettings) {
 		*ppv = (IVorbisEncodeSettings*)this;
 		((IUnknown*)*ppv)->AddRef();
@@ -78,6 +80,7 @@ STDMETHODIMP VorbisEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void *
 	}
 	return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv);
 }
+
 bool VorbisEncodeFilter::ConstructPins() 
 {
 	//Inputs Audio / PCM / WaveFormatEx
@@ -113,12 +116,14 @@ bool VorbisEncodeFilter::ConstructPins()
 }
 
 
-STDMETHODIMP_(signed char) VorbisEncodeFilter::quality() {
+STDMETHODIMP_(signed char) VorbisEncodeFilter::quality() 
+{
 	return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality * 100 );
 }
 
 
-STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(signed char inQuality) {
+STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(signed char inQuality) 
+{
 	
 	if ((inQuality >= 0) && (inQuality < 100)) {
 		

@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -31,14 +31,6 @@
 
 #pragma once
 
-//#ifdef DSFABSTRACOGGAUDIODECODER_EXPORTS
-//#pragma message("----> Exporting from Abstract Library...")
-//#define ABS_AUDIO_DEC_API __declspec(dllexport)
-//#else
-//#pragma message("<---- Importing from Abstract Library...")
-//#define ABS_AUDIO_DEC_API __declspec(dllimport)
-//#endif
-
 struct sVorbisFormatBlock {
 	unsigned long vorbisVersion;
 	unsigned long samplesPerSec;
@@ -61,9 +53,6 @@ struct sVorbisFormatBlock {
 #define LIBOOOGG_API __declspec(dllimport)
 #endif
 
-//// {05A1D945-A794-44ef-B41A-2F851A117155}
-//DEFINE_GUID(CLSID_VorbisDecodeFilter, 
-//0x5a1d945, 0xa794, 0x44ef, 0xb4, 0x1a, 0x2f, 0x85, 0x1a, 0x11, 0x71, 0x55);
 
 // {5C94FE86-B93B-467f-BFC3-BD6C91416F9B}
 DEFINE_GUID(CLSID_VorbisEncodeFilter, 
@@ -128,5 +117,3 @@ const REGFILTER2 VorbisEncodeFilterReg = {
         VorbisEncodePinReg
 		
 };
-	   
-

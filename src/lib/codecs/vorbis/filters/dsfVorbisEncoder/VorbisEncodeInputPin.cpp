@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,13 +29,19 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-
-
 #include "stdafx.h"
 #include "VorbisEncodeInputPin.h"
 
-VorbisEncodeInputPin::VorbisEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("VorbisEncodeInputPin"), L"PCM In", inAcceptableMediaTypes)
+VorbisEncodeInputPin::VorbisEncodeInputPin(     AbstractTransformFilter* inParentFilter
+                                            ,   CCritSec* inFilterLock
+                                            ,   AbstractTransformOutputPin* inOutputPin
+                                            ,   vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(      inParentFilter
+                                    ,   inFilterLock
+                                    ,   inOutputPin
+                                    ,   NAME("VorbisEncodeInputPin")
+                                    ,   L"PCM In"
+                                    ,   inAcceptableMediaTypes)
 	,	mFishSound(NULL)
 	,	mWaveFormat(NULL)
 	,	mUptoFrame(0)
@@ -78,7 +84,9 @@ HRESULT VorbisEncodeInputPin::TransformData(unsigned char* inBuf, long inNumByte
 	}
 	return locErr;
 }
-bool VorbisEncodeInputPin::ConstructCodec() {
+
+bool VorbisEncodeInputPin::ConstructCodec() 
+{
 	mFishInfo.channels = mWaveFormat->nChannels;
 	mFishInfo.format = FISH_SOUND_VORBIS;
 	mFishInfo.samplerate = mWaveFormat->nSamplesPerSec;
@@ -174,7 +182,8 @@ int VorbisEncodeInputPin::VorbisEncoded (FishSound* inFishSound, unsigned char* 
 }
 
 
-HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
+HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType) 
+{
 	if (	(inMediaType->subtype == MEDIASUBTYPE_PCM) &&
 			(inMediaType->formattype == FORMAT_WaveFormatEx)) {
 
@@ -190,5 +199,4 @@ HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 
 	return CBaseInputPin::SetMediaType(inMediaType);
 
-	
 }

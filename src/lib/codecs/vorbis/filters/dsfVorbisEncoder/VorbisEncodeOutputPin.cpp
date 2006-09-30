@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,17 +29,26 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-
 #include "stdafx.h"
 #include "VorbisEncodeOutputPin.h"
 
-VorbisEncodeOutputPin::VorbisEncodeOutputPin(VorbisEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("VorbisDecodeOutputPin"), L"Vorbis Out", 65536, 5, inAcceptableMediaTypes)
+VorbisEncodeOutputPin::VorbisEncodeOutputPin(       VorbisEncodeFilter* inParentFilter
+                                                ,   CCritSec* inFilterLock
+                                                ,   vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformOutputPin(     inParentFilter
+                                    ,   inFilterLock
+                                    ,   NAME("VorbisDecodeOutputPin")
+                                    ,   L"Vorbis Out"
+                                    ,   65536
+                                    ,   5
+                                    ,   inAcceptableMediaTypes)
 {
+
 }
 
 VorbisEncodeOutputPin::~VorbisEncodeOutputPin(void)
 {
+
 }
 
 HRESULT VorbisEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
@@ -54,4 +63,3 @@ HRESULT VorbisEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaTyp
         return S_FALSE;
 	}
 }
-
