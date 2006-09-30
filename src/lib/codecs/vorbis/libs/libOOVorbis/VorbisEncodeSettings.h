@@ -28,60 +28,49 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
+
 #pragma once
 
-#include <vorbis/codec.h>
-
-class VorbisDecoder
+class VorbisEncodeSettings
 {
 public:
-	VorbisDecoder(void);
-	~VorbisDecoder(void);
+    VorbisEncodeSettings(void);
+    ~VorbisEncodeSettings(void);
 
+    static const int MIN_QUALITY = -20;
+    static const int MAX_QUALITY = 100;
 
+    void setToDefaults();
 
-	enum eVorbisResult {
-		VORBIS_DATA_OK = 0,
-		VORBIS_HEADER_OK,
-		VORBIS_COMMENT_OK,
-		VORBIS_CODEBOOK_OK,
-		VORBIS_ERROR_MIN = 64,
-		VORBIS_HEADER_BAD,
-		VORBIS_COMMENT_BAD,
-		VORBIS_CODEBOOK_BAD,
-		VORBIS_SYNTH_FAILED,
-		VORBIS_BLOCKIN_FAILED
-	};
+    bool setQuality(int inQuality);
+    bool setManaged(unsigned int inBitrate, unsigned int inMinBitrate, unsigned int inMaxBitrate);
+    bool setAudioParameters(unsigned int inNumChannels, unsigned int inSampleRate);
 
-	//bool setDecodeParams(SpeexDecodeSettings inSettings);
-	eVorbisResult decodePacket(		const unsigned char* inPacket
-								,	unsigned long inPacketSize
-								,	short* outSamples
-								,	unsigned long inOutputBufferSize
-								,	unsigned long* outNumSamples); 
+    unsigned int mNumChannels;
+    unsigned int mSampleRate;
 
-	int numChannels()	{	return mNumChannels;	}
-	int sampleRate()	{	return mSampleRate;		}
-protected:
-	eVorbisResult decodeHeader();
-	eVorbisResult decodeComment();
-	eVorbisResult decodeCodebook();
+    bool mIsManaged;
+    unsigned int mBitrate;
+    unsigned int mMinBitrate;
+    unsigned int mMaxBitrate;
+    int mQuality;
+    bool mIsQualitySet;
 
-	short clip16(int inVal)		{	return (short)((inVal > 32767) ? (32767) : ((inVal < -32768) ? (-32768) : (inVal)));	}
-	unsigned long mPacketCount;
+    //More inof at
+    //http://svn.xiph.org/trunk/vorbis-tools/oggenc/encode.c
+    //http://svn.xiph.org/trunk/vorbis-tools/oggenc/encode.h
+    //http://wiki.hydrogenaudio.org/index.php?title=Recommended_Ogg_Vorbis
+    //http://www.hydrogenaudio.org/forums/index.php?showtopic=15049
+    //http://www.hydrogenaudio.org/forums/index.php?showtopic=15049&st=160&p=357461&#entry357461
 
-	int mNumChannels;
-	int mSampleRate;
-	//int mNumFrames;
-	//int mNumExtraHeaders;
-	//bool mIsVBR;
-
-	vorbis_info mVorbisInfo;
-	vorbis_comment mVorbisComment;
-	vorbis_dsp_state mVorbisState;
-	vorbis_block mVorbisBlock;
-
-	ogg_packet mWorkPacket;
-
+    //Advanced
+    //double mBitrateAverageDamping;
+    //unsigned int mBitrateAverage;
+    //double mBitReservoirBias;
+    //unsigned int mBitReservoirBits;
+    //unsigned int mBitrateHardMin;
+    //unsigned int mBitrateHardMax;
+    //double mImpulseNoiseTune;
+    //double mLowpassFrequency;
 
 };

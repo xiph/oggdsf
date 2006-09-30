@@ -28,60 +28,70 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#pragma once
 
-#include <vorbis/codec.h>
+#include "StdAfx.h"
+#include "VorbisEncodeSettings.h"
 
-class VorbisDecoder
+VorbisEncodeSettings::VorbisEncodeSettings(void)
 {
-public:
-	VorbisDecoder(void);
-	~VorbisDecoder(void);
+    setToDefaults();
+}
 
+VorbisEncodeSettings::~VorbisEncodeSettings(void)
+{
+}
 
+void VorbisEncodeSettings::setToDefaults()
+{
+    mIsManaged = false;
+    mBitrate = 0;
+    mMinBitrate = 0;
+    mMaxBitrate = 0;
+    mQuality = 30;
+    mIsQualitySet = true;
 
-	enum eVorbisResult {
-		VORBIS_DATA_OK = 0,
-		VORBIS_HEADER_OK,
-		VORBIS_COMMENT_OK,
-		VORBIS_CODEBOOK_OK,
-		VORBIS_ERROR_MIN = 64,
-		VORBIS_HEADER_BAD,
-		VORBIS_COMMENT_BAD,
-		VORBIS_CODEBOOK_BAD,
-		VORBIS_SYNTH_FAILED,
-		VORBIS_BLOCKIN_FAILED
-	};
+    //Advanced
+    //double mBitrateAverageDamping;
+    //unsigned int mBitrateAverage;
+    //double mBitReservoirBias;
+    //unsigned int mBitReservoirBits;
+    //unsigned int mBitrateHardMin;
+    //unsigned int mBitrateHardMax;
+    //double mImpulseNoiseTune;
+    //double mLowpassFrequency;
+}
 
-	//bool setDecodeParams(SpeexDecodeSettings inSettings);
-	eVorbisResult decodePacket(		const unsigned char* inPacket
-								,	unsigned long inPacketSize
-								,	short* outSamples
-								,	unsigned long inOutputBufferSize
-								,	unsigned long* outNumSamples); 
+bool VorbisEncodeSettings::setQuality(int inQuality)
+{
+    if ((inQuality >= MIN_QUALITY) && (inQuality <= MAX_QUALITY)) {
+        mQuality = inQuality;
+        mIsManaged = false;
+        mIsQualitySet = true;
+        return true;
+    }
+    return false;
 
-	int numChannels()	{	return mNumChannels;	}
-	int sampleRate()	{	return mSampleRate;		}
-protected:
-	eVorbisResult decodeHeader();
-	eVorbisResult decodeComment();
-	eVorbisResult decodeCodebook();
+}
 
-	short clip16(int inVal)		{	return (short)((inVal > 32767) ? (32767) : ((inVal < -32768) ? (-32768) : (inVal)));	}
-	unsigned long mPacketCount;
+bool VorbisEncodeSettings::setManaged(unsigned int inBitrate, unsigned int inMinBitrate, unsigned int inMaxBitrate)
+{
+    //TODO::: What other things to check?
+    if (inMinBitrate < inMaxBitrate) {
+        mBitrate = inBitrate;
+        mMinBitrate = inMinBitrate;
+        mMaxBitrate = inMaxBitrate;
+        mIsManaged = true;
+        mIsQualitySet = false;
+    }
+}
 
-	int mNumChannels;
-	int mSampleRate;
-	//int mNumFrames;
-	//int mNumExtraHeaders;
-	//bool mIsVBR;
-
-	vorbis_info mVorbisInfo;
-	vorbis_comment mVorbisComment;
-	vorbis_dsp_state mVorbisState;
-	vorbis_block mVorbisBlock;
-
-	ogg_packet mWorkPacket;
-
-
-};
+bool VorbisEncodeSettings::setAudioParameters(unsigned int inNumChannels, unsigned int inSampleRate)
+{
+    //TODO::: What else to check?
+    if ((mNumChannels == 0) || (mSampleRate == 0)) {
+        return false;
+    }
+    mNumChannels = inNumChannels;
+    mSampleRate = inSampleRate;
+    return true;
+}
