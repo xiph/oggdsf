@@ -39,3 +39,134 @@ VorbisEncoder::VorbisEncoder(void)
 VorbisEncoder::~VorbisEncoder(void)
 {
 }
+
+vector<StampedOggPacket*> VorbisEncoder::setupCodec(VorbisEncodeSettings inSettings)
+{
+    mSettings = inSettings;
+    vector<StampedOggPacket*> retPackets;
+
+    int ret = 0;
+    vorbis_info_init(&mVorbisInfo);
+    vorbis_comment_init(&mVorbisComment);
+    //TODO::: Add version/encoder info here?
+
+    //TODO::: Allow max and min in unmanaged mode
+    //TODO::: Allow advanced bitrate management
+
+
+
+
+    if (mSettings.mIsQualitySet) {
+        ret = vorbis_encode_setup_vbr(&mVorbisInfo, mSettings.mNumChannels, mSettings.mSampleRate, (float)inSettings.mQuality / 100.0f);
+        if (ret != 0) {
+            vorbis_info_clear(&mVorbisInfo);
+            return retPackets;
+        }
+    } else {
+        ret = vorbis_encode_setup_managed(&mVorbisInfo, mSettings.mNumChannels, mSettings.mSampleRate, mSettings.mMaxBitrate * 1000, mSettings.mBitrate * 1000, mSettings.mMinBitrate * 1000);
+        if (ret != 0) {
+            vorbis_info_clear(&mVorbisInfo);
+            return retPackets;
+        }
+
+
+    }
+
+    if (!mSettings.mIsManaged) {
+        vorbis_encode_ctl(&mVorbisInfo, OV_ECTL_RATEMANAGE2_SET, NULL);
+    }
+
+    //Advanced options?
+
+    vorbis_encode_setup_init(&mVorbisInfo);
+    vorbis_analysis_init(&mVorbisDSPState, &mVorbisInfo);
+    vorbis_block_init(&mVorbisDSPState, &mVorbisBlock);
+
+    ogg_packet locIdentHeader;
+    ogg_packet locCommentHeader;
+    ogg_packet locCodebookHeader;
+
+    vorbis_analysis_headerout(&mVorbisDSPState, &mVorbisComment, &locIdentHeader, &locCommentHeader, &locCodebookHeader);
+    
+    retPackets.push_back(oldToNewPacket(&locIdentHeader));
+    retPackets.push_back(oldToNewPacket(&locCommentHeader));
+    retPackets.push_back(oldToNewPacket(&locCodebookHeader));
+
+    return retPackets;
+
+
+
+
+}
+
+StampedOggPacket* VorbisEncoder::oldToNewPacket(ogg_packet* inOldPacket)
+{
+    //This is duplicated from the theora encoder... do something about that.
+	const unsigned char NOT_USED = 0;
+
+	//Need to clone the packet data
+	unsigned char* locBuff = new unsigned char[inOldPacket->bytes];
+	memcpy((void*)locBuff, (const void*)inOldPacket->packet, inOldPacket->bytes);
+																					//Not truncated or continued... it's a full packet.
+	StampedOggPacket* locOggPacket = new StampedOggPacket(locBuff, inOldPacket->bytes, false, false, NOT_USED, inOldPacket->granulepos, StampedOggPacket::OGG_END_ONLY);
+	return locOggPacket;
+
+}
+
+vector<StampedOggPacket*> VorbisEncoder::encodeVorbis(const short* const inSampleBuffer, unsigned long inNumSamplesPerChannel)
+{
+
+    //Check if active?
+    //Is it worth breaking up incoming buffers? Probably not.
+    //TODO::: Handle 5 channel input
+
+    
+
+    if (inNumSamplesPerChannel == 0) {
+        return vector<StampedOggPacket*>();
+    }
+
+    //Check if this is correct with the last parameter, i think its samples per channel?
+    float** locBuffer = vorbis_analysis_buffer(&mVorbisDSPState, inNumSamplesPerChannel);
+
+    float* locOneOutputChannelBuffer = NULL;
+    const short* locReadChannelBuffer = NULL;
+    for (unsigned long chan = 0; chan < mSettings.mNumChannels; chan++) {
+        locOneOutputChannelBuffer = locBuffer[chan];
+        locReadChannelBuffer = inSampleBuffer + chan;
+        for (unsigned long sam = 0; sam < inNumSamplesPerChannel; sam++) {
+            locOneOutputChannelBuffer[sam] = ((float)(*locReadChannelBuffer)) / 32768.0f;
+            locReadChannelBuffer += mSettings.mNumChannels;
+        }
+    }
+
+    vorbis_analysis_wrote(&mVorbisDSPState, inNumSamplesPerChannel);
+
+    return extractOutputPackets();
+}
+
+vector<StampedOggPacket*> VorbisEncoder::flush()
+{
+    vorbis_analysis_wrote(&mVorbisDSPState, 0);
+
+    return extractOutputPackets();
+
+}
+
+vector<StampedOggPacket*> VorbisEncoder::extractOutputPackets()
+{
+    vector<StampedOggPacket*> retPackets;
+    ogg_packet locWorkingPacket;
+
+    while (vorbis_analysis_blockout(&mVorbisDSPState, &mVorbisBlock) == 1) {
+
+        vorbis_analysis(&mVorbisBlock, NULL);
+        vorbis_bitrate_addblock(&mVorbisBlock);
+
+        while (vorbis_bitrate_flushpacket(&mVorbisDSPState, &locWorkingPacket)) {
+            retPackets.push_back(oldToNewPacket(&locWorkingPacket));
+        }
+    }
+
+    return retPackets;
+}

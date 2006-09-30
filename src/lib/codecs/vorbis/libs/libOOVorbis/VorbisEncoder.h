@@ -31,10 +31,18 @@
 
 #pragma once
 
+
+
+#include <vorbis/vorbisenc.h>
+
 #include <libOOOgg/dllstuff.h>
 #include <libOOOgg/StampedOggPacket.h>
 
 #include "VorbisEncodeSettings.h"
+
+#include <vector>
+
+using namespace std;
 
 class VorbisEncoder
 {
@@ -43,6 +51,19 @@ public:
     ~VorbisEncoder(void);
 
 
-    bool setupCodec(VorbisEncodeSettings inSettings);
-    StampedOggPacket* encodeVorbis(unsigned short* inSampleBuffer, unsigned long inNumSamples);
+    vector<StampedOggPacket*> setupCodec(VorbisEncodeSettings inSettings);
+    vector<StampedOggPacket*> encodeVorbis(const short* const inSampleBuffer, unsigned long inNumSamplesPerChannel);
+    vector<StampedOggPacket*> flush();
+protected:
+	/// Converts a xiph like ogg packet into a StampedOggPacket.
+	StampedOggPacket* oldToNewPacket(ogg_packet* inPacket);
+
+    vector<StampedOggPacket*> extractOutputPackets();
+
+    vorbis_info mVorbisInfo;
+    vorbis_comment mVorbisComment;
+    vorbis_dsp_state mVorbisDSPState;
+    vorbis_block mVorbisBlock;
+
+    VorbisEncodeSettings mSettings;
 };

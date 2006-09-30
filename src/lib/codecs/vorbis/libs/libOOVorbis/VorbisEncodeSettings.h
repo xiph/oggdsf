@@ -43,16 +43,17 @@ public:
     void setToDefaults();
 
     bool setQuality(int inQuality);
-    bool setManaged(unsigned int inBitrate, unsigned int inMinBitrate, unsigned int inMaxBitrate);
+    bool setBitrateQualityMode(int inBitrate);
+    bool setManaged(int inBitrate, int inMinBitrate, int inMaxBitrate);
     bool setAudioParameters(unsigned int inNumChannels, unsigned int inSampleRate);
 
     unsigned int mNumChannels;
     unsigned int mSampleRate;
 
     bool mIsManaged;
-    unsigned int mBitrate;
-    unsigned int mMinBitrate;
-    unsigned int mMaxBitrate;
+    int mBitrate;
+    int mMinBitrate;
+    int mMaxBitrate;
     int mQuality;
     bool mIsQualitySet;
 

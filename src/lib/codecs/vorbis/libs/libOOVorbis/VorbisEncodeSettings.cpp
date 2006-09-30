@@ -49,6 +49,8 @@ void VorbisEncodeSettings::setToDefaults()
     mMaxBitrate = 0;
     mQuality = 30;
     mIsQualitySet = true;
+    mNumChannels = 0;
+    mSampleRate = 0;
 
     //Advanced
     //double mBitrateAverageDamping;
@@ -73,7 +75,22 @@ bool VorbisEncodeSettings::setQuality(int inQuality)
 
 }
 
-bool VorbisEncodeSettings::setManaged(unsigned int inBitrate, unsigned int inMinBitrate, unsigned int inMaxBitrate)
+bool VorbisEncodeSettings::setBitrateQualityMode(int inBitrate)
+{
+    if (inBitrate > 0) {
+        mMinBitrate = -1;
+        mMaxBitrate = -1;
+        mQuality = 0;
+        mBitrate = inBitrate;
+        
+        mIsManaged = false;
+        mIsQualitySet = true;
+    }
+    return false;
+
+}
+
+bool VorbisEncodeSettings::setManaged(int inBitrate, int inMinBitrate, int inMaxBitrate)
 {
     //TODO::: What other things to check?
     if (inMinBitrate < inMaxBitrate) {
@@ -82,7 +99,9 @@ bool VorbisEncodeSettings::setManaged(unsigned int inBitrate, unsigned int inMin
         mMaxBitrate = inMaxBitrate;
         mIsManaged = true;
         mIsQualitySet = false;
+        return true;
     }
+    return false;
 }
 
 bool VorbisEncodeSettings::setAudioParameters(unsigned int inNumChannels, unsigned int inSampleRate)
