@@ -118,7 +118,8 @@ bool VorbisEncodeFilter::ConstructPins()
 
 STDMETHODIMP_(signed char) VorbisEncodeFilter::quality() 
 {
-	return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality * 100 );
+	//return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality * 100 );
+    return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.mQuality );
 }
 
 
@@ -127,7 +128,8 @@ STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(signed char inQuality)
 	
 	if ((inQuality >= 0) && (inQuality < 100)) {
 		
-		((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality = (float)inQuality/(float)100;
+		//((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality = (float)inQuality/(float)100;
+        ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.setQuality(inQuality);
 		
 		return true;
 	} else {

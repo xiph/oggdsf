@@ -107,7 +107,7 @@ bool VorbisEncodeSettings::setManaged(int inBitrate, int inMinBitrate, int inMax
 bool VorbisEncodeSettings::setAudioParameters(unsigned int inNumChannels, unsigned int inSampleRate)
 {
     //TODO::: What else to check?
-    if ((mNumChannels == 0) || (mSampleRate == 0)) {
+    if ((inNumChannels == 0) || (inSampleRate == 0)) {
         return false;
     }
     mNumChannels = inNumChannels;

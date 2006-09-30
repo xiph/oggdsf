@@ -111,6 +111,8 @@ STDMETHODIMP AbstractTransformInputPin::Receive(IMediaSample* inSample)
 			//TODO::: Do a debug dump or something here with specific error info.
 			return locHR;
 		} else {
+            //http://windowssdk.msdn.microsoft.com/en-us/library/ms787541.aspx
+            //Consider using receive to validate conditions ^^^
 			HRESULT locResult = TransformData(locBuff, inSample->GetActualDataLength());
 			if (locResult == S_OK) {
 				return S_OK;

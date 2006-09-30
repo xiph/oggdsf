@@ -42,10 +42,9 @@ VorbisEncodeInputPin::VorbisEncodeInputPin(     AbstractTransformFilter* inParen
                                     ,   NAME("VorbisEncodeInputPin")
                                     ,   L"PCM In"
                                     ,   inAcceptableMediaTypes)
-	,	mFishSound(NULL)
+    ,   mBegun(false)
 	,	mWaveFormat(NULL)
 	,	mUptoFrame(0)
-	,	mVorbisQuality(0.3f)
 {
 #ifdef OGGCODECS_LOGGING
 	debugLog.open("G:\\logs\\vorbisenc.logs", ios_base::out);
@@ -62,123 +61,41 @@ VorbisEncodeInputPin::~VorbisEncodeInputPin(void)
 //PURE VIRTUALS
 HRESULT VorbisEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 {
-	
-	float* locFloatBuf = new float[inNumBytes/2];
-	short locTempShort = 0;
-	float locTempFloat = 0;
 
-	for (int i = 0; i < inNumBytes; i += 2) {
-		locTempShort = *((short*)(inBuf + i));
-		locTempFloat = (float)locTempShort;
-		locTempFloat /= 32767.0;
-		locFloatBuf[i/2] = locTempFloat;;
-	}
-	//FIX::: The 2 is the size of a sample ie 16 bits
-	long locErr = fish_sound_encode(mFishSound, (float**)locFloatBuf, inNumBytes/(mFishInfo.channels*2));
-	delete[] locFloatBuf;
-	//FIX::: Do something here ?
-	if (locErr < 0) {
-	
-	} else {
-	
-	}
-	return locErr;
+    HRESULT locHR = S_OK;
+    vector<StampedOggPacket*> locPackets;
+    if (!mBegun) {
+        locPackets = mVorbisEncoder.setupCodec(mEncoderSettings);
+        if (locPackets.size() != VorbisEncoder::NUM_VORBIS_HEADERS) {
+            //Is this really what we want to return?
+            return E_FAIL;
+        }
+        locHR = sendPackets(locPackets);
+        deletePacketsAndEmptyVector(locPackets);
+        if (locHR != S_OK) {
+            return locHR;
+        }
+        mBegun = true;
+    }
+
+    unsigned long locNumSamplesPerChannel = bufferBytesToSampleCount(inNumBytes);
+    locPackets = mVorbisEncoder.encodeVorbis((const short* const)inBuf, locNumSamplesPerChannel);
+
+    locHR = sendPackets(locPackets);
+    deletePacketsAndEmptyVector(locPackets);
+    return locHR;
+
 }
 
 bool VorbisEncodeInputPin::ConstructCodec() 
 {
-	mFishInfo.channels = mWaveFormat->nChannels;
-	mFishInfo.format = FISH_SOUND_VORBIS;
-	mFishInfo.samplerate = mWaveFormat->nSamplesPerSec;
-    
-	mFishInfo.format = FISH_SOUND_VORBIS;
-	
-	//This has to be done before fishsound new... otherwise, wy the time we get to setting it later... it's too late.
-	debugLog<<"Setting quality with fs command to "<<mVorbisQuality<<endl;
-	
-	//Evil bit of hackery to trick the check for null.
-	int I_AM_NOT_NULL = 1;
-
-	fish_sound_command((FishSound*)I_AM_NOT_NULL, FISH_SOUND_VORBIS_SET_QUALITY, &mVorbisQuality, sizeof(float));
-
-	mFishSound = fish_sound_new (FISH_SOUND_ENCODE, &mFishInfo);
-
-	//Change to fill in vorbis format block so muxer can work
-	((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock.numChannels = (unsigned char)mWaveFormat->nChannels;
-	((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock.samplesPerSec = mWaveFormat->nSamplesPerSec;
-	//
-
-	int i = 1;
-	//FIX::: Use new API for interleave setting
-	fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
-
-
-
-	fish_sound_set_encoded_callback (mFishSound, VorbisEncodeInputPin::VorbisEncoded, this);
-	//FIX::: Proper return value
-	return true;
-
+    mEncoderSettings.setAudioParameters(mWaveFormat->nChannels, mWaveFormat->nSamplesPerSec);
+    mUptoFrame = 0;
+    return true;
 }
 void VorbisEncodeInputPin::DestroyCodec() 
 {
-	fish_sound_delete(mFishSound);
-	mFishSound = NULL;
-}
 
-
-//Encoded callback
-int VorbisEncodeInputPin::VorbisEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) 
-{
-
-	VorbisEncodeInputPin* locThis = reinterpret_cast<VorbisEncodeInputPin*> (inThisPointer);
-	VorbisEncodeFilter* locFilter = reinterpret_cast<VorbisEncodeFilter*>(locThis->m_pFilter);
-	
-
-	//Time stamps are granule pos not directshow times - granule pos in vorbis is equivalent to frame number
-
-	LONGLONG locFrameStart = locThis->mUptoFrame;
-	LONGLONG locFrameEnd	= locThis->mUptoFrame
-							= fish_sound_get_frameno(locThis->mFishSound);
-	//Get a pointer to a new sample stamped with our time
-	IMediaSample* locSample;
-	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
-	if (FAILED(locHR)) {
-		//We get here when the application goes into stop mode usually.
-		return locHR;
-	}	
-	
-	BYTE* locBuffer = NULL;
-
-	
-	//Make our pointers set to point to the samples buffer
-	locSample->GetPointer(&locBuffer);
-
-	
-
-	if (locSample->GetSize() >= inNumBytes) {
-
-		memcpy((void*)locBuffer, (const void*)inPacketData, inNumBytes);
-		
-		//Set the sample parameters.
-		locThis->SetSampleParams(locSample, inNumBytes, &locFrameStart, &locFrameEnd);
-
-		{
-			CAutoLock locLock(locThis->m_pLock);
-
-			//Add a reference so it isn't deleted en route.
-			//locSample->AddRef();
-			HRESULT locHR = ((VorbisEncodeOutputPin*)(locThis->mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
-			if (locHR != S_OK) {
-				
-			} else {
-			}
-		}
-
-		return 0;
-	} else {
-		throw 0;
-	}
 }
 
 
@@ -187,8 +104,8 @@ HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 	if (	(inMediaType->subtype == MEDIASUBTYPE_PCM) &&
 			(inMediaType->formattype == FORMAT_WaveFormatEx)) {
 
+                //Is this really safe?
 		mWaveFormat = (WAVEFORMATEX*)inMediaType->pbFormat;
-		//mParentFilter->mAudioFormat = AbstractAudioDecodeFilter::VORBIS;
 	} else {
 		//Failed... should never be here !
 		throw 0;
@@ -199,4 +116,71 @@ HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 
 	return CBaseInputPin::SetMediaType(inMediaType);
 
+}
+
+void VorbisEncodeInputPin::deletePacketsAndEmptyVector(vector<StampedOggPacket*>& inPackets)
+{
+    for (size_t i = 0; i < inPackets.size(); i++) {
+        delete inPackets[i];
+    }
+    inPackets.clear();
+}
+
+unsigned long VorbisEncodeInputPin::bufferBytesToSampleCount(long inByteCount)
+{
+    if (mEncoderSettings.mNumChannels == 0) {
+        return 0;
+    }
+    //TODO::: Needs a bytes per sample thingy
+    const long SIZE_OF_SHORT = sizeof(short);
+    return (inByteCount / mEncoderSettings.mNumChannels) / SIZE_OF_SHORT;
+}
+
+HRESULT VorbisEncodeInputPin::sendPackets(const vector<StampedOggPacket*>& inPackets)
+{
+  
+	LONGLONG locFrameStart;
+    LONGLONG locFrameEnd;
+    IMediaSample* locSample = NULL;
+    BYTE* locBuffer = NULL;
+
+    for (size_t pack = 0; pack < inPackets.size(); pack++) {
+        locFrameStart = mUptoFrame;
+        locFrameEnd = inPackets[pack]->endTime();
+        mUptoFrame = locFrameEnd;
+
+        HRESULT locHR = mOutputPin->GetDeliveryBuffer(     &locSample
+                                                        ,   &locFrameStart
+                                                        ,   &locFrameEnd
+                                                        ,   NULL);
+        if (FAILED(locHR)) {
+		    //We get here when the application goes into stop mode usually.
+		    return locHR;
+	    }	
+
+        //TODO::: Should we be checking this return?
+        locSample->GetPointer(&locBuffer);
+
+
+
+
+	    if (locSample->GetSize() >= inPackets[pack]->packetSize()) {
+
+
+		    memcpy((void*)locBuffer, (const void*)inPackets[pack]->packetData(), inPackets[pack]->packetSize());
+    		
+		    //Set the sample parameters.
+		    SetSampleParams(locSample, inPackets[pack]->packetSize(), &locFrameStart, &locFrameEnd);
+
+		    locHR = ((VorbisEncodeOutputPin*)mOutputPin)->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+            if (locHR != S_OK) {
+                return locHR;
+            }
+
+	    } else {
+		    throw 0;
+	    }
+    }
+
+    return S_OK;
 }

@@ -35,12 +35,18 @@
 #include "VorbisEncodeInputPin.h"
 
 #include "VorbisEncodeFilter.h"
+
+#include "VorbisEncoder.h"
+#include "VorbisEncodeSettings.h"
+
 #include <fstream>
 using namespace std;
-extern "C" {
+
+
+//extern "C" {
 //#include <fishsound/fishsound.h>
-#include "fish_cdecl.h"
-}
+//#include "fish_cdecl.h"
+//}
 
 class VorbisEncodeInputPin
 	:	public AbstractTransformInputPin
@@ -54,10 +60,10 @@ public:
                             ,   vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~VorbisEncodeInputPin(void);
 
-	static int __cdecl VorbisEncoded (      FishSound* inFishSound
-                                        ,   unsigned char* inPacketData
-                                        ,   long inNumBytes
-                                        ,   void* inThisPointer);
+	//static int __cdecl VorbisEncoded (      FishSound* inFishSound
+ //                                       ,   unsigned char* inPacketData
+ //                                       ,   long inNumBytes
+ //                                       ,   void* inThisPointer);
 	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
@@ -68,17 +74,24 @@ protected:
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 
+    void deletePacketsAndEmptyVector(vector<StampedOggPacket*>& inPackets);
+    HRESULT sendPackets(const vector<StampedOggPacket*>& inPackets);
+    unsigned long bufferBytesToSampleCount(long inByteCount);
+
 	//Member data
-	HRESULT mHR;
+	//HRESULT mHR;
 	bool mBegun;
 	WAVEFORMATEX* mWaveFormat;
-	__int64 mUptoFrame;
+	LONGLONG mUptoFrame;
 
 	//Fishsound member data
-	FishSound* mFishSound;
-	FishSoundInfo mFishInfo; 	
+	//FishSound* mFishSound;
+	//FishSoundInfo mFishInfo; 	
 
-	float mVorbisQuality;
+	//float mVorbisQuality;
+
+    VorbisEncodeSettings mEncoderSettings;
+    VorbisEncoder mVorbisEncoder;
 
 	fstream debugLog;
 	

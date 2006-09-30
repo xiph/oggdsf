@@ -50,6 +50,8 @@ public:
     VorbisEncoder(void);
     ~VorbisEncoder(void);
 
+    static const unsigned long NUM_VORBIS_HEADERS = 3;
+
 
     vector<StampedOggPacket*> setupCodec(VorbisEncodeSettings inSettings);
     vector<StampedOggPacket*> encodeVorbis(const short* const inSampleBuffer, unsigned long inNumSamplesPerChannel);
