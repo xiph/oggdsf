@@ -106,7 +106,7 @@ void PropsVorbisEncoder::setUsingQualityMode(bool inIsUsingQualityMode)
 HRESULT PropsVorbisEncoder::OnConnect(IUnknown *pUnk)
 {
 	if (mVorbisEncodeSettings != NULL) {
-		//mTheoraEncodeSettings->Release();
+		mVorbisEncodeSettings->Release();
 		mVorbisEncodeSettings = NULL;
 	}
 
@@ -118,7 +118,7 @@ HRESULT PropsVorbisEncoder::OnConnect(IUnknown *pUnk)
 HRESULT PropsVorbisEncoder::OnDisconnect(void)
 {
 	if (mVorbisEncodeSettings != NULL) {
-		//mTheoraEncodeSettings->Release();
+		mVorbisEncodeSettings->Release();
 		mVorbisEncodeSettings = NULL;
 	}
     return S_OK;
@@ -133,7 +133,7 @@ INT_PTR PropsVorbisEncoder::OnReceiveMessage(HWND hwnd,  UINT uMsg, WPARAM wPara
             if (HIWORD(wParam) == BN_CLICKED) {
                 if (HWND(lParam) == GetDlgItem(m_hwnd, IDC_CHECK_Q_MODE)) {
                     SetDirty();
-                    setUsingQualityMode(SendDlgItemMessage(m_hwnd,IDC_CHECK_Q_MODE, BM_GETCHECK, NOT_USED, NOT_USED));
+                    setUsingQualityMode(SendDlgItemMessage(m_hwnd,IDC_CHECK_Q_MODE, BM_GETCHECK, 0, 0));
                 }
             }
             break;

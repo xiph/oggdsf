@@ -220,7 +220,7 @@ HRESULT PropsTheoraEncoder::OnConnect(IUnknown *pUnk)
 {
     
 	if (mTheoraEncodeSettings != NULL) {
-		//mTheoraEncodeSettings->Release();
+		mTheoraEncodeSettings->Release();
 		mTheoraEncodeSettings = NULL;
 	}
 
@@ -233,7 +233,7 @@ HRESULT PropsTheoraEncoder::OnConnect(IUnknown *pUnk)
 HRESULT PropsTheoraEncoder::OnDisconnect(void)
 {
 	if (mTheoraEncodeSettings != NULL) {
-		//mTheoraEncodeSettings->Release();
+		mTheoraEncodeSettings->Release();
 		mTheoraEncodeSettings = NULL;
 	}
     return S_OK;
