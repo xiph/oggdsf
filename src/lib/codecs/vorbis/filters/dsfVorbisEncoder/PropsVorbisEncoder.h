@@ -24,5 +24,6 @@ protected:
 	void SetDirty();
 	void SetClean();
 
+    void setUsingQualityMode(bool inIsUsingQualityMode);
     IVorbisEncodeSettings* mVorbisEncodeSettings;
 };

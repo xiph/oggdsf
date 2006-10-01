@@ -42,6 +42,13 @@ CFactoryTemplate g_Templates[] =
 	    VorbisEncodeFilter::CreateInstance,	    // Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
+    },
+    { 
+		L"Vorbis Encode Properties",						// Name
+	    &CLSID_PropsVorbisEncoder,            // CLSID
+	    PropsVorbisEncoder::CreateInstance,	// Method to create an instance of MyComponent
+        NULL,									// Initialization function
+        NULL									// Set-up information (for filters)
     }
 
 };

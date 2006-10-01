@@ -34,6 +34,7 @@
 //Local Includes
 #include "vorbisencoderdllstuff.h"
 #include "IVorbisEncodeSettings.h"
+#include "PropsVorbisEncoder.h"
 
 //External Includes
 #include "AbstractTransformFilter.h"

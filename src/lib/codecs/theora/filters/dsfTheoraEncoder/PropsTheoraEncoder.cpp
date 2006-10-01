@@ -407,6 +407,8 @@ INT_PTR PropsTheoraEncoder::OnReceiveMessage(HWND hwnd,  UINT uMsg, WPARAM wPara
             }
 
 			break;
+        default:
+            break;
 
          
     } // switch
