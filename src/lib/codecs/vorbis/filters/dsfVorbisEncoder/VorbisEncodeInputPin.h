@@ -42,12 +42,6 @@
 #include <fstream>
 using namespace std;
 
-
-//extern "C" {
-//#include <fishsound/fishsound.h>
-//#include "fish_cdecl.h"
-//}
-
 class VorbisEncodeInputPin
 	:	public AbstractTransformInputPin
 {
@@ -60,12 +54,8 @@ public:
                             ,   vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~VorbisEncodeInputPin(void);
 
-	//static int __cdecl VorbisEncoded (      FishSound* inFishSound
- //                                       ,   unsigned char* inPacketData
- //                                       ,   long inNumBytes
- //                                       ,   void* inThisPointer);
-	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+    virtual STDMETHODIMP EndOfStream();
 
 protected:
 
@@ -79,16 +69,9 @@ protected:
     unsigned long bufferBytesToSampleCount(long inByteCount);
 
 	//Member data
-	//HRESULT mHR;
 	bool mBegun;
 	WAVEFORMATEX* mWaveFormat;
 	LONGLONG mUptoFrame;
-
-	//Fishsound member data
-	//FishSound* mFishSound;
-	//FishSoundInfo mFishInfo; 	
-
-	//float mVorbisQuality;
 
     VorbisEncodeSettings mEncoderSettings;
     VorbisEncoder mVorbisEncoder;

@@ -118,6 +118,18 @@ HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 
 }
 
+HRESULT VorbisEncodeInputPin::EndOfStream()
+{
+    CAutoLock locLock(mStreamLock);
+
+    vector<StampedOggPacket*> locPackets = mVorbisEncoder.flush();
+
+    HRESULT locHR = sendPackets(locPackets);
+    deletePacketsAndEmptyVector(locPackets);
+    return AbstractTransformInputPin::EndOfStream();
+
+}
+
 void VorbisEncodeInputPin::deletePacketsAndEmptyVector(vector<StampedOggPacket*>& inPackets)
 {
     for (size_t i = 0; i < inPackets.size(); i++) {
@@ -172,7 +184,7 @@ HRESULT VorbisEncodeInputPin::sendPackets(const vector<StampedOggPacket*>& inPac
 		    //Set the sample parameters.
 		    SetSampleParams(locSample, inPackets[pack]->packetSize(), &locFrameStart, &locFrameEnd);
 
-		    locHR = ((VorbisEncodeOutputPin*)mOutputPin)->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+		    locHR = ((VorbisEncodeOutputPin*)mOutputPin)->mDataQueue->Receive(locSample);
             if (locHR != S_OK) {
                 return locHR;
             }
