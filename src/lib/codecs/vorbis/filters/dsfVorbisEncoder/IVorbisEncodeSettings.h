@@ -7,15 +7,20 @@
 extern "C" {
 #endif
 
+#include "VorbisEncodeSettings.h"
 
 DECLARE_INTERFACE_(IVorbisEncodeSettings, IUnknown) {
 
-	//virtual STDMETHODIMP_(unsigned long) targetBitrate() PURE;
-	//virtual STDMETHODIMP_(bool) setTargetBitrate(unsigned long inBitrate) PURE;
+	//virtual STDMETHODIMP_(bool) setQuality(signed char inQuality) PURE;
+	virtual STDMETHODIMP_(VorbisEncodeSettings) getEncoderSettings() PURE;
 	
-	virtual STDMETHODIMP_(signed char) quality() PURE;
-	virtual STDMETHODIMP_(bool) setQuality(signed char inQuality) PURE;
+
+    virtual STDMETHODIMP_(bool) setQuality(int inQuality) PURE;
+    virtual STDMETHODIMP_(bool) setBitrateQualityMode(int inBitrate) PURE;
+    virtual STDMETHODIMP_(bool) setManaged(int inBitrate, int inMinBitrate, int inMaxBitrate) PURE;
 };
+
+
 
 #ifdef __cplusplus
 }

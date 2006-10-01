@@ -100,7 +100,7 @@ public:
 
 	
 	//SpecifyPropertyPages Implementation
-	STDMETHODIMP TheoraEncodeFilter::GetPages(CAUUID* outPropPages);
+	STDMETHODIMP GetPages(CAUUID* outPropPages);
 
 protected:
 

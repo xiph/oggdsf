@@ -40,4 +40,6 @@
 // Windows Header Files:
 #include <windows.h>
 
+#include "vorbisencoderdllstuff.h"
+
 // TODO: reference additional headers your program requires here

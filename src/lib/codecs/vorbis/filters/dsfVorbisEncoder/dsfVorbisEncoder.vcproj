@@ -1285,6 +1285,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath=".\PropsVorbisEncoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration
@@ -1442,6 +1446,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PropsVorbisEncoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
 				RelativePath="stdafx.h"
 				>
 			</File>
@@ -1466,6 +1478,10 @@
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
+			<File
+				RelativePath=".\dsfVorbisEncoder.rc"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="ReadMe.txt"

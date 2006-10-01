@@ -77,6 +77,10 @@ STDMETHODIMP VorbisEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void *
 		*ppv = (IVorbisEncodeSettings*)this;
 		((IUnknown*)*ppv)->AddRef();
 		return NOERROR;
+	} else if (riid == IID_ISpecifyPropertyPages) {
+		*ppv = (ISpecifyPropertyPages*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
 	}
 	return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv);
 }
@@ -115,25 +119,62 @@ bool VorbisEncodeFilter::ConstructPins()
 	return true;
 }
 
-
-STDMETHODIMP_(signed char) VorbisEncodeFilter::quality() 
+STDMETHODIMP_(VorbisEncodeSettings) VorbisEncodeFilter::getEncoderSettings()
 {
-	//return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality * 100 );
-    return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.mQuality );
+    return ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings;
 }
-
-
-STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(signed char inQuality) 
-{
 	
-	if ((inQuality >= 0) && (inQuality < 100)) {
-		
-		//((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality = (float)inQuality/(float)100;
-        ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.setQuality(inQuality);
-		
-		return true;
-	} else {
-		
-		return false;
-	}
+STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(int inQuality)
+{
+    return ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.setQuality(inQuality);  
 }
+
+STDMETHODIMP_(bool) VorbisEncodeFilter::setBitrateQualityMode(int inBitrate)
+{
+    return ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.setBitrateQualityMode(inBitrate);
+}
+
+STDMETHODIMP_(bool) VorbisEncodeFilter::setManaged(int inBitrate, int inMinBitrate, int inMaxBitrate)
+{
+    return ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.setManaged(inBitrate, inMinBitrate, inMaxBitrate);
+}
+
+//SpecifyPropertyPages Implementation
+STDMETHODIMP VorbisEncodeFilter::GetPages(CAUUID* outPropPages) 
+{
+	if (outPropPages == NULL) return E_POINTER;
+
+	const int NUM_PROP_PAGES = 1;
+    outPropPages->cElems = NUM_PROP_PAGES;
+    outPropPages->pElems = (GUID*)(CoTaskMemAlloc(sizeof(GUID) * NUM_PROP_PAGES));
+    if (outPropPages->pElems == NULL) 
+    {
+        return E_OUTOFMEMORY;
+    }
+
+	outPropPages->pElems[0] = CLSID_PropsVorbisEncoder;
+    
+    return S_OK;
+
+}
+//STDMETHODIMP_(signed char) VorbisEncodeFilter::quality() 
+//{
+//	//return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality * 100 );
+//    return (signed char)( ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.mQuality );
+//}
+//
+//
+//STDMETHODIMP_(bool) VorbisEncodeFilter::setQuality(signed char inQuality) 
+//{
+//	
+//	if ((inQuality >= 0) && (inQuality < 100)) {
+//		
+//		//((VorbisEncodeInputPin*)mInputPin)->mVorbisQuality = (float)inQuality/(float)100;
+//        ((VorbisEncodeInputPin*)mInputPin)->mEncoderSettings.setQuality(inQuality);
+//		
+//		return true;
+//	} else {
+//		
+//		return false;
+//	}
+//}

@@ -46,6 +46,7 @@ class VorbisEncodeOutputPin;
 class VorbisEncodeFilter
 	:	public AbstractTransformFilter
 	,	public IVorbisEncodeSettings
+    ,	public ISpecifyPropertyPages
 {
 public:
 	//Friend Classes
@@ -63,11 +64,20 @@ public:
 	//COM Creator function
 	static CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	/// Returns the quality setting for vorbis
-	virtual STDMETHODIMP_(signed char) quality();
+    /// ISpecifyPropertyPages::GetPages Implementation
+	STDMETHODIMP GetPages(CAUUID* outPropPages);
 
-	/// Set the quality for vorbis encoding, between 0 and 99 inclusive (equiv to 0.0 to 0.99)
-	virtual STDMETHODIMP_(bool) setQuality(signed char inQuality);
+	/// Returns the encoder setting for vorbis
+	virtual STDMETHODIMP_(VorbisEncodeSettings) getEncoderSettings();
+	
+    /// Sets the quality
+    virtual STDMETHODIMP_(bool) setQuality(int inQuality);
+
+    /// Sets the bitrate via quality mode
+    virtual STDMETHODIMP_(bool) setBitrateQualityMode(int inBitrate);
+
+    /// Sets the  managed bitrate constraints
+    virtual STDMETHODIMP_(bool) setManaged(int inBitrate, int inMinBitrate, int inMaxBitrate);
 
 protected:
 	//Implementation of pure virtuals from AbstractTransformFilter

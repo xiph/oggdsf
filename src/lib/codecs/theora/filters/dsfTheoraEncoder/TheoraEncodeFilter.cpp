@@ -319,7 +319,8 @@ STDMETHODIMP_(bool) TheoraEncodeFilter::setKeyframeAutoThreshold(long inKeyframe
 }
 
 //SpecifyPropertyPages Implementation
-STDMETHODIMP TheoraEncodeFilter::GetPages(CAUUID* outPropPages) {
+STDMETHODIMP TheoraEncodeFilter::GetPages(CAUUID* outPropPages) 
+{
 	if (outPropPages == NULL) return E_POINTER;
 
 	const int NUM_PROP_PAGES = 1;

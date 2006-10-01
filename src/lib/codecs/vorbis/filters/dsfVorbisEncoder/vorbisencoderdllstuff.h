@@ -31,6 +31,10 @@
 
 #pragma once
 
+#include <streams.h>
+#include <pullpin.h>
+#include <initguid.h>
+
 struct sVorbisFormatBlock {
 	unsigned long vorbisVersion;
 	unsigned long samplesPerSec;
@@ -52,6 +56,10 @@ struct sVorbisFormatBlock {
 #else
 #define LIBOOOGG_API __declspec(dllimport)
 #endif
+
+// {A538F05F-DC08-4bf9-994F-18A86CCA6CC4}
+DEFINE_GUID(CLSID_PropsVorbisEncoder, 
+0xa538f05f, 0xdc08, 0x4bf9, 0x99, 0x4f, 0x18, 0xa8, 0x6c, 0xca, 0x6c, 0xc4);
 
 
 // {5C94FE86-B93B-467f-BFC3-BD6C91416F9B}

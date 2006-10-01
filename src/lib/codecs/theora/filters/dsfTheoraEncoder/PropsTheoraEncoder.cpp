@@ -1,8 +1,12 @@
 #include "stdafx.h"
 #include "propstheoraencoder.h"
 
-PropsTheoraEncoder::PropsTheoraEncoder(LPUNKNOWN inUnk, HRESULT* outHR)
-	:	CBasePropertyPage(NAME("illiminable Directshow Filters"), inUnk, IDD_THEORA_ENCODE_SETTINGS, IDS_THEORA_ENC_PROPS_STRING)
+PropsTheoraEncoder::PropsTheoraEncoder(     LPUNKNOWN inUnk
+                                        ,   HRESULT* outHR)
+	:	CBasePropertyPage(      NAME("illiminable Theora Encoder")
+                            ,   inUnk
+                            ,   IDD_THEORA_ENCODE_SETTINGS
+                            ,   IDS_THEORA_ENC_PROPS_STRING)
 	,	mTheoraEncodeSettings(NULL)
 
 {
@@ -20,44 +24,8 @@ CUnknown* PropsTheoraEncoder::CreateInstance(LPUNKNOWN inUnk, HRESULT* outHR)
     return new PropsTheoraEncoder(inUnk, outHR);
 }
 
-//LRESULT PropsTheoraEncoder::addNumberToCombo(int inComboID, int inNum) {
-//	char locStrBuff[16];
-//	itoa(inNum, (char*)&locStrBuff, 10);
-//	return SendDlgItemMessage(m_Dlg, IDC_COMBO_BITRATE, CB_ADDSTRING, NOT_USED, (LPARAM)&locStrBuff);
-//
-//}
-//
-//void PropsTheoraEncoder::SetupBitrateCombo() {
-//	addNumberToCombo(IDC_COMBO_BITRATE, 64000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 96000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 128000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 192000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 256000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 384000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 512000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 768000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 1024000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 1536000);
-//	addNumberToCombo(IDC_COMBO_BITRATE, 2000000);
-//
-//}
-//
-//void PropsTheoraEncoder::SetupKeyframeFreqCombo() {
-//	
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 1);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 2);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 3);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 4);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 5);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 6);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 7);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 8);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 9);
-//	addNumberToCombo(IDC_COMBO_LOG_KEYFRAME_FREQ, 10);
-//
-//}
-
-unsigned long PropsTheoraEncoder::log2(unsigned long inNum) {
+unsigned long PropsTheoraEncoder::log2(unsigned long inNum) 
+{
 	unsigned long ret = 0;
 	while (inNum != 0) {
 		inNum>>=1;
@@ -66,7 +34,8 @@ unsigned long PropsTheoraEncoder::log2(unsigned long inNum) {
 	return ret - 1;
 }
 
-unsigned long PropsTheoraEncoder::pow2(unsigned long inNum) {
+unsigned long PropsTheoraEncoder::pow2(unsigned long inNum) 
+{
 	return 1 << (inNum);
 }
 

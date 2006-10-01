@@ -49,6 +49,8 @@ void VorbisEncodeSettings::setToDefaults()
     mMaxBitrate = 0;
     mQuality = 30;
     mIsQualitySet = true;
+
+    //TODO::: Do we want to do this?
     mNumChannels = 0;
     mSampleRate = 0;
 
@@ -77,6 +79,7 @@ bool VorbisEncodeSettings::setQuality(int inQuality)
 
 bool VorbisEncodeSettings::setBitrateQualityMode(int inBitrate)
 {
+    //TODO::: Can set hard min max too apparently
     if (inBitrate > 0) {
         mMinBitrate = -1;
         mMaxBitrate = -1;
