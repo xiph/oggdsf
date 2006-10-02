@@ -89,6 +89,7 @@ protected:
 	void deleteBufferedPacketsAfter(unsigned long inPacketIndex);
 	void FillMediaType(int inPosition, CMediaType* outMediaType, unsigned long inSampleSize);
 	bool FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* inFormatBuffer);
+    bool FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* inFormatBuffer);
 	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
 	
 	unsigned long mBMIHeight;

@@ -95,7 +95,7 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	CMediaType* locAcceptMediaType = NULL;
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_YV12;
-	locAcceptMediaType->formattype = FORMAT_VideoInfo;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
 	mOutputMediaTypes.push_back(locAcceptMediaType);
 
 	locVideoParams.bitsPerPixel = 12;
@@ -106,13 +106,14 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	//YUY2 Media Type
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_YUY2;
-	locAcceptMediaType->formattype = FORMAT_VideoInfo;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
 	mOutputMediaTypes.push_back(locAcceptMediaType);
 
 	locVideoParams.bitsPerPixel = 16;
 	locVideoParams.fourCC = MAKEFOURCC('Y','U','Y','2');
 	mOutputVideoParams.push_back(locVideoParams);
 
+    /*
 	//RGB565 Media Type
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB565;
@@ -133,7 +134,7 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	locVideoParams.fourCC = 0;
 	mOutputVideoParams.push_back(locVideoParams);
 
-
+    */
 
 
 	mTheoraDecoder = new TheoraDecoder;
@@ -226,6 +227,59 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 	return true;
 }
 
+bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* inFormatBuffer) 
+{
+	//MTS::: Needs changes for alternate media types. FOURCC and bitCOunt
+	TheoraDecodeFilter* locFilter = this;
+
+	inFormatBuffer->AvgTimePerFrame = (UNITS * locFilter->mTheoraFormatInfo->frameRateDenominator) / locFilter->mTheoraFormatInfo->frameRateNumerator;
+	inFormatBuffer->dwBitRate = locFilter->mTheoraFormatInfo->targetBitrate;
+	
+	inFormatBuffer->bmiHeader.biBitCount = mOutputVideoParams[inPosition].bitsPerPixel;  
+
+	inFormatBuffer->bmiHeader.biClrImportant = 0;   //All colours important
+	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
+
+	inFormatBuffer->bmiHeader.biCompression = mOutputVideoParams[inPosition].fourCC;
+	inFormatBuffer->bmiHeader.biHeight = locFilter->mTheoraFormatInfo->pictureHeight;   //Not sure
+	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
+	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);    //????? Size of what ?
+	inFormatBuffer->bmiHeader.biSizeImage = ((locFilter->mTheoraFormatInfo->pictureHeight * locFilter->mTheoraFormatInfo->pictureWidth) * inFormatBuffer->bmiHeader.biBitCount)/8;    //Size in bytes of image ??
+	inFormatBuffer->bmiHeader.biWidth = locFilter->mTheoraFormatInfo->pictureWidth;
+	inFormatBuffer->bmiHeader.biXPelsPerMeter = 0;   //Fuck knows
+	inFormatBuffer->bmiHeader.biYPelsPerMeter = 0;   //" " " " " 
+	
+	inFormatBuffer->rcSource.top = 0;
+	inFormatBuffer->rcSource.bottom = locFilter->mTheoraFormatInfo->pictureHeight;
+	inFormatBuffer->rcSource.left = 0;
+	inFormatBuffer->rcSource.right = locFilter->mTheoraFormatInfo->pictureWidth;
+
+	inFormatBuffer->rcTarget.top = 0;
+	inFormatBuffer->rcTarget.bottom = locFilter->mTheoraFormatInfo->pictureHeight;
+	inFormatBuffer->rcTarget.left = 0;
+	inFormatBuffer->rcTarget.right = locFilter->mTheoraFormatInfo->pictureWidth;
+
+	inFormatBuffer->dwBitErrorRate=0;
+
+    //Info 2 extensions
+    inFormatBuffer->dwInterlaceFlags = 0;
+    inFormatBuffer->dwCopyProtectFlags = 0;
+
+
+    if ((mTheoraFormatInfo->aspectNumerator == 0) || (mTheoraFormatInfo->aspectDenominator == 0)) {
+        //Maybe setting to 0?
+        inFormatBuffer->dwPictAspectRatioX = mTheoraFormatInfo->pictureWidth;
+        inFormatBuffer->dwPictAspectRatioY = mTheoraFormatInfo->pictureHeight;
+    } else {
+        inFormatBuffer->dwPictAspectRatioX = mTheoraFormatInfo->pictureWidth * mTheoraFormatInfo->aspectNumerator;
+        inFormatBuffer->dwPictAspectRatioY = mTheoraFormatInfo->pictureHeight * mTheoraFormatInfo->aspectDenominator;
+
+    }
+    inFormatBuffer->dwControlFlags = 0;
+    inFormatBuffer->dwReserved2 = 0;
+	return true;
+}
+
 HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType) 
 {
 	if	( (inMediaType->majortype == MEDIATYPE_OggPacketStream) &&
@@ -271,7 +325,7 @@ HRESULT TheoraDecodeFilter::CheckOutputType(const CMediaType* inMediaType)
 HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType) {
 	//MTS::: Needs multiple media types
 	if ((CheckInputType(inInputMediaType) == S_OK) && (CheckOutputType(inOutputMediaType) == S_OK)) {
-		VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inOutputMediaType->Format();
+		VIDEOINFOHEADER2* locVideoHeader = (VIDEOINFOHEADER2*)inOutputMediaType->Format();
 
 		mBMIHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
 		mBMIWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
@@ -390,8 +444,8 @@ HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMe
 		return E_INVALIDARG;
 	} else if (inPosition < mOutputMediaTypes.size()) {
 		
-		VIDEOINFOHEADER* locVideoFormat = (VIDEOINFOHEADER*)outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-		FillVideoInfoHeader(inPosition, locVideoFormat);
+		VIDEOINFOHEADER2* locVideoFormat = (VIDEOINFOHEADER2*)outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
+		FillVideoInfoHeader2(inPosition, locVideoFormat);
 		FillMediaType(inPosition, outOutputMediaType, locVideoFormat->bmiHeader.biSizeImage);
 
 		debugLog<<"Get Media Type"<<endl;
@@ -837,12 +891,12 @@ HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample
 	} else if (mCurrentOutputSubType == MEDIASUBTYPE_YUY2) {
 		debugLog<<"Decoding to YUY2"<<endl;
 		return DecodeToYUY2(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
-	} else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB565) {
-		debugLog<<"Decoding to RGB565"<<endl;
-		return DecodeToRGB565(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
-	} else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB24) {
-		debugLog<<"Decoding to RGB24"<<endl;
-		return DecodeToRGB24(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
+	//} else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB565) {
+	//	debugLog<<"Decoding to RGB565"<<endl;
+	//	return DecodeToRGB565(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
+	//} else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB24) {
+	//	debugLog<<"Decoding to RGB24"<<endl;
+	//	return DecodeToRGB24(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
 	} else {
 		debugLog<<"Decoding to unknown type - failure"<<endl;
 		return E_FAIL;

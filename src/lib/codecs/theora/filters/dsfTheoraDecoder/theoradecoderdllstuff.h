@@ -33,6 +33,7 @@
 #include <streams.h>
 #include <pullpin.h>
 #include <initguid.h>
+#include <dvdmedia.h>
 
 //#ifdef DSFABSTRACTOGGVIDEODECODER_EXPORTS
 //#pragma message("----> Exporting from Abstract Video Library...")
@@ -210,14 +211,14 @@ const AMOVIESETUP_MEDIATYPE TheoraDecodeOutputTypes[] = {
 	{
 		&MEDIATYPE_Video,
 		&MEDIASUBTYPE_YUY2
-	},
-	{
-		&MEDIATYPE_Video,
-		&MEDIASUBTYPE_RGB565
-	},
-	{
-		&MEDIATYPE_Video,
-		&MEDIASUBTYPE_RGB24
+	//},
+	//{
+	//	&MEDIATYPE_Video,
+	//	&MEDIASUBTYPE_RGB565
+	//},
+	//{
+	//	&MEDIATYPE_Video,
+	//	&MEDIASUBTYPE_RGB24
 		
 	}
 };
@@ -248,7 +249,7 @@ const AMOVIESETUP_PIN TheoraDecodePinReg[] = {
 	FALSE,								//Cannot have more than one instance of this pin
 	&GUID_NULL,								//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
-	4,									//Only support one media type
+	2,									//Supports two types
 	TheoraDecodeOutputTypes					//Pointer to media type (YV12)
 
 	}
