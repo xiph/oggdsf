@@ -60,7 +60,6 @@ public:
 	//XTODO::: Add a new segment override to get an integer rate change
 	//XTODO::: Possibly add an endflush override to clear buffered data
 	virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
-	//XTODO::: Implement getallocator requirements to tell demux what buffers to use
 
 	//IOggDecoder Interface
 	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule);

@@ -209,8 +209,8 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);    //????? Size of what ?
 	inFormatBuffer->bmiHeader.biSizeImage = ((locFilter->mTheoraFormatInfo->pictureHeight * locFilter->mTheoraFormatInfo->pictureWidth) * inFormatBuffer->bmiHeader.biBitCount)/8;    //Size in bytes of image ??
 	inFormatBuffer->bmiHeader.biWidth = locFilter->mTheoraFormatInfo->pictureWidth;
-	inFormatBuffer->bmiHeader.biXPelsPerMeter = 2000;   //Fuck knows
-	inFormatBuffer->bmiHeader.biYPelsPerMeter = 2000;   //" " " " " 
+	inFormatBuffer->bmiHeader.biXPelsPerMeter = 0;   //Fuck knows
+	inFormatBuffer->bmiHeader.biYPelsPerMeter = 0;   //" " " " " 
 	
 	inFormatBuffer->rcSource.top = 0;
 	inFormatBuffer->rcSource.bottom = locFilter->mTheoraFormatInfo->pictureHeight;

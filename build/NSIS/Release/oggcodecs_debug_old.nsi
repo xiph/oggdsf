@@ -653,7 +653,7 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
 
   ; WMP extra integration
   WriteRegStr HKCR "WMP.OggFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.OggFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}  
+  WriteRegStr HKCR "WMP.OggFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
 
   WriteRegStr HKCR "WMP.OggFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
 
@@ -713,7 +713,7 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
 
   ; WMP extra integration
   WriteRegStr HKCR "WMP.SpxFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.SpxFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}  
+  WriteRegStr HKCR "WMP.SpxFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
 
   WriteRegStr HKCR "WMP.SpxFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
 
@@ -735,7 +735,7 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
 
   ; WMP extra integration
   WriteRegStr HKCR "WMP.FlacFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.FlacFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}  
+  WriteRegStr HKCR "WMP.FlacFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
 
   WriteRegStr HKCR "WMP.FlacFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
 
