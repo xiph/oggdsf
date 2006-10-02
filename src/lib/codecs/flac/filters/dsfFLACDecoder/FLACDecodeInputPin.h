@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -40,10 +40,7 @@
 #include <libOOOgg/OggPacket.h>
 #include <libOOOgg/StampedOggPacket.h>
 
-//STL Includes
-//debug only
 #include <fstream>
-//
 using namespace std;
 
 
@@ -96,7 +93,6 @@ protected:
 	bool mGotMetaData;
 	FLACPushDecoder mFLACDecoder;
 	CCritSec* mCodecLock;
-	unsigned long mUptoFrame;
 
 	OggPacket* mMetadataPacket;
 
@@ -121,13 +117,9 @@ protected:
 	unsigned long mDecodedByteCount;
 	unsigned char* mDecodedBuffer;
 
+    fstream debugLog;
+
 	__int64 mRateNumerator;
 	static const __int64 RATE_DENOMINATOR = 65536;
-
-
-	
-	//debug only
-	//fstream debugLog;
-	//
 
 };

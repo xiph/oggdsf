@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -50,7 +50,8 @@ public:
 	//Constructors
 	FLACDecodeOutputPin(FLACDecodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~FLACDecodeOutputPin(void);
+
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
-	//virtual bool FillWaveFormatExBuffer(WAVEFORMATEX* inFormatBuffer);
+
 };

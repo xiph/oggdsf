@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -32,8 +32,16 @@
 #include "stdafx.h"
 #include "flacdecodeinputpin.h"
 
-FLACDecodeInputPin::FLACDecodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACDecodeInputPin"), L"FLAC In", inAcceptableMediaTypes)
+FLACDecodeInputPin::FLACDecodeInputPin(     AbstractTransformFilter* inParentFilter
+                                        ,   CCritSec* inFilterLock
+                                        ,   AbstractTransformOutputPin* inOutputPin
+                                        ,   vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(      inParentFilter
+                                    ,   inFilterLock
+                                    ,   inOutputPin
+                                    ,   NAME("FLACDecodeInputPin")
+                                    ,   L"FLAC In"
+                                    ,   inAcceptableMediaTypes)
 	,	mGotMetaData(false)
 	,	mCodecLock(NULL)
 	,	mFLACType(FT_UNKNOWN)
@@ -43,10 +51,8 @@ FLACDecodeInputPin::FLACDecodeInputPin(AbstractTransformFilter* inParentFilter, 
 	,	mDecodedBuffer(NULL)
 	,	mRateNumerator(RATE_DENOMINATOR)
 
-	,	mUptoFrame(0)
-
 {
-	//debugLog.open("G:\\logs\\flacfilter.log", ios_base::out);
+	debugLog.open("F:\\logs\\flacdecodefilter.log", ios_base::out);
 	mCodecLock = new CCritSec;			//Deleted in destructor.
 	ConstructCodec();
 
@@ -55,7 +61,7 @@ FLACDecodeInputPin::FLACDecodeInputPin(AbstractTransformFilter* inParentFilter, 
 
 FLACDecodeInputPin::~FLACDecodeInputPin(void)
 {
-	//debugLog.close();
+	debugLog.close();
 	delete mCodecLock;
 	delete mMetadataPacket;
 	delete mDecodedBuffer;
@@ -77,26 +83,26 @@ STDMETHODIMP FLACDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void *
 
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
+
 bool FLACDecodeInputPin::ConstructCodec() 
 {
 	mFLACDecoder.initCodec();
 
 	return true;
 }
+
 void FLACDecodeInputPin::DestroyCodec() 
 {
 
 }
+
 STDMETHODIMP FLACDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 
 {
 	CAutoLock locLock(mStreamLock);
-	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
-	mUptoFrame = 0;
+    debugLog<<"New segment: "<<inStartTime<<" - "<<inStopTime<<endl;
 	return AbstractTransformInputPin::NewSegment(inStartTime, inStopTime, inRate);
 	
 }
-
-
 
 STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample) 
 {
@@ -110,12 +116,10 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 
 		if ((inSample->GetActualDataLength() > 1) && ((locBuff[0] != 0xff) || (locBuff[1] != 0xf8))) {
 			//inInputSample->Release();
-
+            debugLog<<"Receive: Ignoring Header"<<endl;
 			//This is a header, so ignore it
 			return S_OK;
 		}
-
-
 
 		if (locHR != S_OK) {
 			//TODO::: Do a debug dump or something here with specific error info.
@@ -128,6 +132,7 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 
 			HRESULT locResult = TransformData(locBuff, inSample->GetActualDataLength());
 			if (locResult != S_OK) {
+                debugLog<<"Receive: Transform returned "<<locResult<<endl;
 				return S_FALSE;
 			}
 			if (locEnd > 0) {
@@ -140,6 +145,7 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 				do {
 					HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
 					if (locHR != S_OK) {
+                        debugLog<<"Receive: Get delivery buffer returned "<<locResult<<endl;
 						return locHR;
 					}
 
@@ -147,6 +153,7 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 					locHR = locSample->GetPointer(&locBuffer);
 				
 					if (locHR != S_OK) {
+                        debugLog<<"Receive: Get pointer returned "<<locResult<<endl;
 						return locHR;
 					}
 
@@ -159,11 +166,15 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 					//Adjust the time stamps for rate and seeking
 					REFERENCE_TIME locAdjustedStart = (locStart * RATE_DENOMINATOR) / mRateNumerator;
 					REFERENCE_TIME locAdjustedEnd = (locEnd * RATE_DENOMINATOR) / mRateNumerator;
+                    debugLog<<"Receive: Raw times = "<<locStart<<" - "<<locEnd<<endl;
 					locAdjustedStart -= m_tStart;
 					locAdjustedEnd -= m_tStart;
 
+                    debugLog<<"Receive: Start adjusted times = "<<locAdjustedStart<<" - "<<locAdjustedEnd<<endl;
+
 					__int64 locSeekStripOffset = 0;
 					if (locAdjustedEnd < 0) {
+                        debugLog<<"Receive: Pre-zero. Not delivering. m_tStart = "<<m_tStart<<endl;
 						locSample->Release();
 					} else {
 						if (locAdjustedStart < 0) {
@@ -173,6 +184,7 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 							locSeekStripOffset += (mFLACDecoder.frameSize() - (locSeekStripOffset % mFLACDecoder.frameSize()));
 							__int64 locStrippedDuration = (((locSeekStripOffset/mFLACDecoder.frameSize()) * UNITS) / mFLACDecoder.sampleRate());
 							locAdjustedStart += locStrippedDuration;
+                            debugLog<<"Receive: strippedDuration = "<<locStrippedDuration<<endl;
 						}
 							
 
@@ -180,25 +192,31 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 
 						memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
 
+                        debugLog<<"Receive: Seek adjusted times = "<<locAdjustedStart<<" - "<<locAdjustedEnd<<endl;
 						locSample->SetTime(&locAdjustedStart, &locAdjustedEnd);
 						locSample->SetMediaTime(&locStart, &locEnd);
 						locSample->SetSyncPoint(TRUE);
 						locSample->SetActualDataLength(locBytesToCopy - locSeekStripOffset);
 						locHR = ((FLACDecodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);
 						if (locHR != S_OK) {
+                            debugLog<<"Receive: Deliver returned "<<locResult<<endl;
 							return locHR;
 						}
 						locStart += locSampleDuration;
 
 					}
 					locBytesCopied += locBytesToCopy;
+                    debugLog<<"Receive: bytes copied = "<<locBytesCopied<<endl;
+                    debugLog<<"Receive: bytes to copy = "<<locBytesToCopy<<endl;
 
 				
 				} while(locBytesCopied < mDecodedByteCount);
 
+                debugLog<<"Receive: out of loop"<<endl;
 				mDecodedByteCount = 0;
 				
 			}
+            debugLog<<"Receive: return ok"<<endl;
 			return S_OK;
 
 		}
@@ -209,21 +227,22 @@ STDMETHODIMP FLACDecodeInputPin::Receive(IMediaSample* inSample)
 }
 
 
-
-
 HRESULT FLACDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
 {
 	//TODO::: There is a thread blocking problem here. sometimes the this code
 	//		inside the checkstream check can be called while the graph is flushing.
 	//
 	//		Probably just needs a lock here on the filter, and/or in the begin/end flush method
-	if (CheckStreaming() == S_OK) {
+	//if (CheckStreaming() == S_OK) {
 		unsigned char* locInBuff = new unsigned char[inNumBytes];
 		memcpy((void*)locInBuff, (const void*)inBuf, inNumBytes);
 		OggPacket* locInputPacket = new OggPacket(locInBuff, inNumBytes, false, false);
 
-	
-		StampedOggPacket* locStamped = (StampedOggPacket*)mFLACDecoder.decodeFLAC(locInputPacket)->clone();
+        StampedOggPacket* locStamped = NULL;
+        {
+            CAutoLock locCodecLock(mCodecLock);
+		    locStamped = (StampedOggPacket*)mFLACDecoder.decodeFLAC(locInputPacket)->clone();
+        }
 
 		FLACDecodeFilter* locFilter = reinterpret_cast<FLACDecodeFilter*>(m_pFilter);
 
@@ -254,22 +273,24 @@ HRESULT FLACDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 		} else {
 			throw 0;
 		}
-	} else {
-		DbgLog((LOG_TRACE,1,TEXT("Not streaming")));
-		return -1;
-	}
+	//} else {
+	//	DbgLog((LOG_TRACE,1,TEXT("Not streaming")));
+	//	return -1;
+	//}
 
 }
 
 
-STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
+STDMETHODIMP FLACDecodeInputPin::BeginFlush() 
+{
 	CAutoLock locLock(m_pLock);
 	
-	//debugLog<<"BeginFlush : Calling flush on the codec."<<endl;
+	debugLog<<"BeginFlush :"<<endl;
 
 	HRESULT locHR = AbstractTransformInputPin::BeginFlush();
 	{	//PROTECT CODEC FROM IMPLODING
 		CAutoLock locCodecLock(mCodecLock);
+        debugLog<<"BeginFlush : Calling flush on the codec."<<endl;
 		mFLACDecoder.flushCodec();
 	}	//END CRITICAL SECTION
 	return locHR;
@@ -279,16 +300,21 @@ STDMETHODIMP FLACDecodeInputPin::BeginFlush() {
 STDMETHODIMP FLACDecodeInputPin::EndFlush()
 {
 	CAutoLock locLock(m_pLock);
-	
+
+	mDecodedByteCount = 0;	
 	HRESULT locHR = AbstractTransformInputPin::EndFlush();
-	mDecodedByteCount = 0;
+    debugLog<<"EndFlush : End of flush"<<endl;
+
 	return locHR;
 }
 
 STDMETHODIMP FLACDecodeInputPin::EndOfStream(void) {
 	CAutoLock locStreamLock(mStreamLock);
+
+    debugLog<<"EndOfStream :"<<endl;
 	{	//PROTECT CODEC FROM IMPLODING
 		CAutoLock locCodecLock(mCodecLock);
+        debugLog<<"EndOfStream : Calling flush on the codec."<<endl;
 		mFLACDecoder.flushCodec();
 	}	//END CRITICAL SECTION
 
