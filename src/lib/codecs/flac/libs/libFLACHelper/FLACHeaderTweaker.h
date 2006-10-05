@@ -31,7 +31,7 @@
 
 #pragma once
 #include <libOOOgg/dllstuff.h>
-#include <libOOOgg/OggPacket.h>
+#include <libOOOgg/StampedOggPacket.h>
 #include <vector>
 #include <fstream>
 using namespace std;
@@ -48,18 +48,18 @@ public:
 		ALL_HEADERS_ALREADY_SEEN = 101
 	};
 
-	 eFLACAcceptHeaderResult acceptHeader(OggPacket* inHeader);
+	 eFLACAcceptHeaderResult acceptHeader(StampedOggPacket* inHeader);
 
 	 unsigned long numNewHeaders();
-	 OggPacket* getHeader(unsigned long inHeaderNo);
+	 StampedOggPacket* getHeader(unsigned long inHeaderNo);
 protected:
 	 bool createNewHeaderList();
 	 void deleteOldHeaders();
 	 void deleteNewHeaders();
 
 
-	vector<OggPacket*> mOldHeaderList;
-	vector<OggPacket*> mNewHeaderList;
+	vector<StampedOggPacket*> mOldHeaderList;
+	vector<StampedOggPacket*> mNewHeaderList;
 
 
 	//fstream debugLog;

@@ -53,6 +53,9 @@ public:
 	/// Does a deep copy of the packet a returns you a new one you can keep.
 	virtual OggPacket* clone();
 
+	/// Does a deep copy of the packet a returns you a new one you can keep.
+	virtual StampedOggPacket* cloneStamped();
+
 	//TODO::: should not be global.
 	unsigned short mStampType;
 

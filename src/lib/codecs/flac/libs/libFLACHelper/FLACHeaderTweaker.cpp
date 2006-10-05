@@ -51,7 +51,7 @@ FLACHeaderTweaker::~FLACHeaderTweaker(void)
 	//debugLog.close();
 }
 
-FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPacket* inHeader) 
+FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(StampedOggPacket* inHeader) 
 {
 	const unsigned char MORE_HEADERS_MASK = 128;
 	if (!mSeenAllHeaders) {
@@ -97,7 +97,7 @@ bool FLACHeaderTweaker::createNewHeaderList()
 
 	mNewHeaderList.empty();
 	mNewHeaderList.clear();
-	mNewHeaderList.push_back(new OggPacket(locFirstPacketBuffur, 51, false, false));
+    mNewHeaderList.push_back(new StampedOggPacket(locFirstPacketBuffur, 51, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY));
 	locFirstPacketBuffur = NULL;
 
 	bool locFoundComment = false;
@@ -110,7 +110,7 @@ bool FLACHeaderTweaker::createNewHeaderList()
 			//It's the comment packet.
 			locFoundComment = true;
 			locCommentNo = (int)i;
-			mNewHeaderList.push_back(mOldHeaderList[i]->clone());
+			mNewHeaderList.push_back(mOldHeaderList[i]->cloneStamped());
 		}
 	}
 
@@ -125,7 +125,7 @@ bool FLACHeaderTweaker::createNewHeaderList()
 		//**** WARNING ::: Leave this unless you check it !
 		if (i != locCommentNo) {
 			//If it's not the comment packet we already added, put it in the list.
-			mNewHeaderList.push_back(mOldHeaderList[i]->clone());
+			mNewHeaderList.push_back(mOldHeaderList[i]->cloneStamped());
 		}
 	}
 
@@ -170,10 +170,10 @@ unsigned long FLACHeaderTweaker::numNewHeaders()
 	return (unsigned long)mNewHeaderList.size();
 }
 
-OggPacket* FLACHeaderTweaker::getHeader(unsigned long inHeaderNo) 
+StampedOggPacket* FLACHeaderTweaker::getHeader(unsigned long inHeaderNo) 
 {
 	if (inHeaderNo < mNewHeaderList.size() ) {
-		return mNewHeaderList[inHeaderNo]->clone();
+		return mNewHeaderList[inHeaderNo]->cloneStamped();
 	} else {
 		return NULL;
 	}

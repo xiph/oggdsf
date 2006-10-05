@@ -146,7 +146,7 @@ void FLACEncodeInputPin::DestroyCodec()
 		unsigned char* locBuf = new unsigned char[inNumBytes];
 		memcpy((void*)locBuf, (const void*) inBuffer, inNumBytes);
 
-		FLACHeaderTweaker::eFLACAcceptHeaderResult locResult = mHeaderTweaker.acceptHeader(new OggPacket(locBuf, inNumBytes, false, false));
+        FLACHeaderTweaker::eFLACAcceptHeaderResult locResult = mHeaderTweaker.acceptHeader(new StampedOggPacket(locBuf, inNumBytes, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY));
 
 		if (locResult == FLACHeaderTweaker::LAST_HEADER_ACCEPTED) {
 			//Send all the headers

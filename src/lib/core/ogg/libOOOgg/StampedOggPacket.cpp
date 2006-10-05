@@ -93,6 +93,19 @@ void StampedOggPacket::merge(const StampedOggPacket* inMorePacket) {
 
 //Returns a packet the caller is responsible for.
 OggPacket* StampedOggPacket::clone() {
+	////Make a new buffer for packet data
+	//unsigned char* locBuff = new unsigned char[mPacketSize];		//Given to constructor of stamped packet... it deletes it.
+
+	////Copy the packet data into the new buffer
+	//memcpy((void*)locBuff, (const void*)mPacketData, mPacketSize);
+
+	////Create the new packet
+	//StampedOggPacket* retPack = new StampedOggPacket(locBuff, mPacketSize, mIsTruncated, mIsContinuation, mStartTime, mEndTime, mStampType);		//Caller takes responsibiility for this.
+	//return retPack;
+    return cloneStamped();
+}
+
+StampedOggPacket* StampedOggPacket::cloneStamped() {
 	//Make a new buffer for packet data
 	unsigned char* locBuff = new unsigned char[mPacketSize];		//Given to constructor of stamped packet... it deletes it.
 
