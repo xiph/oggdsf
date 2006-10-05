@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -32,8 +32,16 @@
 #include "stdafx.h"
 #include "FLACencodeinputpin.h"
 
-FLACEncodeInputPin::FLACEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("FLACEncodeInputPin"), L"PCM In", inAcceptableMediaTypes)
+FLACEncodeInputPin::FLACEncodeInputPin(     AbstractTransformFilter* inParentFilter
+                                        ,   CCritSec* inFilterLock
+                                        ,   AbstractTransformOutputPin* inOutputPin
+                                        ,   vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(      inParentFilter
+                                    ,   inFilterLock
+                                    ,   inOutputPin
+                                    ,   NAME("FLACEncodeInputPin")
+                                    ,   L"PCM In"
+                                    ,   inAcceptableMediaTypes)
 	,	mTweakedHeaders(false)
 	,	mBegun(false)
 	,	mWaveFormat(NULL)
@@ -52,7 +60,8 @@ FLACEncodeInputPin::~FLACEncodeInputPin(void)
 
 
 //PURE VIRTUALS
-HRESULT FLACEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) {
+HRESULT FLACEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
+{
 
 	if (mBegun == false) {
 
@@ -116,7 +125,11 @@ void FLACEncodeInputPin::DestroyCodec()
 
 
 
-::FLAC__StreamEncoderWriteStatus FLACEncodeInputPin::write_callback(const FLAC__byte inBuffer[], unsigned inNumBytes, unsigned inNumSamples, unsigned inCurrentFrame) {
+::FLAC__StreamEncoderWriteStatus FLACEncodeInputPin::write_callback(        const FLAC__byte inBuffer[]
+                                                                        ,   unsigned inNumBytes
+                                                                        ,   unsigned inNumSamples
+                                                                        ,   unsigned inCurrentFrame) 
+{
 
 	//This is called back with encoded data after raw data is fed in by stream_encoder_process or
 	// stream_encoder_process_interleaved.
@@ -128,15 +141,14 @@ void FLACEncodeInputPin::DestroyCodec()
 
 
 	if (!mTweakedHeaders) {
-		//debugLog<<"Still tweaking headers..."<<endl;
 		//Still handling headers...
+
 		unsigned char* locBuf = new unsigned char[inNumBytes];
 		memcpy((void*)locBuf, (const void*) inBuffer, inNumBytes);
-		//debugLog<<"Sending header to tweaker..."<<endl;
+
 		FLACHeaderTweaker::eFLACAcceptHeaderResult locResult = mHeaderTweaker.acceptHeader(new OggPacket(locBuf, inNumBytes, false, false));
-		//debugLog<<"Tweaker returned... "<<(int)locResult<<endl;
+
 		if (locResult == FLACHeaderTweaker::LAST_HEADER_ACCEPTED) {
-			//debugLog<<"Last Header accepted..."<<endl;
 			//Send all the headers
 			mTweakedHeaders = true;
 
@@ -165,6 +177,7 @@ void FLACEncodeInputPin::DestroyCodec()
 				SetSampleParams(locSample, mHeaderTweaker.getHeader(i)->packetSize(), &locFrameStart, &locFrameEnd);
 
 				{
+                    //Is this right? Shouldn't it be the stream lock?
 					CAutoLock locLock(m_pLock);
 
 					
@@ -194,6 +207,8 @@ void FLACEncodeInputPin::DestroyCodec()
 	}
 
 	locFrameStart = mUptoFrame;
+
+    //TODO::: Redunant?
 	if (inNumSamples != 0) {
 		mUptoFrame += inNumSamples;
 	}
@@ -248,7 +263,8 @@ void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadat
 	//Ignore it.
 }
 
-STDMETHODIMP FLACEncodeInputPin::EndOfStream(void) {
+STDMETHODIMP FLACEncodeInputPin::EndOfStream(void) 
+{
 	//Catch the end of stream so we can send a finish signal.
 	finish();			//Tell flac we are done so it can flush
 	return AbstractTransformInputPin::EndOfStream();		//Call the base class.

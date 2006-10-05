@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -49,14 +49,18 @@ class FLACEncodeInputPin
 	,	public Stream
 {
 public:
-	FLACEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
+	FLACEncodeInputPin(     AbstractTransformFilter* inParentFilter
+                        ,   CCritSec* inFilterLock
+                        ,   AbstractTransformOutputPin* inOutputPin
+                        ,   vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~FLACEncodeInputPin(void);
 
-	//static int FLACEncodeInputPin::FLACEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
 	//PURE VIRTUALS from Flac Encoder
-	virtual ::FLAC__StreamEncoderWriteStatus write_callback(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame);
+	virtual ::FLAC__StreamEncoderWriteStatus write_callback(        const FLAC__byte buffer[]
+                                                                ,   unsigned bytes
+                                                                ,   unsigned samples
+                                                                ,   unsigned current_frame);
 	virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
-	
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
@@ -77,7 +81,5 @@ protected:
 	bool mBegun;
 	
 	__int64 mUptoFrame;
-
-	//fstream debugLog;
 
 };

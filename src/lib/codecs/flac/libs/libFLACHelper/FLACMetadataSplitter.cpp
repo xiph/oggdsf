@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2004 Zentaro Kavanagh
+//Copyright (C) 2004-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -35,30 +35,27 @@
 FLACMetadataSplitter::FLACMetadataSplitter(void)
 	:	mMetadataBlock(NULL)
 {
-	//debugLog.open("G:\\logs\\flacsplitter.log", ios_base::out);
 }
 
 FLACMetadataSplitter::~FLACMetadataSplitter(void)
 {
 	delete mMetadataBlock;
 	//Delete stuff !!
-	//debugLog.close();
 }
-StampedOggPacket* FLACMetadataSplitter::convertToStampedPacket(OggPacket* inPacket) {
+StampedOggPacket* FLACMetadataSplitter::convertToStampedPacket(OggPacket* inPacket) 
+{
 	//Convert the old packet to the new one.
 	//This function deletes the incoming packet... and transfers the buffer directly into
 	// the stamped packet without a memcpy
-	//debugLog<<"Convert packet..."<<endl;
 	StampedOggPacket* locStamped = new StampedOggPacket(inPacket->packetData(), inPacket->packetSize(), false, false, 0,0,StampedOggPacket::OGG_END_ONLY);
 	//Ensure when we delete the old packet, it doesn't delete it's buffer
 	inPacket->setPacketData(NULL);
 	delete inPacket;		
-	//debugLog<<"Post delete..."<<endl;
 	return locStamped;
 }
 
-bool FLACMetadataSplitter::loadMetadata(OggPacket* inMetadata) {
-	//debugLog<<"Load Metadata"<<endl;
+bool FLACMetadataSplitter::loadMetadata(OggPacket* inMetadata) 
+{
 	delete mMetadataBlock;
 	mMetadataBlock = inMetadata;
 	return splitMetadata();
@@ -66,7 +63,8 @@ bool FLACMetadataSplitter::loadMetadata(OggPacket* inMetadata) {
 unsigned long FLACMetadataSplitter::numHeaders() {
 	return mHeaderTweaker.numNewHeaders();
 }
-StampedOggPacket* FLACMetadataSplitter::getHeader(unsigned long inIndex) {
+StampedOggPacket* FLACMetadataSplitter::getHeader(unsigned long inIndex) 
+{
 	if (inIndex < mHeaderTweaker.numNewHeaders()) {
 		return (FLACMetadataSplitter::convertToStampedPacket(mHeaderTweaker.getHeader(inIndex)));
 	} else {
@@ -74,36 +72,31 @@ StampedOggPacket* FLACMetadataSplitter::getHeader(unsigned long inIndex) {
 	}
 }
 
-void FLACMetadataSplitter::emptyList() {
+void FLACMetadataSplitter::emptyList() 
+{
 
 
 }
-bool FLACMetadataSplitter::splitMetadata() {
-	//debugLog<<"Splitmetadata"<<endl;
-	//emptyList();
-	//OggPacket* locPacket = NULL;
-	//unsigned char* locBuff = NULL;
+bool FLACMetadataSplitter::splitMetadata() 
+{
 	if (mMetadataBlock == NULL) {
 		return false;
 	} else {
 		if (verifyCodecID()) {
-			//debugLog<<"Start adding packets..."<<endl;
 			addCodecIdent();
 			addStreamInfo();
 			addOtherHeaders();
-			//debugLog<<"Done adding packets..."<<endl;
 
 			//TODO::: Should really verify this !
 			return true;
 		} else {
 			return false;
 		}
-
 	}
-
 }
 
-bool FLACMetadataSplitter::addOtherHeaders() {
+bool FLACMetadataSplitter::addOtherHeaders() 
+{
 	//debugLog<<"Add other headers..."<<endl;
 	unsigned long locUpto = 42;
 	unsigned long locMetaSize = mMetadataBlock->packetSize();
@@ -112,9 +105,7 @@ bool FLACMetadataSplitter::addOtherHeaders() {
 	unsigned long locPacketSize = 0;
 	OggPacket* locPacket = NULL;
 
-	//debugLog<<"Metadata size = "<<locMetaSize<<endl;
 	while ( locUpto < locMetaSize) {
-		//debugLog<<"Add others loop... upto = "<<locUpto<<endl;
 		for (int i = 1; i < 4; i++) {
 			locPacketSize <<=8;
 			locPacketSize += locSourceBuff[locUpto+i];
@@ -127,8 +118,6 @@ bool FLACMetadataSplitter::addOtherHeaders() {
 		memcpy((void*)locNewBuff, (const void*)(locSourceBuff + locUpto), locPacketSize);
 
 		locPacket = new OggPacket(locNewBuff, locPacketSize, false, false);
-		//debugLog<<"Adding other packet..."<<endl;
-		//debugLog<<locPacket->toPackDumpString()<<endl;
 		mHeaderTweaker.acceptHeader(locPacket);
 		locPacket = NULL;
 
@@ -139,20 +128,18 @@ bool FLACMetadataSplitter::addOtherHeaders() {
 
 	return true;
 }
-bool FLACMetadataSplitter::addStreamInfo() {
-	//debugLog<<"addstreaminfo..."<<endl;
+bool FLACMetadataSplitter::addStreamInfo() 
+{
 	OggPacket* locPacket = NULL;
 	unsigned char* locBuff = new unsigned char[38];
 	
 	memcpy((void*)locBuff, (const void*)(mMetadataBlock->packetData()+4), 38);
 	locPacket = new OggPacket(locBuff, 38, false, false);		//No need to delete
-	//debugLog<<"Adding stream info packet..."<<endl;
-	//debugLog<<locPacket->toPackDumpString()<<endl;
 	mHeaderTweaker.acceptHeader(locPacket);
 	return true;
 }
-bool FLACMetadataSplitter::addCodecIdent() {
-	//debugLog<<"Add codec ident"<<endl;
+bool FLACMetadataSplitter::addCodecIdent() 
+{
 	OggPacket* locPacket = NULL;
 	unsigned char* locBuff = new unsigned char[4];
 	locBuff[0] = 'f';
@@ -164,7 +151,8 @@ bool FLACMetadataSplitter::addCodecIdent() {
 	return true;
 }
 
-bool FLACMetadataSplitter::verifyCodecID() {
+bool FLACMetadataSplitter::verifyCodecID() 
+{
 	if ((strncmp((char*)mMetadataBlock->packetData(), "fLaC\000\000\000\042", 8)) == 0) {
 		//debugLog<<"Codec verified"<<endl;
 		return true;

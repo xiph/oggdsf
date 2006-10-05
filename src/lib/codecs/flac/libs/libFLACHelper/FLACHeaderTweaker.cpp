@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2004 Zentaro Kavanagh
+//Copyright (C) 2004-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -51,43 +51,30 @@ FLACHeaderTweaker::~FLACHeaderTweaker(void)
 	//debugLog.close();
 }
 
-FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPacket* inHeader) {
-	//debugLog<<endl<<"Accepting header.."<<endl;
-	//debugLog<<inHeader->toPackDumpString()<<endl;
+FLACHeaderTweaker::eFLACAcceptHeaderResult FLACHeaderTweaker::acceptHeader(OggPacket* inHeader) 
+{
 	const unsigned char MORE_HEADERS_MASK = 128;
 	if (!mSeenAllHeaders) {
-		//debugLog<<"Still tweaking... adding to old list..."<<endl;
-		
-
 		mOldHeaderList.push_back(inHeader);
 		if ((inHeader->packetData()[0] & MORE_HEADERS_MASK)  != 0) {
-			//debugLog<<"This is the last header..."<<endl;
 			//Last header
 			mSeenAllHeaders = true;
 			if (createNewHeaderList()) {
-				//debugLog<<"Create new headers OK"<<endl;
 				return LAST_HEADER_ACCEPTED;
 			} else {
-				//debugLog<<"Create new headers FAILED"<<endl;
 				return HEADER_ERROR;
 			}
 		} else {
-			//debugLog<<"Still need more ehaders..."<<endl;
 			//Still more headers to come...
 			return HEADER_ACCEPTED;
 		}
 	} else {
-		//debugLog<<"All headers already seen"<<endl;
 		return ALL_HEADERS_ALREADY_SEEN;
 	}
-
 }
 
 bool FLACHeaderTweaker::createNewHeaderList() 
 {
-	//debugLog<<"Create new header list method"<<endl;
-	//debugLog<<"Filling first pack"<<endl;
-	
 	
 	unsigned char* locFirstPacketBuffur = new unsigned char[51];
 	locFirstPacketBuffur[0] = '\177';
@@ -106,12 +93,10 @@ bool FLACHeaderTweaker::createNewHeaderList()
 	locFirstPacketBuffur[11] = 'a';
 	locFirstPacketBuffur[12] = 'C';
 
-	//debugLog<<"Copying in packet data"<<endl;
 	memcpy((void*)(locFirstPacketBuffur + 13), (const void*) mOldHeaderList[1]->packetData(), 38);
 
 	mNewHeaderList.empty();
 	mNewHeaderList.clear();
-	//debugLog<<"Putting first header into new list"<<endl;
 	mNewHeaderList.push_back(new OggPacket(locFirstPacketBuffur, 51, false, false));
 	locFirstPacketBuffur = NULL;
 
@@ -121,10 +106,8 @@ bool FLACHeaderTweaker::createNewHeaderList()
 	//Start at 2, 0 is just fLaC, 1 is the stream info
 	for (size_t i = 2; i < mOldHeaderList.size(); i++) {
 		//Loop through to find the comment packet...
-		//debugLog<<"Scanning old header "<<i<<endl;
 		if ( ((mOldHeaderList[i]->packetData()[0]) & 127) == 4) {
 			//It's the comment packet.
-			//debugLog<<"Found a comment packet..."<<endl;
 			locFoundComment = true;
 			locCommentNo = (int)i;
 			mNewHeaderList.push_back(mOldHeaderList[i]->clone());
@@ -141,7 +124,6 @@ bool FLACHeaderTweaker::createNewHeaderList()
 	
 		//**** WARNING ::: Leave this unless you check it !
 		if (i != locCommentNo) {
-			//debugLog<<"Adding another ehader..."<<endl;
 			//If it's not the comment packet we already added, put it in the list.
 			mNewHeaderList.push_back(mOldHeaderList[i]->clone());
 		}
@@ -151,49 +133,45 @@ bool FLACHeaderTweaker::createNewHeaderList()
 		//Loop through the new headers and make sure the flags are set right.
 		if (i != mNewHeaderList.size() -1) {
 			//Clear the first bit
-			//debugLog<<"Clearing header bit "<<i<<endl;
 			mNewHeaderList[i]->packetData()[0] = mNewHeaderList[i]->packetData()[0] & 127;
 		} else {
 			//debugLog<<"Setting header bit "<<i<<endl;
-			//Set the first bit on the last header
 			mNewHeaderList[i]->packetData()[0] = mNewHeaderList[i]->packetData()[0] | 128;
 		}
 	}
 
-	//debugLog<<"Deleting old headers..."<<endl;
 	deleteOldHeaders();
 
 	return true;
 
-
 }
 
-void FLACHeaderTweaker::deleteOldHeaders() {
+void FLACHeaderTweaker::deleteOldHeaders() 
+{
 	size_t locSize = mOldHeaderList.size();
-	//debugLog<<"Num old headers... = "<<locSize<<endl;
 	for (size_t i = 0; i < locSize; i++) {
 		delete mOldHeaderList[i];		
 	}
-	//debugLog<<"Post old delete loop..."<<endl;
 	mOldHeaderList.clear();
-	
 }
 
-void FLACHeaderTweaker::deleteNewHeaders() {
+void FLACHeaderTweaker::deleteNewHeaders() 
+{
 	size_t locSize = mNewHeaderList.size();
-	//debugLog<<"Num new headers... = "<<locSize<<endl;
 	for (size_t i = 0; i < locSize; i++) {
 		delete mNewHeaderList[i];		
 	}
-	//debugLog<<"Post new delete loop"<<endl;
 
 	mNewHeaderList.clear();
 }
 
-unsigned long FLACHeaderTweaker::numNewHeaders() {
+unsigned long FLACHeaderTweaker::numNewHeaders() 
+{
 	return (unsigned long)mNewHeaderList.size();
 }
-OggPacket* FLACHeaderTweaker::getHeader(unsigned long inHeaderNo) {
+
+OggPacket* FLACHeaderTweaker::getHeader(unsigned long inHeaderNo) 
+{
 	if (inHeaderNo < mNewHeaderList.size() ) {
 		return mNewHeaderList[inHeaderNo]->clone();
 	} else {

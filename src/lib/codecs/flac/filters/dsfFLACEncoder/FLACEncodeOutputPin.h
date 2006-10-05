@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -43,13 +43,10 @@ class FLACEncodeOutputPin
 public:
 
 	friend class FLACEncodeInputPin;
-	FLACEncodeOutputPin(FLACEncodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
+	FLACEncodeOutputPin(        FLACEncodeFilter* inParentFilter
+                            ,   CCritSec* inFilterLock
+                            ,   vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~FLACEncodeOutputPin(void);
-
-	////PURE VIRTUAL IMPLEMENTATION
-	//virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
-	//virtual unsigned long FormatBufferSize();
-
 
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
