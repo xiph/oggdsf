@@ -42,8 +42,8 @@ public:
     FLACEncoder(void);
     ~FLACEncoder(void);
 
-    bool setupCodec(FLACEncoderSettings inSettings);
-    const vector<StampedOggPacket*>& encode16bit(const short* const inBuffer, unsigned long inNumSamples);
+    const vector<StampedOggPacket*>& setupCodec(FLACEncoderSettings inSettings);
+    const vector<StampedOggPacket*>& encode16Bit(const short* const inBuffer, unsigned long inNumSamples);
     const vector<StampedOggPacket*>& flush();
 
 protected:

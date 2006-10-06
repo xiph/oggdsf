@@ -70,8 +70,6 @@ DEFINE_GUID(FORMAT_FLAC,
 0x1cdc48ac, 0x4c24, 0x4b8b, 0x98, 0x2b, 0x70, 0x7, 0xa2, 0x9d, 0x83, 0xc4);
 
 
-
-
 const REGPINTYPES FLACEncodeInputTypes = {
     &MEDIATYPE_Audio,
 	&MEDIASUBTYPE_PCM
@@ -108,8 +106,6 @@ const REGFILTERPINS FLACEncodePinReg[] = {
 
 	}
 };
-
-
 
 const REGFILTER2 FLACEncodeFilterReg = {
 		1,

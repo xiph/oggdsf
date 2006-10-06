@@ -43,10 +43,12 @@ FLACEncodeOutputPin::FLACEncodeOutputPin(       FLACEncodeFilter* inParentFilter
                                     ,   5
                                     ,   inAcceptableMediaTypes)
 {
+
 }
 
 FLACEncodeOutputPin::~FLACEncodeOutputPin(void)
 {
+
 }
 
 HRESULT FLACEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)

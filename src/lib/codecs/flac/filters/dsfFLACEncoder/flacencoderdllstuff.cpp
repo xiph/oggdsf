@@ -48,11 +48,7 @@ STDAPI DllRegisterServer()
 
     hr = AMovieDllRegisterServer2(TRUE);
 
-
-	
-
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
-
 
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_FLACEncodeFilter,						// Filter CLSID. 
@@ -86,12 +82,8 @@ STDAPI DllUnregisterServer()
 	if (FAILED(hr)) {
         return hr;
 	}
-	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_FLACEncodeFilter);
-
-
-	//
     locFilterMapper->Release();
     return hr;
 

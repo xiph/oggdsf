@@ -42,231 +42,100 @@ FLACEncodeInputPin::FLACEncodeInputPin(     AbstractTransformFilter* inParentFil
                                     ,   NAME("FLACEncodeInputPin")
                                     ,   L"PCM In"
                                     ,   inAcceptableMediaTypes)
-	,	mTweakedHeaders(false)
 	,	mBegun(false)
 	,	mWaveFormat(NULL)
-	,	mUptoFrame(0)
 	
 	
 {
-	//debugLog.open("G:\\logs\\FLACenc.log", ios_base::out);
+
 }
 
 FLACEncodeInputPin::~FLACEncodeInputPin(void)
 {
-	//debugLog.close();
 	DestroyCodec();
 }
-
 
 //PURE VIRTUALS
 HRESULT FLACEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 {
 
-	if (mBegun == false) {
+    HRESULT locHR = S_OK;
+    if (mBegun == false) {
+        FLACEncoderSettings locSettings;
+        locSettings.setAudioParameters(         ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numChannels
+                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.sampleRate 
+                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numBitsPerSample);
+        locSettings.setEncodingLevel(5);
+        const vector<StampedOggPacket*>& locHeaderPackets = mFLACEncoder.setupCodec(locSettings);
+        if (locHeaderPackets.size() == 0) {
+            return E_FAIL;
+        }
+        locHR = deliverPackets(locHeaderPackets);
+        if (locHR != S_OK) {
+            return locHR;
+        }
+        mBegun = true;
+    }
 
-		//First bit of data, set up the encoder.
-		mBegun = true;
-		init();
-	}
-	FLAC__int32* locFLACBuff = NULL;
-	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;	//View only don't delete.
-	unsigned long locFLACBuffSize = (inNumBytes * 8) / locParentFilter->mFLACFormatBlock.numBitsPerSample;
-	unsigned long locNumSamplesPerChannel = locFLACBuffSize / locParentFilter->mFLACFormatBlock.numChannels;
-
-	locFLACBuff = new FLAC__int32[locFLACBuffSize];
-
-	//QUERY::: Are the flac buffers supposed to stretch the data to 32 bits ?
-	//Assuming No for now, otherwise whats the point of set_sample_size.
-
-	//POTENTIAL BUG::: This assumes 16 bit samples !!
-
-	short locTempShort = 0;
-	for (int i = 0; i < inNumBytes; i += 2) {
-		locTempShort = *((short*)(inBuf + i));
-		locFLACBuff[i/2] = locTempShort;
-	}
-
-	bool locRetVal = process_interleaved(locFLACBuff, locNumSamplesPerChannel);
-	delete[] locFLACBuff;
-
-	if (locRetVal == true) {
-		return 0;
-	} else {
-		return -1;
-	}
-
+    //TODO::: Handle other bit depths
+    const short* const loc16BitBuffer = (const short* const)inBuf;
+    const vector<StampedOggPacket*>& locDataPackets = mFLACEncoder.encode16Bit(loc16BitBuffer, inNumBytes/2);
+    return deliverPackets(locDataPackets);
 }
 bool FLACEncodeInputPin::ConstructCodec() 
 {
 
-	set_channels(mWaveFormat->nChannels);
-	set_sample_rate(mWaveFormat->nSamplesPerSec);
-	set_bits_per_sample(mWaveFormat->wBitsPerSample);
+    //TODO::: This is redundant?
 
 	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;	//View only don't delete.
 	locParentFilter->mFLACFormatBlock.numBitsPerSample = mWaveFormat->wBitsPerSample;
 	locParentFilter->mFLACFormatBlock.numChannels = mWaveFormat->nChannels;
 	locParentFilter->mFLACFormatBlock.sampleRate = mWaveFormat->nSamplesPerSec;
-	
-	//This can't be here, it causes callbacks to fire, and the data can't be delivered
-	// because the filter is not fully set up yet.
-	//init();
 
-	////FIX::: Proper return value
+    mWaveFormat = NULL;
+
 	return true;
 }
 void FLACEncodeInputPin::DestroyCodec()
 {
 
-	//Should there be some cleanup function ??
 }
 
-
-
-
-::FLAC__StreamEncoderWriteStatus FLACEncodeInputPin::write_callback(        const FLAC__byte inBuffer[]
-                                                                        ,   unsigned inNumBytes
-                                                                        ,   unsigned inNumSamples
-                                                                        ,   unsigned inCurrentFrame) 
+HRESULT FLACEncodeInputPin::deliverPackets(const vector<StampedOggPacket*>& inPackets)
 {
+    HRESULT locHR = S_OK;
+    for (size_t i = 0; i < inPackets.size(); i++) {
+        IMediaSample* locSample = NULL;
+        BYTE* locBuffer = NULL;
+        LONGLONG locStartTime = inPackets[i]->startTime();
+        LONGLONG locEndTime = inPackets[i]->endTime();
 
-	//This is called back with encoded data after raw data is fed in by stream_encoder_process or
-	// stream_encoder_process_interleaved.
+        locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
+        if (locHR != S_OK) {
+            return locHR;
+        }
+        
+        locHR = locSample->GetPointer(&locBuffer);
+        if (locHR != S_OK) {
+            return locHR;
+        }
+  
+        memcpy((void*)locBuffer, (const void*)inPackets[i]->packetData(), inPackets[i]->packetSize());
+        SetSampleParams(locSample, inPackets[i]->packetSize(), &locStartTime, &locEndTime);
 
-
-	//debugLog<<"Write CAllback.."<<endl;
-	LONGLONG locFrameStart = 0;
-	LONGLONG locFrameEnd = 0;
-
-
-	if (!mTweakedHeaders) {
-		//Still handling headers...
-
-		unsigned char* locBuf = new unsigned char[inNumBytes];
-		memcpy((void*)locBuf, (const void*) inBuffer, inNumBytes);
-
-        FLACHeaderTweaker::eFLACAcceptHeaderResult locResult = mHeaderTweaker.acceptHeader(new StampedOggPacket(locBuf, inNumBytes, false, false, 0, 0, StampedOggPacket::OGG_END_ONLY));
-
-		if (locResult == FLACHeaderTweaker::LAST_HEADER_ACCEPTED) {
-			//Send all the headers
-			mTweakedHeaders = true;
-
-			for (unsigned long i = 0; i < mHeaderTweaker.numNewHeaders(); i++) {
-				//Loop through firing out all the headers.
-				//debugLog<<"Sending new header "<<i<<endl;
-
-				//Get a pointer to a new sample stamped with our time
-				IMediaSample* locSample;
-				HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
-
-				if (FAILED(locHR)) {
-					//We get here when the application goes into stop mode usually.
-					//locThis->debugLog<<"Getting buffer failed"<<endl;
-					return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
-				}	
-				
-				BYTE* locBuffer = NULL;
-
-				//Make our pointers set to point to the samples buffer
-				locSample->GetPointer(&locBuffer);
-
-				memcpy((void*)locBuffer, (const void*)mHeaderTweaker.getHeader(i)->packetData(), mHeaderTweaker.getHeader(i)->packetSize());
-				
-				//Set the sample parameters. (stamps will be 0)
-				SetSampleParams(locSample, mHeaderTweaker.getHeader(i)->packetSize(), &locFrameStart, &locFrameEnd);
-
-				{
-                    //Is this right? Shouldn't it be the stream lock?
-					CAutoLock locLock(m_pLock);
-
-					
-					HRESULT locHR = ((FLACEncodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
-					if (locHR != S_OK) {
-						//debugLog<<"Sample rejected"<<endl;
-					} else {
-						//debugLog<<"Sample Delivered"<<endl;
-					}
-				}
-
-				
-
-
-			}
-
-			return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
-		} else if (locResult == FLACHeaderTweaker::HEADER_ACCEPTED) {
-			//Another header added.
-			//debugLog<<"Header accepted"<<endl;
-			return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
-		} else {
-			//debugLog<<"Header failed..."<<endl;
-			return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
-		}
-
-	}
-
-	locFrameStart = mUptoFrame;
-
-    //TODO::: Redunant?
-	if (inNumSamples != 0) {
-		mUptoFrame += inNumSamples;
-	}
-	locFrameEnd = mUptoFrame;
-
-
-	//Get a pointer to a new sample stamped with our time
-	IMediaSample* locSample;
-	HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
-	if (FAILED(locHR)) {
-		//We get here when the application goes into stop mode usually.
-		//locThis->debugLog<<"Getting buffer failed"<<endl;
-		return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
-	}	
-	
-	BYTE* locBuffer = NULL;
-
-	//Make our pointers set to point to the samples buffer
-	locSample->GetPointer(&locBuffer);
-
-	//**** WARNING 4018::: Leave this alone.
-	if (locSample->GetSize() >= inNumBytes) {
-
-		memcpy((void*)locBuffer, (const void*)inBuffer, inNumBytes);
-		
-		//Set the sample parameters.
-		SetSampleParams(locSample, inNumBytes, &locFrameStart, &locFrameEnd);
-
-		{
-			CAutoLock locLock(m_pLock);
-
-			
-			HRESULT locHR = ((FLACEncodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
-			if (locHR != S_OK) {
-				//locThis->debugLog<<"Sample rejected"<<endl;
-			} else {
-				//locThis->debugLog<<"Sample Delivered"<<endl;
-			}
-		}
-
-		return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
-	} else {
-		throw 0;
-	}
-
-
-}
-void FLACEncodeInputPin::metadata_callback(const ::FLAC__StreamMetadata *metadata) 
-{
-
-	//Ignore it.
+        locHR = ((FLACEncodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
+        if (locHR != S_OK) {
+            return locHR;
+        }
+    }
+    return S_OK;
 }
 
 STDMETHODIMP FLACEncodeInputPin::EndOfStream(void) 
 {
 	//Catch the end of stream so we can send a finish signal.
-	finish();			//Tell flac we are done so it can flush
+    CAutoLock locLock(mStreamLock);
+    deliverPackets(mFLACEncoder.flush());
 	return AbstractTransformInputPin::EndOfStream();		//Call the base class.
 }
 
@@ -284,9 +153,7 @@ HRESULT FLACEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 	}
 	//This is here and not the constructor because we need audio params from the
 	// input pin to construct properly.	
-	
 	ConstructCodec();
 
 	return CBaseInputPin::SetMediaType(inMediaType);
-
 }

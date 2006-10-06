@@ -30,10 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
-
-
 #include "FLACEncodeFilter.h"
-
 
 //COM Factory Template
 CFactoryTemplate g_Templates[] = 

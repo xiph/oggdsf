@@ -32,7 +32,7 @@
 #include "FLACEncoder.h"
 
 FLACEncoder::FLACEncoder(void)
-    :   mHandledHeaders(true)
+    :   mHandledHeaders(false)
     ,   mUptoTime(0)
 {
    // mFLACSampleBuffer = new FLAC__int32[
@@ -42,7 +42,7 @@ FLACEncoder::~FLACEncoder(void)
 {
 }
 
-bool FLACEncoder::setupCodec(FLACEncoderSettings inSettings)
+const vector<StampedOggPacket*>& FLACEncoder::setupCodec(FLACEncoderSettings inSettings)
 {
     mUptoTime = 0;
     mSettings = inSettings;
@@ -57,9 +57,15 @@ bool FLACEncoder::setupCodec(FLACEncoderSettings inSettings)
     set_do_mid_side_stereo(inSettings.isUsingMidSideCoding());
     set_do_exhaustive_model_search(inSettings.isUsingExhaustiveModel());
     
-    return (init() == FLAC__STREAM_ENCODER_OK);
+    if (init() != FLAC__STREAM_ENCODER_OK) {
+        //If it didn't setup proeprly trash any packets we have.
+        // Returning an empty vector is the error signal
+        clearStoredPackets();
+    }
+
+    return mPackets;
 }
-const vector<StampedOggPacket*>& FLACEncoder::encode16bit(const short* const inBuffer, unsigned long inNumSamples)
+const vector<StampedOggPacket*>& FLACEncoder::encode16Bit(const short* const inBuffer, unsigned long inNumSamples)
 {
 	FLAC__int32* locFLACBuff = NULL;
 

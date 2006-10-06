@@ -31,22 +31,17 @@
 
 #pragma once
 
-#include "FLAC++/encoder.h"
 #include "AbstractTransformInputPin.h"
 #include "FLACEncodeInputPin.h"
 
 #include "FLACEncodeFilter.h"
-#include "FLACHeaderTweaker.h"
-
-
-//#include <fstream>
-//using namespace std;
+#include "FLACEncoder.h"
 
 using namespace FLAC::Encoder;
 
 class FLACEncodeInputPin
 	:	public AbstractTransformInputPin
-	,	public Stream
+	//,	public Stream
 {
 public:
 	FLACEncodeInputPin(     AbstractTransformFilter* inParentFilter
@@ -54,13 +49,6 @@ public:
                         ,   AbstractTransformOutputPin* inOutputPin
                         ,   vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~FLACEncodeInputPin(void);
-
-	//PURE VIRTUALS from Flac Encoder
-	virtual ::FLAC__StreamEncoderWriteStatus write_callback(        const FLAC__byte buffer[]
-                                                                ,   unsigned bytes
-                                                                ,   unsigned samples
-                                                                ,   unsigned current_frame);
-	virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 
@@ -73,13 +61,10 @@ protected:
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 
-	HRESULT mHR;
-	WAVEFORMATEX* mWaveFormat;
-	bool mTweakedHeaders;
-	FLACHeaderTweaker mHeaderTweaker;
+private:
+    HRESULT deliverPackets(const vector<StampedOggPacket*>& inPackets);
 	
+    WAVEFORMATEX* mWaveFormat;
+    FLACEncoder mFLACEncoder;
 	bool mBegun;
-	
-	__int64 mUptoFrame;
-
 };
