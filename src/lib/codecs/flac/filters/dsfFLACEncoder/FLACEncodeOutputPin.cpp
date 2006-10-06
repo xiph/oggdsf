@@ -32,8 +32,16 @@
 #include "stdafx.h"
 #include "FLACencodeoutputpin.h"
 
-FLACEncodeOutputPin::FLACEncodeOutputPin(FLACEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("FLACDecodeOutputPin"), L"FLAC Out", 131072, 5, inAcceptableMediaTypes)
+FLACEncodeOutputPin::FLACEncodeOutputPin(       FLACEncodeFilter* inParentFilter
+                                            ,   CCritSec* inFilterLock
+                                            ,   vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformOutputPin(     inParentFilter
+                                    ,   inFilterLock
+                                    ,   NAME("FLACDecodeOutputPin")
+                                    ,   L"FLAC Out"
+                                    ,   131072
+                                    ,   5
+                                    ,   inAcceptableMediaTypes)
 {
 }
 
@@ -54,13 +62,3 @@ HRESULT FLACEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType,
 	}
 }
 
-//bool FLACEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
-//	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;
-//
-//	//TODO::: This is not needed... put in a get and set
-//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mFLACFormatBlock), sizeof(sFLACFormatBlock));
-//	return true;
-//}
-//unsigned long FLACEncodeOutputPin::FormatBufferSize() {
-//	return sizeof(sFLACFormatBlock);
-//}
