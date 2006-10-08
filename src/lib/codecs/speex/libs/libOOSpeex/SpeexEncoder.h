@@ -5,7 +5,6 @@
 
 #include "SpeexEncodeSettings.h"
 
-
 extern "C" {
 //#include "speex/speex.h"
 #include "speex_cdecl.h"
@@ -21,9 +20,6 @@ extern "C" {
 
 //#include "speex/speex_preprocess.h"
 #include "speex_preprocess_cdecl.h"
-
-
-
 }
 
 #include <vector>
@@ -43,13 +39,11 @@ public:
     vector<StampedOggPacket*> encode(const short* const inSampleBuffer, unsigned long inNumSamplesPerChannel);
     vector<StampedOggPacket*> flush();      //Needed?
 
-
     string getVendorString();
 
 private:
     static const unsigned long MAX_FRAME_BYTES = 2000;
     SpeexEncodeSettings mSettings;
-    
 
     long mSpeexFrameSize;
     long mSpeexLookAhead;
@@ -62,7 +56,5 @@ private:
     void* mSpeexState;
     SpeexPreprocessState* mSpeexPreprocessState;
     SpeexBits mSpeexBits;
-    
-
 
 };

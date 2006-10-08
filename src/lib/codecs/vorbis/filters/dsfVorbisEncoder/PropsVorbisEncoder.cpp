@@ -61,10 +61,6 @@ HRESULT PropsVorbisEncoder::OnActivate(void)
 
     delete[] locStrBuff;
 
-
-
-
-
     return S_OK;
 }
 

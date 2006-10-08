@@ -61,7 +61,6 @@ VorbisEncodeInputPin::~VorbisEncodeInputPin(void)
 //PURE VIRTUALS
 HRESULT VorbisEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 {
-
     HRESULT locHR = S_OK;
     vector<StampedOggPacket*> locPackets;
     if (!mBegun) {
@@ -98,7 +97,6 @@ void VorbisEncodeInputPin::DestroyCodec()
 
 }
 
-
 HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType) 
 {
 	if (	(inMediaType->subtype == MEDIASUBTYPE_PCM) &&
@@ -115,7 +113,6 @@ HRESULT VorbisEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 	ConstructCodec();
 
 	return CBaseInputPin::SetMediaType(inMediaType);
-
 }
 
 HRESULT VorbisEncodeInputPin::EndOfStream()
@@ -173,12 +170,7 @@ HRESULT VorbisEncodeInputPin::sendPackets(const vector<StampedOggPacket*>& inPac
         //TODO::: Should we be checking this return?
         locSample->GetPointer(&locBuffer);
 
-
-
-
 	    if (locSample->GetSize() >= inPackets[pack]->packetSize()) {
-
-
 		    memcpy((void*)locBuffer, (const void*)inPackets[pack]->packetData(), inPackets[pack]->packetSize());
     		
 		    //Set the sample parameters.

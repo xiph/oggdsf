@@ -112,10 +112,8 @@ vector<StampedOggPacket*> SpeexEncoder::setupCodec(SpeexEncodeSettings inSetting
         mSpeexPreprocessState = NULL;
     }
 
-
     mSpeexWorkingFrameBuffer = new unsigned char[mSpeexFrameSize * inSettings.numChannels() * (mSampleWidth >> 3)];
     mSpeexWorkingFrameBufferUpto = 0;
-
 
     mSettings = inSettings;
 
@@ -148,7 +146,6 @@ vector<StampedOggPacket*> SpeexEncoder::setupCodec(SpeexEncodeSettings inSetting
     *((int*)(locCommentBuffer + 4 + locVendorString.size())) = 0;
     StampedOggPacket* locCommentPacket = new StampedOggPacket(locCommentBuffer, locCommentHeaderSize, false, false, 0, 0, StampedOggPacket::OGG_BOTH);
     retPacketList.push_back(locCommentPacket);
-
 
     speex_bits_init(&mSpeexBits);
     return retPacketList;
