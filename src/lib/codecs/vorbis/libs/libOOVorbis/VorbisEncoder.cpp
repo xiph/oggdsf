@@ -49,12 +49,8 @@ vector<StampedOggPacket*> VorbisEncoder::setupCodec(VorbisEncodeSettings inSetti
     vorbis_info_init(&mVorbisInfo);
     vorbis_comment_init(&mVorbisComment);
     //TODO::: Add version/encoder info here?
-
     //TODO::: Allow max and min in unmanaged mode
     //TODO::: Allow advanced bitrate management
-
-
-
 
     if (mSettings.mIsQualitySet) {
         ret = vorbis_encode_setup_vbr(&mVorbisInfo, mSettings.mNumChannels, mSettings.mSampleRate, (float)inSettings.mQuality / 100.0f);
@@ -68,8 +64,6 @@ vector<StampedOggPacket*> VorbisEncoder::setupCodec(VorbisEncodeSettings inSetti
             vorbis_info_clear(&mVorbisInfo);
             return retPackets;
         }
-
-
     }
 
     if (!mSettings.mIsManaged) {
@@ -93,10 +87,6 @@ vector<StampedOggPacket*> VorbisEncoder::setupCodec(VorbisEncodeSettings inSetti
     retPackets.push_back(oldToNewPacket(&locCodebookHeader));
 
     return retPackets;
-
-
-
-
 }
 
 StampedOggPacket* VorbisEncoder::oldToNewPacket(ogg_packet* inOldPacket)
@@ -115,18 +105,12 @@ StampedOggPacket* VorbisEncoder::oldToNewPacket(ogg_packet* inOldPacket)
 
 vector<StampedOggPacket*> VorbisEncoder::encodeVorbis(const short* const inSampleBuffer, unsigned long inNumSamplesPerChannel)
 {
-
-    //Check if active?
-    //Is it worth breaking up incoming buffers? Probably not.
     //TODO::: Handle 5 channel input
-
-    
 
     if (inNumSamplesPerChannel == 0) {
         return vector<StampedOggPacket*>();
     }
 
-    //Check if this is correct with the last parameter, i think its samples per channel?
     float** locBuffer = vorbis_analysis_buffer(&mVorbisDSPState, inNumSamplesPerChannel);
 
     float* locOneOutputChannelBuffer = NULL;
@@ -134,6 +118,7 @@ vector<StampedOggPacket*> VorbisEncoder::encodeVorbis(const short* const inSampl
     for (unsigned long chan = 0; chan < mSettings.mNumChannels; chan++) {
         locOneOutputChannelBuffer = locBuffer[chan];
         locReadChannelBuffer = inSampleBuffer + chan;
+
         for (unsigned long sam = 0; sam < inNumSamplesPerChannel; sam++) {
             locOneOutputChannelBuffer[sam] = ((float)(*locReadChannelBuffer)) / 32768.0f;
             locReadChannelBuffer += mSettings.mNumChannels;
@@ -148,9 +133,7 @@ vector<StampedOggPacket*> VorbisEncoder::encodeVorbis(const short* const inSampl
 vector<StampedOggPacket*> VorbisEncoder::flush()
 {
     vorbis_analysis_wrote(&mVorbisDSPState, 0);
-
     return extractOutputPackets();
-
 }
 
 vector<StampedOggPacket*> VorbisEncoder::extractOutputPackets()
@@ -159,7 +142,6 @@ vector<StampedOggPacket*> VorbisEncoder::extractOutputPackets()
     ogg_packet locWorkingPacket;
 
     while (vorbis_analysis_blockout(&mVorbisDSPState, &mVorbisBlock) == 1) {
-
         vorbis_analysis(&mVorbisBlock, NULL);
         vorbis_bitrate_addblock(&mVorbisBlock);
 

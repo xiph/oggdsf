@@ -7,6 +7,7 @@ PropsVorbisEncoder::PropsVorbisEncoder(     LPUNKNOWN inUnk
                             ,   inUnk
                             ,   IDD_VORBIS_ENCODE_SETTINGS
                             ,   IDS_VORBIS_ENC_PROPS_STRING)
+    ,   mVorbisEncodeSettings(NULL)
 {
 }
 
