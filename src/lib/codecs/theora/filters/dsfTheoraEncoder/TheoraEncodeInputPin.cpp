@@ -1386,8 +1386,9 @@ void TheoraEncodeInputPin::DestroyCodec() {
 
 
 
-HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
-	//AbstractVideoEncodeInputPin::SetMediaType(inMediaType);
+HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType) 
+{
+
 
 	if  (	inMediaType->subtype == MEDIASUBTYPE_YV12 || 
 			inMediaType->subtype == MEDIASUBTYPE_IYUV ||
@@ -1400,7 +1401,6 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType) {
 	) {
 		mVideoFormat = (VIDEOINFOHEADER*)inMediaType->pbFormat;
 		mPinInputType = *inMediaType;
-		//mParentFilter->mAudioFormat = AbstractAudioDecodeFilter::VORBIS;
 	} else {
 		//Failed... should never be here !
 		throw 0;

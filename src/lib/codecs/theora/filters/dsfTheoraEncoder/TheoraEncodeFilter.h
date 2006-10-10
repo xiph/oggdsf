@@ -104,7 +104,7 @@ public:
 
 protected:
 
-	//AbstractVideoEncodeFilter pure virtuals
+
 	virtual bool ConstructPins();
 
 	//Member data
