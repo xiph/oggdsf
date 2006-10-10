@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -217,7 +217,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -392,7 +392,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -557,7 +557,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -722,7 +722,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
+				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -1437,10 +1437,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
-			<File
-				RelativePath=".\fish_cdecl.h"
-				>
-			</File>
 			<File
 				RelativePath=".\IVorbisEncodeSettings.h"
 				>
