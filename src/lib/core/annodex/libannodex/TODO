@@ -1,7 +1,0 @@
-cvs add win32/importers.def
-cvs add win32/libannodex.def
-
-check on windows:
-- annodex.c: fileno() function?
-- anx_bos.h: sizeof() on AnxBOS
-- anx_write.c: #ifndef JAHSLK -> sizeof() on AnxBOS

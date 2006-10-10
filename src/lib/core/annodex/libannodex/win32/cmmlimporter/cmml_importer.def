@@ -1,5 +1,0 @@
-LIBRARY	cmml_importer
-EXPORTS
-
-anx_importer_init		@10
-
