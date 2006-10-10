@@ -192,7 +192,7 @@ Section "Oggcodecs Core Files" SEC_CORE
   ;File "${OGGCODECS_ROOT_DIR}\bin\xifish-48.ico"
 
 
-  ; Libraries - 11
+  ; Libraries - 10
   File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libOOOgg\${OGGCODECS_CONFIG_PATH}\libOOOgg.dll"
   File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libOOOggSeek\${OGGCODECS_CONFIG_PATH}\libOOOggSeek.dll"
   File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\libCMMLTags\${OGGCODECS_CONFIG_PATH}\libCMMLTags.dll"
@@ -202,7 +202,6 @@ Section "Oggcodecs Core Files" SEC_CORE
   File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\theora\libs\libOOTheora\${OGGCODECS_CONFIG_PATH}\libOOTheora.dll"
   File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\libs\libflac\obj\${OGGCODECS_CONFIG_PATH}\bin\libFLAC.dll"
   File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\libs\libflac\obj\${OGGCODECS_CONFIG_PATH}\bin\libFLAC++.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\helper\libfishsound\win32\${OGGCODECS_CONFIG_PATH}\libfishsound.dll"
   File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libVorbisComment\${OGGCODECS_CONFIG_PATH}\libVorbisComment.dll"
 
   File "${OGGCODECS_ROOT_DIR}\src\lib\helper\libTemporalURI\${OGGCODECS_CONFIG_PATH}\libTemporalURI.dll"
@@ -931,10 +930,9 @@ Section Uninstall
   Delete "$INSTDIR\OOOggDump.exe"
 
 
-  ; Delete libraries - 11
+  ; Delete libraries - 10
   Delete "$INSTDIR\libFLAC++.dll"
   Delete "$INSTDIR\libFLAC.dll"
-  Delete "$INSTDIR\libfishsound.dll"
   Delete "$INSTDIR\libOOTheora.dll"
   Delete "$INSTDIR\vorbis.dll"
 
