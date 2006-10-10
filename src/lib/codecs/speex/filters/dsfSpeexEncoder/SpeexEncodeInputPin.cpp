@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -32,148 +32,88 @@
 #include "stdafx.h"
 #include "SpeexEncodeInputPin.h"
 
-SpeexEncodeInputPin::SpeexEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("SpeexEncodeInputPin"), L"PCM In", inAcceptableMediaTypes)
-	,	mFishSound(NULL)
+SpeexEncodeInputPin::SpeexEncodeInputPin(       AbstractTransformFilter* inParentFilter
+                                            ,   CCritSec* inFilterLock
+                                            ,   AbstractTransformOutputPin* inOutputPin
+                                            ,   vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformInputPin(      inParentFilter
+                                    ,   inFilterLock
+                                    ,   inOutputPin
+                                    ,   NAME("SpeexEncodeInputPin")
+                                    ,   L"PCM In"
+                                    ,   inAcceptableMediaTypes)
 	,	mWaveFormat(NULL)
-
+    ,   mBegun(false)
 	,	mUptoFrame(0)
 {
-	//debugLog.open("C:\\temp\\speexenc.log", ios_base::out);
+
 }
 
 SpeexEncodeInputPin::~SpeexEncodeInputPin(void)
 {
-	//debugLog.close();
 	DestroyCodec();
 }
 
+HRESULT SpeexEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
+{
+    HRESULT locHR = S_OK;
+    vector<StampedOggPacket*> locPackets;
+    if (!mBegun) {
+        locPackets = mSpeexEncoder.setupCodec(mEncoderSettings);
+        
+        //What to do about this?
 
-//PURE VIRTUALS
-HRESULT SpeexEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) {
-
-	//TODO::: There is a problem when we get 8 bit samples.
-	//=====================================================
-	//debugLog << "encodeData receives : "<<inNumBytes<<" bytes"<<endl;
-	
-
-	//************************************ Check this line... the +(inNumBytes%2) is new
-	//Note the 2 is because a float is twice the width of a short.
-	float* locFloatBuf = new float[inNumBytes/2];   // + (inNumBytes % 2)];
-	//************************************ 
-	short locTempShort = 0;
-	float locTempFloat = 0;
+        //if (locPackets.size() != VorbisEncoder::NUM_VORBIS_HEADERS) {
+        //    //Is this really what we want to return?
+        //    return E_FAIL;
+        //}
 
 
-	for (int i = 0; i < inNumBytes; i += 2) {
-		locTempShort = *((short*)(inBuf + i));
-		locTempFloat = (float)locTempShort;
-		locTempFloat /= 32767.0;
-		locFloatBuf[i/2] = locTempFloat;;
-	}
-	//debugLog<<"Calling encode"<<endl;
-	//FIX::: The 2 is the size of a sample ie 16 bits
-	long locErr = fish_sound_encode(mFishSound, (float**)locFloatBuf, inNumBytes/(mFishInfo.channels*2));
-	delete[] locFloatBuf;
-	//FIX::: Do something here ?
-	if (locErr < 0) {
-		//debugLog<<"Fishsound reports error"<<endl;
-	} else {
-	
-	}
-	return S_OK;
-}
-bool SpeexEncodeInputPin::ConstructCodec() {
-	mFishInfo.channels = mWaveFormat->nChannels;
-	mFishInfo.format = FISH_SOUND_SPEEX;
-	mFishInfo.samplerate = mWaveFormat->nSamplesPerSec;
+        locHR = sendPackets(locPackets);
+        deletePacketsAndEmptyVector(locPackets);
+        if (locHR != S_OK) {
+            return locHR;
+        }
+        mBegun = true;
+    }
 
-	//Change to fill in vorbis format block so muxer can work
-	((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.numChannels = mWaveFormat->nChannels;
-	((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.samplesPerSec = mWaveFormat->nSamplesPerSec;
-	
-	//
-	
-	mFishSound = fish_sound_new (FISH_SOUND_ENCODE, &mFishInfo);
+    unsigned long locNumSamplesPerChannel = bufferBytesToSampleCount(inNumBytes);
+    locPackets = mSpeexEncoder.encode((const short* const)inBuf, locNumSamplesPerChannel);
 
-	int i = 1;
-	//FIX::: Use new API for interleave setting
-	fish_sound_command(mFishSound, FISH_SOUND_SET_INTERLEAVE, &i, sizeof(int));
-
-	fish_sound_set_encoded_callback (mFishSound, SpeexEncodeInputPin::SpeexEncoded, this);
-	//FIX::: Proper return value
-	return true;
+    locHR = sendPackets(locPackets);
+    deletePacketsAndEmptyVector(locPackets);
+    return locHR;
 
 }
-void SpeexEncodeInputPin::DestroyCodec() {
-	fish_sound_delete(mFishSound);
-	mFishSound = NULL;
-}
-
-
-//Encoded callback
-int SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) 
+bool SpeexEncodeInputPin::ConstructCodec() 
 {
 
+	((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.numChannels = mWaveFormat->nChannels;
+	((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.samplesPerSec = mWaveFormat->nSamplesPerSec;
 
-	SpeexEncodeInputPin* locThis = reinterpret_cast<SpeexEncodeInputPin*> (inThisPointer);
-	SpeexEncodeFilter* locFilter = reinterpret_cast<SpeexEncodeFilter*>(locThis->m_pFilter);
-	//locThis->debugLog << "SpeexEncoded called with "<<inNumBytes<< " byte of data"<<endl;
+    mEncoderSettings.setAudioParameters(mWaveFormat->nSamplesPerSec, mWaveFormat->nChannels);
 
-	//Time stamps are granule pos not directshow times
-	LONGLONG locFrameStart = locThis->mUptoFrame;
-	LONGLONG locFrameEnd	= locThis->mUptoFrame
-							= fish_sound_get_frameno(locThis->mFishSound);
-
-	
-	//locThis->debugLog << "Stamping packet "<<locFrameStart<< " to "<<locFrameEnd<<endl;
-	//Get a pointer to a new sample stamped with our time
-	IMediaSample* locSample;
-	HRESULT locHR = locThis->mOutputPin->GetDeliveryBuffer(&locSample, &locFrameStart, &locFrameEnd, NULL);
-
-	if (FAILED(locHR)) {
-		//We get here when the application goes into stop mode usually.
-		//locThis->debugLog<<"Getting buffer failed"<<endl;
-		return locHR;
-	}	
-	
-	BYTE* locBuffer = NULL;
-
-	
-	//Make our pointers set to point to the samples buffer
-	locSample->GetPointer(&locBuffer);
-
-	
-
-	if (locSample->GetSize() >= inNumBytes) {
-
-		memcpy((void*)locBuffer, (const void*)inPacketData, inNumBytes);
-		
-		//Set the sample parameters.
-		locThis->SetSampleParams(locSample, inNumBytes, &locFrameStart, &locFrameEnd);
-
-		{
-			CAutoLock locLock(locThis->m_pLock);
-
-			//Add a reference so it isn't deleted en route.
-			//locSample->AddRef();
-			//NO - It alrady has a ref on it.
-
-			//TODO::: Need to propagate error states.
-			HRESULT locHR = ((SpeexEncodeOutputPin*)(locThis->mOutputPin))->mDataQueue->Receive(locSample);						//->DownstreamFilter()->Receive(locSample);
-			if (locHR != S_OK) {
-				//locThis->debugLog<<"Sample rejected"<<endl;
-			} else {
-				//locThis->debugLog<<"Sample Delivered"<<endl;
-			}
-		}
-
-		return 0;
-	} else {
-		throw 0;
-	}
+    return true;
 }
 
+void SpeexEncodeInputPin::DestroyCodec() 
+{
+
+}
+
+HRESULT SpeexEncodeInputPin::EndOfStream()
+{
+    CAutoLock locLock(mStreamLock);
+
+    //TODO:::!!
+
+    //vector<StampedOggPacket*> locPackets = mSpeexEncoder.flush();
+
+    //HRESULT locHR = sendPackets(locPackets);
+    //deletePacketsAndEmptyVector(locPackets);
+    return AbstractTransformInputPin::EndOfStream();
+
+}
 
 HRESULT SpeexEncodeInputPin::SetMediaType(const CMediaType* inMediaType) 
 {
@@ -187,13 +127,72 @@ HRESULT SpeexEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 		//Failed... should never be here !
 		throw 0;
 	}
-	//This is here and not the constructor because we need audio params from the
-	// input pin to construct properly.	
 	
 	ConstructCodec();
 
 	return CBaseInputPin::SetMediaType(inMediaType);
 
-	
-	
+}
+
+
+void SpeexEncodeInputPin::deletePacketsAndEmptyVector(vector<StampedOggPacket*>& inPackets)
+{
+    for (size_t i = 0; i < inPackets.size(); i++) {
+        delete inPackets[i];
+    }
+    inPackets.clear();
+}
+
+unsigned long SpeexEncodeInputPin::bufferBytesToSampleCount(long inByteCount)
+{
+    if (mEncoderSettings.numChannels() == 0) {
+        return 0;
+    }
+    //TODO::: Needs a bytes per sample thingy
+    const long SIZE_OF_SHORT = sizeof(short);
+    return (inByteCount / mEncoderSettings.numChannels()) / SIZE_OF_SHORT;
+}
+
+HRESULT SpeexEncodeInputPin::sendPackets(const vector<StampedOggPacket*>& inPackets)
+{
+  
+	LONGLONG locFrameStart;
+    LONGLONG locFrameEnd;
+    IMediaSample* locSample = NULL;
+    BYTE* locBuffer = NULL;
+
+    for (size_t pack = 0; pack < inPackets.size(); pack++) {
+        locFrameStart = mUptoFrame;
+        locFrameEnd = inPackets[pack]->endTime();
+        mUptoFrame = locFrameEnd;
+
+        HRESULT locHR = mOutputPin->GetDeliveryBuffer(     &locSample
+                                                        ,   &locFrameStart
+                                                        ,   &locFrameEnd
+                                                        ,   NULL);
+        if (FAILED(locHR)) {
+		    //We get here when the application goes into stop mode usually.
+		    return locHR;
+	    }	
+
+        //TODO::: Should we be checking this return?
+        locSample->GetPointer(&locBuffer);
+
+	    if (locSample->GetSize() >= inPackets[pack]->packetSize()) {
+		    memcpy((void*)locBuffer, (const void*)inPackets[pack]->packetData(), inPackets[pack]->packetSize());
+    		
+		    //Set the sample parameters.
+		    SetSampleParams(locSample, inPackets[pack]->packetSize(), &locFrameStart, &locFrameEnd);
+
+		    locHR = ((SpeexEncodeOutputPin*)mOutputPin)->mDataQueue->Receive(locSample);
+            if (locHR != S_OK) {
+                return locHR;
+            }
+
+	    } else {
+		    throw 0;
+	    }
+    }
+
+    return S_OK;
 }

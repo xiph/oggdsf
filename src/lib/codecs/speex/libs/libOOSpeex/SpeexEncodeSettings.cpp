@@ -9,7 +9,11 @@ SpeexEncodeSettings::SpeexEncodeSettings(void)
     ,   mBitrate(-1)
     ,   mVBRMaxBitrate(-1)
     ,   mFramesPerPacket(1)
-    ,   mBitrateControlMode(SPEEX_BITRATE_VBR_QUALITY)
+    ,   mUsingDTX(false)
+    ,   mUsingDenoise(false)
+    ,   mUsingAGC(false)
+    ,   mUsingVAD(false)
+    ,   mBitrateControlMode(SPEEX_BITRATE_CBR_QUALITY)
     ,   mEncodingMode(SPEEX_ENCODE_NO_MODE_SET)
 {
 }
@@ -27,6 +31,7 @@ bool SpeexEncodeSettings::setAudioParameters(unsigned long inSampleRate, unsigne
 
         mSampleRate = inSampleRate;
         mNumChannels = inNumChannels;
+        setMode(SPEEX_ENCODE_NO_MODE_SET);
         return true;
     }
     return false;

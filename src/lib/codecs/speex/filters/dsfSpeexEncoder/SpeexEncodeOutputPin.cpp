@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -32,8 +32,16 @@
 #include "stdafx.h"
 #include "Speexencodeoutputpin.h"
 
-SpeexEncodeOutputPin::SpeexEncodeOutputPin(SpeexEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("SpeexDecodeOutputPin"), L"Speex Out", 65536, 5, inAcceptableMediaTypes)
+SpeexEncodeOutputPin::SpeexEncodeOutputPin(     SpeexEncodeFilter* inParentFilter
+                                            ,   CCritSec* inFilterLock
+                                            ,   vector<CMediaType*> inAcceptableMediaTypes)
+	:	AbstractTransformOutputPin(     inParentFilter
+                                    ,   inFilterLock
+                                    ,   NAME("SpeexDecodeOutputPin")
+                                    ,   L"Speex Out"
+                                    ,   65536
+                                    ,   5
+                                    ,   inAcceptableMediaTypes)
 {
 }
 
@@ -53,11 +61,4 @@ HRESULT SpeexEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType
         return S_FALSE;
 	}
 }
-//bool SpeexEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
-//	SpeexEncodeFilter* locParentFilter = (SpeexEncodeFilter*)mParentFilter;
-//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mSpeexFormatBlock), sizeof(sSpeexFormatBlock));
-//	return true;
-//}
-//unsigned long SpeexEncodeOutputPin::FormatBufferSize() {
-//	return sizeof(sSpeexFormatBlock);
-//}
+

@@ -21,7 +21,7 @@ SpeexEncoder::~SpeexEncoder(void)
 string SpeexEncoder::getVendorString()
 {
     char* locVersionBuf = NULL;
-    speex_encoder_ctl(mSpeexState, SPEEX_LIB_GET_VERSION_STRING, &locVersionBuf);
+    speex_lib_ctl(SPEEX_LIB_GET_VERSION_STRING, &locVersionBuf);
     string locVersionString(locVersionBuf);
     string retString = string("Encoded with Speex ") + locVersionString;
     return retString;
@@ -39,8 +39,8 @@ vector<StampedOggPacket*> SpeexEncoder::setupCodec(SpeexEncodeSettings inSetting
     speex_init_header(&locLibSpeexHeader, inSettings.sampleRate(), inSettings.numChannels(), locLibSpeexMode);
     locLibSpeexHeader.frames_per_packet = inSettings.framesPerPacket();
 
-    if (        (inSettings.encodingMode() == SpeexEncodeSettings::SPEEX_BITRATE_VBR_BITRATE)
-           ||  (inSettings.encodingMode() == SpeexEncodeSettings::SPEEX_BITRATE_VBR_QUALITY)) {
+    if (        (inSettings.bitrateControlMode() == SpeexEncodeSettings::SPEEX_BITRATE_VBR_BITRATE)
+        ||  (inSettings.bitrateControlMode() == SpeexEncodeSettings::SPEEX_BITRATE_VBR_QUALITY)) {
         locLibSpeexHeader.vbr = 1;
     }
 

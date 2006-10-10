@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -31,44 +31,41 @@
 
 #pragma once
 
-
 #include "AbstractTransformInputPin.h"
 #include "SpeexEncodeInputPin.h"
-
 #include "SpeexEncodeFilter.h"
+#include "SpeexEncoder.h"
+#include "SpeexEncodeSettings.h"
 
-extern "C" {
-//#include <fishsound/fishsound.h>
-#include "fish_cdecl.h"
-}
-
-//#include <fstream>
-//using namespace std;
 class SpeexEncodeInputPin
 	:	public AbstractTransformInputPin
 {
 public:
-	SpeexEncodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
+	SpeexEncodeInputPin(        AbstractTransformFilter* inFilter
+                            ,   CCritSec* inFilterLock
+                            ,   AbstractTransformOutputPin* inOutputPin
+                            ,   vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexEncodeInputPin(void);
 
-	static int __cdecl SpeexEncodeInputPin::SpeexEncoded (FishSound* inFishSound, unsigned char* inPacketData, long inNumBytes, void* inThisPointer) ;
-	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+    virtual STDMETHODIMP EndOfStream();
 
 protected:
-	HRESULT mHR;
-//PURE VIRTUALS
 	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 
+    void deletePacketsAndEmptyVector(vector<StampedOggPacket*>& inPackets);
+    HRESULT sendPackets(const vector<StampedOggPacket*>& inPackets);
+    unsigned long bufferBytesToSampleCount(long inByteCount);
+
 
 	WAVEFORMATEX* mWaveFormat;
 	__int64 mUptoFrame;
+    bool mBegun;
 
-	//fstream debugLog;
-	FishSound* mFishSound;
-	FishSoundInfo mFishInfo; 
+    SpeexEncoder mSpeexEncoder;
+    SpeexEncodeSettings mEncoderSettings;
 
-	
+
 };

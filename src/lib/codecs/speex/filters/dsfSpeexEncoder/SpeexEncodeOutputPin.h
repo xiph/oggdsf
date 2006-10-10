@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2003-2006 Zentaro Kavanagh
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -31,26 +31,22 @@
 
 #pragma once
 
-//Local Includes
 #include "Speexencoderdllstuff.h"
 
-//External Includes
 #include "AbstractTransformOutputPin.h"
 
-//Forward Declarations
 class SpeexEncodeFilter;
 struct sSpeexFormatBlock;
 
 class SpeexEncodeOutputPin
-	//Base Classes
 	:	public	AbstractTransformOutputPin
 {
 public:
-	//Friend Classes
 	friend class SpeexEncodeInputPin;
 
-	//Constructors
-	SpeexEncodeOutputPin(SpeexEncodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
+	SpeexEncodeOutputPin(       SpeexEncodeFilter* inParentFilter
+                            ,   CCritSec* inFilterLock
+                            ,   vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~SpeexEncodeOutputPin(void);
 
 protected:
