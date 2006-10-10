@@ -89,6 +89,8 @@ HRESULT VorbisEncodeInputPin::TransformData(unsigned char* inBuf, long inNumByte
 bool VorbisEncodeInputPin::ConstructCodec() 
 {
     mEncoderSettings.setAudioParameters(mWaveFormat->nChannels, mWaveFormat->nSamplesPerSec);
+    (((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock).samplesPerSec = mWaveFormat->nSamplesPerSec;
+    (((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock).numChannels = mWaveFormat->nChannels;
     mUptoFrame = 0;
     return true;
 }

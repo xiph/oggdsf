@@ -123,12 +123,12 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts
 		mYUVBuffer.y_width = mYCbCrBuffer[0].width;
 		mYUVBuffer.y_height = mYCbCrBuffer[0].height;
 		mYUVBuffer.y_stride = mYCbCrBuffer[0].ystride;
-		mYUVBuffer.y = (char*)mYCbCrBuffer[0].data;
+		mYUVBuffer.y = mYCbCrBuffer[0].data;
 		mYUVBuffer.uv_width = mYCbCrBuffer[1].width;
 		mYUVBuffer.uv_height = mYCbCrBuffer[1].height;
 		mYUVBuffer.uv_stride = mYCbCrBuffer[1].ystride;
-		mYUVBuffer.u = (char*)mYCbCrBuffer[1].data;
-		mYUVBuffer.v = (char*)mYCbCrBuffer[2].data;
+		mYUVBuffer.u = mYCbCrBuffer[1].data;
+		mYUVBuffer.v = mYCbCrBuffer[2].data;
 
 #else
 		//Ignore return value... always returns 0 (or crashes :)

@@ -152,7 +152,7 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Setup the destination pointer
-	char* locDestUptoPtr = mYUV.y;
+	unsigned char* locDestUptoPtr = mYUV.y;
 	//
 
 	////Pad top  of output Y plane buffer with mYOffset lines of width mYUV.y_width
@@ -388,7 +388,7 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Setup the destination pointer
-	char* locDestUptoPtr = mYUV.y;
+	unsigned char* locDestUptoPtr = mYUV.y;
 	//
 
 	////Pad top of Y plane buffer with mYOffset lines of width mYUV.y_width
@@ -839,11 +839,11 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	unsigned char* locSourceUptoPtr = inBuf;						//View only... don't delete locUptoPtr
 	unsigned char* locSourceNextLine = locSourceUptoPtr + (mWidth * PIXEL_BYTE_SIZE);	//View only don't delete
 	
-	char* locYUpto = mYUV.y;
-	char* locUUpto = mYUV.u;
-	char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = mYUV.y;
+	unsigned char* locUUpto = mYUV.u;
+	unsigned char* locVUpto = mYUV.v;
 	//Pointer to the same pixel on next line
-	char* locDestNextLine = locYUpto + (mYUV.y_stride);				//View only... don't delete
+	unsigned char* locDestNextLine = locYUpto + (mYUV.y_stride);				//View only... don't delete
 
 	int temp = 0;
 
@@ -1022,9 +1022,9 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 	//YUY2 is Y0 U0 Y1 V0 Y2 U1 Y3 V1
 	// it has twice as much sampling height as YV12 so downsample it.
 
-	char* locYUpto = mYUV.y;
-	char* locUUpto = mYUV.u;
-	char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = mYUV.y;
+	unsigned char* locUUpto = mYUV.u;
+	unsigned char* locVUpto = mYUV.v;
 
 	
 
@@ -1083,9 +1083,9 @@ long TheoraEncodeInputPin::encodeYVYUToYV12(unsigned char* inBuf, long inNumByte
 	//YVYU is Y0 V0 Y1 U0 Y2 V1 Y3 U1
 	// it has twice as much sampling height as YV12 so downsample it.
 
-	char* locYUpto = mYUV.y;
-	char* locUUpto = mYUV.u;
-	char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = mYUV.y;
+	unsigned char* locUUpto = mYUV.u;
+	unsigned char* locVUpto = mYUV.v;
 
 	
 
@@ -1128,9 +1128,9 @@ long TheoraEncodeInputPin::encodeUYVYToYV12(unsigned char* inBuf, long inNumByte
 	//YUY2 is Y0 U0 Y1 V0 Y2 U1 Y3 V1
 	// it has twice as much sampling height as YV12 so downsample it.
 
-	char* locYUpto = mYUV.y;
-	char* locUUpto = mYUV.u;
-	char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = mYUV.y;
+	unsigned char* locUUpto = mYUV.u;
+	unsigned char* locVUpto = mYUV.v;
 
 	
 
@@ -1326,9 +1326,9 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	
 	
 	unsigned long locYBuffSize = mYUV.y_height * mYUV.y_stride;
-	mYUV.y				=	new char[locYBuffSize];
-	mYUV.u				=	new char[locYBuffSize/4];
-	mYUV.v				=	new char[locYBuffSize/4];
+	mYUV.y				=	new unsigned char[locYBuffSize];
+	mYUV.u				=	new unsigned char[locYBuffSize/4];
+	mYUV.v				=	new unsigned char[locYBuffSize/4];
 
 	//End YV12 specifics
 	//
@@ -1359,6 +1359,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	mTheoraInfo.keyframe_auto_threshold=80;
 	mTheoraInfo.keyframe_mindistance=8;
 	mTheoraInfo.noise_sensitivity=1; 
+    mTheoraInfo.pixelformat = OC_PF_420;
 
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = mTheoraInfo.fps_numerator;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = mTheoraInfo.fps_denominator;

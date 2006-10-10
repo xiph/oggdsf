@@ -757,7 +757,7 @@ HRESULT TheoraDecodeFilter::DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* 
 
 	//Set up the pointers
 	unsigned char* locDestUptoPtr = locBuffer;
-	char* locSourceUptoPtr = inYUVBuffer->y;
+	unsigned char* locSourceUptoPtr = inYUVBuffer->y;
 
 	//Strides from theora are generally -'ve
 	long locYStride = inYUVBuffer->y_stride;
