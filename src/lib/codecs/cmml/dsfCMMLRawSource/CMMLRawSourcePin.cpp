@@ -59,7 +59,7 @@ HRESULT CMMLRawSourcePin::CompleteConnect (IPin *inReceivePin)
 	CAutoLock locLock(m_pLock);
 	mFilterHR = S_OK;
 	//Set the delegate for seeking
-	//((BasicSeekable*)(inReceivePin))->SetDelegate(this);
+
 	//This may cause issue if pins are disconnected and reconnected
 	//DELETE in DEStructor
 	mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, NUM_BUFFERS);

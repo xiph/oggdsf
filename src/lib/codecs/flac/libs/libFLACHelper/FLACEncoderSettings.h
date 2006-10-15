@@ -21,6 +21,8 @@ public:
 
     const vector<unsigned long>& getValidBlockSizes();
 
+    ///Returns -1 if not a standard level
+    long encoderLevel() {       return mEncoderLevel;   }
     unsigned long numChannels() { return mNumChannels; }
     unsigned long sampleRate() { return mSampleRate; }
     unsigned long bitsPerSample() { return mBitsPerSample; }
@@ -36,6 +38,8 @@ private:
     bool isValidBlockSize(unsigned long inBlockSize);
     void makeValidBlockSizeList();
     vector<unsigned long> mValidBlockSizes;
+
+    long mEncoderLevel;
 
 	unsigned long mNumChannels;
 	unsigned long mSampleRate;

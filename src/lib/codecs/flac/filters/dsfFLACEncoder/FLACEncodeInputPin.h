@@ -41,9 +41,9 @@ using namespace FLAC::Encoder;
 
 class FLACEncodeInputPin
 	:	public AbstractTransformInputPin
-	//,	public Stream
 {
 public:
+    friend class FLACEncodeFilter;
 	FLACEncodeInputPin(     AbstractTransformFilter* inParentFilter
                         ,   CCritSec* inFilterLock
                         ,   AbstractTransformOutputPin* inOutputPin
@@ -51,6 +51,7 @@ public:
 	virtual ~FLACEncodeInputPin(void);
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+    virtual HRESULT CompleteConnect (IPin *inReceivePin);
 
 	//OVerrides
 	virtual STDMETHODIMP EndOfStream(void);
@@ -66,5 +67,7 @@ private:
 	
     WAVEFORMATEX* mWaveFormat;
     FLACEncoder mFLACEncoder;
+
+    FLACEncoderSettings mFLACEncoderSettings;
 	bool mBegun;
 };

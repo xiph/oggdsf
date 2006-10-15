@@ -61,12 +61,12 @@ HRESULT FLACEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes)
 
     HRESULT locHR = S_OK;
     if (mBegun == false) {
-        FLACEncoderSettings locSettings;
-        locSettings.setAudioParameters(         ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numChannels
-                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.sampleRate 
-                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numBitsPerSample);
-        locSettings.setEncodingLevel(5);
-        const vector<StampedOggPacket*>& locHeaderPackets = mFLACEncoder.setupCodec(locSettings);
+        //FLACEncoderSettings locSettings;
+        //locSettings.setAudioParameters(         ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numChannels
+        //                                    ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.sampleRate 
+        //                                    ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numBitsPerSample);
+        //locSettings.setEncodingLevel(5);
+        const vector<StampedOggPacket*>& locHeaderPackets = mFLACEncoder.setupCodec(mFLACEncoderSettings);
         if (locHeaderPackets.size() == 0) {
             return E_FAIL;
         }
@@ -156,4 +156,23 @@ HRESULT FLACEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 	ConstructCodec();
 
 	return CBaseInputPin::SetMediaType(inMediaType);
+}
+
+HRESULT FLACEncodeInputPin::CompleteConnect (IPin *inReceivePin)
+{
+    //This data is captured in setmedia type. We set it on the settings class
+    // here so that when we are setting options which depend on knowing audio
+    // parameters, ie some settings require stereo. This gets it ready
+    // before the user can touch it from a properties page
+
+    //Defaults
+    FLACEncoderSettings locSettings;
+    mFLACEncoderSettings = locSettings;
+
+    mFLACEncoderSettings.setAudioParameters(    ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numChannels
+                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.sampleRate 
+                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numBitsPerSample);
+
+    return AbstractTransformInputPin::CompleteConnect(inReceivePin);
+
 }

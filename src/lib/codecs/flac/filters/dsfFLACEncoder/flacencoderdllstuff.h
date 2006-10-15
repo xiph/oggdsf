@@ -51,6 +51,15 @@ struct sFLACFormatBlock {
 #define LIBOOOGG_API __declspec(dllimport)
 #endif
 
+// {EE66A998-4E5C-4e23-A0F3-97C40D87EC48}
+static const GUID CLSID_PropsFLACEncoder = 
+{ 0xee66a998, 0x4e5c, 0x4e23, { 0xa0, 0xf3, 0x97, 0xc4, 0xd, 0x87, 0xec, 0x48 } };
+
+// {DF9C0DC3-1924-4bfe-8DC1-1084453A0F8F}
+static const GUID IID_IFLACEncodeSettings = 
+{ 0xdf9c0dc3, 0x1924, 0x4bfe, { 0x8d, 0xc1, 0x10, 0x84, 0x45, 0x3a, 0xf, 0x8f } };
+
+
 
 //// {3913F0AB-E7ED-41c4-979B-1D1FDD983C07}
 //DEFINE_GUID(MEDIASUBTYPE_FLAC, 

@@ -33,6 +33,8 @@
 
 //Local Includes
 #include "flacencoderdllstuff.h"
+#include "IFLACEncodeSettings.h"
+#include "PropsFLACEncoder.h"
 
 //External Includes
 #include "AbstractTransformFilter.h"
@@ -45,6 +47,8 @@ class FLACEncodeOutputPin;
 class FLACEncodeFilter
 	//Base Classes
 	:	public AbstractTransformFilter
+	,	public IFLACEncodeSettings
+    ,	public ISpecifyPropertyPages
 {
 public:
 	//Friend Classes
@@ -58,6 +62,34 @@ public:
 	//COM Creator function
 	static CUnknown* WINAPI FLACEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
+	//COM Initialisation
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+
+    /// ISpecifyPropertyPages::GetPages Implementation
+	STDMETHODIMP GetPages(CAUUID* outPropPages);
+
+
+    //IFLACEncodeSettings Implementation
+
+    virtual STDMETHODIMP_(bool) canModifySettings();
+
+    virtual STDMETHODIMP_(bool) setEncodingLevel(unsigned long inLevel);
+    virtual STDMETHODIMP_(bool) setLPCOrder(unsigned long inLPCOrder);
+    virtual STDMETHODIMP_(bool) setBlockSize(unsigned long inBlockSize);
+    virtual STDMETHODIMP_(bool) useMidSideCoding(bool inUseMidSideCoding); //Only for 2 channels
+    virtual STDMETHODIMP_(bool) useAdaptiveMidSideCoding(bool inUseAdaptiveMidSideCoding); //Only for 2 channels, overrides midside, is faster
+    virtual STDMETHODIMP_(bool) useExhaustiveModelSearch(bool inUseExhaustiveModelSearch);
+    virtual STDMETHODIMP_(bool) setRicePartitionOrder(unsigned long inMin, unsigned long inMax);
+
+    virtual STDMETHODIMP_(long) encoderLevel();
+    virtual STDMETHODIMP_(unsigned long) LPCOrder();
+    virtual STDMETHODIMP_(unsigned long) blockSize();
+    virtual STDMETHODIMP_(unsigned long) riceMin();
+    virtual STDMETHODIMP_(unsigned long) riceMax();
+    virtual STDMETHODIMP_(bool) isUsingMidSideCoding();
+    virtual STDMETHODIMP_(bool) isUsingAdaptiveMidSideCoding();
+    virtual STDMETHODIMP_(bool) isUsingExhaustiveModel();
 protected:
 	//Implementation from AbstractTransformFilter
 	virtual bool ConstructPins();

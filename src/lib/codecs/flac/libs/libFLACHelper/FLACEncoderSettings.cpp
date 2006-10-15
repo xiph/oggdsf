@@ -5,6 +5,7 @@ FLACEncoderSettings::FLACEncoderSettings(void)
     :   mNumChannels(0)
 	,   mSampleRate(0)
     ,   mBitsPerSample(0)
+    ,   mEncoderLevel(5)
     ,   mLPCOrder(8)
     ,   mBlockSize(4608)
     ,   mRiceMin(3)
@@ -43,10 +44,10 @@ bool FLACEncoderSettings::setEncodingLevel(unsigned long inLevel)
 
     const sFLACDefaultSettings locDefaults[] = {
         { 0, 1152, 2, 2, false, false, false},      //0
-        { 0, 1152, 2, 2, false, false, true},       //1
+        { 0, 1152, 2, 2, false, true, true},       //1
         { 0, 1152, 0, 3, false, true, false},       //2
         { 6, 4608, 3, 3, false, false, false},      //3
-        { 8, 4608, 3, 3, false, false, true},       //4
+        { 8, 4608, 3, 3, false, true, true},       //4
         { 8, 4608, 3, 3, false, true, false},       //5
         { 8, 4608, 0, 4, false, true, false},       //6
         { 8, 4608, 0, 6, true, true, false},        //7
@@ -54,6 +55,7 @@ bool FLACEncoderSettings::setEncodingLevel(unsigned long inLevel)
     };
     bool locISOK = true;
     if (inLevel <= 8) {
+        
 
         locISOK = locISOK && setLPCOrder(locDefaults[inLevel].LPCOrder);
         locISOK = locISOK && setBlockSize(locDefaults[inLevel].blockSize);
@@ -66,6 +68,7 @@ bool FLACEncoderSettings::setEncodingLevel(unsigned long inLevel)
             useMidSideCoding(false);
         }
         locISOK = locISOK && useExhaustiveModelSearch(locDefaults[inLevel].useExhaustive);
+        mEncoderLevel = inLevel;
         return locISOK;
 
     }
@@ -74,6 +77,7 @@ bool FLACEncoderSettings::setEncodingLevel(unsigned long inLevel)
 bool FLACEncoderSettings::setLPCOrder(unsigned long inLPCOrder)
 {
     if (inLPCOrder <= 32) {
+        mEncoderLevel = -1;
         mLPCOrder = inLPCOrder;
         return true;
     }
@@ -82,6 +86,7 @@ bool FLACEncoderSettings::setLPCOrder(unsigned long inLPCOrder)
 bool FLACEncoderSettings::setBlockSize(unsigned long inBlockSize)
 {
     if (isValidBlockSize(inBlockSize)) {
+        mEncoderLevel = -1;
         mBlockSize = inBlockSize;
         return true;
     }
@@ -90,7 +95,12 @@ bool FLACEncoderSettings::setBlockSize(unsigned long inBlockSize)
 bool FLACEncoderSettings::useMidSideCoding(bool inUseMidSideCoding)
 {
     if (mNumChannels == 2) {
+        mEncoderLevel = -1;
         mUsingMidSide = inUseMidSideCoding;
+
+        if (!inUseMidSideCoding) {
+            mUsingAdaptiveMidSide = false;
+        }
         return true;
     } else {
         mUsingMidSide = false;
@@ -100,7 +110,12 @@ bool FLACEncoderSettings::useMidSideCoding(bool inUseMidSideCoding)
 bool FLACEncoderSettings::useAdaptiveMidSideCoding(bool inUseAdaptiveMidSideCoding)
 {
     if (mNumChannels == 2) {
+        mEncoderLevel = -1;
         mUsingAdaptiveMidSide = inUseAdaptiveMidSideCoding;
+
+        if (inUseAdaptiveMidSideCoding) {
+            mUsingMidSide = true;
+        }
         return true;
     } else {
         mUsingAdaptiveMidSide = false;
@@ -109,6 +124,7 @@ bool FLACEncoderSettings::useAdaptiveMidSideCoding(bool inUseAdaptiveMidSideCodi
 }
 bool FLACEncoderSettings::useExhaustiveModelSearch(bool inUseExhaustiveModelSearch)
 {
+    mEncoderLevel = -1;
     mUsingExhaustiveModelSearch = inUseExhaustiveModelSearch;
     return true;
 }
@@ -117,6 +133,7 @@ bool FLACEncoderSettings::setRicePartitionOrder(unsigned long inMin, unsigned lo
     if (        (inMin <= 16)
             &&  (inMax <= 16)
             &&  (inMin <= inMax)) {
+        mEncoderLevel = -1;
         mRiceMin = inMin;
         mRiceMax = inMax;
         return true;

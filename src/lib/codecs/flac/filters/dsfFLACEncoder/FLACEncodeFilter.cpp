@@ -41,6 +41,13 @@ CFactoryTemplate g_Templates[] =
 	    FLACEncodeFilter::CreateInstance,		// Method to create an instance of MyComponent
         NULL,									// Initialization function
         NULL									// Set-up information (for filters)
+    },
+    { 
+		L"FLAC Encode Properties",						// Name
+	    &CLSID_PropsFLACEncoder,            // CLSID
+	    PropsFLACEncoder::CreateInstance,	// Method to create an instance of MyComponent
+        NULL,									// Initialization function
+        NULL									// Set-up information (for filters)
     }
 
 };
@@ -57,6 +64,39 @@ CUnknown* WINAPI FLACEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
     }
 	return pNewObject;
 } 
+
+STDMETHODIMP FLACEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
+{
+	if (riid == IID_IFLACEncodeSettings) {
+		*ppv = (IFLACEncodeSettings*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	} else if (riid == IID_ISpecifyPropertyPages) {
+		*ppv = (ISpecifyPropertyPages*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+	return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv);
+}
+
+//SpecifyPropertyPages Implementation
+STDMETHODIMP FLACEncodeFilter::GetPages(CAUUID* outPropPages) 
+{
+	if (outPropPages == NULL) return E_POINTER;
+
+	const int NUM_PROP_PAGES = 1;
+    outPropPages->cElems = NUM_PROP_PAGES;
+    outPropPages->pElems = (GUID*)(CoTaskMemAlloc(sizeof(GUID) * NUM_PROP_PAGES));
+    if (outPropPages->pElems == NULL) 
+    {
+        return E_OUTOFMEMORY;
+    }
+
+	outPropPages->pElems[0] = CLSID_PropsFLACEncoder;
+    
+    return S_OK;
+
+}
 
 FLACEncodeFilter::FLACEncodeFilter(void)
 	:	AbstractTransformFilter(NAME("FLAC Encoder"), CLSID_FLACEncodeFilter)
@@ -102,4 +142,72 @@ bool FLACEncodeFilter::ConstructPins()
 	mInputPin = new FLACEncodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;
 
+}
+
+STDMETHODIMP_(bool) FLACEncodeFilter::canModifySettings()
+{
+    return true;
+    
+}
+
+STDMETHODIMP_(bool) FLACEncodeFilter::setEncodingLevel(unsigned long inLevel)
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.setEncodingLevel(inLevel);
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::setLPCOrder(unsigned long inLPCOrder)
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.setLPCOrder(inLPCOrder);
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::setBlockSize(unsigned long inBlockSize)
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.setBlockSize(inBlockSize);
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::useMidSideCoding(bool inUseMidSideCoding) //Only for 2 channels
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.useMidSideCoding(inUseMidSideCoding);
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::useAdaptiveMidSideCoding(bool inUseAdaptiveMidSideCoding) //Only for 2 channels, overrides midside, is faster
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.useAdaptiveMidSideCoding(inUseAdaptiveMidSideCoding);
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::useExhaustiveModelSearch(bool inUseExhaustiveModelSearch)
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.useExhaustiveModelSearch(inUseExhaustiveModelSearch);
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::setRicePartitionOrder(unsigned long inMin, unsigned long inMax)
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.setRicePartitionOrder(inMin, inMax);
+}
+
+STDMETHODIMP_(long) FLACEncodeFilter::encoderLevel()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.encoderLevel();
+}
+STDMETHODIMP_(unsigned long) FLACEncodeFilter::LPCOrder()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.LPCOrder();
+}
+STDMETHODIMP_(unsigned long) FLACEncodeFilter::blockSize()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.blockSize();
+}
+STDMETHODIMP_(unsigned long) FLACEncodeFilter::riceMin()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.riceMin();
+}
+STDMETHODIMP_(unsigned long) FLACEncodeFilter::riceMax()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.riceMax();
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::isUsingMidSideCoding()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.isUsingMidSideCoding();
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::isUsingAdaptiveMidSideCoding()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.isUsingAdaptiveMidSideCoding();
+}
+STDMETHODIMP_(bool) FLACEncodeFilter::isUsingExhaustiveModel()
+{
+    return ((FLACEncodeInputPin*)mInputPin)->mFLACEncoderSettings.isUsingExhaustiveModel();
 }
