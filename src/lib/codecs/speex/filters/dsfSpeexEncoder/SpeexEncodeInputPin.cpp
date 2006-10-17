@@ -196,3 +196,22 @@ HRESULT SpeexEncodeInputPin::sendPackets(const vector<StampedOggPacket*>& inPack
 
     return S_OK;
 }
+
+HRESULT SpeexEncodeInputPin::CompleteConnect (IPin *inReceivePin)
+{
+    //This data is captured in setmedia type. We set it on the settings class
+    // here so that when we are setting options which depend on knowing audio
+    // parameters, ie some settings require stereo. This gets it ready
+    // before the user can touch it from a properties page
+
+    //Defaults
+    SpeexEncodeSettings locSettings;
+    mEncoderSettings = locSettings;
+
+    
+    mEncoderSettings.setAudioParameters(    ((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.samplesPerSec
+                                                ,((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock.numChannels);
+
+    return AbstractTransformInputPin::CompleteConnect(inReceivePin);
+
+}

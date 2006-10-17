@@ -44,6 +44,13 @@ CFactoryTemplate g_Templates[] =
 	    SpeexEncodeFilter::CreateInstance,			// Method to create an instance of MyComponent
         NULL,										// Initialization function
         NULL										// Set-up information (for filters)
+    },
+    { 
+		L"Speex Encode Properties",						// Name
+	    &CLSID_PropsSpeexEncoder,            // CLSID
+	    PropsSpeexEncoder::CreateInstance,	// Method to create an instance of MyComponent
+        NULL,									// Initialization function
+        NULL									// Set-up information (for filters)
     }
 
 };
@@ -60,6 +67,39 @@ CUnknown* WINAPI SpeexEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
     }
 	return pNewObject;
 } 
+
+STDMETHODIMP SpeexEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
+{
+	if (riid == IID_ISpeexEncodeSettings) {
+		*ppv = (ISpeexEncodeSettings*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	} else if (riid == IID_ISpecifyPropertyPages) {
+		*ppv = (ISpecifyPropertyPages*)this;
+		((IUnknown*)*ppv)->AddRef();
+		return NOERROR;
+	}
+	return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv);
+}
+
+//SpecifyPropertyPages Implementation
+STDMETHODIMP SpeexEncodeFilter::GetPages(CAUUID* outPropPages) 
+{
+	if (outPropPages == NULL) return E_POINTER;
+
+	const int NUM_PROP_PAGES = 1;
+    outPropPages->cElems = NUM_PROP_PAGES;
+    outPropPages->pElems = (GUID*)(CoTaskMemAlloc(sizeof(GUID) * NUM_PROP_PAGES));
+    if (outPropPages->pElems == NULL) 
+    {
+        return E_OUTOFMEMORY;
+    }
+
+	outPropPages->pElems[0] = CLSID_PropsSpeexEncoder;
+    
+    return S_OK;
+
+}
 
 SpeexEncodeFilter::SpeexEncodeFilter(void)
 	:	AbstractTransformFilter(NAME("Speex Encoder"), CLSID_SpeexEncodeFilter)
@@ -103,4 +143,47 @@ bool SpeexEncodeFilter::ConstructPins()
 	
 	mInputPin = new SpeexEncodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
 	return true;
+}
+
+STDMETHODIMP_(SpeexEncodeSettings) SpeexEncodeFilter::getEncoderSettings()
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings;
+}
+
+
+STDMETHODIMP_(bool) SpeexEncodeFilter::setMode(SpeexEncodeSettings::eSpeexEncodeMode inMode)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setMode(inMode);
+    
+}
+STDMETHODIMP_(bool) SpeexEncodeFilter::setComplexity(long inComplexity)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setComplexity(inComplexity);
+}
+
+STDMETHODIMP_(bool) SpeexEncodeFilter::setupVBRQualityMode(long inQuality, long inVBRMaxBitrate)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setupVBRQualityMode(inQuality, inVBRMaxBitrate);
+}
+STDMETHODIMP_(bool) SpeexEncodeFilter::setupVBRBitrateMode(long inBitrate, long inVBRMaxBitrate)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setupVBRBitrateMode(inBitrate, inVBRMaxBitrate);
+}
+STDMETHODIMP_(bool) SpeexEncodeFilter::setupABR(long inABRBitrate)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setupABR(inABRBitrate);
+}
+STDMETHODIMP_(bool) SpeexEncodeFilter::setupCBRBitrateMode(long inCBRBitrate)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setupCBRBitrateMode(inCBRBitrate);
+}
+STDMETHODIMP_(bool) SpeexEncodeFilter::setupCBRQualityMode(long inQuality)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setupCBRQualityMode(inQuality);
+}
+
+STDMETHODIMP_(bool) SpeexEncodeFilter::setEncodingFlags(bool inUseDTX, bool inUseVAD, bool inUseAGC, bool inUseDenoise)
+{
+    return ((SpeexEncodeInputPin*)mInputPin)->mEncoderSettings.setEncodingFlags(inUseDTX, inUseVAD, inUseAGC, inUseDenoise);
+
 }

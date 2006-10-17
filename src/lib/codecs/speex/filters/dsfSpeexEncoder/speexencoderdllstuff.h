@@ -31,6 +31,10 @@
 
 #pragma once
 
+#include <streams.h>
+#include <pullpin.h>
+#include <initguid.h>
+
 struct sSpeexFormatBlock {
 	unsigned long speexVersion;
 	unsigned long samplesPerSec;
@@ -54,6 +58,13 @@ struct sSpeexFormatBlock {
 #endif
 
 
+// {ED79AEC0-68AD-4be6-B06E-B4D3C8101624}
+DEFINE_GUID(CLSID_PropsSpeexEncoder, 
+0xed79aec0, 0x68ad, 0x4be6, 0xb0, 0x6e, 0xb4, 0xd3, 0xc8, 0x10, 0x16, 0x24);
+
+// {479038D2-57FF-41ee-B397-FB98199BF1E8}
+DEFINE_GUID(IID_ISpeexEncodeSettings, 
+0x479038d2, 0x57ff, 0x41ee, 0xb3, 0x97, 0xfb, 0x98, 0x19, 0x9b, 0xf1, 0xe8);
 
 
 // {7036C2FE-A209-464c-97AB-95B9260EDBF7}

@@ -41,6 +41,8 @@ class SpeexEncodeInputPin
 	:	public AbstractTransformInputPin
 {
 public:
+    friend class SpeexEncodeFilter;
+
 	SpeexEncodeInputPin(        AbstractTransformFilter* inFilter
                             ,   CCritSec* inFilterLock
                             ,   AbstractTransformOutputPin* inOutputPin
@@ -49,6 +51,7 @@ public:
 
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
     virtual STDMETHODIMP EndOfStream();
+    virtual HRESULT CompleteConnect (IPin *inReceivePin);
 
 protected:
 	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);

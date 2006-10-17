@@ -33,6 +33,8 @@
 
 //Local Includes
 #include "speexencoderdllstuff.h"
+#include "ISpeexEncodeSettings.h"
+#include "PropsSpeexEncoder.h"
 
 //External Includes
 #include "AbstractTransformFilter.h"
@@ -45,6 +47,8 @@ class SpeexEncodeOutputPin;
 class SpeexEncodeFilter
 	//Base Classes
 	:	public AbstractTransformFilter
+	,	public ISpeexEncodeSettings
+    ,	public ISpecifyPropertyPages
 {
 public:
 	//Friend Classes
@@ -55,8 +59,31 @@ public:
 	SpeexEncodeFilter(void);
 	virtual ~SpeexEncodeFilter(void);
 
+	//COM Initialisation
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+
 	//COM Creator function
 	static CUnknown* WINAPI SpeexEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+
+    /// ISpecifyPropertyPages::GetPages Implementation
+	STDMETHODIMP GetPages(CAUUID* outPropPages);
+
+
+	virtual STDMETHODIMP_(SpeexEncodeSettings) getEncoderSettings();
+	
+
+    virtual STDMETHODIMP_(bool) setMode(SpeexEncodeSettings::eSpeexEncodeMode inMode);
+    virtual STDMETHODIMP_(bool) setComplexity(long inComplexity);
+
+    virtual STDMETHODIMP_(bool) setupVBRQualityMode(long inQuality, long inVBRMaxBitrate);
+    virtual STDMETHODIMP_(bool) setupVBRBitrateMode(long inBitrate, long inVBRMaxBitrate);
+    virtual STDMETHODIMP_(bool) setupABR(long inABRBitrate);
+    virtual STDMETHODIMP_(bool) setupCBRBitrateMode(long inCBRBitrate);
+    virtual STDMETHODIMP_(bool) setupCBRQualityMode(long inQuality);
+
+    virtual STDMETHODIMP_(bool) setEncodingFlags(bool inUseDTX, bool inUseVAD, bool inUseAGC, bool inUseDenoise);
+
 
 protected:
 	//Implementation of pure virtual from AbstractTransformFilter.

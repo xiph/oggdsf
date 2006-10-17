@@ -1283,6 +1283,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath=".\PropsSpeexEncoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="SpeexEncodeFilter.cpp"
 				>
 			</File>
@@ -1436,6 +1440,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ISpeexEncodeSettings.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PropsSpeexEncoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
 				RelativePath="SpeexEncodeFilter.h"
 				>
 			</File>
@@ -1460,6 +1476,10 @@
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
+			<File
+				RelativePath=".\dsfSpeexEncoder.rc"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="ReadMe.txt"
