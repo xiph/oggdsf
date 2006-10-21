@@ -119,8 +119,8 @@ protected:
 
 	//TODO::: Are these needed?
 	bool mBegun;
-	unsigned int mUptoFrame;
-	HRESULT mHR;
+	//unsigned int mUptoFrame;
+	//HRESULT mHR;
 
 	int mNumChannels;
 	int mFrameSize;

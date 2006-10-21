@@ -51,7 +51,7 @@ VorbisDecodeInputPin::VorbisDecodeInputPin	(		AbstractTransformFilter* inFilter
 	,	mNumChannels(0)
 	,	mFrameSize(0)
 	,	mSampleRate(0)
-	,	mUptoFrame(0)
+	//,	mUptoFrame(0)
 	,	mSetupState(VSS_SEEN_NOTHING)
 	,	mDecodedBuffer(NULL)
 	,	mDecodedByteCount(0)
@@ -106,7 +106,7 @@ STDMETHODIMP VorbisDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERE
 {
 	CAutoLock locLock(mStreamLock);
 	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
-	mUptoFrame = 0;
+	//mUptoFrame = 0;
 	mRateNumerator = RATE_DENOMINATOR * inRate;
 	if (mRateNumerator > RATE_DENOMINATOR) {
 		mRateNumerator = RATE_DENOMINATOR;
