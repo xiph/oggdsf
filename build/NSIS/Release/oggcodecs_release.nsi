@@ -20,7 +20,7 @@
 !define PRODUCT_NAME "oggcodecs"
 
 ;	CHANGE EVERY VERSION
-!define PRODUCT_VERSION "0.73.1932"					
+!define PRODUCT_VERSION "0.73.1936"					
 
 !define PRODUCT_PUBLISHER "illiminable"
 !define PRODUCT_WEB_SITE "http://www.illiminable.com/ogg/"

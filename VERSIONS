@@ -1,8 +1,7 @@
-PACKAGE		-	0.72.1838
+PACKAGE		-	0.73.1936
 =================================
 libspeex	-	1.2 beta 1
 libvorbis	-	1.1.1
-libfishsound	-	0.6.3
 libogg		-	1.1.1
 libtheora	-	1.0alpha7-trunk r11838
 libtheora-exp	-	trunk r11838
