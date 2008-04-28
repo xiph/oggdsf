@@ -1,0 +1,16 @@
+version=pmwiki-2.2.0-beta65 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9b5) Gecko/2008032619 Firefox/3.0b5
+author=silvia
+charset=ISO-8859-1
+csum=added Zen's original text
+ctime=1209313443
+host=::1
+name=Main.Graphedit
+rev=1
+targets=
+text=!! Some sample encoding directshow graphs in graphedit%0a%0ahttp://localhost/~silvia/oggdsf/uploads/images/wave_to_vorbis_graphedit.JPG"Vorbis Encoding" | Wave to vorbis encoding. (Visit [[http://www.waixwave.com/index.php | WaixWave]])%0a%0a%0ahttp://localhost/~silvia/oggdsf/uploads/images/mp3_to_vorbis_graphedit.JPG"Vorbis Graphedit" | [=MP3=] to vorbis transcoding.%0a%0a%0ahttp://localhost/~silvia/oggdsf/uploads/images/ogg_split_graphedit.JPG"Split Graphedit" | Splitting a theora+vorbis file to component parts. (File : [[http://www.polycrystal.org/lego/movies.html | Lego Man Movies]])%0a%0a%0ahttp://localhost/~silvia/oggdsf/uploads/images/wma_to_vorbis_graphedit.JPG"Wma to vorbis" | WMA to vorbis transcoding.%0a%0a%0a%0ahttp://localhost/~silvia/oggdsf/uploads/images/mp3_to_speex_graphedit.JPG"[=MP3=] to Speex" | [=MP3=] to speex transcoding.%0a%0a%0a%0ahttp://localhost/~silvia/oggdsf/uploads/images/vorbis_to_mp3_graphedit.JPG"Vorbis to [=MP3=]" | Vorbis to [=MP3=] transcoding.
+time=1209313443
+author:1209313443=silvia
+csum:1209313443=added Zen's original text
+diff:1209313443:1209313443:=1,20d0%0a%3c !! Some sample encoding directshow graphs in graphedit%0a%3c %0a%3c http://localhost/~silvia/oggdsf/uploads/images/wave_to_vorbis_graphedit.JPG"Vorbis Encoding" | Wave to vorbis encoding. (Visit [[http://www.waixwave.com/index.php | WaixWave]])%0a%3c %0a%3c %0a%3c http://localhost/~silvia/oggdsf/uploads/images/mp3_to_vorbis_graphedit.JPG"Vorbis Graphedit" | [=MP3=] to vorbis transcoding.%0a%3c %0a%3c %0a%3c http://localhost/~silvia/oggdsf/uploads/images/ogg_split_graphedit.JPG"Split Graphedit" | Splitting a theora+vorbis file to component parts. (File : [[http://www.polycrystal.org/lego/movies.html | Lego Man Movies]])%0a%3c %0a%3c %0a%3c http://localhost/~silvia/oggdsf/uploads/images/wma_to_vorbis_graphedit.JPG"Wma to vorbis" | WMA to vorbis transcoding.%0a%3c %0a%3c %0a%3c %0a%3c http://localhost/~silvia/oggdsf/uploads/images/mp3_to_speex_graphedit.JPG"[=MP3=] to Speex" | [=MP3=] to speex transcoding.%0a%3c %0a%3c %0a%3c %0a%3c http://localhost/~silvia/oggdsf/uploads/images/vorbis_to_mp3_graphedit.JPG"Vorbis to [=MP3=]" | Vorbis to [=MP3=] transcoding.%0a\ No newline at end of file%0a
+host:1209313443=::1

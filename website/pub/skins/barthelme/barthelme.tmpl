@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head profile='http://gmpg.org/xfn/11'>
+	<title>$WikiTitle :: {$Group} / {$Title} $ActionTitle</title>
+	<meta http-equiv='Content-Style-Type' content='text/css' />
+  <meta name="description" content="Directshow Ogg demuxer/muxer with vorbis, speex, FLAC and theora decoders and encoders.">
+  <meta name="keywords" content="directshow, theora, vorbis, speex, ogg, media player, flac, codec, windows, audio, video, wmp, directX, plugin, plug-in, decoder, encoder, demux, mux, demuxer">
+	<link rel='stylesheet' title='Barthelme' href='$SkinDirUrl/barthelme.css' type='text/css' media='all' />
+	<link rel='start' href='{$ScriptUrl}' title='$WikiTitle' />
+	<style type='text/css' media='all'>
+		<!--function:barthelme_bodyfontsize-->
+		<!--function:barthelme_bodyfontfamily-->
+		<!--function:barthelme_headerfontfamily-->
+		<!--function:barthelme_postentryalignment-->
+		<!--function:barthelme_wrapperwidth-->
+	</style>
+	<!--HTMLHeader-->
+</head>
+<body>
+<div id='wrapper'>
+<!--PageHeaderFmt-->
+	<div id='header' onclick='location.href="{$ScriptUrl}";' style='cursor:pointer;'>
+	  <div id='logo' style='float:right;'><img src='$PageLogoUrl'/></div>
+		<h1 id='title'><a href='{$ScriptUrl}' title='$WikiTitle'>$WikiTitle</a></h1>
+		<p id='description'><a href='{$ScriptUrl}/{$Group}'>{$Group}</a> / <a href='{$ScriptUrl}/{$Group}.{$Title}'>{$Title}</a></p>
+	</div>
+<!--/PageHeaderFmt-->
+
+<div id='container'>
+	<div id='content' class='widecolumn'>
+	<!--PageText-->
+	</div>
+</div>
+
+<!--PageLeftFmt-->
+<div id='sidebar' $barthelme_sidebar_visible>
+	<ul>
+		<!--function:barthelme_sidebartext-->
+		<li>
+			<!--wiki:Site.SideBar-->
+		</li>
+		<li id='search'>
+			<h2><label for='s'>Search</label></h2>
+			<form id='searchform' action='{$ScriptUrl}'>
+			<div>
+				<input type='hidden' name='n' value='{$FullName}' />
+    				<input type='hidden' name='action' value='search' />
+				<input id='s' name='q' type='text' value='' tabindex='1' size='10' />
+				<br />
+				<input id='searchsubmit' name='searchsubmit' type='submit' value='Find' tabindex='2' />
+			</div>
+			</form><br/>
+		</li>
+		<li>
+			<h2>Actions</h2>
+			<!--wiki:Site.PageActions-->
+		</li>
+	</ul>
+</div>
+<!--/PageLeftFmt-->
+
+	<div id='footer'>
+		<p>
+			&copy; <!--function:barthelme_copyrightyear--> Administrator
+			|
+			Powered by <a href='http://www.pmwiki.com/' title='PmWiki'>PmWiki</a>
+			|
+			<a href='http://www.plaintxt.org/themes/barthelme/' title='Barthelme for WordPress' rel='follow'>Barthelme</a> theme by <a href='http://scottwallick.com/' title='scottwallick.com' rel='follow'>Scott</a> and ported by <a href='http://cscheng.info/blog'>Chi Shang</a>
+			|
+			Valid <a href='http://validator.w3.org/check?uri={$ScriptUrl}&amp;outline=1&amp;verbose=1' title='Valid XHTML 1.0 Strict' rel='nofollow'>XHTML</a> &amp; <a href='http://jigsaw.w3.org/css-validator/validator?uri=$SkinDirUrl/barthelme.css&amp;profile=css2&amp;warning=no' title='Valid CSS' rel='nofollow'>CSS</a>
+		</p>
+	</div>
+
+</div>
+
+<!-- The 'Barthelme' theme copyright (c) 2006 Scott Allan Wallick - http://www.plaintxt.org/themes/ -->
+
+</body>
+</html>

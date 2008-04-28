@@ -1,0 +1,29 @@
+version=pmwiki-2.2.0-beta65 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9b5) Gecko/2008032619 Firefox/3.0b5
+author=silvia
+charset=ISO-8859-1
+csum=
+host=::1
+name=Site.SideBar
+passwdedit=@_site_edit
+rev=5
+targets=Main.HomePage,Main.Downloads,Main.DeveloperInfo,Main.History,Main.About,Site.SideBar
+text=* [[Main/HomePage | Home]]%0a* [[Main/Downloads]]%0a* [[Main/DeveloperInfo | Developer Info]]%0a* [[Main/History]]%0a* [[/docs | Documentation]]%0a* [[Main/About]]%0a%0a%25sidehead%25 [[http://www.xiph.org/ | Xiph.org ]]%0a* [[http://www.vorbis.com/ | Vorbis ]]%0a* [[http://www.speex.org/ | Speex ]]%0a* [[http://www.theora.org/ | Theora ]]%0a* [[http://flac.sourceforge.net/ | FLAC]]%0a* [[http://www.annodex.net/ | Annodex ]]%0a%0a%25right%25 [-[[Site.SideBar?action=edit | edit SideBar]]-]%0a
+time=1209305607
+author:1209305607=silvia
+diff:1209305607:1209305510:minor=1c1%0a%3c * [[Main/HomePage | Home]]%0a---%0a> * [[Main/HomePage]]%0a
+host:1209305607=::1
+author:1209305510=silvia
+diff:1209305510:1209305491:minor=8c8%0a%3c %25sidehead%25 [[http://www.xiph.org/ | Xiph.org ]]%0a---%0a> %25sidehead%25 [[http://www.xiph.org | Xiph.org ]]%0a
+host:1209305510=::1
+author:1209305491=silvia
+csum:1209305491=added xiph section
+diff:1209305491:1209305086:=8,13c8,12%0a%3c %25sidehead%25 [[http://www.xiph.org | Xiph.org ]]%0a%3c * [[http://www.vorbis.com/ | Vorbis ]]%0a%3c * [[http://www.speex.org/ | Speex ]]%0a%3c * [[http://www.theora.org/ | Theora ]]%0a%3c * [[http://flac.sourceforge.net/ | FLAC]]%0a%3c * [[http://www.annodex.net/ | Annodex ]]%0a---%0a> %25sidehead%25 [[http://www.pmwiki.org | pmwiki.org ]]%0a> * [[Cookbook:CookbookBasics | Cookbook (addons) ]]%0a> * [[Cookbook:Skins | Skins (themes) ]]%0a> * [[PITS:PITS | PITS (issue tracking) ]]%0a> * [[PmWiki/Mailing Lists]]%0a
+host:1209305491=::1
+author:1209305086=silvia
+diff:1209305086:1209305000:minor=5c5%0a%3c * [[/docs | Documentation]]%0a---%0a> * [[/docs | Documentation]%0a14a15,16%0a> %0a> * [[PmWiki/Basic Editing]]%0a
+host:1209305086=::1
+author:1209305000=silvia
+csum:1209305000=editing sidebar and fixing stylesheet
+diff:1209305000:1125550800:=2,7c2,12%0a%3c * [[Main/Downloads]]%0a%3c * [[Main/DeveloperInfo | Developer Info]]%0a%3c * [[Main/History]]%0a%3c * [[/docs | Documentation]%0a%3c * [[Main/About]]%0a%3c %0a---%0a> * [[Main/WikiSandbox]]%0a> %0a> %25sidehead%25 [[PmWiki/PmWiki]]%0a> * [[PmWiki/Initial Setup Tasks]]  %0a> * [[PmWiki/Basic Editing]]%0a> * [[PmWiki/Documentation Index]]%0a> * [[PmWiki/FAQ | PmWiki FAQ ]]%0a> * [[PmWiki/PmWikiPhilosophy]]%0a> * [[PmWiki/Release Notes]]%0a> * [[PmWiki/ChangeLog]]%0a> %0a14,16c19%0a%3c %25right%25 [-[[Site.SideBar?action=edit | edit SideBar]]-]%0a%3c %0a%3c * [[PmWiki/Basic Editing]]%0a---%0a> %25right%25 [-[[Site.SideBar?action=edit | edit SideBar]]-]%0a\ No newline at end of file%0a
+host:1209305000=::1

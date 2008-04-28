@@ -1,0 +1,234 @@
+/*  
+NAME: barthelme.css
+AUTHOR: Chi Shang Cheng <chengsta at chengsta com>
+CREATED: 2007-01-07
+DESCRIPTION: This is a port of the Barthelme Wordpress theme for PmWiki.
+ORIGINAL AUTHOR: Scott Allan Wallick
+ORIGINAL AUTHOR URI: http://scottwallick.com/
+*/
+/*
+"Barthelme" (C) 2006 Scott Allan Wallick - http://scottwallick.com/ - and distributed under the terms of the GNU General Public License v2
+*/
+html, body {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background-color: #fff;
+	color: #222;
+	line-height: 150%;
+}
+/* GLOBAL ELEMENT COMBINATIONS */
+div#sidebar ul li h2 {
+	background: #fff;
+	color: #888;
+}
+div#content blockquote, div#content h1, div#content h2, div#content h4,div#content h5, div#content h6, div#sidebar ul li p {
+	background: #fff;
+	color: #444;
+}
+/* HEADER STUFF */
+div#header {
+	background: #bac8da url(./images/header.png) repeat-x top center;
+	color: #f5f5f5;
+	margin: 3em 0;
+	padding: 1.2em 0 1.2em 3em;
+}
+h1#title {
+	font-size: 2.2em;
+	font-weight: normal;
+	line-height: normal;
+	margin: 0;
+}
+p#description {
+	font-size: 1.3em;
+	margin: 0;
+}
+/* WRAPPER - CONTAINER - CONTENT STUFF */
+div#container {
+	float: right;
+	width: 100%;
+	margin: 0 0 0 -20em;
+}
+div.narrowcolumn {
+	margin: 0 0 0 19.5em;
+	padding: 0 2% 0 1%;
+}
+div.widecolumn {
+	margin: 0 0 0 19em;
+	padding: 0 4% 0 2%;
+}
+div#content h2 {
+	font-size: 1.7em;
+	font-weight: normal;
+	margin: 0.3em 0 1em 0;
+}
+div#content h3 {
+	font-size: 1.1em;
+	color: #888;
+	margin: 0;
+}
+div#content p {
+	line-height: 150%;
+	margin: 1em 0;
+}
+div#content ul li { list-style: square; }
+div#content ul li, div#content ol li { line-height: 150%; }
+div#content blockquote {
+	border-left: 1em solid #cfd5dd;
+	font-size: 0.9em;
+	padding-left: 1em;
+}
+div#content hr {
+	border: 0;
+	border-bottom: 1px solid #888;
+	margin: 1em 0 1em 0;
+}
+/* SIDEBAR STUFF */
+div#sidebar {
+	float: left;
+	width: 16em;
+}
+div#sidebar ul {
+	margin: 0 1.5em 0 3em;
+	padding: 0;
+}
+div#sidebar ul li {
+	font-size: 1em;
+	line-height: 175%;
+	list-style: none;
+	margin: 0 0 1.5em 0;
+	padding: 0;
+}
+div#sidebar ul li h2 {
+	font-size: 1em;
+	margin: 0;
+	text-transform: uppercase;
+}
+div#sidebar ul li, div#sidebar ul li ul, div#sidebar ul li ul li {
+	margin: 0;
+	padding: 0;
+}
+div#sidebar ul li ul li ul li {
+	font-size: 0.9em;
+	margin: 0 0 0 1em;
+}
+/* FOOTER STUFF */
+div#footer {
+	background: #fff;
+	clear: both;
+	color: #888;
+	padding: 5em 0 1em 3em;
+}
+div#footer p {
+	font-size: 0.9em;
+	margin: 0;
+}
+/* GLOBAL ALIGNMENT AND MISC ELEMENTS */
+.alignleft { float: left; }
+.alignright  { float: right; }
+abbr, acronym {
+	border-bottom: 1px dotted #546188;
+	cursor: help;
+}
+code, pre {
+	font: 1em/normal "courier new", courier, monospace;
+}
+.clearer {
+	clear: both;
+	height: 0;
+}
+/* IMAGE ELEMENTS, INCLUDING LINKS */
+img { border: none; }
+div#content img.center {
+	display: block;
+	margin: 0.4em auto;
+}
+div#content img.alignright { margin: 0.4em 0 0.4em 1.1em }
+div#content img.alignleft { margin: 0.4em 1.1em 0.4em 0; }
+/* FORMS FOR COMMENTS AND SEARCH / INCLUDES STYLES FOR THE WP-CONTACTFORM PLUGIN */
+div.formcontainer p{
+	margin: 0.5em 0 1em 0;
+}
+form {
+	margin: 0.3em 0 0 0;
+	padding: 0;
+}
+input#s {
+	margin: 0 0 0.4em 0;
+	padding: 0.2em;
+	width: 70%;
+}
+textarea {
+	/* height: 13em; */
+	overflow: auto;
+	float: left;
+	width: 100%;
+	margin: 0 0 0.5em 0;
+}
+input#searchsubmit, input#submit, input.e_button { border: 1px outset #999; }
+input#s, input#summary, input#author { width: 66%; }
+input#s, input#summary, input#author, textarea {
+	border: 1px inset #999;
+	padding: 0.2em;
+}
+div.formcontainer {
+	font-size: 1em;
+	margin: 0 0 3em 0;
+	width: 100%;
+}
+span.formright, span.formleft {
+	display: inline;
+	float: left;
+	margin: 0 0 0.5em 0;
+}
+span.formleft {
+	clear: both;
+	text-align: right;
+	width: 15%;
+	margin: 0 2% 0 0;
+}
+span.formright { width: 80%; }
+/* LINK STYLES */
+div#header a, div#header a:active, div#header a:link, div#header a:visited {
+	background: transparent;
+	color: #fff;
+	text-decoration: none;
+}
+div#header a:hover {
+	background: transparent;
+	color: #e5e5e5;
+}
+div#content a, div#content a:active, div#content a:link, div#content a:visited {
+	color: #546188;
+	background: transparent;
+}
+div#content a:hover {
+	color: #000;
+	background: transparent;
+}
+div#sidebar a, div#sidebar a:active, div#sidebar a:link, div#sidebar a:visited {
+	background: #fff;
+	color: #999;
+	text-decoration: none;
+}
+div#sidebar a:hover {
+	background: #fff;
+	color: #2f4e6f;
+	text-decoration: underline;
+}
+div#footer a, div#footer a:active, div#footer a:link, div#footer a:visited {
+	background: #fff;
+	color: #888;
+}
+div#footer a:hover {
+	background: #fff;
+	color: #222;
+	text-decoration: none;
+}
+
+.sidehead {
+  font-size:11pt; font-weight:bold; font-style:normal;
+}
+.sidehead a
+  { color:#505050; font-weight:bold; font-style:normal; }
