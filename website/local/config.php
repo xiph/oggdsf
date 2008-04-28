@@ -10,8 +10,8 @@ $WikiTitle = 'Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC';
 
 ##  $ScriptUrl is your preferred URL for accessing wiki pages
 ##  $PubDirUrl is the URL for the pub directory.
-# $ScriptUrl = 'http://www.mydomain.com/path/to/pmwiki.php';
-# $PubDirUrl = 'http://www.mydomain.com/path/to/pub';
+$ScriptUrl = 'http://www.xiph.org/dshow/pmwiki.php';
+$PubDirUrl = 'http://www.xiph.org/dshow//pub';
 
 ##  If you want to use URLs of the form .../pmwiki.php/Group/PageName
 ##  instead of .../pmwiki.php?p=Group.PageName, try setting

@@ -1,8 +1,8 @@
 version=pmwiki-2.2.0-beta65 ordered=1 urlencoded=1
 agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9b5) Gecko/2008032619 Firefox/3.0b5
 ctime=1209307040
-host=::1
+host=124.168.156.39
 name=Main.RecentChanges
-rev=33
-text=* [[Main/HomePage]]  . . . April 28, 2008, at 10:25 AM by [[~silvia]]: [==]%0a* [[Main/History]]  . . . April 28, 2008, at 10:17 AM by [[~silvia]]: [=added version 0.68.8333=]%0a* [[Main/SseBuilds]]  . . . April 28, 2008, at 09:53 AM by [[~silvia]]: [==]%0a* [[Main/EncTheoraGraphedit]]  . . . April 28, 2008, at 09:40 AM by [[~silvia]]: [==]%0a* [[Main/Graphedit]]  . . . April 28, 2008, at 02:24 AM by [[~silvia]]: [=added Zen's original text=]%0a* [[Main/About]]  . . . April 28, 2008, at 01:53 AM by [[~silvia]]: [==]%0a* [[Main/DeveloperInfo]]  . . . April 28, 2008, at 01:27 AM by [[~silvia]]: [=original Zen's page=]%0a* [[Main/Downloads]]  . . . April 28, 2008, at 01:19 AM by [[~silvia]]: [==]%0a
-time=1209342317
+rev=37
+text=* [[Main/HomePage]]  . . . April 27, 2008, at 07:33 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main/History]]  . . . April 27, 2008, at 07:32 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main/Graphedit]]  . . . April 27, 2008, at 07:31 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main/EncTheoraGraphedit]]  . . . April 27, 2008, at 07:30 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main/SseBuilds]]  . . . April 28, 2008, at 09:53 AM by [[~silvia]]: [==]%0a* [[Main/About]]  . . . April 28, 2008, at 01:53 AM by [[~silvia]]: [==]%0a* [[Main/DeveloperInfo]]  . . . April 28, 2008, at 01:27 AM by [[~silvia]]: [=original Zen's page=]%0a* [[Main/Downloads]]  . . . April 28, 2008, at 01:19 AM by [[~silvia]]: [==]%0a
+time=1209349981
