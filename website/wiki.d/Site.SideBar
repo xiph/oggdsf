@@ -6,10 +6,17 @@ csum=
 host=::1
 name=Site.SideBar
 passwdedit=@_site_edit
-rev=5
+rev=7
 targets=Main.HomePage,Main.Downloads,Main.DeveloperInfo,Main.History,Main.About,Site.SideBar
-text=* [[Main/HomePage | Home]]%0a* [[Main/Downloads]]%0a* [[Main/DeveloperInfo | Developer Info]]%0a* [[Main/History]]%0a* [[/docs | Documentation]]%0a* [[Main/About]]%0a%0a%25sidehead%25 [[http://www.xiph.org/ | Xiph.org ]]%0a* [[http://www.vorbis.com/ | Vorbis ]]%0a* [[http://www.speex.org/ | Speex ]]%0a* [[http://www.theora.org/ | Theora ]]%0a* [[http://flac.sourceforge.net/ | FLAC]]%0a* [[http://www.annodex.net/ | Annodex ]]%0a%0a%25right%25 [-[[Site.SideBar?action=edit | edit SideBar]]-]%0a
-time=1209305607
+text=* [[Main/HomePage | Directshow Filters Home]]%0a* [[Main/Downloads]]%0a* [[Main/DeveloperInfo | Developer Info]]%0a* [[Main/History]]%0a* [[/docs | Documentation]]%0a* [[Main/About]]%0a%0a%0a%25right%25 [-[[Site.SideBar?action=edit | edit SideBar]]-]%0a
+time=1209346236
+author:1209346236=silvia
+diff:1209346236:1209346215:minor=1c1%0a%3c * [[Main/HomePage | Directshow Filters Home]]%0a---%0a> * [[Main/HomePage | Home]]%0a
+host:1209346236=::1
+author:1209346215=silvia
+csum:1209346215=removed links to xiph projects since the page header has been added
+diff:1209346215:1209305607:=7a8,13%0a> %25sidehead%25 [[http://www.xiph.org/ | Xiph.org ]]%0a> * [[http://www.vorbis.com/ | Vorbis ]]%0a> * [[http://www.speex.org/ | Speex ]]%0a> * [[http://www.theora.org/ | Theora ]]%0a> * [[http://flac.sourceforge.net/ | FLAC]]%0a> * [[http://www.annodex.net/ | Annodex ]]%0a
+host:1209346215=::1
 author:1209305607=silvia
 diff:1209305607:1209305510:minor=1c1%0a%3c * [[Main/HomePage | Home]]%0a---%0a> * [[Main/HomePage]]%0a
 host:1209305607=::1
