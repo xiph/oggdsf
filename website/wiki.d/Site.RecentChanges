@@ -1,8 +1,8 @@
 version=pmwiki-2.2.0-beta65 ordered=1 urlencoded=1
 agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9b5) Gecko/2008032619 Firefox/3.0b5
 ctime=1209305000
-host=::1
+host=203.214.148.226
 name=Site.RecentChanges
-rev=7
-text=* [[Site/SideBar]]  . . . April 28, 2008, at 11:30 AM by [[~silvia]]: [==]%0a
-time=1209346236
+rev=8
+text=* [[Site/SideBar]]  . . . May 06, 2008, at 07:09 AM by [[~silvia]]: [=added issue reporting=]%0a
+time=1210082941

@@ -2,14 +2,18 @@ version=pmwiki-2.2.0-beta65 ordered=1 urlencoded=1
 agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9b5) Gecko/2008032619 Firefox/3.0b5
 author=silvia
 charset=ISO-8859-1
-csum=
-host=::1
+csum=added issue reporting
+host=203.214.148.226
 name=Site.SideBar
 passwdedit=@_site_edit
-rev=7
-targets=Main.HomePage,Main.Downloads,Main.DeveloperInfo,Main.History,Main.About,Site.SideBar
-text=* [[Main/HomePage | Directshow Filters Home]]%0a* [[Main/Downloads]]%0a* [[Main/DeveloperInfo | Developer Info]]%0a* [[Main/History]]%0a* [[/docs | Documentation]]%0a* [[Main/About]]%0a%0a%0a%25right%25 [-[[Site.SideBar?action=edit | edit SideBar]]-]%0a
-time=1209346236
+rev=8
+targets=Main.HomePage,Main.Downloads,Main.DeveloperInfo,Main.ReportIssues,Main.History,Main.About,Site.SideBar
+text=* [[Main/HomePage | Directshow Filters Home]]%0a* [[Main/Downloads]]%0a* [[Main/DeveloperInfo | Developer Info]]%0a* [[Main/ReportIssues | Report Issues]]%0a* [[Main/History]]%0a* [[/docs | Documentation]]%0a* [[Main/About]]%0a%0a%0a%25right%25 [-[[Site.SideBar?action=edit | edit SideBar]]-]%0a
+time=1210082941
+author:1210082941=silvia
+csum:1210082941=added issue reporting
+diff:1210082941:1209346236:=4d3%0a%3c * [[Main/ReportIssues | Report Issues]]%0a
+host:1210082941=203.214.148.226
 author:1209346236=silvia
 diff:1209346236:1209346215:minor=1c1%0a%3c * [[Main/HomePage | Directshow Filters Home]]%0a---%0a> * [[Main/HomePage | Home]]%0a
 host:1209346236=::1

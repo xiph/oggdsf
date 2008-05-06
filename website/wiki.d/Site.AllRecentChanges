@@ -1,8 +1,8 @@
 version=pmwiki-2.2.0-beta65 ordered=1 urlencoded=1
 agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9b5) Gecko/2008032619 Firefox/3.0b5
 ctime=1209305000
-host=124.168.156.39
+host=203.214.148.226
 name=Site.AllRecentChanges
-rev=45
-text=* [[Main.HomePage]]  . . . April 27, 2008, at 07:52 PM by [[~silvia]]: [=put a link to the releases directory in svn on the front page=]%0a* [[Main.History]]  . . . April 27, 2008, at 07:32 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main.Graphedit]]  . . . April 27, 2008, at 07:31 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main.EncTheoraGraphedit]]  . . . April 27, 2008, at 07:30 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Site.SideBar]]  . . . April 28, 2008, at 11:30 AM by [[~silvia]]: [==]%0a* [[Main.SseBuilds]]  . . . April 28, 2008, at 09:53 AM by [[~silvia]]: [==]%0a* [[Main.About]]  . . . April 28, 2008, at 01:53 AM by [[~silvia]]: [==]%0a* [[Main.DeveloperInfo]]  . . . April 28, 2008, at 01:27 AM by [[~silvia]]: [=original Zen's page=]%0a* [[Main.Downloads]]  . . . April 28, 2008, at 01:19 AM by [[~silvia]]: [==]%0a
-time=1209351141
+rev=48
+text=* [[Main.ReportIssues]]  . . . May 06, 2008, at 07:23 AM by [[~silvia]]: [=newly created page=]%0a* [[Site.SideBar]]  . . . May 06, 2008, at 07:09 AM by [[~silvia]]: [=added issue reporting=]%0a* [[Main.About]]  . . . April 27, 2008, at 08:45 PM by [[~silvia]]: [=fixes to contact information=]%0a* [[Main.HomePage]]  . . . April 27, 2008, at 07:52 PM by [[~silvia]]: [=put a link to the releases directory in svn on the front page=]%0a* [[Main.History]]  . . . April 27, 2008, at 07:32 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main.Graphedit]]  . . . April 27, 2008, at 07:31 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main.EncTheoraGraphedit]]  . . . April 27, 2008, at 07:30 PM by [[~silvia]]: [=replaced localhost with xiph.org=]%0a* [[Main.SseBuilds]]  . . . April 28, 2008, at 09:53 AM by [[~silvia]]: [==]%0a* [[Main.DeveloperInfo]]  . . . April 28, 2008, at 01:27 AM by [[~silvia]]: [=original Zen's page=]%0a* [[Main.Downloads]]  . . . April 28, 2008, at 01:19 AM by [[~silvia]]: [==]%0a
+time=1210083806

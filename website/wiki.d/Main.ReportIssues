@@ -1,0 +1,16 @@
+version=pmwiki-2.2.0-beta65 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9b5) Gecko/2008032619 Firefox/3.0b5
+author=silvia
+charset=ISO-8859-1
+csum=newly created page
+ctime=1210083806
+host=203.214.148.226
+name=Main.ReportIssues
+rev=1
+targets=Main.About
+text=!! Report Issues%0a%0aIf you think oggdsf behaves incorrectly on your machine and would like to let us know - this is the place to do it.%0a%0aPlease consider a couple of hints when reporting the problem:%0a%0a* It is possible that other users have experienced and reported a problem similar to yours. Please check the list of the known problems. You can also search the [[https://trac.xiph.org/report/23 | report database]] using a simple [[https://trac.xiph.org/search | search form]]. If the problem you experience seems to be unique or you think you may be able to add some significant information to the previous reports - please do report it.%0a    %0a* More detailed information will help us to resolve the problem faster. Especially useful is information about your system configuration, steps to reproduce the (mis)behaviour and, in extreme cases when oggdsf causes an application crash, a crash backtrace log.%0a%0aPlease follow [[https://trac.xiph.org/newticket?component=oggdsf&version=trunk | this link]] to submit your report. Thank you.%0a%0aFor other methods of contacting us please see [[About]] page.%0a
+time=1210083806
+author:1210083806=silvia
+csum:1210083806=newly created page
+diff:1210083806:1210083806:=1,13d0%0a%3c !! Report Issues%0a%3c %0a%3c If you think oggdsf behaves incorrectly on your machine and would like to let us know - this is the place to do it.%0a%3c %0a%3c Please consider a couple of hints when reporting the problem:%0a%3c %0a%3c * It is possible that other users have experienced and reported a problem similar to yours. Please check the list of the known problems. You can also search the [[https://trac.xiph.org/report/23 | report database]] using a simple [[https://trac.xiph.org/search | search form]]. If the problem you experience seems to be unique or you think you may be able to add some significant information to the previous reports - please do report it.%0a%3c     %0a%3c * More detailed information will help us to resolve the problem faster. Especially useful is information about your system configuration, steps to reproduce the (mis)behaviour and, in extreme cases when oggdsf causes an application crash, a crash backtrace log.%0a%3c %0a%3c Please follow [[https://trac.xiph.org/newticket?component=oggdsf&version=trunk | this link]] to submit your report. Thank you.%0a%3c %0a%3c For other methods of contacting us please see [[About]] page.%0a
+host:1210083806=203.214.148.226
