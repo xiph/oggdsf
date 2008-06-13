@@ -176,7 +176,8 @@ typedef struct {
 #include <tchar.h>
 
 #define NO_SHLWAPI_STRFCNS
-#include <atlbase.h>
+// Commented to allow compilation with Visual Studio 2008 Express
+//#include <atlbase.h>
 #include <strsafe.h>
 
 #ifndef NUMELMS
