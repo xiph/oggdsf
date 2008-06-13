@@ -115,18 +115,18 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts
 
 		if (	!	(	(mYCbCrBuffer[1].width == mYCbCrBuffer[2].width)
 					&&	(mYCbCrBuffer[1].height == mYCbCrBuffer[2].height)
-					&&	(mYCbCrBuffer[1].ystride == mYCbCrBuffer[2].ystride)
+					&&	(mYCbCrBuffer[1].stride == mYCbCrBuffer[2].stride)
 					)) {
 			throw "Not 4:2:0 - OOTheora needs fixing";
 		}
 
 		mYUVBuffer.y_width = mYCbCrBuffer[0].width;
 		mYUVBuffer.y_height = mYCbCrBuffer[0].height;
-		mYUVBuffer.y_stride = mYCbCrBuffer[0].ystride;
+		mYUVBuffer.y_stride = mYCbCrBuffer[0].stride;
 		mYUVBuffer.y = mYCbCrBuffer[0].data;
 		mYUVBuffer.uv_width = mYCbCrBuffer[1].width;
 		mYUVBuffer.uv_height = mYCbCrBuffer[1].height;
-		mYUVBuffer.uv_stride = mYCbCrBuffer[1].ystride;
+		mYUVBuffer.uv_stride = mYCbCrBuffer[1].stride;
 		mYUVBuffer.u = mYCbCrBuffer[1].data;
 		mYUVBuffer.v = mYCbCrBuffer[2].data;
 

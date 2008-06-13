@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winresrc.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -34,7 +34,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winresrc.h""\r\n"
     "\0"
 END
 
@@ -73,7 +73,7 @@ END
 
 IDD_THEORA_ENCODE_SETTINGS DIALOGEX 0, 0, 209, 274
 STYLE DS_SETFONT | WS_CHILD | WS_BORDER
-FONT 8, "MS Sans Serif", 400, 0, 0x0
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     GROUPBOX        "Quality Settings",IDC_GROUP_QUALITY,2,2,204,90
     CONTROL         "",IDC_SLIDER_QUALITY,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,13,26,184,11
