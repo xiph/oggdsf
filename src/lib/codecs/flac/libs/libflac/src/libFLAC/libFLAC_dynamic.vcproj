@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9,00"
 	Name="libFLAC_dynamic"
 	ProjectGUID="{A0004AEB-B47C-4A0A-8FE7-4F65B5FD48FA}"
 	RootNamespace="libFLAC_dynamic"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -68,7 +69,7 @@
 				AssemblerListingLocation=".\Release_dynamic/"
 				ObjectFile=".\Release_dynamic/"
 				ProgramDataBaseFileName=".\Release_dynamic/"
-				BrowseInformation="1"
+				BrowseInformation="0"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				CallingConvention="0"
@@ -97,6 +98,8 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				OptimizeForWindows98="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\..\..\obj\release\lib/libFLAC.lib"
 			/>
 			<Tool
@@ -118,7 +121,388 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".\..\..\obj\debug\lib"
+			IntermediateDirectory=".\Debug_dynamic"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Performing Custom Build Ste"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\include,..\..\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
+				AssemblerListingLocation=".\Debug_dynamic/"
+				ObjectFile=".\Debug_dynamic/"
+				ProgramDataBaseFileName=".\Debug_dynamic/"
+				BrowseInformation="0"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
+				CallingConvention="0"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG,_USRDLL"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_CE_ARM|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Performing Custom Build Ste"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\include,..\..\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
+				AssemblerListingLocation=".\Debug_dynamic/"
+				ObjectFile=".\Debug_dynamic/"
+				ProgramDataBaseFileName=".\Debug_dynamic/"
+				BrowseInformation="0"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
+				CallingConvention="0"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG,_USRDLL"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_WM5_PPC_ARM|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Performing Custom Build Ste"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\include,..\..\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
+				AssemblerListingLocation=".\Debug_dynamic/"
+				ObjectFile=".\Debug_dynamic/"
+				ProgramDataBaseFileName=".\Debug_dynamic/"
+				BrowseInformation="0"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
+				CallingConvention="0"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG,_USRDLL"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release_WM5_PPC_ARM|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Performing Custom Build Ste"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\include,..\..\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
+				AssemblerListingLocation=".\Debug_dynamic/"
+				ObjectFile=".\Debug_dynamic/"
+				ProgramDataBaseFileName=".\Debug_dynamic/"
+				BrowseInformation="0"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
+				CallingConvention="0"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG,_USRDLL"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -331,103 +715,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory=".\..\..\obj\debug\lib"
-			IntermediateDirectory=".\Debug_dynamic"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-				Description="Performing Custom Build Ste"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
-				AssemblerListingLocation=".\Debug_dynamic/"
-				ObjectFile=".\Debug_dynamic/"
-				ProgramDataBaseFileName=".\Debug_dynamic/"
-				BrowseInformation="1"
-				WarningLevel="4"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
-				CallingConvention="0"
-				CompileAs="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,_USRDLL"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
-				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
-				SubSystem="2"
-				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Debug|Pocket PC 2003 (ARMV4)"
 			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
 			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
@@ -617,103 +904,6 @@
 				AdditionalFiles=""
 			/>
 			<DebuggerTool
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug_CE_ARM|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-				Description="Performing Custom Build Ste"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
-				AssemblerListingLocation=".\Debug_dynamic/"
-				ObjectFile=".\Debug_dynamic/"
-				ProgramDataBaseFileName=".\Debug_dynamic/"
-				BrowseInformation="1"
-				WarningLevel="4"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
-				CallingConvention="0"
-				CompileAs="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,_USRDLL"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
-				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
-				SubSystem="2"
-				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -909,103 +1099,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug_WM5_PPC_ARM|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-				Description="Performing Custom Build Ste"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
-				AssemblerListingLocation=".\Debug_dynamic/"
-				ObjectFile=".\Debug_dynamic/"
-				ProgramDataBaseFileName=".\Debug_dynamic/"
-				BrowseInformation="1"
-				WarningLevel="4"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
-				CallingConvention="0"
-				CompileAs="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,_USRDLL"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
-				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
-				SubSystem="2"
-				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
 			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
@@ -1194,103 +1287,6 @@
 				AdditionalFiles=""
 			/>
 			<DebuggerTool
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release_WM5_PPC_ARM|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-				Description="Performing Custom Build Ste"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\obj\debug\lib/libFLAC_dynamic.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;FLAC_API_EXPORTS;VERSION=\&quot;1.1.0\&quot;;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;_WINDOWS;WIN32;_USRDLL"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\Debug_dynamic/libFLAC_dynamic.pch"
-				AssemblerListingLocation=".\Debug_dynamic/"
-				ObjectFile=".\Debug_dynamic/"
-				ProgramDataBaseFileName=".\Debug_dynamic/"
-				BrowseInformation="1"
-				WarningLevel="4"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
-				CallingConvention="0"
-				CompileAs="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,_USRDLL"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\..\obj\debug\bin/libFLAC.dll"
-				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\obj\debug\lib/libFLAC.pdb"
-				SubSystem="2"
-				ImportLibrary=".\..\..\obj\debug\lib/libFLAC.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -1581,6 +1577,46 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/cpu_asm.nasm;"
+							Outputs="ia32/cpu_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug_CE_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/cpu_asm.nasm;"
+							Outputs="ia32/cpu_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug_WM5_PPC_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/cpu_asm.nasm;"
+							Outputs="ia32/cpu_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_WM5_PPC_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/cpu_asm.nasm;"
+							Outputs="ia32/cpu_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
 						Name="Release|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1592,16 +1628,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/cpu_asm.nasm;"
-							Outputs="ia32/cpu_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
 						>
 						<Tool
 							Name="VCCustomBuildTool"
@@ -1631,16 +1657,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug_CE_ARM|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/cpu_asm.nasm;"
-							Outputs="ia32/cpu_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1661,16 +1677,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug_WM5_PPC_ARM|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/cpu_asm.nasm;"
-							Outputs="ia32/cpu_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1682,16 +1688,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/cpu_asm.nasm;"
-							Outputs="ia32/cpu_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release_WM5_PPC_ARM|Win32"
 						>
 						<Tool
 							Name="VCCustomBuildTool"
@@ -1735,6 +1731,46 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/fixed_asm.nasm;"
+							Outputs="ia32/fixed_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug_CE_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/fixed_asm.nasm;"
+							Outputs="ia32/fixed_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug_WM5_PPC_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/fixed_asm.nasm;"
+							Outputs="ia32/fixed_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_WM5_PPC_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/fixed_asm.nasm;"
+							Outputs="ia32/fixed_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
 						Name="Release|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1746,16 +1782,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/fixed_asm.nasm;"
-							Outputs="ia32/fixed_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
 						>
 						<Tool
 							Name="VCCustomBuildTool"
@@ -1785,16 +1811,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug_CE_ARM|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/fixed_asm.nasm;"
-							Outputs="ia32/fixed_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1815,16 +1831,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug_WM5_PPC_ARM|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/fixed_asm.nasm;"
-							Outputs="ia32/fixed_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1836,16 +1842,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/fixed_asm.nasm;"
-							Outputs="ia32/fixed_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release_WM5_PPC_ARM|Win32"
 						>
 						<Tool
 							Name="VCCustomBuildTool"
@@ -1889,6 +1885,46 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/lpc_asm.nasm;"
+							Outputs="ia32/lpc_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug_CE_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/lpc_asm.nasm;"
+							Outputs="ia32/lpc_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug_WM5_PPC_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/lpc_asm.nasm;"
+							Outputs="ia32/lpc_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release_WM5_PPC_ARM|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+							AdditionalDependencies="ia32/lpc_asm.nasm;"
+							Outputs="ia32/lpc_asm.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
 						Name="Release|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1900,16 +1936,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/lpc_asm.nasm;"
-							Outputs="ia32/lpc_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
 						>
 						<Tool
 							Name="VCCustomBuildTool"
@@ -1939,16 +1965,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug_CE_ARM|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/lpc_asm.nasm;"
-							Outputs="ia32/lpc_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1969,16 +1985,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug_WM5_PPC_ARM|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/lpc_asm.nasm;"
-							Outputs="ia32/lpc_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 						>
 						<Tool
@@ -1990,16 +1996,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="c:\NASM\nasmw -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
-							AdditionalDependencies="ia32/lpc_asm.nasm;"
-							Outputs="ia32/lpc_asm.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release_WM5_PPC_ARM|Win32"
 						>
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2054,6 +2050,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2063,14 +2083,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2094,14 +2106,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2111,14 +2115,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2154,6 +2150,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2163,14 +2183,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2194,14 +2206,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2211,14 +2215,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2254,6 +2250,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2263,14 +2283,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2294,14 +2306,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2311,14 +2315,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2354,6 +2350,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2363,14 +2383,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2394,14 +2406,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2411,14 +2415,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2466,6 +2462,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2475,14 +2495,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2506,14 +2518,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2523,14 +2527,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2566,6 +2562,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2575,14 +2595,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2606,14 +2618,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2623,14 +2627,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2710,6 +2706,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2719,14 +2739,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2750,14 +2762,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2767,14 +2771,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2826,6 +2822,30 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2835,14 +2855,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2866,14 +2878,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2883,14 +2887,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -2931,6 +2927,46 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
+						Outputs="$(InputPath)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
+						Outputs="$(InputPath)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
+						Outputs="$(InputPath)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
+						Outputs="$(InputPath)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Release|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2949,16 +2985,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
-						Outputs="$(InputPath)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -2970,16 +2996,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
-						Outputs="$(InputPath)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -3009,16 +3025,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
-						Outputs="$(InputPath)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
 					>
 					<Tool
@@ -3030,16 +3036,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="copy $(InputPath).vc2003 $(InputPath)&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\include\Flac\ordinals.h.vc2003"
-						Outputs="$(InputPath)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
