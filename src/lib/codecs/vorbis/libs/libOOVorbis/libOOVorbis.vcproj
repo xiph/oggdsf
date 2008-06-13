@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9,00"
 	Name="libOOVorbis"
 	ProjectGUID="{C97A67F9-B786-41FA-9FC9-13167FE2BA49}"
 	RootNamespace="libOOVorbis"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
