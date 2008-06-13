@@ -5,7 +5,7 @@
 * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
 * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
 *                                                                  *
-* THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2004             *
+* THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
 * by the Xiph.org Foundation, http://www.xiph.org/                 *
 *                                                                  *
 ********************************************************************
@@ -70,9 +70,11 @@ Directory:
 CONTACT:
 
 The Ogg homepage is located at 'http://www.xiph.org/ogg/'.
-Vorbis's homepage is located at 'http://www.xiph.org/ogg/vorbis/'.
+Vorbis's homepage is located at 'http://www.xiph.org/vorbis/'.
 Up to date technical documents, contact information, source code and
 pre-built utilities may be found there.
+
+The user website for Ogg Vorbis software and audio is http://vorbis.com/
 
 BUILDING FROM TRUNK:
 

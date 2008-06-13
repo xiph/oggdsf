@@ -7,7 +7,7 @@
 <section id="vorbis-spec-residue">
 <sectioninfo>
  <releaseinfo>
-  $Id: 08-residue.xml 7186 2004-07-20 07:19:25Z xiphmont $
+  $Id: 08-residue.xml 14598 2008-03-18 15:39:43Z xiphmont $
  </releaseinfo>
 </sectioninfo>
 <title>Residue setup and decode</title>
@@ -50,6 +50,7 @@ A set of coded residue vectors are all of the same length.  High level
 coding structure, ignoring for the moment exactly how a partition is
 encoded and simply trusting that it is, is as follows:</para>
 
+<para>
 <itemizedlist>
 <listitem><para>Each vector is partitioned into multiple equal sized chunks
 according to configuration specified.  If we have a vector size of
@@ -81,6 +82,7 @@ a partition is the same in each pass, thus the classification codeword
 is coded only in the first pass.</para></listitem>
 
 </itemizedlist>
+</para>
 
 <mediaobject>
 <imageobject>
@@ -197,21 +199,29 @@ Header decode for all three residue types is identical.</para>
 </programlisting>
 
 <para>
-<varname>[residue_begin]</varname> and <varname>[residue_end]</varname> select the specific
-sub-portion of each vector that is actually coded; it implements akin
-to a bandpass where, for coding purposes, the vector effectively
-begins at element <varname>[residue_begin]</varname> and ends at
-<varname>[residue_end]</varname>.  Preceding and following values in the unpacked
-vectors are zeroed.  Note that for residue type 2, these values as
-well as <varname>[residue_partition_size]</varname>apply to the interleaved
-vector, not the individual vectors before interleave.
+<varname>[residue_begin]</varname> and
+<varname>[residue_end]</varname> select the specific sub-portion of
+each vector that is actually coded; it implements akin to a bandpass
+where, for coding purposes, the vector effectively begins at element
+<varname>[residue_begin]</varname> and ends at
+<varname>[residue_end]</varname>.  Preceding and following values in
+the unpacked vectors are zeroed.  Note that for residue type 2, these
+values as well as <varname>[residue_partition_size]</varname>apply to
+the interleaved vector, not the individual vectors before interleave.
 <varname>[residue_partition_size]</varname> is as explained above,
 <varname>[residue_classifications]</varname> is the number of possible
 classification to which a partition can belong and
-<varname>[residue_classbook]</varname> is the codebook number used to code
-classification codewords.  The number of dimensions in book
-<varname>[residue_classbook]</varname> determines how many classification values
-are grouped into a single classification codeword.</para>
+<varname>[residue_classbook]</varname> is the codebook number used to
+code classification codewords.  The number of dimensions in book
+<varname>[residue_classbook]</varname> determines how many
+classification values are grouped into a single classification
+codeword.  Note that the number of entries and dimensions in book
+<varname>[residue_classbook]</varname>, along with
+<varname>[residue_classifications]</varname>, overdetermines to
+possible number of classification codewords.  If
+<varname>[residue_classifications]</varname>^<varname>[residue_classbook]</varname>.dimensions
+does not equal <varname>[residue_classbook]</varname>.entries, the
+bitstream should be regarded to be undecodable. </para>
 
 <para>
 Next we read a bitmap pattern that specifies which partition classes
@@ -281,67 +291,94 @@ decode', decode skips vector 1 during the decode loop.  However, even
 'do not decode' vectors are allocated and zeroed.</para>
 
 <para>
+Depending on the values of <varname>[residue_begin]</varname> and
+<varname>[residue_end]</varname>, it is obvious that the encoded
+portion of a residue vector may be the entire possible residue vector
+or some other strict subset of the actual residue vector size with
+zero padding at either uncoded end.  However, it is also possible to
+set <varname>[residue_begin]</varname> and
+<varname>[residue_end]</varname> to specify a range partially or
+wholly beyond the maximum vector size.  Before beginning residue
+decode, limit <varname>[residue_begin]</varname> and
+<varname>[residue_end]</varname> to the maximum possible vector size
+as follows.  We assume that the number of vectors being encoded,
+<varname>[ch]</varname> is provided by the higher level decoding
+process.</para>
+
+<programlisting>
+  1) [actual_size] = current blocksize/2;
+  2) if residue encoding is format 2
+       3) [actual_size] = [actual_size] * [ch];
+  4) [limit_residue_begin] = maximum of ([residue_begin],[actual_size]);
+  5) [limit_residue_end] = maximum of ([residue_end],[actual_size]);
+</programlisting>
+
+<para>
 The following convenience values are conceptually useful to clarifying
 the decode process:</para>
 
 <programlisting>
   1) [classwords_per_codeword] = [codebook_dimensions] value of codebook [residue_classbook]
-  2) [n_to_read] = [residue_end] - [residue_begin]
+  2) [n_to_read] = [limit_residue_end] - [limit_residue_begin]
   3) [partitions_to_read] = [n_to_read] / [residue_partition_size]
 </programlisting>
 
 <para>
-Packet decode proceeds as follows, matching the description offered earlier in the document.  We assume that the number of vectors being encoded, <varname>[ch]</varname> is provided by the higher level decoding process.</para>
+Packet decode proceeds as follows, matching the description offered earlier in the document. </para>
 <programlisting>
   1) allocate and zero all vectors that will be returned.
-  2) iterate [pass] over the range 0 ... 7 {
+  2) if ([n_to_read] is zero), stop; there is no residue to decode.
+  3) iterate [pass] over the range 0 ... 7 {
 
-       3) [partition_count] = 0
+       4) [partition_count] = 0
 
-       4) if ([pass] is zero) {
+       5) while [partition_count] is less than [partitions_to_read]
+
+            6) if ([pass] is zero) {
      
-            5) iterate [j] over the range 0 .. [ch]-1 {
+                 7) iterate [j] over the range 0 .. [ch]-1 {
 
-                 6) if vector [j] is not marked 'do not decode' {
+                      8) if vector [j] is not marked 'do not decode' {
 
-                      7) [temp] = read from packet using codebook [residue_classbook] in scalar context
-                      8) iterate [i] descending over the range [classwords_per_codeword]-1 ... 0 {
+                           9) [temp] = read from packet using codebook [residue_classbook] in scalar context
+                          10) iterate [i] descending over the range [classwords_per_codeword]-1 ... 0 {
 
-                           9) array [classifications] element [j],([i]+[partition_count]) =
-                              [temp] integer modulo [residue_classifications]
-                          10) [temp] = [temp] / [residue_classifications] using integer division
+                               11) array [classifications] element [j],([i]+[partition_count]) =
+                                   [temp] integer modulo [residue_classifications]
+                               12) [temp] = [temp] / [residue_classifications] using integer division
 
-                         }
+                              }
       
-                    }
+                         }
             
+                    }
+          
                }
-        
-          }
 
-      11) iterate [i] over the range 0 .. ([classwords_per_codeword] - 1) while [partition_count] 
-          is also less than [partitions_to_read] {
+           13) iterate [i] over the range 0 .. ([classwords_per_codeword] - 1) while [partition_count] 
+               is also less than [partitions_to_read] {
 
-            12) iterate [j] over the range 0 .. [ch]-1 {
+                 14) iterate [j] over the range 0 .. [ch]-1 {
    
-                 13) if vector [j] is not marked 'do not decode' {
+                      15) if vector [j] is not marked 'do not decode' {
    
-                      14) [vqclass] = array [classifications] element [j],[partition_count]
-                      15) [vqbook] = array [residue_books] element [vqclass],[pass]
-                      16) if ([vqbook] is not 'unused') {
+                           16) [vqclass] = array [classifications] element [j],[partition_count]
+                           17) [vqbook] = array [residue_books] element [vqclass],[pass]
+                           18) if ([vqbook] is not 'unused') {
    
-                           17) decode partition into output vector number [j], starting at scalar 
-                           offset [residue_begin]+[partition_count]*[residue_partition_size] using 
-                           codebook number [vqbook] in VQ context
+                                19) decode partition into output vector number [j], starting at scalar 
+                                    offset [limit_residue_begin]+[partition_count]*[residue_partition_size] using 
+                                    codebook number [vqbook] in VQ context
+                          }
                      }
-                }
    
-            18) increment [partition_count] by one
+                 20) increment [partition_count] by one
 
+               }
           }
      }
  
- 19) done
+ 21) done
 
 </programlisting>
 
@@ -359,11 +396,13 @@ Format zero decodes partitions exactly as described earlier in the
 'Residue Format: residue 0' section.  The following pseudocode
 presents the same algorithm. Assume:</para>
 
+<para>
 <itemizedlist>
 <listitem><simpara> <varname>[n]</varname> is the value in <varname>[residue_partition_size]</varname></simpara></listitem>
 <listitem><simpara><varname>[v]</varname> is the residue vector</simpara></listitem>
 <listitem><simpara><varname>[offset]</varname> is the beginning read offset in [v]</simpara></listitem>
 </itemizedlist>
+</para>
 
 <programlisting>
  1) [step] = [n] / [codebook_dimensions]
@@ -393,12 +432,14 @@ Format 1 decodes partitions exactly as described earlier in the
 'Residue Format: residue 1' section.  The following pseudocode
 presents the same algorithm. Assume:</para>
 
+<para>
 <itemizedlist>
 <listitem><simpara> <varname>[n]</varname> is the value in
 <varname>[residue_partition_size]</varname></simpara></listitem>
 <listitem><simpara><varname>[v]</varname> is the residue vector</simpara></listitem>
 <listitem><simpara><varname>[offset]</varname> is the beginning read offset in [v]</simpara></listitem>
 </itemizedlist>
+</para>
 
 <programlisting>
  1) [i] = 0

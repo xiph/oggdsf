@@ -7,7 +7,7 @@
 <section id="vorbis-spec-floor0">
 <sectioninfo>
 <releaseinfo>
-  $Id: 06-floor0.xml 8547 2004-12-29 03:33:51Z giles $
+  $Id: 06-floor0.xml 14529 2008-02-19 10:15:13Z xiphmont $
 </releaseinfo>
 </sectioninfo>  
 <title>Floor type 0 setup and decode</title>
@@ -49,9 +49,7 @@ follows:</para>
   4) [floor0_amplitude_bits] = read an unsigned integer of six bits
   5) [floor0_amplitude_offset] = read an unsigned integer of eight bits
   6) [floor0_number_of_books] = read an unsigned integer of four bits and add 1
-  7) if any of [floor0_order], [floor0_rate], [floor0_bark_map_size], [floor0_amplitude_bits],
-     [floor0_amplitude_offset] or [floor0_number_of_books] are less than zero, the stream is not decodable
-  8) array [floor0_book_list] = read a list of [floor0_number_of_books] unsigned integers of eight bits each;
+  7) array [floor0_book_list] = read a list of [floor0_number_of_books] unsigned integers of eight bits each;
 </screen>
 
 <para>
@@ -79,11 +77,10 @@ Packet decode proceeds as follows:</para>
   1) [amplitude] = read an unsigned integer of [floor0_amplitude_bits] bits
   2) if ( [amplitude] is greater than zero ) {
        3) [coefficients] is an empty, zero length vector
-
        4) [booknumber] = read an unsigned integer of <link linkend="vorbis-spec-ilog">ilog</link>( [floor0_number_of_books] ) bits
        5) if ( [booknumber] is greater than the highest number decode codebook ) then packet is undecodable
        6) [last] = zero;
-       7) vector [temp_vector] = read vector from bitstream using codebook number [booknumber] in VQ context.
+       7) vector [temp_vector] = read vector from bitstream using codebook number [floor0_book_list] element [booknumber] in VQ context.
        8) add the scalar value [last] to each scalar in vector [temp_vector]
        9) [last] = the value of the last scalar in vector [temp_vector]
       10) concatenate [temp_vector] onto the end of the [coefficients] vector
@@ -186,6 +183,7 @@ Similarly, the below calculation synthesizes the output LSP curve <varname>[outp
 
 <orderedlist>
  <listitem><simpara> <varname>[i]</varname> = 0 </simpara></listitem>
+ <listitem><simpara> <varname>[&#969;]</varname> = &#960; * map element <varname>[i]</varname> / <varname>[floor0_bark_map_size]</varname></simpara></listitem>
  <listitem><para>if ( <varname>[floor0_order]</varname> is odd ) {
   <orderedlist>
    <listitem><para>calculate <varname>[p]</varname> and <varname>[q]</varname> according to:

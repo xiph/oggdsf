@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: toplevel residue templates 8/11kHz
- last mod: $Id: residue_8.h 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: residue_8.h 13293 2007-07-24 00:09:47Z xiphmont $
 
  ********************************************************************/
 
@@ -22,17 +22,29 @@
 
 static static_bookblock _resbook_8s_0={
   {
-    {0},{0,0,&_8c0_s_p1_0},{0,0,&_8c0_s_p2_0},{0,0,&_8c0_s_p3_0},
-    {0,0,&_8c0_s_p4_0},{0,0,&_8c0_s_p5_0},{0,0,&_8c0_s_p6_0},
-    {&_8c0_s_p7_0,&_8c0_s_p7_1},{&_8c0_s_p8_0,&_8c0_s_p8_1},
+    {0},
+    {0,0,&_8c0_s_p1_0},
+    {0},
+    {0,0,&_8c0_s_p3_0},
+    {0,0,&_8c0_s_p4_0},
+    {0,0,&_8c0_s_p5_0},
+    {0,0,&_8c0_s_p6_0},
+    {&_8c0_s_p7_0,&_8c0_s_p7_1},
+    {&_8c0_s_p8_0,&_8c0_s_p8_1},
     {&_8c0_s_p9_0,&_8c0_s_p9_1,&_8c0_s_p9_2}
    }
 };
 static static_bookblock _resbook_8s_1={
   {
-    {0},{0,0,&_8c1_s_p1_0},{0,0,&_8c1_s_p2_0},{0,0,&_8c1_s_p3_0},
-    {0,0,&_8c1_s_p4_0},{0,0,&_8c1_s_p5_0},{0,0,&_8c1_s_p6_0},
-    {&_8c1_s_p7_0,&_8c1_s_p7_1},{&_8c1_s_p8_0,&_8c1_s_p8_1},
+    {0},
+    {0,0,&_8c1_s_p1_0},
+    {0},
+    {0,0,&_8c1_s_p3_0},
+    {0,0,&_8c1_s_p4_0},
+    {0,0,&_8c1_s_p5_0},
+    {0,0,&_8c1_s_p6_0},
+    {&_8c1_s_p7_0,&_8c1_s_p7_1},
+    {&_8c1_s_p8_0,&_8c1_s_p8_1},
     {&_8c1_s_p9_0,&_8c1_s_p9_1,&_8c1_s_p9_2}
    }
 };

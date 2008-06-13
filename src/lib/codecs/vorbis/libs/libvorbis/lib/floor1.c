@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: floor backend 1 implementation
- last mod: $Id: floor1.c 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: floor1.c 13578 2007-08-20 10:44:04Z erikd $
 
  ********************************************************************/
 
@@ -29,24 +29,6 @@
 #include <stdio.h>
 
 #define floor1_rangedB 140 /* floor 1 fixed at -140dB to 0dB range */
-
-typedef struct {
-  int sorted_index[VIF_POSIT+2];
-  int forward_index[VIF_POSIT+2];
-  int reverse_index[VIF_POSIT+2];
-  
-  int hineighbor[VIF_POSIT];
-  int loneighbor[VIF_POSIT];
-  int posts;
-
-  int n;
-  int quant_q;
-  vorbis_info_floor1 *vi;
-
-  long phrasebits;
-  long postbits;
-  long frames;
-} vorbis_look_floor1;
 
 typedef struct lsfit_acc{
   long x0;
@@ -358,7 +340,7 @@ static float FLOOR1_fromdB_LOOKUP[256]={
   0.82788260F, 0.88168307F, 0.9389798F, 1.F, 
 };
 
-static void render_line(int x0,int x1,int y0,int y1,float *d){
+static void render_line(int n, int x0,int x1,int y0,int y1,float *d){
   int dy=y1-y0;
   int adx=x1-x0;
   int ady=abs(dy);
@@ -370,8 +352,12 @@ static void render_line(int x0,int x1,int y0,int y1,float *d){
 
   ady-=abs(base*adx);
 
-  d[x]*=FLOOR1_fromdB_LOOKUP[y];
-  while(++x<x1){
+  if(n>x1)n=x1;
+
+  if(x<n)
+    d[x]*=FLOOR1_fromdB_LOOKUP[y];
+
+  while(++x<n){
     err=err+ady;
     if(err>=adx){
       err-=adx;
@@ -413,7 +399,6 @@ static int accumulate_fit(const float *flr,const float *mdct,
 			  int x0, int x1,lsfit_acc *a,
 			  int n,vorbis_info_floor1 *info){
   long i;
-  int quantized=vorbis_dBquant(flr+x0);
 
   long xa=0,ya=0,x2a=0,y2a=0,xya=0,na=0, xb=0,yb=0,x2b=0,y2b=0,xyb=0,nb=0;
 
@@ -591,8 +576,6 @@ static int post_Y(int *A,int *B,int pos){
   return (A[pos]+B[pos])>>1;
 }
 
-static int seq=0;
-
 int *floor1_fit(vorbis_block *vb,vorbis_look_floor1 *look,
 			  const float *logmdct,   /* in */
 			  const float *logmask){
@@ -763,7 +746,6 @@ int floor1_encode(oggpack_buffer *opb,vorbis_block *vb,
 
   long i,j;
   vorbis_info_floor1 *info=look->vi;
-  long n=look->n;
   long posts=look->posts;
   codec_setup_info *ci=vb->vd->vi->codec_setup;
   int out[VIF_POSIT+2];
@@ -1068,7 +1050,7 @@ static int floor1_inverse2(vorbis_block *vb,vorbis_look_floor *in,void *memo,
 	hy*=info->mult;
 	hx=info->postlist[current];
 	
-	render_line(lx,hx,ly,hy,out);
+	render_line(n,lx,hx,ly,hy,out);
 	
 	lx=hx;
 	ly=hy;

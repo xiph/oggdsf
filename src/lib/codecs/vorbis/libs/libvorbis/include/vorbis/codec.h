@@ -6,12 +6,12 @@
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
  * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2001             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
 
  ********************************************************************
 
  function: libvorbis codec headers
- last mod: $Id: codec.h 7485 2004-08-05 14:54:23Z thomasvs $
+ last mod: $Id: codec.h 13571 2007-08-19 09:36:24Z erikd $
 
  ********************************************************************/
 
@@ -166,11 +166,11 @@ extern void     vorbis_info_init(vorbis_info *vi);
 extern void     vorbis_info_clear(vorbis_info *vi);
 extern int      vorbis_info_blocksize(vorbis_info *vi,int zo);
 extern void     vorbis_comment_init(vorbis_comment *vc);
-extern void     vorbis_comment_add(vorbis_comment *vc, char *comment);
+extern void     vorbis_comment_add(vorbis_comment *vc, const char *comment);
 extern void     vorbis_comment_add_tag(vorbis_comment *vc,
-				       char *tag, char *contents);
-extern char    *vorbis_comment_query(vorbis_comment *vc, char *tag, int count);
-extern int      vorbis_comment_query_count(vorbis_comment *vc, char *tag);
+				       const char *tag, const char *contents);
+extern char    *vorbis_comment_query(vorbis_comment *vc, const char *tag, int count);
+extern int      vorbis_comment_query_count(vorbis_comment *vc, const char *tag);
 extern void     vorbis_comment_clear(vorbis_comment *vc);
 
 extern int      vorbis_block_init(vorbis_dsp_state *v, vorbis_block *vb);
@@ -198,6 +198,7 @@ extern int      vorbis_bitrate_flushpacket(vorbis_dsp_state *vd,
 					   ogg_packet *op);
 
 /* Vorbis PRIMITIVES: synthesis layer *******************************/
+extern int      vorbis_synthesis_idheader(ogg_packet *op);
 extern int      vorbis_synthesis_headerin(vorbis_info *vi,vorbis_comment *vc,
 					  ogg_packet *op);
 

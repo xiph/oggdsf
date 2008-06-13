@@ -1,8 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
-AUTOMAKE_OPTIONS = foreign dist-zip
+AUTOMAKE_OPTIONS = 1.6 foreign dist-zip dist-bzip2
 
-SUBDIRS = lib include doc examples win32 debian vq
+SUBDIRS = m4 include vq lib examples test doc
 
 m4datadir = $(datadir)/aclocal
 m4data_DATA = vorbis.m4
@@ -10,20 +10,29 @@ m4data_DATA = vorbis.m4
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = vorbis.pc vorbisenc.pc vorbisfile.pc
 
-EXTRA_DIST = todo.txt macos macosx autogen.sh \
+EXTRA_DIST = \
+	CHANGES COPYING \
+	todo.txt autogen.sh \
 	libvorbis.spec libvorbis.spec.in \
-	vorbis.m4 vorbis.pc.in vorbisenc.pc.in vorbisfile.pc.in \
-       vorbis-uninstalled.pc.in \
-       vorbisenc-uninstalled.pc.in \
-       vorbisfile-uninstalled.pc.in
+	vorbis.m4 \
+	vorbis.pc.in vorbisenc.pc.in vorbisfile.pc.in \
+	vorbis-uninstalled.pc.in \
+	vorbisenc-uninstalled.pc.in \
+	vorbisfile-uninstalled.pc.in \
+	symbian \
+	macos macosx win32
+
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-docs
 
 dist-hook:
-	rm -rf `find $(distdir)/macos -name CVS`
-	rm -rf `find $(distdir)/macos -name .svn`
-	rm -rf `find $(distdir)/macosx -name CVS`
-	rm -rf `find $(distdir)/macosx -name .svn`
+	for item in $(EXTRA_DIST); do \
+	  if test -d $$item; then \
+	    echo -n "cleaning $$item dir for distribution..."; \
+	    rm -rf `find $(distdir)/$$item -name .svn`; \
+	    echo "OK"; \
+	  fi; \
+	done
 
 debug:
 	$(MAKE) all CFLAGS="@DEBUG@"

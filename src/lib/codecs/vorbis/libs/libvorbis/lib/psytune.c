@@ -5,16 +5,19 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: simple utility that runs audio through the psychoacoustics
            without encoding
- last mod: $Id: psytune.c 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: psytune.c 13293 2007-07-24 00:09:47Z xiphmont $
 
  ********************************************************************/
+
+/* NB: this is dead code, retained purely for doc and reference value
+       don't try to compile it */
 
 #include <stdio.h>
 #include <stdlib.h>

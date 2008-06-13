@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: simple example encoder
- last mod: $Id: encoder_example.c 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: encoder_example.c 14558 2008-03-08 02:23:34Z erikd $
 
  ********************************************************************/
 
@@ -62,9 +62,9 @@ int main(){
                           /* this also lets the user set stdin and stdout */
 #endif
 
-  /* we cheat on the WAV header; we just bypass 44 bytes and never
-     verify that it matches 16bit/stereo/44.1kHz.  This is just an
-     example, after all. */
+  /* we cheat on the WAV header; we just bypass 44 bytes (simplest WAV
+     header is 44 bytes) and assume that the data is 44.1khz, stereo, 16 bit
+     little endian pcm samples. This is just an example, after all. */
 
 #ifdef _WIN32 /* We need to set stdin/stdout to binary mode. Damn windows. */
   /* if we were reading/writing a file, it would also need to in

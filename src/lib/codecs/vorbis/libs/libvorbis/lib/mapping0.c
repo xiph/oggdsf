@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: channel mapping 0 implementation
- last mod: $Id: mapping0.c 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: mapping0.c 13657 2007-08-30 02:40:29Z xiphmont $
 
  ********************************************************************/
 
@@ -229,16 +229,6 @@ static float FLOOR1_fromdB_LOOKUP[256]={
 
 #endif 
 
-extern int *floor1_fit(vorbis_block *vb,vorbis_look_floor *look,
-		       const float *logmdct,   /* in */
-		       const float *logmask);
-extern int *floor1_interpolate_fit(vorbis_block *vb,vorbis_look_floor *look,
-				   int *A,int *B,
-				   int del);
-extern int floor1_encode(oggpack_buffer *opb,vorbis_block *vb,
-			 vorbis_look_floor *look,
-			 int *post,int *ilogmask);
-
 
 static int mapping0_forward(vorbis_block *vb){
   vorbis_dsp_state      *vd=vb->vd;
@@ -290,22 +280,28 @@ static int mapping0_forward(vorbis_block *vb){
                                      next major model upgrade. */
 
 #if 0
-    if(vi->channels==2)
+    if(vi->channels==2){
       if(i==0)
 	_analysis_output("pcmL",seq,pcm,n,0,0,total-n/2);
       else
 	_analysis_output("pcmR",seq,pcm,n,0,0,total-n/2);
+    }else{
+      _analysis_output("pcm",seq,pcm,n,0,0,total-n/2);
+    }
 #endif
   
     /* window the PCM data */
     _vorbis_apply_window(pcm,b->window,ci->blocksizes,vb->lW,vb->W,vb->nW);
 
 #if 0
-    if(vi->channels==2)
+    if(vi->channels==2){
       if(i==0)
 	_analysis_output("windowedL",seq,pcm,n,0,0,total-n/2);
       else
 	_analysis_output("windowedR",seq,pcm,n,0,0,total-n/2);
+    }else{
+      _analysis_output("windowed",seq,pcm,n,0,0,total-n/2);
+    }
 #endif
 
     /* transform the PCM data */
@@ -359,6 +355,8 @@ static int mapping0_forward(vorbis_block *vb){
       }else{
 	_analysis_output("fftR",seq,logfft,n/2,1,0,0);
       }
+    }else{
+      _analysis_output("fft",seq,logfft,n/2,1,0,0);
     }
 #endif
 
@@ -429,6 +427,8 @@ static int mapping0_forward(vorbis_block *vb){
 	  _analysis_output("noiseL",seq,noise,n/2,1,0,0);
 	else
 	  _analysis_output("noiseR",seq,noise,n/2,1,0,0);
+      }else{
+	_analysis_output("noise",seq,noise,n/2,1,0,0);
       }
 #endif
 
@@ -448,6 +448,8 @@ static int mapping0_forward(vorbis_block *vb){
 	  _analysis_output("toneL",seq,tone,n/2,1,0,0);
 	else
 	  _analysis_output("toneR",seq,tone,n/2,1,0,0);
+      }else{
+	_analysis_output("tone",seq,tone,n/2,1,0,0);
       }
 #endif
 
@@ -475,6 +477,8 @@ static int mapping0_forward(vorbis_block *vb){
 	    _analysis_output("aotuvM1_L",seq,aotuv,psy_look->n,1,1,0);
 	  else
 	    _analysis_output("aotuvM1_R",seq,aotuv,psy_look->n,1,1,0);
+	}else{
+	  _analysis_output("aotuvM1",seq,aotuv,psy_look->n,1,1,0);
 	}
       }
 #endif
@@ -486,6 +490,8 @@ static int mapping0_forward(vorbis_block *vb){
 	  _analysis_output("mask1L",seq,logmask,n/2,1,0,0);
 	else
 	  _analysis_output("mask1R",seq,logmask,n/2,1,0,0);
+      }else{
+	_analysis_output("mask1",seq,logmask,n/2,1,0,0);
       }
 #endif
 
@@ -518,6 +524,8 @@ static int mapping0_forward(vorbis_block *vb){
 	    _analysis_output("mask2L",seq,logmask,n/2,1,0,0);
 	  else
 	    _analysis_output("mask2R",seq,logmask,n/2,1,0,0);
+	}else{
+	  _analysis_output("mask2",seq,logmask,n/2,1,0,0);
 	}
 #endif
 	
@@ -536,11 +544,14 @@ static int mapping0_forward(vorbis_block *vb){
 			   logmdct);
 
 #if 0
-	if(vi->channels==2)
+	if(vi->channels==2){
 	  if(i==0)
 	    _analysis_output("mask0L",seq,logmask,n/2,1,0,0);
 	  else
 	    _analysis_output("mask0R",seq,logmask,n/2,1,0,0);
+	}else{
+	  _analysis_output("mask0",seq,logmask,n/2,1,0,0);
+	}
 #endif
 
 	floor_posts[i][0]=
@@ -586,8 +597,8 @@ static int mapping0_forward(vorbis_block *vb){
     float **couple_bundle=alloca(sizeof(*couple_bundle)*vi->channels);
     int *zerobundle=alloca(sizeof(*zerobundle)*vi->channels);
     int **sortindex=alloca(sizeof(*sortindex)*vi->channels);
-    float **mag_memo;
-    int **mag_sort;
+    float **mag_memo=NULL;
+    int **mag_sort=NULL;
 
     if(info->coupling_steps){
       mag_memo=_vp_quantize_couple_memo(vb,
@@ -735,7 +746,6 @@ static int mapping0_inverse(vorbis_block *vb,vorbis_info_mapping *l){
   codec_setup_info     *ci=vi->codec_setup;
   private_state        *b=vd->backend_state;
   vorbis_info_mapping0 *info=(vorbis_info_mapping0 *)l;
-  int hs=ci->halfrate_flag; 
 
   int                   i,j;
   long                  n=vb->pcmend=ci->blocksizes[vb->W];

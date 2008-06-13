@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: linear scale -> dB, Bark and Mel scales
- last mod: $Id: scales.h 7263 2004-07-23 01:23:40Z msmith $
+ last mod: $Id: scales.h 13629 2007-08-26 00:24:57Z erikd $
 
  ********************************************************************/
 
@@ -21,25 +21,34 @@
 #include <math.h>
 #include "os.h"
 
+#ifdef _MSC_VER
+/* MS Visual Studio doesn't have C99 inline keyword. */
+#define inline __inline
+#endif
+
 /* 20log10(x) */
 #define VORBIS_IEEE_FLOAT32 1
 #ifdef VORBIS_IEEE_FLOAT32
 
-static float unitnorm(float x){
-  ogg_uint32_t *ix=(ogg_uint32_t *)&x;
-  *ix=(*ix&0x80000000UL)|(0x3f800000UL);
-  return(x);
-}
-
-static float FABS(float *x){
-  ogg_uint32_t *ix=(ogg_uint32_t *)x;
-  *ix&=0x7fffffffUL;
-  return(*x);
+static inline float unitnorm(float x){
+  union {
+    ogg_uint32_t i;
+    float f;
+  } ix;
+  ix.f = x;
+  ix.i = (ix.i & 0x80000000U) | (0x3f800000U);
+  return ix.f;
 }
 
 /* Segher was off (too high) by ~ .3 decibel.  Center the conversion correctly. */
-static float todB(const float *x){
-  return (float)((*(ogg_int32_t *)x)&0x7fffffff) * 7.17711438e-7f -764.6161886f;
+static inline float todB(const float *x){
+  union {
+    ogg_uint32_t i;
+    float f;
+  } ix;
+  ix.f = *x;
+  ix.i = ix.i&0x7fffffff;
+  return (float)(ix.i * 7.17711438e-7f -764.6161886f);
 }
 
 #define todB_nn(x) todB(x)
@@ -50,8 +59,6 @@ static float unitnorm(float x){
   if(x<0)return(-1.f);
   return(1.f);
 }
-
-#define FABS(x) fabs(*(x))
 
 #define todB(x)   (*(x)==0?-400.f:log(*(x)**(x))*4.34294480f)
 #define todB_nn(x)   (*(x)==0.f?-400.f:log(*(x))*8.6858896f)

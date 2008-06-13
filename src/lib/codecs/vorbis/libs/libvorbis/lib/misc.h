@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: miscellaneous prototypes
- last mod: $Id: misc.h 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: misc.h 14600 2008-03-18 17:41:06Z xiphmont $
 
  ********************************************************************/
 
@@ -29,6 +29,7 @@ extern void _analysis_output(char *base,int i,float *v,int n,int bark,int dB,
 #ifdef DEBUG_MALLOC
 
 #define _VDBG_GRAPHFILE "malloc.m"
+#undef _VDBG_GRAPHFILE
 extern void *_VDBG_malloc(void *ptr,long bytes,char *file,long line); 
 extern void _VDBG_free(void *ptr,char *file,long line); 
 

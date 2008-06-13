@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2003             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: maintain the info structure, info <-> header packets
- last mod: $Id: info.c 9513 2005-06-26 18:36:49Z giles $
+ last mod: $Id: info.c 14984 2008-05-31 21:13:48Z xiphmont $
 
  ********************************************************************/
 
@@ -42,7 +42,7 @@ static int ilog2(unsigned int v){
   return(ret);
 }
 
-static void _v_writestring(oggpack_buffer *o,char *s, int bytes){
+static void _v_writestring(oggpack_buffer *o,const char *s, int bytes){
 
   while(bytes--){
     oggpack_write(o,*s++,8);
@@ -59,7 +59,7 @@ void vorbis_comment_init(vorbis_comment *vc){
   memset(vc,0,sizeof(*vc));
 }
 
-void vorbis_comment_add(vorbis_comment *vc,char *comment){
+void vorbis_comment_add(vorbis_comment *vc,const char *comment){
   vc->user_comments=_ogg_realloc(vc->user_comments,
 			    (vc->comments+2)*sizeof(*vc->user_comments));
   vc->comment_lengths=_ogg_realloc(vc->comment_lengths,
@@ -71,7 +71,7 @@ void vorbis_comment_add(vorbis_comment *vc,char *comment){
   vc->user_comments[vc->comments]=NULL;
 }
 
-void vorbis_comment_add_tag(vorbis_comment *vc, char *tag, char *contents){
+void vorbis_comment_add_tag(vorbis_comment *vc, const char *tag, const char *contents){
   char *comment=alloca(strlen(tag)+strlen(contents)+2); /* +2 for = and \0 */
   strcpy(comment, tag);
   strcat(comment, "=");
@@ -91,7 +91,7 @@ static int tagcompare(const char *s1, const char *s2, int n){
   return 0;
 }
 
-char *vorbis_comment_query(vorbis_comment *vc, char *tag, int count){
+char *vorbis_comment_query(vorbis_comment *vc, const char *tag, int count){
   long i;
   int found = 0;
   int taglen = strlen(tag)+1; /* +1 for the = we append */
@@ -112,7 +112,7 @@ char *vorbis_comment_query(vorbis_comment *vc, char *tag, int count){
   return NULL; /* didn't find anything */
 }
 
-int vorbis_comment_query_count(vorbis_comment *vc, char *tag){
+int vorbis_comment_query_count(vorbis_comment *vc, const char *tag){
   int i,count=0;
   int taglen = strlen(tag)+1; /* +1 for the = we append */
   char *fulltag = alloca(taglen+1);
@@ -130,16 +130,18 @@ int vorbis_comment_query_count(vorbis_comment *vc, char *tag){
 void vorbis_comment_clear(vorbis_comment *vc){
   if(vc){
     long i;
-    for(i=0;i<vc->comments;i++)
-      if(vc->user_comments[i])_ogg_free(vc->user_comments[i]);
-    if(vc->user_comments)_ogg_free(vc->user_comments);
-	if(vc->comment_lengths)_ogg_free(vc->comment_lengths);
+    if(vc->user_comments){
+      for(i=0;i<vc->comments;i++)
+	if(vc->user_comments[i])_ogg_free(vc->user_comments[i]);
+      _ogg_free(vc->user_comments);
+    }
+    if(vc->comment_lengths)_ogg_free(vc->comment_lengths);
     if(vc->vendor)_ogg_free(vc->vendor);
+    memset(vc,0,sizeof(*vc));
   }
-  memset(vc,0,sizeof(*vc));
 }
 
-/* blocksize 0 is guaranteed to be short, 1 is guarantted to be long.
+/* blocksize 0 is guaranteed to be short, 1 is guaranteed to be long.
    They may be equal, but short will never ge greater than long */
 int vorbis_info_blocksize(vorbis_info *vi,int zo){
   codec_setup_info *ci = vi->codec_setup;
@@ -162,14 +164,23 @@ void vorbis_info_clear(vorbis_info *vi){
       if(ci->mode_param[i])_ogg_free(ci->mode_param[i]);
 
     for(i=0;i<ci->maps;i++) /* unpack does the range checking */
-      _mapping_P[ci->map_type[i]]->free_info(ci->map_param[i]);
+      if(ci->map_param[i]) /* this may be cleaning up an aborted
+			      unpack, in which case the below type
+			      cannot be trusted */
+	_mapping_P[ci->map_type[i]]->free_info(ci->map_param[i]);
 
     for(i=0;i<ci->floors;i++) /* unpack does the range checking */
-      _floor_P[ci->floor_type[i]]->free_info(ci->floor_param[i]);
+      if(ci->floor_param[i]) /* this may be cleaning up an aborted
+				unpack, in which case the below type
+				cannot be trusted */
+	_floor_P[ci->floor_type[i]]->free_info(ci->floor_param[i]);
     
     for(i=0;i<ci->residues;i++) /* unpack does the range checking */
-      _residue_P[ci->residue_type[i]]->free_info(ci->residue_param[i]);
-
+      if(ci->residue_param[i]) /* this may be cleaning up an aborted
+				  unpack, in which case the below type
+				  cannot be trusted */
+	_residue_P[ci->residue_type[i]]->free_info(ci->residue_param[i]);
+    
     for(i=0;i<ci->books;i++){
       if(ci->book_param[i]){
 	/* knows if the book was not alloced */
@@ -211,9 +222,10 @@ static int _vorbis_unpack_info(vorbis_info *vi,oggpack_buffer *opb){
   
   if(vi->rate<1)goto err_out;
   if(vi->channels<1)goto err_out;
-  if(ci->blocksizes[0]<8)goto err_out; 
+  if(ci->blocksizes[0]<64)goto err_out; 
   if(ci->blocksizes[1]<ci->blocksizes[0])goto err_out;
-  
+  if(ci->blocksizes[1]>8192)goto err_out;
+
   if(oggpack_read(opb,1)!=1)goto err_out; /* EOP check */
 
   return(0);
@@ -226,17 +238,21 @@ static int _vorbis_unpack_comment(vorbis_comment *vc,oggpack_buffer *opb){
   int i;
   int vendorlen=oggpack_read(opb,32);
   if(vendorlen<0)goto err_out;
+  if(vendorlen+8>opb->storage)goto err_out;
   vc->vendor=_ogg_calloc(vendorlen+1,1);
   _v_readstring(opb,vc->vendor,vendorlen);
-  vc->comments=oggpack_read(opb,32);
-  if(vc->comments<0)goto err_out;
+  i=oggpack_read(opb,32);
+  if(i<0)goto err_out;
+  if(4*i+oggpack_bytes(opb)>opb->storage)goto err_out;
+  vc->comments=i;
   vc->user_comments=_ogg_calloc(vc->comments+1,sizeof(*vc->user_comments));
   vc->comment_lengths=_ogg_calloc(vc->comments+1, sizeof(*vc->comment_lengths));
 	    
   for(i=0;i<vc->comments;i++){
     int len=oggpack_read(opb,32);
     if(len<0)goto err_out;
-	vc->comment_lengths[i]=len;
+    if(len+oggpack_bytes(opb)>opb->storage)goto err_out;
+    vc->comment_lengths[i]=len;
     vc->user_comments[i]=_ogg_calloc(len+1,1);
     _v_readstring(opb,vc->user_comments[i],len);
   }	  
@@ -328,6 +344,31 @@ static int _vorbis_unpack_books(vorbis_info *vi,oggpack_buffer *opb){
   return(OV_EBADHEADER);
 }
 
+/* Is this packet a vorbis ID header? */
+int vorbis_synthesis_idheader(ogg_packet *op){
+  oggpack_buffer opb;
+  char buffer[6];
+
+  if(op){
+    oggpack_readinit(&opb,op->packet,op->bytes);
+
+    if(!op->b_o_s)
+      return(0); /* Not the initial packet */
+
+    if(oggpack_read(&opb,8) != 1)
+      return 0; /* not an ID header */
+
+    memset(buffer,0,6);
+    _v_readstring(&opb,buffer,6);
+    if(memcmp(buffer,"vorbis",6))
+      return 0; /* not vorbis */
+
+    return 1;
+  }
+
+  return 0;
+}
+
 /* The Vorbis header is in three packets; the initial small packet in
    the first page that identifies basic parameters, a second packet
    with bitstream comments and a third packet that holds the
@@ -416,7 +457,7 @@ static int _vorbis_pack_info(oggpack_buffer *opb,vorbis_info *vi){
 }
 
 static int _vorbis_pack_comment(oggpack_buffer *opb,vorbis_comment *vc){
-  char temp[]="Xiph.Org libVorbis I 20050304";
+  char temp[]="Xiph.Org libVorbis I 20080501";
   int bytes = strlen(temp);
 
   /* preamble */  
@@ -591,12 +632,14 @@ int vorbis_analysis_headerout(vorbis_dsp_state *v,
   memset(op_comm,0,sizeof(*op_comm));
   memset(op_code,0,sizeof(*op_code));
 
-  if(b->header)_ogg_free(b->header);
-  if(b->header1)_ogg_free(b->header1);
-  if(b->header2)_ogg_free(b->header2);
-  b->header=NULL;
-  b->header1=NULL;
-  b->header2=NULL;
+  if(b){
+    if(b->header)_ogg_free(b->header);
+    if(b->header1)_ogg_free(b->header1);
+    if(b->header2)_ogg_free(b->header2);
+    b->header=NULL;
+    b->header1=NULL;
+    b->header2=NULL;
+  }
   return(ret);
 }
 

@@ -5,13 +5,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
- * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: single-block PCM analysis mode dispatch
- last mod: $Id: analysis.c 7187 2004-07-20 07:24:27Z xiphmont $
+ last mod: $Id: analysis.c 13293 2007-07-24 00:09:47Z xiphmont $
 
  ********************************************************************/
 
@@ -74,11 +74,8 @@ void _analysis_output_always(char *base,int i,float *v,int n,int bark,int dB,ogg
   /*  if(i==5870){*/
     sprintf(buffer,"%s_%d.m",base,i);
     of=fopen(buffer,"w");
-   
-//ZEN::: perror does seem to be part of WinCE SDK for now, just gaurd against WINCE. Not great, but will do for now.
-#ifndef WINCE
+    
     if(!of)perror("failed to open data dump file");
-#endif
     
     for(j=0;j<n;j++){
       if(bark){
