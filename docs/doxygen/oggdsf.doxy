@@ -1,14 +1,14 @@
-# Doxyfile 1.4.7
+# Doxyfile 1.5.5
 
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
+DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = oggdsf
 PROJECT_NUMBER         = 0.73.1936
 OUTPUT_DIRECTORY       = .
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
-USE_WINDOWS_ENCODING   = YES
 BRIEF_MEMBER_DESC      = YES
 REPEAT_BRIEF           = YES
 ABBREVIATE_BRIEF       = "The $name class" \
@@ -30,6 +30,7 @@ STRIP_FROM_PATH        = "C:/Program Files/doxygen/bin/" \
 STRIP_FROM_INC_PATH    = 
 SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = NO
+QT_AUTOBRIEF           = NO
 MULTILINE_CPP_IS_BRIEF = YES
 DETAILS_AT_TOP         = NO
 INHERIT_DOCS           = YES
@@ -38,9 +39,14 @@ TAB_SIZE               = 8
 ALIASES                = 
 OPTIMIZE_OUTPUT_FOR_C  = NO
 OPTIMIZE_OUTPUT_JAVA   = NO
+OPTIMIZE_FOR_FORTRAN   = NO
+OPTIMIZE_OUTPUT_VHDL   = NO
 BUILTIN_STL_SUPPORT    = NO
+CPP_CLI_SUPPORT        = NO
+SIP_SUPPORT            = NO
 DISTRIBUTE_GROUP_DOC   = NO
 SUBGROUPING            = YES
+TYPEDEF_HIDES_STRUCT   = NO
 #---------------------------------------------------------------------------
 # Build related configuration options
 #---------------------------------------------------------------------------
@@ -49,6 +55,7 @@ EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
 EXTRACT_LOCAL_CLASSES  = YES
 EXTRACT_LOCAL_METHODS  = NO
+EXTRACT_ANON_NSPACES   = NO
 HIDE_UNDOC_MEMBERS     = NO
 HIDE_UNDOC_CLASSES     = NO
 HIDE_FRIEND_COMPOUNDS  = NO
@@ -60,6 +67,7 @@ SHOW_INCLUDE_FILES     = YES
 INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
 SORT_BRIEF_DOCS        = YES
+SORT_GROUP_NAMES       = NO
 SORT_BY_SCOPE_NAME     = NO
 GENERATE_TODOLIST      = YES
 GENERATE_TESTLIST      = YES
@@ -84,6 +92,7 @@ WARN_LOGFILE           =
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = ../../src
+INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
                          *.cxx \
@@ -110,18 +119,22 @@ FILE_PATTERNS          = *.c \
                          *.mm \
                          *.dox
 RECURSIVE              = YES
-EXCLUDE                = E:/dev/xiph/src/lib/codecs/flac/libs/libflac \
-                         E:/dev/xiph/src/lib/codecs/dirac/lib/libdirac \
-                         E:/dev/xiph/src/lib/codecs/helper/libfishsound \
-                         E:/dev/xiph/src/lib/codecs/speex/libs/libspeex \
-                         E:/dev/xiph/src/lib/codecs/theora/libs/libtheora \
-                         E:/dev/xiph/src/lib/codecs/vorbis/libs/libvorbis \
-                         E:/dev/xiph/src/lib/core/annodex \
-                         E:/dev/xiph/src/lib/core/ogg/libogg \
-                         E:/dev/xiph/src/lib/core/ogg/liboggz \
-                         E:/dev/xiph/src/tests
+EXCLUDE                = D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/flac/libs/libflac \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/dirac/lib/libdirac \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/helper/libfishsound \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/speex/libs/libspeex \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/theora/libs/libtheora \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/theora/libs/libtheora-exp \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/vorbis/libs/libtremor \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/codecs/vorbis/libs/libvorbis \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/core/annodex \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/core/directshow/BaseClasses \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/lib/core/ogg/libogg \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/tests \
+                         D:/projects/oggcodecs/trunk/oggdsf/src/tools
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
+EXCLUDE_SYMBOLS        = 
 EXAMPLE_PATH           = 
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = NO
@@ -157,6 +170,10 @@ HTML_FOOTER            =
 HTML_STYLESHEET        = 
 HTML_ALIGN_MEMBERS     = YES
 GENERATE_HTMLHELP      = NO
+GENERATE_DOCSET        = NO
+DOCSET_FEEDNAME        = "Doxygen generated docs"
+DOCSET_BUNDLE_ID       = org.doxygen.Project
+HTML_DYNAMIC_SECTIONS  = NO
 CHM_FILE               = 
 HHC_LOCATION           = 
 GENERATE_CHI           = NO
@@ -240,6 +257,7 @@ PERL_PATH              = /usr/bin/perl
 # Configuration options related to the dot tool   
 #---------------------------------------------------------------------------
 CLASS_DIAGRAMS         = YES
+MSCGEN_PATH            = 
 HIDE_UNDOC_RELATIONS   = YES
 HAVE_DOT               = YES
 CLASS_GRAPH            = YES
@@ -254,10 +272,9 @@ CALLER_GRAPH           = NO
 GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = png
-DOT_PATH               = "C:/Program Files/ATT/Graphviz/bin"
+DOT_PATH               = "c:\Program Files\Graphviz2.18\bin"
 DOTFILE_DIRS           = 
-MAX_DOT_GRAPH_WIDTH    = 1024
-MAX_DOT_GRAPH_HEIGHT   = 1024
+DOT_GRAPH_MAX_NODES    = 50
 MAX_DOT_GRAPH_DEPTH    = 1000
 DOT_TRANSPARENT        = NO
 DOT_MULTI_TARGETS      = NO
