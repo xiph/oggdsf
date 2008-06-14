@@ -417,7 +417,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/bitreader_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/bitreader_asm.obj"
 				/>
@@ -446,7 +446,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/cpu_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/cpu_asm.obj"
 				/>
@@ -470,7 +470,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/fixed_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/fixed_asm.obj"
 				/>
@@ -494,7 +494,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/lpc_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/lpc_asm.obj"
 				/>
@@ -518,7 +518,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/stream_encoder_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/stream_encoder_asm.obj"
 				/>
