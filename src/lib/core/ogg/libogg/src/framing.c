@@ -5,14 +5,14 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2002             *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
  * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: code raw [Vorbis] packets into framed OggSquish stream and
            decode Ogg streams back into raw packets
- last mod: $Id: framing.c 7835 2004-09-22 20:57:09Z xiphmont $
+ last mod: $Id: framing.c 14463 2008-02-09 11:16:55Z erikd $
 
  note: The CRC code is directly derived from public domain code by
  Ross Williams (ross@guest.adelaide.edu.au).  See docs/framing.html
@@ -26,23 +26,23 @@
 
 /* A complete description of Ogg framing exists in docs/framing.html */
 
-int ogg_page_version(ogg_page *og){
+int ogg_page_version(const ogg_page *og){
   return((int)(og->header[4]));
 }
 
-int ogg_page_continued(ogg_page *og){
+int ogg_page_continued(const ogg_page *og){
   return((int)(og->header[5]&0x01));
 }
 
-int ogg_page_bos(ogg_page *og){
+int ogg_page_bos(const ogg_page *og){
   return((int)(og->header[5]&0x02));
 }
 
-int ogg_page_eos(ogg_page *og){
+int ogg_page_eos(const ogg_page *og){
   return((int)(og->header[5]&0x04));
 }
 
-ogg_int64_t ogg_page_granulepos(ogg_page *og){
+ogg_int64_t ogg_page_granulepos(const ogg_page *og){
   unsigned char *page=og->header;
   ogg_int64_t granulepos=page[13]&(0xff);
   granulepos= (granulepos<<8)|(page[12]&0xff);
@@ -55,14 +55,14 @@ ogg_int64_t ogg_page_granulepos(ogg_page *og){
   return(granulepos);
 }
 
-int ogg_page_serialno(ogg_page *og){
+int ogg_page_serialno(const ogg_page *og){
   return(og->header[14] |
 	 (og->header[15]<<8) |
 	 (og->header[16]<<16) |
 	 (og->header[17]<<24));
 }
  
-long ogg_page_pageno(ogg_page *og){
+long ogg_page_pageno(const ogg_page *og){
   return(og->header[18] |
 	 (og->header[19]<<8) |
 	 (og->header[20]<<16) |
@@ -88,7 +88,7 @@ more page packet), the return will be:
   ogg_page_continued(page) !=0
 */
 
-int ogg_page_packets(ogg_page *og){
+int ogg_page_packets(const ogg_page *og){
   int i,n=og->header[26],count=0;
   for(i=0;i<n;i++)
     if(og->header[27+i]<255)count++;
@@ -268,8 +268,12 @@ void ogg_page_checksum_set(ogg_page *og){
 }
 
 /* submit data to the internal buffer of the framing engine */
-int ogg_stream_packetin(ogg_stream_state *os,ogg_packet *op){
-  int lacing_vals=op->bytes/255+1,i;
+int ogg_stream_iovecin(ogg_stream_state *os, ogg_iovec_t *iov, int count,
+                       long e_o_s, ogg_int64_t granulepos){
+
+  int bytes = 0, lacing_vals, i;
+  for (i = 0; i < count; ++i) bytes += (int)iov[i].iov_len;
+  lacing_vals=bytes/255+1;
 
   if(os->body_returned){
     /* advance packet data according to the body_returned pointer. We
@@ -284,7 +288,7 @@ int ogg_stream_packetin(ogg_stream_state *os,ogg_packet *op){
   }
  
   /* make sure we have the buffer storage */
-  _os_body_expand(os,op->bytes);
+  _os_body_expand(os,bytes);
   _os_lacing_expand(os,lacing_vals);
 
   /* Copy in the submitted packet.  Yes, the copy is a waste; this is
@@ -292,16 +296,18 @@ int ogg_stream_packetin(ogg_stream_state *os,ogg_packet *op){
      will actually be fairly easy to eliminate the extra copy in the
      future */
 
-  memcpy(os->body_data+os->body_fill,op->packet,op->bytes);
-  os->body_fill+=op->bytes;
+  for (i = 0; i < count; ++i) {
+    memcpy(os->body_data+os->body_fill, iov[i].iov_base, iov[i].iov_len);
+    os->body_fill += (int)iov[i].iov_len;
+  }
 
   /* Store lacing vals for this packet */
   for(i=0;i<lacing_vals-1;i++){
     os->lacing_vals[os->lacing_fill+i]=255;
     os->granule_vals[os->lacing_fill+i]=os->granulepos;
   }
-  os->lacing_vals[os->lacing_fill+i]=(op->bytes)%255;
-  os->granulepos=os->granule_vals[os->lacing_fill+i]=op->granulepos;
+  os->lacing_vals[os->lacing_fill+i]=bytes%255;
+  os->granulepos=os->granule_vals[os->lacing_fill+i]=granulepos;
 
   /* flag the first segment as the beginning of the packet */
   os->lacing_vals[os->lacing_fill]|= 0x100;
@@ -311,9 +317,16 @@ int ogg_stream_packetin(ogg_stream_state *os,ogg_packet *op){
   /* for the sake of completeness */
   os->packetno++;
 
-  if(op->e_o_s)os->e_o_s=1;
+  if(e_o_s)os->e_o_s=1;
 
   return(0);
+}
+
+int ogg_stream_packetin(ogg_stream_state *os,ogg_packet *op){
+  ogg_iovec_t iov;
+  iov.iov_base = op->packet;
+  iov.iov_len = op->bytes;
+  return ogg_stream_iovecin(os, &iov, 1, op->e_o_s, op->granulepos);
 }
 
 /* This will flush remaining packets into a page (returning nonzero),
@@ -336,7 +349,7 @@ int ogg_stream_flush(ogg_stream_state *os,ogg_page *og){
   int maxvals=(os->lacing_fill>255?255:os->lacing_fill);
   int bytes=0;
   long acc=0;
-  ogg_int64_t granule_pos=os->granule_vals[0];
+  ogg_int64_t granule_pos=-1;
 
   if(maxvals==0)return(0);
   
@@ -357,7 +370,8 @@ int ogg_stream_flush(ogg_stream_state *os,ogg_page *og){
     for(vals=0;vals<maxvals;vals++){
       if(acc>4096)break;
       acc+=os->lacing_vals[vals]&0x0ff;
-      granule_pos=os->granule_vals[vals];
+      if((os->lacing_vals[vals]&0xff)<255)
+        granule_pos=os->granule_vals[vals];
     }
   }
   
@@ -474,8 +488,7 @@ int ogg_stream_eos(ogg_stream_state *os){
    ogg_stream_pagein() along with the appropriate
    ogg_stream_state* (ie, matching serialno).  We then get raw
    packets out calling ogg_stream_packetout() with a
-   ogg_stream_state.  See the 'frame-prog.txt' docs for details and
-   example code. */
+   ogg_stream_state. */
 
 /* initialize the struct to a known state */
 int ogg_sync_init(ogg_sync_state *oy){
@@ -624,8 +637,8 @@ long ogg_sync_pageseek(ogg_sync_state *oy,ogg_page *og){
   if(!next)
     next=oy->data+oy->fill;
 
-  oy->returned=next-oy->data;
-  return(-(next-page));
+  oy->returned=(int)(next-oy->data);
+  return((long)-(next-page));
 }
 
 /* sync the stream and get a page.  Keep trying until we find a page.
@@ -1079,9 +1092,9 @@ const int head1_4[] = {0x4f,0x67,0x67,0x53,0,0x02,
 		       0};
 
 const int head2_4[] = {0x4f,0x67,0x67,0x53,0,0x00,
-		       0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+		       0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
 		       0x01,0x02,0x03,0x04,1,0,0,0,
-		       0x34,0x24,0xd5,0x29,
+		       0x54,0x05,0x51,0xc8,
 		       17,
 		       255,255,255,255,255,255,255,255,
 		       255,255,255,255,255,255,255,255,255};
@@ -1165,9 +1178,9 @@ const int head2_6[] = {0x4f,0x67,0x67,0x53,0,0x00,
 		       255,255,255,255,255,255,255,255};
 
 const int head3_6[] = {0x4f,0x67,0x67,0x53,0,0x01,
-		       0x07,0x04,0x00,0x00,0x00,0x00,0x00,0x00,
+		       0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
 		       0x01,0x02,0x03,0x04,2,0,0,0,
-		       0xbd,0xd5,0xb5,0x8b,
+		       0x01,0xd2,0xe5,0xe5,
 		       17,
 		       255,255,255,255,255,255,255,255,
 		       255,255,255,255,255,255,255,255,255};

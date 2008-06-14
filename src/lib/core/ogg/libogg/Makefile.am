@@ -2,7 +2,7 @@
 
 AUTOMAKE_OPTIONS = foreign 1.6 dist-zip
 
-SUBDIRS = src include doc win32 debian
+SUBDIRS = src include doc
 
 m4datadir = $(datadir)/aclocal
 m4data_DATA = ogg.m4
@@ -13,12 +13,16 @@ pkgconfig_DATA = ogg.pc
 EXTRA_DIST = README AUTHORS CHANGES COPYING \
 	libogg.spec libogg.spec.in \
 	ogg.m4 ogg.pc.in ogg-uninstalled.pc.in \
-	macos macosx
+	macos macosx win32
 
 dist-hook:
-	rm -rf `find $(distdir)/macos -name CVS`
-	rm -rf `find $(distdir)/macosx -name CVS`
-
+	for item in $(EXTRA_DIST); do \
+	  if test -d $$item; then \
+	    echo -n "cleaning dir $$item for distribution..."; \
+	    rm -rf `find $(distdir)/$$item -name .svn`; \
+	    echo "OK"; \
+	  fi; \
+	done
 debug:
 	$(MAKE) all CFLAGS="@DEBUG@"
 
