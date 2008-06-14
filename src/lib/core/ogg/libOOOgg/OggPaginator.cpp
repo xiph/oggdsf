@@ -149,6 +149,7 @@ bool OggPaginator::acceptStampedOggPacket(StampedOggPacket* inOggPacket)
 	addPacketToPage(inOggPacket);
 
 	delete inOggPacket;
+	inOggPacket = 0;
 
 	return true;
 }

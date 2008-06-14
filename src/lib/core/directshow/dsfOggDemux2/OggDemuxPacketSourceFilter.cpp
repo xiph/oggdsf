@@ -594,7 +594,8 @@ HRESULT OggDemuxPacketSourceFilter::DataProcessLoop()
 		locIsEOF = mDataSource->isEOF();
 	}
 
-	while(true) {
+	bool continueLooping = true;
+	while(continueLooping) {
 		if(CheckRequest(&locCommand) == TRUE) {
 			debugLog<<L"DataProcessLoop : Thread Command issued... leaving loop."<<endl;
 			delete[] locBuff;
@@ -608,33 +609,43 @@ HRESULT OggDemuxPacketSourceFilter::DataProcessLoop()
 			locBytesRead = mDataSource->read(locBuff, 4096);
 			mJustReset = false;
 		}
-		//debugLog <<"DataProcessLoop : gcount = "<<locBytesRead<<endl;
+
+		try
 		{
-			CAutoLock locDemuxLock(mDemuxLock);
-			//CAutoLock locStreamLock(mStreamLock);
-			if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
-                debugLog<<L"DataProcessLoop : Detected JustRest condition"<<endl;
-				continue;
+			//debugLog <<"DataProcessLoop : gcount = "<<locBytesRead<<endl;
+			{
+				CAutoLock locDemuxLock(mDemuxLock);
+				//CAutoLock locStreamLock(mStreamLock);
+				if (mJustReset) {		//To avoid blocking problems... restart the loop if it was just reset while waiting for lock.
+					debugLog<<L"DataProcessLoop : Detected JustRest condition"<<endl;
+					continue;
+				}
+				locFeedResult = mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead);
+				locKeepGoing = ((locFeedResult == (OggDataBuffer::FEED_OK)) || (locFeedResult == OggDataBuffer::PROCESS_DISPATCH_FALSE));;
+				if (locFeedResult != OggDataBuffer::FEED_OK)
+				{
+					debugLog << L"Feed result = "<<locFeedResult<<endl;
+					break;
+				}
 			}
-			locFeedResult = mOggBuffer.feed((const unsigned char*)locBuff, locBytesRead);
-			locKeepGoing = ((locFeedResult == (OggDataBuffer::FEED_OK)) || (locFeedResult == OggDataBuffer::PROCESS_DISPATCH_FALSE));;
-            if (locFeedResult != OggDataBuffer::FEED_OK)
-            {
-                debugLog << L"Feed result = "<<locFeedResult<<endl;
-                break;
-            }
+			//if (!locKeepGoing) {
+			//	//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
+	  //          CAutoLock locStreamLock(mStreamLock);
+			//	debugLog<<L"DataProcessLoop : Keep going false Deliver EOS"<<endl;
+	  //          debugLog<<L"Feed Result = "<<locFeedResult<<endl;
+			//	DeliverEOS();
+			//}
+			{
+				CAutoLock locSourceLock(mSourceFileLock);
+				locIsEOF = mDataSource->isEOF();
+			}
 		}
-		//if (!locKeepGoing) {
-		//	//debugLog << "DataProcessLoop : Feed in data buffer said stop"<<endl;
-  //          CAutoLock locStreamLock(mStreamLock);
-		//	debugLog<<L"DataProcessLoop : Keep going false Deliver EOS"<<endl;
-  //          debugLog<<L"Feed Result = "<<locFeedResult<<endl;
-		//	DeliverEOS();
-		//}
+		catch (int)
 		{
-			CAutoLock locSourceLock(mSourceFileLock);
-			locIsEOF = mDataSource->isEOF();
+			locIsEOF = true;
+			continueLooping = false;
 		}
+
 		if (locIsEOF) {
 			//debugLog << "DataProcessLoop : EOF"<<endl;
             CAutoLock locStreamLock(mStreamLock);

@@ -63,7 +63,9 @@ OggDataBuffer::OggDataBuffer(void)
 OggDataBuffer::~OggDataBuffer(void)
 {
 	delete mBuffer;
+	mBuffer = 0;
 	delete pendingPage;
+	pendingPage = 0;
 	//debugLog.close();
 	
 }
@@ -398,7 +400,9 @@ void OggDataBuffer::clearData() {
 	mPrevGranPos = 0;
 	//debugLog<<"ClearData : Transition back to AWAITING_BASE_HEADER"<<endl;
 	
-	
+	// This might leak, but fixes crash with invalid data
+	pendingPage = 0;
+
 	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	mState = AWAITING_BASE_HEADER;
 

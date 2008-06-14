@@ -72,6 +72,7 @@ bool OggMuxStream::acceptOggPage(OggPage* inOggPage) {		//Holds page for later..
 		return true;
 	} else {
 		delete inOggPage;
+		inOggPage = 0;
 		return true;
 	}
 }

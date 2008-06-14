@@ -151,6 +151,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 							mPacketiserState = PKRSTATE_OK;
 							mPendingPacket = NULL;
 							delete inOggPage;
+							inOggPage = 0;
 							return false;
 						}
 						//debugLog<<"acceptOggPage : ... delivery sucessful..."<<endl;
@@ -169,6 +170,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 					mPacketiserState = PKRSTATE_INVALID_STREAM;
 					
 					delete inOggPage;
+					inOggPage = 0;
 					throw 0;
 				}
 			} else {
@@ -184,6 +186,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 					if( processPage(inOggPage, false, false) == false) {
 						//TODO::: State change ???
 						delete inOggPage;
+						inOggPage = 0;
 						return false;
 					}
 				} else {
@@ -199,6 +202,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 			//UNKNOWN CASE::: Header continuation flag set, but no packets on page.
 			mPacketiserState = PKRSTATE_INVALID_STREAM;
 			delete inOggPage;
+			inOggPage = 0;
 			throw 0;
 		}
 	} else {
@@ -223,6 +227,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 					//debugLog<<"acceptOggPage : FAIL STATE DELIVERY"<<endl;
 					//TODO::: State change
 					delete inOggPage;
+					inOggPage = 0;
 					return false;
 				}
 
@@ -234,6 +239,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 				//debugLog<<"acceptOggPage : FAIL STATE DELIVERY"<<endl;
 				//TODO::: State change
 				delete inOggPage;
+				inOggPage = 0;
 				return false;			
 			}
 		}
@@ -276,6 +282,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 					//debugLog<<"acceptOggPage : Delivery failed..."<<endl;
 					//TODO::: State change ?
 					delete inOggPage;
+					inOggPage = 0;
 					return false;
 				}
 				//The last packet is complete. So send it.
@@ -295,12 +302,14 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 			// of file.
 			mPacketiserState = PKRSTATE_INVALID_STREAM;
 			delete inOggPage;
+			inOggPage = 0;
 			throw 0;
 		} else {
 			//debugLog<<"acceptOggPage : NEVER BE HERE 2"<<endl;
 			//Shouldn't be here
 			mPacketiserState = PKRSTATE_INVALID_STREAM;
 			delete inOggPage;
+			inOggPage = 0;
 			throw 0;
 		}
 	} else {
@@ -309,6 +318,7 @@ bool OggPacketiser::acceptOggPage(OggPage* inOggPage) {				//AOP::: Needs closer
 	}
 	//debugLog<<"acceptOggPage : All ok... returning..."<<endl<<endl;
 	delete inOggPage;
+	inOggPage = 0;
 	return true;
 }
 
