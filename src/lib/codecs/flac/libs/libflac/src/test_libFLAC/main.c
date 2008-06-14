@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +16,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#include "bitbuffer.h"
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#include "bitwriter.h"
 #include "decoders.h"
 #include "encoders.h"
 #include "format.h"
@@ -26,7 +30,7 @@ int main(int argc, char *argv[])
 {
 	(void)argc, (void)argv;
 
-	if(!test_bitbuffer())
+	if(!test_bitwriter())
 		return 1;
 
 	if(!test_format())

@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,11 +16,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#include <errno.h>
+#include <stdio.h> /* for snprintf() */
+#include <string.h>
 #include "options.h"
 #include "utils.h"
 #include "FLAC/assert.h"
 #include "share/grabbag.h"
-#include <string.h>
+#include "operations_shorthand.h"
 
 static FLAC__bool import_cs_from(const char *filename, FLAC__StreamMetadata **cuesheet, const char *cs_filename, FLAC__bool *needs_write, FLAC__uint64 lead_out_offset, FLAC__bool is_cdda, Argument_AddSeekpoint *add_seekpoint_link);
 static FLAC__bool export_cs_to(const char *filename, const FLAC__StreamMetadata *cuesheet, const char *cs_filename);
@@ -118,7 +125,7 @@ FLAC__bool import_cs_from(const char *filename, FLAC__StreamMetadata **cuesheet,
 		f = fopen(cs_filename, "r");
 
 	if(0 == f) {
-		fprintf(stderr, "%s: ERROR: can't open import file %s\n", filename, cs_filename);
+		fprintf(stderr, "%s: ERROR: can't open import file %s: %s\n", filename, cs_filename, strerror(errno));
 		return false;
 	}
 
@@ -130,6 +137,17 @@ FLAC__bool import_cs_from(const char *filename, FLAC__StreamMetadata **cuesheet,
 	if(0 == *cuesheet) {
 		fprintf(stderr, "%s: ERROR: while parsing cuesheet \"%s\" on line %u: %s\n", filename, cs_filename, last_line_read, error_message);
 		return false;
+	}
+
+	if(!FLAC__format_cuesheet_is_legal(&(*cuesheet)->data.cue_sheet, /*check_cd_da_subset=*/false, &error_message)) {
+		fprintf(stderr, "%s: ERROR parsing cuesheet \"%s\": %s\n", filename, cs_filename, error_message);
+		return false;
+	}
+
+	/* if we're expecting CDDA, warn about non-compliance */
+	if(is_cdda && !FLAC__format_cuesheet_is_legal(&(*cuesheet)->data.cue_sheet, /*check_cd_da_subset=*/true, &error_message)) {
+		fprintf(stderr, "%s: WARNING cuesheet \"%s\" is not audio CD compliant: %s\n", filename, cs_filename, error_message);
+		(*cuesheet)->data.cue_sheet.is_cd = false;
 	}
 
 	/* add seekpoints for each index point if required */
@@ -145,7 +163,7 @@ FLAC__bool import_cs_from(const char *filename, FLAC__StreamMetadata **cuesheet,
 #ifdef _MSC_VER
 				sprintf(spec, "%I64u;", tr->offset + tr->indices[index].offset);
 #else
-				sprintf(spec, "%llu;", tr->offset + tr->indices[index].offset);
+				sprintf(spec, "%llu;", (unsigned long long)(tr->offset + tr->indices[index].offset));
 #endif
 				local_strcat(seekpoint_specification, spec);
 			}
@@ -159,6 +177,8 @@ FLAC__bool import_cs_from(const char *filename, FLAC__StreamMetadata **cuesheet,
 FLAC__bool export_cs_to(const char *filename, const FLAC__StreamMetadata *cuesheet, const char *cs_filename)
 {
 	FILE *f;
+	char *ref = 0;
+	size_t reflen;
 
 	if(0 == cs_filename || strlen(cs_filename) == 0) {
 		fprintf(stderr, "%s: ERROR: empty export file name\n", filename);
@@ -170,11 +190,25 @@ FLAC__bool export_cs_to(const char *filename, const FLAC__StreamMetadata *cueshe
 		f = fopen(cs_filename, "w");
 
 	if(0 == f) {
-		fprintf(stderr, "%s: ERROR: can't open export file %s\n", filename, cs_filename);
+		fprintf(stderr, "%s: ERROR: can't open export file %s: %s\n", filename, cs_filename, strerror(errno));
 		return false;
 	}
 
-	grabbag__cuesheet_emit(f, cuesheet, "\"dummy.wav\" WAVE");
+	reflen = strlen(filename) + 7 + 1;
+	if(0 == (ref = malloc(reflen))) {
+		fprintf(stderr, "%s: ERROR: allocating memory\n", filename);
+		return false;
+	}
+
+#if defined _MSC_VER || defined __MINGW32__
+	_snprintf(ref, reflen, "\"%s\" FLAC", filename);
+#else
+	snprintf(ref, reflen, "\"%s\" FLAC", filename);
+#endif
+
+	grabbag__cuesheet_emit(f, cuesheet, ref);
+
+	free(ref);
 
 	if(f != stdout)
 		fclose(f);

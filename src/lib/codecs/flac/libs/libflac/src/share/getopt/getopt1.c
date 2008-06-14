@@ -8,7 +8,7 @@
 	GNU/Linux, Darwin, AND Solaris please submit it on the project page:
 		http://sourceforge.net/projects/flac
 
-	In the meantime I have munged the global symbols and remove gates
+	In the meantime I have munged the global symbols and removed gates
 	around code, while at the same time trying to touch the original as
 	little as possible.
 */
@@ -32,8 +32,8 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#if HAVE_CONFIG_H
+#  include <config.h>
 #endif
 
 #include "share/getopt.h"

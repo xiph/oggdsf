@@ -1,19 +1,19 @@
 /* grabbag - Convenience lib for various routines common to several tools
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 /*
@@ -35,6 +35,12 @@ extern "C" {
 
 extern const unsigned GRABBAG__REPLAYGAIN_MAX_TAG_SPACE_REQUIRED;
 
+extern const FLAC__byte * const GRABBAG__REPLAYGAIN_TAG_REFERENCE_LOUDNESS; /* = "REPLAYGAIN_REFERENCE_LOUDNESS" */
+extern const FLAC__byte * const GRABBAG__REPLAYGAIN_TAG_TITLE_GAIN; /* = "REPLAYGAIN_TRACK_GAIN" */
+extern const FLAC__byte * const GRABBAG__REPLAYGAIN_TAG_TITLE_PEAK; /* = "REPLAYGAIN_TRACK_PEAK" */
+extern const FLAC__byte * const GRABBAG__REPLAYGAIN_TAG_ALBUM_GAIN; /* = "REPLAYGAIN_ALBUM_GAIN" */
+extern const FLAC__byte * const GRABBAG__REPLAYGAIN_TAG_ALBUM_PEAK; /* = "REPLAYGAIN_ALBUM_PEAK" */
+
 FLAC__bool grabbag__replaygain_is_valid_sample_frequency(unsigned sample_frequency);
 
 FLAC__bool grabbag__replaygain_init(unsigned sample_frequency);
@@ -48,13 +54,15 @@ void grabbag__replaygain_get_title(float *gain, float *peak);
 /* These three functions return an error string on error, or NULL if successful */
 const char *grabbag__replaygain_analyze_file(const char *filename, float *title_gain, float *title_peak);
 const char *grabbag__replaygain_store_to_vorbiscomment(FLAC__StreamMetadata *block, float album_gain, float album_peak, float title_gain, float title_peak);
+const char *grabbag__replaygain_store_to_vorbiscomment_reference(FLAC__StreamMetadata *block);
 const char *grabbag__replaygain_store_to_vorbiscomment_album(FLAC__StreamMetadata *block, float album_gain, float album_peak);
 const char *grabbag__replaygain_store_to_vorbiscomment_title(FLAC__StreamMetadata *block, float title_gain, float title_peak);
 const char *grabbag__replaygain_store_to_file(const char *filename, float album_gain, float album_peak, float title_gain, float title_peak, FLAC__bool preserve_modtime);
+const char *grabbag__replaygain_store_to_file_reference(const char *filename, FLAC__bool preserve_modtime);
 const char *grabbag__replaygain_store_to_file_album(const char *filename, float album_gain, float album_peak, FLAC__bool preserve_modtime);
 const char *grabbag__replaygain_store_to_file_title(const char *filename, float title_gain, float title_peak, FLAC__bool preserve_modtime);
 
-FLAC__bool grabbag__replaygain_load_from_vorbiscomment(const FLAC__StreamMetadata *block, FLAC__bool album_mode, double *gain, double *peak);
+FLAC__bool grabbag__replaygain_load_from_vorbiscomment(const FLAC__StreamMetadata *block, FLAC__bool album_mode, FLAC__bool strict, double *reference, double *gain, double *peak);
 double grabbag__replaygain_compute_scale_factor(double peak, double gain, double preamp, FLAC__bool prevent_clipping);
 
 #ifdef __cplusplus

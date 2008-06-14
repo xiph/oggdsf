@@ -1,5 +1,5 @@
 /* plugin_common - Routines common to several plugins
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * Only slightly modified charset.c from:
  *  EasyTAG - Tag editor for MP3 and OGG files
@@ -20,14 +20,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #ifdef HAVE_ICONV
 #include <iconv.h>
@@ -83,18 +83,24 @@ char* FLAC_plugin__charset_convert_string (const char *string, char *from, char 
 	/* Due to a GLIBC bug, round outbuf_size up to a multiple of 4 */
 	/* + 1 for nul in case len == 1 */
 	outsize = ((length + 3) & ~3) + 1;
+	if(outsize < length) /* overflow check */
+		return NULL;
 	out = (char*)malloc(outsize);
 	outleft = outsize - 1;
 	outptr = out;
 
 retry:
-	if (iconv(cd, (char**)&input, &length, &outptr, &outleft) == -1)
+	if (iconv(cd, (char**)&input, &length, &outptr, &outleft) == (size_t)(-1))
 	{
 		int used;
 		switch (errno)
 		{
 			case E2BIG:
 				used = outptr - out;
+				if((outsize - 1) * 2 + 1 <= outsize) { /* overflow check */
+					free(out);
+					return NULL;
+				}
 				outsize = (outsize - 1) * 2 + 1;
 				out = realloc(out, outsize);
 				outptr = out + used;

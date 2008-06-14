@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -39,8 +39,8 @@ PATH=../obj/$BUILD/bin:$PATH
 
 run_test_libFLAC ()
 {
-	if [ x"$FLAC__VALGRIND" = xyes ] ; then
-		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --logfile-fd=4 test_libFLAC $* 4>>test_libFLAC.valgrind.log
+	if [ x"$FLAC__TEST_WITH_VALGRIND" = xyes ] ; then
+		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --log-fd=4 test_libFLAC $* 4>>test_libFLAC.valgrind.log
 	else
 		test_libFLAC $*
 	fi

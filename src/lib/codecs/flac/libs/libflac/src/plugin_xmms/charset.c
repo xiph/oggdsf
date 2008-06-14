@@ -1,5 +1,5 @@
 /* libxmms-flac - XMMS FLAC input plugin
- * Copyright (C) 2002,2003,2004,2005  Daisuke Shimamura
+ * Copyright (C) 2002,2003,2004,2005,2006  Daisuke Shimamura
  *
  * Almost from charset.c
  *  EasyTAG - Tag editor for MP3 and OGG files
@@ -20,15 +20,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <glib.h>
 #include <string.h>
 #include <errno.h>
 
 #include "plugin_common/charset.h"
-#include "plugin_common/locale_hack.h"
 #include "charset.h"
 #include "configure.h"
+#include "locale_hack.h"
 
 
 /****************

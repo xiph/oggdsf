@@ -1,5 +1,5 @@
 #  libFLAC - Free Lossless Audio Codec library
-#  Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -35,12 +35,8 @@ flaccinclude_HEADERS = \
 	assert.h \
 	callback.h \
 	export.h \
-	file_decoder.h \
-	file_encoder.h \
 	format.h \
 	metadata.h \
 	ordinals.h \
-	seekable_stream_decoder.h \
-	seekable_stream_encoder.h \
 	stream_decoder.h \
 	stream_encoder.h

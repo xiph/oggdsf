@@ -1,27 +1,32 @@
 /* in_flac - Winamp2 FLAC input plugin
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 #include <windows.h>
 #include <stdio.h>
 #include "FLAC/all.h"
+#include "share/alloc.h"
 #include "plugin_common/all.h"
 #include "infobox.h"
-#include "config.h"
+#include "configure.h"
 #include "resource.h"
 
 
@@ -70,7 +75,7 @@ static void LoadGenres()
 	hFile = CreateFile(buffer, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) return;
 	genresSize = GetFileSize(hFile, 0);
-	if (genresSize && (genres = (char*)malloc(genresSize+2)))
+	if (genresSize && (genres = (char*)safe_malloc_add_2op_(genresSize, /*+*/2)))
 	{
 		if (!ReadFile(hFile, genres, genresSize, &spam, NULL) || spam!=genresSize)
 		{
@@ -183,7 +188,7 @@ static wchar_t *AnsiToWide(const char *src)
 
 	len = strlen(src) + 1;
 	/* copy */
-	dest = (wchar_t*)malloc(len*sizeof(wchar_t));
+	dest = (wchar_t*)safe_malloc_mul_2op_(len, /*times*/sizeof(wchar_t));
 	if (dest) mbstowcs(dest, src, len);
 	return dest;
 }

@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,13 +16,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "metadata.h"
 #include <stdio.h>
 
-extern FLAC__bool test_metadata_object();
-extern FLAC__bool test_metadata_file_manipulation();
+extern FLAC__bool test_metadata_object(void);
+extern FLAC__bool test_metadata_file_manipulation(void);
 
-FLAC__bool test_metadata()
+FLAC__bool test_metadata(void)
 {
 	if(!test_metadata_object())
 		return false;

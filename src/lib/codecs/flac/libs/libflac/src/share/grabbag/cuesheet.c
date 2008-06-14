@@ -1,20 +1,24 @@
 /* grabbag - Convenience lib for various routines common to several tools
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 #include "share/grabbag.h"
 #include "FLAC/assert.h"
@@ -196,13 +200,13 @@ static char *local__get_field_(char **s, FLAC__bool allow_quotes)
 
 static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message, unsigned *last_line_read, FLAC__StreamMetadata *cuesheet, FLAC__bool is_cdda, FLAC__uint64 lead_out_offset)
 {
-#if defined _MSC_VER || defined __MINGW32__
+#if defined _MSC_VER || defined __MINGW32__ || defined __EMX__
 #define FLAC__STRCASECMP stricmp
 #else
 #define FLAC__STRCASECMP strcasecmp
 #endif
 	char buffer[4096], *line, *field;
-	unsigned linelen, forced_leadout_track_num = 0;
+	unsigned forced_leadout_track_num = 0;
 	FLAC__uint64 forced_leadout_track_offset = 0;
 	int in_track_num = -1, in_index_num = -1;
 	FLAC__bool disc_has_catalog = false, track_has_flags = false, track_has_isrc = false, has_forced_leadout = false;
@@ -215,10 +219,12 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 		(*last_line_read)++;
 		line = buffer;
 
-		linelen = strlen(line);
-		if(line[linelen-1] != '\n') {
-			*error_message = "line too long";
-			return false;
+		{
+			size_t linelen = strlen(line);
+			if((linelen == sizeof(buffer)-1) && line[linelen-1] != '\n') {
+				*error_message = "line too long";
+				return false;
+			}
 		}
 
 		if(0 != (field = local__get_field_(&line, /*allow_quotes=*/false))) {
@@ -392,9 +398,21 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 					*error_message = "TRACK number must be greater than 0";
 					return false;
 				}
-				if(is_cdda && in_track_num > 99) {
-					*error_message = "CD-DA TRACK number must be between 1 and 99, inclusive";
-					return false;
+				if(is_cdda) {
+					if(in_track_num > 99) {
+						*error_message = "CD-DA TRACK number must be between 1 and 99, inclusive";
+						return false;
+					}
+				}
+				else {
+					if(in_track_num == 255) {
+						*error_message = "TRACK number 255 is reserved for the lead-out";
+						return false;
+					}
+					else if(in_track_num > 255) {
+						*error_message = "TRACK number must be between 1 and 254, inclusive";
+						return false;
+					}
 				}
 				if(is_cdda && cs->num_tracks > 0 && in_track_num != cs->tracks[cs->num_tracks-1].number + 1) {
 					*error_message = "CD-DA TRACK numbers must be sequential";
@@ -497,7 +515,7 @@ static FLAC__bool local__cuesheet_parse_(FILE *file, const char **error_message,
 	}
 
 	if(!has_forced_leadout) {
-		forced_leadout_track_num = is_cdda? 170 : cs->num_tracks;
+		forced_leadout_track_num = is_cdda? 170 : 255;
 		forced_leadout_track_offset = lead_out_offset;
 	}
 	if(!FLAC__metadata_object_cuesheet_insert_blank_track(cuesheet, cs->num_tracks)) {
@@ -578,7 +596,7 @@ void grabbag__cuesheet_emit(FILE *file, const FLAC__StreamMetadata *cuesheet, co
 #ifdef _MSC_VER
 				fprintf(file, "%I64u\n", track->offset + index->offset);
 #else
-				fprintf(file, "%llu\n", track->offset + index->offset);
+				fprintf(file, "%llu\n", (unsigned long long)(track->offset + index->offset));
 #endif
 		}
 	}
@@ -587,7 +605,7 @@ void grabbag__cuesheet_emit(FILE *file, const FLAC__StreamMetadata *cuesheet, co
 	fprintf(file, "REM FLAC__lead-in %I64u\n", cs->lead_in);
 	fprintf(file, "REM FLAC__lead-out %u %I64u\n", (unsigned)cs->tracks[track_num].number, cs->tracks[track_num].offset);
 #else
-	fprintf(file, "REM FLAC__lead-in %llu\n", cs->lead_in);
-	fprintf(file, "REM FLAC__lead-out %u %llu\n", (unsigned)cs->tracks[track_num].number, cs->tracks[track_num].offset);
+	fprintf(file, "REM FLAC__lead-in %llu\n", (unsigned long long)cs->lead_in);
+	fprintf(file, "REM FLAC__lead-out %u %llu\n", (unsigned)cs->tracks[track_num].number, (unsigned long long)cs->tracks[track_num].offset);
 #endif
 }

@@ -1,5 +1,5 @@
 /* libxmms-flac - XMMS FLAC input plugin
- * Copyright (C) 2002,2003,2004,2005  Daisuke Shimamura
+ * Copyright (C) 2002,2003,2004,2005,2006  Daisuke Shimamura
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#ifndef __FLAC__PLUGIN_XMMS__TAG_H__
-#define __FLAC__PLUGIN_XMMS__TAG_H__
+#ifndef FLAC__PLUGIN_XMMS__TAG_H
+#define FLAC__PLUGIN_XMMS__TAG_H
 
 gchar *flac_format_song_title(gchar * filename);
 

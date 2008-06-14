@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -16,31 +16,27 @@
 #  distribution.
 
 if FLaC__HAS_XMMS
-XMMS_DIRS = plugin_xmms
+XMMS_DIRS = plugin_common plugin_xmms
 endif
 
-if FLaC__HAS_OGG
-OGGFLAC_DIRS = libOggFLAC libOggFLAC++
-OGGFLAC_TEST_DIRS = test_libOggFLAC test_libOggFLAC++
+if FLaC__WITH_CPPLIBS
+CPPLIBS_DIRS = libFLAC++ test_libFLAC++
 endif
 
 SUBDIRS = \
 	libFLAC \
-	libFLAC++ \
-	$(OGGFLAC_DIRS) \
 	share \
 	flac \
 	metaflac \
 	monkeys_audio_utilities \
-	plugin_common \
 	$(XMMS_DIRS) \
 	plugin_winamp2 \
 	test_grabbag \
+	test_libs_common \
 	test_libFLAC \
-	test_libFLAC++ \
-	$(OGGFLAC_TEST_DIRS) \
 	test_seeking \
-	test_streams
+	test_streams \
+	$(CPPLIBS_DIRS)
 
 EXTRA_DIST = \
 	Makefile.lite

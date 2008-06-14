@@ -1,5 +1,5 @@
 #  libFLAC++ - Free Lossless Audio Codec library
-#  Copyright (C) 2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -38,11 +38,7 @@ LIB_NAME = libFLAC++
 INCLUDES = -I$(topdir)/include
 
 SRCS_CPP = \
-	file_decoder.cpp \
-	file_encoder.cpp \
 	metadata.cpp \
-	seekable_stream_decoder.cpp \
-	seekable_stream_encoder.cpp \
 	stream_decoder.cpp \
 	stream_encoder.cpp
 

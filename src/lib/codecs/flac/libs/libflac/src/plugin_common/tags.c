@@ -1,20 +1,24 @@
 /* plugin_common - Routines common to several plugins
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 #include <stdio.h>
 #include <string.h>
@@ -23,32 +27,72 @@
 #include "tags.h"
 #include "FLAC/assert.h"
 #include "FLAC/metadata.h"
+#include "share/alloc.h"
+
+#ifndef FLaC__INLINE
+#define FLaC__INLINE
+#endif
 
 
-static __inline unsigned local__wide_strlen(const FLAC__uint16 *s)
+static FLaC__INLINE size_t local__wide_strlen(const FLAC__uint16 *s)
 {
-	unsigned n = 0;
+	size_t n = 0;
 	while(*s++)
 		n++;
 	return n;
 }
 
-static __inline unsigned local__utf8len(const FLAC__byte *utf8)
+/*
+ * also disallows non-shortest-form encodings, c.f.
+ *   http://www.unicode.org/versions/corrigendum1.html
+ * and a more clear explanation at the end of this section:
+ *   http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
+ */
+static FLaC__INLINE size_t local__utf8len(const FLAC__byte *utf8)
 {
 	FLAC__ASSERT(0 != utf8);
-	if ((utf8[0] & 0x80) == 0)
+	if ((utf8[0] & 0x80) == 0) {
 		return 1;
-	else if ((utf8[0] & 0xE0) == 0xC0 && (utf8[1] & 0xC0) == 0x80)
+	}
+	else if ((utf8[0] & 0xE0) == 0xC0 && (utf8[1] & 0xC0) == 0x80) {
+		if ((utf8[0] & 0xFE) == 0xC0) /* overlong sequence check */
+			return 0;
 		return 2;
-	else if ((utf8[0] & 0xF0) == 0xE0 && (utf8[1] & 0xC0) == 0x80 && (utf8[2] & 0xC0) == 0x80)
+	}
+	else if ((utf8[0] & 0xF0) == 0xE0 && (utf8[1] & 0xC0) == 0x80 && (utf8[2] & 0xC0) == 0x80) {
+		if (utf8[0] == 0xE0 && (utf8[1] & 0xE0) == 0x80) /* overlong sequence check */
+			return 0;
+		/* illegal surrogates check (U+D800...U+DFFF and U+FFFE...U+FFFF) */
+		if (utf8[0] == 0xED && (utf8[1] & 0xE0) == 0xA0) /* D800-DFFF */
+			return 0;
+		if (utf8[0] == 0xEF && utf8[1] == 0xBF && (utf8[2] & 0xFE) == 0xBE) /* FFFE-FFFF */
+			return 0;
 		return 3;
-	else
+	}
+	else if ((utf8[0] & 0xF8) == 0xF0 && (utf8[1] & 0xC0) == 0x80 && (utf8[2] & 0xC0) == 0x80 && (utf8[3] & 0xC0) == 0x80) {
+		if (utf8[0] == 0xF0 && (utf8[1] & 0xF0) == 0x80) /* overlong sequence check */
+			return 0;
+		return 4;
+	}
+	else if ((utf8[0] & 0xFC) == 0xF8 && (utf8[1] & 0xC0) == 0x80 && (utf8[2] & 0xC0) == 0x80 && (utf8[3] & 0xC0) == 0x80 && (utf8[4] & 0xC0) == 0x80) {
+		if (utf8[0] == 0xF8 && (utf8[1] & 0xF8) == 0x80) /* overlong sequence check */
+			return 0;
+		return 5;
+	}
+	else if ((utf8[0] & 0xFE) == 0xFC && (utf8[1] & 0xC0) == 0x80 && (utf8[2] & 0xC0) == 0x80 && (utf8[3] & 0xC0) == 0x80 && (utf8[4] & 0xC0) == 0x80 && (utf8[5] & 0xC0) == 0x80) {
+		if (utf8[0] == 0xFC && (utf8[1] & 0xFC) == 0x80) /* overlong sequence check */
+			return 0;
+		return 6;
+	}
+	else {
 		return 0;
+	}
 }
 
-static __inline unsigned local__utf8_to_ucs2(const FLAC__byte *utf8, FLAC__uint16 *ucs2)
+
+static FLaC__INLINE size_t local__utf8_to_ucs2(const FLAC__byte *utf8, FLAC__uint16 *ucs2)
 {
-	const unsigned len = local__utf8len(utf8);
+	const size_t len = local__utf8len(utf8);
 
 	FLAC__ASSERT(0 != ucs2);
 
@@ -58,6 +102,8 @@ static __inline unsigned local__utf8_to_ucs2(const FLAC__byte *utf8, FLAC__uint1
 		*ucs2 = (*utf8 & 0x3F)<<6 | (*(utf8+1) & 0x3F);
 	else if (len == 3)
 		*ucs2 = (*utf8 & 0x1F)<<12 | (*(utf8+1) & 0x3F)<<6 | (*(utf8+2) & 0x3F);
+	else
+		*ucs2 = '?';
 
 	return len;
 }
@@ -65,14 +111,14 @@ static __inline unsigned local__utf8_to_ucs2(const FLAC__byte *utf8, FLAC__uint1
 static FLAC__uint16 *local__convert_utf8_to_ucs2(const char *src, unsigned length)
 {
 	FLAC__uint16 *out;
-	unsigned chars = 0;
+	size_t chars = 0;
 
 	FLAC__ASSERT(0 != src);
 
 	/* calculate length */
 	{
-		const char *s, *end;
-		for (s=src, end=src+length; s<end; chars++) {
+		const unsigned char *s, *end;
+		for (s=(const unsigned char *)src, end=s+length; s<end; chars++) {
 			const unsigned n = local__utf8len(s);
 			if (n == 0)
 				return 0;
@@ -82,7 +128,7 @@ static FLAC__uint16 *local__convert_utf8_to_ucs2(const char *src, unsigned lengt
 	}
 
 	/* allocate */
-	out = (FLAC__uint16*)malloc(chars * sizeof(FLAC__uint16));
+	out = (FLAC__uint16*)safe_malloc_mul_2op_(chars, /*times*/sizeof(FLAC__uint16));
 	if (0 == out) {
 		FLAC__ASSERT(0);
 		return 0;
@@ -90,15 +136,16 @@ static FLAC__uint16 *local__convert_utf8_to_ucs2(const char *src, unsigned lengt
 
 	/* convert */
 	{
+		const unsigned char *s = (const unsigned char *)src;
 		FLAC__uint16 *u = out;
 		for ( ; chars; chars--)
-			src += local__utf8_to_ucs2(src, u++);
+			s += local__utf8_to_ucs2(s, u++);
 	}
 
 	return out;
 }
 
-static __inline unsigned local__ucs2len(FLAC__uint16 ucs2)
+static FLaC__INLINE size_t local__ucs2len(FLAC__uint16 ucs2)
 {
 	if (ucs2 < 0x0080)
 		return 1;
@@ -108,7 +155,7 @@ static __inline unsigned local__ucs2len(FLAC__uint16 ucs2)
 		return 3;
 }
 
-static __inline unsigned local__ucs2_to_utf8(FLAC__uint16 ucs2, FLAC__byte *utf8)
+static FLaC__INLINE size_t local__ucs2_to_utf8(FLAC__uint16 ucs2, FLAC__byte *utf8)
 {
 	if (ucs2 < 0x080) {
 		utf8[0] = (FLAC__byte)ucs2;
@@ -130,25 +177,29 @@ static __inline unsigned local__ucs2_to_utf8(FLAC__uint16 ucs2, FLAC__byte *utf8
 static char *local__convert_ucs2_to_utf8(const FLAC__uint16 *src, unsigned length)
 {
 	char *out;
-	unsigned len = 0;
+	size_t len = 0, n;
 
 	FLAC__ASSERT(0 != src);
 
 	/* calculate length */
 	{
 		unsigned i;
-		for (i = 0; i < length; i++)
-			len += local__ucs2len(src[i]);
+		for (i = 0; i < length; i++) {
+			n = local__ucs2len(src[i]);
+			if(len + n < len) /* overflow check */
+				return 0;
+			len += n;
+		}
 	}
 
 	/* allocate */
-	out = (char*)malloc(len * sizeof(char));
+	out = (char*)safe_malloc_mul_2op_(len, /*times*/sizeof(char));
 	if (0 == out)
 		return 0;
 
 	/* convert */
 	{
-		char *u = out;
+		unsigned char *u = (unsigned char *)out;
 		for ( ; *src; src++)
 			u += local__ucs2_to_utf8(*src, u);
 		local__ucs2_to_utf8(*src, u);
@@ -226,7 +277,7 @@ void FLAC_plugin__tags_destroy(FLAC__StreamMetadata **tags)
 const char *FLAC_plugin__tags_get_tag_utf8(const FLAC__StreamMetadata *tags, const char *name)
 {
 	const int i = FLAC__metadata_object_vorbiscomment_find_entry_from(tags, /*offset=*/0, name);
-	return (i < 0? 0 : strchr(tags->data.vorbis_comment.comments[i].entry, '=')+1);
+	return (i < 0? 0 : strchr((const char *)tags->data.vorbis_comment.comments[i].entry, '=')+1);
 }
 
 FLAC__uint16 *FLAC_plugin__tags_get_tag_ucs2(const FLAC__StreamMetadata *tags, const char *name)
@@ -265,7 +316,7 @@ FLAC__bool FLAC_plugin__tags_add_tag_utf8(FLAC__StreamMetadata *tags, const char
 		const size_t value_len = strlen(value);
 		const size_t separator_len = strlen(separator);
 		FLAC__byte *new_entry;
-		if(0 == (new_entry = (FLAC__byte*)realloc(entry->entry, entry->length + value_len + separator_len + 1)))
+		if(0 == (new_entry = (FLAC__byte*)safe_realloc_add_4op_(entry->entry, entry->length, /*+*/value_len, /*+*/separator_len, /*+*/1)))
 			return false;
 		memcpy(new_entry+entry->length, separator, separator_len);
 		entry->length += separator_len;

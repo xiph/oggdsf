@@ -12,17 +12,11 @@
 /* define if building for SPARC */
 #undef FLAC__CPU_SPARC
 
-/* define to run even more tests */
-#undef FLAC__EXHAUSTIVE_TESTS
-
 /* define if you are compiling for PowerPC and have the 'as' assembler */
 #undef FLAC__HAS_AS
 
 /* define if you have docbook-to-man or docbook2man */
 #undef FLAC__HAS_DOCBOOK_TO_MAN
-
-/* define if you have Doxygen */
-#undef FLAC__HAS_DOXYGEN
 
 /* define if you are compiling for PowerPC and have the 'gas' assembler */
 #undef FLAC__HAS_GAS
@@ -51,11 +45,11 @@
 /* define to enable use of Altivec instructions */
 #undef FLAC__USE_ALTIVEC
 
-/* define to enable use of Valgrind in testers */
-#undef FLAC__VALGRIND_TESTING
-
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
+
+/* Define to 1 if fseeko (and presumably ftello) exists and is declared. */
+#undef HAVE_FSEEKO
 
 /* Define to 1 if you have the `getopt_long' function. */
 #undef HAVE_GETOPT_LONG
@@ -117,8 +111,24 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* The size of a `void*', as computed by sizeof. */
+#undef SIZEOF_VOIDP
+
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
 /* Version number of package */
 #undef VERSION
+
+/* Define to 1 if your processor stores words with the most significant byte
+   first (like Motorola and SPARC, unlike Intel and VAX). */
+#undef WORDS_BIGENDIAN
+
+/* Number of bits in a file offset, on hosts where this is settable. */
+#undef _FILE_OFFSET_BITS
+
+/* Define to 1 to make fseeko visible on some hosts (e.g. glibc 2.2). */
+#undef _LARGEFILE_SOURCE
+
+/* Define for large files, on AIX-style hosts. */
+#undef _LARGE_FILES

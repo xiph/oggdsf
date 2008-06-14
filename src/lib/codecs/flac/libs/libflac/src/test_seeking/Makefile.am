@@ -1,5 +1,5 @@
-#  test_seeking - Seeking tester for libFLAC and libOggFLAC
-#  Copyright (C) 2004,2005  Josh Coalson
+#  test_seeking - Seeking tester for libFLAC
+#  Copyright (C) 2004,2005,2006,2007  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,21 +17,18 @@
 
 EXTRA_DIST = \
 	Makefile.lite \
-	test_seeking.dsp
+	test_seeking.dsp \
+	test_seeking.vcproj
 
 AM_CFLAGS = @OGG_CFLAGS@
 
 INCLUDES = 
 
-if FLaC__HAS_OGG
-NEED_OGGFLAC_LIB = $(top_builddir)/src/libOggFLAC/libOggFLAC.la
-endif
-
 noinst_PROGRAMS = test_seeking
 test_seeking_LDADD = \
-	$(NEED_OGGFLAC_LIB) \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
 	@OGG_LIBS@ \
+	@MINGW_WINSOCK_LIBS@ \
 	-lm
 test_seeking_SOURCES = \
 	main.c

@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +21,6 @@
 
 #include "FLAC/metadata.h"
 
-FLAC__bool flac__vorbiscomment_add(FLAC__StreamMetadata *block, const char *comment, const char **violation);
+FLAC__bool flac__vorbiscomment_add(FLAC__StreamMetadata *block, const char *comment, FLAC__bool value_from_file, FLAC__bool raw, const char **violation);
 
 #endif

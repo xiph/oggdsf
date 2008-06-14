@@ -1,5 +1,5 @@
 /* libxmms-flac - XMMS FLAC input plugin
- * Copyright (C) 2002,2003,2004,2005  Daisuke Shimamura
+ * Copyright (C) 2002,2003,2004,2005,2006  Daisuke Shimamura
  *
  * Based on mpg123 plugin
  *          and prefs.c - 2000/05/06
@@ -21,6 +21,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
@@ -34,10 +38,10 @@
 #include <xmms/util.h>
 #include <xmms/plugin.h>
 
-#include "plugin_common/locale_hack.h"
 #include "share/replaygain_synthesis.h" /* for NOISE_SHAPING_LOW */
 #include "charset.h"
 #include "configure.h"
+#include "locale_hack.h"
 
 /*
  * Initialize Global Valueable
@@ -55,13 +59,13 @@ flac_config_t flac_cfg = {
 		100 /* KB */, /* http_buffer_size */
 		50, /* http_prebuffer */
 		FALSE, /* use_proxy */
-		"", /* proxy_host */
+		NULL, /* proxy_host */
 		0, /* proxy_port */
 		FALSE, /* proxy_use_auth */
-		"", /* proxy_user */
-		"", /* proxy_pass */
+		NULL, /* proxy_user */
+		NULL, /* proxy_pass */
 		FALSE, /* save_http_stream */
-		"", /* save_http_path */
+		NULL, /* save_http_path */
 		FALSE, /* cast_title_streaming */
 		FALSE /* use_udp_channel */
 	},
@@ -159,7 +163,8 @@ static void flac_configurewin_ok(GtkWidget * widget, gpointer data)
 	flac_cfg.stream.http_prebuffer = (gint) GTK_ADJUSTMENT(streaming_pre_adj)->value;
 
 	flac_cfg.stream.use_proxy = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(streaming_proxy_use));
-	g_free(flac_cfg.stream.proxy_host);
+	if(flac_cfg.stream.proxy_host)
+		g_free(flac_cfg.stream.proxy_host);
 	flac_cfg.stream.proxy_host = g_strdup(gtk_entry_get_text(GTK_ENTRY(streaming_proxy_host_entry)));
 	flac_cfg.stream.proxy_port = atoi(gtk_entry_get_text(GTK_ENTRY(streaming_proxy_port_entry)));
 
@@ -380,7 +385,7 @@ void FLAC_XMMS__configure(void)
 	GtkWidget *streaming_size_box, *streaming_size_label, *streaming_size_spin;
 	GtkWidget *streaming_pre_box, *streaming_pre_label, *streaming_pre_spin;
 	GtkWidget *streaming_proxy_frame, *streaming_proxy_vbox;
-	GtkWidget *streaming_proxy_port_label, 	*streaming_proxy_host_label;
+	GtkWidget *streaming_proxy_port_label, *streaming_proxy_host_label;
 	GtkWidget *streaming_save_frame, *streaming_save_vbox;
 	GtkWidget *streaming_save_label, *streaming_save_browse;
 #ifdef FLAC_ICECAST
@@ -666,7 +671,7 @@ void FLAC_XMMS__configure(void)
 	gtk_box_pack_start(GTK_BOX(streaming_proxy_hbox), streaming_proxy_host_label, FALSE, FALSE, 0);
 
 	streaming_proxy_host_entry = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(streaming_proxy_host_entry), flac_cfg.stream.proxy_host);
+	gtk_entry_set_text(GTK_ENTRY(streaming_proxy_host_entry), flac_cfg.stream.proxy_host? flac_cfg.stream.proxy_host : "");
 	gtk_box_pack_start(GTK_BOX(streaming_proxy_hbox), streaming_proxy_host_entry, TRUE, TRUE, 0);
 
 	streaming_proxy_port_label = gtk_label_new(_("Port:"));
@@ -731,7 +736,7 @@ void FLAC_XMMS__configure(void)
 	gtk_box_pack_start(GTK_BOX(streaming_save_hbox), streaming_save_label, FALSE, FALSE, 0);
 
 	streaming_save_entry = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(streaming_save_entry), flac_cfg.stream.save_http_path);
+	gtk_entry_set_text(GTK_ENTRY(streaming_save_entry), flac_cfg.stream.save_http_path? flac_cfg.stream.save_http_path : "");
 	gtk_box_pack_start(GTK_BOX(streaming_save_hbox), streaming_save_entry, TRUE, TRUE, 0);
 
 	streaming_save_browse = gtk_button_new_with_label(_("Browse"));
@@ -778,7 +783,7 @@ void FLAC_XMMS__configure(void)
 	gtk_widget_show_all(flac_configurewin);
 }
 
-void FLAC_XMMS__aboutbox()
+void FLAC_XMMS__aboutbox(void)
 {
 	static GtkWidget *about_window;
 

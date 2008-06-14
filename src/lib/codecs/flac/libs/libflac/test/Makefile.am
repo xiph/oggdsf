@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -15,48 +15,31 @@
 #  restrictive of those mentioned above.  See the file COPYING.Xiph in this
 #  distribution.
 
-if FLaC__EXHAUSTIVE_TESTS
-FLAC__EXHAUSTIVE_TESTS = yes
-else
-FLAC__EXHAUSTIVE_TESTS = no
+if FLaC__WITH_CPPLIBS
+CPPLIBS_TESTS = test_libFLAC++.sh
 endif
 
-if FLaC__VALGRIND_TESTING
-FLAC__VALGRIND = yes
-else
-FLAC__VALGRIND = no
-endif
+TESTS_ENVIRONMENT = FLAC__TEST_LEVEL=@FLAC__TEST_LEVEL@ FLAC__TEST_WITH_VALRGIND=@FLAC__TEST_WITH_VALGRIND@
 
-TESTS_ENVIRONMENT = FLAC__EXHAUSTIVE_TESTS=$(FLAC__EXHAUSTIVE_TESTS) FLAC__VALGRIND=$(FLAC__VALGRIND)
-
-SUBDIRS = cuesheets
-
-if FLaC__HAS_OGG
-OGG_TESTS = \
-	./test_libOggFLAC.sh \
-	./test_libOggFLAC++.sh
-endif
+SUBDIRS = cuesheets flac-to-flac-metadata-test-files metaflac-test-files pictures
 
 TESTS = \
 	./test_libFLAC.sh \
-	./test_libFLAC++.sh \
-	$(OGG_TESTS) \
+	$(CPPLIBS_TESTS) \
+	./test_grabbag.sh \
 	./test_flac.sh \
 	./test_metaflac.sh \
-	./test_grabbag.sh \
 	./test_seeking.sh \
-	./test_streams.sh \
-	./test_bins.sh
+	./test_streams.sh
 
 EXTRA_DIST = \
 	Makefile.lite \
 	cuesheet.ok \
 	metaflac.flac.in \
 	metaflac.flac.ok \
+	picture.ok \
 	test_libFLAC.sh \
-	test_libFLAC++.sh \
-	test_libOggFLAC.sh \
-	test_libOggFLAC++.sh \
+	$(CPPLIBS_TESTS) \
 	test_flac.sh \
 	test_metaflac.sh \
 	test_grabbag.sh \
@@ -64,14 +47,5 @@ EXTRA_DIST = \
 	test_streams.sh \
 	test_bins.sh
 
-CLEANFILES = \
-	$(wildcard *.raw) \
-	$(wildcard *.flac) \
-	$(wildcard *.ogg) \
-	$(wildcard *.cmp) \
-	$(wildcard *.aiff) \
-	$(wildcard *.wav) \
-	$(wildcard *.diff) \
-	$(wildcard *.log) \
-	$(wildcard *.cue) \
-	core
+clean-local:
+	-rm -f *.raw *.flac *.oga *.ogg *.cmp *.aiff *.wav *.diff *.log *.cue core

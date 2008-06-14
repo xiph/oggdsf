@@ -1,14 +1,14 @@
 /* FLAC - Free Lossless Audio Codec
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This file is part the FLAC project.  FLAC is comprised of several
  * components distributed under difference licenses.  The codec libraries
  * are distributed under Xiph.Org's BSD-like license (see the file
  * COPYING.Xiph in this distribution).  All other programs, libraries, and
- * plugins are distributed under the GPL (see COPYING.GPL).  The documentation
- * is distributed under the Gnu FDL (see COPYING.FDL).  Each file in the
- * FLAC distribution contains at the top the terms under which it may be
- * distributed.
+ * plugins are distributed under the LGPL or GPL (see COPYING.LGPL and
+ * COPYING.GPL).  The documentation is distributed under the Gnu FDL (see
+ * COPYING.FDL).  Each file in the FLAC distribution contains at the top the
+ * terms under which it may be distributed.
  *
  * Since this particular file is relevant to all components of FLAC,
  * it may be distributed under the Xiph.Org license, which is the least
@@ -22,17 +22,15 @@ codec developed by Josh Coalson.
 
 FLAC is comprised of
   * `libFLAC', a library which implements reference encoders and
-    decoders, and a metadata interface
+    decoders for native FLAC and Ogg FLAC, and a metadata interface
   * `libFLAC++', a C++ object wrapper library around libFLAC
-  * `libOggFLAC' and `libOggFLAC++', which provide encoders and
-    decoders for FLAC streams in an Ogg container
   * `flac', a command-line program for encoding and decoding files
   * `metaflac', a command-line program for viewing and editing FLAC
     metadata
   * player plugins for XMMS and Winamp
   * user and API documentation
 
-The libraries (libFLAC, libFLAC++, libOggFLAC, and libOggFLAC++) are
+The libraries (libFLAC, libFLAC++) are
 licensed under Xiph.org's BSD-like license (see COPYING.Xiph).  All other
 programs and plugins are licensed under the GNU General Public License
 (see COPYING.GPL).  The documentation is licensed under the GNU Free
@@ -40,16 +38,16 @@ Documentation License (see COPYING.FDL).
 
 
 ===============================================================================
-FLAC - 1.1.2 - Contents
+FLAC - 1.2.1 - Contents
 ===============================================================================
 
 - Introduction
 - Prerequisites
+- Note to embedded developers
 - Building in a GNU environment
 - Building with Makefile.lite
 - Building with MSVC
 - Building on Mac OS X
-- Note to embedded developers
 
 
 ===============================================================================
@@ -65,7 +63,6 @@ for full documentation.
 A brief description of the directory tree:
 
 	doc/          the HTML documentation
-	flac.pbproj/  the Mac OS X Project Builder project
 	include/      public include files for libFLAC and libFLAC++
 	man/          the man page for `flac'
 	src/          the source code and private headers
@@ -83,6 +80,40 @@ libogg 1.1.2 or greater, or there will be seeking problems with Ogg FLAC.
 If you are building on x86 and want the assembly optimizations, you will
 need to have NASM >= 0.98.30 installed according to the specific instructions
 below.
+
+
+===============================================================================
+Note to embedded developers
+===============================================================================
+
+libFLAC has grown larger over time as more functionality has been
+included, but much of it may be unnecessary for a particular embedded
+implementation.  Unused parts may be pruned by some simple editing of
+configure.in and src/libFLAC/Makefile.am; the following dependency
+graph shows which modules may be pruned without breaking things
+further down:
+
+metadata.h
+	stream_decoder.h
+	format.h
+
+stream_encoder.h
+	stream_decoder.h
+	format.h
+
+stream_decoder.h
+	format.h
+
+In other words, for pure decoding applications, both the stream encoder
+and metadata editing interfaces can be safely removed.
+
+There is a section dedicated to embedded use in the libFLAC API
+HTML documentation (see doc/html/api/index.html).
+
+Also, there are several places in the libFLAC code with comments marked
+with "OPT:" where a #define can be changed to enable code that might be
+faster on a specific platform.  Experimenting with these can yield faster
+binaries.
 
 
 ===============================================================================
@@ -117,7 +148,7 @@ extra (and more verbose) error checking.
 assembly routines.  Many routines have assembly versions for
 speed and `configure' is pretty good about knowing what is
 supported, but you can use this option to build only from the
-C sources.
+C sources.  May be necessary for building on OS X (Intel)
 
 --enable-sse : If you are building for an x86 CPU that supports
 SSE instructions, you can enable some of the faster routines
@@ -169,8 +200,10 @@ not an x86, change -DFLAC__CPU_IA32 to -DFLAC__CPU_UNKNOWN.
 Building with MSVC
 ===============================================================================
 
-There are now .dsp projects and a master FLAC.dsw workspace to build
-all the libraries and executables.
+There are .dsp projects and a master FLAC.dsw workspace to build all
+the libraries and executables with MSVC6.  There are also .vcproj
+projects and a master FLAC.sln solution to build all the libraries and
+executables with VC++ 2005.
 
 Prerequisite: you must have the Ogg libraries installed as described
 later.
@@ -179,13 +212,21 @@ Prerequisite: you must have nasm installed, and nasmw.exe must be in
 your PATH, or the path to nasmw.exe must be added to the list of
 directories for executable files in the MSVC global options.
 
+MSVC6:
 To build everything, run Developer Studio, do File|Open Workspace,
 and open FLAC.dsw.  Select "Build | Set active configuration..."
 from the menu, then in the dialog, select "All - Win32 Release" (or
-Debug if you prefer).  Click "Ok" then hit F7 to build. This will build
-all libraries both statically (e.g. obj\release\lib\libFLAC_static.lib)
-and as DLLs (e.g.  obj\release\bin\libFLAC.dll), and it will build all
-binaries, statically linked (e.g. obj\release\bin\flac.exe).
+Debug if you prefer).  Click "Ok" then hit F7 to build.
+
+VC++ 2005:
+To build everything, run Visual Studio, do File|Open and open FLAC.sln.
+From the dropdown in the toolbar, select "Release" instead of "Debug",
+then hit F7 to build.
+
+Either way, this will build all libraries both statically (e.g.
+obj\release\lib\libFLAC_static.lib) and as DLLs (e.g.
+obj\release\lib\libFLAC.dll), and it will build all binaries, statically
+linked (e.g. obj\release\bin\flac.exe).
 
 Everything will end up in the "obj" directory.  DLLs and .exe files
 are all that are needed and can be copied to an installation area and
@@ -200,58 +241,14 @@ build win32\ogg_static.dsp), copy ogg_static.lib into FLAC's
 FLAC's 'include' directory (so that there is an 'ogg' directory in FLAC's
 'include' directory with the files ogg.h, os_types.h and config_types.h).
 
+If you want to build without Ogg support, instead edit all .dsp or
+.vcproj files and remove any occurrences of "/D FLAC__HAS_OGG".
+
 
 ===============================================================================
 Building on Mac OS X
 ===============================================================================
 
-If you have Fink, the GNU flow above should work.  Otherwise,
-there is a Project Builder project in the top-level source
-directory to build libFLAC and the command-line utilities on
-Mac OS X.  In a terminal, cd to the top-level directory (the
-one that contains this README file) and type:
-
-	pbxbuild -alltargets
-
-This will create everything and leave it in the build/ directory.
-Don't worry about the rest of the stuff that is in build/ or
-the stuff that was already there before building.
-
-The Project Builder project requires that you have libiconv and
-libogg in /sw, ala fink.  If you don't, you'll need to install
-them somewhere and change the path to them in the Library Paths
-section of several targets.
-
-It also assumes the CPU supports Altivec instructions.  If it does
-not, you will also have to add -DFLAC__NO_ASM to the CFLAGS in the
-libFLAC target.
-
-There currently is no install procedure; you will have to
-manually copy the tools to wherever you need them.
-
-
-===============================================================================
-Note to embedded developers
-===============================================================================
-
-libFLAC has grown larger over time as more functionality has been
-included, but much of it may be unnecessary for a particular embedded
-implementation.  Unused parts may be pruned by some simple editing of
-configure.in and src/libFLAC/Makefile.am; the following dependency
-graph shows which modules may be pruned without breaking things
-further down:
-
-file_encoder.h
-	stream_encoder.h
-		format.h
-
-file_decoder.h
-	seekable_stream_decoder.h
-		stream_decoder.h
-			format.h
-
-metadata.h
-	format.h
-
-There is a section dedicated to embedded use in the libFLAC API
-HTML documentation (see doc/html/api/index.html).
+If you have Fink or a recent version of OS X with the proper autotooles,
+the GNU flow above should work.  The Project Builder project has been
+deprecated but we are working on replacing it with an Xcode equivalent.

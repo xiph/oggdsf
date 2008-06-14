@@ -1,5 +1,5 @@
 /* libxmms-flac - XMMS FLAC input plugin
- * Copyright (C) 2002,2003,2004,2005  Daisuke Shimamura
+ * Copyright (C) 2002,2003,2004,2005,2006  Daisuke Shimamura
  *
  * Based on mpg123 plugin
  *
@@ -18,8 +18,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#ifndef __CONFIGURE_H__
-#define __CONFIGURE_H__
+#ifndef FLAC__PLUGIN_XMMS__CONFIGURE_H
+#define FLAC__PLUGIN_XMMS__CONFIGURE_H
 
 #include <glib.h>
 
@@ -39,7 +39,7 @@ typedef struct {
 		gint proxy_port;
 		gboolean proxy_use_auth;
 		gchar *proxy_user;
-		gchar	*proxy_pass;
+		gchar *proxy_pass;
 		gboolean save_http_stream;
 		gchar *save_http_path;
 		gboolean cast_title_streaming;
@@ -69,7 +69,7 @@ typedef struct {
 extern flac_config_t flac_cfg;
 
 extern void FLAC_XMMS__configure(void);
-extern void FLAC_XMMS__aboutbox();
+extern void FLAC_XMMS__aboutbox(void);
 
 #endif
 

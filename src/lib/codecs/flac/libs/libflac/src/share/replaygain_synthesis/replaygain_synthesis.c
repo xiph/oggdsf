@@ -1,19 +1,19 @@
 /* replaygain_synthesis - Routines for applying ReplayGain to a signal
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 /*
  * This is an aggregation of pieces of code from John Edwards' WaveGain
@@ -34,16 +34,18 @@
  * Additional code by Magnus Holmgren and Gian-Carlo Pascutto
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <string.h> /* for memset() */
 #include <math.h>
 #include "private/fast_float_math_hack.h"
 #include "replaygain_synthesis.h"
 #include "FLAC/assert.h"
 
-#if defined _MSC_VER
-#define FLAC__INLINE __inline
-#else
-#define FLAC__INLINE
+#ifndef FLaC__INLINE
+#define FLaC__INLINE
 #endif
 
 /* adjust for compilers that can't understand using LL suffix for int64_t literals */
@@ -86,7 +88,7 @@
  *  XORed values of both generators.
  */
 
-static unsigned int random_int_()
+static unsigned int random_int_(void)
 {
 	static const unsigned char parity_[256] = {
 		0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,0,1,0,0,1,0,1,1,0,0,1,1,0,1,0,0,1,
@@ -234,7 +236,7 @@ void FLAC__replaygain_synthesis__init_dither_context(DitherContext *d, int bits,
  * the following is based on parts of wavegain.c
  */
 
-static FLAC__INLINE FLAC__int64 dither_output_(DitherContext *d, FLAC__bool do_dithering, int shapingtype, int i, double Sum, int k)
+static FLaC__INLINE FLAC__int64 dither_output_(DitherContext *d, FLAC__bool do_dithering, int shapingtype, int i, double Sum, int k)
 {
 	union {
 		double d;

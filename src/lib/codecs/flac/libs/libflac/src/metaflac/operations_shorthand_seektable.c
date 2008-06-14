@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,11 +16,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "utils.h"
 #include "FLAC/assert.h"
-#include "FLAC/file_decoder.h"
+#include "FLAC/stream_decoder.h"
 #include "FLAC/metadata.h"
 #include "share/grabbag.h"
+#include "operations_shorthand.h"
 
 static FLAC__bool populate_seekpoint_values(const char *filename, FLAC__StreamMetadata *block, FLAC__bool *needs_write);
 
@@ -99,14 +104,14 @@ typedef struct {
 	FLAC__StreamDecoderErrorStatus error_status;
 } ClientData;
 
-static FLAC__StreamDecoderWriteStatus write_callback_(const FLAC__FileDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
+static FLAC__StreamDecoderWriteStatus write_callback_(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
 	ClientData *cd = (ClientData*)client_data;
 
 	(void)buffer;
 	FLAC__ASSERT(0 != cd);
 
-	if(!cd->error_occurred && cd->seektable_template->num_points > 0) {
+	if(!cd->error_occurred) {
 		const unsigned blocksize = frame->header.blocksize;
 		const FLAC__uint64 frame_first_sample = cd->samples_written;
 		const FLAC__uint64 frame_last_sample = frame_first_sample + (FLAC__uint64)blocksize - 1;
@@ -134,7 +139,7 @@ static FLAC__StreamDecoderWriteStatus write_callback_(const FLAC__FileDecoder *d
 			}
 		}
 		cd->samples_written += blocksize;
-		if(!FLAC__file_decoder_get_decode_position(decoder, &cd->last_offset))
+		if(!FLAC__stream_decoder_get_decode_position(decoder, &cd->last_offset))
 			return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
 		return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 	}
@@ -142,13 +147,7 @@ static FLAC__StreamDecoderWriteStatus write_callback_(const FLAC__FileDecoder *d
 		return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
 }
 
-static void metadata_callback_(const FLAC__FileDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
-{
-	(void)decoder, (void)metadata, (void)client_data;
-	FLAC__ASSERT(0); /* we asked to skip all metadata */
-}
-
-static void error_callback_(const FLAC__FileDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)
+static void error_callback_(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)
 {
 	ClientData *cd = (ClientData*)client_data;
 
@@ -163,7 +162,7 @@ static void error_callback_(const FLAC__FileDecoder *decoder, FLAC__StreamDecode
 
 FLAC__bool populate_seekpoint_values(const char *filename, FLAC__StreamMetadata *block, FLAC__bool *needs_write)
 {
-	FLAC__FileDecoder *decoder;
+	FLAC__StreamDecoder *decoder;
 	ClientData client_data;
 	FLAC__bool ok = true;
 
@@ -176,39 +175,34 @@ FLAC__bool populate_seekpoint_values(const char *filename, FLAC__StreamMetadata 
 	client_data.first_seekpoint_to_check = 0;
 	client_data.error_occurred = false;
 
-	decoder = FLAC__file_decoder_new();
+	decoder = FLAC__stream_decoder_new();
 
 	if(0 == decoder) {
 		fprintf(stderr, "%s: ERROR (--add-seekpoint) creating the decoder instance\n", filename);
 		return false;
 	}
 
-	FLAC__file_decoder_set_md5_checking(decoder, false);
-	FLAC__file_decoder_set_filename(decoder, filename);
-	FLAC__file_decoder_set_metadata_ignore_all(decoder);
-	FLAC__file_decoder_set_write_callback(decoder, write_callback_);
-	FLAC__file_decoder_set_metadata_callback(decoder, metadata_callback_);
-	FLAC__file_decoder_set_error_callback(decoder, error_callback_);
-	FLAC__file_decoder_set_client_data(decoder, &client_data);
+	FLAC__stream_decoder_set_md5_checking(decoder, false);
+	FLAC__stream_decoder_set_metadata_ignore_all(decoder);
 
-	if(FLAC__file_decoder_init(decoder) != FLAC__FILE_DECODER_OK) {
-		fprintf(stderr, "%s: ERROR (--add-seekpoint) initializing the decoder instance (%s)\n", filename, FLAC__file_decoder_get_resolved_state_string(decoder));
+	if(FLAC__stream_decoder_init_file(decoder, filename, write_callback_, /*metadata_callback=*/0, error_callback_, &client_data) != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
+		fprintf(stderr, "%s: ERROR (--add-seekpoint) initializing the decoder instance (%s)\n", filename, FLAC__stream_decoder_get_resolved_state_string(decoder));
 		ok = false;
 	}
 
-	if(ok && !FLAC__file_decoder_process_until_end_of_metadata(decoder)) {
-		fprintf(stderr, "%s: ERROR (--add-seekpoint) decoding file (%s)\n", filename, FLAC__file_decoder_get_resolved_state_string(decoder));
+	if(ok && !FLAC__stream_decoder_process_until_end_of_metadata(decoder)) {
+		fprintf(stderr, "%s: ERROR (--add-seekpoint) decoding file (%s)\n", filename, FLAC__stream_decoder_get_resolved_state_string(decoder));
 		ok = false;
 	}
 
-	if(ok && !FLAC__file_decoder_get_decode_position(decoder, &client_data.audio_offset)) {
+	if(ok && !FLAC__stream_decoder_get_decode_position(decoder, &client_data.audio_offset)) {
 		fprintf(stderr, "%s: ERROR (--add-seekpoint) decoding file\n", filename);
 		ok = false;
 	}
 	client_data.last_offset = client_data.audio_offset;
 
-	if(ok && !FLAC__file_decoder_process_until_end_of_file(decoder)) {
-		fprintf(stderr, "%s: ERROR (--add-seekpoint) decoding file (%s)\n", filename, FLAC__file_decoder_get_resolved_state_string(decoder));
+	if(ok && !FLAC__stream_decoder_process_until_end_of_stream(decoder)) {
+		fprintf(stderr, "%s: ERROR (--add-seekpoint) decoding file (%s)\n", filename, FLAC__stream_decoder_get_resolved_state_string(decoder));
 		ok = false;
 	}
 
@@ -218,6 +212,6 @@ FLAC__bool populate_seekpoint_values(const char *filename, FLAC__StreamMetadata 
 	}
 
 	*needs_write = true;
-	FLAC__file_decoder_delete(decoder);
+	FLAC__stream_decoder_delete(decoder);
 	return ok;
 }

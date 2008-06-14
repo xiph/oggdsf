@@ -16,6 +16,11 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 /* modified for FLAC support by Steven Richman (2003) */
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -35,16 +40,13 @@
 #include <xmms/util.h>
 #include <xmms/plugin.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include "configure.h"
-#include "plugin_common/locale_hack.h"
 #include "FLAC/format.h"
+#include "configure.h"
+#include "locale_hack.h"
 #include "plugin.h"
 
-#ifndef HAVE_SOCKLEN_T
+/* on FreeBSD we get socklen_t from <sys/socket.h> */
+#if (!defined HAVE_SOCKLEN_T) && !defined(__FreeBSD__)
 typedef unsigned int socklen_t;
 #endif
 
@@ -353,7 +355,8 @@ static int http_connect (gchar *url_, gboolean head, guint64 offset)
 	gchar line[1024], *user, *pass, *host, *filename,
 	     *status, *url, *temp, *file;
 	gchar *chost;
-	gint cnt, error, err_len, port, cport;
+	gint cnt, error, port, cport;
+	socklen_t err_len;
 	gboolean redirect;
 	int udp_sock = 0;
 	fd_set set;
@@ -484,7 +487,7 @@ static int http_connect (gchar *url_, gboolean head, guint64 offset)
 						       flac_cfg.stream.use_udp_channel ? udpspace : "");
 				if (offset && !head) {
 					gchar *temp_dead = temp;
-					temp = g_strconcat ("%sRange: %ll-\r\n", temp, offset);
+					temp = g_strdup_printf ("%sRange: %llu-\r\n", temp, offset);
 					fprintf (stderr, "%s", temp);
 					g_free (temp_dead);
 				}
@@ -707,7 +710,7 @@ static void *http_buffer_loop(void *arg)
 	return NULL; /* avoid compiler warning */
 }
 
-int flac_http_open(gchar * _url, guint64 _offset)
+int flac_http_open(const gchar * _url, guint64 _offset)
 {
 	gchar *url;
 

@@ -1,5 +1,5 @@
 /* plugin_common - Routines common to several plugins
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * Only slightly modified charset.h from:
  * charset.h - 2001/12/04
@@ -30,7 +30,7 @@
  * Prototypes *
  **************/
 
-char *FLAC_plugin__charset_get_current();
+char *FLAC_plugin__charset_get_current(void);
 char *FLAC_plugin__charset_convert_string(const char *string, char *from, char *to);
 
 /* returns 1 for success, 0 for failure or no iconv */

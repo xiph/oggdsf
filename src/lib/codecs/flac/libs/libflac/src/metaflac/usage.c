@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +16,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "usage.h"
 #include "FLAC/format.h"
 #include <stdarg.h>
@@ -25,7 +29,7 @@ static void usage_header(FILE *out)
 {
 	fprintf(out, "==============================================================================\n");
 	fprintf(out, "metaflac - Command-line FLAC metadata editor version %s\n", FLAC__VERSION_STRING);
-	fprintf(out, "Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson\n");
+	fprintf(out, "Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson\n");
 	fprintf(out, "\n");
 	fprintf(out, "This program is free software; you can redistribute it and/or\n");
 	fprintf(out, "modify it under the terms of the GNU General Public License\n");
@@ -58,7 +62,8 @@ static void usage_summary(FILE *out)
 	fprintf(out, "--no-filename         Do not prefix each output line with the FLAC file name\n");
 	fprintf(out, "                      (the default if only one FLAC file is specified)\n");
 	fprintf(out, "--no-utf8-convert     Do not convert tags from UTF-8 to local charset,\n");
-	fprintf(out, "                      or vice versa.  This is useful for scripts.\n");
+	fprintf(out, "                      or vice versa.  This is useful for scripts, and setting\n");
+	fprintf(out, "                      tags in situations where the locale is wrong.\n");
 	fprintf(out, "--dont-use-padding    By default metaflac tries to use padding where possible\n");
 	fprintf(out, "                      to avoid rewriting the entire file if the metadata size\n");
 	fprintf(out, "                      changes.  Use this option to tell metaflac to not take\n");
@@ -122,21 +127,82 @@ int long_usage(const char *message, ...)
 	fprintf(out, "--set-tag=FIELD       Add a tag.  The FIELD must comply with the Vorbis comment\n");
 	fprintf(out, "                      spec, of the form \"NAME=VALUE\".  If there is currently\n");
 	fprintf(out, "                      no tag block, one will be created.\n");
+	fprintf(out, "--set-tag-from-file=FIELD   Like --set-tag, except the VALUE is a filename\n");
+	fprintf(out, "                      whose contents will be read verbatim to set the tag value.\n");
+	fprintf(out, "                      Unless --no-utf8-convert is specified, the contents will\n");
+	fprintf(out, "                      be converted to UTF-8 from the local charset.  This can\n");
+	fprintf(out, "                      be used to store a cuesheet in a tag (e.g.\n");
+	fprintf(out, "                      --set-tag-from-file=\"CUESHEET=image.cue\").  Do not try\n");
+	fprintf(out, "                      to store binary data in tag fields!  Use APPLICATION\n");
+	fprintf(out, "                      blocks for that.\n");
 	fprintf(out, "--import-tags-from=FILE Import tags from a file.  Use '-' for stdin.  Each line\n");
 	fprintf(out, "                      should be of the form NAME=VALUE.  Multi-line comments\n");
 	fprintf(out, "                      are currently not supported.  Specify --remove-all-tags\n");
 	fprintf(out, "                      and/or --no-utf8-convert before --import-tags-from if\n");
-	fprintf(out, "                      necessary.\n");
-	fprintf(out, "--export-tags-to=FILE Export tags to a file.  Use '-' for stdin.  Each line\n");
+	fprintf(out, "                      necessary.  If FILE is '-' (stdin), only one FLAC file\n");
+	fprintf(out, "                      may be specified.\n");
+	fprintf(out, "--export-tags-to=FILE Export tags to a file.  Use '-' for stdout.  Each line\n");
 	fprintf(out, "                      will be of the form NAME=VALUE.  Specify\n");
 	fprintf(out, "                      --no-utf8-convert if necessary.\n");
 	fprintf(out, "--import-cuesheet-from=FILE  Import a cuesheet from a file.  Use '-' for stdin.\n");
 	fprintf(out, "                      Only one FLAC file may be specified.  A seekpoint will be\n");
-	fprintf(out, "                      added for each index point in the cuesheet to the SEEKTABLE\n");
-	fprintf(out, "                      unless --no-cued-seekpoints is specified.\n");
+	fprintf(out, "                      added for each index point in the cuesheet to the\n");
+	fprintf(out, "                      SEEKTABLE unless --no-cued-seekpoints is specified.\n");
 	fprintf(out, "--export-cuesheet-to=FILE  Export CUESHEET block to a cuesheet file, suitable\n");
 	fprintf(out, "                      for use by CD authoring software.  Use '-' for stdout.\n");
 	fprintf(out, "                      Only one FLAC file may be specified on the command line.\n");
+	fprintf(out, "--import-picture-from=FILENAME|SPECIFICATION  Import a picture and store it in a\n");
+	fprintf(out, "                      PICTURE block.  Either a filename for the picture file or\n");
+	fprintf(out, "                      a more complete specification form can be used.  The\n");
+	fprintf(out, "                      SPECIFICATION is a string whose parts are separated by |\n");
+	fprintf(out, "                      characters.  Some parts may be left empty to invoke\n");
+	fprintf(out, "                      default values.  FILENAME is just shorthand for\n");
+	fprintf(out, "                      \"||||FILENAME\".  The format of SPECIFICATION is:\n");
+	fprintf(out, "         [TYPE]|[MIME-TYPE]|[DESCRIPTION]|[WIDTHxHEIGHTxDEPTH[/COLORS]]|FILE\n");
+	fprintf(out, "           TYPE is optional; it is a number from one of:\n");
+	fprintf(out, "              0: Other\n");
+	fprintf(out, "              1: 32x32 pixels 'file icon' (PNG only)\n");
+	fprintf(out, "              2: Other file icon\n");
+	fprintf(out, "              3: Cover (front)\n");
+	fprintf(out, "              4: Cover (back)\n");
+	fprintf(out, "              5: Leaflet page\n");
+	fprintf(out, "              6: Media (e.g. label side of CD)\n");
+	fprintf(out, "              7: Lead artist/lead performer/soloist\n");
+	fprintf(out, "              8: Artist/performer\n");
+	fprintf(out, "              9: Conductor\n");
+	fprintf(out, "             10: Band/Orchestra\n");
+	fprintf(out, "             11: Composer\n");
+	fprintf(out, "             12: Lyricist/text writer\n");
+	fprintf(out, "             13: Recording Location\n");
+	fprintf(out, "             14: During recording\n");
+	fprintf(out, "             15: During performance\n");
+	fprintf(out, "             16: Movie/video screen capture\n");
+	fprintf(out, "             17: A bright coloured fish\n");
+	fprintf(out, "             18: Illustration\n");
+	fprintf(out, "             19: Band/artist logotype\n");
+	fprintf(out, "             20: Publisher/Studio logotype\n");
+	fprintf(out, "             The default is 3 (front cover).  There may only be one picture each\n");
+	fprintf(out, "             of type 1 and 2 in a file.\n");
+	fprintf(out, "           MIME-TYPE is optional; if left blank, it will be detected from the\n");
+	fprintf(out, "             file.  For best compatibility with players, use pictures with MIME\n");
+	fprintf(out, "             type image/jpeg or image/png.  The MIME type can also be --> to\n");
+	fprintf(out, "             mean that FILE is actually a URL to an image, though this use is\n");
+	fprintf(out, "             discouraged.\n");
+	fprintf(out, "           DESCRIPTION is optional; the default is an empty string\n");
+	fprintf(out, "           The next part specfies the resolution and color information.  If\n");
+	fprintf(out, "             the MIME-TYPE is image/jpeg, image/png, or image/gif, you can\n");
+	fprintf(out, "             usually leave this empty and they can be detected from the file.\n");
+	fprintf(out, "             Otherwise, you must specify the width in pixels, height in pixels,\n");
+	fprintf(out, "             and color depth in bits-per-pixel.  If the image has indexed colors\n");
+	fprintf(out, "             you should also specify the number of colors used.\n");
+	fprintf(out, "           FILE is the path to the picture file to be imported, or the URL if\n");
+	fprintf(out, "             MIME type is -->\n");
+	fprintf(out, "--export-picture-to=FILE  Export PICTURE block to a file.  Use '-' for stdout.\n");
+	fprintf(out, "                      Only one FLAC file may be specified.  The first PICTURE\n");
+	fprintf(out, "                      block will be exported unless --export-picture-to is\n");
+	fprintf(out, "                      preceded by a --block-number=# option to specify the exact\n");
+	fprintf(out, "                      metadata block to extract.  Note that the block number is\n");
+	fprintf(out, "                      the one shown by --list.\n");
 	fprintf(out, "--add-replay-gain     Calculates the title and album gains/peaks of the given\n");
 	fprintf(out, "                      FLAC files as if all the files were part of one album,\n");
 	fprintf(out, "                      then stores them in the VORBIS_COMMENT block.  The tags\n");
@@ -149,6 +215,7 @@ int long_usage(const char *message, ...)
 	fprintf(out, "                      must have the same resolution, sample rate, and number\n");
 	fprintf(out, "                      of channels.  The sample rate must be one of 8, 11.025,\n");
 	fprintf(out, "                      12, 16, 22.05, 24, 32, 44.1, or 48 kHz.\n");
+	fprintf(out, "--remove-replay-gain  Removes the ReplayGain tags.\n");
 	fprintf(out, "--add-seekpoint={#|X|#x|#s}  Add seek points to a SEEKTABLE block\n");
 	fprintf(out, "       #  : a specific sample number for a seek point\n");
 	fprintf(out, "       X  : a placeholder point (always goes at the end of the SEEKTABLE)\n");

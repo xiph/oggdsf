@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -28,7 +28,9 @@
 # distclean: remove everything except what goes in the distribution
 #
 
-SUBDIRS = doc include man src test build flac.pbproj obj
+AUTOMAKE_OPTIONS = foreign 1.7
+
+SUBDIRS = doc include m4 man src examples test build obj
 
 DISTCLEANFILES = libtool-disable-static
 
@@ -38,6 +40,7 @@ EXTRA_DIST = \
 	COPYING.LGPL \
 	COPYING.Xiph \
 	FLAC.dsw \
+	FLAC.sln \
 	Makefile.lite \
 	all.dsp \
 	all_dynamic.dsp \
@@ -47,5 +50,3 @@ EXTRA_DIST = \
 	depcomp \
 	ltmain.sh \
 	strip_non_asm_libtool_args.sh
-
-AUTOMAKE_OPTIONS = foreign

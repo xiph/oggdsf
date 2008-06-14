@@ -1,5137 +1,3286 @@
-<?xml version='1.0' encoding='ISO-8859-1' standalone='yes'?>
+<?xml version='1.0' encoding='ISO-8859-1' standalone='yes' ?>
 <tagfile>
   <compound kind="page">
-    <filename>index</filename>
-    <title></title>
     <name>index</name>
-    <docanchor>cpp_api</docanchor>
-    <docanchor>intro</docanchor>
-    <docanchor>getting_started</docanchor>
-    <docanchor>c_api</docanchor>
-    <docanchor>embedded_developers</docanchor>
+    <title></title>
+    <filename>index</filename>
+    <docanchor file="index">cpp_api</docanchor>
+    <docanchor file="index">intro</docanchor>
+    <docanchor file="index">getting_started</docanchor>
+    <docanchor file="index">c_api</docanchor>
+    <docanchor file="index">porting_guide</docanchor>
+    <docanchor file="index">embedded_developers</docanchor>
   </compound>
   <compound kind="file">
     <name>decoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC++/</path>
-    <filename>FLAC++_2decoder_8h.html</filename>
-  </compound>
-  <compound kind="file">
-    <name>decoder.h</name>
-    <path>/home/jcoalson/flac/build/include/OggFLAC++/</path>
-    <filename>OggFLAC++_2decoder_8h.html</filename>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC++/</path>
+    <filename>decoder_8h</filename>
+    <includes id="+_2export_8h" name="export.h" local="yes" imported="no">export.h</includes>
+    <includes id="stream__decoder_8h" name="stream_decoder.h" local="yes" imported="no">FLAC/stream_decoder.h</includes>
   </compound>
   <compound kind="file">
     <name>encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC++/</path>
-    <filename>FLAC++_2encoder_8h.html</filename>
-  </compound>
-  <compound kind="file">
-    <name>encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/OggFLAC++/</path>
-    <filename>OggFLAC++_2encoder_8h.html</filename>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC++/</path>
+    <filename>encoder_8h</filename>
+    <includes id="+_2export_8h" name="export.h" local="yes" imported="no">export.h</includes>
+    <includes id="stream__encoder_8h" name="stream_encoder.h" local="yes" imported="no">FLAC/stream_encoder.h</includes>
+    <includes id="decoder_8h" name="decoder.h" local="yes" imported="no">decoder.h</includes>
+    <includes id="+_2metadata_8h" name="metadata.h" local="yes" imported="no">metadata.h</includes>
   </compound>
   <compound kind="file">
     <name>callback.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>callback_8h.html</filename>
-    <class kind="struct">FLAC__IOCallbacks</class>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC/</path>
+    <filename>callback_8h</filename>
     <member kind="typedef">
       <type>void *</type>
       <name>FLAC__IOHandle</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>size_t(*</type>
       <name>FLAC__IOCallback_Read</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>)(void *ptr, size_t size, size_t nmemb, FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>size_t(*</type>
       <name>FLAC__IOCallback_Write</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>)(const void *ptr, size_t size, size_t nmemb, FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>int(*</type>
       <name>FLAC__IOCallback_Seek</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist>)(FLAC__IOHandle handle, FLAC__int64 offset, int whence)</arglist>
     </member>
     <member kind="typedef">
       <type>FLAC__int64(*</type>
       <name>FLAC__IOCallback_Tell</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>)(FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>int(*</type>
       <name>FLAC__IOCallback_Eof</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>)(FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>int(*</type>
       <name>FLAC__IOCallback_Close</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>)(FLAC__IOHandle handle)</arglist>
     </member>
   </compound>
   <compound kind="file">
-    <name>file_decoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>file__decoder_8h.html</filename>
-    <class kind="struct">FLAC__FileDecoder</class>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderWriteStatus(*</type>
-      <name>FLAC__FileDecoderWriteCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const FLAC__FileDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__FileDecoderMetadataCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const FLAC__FileDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__FileDecoderErrorCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const FLAC__FileDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__FileDecoderState</name>
-      <anchor>a36</anchor>
+    <name>export.h</name>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC/</path>
+    <filename>export_8h</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_OK</name>
-      <anchor>a36a4</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API_VERSION_CURRENT</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_END_OF_FILE</name>
-      <anchor>a36a5</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API_VERSION_REVISION</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_ERROR_OPENING_FILE</name>
-      <anchor>a36a6</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API_VERSION_AGE</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a36a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_SEEK_ERROR</name>
-      <anchor>a36a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_SEEKABLE_STREAM_DECODER_ERROR</name>
-      <anchor>a36a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a36a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_INVALID_CALLBACK</name>
-      <anchor>a36a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_UNINITIALIZED</name>
-      <anchor>a36a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileDecoder *</type>
-      <name>FLAC__file_decoder_new</name>
-      <anchor>a4</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_decoder_delete</name>
-      <anchor>a5</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_md5_checking</name>
-      <anchor>a6</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_filename</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_write_callback</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__FileDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_callback</name>
-      <anchor>a9</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__FileDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_error_callback</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__FileDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_client_data</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_respond</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_respond_application</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_respond_all</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_ignore</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_ignore_application</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_ignore_all</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileDecoderState</type>
-      <name>FLAC__file_decoder_get_state</name>
-      <anchor>a18</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamDecoderState</type>
-      <name>FLAC__file_decoder_get_seekable_stream_decoder_state</name>
-      <anchor>a19</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__file_decoder_get_stream_decoder_state</name>
-      <anchor>a20</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__file_decoder_get_resolved_state_string</name>
-      <anchor>a21</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_get_md5_checking</name>
-      <anchor>a22</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_channels</name>
-      <anchor>a23</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__ChannelAssignment</type>
-      <name>FLAC__file_decoder_get_channel_assignment</name>
-      <anchor>a24</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_bits_per_sample</name>
-      <anchor>a25</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_sample_rate</name>
-      <anchor>a26</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_blocksize</name>
-      <anchor>a27</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_get_decode_position</name>
-      <anchor>a28</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder, FLAC__uint64 *position)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileDecoderState</type>
-      <name>FLAC__file_decoder_init</name>
-      <anchor>a29</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_finish</name>
-      <anchor>a30</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_process_single</name>
-      <anchor>a31</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_process_until_end_of_metadata</name>
-      <anchor>a32</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_process_until_end_of_file</name>
-      <anchor>a33</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_skip_single_frame</name>
-      <anchor>a34</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_seek_absolute</name>
-      <anchor>a35</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__uint64 sample)</arglist>
     </member>
     <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__FileDecoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
+      <type>int</type>
+      <name>FLAC_API_SUPPORTS_OGG_FLAC</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="file">
-    <name>file_encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>FLAC_2file__encoder_8h.html</filename>
-    <class kind="struct">FLAC__FileEncoder</class>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__FileEncoderProgressCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const FLAC__FileEncoder *encoder, FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__FileEncoderState</name>
-      <anchor>a52</anchor>
+    <name>export.h</name>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC++/</path>
+    <filename>+_2export_8h</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_OK</name>
-      <anchor>a52a2</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API_VERSION_CURRENT</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_NO_FILENAME</name>
-      <anchor>a52a3</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API_VERSION_REVISION</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_SEEKABLE_STREAM_ENCODER_ERROR</name>
-      <anchor>a52a4</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API_VERSION_AGE</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_FATAL_ERROR_WHILE_WRITING</name>
-      <anchor>a52a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_ERROR_OPENING_FILE</name>
-      <anchor>a52a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a52a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a52a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_UNINITIALIZED</name>
-      <anchor>a52a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileEncoder *</type>
-      <name>FLAC__file_encoder_new</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_encoder_delete</name>
-      <anchor>a3</anchor>
-      <arglist>(FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_verify</name>
-      <anchor>a4</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_streamable_subset</name>
-      <anchor>a5</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_mid_side_stereo</name>
-      <anchor>a6</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_channels</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_bits_per_sample</name>
-      <anchor>a9</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_sample_rate</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_blocksize</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_max_lpc_order</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_qlp_coeff_precision</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_escape_coding</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_min_residual_partition_order</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_max_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a19</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_total_samples_estimate</name>
-      <anchor>a20</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_metadata</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_filename</name>
-      <anchor>a22</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_progress_callback</name>
-      <anchor>a23</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__FileEncoderProgressCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_client_data</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileEncoderState</type>
-      <name>FLAC__file_encoder_get_state</name>
-      <anchor>a25</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoderState</type>
-      <name>FLAC__file_encoder_get_seekable_stream_encoder_state</name>
-      <anchor>a26</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamEncoderState</type>
-      <name>FLAC__file_encoder_get_stream_encoder_state</name>
-      <anchor>a27</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__file_encoder_get_verify_decoder_state</name>
-      <anchor>a28</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__file_encoder_get_resolved_state_string</name>
-      <anchor>a29</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a30</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_verify</name>
-      <anchor>a31</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_streamable_subset</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_mid_side_stereo</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a34</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_channels</name>
-      <anchor>a35</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_bits_per_sample</name>
-      <anchor>a36</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_sample_rate</name>
-      <anchor>a37</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_blocksize</name>
-      <anchor>a38</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_max_lpc_order</name>
-      <anchor>a39</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_qlp_coeff_precision</name>
-      <anchor>a40</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a41</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_escape_coding</name>
-      <anchor>a42</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a43</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_min_residual_partition_order</name>
-      <anchor>a44</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_max_residual_partition_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a46</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>FLAC__file_encoder_get_total_samples_estimate</name>
-      <anchor>a47</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileEncoderState</type>
-      <name>FLAC__file_encoder_init</name>
-      <anchor>a48</anchor>
-      <arglist>(FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_encoder_finish</name>
-      <anchor>a49</anchor>
-      <arglist>(FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_process</name>
-      <anchor>a50</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_process_interleaved</name>
-      <anchor>a51</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__FileEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="file">
-    <name>file_encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/OggFLAC/</path>
-    <filename>OggFLAC_2file__encoder_8h.html</filename>
-    <class kind="struct">OggFLAC__FileEncoder</class>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__FileEncoderProgressCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const OggFLAC__FileEncoder *encoder, FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__FileEncoderState</name>
-      <anchor>a53</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_OK</name>
-      <anchor>a53a2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_NO_FILENAME</name>
-      <anchor>a53a3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_SEEKABLE_STREAM_ENCODER_ERROR</name>
-      <anchor>a53a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_FATAL_ERROR_WHILE_WRITING</name>
-      <anchor>a53a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_ERROR_OPENING_FILE</name>
-      <anchor>a53a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a53a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a53a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_UNINITIALIZED</name>
-      <anchor>a53a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__FileEncoder *</type>
-      <name>OggFLAC__file_encoder_new</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__file_encoder_delete</name>
-      <anchor>a3</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_verify</name>
-      <anchor>a5</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_streamable_subset</name>
-      <anchor>a6</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_channels</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_bits_per_sample</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_sample_rate</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_blocksize</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_max_lpc_order</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_qlp_coeff_precision</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_escape_coding</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_min_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_max_residual_partition_order</name>
-      <anchor>a19</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a20</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_total_samples_estimate</name>
-      <anchor>a21</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_metadata</name>
-      <anchor>a22</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_filename</name>
-      <anchor>a23</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_progress_callback</name>
-      <anchor>a24</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, OggFLAC__FileEncoderProgressCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_client_data</name>
-      <anchor>a25</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__FileEncoderState</type>
-      <name>OggFLAC__file_encoder_get_state</name>
-      <anchor>a26</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoderState</type>
-      <name>OggFLAC__file_encoder_get_seekable_stream_encoder_state</name>
-      <anchor>a27</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamEncoderState</type>
-      <name>OggFLAC__file_encoder_get_FLAC_stream_encoder_state</name>
-      <anchor>a28</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__file_encoder_get_verify_decoder_state</name>
-      <anchor>a29</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__file_encoder_get_resolved_state_string</name>
-      <anchor>a30</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__file_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a31</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_verify</name>
-      <anchor>a32</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_streamable_subset</name>
-      <anchor>a33</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_mid_side_stereo</name>
-      <anchor>a34</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a35</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_channels</name>
-      <anchor>a36</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_bits_per_sample</name>
-      <anchor>a37</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_sample_rate</name>
-      <anchor>a38</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_blocksize</name>
-      <anchor>a39</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_max_lpc_order</name>
-      <anchor>a40</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_qlp_coeff_precision</name>
-      <anchor>a41</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a42</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_escape_coding</name>
-      <anchor>a43</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a44</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_min_residual_partition_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_max_residual_partition_order</name>
-      <anchor>a46</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a47</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__uint64</type>
-      <name>OggFLAC__file_encoder_get_total_samples_estimate</name>
-      <anchor>a48</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__FileEncoderState</type>
-      <name>OggFLAC__file_encoder_init</name>
-      <anchor>a49</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__file_encoder_finish</name>
-      <anchor>a50</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_process</name>
-      <anchor>a51</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_process_interleaved</name>
-      <anchor>a52</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__FileEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
     </member>
   </compound>
   <compound kind="file">
     <name>format.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>format_8h.html</filename>
-    <class kind="struct">FLAC__EntropyCodingMethod_PartitionedRiceContents</class>
-    <class kind="struct">FLAC__EntropyCodingMethod_PartitionedRice</class>
-    <class kind="struct">FLAC__EntropyCodingMethod</class>
-    <class kind="struct">FLAC__Subframe_Constant</class>
-    <class kind="struct">FLAC__Subframe_Verbatim</class>
-    <class kind="struct">FLAC__Subframe_Fixed</class>
-    <class kind="struct">FLAC__Subframe_LPC</class>
-    <class kind="struct">FLAC__Subframe</class>
-    <class kind="struct">FLAC__FrameHeader</class>
-    <class kind="struct">FLAC__FrameFooter</class>
-    <class kind="struct">FLAC__Frame</class>
-    <class kind="struct">FLAC__StreamMetadata_StreamInfo</class>
-    <class kind="struct">FLAC__StreamMetadata_Padding</class>
-    <class kind="struct">FLAC__StreamMetadata_Application</class>
-    <class kind="struct">FLAC__StreamMetadata_SeekPoint</class>
-    <class kind="struct">FLAC__StreamMetadata_SeekTable</class>
-    <class kind="struct">FLAC__StreamMetadata_VorbisComment_Entry</class>
-    <class kind="struct">FLAC__StreamMetadata_VorbisComment</class>
-    <class kind="struct">FLAC__StreamMetadata_CueSheet_Index</class>
-    <class kind="struct">FLAC__StreamMetadata_CueSheet_Track</class>
-    <class kind="struct">FLAC__StreamMetadata_CueSheet</class>
-    <class kind="struct">FLAC__StreamMetadata_Unknown</class>
-    <class kind="struct">FLAC__StreamMetadata</class>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC/</path>
+    <filename>format_8h</filename>
+    <includes id="export_8h" name="export.h" local="yes" imported="no">export.h</includes>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_METADATA_TYPE_CODE</name>
-      <anchor>a75</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga89</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MIN_BLOCK_SIZE</name>
-      <anchor>a76</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga90</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_BLOCK_SIZE</name>
-      <anchor>a77</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga91</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__SUBSET_MAX_BLOCK_SIZE_48000HZ</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga92</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_CHANNELS</name>
-      <anchor>a78</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga93</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MIN_BITS_PER_SAMPLE</name>
-      <anchor>a79</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga94</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_BITS_PER_SAMPLE</name>
-      <anchor>a80</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga95</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__REFERENCE_CODEC_MAX_BITS_PER_SAMPLE</name>
-      <anchor>a81</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga96</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_SAMPLE_RATE</name>
-      <anchor>a82</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga97</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_LPC_ORDER</name>
-      <anchor>a83</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga98</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__SUBSET_MAX_LPC_ORDER_48000HZ</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga99</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MIN_QLP_COEFF_PRECISION</name>
-      <anchor>a84</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga100</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_QLP_COEFF_PRECISION</name>
-      <anchor>a85</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga101</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_FIXED_ORDER</name>
-      <anchor>a86</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga102</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_RICE_PARTITION_ORDER</name>
-      <anchor>a87</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga103</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__SUBSET_MAX_RICE_PARTITION_ORDER</name>
-      <anchor>a88</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga104</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_SYNC_LENGTH</name>
-      <anchor>a89</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga105</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_LENGTH</name>
-      <anchor>a90</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga106</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_LENGTH</name>
-      <anchor>a91</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga107</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_METADATA_HEADER_LENGTH</name>
-      <anchor>a92</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga108</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__EntropyCodingMethodType</name>
-      <anchor>a93</anchor>
+      <anchor>ga109</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE</name>
-      <anchor>a93a86</anchor>
+      <anchor>gga109a100</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE2</name>
+      <anchor>gga109a101</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__SubframeType</name>
-      <anchor>a94</anchor>
+      <anchor>ga110</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_CONSTANT</name>
-      <anchor>a94a87</anchor>
+      <anchor>gga110a102</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_VERBATIM</name>
-      <anchor>a94a88</anchor>
+      <anchor>gga110a103</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_FIXED</name>
-      <anchor>a94a89</anchor>
+      <anchor>gga110a104</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_LPC</name>
-      <anchor>a94a90</anchor>
+      <anchor>gga110a105</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__ChannelAssignment</name>
-      <anchor>a95</anchor>
+      <anchor>ga111</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT</name>
-      <anchor>a95a91</anchor>
+      <anchor>gga111a106</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE</name>
-      <anchor>a95a92</anchor>
+      <anchor>gga111a107</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_RIGHT_SIDE</name>
-      <anchor>a95a93</anchor>
+      <anchor>gga111a108</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_MID_SIDE</name>
-      <anchor>a95a94</anchor>
+      <anchor>gga111a109</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__FrameNumberType</name>
-      <anchor>a96</anchor>
+      <anchor>ga112</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__FRAME_NUMBER_TYPE_FRAME_NUMBER</name>
-      <anchor>a96a95</anchor>
+      <anchor>gga112a110</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__FRAME_NUMBER_TYPE_SAMPLE_NUMBER</name>
-      <anchor>a96a96</anchor>
+      <anchor>gga112a111</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__MetadataType</name>
-      <anchor>a97</anchor>
+      <anchor>ga113</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_STREAMINFO</name>
-      <anchor>a97a97</anchor>
+      <anchor>gga113a112</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_PADDING</name>
-      <anchor>a97a98</anchor>
+      <anchor>gga113a113</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_APPLICATION</name>
-      <anchor>a97a99</anchor>
+      <anchor>gga113a114</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_SEEKTABLE</name>
-      <anchor>a97a100</anchor>
+      <anchor>gga113a115</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_VORBIS_COMMENT</name>
-      <anchor>a97a101</anchor>
+      <anchor>gga113a116</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_CUESHEET</name>
-      <anchor>a97a102</anchor>
+      <anchor>gga113a117</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__METADATA_TYPE_PICTURE</name>
+      <anchor>gga113a118</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_UNDEFINED</name>
-      <anchor>a97a103</anchor>
+      <anchor>gga113a119</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamMetadata_Picture_Type</name>
+      <anchor>ga114</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_OTHER</name>
+      <anchor>gga114a120</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FILE_ICON_STANDARD</name>
+      <anchor>gga114a121</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FILE_ICON</name>
+      <anchor>gga114a122</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FRONT_COVER</name>
+      <anchor>gga114a123</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_BACK_COVER</name>
+      <anchor>gga114a124</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LEAFLET_PAGE</name>
+      <anchor>gga114a125</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_MEDIA</name>
+      <anchor>gga114a126</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LEAD_ARTIST</name>
+      <anchor>gga114a127</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_ARTIST</name>
+      <anchor>gga114a128</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_CONDUCTOR</name>
+      <anchor>gga114a129</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_BAND</name>
+      <anchor>gga114a130</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_COMPOSER</name>
+      <anchor>gga114a131</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LYRICIST</name>
+      <anchor>gga114a132</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_RECORDING_LOCATION</name>
+      <anchor>gga114a133</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_DURING_RECORDING</name>
+      <anchor>gga114a134</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_DURING_PERFORMANCE</name>
+      <anchor>gga114a135</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_VIDEO_SCREEN_CAPTURE</name>
+      <anchor>gga114a136</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FISH</name>
+      <anchor>gga114a137</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_ILLUSTRATION</name>
+      <anchor>gga114a138</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_BAND_LOGOTYPE</name>
+      <anchor>gga114a139</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_PUBLISHER_LOGOTYPE</name>
+      <anchor>gga114a140</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_sample_rate_is_valid</name>
-      <anchor>a68</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga80</anchor>
+      <arglist>(unsigned sample_rate)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_sample_rate_is_subset</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga81</anchor>
       <arglist>(unsigned sample_rate)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_vorbiscomment_entry_name_is_legal</name>
-      <anchor>a69</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga82</anchor>
       <arglist>(const char *name)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_vorbiscomment_entry_value_is_legal</name>
-      <anchor>a70</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga83</anchor>
       <arglist>(const FLAC__byte *value, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_vorbiscomment_entry_is_legal</name>
-      <anchor>a71</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga84</anchor>
       <arglist>(const FLAC__byte *entry, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_seektable_is_legal</name>
-      <anchor>a72</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga85</anchor>
       <arglist>(const FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__format_seektable_sort</name>
-      <anchor>a73</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga86</anchor>
       <arglist>(FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_cuesheet_is_legal</name>
-      <anchor>a74</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga87</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet *cue_sheet, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_picture_is_legal</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga88</anchor>
+      <arglist>(const FLAC__StreamMetadata_Picture *picture, const char **violation)</arglist>
     </member>
     <member kind="variable">
       <type>const char *</type>
       <name>FLAC__VERSION_STRING</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *</type>
       <name>FLAC__VENDOR_STRING</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const FLAC__byte</type>
       <name>FLAC__STREAM_SYNC_STRING</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>[4]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_SYNC</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_SYNC_LEN</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__EntropyCodingMethodTypeString</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_ORDER_LEN</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_PARAMETER_LEN</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE2_PARAMETER_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_RAW_LEN</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_ESCAPE_PARAMETER</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga10</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE2_ESCAPE_PARAMETER</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_TYPE_LEN</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga12</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__SubframeTypeString</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_LPC_QLP_COEFF_PRECISION_LEN</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_LPC_QLP_SHIFT_LEN</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_ZERO_PAD_LEN</name>
-      <anchor>a14</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_LEN</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_WASTED_BITS_FLAG_LEN</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_CONSTANT_BYTE_ALIGNED_MASK</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga19</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_VERBATIM_BYTE_ALIGNED_MASK</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_FIXED_BYTE_ALIGNED_MASK</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_LPC_BYTE_ALIGNED_MASK</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__ChannelAssignmentString</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__FrameNumberTypeString</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_SYNC</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_SYNC_LEN</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_RESERVED_LEN</name>
-      <anchor>a25</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__FRAME_HEADER_BLOCKING_STRATEGY_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga28</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_BLOCK_SIZE_LEN</name>
-      <anchor>a26</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga29</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_SAMPLE_RATE_LEN</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_CHANNEL_ASSIGNMENT_LEN</name>
-      <anchor>a28</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_BITS_PER_SAMPLE_LEN</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_ZERO_PAD_LEN</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_CRC_LEN</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_FOOTER_CRC_LEN</name>
-      <anchor>a32</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga35</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__MetadataTypeString</name>
-      <anchor>a33</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga36</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MIN_BLOCK_SIZE_LEN</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga37</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MAX_BLOCK_SIZE_LEN</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga38</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MIN_FRAME_SIZE_LEN</name>
-      <anchor>a36</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga39</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MAX_FRAME_SIZE_LEN</name>
-      <anchor>a37</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga40</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_SAMPLE_RATE_LEN</name>
-      <anchor>a38</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga41</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_CHANNELS_LEN</name>
-      <anchor>a39</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga42</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_BITS_PER_SAMPLE_LEN</name>
-      <anchor>a40</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga43</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_TOTAL_SAMPLES_LEN</name>
-      <anchor>a41</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga44</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MD5SUM_LEN</name>
-      <anchor>a42</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga45</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_APPLICATION_ID_LEN</name>
-      <anchor>a43</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga46</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_SAMPLE_NUMBER_LEN</name>
-      <anchor>a44</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga47</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_STREAM_OFFSET_LEN</name>
-      <anchor>a45</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga48</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_FRAME_SAMPLES_LEN</name>
-      <anchor>a46</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga49</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const FLAC__uint64</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_PLACEHOLDER</name>
-      <anchor>a47</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga50</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_VORBIS_COMMENT_ENTRY_LENGTH_LEN</name>
-      <anchor>a48</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga51</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_VORBIS_COMMENT_NUM_COMMENTS_LEN</name>
-      <anchor>a49</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga52</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_INDEX_OFFSET_LEN</name>
-      <anchor>a50</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga53</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_INDEX_NUMBER_LEN</name>
-      <anchor>a51</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga54</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_INDEX_RESERVED_LEN</name>
-      <anchor>a52</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga55</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_OFFSET_LEN</name>
-      <anchor>a53</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga56</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_NUMBER_LEN</name>
-      <anchor>a54</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga57</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_ISRC_LEN</name>
-      <anchor>a55</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga58</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_TYPE_LEN</name>
-      <anchor>a56</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga59</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_PRE_EMPHASIS_LEN</name>
-      <anchor>a57</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga60</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_RESERVED_LEN</name>
-      <anchor>a58</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga61</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_NUM_INDICES_LEN</name>
-      <anchor>a59</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga62</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_MEDIA_CATALOG_NUMBER_LEN</name>
-      <anchor>a60</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga63</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_LEAD_IN_LEN</name>
-      <anchor>a61</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga64</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_IS_CD_LEN</name>
-      <anchor>a62</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga65</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_RESERVED_LEN</name>
-      <anchor>a63</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga66</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_NUM_TRACKS_LEN</name>
-      <anchor>a64</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga67</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamMetadata_Picture_TypeString</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga68</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga69</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_MIME_TYPE_LENGTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga70</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_DESCRIPTION_LENGTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga71</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_WIDTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga72</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_HEIGHT_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga73</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_DEPTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga74</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_COLORS_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga75</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_DATA_LENGTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga76</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_IS_LAST_LEN</name>
-      <anchor>a65</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga77</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_TYPE_LEN</name>
-      <anchor>a66</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga78</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_LENGTH_LEN</name>
-      <anchor>a67</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga79</anchor>
       <arglist></arglist>
     </member>
   </compound>
   <compound kind="file">
     <name>metadata.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>metadata_8h.html</filename>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC/</path>
+    <filename>metadata_8h</filename>
+    <includes id="export_8h" name="export.h" local="yes" imported="no">export.h</includes>
+    <includes id="callback_8h" name="callback.h" local="yes" imported="no">callback.h</includes>
+    <includes id="format_8h" name="format.h" local="yes" imported="no">format.h</includes>
     <member kind="typedef">
       <type>FLAC__Metadata_SimpleIterator</type>
       <name>FLAC__Metadata_SimpleIterator</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>FLAC__Metadata_Chain</type>
       <name>FLAC__Metadata_Chain</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>FLAC__Metadata_Iterator</type>
       <name>FLAC__Metadata_Iterator</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__Metadata_SimpleIteratorStatus</name>
-      <anchor>a14</anchor>
+      <anchor>ga18</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_OK</name>
-      <anchor>a14a5</anchor>
+      <anchor>gga18a5</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_ILLEGAL_INPUT</name>
-      <anchor>a14a6</anchor>
+      <anchor>gga18a6</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_ERROR_OPENING_FILE</name>
-      <anchor>a14a7</anchor>
+      <anchor>gga18a7</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_NOT_A_FLAC_FILE</name>
-      <anchor>a14a8</anchor>
+      <anchor>gga18a8</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_NOT_WRITABLE</name>
-      <anchor>a14a9</anchor>
+      <anchor>gga18a9</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_BAD_METADATA</name>
-      <anchor>a14a10</anchor>
+      <anchor>gga18a10</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_READ_ERROR</name>
-      <anchor>a14a11</anchor>
+      <anchor>gga18a11</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_SEEK_ERROR</name>
-      <anchor>a14a12</anchor>
+      <anchor>gga18a12</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_WRITE_ERROR</name>
-      <anchor>a14a13</anchor>
+      <anchor>gga18a13</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_RENAME_ERROR</name>
-      <anchor>a14a14</anchor>
+      <anchor>gga18a14</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_UNLINK_ERROR</name>
-      <anchor>a14a15</anchor>
+      <anchor>gga18a15</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a14a16</anchor>
+      <anchor>gga18a16</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_INTERNAL_ERROR</name>
-      <anchor>a14a17</anchor>
+      <anchor>gga18a17</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__Metadata_ChainStatus</name>
-      <anchor>a25</anchor>
+      <anchor>ga27</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_OK</name>
-      <anchor>a25a18</anchor>
+      <anchor>gga27a18</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_ILLEGAL_INPUT</name>
-      <anchor>a25a19</anchor>
+      <anchor>gga27a19</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_ERROR_OPENING_FILE</name>
-      <anchor>a25a20</anchor>
+      <anchor>gga27a20</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_NOT_A_FLAC_FILE</name>
-      <anchor>a25a21</anchor>
+      <anchor>gga27a21</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_NOT_WRITABLE</name>
-      <anchor>a25a22</anchor>
+      <anchor>gga27a22</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_BAD_METADATA</name>
-      <anchor>a25a23</anchor>
+      <anchor>gga27a23</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_READ_ERROR</name>
-      <anchor>a25a24</anchor>
+      <anchor>gga27a24</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_SEEK_ERROR</name>
-      <anchor>a25a25</anchor>
+      <anchor>gga27a25</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_WRITE_ERROR</name>
-      <anchor>a25a26</anchor>
+      <anchor>gga27a26</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_RENAME_ERROR</name>
-      <anchor>a25a27</anchor>
+      <anchor>gga27a27</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_UNLINK_ERROR</name>
-      <anchor>a25a28</anchor>
+      <anchor>gga27a28</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a25a29</anchor>
+      <anchor>gga27a29</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_INTERNAL_ERROR</name>
-      <anchor>a25a30</anchor>
+      <anchor>gga27a30</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_INVALID_CALLBACKS</name>
-      <anchor>a25a31</anchor>
+      <anchor>gga27a31</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH</name>
-      <anchor>a25a32</anchor>
+      <anchor>gga27a32</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL</name>
-      <anchor>a25a33</anchor>
+      <anchor>gga27a33</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_get_streaminfo</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist>(const char *filename, FLAC__StreamMetadata *streaminfo)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_get_tags</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>(const char *filename, FLAC__StreamMetadata **tags)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_get_cuesheet</name>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>(const char *filename, FLAC__StreamMetadata **cuesheet)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_get_picture</name>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(const char *filename, FLAC__StreamMetadata **picture, FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_SimpleIterator *</type>
       <name>FLAC__metadata_simple_iterator_new</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_simple_iterator_delete</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_SimpleIteratorStatus</type>
       <name>FLAC__metadata_simple_iterator_status</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_init</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, const char *filename, FLAC__bool read_only, FLAC__bool preserve_file_stats)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_is_writable</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_next</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_prev</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga8</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_simple_iterator_is_last</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga9</anchor>
+      <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>off_t</type>
+      <name>FLAC__metadata_simple_iterator_get_block_offset</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga10</anchor>
+      <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__MetadataType</type>
       <name>FLAC__metadata_simple_iterator_get_block_type</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>FLAC__metadata_simple_iterator_get_block_length</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga12</anchor>
+      <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_simple_iterator_get_application_id</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga13</anchor>
+      <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__byte *id)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_simple_iterator_get_block</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_set_block</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__StreamMetadata *block, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_insert_block_after</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__StreamMetadata *block, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_delete_block</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_Chain *</type>
       <name>FLAC__metadata_chain_new</name>
-      <anchor>a3</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_chain_delete</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_ChainStatus</type>
       <name>FLAC__metadata_chain_status</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_read</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>(FLAC__Metadata_Chain *chain, const char *filename)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_chain_read_ogg</name>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, const char *filename)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_read_with_callbacks</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>(FLAC__Metadata_Chain *chain, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_chain_read_ogg_with_callbacks</name>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga9</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_check_if_tempfile_needed</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga10</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_write</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__bool preserve_file_stats)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_write_with_callbacks</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga12</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_write_with_callbacks_and_tempfile</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks, FLAC__IOHandle temp_handle, FLAC__IOCallbacks temp_callbacks)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_chain_merge_padding</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_chain_sort_padding</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_Iterator *</type>
       <name>FLAC__metadata_iterator_new</name>
-      <anchor>a14</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga16</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_iterator_delete</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_iterator_init</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_next</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga19</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_prev</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__MetadataType</type>
       <name>FLAC__metadata_iterator_get_block_type</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(const FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_iterator_get_block</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_set_block</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__StreamMetadata *block)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_delete_block</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__bool replace_with_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_insert_block_before</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__StreamMetadata *block)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_insert_block_after</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__StreamMetadata *block)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_object_new</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist>(FLAC__MetadataType type)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_object_clone</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>(const FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_delete</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>(FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_is_equal</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist>(const FLAC__StreamMetadata *block1, const FLAC__StreamMetadata *block2)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_application_set_data</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__byte *data, unsigned length, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_resize_points</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_points)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_seektable_set_point</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned point_num, FLAC__StreamMetadata_SeekPoint point)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_insert_point</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned point_num, FLAC__StreamMetadata_SeekPoint point)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_delete_point</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned point_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_is_legal</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga9</anchor>
       <arglist>(const FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_placeholders</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga10</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_point</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__uint64 sample_number)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_points</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga12</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__uint64 sample_numbers[], unsigned num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_spaced_points</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned num, FLAC__uint64 total_samples)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_seektable_template_append_spaced_points_by_samples</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga14</anchor>
+      <arglist>(FLAC__StreamMetadata *object, unsigned samples, FLAC__uint64 total_samples)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_sort</name>
-      <anchor>a14</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__bool compact)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_set_vendor_string</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_resize_comments</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_comments)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_set_comment</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_insert_comment</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga19</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_append_comment</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_replace_comment</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool all, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_delete_comment</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>(FLAC__StreamMetadata_VorbisComment_Entry *entry, const char *field_name, const char *field_value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, char **field_name, char **field_value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_matches</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, const char *field_name, unsigned field_name_length)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_find_entry_from</name>
-      <anchor>a25</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(const FLAC__StreamMetadata *object, unsigned offset, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entry_matching</name>
-      <anchor>a26</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga27</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entries_matching</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga28</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_new</name>
-      <anchor>a28</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga29</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_clone</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_cuesheet_track_delete</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist>(FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_resize_indices</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned new_num_indices)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_index</name>
-      <anchor>a32</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num, FLAC__StreamMetadata_CueSheet_Index index)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_blank_index</name>
-      <anchor>a33</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_delete_index</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga35</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_resize_tracks</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga36</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_tracks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_track</name>
-      <anchor>a36</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga37</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, FLAC__StreamMetadata_CueSheet_Track *track, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_blank_track</name>
-      <anchor>a37</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga38</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_delete_track</name>
-      <anchor>a38</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga39</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_is_legal</name>
-      <anchor>a39</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga40</anchor>
       <arglist>(const FLAC__StreamMetadata *object, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint32</type>
+      <name>FLAC__metadata_object_cuesheet_calculate_cddb_id</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga41</anchor>
+      <arglist>(const FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_picture_set_mime_type</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga42</anchor>
+      <arglist>(FLAC__StreamMetadata *object, char *mime_type, FLAC__bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_picture_set_description</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga43</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__byte *description, FLAC__bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_picture_set_data</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga44</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__byte *data, FLAC__uint32 length, FLAC__bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_picture_is_legal</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga45</anchor>
+      <arglist>(const FLAC__StreamMetadata *object, const char **violation)</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__Metadata_SimpleIteratorStatusString</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__Metadata_ChainStatusString</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>[]</arglist>
     </member>
   </compound>
   <compound kind="file">
     <name>metadata.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC++/</path>
-    <filename>+_2metadata_8h.html</filename>
-  </compound>
-  <compound kind="file">
-    <name>seekable_stream_decoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>seekable__stream__decoder_8h.html</filename>
-    <class kind="struct">FLAC__SeekableStreamDecoder</class>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderReadStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderReadCallback</name>
-      <anchor>a5</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderSeekStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderSeekCallback</name>
-      <anchor>a6</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderTellStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderTellCallback</name>
-      <anchor>a7</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderLengthStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderLengthCallback</name>
-      <anchor>a8</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__bool(*</type>
-      <name>FLAC__SeekableStreamDecoderEofCallback</name>
-      <anchor>a9</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderWriteStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderWriteCallback</name>
-      <anchor>a10</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__SeekableStreamDecoderMetadataCallback</name>
-      <anchor>a11</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__SeekableStreamDecoderErrorCallback</name>
-      <anchor>a12</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderState</name>
-      <anchor>a50</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_OK</name>
-      <anchor>a50a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEKING</name>
-      <anchor>a50a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM</name>
-      <anchor>a50a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a50a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_STREAM_DECODER_ERROR</name>
-      <anchor>a50a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_READ_ERROR</name>
-      <anchor>a50a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEK_ERROR</name>
-      <anchor>a50a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a50a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_INVALID_CALLBACK</name>
-      <anchor>a50a21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_UNINITIALIZED</name>
-      <anchor>a50a22</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderReadStatus</name>
-      <anchor>a51</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK</name>
-      <anchor>a51a23</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_ERROR</name>
-      <anchor>a51a24</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderSeekStatus</name>
-      <anchor>a52</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_OK</name>
-      <anchor>a52a25</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_ERROR</name>
-      <anchor>a52a26</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderTellStatus</name>
-      <anchor>a53</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_OK</name>
-      <anchor>a53a27</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_ERROR</name>
-      <anchor>a53a28</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderLengthStatus</name>
-      <anchor>a54</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_OK</name>
-      <anchor>a54a29</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_ERROR</name>
-      <anchor>a54a30</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamDecoder *</type>
-      <name>FLAC__seekable_stream_decoder_new</name>
-      <anchor>a13</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_decoder_delete</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_md5_checking</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_read_callback</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderReadCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_seek_callback</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderSeekCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_tell_callback</name>
-      <anchor>a18</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderTellCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_length_callback</name>
-      <anchor>a19</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderLengthCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_eof_callback</name>
-      <anchor>a20</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderEofCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_write_callback</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_callback</name>
-      <anchor>a22</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_error_callback</name>
-      <anchor>a23</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_client_data</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_respond</name>
-      <anchor>a25</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_respond_application</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_respond_all</name>
-      <anchor>a27</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_ignore</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_ignore_application</name>
-      <anchor>a29</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_ignore_all</name>
-      <anchor>a30</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamDecoderState</type>
-      <name>FLAC__seekable_stream_decoder_get_state</name>
-      <anchor>a31</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__seekable_stream_decoder_get_stream_decoder_state</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__seekable_stream_decoder_get_resolved_state_string</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_get_md5_checking</name>
-      <anchor>a34</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_channels</name>
-      <anchor>a35</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__ChannelAssignment</type>
-      <name>FLAC__seekable_stream_decoder_get_channel_assignment</name>
-      <anchor>a36</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_bits_per_sample</name>
-      <anchor>a37</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_sample_rate</name>
-      <anchor>a38</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_blocksize</name>
-      <anchor>a39</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_get_decode_position</name>
-      <anchor>a40</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 *position)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamDecoderState</type>
-      <name>FLAC__seekable_stream_decoder_init</name>
-      <anchor>a41</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_finish</name>
-      <anchor>a42</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_flush</name>
-      <anchor>a43</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_reset</name>
-      <anchor>a44</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_process_single</name>
-      <anchor>a45</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_process_until_end_of_metadata</name>
-      <anchor>a46</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_process_until_end_of_stream</name>
-      <anchor>a47</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_skip_single_frame</name>
-      <anchor>a48</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_seek_absolute</name>
-      <anchor>a49</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 sample)</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderReadStatusString</name>
-      <anchor>a1</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderSeekStatusString</name>
-      <anchor>a2</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderTellStatusString</name>
-      <anchor>a3</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderLengthStatusString</name>
-      <anchor>a4</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="file">
-    <name>seekable_stream_encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>FLAC_2seekable__stream__encoder_8h.html</filename>
-    <class kind="struct">FLAC__SeekableStreamEncoder</class>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderSeekStatus(*</type>
-      <name>FLAC__SeekableStreamEncoderSeekCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderTellStatus(*</type>
-      <name>FLAC__SeekableStreamEncoderTellCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamEncoderWriteStatus(*</type>
-      <name>FLAC__SeekableStreamEncoderWriteCallback</name>
-      <anchor>a5</anchor>
-      <arglist>)(const FLAC__SeekableStreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamEncoderState</name>
-      <anchor>a56</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_OK</name>
-      <anchor>a56a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_STREAM_ENCODER_ERROR</name>
-      <anchor>a56a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a56a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_WRITE_ERROR</name>
-      <anchor>a56a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_READ_ERROR</name>
-      <anchor>a56a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_SEEK_ERROR</name>
-      <anchor>a56a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_TELL_ERROR</name>
-      <anchor>a56a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a56a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a56a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_INVALID_SEEKTABLE</name>
-      <anchor>a56a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a56a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamEncoderSeekStatus</name>
-      <anchor>a57</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_SEEK_STATUS_OK</name>
-      <anchor>a57a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_SEEK_STATUS_ERROR</name>
-      <anchor>a57a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamEncoderTellStatus</name>
-      <anchor>a58</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_OK</name>
-      <anchor>a58a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_ERROR</name>
-      <anchor>a58a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoder *</type>
-      <name>FLAC__seekable_stream_encoder_new</name>
-      <anchor>a6</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_encoder_delete</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_verify</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_streamable_subset</name>
-      <anchor>a9</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_channels</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_bits_per_sample</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_sample_rate</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_blocksize</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_max_lpc_order</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a18</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_escape_coding</name>
-      <anchor>a19</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a20</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a22</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a23</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_total_samples_estimate</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_metadata</name>
-      <anchor>a25</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_seek_callback</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__SeekableStreamEncoderSeekCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_tell_callback</name>
-      <anchor>a27</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__SeekableStreamEncoderTellCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_write_callback</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__SeekableStreamEncoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_client_data</name>
-      <anchor>a29</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoderState</type>
-      <name>FLAC__seekable_stream_encoder_get_state</name>
-      <anchor>a30</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamEncoderState</type>
-      <name>FLAC__seekable_stream_encoder_get_stream_encoder_state</name>
-      <anchor>a31</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__seekable_stream_encoder_get_verify_decoder_state</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__seekable_stream_encoder_get_resolved_state_string</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a34</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_verify</name>
-      <anchor>a35</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_streamable_subset</name>
-      <anchor>a36</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a37</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a38</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_channels</name>
-      <anchor>a39</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_bits_per_sample</name>
-      <anchor>a40</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_sample_rate</name>
-      <anchor>a41</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_blocksize</name>
-      <anchor>a42</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_max_lpc_order</name>
-      <anchor>a43</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a44</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a45</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_escape_coding</name>
-      <anchor>a46</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a47</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a48</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a49</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a50</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>FLAC__seekable_stream_encoder_get_total_samples_estimate</name>
-      <anchor>a51</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoderState</type>
-      <name>FLAC__seekable_stream_encoder_init</name>
-      <anchor>a52</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_encoder_finish</name>
-      <anchor>a53</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_process</name>
-      <anchor>a54</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_process_interleaved</name>
-      <anchor>a55</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamEncoderSeekStatusString</name>
-      <anchor>a1</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamEncoderTellStatusString</name>
-      <anchor>a2</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="file">
-    <name>seekable_stream_encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/OggFLAC/</path>
-    <filename>OggFLAC_2seekable__stream__encoder_8h.html</filename>
-    <class kind="struct">OggFLAC__SeekableStreamEncoder</class>
-    <member kind="typedef">
-      <type>OggFLAC__SeekableStreamEncoderReadStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderReadCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderSeekStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderSeekCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderTellStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderTellCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamEncoderWriteStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderWriteCallback</name>
-      <anchor>a5</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__SeekableStreamEncoderState</name>
-      <anchor>a58</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_OK</name>
-      <anchor>a58a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_OGG_ERROR</name>
-      <anchor>a58a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_FLAC_STREAM_ENCODER_ERROR</name>
-      <anchor>a58a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a58a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_WRITE_ERROR</name>
-      <anchor>a58a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_ERROR</name>
-      <anchor>a58a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_SEEK_ERROR</name>
-      <anchor>a58a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_TELL_ERROR</name>
-      <anchor>a58a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a58a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a58a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_INVALID_SEEKTABLE</name>
-      <anchor>a58a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a58a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__SeekableStreamEncoderReadStatus</name>
-      <anchor>a59</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_STATUS_CONTINUE</name>
-      <anchor>a59a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_STATUS_END_OF_STREAM</name>
-      <anchor>a59a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_STATUS_ABORT</name>
-      <anchor>a59a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoder *</type>
-      <name>OggFLAC__seekable_stream_encoder_new</name>
-      <anchor>a6</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__seekable_stream_encoder_delete</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_serial_number</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_verify</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_streamable_subset</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_channels</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_bits_per_sample</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_sample_rate</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_blocksize</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_max_lpc_order</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a19</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_escape_coding</name>
-      <anchor>a20</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a21</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a22</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a23</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a24</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_total_samples_estimate</name>
-      <anchor>a25</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_metadata</name>
-      <anchor>a26</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_read_callback</name>
-      <anchor>a27</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderReadCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_seek_callback</name>
-      <anchor>a28</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderSeekCallback value)</arglist>
-    </member>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC++/</path>
+    <filename>+_2metadata_8h</filename>
+    <includes id="+_2export_8h" name="export.h" local="yes" imported="no">export.h</includes>
+    <includes id="metadata_8h" name="metadata.h" local="yes" imported="no">FLAC/metadata.h</includes>
     <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_tell_callback</name>
-      <anchor>a29</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderTellCallback value)</arglist>
+      <type>Prototype *</type>
+      <name>clone</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist>(const Prototype *)</arglist>
     </member>
     <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_write_callback</name>
-      <anchor>a30</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderWriteCallback value)</arglist>
+      <type>bool</type>
+      <name>get_streaminfo</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist>(const char *filename, StreamInfo &amp;streaminfo)</arglist>
     </member>
     <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_client_data</name>
-      <anchor>a31</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, void *value)</arglist>
+      <type>bool</type>
+      <name>get_tags</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const char *filename, VorbisComment *&amp;tags)</arglist>
     </member>
     <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_get_state</name>
-      <anchor>a32</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
+      <type>bool</type>
+      <name>get_tags</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>(const char *filename, VorbisComment &amp;tags)</arglist>
     </member>
     <member kind="function">
-      <type>OggFLAC_API FLAC__StreamEncoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_get_FLAC_stream_encoder_state</name>
-      <anchor>a33</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
+      <type>bool</type>
+      <name>get_cuesheet</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(const char *filename, CueSheet *&amp;cuesheet)</arglist>
     </member>
     <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_get_verify_decoder_state</name>
-      <anchor>a34</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
+      <type>bool</type>
+      <name>get_cuesheet</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const char *filename, CueSheet &amp;cuesheet)</arglist>
     </member>
     <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__seekable_stream_encoder_get_resolved_state_string</name>
-      <anchor>a35</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
+      <type>bool</type>
+      <name>get_picture</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga5</anchor>
+      <arglist>(const char *filename, Picture *&amp;picture,::FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors)</arglist>
     </member>
     <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__seekable_stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a36</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_verify</name>
-      <anchor>a37</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_streamable_subset</name>
-      <anchor>a38</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a39</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a40</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_channels</name>
-      <anchor>a41</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_bits_per_sample</name>
-      <anchor>a42</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_sample_rate</name>
-      <anchor>a43</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_blocksize</name>
-      <anchor>a44</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_max_lpc_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a46</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a47</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_escape_coding</name>
-      <anchor>a48</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a49</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a50</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a51</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a52</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__uint64</type>
-      <name>OggFLAC__seekable_stream_encoder_get_total_samples_estimate</name>
-      <anchor>a53</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_init</name>
-      <anchor>a54</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__seekable_stream_encoder_finish</name>
-      <anchor>a55</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_process</name>
-      <anchor>a56</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_process_interleaved</name>
-      <anchor>a57</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__SeekableStreamEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__SeekableStreamEncoderReadStatusString</name>
-      <anchor>a1</anchor>
-      <arglist>[]</arglist>
+      <type>bool</type>
+      <name>get_picture</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>(const char *filename, Picture &amp;picture,::FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors)</arglist>
     </member>
   </compound>
   <compound kind="file">
     <name>stream_decoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>FLAC_2stream__decoder_8h.html</filename>
-    <class kind="struct">FLAC__StreamDecoder</class>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC/</path>
+    <filename>stream__decoder_8h</filename>
+    <includes id="export_8h" name="export.h" local="yes" imported="no">export.h</includes>
+    <includes id="format_8h" name="format.h" local="yes" imported="no">format.h</includes>
     <member kind="typedef">
       <type>FLAC__StreamDecoderReadStatus(*</type>
       <name>FLAC__StreamDecoderReadCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamDecoderSeekStatus(*</type>
+      <name>FLAC__StreamDecoderSeekCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga9</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamDecoderTellStatus(*</type>
+      <name>FLAC__StreamDecoderTellCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga10</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamDecoderLengthStatus(*</type>
+      <name>FLAC__StreamDecoderLengthCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga11</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__bool(*</type>
+      <name>FLAC__StreamDecoderEofCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga12</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>FLAC__StreamDecoderWriteStatus(*</type>
       <name>FLAC__StreamDecoderWriteCallback</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>)(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>void(*</type>
       <name>FLAC__StreamDecoderMetadataCallback</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist>)(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>void(*</type>
       <name>FLAC__StreamDecoderErrorCallback</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderState</name>
-      <anchor>a36</anchor>
+      <anchor>ga50</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_SEARCH_FOR_METADATA</name>
-      <anchor>a36a8</anchor>
+      <anchor>gga50a16</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_METADATA</name>
-      <anchor>a36a9</anchor>
+      <anchor>gga50a17</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_SEARCH_FOR_FRAME_SYNC</name>
-      <anchor>a36a10</anchor>
+      <anchor>gga50a18</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_FRAME</name>
-      <anchor>a36a11</anchor>
+      <anchor>gga50a19</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_END_OF_STREAM</name>
-      <anchor>a36a12</anchor>
+      <anchor>gga50a20</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_OGG_ERROR</name>
+      <anchor>gga50a21</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_ERROR</name>
+      <anchor>gga50a22</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ABORTED</name>
-      <anchor>a36a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_DECODER_UNPARSEABLE_STREAM</name>
-      <anchor>a36a14</anchor>
+      <anchor>gga50a23</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a36a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a36a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_DECODER_INVALID_CALLBACK</name>
-      <anchor>a36a17</anchor>
+      <anchor>gga50a24</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_UNINITIALIZED</name>
-      <anchor>a36a18</anchor>
+      <anchor>gga50a25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderInitStatus</name>
+      <anchor>ga51</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_OK</name>
+      <anchor>gga51a26</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_UNSUPPORTED_CONTAINER</name>
+      <anchor>gga51a27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_INVALID_CALLBACKS</name>
+      <anchor>gga51a28</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_MEMORY_ALLOCATION_ERROR</name>
+      <anchor>gga51a29</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_ERROR_OPENING_FILE</name>
+      <anchor>gga51a30</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_ALREADY_INITIALIZED</name>
+      <anchor>gga51a31</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderReadStatus</name>
-      <anchor>a37</anchor>
+      <anchor>ga52</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_STATUS_CONTINUE</name>
-      <anchor>a37a19</anchor>
+      <anchor>gga52a32</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM</name>
-      <anchor>a37a20</anchor>
+      <anchor>gga52a33</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_STATUS_ABORT</name>
-      <anchor>a37a21</anchor>
+      <anchor>gga52a34</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderSeekStatus</name>
+      <anchor>ga53</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_STATUS_OK</name>
+      <anchor>gga53a35</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_STATUS_ERROR</name>
+      <anchor>gga53a36</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_STATUS_UNSUPPORTED</name>
+      <anchor>gga53a37</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderTellStatus</name>
+      <anchor>ga54</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_TELL_STATUS_OK</name>
+      <anchor>gga54a38</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_TELL_STATUS_ERROR</name>
+      <anchor>gga54a39</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_TELL_STATUS_UNSUPPORTED</name>
+      <anchor>gga54a40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderLengthStatus</name>
+      <anchor>ga55</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_LENGTH_STATUS_OK</name>
+      <anchor>gga55a41</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_LENGTH_STATUS_ERROR</name>
+      <anchor>gga55a42</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED</name>
+      <anchor>gga55a43</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderWriteStatus</name>
-      <anchor>a38</anchor>
+      <anchor>ga56</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE</name>
-      <anchor>a38a22</anchor>
+      <anchor>gga56a44</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_WRITE_STATUS_ABORT</name>
-      <anchor>a38a23</anchor>
+      <anchor>gga56a45</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderErrorStatus</name>
-      <anchor>a39</anchor>
+      <anchor>ga57</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC</name>
-      <anchor>a39a24</anchor>
+      <anchor>gga57a46</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ERROR_STATUS_BAD_HEADER</name>
-      <anchor>a39a25</anchor>
+      <anchor>gga57a47</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ERROR_STATUS_FRAME_CRC_MISMATCH</name>
-      <anchor>a39a26</anchor>
+      <anchor>gga57a48</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_ERROR_STATUS_UNPARSEABLE_STREAM</name>
+      <anchor>gga57a49</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamDecoder *</type>
       <name>FLAC__stream_decoder_new</name>
-      <anchor>a8</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga16</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__stream_decoder_delete</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_read_callback</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderReadCallback value)</arglist>
+      <name>FLAC__stream_decoder_set_ogg_serial_number</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga18</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, long serial_number)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_write_callback</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_metadata_callback</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_error_callback</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_client_data</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, void *value)</arglist>
+      <name>FLAC__stream_decoder_set_md5_checking</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga19</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_respond</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_respond_application</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_respond_all</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_ignore</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_ignore_application</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_ignore_all</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamDecoderState</type>
       <name>FLAC__stream_decoder_get_state</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>FLAC__stream_decoder_get_resolved_state_string</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga27</anchor>
+      <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_decoder_get_md5_checking</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga28</anchor>
+      <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint64</type>
+      <name>FLAC__stream_decoder_get_total_samples</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga29</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_channels</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__ChannelAssignment</type>
       <name>FLAC__stream_decoder_get_channel_assignment</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_bits_per_sample</name>
-      <anchor>a25</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_sample_rate</name>
-      <anchor>a26</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_blocksize</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__stream_decoder_init</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder)</arglist>
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_decoder_get_decode_position</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga35</anchor>
+      <arglist>(const FLAC__StreamDecoder *decoder, FLAC__uint64 *position)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_stream</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga36</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderReadCallback read_callback, FLAC__StreamDecoderSeekCallback seek_callback, FLAC__StreamDecoderTellCallback tell_callback, FLAC__StreamDecoderLengthCallback length_callback, FLAC__StreamDecoderEofCallback eof_callback, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_ogg_stream</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga37</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderReadCallback read_callback, FLAC__StreamDecoderSeekCallback seek_callback, FLAC__StreamDecoderTellCallback tell_callback, FLAC__StreamDecoderLengthCallback length_callback, FLAC__StreamDecoderEofCallback eof_callback, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_FILE</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga38</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FILE *file, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_ogg_FILE</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga39</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FILE *file, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_file</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga40</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, const char *filename, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_ogg_file</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga41</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, const char *filename, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_finish</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga42</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_flush</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga43</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_reset</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga44</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_process_single</name>
-      <anchor>a32</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga45</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_process_until_end_of_metadata</name>
-      <anchor>a33</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga46</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_process_until_end_of_stream</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga47</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_skip_single_frame</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga48</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_decoder_seek_absolute</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga49</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__uint64 sample)</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderStateString</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderInitStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderReadStatusString</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderSeekStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderTellStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderLengthStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderWriteStatusString</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderErrorStatusString</name>
-      <anchor>a3</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="file">
-    <name>stream_decoder.h</name>
-    <path>/home/jcoalson/flac/build/include/OggFLAC/</path>
-    <filename>OggFLAC_2stream__decoder_8h.html</filename>
-    <class kind="struct">OggFLAC__StreamDecoder</class>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderReadStatus(*</type>
-      <name>OggFLAC__StreamDecoderReadCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderWriteStatus(*</type>
-      <name>OggFLAC__StreamDecoderWriteCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__StreamDecoderMetadataCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__StreamDecoderErrorCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__StreamDecoderState</name>
-      <anchor>a34</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_OK</name>
-      <anchor>a34a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_END_OF_STREAM</name>
-      <anchor>a34a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_OGG_ERROR</name>
-      <anchor>a34a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_READ_ERROR</name>
-      <anchor>a34a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR</name>
-      <anchor>a34a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a34a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a34a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_INVALID_CALLBACK</name>
-      <anchor>a34a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_UNINITIALIZED</name>
-      <anchor>a34a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamDecoder *</type>
-      <name>OggFLAC__stream_decoder_new</name>
-      <anchor>a5</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_decoder_delete</name>
-      <anchor>a6</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_read_callback</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderReadCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_write_callback</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_callback</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_error_callback</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_client_data</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_serial_number</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_respond</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_respond_application</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_respond_all</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_ignore</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_ignore_application</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_ignore_all</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_decoder_get_state</name>
-      <anchor>a19</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_decoder_get_FLAC_stream_decoder_state</name>
-      <anchor>a20</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__stream_decoder_get_resolved_state_string</name>
-      <anchor>a21</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_channels</name>
-      <anchor>a22</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__ChannelAssignment</type>
-      <name>OggFLAC__stream_decoder_get_channel_assignment</name>
-      <anchor>a23</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_bits_per_sample</name>
-      <anchor>a24</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_sample_rate</name>
-      <anchor>a25</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_blocksize</name>
-      <anchor>a26</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_decoder_init</name>
-      <anchor>a27</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_decoder_finish</name>
-      <anchor>a28</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_flush</name>
-      <anchor>a29</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_reset</name>
-      <anchor>a30</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_process_single</name>
-      <anchor>a31</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_process_until_end_of_metadata</name>
-      <anchor>a32</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_process_until_end_of_stream</name>
-      <anchor>a33</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__StreamDecoderStateString</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>[]</arglist>
     </member>
   </compound>
   <compound kind="file">
     <name>stream_encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/FLAC/</path>
-    <filename>FLAC_2stream__encoder_8h.html</filename>
-    <class kind="struct">FLAC__StreamEncoder</class>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC/</path>
+    <filename>stream__encoder_8h</filename>
+    <includes id="export_8h" name="export.h" local="yes" imported="no">export.h</includes>
+    <includes id="format_8h" name="format.h" local="yes" imported="no">format.h</includes>
+    <includes id="stream__decoder_8h" name="stream_decoder.h" local="yes" imported="no">stream_decoder.h</includes>
+    <member kind="typedef">
+      <type>FLAC__StreamEncoderReadStatus(*</type>
+      <name>FLAC__StreamEncoderReadCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
     <member kind="typedef">
       <type>FLAC__StreamEncoderWriteStatus(*</type>
       <name>FLAC__StreamEncoderWriteCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamEncoderSeekStatus(*</type>
+      <name>FLAC__StreamEncoderSeekCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamEncoderTellStatus(*</type>
+      <name>FLAC__StreamEncoderTellCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga9</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>void(*</type>
       <name>FLAC__StreamEncoderMetadataCallback</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga10</anchor>
       <arglist>)(const FLAC__StreamEncoder *encoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>void(*</type>
+      <name>FLAC__StreamEncoderProgressCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga11</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate, void *client_data)</arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamEncoderState</name>
-      <anchor>a52</anchor>
+      <anchor>ga65</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_OK</name>
-      <anchor>a52a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_VERIFY_DECODER_ERROR</name>
-      <anchor>a52a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA</name>
-      <anchor>a52a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a52a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_NUMBER_OF_CHANNELS</name>
-      <anchor>a52a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_BITS_PER_SAMPLE</name>
-      <anchor>a52a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_SAMPLE_RATE</name>
-      <anchor>a52a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_BLOCK_SIZE</name>
-      <anchor>a52a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_MAX_LPC_ORDER</name>
-      <anchor>a52a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_QLP_COEFF_PRECISION</name>
-      <anchor>a52a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_MID_SIDE_CHANNELS_MISMATCH</name>
-      <anchor>a52a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_MID_SIDE_SAMPLE_SIZE_MISMATCH</name>
-      <anchor>a52a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_ILLEGAL_MID_SIDE_FORCE</name>
-      <anchor>a52a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER</name>
-      <anchor>a52a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_NOT_STREAMABLE</name>
-      <anchor>a52a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_FRAMING_ERROR</name>
-      <anchor>a52a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_METADATA</name>
-      <anchor>a52a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING</name>
-      <anchor>a52a21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_FATAL_ERROR_WHILE_WRITING</name>
-      <anchor>a52a22</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a52a23</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a52a24</anchor>
+      <anchor>gga65a12</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a52a25</anchor>
+      <anchor>gga65a13</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_OGG_ERROR</name>
+      <anchor>gga65a14</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_VERIFY_DECODER_ERROR</name>
+      <anchor>gga65a15</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA</name>
+      <anchor>gga65a16</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_CLIENT_ERROR</name>
+      <anchor>gga65a17</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_IO_ERROR</name>
+      <anchor>gga65a18</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_FRAMING_ERROR</name>
+      <anchor>gga65a19</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
+      <anchor>gga65a20</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderInitStatus</name>
+      <anchor>ga66</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_OK</name>
+      <anchor>gga66a21</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_ENCODER_ERROR</name>
+      <anchor>gga66a22</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_UNSUPPORTED_CONTAINER</name>
+      <anchor>gga66a23</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_CALLBACKS</name>
+      <anchor>gga66a24</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_NUMBER_OF_CHANNELS</name>
+      <anchor>gga66a25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_BITS_PER_SAMPLE</name>
+      <anchor>gga66a26</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_SAMPLE_RATE</name>
+      <anchor>gga66a27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_BLOCK_SIZE</name>
+      <anchor>gga66a28</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_MAX_LPC_ORDER</name>
+      <anchor>gga66a29</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_QLP_COEFF_PRECISION</name>
+      <anchor>gga66a30</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER</name>
+      <anchor>gga66a31</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_NOT_STREAMABLE</name>
+      <anchor>gga66a32</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_METADATA</name>
+      <anchor>gga66a33</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_ALREADY_INITIALIZED</name>
+      <anchor>gga66a34</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderReadStatus</name>
+      <anchor>ga67</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_CONTINUE</name>
+      <anchor>gga67a35</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_END_OF_STREAM</name>
+      <anchor>gga67a36</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_ABORT</name>
+      <anchor>gga67a37</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_UNSUPPORTED</name>
+      <anchor>gga67a38</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamEncoderWriteStatus</name>
-      <anchor>a53</anchor>
+      <anchor>ga68</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_WRITE_STATUS_OK</name>
-      <anchor>a53a26</anchor>
+      <anchor>gga68a39</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR</name>
-      <anchor>a53a27</anchor>
+      <anchor>gga68a40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderSeekStatus</name>
+      <anchor>ga69</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_SEEK_STATUS_OK</name>
+      <anchor>gga69a41</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_SEEK_STATUS_ERROR</name>
+      <anchor>gga69a42</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_SEEK_STATUS_UNSUPPORTED</name>
+      <anchor>gga69a43</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderTellStatus</name>
+      <anchor>ga70</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_TELL_STATUS_OK</name>
+      <anchor>gga70a44</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_TELL_STATUS_ERROR</name>
+      <anchor>gga70a45</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_TELL_STATUS_UNSUPPORTED</name>
+      <anchor>gga70a46</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamEncoder *</type>
       <name>FLAC__stream_encoder_new</name>
-      <anchor>a4</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga12</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__stream_encoder_delete</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>(FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_ogg_serial_number</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga14</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, long serial_number)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_verify</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_streamable_subset</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_channels</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_bits_per_sample</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_sample_rate</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga19</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_compression_level</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_blocksize</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_do_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga22</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_loose_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga23</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_apodization</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga24</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, const char *specification)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_max_lpc_order</name>
-      <anchor>a14</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga27</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_do_escape_coding</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga28</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga29</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_total_samples_estimate</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__uint64 value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_metadata</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_write_callback</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_metadata_callback</name>
-      <anchor>a25</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_client_data</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, void *value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamEncoderState</type>
       <name>FLAC__stream_encoder_get_state</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga35</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamDecoderState</type>
       <name>FLAC__stream_encoder_get_verify_decoder_state</name>
-      <anchor>a28</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga36</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>FLAC__stream_encoder_get_resolved_state_string</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga37</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga38</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_verify</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga39</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_streamable_subset</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga40</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_channels</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga41</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_bits_per_sample</name>
-      <anchor>a36</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga42</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_sample_rate</name>
-      <anchor>a37</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga43</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_blocksize</name>
-      <anchor>a38</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga44</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_get_do_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga45</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_get_loose_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga46</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_max_lpc_order</name>
-      <anchor>a39</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga47</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a40</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga48</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a41</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga49</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_do_escape_coding</name>
-      <anchor>a42</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga50</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a43</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga51</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a44</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga52</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a45</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga53</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a46</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga54</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__uint64</type>
       <name>FLAC__stream_encoder_get_total_samples_estimate</name>
-      <anchor>a47</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga55</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
-      <type>FLAC__StreamEncoderState</type>
-      <name>FLAC__stream_encoder_init</name>
-      <anchor>a48</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder)</arglist>
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_stream</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga56</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_ogg_stream</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga57</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderReadCallback read_callback, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_FILE</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga58</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_ogg_FILE</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga59</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_file</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga60</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_ogg_file</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga61</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_finish</name>
-      <anchor>a49</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga62</anchor>
       <arglist>(FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_process</name>
-      <anchor>a50</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga63</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_process_interleaved</name>
-      <anchor>a51</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga64</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamEncoderStateString</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderInitStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderReadStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamEncoderWriteStatusString</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist>[]</arglist>
     </member>
-  </compound>
-  <compound kind="file">
-    <name>stream_encoder.h</name>
-    <path>/home/jcoalson/flac/build/include/OggFLAC/</path>
-    <filename>OggFLAC_2stream__encoder_8h.html</filename>
-    <class kind="struct">OggFLAC__StreamEncoder</class>
-    <member kind="typedef">
-      <type>FLAC__StreamEncoderWriteStatus(*</type>
-      <name>OggFLAC__StreamEncoderWriteCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const OggFLAC__StreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__StreamEncoderMetadataCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const OggFLAC__StreamEncoder *encoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__StreamEncoderState</name>
-      <anchor>a53</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_OK</name>
-      <anchor>a53a3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_OGG_ERROR</name>
-      <anchor>a53a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_FLAC_STREAM_ENCODER_ERROR</name>
-      <anchor>a53a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a53a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a53a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a53a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a53a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamEncoder *</type>
-      <name>OggFLAC__stream_encoder_new</name>
-      <anchor>a3</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_encoder_delete</name>
-      <anchor>a4</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_serial_number</name>
-      <anchor>a5</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_verify</name>
-      <anchor>a6</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_streamable_subset</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_channels</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_bits_per_sample</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_sample_rate</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_blocksize</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_max_lpc_order</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_escape_coding</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a19</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a20</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a21</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_total_samples_estimate</name>
-      <anchor>a22</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_metadata</name>
-      <anchor>a23</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_write_callback</name>
-      <anchor>a24</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, OggFLAC__StreamEncoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_metadata_callback</name>
-      <anchor>a25</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, OggFLAC__StreamEncoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_client_data</name>
-      <anchor>a26</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamEncoderState</type>
-      <name>OggFLAC__stream_encoder_get_state</name>
-      <anchor>a27</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamEncoderState</type>
-      <name>OggFLAC__stream_encoder_get_FLAC_stream_encoder_state</name>
-      <anchor>a28</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_encoder_get_verify_decoder_state</name>
-      <anchor>a29</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__stream_encoder_get_resolved_state_string</name>
-      <anchor>a30</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a31</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_verify</name>
-      <anchor>a32</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_streamable_subset</name>
-      <anchor>a33</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a34</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a35</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_channels</name>
-      <anchor>a36</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_bits_per_sample</name>
-      <anchor>a37</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_sample_rate</name>
-      <anchor>a38</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_blocksize</name>
-      <anchor>a39</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_max_lpc_order</name>
-      <anchor>a40</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a41</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a42</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_escape_coding</name>
-      <anchor>a43</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a44</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a46</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a47</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__uint64</type>
-      <name>OggFLAC__stream_encoder_get_total_samples_estimate</name>
-      <anchor>a48</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamEncoderState</type>
-      <name>OggFLAC__stream_encoder_init</name>
-      <anchor>a49</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_encoder_finish</name>
-      <anchor>a50</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_process</name>
-      <anchor>a51</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_process_interleaved</name>
-      <anchor>a52</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderSeekStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>[]</arglist>
     </member>
     <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__StreamEncoderStateString</name>
-      <anchor>a0</anchor>
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderTellStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>[]</arglist>
     </member>
   </compound>
@@ -5141,19 +3290,22 @@
     <member kind="variable">
       <type>FLAC__EntropyCodingMethodType</type>
       <name>type</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____EntropyCodingMethod.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethodo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__EntropyCodingMethod::@0</type>
       <name>data</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____EntropyCodingMethod.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethodo2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__EntropyCodingMethod_PartitionedRice</type>
       <name>partitioned_rice</name>
-      <anchor>m0</anchor>
+      <anchorfile>unionFLAC____EntropyCodingMethod_1_1@0.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethod_1_1@0o0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5163,13 +3315,15 @@
     <member kind="variable">
       <type>unsigned</type>
       <name>order</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____EntropyCodingMethod__PartitionedRice.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethod__PartitionedRiceo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const FLAC__EntropyCodingMethod_PartitionedRiceContents *</type>
       <name>contents</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____EntropyCodingMethod__PartitionedRice.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethod__PartitionedRiceo1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5179,51 +3333,22 @@
     <member kind="variable">
       <type>unsigned *</type>
       <name>parameters</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____EntropyCodingMethod__PartitionedRiceContents.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethod__PartitionedRiceContentso0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned *</type>
       <name>raw_bits</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____EntropyCodingMethod__PartitionedRiceContents.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethod__PartitionedRiceContentso1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>capacity_by_order</name>
-      <anchor>m2</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
-    <name>FLAC__FileDecoder</name>
-    <filename>structFLAC____FileDecoder.html</filename>
-    <member kind="variable">
-      <type>FLAC__FileDecoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>FLAC__FileDecoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
-    <name>FLAC__FileEncoder</name>
-    <filename>structFLAC____FileEncoder.html</filename>
-    <member kind="variable">
-      <type>FLAC__FileEncoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>FLAC__FileEncoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____EntropyCodingMethod__PartitionedRiceContents.html</anchorfile>
+      <anchor>FLAC____EntropyCodingMethod__PartitionedRiceContentso2</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5233,19 +3358,22 @@
     <member kind="variable">
       <type>FLAC__FrameHeader</type>
       <name>header</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____Frame.html</anchorfile>
+      <anchor>FLAC____Frameo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__Subframe</type>
       <name>subframes</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____Frame.html</anchorfile>
+      <anchor>FLAC____Frameo1</anchor>
       <arglist>[FLAC__MAX_CHANNELS]</arglist>
     </member>
     <member kind="variable">
       <type>FLAC__FrameFooter</type>
       <name>footer</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____Frame.html</anchorfile>
+      <anchor>FLAC____Frameo2</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5255,7 +3383,8 @@
     <member kind="variable">
       <type>FLAC__uint16</type>
       <name>crc</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____FrameFooter.html</anchorfile>
+      <anchor>FLAC____FrameFootero0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5265,61 +3394,71 @@
     <member kind="variable">
       <type>unsigned</type>
       <name>blocksize</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>sample_rate</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>channels</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__ChannelAssignment</type>
       <name>channel_assignment</name>
-      <anchor>m3</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>bits_per_sample</name>
-      <anchor>m4</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero4</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__FrameNumberType</type>
       <name>number_type</name>
-      <anchor>m5</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__FrameHeader::@2</type>
       <name>number</name>
-      <anchor>m8</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__uint32</type>
       <name>frame_number</name>
-      <anchor>m0</anchor>
+      <anchorfile>unionFLAC____FrameHeader_1_1@2.html</anchorfile>
+      <anchor>FLAC____FrameHeader_1_1@2o0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__uint64</type>
       <name>sample_number</name>
-      <anchor>m1</anchor>
+      <anchorfile>unionFLAC____FrameHeader_1_1@2.html</anchorfile>
+      <anchor>FLAC____FrameHeader_1_1@2o1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__uint8</type>
       <name>crc</name>
-      <anchor>m9</anchor>
+      <anchorfile>structFLAC____FrameHeader.html</anchorfile>
+      <anchor>FLAC____FrameHeadero9</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5329,69 +3468,43 @@
     <member kind="variable">
       <type>FLAC__IOCallback_Read</type>
       <name>read</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____IOCallbacks.html</anchorfile>
+      <anchor>FLAC____IOCallbackso0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__IOCallback_Write</type>
       <name>write</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____IOCallbacks.html</anchorfile>
+      <anchor>FLAC____IOCallbackso1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__IOCallback_Seek</type>
       <name>seek</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____IOCallbacks.html</anchorfile>
+      <anchor>FLAC____IOCallbackso2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__IOCallback_Tell</type>
       <name>tell</name>
-      <anchor>m3</anchor>
+      <anchorfile>structFLAC____IOCallbacks.html</anchorfile>
+      <anchor>FLAC____IOCallbackso3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__IOCallback_Eof</type>
       <name>eof</name>
-      <anchor>m4</anchor>
+      <anchorfile>structFLAC____IOCallbacks.html</anchorfile>
+      <anchor>FLAC____IOCallbackso4</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__IOCallback_Close</type>
       <name>close</name>
-      <anchor>m5</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
-    <name>FLAC__SeekableStreamDecoder</name>
-    <filename>structFLAC____SeekableStreamDecoder.html</filename>
-    <member kind="variable">
-      <type>FLAC__SeekableStreamDecoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>FLAC__SeekableStreamDecoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
-    <name>FLAC__SeekableStreamEncoder</name>
-    <filename>structFLAC____SeekableStreamEncoder.html</filename>
-    <member kind="variable">
-      <type>FLAC__SeekableStreamEncoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>FLAC__SeekableStreamEncoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____IOCallbacks.html</anchorfile>
+      <anchor>FLAC____IOCallbackso5</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5401,13 +3514,15 @@
     <member kind="variable">
       <type>FLAC__StreamDecoderProtected *</type>
       <name>protected_</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamDecoder.html</anchorfile>
+      <anchor>FLAC____StreamDecodero0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamDecoderPrivate *</type>
       <name>private_</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamDecoder.html</anchorfile>
+      <anchor>FLAC____StreamDecodero1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5417,13 +3532,15 @@
     <member kind="variable">
       <type>FLAC__StreamEncoderProtected *</type>
       <name>protected_</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamEncoder.html</anchorfile>
+      <anchor>FLAC____StreamEncodero0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamEncoderPrivate *</type>
       <name>private_</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamEncoder.html</anchorfile>
+      <anchor>FLAC____StreamEncodero1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5433,67 +3550,85 @@
     <member kind="variable">
       <type>FLAC__MetadataType</type>
       <name>type</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata.html</anchorfile>
+      <anchor>FLAC____StreamMetadatao0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__bool</type>
       <name>is_last</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata.html</anchorfile>
+      <anchor>FLAC____StreamMetadatao1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>length</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____StreamMetadata.html</anchorfile>
+      <anchor>FLAC____StreamMetadatao2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata::@3</type>
       <name>data</name>
-      <anchor>m10</anchor>
+      <anchorfile>structFLAC____StreamMetadata.html</anchorfile>
+      <anchor>FLAC____StreamMetadatao11</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_StreamInfo</type>
       <name>stream_info</name>
-      <anchor>m0</anchor>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_Padding</type>
       <name>padding</name>
-      <anchor>m1</anchor>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_Application</type>
       <name>application</name>
-      <anchor>m2</anchor>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_SeekTable</type>
       <name>seek_table</name>
-      <anchor>m3</anchor>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_VorbisComment</type>
       <name>vorbis_comment</name>
-      <anchor>m4</anchor>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o4</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_CueSheet</type>
       <name>cue_sheet</name>
-      <anchor>m5</anchor>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__StreamMetadata_Picture</type>
+      <name>picture</name>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o6</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_Unknown</type>
       <name>unknown</name>
-      <anchor>m6</anchor>
+      <anchorfile>unionFLAC____StreamMetadata_1_1@3.html</anchorfile>
+      <anchor>FLAC____StreamMetadata_1_1@3o7</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5503,13 +3638,15 @@
     <member kind="variable">
       <type>FLAC__byte</type>
       <name>id</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__Application.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Applicationo0</anchor>
       <arglist>[4]</arglist>
     </member>
     <member kind="variable">
       <type>FLAC__byte *</type>
       <name>data</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__Application.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Applicationo1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5519,31 +3656,36 @@
     <member kind="variable">
       <type>char</type>
       <name>media_catalog_number</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheeto0</anchor>
       <arglist>[129]</arglist>
     </member>
     <member kind="variable">
       <type>FLAC__uint64</type>
       <name>lead_in</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheeto1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__bool</type>
       <name>is_cd</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheeto2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>num_tracks</name>
-      <anchor>m3</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheeto3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>tracks</name>
-      <anchor>m4</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheeto4</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5553,13 +3695,15 @@
     <member kind="variable">
       <type>FLAC__uint64</type>
       <name>offset</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Index.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Indexo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__byte</type>
       <name>number</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Index.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Indexo1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5569,43 +3713,50 @@
     <member kind="variable">
       <type>FLAC__uint64</type>
       <name>offset</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Track.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Tracko0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__byte</type>
       <name>number</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Track.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Tracko1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>char</type>
       <name>isrc</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Track.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Tracko2</anchor>
       <arglist>[13]</arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>type</name>
-      <anchor>m3</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Track.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Tracko3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>pre_emphasis</name>
-      <anchor>m4</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Track.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Tracko4</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__byte</type>
       <name>num_indices</name>
-      <anchor>m5</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Track.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Tracko5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_CueSheet_Index *</type>
       <name>indices</name>
-      <anchor>m6</anchor>
+      <anchorfile>structFLAC____StreamMetadata__CueSheet__Track.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__CueSheet__Tracko6</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5615,7 +3766,75 @@
     <member kind="variable">
       <type>int</type>
       <name>dummy</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__Padding.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Paddingo0</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>FLAC__StreamMetadata_Picture</name>
+    <filename>structFLAC____StreamMetadata__Picture.html</filename>
+    <member kind="variable">
+      <type>FLAC__StreamMetadata_Picture_Type</type>
+      <name>type</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char *</type>
+      <name>mime_type</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__byte *</type>
+      <name>description</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__uint32</type>
+      <name>width</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__uint32</type>
+      <name>height</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__uint32</type>
+      <name>depth</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__uint32</type>
+      <name>colors</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__uint32</type>
+      <name>data_length</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FLAC__byte *</type>
+      <name>data</name>
+      <anchorfile>structFLAC____StreamMetadata__Picture.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Pictureo8</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5625,19 +3844,22 @@
     <member kind="variable">
       <type>FLAC__uint64</type>
       <name>sample_number</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__SeekPoint.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__SeekPointo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__uint64</type>
       <name>stream_offset</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__SeekPoint.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__SeekPointo1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>frame_samples</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____StreamMetadata__SeekPoint.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__SeekPointo2</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5647,13 +3869,15 @@
     <member kind="variable">
       <type>unsigned</type>
       <name>num_points</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__SeekTable.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__SeekTableo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_SeekPoint *</type>
       <name>points</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__SeekTable.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__SeekTableo1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5663,55 +3887,64 @@
     <member kind="variable">
       <type>unsigned</type>
       <name>min_blocksize</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>max_blocksize</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>min_framesize</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>max_framesize</name>
-      <anchor>m3</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>sample_rate</name>
-      <anchor>m4</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo4</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>channels</name>
-      <anchor>m5</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>bits_per_sample</name>
-      <anchor>m6</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo6</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__uint64</type>
       <name>total_samples</name>
-      <anchor>m7</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__byte</type>
       <name>md5sum</name>
-      <anchor>m8</anchor>
+      <anchorfile>structFLAC____StreamMetadata__StreamInfo.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__StreamInfoo8</anchor>
       <arglist>[16]</arglist>
     </member>
   </compound>
@@ -5721,7 +3954,8 @@
     <member kind="variable">
       <type>FLAC__byte *</type>
       <name>data</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__Unknown.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__Unknowno0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5731,19 +3965,22 @@
     <member kind="variable">
       <type>FLAC__StreamMetadata_VorbisComment_Entry</type>
       <name>vendor_string</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__VorbisComment.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__VorbisCommento0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__uint32</type>
       <name>num_comments</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__VorbisComment.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__VorbisCommento1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__StreamMetadata_VorbisComment_Entry *</type>
       <name>comments</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____StreamMetadata__VorbisComment.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__VorbisCommento2</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5753,13 +3990,15 @@
     <member kind="variable">
       <type>FLAC__uint32</type>
       <name>length</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____StreamMetadata__VorbisComment__Entry.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__VorbisComment__Entryo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__byte *</type>
       <name>entry</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____StreamMetadata__VorbisComment__Entry.html</anchorfile>
+      <anchor>FLAC____StreamMetadata__VorbisComment__Entryo1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5769,43 +4008,50 @@
     <member kind="variable">
       <type>FLAC__SubframeType</type>
       <name>type</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____Subframe.html</anchorfile>
+      <anchor>FLAC____Subframeo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__Subframe::@1</type>
       <name>data</name>
-      <anchor>m5</anchor>
+      <anchorfile>structFLAC____Subframe.html</anchorfile>
+      <anchor>FLAC____Subframeo5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__Subframe_Constant</type>
       <name>constant</name>
-      <anchor>m0</anchor>
+      <anchorfile>unionFLAC____Subframe_1_1@1.html</anchorfile>
+      <anchor>FLAC____Subframe_1_1@1o0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__Subframe_Fixed</type>
       <name>fixed</name>
-      <anchor>m1</anchor>
+      <anchorfile>unionFLAC____Subframe_1_1@1.html</anchorfile>
+      <anchor>FLAC____Subframe_1_1@1o1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__Subframe_LPC</type>
       <name>lpc</name>
-      <anchor>m2</anchor>
+      <anchorfile>unionFLAC____Subframe_1_1@1.html</anchorfile>
+      <anchor>FLAC____Subframe_1_1@1o2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__Subframe_Verbatim</type>
       <name>verbatim</name>
-      <anchor>m3</anchor>
+      <anchorfile>unionFLAC____Subframe_1_1@1.html</anchorfile>
+      <anchor>FLAC____Subframe_1_1@1o3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>wasted_bits</name>
-      <anchor>m6</anchor>
+      <anchorfile>structFLAC____Subframe.html</anchorfile>
+      <anchor>FLAC____Subframeo6</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5815,7 +4061,8 @@
     <member kind="variable">
       <type>FLAC__int32</type>
       <name>value</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____Subframe__Constant.html</anchorfile>
+      <anchor>FLAC____Subframe__Constanto0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5825,25 +4072,29 @@
     <member kind="variable">
       <type>FLAC__EntropyCodingMethod</type>
       <name>entropy_coding_method</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____Subframe__Fixed.html</anchorfile>
+      <anchor>FLAC____Subframe__Fixedo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>order</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____Subframe__Fixed.html</anchorfile>
+      <anchor>FLAC____Subframe__Fixedo1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__int32</type>
       <name>warmup</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____Subframe__Fixed.html</anchorfile>
+      <anchor>FLAC____Subframe__Fixedo2</anchor>
       <arglist>[FLAC__MAX_FIXED_ORDER]</arglist>
     </member>
     <member kind="variable">
       <type>const FLAC__int32 *</type>
       <name>residual</name>
-      <anchor>m3</anchor>
+      <anchorfile>structFLAC____Subframe__Fixed.html</anchorfile>
+      <anchor>FLAC____Subframe__Fixedo3</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5853,43 +4104,50 @@
     <member kind="variable">
       <type>FLAC__EntropyCodingMethod</type>
       <name>entropy_coding_method</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____Subframe__LPC.html</anchorfile>
+      <anchor>FLAC____Subframe__LPCo0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>order</name>
-      <anchor>m1</anchor>
+      <anchorfile>structFLAC____Subframe__LPC.html</anchorfile>
+      <anchor>FLAC____Subframe__LPCo1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>unsigned</type>
       <name>qlp_coeff_precision</name>
-      <anchor>m2</anchor>
+      <anchorfile>structFLAC____Subframe__LPC.html</anchorfile>
+      <anchor>FLAC____Subframe__LPCo2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>int</type>
       <name>quantization_level</name>
-      <anchor>m3</anchor>
+      <anchorfile>structFLAC____Subframe__LPC.html</anchorfile>
+      <anchor>FLAC____Subframe__LPCo3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>FLAC__int32</type>
       <name>qlp_coeff</name>
-      <anchor>m4</anchor>
+      <anchorfile>structFLAC____Subframe__LPC.html</anchorfile>
+      <anchor>FLAC____Subframe__LPCo4</anchor>
       <arglist>[FLAC__MAX_LPC_ORDER]</arglist>
     </member>
     <member kind="variable">
       <type>FLAC__int32</type>
       <name>warmup</name>
-      <anchor>m5</anchor>
+      <anchorfile>structFLAC____Subframe__LPC.html</anchorfile>
+      <anchor>FLAC____Subframe__LPCo5</anchor>
       <arglist>[FLAC__MAX_LPC_ORDER]</arglist>
     </member>
     <member kind="variable">
       <type>const FLAC__int32 *</type>
       <name>residual</name>
-      <anchor>m6</anchor>
+      <anchorfile>structFLAC____Subframe__LPC.html</anchorfile>
+      <anchor>FLAC____Subframe__LPCo6</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5899,79 +4157,40 @@
     <member kind="variable">
       <type>const FLAC__int32 *</type>
       <name>data</name>
-      <anchor>m0</anchor>
+      <anchorfile>structFLAC____Subframe__Verbatim.html</anchorfile>
+      <anchor>FLAC____Subframe__Verbatimo0</anchor>
       <arglist></arglist>
     </member>
   </compound>
-  <compound kind="struct">
-    <name>OggFLAC__FileEncoder</name>
-    <filename>structOggFLAC____FileEncoder.html</filename>
-    <member kind="variable">
-      <type>OggFLAC__FileEncoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC__FileEncoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
-      <arglist></arglist>
-    </member>
+  <compound kind="group">
+    <name>porting</name>
+    <title>Porting Guide for New Versions</title>
+    <filename>group__porting.html</filename>
+    <subgroup>porting_1_1_2_to_1_1_3</subgroup>
+    <subgroup>porting_1_1_3_to_1_1_4</subgroup>
+    <subgroup>porting_1_1_4_to_1_2_0</subgroup>
   </compound>
-  <compound kind="struct">
-    <name>OggFLAC__SeekableStreamEncoder</name>
-    <filename>structOggFLAC____SeekableStreamEncoder.html</filename>
-    <member kind="variable">
-      <type>OggFLAC__SeekableStreamEncoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC__SeekableStreamEncoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
-      <arglist></arglist>
-    </member>
+  <compound kind="group">
+    <name>porting_1_1_2_to_1_1_3</name>
+    <title>Porting from FLAC 1.1.2 to 1.1.3</title>
+    <filename>group__porting__1__1__2__to__1__1__3.html</filename>
   </compound>
-  <compound kind="struct">
-    <name>OggFLAC__StreamDecoder</name>
-    <filename>structOggFLAC____StreamDecoder.html</filename>
-    <member kind="variable">
-      <type>OggFLAC__StreamDecoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC__StreamDecoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
-      <arglist></arglist>
-    </member>
+  <compound kind="group">
+    <name>porting_1_1_3_to_1_1_4</name>
+    <title>Porting from FLAC 1.1.3 to 1.1.4</title>
+    <filename>group__porting__1__1__3__to__1__1__4.html</filename>
   </compound>
-  <compound kind="struct">
-    <name>OggFLAC__StreamEncoder</name>
-    <filename>structOggFLAC____StreamEncoder.html</filename>
-    <member kind="variable">
-      <type>OggFLAC__StreamEncoderProtected *</type>
-      <name>protected_</name>
-      <anchor>m0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC__StreamEncoderPrivate *</type>
-      <name>private_</name>
-      <anchor>m1</anchor>
-      <arglist></arglist>
-    </member>
+  <compound kind="group">
+    <name>porting_1_1_4_to_1_2_0</name>
+    <title>Porting from FLAC 1.1.4 to 1.2.0</title>
+    <filename>group__porting__1__1__4__to__1__2__0.html</filename>
   </compound>
   <compound kind="group">
     <name>flac</name>
     <title>FLAC C API</title>
     <filename>group__flac.html</filename>
     <subgroup>flac_callbacks</subgroup>
+    <subgroup>flac_export</subgroup>
     <subgroup>flac_format</subgroup>
     <subgroup>flac_metadata</subgroup>
     <subgroup>flac_decoder</subgroup>
@@ -5985,679 +4204,91 @@
     <member kind="typedef">
       <type>void *</type>
       <name>FLAC__IOHandle</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>size_t(*</type>
       <name>FLAC__IOCallback_Read</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>)(void *ptr, size_t size, size_t nmemb, FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>size_t(*</type>
       <name>FLAC__IOCallback_Write</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>)(const void *ptr, size_t size, size_t nmemb, FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>int(*</type>
       <name>FLAC__IOCallback_Seek</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist>)(FLAC__IOHandle handle, FLAC__int64 offset, int whence)</arglist>
     </member>
     <member kind="typedef">
       <type>FLAC__int64(*</type>
       <name>FLAC__IOCallback_Tell</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>)(FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>int(*</type>
       <name>FLAC__IOCallback_Eof</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>)(FLAC__IOHandle handle)</arglist>
     </member>
     <member kind="typedef">
       <type>int(*</type>
       <name>FLAC__IOCallback_Close</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__callbacks.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>)(FLAC__IOHandle handle)</arglist>
     </member>
   </compound>
   <compound kind="group">
-    <name>flac_file_decoder</name>
-    <title>FLAC/file_decoder.h: file decoder interface</title>
-    <filename>group__flac__file__decoder.html</filename>
-    <class kind="struct">FLAC__FileDecoder</class>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderWriteStatus(*</type>
-      <name>FLAC__FileDecoderWriteCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const FLAC__FileDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__FileDecoderMetadataCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const FLAC__FileDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__FileDecoderErrorCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const FLAC__FileDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__FileDecoderState</name>
-      <anchor>a36</anchor>
+    <name>flac_export</name>
+    <title>FLAC/export.h: export symbols</title>
+    <filename>group__flac__export.html</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_OK</name>
-      <anchor>a36a4</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API_VERSION_CURRENT</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_END_OF_FILE</name>
-      <anchor>a36a5</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API_VERSION_REVISION</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist></arglist>
     </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_ERROR_OPENING_FILE</name>
-      <anchor>a36a6</anchor>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC_API_VERSION_AGE</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a36a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_SEEK_ERROR</name>
-      <anchor>a36a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_SEEKABLE_STREAM_DECODER_ERROR</name>
-      <anchor>a36a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a36a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_INVALID_CALLBACK</name>
-      <anchor>a36a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_DECODER_UNINITIALIZED</name>
-      <anchor>a36a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileDecoder *</type>
-      <name>FLAC__file_decoder_new</name>
-      <anchor>a4</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_decoder_delete</name>
-      <anchor>a5</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_md5_checking</name>
-      <anchor>a6</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_filename</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_write_callback</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__FileDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_callback</name>
-      <anchor>a9</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__FileDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_error_callback</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__FileDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_client_data</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_respond</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_respond_application</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_respond_all</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_ignore</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_ignore_application</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_set_metadata_ignore_all</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileDecoderState</type>
-      <name>FLAC__file_decoder_get_state</name>
-      <anchor>a18</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamDecoderState</type>
-      <name>FLAC__file_decoder_get_seekable_stream_decoder_state</name>
-      <anchor>a19</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__file_decoder_get_stream_decoder_state</name>
-      <anchor>a20</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__file_decoder_get_resolved_state_string</name>
-      <anchor>a21</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_get_md5_checking</name>
-      <anchor>a22</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_channels</name>
-      <anchor>a23</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__ChannelAssignment</type>
-      <name>FLAC__file_decoder_get_channel_assignment</name>
-      <anchor>a24</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_bits_per_sample</name>
-      <anchor>a25</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_sample_rate</name>
-      <anchor>a26</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_decoder_get_blocksize</name>
-      <anchor>a27</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_get_decode_position</name>
-      <anchor>a28</anchor>
-      <arglist>(const FLAC__FileDecoder *decoder, FLAC__uint64 *position)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileDecoderState</type>
-      <name>FLAC__file_decoder_init</name>
-      <anchor>a29</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_finish</name>
-      <anchor>a30</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_process_single</name>
-      <anchor>a31</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_process_until_end_of_metadata</name>
-      <anchor>a32</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_process_until_end_of_file</name>
-      <anchor>a33</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_skip_single_frame</name>
-      <anchor>a34</anchor>
-      <arglist>(FLAC__FileDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_decoder_seek_absolute</name>
-      <anchor>a35</anchor>
-      <arglist>(FLAC__FileDecoder *decoder, FLAC__uint64 sample)</arglist>
     </member>
     <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__FileDecoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="group">
-    <name>flac_file_encoder</name>
-    <title>FLAC/file_encoder.h: file encoder interface</title>
-    <filename>group__flac__file__encoder.html</filename>
-    <class kind="struct">FLAC__FileEncoder</class>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__FileEncoderProgressCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const FLAC__FileEncoder *encoder, FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__FileEncoderState</name>
-      <anchor>a52</anchor>
+      <type>int</type>
+      <name>FLAC_API_SUPPORTS_OGG_FLAC</name>
+      <anchorfile>group__flac__export.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_OK</name>
-      <anchor>a52a2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_NO_FILENAME</name>
-      <anchor>a52a3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_SEEKABLE_STREAM_ENCODER_ERROR</name>
-      <anchor>a52a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_FATAL_ERROR_WHILE_WRITING</name>
-      <anchor>a52a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_ERROR_OPENING_FILE</name>
-      <anchor>a52a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a52a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a52a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__FILE_ENCODER_UNINITIALIZED</name>
-      <anchor>a52a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileEncoder *</type>
-      <name>FLAC__file_encoder_new</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_encoder_delete</name>
-      <anchor>a3</anchor>
-      <arglist>(FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_verify</name>
-      <anchor>a4</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_streamable_subset</name>
-      <anchor>a5</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_mid_side_stereo</name>
-      <anchor>a6</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_channels</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_bits_per_sample</name>
-      <anchor>a9</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_sample_rate</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_blocksize</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_max_lpc_order</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_qlp_coeff_precision</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_escape_coding</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_min_residual_partition_order</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_max_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a19</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_total_samples_estimate</name>
-      <anchor>a20</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_metadata</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_filename</name>
-      <anchor>a22</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_progress_callback</name>
-      <anchor>a23</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, FLAC__FileEncoderProgressCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_set_client_data</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileEncoderState</type>
-      <name>FLAC__file_encoder_get_state</name>
-      <anchor>a25</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoderState</type>
-      <name>FLAC__file_encoder_get_seekable_stream_encoder_state</name>
-      <anchor>a26</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamEncoderState</type>
-      <name>FLAC__file_encoder_get_stream_encoder_state</name>
-      <anchor>a27</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__file_encoder_get_verify_decoder_state</name>
-      <anchor>a28</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__file_encoder_get_resolved_state_string</name>
-      <anchor>a29</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a30</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_verify</name>
-      <anchor>a31</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_streamable_subset</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_mid_side_stereo</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a34</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_channels</name>
-      <anchor>a35</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_bits_per_sample</name>
-      <anchor>a36</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_sample_rate</name>
-      <anchor>a37</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_blocksize</name>
-      <anchor>a38</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_max_lpc_order</name>
-      <anchor>a39</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_qlp_coeff_precision</name>
-      <anchor>a40</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a41</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_escape_coding</name>
-      <anchor>a42</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a43</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_min_residual_partition_order</name>
-      <anchor>a44</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_max_residual_partition_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__file_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a46</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>FLAC__file_encoder_get_total_samples_estimate</name>
-      <anchor>a47</anchor>
-      <arglist>(const FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__FileEncoderState</type>
-      <name>FLAC__file_encoder_init</name>
-      <anchor>a48</anchor>
-      <arglist>(FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__file_encoder_finish</name>
-      <anchor>a49</anchor>
-      <arglist>(FLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_process</name>
-      <anchor>a50</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__file_encoder_process_interleaved</name>
-      <anchor>a51</anchor>
-      <arglist>(FLAC__FileEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__FileEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -6685,679 +4316,1005 @@
     <class kind="struct">FLAC__StreamMetadata_CueSheet_Index</class>
     <class kind="struct">FLAC__StreamMetadata_CueSheet_Track</class>
     <class kind="struct">FLAC__StreamMetadata_CueSheet</class>
+    <class kind="struct">FLAC__StreamMetadata_Picture</class>
     <class kind="struct">FLAC__StreamMetadata_Unknown</class>
     <class kind="struct">FLAC__StreamMetadata</class>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_METADATA_TYPE_CODE</name>
-      <anchor>a75</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga89</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MIN_BLOCK_SIZE</name>
-      <anchor>a76</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga90</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_BLOCK_SIZE</name>
-      <anchor>a77</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga91</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__SUBSET_MAX_BLOCK_SIZE_48000HZ</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga92</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_CHANNELS</name>
-      <anchor>a78</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga93</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MIN_BITS_PER_SAMPLE</name>
-      <anchor>a79</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga94</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_BITS_PER_SAMPLE</name>
-      <anchor>a80</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga95</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__REFERENCE_CODEC_MAX_BITS_PER_SAMPLE</name>
-      <anchor>a81</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga96</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_SAMPLE_RATE</name>
-      <anchor>a82</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga97</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_LPC_ORDER</name>
-      <anchor>a83</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga98</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLAC__SUBSET_MAX_LPC_ORDER_48000HZ</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga99</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MIN_QLP_COEFF_PRECISION</name>
-      <anchor>a84</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga100</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_QLP_COEFF_PRECISION</name>
-      <anchor>a85</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga101</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_FIXED_ORDER</name>
-      <anchor>a86</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga102</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__MAX_RICE_PARTITION_ORDER</name>
-      <anchor>a87</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga103</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__SUBSET_MAX_RICE_PARTITION_ORDER</name>
-      <anchor>a88</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga104</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_SYNC_LENGTH</name>
-      <anchor>a89</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga105</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_LENGTH</name>
-      <anchor>a90</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga106</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_LENGTH</name>
-      <anchor>a91</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga107</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>FLAC__STREAM_METADATA_HEADER_LENGTH</name>
-      <anchor>a92</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga108</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__EntropyCodingMethodType</name>
-      <anchor>a93</anchor>
+      <anchor>ga109</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE</name>
-      <anchor>a93a86</anchor>
+      <anchor>gga109a100</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE2</name>
+      <anchor>gga109a101</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__SubframeType</name>
-      <anchor>a94</anchor>
+      <anchor>ga110</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_CONSTANT</name>
-      <anchor>a94a87</anchor>
+      <anchor>gga110a102</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_VERBATIM</name>
-      <anchor>a94a88</anchor>
+      <anchor>gga110a103</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_FIXED</name>
-      <anchor>a94a89</anchor>
+      <anchor>gga110a104</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__SUBFRAME_TYPE_LPC</name>
-      <anchor>a94a90</anchor>
+      <anchor>gga110a105</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__ChannelAssignment</name>
-      <anchor>a95</anchor>
+      <anchor>ga111</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT</name>
-      <anchor>a95a91</anchor>
+      <anchor>gga111a106</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE</name>
-      <anchor>a95a92</anchor>
+      <anchor>gga111a107</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_RIGHT_SIDE</name>
-      <anchor>a95a93</anchor>
+      <anchor>gga111a108</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__CHANNEL_ASSIGNMENT_MID_SIDE</name>
-      <anchor>a95a94</anchor>
+      <anchor>gga111a109</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__FrameNumberType</name>
-      <anchor>a96</anchor>
+      <anchor>ga112</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__FRAME_NUMBER_TYPE_FRAME_NUMBER</name>
-      <anchor>a96a95</anchor>
+      <anchor>gga112a110</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__FRAME_NUMBER_TYPE_SAMPLE_NUMBER</name>
-      <anchor>a96a96</anchor>
+      <anchor>gga112a111</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__MetadataType</name>
-      <anchor>a97</anchor>
+      <anchor>ga113</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_STREAMINFO</name>
-      <anchor>a97a97</anchor>
+      <anchor>gga113a112</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_PADDING</name>
-      <anchor>a97a98</anchor>
+      <anchor>gga113a113</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_APPLICATION</name>
-      <anchor>a97a99</anchor>
+      <anchor>gga113a114</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_SEEKTABLE</name>
-      <anchor>a97a100</anchor>
+      <anchor>gga113a115</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_VORBIS_COMMENT</name>
-      <anchor>a97a101</anchor>
+      <anchor>gga113a116</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_CUESHEET</name>
-      <anchor>a97a102</anchor>
+      <anchor>gga113a117</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__METADATA_TYPE_PICTURE</name>
+      <anchor>gga113a118</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_TYPE_UNDEFINED</name>
-      <anchor>a97a103</anchor>
+      <anchor>gga113a119</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamMetadata_Picture_Type</name>
+      <anchor>ga114</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_OTHER</name>
+      <anchor>gga114a120</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FILE_ICON_STANDARD</name>
+      <anchor>gga114a121</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FILE_ICON</name>
+      <anchor>gga114a122</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FRONT_COVER</name>
+      <anchor>gga114a123</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_BACK_COVER</name>
+      <anchor>gga114a124</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LEAFLET_PAGE</name>
+      <anchor>gga114a125</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_MEDIA</name>
+      <anchor>gga114a126</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LEAD_ARTIST</name>
+      <anchor>gga114a127</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_ARTIST</name>
+      <anchor>gga114a128</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_CONDUCTOR</name>
+      <anchor>gga114a129</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_BAND</name>
+      <anchor>gga114a130</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_COMPOSER</name>
+      <anchor>gga114a131</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LYRICIST</name>
+      <anchor>gga114a132</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_RECORDING_LOCATION</name>
+      <anchor>gga114a133</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_DURING_RECORDING</name>
+      <anchor>gga114a134</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_DURING_PERFORMANCE</name>
+      <anchor>gga114a135</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_VIDEO_SCREEN_CAPTURE</name>
+      <anchor>gga114a136</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_FISH</name>
+      <anchor>gga114a137</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_ILLUSTRATION</name>
+      <anchor>gga114a138</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_BAND_LOGOTYPE</name>
+      <anchor>gga114a139</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_PUBLISHER_LOGOTYPE</name>
+      <anchor>gga114a140</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_sample_rate_is_valid</name>
-      <anchor>a68</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga80</anchor>
+      <arglist>(unsigned sample_rate)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_sample_rate_is_subset</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga81</anchor>
       <arglist>(unsigned sample_rate)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_vorbiscomment_entry_name_is_legal</name>
-      <anchor>a69</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga82</anchor>
       <arglist>(const char *name)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_vorbiscomment_entry_value_is_legal</name>
-      <anchor>a70</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga83</anchor>
       <arglist>(const FLAC__byte *value, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_vorbiscomment_entry_is_legal</name>
-      <anchor>a71</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga84</anchor>
       <arglist>(const FLAC__byte *entry, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_seektable_is_legal</name>
-      <anchor>a72</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga85</anchor>
       <arglist>(const FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__format_seektable_sort</name>
-      <anchor>a73</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga86</anchor>
       <arglist>(FLAC__StreamMetadata_SeekTable *seek_table)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__format_cuesheet_is_legal</name>
-      <anchor>a74</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga87</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet *cue_sheet, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__format_picture_is_legal</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga88</anchor>
+      <arglist>(const FLAC__StreamMetadata_Picture *picture, const char **violation)</arglist>
     </member>
     <member kind="variable">
       <type>const char *</type>
       <name>FLAC__VERSION_STRING</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *</type>
       <name>FLAC__VENDOR_STRING</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const FLAC__byte</type>
       <name>FLAC__STREAM_SYNC_STRING</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>[4]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_SYNC</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_SYNC_LEN</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__EntropyCodingMethodTypeString</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_ORDER_LEN</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_PARAMETER_LEN</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE2_PARAMETER_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_RAW_LEN</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE_ESCAPE_PARAMETER</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga10</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__ENTROPY_CODING_METHOD_PARTITIONED_RICE2_ESCAPE_PARAMETER</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__ENTROPY_CODING_METHOD_TYPE_LEN</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga12</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__SubframeTypeString</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_LPC_QLP_COEFF_PRECISION_LEN</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_LPC_QLP_SHIFT_LEN</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_ZERO_PAD_LEN</name>
-      <anchor>a14</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_LEN</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_WASTED_BITS_FLAG_LEN</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_CONSTANT_BYTE_ALIGNED_MASK</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga19</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_VERBATIM_BYTE_ALIGNED_MASK</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_FIXED_BYTE_ALIGNED_MASK</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__SUBFRAME_TYPE_LPC_BYTE_ALIGNED_MASK</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__ChannelAssignmentString</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__FrameNumberTypeString</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_SYNC</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_SYNC_LEN</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_RESERVED_LEN</name>
-      <anchor>a25</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__FRAME_HEADER_BLOCKING_STRATEGY_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga28</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_BLOCK_SIZE_LEN</name>
-      <anchor>a26</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga29</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_SAMPLE_RATE_LEN</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_CHANNEL_ASSIGNMENT_LEN</name>
-      <anchor>a28</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_BITS_PER_SAMPLE_LEN</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_ZERO_PAD_LEN</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_HEADER_CRC_LEN</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__FRAME_FOOTER_CRC_LEN</name>
-      <anchor>a32</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga35</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__MetadataTypeString</name>
-      <anchor>a33</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga36</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MIN_BLOCK_SIZE_LEN</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga37</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MAX_BLOCK_SIZE_LEN</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga38</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MIN_FRAME_SIZE_LEN</name>
-      <anchor>a36</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga39</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MAX_FRAME_SIZE_LEN</name>
-      <anchor>a37</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga40</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_SAMPLE_RATE_LEN</name>
-      <anchor>a38</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga41</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_CHANNELS_LEN</name>
-      <anchor>a39</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga42</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_BITS_PER_SAMPLE_LEN</name>
-      <anchor>a40</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga43</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_TOTAL_SAMPLES_LEN</name>
-      <anchor>a41</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga44</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_STREAMINFO_MD5SUM_LEN</name>
-      <anchor>a42</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga45</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_APPLICATION_ID_LEN</name>
-      <anchor>a43</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga46</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_SAMPLE_NUMBER_LEN</name>
-      <anchor>a44</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga47</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_STREAM_OFFSET_LEN</name>
-      <anchor>a45</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga48</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_FRAME_SAMPLES_LEN</name>
-      <anchor>a46</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga49</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const FLAC__uint64</type>
       <name>FLAC__STREAM_METADATA_SEEKPOINT_PLACEHOLDER</name>
-      <anchor>a47</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga50</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_VORBIS_COMMENT_ENTRY_LENGTH_LEN</name>
-      <anchor>a48</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga51</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_VORBIS_COMMENT_NUM_COMMENTS_LEN</name>
-      <anchor>a49</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga52</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_INDEX_OFFSET_LEN</name>
-      <anchor>a50</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga53</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_INDEX_NUMBER_LEN</name>
-      <anchor>a51</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga54</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_INDEX_RESERVED_LEN</name>
-      <anchor>a52</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga55</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_OFFSET_LEN</name>
-      <anchor>a53</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga56</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_NUMBER_LEN</name>
-      <anchor>a54</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga57</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_ISRC_LEN</name>
-      <anchor>a55</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga58</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_TYPE_LEN</name>
-      <anchor>a56</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga59</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_PRE_EMPHASIS_LEN</name>
-      <anchor>a57</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga60</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_RESERVED_LEN</name>
-      <anchor>a58</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga61</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_TRACK_NUM_INDICES_LEN</name>
-      <anchor>a59</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga62</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_MEDIA_CATALOG_NUMBER_LEN</name>
-      <anchor>a60</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga63</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_LEAD_IN_LEN</name>
-      <anchor>a61</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga64</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_IS_CD_LEN</name>
-      <anchor>a62</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga65</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_RESERVED_LEN</name>
-      <anchor>a63</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga66</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_CUESHEET_NUM_TRACKS_LEN</name>
-      <anchor>a64</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga67</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamMetadata_Picture_TypeString</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga68</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_TYPE_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga69</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_MIME_TYPE_LENGTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga70</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_DESCRIPTION_LENGTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga71</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_WIDTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga72</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_HEIGHT_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga73</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_DEPTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga74</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_COLORS_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga75</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned</type>
+      <name>FLAC__STREAM_METADATA_PICTURE_DATA_LENGTH_LEN</name>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga76</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_IS_LAST_LEN</name>
-      <anchor>a65</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga77</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_TYPE_LEN</name>
-      <anchor>a66</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga78</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>const unsigned</type>
       <name>FLAC__STREAM_METADATA_LENGTH_LEN</name>
-      <anchor>a67</anchor>
+      <anchorfile>group__flac__format.html</anchorfile>
+      <anchor>ga79</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -7377,14 +5334,30 @@
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_get_streaminfo</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist>(const char *filename, FLAC__StreamMetadata *streaminfo)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_get_tags</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>(const char *filename, FLAC__StreamMetadata **tags)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_get_cuesheet</name>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>(const char *filename, FLAC__StreamMetadata **cuesheet)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_get_picture</name>
+      <anchorfile>group__flac__metadata__level0.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(const char *filename, FLAC__StreamMetadata **picture, FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors)</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -7394,155 +5367,197 @@
     <member kind="typedef">
       <type>FLAC__Metadata_SimpleIterator</type>
       <name>FLAC__Metadata_SimpleIterator</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__Metadata_SimpleIteratorStatus</name>
-      <anchor>a14</anchor>
+      <anchor>ga18</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_OK</name>
-      <anchor>a14a5</anchor>
+      <anchor>gga18a5</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_ILLEGAL_INPUT</name>
-      <anchor>a14a6</anchor>
+      <anchor>gga18a6</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_ERROR_OPENING_FILE</name>
-      <anchor>a14a7</anchor>
+      <anchor>gga18a7</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_NOT_A_FLAC_FILE</name>
-      <anchor>a14a8</anchor>
+      <anchor>gga18a8</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_NOT_WRITABLE</name>
-      <anchor>a14a9</anchor>
+      <anchor>gga18a9</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_BAD_METADATA</name>
-      <anchor>a14a10</anchor>
+      <anchor>gga18a10</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_READ_ERROR</name>
-      <anchor>a14a11</anchor>
+      <anchor>gga18a11</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_SEEK_ERROR</name>
-      <anchor>a14a12</anchor>
+      <anchor>gga18a12</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_WRITE_ERROR</name>
-      <anchor>a14a13</anchor>
+      <anchor>gga18a13</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_RENAME_ERROR</name>
-      <anchor>a14a14</anchor>
+      <anchor>gga18a14</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_UNLINK_ERROR</name>
-      <anchor>a14a15</anchor>
+      <anchor>gga18a15</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a14a16</anchor>
+      <anchor>gga18a16</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_SIMPLE_ITERATOR_STATUS_INTERNAL_ERROR</name>
-      <anchor>a14a17</anchor>
+      <anchor>gga18a17</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_SimpleIterator *</type>
       <name>FLAC__metadata_simple_iterator_new</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_simple_iterator_delete</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_SimpleIteratorStatus</type>
       <name>FLAC__metadata_simple_iterator_status</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_init</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, const char *filename, FLAC__bool read_only, FLAC__bool preserve_file_stats)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_is_writable</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_next</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_prev</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga8</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_simple_iterator_is_last</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga9</anchor>
+      <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>off_t</type>
+      <name>FLAC__metadata_simple_iterator_get_block_offset</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga10</anchor>
+      <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__MetadataType</type>
       <name>FLAC__metadata_simple_iterator_get_block_type</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>FLAC__metadata_simple_iterator_get_block_length</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga12</anchor>
+      <arglist>(const FLAC__Metadata_SimpleIterator *iterator)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_simple_iterator_get_application_id</name>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga13</anchor>
+      <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__byte *id)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_simple_iterator_get_block</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_set_block</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__StreamMetadata *block, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_insert_block_after</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__StreamMetadata *block, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_simple_iterator_delete_block</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__Metadata_SimpleIterator *iterator, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__Metadata_SimpleIteratorStatusString</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__level1.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>[]</arglist>
     </member>
   </compound>
@@ -7553,236 +5568,275 @@
     <member kind="typedef">
       <type>FLAC__Metadata_Chain</type>
       <name>FLAC__Metadata_Chain</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>FLAC__Metadata_Iterator</type>
       <name>FLAC__Metadata_Iterator</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__Metadata_ChainStatus</name>
-      <anchor>a25</anchor>
+      <anchor>ga27</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_OK</name>
-      <anchor>a25a18</anchor>
+      <anchor>gga27a18</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_ILLEGAL_INPUT</name>
-      <anchor>a25a19</anchor>
+      <anchor>gga27a19</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_ERROR_OPENING_FILE</name>
-      <anchor>a25a20</anchor>
+      <anchor>gga27a20</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_NOT_A_FLAC_FILE</name>
-      <anchor>a25a21</anchor>
+      <anchor>gga27a21</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_NOT_WRITABLE</name>
-      <anchor>a25a22</anchor>
+      <anchor>gga27a22</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_BAD_METADATA</name>
-      <anchor>a25a23</anchor>
+      <anchor>gga27a23</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_READ_ERROR</name>
-      <anchor>a25a24</anchor>
+      <anchor>gga27a24</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_SEEK_ERROR</name>
-      <anchor>a25a25</anchor>
+      <anchor>gga27a25</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_WRITE_ERROR</name>
-      <anchor>a25a26</anchor>
+      <anchor>gga27a26</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_RENAME_ERROR</name>
-      <anchor>a25a27</anchor>
+      <anchor>gga27a27</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_UNLINK_ERROR</name>
-      <anchor>a25a28</anchor>
+      <anchor>gga27a28</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a25a29</anchor>
+      <anchor>gga27a29</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_INTERNAL_ERROR</name>
-      <anchor>a25a30</anchor>
+      <anchor>gga27a30</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_INVALID_CALLBACKS</name>
-      <anchor>a25a31</anchor>
+      <anchor>gga27a31</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_READ_WRITE_MISMATCH</name>
-      <anchor>a25a32</anchor>
+      <anchor>gga27a32</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__METADATA_CHAIN_STATUS_WRONG_WRITE_CALL</name>
-      <anchor>a25a33</anchor>
+      <anchor>gga27a33</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_Chain *</type>
       <name>FLAC__metadata_chain_new</name>
-      <anchor>a3</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_chain_delete</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_ChainStatus</type>
       <name>FLAC__metadata_chain_status</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_read</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>(FLAC__Metadata_Chain *chain, const char *filename)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_chain_read_ogg</name>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, const char *filename)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_read_with_callbacks</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>(FLAC__Metadata_Chain *chain, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__metadata_chain_read_ogg_with_callbacks</name>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga9</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_check_if_tempfile_needed</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga10</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_write</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__bool preserve_file_stats)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_write_with_callbacks</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga12</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_chain_write_with_callbacks_and_tempfile</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>(FLAC__Metadata_Chain *chain, FLAC__bool use_padding, FLAC__IOHandle handle, FLAC__IOCallbacks callbacks, FLAC__IOHandle temp_handle, FLAC__IOCallbacks temp_callbacks)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_chain_merge_padding</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_chain_sort_padding</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__Metadata_Iterator *</type>
       <name>FLAC__metadata_iterator_new</name>
-      <anchor>a14</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga16</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_iterator_delete</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_iterator_init</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__Metadata_Chain *chain)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_next</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga19</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_prev</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__MetadataType</type>
       <name>FLAC__metadata_iterator_get_block_type</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(const FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_iterator_get_block</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_set_block</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__StreamMetadata *block)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_delete_block</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__bool replace_with_padding)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_insert_block_before</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__StreamMetadata *block)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_iterator_insert_block_after</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(FLAC__Metadata_Iterator *iterator, FLAC__StreamMetadata *block)</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__Metadata_ChainStatusString</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__metadata__level2.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>[]</arglist>
     </member>
   </compound>
@@ -7793,1103 +5847,330 @@
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_object_new</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist>(FLAC__MetadataType type)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata *</type>
       <name>FLAC__metadata_object_clone</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>(const FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_delete</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>(FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_is_equal</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga3</anchor>
       <arglist>(const FLAC__StreamMetadata *block1, const FLAC__StreamMetadata *block2)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_application_set_data</name>
-      <anchor>a4</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__byte *data, unsigned length, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_resize_points</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_points)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_seektable_set_point</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned point_num, FLAC__StreamMetadata_SeekPoint point)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_insert_point</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned point_num, FLAC__StreamMetadata_SeekPoint point)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_delete_point</name>
-      <anchor>a8</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned point_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_is_legal</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga9</anchor>
       <arglist>(const FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_placeholders</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga10</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_point</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga11</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__uint64 sample_number)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_points</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga12</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__uint64 sample_numbers[], unsigned num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_append_spaced_points</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned num, FLAC__uint64 total_samples)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__metadata_object_seektable_template_append_spaced_points_by_samples</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga14</anchor>
+      <arglist>(FLAC__StreamMetadata *object, unsigned samples, FLAC__uint64 total_samples)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__metadata_object_seektable_template_sort</name>
-      <anchor>a14</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__bool compact)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_set_vendor_string</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_resize_comments</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_comments)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_set_comment</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_insert_comment</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga19</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_append_comment</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_replace_comment</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(FLAC__StreamMetadata *object, FLAC__StreamMetadata_VorbisComment_Entry entry, FLAC__bool all, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_delete_comment</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned comment_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>(FLAC__StreamMetadata_VorbisComment_Entry *entry, const char *field_name, const char *field_value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_to_name_value_pair</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, char **field_name, char **field_value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_vorbiscomment_entry_matches</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(const FLAC__StreamMetadata_VorbisComment_Entry entry, const char *field_name, unsigned field_name_length)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_find_entry_from</name>
-      <anchor>a25</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(const FLAC__StreamMetadata *object, unsigned offset, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entry_matching</name>
-      <anchor>a26</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga27</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>FLAC__metadata_object_vorbiscomment_remove_entries_matching</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga28</anchor>
       <arglist>(FLAC__StreamMetadata *object, const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_new</name>
-      <anchor>a28</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga29</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>FLAC__metadata_object_cuesheet_track_clone</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist>(const FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__metadata_object_cuesheet_track_delete</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist>(FLAC__StreamMetadata_CueSheet_Track *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_resize_indices</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned new_num_indices)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_index</name>
-      <anchor>a32</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num, FLAC__StreamMetadata_CueSheet_Index index)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_insert_blank_index</name>
-      <anchor>a33</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_track_delete_index</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga35</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_resize_tracks</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga36</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned new_num_tracks)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_track</name>
-      <anchor>a36</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga37</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num, FLAC__StreamMetadata_CueSheet_Track *track, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_insert_blank_track</name>
-      <anchor>a37</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga38</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_delete_track</name>
-      <anchor>a38</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga39</anchor>
       <arglist>(FLAC__StreamMetadata *object, unsigned track_num)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__metadata_object_cuesheet_is_legal</name>
-      <anchor>a39</anchor>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga40</anchor>
       <arglist>(const FLAC__StreamMetadata *object, FLAC__bool check_cd_da_subset, const char **violation)</arglist>
     </member>
-  </compound>
-  <compound kind="group">
-    <name>flac_seekable_stream_decoder</name>
-    <title>FLAC/seekable_stream_decoder.h: seekable stream decoder interface</title>
-    <filename>group__flac__seekable__stream__decoder.html</filename>
-    <class kind="struct">FLAC__SeekableStreamDecoder</class>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderReadStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderReadCallback</name>
-      <anchor>a5</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderSeekStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderSeekCallback</name>
-      <anchor>a6</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderTellStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderTellCallback</name>
-      <anchor>a7</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamDecoderLengthStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderLengthCallback</name>
-      <anchor>a8</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__bool(*</type>
-      <name>FLAC__SeekableStreamDecoderEofCallback</name>
-      <anchor>a9</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderWriteStatus(*</type>
-      <name>FLAC__SeekableStreamDecoderWriteCallback</name>
-      <anchor>a10</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__SeekableStreamDecoderMetadataCallback</name>
-      <anchor>a11</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>FLAC__SeekableStreamDecoderErrorCallback</name>
-      <anchor>a12</anchor>
-      <arglist>)(const FLAC__SeekableStreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderState</name>
-      <anchor>a50</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_OK</name>
-      <anchor>a50a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEKING</name>
-      <anchor>a50a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM</name>
-      <anchor>a50a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a50a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_STREAM_DECODER_ERROR</name>
-      <anchor>a50a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_READ_ERROR</name>
-      <anchor>a50a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEK_ERROR</name>
-      <anchor>a50a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a50a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_INVALID_CALLBACK</name>
-      <anchor>a50a21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_UNINITIALIZED</name>
-      <anchor>a50a22</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderReadStatus</name>
-      <anchor>a51</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK</name>
-      <anchor>a51a23</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_ERROR</name>
-      <anchor>a51a24</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderSeekStatus</name>
-      <anchor>a52</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_OK</name>
-      <anchor>a52a25</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_ERROR</name>
-      <anchor>a52a26</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderTellStatus</name>
-      <anchor>a53</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_OK</name>
-      <anchor>a53a27</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_ERROR</name>
-      <anchor>a53a28</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamDecoderLengthStatus</name>
-      <anchor>a54</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_OK</name>
-      <anchor>a54a29</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_ERROR</name>
-      <anchor>a54a30</anchor>
-      <arglist></arglist>
-    </member>
     <member kind="function">
-      <type>FLAC__SeekableStreamDecoder *</type>
-      <name>FLAC__seekable_stream_decoder_new</name>
-      <anchor>a13</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_decoder_delete</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
+      <type>FLAC__uint32</type>
+      <name>FLAC__metadata_object_cuesheet_calculate_cddb_id</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga41</anchor>
+      <arglist>(const FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_md5_checking</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__bool value)</arglist>
+      <name>FLAC__metadata_object_picture_set_mime_type</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga42</anchor>
+      <arglist>(FLAC__StreamMetadata *object, char *mime_type, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_read_callback</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderReadCallback value)</arglist>
+      <name>FLAC__metadata_object_picture_set_description</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga43</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__byte *description, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_seek_callback</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderSeekCallback value)</arglist>
+      <name>FLAC__metadata_object_picture_set_data</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga44</anchor>
+      <arglist>(FLAC__StreamMetadata *object, FLAC__byte *data, FLAC__uint32 length, FLAC__bool copy)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_tell_callback</name>
-      <anchor>a18</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderTellCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_length_callback</name>
-      <anchor>a19</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderLengthCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_eof_callback</name>
-      <anchor>a20</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderEofCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_write_callback</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_callback</name>
-      <anchor>a22</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_error_callback</name>
-      <anchor>a23</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__SeekableStreamDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_client_data</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_respond</name>
-      <anchor>a25</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_respond_application</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_respond_all</name>
-      <anchor>a27</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_ignore</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_ignore_application</name>
-      <anchor>a29</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_set_metadata_ignore_all</name>
-      <anchor>a30</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamDecoderState</type>
-      <name>FLAC__seekable_stream_decoder_get_state</name>
-      <anchor>a31</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__seekable_stream_decoder_get_stream_decoder_state</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__seekable_stream_decoder_get_resolved_state_string</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_get_md5_checking</name>
-      <anchor>a34</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_channels</name>
-      <anchor>a35</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__ChannelAssignment</type>
-      <name>FLAC__seekable_stream_decoder_get_channel_assignment</name>
-      <anchor>a36</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_bits_per_sample</name>
-      <anchor>a37</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_sample_rate</name>
-      <anchor>a38</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_decoder_get_blocksize</name>
-      <anchor>a39</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_get_decode_position</name>
-      <anchor>a40</anchor>
-      <arglist>(const FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 *position)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamDecoderState</type>
-      <name>FLAC__seekable_stream_decoder_init</name>
-      <anchor>a41</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_finish</name>
-      <anchor>a42</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_flush</name>
-      <anchor>a43</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_reset</name>
-      <anchor>a44</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_process_single</name>
-      <anchor>a45</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_process_until_end_of_metadata</name>
-      <anchor>a46</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_process_until_end_of_stream</name>
-      <anchor>a47</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_skip_single_frame</name>
-      <anchor>a48</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_decoder_seek_absolute</name>
-      <anchor>a49</anchor>
-      <arglist>(FLAC__SeekableStreamDecoder *decoder, FLAC__uint64 sample)</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderReadStatusString</name>
-      <anchor>a1</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderSeekStatusString</name>
-      <anchor>a2</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderTellStatusString</name>
-      <anchor>a3</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamDecoderLengthStatusString</name>
-      <anchor>a4</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="group">
-    <name>flac_seekable_stream_encoder</name>
-    <title>FLAC/seekable_stream_encoder.h: seekable stream encoder interface</title>
-    <filename>group__flac__seekable__stream__encoder.html</filename>
-    <class kind="struct">FLAC__SeekableStreamEncoder</class>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderSeekStatus(*</type>
-      <name>FLAC__SeekableStreamEncoderSeekCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderTellStatus(*</type>
-      <name>FLAC__SeekableStreamEncoderTellCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamEncoderWriteStatus(*</type>
-      <name>FLAC__SeekableStreamEncoderWriteCallback</name>
-      <anchor>a5</anchor>
-      <arglist>)(const FLAC__SeekableStreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamEncoderState</name>
-      <anchor>a56</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_OK</name>
-      <anchor>a56a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_STREAM_ENCODER_ERROR</name>
-      <anchor>a56a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a56a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_WRITE_ERROR</name>
-      <anchor>a56a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_READ_ERROR</name>
-      <anchor>a56a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_SEEK_ERROR</name>
-      <anchor>a56a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_TELL_ERROR</name>
-      <anchor>a56a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a56a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a56a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_INVALID_SEEKTABLE</name>
-      <anchor>a56a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a56a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamEncoderSeekStatus</name>
-      <anchor>a57</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_SEEK_STATUS_OK</name>
-      <anchor>a57a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_SEEK_STATUS_ERROR</name>
-      <anchor>a57a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>FLAC__SeekableStreamEncoderTellStatus</name>
-      <anchor>a58</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_OK</name>
-      <anchor>a58a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__SEEKABLE_STREAM_ENCODER_TELL_STATUS_ERROR</name>
-      <anchor>a58a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoder *</type>
-      <name>FLAC__seekable_stream_encoder_new</name>
-      <anchor>a6</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_encoder_delete</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_verify</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_streamable_subset</name>
-      <anchor>a9</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_channels</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_bits_per_sample</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_sample_rate</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_blocksize</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_max_lpc_order</name>
-      <anchor>a16</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a17</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a18</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_escape_coding</name>
-      <anchor>a19</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a20</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a22</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a23</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_total_samples_estimate</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_metadata</name>
-      <anchor>a25</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_seek_callback</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__SeekableStreamEncoderSeekCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_tell_callback</name>
-      <anchor>a27</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__SeekableStreamEncoderTellCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_write_callback</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, FLAC__SeekableStreamEncoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_set_client_data</name>
-      <anchor>a29</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoderState</type>
-      <name>FLAC__seekable_stream_encoder_get_state</name>
-      <anchor>a30</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamEncoderState</type>
-      <name>FLAC__seekable_stream_encoder_get_stream_encoder_state</name>
-      <anchor>a31</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__seekable_stream_encoder_get_verify_decoder_state</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>FLAC__seekable_stream_encoder_get_resolved_state_string</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a34</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_verify</name>
-      <anchor>a35</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_streamable_subset</name>
-      <anchor>a36</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a37</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a38</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_channels</name>
-      <anchor>a39</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_bits_per_sample</name>
-      <anchor>a40</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_sample_rate</name>
-      <anchor>a41</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_blocksize</name>
-      <anchor>a42</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_max_lpc_order</name>
-      <anchor>a43</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a44</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a45</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_escape_coding</name>
-      <anchor>a46</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a47</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a48</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a49</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>FLAC__seekable_stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a50</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>FLAC__seekable_stream_encoder_get_total_samples_estimate</name>
-      <anchor>a51</anchor>
-      <arglist>(const FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__SeekableStreamEncoderState</type>
-      <name>FLAC__seekable_stream_encoder_init</name>
-      <anchor>a52</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>FLAC__seekable_stream_encoder_finish</name>
-      <anchor>a53</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_process</name>
-      <anchor>a54</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__seekable_stream_encoder_process_interleaved</name>
-      <anchor>a55</anchor>
-      <arglist>(FLAC__SeekableStreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamEncoderSeekStatusString</name>
-      <anchor>a1</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *const</type>
-      <name>FLAC__SeekableStreamEncoderTellStatusString</name>
-      <anchor>a2</anchor>
-      <arglist>[]</arglist>
+      <name>FLAC__metadata_object_picture_is_legal</name>
+      <anchorfile>group__flac__metadata__object.html</anchorfile>
+      <anchor>ga45</anchor>
+      <arglist>(const FLAC__StreamMetadata *object, const char **violation)</arglist>
     </member>
   </compound>
   <compound kind="group">
     <name>flac_decoder</name>
     <title>FLAC/_decoder.h: decoder interfaces</title>
     <filename>group__flac__decoder.html</filename>
-    <subgroup>flac_file_decoder</subgroup>
-    <subgroup>flac_seekable_stream_decoder</subgroup>
     <subgroup>flac_stream_decoder</subgroup>
   </compound>
   <compound kind="group">
@@ -8900,332 +6181,561 @@
     <member kind="typedef">
       <type>FLAC__StreamDecoderReadStatus(*</type>
       <name>FLAC__StreamDecoderReadCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamDecoderSeekStatus(*</type>
+      <name>FLAC__StreamDecoderSeekCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga9</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamDecoderTellStatus(*</type>
+      <name>FLAC__StreamDecoderTellCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga10</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamDecoderLengthStatus(*</type>
+      <name>FLAC__StreamDecoderLengthCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga11</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__bool(*</type>
+      <name>FLAC__StreamDecoderEofCallback</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga12</anchor>
+      <arglist>)(const FLAC__StreamDecoder *decoder, void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>FLAC__StreamDecoderWriteStatus(*</type>
       <name>FLAC__StreamDecoderWriteCallback</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>)(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>void(*</type>
       <name>FLAC__StreamDecoderMetadataCallback</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga14</anchor>
       <arglist>)(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>void(*</type>
       <name>FLAC__StreamDecoderErrorCallback</name>
-      <anchor>a7</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>)(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderState</name>
-      <anchor>a36</anchor>
+      <anchor>ga50</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_SEARCH_FOR_METADATA</name>
-      <anchor>a36a8</anchor>
+      <anchor>gga50a16</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_METADATA</name>
-      <anchor>a36a9</anchor>
+      <anchor>gga50a17</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_SEARCH_FOR_FRAME_SYNC</name>
-      <anchor>a36a10</anchor>
+      <anchor>gga50a18</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_FRAME</name>
-      <anchor>a36a11</anchor>
+      <anchor>gga50a19</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_END_OF_STREAM</name>
-      <anchor>a36a12</anchor>
+      <anchor>gga50a20</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_OGG_ERROR</name>
+      <anchor>gga50a21</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_ERROR</name>
+      <anchor>gga50a22</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ABORTED</name>
-      <anchor>a36a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_DECODER_UNPARSEABLE_STREAM</name>
-      <anchor>a36a14</anchor>
+      <anchor>gga50a23</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a36a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a36a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_DECODER_INVALID_CALLBACK</name>
-      <anchor>a36a17</anchor>
+      <anchor>gga50a24</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_UNINITIALIZED</name>
-      <anchor>a36a18</anchor>
+      <anchor>gga50a25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderInitStatus</name>
+      <anchor>ga51</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_OK</name>
+      <anchor>gga51a26</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_UNSUPPORTED_CONTAINER</name>
+      <anchor>gga51a27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_INVALID_CALLBACKS</name>
+      <anchor>gga51a28</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_MEMORY_ALLOCATION_ERROR</name>
+      <anchor>gga51a29</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_ERROR_OPENING_FILE</name>
+      <anchor>gga51a30</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_INIT_STATUS_ALREADY_INITIALIZED</name>
+      <anchor>gga51a31</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderReadStatus</name>
-      <anchor>a37</anchor>
+      <anchor>ga52</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_STATUS_CONTINUE</name>
-      <anchor>a37a19</anchor>
+      <anchor>gga52a32</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM</name>
-      <anchor>a37a20</anchor>
+      <anchor>gga52a33</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_READ_STATUS_ABORT</name>
-      <anchor>a37a21</anchor>
+      <anchor>gga52a34</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderSeekStatus</name>
+      <anchor>ga53</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_STATUS_OK</name>
+      <anchor>gga53a35</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_STATUS_ERROR</name>
+      <anchor>gga53a36</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_SEEK_STATUS_UNSUPPORTED</name>
+      <anchor>gga53a37</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderTellStatus</name>
+      <anchor>ga54</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_TELL_STATUS_OK</name>
+      <anchor>gga54a38</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_TELL_STATUS_ERROR</name>
+      <anchor>gga54a39</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_TELL_STATUS_UNSUPPORTED</name>
+      <anchor>gga54a40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamDecoderLengthStatus</name>
+      <anchor>ga55</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_LENGTH_STATUS_OK</name>
+      <anchor>gga55a41</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_LENGTH_STATUS_ERROR</name>
+      <anchor>gga55a42</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED</name>
+      <anchor>gga55a43</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderWriteStatus</name>
-      <anchor>a38</anchor>
+      <anchor>ga56</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE</name>
-      <anchor>a38a22</anchor>
+      <anchor>gga56a44</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_WRITE_STATUS_ABORT</name>
-      <anchor>a38a23</anchor>
+      <anchor>gga56a45</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamDecoderErrorStatus</name>
-      <anchor>a39</anchor>
+      <anchor>ga57</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC</name>
-      <anchor>a39a24</anchor>
+      <anchor>gga57a46</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ERROR_STATUS_BAD_HEADER</name>
-      <anchor>a39a25</anchor>
+      <anchor>gga57a47</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_DECODER_ERROR_STATUS_FRAME_CRC_MISMATCH</name>
-      <anchor>a39a26</anchor>
+      <anchor>gga57a48</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_DECODER_ERROR_STATUS_UNPARSEABLE_STREAM</name>
+      <anchor>gga57a49</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamDecoder *</type>
       <name>FLAC__stream_decoder_new</name>
-      <anchor>a8</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga16</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__stream_decoder_delete</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_read_callback</name>
-      <anchor>a10</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderReadCallback value)</arglist>
+      <name>FLAC__stream_decoder_set_ogg_serial_number</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga18</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, long serial_number)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_write_callback</name>
-      <anchor>a11</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_metadata_callback</name>
-      <anchor>a12</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_error_callback</name>
-      <anchor>a13</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_decoder_set_client_data</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder, void *value)</arglist>
+      <name>FLAC__stream_decoder_set_md5_checking</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga19</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_respond</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_respond_application</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_respond_all</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga22</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_ignore</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga23</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_ignore_application</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga24</anchor>
       <arglist>(FLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_set_metadata_ignore_all</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamDecoderState</type>
       <name>FLAC__stream_decoder_get_state</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>FLAC__stream_decoder_get_resolved_state_string</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga27</anchor>
+      <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_decoder_get_md5_checking</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga28</anchor>
+      <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint64</type>
+      <name>FLAC__stream_decoder_get_total_samples</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga29</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_channels</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__ChannelAssignment</type>
       <name>FLAC__stream_decoder_get_channel_assignment</name>
-      <anchor>a24</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_bits_per_sample</name>
-      <anchor>a25</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_sample_rate</name>
-      <anchor>a26</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_decoder_get_blocksize</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist>(const FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
-      <type>FLAC__StreamDecoderState</type>
-      <name>FLAC__stream_decoder_init</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__StreamDecoder *decoder)</arglist>
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_decoder_get_decode_position</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga35</anchor>
+      <arglist>(const FLAC__StreamDecoder *decoder, FLAC__uint64 *position)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_stream</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga36</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderReadCallback read_callback, FLAC__StreamDecoderSeekCallback seek_callback, FLAC__StreamDecoderTellCallback tell_callback, FLAC__StreamDecoderLengthCallback length_callback, FLAC__StreamDecoderEofCallback eof_callback, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_ogg_stream</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga37</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderReadCallback read_callback, FLAC__StreamDecoderSeekCallback seek_callback, FLAC__StreamDecoderTellCallback tell_callback, FLAC__StreamDecoderLengthCallback length_callback, FLAC__StreamDecoderEofCallback eof_callback, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_FILE</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga38</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FILE *file, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_ogg_FILE</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga39</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FILE *file, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_file</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga40</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, const char *filename, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamDecoderInitStatus</type>
+      <name>FLAC__stream_decoder_init_ogg_file</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga41</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, const char *filename, FLAC__StreamDecoderWriteCallback write_callback, FLAC__StreamDecoderMetadataCallback metadata_callback, FLAC__StreamDecoderErrorCallback error_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_finish</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga42</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_flush</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga43</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_reset</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga44</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_process_single</name>
-      <anchor>a32</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga45</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_process_until_end_of_metadata</name>
-      <anchor>a33</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga46</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_process_until_end_of_stream</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga47</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_decoder_skip_single_frame</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga48</anchor>
       <arglist>(FLAC__StreamDecoder *decoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_decoder_seek_absolute</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga49</anchor>
+      <arglist>(FLAC__StreamDecoder *decoder, FLAC__uint64 sample)</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderStateString</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderInitStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderReadStatusString</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderSeekStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderTellStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamDecoderLengthStatusString</name>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderWriteStatusString</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga6</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamDecoderErrorStatusString</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__stream__decoder.html</anchorfile>
+      <anchor>ga7</anchor>
       <arglist>[]</arglist>
     </member>
   </compound>
@@ -9233,8 +6743,6 @@
     <name>flac_encoder</name>
     <title>FLAC/_encoder.h: encoder interfaces</title>
     <filename>group__flac__encoder.html</filename>
-    <subgroup>flac_file_encoder</subgroup>
-    <subgroup>flac_seekable_stream_encoder</subgroup>
     <subgroup>flac_stream_encoder</subgroup>
   </compound>
   <compound kind="group">
@@ -9243,445 +6751,663 @@
     <filename>group__flac__stream__encoder.html</filename>
     <class kind="struct">FLAC__StreamEncoder</class>
     <member kind="typedef">
+      <type>FLAC__StreamEncoderReadStatus(*</type>
+      <name>FLAC__StreamEncoderReadCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
       <type>FLAC__StreamEncoderWriteStatus(*</type>
       <name>FLAC__StreamEncoderWriteCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamEncoderSeekStatus(*</type>
+      <name>FLAC__StreamEncoderSeekCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>FLAC__StreamEncoderTellStatus(*</type>
+      <name>FLAC__StreamEncoderTellCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga9</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
     </member>
     <member kind="typedef">
       <type>void(*</type>
       <name>FLAC__StreamEncoderMetadataCallback</name>
-      <anchor>a3</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga10</anchor>
       <arglist>)(const FLAC__StreamEncoder *encoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>void(*</type>
+      <name>FLAC__StreamEncoderProgressCallback</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga11</anchor>
+      <arglist>)(const FLAC__StreamEncoder *encoder, FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate, void *client_data)</arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamEncoderState</name>
-      <anchor>a52</anchor>
+      <anchor>ga65</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_OK</name>
-      <anchor>a52a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_VERIFY_DECODER_ERROR</name>
-      <anchor>a52a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA</name>
-      <anchor>a52a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a52a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_NUMBER_OF_CHANNELS</name>
-      <anchor>a52a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_BITS_PER_SAMPLE</name>
-      <anchor>a52a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_SAMPLE_RATE</name>
-      <anchor>a52a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_BLOCK_SIZE</name>
-      <anchor>a52a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_MAX_LPC_ORDER</name>
-      <anchor>a52a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_QLP_COEFF_PRECISION</name>
-      <anchor>a52a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_MID_SIDE_CHANNELS_MISMATCH</name>
-      <anchor>a52a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_MID_SIDE_SAMPLE_SIZE_MISMATCH</name>
-      <anchor>a52a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_ILLEGAL_MID_SIDE_FORCE</name>
-      <anchor>a52a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER</name>
-      <anchor>a52a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_NOT_STREAMABLE</name>
-      <anchor>a52a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_FRAMING_ERROR</name>
-      <anchor>a52a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_INVALID_METADATA</name>
-      <anchor>a52a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING</name>
-      <anchor>a52a21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_FATAL_ERROR_WHILE_WRITING</name>
-      <anchor>a52a22</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a52a23</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>FLAC__STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a52a24</anchor>
+      <anchor>gga65a12</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a52a25</anchor>
+      <anchor>gga65a13</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_OGG_ERROR</name>
+      <anchor>gga65a14</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_VERIFY_DECODER_ERROR</name>
+      <anchor>gga65a15</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA</name>
+      <anchor>gga65a16</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_CLIENT_ERROR</name>
+      <anchor>gga65a17</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_IO_ERROR</name>
+      <anchor>gga65a18</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_FRAMING_ERROR</name>
+      <anchor>gga65a19</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
+      <anchor>gga65a20</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderInitStatus</name>
+      <anchor>ga66</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_OK</name>
+      <anchor>gga66a21</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_ENCODER_ERROR</name>
+      <anchor>gga66a22</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_UNSUPPORTED_CONTAINER</name>
+      <anchor>gga66a23</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_CALLBACKS</name>
+      <anchor>gga66a24</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_NUMBER_OF_CHANNELS</name>
+      <anchor>gga66a25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_BITS_PER_SAMPLE</name>
+      <anchor>gga66a26</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_SAMPLE_RATE</name>
+      <anchor>gga66a27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_BLOCK_SIZE</name>
+      <anchor>gga66a28</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_MAX_LPC_ORDER</name>
+      <anchor>gga66a29</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_QLP_COEFF_PRECISION</name>
+      <anchor>gga66a30</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER</name>
+      <anchor>gga66a31</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_NOT_STREAMABLE</name>
+      <anchor>gga66a32</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_INVALID_METADATA</name>
+      <anchor>gga66a33</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_INIT_STATUS_ALREADY_INITIALIZED</name>
+      <anchor>gga66a34</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderReadStatus</name>
+      <anchor>ga67</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_CONTINUE</name>
+      <anchor>gga67a35</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_END_OF_STREAM</name>
+      <anchor>gga67a36</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_ABORT</name>
+      <anchor>gga67a37</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_READ_STATUS_UNSUPPORTED</name>
+      <anchor>gga67a38</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
       <name>FLAC__StreamEncoderWriteStatus</name>
-      <anchor>a53</anchor>
+      <anchor>ga68</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_WRITE_STATUS_OK</name>
-      <anchor>a53a26</anchor>
+      <anchor>gga68a39</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumvalue">
       <name>FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR</name>
-      <anchor>a53a27</anchor>
+      <anchor>gga68a40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderSeekStatus</name>
+      <anchor>ga69</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_SEEK_STATUS_OK</name>
+      <anchor>gga69a41</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_SEEK_STATUS_ERROR</name>
+      <anchor>gga69a42</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_SEEK_STATUS_UNSUPPORTED</name>
+      <anchor>gga69a43</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <name>FLAC__StreamEncoderTellStatus</name>
+      <anchor>ga70</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_TELL_STATUS_OK</name>
+      <anchor>gga70a44</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_TELL_STATUS_ERROR</name>
+      <anchor>gga70a45</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>FLAC__STREAM_ENCODER_TELL_STATUS_UNSUPPORTED</name>
+      <anchor>gga70a46</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamEncoder *</type>
       <name>FLAC__stream_encoder_new</name>
-      <anchor>a4</anchor>
-      <arglist>()</arglist>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga12</anchor>
+      <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__stream_encoder_delete</name>
-      <anchor>a5</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga13</anchor>
       <arglist>(FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_ogg_serial_number</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga14</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, long serial_number)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_verify</name>
-      <anchor>a6</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga15</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_streamable_subset</name>
-      <anchor>a7</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a9</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga16</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_channels</name>
-      <anchor>a10</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga17</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_bits_per_sample</name>
-      <anchor>a11</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga18</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_sample_rate</name>
-      <anchor>a12</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga19</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_compression_level</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga20</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_blocksize</name>
-      <anchor>a13</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga21</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_do_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga22</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_loose_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga23</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_set_apodization</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga24</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, const char *specification)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_max_lpc_order</name>
-      <anchor>a14</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga25</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a15</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga26</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a16</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga27</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_do_escape_coding</name>
-      <anchor>a17</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga28</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a18</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga29</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a19</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga30</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a20</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga31</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a21</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga32</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_total_samples_estimate</name>
-      <anchor>a22</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga33</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__uint64 value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_set_metadata</name>
-      <anchor>a23</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga34</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_write_callback</name>
-      <anchor>a24</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_metadata_callback</name>
-      <anchor>a25</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_set_client_data</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder, void *value)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamEncoderState</type>
       <name>FLAC__stream_encoder_get_state</name>
-      <anchor>a27</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga35</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__StreamDecoderState</type>
       <name>FLAC__stream_encoder_get_verify_decoder_state</name>
-      <anchor>a28</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga36</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>FLAC__stream_encoder_get_resolved_state_string</name>
-      <anchor>a29</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga37</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>FLAC__stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a30</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga38</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_verify</name>
-      <anchor>a31</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga39</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_streamable_subset</name>
-      <anchor>a32</anchor>
-      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a33</anchor>
-      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__bool</type>
-      <name>FLAC__stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a34</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga40</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_channels</name>
-      <anchor>a35</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga41</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_bits_per_sample</name>
-      <anchor>a36</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga42</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_sample_rate</name>
-      <anchor>a37</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga43</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_blocksize</name>
-      <anchor>a38</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga44</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_get_do_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga45</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
+      <name>FLAC__stream_encoder_get_loose_mid_side_stereo</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga46</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_max_lpc_order</name>
-      <anchor>a39</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga47</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a40</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga48</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a41</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga49</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_do_escape_coding</name>
-      <anchor>a42</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga50</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a43</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga51</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a44</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga52</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a45</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga53</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>FLAC__stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a46</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga54</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__uint64</type>
       <name>FLAC__stream_encoder_get_total_samples_estimate</name>
-      <anchor>a47</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga55</anchor>
       <arglist>(const FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
-      <type>FLAC__StreamEncoderState</type>
-      <name>FLAC__stream_encoder_init</name>
-      <anchor>a48</anchor>
-      <arglist>(FLAC__StreamEncoder *encoder)</arglist>
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_stream</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga56</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_ogg_stream</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga57</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderReadCallback read_callback, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_FILE</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga58</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_ogg_FILE</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga59</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_file</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga60</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__StreamEncoderInitStatus</type>
+      <name>FLAC__stream_encoder_init_ogg_file</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga61</anchor>
+      <arglist>(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data)</arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_finish</name>
-      <anchor>a49</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga62</anchor>
       <arglist>(FLAC__StreamEncoder *encoder)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_process</name>
-      <anchor>a50</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga63</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
     </member>
     <member kind="function">
       <type>FLAC__bool</type>
       <name>FLAC__stream_encoder_process_interleaved</name>
-      <anchor>a51</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga64</anchor>
       <arglist>(FLAC__StreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamEncoderStateString</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderInitStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderReadStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>[]</arglist>
     </member>
     <member kind="variable">
       <type>const char *const</type>
       <name>FLAC__StreamEncoderWriteStatusString</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderSeekStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>[]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *const</type>
+      <name>FLAC__StreamEncoderTellStatusString</name>
+      <anchorfile>group__flac__stream__encoder.html</anchorfile>
+      <anchor>ga5</anchor>
       <arglist>[]</arglist>
     </member>
   </compound>
@@ -9691,59 +7417,55 @@
     <filename>group__flacpp.html</filename>
     <subgroup>flacpp_decoder</subgroup>
     <subgroup>flacpp_encoder</subgroup>
+    <subgroup>flacpp_export</subgroup>
     <subgroup>flacpp_metadata</subgroup>
   </compound>
   <compound kind="group">
     <name>flacpp_decoder</name>
     <title>FLAC++/decoder.h: decoder classes</title>
     <filename>group__flacpp__decoder.html</filename>
-    <subgroup>flacpp_stream_decoder</subgroup>
-    <subgroup>flacpp_seekable_stream_decoder</subgroup>
-    <subgroup>flacpp_file_decoder</subgroup>
-  </compound>
-  <compound kind="group">
-    <name>flacpp_stream_decoder</name>
-    <title>FLAC++/decoder.h: stream decoder class</title>
-    <filename>group__flacpp__stream__decoder.html</filename>
     <class kind="class">FLAC::Decoder::Stream</class>
-  </compound>
-  <compound kind="group">
-    <name>flacpp_seekable_stream_decoder</name>
-    <title>FLAC++/decoder.h: seekable stream decoder class</title>
-    <filename>group__flacpp__seekable__stream__decoder.html</filename>
-    <class kind="class">FLAC::Decoder::SeekableStream</class>
-  </compound>
-  <compound kind="group">
-    <name>flacpp_file_decoder</name>
-    <title>FLAC++/decoder.h: file decoder class</title>
-    <filename>group__flacpp__file__decoder.html</filename>
     <class kind="class">FLAC::Decoder::File</class>
   </compound>
   <compound kind="group">
     <name>flacpp_encoder</name>
     <title>FLAC++/encoder.h: encoder classes</title>
     <filename>group__flacpp__encoder.html</filename>
-    <subgroup>flacpp_stream_encoder</subgroup>
-    <subgroup>flacpp_seekable_stream_encoder</subgroup>
-    <subgroup>flacpp_file_encoder</subgroup>
-  </compound>
-  <compound kind="group">
-    <name>flacpp_stream_encoder</name>
-    <title>FLAC++/encoder.h: stream encoder class</title>
-    <filename>group__flacpp__stream__encoder.html</filename>
     <class kind="class">FLAC::Encoder::Stream</class>
-  </compound>
-  <compound kind="group">
-    <name>flacpp_seekable_stream_encoder</name>
-    <title>FLAC++/encoder.h: seekable stream encoder class</title>
-    <filename>group__flacpp__seekable__stream__encoder.html</filename>
-    <class kind="class">FLAC::Encoder::SeekableStream</class>
-  </compound>
-  <compound kind="group">
-    <name>flacpp_file_encoder</name>
-    <title>FLAC++/encoder.h: file encoder class</title>
-    <filename>group__flacpp__file__encoder.html</filename>
     <class kind="class">FLAC::Encoder::File</class>
+  </compound>
+  <compound kind="group">
+    <name>flacpp_export</name>
+    <title>FLAC++/export.h: export symbols</title>
+    <filename>group__flacpp__export.html</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API_VERSION_CURRENT</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API_VERSION_REVISION</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FLACPP_API_VERSION_AGE</name>
+      <anchorfile>group__flacpp__export.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="group">
     <name>flacpp_metadata</name>
@@ -9765,60 +7487,70 @@
     <class kind="class">FLAC::Metadata::SeekTable</class>
     <class kind="class">FLAC::Metadata::VorbisComment</class>
     <class kind="class">FLAC::Metadata::CueSheet</class>
+    <class kind="class">FLAC::Metadata::Picture</class>
     <class kind="class">FLAC::Metadata::Unknown</class>
     <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>a1</anchor>
-      <arglist>(const Prototype &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>a2</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>a3</anchor>
-      <arglist>(const::FLAC__StreamMetadata *) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator!=</name>
-      <anchor>a4</anchor>
-      <arglist>(const Prototype &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator!=</name>
-      <anchor>a5</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator!=</name>
-      <anchor>a6</anchor>
-      <arglist>(const::FLAC__StreamMetadata *) const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLACPP_API Prototype *</type>
+      <type>Prototype *</type>
       <name>clone</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist>(const Prototype *)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga5</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
       <name>is_valid</name>
-      <anchor>a7</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>operator const ::FLAC__StreamMetadata *</name>
-      <anchor>a8</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -9826,22 +7558,53 @@
     <title>FLAC++/metadata.h: metadata level 0 interface</title>
     <filename>group__flacpp__metadata__level0.html</filename>
     <member kind="function">
-      <type>FLACPP_API bool</type>
+      <type>bool</type>
       <name>get_streaminfo</name>
-      <anchor>a0</anchor>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga0</anchor>
       <arglist>(const char *filename, StreamInfo &amp;streaminfo)</arglist>
     </member>
     <member kind="function">
-      <type>FLACPP_API bool</type>
+      <type>bool</type>
       <name>get_tags</name>
-      <anchor>a1</anchor>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga1</anchor>
       <arglist>(const char *filename, VorbisComment *&amp;tags)</arglist>
     </member>
     <member kind="function">
-      <type>FLACPP_API bool</type>
+      <type>bool</type>
       <name>get_tags</name>
-      <anchor>a2</anchor>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga2</anchor>
       <arglist>(const char *filename, VorbisComment &amp;tags)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>get_cuesheet</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(const char *filename, CueSheet *&amp;cuesheet)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>get_cuesheet</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const char *filename, CueSheet &amp;cuesheet)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>get_picture</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga5</anchor>
+      <arglist>(const char *filename, Picture *&amp;picture,::FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>get_picture</name>
+      <anchorfile>group__flacpp__metadata__level0.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>(const char *filename, Picture &amp;picture,::FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors)</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -9857,3051 +7620,1707 @@
     <class kind="class">FLAC::Metadata::Chain</class>
     <class kind="class">FLAC::Metadata::Iterator</class>
   </compound>
-  <compound kind="group">
-    <name>oggflac</name>
-    <title>OggFLAC C API</title>
-    <filename>group__oggflac.html</filename>
-    <subgroup>oggflac_decoder</subgroup>
-    <subgroup>oggflac_encoder</subgroup>
+  <compound kind="dir">
+    <name>include/FLAC/</name>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC/</path>
+    <filename>dir_000002.html</filename>
+    <file>all.h</file>
+    <file>assert.h</file>
+    <file>callback.h</file>
+    <file>export.h</file>
+    <file>format.h</file>
+    <file>metadata.h</file>
+    <file>ordinals.h</file>
+    <file>stream_decoder.h</file>
+    <file>stream_encoder.h</file>
   </compound>
-  <compound kind="group">
-    <name>oggflac_file_encoder</name>
-    <title>OggFLAC/file_encoder.h: file encoder interface</title>
-    <filename>group__oggflac__file__encoder.html</filename>
-    <class kind="struct">OggFLAC__FileEncoder</class>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__FileEncoderProgressCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const OggFLAC__FileEncoder *encoder, FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__FileEncoderState</name>
-      <anchor>a53</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_OK</name>
-      <anchor>a53a2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_NO_FILENAME</name>
-      <anchor>a53a3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_SEEKABLE_STREAM_ENCODER_ERROR</name>
-      <anchor>a53a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_FATAL_ERROR_WHILE_WRITING</name>
-      <anchor>a53a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_ERROR_OPENING_FILE</name>
-      <anchor>a53a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a53a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a53a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__FILE_ENCODER_UNINITIALIZED</name>
-      <anchor>a53a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__FileEncoder *</type>
-      <name>OggFLAC__file_encoder_new</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__file_encoder_delete</name>
-      <anchor>a3</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_verify</name>
-      <anchor>a5</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_streamable_subset</name>
-      <anchor>a6</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_channels</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_bits_per_sample</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_sample_rate</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_blocksize</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_max_lpc_order</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_qlp_coeff_precision</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_escape_coding</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_min_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_max_residual_partition_order</name>
-      <anchor>a19</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a20</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_total_samples_estimate</name>
-      <anchor>a21</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_metadata</name>
-      <anchor>a22</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_filename</name>
-      <anchor>a23</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_progress_callback</name>
-      <anchor>a24</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, OggFLAC__FileEncoderProgressCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_set_client_data</name>
-      <anchor>a25</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__FileEncoderState</type>
-      <name>OggFLAC__file_encoder_get_state</name>
-      <anchor>a26</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoderState</type>
-      <name>OggFLAC__file_encoder_get_seekable_stream_encoder_state</name>
-      <anchor>a27</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamEncoderState</type>
-      <name>OggFLAC__file_encoder_get_FLAC_stream_encoder_state</name>
-      <anchor>a28</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__file_encoder_get_verify_decoder_state</name>
-      <anchor>a29</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__file_encoder_get_resolved_state_string</name>
-      <anchor>a30</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__file_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a31</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_verify</name>
-      <anchor>a32</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_streamable_subset</name>
-      <anchor>a33</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_mid_side_stereo</name>
-      <anchor>a34</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a35</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_channels</name>
-      <anchor>a36</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_bits_per_sample</name>
-      <anchor>a37</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_sample_rate</name>
-      <anchor>a38</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_blocksize</name>
-      <anchor>a39</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_max_lpc_order</name>
-      <anchor>a40</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_qlp_coeff_precision</name>
-      <anchor>a41</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a42</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_escape_coding</name>
-      <anchor>a43</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a44</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_min_residual_partition_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_max_residual_partition_order</name>
-      <anchor>a46</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__file_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a47</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__uint64</type>
-      <name>OggFLAC__file_encoder_get_total_samples_estimate</name>
-      <anchor>a48</anchor>
-      <arglist>(const OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__FileEncoderState</type>
-      <name>OggFLAC__file_encoder_init</name>
-      <anchor>a49</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__file_encoder_finish</name>
-      <anchor>a50</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_process</name>
-      <anchor>a51</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__file_encoder_process_interleaved</name>
-      <anchor>a52</anchor>
-      <arglist>(OggFLAC__FileEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__FileEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
+  <compound kind="dir">
+    <name>include/FLAC++/</name>
+    <path>/home/jcoalson/flac/build-1.2.1/include/FLAC++/</path>
+    <filename>dir_000001.html</filename>
+    <file>all.h</file>
+    <file>decoder.h</file>
+    <file>encoder.h</file>
+    <file>export.h</file>
+    <file>metadata.h</file>
   </compound>
-  <compound kind="group">
-    <name>oggflac_seekable_stream_encoder</name>
-    <title>OggFLAC/seekable_stream_encoder.h: seekable stream encoder interface</title>
-    <filename>group__oggflac__seekable__stream__encoder.html</filename>
-    <class kind="struct">OggFLAC__SeekableStreamEncoder</class>
-    <member kind="typedef">
-      <type>OggFLAC__SeekableStreamEncoderReadStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderReadCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderSeekStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderSeekCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__SeekableStreamEncoderTellStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderTellCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamEncoderWriteStatus(*</type>
-      <name>OggFLAC__SeekableStreamEncoderWriteCallback</name>
-      <anchor>a5</anchor>
-      <arglist>)(const OggFLAC__SeekableStreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__SeekableStreamEncoderState</name>
-      <anchor>a58</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_OK</name>
-      <anchor>a58a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_OGG_ERROR</name>
-      <anchor>a58a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_FLAC_STREAM_ENCODER_ERROR</name>
-      <anchor>a58a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a58a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_WRITE_ERROR</name>
-      <anchor>a58a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_ERROR</name>
-      <anchor>a58a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_SEEK_ERROR</name>
-      <anchor>a58a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_TELL_ERROR</name>
-      <anchor>a58a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a58a14</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a58a15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_INVALID_SEEKTABLE</name>
-      <anchor>a58a16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a58a17</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__SeekableStreamEncoderReadStatus</name>
-      <anchor>a59</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_STATUS_CONTINUE</name>
-      <anchor>a59a18</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_STATUS_END_OF_STREAM</name>
-      <anchor>a59a19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__SEEKABLE_STREAM_ENCODER_READ_STATUS_ABORT</name>
-      <anchor>a59a20</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoder *</type>
-      <name>OggFLAC__seekable_stream_encoder_new</name>
-      <anchor>a6</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__seekable_stream_encoder_delete</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_serial_number</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_verify</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_streamable_subset</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_channels</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_bits_per_sample</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_sample_rate</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_blocksize</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_max_lpc_order</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a19</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_escape_coding</name>
-      <anchor>a20</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a21</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a22</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a23</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a24</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_total_samples_estimate</name>
-      <anchor>a25</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_metadata</name>
-      <anchor>a26</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_read_callback</name>
-      <anchor>a27</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderReadCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_seek_callback</name>
-      <anchor>a28</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderSeekCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_tell_callback</name>
-      <anchor>a29</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderTellCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_write_callback</name>
-      <anchor>a30</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, OggFLAC__SeekableStreamEncoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_set_client_data</name>
-      <anchor>a31</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_get_state</name>
-      <anchor>a32</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamEncoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_get_FLAC_stream_encoder_state</name>
-      <anchor>a33</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_get_verify_decoder_state</name>
-      <anchor>a34</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__seekable_stream_encoder_get_resolved_state_string</name>
-      <anchor>a35</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__seekable_stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a36</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_verify</name>
-      <anchor>a37</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_streamable_subset</name>
-      <anchor>a38</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a39</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a40</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_channels</name>
-      <anchor>a41</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_bits_per_sample</name>
-      <anchor>a42</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_sample_rate</name>
-      <anchor>a43</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_blocksize</name>
-      <anchor>a44</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_max_lpc_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a46</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a47</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_escape_coding</name>
-      <anchor>a48</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a49</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a50</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a51</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__seekable_stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a52</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__uint64</type>
-      <name>OggFLAC__seekable_stream_encoder_get_total_samples_estimate</name>
-      <anchor>a53</anchor>
-      <arglist>(const OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__SeekableStreamEncoderState</type>
-      <name>OggFLAC__seekable_stream_encoder_init</name>
-      <anchor>a54</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__seekable_stream_encoder_finish</name>
-      <anchor>a55</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_process</name>
-      <anchor>a56</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__seekable_stream_encoder_process_interleaved</name>
-      <anchor>a57</anchor>
-      <arglist>(OggFLAC__SeekableStreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__SeekableStreamEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__SeekableStreamEncoderReadStatusString</name>
-      <anchor>a1</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="group">
-    <name>oggflac_decoder</name>
-    <title>OggFLAC/_decoder.h: decoder interfaces</title>
-    <filename>group__oggflac__decoder.html</filename>
-    <subgroup>oggflac_stream_decoder</subgroup>
-  </compound>
-  <compound kind="group">
-    <name>oggflac_stream_decoder</name>
-    <title>OggFLAC/stream_decoder.h: stream decoder interface</title>
-    <filename>group__oggflac__stream__decoder.html</filename>
-    <class kind="struct">OggFLAC__StreamDecoder</class>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderReadStatus(*</type>
-      <name>OggFLAC__StreamDecoderReadCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, FLAC__byte buffer[], unsigned *bytes, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>FLAC__StreamDecoderWriteStatus(*</type>
-      <name>OggFLAC__StreamDecoderWriteCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__StreamDecoderMetadataCallback</name>
-      <anchor>a3</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__StreamDecoderErrorCallback</name>
-      <anchor>a4</anchor>
-      <arglist>)(const OggFLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__StreamDecoderState</name>
-      <anchor>a34</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_OK</name>
-      <anchor>a34a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_END_OF_STREAM</name>
-      <anchor>a34a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_OGG_ERROR</name>
-      <anchor>a34a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_READ_ERROR</name>
-      <anchor>a34a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_FLAC_STREAM_DECODER_ERROR</name>
-      <anchor>a34a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a34a10</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_ALREADY_INITIALIZED</name>
-      <anchor>a34a11</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_INVALID_CALLBACK</name>
-      <anchor>a34a12</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_DECODER_UNINITIALIZED</name>
-      <anchor>a34a13</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamDecoder *</type>
-      <name>OggFLAC__stream_decoder_new</name>
-      <anchor>a5</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_decoder_delete</name>
-      <anchor>a6</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_read_callback</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderReadCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_write_callback</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_callback</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_error_callback</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, OggFLAC__StreamDecoderErrorCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_client_data</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_serial_number</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_respond</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_respond_application</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_respond_all</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_ignore</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_ignore_application</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder, const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_set_metadata_ignore_all</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_decoder_get_state</name>
-      <anchor>a19</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_decoder_get_FLAC_stream_decoder_state</name>
-      <anchor>a20</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__stream_decoder_get_resolved_state_string</name>
-      <anchor>a21</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_channels</name>
-      <anchor>a22</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__ChannelAssignment</type>
-      <name>OggFLAC__stream_decoder_get_channel_assignment</name>
-      <anchor>a23</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_bits_per_sample</name>
-      <anchor>a24</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_sample_rate</name>
-      <anchor>a25</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_decoder_get_blocksize</name>
-      <anchor>a26</anchor>
-      <arglist>(const OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_decoder_init</name>
-      <anchor>a27</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_decoder_finish</name>
-      <anchor>a28</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_flush</name>
-      <anchor>a29</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_reset</name>
-      <anchor>a30</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_process_single</name>
-      <anchor>a31</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_process_until_end_of_metadata</name>
-      <anchor>a32</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_decoder_process_until_end_of_stream</name>
-      <anchor>a33</anchor>
-      <arglist>(OggFLAC__StreamDecoder *decoder)</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__StreamDecoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="group">
-    <name>oggflac_encoder</name>
-    <title>OggFLAC/_encoder.h: encoder interfaces</title>
-    <filename>group__oggflac__encoder.html</filename>
-    <subgroup>oggflac_file_encoder</subgroup>
-    <subgroup>oggflac_seekable_stream_encoder</subgroup>
-    <subgroup>oggflac_stream_encoder</subgroup>
-  </compound>
-  <compound kind="group">
-    <name>oggflac_stream_encoder</name>
-    <title>OggFLAC/stream_encoder.h: stream encoder interface</title>
-    <filename>group__oggflac__stream__encoder.html</filename>
-    <class kind="struct">OggFLAC__StreamEncoder</class>
-    <member kind="typedef">
-      <type>FLAC__StreamEncoderWriteStatus(*</type>
-      <name>OggFLAC__StreamEncoderWriteCallback</name>
-      <anchor>a1</anchor>
-      <arglist>)(const OggFLAC__StreamEncoder *encoder, const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*</type>
-      <name>OggFLAC__StreamEncoderMetadataCallback</name>
-      <anchor>a2</anchor>
-      <arglist>)(const OggFLAC__StreamEncoder *encoder, const FLAC__StreamMetadata *metadata, void *client_data)</arglist>
-    </member>
-    <member kind="enumeration">
-      <name>OggFLAC__StreamEncoderState</name>
-      <anchor>a53</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_OK</name>
-      <anchor>a53a3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_OGG_ERROR</name>
-      <anchor>a53a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_FLAC_STREAM_ENCODER_ERROR</name>
-      <anchor>a53a5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_INVALID_CALLBACK</name>
-      <anchor>a53a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_MEMORY_ALLOCATION_ERROR</name>
-      <anchor>a53a7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_ALREADY_INITIALIZED</name>
-      <anchor>a53a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="enumvalue">
-      <name>OggFLAC__STREAM_ENCODER_UNINITIALIZED</name>
-      <anchor>a53a9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamEncoder *</type>
-      <name>OggFLAC__stream_encoder_new</name>
-      <anchor>a3</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_encoder_delete</name>
-      <anchor>a4</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_serial_number</name>
-      <anchor>a5</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, long serial_number)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_verify</name>
-      <anchor>a6</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_streamable_subset</name>
-      <anchor>a7</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_loose_mid_side_stereo</name>
-      <anchor>a9</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_channels</name>
-      <anchor>a10</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_bits_per_sample</name>
-      <anchor>a11</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_sample_rate</name>
-      <anchor>a12</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_blocksize</name>
-      <anchor>a13</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_max_lpc_order</name>
-      <anchor>a14</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_qlp_coeff_precision</name>
-      <anchor>a15</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_qlp_coeff_prec_search</name>
-      <anchor>a16</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_escape_coding</name>
-      <anchor>a17</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_do_exhaustive_model_search</name>
-      <anchor>a18</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_min_residual_partition_order</name>
-      <anchor>a19</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_max_residual_partition_order</name>
-      <anchor>a20</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_rice_parameter_search_dist</name>
-      <anchor>a21</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_total_samples_estimate</name>
-      <anchor>a22</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_metadata</name>
-      <anchor>a23</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_write_callback</name>
-      <anchor>a24</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, OggFLAC__StreamEncoderWriteCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_metadata_callback</name>
-      <anchor>a25</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, OggFLAC__StreamEncoderMetadataCallback value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_set_client_data</name>
-      <anchor>a26</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, void *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamEncoderState</type>
-      <name>OggFLAC__stream_encoder_get_state</name>
-      <anchor>a27</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamEncoderState</type>
-      <name>OggFLAC__stream_encoder_get_FLAC_stream_encoder_state</name>
-      <anchor>a28</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__StreamDecoderState</type>
-      <name>OggFLAC__stream_encoder_get_verify_decoder_state</name>
-      <anchor>a29</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API const char *</type>
-      <name>OggFLAC__stream_encoder_get_resolved_state_string</name>
-      <anchor>a30</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_encoder_get_verify_decoder_error_stats</name>
-      <anchor>a31</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_verify</name>
-      <anchor>a32</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_streamable_subset</name>
-      <anchor>a33</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_mid_side_stereo</name>
-      <anchor>a34</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_loose_mid_side_stereo</name>
-      <anchor>a35</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_channels</name>
-      <anchor>a36</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_bits_per_sample</name>
-      <anchor>a37</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_sample_rate</name>
-      <anchor>a38</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_blocksize</name>
-      <anchor>a39</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_max_lpc_order</name>
-      <anchor>a40</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_qlp_coeff_precision</name>
-      <anchor>a41</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_qlp_coeff_prec_search</name>
-      <anchor>a42</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_escape_coding</name>
-      <anchor>a43</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_get_do_exhaustive_model_search</name>
-      <anchor>a44</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_min_residual_partition_order</name>
-      <anchor>a45</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_max_residual_partition_order</name>
-      <anchor>a46</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API unsigned</type>
-      <name>OggFLAC__stream_encoder_get_rice_parameter_search_dist</name>
-      <anchor>a47</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__uint64</type>
-      <name>OggFLAC__stream_encoder_get_total_samples_estimate</name>
-      <anchor>a48</anchor>
-      <arglist>(const OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API OggFLAC__StreamEncoderState</type>
-      <name>OggFLAC__stream_encoder_init</name>
-      <anchor>a49</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API void</type>
-      <name>OggFLAC__stream_encoder_finish</name>
-      <anchor>a50</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_process</name>
-      <anchor>a51</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC_API FLAC__bool</type>
-      <name>OggFLAC__stream_encoder_process_interleaved</name>
-      <anchor>a52</anchor>
-      <arglist>(OggFLAC__StreamEncoder *encoder, const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="variable">
-      <type>OggFLAC_API const char *const</type>
-      <name>OggFLAC__StreamEncoderStateString</name>
-      <anchor>a0</anchor>
-      <arglist>[]</arglist>
-    </member>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp</name>
-    <title>OggFLAC C++ API</title>
-    <filename>group__oggflacpp.html</filename>
-    <subgroup>oggflacpp_decoder</subgroup>
-    <subgroup>oggflacpp_encoder</subgroup>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_decoder</name>
-    <title>OggFLAC++/decoder.h: decoder classes</title>
-    <filename>group__oggflacpp__decoder.html</filename>
-    <subgroup>oggflacpp_stream_decoder</subgroup>
-    <subgroup>oggflacpp_seekable_stream_decoder</subgroup>
-    <subgroup>oggflacpp_file_decoder</subgroup>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_stream_decoder</name>
-    <title>OggFLAC++/decoder.h: stream decoder class</title>
-    <filename>group__oggflacpp__stream__decoder.html</filename>
-    <class kind="class">OggFLAC::Decoder::Stream</class>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_seekable_stream_decoder</name>
-    <title>OggFLAC++/decoder.h: seekable stream decoder class</title>
-    <filename>group__oggflacpp__seekable__stream__decoder.html</filename>
-    <class kind="class">OggFLAC::Decoder::SeekableStream</class>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_file_decoder</name>
-    <title>OggFLAC++/decoder.h: file decoder class</title>
-    <filename>group__oggflacpp__file__decoder.html</filename>
-    <class kind="class">OggFLAC::Decoder::File</class>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_encoder</name>
-    <title>OggFLAC++/encoder.h: encoder classes</title>
-    <filename>group__oggflacpp__encoder.html</filename>
-    <subgroup>oggflacpp_stream_encoder</subgroup>
-    <subgroup>oggflacpp_seekable_stream_encoder</subgroup>
-    <subgroup>oggflacpp_file_encoder</subgroup>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_stream_encoder</name>
-    <title>OggFLAC++/encoder.h: stream encoder class</title>
-    <filename>group__oggflacpp__stream__encoder.html</filename>
-    <class kind="class">OggFLAC::Encoder::Stream</class>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_seekable_stream_encoder</name>
-    <title>OggFLAC++/encoder.h: seekable stream encoder class</title>
-    <filename>group__oggflacpp__seekable__stream__encoder.html</filename>
-    <class kind="class">OggFLAC::Encoder::SeekableStream</class>
-  </compound>
-  <compound kind="group">
-    <name>oggflacpp_file_encoder</name>
-    <title>OggFLAC++/encoder.h: file encoder class</title>
-    <filename>group__oggflacpp__file__encoder.html</filename>
-    <class kind="class">OggFLAC::Encoder::File</class>
+  <compound kind="dir">
+    <name>include/</name>
+    <path>/home/jcoalson/flac/build-1.2.1/include/</path>
+    <filename>dir_000000.html</filename>
+    <dir>include/FLAC/</dir>
+    <dir>include/FLAC++/</dir>
   </compound>
   <compound kind="class">
     <name>FLAC::Decoder::Stream</name>
     <filename>classFLAC_1_1Decoder_1_1Stream.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>Stream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
     <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Stream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+      <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond</name>
-      <anchor>a4</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_application</name>
-      <anchor>a5</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_all</name>
-      <anchor>a6</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore</name>
-      <anchor>a7</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_application</name>
-      <anchor>a8</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_all</name>
-      <anchor>a9</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a10</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>::FLAC__ChannelAssignment</type>
-      <name>get_channel_assignment</name>
-      <anchor>a12</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a16</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchor>a17</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>flush</name>
-      <anchor>a18</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>reset</name>
-      <anchor>a19</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_single</name>
-      <anchor>a20</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_metadata</name>
-      <anchor>a21</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_stream</name>
-      <anchor>a22</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>skip_single_frame</name>
-      <anchor>a23</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderReadStatus</type>
-      <name>read_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(FLAC__byte buffer[], unsigned *bytes)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>metadata_callback</name>
-      <anchor>b2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>error_callback</name>
-      <anchor>b3</anchor>
-      <arglist>(::FLAC__StreamDecoderErrorStatus status)=0</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::FLAC__StreamDecoder *</type>
-      <name>decoder_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>FLAC::Decoder::SeekableStream</name>
-    <filename>classFLAC_1_1Decoder_1_1SeekableStream.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>SeekableStream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama3</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~SeekableStream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
+      <type>virtual bool</type>
+      <name>set_ogg_serial_number</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama4</anchor>
+      <arglist>(long value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_md5_checking</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama5</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_respond</name>
-      <anchor>a5</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama6</anchor>
       <arglist>(::FLAC__MetadataType type)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_respond_application</name>
-      <anchor>a6</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama7</anchor>
       <arglist>(const FLAC__byte id[4])</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_respond_all</name>
-      <anchor>a7</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama8</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_ignore</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama9</anchor>
       <arglist>(::FLAC__MetadataType type)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_ignore_application</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama10</anchor>
       <arglist>(const FLAC__byte id[4])</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_ignore_all</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama11</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>State</type>
       <name>get_state</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama12</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>Stream::State</type>
-      <name>get_stream_decoder_state</name>
-      <anchor>a12</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_md5_checking</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama13</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual FLAC__uint64</type>
+      <name>get_total_samples</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama14</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_channels</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama15</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>::FLAC__ChannelAssignment</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__ChannelAssignment</type>
       <name>get_channel_assignment</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama16</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_bits_per_sample</name>
-      <anchor>a16</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama17</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_sample_rate</name>
-      <anchor>a17</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama18</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_blocksize</name>
-      <anchor>a18</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama19</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>get_decode_position</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama20</anchor>
+      <arglist>(FLAC__uint64 *position) const </arglist>
     </member>
     <member kind="function">
-      <type>State</type>
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
       <name>init</name>
-      <anchor>a19</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama21</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama22</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>finish</name>
-      <anchor>a20</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama23</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>flush</name>
-      <anchor>a21</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama24</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>reset</name>
-      <anchor>a22</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama25</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process_single</name>
-      <anchor>a23</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama26</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process_until_end_of_metadata</name>
-      <anchor>a24</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama27</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process_until_end_of_stream</name>
-      <anchor>a25</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama28</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>skip_single_frame</name>
-      <anchor>a26</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama29</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>seek_absolute</name>
-      <anchor>a27</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama30</anchor>
       <arglist>(FLAC__uint64 sample)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamDecoderReadStatus</type>
+    <member kind="function" protection="protected" virtualness="pure">
+      <type>virtual ::FLAC__StreamDecoderReadStatus</type>
       <name>read_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(FLAC__byte buffer[], unsigned *bytes)=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb0</anchor>
+      <arglist>(FLAC__byte buffer[], size_t *bytes)=0</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamDecoderSeekStatus</type>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderSeekStatus</type>
       <name>seek_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(FLAC__uint64 absolute_byte_offset)=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb1</anchor>
+      <arglist>(FLAC__uint64 absolute_byte_offset)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamDecoderTellStatus</type>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderTellStatus</type>
       <name>tell_callback</name>
-      <anchor>b2</anchor>
-      <arglist>(FLAC__uint64 *absolute_byte_offset)=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb2</anchor>
+      <arglist>(FLAC__uint64 *absolute_byte_offset)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamDecoderLengthStatus</type>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderLengthStatus</type>
       <name>length_callback</name>
-      <anchor>b3</anchor>
-      <arglist>(FLAC__uint64 *stream_length)=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb3</anchor>
+      <arglist>(FLAC__uint64 *stream_length)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual bool</type>
       <name>eof_callback</name>
-      <anchor>b4</anchor>
-      <arglist>()=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb4</anchor>
+      <arglist>()</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderWriteStatus</type>
+    <member kind="function" protection="protected" virtualness="pure">
+      <type>virtual ::FLAC__StreamDecoderWriteStatus</type>
       <name>write_callback</name>
-      <anchor>b5</anchor>
-      <arglist>(const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb5</anchor>
+      <arglist>(const ::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>metadata_callback</name>
-      <anchor>b6</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb6</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *metadata)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
+    <member kind="function" protection="protected" virtualness="pure">
       <type>virtual void</type>
       <name>error_callback</name>
-      <anchor>b7</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb7</anchor>
       <arglist>(::FLAC__StreamDecoderErrorStatus status)=0</arglist>
     </member>
-    <member kind="variable" protection="public">
-      <type>::FLAC__SeekableStreamDecoder *</type>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderReadStatus</type>
+      <name>read_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf0</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderSeekStatus</type>
+      <name>seek_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf1</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderTellStatus</type>
+      <name>tell_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf2</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderLengthStatus</type>
+      <name>length_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf3</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static FLAC__bool</type>
+      <name>eof_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf4</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderWriteStatus</type>
+      <name>write_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf5</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, const ::FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static void</type>
+      <name>metadata_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf6</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, const ::FLAC__StreamMetadata *metadata, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static void</type>
+      <name>error_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf7</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder,::FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamDecoder *</type>
       <name>decoder_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamp0</anchor>
+      <arglist></arglist>
+    </member>
+    <class kind="class">FLAC::Decoder::Stream::State</class>
+  </compound>
+  <compound kind="class">
+    <name>FLAC::Decoder::Stream::State</name>
+    <filename>classFLAC_1_1Decoder_1_1Stream_1_1State.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>State</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Stream_1_1Statea0</anchor>
+      <arglist>(::FLAC__StreamDecoderState state)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator::FLAC__StreamDecoderState</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Stream_1_1Statea1</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>as_cstring</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Stream_1_1Statea2</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>resolved_as_cstring</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Stream_1_1Statea3</anchor>
+      <arglist>(const Stream &amp;decoder) const </arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamDecoderState</type>
+      <name>state_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Stream_1_1Statep0</anchor>
       <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
     <name>FLAC::Decoder::File</name>
     <filename>classFLAC_1_1Decoder_1_1File.html</filename>
+    <base>FLAC::Decoder::Stream</base>
     <member kind="function">
-      <type></type>
-      <name>File</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Filea2</anchor>
+      <arglist>(FILE *file)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~File</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Filea3</anchor>
+      <arglist>(const char *filename)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Filea4</anchor>
+      <arglist>(const std::string &amp;filename)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Filea5</anchor>
+      <arglist>(FILE *file)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Filea6</anchor>
+      <arglist>(const char *filename)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Filea7</anchor>
+      <arglist>(const std::string &amp;filename)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama3</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_ogg_serial_number</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama4</anchor>
+      <arglist>(long value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_md5_checking</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama5</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_filename</name>
-      <anchor>a5</anchor>
-      <arglist>(const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_respond</name>
-      <anchor>a6</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama6</anchor>
       <arglist>(::FLAC__MetadataType type)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_respond_application</name>
-      <anchor>a7</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama7</anchor>
       <arglist>(const FLAC__byte id[4])</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_respond_all</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama8</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_ignore</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama9</anchor>
       <arglist>(::FLAC__MetadataType type)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_ignore_application</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama10</anchor>
       <arglist>(const FLAC__byte id[4])</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata_ignore_all</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama11</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>State</type>
       <name>get_state</name>
-      <anchor>a12</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama12</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>SeekableStream::State</type>
-      <name>get_seekable_stream_decoder_state</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>Stream::State</type>
-      <name>get_stream_decoder_state</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_md5_checking</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama13</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual FLAC__uint64</type>
+      <name>get_total_samples</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama14</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_channels</name>
-      <anchor>a16</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama15</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>::FLAC__ChannelAssignment</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__ChannelAssignment</type>
       <name>get_channel_assignment</name>
-      <anchor>a17</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama16</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_bits_per_sample</name>
-      <anchor>a18</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama17</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_sample_rate</name>
-      <anchor>a19</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama18</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_blocksize</name>
-      <anchor>a20</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama19</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>get_decode_position</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama20</anchor>
+      <arglist>(FLAC__uint64 *position) const </arglist>
     </member>
     <member kind="function">
-      <type>State</type>
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
       <name>init</name>
-      <anchor>a21</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama21</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama22</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>finish</name>
-      <anchor>a22</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama23</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>flush</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama24</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>reset</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama25</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process_single</name>
-      <anchor>a23</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama26</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process_until_end_of_metadata</name>
-      <anchor>a24</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama27</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_file</name>
-      <anchor>a25</anchor>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>process_until_end_of_stream</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama28</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>skip_single_frame</name>
-      <anchor>a26</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama29</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>seek_absolute</name>
-      <anchor>a27</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streama30</anchor>
       <arglist>(FLAC__uint64 sample)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
+    <member kind="function" protection="protected">
+      <type>virtual ::FLAC__StreamDecoderReadStatus</type>
+      <name>read_callback</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Fileb0</anchor>
+      <arglist>(FLAC__byte buffer[], size_t *bytes)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderSeekStatus</type>
+      <name>seek_callback</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb1</anchor>
+      <arglist>(FLAC__uint64 absolute_byte_offset)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderTellStatus</type>
+      <name>tell_callback</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb2</anchor>
+      <arglist>(FLAC__uint64 *absolute_byte_offset)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamDecoderLengthStatus</type>
+      <name>length_callback</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb3</anchor>
+      <arglist>(FLAC__uint64 *stream_length)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>eof_callback</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="pure">
+      <type>virtual ::FLAC__StreamDecoderWriteStatus</type>
+      <name>write_callback</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb5</anchor>
+      <arglist>(const ::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>metadata_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb6</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *metadata)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
+    <member kind="function" protection="protected" virtualness="pure">
       <type>virtual void</type>
       <name>error_callback</name>
-      <anchor>b2</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamb7</anchor>
       <arglist>(::FLAC__StreamDecoderErrorStatus status)=0</arglist>
     </member>
-    <member kind="variable" protection="public">
-      <type>::FLAC__FileDecoder *</type>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderReadStatus</type>
+      <name>read_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf0</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderSeekStatus</type>
+      <name>seek_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf1</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderTellStatus</type>
+      <name>tell_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf2</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderLengthStatus</type>
+      <name>length_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf3</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static FLAC__bool</type>
+      <name>eof_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf4</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamDecoderWriteStatus</type>
+      <name>write_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf5</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, const ::FLAC__Frame *frame, const FLAC__int32 *const buffer[], void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static void</type>
+      <name>metadata_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf6</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder, const ::FLAC__StreamMetadata *metadata, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static void</type>
+      <name>error_callback_</name>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamf7</anchor>
+      <arglist>(const ::FLAC__StreamDecoder *decoder,::FLAC__StreamDecoderErrorStatus status, void *client_data)</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamDecoder *</type>
       <name>decoder_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Decoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Decoder_1_1Streamp0</anchor>
       <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
     <name>FLAC::Encoder::Stream</name>
     <filename>classFLAC_1_1Encoder_1_1Stream.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>Stream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
     <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Stream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+      <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama3</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_ogg_serial_number</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama4</anchor>
+      <arglist>(long value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_verify</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama5</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_streamable_subset</name>
-      <anchor>a5</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama6</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_mid_side_stereo</name>
-      <anchor>a6</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_loose_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_channels</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama7</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_bits_per_sample</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama8</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_sample_rate</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama9</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_compression_level</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama10</anchor>
+      <arglist>(unsigned value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_blocksize</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama11</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_do_mid_side_stereo</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama12</anchor>
+      <arglist>(bool value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_loose_mid_side_stereo</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama13</anchor>
+      <arglist>(bool value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_apodization</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama14</anchor>
+      <arglist>(const char *specification)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_max_lpc_order</name>
-      <anchor>a12</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama15</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_qlp_coeff_precision</name>
-      <anchor>a13</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama16</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_do_qlp_coeff_prec_search</name>
-      <anchor>a14</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama17</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_do_escape_coding</name>
-      <anchor>a15</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama18</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_do_exhaustive_model_search</name>
-      <anchor>a16</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama19</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_min_residual_partition_order</name>
-      <anchor>a17</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama20</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_max_residual_partition_order</name>
-      <anchor>a18</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama21</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_rice_parameter_search_dist</name>
-      <anchor>a19</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama22</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_total_samples_estimate</name>
-      <anchor>a20</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama23</anchor>
       <arglist>(FLAC__uint64 value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata</name>
-      <anchor>a21</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama24</anchor>
       <arglist>(::FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata</name>
-      <anchor>a22</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama25</anchor>
       <arglist>(FLAC::Metadata::Prototype **metadata, unsigned num_blocks)</arglist>
     </member>
     <member kind="function">
       <type>State</type>
       <name>get_state</name>
-      <anchor>a23</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama26</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>Decoder::Stream::State</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual Decoder::Stream::State</type>
       <name>get_verify_decoder_state</name>
-      <anchor>a24</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama27</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
       <name>get_verify_decoder_error_stats</name>
-      <anchor>a25</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama28</anchor>
       <arglist>(FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_verify</name>
-      <anchor>a26</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama29</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_streamable_subset</name>
-      <anchor>a27</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama30</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_mid_side_stereo</name>
-      <anchor>a28</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama31</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_loose_mid_side_stereo</name>
-      <anchor>a29</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama32</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_channels</name>
-      <anchor>a30</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama33</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_bits_per_sample</name>
-      <anchor>a31</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama34</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_sample_rate</name>
-      <anchor>a32</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama35</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_blocksize</name>
-      <anchor>a33</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama36</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_max_lpc_order</name>
-      <anchor>a34</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama37</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_qlp_coeff_precision</name>
-      <anchor>a35</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama38</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_qlp_coeff_prec_search</name>
-      <anchor>a36</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama39</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_escape_coding</name>
-      <anchor>a37</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama40</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_exhaustive_model_search</name>
-      <anchor>a38</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama41</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_min_residual_partition_order</name>
-      <anchor>a39</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama42</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_max_residual_partition_order</name>
-      <anchor>a40</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama43</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_rice_parameter_search_dist</name>
-      <anchor>a41</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama44</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual FLAC__uint64</type>
       <name>get_total_samples_estimate</name>
-      <anchor>a42</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama45</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
-      <type>State</type>
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
       <name>init</name>
-      <anchor>a43</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama46</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama47</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>finish</name>
-      <anchor>a44</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama48</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process</name>
-      <anchor>a45</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama49</anchor>
       <arglist>(const FLAC__int32 *const buffer[], unsigned samples)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process_interleaved</name>
-      <anchor>a46</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama50</anchor>
       <arglist>(const FLAC__int32 buffer[], unsigned samples)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamEncoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame)=0</arglist>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderReadStatus</type>
+      <name>read_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb0</anchor>
+      <arglist>(FLAC__byte buffer[], size_t *bytes)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="pure">
+    <member kind="function" protection="protected" virtualness="pure">
+      <type>virtual ::FLAC__StreamEncoderWriteStatus</type>
+      <name>write_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb1</anchor>
+      <arglist>(const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame)=0</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderSeekStatus</type>
+      <name>seek_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb2</anchor>
+      <arglist>(FLAC__uint64 absolute_byte_offset)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderTellStatus</type>
+      <name>tell_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb3</anchor>
+      <arglist>(FLAC__uint64 *absolute_byte_offset)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>metadata_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb4</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *metadata)</arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderReadStatus</type>
+      <name>read_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf0</anchor>
+      <arglist>(const ::FLAC__StreamEncoder *encoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderWriteStatus</type>
+      <name>write_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf1</anchor>
+      <arglist>(const ::FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderSeekStatus</type>
+      <name>seek_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf2</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderTellStatus</type>
+      <name>tell_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf3</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static void</type>
+      <name>metadata_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf4</anchor>
+      <arglist>(const ::FLAC__StreamEncoder *encoder, const ::FLAC__StreamMetadata *metadata, void *client_data)</arglist>
+    </member>
+    <member kind="variable" protection="protected">
       <type>::FLAC__StreamEncoder *</type>
       <name>encoder_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamp0</anchor>
       <arglist></arglist>
     </member>
+    <class kind="class">FLAC::Encoder::Stream::State</class>
   </compound>
   <compound kind="class">
-    <name>FLAC::Encoder::SeekableStream</name>
-    <filename>classFLAC_1_1Encoder_1_1SeekableStream.html</filename>
+    <name>FLAC::Encoder::Stream::State</name>
+    <filename>classFLAC_1_1Encoder_1_1Stream_1_1State.html</filename>
     <member kind="function">
       <type></type>
-      <name>SeekableStream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~SeekableStream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <name>State</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Stream_1_1Statea0</anchor>
+      <arglist>(::FLAC__StreamEncoderState state)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
+      <name>operator::FLAC__StreamEncoderState</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Stream_1_1Statea1</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
-      <type>bool</type>
-      <name>set_verify</name>
-      <anchor>a4</anchor>
-      <arglist>(bool value)</arglist>
+      <type>const char *</type>
+      <name>as_cstring</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Stream_1_1Statea2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
-      <type>bool</type>
-      <name>set_streamable_subset</name>
-      <anchor>a5</anchor>
-      <arglist>(bool value)</arglist>
+      <type>const char *</type>
+      <name>resolved_as_cstring</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Stream_1_1Statea3</anchor>
+      <arglist>(const Stream &amp;encoder) const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_mid_side_stereo</name>
-      <anchor>a6</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_loose_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_channels</name>
-      <anchor>a8</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_bits_per_sample</name>
-      <anchor>a9</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_sample_rate</name>
-      <anchor>a10</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_blocksize</name>
-      <anchor>a11</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_lpc_order</name>
-      <anchor>a12</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_qlp_coeff_precision</name>
-      <anchor>a13</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_qlp_coeff_prec_search</name>
-      <anchor>a14</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_escape_coding</name>
-      <anchor>a15</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_exhaustive_model_search</name>
-      <anchor>a16</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_min_residual_partition_order</name>
-      <anchor>a17</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_rice_parameter_search_dist</name>
-      <anchor>a19</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_total_samples_estimate</name>
-      <anchor>a20</anchor>
-      <arglist>(FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata</name>
-      <anchor>a21</anchor>
-      <arglist>(::FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata</name>
-      <anchor>a22</anchor>
-      <arglist>(FLAC::Metadata::Prototype **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a23</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>Stream::State</type>
-      <name>get_stream_encoder_state</name>
-      <anchor>a24</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>Decoder::Stream::State</type>
-      <name>get_verify_decoder_state</name>
-      <anchor>a25</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>get_verify_decoder_error_stats</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_verify</name>
-      <anchor>a27</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_streamable_subset</name>
-      <anchor>a28</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_mid_side_stereo</name>
-      <anchor>a29</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_loose_mid_side_stereo</name>
-      <anchor>a30</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a31</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a32</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a33</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a34</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_lpc_order</name>
-      <anchor>a35</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_qlp_coeff_precision</name>
-      <anchor>a36</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_qlp_coeff_prec_search</name>
-      <anchor>a37</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_escape_coding</name>
-      <anchor>a38</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_exhaustive_model_search</name>
-      <anchor>a39</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_min_residual_partition_order</name>
-      <anchor>a40</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_residual_partition_order</name>
-      <anchor>a41</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_rice_parameter_search_dist</name>
-      <anchor>a42</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>get_total_samples_estimate</name>
-      <anchor>a43</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a44</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchor>a45</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process</name>
-      <anchor>a46</anchor>
-      <arglist>(const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_interleaved</name>
-      <anchor>a47</anchor>
-      <arglist>(const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamEncoderSeekStatus</type>
-      <name>seek_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(FLAC__uint64 absolute_byte_offset)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamEncoderTellStatus</type>
-      <name>tell_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(FLAC__uint64 *absolute_byte_offset)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamEncoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b2</anchor>
-      <arglist>(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame)=0</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::FLAC__SeekableStreamEncoder *</type>
-      <name>encoder_</name>
-      <anchor>n0</anchor>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamEncoderState</type>
+      <name>state_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream_1_1State.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Stream_1_1Statep0</anchor>
       <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
     <name>FLAC::Encoder::File</name>
     <filename>classFLAC_1_1Encoder_1_1File.html</filename>
+    <base>FLAC::Encoder::Stream</base>
     <member kind="function">
-      <type></type>
-      <name>File</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Filea2</anchor>
+      <arglist>(FILE *file)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~File</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Filea3</anchor>
+      <arglist>(const char *filename)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Filea4</anchor>
+      <arglist>(const std::string &amp;filename)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Filea5</anchor>
+      <arglist>(FILE *file)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Filea6</anchor>
+      <arglist>(const char *filename)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Filea7</anchor>
+      <arglist>(const std::string &amp;filename)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama3</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_ogg_serial_number</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama4</anchor>
+      <arglist>(long value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_verify</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama5</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_streamable_subset</name>
-      <anchor>a5</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama6</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_mid_side_stereo</name>
-      <anchor>a6</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_loose_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_channels</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama7</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_bits_per_sample</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama8</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_sample_rate</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama9</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_compression_level</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama10</anchor>
+      <arglist>(unsigned value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_blocksize</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama11</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_do_mid_side_stereo</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama12</anchor>
+      <arglist>(bool value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_loose_mid_side_stereo</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama13</anchor>
+      <arglist>(bool value)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>set_apodization</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama14</anchor>
+      <arglist>(const char *specification)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_max_lpc_order</name>
-      <anchor>a12</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama15</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_qlp_coeff_precision</name>
-      <anchor>a13</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama16</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_do_qlp_coeff_prec_search</name>
-      <anchor>a14</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama17</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_do_escape_coding</name>
-      <anchor>a15</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama18</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_do_exhaustive_model_search</name>
-      <anchor>a16</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama19</anchor>
       <arglist>(bool value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_min_residual_partition_order</name>
-      <anchor>a17</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama20</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_max_residual_partition_order</name>
-      <anchor>a18</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama21</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_rice_parameter_search_dist</name>
-      <anchor>a19</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama22</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_total_samples_estimate</name>
-      <anchor>a20</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama23</anchor>
       <arglist>(FLAC__uint64 value)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata</name>
-      <anchor>a21</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama24</anchor>
       <arglist>(::FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>set_metadata</name>
-      <anchor>a22</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama25</anchor>
       <arglist>(FLAC::Metadata::Prototype **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_filename</name>
-      <anchor>a23</anchor>
-      <arglist>(const char *value)</arglist>
     </member>
     <member kind="function">
       <type>State</type>
       <name>get_state</name>
-      <anchor>a24</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama26</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>SeekableStream::State</type>
-      <name>get_seekable_stream_encoder_state</name>
-      <anchor>a25</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>Stream::State</type>
-      <name>get_stream_encoder_state</name>
-      <anchor>a26</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>Decoder::Stream::State</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual Decoder::Stream::State</type>
       <name>get_verify_decoder_state</name>
-      <anchor>a27</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama27</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
       <name>get_verify_decoder_error_stats</name>
-      <anchor>a28</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama28</anchor>
       <arglist>(FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_verify</name>
-      <anchor>a29</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama29</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_streamable_subset</name>
-      <anchor>a30</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama30</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_mid_side_stereo</name>
-      <anchor>a31</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama31</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_loose_mid_side_stereo</name>
-      <anchor>a32</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama32</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_channels</name>
-      <anchor>a33</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama33</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_bits_per_sample</name>
-      <anchor>a34</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama34</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_sample_rate</name>
-      <anchor>a35</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama35</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_blocksize</name>
-      <anchor>a36</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama36</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_max_lpc_order</name>
-      <anchor>a37</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama37</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_qlp_coeff_precision</name>
-      <anchor>a38</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama38</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_qlp_coeff_prec_search</name>
-      <anchor>a39</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama39</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_escape_coding</name>
-      <anchor>a40</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama40</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>get_do_exhaustive_model_search</name>
-      <anchor>a41</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama41</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_min_residual_partition_order</name>
-      <anchor>a42</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama42</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_max_residual_partition_order</name>
-      <anchor>a43</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama43</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>unsigned</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual unsigned</type>
       <name>get_rice_parameter_search_dist</name>
-      <anchor>a44</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama44</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual FLAC__uint64</type>
       <name>get_total_samples_estimate</name>
-      <anchor>a45</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama45</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
-      <type>State</type>
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
       <name>init</name>
-      <anchor>a46</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama46</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderInitStatus</type>
+      <name>init_ogg</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama47</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>finish</name>
-      <anchor>a47</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama48</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process</name>
-      <anchor>a48</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama49</anchor>
       <arglist>(const FLAC__int32 *const buffer[], unsigned samples)</arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
       <name>process_interleaved</name>
-      <anchor>a49</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streama50</anchor>
       <arglist>(const FLAC__int32 buffer[], unsigned samples)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="virtual">
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>progress_callback</name>
-      <anchor>b0</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Fileb0</anchor>
       <arglist>(FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate)</arglist>
     </member>
-    <member kind="variable" protection="public">
-      <type>::FLAC__FileEncoder *</type>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderWriteStatus</type>
+      <name>write_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1File.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Fileb1</anchor>
+      <arglist>(const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderReadStatus</type>
+      <name>read_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb0</anchor>
+      <arglist>(FLAC__byte buffer[], size_t *bytes)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderSeekStatus</type>
+      <name>seek_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb2</anchor>
+      <arglist>(FLAC__uint64 absolute_byte_offset)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual ::FLAC__StreamEncoderTellStatus</type>
+      <name>tell_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb3</anchor>
+      <arglist>(FLAC__uint64 *absolute_byte_offset)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>metadata_callback</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamb4</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *metadata)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderReadStatus</type>
+      <name>read_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf0</anchor>
+      <arglist>(const ::FLAC__StreamEncoder *encoder, FLAC__byte buffer[], size_t *bytes, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderWriteStatus</type>
+      <name>write_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf1</anchor>
+      <arglist>(const ::FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderSeekStatus</type>
+      <name>seek_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf2</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>::FLAC__StreamEncoderTellStatus</type>
+      <name>tell_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf3</anchor>
+      <arglist>(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data)</arglist>
+    </member>
+    <member kind="function" protection="protected" static="yes">
+      <type>static void</type>
+      <name>metadata_callback_</name>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamf4</anchor>
+      <arglist>(const ::FLAC__StreamEncoder *encoder, const ::FLAC__StreamMetadata *metadata, void *client_data)</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamEncoder *</type>
       <name>encoder_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Encoder_1_1Stream.html</anchorfile>
+      <anchor>FLAC_1_1Encoder_1_1Streamp0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -12911,151 +9330,176 @@
     <member kind="function" virtualness="virtual">
       <type>virtual</type>
       <name>~Prototype</name>
-      <anchor>a0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypea0</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga5</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga6</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
       <name>is_valid</name>
-      <anchor>a7</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>get_is_last</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>::FLAC__MetadataType</type>
       <name>get_type</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_length</name>
-      <anchor>a4</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_is_last</name>
-      <anchor>a5</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
       <arglist>(bool)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>operator const ::FLAC__StreamMetadata *</name>
-      <anchor>a8</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
     </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>a1</anchor>
-      <arglist>(const Prototype &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>a2</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>a3</anchor>
-      <arglist>(const::FLAC__StreamMetadata *) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator!=</name>
-      <anchor>a4</anchor>
-      <arglist>(const Prototype &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator!=</name>
-      <anchor>a5</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator!=</name>
-      <anchor>a6</anchor>
-      <arglist>(const::FLAC__StreamMetadata *) const</arglist>
-    </member>
-    <member kind="function" protection="public">
+    <member kind="function" protection="protected">
       <type></type>
       <name>Prototype</name>
-      <anchor>b0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypeb0</anchor>
+      <arglist>(const Prototype &amp;)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type></type>
+      <name>Prototype</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypeb1</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type></type>
+      <name>Prototype</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypeb2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type></type>
+      <name>Prototype</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypeb3</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
     </member>
-    <member kind="function" protection="public">
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypeb4</anchor>
+      <arglist>(const Prototype &amp;)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypeb5</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Prototypeb6</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *)</arglist>
+    </member>
+    <member kind="function" protection="protected">
       <type>Prototype &amp;</type>
       <name>assign_object</name>
-      <anchor>b1</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="virtual">
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>clear</name>
-      <anchor>b2</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function" protection="public">
-      <type></type>
-      <name>Prototype</name>
-      <anchor>z0_0</anchor>
-      <arglist>(const Prototype &amp;)</arglist>
-    </member>
-    <member kind="function" protection="public">
-      <type></type>
-      <name>Prototype</name>
-      <anchor>z0_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;)</arglist>
-    </member>
-    <member kind="function" protection="public">
-      <type></type>
-      <name>Prototype</name>
-      <anchor>z0_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *)</arglist>
-    </member>
-    <member kind="function" protection="public">
-      <type>Prototype &amp;</type>
-      <name>operator=</name>
-      <anchor>z1_0</anchor>
-      <arglist>(const Prototype &amp;)</arglist>
-    </member>
-    <member kind="function" protection="public">
-      <type>Prototype &amp;</type>
-      <name>operator=</name>
-      <anchor>z1_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;)</arglist>
-    </member>
-    <member kind="function" protection="public">
-      <type>Prototype &amp;</type>
-      <name>operator=</name>
-      <anchor>z1_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *)</arglist>
-    </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>::FLAC__StreamMetadata *</type>
       <name>object_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
       <arglist></arglist>
     </member>
     <member kind="friend">
       <type>friend class</type>
       <name>SimpleIterator</name>
-      <anchor>l0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
       <arglist></arglist>
     </member>
     <member kind="friend">
       <type>friend class</type>
       <name>Iterator</name>
-      <anchor>l1</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -13066,206 +9510,317 @@
     <member kind="function">
       <type></type>
       <name>StreamInfo</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa1</anchor>
+      <arglist>(const StreamInfo &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>StreamInfo</name>
-      <anchor>a1</anchor>
-      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>~StreamInfo</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <name>StreamInfo</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>StreamInfo</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>StreamInfo &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa6</anchor>
+      <arglist>(const StreamInfo &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>StreamInfo &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>StreamInfo &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>StreamInfo &amp;</type>
       <name>assign</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa9</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>StreamInfo</name>
-      <anchor>z4_0</anchor>
-      <arglist>(const StreamInfo &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>StreamInfo</name>
-      <anchor>z4_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>StreamInfo</name>
-      <anchor>z4_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
-      <type>StreamInfo &amp;</type>
-      <name>operator=</name>
-      <anchor>z5_0</anchor>
-      <arglist>(const StreamInfo &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>StreamInfo &amp;</type>
-      <name>operator=</name>
-      <anchor>z5_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>StreamInfo &amp;</type>
-      <name>operator=</name>
-      <anchor>z5_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa10</anchor>
+      <arglist>(const StreamInfo &amp;object) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z6_0</anchor>
-      <arglist>(const StreamInfo &amp;object) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z6_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z6_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z7_0</anchor>
-      <arglist>(const StreamInfo &amp;object) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa13</anchor>
+      <arglist>(const StreamInfo &amp;object) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z7_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z7_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_min_blocksize</name>
-      <anchor>z8_0</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa16</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_max_blocksize</name>
-      <anchor>z8_1</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa17</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_min_framesize</name>
-      <anchor>z8_2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa18</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_max_framesize</name>
-      <anchor>z8_3</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa19</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_sample_rate</name>
-      <anchor>z8_4</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa20</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_channels</name>
-      <anchor>z8_5</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa21</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_bits_per_sample</name>
-      <anchor>z8_6</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa22</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>FLAC__uint64</type>
       <name>get_total_samples</name>
-      <anchor>z8_7</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa23</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_md5sum</name>
-      <anchor>z8_8</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa24</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_min_blocksize</name>
-      <anchor>z8_9</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa25</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_max_blocksize</name>
-      <anchor>z8_10</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa26</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_min_framesize</name>
-      <anchor>z8_11</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa27</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_max_framesize</name>
-      <anchor>z8_12</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa28</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_sample_rate</name>
-      <anchor>z8_13</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa29</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_channels</name>
-      <anchor>z8_14</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa30</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_bits_per_sample</name>
-      <anchor>z8_15</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa31</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_total_samples</name>
-      <anchor>z8_16</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa32</anchor>
       <arglist>(FLAC__uint64 value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_md5sum</name>
-      <anchor>z8_17</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1StreamInfo.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1StreamInfoa33</anchor>
       <arglist>(const FLAC__byte value[16])</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>::FLAC__MetadataType</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
+      <name>object_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -13275,104 +9830,198 @@
     <member kind="function">
       <type></type>
       <name>Padding</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga1</anchor>
+      <arglist>(const Padding &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Padding</name>
-      <anchor>a1</anchor>
-      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>~Padding</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <name>Padding</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Padding</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>Padding &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga6</anchor>
+      <arglist>(const Padding &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>Padding &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>Padding &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>Padding &amp;</type>
       <name>assign</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga9</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga10</anchor>
+      <arglist>(const Padding &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga13</anchor>
+      <arglist>(const Padding &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_length</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Padding.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Paddinga16</anchor>
       <arglist>(unsigned length)</arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>Padding</name>
-      <anchor>z9_0</anchor>
-      <arglist>(const Padding &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Padding</name>
-      <anchor>z9_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Padding</name>
-      <anchor>z9_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Padding &amp;</type>
-      <name>operator=</name>
-      <anchor>z10_0</anchor>
-      <arglist>(const Padding &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Padding &amp;</type>
-      <name>operator=</name>
-      <anchor>z10_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Padding &amp;</type>
-      <name>operator=</name>
-      <anchor>z10_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z11_0</anchor>
-      <arglist>(const Padding &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z11_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z11_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z12_0</anchor>
-      <arglist>(const Padding &amp;object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z12_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z12_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>::FLAC__MetadataType</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
+      <name>object_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -13382,128 +10031,226 @@
     <member kind="function">
       <type></type>
       <name>Application</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa1</anchor>
+      <arglist>(const Application &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Application</name>
-      <anchor>a1</anchor>
-      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>~Application</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <name>Application</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Application</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>Application &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa6</anchor>
+      <arglist>(const Application &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>Application &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>Application &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>Application &amp;</type>
       <name>assign</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa9</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa10</anchor>
+      <arglist>(const Application &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa13</anchor>
+      <arglist>(const Application &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_id</name>
-      <anchor>a4</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa16</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_data</name>
-      <anchor>a5</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa17</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_id</name>
-      <anchor>a6</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa18</anchor>
       <arglist>(const FLAC__byte value[4])</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a7</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa19</anchor>
       <arglist>(const FLAC__byte *data, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Application.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Applicationa20</anchor>
       <arglist>(FLAC__byte *data, unsigned length, bool copy)</arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>Application</name>
-      <anchor>z13_0</anchor>
-      <arglist>(const Application &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Application</name>
-      <anchor>z13_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Application</name>
-      <anchor>z13_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Application &amp;</type>
-      <name>operator=</name>
-      <anchor>z14_0</anchor>
-      <arglist>(const Application &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Application &amp;</type>
-      <name>operator=</name>
-      <anchor>z14_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Application &amp;</type>
-      <name>operator=</name>
-      <anchor>z14_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z15_0</anchor>
-      <arglist>(const Application &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z15_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z15_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z16_0</anchor>
-      <arglist>(const Application &amp;object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z16_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z16_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>::FLAC__MetadataType</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
+      <name>object_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -13513,134 +10260,233 @@
     <member kind="function">
       <type></type>
       <name>SeekTable</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea1</anchor>
+      <arglist>(const SeekTable &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>SeekTable</name>
-      <anchor>a1</anchor>
-      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>~SeekTable</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <name>SeekTable</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>SeekTable</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>SeekTable &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea6</anchor>
+      <arglist>(const SeekTable &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>SeekTable &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>SeekTable &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>SeekTable &amp;</type>
       <name>assign</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea9</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea10</anchor>
+      <arglist>(const SeekTable &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea13</anchor>
+      <arglist>(const SeekTable &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_num_points</name>
-      <anchor>a4</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea16</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>::FLAC__StreamMetadata_SeekPoint</type>
       <name>get_point</name>
-      <anchor>a5</anchor>
-      <arglist>(unsigned index) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea17</anchor>
+      <arglist>(unsigned index) const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_point</name>
-      <anchor>a6</anchor>
-      <arglist>(unsigned index, const::FLAC__StreamMetadata_SeekPoint &amp;point)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea18</anchor>
+      <arglist>(unsigned index, const ::FLAC__StreamMetadata_SeekPoint &amp;point)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>insert_point</name>
-      <anchor>a7</anchor>
-      <arglist>(unsigned index, const::FLAC__StreamMetadata_SeekPoint &amp;point)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea19</anchor>
+      <arglist>(unsigned index, const ::FLAC__StreamMetadata_SeekPoint &amp;point)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>delete_point</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea20</anchor>
       <arglist>(unsigned index)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>is_legal</name>
-      <anchor>a9</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>SeekTable</name>
-      <anchor>z17_0</anchor>
-      <arglist>(const SeekTable &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>SeekTable</name>
-      <anchor>z17_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>SeekTable</name>
-      <anchor>z17_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
-      <type>SeekTable &amp;</type>
-      <name>operator=</name>
-      <anchor>z18_0</anchor>
-      <arglist>(const SeekTable &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>SeekTable &amp;</type>
-      <name>operator=</name>
-      <anchor>z18_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>SeekTable &amp;</type>
-      <name>operator=</name>
-      <anchor>z18_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SeekTable.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SeekTablea21</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z19_0</anchor>
-      <arglist>(const SeekTable &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z19_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z19_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z20_0</anchor>
-      <arglist>(const SeekTable &amp;object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z20_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z20_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>::FLAC__MetadataType</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
+      <name>object_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -13650,147 +10496,249 @@
     <member kind="function">
       <type></type>
       <name>VorbisComment</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta1</anchor>
+      <arglist>(const VorbisComment &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>VorbisComment</name>
-      <anchor>a1</anchor>
-      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>~VorbisComment</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <name>VorbisComment</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>VorbisComment</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>VorbisComment &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta6</anchor>
+      <arglist>(const VorbisComment &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>VorbisComment &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>VorbisComment &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>VorbisComment &amp;</type>
       <name>assign</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta9</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta10</anchor>
+      <arglist>(const VorbisComment &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta13</anchor>
+      <arglist>(const VorbisComment &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_num_comments</name>
-      <anchor>a4</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta16</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_vendor_string</name>
-      <anchor>a5</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta17</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>Entry</type>
       <name>get_comment</name>
-      <anchor>a6</anchor>
-      <arglist>(unsigned index) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta18</anchor>
+      <arglist>(unsigned index) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_vendor_string</name>
-      <anchor>a7</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta19</anchor>
       <arglist>(const FLAC__byte *string)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_comment</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta20</anchor>
       <arglist>(unsigned index, const Entry &amp;entry)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>insert_comment</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta21</anchor>
       <arglist>(unsigned index, const Entry &amp;entry)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>append_comment</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta22</anchor>
       <arglist>(const Entry &amp;entry)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>delete_comment</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta23</anchor>
       <arglist>(unsigned index)</arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>VorbisComment</name>
-      <anchor>z21_0</anchor>
-      <arglist>(const VorbisComment &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>VorbisComment</name>
-      <anchor>z21_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>VorbisComment</name>
-      <anchor>z21_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
-      <type>VorbisComment &amp;</type>
-      <name>operator=</name>
-      <anchor>z22_0</anchor>
-      <arglist>(const VorbisComment &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>VorbisComment &amp;</type>
-      <name>operator=</name>
-      <anchor>z22_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>VorbisComment &amp;</type>
-      <name>operator=</name>
-      <anchor>z22_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z23_0</anchor>
-      <arglist>(const VorbisComment &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z23_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z23_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z24_0</anchor>
-      <arglist>(const VorbisComment &amp;object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z24_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z24_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
     </member>
+    <member kind="function">
+      <type>::FLAC__MetadataType</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
+      <name>object_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
+      <arglist></arglist>
+    </member>
+    <class kind="class">FLAC::Metadata::VorbisComment::Entry</class>
   </compound>
   <compound kind="class">
     <name>FLAC::Metadata::VorbisComment::Entry</name>
@@ -13798,329 +10746,176 @@
     <member kind="function">
       <type></type>
       <name>Entry</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Entry</name>
-      <anchor>a1</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya1</anchor>
       <arglist>(const char *field, unsigned field_length)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Entry</name>
-      <anchor>a2</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya2</anchor>
       <arglist>(const char *field)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Entry</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya3</anchor>
       <arglist>(const char *field_name, const char *field_value, unsigned field_value_length)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Entry</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya4</anchor>
       <arglist>(const char *field_name, const char *field_value)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Entry</name>
-      <anchor>a5</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya5</anchor>
       <arglist>(const Entry &amp;entry)</arglist>
     </member>
     <member kind="function">
       <type>Entry &amp;</type>
       <name>operator=</name>
-      <anchor>a6</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya6</anchor>
       <arglist>(const Entry &amp;entry)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Entry</name>
-      <anchor>a7</anchor>
-      <arglist>()</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a8</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya8</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_field_length</name>
-      <anchor>a9</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya9</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_field_name_length</name>
-      <anchor>a10</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya10</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_field_value_length</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya11</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>::FLAC__StreamMetadata_VorbisComment_Entry</type>
       <name>get_entry</name>
-      <anchor>a12</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya12</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>get_field</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya13</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>get_field_name</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya14</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>get_field_value</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya15</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field</name>
-      <anchor>a16</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya16</anchor>
       <arglist>(const char *field, unsigned field_length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field</name>
-      <anchor>a17</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya17</anchor>
       <arglist>(const char *field)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field_name</name>
-      <anchor>a18</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya18</anchor>
       <arglist>(const char *field_name)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field_value</name>
-      <anchor>a19</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya19</anchor>
       <arglist>(const char *field_value, unsigned field_value_length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_field_value</name>
-      <anchor>a20</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entrya20</anchor>
       <arglist>(const char *field_value)</arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>bool</type>
       <name>is_valid_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entryp0</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>::FLAC__StreamMetadata_VorbisComment_Entry</type>
       <name>entry_</name>
-      <anchor>n1</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entryp1</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>char *</type>
       <name>field_name_</name>
-      <anchor>n2</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entryp2</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>unsigned</type>
       <name>field_name_length_</name>
-      <anchor>n3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entryp3</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>char *</type>
       <name>field_value_</name>
-      <anchor>n4</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entryp4</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>unsigned</type>
       <name>field_value_length_</name>
-      <anchor>n5</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>FLAC::Metadata::VorbisComment::Entry</name>
-    <filename>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>Entry</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Entry</name>
-      <anchor>a1</anchor>
-      <arglist>(const char *field, unsigned field_length)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Entry</name>
-      <anchor>a2</anchor>
-      <arglist>(const char *field)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Entry</name>
-      <anchor>a3</anchor>
-      <arglist>(const char *field_name, const char *field_value, unsigned field_value_length)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Entry</name>
-      <anchor>a4</anchor>
-      <arglist>(const char *field_name, const char *field_value)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Entry</name>
-      <anchor>a5</anchor>
-      <arglist>(const Entry &amp;entry)</arglist>
-    </member>
-    <member kind="function">
-      <type>Entry &amp;</type>
-      <name>operator=</name>
-      <anchor>a6</anchor>
-      <arglist>(const Entry &amp;entry)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Entry</name>
-      <anchor>a7</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual bool</type>
-      <name>is_valid</name>
-      <anchor>a8</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_field_length</name>
-      <anchor>a9</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_field_name_length</name>
-      <anchor>a10</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_field_value_length</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>::FLAC__StreamMetadata_VorbisComment_Entry</type>
-      <name>get_entry</name>
-      <anchor>a12</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>get_field</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>get_field_name</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const char *</type>
-      <name>get_field_value</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_field</name>
-      <anchor>a16</anchor>
-      <arglist>(const char *field, unsigned field_length)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_field</name>
-      <anchor>a17</anchor>
-      <arglist>(const char *field)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_field_name</name>
-      <anchor>a18</anchor>
-      <arglist>(const char *field_name)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_field_value</name>
-      <anchor>a19</anchor>
-      <arglist>(const char *field_value, unsigned field_value_length)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_field_value</name>
-      <anchor>a20</anchor>
-      <arglist>(const char *field_value)</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>bool</type>
-      <name>is_valid_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::FLAC__StreamMetadata_VorbisComment_Entry</type>
-      <name>entry_</name>
-      <anchor>n1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>char *</type>
-      <name>field_name_</name>
-      <anchor>n2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>unsigned</type>
-      <name>field_name_length_</name>
-      <anchor>n3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>char *</type>
-      <name>field_value_</name>
-      <anchor>n4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>unsigned</type>
-      <name>field_value_length_</name>
-      <anchor>n5</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1VorbisComment_1_1Entry.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisComment_1_1Entryp5</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -14131,189 +10926,305 @@
     <member kind="function">
       <type></type>
       <name>CueSheet</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta1</anchor>
+      <arglist>(const CueSheet &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>CueSheet</name>
-      <anchor>a1</anchor>
-      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>~CueSheet</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <name>CueSheet</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>CueSheet</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>CueSheet &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta6</anchor>
+      <arglist>(const CueSheet &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>CueSheet &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>CueSheet &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>CueSheet &amp;</type>
       <name>assign</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta9</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta10</anchor>
+      <arglist>(const CueSheet &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta13</anchor>
+      <arglist>(const CueSheet &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>get_media_catalog_number</name>
-      <anchor>a4</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta16</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>FLAC__uint64</type>
       <name>get_lead_in</name>
-      <anchor>a5</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta17</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>get_is_cd</name>
-      <anchor>a6</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta18</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_num_tracks</name>
-      <anchor>a7</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta19</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>Track</type>
       <name>get_track</name>
-      <anchor>a8</anchor>
-      <arglist>(unsigned i) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta20</anchor>
+      <arglist>(unsigned i) const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_media_catalog_number</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta21</anchor>
       <arglist>(const char value[128])</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_lead_in</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta22</anchor>
       <arglist>(FLAC__uint64 value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_is_cd</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta23</anchor>
       <arglist>(bool value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_index</name>
-      <anchor>a12</anchor>
-      <arglist>(unsigned track_num, unsigned index_num, const::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta24</anchor>
+      <arglist>(unsigned track_num, unsigned index_num, const ::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>insert_index</name>
-      <anchor>a13</anchor>
-      <arglist>(unsigned track_num, unsigned index_num, const::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta25</anchor>
+      <arglist>(unsigned track_num, unsigned index_num, const ::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>delete_index</name>
-      <anchor>a14</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta26</anchor>
       <arglist>(unsigned track_num, unsigned index_num)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_track</name>
-      <anchor>a15</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta27</anchor>
       <arglist>(unsigned i, const Track &amp;track)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>insert_track</name>
-      <anchor>a16</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta28</anchor>
       <arglist>(unsigned i, const Track &amp;track)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>delete_track</name>
-      <anchor>a17</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta29</anchor>
       <arglist>(unsigned i)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>is_legal</name>
-      <anchor>a18</anchor>
-      <arglist>(bool check_cd_da_subset=false, const char **violation=0) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta30</anchor>
+      <arglist>(bool check_cd_da_subset=false, const char **violation=0) const </arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>CueSheet</name>
-      <anchor>z25_0</anchor>
-      <arglist>(const CueSheet &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>CueSheet</name>
-      <anchor>z25_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>CueSheet</name>
-      <anchor>z25_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
-      <type>CueSheet &amp;</type>
-      <name>operator=</name>
-      <anchor>z26_0</anchor>
-      <arglist>(const CueSheet &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>CueSheet &amp;</type>
-      <name>operator=</name>
-      <anchor>z26_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>CueSheet &amp;</type>
-      <name>operator=</name>
-      <anchor>z26_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
+      <type>FLAC__uint32</type>
+      <name>calculate_cddb_id</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheeta31</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z27_0</anchor>
-      <arglist>(const CueSheet &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z27_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z27_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z28_0</anchor>
-      <arglist>(const CueSheet &amp;object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z28_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z28_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
     </member>
+    <member kind="function">
+      <type>::FLAC__MetadataType</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
+      <name>object_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
+      <arglist></arglist>
+    </member>
+    <class kind="class">FLAC::Metadata::CueSheet::Track</class>
   </compound>
   <compound kind="class">
     <name>FLAC::Metadata::CueSheet::Track</name>
@@ -14321,257 +11232,440 @@
     <member kind="function">
       <type></type>
       <name>Track</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka1</anchor>
+      <arglist>(const ::FLAC__StreamMetadata_CueSheet_Track *track)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Track</name>
-      <anchor>a1</anchor>
-      <arglist>(const::FLAC__StreamMetadata_CueSheet_Track *track)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Track</name>
-      <anchor>a2</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka2</anchor>
       <arglist>(const Track &amp;track)</arglist>
     </member>
     <member kind="function">
       <type>Track &amp;</type>
       <name>operator=</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka3</anchor>
       <arglist>(const Track &amp;track)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Track</name>
-      <anchor>a4</anchor>
-      <arglist>()</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual bool</type>
       <name>is_valid</name>
-      <anchor>a5</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka5</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>FLAC__uint64</type>
       <name>get_offset</name>
-      <anchor>a6</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka6</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>FLAC__byte</type>
       <name>get_number</name>
-      <anchor>a7</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>const char *</type>
       <name>get_isrc</name>
-      <anchor>a8</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka8</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>unsigned</type>
       <name>get_type</name>
-      <anchor>a9</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka9</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>get_pre_emphasis</name>
-      <anchor>a10</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka10</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>FLAC__byte</type>
       <name>get_num_indices</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka11</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>::FLAC__StreamMetadata_CueSheet_Index</type>
       <name>get_index</name>
-      <anchor>a12</anchor>
-      <arglist>(unsigned i) const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka12</anchor>
+      <arglist>(unsigned i) const </arglist>
     </member>
     <member kind="function">
-      <type>const::FLAC__StreamMetadata_CueSheet_Track *</type>
+      <type>const ::FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>get_track</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka13</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_offset</name>
-      <anchor>a14</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka14</anchor>
       <arglist>(FLAC__uint64 value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_number</name>
-      <anchor>a15</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka15</anchor>
       <arglist>(FLAC__byte value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_isrc</name>
-      <anchor>a16</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka16</anchor>
       <arglist>(const char value[12])</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_type</name>
-      <anchor>a17</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka17</anchor>
       <arglist>(unsigned value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_pre_emphasis</name>
-      <anchor>a18</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka18</anchor>
       <arglist>(bool value)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_index</name>
-      <anchor>a19</anchor>
-      <arglist>(unsigned i, const::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Tracka19</anchor>
+      <arglist>(unsigned i, const ::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>::FLAC__StreamMetadata_CueSheet_Track *</type>
       <name>object_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1CueSheet_1_1Trackp0</anchor>
       <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
-    <name>FLAC::Metadata::CueSheet::Track</name>
-    <filename>classFLAC_1_1Metadata_1_1CueSheet_1_1Track.html</filename>
+    <name>FLAC::Metadata::Picture</name>
+    <filename>classFLAC_1_1Metadata_1_1Picture.html</filename>
+    <base>FLAC::Metadata::Prototype</base>
     <member kind="function">
       <type></type>
-      <name>Track</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <name>Picture</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea1</anchor>
+      <arglist>(const Picture &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>Track</name>
-      <anchor>a1</anchor>
-      <arglist>(const::FLAC__StreamMetadata_CueSheet_Track *track)</arglist>
+      <name>Picture</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>Track</name>
-      <anchor>a2</anchor>
-      <arglist>(const Track &amp;track)</arglist>
+      <name>Picture</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>Track &amp;</type>
+      <type></type>
+      <name>Picture</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>Picture &amp;</type>
       <name>operator=</name>
-      <anchor>a3</anchor>
-      <arglist>(const Track &amp;track)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Track</name>
-      <anchor>a4</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual bool</type>
-      <name>is_valid</name>
-      <anchor>a5</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea6</anchor>
+      <arglist>(const Picture &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>get_offset</name>
-      <anchor>a6</anchor>
-      <arglist>() const</arglist>
+      <type>Picture &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
-      <type>FLAC__byte</type>
-      <name>get_number</name>
-      <anchor>a7</anchor>
-      <arglist>() const</arglist>
+      <type>Picture &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
-      <type>const char *</type>
-      <name>get_isrc</name>
-      <anchor>a8</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_type</name>
-      <anchor>a9</anchor>
-      <arglist>() const</arglist>
+      <type>Picture &amp;</type>
+      <name>assign</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea9</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>get_pre_emphasis</name>
-      <anchor>a10</anchor>
-      <arglist>() const</arglist>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea10</anchor>
+      <arglist>(const Picture &amp;object) const </arglist>
     </member>
     <member kind="function">
-      <type>FLAC__byte</type>
-      <name>get_num_indices</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
     </member>
     <member kind="function">
-      <type>::FLAC__StreamMetadata_CueSheet_Index</type>
-      <name>get_index</name>
-      <anchor>a12</anchor>
-      <arglist>(unsigned i) const</arglist>
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
-      <type>const::FLAC__StreamMetadata_CueSheet_Track *</type>
-      <name>get_track</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea13</anchor>
+      <arglist>(const Picture &amp;object) const </arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>set_offset</name>
-      <anchor>a14</anchor>
-      <arglist>(FLAC__uint64 value)</arglist>
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>set_number</name>
-      <anchor>a15</anchor>
-      <arglist>(FLAC__byte value)</arglist>
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>set_isrc</name>
-      <anchor>a16</anchor>
-      <arglist>(const char value[12])</arglist>
+      <type>::FLAC__StreamMetadata_Picture_Type</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea16</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>get_mime_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea17</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>const FLAC__byte *</type>
+      <name>get_description</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea18</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint32</type>
+      <name>get_width</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea19</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint32</type>
+      <name>get_height</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea20</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint32</type>
+      <name>get_depth</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea21</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint32</type>
+      <name>get_colors</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea22</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>FLAC__uint32</type>
+      <name>get_data_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea23</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>const FLAC__byte *</type>
+      <name>get_data</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea24</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>set_type</name>
-      <anchor>a17</anchor>
-      <arglist>(unsigned value)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea25</anchor>
+      <arglist>(::FLAC__StreamMetadata_Picture_Type type)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>set_mime_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea26</anchor>
+      <arglist>(const char *string)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>set_description</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea27</anchor>
+      <arglist>(const FLAC__byte *string)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
-      <name>set_pre_emphasis</name>
-      <anchor>a18</anchor>
-      <arglist>(bool value)</arglist>
+      <name>set_width</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea28</anchor>
+      <arglist>(FLAC__uint32 value) const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
-      <name>set_index</name>
-      <anchor>a19</anchor>
-      <arglist>(unsigned i, const::FLAC__StreamMetadata_CueSheet_Index &amp;index)</arglist>
+      <name>set_height</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea29</anchor>
+      <arglist>(FLAC__uint32 value) const </arglist>
     </member>
-    <member kind="variable" protection="public">
-      <type>::FLAC__StreamMetadata_CueSheet_Track *</type>
+    <member kind="function">
+      <type>void</type>
+      <name>set_depth</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea30</anchor>
+      <arglist>(FLAC__uint32 value) const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_colors</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea31</anchor>
+      <arglist>(FLAC__uint32 value) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>set_data</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Picture.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Picturea32</anchor>
+      <arglist>(const FLAC__byte *data, FLAC__uint32 data_length)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
       <name>object_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -14582,209 +11676,367 @@
     <member kind="function">
       <type></type>
       <name>Unknown</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna1</anchor>
+      <arglist>(const Unknown &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>Unknown</name>
-      <anchor>a1</anchor>
-      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna2</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>~Unknown</name>
-      <anchor>a2</anchor>
-      <arglist>()</arglist>
+      <name>Unknown</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna3</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Unknown</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna4</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>Unknown &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna6</anchor>
+      <arglist>(const Unknown &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>Unknown &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna7</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object)</arglist>
+    </member>
+    <member kind="function">
+      <type>Unknown &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna8</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object)</arglist>
     </member>
     <member kind="function">
       <type>Unknown &amp;</type>
       <name>assign</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna9</anchor>
       <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna10</anchor>
+      <arglist>(const Unknown &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna11</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator==</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna12</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna13</anchor>
+      <arglist>(const Unknown &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna14</anchor>
+      <arglist>(const ::FLAC__StreamMetadata &amp;object) const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>operator!=</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna15</anchor>
+      <arglist>(const ::FLAC__StreamMetadata *object) const </arglist>
     </member>
     <member kind="function">
       <type>const FLAC__byte *</type>
       <name>get_data</name>
-      <anchor>a4</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna16</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a5</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna17</anchor>
       <arglist>(const FLAC__byte *data, unsigned length)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_data</name>
-      <anchor>a6</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Unknown.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Unknowna18</anchor>
       <arglist>(FLAC__byte *data, unsigned length, bool copy)</arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>Unknown</name>
-      <anchor>z29_0</anchor>
-      <arglist>(const Unknown &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Unknown</name>
-      <anchor>z29_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Unknown</name>
-      <anchor>z29_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Unknown &amp;</type>
-      <name>operator=</name>
-      <anchor>z30_0</anchor>
-      <arglist>(const Unknown &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Unknown &amp;</type>
-      <name>operator=</name>
-      <anchor>z30_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object)</arglist>
-    </member>
-    <member kind="function">
-      <type>Unknown &amp;</type>
-      <name>operator=</name>
-      <anchor>z30_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object)</arglist>
-    </member>
-    <member kind="function">
       <type>bool</type>
       <name>operator==</name>
-      <anchor>z31_0</anchor>
-      <arglist>(const Unknown &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z31_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>operator==</name>
-      <anchor>z31_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga1</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>operator!=</name>
-      <anchor>z32_0</anchor>
-      <arglist>(const Unknown &amp;object) const</arglist>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga4</anchor>
+      <arglist>(const Prototype &amp;) const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z32_1</anchor>
-      <arglist>(const::FLAC__StreamMetadata &amp;object) const</arglist>
+      <name>is_valid</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga7</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>operator!=</name>
-      <anchor>z32_2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *object) const</arglist>
+      <name>get_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta27</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>::FLAC__MetadataType</type>
+      <name>get_type</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta28</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta29</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommenta30</anchor>
+      <arglist>(bool)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator const ::FLAC__StreamMetadata *</name>
+      <anchorfile>group__flacpp__metadata__object.html</anchorfile>
+      <anchor>ga8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>Prototype &amp;</type>
+      <name>assign_object</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb0</anchor>
+      <arglist>(::FLAC__StreamMetadata *object, bool copy)</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clear</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentb1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__StreamMetadata *</type>
+      <name>object_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentp0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>SimpleIterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend class</type>
+      <name>Iterator</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Prototype.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1VorbisCommentn1</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
     <name>FLAC::Metadata::SimpleIterator</name>
     <filename>classFLAC_1_1Metadata_1_1SimpleIterator.html</filename>
     <member kind="function">
-      <type></type>
-      <name>SimpleIterator</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~SimpleIterator</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
+      <type>bool</type>
+      <name>is_valid</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>init</name>
-      <anchor>a2</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora3</anchor>
       <arglist>(const char *filename, bool read_only, bool preserve_file_stats)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>Status</type>
       <name>status</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora4</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>is_writable</name>
-      <anchor>a5</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora5</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>next</name>
-      <anchor>a6</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora6</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>prev</name>
-      <anchor>a7</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora7</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>is_last</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora8</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>off_t</type>
+      <name>get_block_offset</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora9</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>::FLAC__MetadataType</type>
       <name>get_block_type</name>
-      <anchor>a8</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora10</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>get_block_length</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora11</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>get_application_id</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora12</anchor>
+      <arglist>(FLAC__byte *id)</arglist>
     </member>
     <member kind="function">
       <type>Prototype *</type>
       <name>get_block</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora13</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_block</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora14</anchor>
       <arglist>(Prototype *block, bool use_padding=true)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>insert_block_after</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora15</anchor>
       <arglist>(Prototype *block, bool use_padding=true)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>delete_block</name>
-      <anchor>a12</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratora16</anchor>
       <arglist>(bool use_padding=true)</arglist>
     </member>
-    <member kind="function" protection="public">
+    <member kind="function" protection="protected">
       <type>void</type>
       <name>clear</name>
-      <anchor>b0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratorb0</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>::FLAC__Metadata_SimpleIterator *</type>
       <name>iterator_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIteratorp0</anchor>
+      <arglist></arglist>
+    </member>
+    <class kind="class">FLAC::Metadata::SimpleIterator::Status</class>
+  </compound>
+  <compound kind="class">
+    <name>FLAC::Metadata::SimpleIterator::Status</name>
+    <filename>classFLAC_1_1Metadata_1_1SimpleIterator_1_1Status.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>Status</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIterator_1_1Statusa0</anchor>
+      <arglist>(::FLAC__Metadata_SimpleIteratorStatus status)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator::FLAC__Metadata_SimpleIteratorStatus</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIterator_1_1Statusa1</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>as_cstring</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIterator_1_1Statusa2</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__Metadata_SimpleIteratorStatus</type>
+      <name>status_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1SimpleIterator_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1SimpleIterator_1_1Statusp0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -14792,93 +12044,127 @@
     <name>FLAC::Metadata::Chain</name>
     <filename>classFLAC_1_1Metadata_1_1Chain.html</filename>
     <member kind="function">
-      <type></type>
-      <name>Chain</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Chain</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
       <type>bool</type>
       <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>Status</type>
       <name>status</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina3</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>read</name>
-      <anchor>a4</anchor>
-      <arglist>(const char *filename)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina4</anchor>
+      <arglist>(const char *filename, bool is_ogg=false)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>read</name>
-      <anchor>a5</anchor>
-      <arglist>(FLAC__IOHandle handle, FLAC__IOCallbacks callbacks)</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina5</anchor>
+      <arglist>(FLAC__IOHandle handle, FLAC__IOCallbacks callbacks, bool is_ogg=false)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>check_if_tempfile_needed</name>
-      <anchor>a6</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina6</anchor>
       <arglist>(bool use_padding)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>write</name>
-      <anchor>a7</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina7</anchor>
       <arglist>(bool use_padding=true, bool preserve_file_stats=false)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>write</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina8</anchor>
       <arglist>(bool use_padding,::FLAC__IOHandle handle,::FLAC__IOCallbacks callbacks)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>write</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina9</anchor>
       <arglist>(bool use_padding,::FLAC__IOHandle handle,::FLAC__IOCallbacks callbacks,::FLAC__IOHandle temp_handle,::FLAC__IOCallbacks temp_callbacks)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>merge_padding</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina10</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>sort_padding</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chaina11</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="virtual">
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>clear</name>
-      <anchor>b0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chainb0</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>::FLAC__Metadata_Chain *</type>
       <name>chain_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chainp0</anchor>
       <arglist></arglist>
     </member>
     <member kind="friend">
       <type>friend class</type>
       <name>Iterator</name>
-      <anchor>l0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chainn0</anchor>
+      <arglist></arglist>
+    </member>
+    <class kind="class">FLAC::Metadata::Chain::Status</class>
+  </compound>
+  <compound kind="class">
+    <name>FLAC::Metadata::Chain::Status</name>
+    <filename>classFLAC_1_1Metadata_1_1Chain_1_1Status.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>Status</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chain_1_1Statusa0</anchor>
+      <arglist>(::FLAC__Metadata_ChainStatus status)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator::FLAC__Metadata_ChainStatus</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chain_1_1Statusa1</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>const char *</type>
+      <name>as_cstring</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chain_1_1Statusa2</anchor>
+      <arglist>() const </arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>::FLAC__Metadata_ChainStatus</type>
+      <name>status_</name>
+      <anchorfile>classFLAC_1_1Metadata_1_1Chain_1_1Status.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Chain_1_1Statusp0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -14886,1653 +12172,87 @@
     <name>FLAC::Metadata::Iterator</name>
     <filename>classFLAC_1_1Metadata_1_1Iterator.html</filename>
     <member kind="function">
-      <type></type>
-      <name>Iterator</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Iterator</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
       <type>bool</type>
       <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora2</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>init</name>
-      <anchor>a3</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora3</anchor>
       <arglist>(Chain &amp;chain)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>next</name>
-      <anchor>a4</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora4</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>prev</name>
-      <anchor>a5</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora5</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>::FLAC__MetadataType</type>
       <name>get_block_type</name>
-      <anchor>a6</anchor>
-      <arglist>() const</arglist>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora6</anchor>
+      <arglist>() const </arglist>
     </member>
     <member kind="function">
       <type>Prototype *</type>
       <name>get_block</name>
-      <anchor>a7</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora7</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>set_block</name>
-      <anchor>a8</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora8</anchor>
       <arglist>(Prototype *block)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>delete_block</name>
-      <anchor>a9</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora9</anchor>
       <arglist>(bool replace_with_padding)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>insert_block_before</name>
-      <anchor>a10</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora10</anchor>
       <arglist>(Prototype *block)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>insert_block_after</name>
-      <anchor>a11</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratora11</anchor>
       <arglist>(Prototype *block)</arglist>
     </member>
-    <member kind="function" protection="public" virtualness="virtual">
+    <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>clear</name>
-      <anchor>b0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratorb0</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="variable" protection="public">
+    <member kind="variable" protection="protected">
       <type>::FLAC__Metadata_Iterator *</type>
       <name>iterator_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>OggFLAC::Decoder::Stream</name>
-    <filename>classOggFLAC_1_1Decoder_1_1Stream.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>Stream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Stream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(long value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond</name>
-      <anchor>a5</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_application</name>
-      <anchor>a6</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_all</name>
-      <anchor>a7</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore</name>
-      <anchor>a8</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_application</name>
-      <anchor>a9</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_all</name>
-      <anchor>a10</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a11</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Decoder::Stream::State</type>
-      <name>get_FLAC_stream_decoder_state</name>
-      <anchor>a12</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>::FLAC__ChannelAssignment</type>
-      <name>get_channel_assignment</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a16</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a17</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a18</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchor>a19</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>flush</name>
-      <anchor>a20</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>reset</name>
-      <anchor>a21</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_single</name>
-      <anchor>a22</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_metadata</name>
-      <anchor>a23</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_stream</name>
-      <anchor>a24</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderReadStatus</type>
-      <name>read_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(FLAC__byte buffer[], unsigned *bytes)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>metadata_callback</name>
-      <anchor>b2</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>error_callback</name>
-      <anchor>b3</anchor>
-      <arglist>(::FLAC__StreamDecoderErrorStatus status)=0</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::OggFLAC__StreamDecoder *</type>
-      <name>decoder_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>OggFLAC::Decoder::SeekableStream</name>
-    <filename>classOggFLAC_1_1Decoder_1_1SeekableStream.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>SeekableStream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~SeekableStream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(long value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_md5_checking</name>
-      <anchor>a5</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond</name>
-      <anchor>a6</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_application</name>
-      <anchor>a7</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_all</name>
-      <anchor>a8</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore</name>
-      <anchor>a9</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_application</name>
-      <anchor>a10</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_all</name>
-      <anchor>a11</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a12</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC::Decoder::Stream::State</type>
-      <name>get_stream_decoder_state</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Decoder::Stream::State</type>
-      <name>get_FLAC_stream_decoder_state</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_md5_checking</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a16</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>::FLAC__ChannelAssignment</type>
-      <name>get_channel_assignment</name>
-      <anchor>a17</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a18</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a19</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a20</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a21</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>finish</name>
-      <anchor>a22</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>flush</name>
-      <anchor>a23</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>reset</name>
-      <anchor>a24</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_single</name>
-      <anchor>a25</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_metadata</name>
-      <anchor>a26</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_stream</name>
-      <anchor>a27</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>seek_absolute</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__uint64 sample)</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::OggFLAC__SeekableStreamDecoderReadStatus</type>
-      <name>read_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(FLAC__byte buffer[], unsigned *bytes)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::OggFLAC__SeekableStreamDecoderSeekStatus</type>
-      <name>seek_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(FLAC__uint64 absolute_byte_offset)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::OggFLAC__SeekableStreamDecoderTellStatus</type>
-      <name>tell_callback</name>
-      <anchor>b2</anchor>
-      <arglist>(FLAC__uint64 *absolute_byte_offset)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::OggFLAC__SeekableStreamDecoderLengthStatus</type>
-      <name>length_callback</name>
-      <anchor>b3</anchor>
-      <arglist>(FLAC__uint64 *stream_length)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual bool</type>
-      <name>eof_callback</name>
-      <anchor>b4</anchor>
-      <arglist>()=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b5</anchor>
-      <arglist>(const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>metadata_callback</name>
-      <anchor>b6</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>error_callback</name>
-      <anchor>b7</anchor>
-      <arglist>(::FLAC__StreamDecoderErrorStatus status)=0</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::OggFLAC__SeekableStreamDecoder *</type>
-      <name>decoder_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>OggFLAC::Decoder::File</name>
-    <filename>classOggFLAC_1_1Decoder_1_1File.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>File</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~File</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(long value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_md5_checking</name>
-      <anchor>a5</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_filename</name>
-      <anchor>a6</anchor>
-      <arglist>(const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond</name>
-      <anchor>a7</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_application</name>
-      <anchor>a8</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_respond_all</name>
-      <anchor>a9</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore</name>
-      <anchor>a10</anchor>
-      <arglist>(::FLAC__MetadataType type)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_application</name>
-      <anchor>a11</anchor>
-      <arglist>(const FLAC__byte id[4])</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata_ignore_all</name>
-      <anchor>a12</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a13</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC::Decoder::SeekableStream::State</type>
-      <name>get_seekable_stream_decoder_state</name>
-      <anchor>a14</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>OggFLAC::Decoder::Stream::State</type>
-      <name>get_stream_decoder_state</name>
-      <anchor>a15</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Decoder::Stream::State</type>
-      <name>get_FLAC_stream_decoder_state</name>
-      <anchor>a16</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_md5_checking</name>
-      <anchor>a17</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a18</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>::FLAC__ChannelAssignment</type>
-      <name>get_channel_assignment</name>
-      <anchor>a19</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a20</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a21</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a22</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a23</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>finish</name>
-      <anchor>a24</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_single</name>
-      <anchor>a25</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_metadata</name>
-      <anchor>a26</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_until_end_of_file</name>
-      <anchor>a27</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>seek_absolute</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__uint64 sample)</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamDecoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(const::FLAC__Frame *frame, const FLAC__int32 *const buffer[])=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>metadata_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>error_callback</name>
-      <anchor>b2</anchor>
-      <arglist>(::FLAC__StreamDecoderErrorStatus status)=0</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::OggFLAC__FileDecoder *</type>
-      <name>decoder_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>OggFLAC::Encoder::Stream</name>
-    <filename>classOggFLAC_1_1Encoder_1_1Stream.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>Stream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Stream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(long value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_verify</name>
-      <anchor>a5</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_streamable_subset</name>
-      <anchor>a6</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_loose_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_channels</name>
-      <anchor>a9</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_bits_per_sample</name>
-      <anchor>a10</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_sample_rate</name>
-      <anchor>a11</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_blocksize</name>
-      <anchor>a12</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_lpc_order</name>
-      <anchor>a13</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_qlp_coeff_precision</name>
-      <anchor>a14</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_qlp_coeff_prec_search</name>
-      <anchor>a15</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_escape_coding</name>
-      <anchor>a16</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_exhaustive_model_search</name>
-      <anchor>a17</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_min_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_residual_partition_order</name>
-      <anchor>a19</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_rice_parameter_search_dist</name>
-      <anchor>a20</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_total_samples_estimate</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata</name>
-      <anchor>a22</anchor>
-      <arglist>(::FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a23</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Encoder::Stream::State</type>
-      <name>get_FLAC_stream_encoder_state</name>
-      <anchor>a24</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Decoder::Stream::State</type>
-      <name>get_verify_decoder_state</name>
-      <anchor>a25</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>get_verify_decoder_error_stats</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_verify</name>
-      <anchor>a27</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_streamable_subset</name>
-      <anchor>a28</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_mid_side_stereo</name>
-      <anchor>a29</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_loose_mid_side_stereo</name>
-      <anchor>a30</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a31</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a32</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a33</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a34</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_lpc_order</name>
-      <anchor>a35</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_qlp_coeff_precision</name>
-      <anchor>a36</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_qlp_coeff_prec_search</name>
-      <anchor>a37</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_escape_coding</name>
-      <anchor>a38</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_exhaustive_model_search</name>
-      <anchor>a39</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_min_residual_partition_order</name>
-      <anchor>a40</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_residual_partition_order</name>
-      <anchor>a41</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_rice_parameter_search_dist</name>
-      <anchor>a42</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>get_total_samples_estimate</name>
-      <anchor>a43</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a44</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchor>a45</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process</name>
-      <anchor>a46</anchor>
-      <arglist>(const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_interleaved</name>
-      <anchor>a47</anchor>
-      <arglist>(const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamEncoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual void</type>
-      <name>metadata_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(const::FLAC__StreamMetadata *metadata)=0</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::OggFLAC__StreamEncoder *</type>
-      <name>encoder_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>OggFLAC::Encoder::SeekableStream</name>
-    <filename>classOggFLAC_1_1Encoder_1_1SeekableStream.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>SeekableStream</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~SeekableStream</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(long value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_verify</name>
-      <anchor>a5</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_streamable_subset</name>
-      <anchor>a6</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_loose_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_channels</name>
-      <anchor>a9</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_bits_per_sample</name>
-      <anchor>a10</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_sample_rate</name>
-      <anchor>a11</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_blocksize</name>
-      <anchor>a12</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_lpc_order</name>
-      <anchor>a13</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_qlp_coeff_precision</name>
-      <anchor>a14</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_qlp_coeff_prec_search</name>
-      <anchor>a15</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_escape_coding</name>
-      <anchor>a16</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_exhaustive_model_search</name>
-      <anchor>a17</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_min_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_residual_partition_order</name>
-      <anchor>a19</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_rice_parameter_search_dist</name>
-      <anchor>a20</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_total_samples_estimate</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata</name>
-      <anchor>a22</anchor>
-      <arglist>(::FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a23</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Encoder::Stream::State</type>
-      <name>get_FLAC_stream_encoder_state</name>
-      <anchor>a24</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Decoder::Stream::State</type>
-      <name>get_verify_decoder_state</name>
-      <anchor>a25</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>get_verify_decoder_error_stats</name>
-      <anchor>a26</anchor>
-      <arglist>(FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_verify</name>
-      <anchor>a27</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_streamable_subset</name>
-      <anchor>a28</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_mid_side_stereo</name>
-      <anchor>a29</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_loose_mid_side_stereo</name>
-      <anchor>a30</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a31</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a32</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a33</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a34</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_lpc_order</name>
-      <anchor>a35</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_qlp_coeff_precision</name>
-      <anchor>a36</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_qlp_coeff_prec_search</name>
-      <anchor>a37</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_escape_coding</name>
-      <anchor>a38</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_exhaustive_model_search</name>
-      <anchor>a39</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_min_residual_partition_order</name>
-      <anchor>a40</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_residual_partition_order</name>
-      <anchor>a41</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_rice_parameter_search_dist</name>
-      <anchor>a42</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>get_total_samples_estimate</name>
-      <anchor>a43</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a44</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchor>a45</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process</name>
-      <anchor>a46</anchor>
-      <arglist>(const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_interleaved</name>
-      <anchor>a47</anchor>
-      <arglist>(const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::OggFLAC__SeekableStreamEncoderReadStatus</type>
-      <name>read_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(FLAC__byte buffer[], unsigned *bytes)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamEncoderSeekStatus</type>
-      <name>seek_callback</name>
-      <anchor>b1</anchor>
-      <arglist>(FLAC__uint64 absolute_byte_offset)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__SeekableStreamEncoderTellStatus</type>
-      <name>tell_callback</name>
-      <anchor>b2</anchor>
-      <arglist>(FLAC__uint64 *absolute_byte_offset)=0</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="pure">
-      <type>virtual::FLAC__StreamEncoderWriteStatus</type>
-      <name>write_callback</name>
-      <anchor>b3</anchor>
-      <arglist>(const FLAC__byte buffer[], unsigned bytes, unsigned samples, unsigned current_frame)=0</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::OggFLAC__SeekableStreamEncoder *</type>
-      <name>encoder_</name>
-      <anchor>n0</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>OggFLAC::Encoder::File</name>
-    <filename>classOggFLAC_1_1Encoder_1_1File.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>File</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~File</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>is_valid</name>
-      <anchor>a2</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator bool</name>
-      <anchor>a3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_serial_number</name>
-      <anchor>a4</anchor>
-      <arglist>(long value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_verify</name>
-      <anchor>a5</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_streamable_subset</name>
-      <anchor>a6</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_mid_side_stereo</name>
-      <anchor>a7</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_loose_mid_side_stereo</name>
-      <anchor>a8</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_channels</name>
-      <anchor>a9</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_bits_per_sample</name>
-      <anchor>a10</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_sample_rate</name>
-      <anchor>a11</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_blocksize</name>
-      <anchor>a12</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_lpc_order</name>
-      <anchor>a13</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_qlp_coeff_precision</name>
-      <anchor>a14</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_qlp_coeff_prec_search</name>
-      <anchor>a15</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_escape_coding</name>
-      <anchor>a16</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_do_exhaustive_model_search</name>
-      <anchor>a17</anchor>
-      <arglist>(bool value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_min_residual_partition_order</name>
-      <anchor>a18</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_max_residual_partition_order</name>
-      <anchor>a19</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_rice_parameter_search_dist</name>
-      <anchor>a20</anchor>
-      <arglist>(unsigned value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_total_samples_estimate</name>
-      <anchor>a21</anchor>
-      <arglist>(FLAC__uint64 value)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_metadata</name>
-      <anchor>a22</anchor>
-      <arglist>(::FLAC__StreamMetadata **metadata, unsigned num_blocks)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>set_filename</name>
-      <anchor>a23</anchor>
-      <arglist>(const char *value)</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>get_state</name>
-      <anchor>a24</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>SeekableStream::State</type>
-      <name>get_seekable_stream_encoder_state</name>
-      <anchor>a25</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Encoder::Stream::State</type>
-      <name>get_FLAC_stream_encoder_state</name>
-      <anchor>a26</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC::Decoder::Stream::State</type>
-      <name>get_verify_decoder_state</name>
-      <anchor>a27</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>get_verify_decoder_error_stats</name>
-      <anchor>a28</anchor>
-      <arglist>(FLAC__uint64 *absolute_sample, unsigned *frame_number, unsigned *channel, unsigned *sample, FLAC__int32 *expected, FLAC__int32 *got)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_verify</name>
-      <anchor>a29</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_streamable_subset</name>
-      <anchor>a30</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_mid_side_stereo</name>
-      <anchor>a31</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_loose_mid_side_stereo</name>
-      <anchor>a32</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_channels</name>
-      <anchor>a33</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_bits_per_sample</name>
-      <anchor>a34</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_sample_rate</name>
-      <anchor>a35</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_blocksize</name>
-      <anchor>a36</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_lpc_order</name>
-      <anchor>a37</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_qlp_coeff_precision</name>
-      <anchor>a38</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_qlp_coeff_prec_search</name>
-      <anchor>a39</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_escape_coding</name>
-      <anchor>a40</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>get_do_exhaustive_model_search</name>
-      <anchor>a41</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_min_residual_partition_order</name>
-      <anchor>a42</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_max_residual_partition_order</name>
-      <anchor>a43</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>unsigned</type>
-      <name>get_rice_parameter_search_dist</name>
-      <anchor>a44</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>FLAC__uint64</type>
-      <name>get_total_samples_estimate</name>
-      <anchor>a45</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>State</type>
-      <name>init</name>
-      <anchor>a46</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchor>a47</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process</name>
-      <anchor>a48</anchor>
-      <arglist>(const FLAC__int32 *const buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>process_interleaved</name>
-      <anchor>a49</anchor>
-      <arglist>(const FLAC__int32 buffer[], unsigned samples)</arglist>
-    </member>
-    <member kind="function" protection="public" virtualness="virtual">
-      <type>virtual void</type>
-      <name>progress_callback</name>
-      <anchor>b0</anchor>
-      <arglist>(FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate)</arglist>
-    </member>
-    <member kind="variable" protection="public">
-      <type>::OggFLAC__FileEncoder *</type>
-      <name>encoder_</name>
-      <anchor>n0</anchor>
+      <anchorfile>classFLAC_1_1Metadata_1_1Iterator.html</anchorfile>
+      <anchor>FLAC_1_1Metadata_1_1Iteratorp0</anchor>
       <arglist></arglist>
     </member>
   </compound>

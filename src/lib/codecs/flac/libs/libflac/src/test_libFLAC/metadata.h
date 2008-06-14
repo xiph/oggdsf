@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +21,8 @@
 
 #include "FLAC/ordinals.h"
 
-FLAC__bool test_metadata();
+FLAC__bool test_metadata(void);
+FLAC__bool test_metadata_file_manipulation(void);
+FLAC__bool test_metadata_object(void);
 
 #endif

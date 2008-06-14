@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,8 +16,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "utils.h"
 #include "FLAC/assert.h"
+#include "share/alloc.h"
 #include "share/utf8.h"
 #include <ctype.h>
 #include <stdarg.h>
@@ -53,7 +58,7 @@ char *local_strdup(const char *source)
 
 void local_strcat(char **dest, const char *source)
 {
-	unsigned ndest, nsource;
+	size_t ndest, nsource;
 
 	FLAC__ASSERT(0 != dest);
 	FLAC__ASSERT(0 != source);
@@ -64,7 +69,7 @@ void local_strcat(char **dest, const char *source)
 	if(nsource == 0)
 		return;
 
-	*dest = (char*)realloc(*dest, ndest + nsource + 1);
+	*dest = (char*)safe_realloc_add_3op_(*dest, ndest, /*+*/nsource, /*+*/1);
 	if(0 == *dest)
 		die("out of memory growing string");
 	strcpy((*dest)+ndest, source);
@@ -225,7 +230,7 @@ void write_vc_field(const char *filename, const FLAC__StreamMetadata_VorbisComme
 			 */
 			char *converted;
 
-			if(utf8_decode(entry->entry, &converted) >= 0) {
+			if(utf8_decode((const char *)entry->entry, &converted) >= 0) {
 				(void) local_fwrite(converted, 1, strlen(converted), f);
 				free(converted);
 			}

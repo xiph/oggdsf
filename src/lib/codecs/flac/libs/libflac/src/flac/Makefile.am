@@ -1,5 +1,5 @@
 #  flac - Command-line FLAC encoder/decoder
-#  Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -19,18 +19,20 @@ bin_PROGRAMS = flac
 
 AM_CFLAGS = @OGG_CFLAGS@
 
-if FLaC__HAS_OGG
-NEED_OGGFLAC_LIB = $(top_builddir)/src/libOggFLAC/libOggFLAC.la
-endif
-
 EXTRA_DIST = \
 	Makefile.lite \
-	flac.dsp
+	Makefile.lite.iffscan \
+	flac.dsp \
+	flac.vcproj \
+	iffscan.c \
+	iffscan.dsp \
+	iffscan.vcproj
 
 flac_SOURCES = \
 	analyze.c \
 	decode.c \
 	encode.c \
+	foreign_metadata.c \
 	main.c \
 	local_string_utils.c \
 	utils.c \
@@ -38,12 +40,12 @@ flac_SOURCES = \
 	analyze.h \
 	decode.h \
 	encode.h \
+	foreign_metadata.h \
 	local_string_utils.h \
 	utils.h \
 	vorbiscomment.h
 
 flac_LDADD = \
-	$(NEED_OGGFLAC_LIB) \
 	$(top_builddir)/src/share/grabbag/libgrabbag.la \
 	$(top_builddir)/src/share/getopt/libgetopt.a \
 	$(top_builddir)/src/share/replaygain_analysis/libreplaygain_analysis.la \
@@ -52,4 +54,5 @@ flac_LDADD = \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
 	@OGG_LIBS@ \
 	@LIBICONV@ \
+	@MINGW_WINSOCK_LIBS@ \
 	-lm

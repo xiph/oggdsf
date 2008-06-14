@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -35,12 +35,17 @@ PATH=../src/flac:$PATH
 PATH=../src/test_streams:$PATH
 PATH=../obj/$BUILD/bin:$PATH
 
+if [ x"$FLAC__TEST_LEVEL" = x ] ; then
+	FLAC__TEST_LEVEL=1
+fi
+
 flac --help 1>/dev/null 2>/dev/null || die "ERROR can't find flac executable"
 
 run_flac ()
 {
-	if [ x"$FLAC__VALGRIND" = xyes ] ; then
-		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --logfile-fd=4 flac $* 4>>test_streams.valgrind.log
+	if [ x"$FLAC__TEST_WITH_VALGRIND" = xyes ] ; then
+		echo "valgrind --leak-check=yes --show-reachable=yes --num-callers=100 flac $*" >>test_streams.valgrind.log
+		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --log-fd=4 flac $* 4>>test_streams.valgrind.log
 	else
 		flac $*
 	fi
@@ -63,7 +68,7 @@ test_file ()
 	encode_options="$4"
 
 	echo -n "$name (--channels=$channels --bps=$bps $encode_options): encode..."
-	cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options $name.raw"
+	cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --no-padding $name.raw"
 	echo "### ENCODE $name #######################################################" >> ./streams.log
 	echo "###    cmd=$cmd" >> ./streams.log
 	$cmd 2>>./streams.log || die "ERROR during encode of $name"
@@ -99,12 +104,12 @@ test_file_piped ()
 
 	echo -n "$name: encode via pipes..."
 	if [ $is_win = yes ] ; then
-		cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --stdout $name.raw"
+		cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --no-padding --stdout $name.raw"
 		echo "### ENCODE $name #######################################################" >> ./streams.log
 		echo "###    cmd=$cmd" >> ./streams.log
 		$cmd 1>$name.flac 2>>./streams.log || die "ERROR during encode of $name"
 	else
-		cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --stdout -"
+		cmd="run_flac --verify --silent --force --force-raw-format --endian=little --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --no-padding --stdout -"
 		echo "### ENCODE $name #######################################################" >> ./streams.log
 		echo "###    cmd=$cmd" >> ./streams.log
 		cat $name.raw | $cmd 1>$name.flac 2>>./streams.log || die "ERROR during encode of $name"
@@ -131,7 +136,7 @@ test_file_piped ()
 	echo OK
 }
 
-if [ "$FLAC__EXHAUSTIVE_TESTS" = yes ] ; then
+if [ "$FLAC__TEST_LEVEL" -gt 1 ] ; then
 	max_lpc_order=32
 else
 	max_lpc_order=16
@@ -141,50 +146,42 @@ echo "Testing noise through pipes..."
 test_file_piped noise 1 8 "-0"
 
 echo "Testing small files..."
-test_file test01 1 16 "-0 -l $max_lpc_order -m -e -p"
-test_file test02 2 16 "-0 -l $max_lpc_order -m -e -p"
-test_file test03 1 16 "-0 -l $max_lpc_order -m -e -p"
-test_file test04 2 16 "-0 -l $max_lpc_order -m -e -p"
+test_file test01 1 16 "-0 -l $max_lpc_order --lax -m -e -p"
+test_file test02 2 16 "-0 -l $max_lpc_order --lax -m -e -p"
+test_file test03 1 16 "-0 -l $max_lpc_order --lax -m -e -p"
+test_file test04 2 16 "-0 -l $max_lpc_order --lax -m -e -p"
 
-echo "Testing 8-bit full-scale deflection streams..."
-for b in 01 02 03 04 05 06 07 ; do
-	test_file fsd8-$b 1 8 "-0 -l $max_lpc_order -m -e -p"
-done
-
-echo "Testing 16-bit full-scale deflection streams..."
-for b in 01 02 03 04 05 06 07 ; do
-	test_file fsd16-$b 1 16 "-0 -l $max_lpc_order -m -e -p"
-done
-
-echo "Testing 24-bit full-scale deflection streams..."
-for b in 01 02 03 04 05 06 07 ; do
-	test_file fsd24-$b 1 24 "-0 -l $max_lpc_order -m -e -p"
+for bps in 8 16 24 ; do
+	echo "Testing $bps-bit full-scale deflection streams..."
+	for b in 01 02 03 04 05 06 07 ; do
+		test_file fsd$bps-$b 1 $bps "-0 -l $max_lpc_order --lax -m -e -p"
+	done
 done
 
 echo "Testing 16-bit wasted-bits-per-sample streams..."
 for b in 01 ; do
-	test_file wbps16-$b 1 16 "-0 -l $max_lpc_order -m -e -p"
+	test_file wbps16-$b 1 16 "-0 -l $max_lpc_order --lax -m -e -p"
 done
 
 for bps in 8 16 24 ; do
 	echo "Testing $bps-bit sine wave streams..."
 	for b in 00 ; do
-		test_file sine${bps}-$b 1 $bps "-0 -l $max_lpc_order -m -e --sample-rate=48000"
+		test_file sine${bps}-$b 1 $bps "-0 -l $max_lpc_order --lax -m -e --sample-rate=48000"
 	done
 	for b in 01 ; do
-		test_file sine${bps}-$b 1 $bps "-0 -l $max_lpc_order -m -e --sample-rate=96000"
+		test_file sine${bps}-$b 1 $bps "-0 -l $max_lpc_order --lax -m -e --sample-rate=96000"
 	done
 	for b in 02 03 04 ; do
-		test_file sine${bps}-$b 1 $bps "-0 -l $max_lpc_order -m -e"
+		test_file sine${bps}-$b 1 $bps "-0 -l $max_lpc_order --lax -m -e"
 	done
 	for b in 10 11 ; do
-		test_file sine${bps}-$b 2 $bps "-0 -l $max_lpc_order -m -e --sample-rate=48000"
+		test_file sine${bps}-$b 2 $bps "-0 -l $max_lpc_order --lax -m -e --sample-rate=48000"
 	done
 	for b in 12 ; do
-		test_file sine${bps}-$b 2 $bps "-0 -l $max_lpc_order -m -e --sample-rate=96000"
+		test_file sine${bps}-$b 2 $bps "-0 -l $max_lpc_order --lax -m -e --sample-rate=96000"
 	done
 	for b in 13 14 15 16 17 18 19 ; do
-		test_file sine${bps}-$b 2 $bps "-0 -l $max_lpc_order -m -e"
+		test_file sine${bps}-$b 2 $bps "-0 -l $max_lpc_order --lax -m -e"
 	done
 done
 
@@ -193,7 +190,7 @@ for disable in '' '--disable-verbatim-subframes --disable-constant-subframes' '-
 	for blocksize in 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 ; do
 		for lpc_order in 0 1 2 3 4 5 7 8 9 15 16 17 31 32 ; do
 			if [ $lpc_order = 0 ] || [ $lpc_order -le $blocksize ] ; then
-					test_file noise8m32 1 8 "-8 -p -e -l $lpc_order --lax --blocksize=$blocksize $disable"
+				test_file noise8m32 1 8 "-8 -p -e -l $lpc_order --lax --blocksize=$blocksize $disable"
 			fi
 		done
 	done
@@ -212,44 +209,60 @@ test_file sine16-01 1 16 "-0 -l $max_lpc_order -m -e -p --lax --sample-rate=9000
 echo "Testing option variations..."
 for f in 00 01 02 03 04 ; do
 	for disable in '' '--disable-verbatim-subframes --disable-constant-subframes' '--disable-verbatim-subframes --disable-constant-subframes --disable-fixed-subframes' ; do
-		for opt in 0 1 2 4 5 6 8 ; do
-			for extras in '' '-p' '-e' ; do
-				test_file sine16-$f 1 16 "-$opt $extras $disable"
+		if [ -z "$disable" ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+			for opt in 0 1 2 4 5 6 8 ; do
+				for extras in '' '-p' '-e' ; do
+					if [ -z "$extras" ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+						test_file sine16-$f 1 16 "-$opt $extras $disable"
+					fi
+				done
 			done
-		done
-		if [ "$FLAC__EXHAUSTIVE_TESTS" = yes ] ; then
-			test_file sine16-$f 1 16 "-b 16384 -m -r 8 -l $max_lpc_order -e -p $disable"
+			if [ "$FLAC__TEST_LEVEL" -gt 1 ] ; then
+				test_file sine16-$f 1 16 "-b 16384 -m -r 8 -l $max_lpc_order --lax -e -p $disable"
+			fi
 		fi
 	done
 done
 
 for f in 10 11 12 13 14 15 16 17 18 19 ; do
 	for disable in '' '--disable-verbatim-subframes --disable-constant-subframes' '--disable-verbatim-subframes --disable-constant-subframes --disable-fixed-subframes' ; do
-		for opt in 0 1 2 4 5 6 8 ; do
-			for extras in '' '-p' '-e' ; do
-				test_file sine16-$f 2 16 "-$opt $extras $disable"
+		if [ -z "$disable" ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+			for opt in 0 1 2 4 5 6 8 ; do
+				for extras in '' '-p' '-e' ; do
+					if [ -z "$extras" ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+						test_file sine16-$f 2 16 "-$opt $extras $disable"
+					fi
+				done
 			done
-		done
-		if [ "$FLAC__EXHAUSTIVE_TESTS" = yes ] ; then
-			test_file sine16-$f 2 16 "-b 16384 -m -r 8 -l $max_lpc_order -e -p $disable"
+			if [ "$FLAC__TEST_LEVEL" -gt 1 ] ; then
+				test_file sine16-$f 2 16 "-b 16384 -m -r 8 -l $max_lpc_order --lax -e -p $disable"
+			fi
 		fi
 	done
 done
 
 echo "Testing noise..."
 for disable in '' '--disable-verbatim-subframes --disable-constant-subframes' '--disable-verbatim-subframes --disable-constant-subframes --disable-fixed-subframes' ; do
-	for channels in 1 2 4 8 ; do
-		for bps in 8 16 24 ; do
-			for opt in 0 1 2 3 4 5 6 7 8 ; do
-				for extras in '' '-p' '-e' ; do
-					for blocksize in '' '--lax -b 32' '--lax -b 32768' '--lax -b 65535' ; do
-						test_file noise $channels $bps "-$opt $extras $blocksize $disable"
+	if [ -z "$disable" ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+		for channels in 1 2 4 8 ; do
+			if [ $channels -le 2 ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+				for bps in 8 16 24 ; do
+					for opt in 0 1 2 3 4 5 6 7 8 ; do
+						for extras in '' '-p' '-e' ; do
+							if [ -z "$extras" ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+								for blocksize in '' '--lax -b 32' '--lax -b 32768' '--lax -b 65535' ; do
+									if [ -z "$blocksize" ] || [ "$FLAC__TEST_LEVEL" -gt 0 ] ; then
+										test_file noise $channels $bps "-$opt $extras $blocksize $disable"
+									fi
+								done
+							fi
+						done
 					done
+					if [ "$FLAC__TEST_LEVEL" -gt 1 ] ; then
+						test_file noise $channels $bps "-b 16384 -m -r 8 -l $max_lpc_order --lax -e -p $disable"
+					fi
 				done
-			done
-			if [ "$FLAC__EXHAUSTIVE_TESTS" = yes ] ; then
-				test_file noise $channels $bps "-b 16384 -m -r 8 -l $max_lpc_order -e -p $disable"
 			fi
 		done
-	done
+	fi
 done

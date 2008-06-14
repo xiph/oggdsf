@@ -9,12 +9,14 @@ noinst_LTLIBRARIES = libgrabbag.la
 libgrabbag_la_SOURCES = \
 	cuesheet.c \
 	file.c \
+	picture.c \
 	replaygain.c \
 	seektable.c
 
 EXTRA_DIST = \
 	Makefile.lite \
-	grabbag_static.dsp
+	grabbag_static.dsp \
+	grabbag_static.vcproj
 
 debug:
 	$(MAKE) all CFLAGS="@DEBUG@"

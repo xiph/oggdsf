@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -30,7 +30,6 @@ else
 fi
 
 LD_LIBRARY_PATH=../src/libFLAC/.libs:$LD_LIBRARY_PATH
-LD_LIBRARY_PATH=../src/libOggFLAC/.libs:$LD_LIBRARY_PATH
 LD_LIBRARY_PATH=../src/share/grabbag/.libs:$LD_LIBRARY_PATH
 LD_LIBRARY_PATH=../src/share/getopt/.libs:$LD_LIBRARY_PATH
 LD_LIBRARY_PATH=../src/share/replaygain_analysis/.libs:$LD_LIBRARY_PATH
@@ -42,12 +41,17 @@ PATH=../src/flac:$PATH
 PATH=../obj/$BUILD/bin:$PATH
 BINS_PATH=../../test_files/bins
 
+if [ x"$FLAC__TEST_LEVEL" = x ] ; then
+	FLAC__TEST_LEVEL=1
+fi
+
 flac --help 1>/dev/null 2>/dev/null || die "ERROR can't find flac executable"
 
 run_flac ()
 {
-	if [ x"$FLAC__VALGRIND" = xyes ] ; then
-		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --logfile-fd=4 flac $* 4>>test_bins.valgrind.log
+	if [ x"$FLAC__TEST_WITH_VALGRIND" = xyes ] ; then
+		echo "valgrind --leak-check=yes --show-reachable=yes --num-callers=100 flac $*" >>test_bins.valgrind.log
+		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --log-fd=4 flac $* 4>>test_bins.valgrind.log
 	else
 		flac $*
 	fi
@@ -63,7 +67,7 @@ test_file ()
 	encode_options="$4"
 
 	echo -n "$name.bin (--channels=$channels --bps=$bps $encode_options): encode..."
-	cmd="run_flac --verify --silent --force --force-raw-format --endian=big --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options $name.bin"
+	cmd="run_flac --verify --silent --force --force-raw-format --endian=big --sign=signed --sample-rate=44100 --bps=$bps --channels=$channels $encode_options --no-padding $name.bin"
 	echo "### ENCODE $name #######################################################" >> ./streams.log
 	echo "###    cmd=$cmd" >> ./streams.log
 	$cmd 2>>./streams.log || die "ERROR during encode of $name"
@@ -98,8 +102,8 @@ for f in b00 b01 b02 b03 b04 ; do
 							done
 						done
 					done
-					if [ "$FLAC__EXHAUSTIVE_TESTS" = yes ] ; then
-						test_file $binfile $channels $bps "-b 16384 -m -r 8 -l 32 -e -p $disable"
+					if [ "$FLAC__TEST_LEVEL" -gt 1 ] ; then
+						test_file $binfile $channels $bps "--lax -b 16384 -m -r 8 -l 32 -e -p $disable"
 					fi
 				done
 			done

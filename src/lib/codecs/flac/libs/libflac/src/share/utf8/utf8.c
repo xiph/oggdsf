@@ -2,6 +2,8 @@
  * Copyright (C) 2001 Peter Harris <peter.harris@hummingbird.com>
  * Copyright (C) 2001 Edmund Grimley Evans <edmundo@rano.org>
  *
+ * Buffer overflow checking added: Josh Coalson, 9/9/2007
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,13 +23,14 @@
  * Convert a string between UTF-8 and the locale's charset.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
+#include "share/alloc.h"
 #include "utf8.h"
 #include "charset.h"
 
@@ -43,7 +46,8 @@
 
 static unsigned char *make_utf8_string(const wchar_t *unicode)
 {
-    int size = 0, index = 0, out_index = 0;
+    size_t size = 0, n;
+    int index = 0, out_index = 0;
     unsigned char *out;
     unsigned short c;
 
@@ -51,16 +55,19 @@ static unsigned char *make_utf8_string(const wchar_t *unicode)
     c = unicode[index++];
     while(c) {
         if(c < 0x0080) {
-            size += 1;
+            n = 1;
         } else if(c < 0x0800) {
-            size += 2;
+            n = 2;
         } else {
-            size += 3;
+            n = 3;
         }
+        if(size+n < size) /* overflow check */
+            return NULL;
+        size += n;
         c = unicode[index++];
-    }	
+    }
 
-    out = malloc(size + 1);
+    out = safe_malloc_add_2op_(size, /*+*/1);
     if (out == NULL)
         return NULL;
     index = 0;
@@ -87,7 +94,8 @@ static unsigned char *make_utf8_string(const wchar_t *unicode)
 
 static wchar_t *make_unicode_string(const unsigned char *utf8)
 {
-    int size = 0, index = 0, out_index = 0;
+    size_t size = 0;
+    int index = 0, out_index = 0;
     wchar_t *out;
     unsigned char c;
 
@@ -101,11 +109,15 @@ static wchar_t *make_unicode_string(const unsigned char *utf8)
         } else {
             index += 1;
         }
-        size += 1;
+        if(size + 1 == 0) /* overflow check */
+            return NULL;
+        size++;
         c = utf8[index++];
-    }	
+    }
 
-    out = malloc((size + 1) * sizeof(wchar_t));
+    if(size + 1 == 0) /* overflow check */
+        return NULL;
+    out = safe_malloc_mul_2op_(size+1, /*times*/sizeof(wchar_t));
     if (out == NULL)
         return NULL;
     index = 0;
@@ -147,7 +159,10 @@ int utf8_encode(const char *from, char **to)
 		return -1;
 	}
 
-	unicode = calloc(wchars + 1, sizeof(unsigned short));
+	if(wchars < 0) /* underflow check */
+		return -1;
+
+	unicode = safe_calloc_((size_t)wchars + 1, sizeof(unsigned short));
 	if(unicode == NULL) 
 	{
 		fprintf(stderr, "Out of memory processing string to UTF8\n");
@@ -190,6 +205,9 @@ int utf8_decode(const char *from, char **to)
     chars = WideCharToMultiByte(GetConsoleCP(), WC_COMPOSITECHECK, unicode,
             -1, NULL, 0, NULL, NULL);
 
+    if(chars < 0) /* underflow check */
+        return -1;
+
     if(chars == 0)
     {
         fprintf(stderr, "Unicode translation error %d\n", GetLastError());
@@ -197,7 +215,7 @@ int utf8_decode(const char *from, char **to)
         return -1;
     }
 
-    *to = calloc(chars + 1, sizeof(unsigned char));
+    *to = safe_calloc_((size_t)chars + 1, sizeof(unsigned char));
     if(*to == NULL) 
     {
         fprintf(stderr, "Out of memory processing string to local charset\n");
@@ -227,27 +245,19 @@ int utf8_decode(const char *from, char **to)
 #include <langinfo.h>
 #endif
 
-int iconvert(const char *fromcode, const char *tocode,
-	     const char *from, size_t fromlen,
-	     char **to, size_t *tolen);
+#include "iconvert.h"
 
-static char *current_charset = 0; /* means "US-ASCII" */
-
-void convert_set_charset(const char *charset)
+static const char *current_charset(void)
 {
-
+  const char *c = 0;
 #ifdef HAVE_LANGINFO_CODESET
-  if (!charset)
-    charset = nl_langinfo(CODESET);
+  c = nl_langinfo(CODESET);
 #endif
 
-  if (!charset)
-    charset = getenv("CHARSET");
+  if (!c)
+    c = getenv("CHARSET");
 
-  free(current_charset);
-  current_charset = 0;
-  if (charset && *charset)
-    current_charset = strdup(charset);
+  return c? c : "US-ASCII";
 }
 
 static int convert_buffer(const char *fromcode, const char *tocode,
@@ -285,7 +295,7 @@ static int convert_string(const char *fromcode, const char *tocode,
   if (ret != -1)
     return ret;
 
-  s = malloc(fromlen + 1);
+  s = safe_malloc_add_2op_(fromlen, /*+*/1);
   if (!s)
     return -1;
   strcpy(s, from);
@@ -298,22 +308,12 @@ static int convert_string(const char *fromcode, const char *tocode,
 
 int utf8_encode(const char *from, char **to)
 {
-  char *charset;
-
-  if (!current_charset)
-    convert_set_charset(0);
-  charset = current_charset ? current_charset : "US-ASCII";
-  return convert_string(charset, "UTF-8", from, to, '#');
+  return convert_string(current_charset(), "UTF-8", from, to, '#');
 }
 
 int utf8_decode(const char *from, char **to)
 {
-  char *charset;
-
-  if (!current_charset)
-    convert_set_charset(0);
-  charset = current_charset ? current_charset : "US-ASCII";
-  return convert_string("UTF-8", charset, from, to, '?');
+  return convert_string("UTF-8", current_charset(), from, to, '?');
 }
 
 #endif

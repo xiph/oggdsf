@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,6 +60,8 @@ typedef enum {
 	OP__EXPORT_VC_TO,
 	OP__IMPORT_CUESHEET_FROM,
 	OP__EXPORT_CUESHEET_TO,
+	OP__IMPORT_PICTURE_FROM,
+	OP__EXPORT_PICTURE_TO,
 	OP__ADD_SEEKPOINT,
 	OP__ADD_REPLAY_GAIN,
 	OP__ADD_PADDING,
@@ -101,11 +103,12 @@ typedef struct {
 	/* according to the vorbis spec, field values can contain \0 so simple C strings are not enough here */
 	unsigned field_value_length;
 	char *field_value;
+	FLAC__bool field_value_from_file; /* true if field_value holds a filename for the value, false for plain value */
 } Argument_VcField;
 
 typedef struct {
 	char *value;
-} Argument_Filename;
+} Argument_String;
 
 typedef struct {
 	unsigned num_entries;
@@ -141,6 +144,11 @@ typedef struct {
 } Argument_ImportCuesheetFrom;
 
 typedef struct {
+	char *filename;
+	const Argument_BlockNumber *block_number_link; /* may be NULL to mean 'first PICTURE block' */
+} Argument_ExportPictureTo;
+
+typedef struct {
 	unsigned length;
 } Argument_AddPadding;
 
@@ -152,8 +160,10 @@ typedef struct {
 		Argument_StreaminfoUInt64 streaminfo_uint64;
 		Argument_VcFieldName vc_field_name;
 		Argument_VcField vc_field;
-		Argument_Filename filename;
+		Argument_String filename;
+		Argument_String specification;
 		Argument_ImportCuesheetFrom import_cuesheet_from;
+		Argument_ExportPictureTo export_picture_to;
 		Argument_AddSeekpoint add_seekpoint;
 		Argument_AddPadding add_padding;
 	} argument;

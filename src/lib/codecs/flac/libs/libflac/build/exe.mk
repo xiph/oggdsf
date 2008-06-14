@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -41,9 +41,9 @@ PROGRAM         = $(BINPATH)/$(PROGRAM_NAME)
 DEBUG_PROGRAM   = $(DEBUG_BINPATH)/$(PROGRAM_NAME)
 RELEASE_PROGRAM = $(RELEASE_BINPATH)/$(PROGRAM_NAME)
 
-debug   : CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
-valgrind: CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -DFLAC__VALGRIND_TESTING -Wall -W -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
-release : CFLAGS = -O3 -fomit-frame-pointer -funroll-loops -finline-functions -DNDEBUG $(CONFIG_CFLAGS) $(RELEASE_CFLAGS) -Wall -W -Winline -DFLaC__INLINE=__inline__ -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
+debug   : CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
+valgrind: CFLAGS = -g -O0 -DDEBUG $(CONFIG_CFLAGS) $(DEBUG_CFLAGS) -DFLAC__VALGRIND_TESTING -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
+release : CFLAGS = -O3 -fomit-frame-pointer -funroll-loops -finline-functions -DNDEBUG $(CONFIG_CFLAGS) $(RELEASE_CFLAGS) -W -Wall -Wmissing-prototypes -Wstrict-prototypes -Winline -DFLaC__INLINE=__inline__ -DVERSION=$(VERSION) $(DEFINES) $(INCLUDES)
 
 LFLAGS  = -L$(LIBPATH)
 
@@ -83,7 +83,9 @@ endif
 %.debug.i %.release.i : %.cpp
 	$(CCC) $(CFLAGS) -E $< -o $@
 
-%.debug.o %.release.o : %.nasm
+%.debug.o : %.nasm
+	$(NASM) -f elf -d OBJ_FORMAT_elf -i ia32/ -g $< -o $@
+%.release.o : %.nasm
 	$(NASM) -f elf -d OBJ_FORMAT_elf -i ia32/ $< -o $@
 
 .PHONY : clean

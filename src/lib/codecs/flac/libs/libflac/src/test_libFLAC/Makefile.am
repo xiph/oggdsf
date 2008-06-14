@@ -1,5 +1,5 @@
 #  test_libFLAC - Unit tester for libFLAC
-#  Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,7 +17,8 @@
 
 EXTRA_DIST = \
 	Makefile.lite \
-	test_libFLAC.dsp
+	test_libFLAC.dsp \
+	test_libFLAC.vcproj
 
 INCLUDES = -I$(top_srcdir)/src/libFLAC/include
 
@@ -25,23 +26,22 @@ noinst_PROGRAMS = test_libFLAC
 test_libFLAC_LDADD = \
 	$(top_builddir)/src/share/grabbag/libgrabbag.la \
 	$(top_builddir)/src/share/replaygain_analysis/libreplaygain_analysis.la \
+	$(top_builddir)/src/test_libs_common/libtest_libs_common.la \
 	$(top_builddir)/src/libFLAC/libFLAC.la \
+	@OGG_LIBS@ \
+	@MINGW_WINSOCK_LIBS@ \
 	-lm
 test_libFLAC_SOURCES = \
-	bitbuffer.c \
+	bitwriter.c \
 	decoders.c \
 	encoders.c \
-	file_utils.c \
 	format.c \
 	main.c \
 	metadata.c \
 	metadata_manip.c \
 	metadata_object.c \
-	metadata_utils.c \
-	bitbuffer.h \
+	bitwriter.h \
 	decoders.h \
 	encoders.h \
-	file_utils.h \
 	format.h \
-	metadata.h \
-	metadata_utils.h
+	metadata.h

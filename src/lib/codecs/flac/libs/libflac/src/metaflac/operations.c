@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,17 +16,23 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "operations.h"
 #include "usage.h"
 #include "utils.h"
 #include "FLAC/assert.h"
 #include "FLAC/metadata.h"
+#include "share/alloc.h"
 #include "share/grabbag.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "operations_shorthand.h"
 
-static void show_version();
+static void show_version(void);
 static FLAC__bool do_major_operation(const CommandLineOptions *options);
 static FLAC__bool do_major_operation_on_file(const char *filename, const CommandLineOptions *options);
 static FLAC__bool do_major_operation__list(const char *filename, FLAC__Metadata_Chain *chain, const CommandLineOptions *options);
@@ -53,6 +59,9 @@ extern FLAC__bool do_shorthand_operation__vorbis_comment(const char *filename, F
 
 /* from operations_shorthand_cuesheet.c */
 extern FLAC__bool do_shorthand_operation__cuesheet(const char *filename, FLAC__Metadata_Chain *chain, const Operation *operation, FLAC__bool *needs_write);
+
+/* from operations_shorthand_picture.c */
+extern FLAC__bool do_shorthand_operation__picture(const char *filename, FLAC__Metadata_Chain *chain, const Operation *operation, FLAC__bool *needs_write);
 
 
 FLAC__bool do_operations(const CommandLineOptions *options)
@@ -83,7 +92,7 @@ FLAC__bool do_operations(const CommandLineOptions *options)
  * local routines
  */
 
-void show_version()
+void show_version(void)
 {
 	printf("metaflac %s\n", FLAC__VERSION_STRING);
 }
@@ -93,7 +102,7 @@ FLAC__bool do_major_operation(const CommandLineOptions *options)
 	unsigned i;
 	FLAC__bool ok = true;
 
-	/*@@@ to die after first error,  v---  add '&& ok' here */
+	/* to die after first error,     v---  add '&& ok' here */
 	for(i = 0; i < options->num_files; i++)
 		ok &= do_major_operation_on_file(options->filenames[i], options);
 
@@ -102,13 +111,17 @@ FLAC__bool do_major_operation(const CommandLineOptions *options)
 
 FLAC__bool do_major_operation_on_file(const char *filename, const CommandLineOptions *options)
 {
-	FLAC__bool ok = true, needs_write = false;
+	FLAC__bool ok = true, needs_write = false, is_ogg = false;
 	FLAC__Metadata_Chain *chain = FLAC__metadata_chain_new();
 
 	if(0 == chain)
 		die("out of memory allocating chain");
 
-	if(!FLAC__metadata_chain_read(chain, filename)) {
+	/*@@@@ lame way of guessing the file type */
+	if(strlen(filename) >= 4 && (0 == strcmp(filename+strlen(filename)-4, ".oga") || 0 == strcmp(filename+strlen(filename)-4, ".ogg")))
+		is_ogg = true;
+
+	if(! (is_ogg? FLAC__metadata_chain_read_ogg(chain, filename) : FLAC__metadata_chain_read(chain, filename)) ) {
 		print_error_with_chain_status(chain, "%s: ERROR: reading metadata", filename);
 		FLAC__metadata_chain_delete(chain);
 		return false;
@@ -187,7 +200,7 @@ FLAC__bool do_major_operation__list(const char *filename, FLAC__Metadata_Chain *
 FLAC__bool do_major_operation__append(FLAC__Metadata_Chain *chain, const CommandLineOptions *options)
 {
 	(void) chain, (void) options;
-	fprintf(stderr, "ERROR: --append not implemented yet\n"); /*@@@*/
+	fprintf(stderr, "ERROR: --append not implemented yet\n");
 	return false;
 }
 
@@ -352,6 +365,10 @@ FLAC__bool do_shorthand_operation(const char *filename, FLAC__bool prefix_with_f
 		case OP__EXPORT_CUESHEET_TO:
 			ok = do_shorthand_operation__cuesheet(filename, chain, operation, needs_write);
 			break;
+		case OP__IMPORT_PICTURE_FROM:
+		case OP__EXPORT_PICTURE_TO:
+			ok = do_shorthand_operation__picture(filename, chain, operation, needs_write);
+			break;
 		case OP__ADD_SEEKPOINT:
 			ok = do_shorthand_operation__add_seekpoints(filename, chain, operation->argument.add_seekpoint.specification, needs_write);
 			break;
@@ -430,8 +447,8 @@ FLAC__bool do_shorthand_operation__add_replay_gain(char **filenames, unsigned nu
 	}
 
 	if(
-		0 == (title_gains = (float*)malloc(sizeof(float) * num_files)) ||
-		0 == (title_peaks = (float*)malloc(sizeof(float) * num_files))
+		0 == (title_gains = (float*)safe_malloc_mul_2op_(sizeof(float), /*times*/num_files)) ||
+		0 == (title_peaks = (float*)safe_malloc_mul_2op_(sizeof(float), /*times*/num_files))
 	)
 		die("out of memory allocating space for title gains/peaks");
 
@@ -541,7 +558,7 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 
 	switch(block->type) {
 		case FLAC__METADATA_TYPE_STREAMINFO:
-			PPR; printf("  minumum blocksize: %u samples\n", block->data.stream_info.min_blocksize);
+			PPR; printf("  minimum blocksize: %u samples\n", block->data.stream_info.min_blocksize);
 			PPR; printf("  maximum blocksize: %u samples\n", block->data.stream_info.max_blocksize);
 			PPR; printf("  minimum framesize: %u bytes\n", block->data.stream_info.min_framesize);
 			PPR; printf("  maximum framesize: %u bytes\n", block->data.stream_info.max_framesize);
@@ -551,7 +568,7 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 #ifdef _MSC_VER
 			PPR; printf("  total samples: %I64u\n", block->data.stream_info.total_samples);
 #else
-			PPR; printf("  total samples: %llu\n", block->data.stream_info.total_samples);
+			PPR; printf("  total samples: %llu\n", (unsigned long long)block->data.stream_info.total_samples);
 #endif
 			PPR; printf("  MD5 signature: ");
 			for(i = 0; i < 16; i++) {
@@ -582,7 +599,7 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 #ifdef _MSC_VER
 					PPR; printf("    point %u: sample_number=%I64u, stream_offset=%I64u, frame_samples=%u\n", i, block->data.seek_table.points[i].sample_number, block->data.seek_table.points[i].stream_offset, block->data.seek_table.points[i].frame_samples);
 #else
-					PPR; printf("    point %u: sample_number=%llu, stream_offset=%llu, frame_samples=%u\n", i, block->data.seek_table.points[i].sample_number, block->data.seek_table.points[i].stream_offset, block->data.seek_table.points[i].frame_samples);
+					PPR; printf("    point %u: sample_number=%llu, stream_offset=%llu, frame_samples=%u\n", i, (unsigned long long)block->data.seek_table.points[i].sample_number, (unsigned long long)block->data.seek_table.points[i].stream_offset, block->data.seek_table.points[i].frame_samples);
 #endif
 				}
 				else {
@@ -604,7 +621,7 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 #ifdef _MSC_VER
 			PPR; printf("  lead-in: %I64u\n", block->data.cue_sheet.lead_in);
 #else
-			PPR; printf("  lead-in: %llu\n", block->data.cue_sheet.lead_in);
+			PPR; printf("  lead-in: %llu\n", (unsigned long long)block->data.cue_sheet.lead_in);
 #endif
 			PPR; printf("  is CD: %s\n", block->data.cue_sheet.is_cd? "true":"false");
 			PPR; printf("  number of tracks: %u\n", block->data.cue_sheet.num_tracks);
@@ -616,7 +633,7 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 #ifdef _MSC_VER
 				PPR; printf("      offset: %I64u\n", track->offset);
 #else
-				PPR; printf("      offset: %llu\n", track->offset);
+				PPR; printf("      offset: %llu\n", (unsigned long long)track->offset);
 #endif
 				if(is_last) {
 					PPR; printf("      number: %u (%s)\n", (unsigned)track->number, is_leadout? "LEAD-OUT" : "INVALID");
@@ -635,12 +652,25 @@ void write_metadata(const char *filename, FLAC__StreamMetadata *block, unsigned 
 #ifdef _MSC_VER
 						PPR; printf("          offset: %I64u\n", index->offset);
 #else
-						PPR; printf("          offset: %llu\n", index->offset);
+						PPR; printf("          offset: %llu\n", (unsigned long long)index->offset);
 #endif
 						PPR; printf("          number: %u\n", (unsigned)index->number);
 					}
 				}
 			}
+			break;
+		case FLAC__METADATA_TYPE_PICTURE:
+			PPR; printf("  type: %u (%s)\n", block->data.picture.type, block->data.picture.type < FLAC__STREAM_METADATA_PICTURE_TYPE_UNDEFINED? FLAC__StreamMetadata_Picture_TypeString[block->data.picture.type] : "UNDEFINED");
+			PPR; printf("  MIME type: %s\n", block->data.picture.mime_type);
+			PPR; printf("  description: %s\n", block->data.picture.description);
+			PPR; printf("  width: %u\n", (unsigned)block->data.picture.width);
+			PPR; printf("  height: %u\n", (unsigned)block->data.picture.height);
+			PPR; printf("  depth: %u\n", (unsigned)block->data.picture.depth);
+			PPR; printf("  colors: %u%s\n", (unsigned)block->data.picture.colors, block->data.picture.colors? "" : " (unindexed)");
+			PPR; printf("  data length: %u\n", (unsigned)block->data.picture.data_length);
+			PPR; printf("  data:\n");
+			if(0 != block->data.picture.data)
+				hexdump(filename, block->data.picture.data, block->data.picture.data_length, "    ");
 			break;
 		default:
 			PPR; printf("  data contents:\n");

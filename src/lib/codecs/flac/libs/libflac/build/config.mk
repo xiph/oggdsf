@@ -1,5 +1,5 @@
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -40,12 +40,13 @@ all default: $(DEFAULT_BUILD)
 # GNU makefile fragment for emulating stuff normally done by configure
 #
 
-VERSION=\"1.1.2\"
+VERSION=\"1.2.1\"
 
-CONFIG_CFLAGS=-DHAVE_INTTYPES_H -DHAVE_ICONV -DHAVE_SOCKLEN_T -DFLAC__HAS_OGG
-
-ICONV_INCLUDE_DIR=$(HOME)/local.i18n/include
-ICONV_LIB_DIR=$(HOME)/local.i18n/lib
+ifeq ($(DARWIN_BUILD),yes)
+CONFIG_CFLAGS=-DHAVE_INTTYPES_H -DHAVE_ICONV -DHAVE_LANGINFO_CODESET -DFLAC__HAS_OGG -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DFLAC__SYS_DARWIN -DWORDS_BIGENDIAN
+else
+CONFIG_CFLAGS=-DHAVE_INTTYPES_H -DHAVE_ICONV -DHAVE_LANGINFO_CODESET -DHAVE_SOCKLEN_T -DFLAC__HAS_OGG -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+endif
 
 OGG_INCLUDE_DIR=$(HOME)/local/include
 OGG_LIB_DIR=$(HOME)/local/lib

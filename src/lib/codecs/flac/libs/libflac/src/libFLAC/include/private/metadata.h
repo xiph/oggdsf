@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -34,7 +34,12 @@
 
 #include "FLAC/metadata.h"
 
+/* WATCHOUT: all malloc()ed data in the block is free()ed; this may not
+ * be a consistent state (e.g. PICTURE) or equivalent to the initial
+ * state after FLAC__metadata_object_new()
+ */
 void FLAC__metadata_object_delete_data(FLAC__StreamMetadata *object);
+
 void FLAC__metadata_object_cuesheet_track_delete_data(FLAC__StreamMetadata_CueSheet_Track *object);
 
 #endif

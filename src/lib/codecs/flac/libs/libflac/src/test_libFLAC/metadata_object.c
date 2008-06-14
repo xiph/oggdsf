@@ -1,5 +1,5 @@
 /* test_libFLAC - Unit tester for libFLAC
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,9 +16,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "FLAC/assert.h"
 #include "FLAC/metadata.h"
-#include "metadata_utils.h"
+#include "test_libs_common/metadata_utils.h"
+#include "metadata.h"
 #include <stdio.h>
 #include <stdlib.h> /* for malloc() */
 #include <string.h> /* for memcmp() */
@@ -42,7 +47,11 @@ static FLAC__bool compare_track_(const FLAC__StreamMetadata_CueSheet_Track *from
 	unsigned i;
 
 	if(from->offset != to->offset) {
-		printf("FAILED, track offset mismatch, expected %llu, got %llu\n", to->offset, from->offset);
+#ifdef _MSC_VER
+		printf("FAILED, track offset mismatch, expected %I64u, got %I64u\n", to->offset, from->offset);
+#else
+		printf("FAILED, track offset mismatch, expected %llu, got %llu\n", (unsigned long long)to->offset, (unsigned long long)from->offset);
+#endif
 		return false;
 	}
 	if(from->number != to->number) {
@@ -74,7 +83,11 @@ static FLAC__bool compare_track_(const FLAC__StreamMetadata_CueSheet_Track *from
 	else {
 		for(i = 0; i < to->num_indices; i++) {
 			if(from->indices[i].offset != to->indices[i].offset) {
-				printf("FAILED, track indices[%u].offset mismatch, expected %llu, got %llu\n", i, to->indices[i].offset, from->indices[i].offset);
+#ifdef _MSC_VER
+				printf("FAILED, track indices[%u].offset mismatch, expected %I64u, got %I64u\n", i, to->indices[i].offset, from->indices[i].offset);
+#else
+				printf("FAILED, track indices[%u].offset mismatch, expected %llu, got %llu\n", i, (unsigned long long)to->indices[i].offset, (unsigned long long)from->indices[i].offset);
+#endif
 				return false;
 			}
 			if(from->indices[i].number != to->indices[i].number) {
@@ -96,11 +109,19 @@ static FLAC__bool compare_seekpoint_array_(const FLAC__StreamMetadata_SeekPoint 
 
 	for(i = 0; i < n; i++) {
 		if(from[i].sample_number != to[i].sample_number) {
-			printf("FAILED, point[%u].sample_number mismatch, expected %llu, got %llu\n", i, to[i].sample_number, from[i].sample_number);
+#ifdef _MSC_VER
+			printf("FAILED, point[%u].sample_number mismatch, expected %I64u, got %I64u\n", i, to[i].sample_number, from[i].sample_number);
+#else
+			printf("FAILED, point[%u].sample_number mismatch, expected %llu, got %llu\n", i, (unsigned long long)to[i].sample_number, (unsigned long long)from[i].sample_number);
+#endif
 			return false;
 		}
 		if(from[i].stream_offset != to[i].stream_offset) {
-			printf("FAILED, point[%u].stream_offset mismatch, expected %llu, got %llu\n", i, to[i].stream_offset, from[i].stream_offset);
+#ifdef _MSC_VER
+			printf("FAILED, point[%u].stream_offset mismatch, expected %I64u, got %I64u\n", i, to[i].stream_offset, from[i].stream_offset);
+#else
+			printf("FAILED, point[%u].stream_offset mismatch, expected %llu, got %llu\n", i, (unsigned long long)to[i].stream_offset, (unsigned long long)from[i].stream_offset);
+#endif
 			return false;
 		}
 		if(from[i].frame_samples != to[i].frame_samples) {
@@ -208,7 +229,7 @@ static int vc_find_from_(FLAC__StreamMetadata *block, const char *name, unsigned
 	unsigned i;
 	for(i = start; i < block->data.vorbis_comment.num_comments; i++) {
 		const FLAC__StreamMetadata_VorbisComment_Entry *entry = &block->data.vorbis_comment.comments[i];
-		if(entry->length > n && 0 == strncmp(entry->entry, name, n) && entry->entry[n] == '=')
+		if(entry->length > n && 0 == strncmp((const char *)entry->entry, name, n) && entry->entry[n] == '=')
 			return (int)i;
 	}
 	return -1;
@@ -459,11 +480,44 @@ static void cs_delete_(FLAC__StreamMetadata *block, unsigned pos)
 	cs_calc_len_(block);
 }
 
-
-FLAC__bool test_metadata_object()
+static void pi_set_mime_type(FLAC__StreamMetadata *block, const char *s)
 {
-	FLAC__StreamMetadata *block, *blockcopy, *vorbiscomment, *cuesheet;
-	FLAC__StreamMetadata_SeekPoint seekpoint_array[8];
+	if(block->data.picture.mime_type) {
+		block->length -= strlen(block->data.picture.mime_type);
+		free(block->data.picture.mime_type);
+	}
+	block->data.picture.mime_type = strdup(s);
+	FLAC__ASSERT(block->data.picture.mime_type);
+	block->length += strlen(block->data.picture.mime_type);
+}
+
+static void pi_set_description(FLAC__StreamMetadata *block, const FLAC__byte *s)
+{
+	if(block->data.picture.description) {
+		block->length -= strlen((const char *)block->data.picture.description);
+		free(block->data.picture.description);
+	}
+	block->data.picture.description = (FLAC__byte*)strdup((const char *)s);
+	FLAC__ASSERT(block->data.picture.description);
+	block->length += strlen((const char *)block->data.picture.description);
+}
+
+static void pi_set_data(FLAC__StreamMetadata *block, const FLAC__byte *data, FLAC__uint32 len)
+{
+	if(block->data.picture.data) {
+		block->length -= block->data.picture.data_length;
+		free(block->data.picture.data);
+	}
+	block->data.picture.data = (FLAC__byte*)strdup((const char *)data);
+	FLAC__ASSERT(block->data.picture.data);
+	block->data.picture.data_length = len;
+	block->length += len;
+}
+
+FLAC__bool test_metadata_object(void)
+{
+	FLAC__StreamMetadata *block, *blockcopy, *vorbiscomment, *cuesheet, *picture;
+	FLAC__StreamMetadata_SeekPoint seekpoint_array[14];
 	FLAC__StreamMetadata_VorbisComment_Entry entry;
 	FLAC__StreamMetadata_CueSheet_Index index;
 	FLAC__StreamMetadata_CueSheet_Track track;
@@ -875,6 +929,28 @@ FLAC__bool test_metadata_object()
 	if(!check_seektable_(block, seekpoints, seekpoint_array))
 		return false;
 
+	seekpoint_array[seekpoints++].sample_number = 0;
+	seekpoint_array[seekpoints++].sample_number = 10;
+	seekpoint_array[seekpoints++].sample_number = 20;
+	printf("testing FLAC__metadata_object_seekpoint_template_append_spaced_points_by_samples()... ");
+	if(!FLAC__metadata_object_seektable_template_append_spaced_points_by_samples(block, 10, 30)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!check_seektable_(block, seekpoints, seekpoint_array))
+		return false;
+
+	seekpoint_array[seekpoints++].sample_number = 0;
+	seekpoint_array[seekpoints++].sample_number = 11;
+	seekpoint_array[seekpoints++].sample_number = 22;
+	printf("testing FLAC__metadata_object_seekpoint_template_append_spaced_points_by_samples()... ");
+	if(!FLAC__metadata_object_seektable_template_append_spaced_points_by_samples(block, 11, 30)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!check_seektable_(block, seekpoints, seekpoint_array))
+		return false;
+
 	printf("testing FLAC__metadata_object_delete()... ");
 	FLAC__metadata_object_delete(block);
 	printf("OK\n");
@@ -891,7 +967,7 @@ FLAC__bool test_metadata_object()
 			printf("FAILED, returned false\n");
 			return false;
 		}
-		if(strcmp(entry_.entry, "name=value")) {
+		if(strcmp((const char *)entry_.entry, "name=value")) {
 			printf("FAILED, field mismatch\n");
 			return false;
 		}
@@ -1966,6 +2042,255 @@ FLAC__bool test_metadata_object()
 
 	printf("testing FLAC__metadata_object_delete()... ");
 	FLAC__metadata_object_delete(cuesheet);
+	FLAC__metadata_object_delete(block);
+	printf("OK\n");
+
+
+	printf("testing PICTURE\n");
+
+	printf("testing FLAC__metadata_object_new()... ");
+	block = FLAC__metadata_object_new(FLAC__METADATA_TYPE_PICTURE);
+	if(0 == block) {
+		printf("FAILED, returned NULL\n");
+		return false;
+	}
+	expected_length = (
+		FLAC__STREAM_METADATA_PICTURE_TYPE_LEN +
+		FLAC__STREAM_METADATA_PICTURE_MIME_TYPE_LENGTH_LEN +
+		FLAC__STREAM_METADATA_PICTURE_DESCRIPTION_LENGTH_LEN +
+		FLAC__STREAM_METADATA_PICTURE_WIDTH_LEN +
+		FLAC__STREAM_METADATA_PICTURE_HEIGHT_LEN +
+		FLAC__STREAM_METADATA_PICTURE_DEPTH_LEN +
+		FLAC__STREAM_METADATA_PICTURE_COLORS_LEN +
+		FLAC__STREAM_METADATA_PICTURE_DATA_LENGTH_LEN
+	) / 8;
+	if(block->length != expected_length) {
+		printf("FAILED, bad length, expected %u, got %u\n", expected_length, block->length);
+		return false;
+	}
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_clone()... ");
+	picture = FLAC__metadata_object_clone(block);
+	if(0 == picture) {
+		printf("FAILED, returned NULL\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	pi_set_mime_type(picture, "image/png\t");
+	printf("testing FLAC__metadata_object_picture_set_mime_type(copy)...");
+	if(!FLAC__metadata_object_picture_set_mime_type(block, "image/png\t", /*copy=*/true)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned true when expecting false\n");
+			return false;
+		}
+		printf("returned false as expected, violation=\"%s\" OK\n", violation);
+	}
+
+	pi_set_mime_type(picture, "image/png");
+	printf("testing FLAC__metadata_object_picture_set_mime_type(copy)...");
+	if(!FLAC__metadata_object_picture_set_mime_type(block, "image/png", /*copy=*/true)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(!FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned false, violation=\"%s\"\n", violation);
+			return false;
+		}
+		printf("OK\n");
+	}
+
+	pi_set_description(picture, (const FLAC__byte *)"DESCRIPTION\xff");
+	printf("testing FLAC__metadata_object_picture_set_description(copy)...");
+	if(!FLAC__metadata_object_picture_set_description(block, (FLAC__byte *)"DESCRIPTION\xff", /*copy=*/true)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned true when expecting false\n");
+			return false;
+		}
+		printf("returned false as expected, violation=\"%s\" OK\n", violation);
+	}
+
+	pi_set_description(picture, (const FLAC__byte *)"DESCRIPTION");
+	printf("testing FLAC__metadata_object_picture_set_description(copy)...");
+	if(!FLAC__metadata_object_picture_set_description(block, (FLAC__byte *)"DESCRIPTION", /*copy=*/true)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(!FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned false, violation=\"%s\"\n", violation);
+			return false;
+		}
+		printf("OK\n");
+	}
+
+
+	pi_set_data(picture, (const FLAC__byte*)"PNGDATA", strlen("PNGDATA"));
+	printf("testing FLAC__metadata_object_picture_set_data(copy)...");
+	if(!FLAC__metadata_object_picture_set_data(block, (FLAC__byte*)"PNGDATA", strlen("PNGDATA"), /*copy=*/true)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_clone()... ");
+	blockcopy = FLAC__metadata_object_clone(block);
+	if(0 == blockcopy) {
+		printf("FAILED, returned NULL\n");
+		return false;
+	}
+	if(!mutils__compare_block(block, blockcopy))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_delete()... ");
+	FLAC__metadata_object_delete(blockcopy);
+	printf("OK\n");
+
+	pi_set_mime_type(picture, "image/png\t");
+	printf("testing FLAC__metadata_object_picture_set_mime_type(own)...");
+	if(!FLAC__metadata_object_picture_set_mime_type(block, strdup("image/png\t"), /*copy=*/false)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned true when expecting false\n");
+			return false;
+		}
+		printf("returned false as expected, violation=\"%s\" OK\n", violation);
+	}
+
+	pi_set_mime_type(picture, "image/png");
+	printf("testing FLAC__metadata_object_picture_set_mime_type(own)...");
+	if(!FLAC__metadata_object_picture_set_mime_type(block, strdup("image/png"), /*copy=*/false)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(!FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned false, violation=\"%s\"\n", violation);
+			return false;
+		}
+		printf("OK\n");
+	}
+
+	pi_set_description(picture, (const FLAC__byte *)"DESCRIPTION\xff");
+	printf("testing FLAC__metadata_object_picture_set_description(own)...");
+	if(!FLAC__metadata_object_picture_set_description(block, (FLAC__byte *)strdup("DESCRIPTION\xff"), /*copy=*/false)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned true when expecting false\n");
+			return false;
+		}
+		printf("returned false as expected, violation=\"%s\" OK\n", violation);
+	}
+
+	pi_set_description(picture, (const FLAC__byte *)"DESCRIPTION");
+	printf("testing FLAC__metadata_object_picture_set_description(own)...");
+	if(!FLAC__metadata_object_picture_set_description(block, (FLAC__byte *)strdup("DESCRIPTION"), /*copy=*/false)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_picture_is_legal()...");
+	{
+		const char *violation;
+		if(!FLAC__metadata_object_picture_is_legal(block, &violation)) {
+			printf("FAILED, returned false, violation=\"%s\"\n", violation);
+			return false;
+		}
+		printf("OK\n");
+	}
+
+	pi_set_data(picture, (const FLAC__byte*)"PNGDATA", strlen("PNGDATA"));
+	printf("testing FLAC__metadata_object_picture_set_data(own)...");
+	if(!FLAC__metadata_object_picture_set_data(block, (FLAC__byte*)strdup("PNGDATA"), strlen("PNGDATA"), /*copy=*/false)) {
+		printf("FAILED, returned false\n");
+		return false;
+	}
+	if(!mutils__compare_block(picture, block))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_clone()... ");
+	blockcopy = FLAC__metadata_object_clone(block);
+	if(0 == blockcopy) {
+		printf("FAILED, returned NULL\n");
+		return false;
+	}
+	if(!mutils__compare_block(block, blockcopy))
+		return false;
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_delete()... ");
+	FLAC__metadata_object_delete(blockcopy);
+	printf("OK\n");
+
+	printf("testing FLAC__metadata_object_delete()... ");
+	FLAC__metadata_object_delete(picture);
 	FLAC__metadata_object_delete(block);
 	printf("OK\n");
 

@@ -1,5 +1,5 @@
 /* libFLAC++ - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -64,7 +64,10 @@
  *
  *  The behavior closely mimics the C layer interface; be sure to read
  *  the detailed description of the
- *  \link flac_metadata C metadata module \endlink.
+ *  \link flac_metadata C metadata module \endlink.  Note that like the
+ *  C layer, currently only the Chain interface (level 2) supports Ogg
+ *  FLAC files, and it is read-only i.e. no writing back changed
+ *  metadata to file.
  */
 
 
@@ -100,6 +103,7 @@ namespace FLAC {
 		 */
 
 		/** Base class for all metadata block types.
+		 *  See the \link flacpp_metadata_object overview \endlink for more.
 		 */
 		class FLACPP_API Prototype {
 		protected:
@@ -147,7 +151,8 @@ namespace FLAC {
 			virtual ~Prototype();
 
 			//@{
-			/** Check for equality, performing a deep compare by following pointers. */
+			/** Check for equality, performing a deep compare by following pointers.
+			 */
 			inline bool operator==(const Prototype &) const;
 			inline bool operator==(const ::FLAC__StreamMetadata &) const;
 			inline bool operator==(const ::FLAC__StreamMetadata *) const;
@@ -259,7 +264,8 @@ namespace FLAC {
 
 
 		/** STREAMINFO metadata block.
-		 *  See <A HREF="../format.html#metadata_block_streaminfo">format specification</A>.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
+		 *  and the <A HREF="../format.html#metadata_block_streaminfo">format specification</A>.
 		 */
 		class FLACPP_API StreamInfo : public Prototype {
 		public:
@@ -332,7 +338,8 @@ namespace FLAC {
 		};
 
 		/** PADDING metadata block.
-		 *  See <A HREF="../format.html#metadata_block_padding">format specification</A>.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
+		 *  and the <A HREF="../format.html#metadata_block_padding">format specification</A>.
 		 */
 		class FLACPP_API Padding : public Prototype {
 		public:
@@ -384,7 +391,8 @@ namespace FLAC {
 		};
 
 		/** APPLICATION metadata block.
-		 *  See <A HREF="../format.html#metadata_block_application">format specification</A>.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
+		 *  and the <A HREF="../format.html#metadata_block_application">format specification</A>.
 		 */
 		class FLACPP_API Application : public Prototype {
 		public:
@@ -442,7 +450,8 @@ namespace FLAC {
 		};
 
 		/** SEEKTABLE metadata block.
-		 *  See <A HREF="../format.html#metadata_block_seektable">format specification</A>.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
+		 *  and the <A HREF="../format.html#metadata_block_seektable">format specification</A>.
 		 */
 		class FLACPP_API SeekTable : public Prototype {
 		public:
@@ -507,7 +516,8 @@ namespace FLAC {
 		};
 
 		/** VORBIS_COMMENT metadata block.
-		 *  See <A HREF="../format.html#metadata_block_vorbis_comment">format specification</A>.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
+		 *  and the <A HREF="../format.html#metadata_block_vorbis_comment">format specification</A>.
 		 */
 		class FLACPP_API VorbisComment : public Prototype {
 		public:
@@ -556,7 +566,7 @@ namespace FLAC {
 
 				virtual ~Entry();
 
-				virtual bool is_valid() const;
+				virtual bool is_valid() const; ///< Returns \c true iff object was properly constructed.
 
 				unsigned get_field_length() const;
 				unsigned get_field_name_length() const;
@@ -658,7 +668,8 @@ namespace FLAC {
 		};
 
 		/** CUESHEET metadata block.
-		 *  See <A HREF="../format.html#metadata_block_cuesheet">format specification</A>.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
+		 *  and the <A HREF="../format.html#metadata_block_cuesheet">format specification</A>.
 		 */
 		class FLACPP_API CueSheet : public Prototype {
 		public:
@@ -679,7 +690,8 @@ namespace FLAC {
 
 				virtual ~Track();
 
-				virtual bool is_valid() const;
+				virtual bool is_valid() const; ///< Returns \c true iff object was properly constructed.
+
 
 				inline FLAC__uint64 get_offset() const { return object_->offset; }
 				inline FLAC__byte get_number() const { return object_->number; }
@@ -777,12 +789,93 @@ namespace FLAC {
 
 			//! See FLAC__metadata_object_cuesheet_is_legal()
 			bool is_legal(bool check_cd_da_subset = false, const char **violation = 0) const;
+
+			//! See FLAC__metadata_object_cuesheet_calculate_cddb_id()
+			FLAC__uint32 calculate_cddb_id() const;
+		};
+
+		/** PICTURE metadata block.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
+		 *  and the <A HREF="../format.html#metadata_block_picture">format specification</A>.
+		 */
+		class FLACPP_API Picture : public Prototype {
+		public:
+			Picture();
+
+			//@{
+			/** Constructs a copy of the given object.  This form
+			 *  always performs a deep copy.
+			 */
+			inline Picture(const Picture &object): Prototype(object) { }
+			inline Picture(const ::FLAC__StreamMetadata &object): Prototype(object) { }
+			inline Picture(const ::FLAC__StreamMetadata *object): Prototype(object) { }
+			//@}
+
+			/** Constructs an object with copy control.  See
+			 *  Prototype(::FLAC__StreamMetadata *object, bool copy).
+			 */
+			inline Picture(::FLAC__StreamMetadata *object, bool copy): Prototype(object, copy) { }
+
+			~Picture();
+
+			//@{
+			/** Assign from another object.  Always performs a deep copy. */
+			inline Picture &operator=(const Picture &object) { Prototype::operator=(object); return *this; }
+			inline Picture &operator=(const ::FLAC__StreamMetadata &object) { Prototype::operator=(object); return *this; }
+			inline Picture &operator=(const ::FLAC__StreamMetadata *object) { Prototype::operator=(object); return *this; }
+			//@}
+
+			/** Assigns an object with copy control.  See
+			 *  Prototype::assign_object(::FLAC__StreamMetadata *object, bool copy).
+			 */
+			inline Picture &assign(::FLAC__StreamMetadata *object, bool copy) { Prototype::assign_object(object, copy); return *this; }
+
+			//@{
+			/** Check for equality, performing a deep compare by following pointers. */
+			inline bool operator==(const Picture &object) const { return Prototype::operator==(object); }
+			inline bool operator==(const ::FLAC__StreamMetadata &object) const { return Prototype::operator==(object); }
+			inline bool operator==(const ::FLAC__StreamMetadata *object) const { return Prototype::operator==(object); }
+			//@}
+
+			//@{
+			/** Check for inequality, performing a deep compare by following pointers. */
+			inline bool operator!=(const Picture &object) const { return Prototype::operator!=(object); }
+			inline bool operator!=(const ::FLAC__StreamMetadata &object) const { return Prototype::operator!=(object); }
+			inline bool operator!=(const ::FLAC__StreamMetadata *object) const { return Prototype::operator!=(object); }
+			//@}
+
+			::FLAC__StreamMetadata_Picture_Type get_type() const;
+			const char *get_mime_type() const; // NUL-terminated printable ASCII string
+			const FLAC__byte *get_description() const; // NUL-terminated UTF-8 string
+			FLAC__uint32 get_width() const;
+			FLAC__uint32 get_height() const;
+			FLAC__uint32 get_depth() const;
+			FLAC__uint32 get_colors() const; ///< a return value of \c 0 means true-color, i.e. 2^depth colors
+			FLAC__uint32 get_data_length() const;
+			const FLAC__byte *get_data() const;
+
+			void set_type(::FLAC__StreamMetadata_Picture_Type type);
+
+			//! See FLAC__metadata_object_picture_set_mime_type()
+			bool set_mime_type(const char *string); // NUL-terminated printable ASCII string
+
+			//! See FLAC__metadata_object_picture_set_description()
+			bool set_description(const FLAC__byte *string); // NUL-terminated UTF-8 string
+
+			void set_width(FLAC__uint32 value) const;
+			void set_height(FLAC__uint32 value) const;
+			void set_depth(FLAC__uint32 value) const;
+			void set_colors(FLAC__uint32 value) const; ///< a value of \c 0 means true-color, i.e. 2^depth colors
+
+			//! See FLAC__metadata_object_picture_set_data()
+			bool set_data(const FLAC__byte *data, FLAC__uint32 data_length);
 		};
 
 		/** Opaque metadata block for storing unknown types.
 		 *  This should not be used unless you know what you are doing;
 		 *  it is currently used only internally to support forward
 		 *  compatibility of metadata blocks.
+		 *  See the \link flacpp_metadata_object overview \endlink for more,
 		 */
 		class FLACPP_API Unknown : public Prototype {
 		public:
@@ -852,12 +945,16 @@ namespace FLAC {
 		 * \{
 		 */
 
-	 	//! See FLAC__metadata_get_streaminfo().
-		FLACPP_API bool get_streaminfo(const char *filename, StreamInfo &streaminfo);
+		FLACPP_API bool get_streaminfo(const char *filename, StreamInfo &streaminfo); ///< See FLAC__metadata_get_streaminfo().
 
-	 	//! See FLAC__metadata_get_tags().
-		FLACPP_API bool get_tags(const char *filename, VorbisComment *&tags);
-		FLACPP_API bool get_tags(const char *filename, VorbisComment &tags);
+		FLACPP_API bool get_tags(const char *filename, VorbisComment *&tags); ///< See FLAC__metadata_get_tags().
+		FLACPP_API bool get_tags(const char *filename, VorbisComment &tags); ///< See FLAC__metadata_get_tags().
+
+		FLACPP_API bool get_cuesheet(const char *filename, CueSheet *&cuesheet); ///< See FLAC__metadata_get_cuesheet().
+		FLACPP_API bool get_cuesheet(const char *filename, CueSheet &cuesheet); ///< See FLAC__metadata_get_cuesheet().
+
+		FLACPP_API bool get_picture(const char *filename, Picture *&picture, ::FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors); ///< See FLAC__metadata_get_picture().
+		FLACPP_API bool get_picture(const char *filename, Picture &picture, ::FLAC__StreamMetadata_Picture_Type type, const char *mime_type, const FLAC__byte *description, unsigned max_width, unsigned max_height, unsigned max_depth, unsigned max_colors); ///< See FLAC__metadata_get_picture().
 
 		/* \} */
 
@@ -892,10 +989,14 @@ namespace FLAC {
 		 */
 
 		/** This class is a wrapper around the FLAC__metadata_simple_iterator
-		 *  structures and methods; see ::FLAC__Metadata_SimpleIterator.
+		 *  structures and methods; see the
+		 * \link flacpp_metadata_level1 usage guide \endlink and
+		 * ::FLAC__Metadata_SimpleIterator.
 		 */
 		class FLACPP_API SimpleIterator {
 		public:
+			/** This class is a wrapper around FLAC__Metadata_SimpleIteratorStatus.
+			 */
 			class FLACPP_API Status {
 			public:
 				inline Status(::FLAC__Metadata_SimpleIteratorStatus status): status_(status) { }
@@ -908,20 +1009,25 @@ namespace FLAC {
 			SimpleIterator();
 			virtual ~SimpleIterator();
 
-			bool init(const char *filename, bool read_only, bool preserve_file_stats);
+			bool is_valid() const; ///< Returns \c true iff object was properly constructed.
 
-			bool is_valid() const;
-			Status status();
-			bool is_writable() const;
+			bool init(const char *filename, bool read_only, bool preserve_file_stats); ///< See FLAC__metadata_simple_iterator_init().
 
-			bool next();
-			bool prev();
+			Status status();                                                    ///< See FLAC__metadata_simple_iterator_status().
+			bool is_writable() const;                                           ///< See FLAC__metadata_simple_iterator_is_writable().
 
-			::FLAC__MetadataType get_block_type() const;
-			Prototype *get_block();
-			bool set_block(Prototype *block, bool use_padding = true);
-			bool insert_block_after(Prototype *block, bool use_padding = true);
-			bool delete_block(bool use_padding = true);
+			bool next();                                                        ///< See FLAC__metadata_simple_iterator_next().
+			bool prev();                                                        ///< See FLAC__metadata_simple_iterator_prev().
+			bool is_last() const;                                               ///< See FLAC__metadata_simple_iterator_is_last().
+
+			off_t get_block_offset() const;                                     ///< See FLAC__metadata_simple_iterator_get_block_offset().
+			::FLAC__MetadataType get_block_type() const;                        ///< See FLAC__metadata_simple_iterator_get_block_type().
+			unsigned get_block_length() const;                                  ///< See FLAC__metadata_simple_iterator_get_block_length().
+			bool get_application_id(FLAC__byte *id);                            ///< See FLAC__metadata_simple_iterator_get_application_id().
+			Prototype *get_block();                                             ///< See FLAC__metadata_simple_iterator_get_block().
+			bool set_block(Prototype *block, bool use_padding = true);          ///< See FLAC__metadata_simple_iterator_set_block().
+			bool insert_block_after(Prototype *block, bool use_padding = true); ///< See FLAC__metadata_simple_iterator_insert_block_after().
+			bool delete_block(bool use_padding = true);                         ///< See FLAC__metadata_simple_iterator_delete_block().
 
 		protected:
 			::FLAC__Metadata_SimpleIterator *iterator_;
@@ -969,10 +1075,14 @@ namespace FLAC {
 		 */
 
 		/** This class is a wrapper around the FLAC__metadata_chain
-		 *  structures and methods; see ::FLAC__Metadata_Chain.
+		 *  structures and methods; see the
+		 * \link flacpp_metadata_level2 usage guide \endlink and
+		 * ::FLAC__Metadata_Chain.
 		 */
 		class FLACPP_API Chain {
 		public:
+			/** This class is a wrapper around FLAC__Metadata_ChainStatus.
+			 */
 			class FLACPP_API Status {
 			public:
 				inline Status(::FLAC__Metadata_ChainStatus status): status_(status) { }
@@ -987,20 +1097,21 @@ namespace FLAC {
 
 			friend class Iterator;
 
-			bool is_valid() const;
-			Status status();
+			bool is_valid() const; ///< Returns \c true iff object was properly constructed.
 
-			bool read(const char *filename);
-			bool read(FLAC__IOHandle handle, FLAC__IOCallbacks callbacks);
+			Status status();                                                ///< See FLAC__metadata_chain_status().
 
-			bool check_if_tempfile_needed(bool use_padding);
+			bool read(const char *filename, bool is_ogg = false);                                ///< See FLAC__metadata_chain_read(), FLAC__metadata_chain_read_ogg().
+			bool read(FLAC__IOHandle handle, FLAC__IOCallbacks callbacks, bool is_ogg = false);  ///< See FLAC__metadata_chain_read_with_callbacks(), FLAC__metadata_chain_read_ogg_with_callbacks().
 
-			bool write(bool use_padding = true, bool preserve_file_stats = false);
-			bool write(bool use_padding, ::FLAC__IOHandle handle, ::FLAC__IOCallbacks callbacks);
-			bool write(bool use_padding, ::FLAC__IOHandle handle, ::FLAC__IOCallbacks callbacks, ::FLAC__IOHandle temp_handle, ::FLAC__IOCallbacks temp_callbacks);
+			bool check_if_tempfile_needed(bool use_padding);                ///< See FLAC__metadata_chain_check_if_tempfile_needed().
 
-			void merge_padding();
-			void sort_padding();
+			bool write(bool use_padding = true, bool preserve_file_stats = false); ///< See FLAC__metadata_chain_write().
+			bool write(bool use_padding, ::FLAC__IOHandle handle, ::FLAC__IOCallbacks callbacks); ///< See FLAC__metadata_chain_write_with_callbacks().
+			bool write(bool use_padding, ::FLAC__IOHandle handle, ::FLAC__IOCallbacks callbacks, ::FLAC__IOHandle temp_handle, ::FLAC__IOCallbacks temp_callbacks); ///< See FLAC__metadata_chain_write_with_callbacks_and_tempfile().
+
+			void merge_padding();                                           ///< See FLAC__metadata_chain_merge_padding().
+			void sort_padding();                                            ///< See FLAC__metadata_chain_sort_padding().
 
 		protected:
 			::FLAC__Metadata_Chain *chain_;
@@ -1008,26 +1119,29 @@ namespace FLAC {
 		};
 
 		/** This class is a wrapper around the FLAC__metadata_iterator
-		 *  structures and methods; see ::FLAC__Metadata_Iterator.
+		 *  structures and methods; see the
+		 * \link flacpp_metadata_level2 usage guide \endlink and
+		 * ::FLAC__Metadata_Iterator.
 		 */
 		class FLACPP_API Iterator {
 		public:
 			Iterator();
 			virtual ~Iterator();
 
-			bool is_valid() const;
+			bool is_valid() const; ///< Returns \c true iff object was properly constructed.
 
-			void init(Chain &chain);
 
-			bool next();
-			bool prev();
+			void init(Chain &chain);                       ///< See FLAC__metadata_iterator_init().
 
-			::FLAC__MetadataType get_block_type() const;
-			Prototype *get_block();
-			bool set_block(Prototype *block);
-			bool delete_block(bool replace_with_padding);
-			bool insert_block_before(Prototype *block);
-			bool insert_block_after(Prototype *block);
+			bool next();                                   ///< See FLAC__metadata_iterator_next().
+			bool prev();                                   ///< See FLAC__metadata_iterator_prev().
+
+			::FLAC__MetadataType get_block_type() const;   ///< See FLAC__metadata_iterator_get_block_type().
+			Prototype *get_block();                        ///< See FLAC__metadata_iterator_get_block().
+			bool set_block(Prototype *block);              ///< See FLAC__metadata_iterator_set_block().
+			bool delete_block(bool replace_with_padding);  ///< See FLAC__metadata_iterator_delete_block().
+			bool insert_block_before(Prototype *block);    ///< See FLAC__metadata_iterator_insert_block_before().
+			bool insert_block_after(Prototype *block);     ///< See FLAC__metadata_iterator_insert_block_after().
 
 		protected:
 			::FLAC__Metadata_Iterator *iterator_;

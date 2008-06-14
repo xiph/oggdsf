@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ typedef struct {
 } analysis_options;
 
 void flac__analyze_init(analysis_options aopts);
-void flac__analyze_frame(const FLAC__Frame *frame, unsigned frame_number, analysis_options aopts, FILE *fout);
+void flac__analyze_frame(const FLAC__Frame *frame, unsigned frame_number, FLAC__uint64 frame_offset, unsigned frame_bytes, analysis_options aopts, FILE *fout);
 void flac__analyze_finish(analysis_options aopts);
 
 #endif

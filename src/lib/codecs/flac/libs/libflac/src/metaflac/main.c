@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,11 +29,18 @@ int main(int argc, char *argv[])
 	CommandLineOptions options;
 	int ret = 0;
 
+#ifdef __EMX__
+	_response(&argc, &argv);
+	_wildcard(&argc, &argv);
+#endif
+
 	setlocale(LC_ALL, "");
 	init_options(&options);
 
 	if(parse_options(argc, argv, &options))
 		ret = !do_operations(&options);
+	else
+		ret = 1;
 
 	free_options(&options);
 

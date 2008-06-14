@@ -51,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
-# ADD LINK32 ..\..\obj\release\lib\grabbag_static.lib ..\..\obj\release\lib\libOggFLAC_static.lib ..\..\obj\release\lib\libFLAC_static.lib ..\..\obj\release\lib\replaygain_analysis_static.lib ..\..\obj\release\lib\replaygain_synthesis_static.lib ..\..\obj\release\lib\getopt_static.lib ..\..\obj\release\lib\utf8_static.lib ..\..\obj\release\lib\ogg_static.lib /nologo /subsystem:console /machine:I386
+# ADD LINK32 ..\..\obj\release\lib\grabbag_static.lib ..\..\obj\release\lib\libFLAC_static.lib ..\..\obj\release\lib\replaygain_analysis_static.lib ..\..\obj\release\lib\replaygain_synthesis_static.lib ..\..\obj\release\lib\getopt_static.lib ..\..\obj\release\lib\utf8_static.lib ..\..\obj\release\lib\ogg_static.lib /nologo /subsystem:console /machine:I386
 
 !ELSEIF  "$(CFG)" == "flac - Win32 Debug"
 
@@ -67,7 +67,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "." /I "..\..\include" /D "_DEBUG" /D "FLAC__NO_DLL" /D "FLAC__HAS_OGG" /D "WIN32" /D "_CONSOLE" /D "_MBCS" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "." /I "..\..\include" /D "_DEBUG" /D "DEBUG" /D "FLAC__NO_DLL" /D "FLAC__HAS_OGG" /D "WIN32" /D "_CONSOLE" /D "_MBCS" /FD /GZ /c
 # SUBTRACT CPP /YX /Yc /Yu
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
@@ -76,7 +76,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ..\..\obj\debug\lib\grabbag_static.lib ..\..\obj\debug\lib\libOggFLAC_static.lib ..\..\obj\debug\lib\libFLAC_static.lib ..\..\obj\debug\lib\replaygain_analysis_static.lib ..\..\obj\debug\lib\replaygain_synthesis_static.lib ..\..\obj\debug\lib\getopt_static.lib ..\..\obj\debug\lib\utf8_static.lib ..\..\obj\release\lib\ogg_static.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 ..\..\obj\debug\lib\grabbag_static.lib ..\..\obj\debug\lib\libFLAC_static.lib ..\..\obj\debug\lib\replaygain_analysis_static.lib ..\..\obj\debug\lib\replaygain_synthesis_static.lib ..\..\obj\debug\lib\getopt_static.lib ..\..\obj\debug\lib\utf8_static.lib ..\..\obj\release\lib\ogg_static.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -98,6 +98,10 @@ SOURCE=.\decode.c
 # Begin Source File
 
 SOURCE=.\encode.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\foreign_metadata.c
 # End Source File
 # Begin Source File
 
@@ -130,6 +134,10 @@ SOURCE=.\decode.h
 # Begin Source File
 
 SOURCE=.\encode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\foreign_metadata.h
 # End Source File
 # Begin Source File
 

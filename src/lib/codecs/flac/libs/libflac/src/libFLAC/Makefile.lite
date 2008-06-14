@@ -1,5 +1,5 @@
 #  libFLAC - Free Lossless Audio Codec library
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -44,7 +44,7 @@ else
 DEFINES = -DFLAC__CPU_IA32 -DFLAC__USE_3DNOW -DFLAC__HAS_NASM -DFLAC__ALIGN_MALLOC_DATA
 endif
 endif
-INCLUDES = -I./include -I$(topdir)/include
+INCLUDES = -I./include -I$(topdir)/include -I$(OGG_INCLUDE_DIR)
 DEBUG_CFLAGS = -DFLAC__OVERFLOW_DETECT
 
 ifeq ($(DARWIN_BUILD),yes)
@@ -54,19 +54,20 @@ else
 ifeq ($(SOLARIS_BUILD),yes)
 else
 SRCS_NASM = \
+	ia32/bitreader_asm.nasm \
 	ia32/cpu_asm.nasm \
 	ia32/fixed_asm.nasm \
-	ia32/lpc_asm.nasm
+	ia32/lpc_asm.nasm \
+	ia32/stream_encoder_asm.nasm
 endif
 endif
 
 SRCS_C = \
-	bitbuffer.c \
 	bitmath.c \
+	bitreader.c \
+	bitwriter.c \
 	cpu.c \
 	crc.c \
-	file_decoder.c \
-	file_encoder.c \
 	fixed.c \
 	float.c \
 	format.c \
@@ -75,11 +76,14 @@ SRCS_C = \
 	memory.c \
 	metadata_iterators.c \
 	metadata_object.c \
-	seekable_stream_decoder.c \
-	seekable_stream_encoder.c \
+	ogg_decoder_aspect.c \
+	ogg_encoder_aspect.c \
+	ogg_helper.c \
+	ogg_mapping.c \
 	stream_decoder.c \
 	stream_encoder.c \
-	stream_encoder_framing.c
+	stream_encoder_framing.c \
+	window.c
 
 include $(topdir)/build/lib.mk
 

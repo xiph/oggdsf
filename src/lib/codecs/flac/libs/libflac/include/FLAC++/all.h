@@ -1,5 +1,5 @@
 /* libFLAC++ - Free Lossless Audio Codec library
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -43,11 +43,6 @@
  * The FLAC C++ API is the interface to libFLAC++, a set of classes
  * that encapsulate the encoders, decoders, and metadata interfaces
  * in libFLAC.
- *
- * Note that Doxygen currently has some quirks (bugs?) in the way
- * it deals with some member groups and C++ constructs.  You will find
- * some document entries in the wrong place under [NOHEADER] sections.
- * Hopefully this is not too distracting.
  */
 
 #endif

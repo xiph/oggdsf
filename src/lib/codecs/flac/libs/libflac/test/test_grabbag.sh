@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  FLAC - Free Lossless Audio Codec
-#  Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This file is part the FLAC project.  FLAC is comprised of several
 #  components distributed under difference licenses.  The codec libraries
@@ -35,18 +35,60 @@ LD_LIBRARY_PATH=../src/share/replaygain_analysis/.libs:$LD_LIBRARY_PATH
 LD_LIBRARY_PATH=../obj/$BUILD/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
 PATH=../src/test_grabbag/cuesheet:$PATH
+PATH=../src/test_grabbag/picture:$PATH
 PATH=../obj/$BUILD/bin:$PATH
 
 test_cuesheet -h 1>/dev/null 2>/dev/null || die "ERROR can't find test_cuesheet executable"
+test_picture -h 1>/dev/null 2>/dev/null || die "ERROR can't find test_picture executable"
 
 run_test_cuesheet ()
 {
-	if [ x"$FLAC__VALGRIND" = xyes ] ; then
-		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --logfile-fd=4 test_cuesheet $* 4>>test_grabbag.valgrind.log
+	if [ x"$FLAC__TEST_WITH_VALGRIND" = xyes ] ; then
+		echo "valgrind --leak-check=yes --show-reachable=yes --num-callers=100 test_cuesheet $*" >>test_grabbag.valgrind.log
+		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --log-fd=4 test_cuesheet $* 4>>test_grabbag.valgrind.log
 	else
 		test_cuesheet $*
 	fi
 }
+
+run_test_picture ()
+{
+	if [ x"$FLAC__TEST_WITH_VALGRIND" = xyes ] ; then
+		echo "valgrind --leak-check=yes --show-reachable=yes --num-callers=100 test_picture $*" >>test_grabbag.valgrind.log
+		valgrind --leak-check=yes --show-reachable=yes --num-callers=100 --log-fd=4 test_picture $* 4>>test_grabbag.valgrind.log
+	else
+		test_picture $*
+	fi
+}
+
+if [ `env | grep -ic '^comspec='` != 0 ] ; then
+	is_win=yes
+else
+	is_win=no
+fi
+
+########################################################################
+#
+# test_picture
+#
+########################################################################
+
+log=picture.log
+picture_dir=pictures
+
+echo "Running test_picture..."
+
+rm -f $log
+
+run_test_picture $picture_dir >> $log 2>&1
+
+if [ $is_win = yes ] ; then
+	diff -w picture.ok $log > picture.diff || die "Error: .log file does not match .ok file, see picture.diff"
+else
+	diff picture.ok $log > picture.diff || die "Error: .log file does not match .ok file, see picture.diff"
+fi
+
+echo "PASSED (results are in $log)"
 
 ########################################################################
 #
@@ -59,6 +101,8 @@ bad_cuesheets=cuesheets/bad.*.cue
 good_cuesheets=cuesheets/good.*.cue
 good_leadout=`expr 80 \* 60 \* 44100`
 bad_leadout=`expr $good_leadout + 1`
+
+echo "Running test_cuesheet..."
 
 rm -f $log
 
@@ -95,6 +139,10 @@ for cuesheet in $good_cuesheets ; do
 	rm -f $cuesheet_pass1 $cuesheet_pass2
 done
 
-diff cuesheet.ok $log > cuesheet.diff || die "Error: .log file does not match .ok file, see cuesheet.diff"
+if [ $is_win = yes ] ; then
+	diff -w cuesheet.ok $log > cuesheet.diff || die "Error: .log file does not match .ok file, see cuesheet.diff"
+else
+	diff cuesheet.ok $log > cuesheet.diff || die "Error: .log file does not match .ok file, see cuesheet.diff"
+fi
 
 echo "PASSED (results are in $log)"

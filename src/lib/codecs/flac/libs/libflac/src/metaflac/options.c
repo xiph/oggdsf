@@ -1,5 +1,5 @@
 /* metaflac - Command-line FLAC metadata editor
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +16,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "options.h"
 #include "usage.h"
 #include "utils.h"
 #include "FLAC/assert.h"
+#include "share/alloc.h"
+#include "share/grabbag/replaygain.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,20 +68,16 @@ struct share__option long_options_[] = {
 	{ "remove-tag", 1, 0, 0 }, 
 	{ "remove-first-tag", 1, 0, 0 }, 
 	{ "set-tag", 1, 0, 0 }, 
+	{ "set-tag-from-file", 1, 0, 0 }, 
 	{ "import-tags-from", 1, 0, 0 }, 
 	{ "export-tags-to", 1, 0, 0 }, 
-	{ "show-vc-vendor", 0, 0, 0 }, /* deprecated */
-	{ "show-vc-field", 1, 0, 0 }, /* deprecated */
-	{ "remove-vc-all", 0, 0, 0 }, /* deprecated */
-	{ "remove-vc-field", 1, 0, 0 }, /* deprecated */
-	{ "remove-vc-firstfield", 1, 0, 0 }, /* deprecated */
-	{ "set-vc-field", 1, 0, 0 }, /* deprecated */
-	{ "import-vc-from", 1, 0, 0 }, /* deprecated */
-	{ "export-vc-to", 1, 0, 0 }, /* deprecated */
 	{ "import-cuesheet-from", 1, 0, 0 },
 	{ "export-cuesheet-to", 1, 0, 0 },
+	{ "import-picture-from", 1, 0, 0 },
+	{ "export-picture-to", 1, 0, 0 },
 	{ "add-seekpoint", 1, 0, 0 },
 	{ "add-replay-gain", 0, 0, 0 },
+	{ "remove-replay-gain", 0, 0, 0 },
 	{ "add-padding", 1, 0, 0 },
 	/* major operations */
 	{ "help", 0, 0, 0 },
@@ -101,12 +103,13 @@ static void append_new_operation(CommandLineOptions *options, Operation operatio
 static void append_new_argument(CommandLineOptions *options, Argument argument);
 static Operation *append_major_operation(CommandLineOptions *options, OperationType type);
 static Operation *append_shorthand_operation(CommandLineOptions *options, OperationType type);
+static Argument *find_argument(CommandLineOptions *options, ArgumentType type);
 static Operation *find_shorthand_operation(CommandLineOptions *options, OperationType type);
 static Argument *append_argument(CommandLineOptions *options, ArgumentType type);
 static FLAC__bool parse_md5(const char *src, FLAC__byte dest[16]);
 static FLAC__bool parse_uint32(const char *src, FLAC__uint32 *dest);
 static FLAC__bool parse_uint64(const char *src, FLAC__uint64 *dest);
-static FLAC__bool parse_filename(const char *src, char **dest);
+static FLAC__bool parse_string(const char *src, char **dest);
 static FLAC__bool parse_vorbis_comment_field_name(const char *field_ref, char **name, const char **violation);
 static FLAC__bool parse_add_seekpoint(const char *in, char **out, const char **violation);
 static FLAC__bool parse_add_padding(const char *in, unsigned *out);
@@ -183,7 +186,7 @@ FLAC__bool parse_options(int argc, char *argv[], CommandLineOptions *options)
 
 	if(options->num_files > 0) {
 		unsigned i = 0;
-		if(0 == (options->filenames = (char**)malloc(sizeof(char*) * options->num_files)))
+		if(0 == (options->filenames = (char**)safe_malloc_mul_2op_(sizeof(char*), /*times*/options->num_files)))
 			die("out of memory allocating space for file names list");
 		while(share__optind < argc)
 			options->filenames[i++] = local_strdup(argv[share__optind++]);
@@ -200,10 +203,27 @@ FLAC__bool parse_options(int argc, char *argv[], CommandLineOptions *options)
 		}
 	}
 
-	/* check for only one FLAC file used with --import-cuesheet-from/--export-cuesheet-to */
-	if((0 != find_shorthand_operation(options, OP__IMPORT_CUESHEET_FROM) || 0 != find_shorthand_operation(options, OP__EXPORT_CUESHEET_TO)) && options->num_files > 1) {
-		fprintf(stderr, "ERROR: you may only specify one FLAC file when using '--import-cuesheet-from' or '--export-cuesheet-to'\n");
-		had_error = true;
+	/* check for only one FLAC file used with certain options */
+	if(options->num_files > 1) {
+		if(0 != find_shorthand_operation(options, OP__IMPORT_CUESHEET_FROM)) {
+			fprintf(stderr, "ERROR: you may only specify one FLAC file when using '--import-cuesheet-from'\n");
+			had_error = true;
+		}
+		if(0 != find_shorthand_operation(options, OP__EXPORT_CUESHEET_TO)) {
+			fprintf(stderr, "ERROR: you may only specify one FLAC file when using '--export-cuesheet-to'\n");
+			had_error = true;
+		}
+		if(0 != find_shorthand_operation(options, OP__EXPORT_PICTURE_TO)) {
+			fprintf(stderr, "ERROR: you may only specify one FLAC file when using '--export-picture-to'\n");
+			had_error = true;
+		}
+		if(
+			0 != find_shorthand_operation(options, OP__IMPORT_VC_FROM) &&
+			0 == strcmp(find_shorthand_operation(options, OP__IMPORT_VC_FROM)->argument.filename.value, "-")
+		) {
+			fprintf(stderr, "ERROR: you may only specify one FLAC file when using '--import-tags-from=-'\n");
+			had_error = true;
+		}
 	}
 
 	if(options->args.checks.has_block_type && options->args.checks.has_except_block_type) {
@@ -216,7 +236,7 @@ FLAC__bool parse_options(int argc, char *argv[], CommandLineOptions *options)
 
 	/*
 	 * We need to create an OP__ADD_SEEKPOINT operation if there is
-	 * not one already,  and --import-cuesheet-from was specified but
+	 * not one already, and --import-cuesheet-from was specified but
 	 * --no-cued-seekpoints was not:
 	 */
 	if(options->cued_seekpoints) {
@@ -266,6 +286,14 @@ void free_options(CommandLineOptions *options)
 			case OP__IMPORT_CUESHEET_FROM:
 				if(0 != op->argument.import_cuesheet_from.filename)
 					free(op->argument.import_cuesheet_from.filename);
+				break;
+			case OP__IMPORT_PICTURE_FROM:
+				if(0 != op->argument.specification.value)
+					free(op->argument.specification.value);
+				break;
+			case OP__EXPORT_PICTURE_TO:
+				if(0 != op->argument.export_picture_to.filename)
+					free(op->argument.export_picture_to.filename);
 				break;
 			case OP__ADD_SEEKPOINT:
 				if(0 != op->argument.add_seekpoint.specification)
@@ -442,22 +470,18 @@ FLAC__bool parse_option(int option_index, const char *option_argument, CommandLi
 	}
 	else if(0 == strcmp(opt, "set-total-samples")) {
 		op = append_shorthand_operation(options, OP__SET_TOTAL_SAMPLES);
-		if(!parse_uint64(option_argument, &(op->argument.streaminfo_uint64.value)) || op->argument.streaminfo_uint64.value >= (1u<<FLAC__STREAM_METADATA_STREAMINFO_TOTAL_SAMPLES_LEN)) {
+		if(!parse_uint64(option_argument, &(op->argument.streaminfo_uint64.value)) || op->argument.streaminfo_uint64.value >= (((FLAC__uint64)1)<<FLAC__STREAM_METADATA_STREAMINFO_TOTAL_SAMPLES_LEN)) {
 			fprintf(stderr, "ERROR (--%s): value must be a %u-bit unsigned integer\n", opt, FLAC__STREAM_METADATA_STREAMINFO_TOTAL_SAMPLES_LEN);
 			ok = false;
 		}
 		else
 			undocumented_warning(opt);
 	}
-	else if(0 == strcmp(opt, "show-vendor-tag") || 0 == strcmp(opt, "show-vc-vendor")) {
-		if(0 == strcmp(opt, "show-vc-vendor"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --show-vendor-tag\n", opt);
+	else if(0 == strcmp(opt, "show-vendor-tag")) {
 		(void) append_shorthand_operation(options, OP__SHOW_VC_VENDOR);
 	}
-	else if(0 == strcmp(opt, "show-tag") || 0 == strcmp(opt, "show-vc-field")) {
+	else if(0 == strcmp(opt, "show-tag")) {
 		const char *violation;
-		if(0 == strcmp(opt, "show-vc-field"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --show-tag\n", opt);
 		op = append_shorthand_operation(options, OP__SHOW_VC_FIELD);
 		FLAC__ASSERT(0 != option_argument);
 		if(!parse_vorbis_comment_field_name(option_argument, &(op->argument.vc_field_name.value), &violation)) {
@@ -466,15 +490,11 @@ FLAC__bool parse_option(int option_index, const char *option_argument, CommandLi
 			ok = false;
 		}
 	}
-	else if(0 == strcmp(opt, "remove-all-tags") || 0 == strcmp(opt, "remove-vc-all")) {
-		if(0 == strcmp(opt, "remove-vc-all"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --remove-all-tags\n", opt);
+	else if(0 == strcmp(opt, "remove-all-tags")) {
 		(void) append_shorthand_operation(options, OP__REMOVE_VC_ALL);
 	}
-	else if(0 == strcmp(opt, "remove-tag") || 0 == strcmp(opt, "remove-vc-field")) {
+	else if(0 == strcmp(opt, "remove-tag")) {
 		const char *violation;
-		if(0 == strcmp(opt, "remove-vc-field"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --remove-tag\n", opt);
 		op = append_shorthand_operation(options, OP__REMOVE_VC_FIELD);
 		FLAC__ASSERT(0 != option_argument);
 		if(!parse_vorbis_comment_field_name(option_argument, &(op->argument.vc_field_name.value), &violation)) {
@@ -483,10 +503,8 @@ FLAC__bool parse_option(int option_index, const char *option_argument, CommandLi
 			ok = false;
 		}
 	}
-	else if(0 == strcmp(opt, "remove-first-tag") || 0 == strcmp(opt, "remove-vc-firstfield")) {
+	else if(0 == strcmp(opt, "remove-first-tag")) {
 		const char *violation;
-		if(0 == strcmp(opt, "remove-vc-firstfield"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --remove-first-tag\n", opt);
 		op = append_shorthand_operation(options, OP__REMOVE_VC_FIRSTFIELD);
 		FLAC__ASSERT(0 != option_argument);
 		if(!parse_vorbis_comment_field_name(option_argument, &(op->argument.vc_field_name.value), &violation)) {
@@ -495,34 +513,40 @@ FLAC__bool parse_option(int option_index, const char *option_argument, CommandLi
 			ok = false;
 		}
 	}
-	else if(0 == strcmp(opt, "set-tag") || 0 == strcmp(opt, "set-vc-field")) {
+	else if(0 == strcmp(opt, "set-tag")) {
 		const char *violation;
-		if(0 == strcmp(opt, "set-vc-field"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --set-tag\n", opt);
 		op = append_shorthand_operation(options, OP__SET_VC_FIELD);
 		FLAC__ASSERT(0 != option_argument);
+		op->argument.vc_field.field_value_from_file = false;
 		if(!parse_vorbis_comment_field(option_argument, &(op->argument.vc_field.field), &(op->argument.vc_field.field_name), &(op->argument.vc_field.field_value), &(op->argument.vc_field.field_value_length), &violation)) {
 			FLAC__ASSERT(0 != violation);
 			fprintf(stderr, "ERROR (--%s): malformed vorbis comment field \"%s\",\n       %s\n", opt, option_argument, violation);
 			ok = false;
 		}
 	}
-	else if(0 == strcmp(opt, "import-tags-from") || 0 == strcmp(opt, "import-vc-from")) {
-		if(0 == strcmp(opt, "import-vc-from"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --import-tags-from\n", opt);
+	else if(0 == strcmp(opt, "set-tag-from-file")) {
+		const char *violation;
+		op = append_shorthand_operation(options, OP__SET_VC_FIELD);
+		FLAC__ASSERT(0 != option_argument);
+		op->argument.vc_field.field_value_from_file = true;
+		if(!parse_vorbis_comment_field(option_argument, &(op->argument.vc_field.field), &(op->argument.vc_field.field_name), &(op->argument.vc_field.field_value), &(op->argument.vc_field.field_value_length), &violation)) {
+			FLAC__ASSERT(0 != violation);
+			fprintf(stderr, "ERROR (--%s): malformed vorbis comment field \"%s\",\n       %s\n", opt, option_argument, violation);
+			ok = false;
+		}
+	}
+	else if(0 == strcmp(opt, "import-tags-from")) {
 		op = append_shorthand_operation(options, OP__IMPORT_VC_FROM);
 		FLAC__ASSERT(0 != option_argument);
-		if(!parse_filename(option_argument, &(op->argument.filename.value))) {
+		if(!parse_string(option_argument, &(op->argument.filename.value))) {
 			fprintf(stderr, "ERROR (--%s): missing filename\n", opt);
 			ok = false;
 		}
 	}
-	else if(0 == strcmp(opt, "export-tags-to") || 0 == strcmp(opt, "export-vc-to")) {
-		if(0 == strcmp(opt, "export-vc-to"))
-			fprintf(stderr, "WARNING: --%s is deprecated, the new name is --export-tags-to\n", opt);
+	else if(0 == strcmp(opt, "export-tags-to")) {
 		op = append_shorthand_operation(options, OP__EXPORT_VC_TO);
 		FLAC__ASSERT(0 != option_argument);
-		if(!parse_filename(option_argument, &(op->argument.filename.value))) {
+		if(!parse_string(option_argument, &(op->argument.filename.value))) {
 			fprintf(stderr, "ERROR (--%s): missing filename\n", opt);
 			ok = false;
 		}
@@ -534,7 +558,7 @@ FLAC__bool parse_option(int option_index, const char *option_argument, CommandLi
 		}
 		op = append_shorthand_operation(options, OP__IMPORT_CUESHEET_FROM);
 		FLAC__ASSERT(0 != option_argument);
-		if(!parse_filename(option_argument, &(op->argument.import_cuesheet_from.filename))) {
+		if(!parse_string(option_argument, &(op->argument.import_cuesheet_from.filename))) {
 			fprintf(stderr, "ERROR (--%s): missing filename\n", opt);
 			ok = false;
 		}
@@ -542,10 +566,28 @@ FLAC__bool parse_option(int option_index, const char *option_argument, CommandLi
 	else if(0 == strcmp(opt, "export-cuesheet-to")) {
 		op = append_shorthand_operation(options, OP__EXPORT_CUESHEET_TO);
 		FLAC__ASSERT(0 != option_argument);
-		if(!parse_filename(option_argument, &(op->argument.filename.value))) {
+		if(!parse_string(option_argument, &(op->argument.filename.value))) {
 			fprintf(stderr, "ERROR (--%s): missing filename\n", opt);
 			ok = false;
 		}
+	}
+	else if(0 == strcmp(opt, "import-picture-from")) {
+		op = append_shorthand_operation(options, OP__IMPORT_PICTURE_FROM);
+		FLAC__ASSERT(0 != option_argument);
+		if(!parse_string(option_argument, &(op->argument.specification.value))) {
+			fprintf(stderr, "ERROR (--%s): missing specification\n", opt);
+			ok = false;
+		}
+	}
+	else if(0 == strcmp(opt, "export-picture-to")) {
+		const Argument *arg = find_argument(options, ARG__BLOCK_NUMBER);
+		op = append_shorthand_operation(options, OP__EXPORT_PICTURE_TO);
+		FLAC__ASSERT(0 != option_argument);
+		if(!parse_string(option_argument, &(op->argument.export_picture_to.filename))) {
+			fprintf(stderr, "ERROR (--%s): missing filename\n", opt);
+			ok = false;
+		}
+		op->argument.export_picture_to.block_number_link = arg? &(arg->value.block_number) : 0;
 	}
 	else if(0 == strcmp(opt, "add-seekpoint")) {
 		const char *violation;
@@ -556,15 +598,31 @@ FLAC__bool parse_option(int option_index, const char *option_argument, CommandLi
 			fprintf(stderr, "ERROR (--%s): malformed seekpoint specification \"%s\",\n       %s\n", opt, option_argument, violation);
 			ok = false;
 		}
-		op = find_shorthand_operation(options, OP__ADD_SEEKPOINT);
-		if(0 == op)
-			op = append_shorthand_operation(options, OP__ADD_SEEKPOINT);
-		local_strcat(&(op->argument.add_seekpoint.specification), spec);
-		local_strcat(&(op->argument.add_seekpoint.specification), ";");
-		free(spec);
+		else {
+			op = find_shorthand_operation(options, OP__ADD_SEEKPOINT);
+			if(0 == op)
+				op = append_shorthand_operation(options, OP__ADD_SEEKPOINT);
+			local_strcat(&(op->argument.add_seekpoint.specification), spec);
+			local_strcat(&(op->argument.add_seekpoint.specification), ";");
+			free(spec);
+		}
 	}
 	else if(0 == strcmp(opt, "add-replay-gain")) {
 		(void) append_shorthand_operation(options, OP__ADD_REPLAY_GAIN);
+	}
+	else if(0 == strcmp(opt, "remove-replay-gain")) {
+		const FLAC__byte * const tags[5] = {
+			GRABBAG__REPLAYGAIN_TAG_REFERENCE_LOUDNESS,
+			GRABBAG__REPLAYGAIN_TAG_TITLE_GAIN,
+			GRABBAG__REPLAYGAIN_TAG_TITLE_PEAK,
+			GRABBAG__REPLAYGAIN_TAG_ALBUM_GAIN,
+			GRABBAG__REPLAYGAIN_TAG_ALBUM_PEAK
+		};
+		size_t i;
+		for(i = 0; i < sizeof(tags)/sizeof(tags[0]); i++) {
+			op = append_shorthand_operation(options, OP__REMOVE_VC_FIELD);
+			op->argument.vc_field_name.value = local_strdup((const char *)tags[i]);
+		}
 	}
 	else if(0 == strcmp(opt, "add-padding")) {
 		op = append_shorthand_operation(options, OP__ADD_PADDING);
@@ -661,8 +719,10 @@ void append_new_operation(CommandLineOptions *options, Operation operation)
 	}
 	if(options->ops.capacity <= options->ops.num_operations) {
 		unsigned original_capacity = options->ops.capacity;
-		options->ops.capacity *= 4;
-		if(0 == (options->ops.operations = (Operation*)realloc(options->ops.operations, sizeof(Operation) * options->ops.capacity)))
+		if(options->ops.capacity > SIZE_MAX / 2) /* overflow check */
+			die("out of memory allocating space for option list");
+		options->ops.capacity *= 2;
+		if(0 == (options->ops.operations = (Operation*)safe_realloc_mul_2op_(options->ops.operations, sizeof(Operation), /*times*/options->ops.capacity)))
 			die("out of memory allocating space for option list");
 		memset(options->ops.operations + original_capacity, 0, sizeof(Operation) * (options->ops.capacity - original_capacity));
 	}
@@ -680,8 +740,10 @@ void append_new_argument(CommandLineOptions *options, Argument argument)
 	}
 	if(options->args.capacity <= options->args.num_arguments) {
 		unsigned original_capacity = options->args.capacity;
-		options->args.capacity *= 4;
-		if(0 == (options->args.arguments = (Argument*)realloc(options->args.arguments, sizeof(Argument) * options->args.capacity)))
+		if(options->args.capacity > SIZE_MAX / 2) /* overflow check */
+			die("out of memory allocating space for option list");
+		options->args.capacity *= 2;
+		if(0 == (options->args.arguments = (Argument*)safe_realloc_mul_2op_(options->args.arguments, sizeof(Argument), /*times*/options->args.capacity)))
 			die("out of memory allocating space for option list");
 		memset(options->args.arguments + original_capacity, 0, sizeof(Argument) * (options->args.capacity - original_capacity));
 	}
@@ -707,6 +769,15 @@ Operation *append_shorthand_operation(CommandLineOptions *options, OperationType
 	append_new_operation(options, op);
 	options->args.checks.num_shorthand_ops++;
 	return options->ops.operations + (options->ops.num_operations - 1);
+}
+
+Argument *find_argument(CommandLineOptions *options, ArgumentType type)
+{
+	unsigned i;
+	for(i = 0; i < options->args.num_arguments; i++)
+		if(options->args.arguments[i].type == type)
+			return &options->args.arguments[i];
+	return 0;
 }
 
 Operation *find_shorthand_operation(CommandLineOptions *options, OperationType type)
@@ -769,7 +840,8 @@ FLAC__bool parse_uint32(const char *src, FLAC__uint32 *dest)
 	return true;
 }
 
-/* There's no stroull() in MSVC6 so we just write a specialized one */
+#ifdef _MSC_VER
+/* There's no strtoull() in MSVC6 so we just write a specialized one */
 static FLAC__uint64 local__strtoull(const char *src)
 {
 	FLAC__uint64 ret = 0;
@@ -784,17 +856,22 @@ static FLAC__uint64 local__strtoull(const char *src)
 	}
 	return ret;
 }
+#endif
 
 FLAC__bool parse_uint64(const char *src, FLAC__uint64 *dest)
 {
 	FLAC__ASSERT(0 != src);
 	if(strlen(src) == 0 || strspn(src, "0123456789") != strlen(src))
 		return false;
+#ifdef _MSC_VER
 	*dest = local__strtoull(src);
+#else
+	*dest = strtoull(src, 0, 10);
+#endif
 	return true;
 }
 
-FLAC__bool parse_filename(const char *src, char **dest)
+FLAC__bool parse_string(const char *src, char **dest)
 {
 	if(0 == src || strlen(src) == 0)
 		return false;
@@ -897,7 +974,7 @@ FLAC__bool parse_block_number(const char *in, Argument_BlockNumber *out)
 
 	/* make space */
 	FLAC__ASSERT(out->num_entries > 0);
-	if(0 == (out->entries = (unsigned*)malloc(sizeof(unsigned) * out->num_entries)))
+	if(0 == (out->entries = (unsigned*)safe_malloc_mul_2op_(sizeof(unsigned), /*times*/out->num_entries)))
 		die("out of memory allocating space for option list");
 
 	/* load 'em up */
@@ -936,7 +1013,7 @@ FLAC__bool parse_block_type(const char *in, Argument_BlockType *out)
 
 	/* make space */
 	FLAC__ASSERT(out->num_entries > 0);
-	if(0 == (out->entries = (Argument_BlockTypeEntry*)malloc(sizeof(Argument_BlockTypeEntry) * out->num_entries)))
+	if(0 == (out->entries = (Argument_BlockTypeEntry*)safe_malloc_mul_2op_(sizeof(Argument_BlockTypeEntry), /*times*/out->num_entries)))
 		die("out of memory allocating space for option list");
 
 	/* load 'em up */
@@ -988,6 +1065,9 @@ FLAC__bool parse_block_type(const char *in, Argument_BlockType *out)
 		}
 		else if(0 == strcmp(q, "CUESHEET")) {
 			out->entries[entry++].type = FLAC__METADATA_TYPE_CUESHEET;
+		}
+		else if(0 == strcmp(q, "PICTURE")) {
+			out->entries[entry++].type = FLAC__METADATA_TYPE_PICTURE;
 		}
 		else {
 			free(s);

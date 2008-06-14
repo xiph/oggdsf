@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +18,10 @@
 
 #ifndef flac__utils_h
 #define flac__utils_h
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 #include "FLAC/ordinals.h"
 #include "FLAC/format.h" /* for FLAC__StreamMetadata_CueSheet */
@@ -52,5 +56,8 @@ void flac__utils_canonicalize_skip_until_specification(utils__SkipUntilSpecifica
 
 FLAC__bool flac__utils_parse_cue_specification(const char *s, utils__CueSpecification *spec);
 void flac__utils_canonicalize_cue_specification(const utils__CueSpecification *cue_spec, const FLAC__StreamMetadata_CueSheet *cuesheet, FLAC__uint64 total_samples, utils__SkipUntilSpecification *skip_spec, utils__SkipUntilSpecification *until_spec);
+
+FLAC__bool flac__utils_set_channel_mask_tag(FLAC__StreamMetadata *object, FLAC__uint32 channel_mask);
+FLAC__bool flac__utils_get_channel_mask_tag(const FLAC__StreamMetadata *object, FLAC__uint32 *channel_mask);
 
 #endif

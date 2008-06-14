@@ -37,6 +37,8 @@
 #include "FLAC++/decoder.h"
 #include <libilliCore/StringHelper.h>
 #include <libilliCore/iBE_Math.h>
+#include "FLAC/seekable_stream_decoder.h"
+#include "FLAC/stream_decoder.h"
 using namespace FLAC::Decoder;
 
 //STL Includes
@@ -53,7 +55,7 @@ class NativeFLACSourceFilter
 	,	public IAMFilterMiscFlags
 	,	public IMediaSeeking
 	,	public CAMThread
-	,	protected FLAC::Decoder::SeekableStream
+	,	protected FLAC::Decoder::Stream
 {
 public:
 	//Friends
@@ -95,10 +97,10 @@ public:
 	virtual DWORD ThreadProc(void);
 
 	//FLAC Virtuals
-	virtual ::FLAC__SeekableStreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes);
-	virtual ::FLAC__SeekableStreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
-	virtual ::FLAC__SeekableStreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
-	virtual ::FLAC__SeekableStreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
+	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes);
+	virtual ::FLAC__StreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
+	virtual ::FLAC__StreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
+	virtual ::FLAC__StreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
 	virtual ::FLAC__StreamDecoderWriteStatus write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]);
 	virtual void metadata_callback(const FLAC__StreamMetadata* inMetaData);
 	virtual void error_callback(FLAC__StreamDecoderErrorStatus inStatus);

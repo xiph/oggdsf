@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release_static"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /Op /I ".\include" /I "..\..\include" /D VERSION=\"1.1.2\" /D "FLAC__NO_DLL" /D "FLAC__CPU_IA32" /D "FLAC__HAS_NASM" /D "FLAC__USE_3DNOW" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /Op /I ".\include" /I "..\..\include" /D VERSION=\"1.2.1\" /D "FLAC__NO_DLL" /D "FLAC__HAS_OGG" /D "FLAC__CPU_IA32" /D "FLAC__HAS_NASM" /D "FLAC__USE_3DNOW" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug_static"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I ".\include" /I "..\..\include" /D VERSION=\"1.1.2\" /D "FLAC__NO_DLL" /D "FLAC__CPU_IA32" /D "FLAC__HAS_NASM" /D "FLAC__USE_3DNOW" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I ".\include" /I "..\..\include" /D VERSION=\"1.2.1\" /D "FLAC__NO_DLL" /D "FLAC__HAS_OGG" /D "FLAC__CPU_IA32" /D "FLAC__HAS_NASM" /D "FLAC__USE_3DNOW" /D "WIN32" /D "_DEBUG" /D "DEBUG" /D "FLAC__OVERFLOW_DETECT" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -86,6 +86,35 @@ LIB32=link.exe -lib
 # Begin Group "Assembly Files (ia32)"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\ia32\bitreader_asm.nasm
+
+!IF  "$(CFG)" == "libFLAC_static - Win32 Release"
+
+USERDEP__CPU_A="ia32/bitreader_asm.nasm"	
+# Begin Custom Build
+InputPath=.\ia32\bitreader_asm.nasm
+
+"ia32/bitreader_asm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "libFLAC_static - Win32 Debug"
+
+USERDEP__CPU_A="ia32/bitreader_asm.nasm"	
+# Begin Custom Build
+InputPath=.\ia32\bitreader_asm.nasm
+
+"ia32/bitreader_asm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
 # Begin Source File
 
 SOURCE=.\ia32\cpu_asm.nasm
@@ -175,16 +204,49 @@ InputPath=.\ia32\lpc_asm.nasm
 # End Source File
 # Begin Source File
 
+SOURCE=.\ia32\stream_encoder_asm.nasm
+
+!IF  "$(CFG)" == "libFLAC_static - Win32 Release"
+
+USERDEP__CPU_A="ia32/stream_encoder_asm.nasm"	
+# Begin Custom Build
+InputPath=.\ia32\stream_encoder_asm.nasm
+
+"ia32/stream_encoder_asm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "libFLAC_static - Win32 Debug"
+
+USERDEP__CPU_A="ia32/stream_encoder_asm.nasm"	
+# Begin Custom Build
+InputPath=.\ia32\stream_encoder_asm.nasm
+
+"ia32/stream_encoder_asm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\ia32\nasm.h
 # End Source File
 # End Group
 # Begin Source File
 
-SOURCE=.\bitbuffer.c
+SOURCE=.\bitmath.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\bitmath.c
+SOURCE=.\bitreader.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\bitwriter.c
 # End Source File
 # Begin Source File
 
@@ -193,14 +255,6 @@ SOURCE=.\cpu.c
 # Begin Source File
 
 SOURCE=.\crc.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\file_decoder.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\file_encoder.c
 # End Source File
 # Begin Source File
 
@@ -236,11 +290,19 @@ SOURCE=.\metadata_object.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\seekable_stream_decoder.c
+SOURCE=.\ogg_decoder_aspect.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\seekable_stream_encoder.c
+SOURCE=.\ogg_encoder_aspect.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\ogg_helper.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\ogg_mapping.c
 # End Source File
 # Begin Source File
 
@@ -254,6 +316,10 @@ SOURCE=.\stream_encoder.c
 
 SOURCE=.\stream_encoder_framing.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\window.c
+# End Source File
 # End Group
 # Begin Group "Private Header Files"
 
@@ -264,11 +330,15 @@ SOURCE=.\include\private\all.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\private\bitbuffer.h
+SOURCE=.\include\private\bitmath.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\private\bitmath.h
+SOURCE=.\include\private\bitreader.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\private\bitwriter.h
 # End Source File
 # Begin Source File
 
@@ -308,7 +378,27 @@ SOURCE=.\include\private\metadata.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\private\ogg_decoder_aspect.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\private\ogg_encoder_aspect.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\private\ogg_helper.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\private\ogg_mapping.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\private\stream_encoder_framing.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\private\window.h
 # End Source File
 # End Group
 # Begin Group "Protected Header Files"
@@ -317,22 +407,6 @@ SOURCE=.\include\private\stream_encoder_framing.h
 # Begin Source File
 
 SOURCE=.\include\protected\all.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\protected\file_decoder.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\protected\file_encoder.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\protected\seekable_stream_decoder.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\protected\seekable_stream_encoder.h
 # End Source File
 # Begin Source File
 
@@ -360,14 +434,6 @@ SOURCE=..\..\include\FLAC\export.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\include\FLAC\file_decoder.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\include\FLAC\file_encoder.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\include\FLAC\format.h
 # End Source File
 # Begin Source File
@@ -377,14 +443,6 @@ SOURCE=..\..\include\FLAC\metadata.h
 # Begin Source File
 
 SOURCE=..\..\include\FLAC\ordinals.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\include\FLAC\seekable_stream_decoder.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\include\FLAC\seekable_stream_encoder.h
 # End Source File
 # Begin Source File
 

@@ -1,5 +1,5 @@
 #  flac - Command-line FLAC encoder/decoder
-#  Copyright (C) 2002,2003,2004,2005  Josh Coalson
+#  Copyright (C) 2002,2003,2004,2005,2006,2007  Josh Coalson
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)
 doc_DATA = \
 	FLAC.tag
 
-EXTRA_DIST = Doxyfile Makefile.lite $(doc_DATA)
+EXTRA_DIST = Doxyfile Makefile.lite doxygen.footer.html doxygen.header.html $(doc_DATA)
 
 maintainer-clean-local:
 	rm -rf FLAC.tag html/api doxytmp

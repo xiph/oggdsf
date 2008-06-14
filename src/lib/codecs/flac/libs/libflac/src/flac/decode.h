@@ -1,5 +1,5 @@
 /* flac - Command-line FLAC encoder/decoder
- * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,13 +19,15 @@
 #ifndef flac__decode_h
 #define flac__decode_h
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "analyze.h"
+#include "foreign_metadata.h"
 #include "utils.h"
 #include "share/replaygain_synthesis.h"
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 typedef struct {
 	FLAC__bool apply;
@@ -36,9 +38,10 @@ typedef struct {
 } replaygain_synthesis_spec_t;
 
 typedef struct {
+	FLAC__bool treat_warnings_as_errors;
 	FLAC__bool continue_through_decode_errors;
 	replaygain_synthesis_spec_t replaygain_synthesis_spec;
-#ifdef FLAC__HAS_OGG
+#if FLAC__HAS_OGG
 	FLAC__bool is_ogg;
 	FLAC__bool use_first_serial_number;
 	long serial_number;
@@ -47,11 +50,13 @@ typedef struct {
 	utils__SkipUntilSpecification until_specification;
 	FLAC__bool has_cue_specification;
 	utils__CueSpecification cue_specification;
+	FLAC__bool channel_map_none; /* --channel-map=none specified, eventually will expand to take actual channel map */
 } decode_options_t;
 
 /* used for AIFF also */
 typedef struct {
 	decode_options_t common;
+	foreign_metadata_t *foreign_metadata; /* NULL unless --keep-foreign-metadata requested */
 } wav_decode_options_t;
 
 typedef struct {

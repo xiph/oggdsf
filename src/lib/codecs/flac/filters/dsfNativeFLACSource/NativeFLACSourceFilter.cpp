@@ -270,28 +270,28 @@ DWORD NativeFLACSourceFilter::ThreadProc(void)
 }
 
 
-::FLAC__SeekableStreamDecoderReadStatus NativeFLACSourceFilter::read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes) 
+::FLAC__StreamDecoderReadStatus NativeFLACSourceFilter::read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes) 
 {
 	const unsigned long BUFF_SIZE = 8192;
 	mInputFile.read((char*)outBuffer, BUFF_SIZE);
 	*outNumBytes = mInputFile.gcount();
 	mWasEOF = mInputFile.eof();
-	return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK;
+	return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 }
-::FLAC__SeekableStreamDecoderSeekStatus NativeFLACSourceFilter::seek_callback(FLAC__uint64 inSeekPos) 
+::FLAC__StreamDecoderSeekStatus NativeFLACSourceFilter::seek_callback(FLAC__uint64 inSeekPos) 
 {
 	mInputFile.seekg(inSeekPos);
-	return FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_OK;
+	return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
 }
-::FLAC__SeekableStreamDecoderTellStatus NativeFLACSourceFilter::tell_callback(FLAC__uint64* outTellPos) 
+::FLAC__StreamDecoderTellStatus NativeFLACSourceFilter::tell_callback(FLAC__uint64* outTellPos) 
 {
 	*outTellPos = mInputFile.tellg();
-	return FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_OK;
+	return FLAC__STREAM_DECODER_TELL_STATUS_OK;
 }
-::FLAC__SeekableStreamDecoderLengthStatus NativeFLACSourceFilter::length_callback(FLAC__uint64* outLength) 
+::FLAC__StreamDecoderLengthStatus NativeFLACSourceFilter::length_callback(FLAC__uint64* outLength) 
 {
 	*outLength = mFileSize;
-	return FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_OK;
+	return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
 }
 ::FLAC__StreamDecoderWriteStatus NativeFLACSourceFilter::write_callback(const FLAC__Frame* inFrame,const FLAC__int32 *const inBuffer[]) 
 {
