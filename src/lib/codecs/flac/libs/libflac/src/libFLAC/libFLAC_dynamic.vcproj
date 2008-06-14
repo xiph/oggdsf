@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="libFLAC_dynamic"
-	ProjectGUID="{4cefbc83-c215-11db-8314-0800200c9a66}"
+	ProjectGUID="{4CEFBC83-C215-11DB-8314-0800200C9A66}"
 	RootNamespace="libFLAC_dynamic"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -187,11 +187,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\private\all.h"
+				RelativePath=".\include\protected\all.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\protected\all.h"
+				RelativePath=".\include\private\all.h"
 				>
 			</File>
 			<File
@@ -427,7 +427,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/bitreader_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/bitreader_asm.obj"
 				/>
@@ -456,7 +456,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/cpu_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/cpu_asm.obj"
 				/>
@@ -480,7 +480,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/fixed_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/fixed_asm.obj"
 				/>
@@ -504,7 +504,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/lpc_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/lpc_asm.obj"
 				/>
@@ -528,7 +528,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasm.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/stream_encoder_asm.nasm;ia32/nasm.h"
 					Outputs="ia32/stream_encoder_asm.obj"
 				/>

@@ -2,6 +2,7 @@
 @set OGGCODECS_CONFIG_PATH=Release
 @set OGGCODECS_VORBIS_CONFIG_PATH=VS2008\libvorbis\Release
 
+rmdir /s /q bin
 mkdir bin
 
 rem Libraries - 11
