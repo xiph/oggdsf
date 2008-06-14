@@ -3,62 +3,89 @@
 ; Location of Visual Studio runtime libraries on the compiling system
 
 ; !define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT"
-; !define VS_RUNTIME_LOCATION_PREFIX "C:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\MSVC"
+; !define VS_RUNTIME_PREFIX MSVC
 
 
 ;  To use the unicows enabled versions, use these rebuilt crt's
 
-!define VS_RUNTIME_LOCATION ..\..\..\bin
-!define VS_RUNTIME_LOCATION_PREFIX ..\..\..\bin\MSLU
+!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
+!define VS_RUNTIME_PREFIX msvc
 ;   *****************************************************************************************************
 
 
 
-
-
 ; HM NIS Edit Wizard helper defines
-!define PRODUCT_NAME "oggcodecs"
+!define PRODUCT_NAME "Ogg Codecs"
 
-;	CHANGE EVERY VERSION
-!define PRODUCT_VERSION "0.73.1936"					
+; Product version is setup in build.cmd
 
-!define PRODUCT_PUBLISHER "illiminable"
-!define PRODUCT_WEB_SITE "http://www.illiminable.com/ogg/"
+!define PRODUCT_VERSION "$%PRODUCT_VERSION%"
+
+!ifndef PRODUCT_VERSION
+  !define PRODUCT_VERSION 'anonymous-build'
+!endif
+
+!define PRODUCT_PUBLISHER "Xiph.Org"
+!define PRODUCT_WEB_SITE "http://xiph.org/dshow/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OOOggDump.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
-
 ; Path from .nsi to oggcodecs root
 !define OGGCODECS_ROOT_DIR "..\..\.."
 
-; Local Build Path for configuration
-!define OGGCODECS_CONFIG_PATH "Release"
-!define OGGCODECS_VORBIS_CONFIG_PATH "Vorbis_Dynamic_Release"
+!ifdef INNER
+  !echo "Inner invocation"                  ; just to see what's going on
+  OutFile "$%TEMP%\tempinstaller.exe"       ; not really important where this is
+  SetCompress off                           ; for speed
+!else
+  !echo "Outer invocation"
+ 
+  ; Call makensis again, defining INNER.  This writes an installer for us which, when
+  ; it is invoked, will just write the uninstaller to some location, and then exit.
+  ; Be sure to substitute the name of this script here.
+ 
+  !system "$\"${NSISDIR}\makensis$\" /DINNER oggcodecs_release.nsi" = 0
+ 
+  ; So now run that installer we just created as %TEMP%\tempinstaller.exe.  Since it
+  ; calls quit the return value isn't zero.
+ 
+  !system "$%TEMP%\tempinstaller.exe" = 2
+ 
+  ; That will have written an uninstaller binary for us.  Now we sign it with your
+  ; favourite code signing tool.
+ 
+  !system "signtool sign /a /t http://time.certum.pl/ $%TEMP%\uninst.exe" = 0
+ 
+  ; Good.  Now we can carry on writing the real installer.
+ 
+  OutFile "oggcodecs_${PRODUCT_VERSION}.exe"
+  SetCompressor /SOLID lzma
+!endif
 
-
-
-
-
-
-SetCompressor lzma
-
-
-
-
-
-
-; MUI 1.67 compatible ------
-!include "MUI.nsh"
-
-; Include for library registration
+!include "extra\DumpLog.nsh"
 !include "Library.nsh"
+!include "MUI2.nsh"
+!include "FileFunc.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP "extra\header.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "extra\header.bmp"
+
+VIProductVersion "${PRODUCT_VERSION}.0"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${PRODUCT_VERSION}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${PRODUCT_WEB_SITE}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 ${PRODUCT_PUBLISHER}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "The Xiph Fish Logo and the Vorbis.com many-fish logos are trademarks (tm) of ${PRODUCT_PUBLISHER}"
+
 
 ; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
@@ -66,9 +93,11 @@ SetCompressor lzma
 !define MUI_LANGDLL_REGISTRY_VALUENAME "NSIS:Language"
 
 ; Welcome page
+!define MUI_WELCOMEPAGE_TITLE "Welcome to the ${PRODUCT_NAME} ${PRODUCT_VERSION} Setup Wizard"
+!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC ${PRODUCT_VERSION}.$\r$\n$\r$\n${PRODUCT_PUBLISHER} is a collection of open source, multimedia-related projects. The most aggressive effort works to put the foundation standards of Internet audio and video into the public domain, where all Internet standards belong.$\r$\n$\r$\n$_CLICK"
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!define MUI_LICENSEPAGE_CHECKBOX
+;!define MUI_LICENSEPAGE_CHECKBOX
 !insertmacro MUI_PAGE_LICENSE "${OGGCODECS_ROOT_DIR}\COPYRIGHTS.rtf"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
@@ -78,7 +107,7 @@ SetCompressor lzma
 ; Start menu page
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "illiminable\oggcodecs"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${PRODUCT_STARTMENU_REGVAL}"
@@ -107,31 +136,24 @@ var ICONS_GROUP
 !insertmacro MUI_LANGUAGE "TradChinese"
 !insertmacro MUI_LANGUAGE "Turkish"
 
-; Reserve files
-!insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
-
-; MUI end ------
-
-
-
-
-
-
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "oggcodecs_${PRODUCT_VERSION}.exe"
-InstallDir "$PROGRAMFILES\illiminable\oggcodecs"
+InstallDir "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
-ShowInstDetails show
-ShowUnInstDetails show
 
-
-
-
-
-
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Function .onInit
+
+!ifdef INNER
+ 
+  ; If INNER is defined, then we aren't supposed to do anything except write out
+  ; the installer.  This is better than processing a command line option as it means
+  ; this entire code path is not present in the final (real) installer.
+ 
+  WriteUninstaller "$%TEMP%\uninst.exe"
+  Quit  ; just bail out quickly when running the "inner" installer
+!endif
+
   !insertmacro MUI_LANGDLL_DISPLAY
 
   ReadRegStr $R0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}" "UninstallString"
@@ -147,7 +169,7 @@ uninst:
   GetTempFileName $0
   CopyFiles $R0 $0
   ;Start the uninstaller using the option to not copy itself
-  ExecWait '$0 _?=$INSTDIR'
+  ExecWait '$0 /FromInstaller _?=$INSTDIR'
  
   IfErrors no_remove_uninstaller
     ; In most cases the uninstall is successful at this point.
@@ -158,6 +180,7 @@ uninst:
   no_remove_uninstaller:
     MessageBox MB_ICONEXCLAMATION \
     "Unable to remove previous version of ${PRODUCT_NAME}"
+    
     Abort
   
 done:
@@ -166,24 +189,48 @@ done:
 
 FunctionEnd
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; COM registration macros, with fallbacks on regsvr32
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+!macro RegisterCOM localFile destFile tempbasedir
+	!define LIBRARY_COM
+	;!insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "${localFile}" "${destFile}" "${tempbasedir}"
+	RegDLL "${destFile}"
+	!undef LIBRARY_COM
+	IfErrors 0 +2
+	ExecWait '$SYSDIR\regsvr32.exe "/s" "${destFile}"'
+!macroend
+
+!macro UnRegisterCOM file
+	!define LIBRARY_COM
+	;!insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "${file}" 
+	UnRegDLL "${file}"
+	!undef LIBRARY_COM
+	IfErrors 0 +2
+	ExecWait '$SYSDIR\regsvr32.exe "/u" "/s" "${file}"'
+!macroend
 
 
-
-
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section "Oggcodecs Core Files" SEC_CORE
   SectionIn 1 RO
-
+  
+  SetShellVarContext all
+  
   SetOutPath "$INSTDIR"
   SetOverwrite on
 
-  ; Runtime libraries from visual studio - 3
-  File "${VS_RUNTIME_LOCATION_PREFIX}r80.dll"
-  File "${VS_RUNTIME_LOCATION_PREFIX}p80.dll"
-  File "${VS_RUNTIME_LOCATION}\Microsoft.VC80.CRT.manifest"
+  SetDetailsPrint textonly
+  DetailPrint "Copying Files ..."
+  SetDetailsPrint listonly
+  
+  ; Runtime libraries from visual studio - 2
+  File "${VS_RUNTIME_LOCATION}\${VS_RUNTIME_PREFIX}r90.dll"
+  File "${VS_RUNTIME_LOCATION}\${VS_RUNTIME_PREFIX}p90.dll"
+  File "${VS_RUNTIME_LOCATION}\Microsoft.VC90.CRT.manifest"
 
   ; Unicows for old windows with no unicode - 1
-  File "${VS_RUNTIME_LOCATION}\unicows.dll"
+  ;File "${UNICOWS_BIN}\unicows.dll"
 
   ; ico files - 1 (One file contains all these packed)
   File "${OGGCODECS_ROOT_DIR}\bin\xifish.ico"
@@ -193,26 +240,25 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 
   ; Libraries - 10
-  File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libOOOgg\${OGGCODECS_CONFIG_PATH}\libOOOgg.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libOOOggSeek\${OGGCODECS_CONFIG_PATH}\libOOOggSeek.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\libCMMLTags\${OGGCODECS_CONFIG_PATH}\libCMMLTags.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\libCMMLParse\${OGGCODECS_CONFIG_PATH}\libCMMLParse.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\vorbis\libs\libvorbis\win32\${OGGCODECS_VORBIS_CONFIG_PATH}\vorbis.dll"
+  File "bin\libOOOgg.dll"
+  File "bin\libOOOggSeek.dll"
+  File "bin\libCMMLTags.dll"
+  File "bin\libCMMLParse.dll"
+  File "bin\vorbis.dll"
  
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\theora\libs\libOOTheora\${OGGCODECS_CONFIG_PATH}\libOOTheora.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\libs\libflac\obj\${OGGCODECS_CONFIG_PATH}\bin\libFLAC.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\libs\libflac\obj\${OGGCODECS_CONFIG_PATH}\bin\libFLAC++.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\core\ogg\libVorbisComment\${OGGCODECS_CONFIG_PATH}\libVorbisComment.dll"
+  File "bin\libOOTheora.dll"
+  File "bin\libFLAC.dll"
+  File "bin\libFLAC++.dll"
+  File "bin\libVorbisComment.dll"
 
-  File "${OGGCODECS_ROOT_DIR}\src\lib\helper\libTemporalURI\${OGGCODECS_CONFIG_PATH}\libTemporalURI.dll"
-
+  File "bin\libTemporalURI.dll"
 
 
   ; Utilites - 4
-  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggDump\${OGGCODECS_CONFIG_PATH}\OOOggDump.exe"
-  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggStat\${OGGCODECS_CONFIG_PATH}\OOOggStat.exe"
-  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggValidate\${OGGCODECS_CONFIG_PATH}\OOOggValidate.exe"
-  File "${OGGCODECS_ROOT_DIR}\src\tools\OOOggCommentDump\${OGGCODECS_CONFIG_PATH}\OOOggCommentDump.exe"
+  File "bin\OOOggDump.exe"
+  File "bin\OOOggStat.exe"
+  File "bin\OOOggValidate.exe"
+  File "bin\OOOggCommentDump.exe"
 
 
   ; Text files - 7
@@ -224,64 +270,71 @@ Section "Oggcodecs Core Files" SEC_CORE
 
   File "${OGGCODECS_ROOT_DIR}\AUTHORS"
   File "${OGGCODECS_ROOT_DIR}\HISTORY"
-
-
-  ; Install Filters - 16
   
+  ; Install Filters - 16  
 
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\filters\dsfFLACEncoder\${OGGCODECS_CONFIG_PATH}\dsfFLACEncoder.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\speex\filters\dsfSpeexEncoder\${OGGCODECS_CONFIG_PATH}\dsfSpeexEncoder.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\theora\filters\dsfTheoraEncoder\${OGGCODECS_CONFIG_PATH}\dsfTheoraEncoder.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\vorbis\filters\dsfVorbisEncoder\${OGGCODECS_CONFIG_PATH}\dsfVorbisEncoder.dll"
+  File "bin\dsfFLACEncoder.dll"
+  File "bin\dsfSpeexEncoder.dll"
+  File "bin\dsfTheoraEncoder.dll"
+  File "bin\dsfVorbisEncoder.dll"
 
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\filters\dsfNativeFLACSource\${OGGCODECS_CONFIG_PATH}\dsfNativeFLACSource.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\speex\filters\dsfSpeexDecoder\${OGGCODECS_CONFIG_PATH}\dsfSpeexDecoder.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\theora\filters\dsfTheoraDecoder\${OGGCODECS_CONFIG_PATH}\dsfTheoraDecoder.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\flac\filters\dsfFLACDecoder\${OGGCODECS_CONFIG_PATH}\dsfFLACDecoder.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\vorbis\filters\dsfVorbisDecoder\${OGGCODECS_CONFIG_PATH}\dsfVorbisDecoder.dll"
+  File "bin\dsfNativeFLACSource.dll"
+  File "bin\dsfSpeexDecoder.dll"
+  File "bin\dsfTheoraDecoder.dll"
+  File "bin\dsfFLACDecoder.dll"
+  File "bin\dsfVorbisDecoder.dll"
 
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\ogm\filters\dsfOGMDecoder\${OGGCODECS_CONFIG_PATH}\dsfOGMDecoder.dll"
+  File "bin\dsfOGMDecoder.dll"
 
-  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfOggDemux2\${OGGCODECS_CONFIG_PATH}\dsfOggDemux2.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfOggMux\${OGGCODECS_CONFIG_PATH}\dsfOggMux.dll"
+  File "bin\dsfOggDemux2.dll"
+  File "bin\dsfOggMux.dll"
 
-  ; File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfSeeking\${OGGCODECS_CONFIG_PATH}\dsfSeeking.dll"
+  ; File "bin\dsfSeeking.dll"
 
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\dsfCMMLDecoder\${OGGCODECS_CONFIG_PATH}\dsfCMMLDecoder.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\codecs\cmml\dsfCMMLRawSource\${OGGCODECS_CONFIG_PATH}\dsfCMMLRawSource.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfSubtitleVMR9\${OGGCODECS_CONFIG_PATH}\dsfSubtitleVMR9.dll"
+  File "bin\dsfCMMLDecoder.dll"
+  File "bin\dsfCMMLRawSource.dll"
+  File "bin\dsfSubtitleVMR9.dll"
 
-  ; File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfAnxDemux\${OGGCODECS_CONFIG_PATH}\dsfAnxDemux.dll"
-  File "${OGGCODECS_ROOT_DIR}\src\lib\core\directshow\dsfAnxMux\${OGGCODECS_CONFIG_PATH}\dsfAnxMux.dll"
+  ; File "bin\dsfAnxDemux.dll"
+  File "bin\dsfAnxMux.dll"                                           
 
+  SetDetailsPrint textonly
+  DetailPrint "Registering DirectShow Filters ..."
+  SetDetailsPrint listonly
+
+  SetOutPath "$INSTDIR"
   ; Register libraries - 16
 
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfFLACEncoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSpeexEncoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfTheoraEncoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfVorbisEncoder.dll"'
+  !insertmacro RegisterCOM "bin\dsfFLACEncoder.dll" $INSTDIR\dsfFLACEncoder.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfSpeexEncoder.dll" $INSTDIR\dsfSpeexEncoder.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfTheoraEncoder.dll" $INSTDIR\dsfTheoraEncoder.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfVorbisEncoder.dll" $INSTDIR\dsfVorbisEncoder.dll $INSTDIR
   
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfNativeFLACSource.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSpeexDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfTheoraDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfFLACDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfVorbisDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOGMDecoder.dll"'
+  !insertmacro RegisterCOM "bin\dsfNativeFLACSource.dll" $INSTDIR\dsfNativeFLACSource.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfSpeexDecoder.dll" $INSTDIR\dsfSpeexDecoder.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfTheoraDecoder.dll" $INSTDIR\dsfTheoraDecoder.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfFLACDecoder.dll" $INSTDIR\dsfFLACDecoder.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfVorbisDecoder.dll" $INSTDIR\dsfVorbisDecoder.dll $INSTDIR
+  
+  !insertmacro RegisterCOM "bin\dsfOGMDecoder.dll" $INSTDIR\dsfOGMDecoder.dll $INSTDIR
+  
+  !insertmacro RegisterCOM "bin\dsfOggDemux2.dll" $INSTDIR\dsfOggDemux2.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfOggMux.dll" $INSTDIR\dsfOggMux.dll $INSTDIR
+  
+  !insertmacro RegisterCOM "bin\dsfCMMLDecoder.dll" $INSTDIR\dsfCMMLDecoder.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfCMMLRawSource.dll" $INSTDIR\dsfCMMLRawSource.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfSubtitleVMR9.dll" $INSTDIR\dsfSubtitleVMR9.dll $INSTDIR
+  
+  ;!insertmacro RegisterCOM "bin\dsfAnxDemux.dll" $INSTDIR\dsfAnxDemux.dll $INSTDIR
+  !insertmacro RegisterCOM "bin\dsfAnxMux.dll"  $INSTDIR\dsfAnxMux.dll $INSTDIR\
+                                  
+  Push $INSTDIR\Install.log
+  Call DumpLog
+  
+  SetDetailsPrint textonly
+  DetailPrint "Writing Registry Entries ..."
+  SetDetailsPrint listonly
 
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOggDemux2.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfOggMux.dll"'
-
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfCMMLDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfCMMLRawSource.dll"'
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfSubtitleVMR9.dll"'
-
-  ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxMux.dll"'
-
-  ; ExecWait 'regsvr32 "/s" "$INSTDIR\dsfAnxDemux.dll"'
-  
-  
-  
-  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Registry Entries for directshow and WMP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -499,17 +552,9 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	Directshow extension to filter mapping - 8
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-
 
 
   WriteRegStr HKCR "Media Type\Extensions\.anx" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
@@ -551,13 +596,9 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	Directshow extension to filter mapping for HTTP - 7
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 
   WriteRegStr HKCR "http\Extensions" ".OGG" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
   WriteRegStr HKCR "http\Extensions" ".OGV" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
@@ -574,7 +615,6 @@ Section "Oggcodecs Core Files" SEC_CORE
 ;;;	MLS Perceived type - 6
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogv" "video"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "oga" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "axv" "video"
@@ -582,14 +622,6 @@ Section "Oggcodecs Core Files" SEC_CORE
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac" "audio"  
   
-  
-  
-  
-  
-  
-  
-
-
 
   ;Sleep 10000
 ; Shortcuts
@@ -598,10 +630,9 @@ Section "Oggcodecs Core Files" SEC_CORE
 SectionEnd
 
 
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section ".ogg defaults to audio" SEC_OGG_AUDIO_DEFAULT
   SectionIn 1
-  
   
   ; Make .ogg recognised as audio
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "" "Ogg File (ogg)"
@@ -615,12 +646,11 @@ Section ".ogg defaults to audio" SEC_OGG_AUDIO_DEFAULT
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogg" "audio"  
 SectionEnd
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
 
   SectionIn 1
-  Var /GLOBAL WMP_LOCATION
-
-  
+  Var /GLOBAL WMP_LOCATION  
  
   ReadRegStr $WMP_LOCATION HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer" "Player.Path"
   StrCmp $WMP_LOCATION "" fail_wmp 0
@@ -651,9 +681,7 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
   WriteRegStr HKCR "WMP.OggFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
 
   WriteRegStr HKCR "WMP.OggFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
-
-
-
+  
   
   ; Handler key for oga
   WriteRegStr HKCR "WMP.OgaFile" "" "Ogg Audio File"
@@ -670,9 +698,6 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
   WriteRegStr HKCR "WMP.OgaFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
 
   WriteRegStr HKCR "WMP.OgaFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
-
-
-
 
   
   ; Handler key for ogv
@@ -735,21 +760,17 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
   WriteRegStr HKCR "WMP.FlacFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
 
 
-
   goto done_wmp
   
 fail_wmp:
-MessageBox MB_OK|MB_ICONEXCLAMATION "A recognised version of Windows Media Player was not found. $\n File extenstion association must be done manually." IDOK done_wmp
+  MessageBox MB_OK|MB_ICONEXCLAMATION "A recognised version of Windows Media Player was not found. $\n File extenstion association must be done manually." IDOK done_wmp
 
 done_wmp:
-  
-  
+
 SectionEnd
 
 
-
-
-LangString DESC_OggCoreSection ${LANG_ENGLISH} "Core files for oggcodecs"
+LangString DESC_OggCoreSection ${LANG_ENGLISH} "Core files for ${PRODUCT_NAME}"
 LangString DESC_OggExtensionAudioByDefault ${LANG_ENGLISH} "Makes files with .ogg extension default to the audio section in Windows Media Player Library. Note: This means that ogg theora files with .ogg extension will also be in audio section. .ogv defaults to video."
 LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows Media Player, so you can double click them in explorer. Uncheck this if you don't want to use WMP for ogg files."
 
@@ -761,23 +782,28 @@ LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows
 
 
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section -AdditionalIcons
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+  WriteIniStr "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\uninst.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
 
-
-
-
-
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section -Post
-  WriteUninstaller "$INSTDIR\uninst.exe"
+
+!ifndef INNER
+
+  SetOutPath "$INSTDIR"
+ 
+  ; this packages the signed uninstaller
+ 
+  File "$%TEMP%\uninst.exe"
+!endif  
+
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\OOOggDump.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
@@ -786,69 +812,92 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 
+  SetDetailsPrint both
 
-
-  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SectionEnd
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+!insertmacro GetOptions
+!insertmacro un.GetOptions
+!insertmacro un.GetParameters
 
-
-Function un.onUninstSuccess
-;  HideWindow
-  MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
-FunctionEnd
-
-
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Function un.onInit
-!insertmacro MUI_UNGETLANGUAGE
+  !insertmacro MUI_UNGETLANGUAGE
+  var /GLOBAL cmdLineParams
+  Push $R0
+
+  ${un.GetParameters} $cmdLineParams
+
+  Push $R0
+  Var /GLOBAL option_runFromInstaller
+  StrCpy $option_runFromInstaller	  0
+  ${un.GetOptions} $cmdLineParams '/FromInstaller' $R0
+  IfErrors +2 0
+  StrCpy $option_runFromInstaller 	1
+  Pop $R0
+    
+  StrCmp $option_runFromInstaller "0" 0 +3
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
   Abort
 FunctionEnd
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Function un.onUninstSuccess
+
+;  HideWindow
+  StrCmp $option_runFromInstaller "0" 0 +2
+  MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
+FunctionEnd
 
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+!ifdef INNER
 Section Uninstall
 
+  SetShellVarContext all
 
+  SetDetailsPrint textonly
+  DetailPrint "Unregistering DirectShow Filters ..."
+  SetDetailsPrint listonly
+  
   ; Unregister libraries - 16
 
   ; Unregister core annodex libraries
+
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfSubtitleVMR9.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfCMMLDecoder.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfCMMLRawSource.dll"
   
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfSubtitleVMR9.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfCMMLDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfCMMLRawSource.dll"'
-  
-  ; ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfAnxDemux.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfAnxMux.dll"'
+  ; !insertmacro UnRegisterCOM "$INSTDIR\dsfAnxDemux.dll"'
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfAnxMux.dll"
 
   
   ; Unregister core ogg libraries
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOggDemux2.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOggMux.dll"'
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfOggDemux2.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfOggMux.dll"
 
 
   ; Unregister encoders
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfFLACEncoder.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfSpeexEncoder.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfTheoraEncoder.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfVorbisEncoder.dll"'
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfFLACEncoder.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfSpeexEncoder.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfTheoraEncoder.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfVorbisEncoder.dll"
 
   
   ; Unregister decoders
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfNativeFLACSource.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfSpeexDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfTheoraDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfFLACDecoder.dll"'
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfVorbisDecoder.dll"'
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfNativeFLACSource.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfSpeexDecoder.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfTheoraDecoder.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfFLACDecoder.dll"
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfVorbisDecoder.dll"
 
-  ExecWait 'regsvr32 "/s" "/u" "$INSTDIR\dsfOGMDecoder.dll"'
+  !insertmacro UnRegisterCOM "$INSTDIR\dsfOGMDecoder.dll"
 
-
-
-
-
+  SetDetailsPrint textonly
+  DetailPrint "Deleting Registry Entries ..."
+  SetDetailsPrint listonly
 ; Get rid of all the registry keys we made for directshow and WMP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -918,10 +967,12 @@ Section Uninstall
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac"  
 
   
-
-
-
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
+ 
+  SetDetailsPrint textonly
+  DetailPrint "Deleting Files ..."
+  SetDetailsPrint listonly 
+  Delete "$INSTDIR\Install.log"
 
   ; Delete utils - 4
   Delete "$INSTDIR\OOOggCommentDump.exe"
@@ -943,7 +994,6 @@ Section Uninstall
   Delete "$INSTDIR\libOOOgg.dll"
 
   Delete "$INSTDIR\libTemporalURI.dll"
-
 
   ;Delete Filters - 16
   Delete "$INSTDIR\dsfVorbisEncoder.dll"
@@ -974,7 +1024,6 @@ Section Uninstall
   ; Delete "$INSTDIR\dsfAnxDemux.dll"
 
 
-
   ; Delete text files - 7
   Delete "$INSTDIR\ABOUT.txt"
   Delete "$INSTDIR\VERSIONS"
@@ -985,14 +1034,13 @@ Section Uninstall
   Delete "$INSTDIR\AUTHORS"
   Delete "$INSTDIR\HISTORY"
 
-
-  ; Delete runtimes - 3
-  Delete "$INSTDIR\msvcr80.dll"
-  Delete "$INSTDIR\msvcp80.dll"
-  Delete "$INSTDIR\Microsoft.VC80.CRT.manifest"
+  ; Delete runtimes - 2
+  Delete "$INSTDIR\${VS_RUNTIME_PREFIX}r90.dll"
+  Delete "$INSTDIR\${VS_RUNTIME_PREFIX}p90.dll"
+  Delete "$INSTDIR\Microsoft.VC90.CRT.manifest"
 
   ; Delete unicows - 1
-  Delete "$INSTDIR\unicows.dll"
+  ;Delete "$INSTDIR\unicows.dll"
 
   ; Delete icons - 3
   Delete "$INSTDIR\xifish.ico"
@@ -1003,12 +1051,11 @@ Section Uninstall
 
   ;Delete accesory files, links etc.
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
-  Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
-  Delete "$INSTDIR\${PRODUCT_NAME}.url"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
 
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
-  ; Remove the "illiminable" start menu group (but only if it's empty)
+  ; Remove the start menu group (but only if it's empty)
   RMDir "$SMPROGRAMS\$ICONS_GROUP\.."
 
   ; Need to change the working directory to something else (anything) besides
@@ -1021,5 +1068,11 @@ Section Uninstall
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
-;  SetAutoClose true
+
+  StrCmp $option_runFromInstaller "1" 0 +2
+  SetAutoClose true
+  
+  SetDetailsPrint both
+  
 SectionEnd
+!endif ; INNER

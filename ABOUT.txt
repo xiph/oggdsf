@@ -1,13 +1,13 @@
-http://www.illiminable.com/ogg/
+http://xiph.org/dshow/
 
 
 This is pre-release software, if you didn't download this from the site above, please visit it to ensure you have the latest version and are aware of the known issues with this software. Please check back regularly as this software is still under development.
 
 You can see which version this is in the VERSIONS file.
 
-Report new bugs and suggestions to ogg@illiminable.com
+Report new bugs and suggestions to http://www.xiph.org/dshow/pmwiki.php/Main/ReportIssues
 
-More information about the various codecs can be found at www.xiph.org
+More information about the various codecs can be found at http://www.xiph.org
 
 Q) WHAT IS THIS?
 

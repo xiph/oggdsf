@@ -9,7 +9,7 @@
         processorArchitecture="x86" 
         publicKeyToken="1fc8b3b9a1e18e3b"
     />
-    <file name="msvcr80.dll"/>
-    <file name="msvcp80.dll"/>
-    <file name="msvcm80.dll"/>
+    <file name="mslur80.dll"/>
+    <file name="mslup80.dll"/>
+    <file name="mslum80.dll"/>
 </assembly>
