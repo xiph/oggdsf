@@ -159,6 +159,7 @@ Function .onInit
   ReadRegStr $R0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}" "UninstallString"
   StrCmp $R0 "" done
  
+  IfSilent +3
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the existing version or `Cancel` to cancel this installation." IDOK uninst
   Abort
 
@@ -168,8 +169,13 @@ uninst:
   ; Copy the uninstaller to a temp location
   GetTempFileName $0
   CopyFiles $R0 $0
+ 
   ;Start the uninstaller using the option to not copy itself
+  IfSilent 0 +3
+  ExecWait '$0 /S /FromInstaller _?=$INSTDIR'
+  Goto AfterSilent 
   ExecWait '$0 /FromInstaller _?=$INSTDIR'
+AfterSilent:
  
   IfErrors no_remove_uninstaller
     ; In most cases the uninstall is successful at this point.
@@ -178,9 +184,9 @@ uninst:
     ; components page, make sure all sections are uninstalled.
     goto done
   no_remove_uninstaller:
+    IfSilent +4
     MessageBox MB_ICONEXCLAMATION \
     "Unable to remove previous version of ${PRODUCT_NAME}"
-    
     Abort
   
 done:
@@ -327,10 +333,11 @@ Section "Oggcodecs Core Files" SEC_CORE
   
   ;!insertmacro RegisterCOM "bin\dsfAnxDemux.dll" $INSTDIR\dsfAnxDemux.dll $INSTDIR
   !insertmacro RegisterCOM "bin\dsfAnxMux.dll"  $INSTDIR\dsfAnxMux.dll $INSTDIR\
-                                  
+
+  IfSilent +3
   Push $INSTDIR\Install.log
   Call DumpLog
-  
+
   SetDetailsPrint textonly
   DetailPrint "Writing Registry Entries ..."
   SetDetailsPrint listonly
@@ -763,6 +770,7 @@ Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
   goto done_wmp
   
 fail_wmp:
+  IfSilent +2
   MessageBox MB_OK|MB_ICONEXCLAMATION "A recognised version of Windows Media Player was not found. $\n File extenstion association must be done manually." IDOK done_wmp
 
 done_wmp:
@@ -838,6 +846,7 @@ Function un.onInit
   StrCpy $option_runFromInstaller 	1
   Pop $R0
     
+  IfSilent +4
   StrCmp $option_runFromInstaller "0" 0 +3
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
   Abort
@@ -847,6 +856,7 @@ FunctionEnd
 Function un.onUninstSuccess
 
 ;  HideWindow
+  IfSilent +3
   StrCmp $option_runFromInstaller "0" 0 +2
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
 FunctionEnd

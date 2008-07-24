@@ -34,7 +34,7 @@ Function DumpLog
       System::Free $3
       Goto exit
   error:
-    MessageBox MB_OK error
+    MessageBox MB_OK|MB_ICONSTOP "Error at DumpLog"
   exit:
     Pop $6
     Pop $4
