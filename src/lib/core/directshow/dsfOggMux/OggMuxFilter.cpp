@@ -231,9 +231,17 @@ HRESULT OggMuxFilter::SetFileName(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inM
 HRESULT OggMuxFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) {
 	//Return the filename and mediatype of the raw data
 
-	 
-	LPOLESTR x = SysAllocString(mFileName.c_str());
-	*outFileName = x;
+    CheckPointer(outFileName, E_POINTER);
+    *outFileName = NULL;
+
+    if (!mFileName.empty()) {
+    	unsigned int size  = sizeof(WCHAR) * (mFileName.size() + 1);
+
+        *outFileName = (LPOLESTR) CoTaskMemAlloc(size);
+        if (*outFileName != NULL) {
+              CopyMemory(*outFileName, mFileName.c_str(), size);
+        }
+    }
 	
 	return S_OK;
 }
