@@ -62,11 +62,11 @@ public:
 	virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
 
 	//IOggDecoder Interface
-	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule);
-	virtual LOOG_INT64 mustSeekBefore(LOOG_INT64 inGranule);
-	virtual IOggDecoder::eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket);
-	virtual string getCodecShortName();
-	virtual string getCodecIdentString();
+	virtual LOOG_INT64 __stdcall convertGranuleToTime(LOOG_INT64 inGranule);
+	virtual LOOG_INT64 __stdcall mustSeekBefore(LOOG_INT64 inGranule);
+	virtual IOggDecoder::eAcceptHeaderResult __stdcall showHeaderPacket(OggPacket* inCodecHeaderPacket);
+	virtual string __stdcall getCodecShortName();
+	virtual string __stdcall getCodecIdentString();
 	fstream debugLog;
 
 	virtual IOggOutputPin* getOutputPinInterface()		{		return mOggOutputPinInterface;	}

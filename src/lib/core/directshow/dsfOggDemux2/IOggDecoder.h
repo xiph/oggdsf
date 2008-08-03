@@ -25,10 +25,10 @@ public:
 		AHR_NULL_POINTER,
 
 	};
-	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule) = 0;
-	virtual LOOG_INT64 mustSeekBefore(LOOG_INT64 inGranule) = 0;
-	virtual eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket) = 0;
-	virtual string getCodecShortName() = 0;
-	virtual string getCodecIdentString() = 0;
+	virtual LOOG_INT64 __stdcall convertGranuleToTime(LOOG_INT64 inGranule) = 0;
+	virtual LOOG_INT64 __stdcall mustSeekBefore(LOOG_INT64 inGranule) = 0;
+	virtual eAcceptHeaderResult __stdcall showHeaderPacket(OggPacket* inCodecHeaderPacket) = 0;
+	virtual string __stdcall getCodecShortName() = 0;
+	virtual string __stdcall getCodecIdentString() = 0;
 	
 };

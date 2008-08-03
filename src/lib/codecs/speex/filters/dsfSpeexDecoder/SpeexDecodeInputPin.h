@@ -75,19 +75,19 @@ public:
 	virtual STDMETHODIMP Receive(IMediaSample* inSample);
 
 	///Called by upstream(demux) to get a conversion from granules to time
-	virtual LOOG_INT64 convertGranuleToTime(LOOG_INT64 inGranule);
+	virtual LOOG_INT64 __stdcall convertGranuleToTime(LOOG_INT64 inGranule);
 
 	///Called by upstream to determine preroll data, ie how far back to seek to decode the given granule
-	virtual LOOG_INT64 mustSeekBefore(LOOG_INT64 inGranule);
+	virtual LOOG_INT64 __stdcall mustSeekBefore(LOOG_INT64 inGranule);
 
 	///Called during pin setup to prime the decoder
-	virtual IOggDecoder::eAcceptHeaderResult showHeaderPacket(OggPacket* inCodecHeaderPacket);
+	virtual IOggDecoder::eAcceptHeaderResult __stdcall showHeaderPacket(OggPacket* inCodecHeaderPacket);
 
 	///Returns the short name for this codec "speex"
-	virtual string getCodecShortName();
+	virtual string __stdcall getCodecShortName();
 
 	///Returns the codec ident string, could include version, build etc info. Purely for display purposes.
-	virtual string getCodecIdentString();
+	virtual string __stdcall getCodecIdentString();
 
 
 protected:
