@@ -34,10 +34,18 @@
 
 TheoraEncoder::TheoraEncoder(void)
 {
+	memset(&mTheoraInfo, 0, sizeof(mTheoraInfo));
+	memset(&mTheoraComment, 0, sizeof(mTheoraComment));
+	
+	memset(&mTheoraState, 0, sizeof(mTheoraState));
 }
 
 TheoraEncoder::~TheoraEncoder(void)
 {
+	theora_info_clear(&mTheoraInfo);
+	theora_comment_clear(&mTheoraComment);
+	
+	theora_clear(&mTheoraState);
 }
 
 /** Returns three header packets which you must delete when done. Give it a theora_info.

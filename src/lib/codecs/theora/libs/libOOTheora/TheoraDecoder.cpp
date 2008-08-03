@@ -41,10 +41,26 @@ TheoraDecoder::TheoraDecoder(void)
 	, mTheoraState(NULL)
 #endif
 {
+#ifndef USE_THEORA_EXP
+	memset(&mTheoraState, 0, sizeof(mTheoraState));
+#endif
 }
 
 TheoraDecoder::~TheoraDecoder(void)
 {
+#ifdef USE_THEORA_EXP
+	th_comment_clear(&mTheoraComment);
+	th_info_clear(&mTheoraInfo);
+
+	th_decode_free(mTheoraState);
+	th_setup_free(mTheoraSetup);
+#else
+	theora_comment_clear(&mTheoraComment); 
+	theora_info_clear(&mTheoraInfo); 
+
+	theora_clear(&mTheoraState); 
+#endif
+
 }
 
 bool TheoraDecoder::initCodec() 
