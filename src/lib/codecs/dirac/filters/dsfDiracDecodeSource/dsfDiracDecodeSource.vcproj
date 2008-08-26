@@ -20,7 +20,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="C:\DXSDK\Samples\C++\DirectShow\BaseClasses"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFDIRACDECODESOURCE_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFDIRACDECODESOURCE_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -71,7 +71,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="C:\DXSDK\Samples\C++\DirectShow\BaseClasses"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFDIRACDECODESOURCE_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFDIRACDECODESOURCE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"

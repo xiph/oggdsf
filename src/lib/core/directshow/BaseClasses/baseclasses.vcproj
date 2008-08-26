@@ -54,7 +54,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,NDEBUG,WIN32,_LIB,_WIN32_DCOM,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,NDEBUG,WIN32,_LIB,_WIN32_DCOM,WINVER=0x400"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -74,7 +74,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;NDEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -131,7 +131,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,_MBCS,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400,WIN32,UNICODE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,_MBCS,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400,WIN32,UNICODE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
@@ -151,7 +151,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -208,7 +208,7 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,NDEBUG,_MBCS,_LIB,_WIN32_DCOM,WINVER=0x400,WIN32,UNICODE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,NDEBUG,_MBCS,_LIB,_WIN32_DCOM,WINVER=0x400,WIN32,UNICODE"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -228,7 +228,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;NDEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -285,7 +285,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -305,7 +305,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -362,7 +362,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -382,7 +382,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -439,7 +439,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -459,7 +459,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -521,7 +521,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,NDEBUG,WIN32,_LIB,_WIN32_DCOM,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,NDEBUG,WIN32,_LIB,_WIN32_DCOM,WINVER=0x400"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -540,7 +540,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;NDEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -610,7 +610,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,NDEBUG,WIN32,_LIB,_WIN32_DCOM,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,NDEBUG,WIN32,_LIB,_WIN32_DCOM,WINVER=0x400"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -629,7 +629,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;NDEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -696,7 +696,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,_MBCS,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400,WIN32,UNICODE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,_MBCS,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400,WIN32,UNICODE"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -714,7 +714,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -781,7 +781,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,_MBCS,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400,WIN32,UNICODE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,_MBCS,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400,WIN32,UNICODE"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -799,7 +799,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -866,7 +866,7 @@
 				ExecutionBucket="7"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,NDEBUG,_MBCS,_LIB,_WIN32_DCOM,WINVER=0x400,WIN32,UNICODE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,NDEBUG,_MBCS,_LIB,_WIN32_DCOM,WINVER=0x400,WIN32,UNICODE"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -885,7 +885,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;NDEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -952,7 +952,7 @@
 				ExecutionBucket="7"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,NDEBUG,_MBCS,_LIB,_WIN32_DCOM,WINVER=0x400,WIN32,UNICODE"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,NDEBUG,_MBCS,_LIB,_WIN32_DCOM,WINVER=0x400,WIN32,UNICODE"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -971,7 +971,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;NDEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -1038,7 +1038,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -1056,7 +1056,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -1123,7 +1123,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -1141,7 +1141,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -1208,7 +1208,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_WIN32_WCE=0x420;UNDER_CE;WIN32_PLATFORM_PSPC;WINCE;_ARM_;ARM;_DEBUG,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_WIN32_WCE=0x420;UNDER_CE;WIN32_PLATFORM_PSPC;WINCE;_ARM_;ARM;_DEBUG,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -1226,7 +1226,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -1293,7 +1293,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -1311,7 +1311,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -1378,7 +1378,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_DEPRECATE,_DEBUG,WIN32,_LIB,_WIN32_DCOM,DEBUG,WINVER=0x400"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -1396,7 +1396,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool
@@ -1463,7 +1463,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_DEBUG;_LIB;_WIN32_DCOM;DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG;_LIB;_WIN32_DCOM;DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="streams.h"
@@ -1481,7 +1481,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG,WIN32"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_DEBUG,WIN32"
 				Culture="1033"
 			/>
 			<Tool

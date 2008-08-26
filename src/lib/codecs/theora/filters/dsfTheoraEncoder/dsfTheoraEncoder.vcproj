@@ -49,13 +49,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CallingConvention="2"
 			/>
@@ -70,7 +70,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib unicows.lib"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib "
 				OutputFile="$(OutDir)/dsfTheoraEncoder.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -137,13 +137,13 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 				CallingConvention="2"
 			/>
@@ -158,7 +158,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib unicows.lib"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib "
 				OutputFile="$(OutDir)/dsfTheoraEncoder.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -167,7 +167,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
+				
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary="$(OutDir)/dsfTheoraEncoder.lib"
@@ -222,13 +222,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CallingConvention="2"
 			/>
@@ -305,13 +305,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CallingConvention="2"
 			/>
@@ -388,13 +388,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CallingConvention="2"
 			/>
@@ -473,7 +473,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -558,7 +558,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -586,7 +586,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
+				
 				ImportLibrary="$(OutDir)/dsfTheoraEncoder.lib"
 				TargetMachine="0"
 			/>
@@ -643,7 +643,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -724,7 +724,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -805,7 +805,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -886,7 +886,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -971,7 +971,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -999,7 +999,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
+				
 				ImportLibrary="$(OutDir)/dsfTheoraEncoder.lib"
 				TargetMachine="0"
 			/>
@@ -1056,7 +1056,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -1137,7 +1137,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -1218,7 +1218,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\directshow\BaseClasses;..\..\libs\libOOTheora;..\..\..\..\core\ogg;..\..\..\..\core\ogg\libogg\include;..\..\libs\libtheora\include;..\..\..\..\core\directshow\dsfSeeking;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFTHEORAENCODER_EXPORTS"
 				MinimalRebuild="true"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -1459,10 +1459,6 @@
 				RelativePath="TheoraEncodeOutputPin.h"
 				>
 			</File>
-			<File
-				RelativePath="theoraencoderdllstuff.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -1470,6 +1466,10 @@
 			>
 			<File
 				RelativePath="dsfTheoraEncoder.rc"
+				>
+			</File>
+			<File
+				RelativePath="theoraencoderdllstuff.h"
 				>
 			</File>
 		</Filter>

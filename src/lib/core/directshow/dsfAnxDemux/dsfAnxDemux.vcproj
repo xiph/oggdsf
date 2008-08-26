@@ -20,7 +20,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\ogg;..\..\ogg;..\libDirectshowAbstracts;..\dsfOggDemux;..\..\..\helper"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -82,7 +82,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
 				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\ogg;..\..\ogg;..\libDirectshowAbstracts;..\dsfOggDemux;..\..\..\helper"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -105,7 +105,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
+				
 				ImportLibrary="$(OutDir)/dsfAnxDemux.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -146,7 +146,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
 				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\ogg;..\..\ogg;..\libDirectshowAbstracts;..\dsfOggDemux;..\..\..\helper"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -170,7 +170,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
+				
 				ImportLibrary="$(OutDir)/dsfAnxDemux.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -211,7 +211,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="3"
 				AdditionalIncludeDirectories="&quot;C:\DXSDK\Samples\C++\DirectShow\BaseClasses&quot;;C:\DXSDK\Include;..\..\ogg;..\..\ogg;..\libDirectshowAbstracts;..\dsfOggDemux;..\..\..\helper"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFANXDEMUX_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -235,7 +235,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
+				
 				ImportLibrary="$(OutDir)/dsfAnxDemux.lib"
 				TargetMachine="1"/>
 			<Tool
