@@ -84,15 +84,21 @@ STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv
 HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 	//debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
 	//debugLog<<"Set media type..."<<endl;
-	if ((inMediaType->majortype == MEDIATYPE_Video) && (inMediaType->subtype == MEDIASUBTYPE_Theora)) {
-		//Theora
-		
-		sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
-		//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
-		//debugLog<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
-		mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
-		mMuxStream->setNumHeaders(3);
-		mPaginator.setNumHeaders(3);
+	if (inMediaType->majortype == MEDIATYPE_Video) {
+		if (inMediaType->subtype == MEDIASUBTYPE_Theora) {
+			//Theora	
+			sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
+			//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
+			//debugLog<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
+			mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
+			mMuxStream->setNumHeaders(3);
+			mPaginator.setNumHeaders(3);
+		}
+		else if (inMediaType->subtype == MEDIASUBTYPE_Schroedinger) {
+			mMuxStream->setConversionParams(*((unsigned *)inMediaType->pbFormat), *(((unsigned *)inMediaType->pbFormat) + 1), 10000000, 32);
+			mMuxStream->setNumHeaders(1);
+			mPaginator.setNumHeaders(1);
+		} 
 	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
 			//Vorbis
@@ -150,28 +156,32 @@ HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 			outMediaType->subtype = MEDIASUBTYPE_Theora;
 			return S_OK;
 		case 1:
+			outMediaType->majortype = MEDIATYPE_Video;
+			outMediaType->subtype = MEDIASUBTYPE_Schroedinger;
+			return S_OK; 
+		case 2:
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_Vorbis;
 			return S_OK;
-		case 2:
+		case 3:
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_Speex;
 			return S_OK;
-		case 3:
+		case 4:
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_OggFLAC_1_0;
 			return S_OK;
-		case 4:
+		case 5:
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_FLAC;
 			return S_OK;
 
-		case 5:
+		case 6:
 			outMediaType->majortype = MEDIATYPE_Text;
 			outMediaType->subtype = MEDIASUBTYPE_CMML;
 			return S_OK;
 
-		case 6:
+		case 7:
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_RawOggAudio;
 			return S_OK;
@@ -186,6 +196,10 @@ HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
 	if	(	(inMediaType->majortype == MEDIATYPE_Video 
 				&& inMediaType->subtype == MEDIASUBTYPE_Theora 
 				&& inMediaType->formattype == FORMAT_Theora) 
+ 			||
+			(inMediaType->majortype == MEDIATYPE_Video
+				&& inMediaType->subtype == MEDIASUBTYPE_Schroedinger
+				&& inMediaType->formattype == FORMAT_Schroedinger)
 			||
 			(inMediaType->majortype == MEDIATYPE_Audio 
 				&& inMediaType->subtype == MEDIASUBTYPE_Vorbis 
