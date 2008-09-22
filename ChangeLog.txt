@@ -3,6 +3,7 @@ Version 0.80.xxxxx
     * Updated compiler to Visual Studio 2008 Service Pack 1
     * Added support for Registration Free COM Activation
     * Fixed #1382: IOggCodec is not an interface
+    * Fixed #1390: Ogg muxing filter doesn't support schroedinger codec
     * Fixed #1392: OggDemuxPacketSourceFilter GetCurFile memory allocation causes crashes
     * Fixed #1404: Installer doesn't respect the silent command line parameter
     * Fixed #1408: libOOTheora.dll memory leak
