@@ -104,6 +104,12 @@ var ICONS_GROUP
 !insertmacro MUI_PAGE_STARTMENU Application $ICONS_GROUP
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
+
+; Instfiles page
+!define MUI_FINISHPAGE_SHOWREADME
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "Show release notes"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION ShowReleaseNotes
+
 ; Finish page
 !insertmacro MUI_PAGE_FINISH
 
@@ -177,18 +183,16 @@ FunctionEnd
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; COM registration macros, with fallbacks on regsvr32
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-!macro RegisterCOM localFile destFile tempbasedir
+!macro RegisterCOM file
 	!define LIBRARY_COM
-	;!insertmacro InstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "${localFile}" "${destFile}" "${tempbasedir}"
-	RegDLL "${destFile}"
+	RegDLL "${file}"
 	!undef LIBRARY_COM
 	IfErrors 0 +2
-	ExecWait '$SYSDIR\regsvr32.exe "/s" "${destFile}"'
+	ExecWait '$SYSDIR\regsvr32.exe "/s" "${file}"'
 !macroend
 
 !macro UnRegisterCOM file
 	!define LIBRARY_COM
-	;!insertmacro UnInstallLib REGDLL NOTSHARED NOREBOOT_NOTPROTECTED "${file}" 
 	UnRegDLL "${file}"
 	!undef LIBRARY_COM
 	IfErrors 0 +2
@@ -216,10 +220,6 @@ Section "Oggcodecs Core Files" SEC_CORE
 
   ; ico files - 1 (One file contains all these packed)
   File "${OGGCODECS_ROOT_DIR}\bin\xifish.ico"
-  ;File "${OGGCODECS_ROOT_DIR}\bin\xifish-16.ico"
-  ;File "${OGGCODECS_ROOT_DIR}\bin\xifish-32.ico"
-  ;File "${OGGCODECS_ROOT_DIR}\bin\xifish-48.ico"
-
 
   ; Libraries - 10
   File "bin\libOOOgg.dll"
@@ -243,7 +243,7 @@ Section "Oggcodecs Core Files" SEC_CORE
   File "bin\OOOggCommentDump.exe"
 
 
-  ; Text files - 7
+  ; Text files - 9
   File "${OGGCODECS_ROOT_DIR}\ABOUT.txt"
   File "${OGGCODECS_ROOT_DIR}\VERSIONS"
   File "${OGGCODECS_ROOT_DIR}\README"
@@ -252,6 +252,8 @@ Section "Oggcodecs Core Files" SEC_CORE
 
   File "${OGGCODECS_ROOT_DIR}\AUTHORS"
   File "${OGGCODECS_ROOT_DIR}\HISTORY"
+  File "${OGGCODECS_ROOT_DIR}\ChangeLog.txt"
+  File "${OGGCODECS_ROOT_DIR}\bin\Ogg Codecs.manifest" 
   
   ; Install Filters - 16  
 
@@ -287,28 +289,28 @@ Section "Oggcodecs Core Files" SEC_CORE
   SetOutPath "$INSTDIR"
   ; Register libraries - 16
 
-  !insertmacro RegisterCOM "bin\dsfFLACEncoder.dll" $INSTDIR\dsfFLACEncoder.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfSpeexEncoder.dll" $INSTDIR\dsfSpeexEncoder.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfTheoraEncoder.dll" $INSTDIR\dsfTheoraEncoder.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfVorbisEncoder.dll" $INSTDIR\dsfVorbisEncoder.dll $INSTDIR
+  !insertmacro RegisterCOM "$INSTDIR\dsfFLACEncoder.dll"
+  !insertmacro RegisterCOM "$INSTDIR\dsfSpeexEncoder.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfTheoraEncoder.dll"
+  !insertmacro RegisterCOM "$INSTDIR\dsfVorbisEncoder.dll" 
   
-  !insertmacro RegisterCOM "bin\dsfNativeFLACSource.dll" $INSTDIR\dsfNativeFLACSource.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfSpeexDecoder.dll" $INSTDIR\dsfSpeexDecoder.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfTheoraDecoder.dll" $INSTDIR\dsfTheoraDecoder.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfFLACDecoder.dll" $INSTDIR\dsfFLACDecoder.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfVorbisDecoder.dll" $INSTDIR\dsfVorbisDecoder.dll $INSTDIR
+  !insertmacro RegisterCOM "$INSTDIR\dsfNativeFLACSource.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfSpeexDecoder.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfTheoraDecoder.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfFLACDecoder.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfVorbisDecoder.dll" 
   
-  !insertmacro RegisterCOM "bin\dsfOGMDecoder.dll" $INSTDIR\dsfOGMDecoder.dll $INSTDIR
+  !insertmacro RegisterCOM "$INSTDIR\dsfOGMDecoder.dll" 
   
-  !insertmacro RegisterCOM "bin\dsfOggDemux2.dll" $INSTDIR\dsfOggDemux2.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfOggMux.dll" $INSTDIR\dsfOggMux.dll $INSTDIR
+  !insertmacro RegisterCOM "$INSTDIR\dsfOggDemux2.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfOggMux.dll" 
   
-  !insertmacro RegisterCOM "bin\dsfCMMLDecoder.dll" $INSTDIR\dsfCMMLDecoder.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfCMMLRawSource.dll" $INSTDIR\dsfCMMLRawSource.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfSubtitleVMR9.dll" $INSTDIR\dsfSubtitleVMR9.dll $INSTDIR
+  !insertmacro RegisterCOM "$INSTDIR\dsfCMMLDecoder.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfCMMLRawSource.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfSubtitleVMR9.dll" 
   
-  ;!insertmacro RegisterCOM "bin\dsfAnxDemux.dll" $INSTDIR\dsfAnxDemux.dll $INSTDIR
-  !insertmacro RegisterCOM "bin\dsfAnxMux.dll"  $INSTDIR\dsfAnxMux.dll $INSTDIR\
+  ;!insertmacro RegisterCOM "$INSTDIR\dsfAnxDemux.dll" 
+  !insertmacro RegisterCOM "$INSTDIR\dsfAnxMux.dll"
 
   IfSilent +3
   Push $INSTDIR\Install.log
@@ -605,8 +607,6 @@ Section "Oggcodecs Core Files" SEC_CORE
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac" "audio"  
   
-
-  ;Sleep 10000
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -774,6 +774,10 @@ Section -AdditionalIcons
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Function ShowReleaseNotes
+	ExecShell "open" "$INSTDIR\ChangeLog.txt"
+FunctionEnd
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section -Post
@@ -942,6 +946,12 @@ Section Uninstall
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx"
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac"  
 
+    ; Point the extension to the handlers
+  DeleteRegKey HKCR "WMP.OggFile"
+  DeleteRegKey HKCR "WMP.OgaFile"
+  DeleteRegKey HKCR "WMP.OgvFile"
+  DeleteRegKey HKCR "WMP.SpxFile"
+  DeleteRegKey HKCR "WMP.FlacFile"
   
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
  
@@ -1000,7 +1010,7 @@ Section Uninstall
   ; Delete "$INSTDIR\dsfAnxDemux.dll"
 
 
-  ; Delete text files - 7
+  ; Delete text files - 9
   Delete "$INSTDIR\ABOUT.txt"
   Delete "$INSTDIR\VERSIONS"
   Delete "$INSTDIR\README"
@@ -1009,6 +1019,8 @@ Section Uninstall
 
   Delete "$INSTDIR\AUTHORS"
   Delete "$INSTDIR\HISTORY"
+  Delete "$INSTDIR\ChangeLog.txt"
+  Delete "$INSTDIR\Ogg Codecs.manifest" 
 
   ; Delete runtimes - 2
   Delete "$INSTDIR\${VS_RUNTIME_PREFIX}r90.dll"
@@ -1017,10 +1029,6 @@ Section Uninstall
 
   ; Delete icons - 3
   Delete "$INSTDIR\xifish.ico"
-  ;Delete "$INSTDIR\xifish-16.ico"
-  ;Delete "$INSTDIR\xifish-32.ico"
-  ;Delete "$INSTDIR\xifish-48.ico"
-
 
   ;Delete accesory files, links etc.
   Delete "$SMPROGRAMS\$ICONS_GROUP\Website.url"
@@ -1035,7 +1043,7 @@ Section Uninstall
   SetOutPath "$TEMP"
   RMDir "$INSTDIR"
 
-  ; Remove the "illiminable" parent directory (but only if it's empty)
+  ; Remove the parent directory (but only if it's empty)
   RMDir "$INSTDIR\.."
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
