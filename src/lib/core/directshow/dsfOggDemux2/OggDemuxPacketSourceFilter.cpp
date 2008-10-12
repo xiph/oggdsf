@@ -140,7 +140,7 @@ OggDemuxPacketSourceFilter::OggDemuxPacketSourceFilter(void)
 	,	mUsingCustomSource(false)
 
 {
-    debugLog.open(L"c:\\demux.log", ios_base::out);
+    //debugLog.open(L"c:\\demux.log", ios_base::out);
 	debugLog<<L"Constructor"<<endl;
 
 	//Why do we do this, should the base class do it ?
