@@ -1,5 +1,6 @@
 @echo off
 call copy_binaries.cmd
+set COMPILER=VS2005
 set PRODUCT_VERSION=0.80.15039
 
 signtool sign /a /t http://time.certum.pl/ bin\OOOggCommentDump.exe 

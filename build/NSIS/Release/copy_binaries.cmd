@@ -1,6 +1,6 @@
 @set OGGCODECS_ROOT_DIR=..\..\..
 @set OGGCODECS_CONFIG_PATH=Release
-@set OGGCODECS_VORBIS_CONFIG_PATH=VS2008\libvorbis\Release
+@set OGGCODECS_VORBIS_CONFIG_PATH=%COMPILER%\libvorbis\Release
 
 rmdir /s /q bin
 mkdir bin

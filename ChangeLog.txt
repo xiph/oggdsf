@@ -7,6 +7,8 @@ Version 0.80.xxxxx
     * Fixed #1392: OggDemuxPacketSourceFilter GetCurFile memory allocation causes crashes
     * Fixed #1404: Installer doesn't respect the silent command line parameter
     * Fixed #1408: libOOTheora.dll memory leak
+    * Fixed #1437: many regsvr32.exe processes running, but none for long
+    * Fixed #1440: A debug log file is created during playback
     
 Version 0.80.15039 - 14/06/2008
 

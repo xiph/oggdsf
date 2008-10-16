@@ -1,7 +1,14 @@
 ; NSIS install script
 
 ; Location of Visual Studio runtime libraries on the compiling system
-!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
+!if "$%COMPILER%" == "VS2008"
+	!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
+	!define VS_RUNTIME_SUFFIX 90
+!else if "$%COMPILER%" == "VS2005"
+	!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\"
+	!define VS_RUNTIME_SUFFIX 80
+!endif
+
 !define VS_RUNTIME_PREFIX msvc
 ;   *****************************************************************************************************
 
@@ -214,9 +221,9 @@ Section "Oggcodecs Core Files" SEC_CORE
   SetDetailsPrint listonly
   
   ; Runtime libraries from visual studio - 2
-  File "${VS_RUNTIME_LOCATION}\${VS_RUNTIME_PREFIX}r90.dll"
-  File "${VS_RUNTIME_LOCATION}\${VS_RUNTIME_PREFIX}p90.dll"
-  File "${VS_RUNTIME_LOCATION}\Microsoft.VC90.CRT.manifest"
+  File "${VS_RUNTIME_LOCATION}\${VS_RUNTIME_PREFIX}r${VS_RUNTIME_SUFFIX}.dll"
+  File "${VS_RUNTIME_LOCATION}\${VS_RUNTIME_PREFIX}p${VS_RUNTIME_SUFFIX}.dll"
+  File "${VS_RUNTIME_LOCATION}\Microsoft.VC${VS_RUNTIME_SUFFIX}.CRT.manifest"
 
   ; ico files - 1 (One file contains all these packed)
   File "${OGGCODECS_ROOT_DIR}\bin\xifish.ico"
@@ -1023,9 +1030,9 @@ Section Uninstall
   Delete "$INSTDIR\Ogg Codecs.manifest" 
 
   ; Delete runtimes - 2
-  Delete "$INSTDIR\${VS_RUNTIME_PREFIX}r90.dll"
-  Delete "$INSTDIR\${VS_RUNTIME_PREFIX}p90.dll"
-  Delete "$INSTDIR\Microsoft.VC90.CRT.manifest"
+  Delete "$INSTDIR\${VS_RUNTIME_PREFIX}r${VS_RUNTIME_SUFFIX}.dll"
+  Delete "$INSTDIR\${VS_RUNTIME_PREFIX}p${VS_RUNTIME_SUFFIX}.dll"
+  Delete "$INSTDIR\Microsoft.VC${VS_RUNTIME_SUFFIX}.CRT.manifest"
 
   ; Delete icons - 3
   Delete "$INSTDIR\xifish.ico"
