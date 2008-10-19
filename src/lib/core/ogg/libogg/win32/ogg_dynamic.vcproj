@@ -156,6 +156,7 @@
 				ProgramDataBaseFileName=".\Dynamic_Release/"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="0"
 				CompileAs="0"
 				DisableSpecificWarnings="4244; 4146"
