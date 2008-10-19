@@ -1244,7 +1244,6 @@
 				SubSystem="9"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				LinkTimeCodeGeneration="1"
 				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
 				TargetMachine="0"

@@ -145,7 +145,7 @@
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="0"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 			/>
 			<Tool
@@ -168,7 +168,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary="$(OutDir)/dsfFLACDecoder.lib"
@@ -673,7 +672,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/dsfFLACDecoder.lib"
 				TargetMachine="0"
 			/>
@@ -762,7 +760,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/dsfFLACDecoder.lib"
 				TargetMachine="0"
 			/>

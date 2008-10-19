@@ -169,7 +169,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary="$(OutDir)/dsfCMMLDecoder.lib"
@@ -593,7 +592,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/dsfCMMLDecoder.lib"
 				TargetMachine="0"
 			/>
@@ -1011,7 +1009,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/dsfCMMLDecoder.lib"
 				TargetMachine="0"
 			/>

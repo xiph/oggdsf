@@ -66,6 +66,7 @@
 				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 				CompileAs="0"
 			/>

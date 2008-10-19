@@ -167,7 +167,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary="$(OutDir)/dsfTheoraEncoder.lib"
@@ -586,7 +585,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/dsfTheoraEncoder.lib"
 				TargetMachine="0"
 			/>
@@ -999,7 +997,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/dsfTheoraEncoder.lib"
 				TargetMachine="0"
 			/>

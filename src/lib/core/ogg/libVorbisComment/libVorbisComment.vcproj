@@ -166,7 +166,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary="$(OutDir)/libVorbisComment.lib"
@@ -661,7 +660,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/libVorbisComment.lib"
 				TargetMachine="0"
 			/>
@@ -750,7 +748,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				
 				ImportLibrary="$(OutDir)/libVorbisComment.lib"
 				TargetMachine="0"
 			/>
