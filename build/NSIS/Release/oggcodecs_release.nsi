@@ -1,5 +1,9 @@
-; NSIS install script
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Copyright (C) 2005, 2006 Zentaro Kavanagh 
+; Copyright (C) 2008 Cristian Adam
+;
+; NSIS install script for oggcodecs
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Location of Visual Studio runtime libraries on the compiling system
 !if "$%COMPILER%" == "VS2008"
 	!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
@@ -10,7 +14,7 @@
 !endif
 
 !define VS_RUNTIME_PREFIX msvc
-;   *****************************************************************************************************
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 !define PRODUCT_NAME "Ogg Codecs"
 
@@ -32,10 +36,15 @@
 ; Path from .nsi to oggcodecs root
 !define OGGCODECS_ROOT_DIR "..\..\.."
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; All the code below needed to create a signed uninstaller
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 !ifdef INNER
-  !echo "Inner invocation"                  ; just to see what's going on
-  OutFile "$%TEMP%\tempinstaller.exe"       ; not really important where this is
-  SetCompress off                           ; for speed
+  !echo "Inner invocation"                  		; just to see what's going on
+  OutFile "$%TEMP%\tempinstaller.exe"       	; not really important where this is
+  SetCompress off                           		; for speed
+  
 !else
   !echo "Outer invocation"
  
@@ -59,12 +68,15 @@
  
   OutFile "oggcodecs_${PRODUCT_VERSION}.exe"
   SetCompressor /SOLID lzma
+  
 !endif
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 !include "extra\DumpLog.nsh"
 !include "Library.nsh"
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
+!include "Memento.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -74,6 +86,8 @@
 !define MUI_HEADERIMAGE_BITMAP "extra\header.bmp"
 !define MUI_HEADERIMAGE_UNBITMAP "extra\header_uninstall.bmp"
 
+!define MUI_COMPONENTSPAGE_SMALLDESC
+
 VIProductVersion "${PRODUCT_VERSION}.0"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Directshow Filters for Ogg Vorbis, Speex, Theora and FLAC"
@@ -82,7 +96,6 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${PRODUCT_WEB_SITE}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 ${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "The Xiph Fish Logo and the Vorbis.com many-fish logos are trademarks (tm) of ${PRODUCT_PUBLISHER}"
-
 
 ; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
@@ -133,8 +146,14 @@ Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 InstallDir "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 
+;Memento Settings
+!define MEMENTO_REGISTRY_ROOT HKLM
+!define MEMENTO_REGISTRY_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
+
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Function .onInit
+
+  ${MementoSectionRestore}
 
 !ifdef INNER
  
@@ -149,7 +168,7 @@ Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
 
   ReadRegStr $R0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}" "UninstallString"
-  StrCmp $R0 "" done
+  StrCmp $R0 "" job_done
  
   IfSilent +3
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the existing version or `Cancel` to cancel this installation." IDOK uninst
@@ -174,17 +193,17 @@ AfterSilent:
     ; You may also consider using a registry key to check whether 
     ; the user has chosen to uninstall. If you are using an uninstaller
     ; components page, make sure all sections are uninstalled.
-    goto done
+    goto job_done
   no_remove_uninstaller:
     IfSilent +4
     MessageBox MB_ICONEXCLAMATION \
     "Unable to remove previous version of ${PRODUCT_NAME}"
     Abort
   
-done:
+job_done:
   ; remove the copied uninstaller
   Delete '$0'
-
+    
 FunctionEnd
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -206,6 +225,29 @@ FunctionEnd
 	ExecWait '$SYSDIR\regsvr32.exe "/u" "/s" "${file}"'
 !macroend
 
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Windows Media Player type registraton macro
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+!macro WMPRegisterType typeName description
+
+  WriteRegStr HKCR "WMP.${typeName}" "" "${description}"
+  WriteRegStr HKCR "WMP.${typeName}\shell" "" "open"
+
+  WriteRegStr HKCR "WMP.${typeName}\shell\open" "" "&Open"
+  WriteRegStr HKCR "WMP.${typeName}\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
+  
+  WriteRegStr HKCR "WMP.${typeName}\shell\play" "" "&Play"
+  WriteRegStr HKCR "WMP.${typeName}\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
+
+  ; WMP extra integration
+  WriteRegStr HKCR "WMP.${typeName}\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
+  WriteRegStr HKCR "WMP.${typeName}\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
+
+  WriteRegStr HKCR "WMP.${typeName}\DefaultIcon" "" "$INSTDIR\xifish.ico"
+
+!macroend
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section "Oggcodecs Core Files" SEC_CORE
@@ -617,160 +659,79 @@ Section "Oggcodecs Core Files" SEC_CORE
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_WRITE_END
+
+; Check for Windows Media player
+  Var /GLOBAL WMP_LOCATION  
+ 
+  ReadRegStr $WMP_LOCATION HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer" "Player.Path"
+  StrCmp $WMP_LOCATION "" 0 +3
+  IfSilent +2
+  MessageBox MB_OK|MB_ICONEXCLAMATION "A recognised version of Windows Media Player was not found. $\n File extenstion association must be done manually." IDOK 0
+
 SectionEnd
 
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Section ".ogg defaults to audio" SEC_OGG_AUDIO_DEFAULT
+${MementoSection} ".ogg defaults to audio" SEC_OGG_AUDIO_DEFAULT
   SectionIn 1
   
   ; Make .ogg recognised as audio
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "" "Ogg File (ogg)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "Extensions" ".ogg"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "MIME Types" "application/ogg"  
-  
-  
+    
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "PerceivedType" "audio"
   
-  
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogg" "audio"  
-SectionEnd
+
+${MementoSectionEnd}
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Section "Open Ogg files with WMP" SEC_USE_WMP_FOR_OGG
+SectionGroup "File type associations" SEC_USE_WMP_FOR_OGG
 
+${MementoSection} ".ogg"  SecOgg
   SectionIn 1
-  Var /GLOBAL WMP_LOCATION  
- 
-  ReadRegStr $WMP_LOCATION HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer" "Player.Path"
-  StrCmp $WMP_LOCATION "" fail_wmp 0
-  
-  ; Point the extension to the handlers
   WriteRegStr HKCR ".ogg" "" "WMP.OggFile"
+  !insertmacro WMPRegisterType "OggFile" "Ogg File"
+${MementoSectionEnd}
+
+${MementoSection} ".oga" SecOga
+  SectionIn 1
   WriteRegStr HKCR ".oga" "" "WMP.OgaFile"
+  !insertmacro WMPRegisterType "OgaFile" "Ogg Audio File"
+${MementoSectionEnd}
+
+${MementoSection} ".ogv"  SecOgv
+  SectionIn 1
   WriteRegStr HKCR ".ogv" "" "WMP.OgvFile"
+  !insertmacro WMPRegisterType "OgvFile" "Ogg Video File"
+${MementoSectionEnd}
+
+${MementoSection} ".spx"  SecSpx
+  SectionIn 1
   WriteRegStr HKCR ".spx" "" "WMP.SpxFile"
+  !insertmacro WMPRegisterType "SpxFile" "Speex File"
+${MementoSectionEnd}
+
+${MementoSection} ".flac" SecFlac
+  SectionIn 1
   WriteRegStr HKCR ".flac" "" "WMP.FlacFile"
-  
-  
-  ; Handler key for ogg
-  WriteRegStr HKCR "WMP.OggFile" "" "Ogg File"
+  !insertmacro WMPRegisterType "FlacFile" "FLAC File"
+${MementoSectionEnd}
 
+SectionGroupEnd
 
-  WriteRegStr HKCR "WMP.OggFile\shell" "" "open"
-
-
-  WriteRegStr HKCR "WMP.OggFile\shell\open" "" "&Open"
-  WriteRegStr HKCR "WMP.OggFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
-  
-  WriteRegStr HKCR "WMP.OggFile\shell\play" "" "&Play"
-  WriteRegStr HKCR "WMP.OggFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
-
-  ; WMP extra integration
-  WriteRegStr HKCR "WMP.OggFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.OggFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
-
-  WriteRegStr HKCR "WMP.OggFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
-  
-  
-  ; Handler key for oga
-  WriteRegStr HKCR "WMP.OgaFile" "" "Ogg Audio File"
-  WriteRegStr HKCR "WMP.OgaFile\shell" "" "open"
-  WriteRegStr HKCR "WMP.OgaFile\shell\open" "" "&Open"
-  WriteRegStr HKCR "WMP.OgaFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
-  
-  WriteRegStr HKCR "WMP.OgaFile\shell\play" "" "&Play"
-  WriteRegStr HKCR "WMP.OgaFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
-
-
-  ; WMP extra integration
-  WriteRegStr HKCR "WMP.OgaFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.OgaFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
-
-  WriteRegStr HKCR "WMP.OgaFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
-
-  
-  ; Handler key for ogv
-  WriteRegStr HKCR "WMP.OgvFile" "" "Ogg Video File"
-  WriteRegStr HKCR "WMP.OgvFile\shell" "" "open"
-  WriteRegStr HKCR "WMP.OgvFile\shell\open" "" "&Open"
-  WriteRegStr HKCR "WMP.OgvFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
-  
-  WriteRegStr HKCR "WMP.OgvFile\shell\play" "" "&Play"
-  WriteRegStr HKCR "WMP.OgvFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
-
-
-  ; WMP extra integration
-  WriteRegStr HKCR "WMP.OgaFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.OgaFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
-   
-  WriteRegStr HKCR "WMP.OgvFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
-
-
-
-  ; Handler key for spx
-  WriteRegStr HKCR "WMP.SpxFile" "" "Speex File"
-
-
-  WriteRegStr HKCR "WMP.SpxFile\shell" "" "open"
-
-
-  WriteRegStr HKCR "WMP.SpxFile\shell\open" "" "&Open"
-  WriteRegStr HKCR "WMP.SpxFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
-  
-  WriteRegStr HKCR "WMP.SpxFile\shell\play" "" "&Play"
-  WriteRegStr HKCR "WMP.SpxFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
-
-  ; WMP extra integration
-  WriteRegStr HKCR "WMP.SpxFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.SpxFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
-
-  WriteRegStr HKCR "WMP.SpxFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
-
-
-
-
-  ; Handler key for flac
-  WriteRegStr HKCR "WMP.FlacFile" "" "FLAC File"
-
-
-  WriteRegStr HKCR "WMP.FlacFile\shell" "" "open"
-
-
-  WriteRegStr HKCR "WMP.FlacFile\shell\open" "" "&Open"
-  WriteRegStr HKCR "WMP.FlacFile\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
-  
-  WriteRegStr HKCR "WMP.FlacFile\shell\play" "" "&Play"
-  WriteRegStr HKCR "WMP.FlacFile\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
-
-  ; WMP extra integration
-  WriteRegStr HKCR "WMP.FlacFile\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.FlacFile\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
-
-  WriteRegStr HKCR "WMP.FlacFile\DefaultIcon" "" "$INSTDIR\xifish.ico"
-
-
-  goto done_wmp
-  
-fail_wmp:
-  IfSilent +2
-  MessageBox MB_OK|MB_ICONEXCLAMATION "A recognised version of Windows Media Player was not found. $\n File extenstion association must be done manually." IDOK done_wmp
-
-done_wmp:
-
-SectionEnd
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 LangString DESC_OggCoreSection ${LANG_ENGLISH} "Core files for ${PRODUCT_NAME}"
-LangString DESC_OggExtensionAudioByDefault ${LANG_ENGLISH} "Makes files with .ogg extension default to the audio section in Windows Media Player Library. Note: This means that ogg theora files with .ogg extension will also be in audio section. .ogv defaults to video."
-LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows Media Player, so you can double click them in explorer. Uncheck this if you don't want to use WMP for ogg files."
+LangString DESC_OggExtensionAudioByDefault ${LANG_ENGLISH} "Makes files with .ogg extension default to the audio section in Windows Media Player Library."
+LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows Media Player, so you can double click them in explorer."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_CORE} $(DESC_OggCoreSection)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_OGG_AUDIO_DEFAULT} $(DESC_OggExtensionAudioByDefault)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_USE_WMP_FOR_OGG} $(DESC_OggOpensInWMP)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
 
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -781,11 +742,17 @@ Section -AdditionalIcons
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
+${MementoSectionDone}
+	
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Function ShowReleaseNotes
 	ExecShell "open" "$INSTDIR\ChangeLog.txt"
 FunctionEnd
 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Function .onInstSuccess
+  ${MementoSectionSave}
+FunctionEnd
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section -Post
 
