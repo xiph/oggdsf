@@ -91,17 +91,7 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	mCurrentOutputSubType = MEDIASUBTYPE_None;
 	sOutputVideoParams locVideoParams;
 
-	//YV12 media type
 	CMediaType* locAcceptMediaType = NULL;
-	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
-	locAcceptMediaType->subtype = MEDIASUBTYPE_YV12;
-	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
-	mOutputMediaTypes.push_back(locAcceptMediaType);
-
-	locVideoParams.bitsPerPixel = 12;
-	locVideoParams.fourCC = MAKEFOURCC('Y','V','1','2');
-	mOutputVideoParams.push_back(locVideoParams);
-
 
 	//YUY2 Media Type
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
@@ -111,6 +101,16 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 
 	locVideoParams.bitsPerPixel = 16;
 	locVideoParams.fourCC = MAKEFOURCC('Y','U','Y','2');
+	mOutputVideoParams.push_back(locVideoParams);
+
+	//YV12 media type
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_YV12;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+	mOutputMediaTypes.push_back(locAcceptMediaType);
+
+	locVideoParams.bitsPerPixel = 12;
+	locVideoParams.fourCC = MAKEFOURCC('Y','V','1','2');
 	mOutputVideoParams.push_back(locVideoParams);
 
     /*
@@ -827,7 +827,7 @@ HRESULT TheoraDecodeFilter::DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* 
 	locSourceUptoPtr = inYUVBuffer->v;
 
 	//Skip the top padding
-	locSourceUptoPtr += ((mYOffset/2) * locYStride);
+	locSourceUptoPtr += ((mYOffset/2) * locUVStride);
 
 	for (unsigned long line = 0; line < mPictureHeight / 2; line++) {
 		//Ignore the x offset and copy mPictureWidth/2 bytes to the destination
@@ -853,7 +853,7 @@ HRESULT TheoraDecodeFilter::DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* 
 	locSourceUptoPtr = inYUVBuffer->u;
 
 	//Skip the top padding
-	locSourceUptoPtr += ((mYOffset/2) * locYStride);
+	locSourceUptoPtr += ((mYOffset/2) * locUVStride);
 
 	for (unsigned long line = 0; line < mPictureHeight / 2; line++) {
 		memcpy((void*)(locDestUptoPtr), (const void*)(locSourceUptoPtr + (mXOffset / 2)), mPictureWidth / 2);
