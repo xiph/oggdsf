@@ -1351,7 +1351,7 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	mTheoraInfo.quality=30; //video_q;
 
 	mTheoraInfo.dropframes_p=0;
-	mTheoraInfo.quick_p=0;
+	mTheoraInfo.quick_p=1;
 	mTheoraInfo.keyframe_auto_p=1;
 	mTheoraInfo.keyframe_frequency=64;   //If you change this... change the logged value below
 	mTheoraInfo.keyframe_frequency_force=64;  //ditto
