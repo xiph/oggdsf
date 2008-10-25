@@ -1,9 +1,10 @@
-PACKAGE         -       0.80.15035
+PACKAGE         -       0.81.$Revision$  
+
 ==================================
 libspeex        -       1.2 beta 1
 libvorbis       -       1.2.1 (20080501)
 libogg          -       1.1.3 
-libtheora       -       1.0beta3 (20080416)
+libtheora       -       1.0
 libtheora-exp   -       trunk r15030
 libFLAC         -       1.2.1
 

@@ -1,7 +1,10 @@
-Version 0.80.xxxxx
+Version 0.81.$Revision$
 
-    * Updated compiler to Visual Studio 2008 Service Pack 1
+    * Updated compiler to Visual Studio 2008 Service Pack 1, also added project files for
+      Visual Studio 2005 Service Pack 1
+    * Updated theora to version 1.0 final
     * Added support for Registration Free COM Activation
+    * Fixed bug while seeking at the end of a native FLAC file.
     * Fixed #1382: IOggCodec is not an interface
     * Fixed #1390: Ogg muxing filter doesn't support schroedinger codec
     * Fixed #1392: OggDemuxPacketSourceFilter GetCurFile memory allocation causes crashes
@@ -9,8 +12,10 @@ Version 0.80.xxxxx
     * Fixed #1408: libOOTheora.dll memory leak
     * Fixed #1437: many regsvr32.exe processes running, but none for long
     * Fixed #1440: A debug log file is created during playback
+    * Fixed #1430: Color bleeding on some (newer) ogg theora files
+
     
-Version 0.80.15039 - 14/06/2008
+Version 0.80.15039 - 14.06.2008
 
     * Support for Microsoft Windows Vista
     * Updated compiler to Visual Studio 2008 Express, which drops support for Windows 9x, NT 4.
