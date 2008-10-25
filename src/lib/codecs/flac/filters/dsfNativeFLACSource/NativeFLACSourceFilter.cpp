@@ -239,11 +239,20 @@ HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 				mJustSeeked = false;
 				bool res2 = false;
 				res2 = seek_absolute(mSeekRequest);
-                //ERROR???
+				if (!res2)
+				{
+					//ERROR???
+					flush();
+					break;
+				}
 			}
 			
 			res = process_single();
-            //ERROR???
+			if (!res)
+			{
+				//ERROR???
+				flush();
+			}
 
 			if (mWasEOF) {
 				break;
