@@ -42,10 +42,6 @@ extern "C" {
 //#define INT_FLOOR(num,scale) (num - (num % scale))
 #define CLIP3(x,y,z) ((z < x) ? x : ((z > y) ? y : z))
 //
-
-//DEBUG ONLY
-#include <fstream>
-using namespace std;
 //
 
 class TheoraEncodeOutputPin;
@@ -55,8 +51,6 @@ class TheoraEncodeInputPin
 public:
 	TheoraEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~TheoraEncodeInputPin(void);
-
-
 	
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
 	//
@@ -70,9 +64,6 @@ protected:
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 
-	HRESULT mHR;
-	//bool mBegun;	//Already in base class !
-
 	HRESULT deliverData(LONGLONG inStart, LONGLONG inEnd, unsigned char* inBuf, unsigned long inNumBytes);
 
 	long encodeYV12ToYV12(unsigned char* inBuf, long inNumBytes);
@@ -83,33 +74,27 @@ protected:
 	long encodeUYVYToYV12(unsigned char* inBuf, long inNumBytes);
 	long encodeYVYUToYV12(unsigned char* inBuf, long inNumBytes);
 	long encodeIYUVToYV12(unsigned char* inBuf, long inNumBytes);
-	//
-//	bool fillTheoraInfo(theora_info* outTheora, sTheoraFormatBlock* inTheoraFormatBlock); 		
-	//
-	//TheoraEncodeOutputPin* mOutputPin; //Already in the base class. Naughty c++
-	//__int64 mUptoFrame;	//Already in base class stupid !
 
-	TheoraEncoder mTheoraEncoder;
-	theora_info mTheoraInfo;
-	yuv_buffer mYUV;
+protected:
+	HRESULT m_hr;
 
-	unsigned long mXOffset;
-	unsigned long mYOffset;
+	TheoraEncoder m_theoraEncoder;
+	theora_info m_theoraInfo;
+	yuv_buffer m_yuv;
 
-	unsigned long mHeight;
-	unsigned long mWidth;
+	unsigned long m_xOffset;
+	unsigned long m_yOffset;
 
-	unsigned __int64 mUptoFrame;
+	unsigned long m_height;
+	unsigned long m_width;
+	REFERENCE_TIME	m_averageTimePerFrame;
 
-	CMediaType mPinInputType;
-	VIDEOINFOHEADER* mVideoFormat;
+	unsigned __int64 m_uptoFrame;
 
-	bool mBegun;
+	CMediaType m_pinInputType;
 
+	bool m_hasBegun;
 
 	//DEBUG ONLY
 	//fstream debugLog;
-	//
-
-	
 };

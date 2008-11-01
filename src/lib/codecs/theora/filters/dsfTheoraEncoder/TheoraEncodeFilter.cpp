@@ -118,56 +118,112 @@ bool TheoraEncodeFilter::ConstructPins()
 	//Setup the media Types for the input pin.
 	locAcceptMediaType = NULL;
 
-	//YV12
+	//YV12 VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_YV12;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//YV12 VideoInfo
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_YV12;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
-	//YUY2
+	//YUY2 VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_YUY2;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//YUY2 VideoInfo
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_YUY2;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
-	//AYUV
+	//AYUV VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_AYUV;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//AYUV VideoInfo
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_AYUV;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
-	//RGB24
+	//RGB24 VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB24;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//RGB24 VideoInfo 
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB24;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
-	//RGB32
+	//RGB32 VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB32;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//RGB32 VideoInfo
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB32;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
-	//UYVY
+	//UYVY VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_UYVY;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//UYVY VideoInfo
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_UYVY;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
-	//YVYU
+	//YVYU VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_YVYU;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//YVYU VideoInfo
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_YVYU;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;
 
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
-	//IYUV
+	//IYUV VideoInfo2
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
+	locAcceptMediaType->subtype = MEDIASUBTYPE_IYUV;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
+
+	locAcceptableTypes.push_back(locAcceptMediaType);
+
+	//IYUV VideoInfo
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);			//Deleted by pin
 	locAcceptMediaType->subtype = MEDIASUBTYPE_IYUV;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo;

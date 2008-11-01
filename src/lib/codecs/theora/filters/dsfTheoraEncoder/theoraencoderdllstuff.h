@@ -36,6 +36,7 @@
 #include <streams.h>
 #include <pullpin.h>
 #include <initguid.h>
+#include <dvdmedia.h>
 
 
 
@@ -71,7 +72,6 @@ const REGPINTYPES TheoraEncodeInputTypes = {
 };
 
 
-
 const REGPINTYPES TheoraEncodeOutputTypes = {
 	&MEDIATYPE_Video,
 	&MEDIASUBTYPE_Theora
@@ -79,7 +79,7 @@ const REGPINTYPES TheoraEncodeOutputTypes = {
 
 const REGFILTERPINS TheoraEncodePinReg[] = {
 	{
-    L"YV12 Input",						//Name (obsoleted)
+    L"Theora Input",					//Name (obsoleted)
 	FALSE,								//Renders from this pin ?? Not sure about this.
 	FALSE,								//Not an output pin
 	FALSE,								//Cannot have zero instances of this pin
@@ -91,7 +91,7 @@ const REGFILTERPINS TheoraEncodePinReg[] = {
 	} ,
 
 	{
-	L"Theora Output",						//Name (obsoleted)
+	L"Theora Output",					//Name (obsoleted)
 	FALSE,								//Renders from this pin ?? Not sure about this.
 	TRUE,								//Is an output pin
 	FALSE,								//Cannot have zero instances of this pin
@@ -131,4 +131,3 @@ struct sTheoraFormatBlock {
 	unsigned char yOffset;
 	unsigned char colourSpace;
 };
-

@@ -33,31 +33,27 @@
 #include "theoraencodeinputpin.h"
 
 TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
-	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("TheoraEncodeInputPin"), L"YV12 In", inAcceptableMediaTypes)
-	,	mXOffset(0)
-	,	mYOffset(0)
-	,	mHeight(0)
-	,	mWidth(0)
-	,	mUptoFrame(0)
-	,	mBegun(false)
-	,	mVideoFormat(NULL)
-	
-
+	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("TheoraEncodeInputPin"), L"Theora In", inAcceptableMediaTypes)
+	,	m_xOffset(0)
+	,	m_yOffset(0)
+	,	m_height(0)
+	,	m_width(0)
+	,	m_uptoFrame(0)
+	,	m_hasBegun(false)
 {
 	//debugLog.open("g:\\logs\\theoencfiltinput.log", ios_base::out);
-	mYUV.y = NULL;
-	mYUV.u = NULL;
-	mYUV.v = NULL;
-	
+	m_yuv.y = NULL;
+	m_yuv.u = NULL;
+	m_yuv.v = NULL;
 }
 
 TheoraEncodeInputPin::~TheoraEncodeInputPin(void)
 {
 	//debugLog.close();
 	DestroyCodec();
-	delete[] mYUV.y;
-	delete[] mYUV.u;
-	delete[] mYUV.v;
+	delete[] m_yuv.y;
+	delete[] m_yuv.u;
+	delete[] m_yuv.v;
 
 }
 
@@ -139,7 +135,7 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//uuuUUUUUUUUUUUUUUUUUUUUUUUUuuu uuuUUUUUUUUUUUUUUUUUUUUUUUUuuu
 	//.............................. ..............................
 
-	//NOTE	: mHeight, mWidth are the actual video sizes and are the sizes of the incoming buffer
+	//NOTE	: m_height, m_width are the actual video sizes and are the sizes of the incoming buffer
 	//		  The yuv width, height parameters are a /16 up rounded size of the output buffer to be sent to libtheora
 
 
@@ -152,54 +148,54 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Setup the destination pointer
-	unsigned char* locDestUptoPtr = mYUV.y;
+	unsigned char* locDestUptoPtr = m_yuv.y;
 	//
 
-	////Pad top  of output Y plane buffer with mYOffset lines of width mYUV.y_width
+	////Pad top  of output Y plane buffer with m_yOffset lines of width m_yuv.y_width
 	////y_width is the out frame width.
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += (mYOffset * mYUV.y_width);							//I'm fairly sure it can be junk... but leave for now !
+	//if (m_yOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, m_yOffset * m_yuv.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += (m_yOffset * m_yuv.y_width);							//I'm fairly sure it can be junk... but leave for now !
 	//}
 	//Source pointer does not advance
 	//
 
-	//Add mHeight lines of data of width mWidth plus padding of mXOffset at the start of each line
-	if (mXOffset == 0) {
+	//Add m_height lines of data of width m_width plus padding of m_xOffset at the start of each line
+	if (m_xOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
 		//
-		//This branch of the condition does exactly the same as the else branch where mXOffset = 0
-		for (unsigned long line = 0; line < mHeight; line++) {
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth);
-			locSourceUptoPtr += mWidth;
-			locDestUptoPtr += mWidth;
+		//This branch of the condition does exactly the same as the else branch where m_xOffset = 0
+		for (unsigned long line = 0; line < m_height; line++) {
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width);
+			locSourceUptoPtr += m_width;
+			locDestUptoPtr += m_width;
 		}
 	} else {
-		for (unsigned long line = 0; line < mHeight; line++) {
-			//Pad the start of the line with mXOffset bytes
-			memset((void*)locDestUptoPtr, NULL, mXOffset);
-			locDestUptoPtr += mXOffset;
+		for (unsigned long line = 0; line < m_height; line++) {
+			//Pad the start of the line with m_xOffset bytes
+			memset((void*)locDestUptoPtr, NULL, m_xOffset);
+			locDestUptoPtr += m_xOffset;
 
 			//Fill in the meaty bit
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth);
-			locSourceUptoPtr += mWidth;
-			locDestUptoPtr += mWidth;
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width);
+			locSourceUptoPtr += m_width;
+			locDestUptoPtr += m_width;
 
 			//
 			//This is no longer done... we just pad on one side for efficiency
 			//
-			//Pad the end of the line with mXOffset bytes
-			//memset((void*)locDestUptoPtr, NULL, mXOffset);
-			//locDestUptoPtr += mXOffset;
+			//Pad the end of the line with m_xOffset bytes
+			//memset((void*)locDestUptoPtr, NULL, m_xOffset);
+			//locDestUptoPtr += m_xOffset;
 		}
 
 	}
 
 	
-	//Pad bottom of Y plane buffer with mYOffset lines of width mYUV.y_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += (mYOffset * mYUV.y_width);
+	//Pad bottom of Y plane buffer with m_yOffset lines of width m_yuv.y_width
+	if (m_yOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, m_yOffset * m_yuv.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += (m_yOffset * m_yuv.y_width);
 		//Source pointer does not advance
 	}
 	
@@ -210,59 +206,59 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Set the destination poitner
-	locDestUptoPtr = mYUV.v;
+	locDestUptoPtr = m_yuv.v;
 	//
 
-	//ASSERT (mYOffset is EVEN)
-	//ASSERT (mHeight is EVEN)
-	//ASSERT (mWidth is EVEN)
+	//ASSERT (m_yOffset is EVEN)
+	//ASSERT (m_height is EVEN)
+	//ASSERT (m_width is EVEN)
 	//
 
-	////Pad top of V plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	////Pad top of V plane buffer with m_yOffset/2 lines of width m_yuv.uv_width
+	//if (m_yOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 	//	//Source pointer does not advance
 	//}
 	////
 
-	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
-	if (mXOffset == 0) {
+	//Add m_height/2 lines of data of length m_width/2 plus padded by m_xOffset/2 at each end
+	if (m_xOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+		for (unsigned long line = 0; line < m_height / 2; line++) {
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 		}
 	} else {
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < m_height / 2; line++) {
 			//Pad the start of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
+			memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			locDestUptoPtr += (m_xOffset / 2);
 			//Source pointer does not advance
 
 			//Fill in the meaty bit
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 
 			//
 			//This is no longer done... we just pad on one side for efficiency
 			//
 
 			////Pad the end of the line
-			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			//locDestUptoPtr += (mXOffset / 2);
+			//memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			//locDestUptoPtr += (m_xOffset / 2);
 			////Source pointer does not advance
 		}
 
 	}
 
 
-	//Pad bottom of V plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//Pad bottom of V plane buffer with m_yOffset / 2 lines of width m_yuv.uv_width
+	if (m_yOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 		//Source pointer does not advance
 	}
 	
@@ -275,54 +271,54 @@ long TheoraEncodeInputPin::encodeYV12ToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Set the destination pointer
-	locDestUptoPtr = mYUV.u;
+	locDestUptoPtr = m_yuv.u;
 	//
 
-	////Pad top of U plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	////Pad top of U plane buffer with m_yOffset/2 lines of width m_yuv.uv_width
+	//if (m_yOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 	//	//Source pointer does not advance
 	//}
 	////
 
-	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
-	if (mXOffset == 0) {
+	//Add m_height/2 lines of data of length m_width/2 plus padded by m_xOffset/2 at each end
+	if (m_xOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+		for (unsigned long line = 0; line < m_height / 2; line++) {
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 		}
 	} else {
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < m_height / 2; line++) {
 			//Pad the start of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
+			memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			locDestUptoPtr += (m_xOffset / 2);
 			//Source pointer does not advance
 
 			//Fill in the meaty bit
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 
 			//
 			//This is no longer done... we just pad on one side for efficiency
 			//
 
 			////Pad the end of the line
-			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			//locDestUptoPtr += (mXOffset / 2);
+			//memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			//locDestUptoPtr += (m_xOffset / 2);
 			////Source pointer does not advance
 		}
 
 	}
 
 	
-	//Pad bottom of U plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//Pad bottom of U plane buffer with m_yOffset / 2 lines of width m_yuv.uv_width
+	if (m_yOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 		//Source pointer does not advance
 	}
 
@@ -375,7 +371,7 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	
 
 
-	//NOTE	: mHeight, mWidth are the actual video sizes and are the sizes of the incoming buffer
+	//NOTE	: m_height, m_width are the actual video sizes and are the sizes of the incoming buffer
 	//		  The yuv width, height parameters are a /16 up rounded size of the output buffer to be sent to libtheora
 
 
@@ -388,47 +384,47 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Setup the destination pointer
-	unsigned char* locDestUptoPtr = mYUV.y;
+	unsigned char* locDestUptoPtr = m_yuv.y;
 	//
 
-	////Pad top of Y plane buffer with mYOffset lines of width mYUV.y_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += (mYOffset * mYUV.y_width);
+	////Pad top of Y plane buffer with m_yOffset lines of width m_yuv.y_width
+	//if (m_yOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, m_yOffset * m_yuv.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += (m_yOffset * m_yuv.y_width);
 	//}
 	//Source pointer does not advance
 	//
 
-	//Add mHeight lines of data of width mWidth plus padding of mXOffset at each end
-	if (mXOffset == 0) {
+	//Add m_height lines of data of width m_width plus padding of m_xOffset at each end
+	if (m_xOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (unsigned long line = 0; line < mHeight; line++) {
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth);
-			locSourceUptoPtr += mWidth;
-			locDestUptoPtr += mWidth;
+		for (unsigned long line = 0; line < m_height; line++) {
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width);
+			locSourceUptoPtr += m_width;
+			locDestUptoPtr += m_width;
 		}
 	} else {
-		for (unsigned long line = 0; line < mHeight; line++) {
-			//Pad the start of the line with mXOffset bytes
-			memset((void*)locDestUptoPtr, NULL, mXOffset);
-			locDestUptoPtr += mXOffset;
+		for (unsigned long line = 0; line < m_height; line++) {
+			//Pad the start of the line with m_xOffset bytes
+			memset((void*)locDestUptoPtr, NULL, m_xOffset);
+			locDestUptoPtr += m_xOffset;
 
 			//Fill in the meaty bit
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth);
-			locSourceUptoPtr += mWidth;
-			locDestUptoPtr += mWidth;
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width);
+			locSourceUptoPtr += m_width;
+			locDestUptoPtr += m_width;
 
-			////Pad the end of the line with mXOffset bytes
-			//memset((void*)locDestUptoPtr, NULL, mXOffset);
-			//locDestUptoPtr += mXOffset;
+			////Pad the end of the line with m_xOffset bytes
+			//memset((void*)locDestUptoPtr, NULL, m_xOffset);
+			//locDestUptoPtr += m_xOffset;
 		}
 
 	}
 
-	//Pad bottom of Y plane buffer with mYOffset lines of width mYUV.y_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, mYOffset * mYUV.y_width);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += (mYOffset * mYUV.y_width);
+	//Pad bottom of Y plane buffer with m_yOffset lines of width m_yuv.y_width
+	if (m_yOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, m_yOffset * m_yuv.y_width);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += (m_yOffset * m_yuv.y_width);
 		//Source pointer does not advance
 	}
 
@@ -437,49 +433,49 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Set the destination pointer
-	locDestUptoPtr = mYUV.u;
+	locDestUptoPtr = m_yuv.u;
 	//
 
-	////Pad top of U plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	////Pad top of U plane buffer with m_yOffset/2 lines of width m_yuv.uv_width
+	//if (m_yOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 	//	//Source pointer does not advance
 	//}
 	//
 
-	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
-	if (mXOffset == 0) {
+	//Add m_height/2 lines of data of length m_width/2 plus padded by m_xOffset/2 at each end
+	if (m_xOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+		for (unsigned long line = 0; line < m_height / 2; line++) {
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 		}
 	} else {
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < m_height / 2; line++) {
 			//Pad the start of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
+			memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			locDestUptoPtr += (m_xOffset / 2);
 			//Source pointer does not advance
 
 			//Fill in the meaty bit
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 
 			////Pad the end of the line
-			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			//locDestUptoPtr += (mXOffset / 2);
+			//memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			//locDestUptoPtr += (m_xOffset / 2);
 			////Source pointer does not advance
 		}
 
 	}
 
-	//Pad bottom of U plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//Pad bottom of U plane buffer with m_yOffset / 2 lines of width m_yuv.uv_width
+	if (m_yOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 		//Source pointer does not advance
 	}
 	
@@ -490,49 +486,49 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 	//=========================================================================================================
 
 	//Set the destination poitner
-	locDestUptoPtr = mYUV.v;
+	locDestUptoPtr = m_yuv.v;
 	//
 
-	////Pad top of V plane buffer with mYOffset/2 lines of width mYUV.uv_width
-	//if (mYOffset != 0) {
-	//	memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-	//	locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	////Pad top of V plane buffer with m_yOffset/2 lines of width m_yuv.uv_width
+	//if (m_yOffset != 0) {
+	//	memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+	//	locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 	//	//Source pointer does not advance
 	//}
 	////
 
-	//Add mHeight/2 lines of data of length mWidth/2 plus padded by mXOffset/2 at each end
-	if (mXOffset == 0) {
+	//Add m_height/2 lines of data of length m_width/2 plus padded by m_xOffset/2 at each end
+	if (m_xOffset == 0) {
 		//Slight optimisation to keep the inner loop tighter
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+		for (unsigned long line = 0; line < m_height / 2; line++) {
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 		}
 	} else {
-		for (unsigned long line = 0; line < mHeight / 2; line++) {
+		for (unsigned long line = 0; line < m_height / 2; line++) {
 			//Pad the start of the line
-			memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			locDestUptoPtr += (mXOffset / 2);
+			memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			locDestUptoPtr += (m_xOffset / 2);
 			//Source pointer does not advance
 
 			//Fill in the meaty bit
-			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, mWidth / 2);
-			locSourceUptoPtr += (mWidth / 2);
-			locDestUptoPtr += (mWidth / 2);
+			memcpy((void*)locDestUptoPtr, (const void*)locSourceUptoPtr, m_width / 2);
+			locSourceUptoPtr += (m_width / 2);
+			locDestUptoPtr += (m_width / 2);
 
 			////Pad the end of the line
-			//memset((void*)locDestUptoPtr, NULL, mXOffset / 2);
-			//locDestUptoPtr += (mXOffset / 2);
+			//memset((void*)locDestUptoPtr, NULL, m_xOffset / 2);
+			//locDestUptoPtr += (m_xOffset / 2);
 			////Source pointer does not advance
 		}
 
 	}
 
-	//Pad bottom of V plane buffer with mYOffset / 2 lines of width mYUV.uv_width
-	if (mYOffset != 0) {
-		memset((void*)locDestUptoPtr, NULL, (mYOffset * mYUV.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
-		locDestUptoPtr += ((mYOffset * mYUV.uv_width) / 2);
+	//Pad bottom of V plane buffer with m_yOffset / 2 lines of width m_yuv.uv_width
+	if (m_yOffset != 0) {
+		memset((void*)locDestUptoPtr, NULL, (m_yOffset * m_yuv.uv_width) / 2);			//Is it needed to zero this out ? Or just leave junk ?
+		locDestUptoPtr += ((m_yOffset * m_yuv.uv_width) / 2);
 		//Source pointer does not advance
 	}
 	
@@ -666,11 +662,11 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 
 	unsigned char* locColSourcePtr = NULL;
 	unsigned char* locColEndPtr = NULL;
-	unsigned long locLineLength = mWidth * 3;
+	unsigned long locLineLength = m_width * 3;
 	unsigned long col = 0;
 	for (unsigned char* locSourcePtr = locSourceEnds - locLineLength; locSourcePtr >= inBuf; locSourcePtr -= locLineLength) {
 		//
-		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < mWidth; i++, locColSourcePtr +=4) {
+		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < m_width; i++, locColSourcePtr +=4) {
 		//
 		locColSourcePtr = locSourcePtr;
 		locColEndPtr = locColSourcePtr + locLineLength;
@@ -768,11 +764,11 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 	//}
 	unsigned char* locColSourcePtr = NULL;
 	unsigned char* locColEndPtr = NULL;
-	unsigned long locLineLength = mWidth * 4;
+	unsigned long locLineLength = m_width * 4;
 	unsigned long col = 0;
 	for (unsigned char* locSourcePtr = locSourceEnds - locLineLength; locSourcePtr >= inBuf; locSourcePtr -= locLineLength) {
 		//
-		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < mWidth; i++, locColSourcePtr +=4) {
+		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < m_width; i++, locColSourcePtr +=4) {
 		//
 		locColSourcePtr = locSourcePtr;
 		locColEndPtr = locColSourcePtr + locLineLength;
@@ -833,51 +829,51 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 	//debugLog<<"Encode AYUV To YV12 :"<<endl;
 	
 	const int PIXEL_BYTE_SIZE = 4;
-	ASSERT (mHeight % 2 == 0);
-	ASSERT (mWidth % 2 == 0);
+	ASSERT (m_height % 2 == 0);
+	ASSERT (m_width % 2 == 0);
 
 	unsigned char* locSourceUptoPtr = inBuf;						//View only... don't delete locUptoPtr
-	unsigned char* locSourceNextLine = locSourceUptoPtr + (mWidth * PIXEL_BYTE_SIZE);	//View only don't delete
+	unsigned char* locSourceNextLine = locSourceUptoPtr + (m_width * PIXEL_BYTE_SIZE);	//View only don't delete
 	
-	unsigned char* locYUpto = mYUV.y;
-	unsigned char* locUUpto = mYUV.u;
-	unsigned char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = m_yuv.y;
+	unsigned char* locUUpto = m_yuv.u;
+	unsigned char* locVUpto = m_yuv.v;
 	//Pointer to the same pixel on next line
-	unsigned char* locDestNextLine = locYUpto + (mYUV.y_stride);				//View only... don't delete
+	unsigned char* locDestNextLine = locYUpto + (m_yuv.y_stride);				//View only... don't delete
 
 	int temp = 0;
 
 	//Process 2 lines at a time
-	for (unsigned long line = 0; line < mHeight; line += 2) {
+	for (unsigned long line = 0; line < m_height; line += 2) {
 		//debugLog<<"Encode AYUV To YV12 : ++ Line = "<<line<<endl;
 		
 		//Ensures the current destination buffer skips a line ie points to line 2, 4, 6 etc
-		locYUpto = (mYUV.y + (line * mYUV.y_stride));
+		locYUpto = (m_yuv.y + (line * m_yuv.y_stride));
 		//Ensures the nextlinedest skips a
-		locDestNextLine = locYUpto + (mYUV.y_stride);
+		locDestNextLine = locYUpto + (m_yuv.y_stride);
 
-		//locUUpto = (mYUV.u + ((line/2) * mYUV.uv_stride));
-		//locVUpto = (mYUV.v + ((line/2) * mYUV.uv_stride));
+		//locUUpto = (m_yuv.u + ((line/2) * m_yuv.uv_stride));
+		//locVUpto = (m_yuv.v + ((line/2) * m_yuv.uv_stride));
 
-		ASSERT (locSourceUptoPtr == (inBuf + (line * (mWidth * PIXEL_BYTE_SIZE))));
-		ASSERT (locSourceNextLine == locSourceUptoPtr + (mWidth * PIXEL_BYTE_SIZE));
-		ASSERT (locYUpto == (mYUV.y + (line * mYUV.y_stride)));
-		ASSERT (locDestNextLine == locYUpto + (mYUV.y_stride));
+		ASSERT (locSourceUptoPtr == (inBuf + (line * (m_width * PIXEL_BYTE_SIZE))));
+		ASSERT (locSourceNextLine == locSourceUptoPtr + (m_width * PIXEL_BYTE_SIZE));
+		ASSERT (locYUpto == (m_yuv.y + (line * m_yuv.y_stride)));
+		ASSERT (locDestNextLine == locYUpto + (m_yuv.y_stride));
 		
 
 		//Pad out the start of the line if needed
-		if (mXOffset != 0) {
-			memset((void*)locYUpto, 0, mXOffset);
-			memset((void*)locDestNextLine, 0, mXOffset);
-			memset((void*)locUUpto, 0, mXOffset/2);
-			memset((void*)locVUpto, 0, mXOffset/2);
-			locYUpto += mXOffset;
-			locDestNextLine += mXOffset;
-			locUUpto += (mXOffset/2);
-			locVUpto += (mXOffset/2);
+		if (m_xOffset != 0) {
+			memset((void*)locYUpto, 0, m_xOffset);
+			memset((void*)locDestNextLine, 0, m_xOffset);
+			memset((void*)locUUpto, 0, m_xOffset/2);
+			memset((void*)locVUpto, 0, m_xOffset/2);
+			locYUpto += m_xOffset;
+			locDestNextLine += m_xOffset;
+			locUUpto += (m_xOffset/2);
+			locVUpto += (m_xOffset/2);
 		}
 		//Columns also done 2 at a time
-		for (unsigned long col = 0; col < mWidth; col += 2) {
+		for (unsigned long col = 0; col < m_width; col += 2) {
 			//debugLog<<"Encode AYUV To YV12 : ++++++ Col = "<<col<<endl;
 			
 
@@ -991,9 +987,9 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 
 		}
 		//Overall this loop will advance :
-		//Sourceupto    by		= 8 bytes * (mWidth in pixels / 2 pixels at a time) * 2 lines
-		//						= 8 * mWidth
-		//						= 2 lines of 4 byte pixels of pixel width mWidth
+		//Sourceupto    by		= 8 bytes * (m_width in pixels / 2 pixels at a time) * 2 lines
+		//						= 8 * m_width
+		//						= 2 lines of 4 byte pixels of pixel width m_width
 		//and the same for sourcenextline
 		//--
 		//At the end of this loop sourceupto points to the end of the current line (start of next line)
@@ -1006,7 +1002,7 @@ long TheoraEncodeInputPin::encodeAYUVtoYV12(unsigned char* inBuf, long inNumByte
 		//Ensures source will point to lines 2, 4, 6 etc.
 		locSourceUptoPtr = locSourceNextLine;			
 		//Ensures nextlinesource is one line ahead of the main source.
-		locSourceNextLine += (mWidth * PIXEL_BYTE_SIZE);
+		locSourceNextLine += (m_width * PIXEL_BYTE_SIZE);
 
 
 
@@ -1022,16 +1018,16 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 	//YUY2 is Y0 U0 Y1 V0 Y2 U1 Y3 V1
 	// it has twice as much sampling height as YV12 so downsample it.
 
-	unsigned char* locYUpto = mYUV.y;
-	unsigned char* locUUpto = mYUV.u;
-	unsigned char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = m_yuv.y;
+	unsigned char* locUUpto = m_yuv.u;
+	unsigned char* locVUpto = m_yuv.v;
 
 	
 
 	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
 
 
-	for (unsigned long i = 0; i < mHeight / 2; i++) {
+	for (unsigned long i = 0; i < m_height / 2; i++) {
 		//TO DO: Draw memory layouts.
 
 		//***Part of the average method... store the pointer to the last of the previous line
@@ -1039,7 +1035,7 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 		//locLastVUpto = locVUpto;
 		//***
 
-		for (unsigned long j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < m_width / 2; j++) {
 			*(locYUpto++) = *(locSourceUptoPtr++);
 			*(locUUpto++) = *(locSourceUptoPtr++);
 			*(locYUpto++) = *(locSourceUptoPtr++);
@@ -1048,7 +1044,7 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 
 		
 		//***Drop line method
-		for (unsigned long j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < m_width / 2; j++) {
 			//Ignore the second line
 			*(locYUpto++) = *(locSourceUptoPtr++);
 			locSourceUptoPtr++;
@@ -1058,7 +1054,7 @@ long TheoraEncodeInputPin::encodeYUY2ToYV12(unsigned char* inBuf, long inNumByte
 		//***
 
 		//*** PArt of the Alternate method to average...
-		//for (int j = 0; j < mWidth / 2; j++) {
+		//for (int j = 0; j < m_width / 2; j++) {
 		//	//Ignore the second line
 		//	*(locYUpto++) = *(locSourceUptoPtr++);
 		//	*(locLastUUpto++) = ((short)(*locLastUUpto) + ((short)(*locUUpto))) / 2;
@@ -1083,21 +1079,21 @@ long TheoraEncodeInputPin::encodeYVYUToYV12(unsigned char* inBuf, long inNumByte
 	//YVYU is Y0 V0 Y1 U0 Y2 V1 Y3 U1
 	// it has twice as much sampling height as YV12 so downsample it.
 
-	unsigned char* locYUpto = mYUV.y;
-	unsigned char* locUUpto = mYUV.u;
-	unsigned char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = m_yuv.y;
+	unsigned char* locUUpto = m_yuv.u;
+	unsigned char* locVUpto = m_yuv.v;
 
 	
 
 	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
 
 
-	for (unsigned long i = 0; i < mHeight / 2; i++) {
+	for (unsigned long i = 0; i < m_height / 2; i++) {
 		//TO DO: Draw memory layouts.
 
 	
 
-		for (unsigned long j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < m_width / 2; j++) {
 			*(locYUpto++) = *(locSourceUptoPtr++);				//Y for Yellow
 			*(locVUpto++) = *(locSourceUptoPtr++);				//V for victor
 			
@@ -1107,7 +1103,7 @@ long TheoraEncodeInputPin::encodeYVYUToYV12(unsigned char* inBuf, long inNumByte
 
 		
 		//***Drop line method
-		for (unsigned long j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < m_width / 2; j++) {
 			//Ignore the second line
 			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for Yellow
 			locSourceUptoPtr++;								//V for victor
@@ -1128,20 +1124,20 @@ long TheoraEncodeInputPin::encodeUYVYToYV12(unsigned char* inBuf, long inNumByte
 	//YUY2 is Y0 U0 Y1 V0 Y2 U1 Y3 V1
 	// it has twice as much sampling height as YV12 so downsample it.
 
-	unsigned char* locYUpto = mYUV.y;
-	unsigned char* locUUpto = mYUV.u;
-	unsigned char* locVUpto = mYUV.v;
+	unsigned char* locYUpto = m_yuv.y;
+	unsigned char* locUUpto = m_yuv.u;
+	unsigned char* locVUpto = m_yuv.v;
 
 	
 
 	//After downsampling... from each block of 8, we get 4 y samples and 1 each of u and v
 
 
-	for (unsigned long i = 0; i < mHeight / 2; i++) {
+	for (unsigned long i = 0; i < m_height / 2; i++) {
 		//TO DO: Draw memory layouts.
 
 	
-		for (unsigned long j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < m_width / 2; j++) {
 			*(locUUpto++) = *(locSourceUptoPtr++);			//U for Ugly
 			*(locYUpto++) = *(locSourceUptoPtr++);			//Y for Yellow
 			
@@ -1152,7 +1148,7 @@ long TheoraEncodeInputPin::encodeUYVYToYV12(unsigned char* inBuf, long inNumByte
 
 		
 		//***Drop line method
-		for (unsigned long j = 0; j < mWidth / 2; j++) {
+		for (unsigned long j = 0; j < m_width / 2; j++) {
 			//Ignore the second line
 			
 			locSourceUptoPtr++;								//U for ugly
@@ -1177,15 +1173,15 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 
 	//Time stamps are granule pos not directshow times
 	//debugLog<<"Encode data"<<endl;
-	LONGLONG locFrameStart = mUptoFrame;
+	LONGLONG locFrameStart = m_uptoFrame;
 	LONGLONG locFrameEnd = 0;
 	HRESULT locHR = S_OK;
-	if (!mBegun) {
+	if (!m_hasBegun) {
 		//debugLog<<"encodeData : First time"<<endl;
-		mBegun = true;
+		m_hasBegun = true;
 		
 		StampedOggPacket** locHeaders;
-		locHeaders = mTheoraEncoder.initCodec(mTheoraInfo);
+		locHeaders = m_theoraEncoder.initCodec(m_theoraInfo);
 
 		for (int i = 0; i < 3; i++) {
 			locHR = deliverData(0,0,locHeaders[i]->packetData(), locHeaders[i]->packetSize());
@@ -1199,33 +1195,33 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 
 	//This big if block merely takes the buffer and copies it into the yuv_buffer structure which
 	// is used below to encode.
-	if (mPinInputType.subtype == MEDIASUBTYPE_YUY2) {
+	if (m_pinInputType.subtype == MEDIASUBTYPE_YUY2) {
 		//debugLog<<"About to encode YUY2 to YV12"<<endl;
 		encodeYUY2ToYV12(inBuf, inNumBytes);
-	} else if (mPinInputType.subtype == MEDIASUBTYPE_AYUV) {
+	} else if (m_pinInputType.subtype == MEDIASUBTYPE_AYUV) {
 		encodeAYUVtoYV12(inBuf, inNumBytes);
 
-	} else if (mPinInputType.subtype == MEDIASUBTYPE_RGB32) {
+	} else if (m_pinInputType.subtype == MEDIASUBTYPE_RGB32) {
 		encodeRGB32toYV12(inBuf, inNumBytes);
 
-	} else if (mPinInputType.subtype == MEDIASUBTYPE_RGB24) {
+	} else if (m_pinInputType.subtype == MEDIASUBTYPE_RGB24) {
 		encodeRGB24toYV12(inBuf, inNumBytes);
 
 
-	} else if (mPinInputType.subtype == MEDIASUBTYPE_YV12) {
+	} else if (m_pinInputType.subtype == MEDIASUBTYPE_YV12) {
 		//Should be more specifc.
 		//debugLog<<"About to encode YV12 to YV12"<<endl;
 		encodeYV12ToYV12(inBuf, inNumBytes);
-	} else if (mPinInputType.subtype == MEDIASUBTYPE_UYVY) {
+	} else if (m_pinInputType.subtype == MEDIASUBTYPE_UYVY) {
 		
 		
 		encodeUYVYToYV12(inBuf, inNumBytes);
 
-	} else if (mPinInputType.subtype == MEDIASUBTYPE_YVYU) {
+	} else if (m_pinInputType.subtype == MEDIASUBTYPE_YVYU) {
 		
 		
 		encodeYVYUToYV12(inBuf, inNumBytes);
-	} else if (mPinInputType.subtype == MEDIASUBTYPE_IYUV) {
+	} else if (m_pinInputType.subtype == MEDIASUBTYPE_IYUV) {
 		
 		
 		encodeIYUVToYV12(inBuf, inNumBytes);
@@ -1238,12 +1234,12 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 	}
 	
 
-	StampedOggPacket* locPacket = mTheoraEncoder.encodeTheora(&mYUV);
+	StampedOggPacket* locPacket = m_theoraEncoder.encodeTheora(&m_yuv);
 	if (locPacket == NULL) {
 		//debugLog<<"Encode returns NULL"<<endl;
 		return S_FALSE;
 	}
-	locFrameEnd		= mUptoFrame 
+	locFrameEnd		= m_uptoFrame 
 					= locPacket->endTime();
 	//debugLog<<"Delivering..."<<endl;
 
@@ -1251,24 +1247,24 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 	locHR = deliverData(locFrameStart, locFrameEnd, locPacket->packetData(), locPacket->packetSize());
 	delete locPacket;
 	return locHR;
-
 }
-bool TheoraEncodeInputPin::ConstructCodec() {
 
+bool TheoraEncodeInputPin::ConstructCodec() 
+{
 	//debugLog<<"Contructing codec..."<<endl;
-	theora_info_init(&mTheoraInfo);
+	theora_info_init(&m_theoraInfo);
 	
 	//Round up to multiple of 16 for theora
 
 	//---------------------------------------------------------------------------------------------------------------
-	//mTheoraInfo values
+	//m_theoraInfo values
 	//==================
 	//width, height					-	/16 up rounded values, size of the outer frame
 	//frame_width, frame_height		-	size of the inner picture region
 	//offset_x						-	Distance at bottom left from frame to picture  <= width - frame_width
 	//offset_y						-	Distance at bottom left from frame to picture  <= height - frame_height
 
-	//mYUV values - for YV12 format
+	//m_yuv values - for YV12 format
 	//=============================
 	//y_stride						-	Equal to the /16 up rounded wdith values
 	//y_width						-	Equal to the /16 up rounded wdith values
@@ -1281,96 +1277,95 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 
 	//Member data
 	//===========
-	//mWidth						-	raw video source values... equal to frame_width
-	//mHeight						-	raw video source values... equal to frame_height
-	//mXOffset						-	x offset
-	//mYOffset						-	y offset
+	//m_width						-	raw video source values... equal to frame_width
+	//m_height						-	raw video source values... equal to frame_height
+	//m_xOffset						-	x offset
+	//m_yOffset						-	y offset
 	//---------------------------------------------------------------------------------------------------------------
 
 	//Width of the outer frame
-	mTheoraInfo.width			=	mYUV.y_width
-								=	mYUV.y_stride
-								=	(((mVideoFormat->bmiHeader.biWidth + 15)>>4)<<4);
+	m_theoraInfo.width			=	m_yuv.y_width
+								=	m_yuv.y_stride
+								=	(((m_width + 15)>>4)<<4);
 
 	//Width of the inner picture
-	mTheoraInfo.frame_width		=	mWidth
-								=	mVideoFormat->bmiHeader.biWidth;
+	m_theoraInfo.frame_width	=	m_width;
+								
 
 	//YUV U&V data
-	mYUV.uv_width				=	mYUV.uv_stride
-								=	mYUV.y_width/2;
+	m_yuv.uv_width				=	m_yuv.uv_stride
+								=	m_yuv.y_width/2;
 
 	
 	//
 
 	//Height data of outer frame
-	mTheoraInfo.height			=	mYUV.y_height
-								=	(((mVideoFormat->bmiHeader.biHeight + 15)>>4)<<4);
+	m_theoraInfo.height			=	m_yuv.y_height
+								=	(((m_height + 15)>>4)<<4);
 
 	//Height of the inner picture
-	mTheoraInfo.frame_height	=	mHeight
-								=	mVideoFormat->bmiHeader.biHeight;
+	m_theoraInfo.frame_height	=	m_height;
 
-	mYUV.uv_height				=	mYUV.y_height/2;
+	m_yuv.uv_height				=	m_yuv.y_height/2;
 
 	
 	//
 
 	//Set offset values... no longer centred... all the offset is at the bottom left of the image (ie very start of memory image)
 	//Difference between the outframe dimensions and the inner picture dimensions
-	mTheoraInfo.offset_x		=	mXOffset
-								=	(mTheoraInfo.width - mTheoraInfo.frame_width);
+	m_theoraInfo.offset_x		=	m_xOffset
+								=	(m_theoraInfo.width - m_theoraInfo.frame_width);
 
-	mTheoraInfo.offset_y		=	mYOffset
-								=	(mHeight - mTheoraInfo.frame_height);
+	m_theoraInfo.offset_y		=	m_yOffset
+								=	(m_height - m_theoraInfo.frame_height);
 	
 	
-	unsigned long locYBuffSize = mYUV.y_height * mYUV.y_stride;
-	mYUV.y				=	new unsigned char[locYBuffSize];
-	mYUV.u				=	new unsigned char[locYBuffSize/4];
-	mYUV.v				=	new unsigned char[locYBuffSize/4];
+	unsigned long locYBuffSize = m_yuv.y_height * m_yuv.y_stride;
+	m_yuv.y				=	new unsigned char[locYBuffSize];
+	m_yuv.u				=	new unsigned char[locYBuffSize/4];
+	m_yuv.v				=	new unsigned char[locYBuffSize/4];
 
 	//End YV12 specifics
 	//
 
 	//HACK:::Bit of a hack to convert dshow nanos to a fps num/denom.
 	//Now we multiply the numerator and denom by 1000, this gives us 3 d.p. of precision for framerate.
-	unsigned long locNum = (((double)10000000 * 1000) / ((double)mVideoFormat->AvgTimePerFrame)) + (double)0.5;
+	unsigned long locNum = (((double)10000000 * 1000) / ((double)m_averageTimePerFrame)) + (double)0.5;
 
 	//debugLog<<"FPS = "<<locNum<<endl;
-	mTheoraInfo.fps_numerator = locNum;
-	mTheoraInfo.fps_denominator = 1000;
+	m_theoraInfo.fps_numerator = locNum;
+	m_theoraInfo.fps_denominator = 1000;
 	
-	mTheoraInfo.aspect_numerator=0;
-	mTheoraInfo.aspect_denominator=0;
+	m_theoraInfo.aspect_numerator=0;
+	m_theoraInfo.aspect_denominator=0;
 	
-	mTheoraInfo.colorspace=OC_CS_UNSPECIFIED;		//YV12
-	mTheoraInfo.target_bitrate=400000; //mVideoFormat->dwBitRate;
+	m_theoraInfo.colorspace=OC_CS_UNSPECIFIED;		//YV12
+	m_theoraInfo.target_bitrate=400000; //m_videoFormat->dwBitRate;
 
 	//Hard code for now
-	mTheoraInfo.quality=30; //video_q;
+	m_theoraInfo.quality=30; //video_q;
 
-	mTheoraInfo.dropframes_p=0;
-	mTheoraInfo.quick_p=1;
-	mTheoraInfo.keyframe_auto_p=1;
-	mTheoraInfo.keyframe_frequency=64;   //If you change this... change the logged value below
-	mTheoraInfo.keyframe_frequency_force=64;  //ditto
-	mTheoraInfo.keyframe_data_target_bitrate=mTheoraInfo.target_bitrate*1.5;
-	mTheoraInfo.keyframe_auto_threshold=80;
-	mTheoraInfo.keyframe_mindistance=8;
-	mTheoraInfo.noise_sensitivity=1; 
-    mTheoraInfo.pixelformat = OC_PF_420;
+	m_theoraInfo.dropframes_p=0;
+	m_theoraInfo.quick_p=1;
+	m_theoraInfo.keyframe_auto_p=1;
+	m_theoraInfo.keyframe_frequency=64;   //If you change this... change the logged value below
+	m_theoraInfo.keyframe_frequency_force=64;  //ditto
+	m_theoraInfo.keyframe_data_target_bitrate=m_theoraInfo.target_bitrate*1.5;
+	m_theoraInfo.keyframe_auto_threshold=80;
+	m_theoraInfo.keyframe_mindistance=8;
+	m_theoraInfo.noise_sensitivity=1; 
+    m_theoraInfo.pixelformat = OC_PF_420;
 
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = mTheoraInfo.fps_numerator;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = mTheoraInfo.fps_denominator;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateNumerator = m_theoraInfo.fps_numerator;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.frameRateDenominator = m_theoraInfo.fps_denominator;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.maxKeyframeInterval = 6;   //log2(keyframe_freq) from above
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.pictureHeight = mHeight;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.pictureWidth = mWidth;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.pictureHeight = m_height;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.pictureWidth = m_width;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.colourSpace = OC_CS_UNSPECIFIED;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameHeight = mTheoraInfo.height;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameWidth = mTheoraInfo.width;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = (unsigned char)mXOffset;
-	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = (unsigned char)mYOffset;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameHeight = m_theoraInfo.height;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameWidth = m_theoraInfo.width;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = (unsigned char)m_xOffset;
+	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = (unsigned char)m_yOffset;
 
 	//TODO ::: DO something about aspect ratios
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.aspectDenominator = 0;
@@ -1379,7 +1374,8 @@ bool TheoraEncodeInputPin::ConstructCodec() {
 	return true;
 
 }
-void TheoraEncodeInputPin::DestroyCodec() {
+void TheoraEncodeInputPin::DestroyCodec() 
+{
 	//fish_sound_delete(mFishSound);
 	//mFishSound = NULL;
 }
@@ -1388,7 +1384,7 @@ void TheoraEncodeInputPin::DestroyCodec() {
 
 HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType) 
 {
-
+	DbgLog((LOG_TRACE, 1, L"%s", __FUNCTION__));
 
 	if  (	inMediaType->subtype == MEDIASUBTYPE_YV12 || 
 			inMediaType->subtype == MEDIASUBTYPE_IYUV ||
@@ -1398,19 +1394,44 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 			inMediaType->subtype == MEDIASUBTYPE_AYUV ||
 			inMediaType->subtype == MEDIASUBTYPE_RGB32 ||
 			inMediaType->subtype == MEDIASUBTYPE_RGB24
-	) {
-		mVideoFormat = (VIDEOINFOHEADER*)inMediaType->pbFormat;
-		mPinInputType = *inMediaType;
-	} else {
+	) 
+	{
+		if (inMediaType->formattype == FORMAT_VideoInfo2)
+		{
+			VIDEOINFOHEADER2* videoFormat = (VIDEOINFOHEADER2*)inMediaType->pbFormat;
+
+			m_averageTimePerFrame = videoFormat->AvgTimePerFrame;
+			m_width = videoFormat->bmiHeader.biWidth;
+			m_height = videoFormat->bmiHeader.biHeight;
+		}
+		else if (inMediaType->formattype == FORMAT_VideoInfo)
+		{
+			VIDEOINFOHEADER* videoFormat = (VIDEOINFOHEADER*)inMediaType->pbFormat;
+
+			m_averageTimePerFrame = videoFormat->AvgTimePerFrame;
+			m_width = videoFormat->bmiHeader.biWidth;
+			m_height = videoFormat->bmiHeader.biHeight;
+		}
+
+		if (m_averageTimePerFrame == 0)
+		{
+			// Theora is constant framerate, reject a variable framerate connection.
+			return E_FAIL;
+		}
+
+		m_pinInputType = *inMediaType;
+	} 
+	else 
+	{
 		//Failed... should never be here !
 		throw 0;
 	}
 	ConstructCodec();
-	return CBaseInputPin::SetMediaType(inMediaType);
-
 	
+	return CBaseInputPin::SetMediaType(inMediaType);
 }
 
-theora_info* TheoraEncodeInputPin::theoraInfo() {
-	return &mTheoraInfo;
+theora_info* TheoraEncodeInputPin::theoraInfo() 
+{
+	return &m_theoraInfo;
 }
