@@ -35,7 +35,7 @@
 
 
 TheoraDecodeOutputPin::TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR) 
-	:	CTransformOutputPin(NAME("Theora Output Pin"), inParentFilter, outHR, L"YV12 Out")
+	:	CTransformOutputPin(NAME("Theora Output Pin"), inParentFilter, outHR, L"Theora Out")
 {
 	//debugLog.open("G:\\logs\\theooutput.log", ios_base::out);
 }

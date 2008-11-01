@@ -1,6 +1,11 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
 //
+//Copyright (C) 2003 Commonwealth Scientific and Industrial Research
+//Organisation (CSIRO) Australia
+//
+//Copyright (C) 2008 Cristian Adam
+//
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
 //are met:
@@ -55,7 +60,22 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
+namespace 
+{
+	inline unsigned char CLAMP(short v)    
+	{
+		if (v > 255)
+		{
+			return 255;
+		}
+		else if (v < 0)
+		{
+			return 0;
+		}
 
+		return static_cast<unsigned char>(v);
+	}
+}
 
 TheoraDecodeFilter::TheoraDecodeFilter() 
 	:	CTransformFilter( NAME("Theora Decode Filter"), NULL, CLSID_TheoraDecodeFilter)
@@ -93,7 +113,7 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 
 	CMediaType* locAcceptMediaType = NULL;
 
-	//YUY2 Media Type
+	//YUY2 Media Type VideoInfo2
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_YUY2;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
@@ -103,7 +123,17 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	locVideoParams.fourCC = MAKEFOURCC('Y','U','Y','2');
 	mOutputVideoParams.push_back(locVideoParams);
 
-	//YV12 media type
+	//YUY2 Media Type VideoInfo
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_YUY2;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo;
+	mOutputMediaTypes.push_back(locAcceptMediaType);
+
+	locVideoParams.bitsPerPixel = 16;
+	locVideoParams.fourCC = MAKEFOURCC('Y','U','Y','2');
+	mOutputVideoParams.push_back(locVideoParams);
+
+	//YV12 media type VideoInfo2
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_YV12;
 	locAcceptMediaType->formattype = FORMAT_VideoInfo2;
@@ -113,7 +143,26 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	locVideoParams.fourCC = MAKEFOURCC('Y','V','1','2');
 	mOutputVideoParams.push_back(locVideoParams);
 
-    /*
+	//YV12 media type VideoInfo
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_YV12;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo;
+	mOutputMediaTypes.push_back(locAcceptMediaType);
+
+	locVideoParams.bitsPerPixel = 12;
+	locVideoParams.fourCC = MAKEFOURCC('Y','V','1','2');
+	mOutputVideoParams.push_back(locVideoParams);
+  
+	//RGB32 Media Type
+	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
+	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB32;
+	locAcceptMediaType->formattype = FORMAT_VideoInfo;
+	mOutputMediaTypes.push_back(locAcceptMediaType);
+
+	locVideoParams.bitsPerPixel = 32;
+	locVideoParams.fourCC = BI_RGB;
+	mOutputVideoParams.push_back(locVideoParams);
+
 	//RGB565 Media Type
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB565;
@@ -121,27 +170,13 @@ TheoraDecodeFilter::TheoraDecodeFilter()
 	mOutputMediaTypes.push_back(locAcceptMediaType);
 
 	locVideoParams.bitsPerPixel = 16;
-	locVideoParams.fourCC = 0;
+	locVideoParams.fourCC = BI_BITFIELDS;
 	mOutputVideoParams.push_back(locVideoParams);
-
-	//RGB24 Media Type
-	locAcceptMediaType = new CMediaType(&MEDIATYPE_Video);		//Deleted in pin destructor
-	locAcceptMediaType->subtype = MEDIASUBTYPE_RGB24;
-	locAcceptMediaType->formattype = FORMAT_VideoInfo;
-	mOutputMediaTypes.push_back(locAcceptMediaType);
-
-	locVideoParams.bitsPerPixel = 32;
-	locVideoParams.fourCC = 0;
-	mOutputVideoParams.push_back(locVideoParams);
-
-    */
-
 
 	mTheoraDecoder = new TheoraDecoder;
 	mTheoraDecoder->initCodec();
 
 	mScratchBuffer = new BYTE[1024*1024*2];
-
 }
 
 TheoraDecodeFilter::~TheoraDecodeFilter() 
@@ -205,11 +240,11 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
 
 	inFormatBuffer->bmiHeader.biCompression = mOutputVideoParams[inPosition].fourCC;
+	inFormatBuffer->bmiHeader.biWidth = locFilter->mTheoraFormatInfo->pictureWidth;
 	inFormatBuffer->bmiHeader.biHeight = locFilter->mTheoraFormatInfo->pictureHeight;   //Not sure
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
-	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);    //????? Size of what ?
-	inFormatBuffer->bmiHeader.biSizeImage = ((locFilter->mTheoraFormatInfo->pictureHeight * locFilter->mTheoraFormatInfo->pictureWidth) * inFormatBuffer->bmiHeader.biBitCount)/8;    //Size in bytes of image ??
-	inFormatBuffer->bmiHeader.biWidth = locFilter->mTheoraFormatInfo->pictureWidth;
+	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);   
+	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
 	inFormatBuffer->bmiHeader.biXPelsPerMeter = 0;   //Fuck knows
 	inFormatBuffer->bmiHeader.biYPelsPerMeter = 0;   //" " " " " 
 	
@@ -243,8 +278,8 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
 	inFormatBuffer->bmiHeader.biCompression = mOutputVideoParams[inPosition].fourCC;
 	inFormatBuffer->bmiHeader.biHeight = locFilter->mTheoraFormatInfo->pictureHeight;   //Not sure
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
-	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);    //????? Size of what ?
-	inFormatBuffer->bmiHeader.biSizeImage = ((locFilter->mTheoraFormatInfo->pictureHeight * locFilter->mTheoraFormatInfo->pictureWidth) * inFormatBuffer->bmiHeader.biBitCount)/8;    //Size in bytes of image ??
+	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
 	inFormatBuffer->bmiHeader.biWidth = locFilter->mTheoraFormatInfo->pictureWidth;
 	inFormatBuffer->bmiHeader.biXPelsPerMeter = 0;   //Fuck knows
 	inFormatBuffer->bmiHeader.biYPelsPerMeter = 0;   //" " " " " 
@@ -266,15 +301,18 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
     inFormatBuffer->dwCopyProtectFlags = 0;
 
 
-    if ((mTheoraFormatInfo->aspectNumerator == 0) || (mTheoraFormatInfo->aspectDenominator == 0)) {
+    if ((mTheoraFormatInfo->aspectNumerator == 0) || (mTheoraFormatInfo->aspectDenominator == 0)) 
+	{
         //Maybe setting to 0?
         inFormatBuffer->dwPictAspectRatioX = mTheoraFormatInfo->pictureWidth;
         inFormatBuffer->dwPictAspectRatioY = mTheoraFormatInfo->pictureHeight;
-    } else {
+    } 
+	else 
+	{
         inFormatBuffer->dwPictAspectRatioX = mTheoraFormatInfo->pictureWidth * mTheoraFormatInfo->aspectNumerator;
         inFormatBuffer->dwPictAspectRatioY = mTheoraFormatInfo->pictureHeight * mTheoraFormatInfo->aspectDenominator;
-
     }
+	
     inFormatBuffer->dwControlFlags = 0;
     inFormatBuffer->dwReserved2 = 0;
 	return true;
@@ -324,14 +362,28 @@ HRESULT TheoraDecodeFilter::CheckOutputType(const CMediaType* inMediaType)
 }
 HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType) {
 	//MTS::: Needs multiple media types
-	if ((CheckInputType(inInputMediaType) == S_OK) && (CheckOutputType(inOutputMediaType) == S_OK)) {
-		VIDEOINFOHEADER2* locVideoHeader = (VIDEOINFOHEADER2*)inOutputMediaType->Format();
+	if ((CheckInputType(inInputMediaType) == S_OK) && (CheckOutputType(inOutputMediaType) == S_OK)) 
+	{
+		if (inOutputMediaType->formattype == FORMAT_VideoInfo2)
+		{
+			VIDEOINFOHEADER2* locVideoHeader = (VIDEOINFOHEADER2*)inOutputMediaType->Format();
 
-		mBMIHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
-		mBMIWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+			mBMIHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+			mBMIWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
 
 
-		mBMIFrameSize = (mBMIHeight * mBMIWidth * locVideoHeader->bmiHeader.biBitCount) / 8;
+			mBMIFrameSize = (mBMIHeight * mBMIWidth * locVideoHeader->bmiHeader.biBitCount) / 8;
+		}
+		else if (inOutputMediaType->formattype == FORMAT_VideoInfo)
+		{
+			VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inOutputMediaType->Format();
+
+			mBMIHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+			mBMIWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+
+			mBMIFrameSize = (mBMIHeight * mBMIWidth * locVideoHeader->bmiHeader.biBitCount) / 8;
+		}
+
 		debugLog<<"Check transform OK"<<endl;
 		return S_OK;
 	} else {
@@ -358,80 +410,66 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 	
 	//Validate and change what we have been requested to do.
 	//Allignment of data
-	if (inPropertyRequest->cbAlign <= 0) {
+	if (inPropertyRequest->cbAlign <= 0) 
+	{
 		locReqAlloc.cbAlign = 1;
-	} else {
+	} else 
+	{
 		locReqAlloc.cbAlign = inPropertyRequest->cbAlign;
 	}
 
 	//Size of each buffer
-	if (inPropertyRequest->cbBuffer < MIN_BUFFER_SIZE) {
-		locReqAlloc.cbBuffer = DEFAULT_BUFFER_SIZE;
-	} else {
+	if (inPropertyRequest->cbBuffer < MIN_BUFFER_SIZE) 
+	{
+		if (m_pOutput->CurrentMediaType().formattype == FORMAT_VideoInfo2)
+		{
+			VIDEOINFOHEADER2* pvih = (VIDEOINFOHEADER2*)m_pOutput->CurrentMediaType().Format();
+			locReqAlloc.cbBuffer = pvih->bmiHeader.biSizeImage;
+		}
+		else if (m_pOutput->CurrentMediaType().formattype == FORMAT_VideoInfo)
+		{
+			VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)m_pOutput->CurrentMediaType().Format();
+			locReqAlloc.cbBuffer = pvih->bmiHeader.biSizeImage;
+		}
+	} 
+	else 
+	{
 		locReqAlloc.cbBuffer = inPropertyRequest->cbBuffer;
 	}
 
 	//How many prefeixed bytes
-	if (inPropertyRequest->cbPrefix < 0) {
+	if (inPropertyRequest->cbPrefix < 0) 
+	{
 			locReqAlloc.cbPrefix = 0;
-	} else {
+	} 
+	else 
+	{
 		locReqAlloc.cbPrefix = inPropertyRequest->cbPrefix;
 	}
 
 	//Number of buffers in the allcoator
-	if (inPropertyRequest->cBuffers < MIN_NUM_BUFFERS) {
+	if (inPropertyRequest->cBuffers < MIN_NUM_BUFFERS) 
+	{
 		locReqAlloc.cBuffers = DEFAULT_NUM_BUFFERS;
-	} else {
-
+	} 
+	else 
+	{
 		locReqAlloc.cBuffers = inPropertyRequest->cBuffers;
 	}
 
 	//Set the properties in the allocator
 	locHR = inAllocator->SetProperties(&locReqAlloc, &locActualAlloc);
 
-	//Check the response
-	switch (locHR) {
-		case E_POINTER:
-			//debugLog<<"DecideBufferSize : SetProperties - NULL POINTER"<<endl;
-			return locHR;
-		case VFW_E_ALREADY_COMMITTED:
-			//debugLog<<"DecideBufferSize : SetProperties - Already COMMITED"<<endl;
-			return locHR;
-		case VFW_E_BADALIGN:
-			//debugLog<<"DecideBufferSize : SetProperties - Bad ALIGN"<<endl;
-			return locHR;
-		case VFW_E_BUFFERS_OUTSTANDING:
-			//debugLog<<"DecideBufferSize : SetProperties - BUFFS OUTSTANDING"<<endl;
-			return locHR;
-		case S_OK:
-			break;
-		default:
-			//debugLog<<"DecideBufferSize : SetProperties - UNKNOWN ERROR"<<endl;
-			break;
+	if (FAILED(locHR))
+	{
+		return locHR;
 	}
-
+	
 	locHR = inAllocator->Commit();
-	//debugLog<<"DecideBufferSize : Commit Returned "<<locHR<<endl;
 
-	switch (locHR) {
-		case E_FAIL:
-			//debugLog<<"DecideBufferSize : Commit - FAILED "<<endl;
-			return locHR;
-		case E_POINTER:
-			//debugLog<<"DecideBufferSize : Commit - NULL POINTER "<<endl;
-			return locHR;
-		case E_INVALIDARG:
-			//debugLog<<"DecideBufferSize : Commit - INVALID ARG "<<endl;
-			return locHR;
-		case E_NOTIMPL:
-			//debugLog<<"DecideBufferSize : Commit - NOT IMPL"<<endl;
-			return locHR;
-		case S_OK:
-			//debugLog<<"DecideBufferSize : Commit - ** SUCCESS **"<<endl;
-			break;
-		default:
-			//debugLog<<"DecideBufferSize : Commit - UNKNOWN ERROR "<<endl;
-			return locHR;
+	if (FAILED(locHR))
+	{
+		return locHR;
 	}
 
 	debugLog<<"Buffer allocated"<<endl;
@@ -440,17 +478,47 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 }
 HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMediaType) 
 {
-	if (inPosition < 0) {
+	if (inPosition < 0) 
+	{
 		return E_INVALIDARG;
-	} else if (inPosition < mOutputMediaTypes.size()) {
-		
-		VIDEOINFOHEADER2* locVideoFormat = (VIDEOINFOHEADER2*)outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
-		FillVideoInfoHeader2(inPosition, locVideoFormat);
-		FillMediaType(inPosition, outOutputMediaType, locVideoFormat->bmiHeader.biSizeImage);
+	} 
+	else if (inPosition < (int)mOutputMediaTypes.size()) 
+	{	
+		if (mOutputMediaTypes[inPosition]->formattype == FORMAT_VideoInfo2)
+		{
+			VIDEOINFOHEADER2* locVideoFormat = (VIDEOINFOHEADER2*)outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
+			FillVideoInfoHeader2(inPosition, locVideoFormat);
+			FillMediaType(inPosition, outOutputMediaType, locVideoFormat->bmiHeader.biSizeImage);
+		}
+		else 
+		if (mOutputMediaTypes[inPosition]->formattype == FORMAT_VideoInfo)
+		{
+			VIDEOINFOHEADER* locVideoFormat = 0;
+			if (mOutputMediaTypes[inPosition]->subtype == MEDIASUBTYPE_RGB565)
+			{
+				VIDEOINFO *pvi = (VIDEOINFO *) outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFO));
+				if(NULL == pvi)
+					return E_OUTOFMEMORY;
+
+				ZeroMemory(pvi, sizeof(VIDEOINFO));
+				memcpy(pvi->dwBitMasks, bits565, sizeof(DWORD) * 3);
+
+				locVideoFormat = (VIDEOINFOHEADER*)pvi;
+			}
+			else
+			{
+				locVideoFormat = (VIDEOINFOHEADER*)outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
+			}
+
+			FillVideoInfoHeader(inPosition, locVideoFormat);
+			FillMediaType(inPosition, outOutputMediaType, locVideoFormat->bmiHeader.biSizeImage);
+		}
 
 		debugLog<<"Get Media Type"<<endl;
 		return S_OK;
-	} else {
+	} 
+	else 
+	{
 		return VFW_S_NO_MORE_ITEMS;
 	}
 }
@@ -628,55 +696,136 @@ HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample*
 
 HRESULT TheoraDecodeFilter::DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd)
 {
-	//TODO::: This ineeds to be implemented correctly, currently just outputs a single colour
 	BYTE* locBuffer = NULL;
 	outSample->GetPointer(&locBuffer);
 
-	const unsigned short RED_SHIFT = 11;
-	const unsigned short GREEN_SHIFT = 6;
-	const unsigned short BLUE_SHIFT = 0;
+	unsigned char * ptry = inYUVBuffer->y;
+	unsigned char * ptru = inYUVBuffer->u;
+	unsigned char * ptrv = inYUVBuffer->v;
+	unsigned char * ptro = locBuffer;
+	unsigned char * ptro2;
+	int i, j;
 
+	for (i = mYOffset; i < inYUVBuffer->y_height; i++) 
+	{
+		ptro2 = ptro;
+		for (j = mXOffset; j < inYUVBuffer->y_width; j += 2) 
+		{
+			short pr, pg, pb, y;
+			short r, g, b;
 
-	unsigned short* locShortBuffer = (unsigned short*)locBuffer;
-	for (unsigned int i = 0; i < mBMIWidth*mBMIHeight; i++) {
-		locShortBuffer[i] = (31 << RED_SHIFT);
+			pr = (short)(-56992 + ptrv[j/2] * 409) >> 8;
+			pg = (34784 - ptru[j/2] * 100 - ptrv[j/2] * 208) >> 8;
+			pb = (short)(-70688 + ptru[j/2] * 516) >> 8;
+
+			y = 298*ptry[j] >> 8;
+			r = y + pr;
+			g = y + pg;
+			b = y + pb;
+			
+			*(unsigned short*)(ptro2) = (unsigned short)	
+				(CLAMP(r) >> 3) << 11 |
+				(CLAMP(g) >> 2) << 5 |
+				 CLAMP(b) >> 3;
+
+			ptro2 += 2;
+
+			y = 298*ptry[j + 1] >> 8;
+			r = y + pr;
+			g = y + pg;
+			b = y + pb;
+
+			*(unsigned short*)(ptro2) = (unsigned short)	
+				(CLAMP(r) >> 3) << 11 |
+				(CLAMP(g) >> 2) << 5 |
+				 CLAMP(b) >> 3;
+
+			ptro2 += 2;
+		}
+		ptry += inYUVBuffer->y_stride;
+		if (i & 1) 
+		{
+			ptru += inYUVBuffer->uv_stride;
+			ptrv += inYUVBuffer->uv_stride;
+		}
+		ptro += mBMIWidth * 2;
 	}
 
 	REFERENCE_TIME locStart = inStart;
 	REFERENCE_TIME locEnd = inEnd;
 
 	BOOL locIsKeyFrame = FALSE;
-	if (inIsKeyFrame) {
+	if (inIsKeyFrame) 
+	{
 		locIsKeyFrame = TRUE;
-	};
+	}
+
 	SetSampleParams(outSample, mBMIFrameSize, &locStart, &locEnd, locIsKeyFrame);
 
 	return S_OK;
 }
 
-HRESULT TheoraDecodeFilter::DecodeToRGB24(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd)
+HRESULT TheoraDecodeFilter::DecodeToRGB32(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd)
 {
-	//TODO::: This ineeds to be implemented correctly, currently just outputs a single colour
-	BYTE* locBuffer = NULL;
+	unsigned char* locBuffer = NULL;
 	outSample->GetPointer(&locBuffer);
 
-	const unsigned short RED_SHIFT = 16;
-	const unsigned short GREEN_SHIFT = 8;
-	const unsigned short BLUE_SHIFT = 0;
+	unsigned char * ptry = inYUVBuffer->y;
+	unsigned char * ptru = inYUVBuffer->u;
+	unsigned char * ptrv = inYUVBuffer->v;
+	unsigned char * ptro = locBuffer;
+	unsigned char * ptro2;
+	int i, j;
 
+	for (i = mYOffset; i < inYUVBuffer->y_height; i++) 
+	{
+		ptro2 = ptro;
+		for (j = mXOffset; j < inYUVBuffer->y_width; j += 2) 
+		{
+			short pr, pg, pb, y;
+			short r, g, b;
 
-	unsigned long* locLongBuffer = (unsigned long*)locBuffer;
-	for (unsigned int i = 0; i < mBMIWidth*mBMIHeight; i++) {
-		locLongBuffer[i] = (255 << RED_SHIFT);
+			pr = (short)(-56992 + ptrv[j/2] * 409) >> 8;
+			pg = (34784 - ptru[j/2] * 100 - ptrv[j/2] * 208) >> 8;
+			pb = (short)(-70688 + ptru[j/2] * 516) >> 8;
+
+			y = 298*ptry[j] >> 8;
+			r = y + pr;
+			g = y + pg;
+			b = y + pb;
+
+			*ptro2++ = CLAMP(b);
+			*ptro2++ = CLAMP(g);
+			*ptro2++ = CLAMP(r);
+			*ptro2++ = 255;
+
+			y = 298*ptry[j + 1] >> 8;
+			r = y + pr;
+			g = y + pg;
+			b = y + pb;
+
+			*ptro2++ = CLAMP(b);
+			*ptro2++ = CLAMP(g);
+			*ptro2++ = CLAMP(r);
+			*ptro2++ = 255;
+		}
+		ptry += inYUVBuffer->y_stride;
+		if (i & 1) 
+		{
+			ptru += inYUVBuffer->uv_stride;
+			ptrv += inYUVBuffer->uv_stride;
+		}
+		ptro += mBMIWidth * 4;
 	}
 
 	REFERENCE_TIME locStart = inStart;
 	REFERENCE_TIME locEnd = inEnd;
 
 	BOOL locIsKeyFrame = FALSE;
-	if (inIsKeyFrame) {
+	if (inIsKeyFrame) 
+	{
 		locIsKeyFrame = TRUE;
-	};
+	}
 	SetSampleParams(outSample, mBMIFrameSize, &locStart, &locEnd, locIsKeyFrame);
 
 	return S_OK;
@@ -706,9 +855,9 @@ HRESULT TheoraDecodeFilter::DecodeToYUY2(yuv_buffer* inYUVBuffer, IMediaSample* 
 
 	unsigned char* locSecondLineBuffer;
 
-	for (int line = 0; line < mPictureHeight; line+= 2) {
+	for (unsigned int line = 0; line < mPictureHeight; line+= 2) {
 		locSecondLineBuffer = mScratchBuffer;
-		for (int col = 0; col < mPictureWidth; col+=2) {
+		for (unsigned int col = 0; col < mPictureWidth; col+=2) {
 			//Line 1
 			*(locBuffer) = *(locSourceY);
 			*(locBuffer+1) = *(locSourceU);
@@ -885,19 +1034,28 @@ HRESULT TheoraDecodeFilter::DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* 
 HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) 
 {
 
-	if (mCurrentOutputSubType == MEDIASUBTYPE_YV12) {
+	if (mCurrentOutputSubType == MEDIASUBTYPE_YV12) 
+	{
 		debugLog<<"Decoding to YV12"<<endl;
 		return DecodeToYV12(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
-	} else if (mCurrentOutputSubType == MEDIASUBTYPE_YUY2) {
+	} 
+	else if (mCurrentOutputSubType == MEDIASUBTYPE_YUY2) 
+	{
 		debugLog<<"Decoding to YUY2"<<endl;
 		return DecodeToYUY2(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
-	//} else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB565) {
-	//	debugLog<<"Decoding to RGB565"<<endl;
-	//	return DecodeToRGB565(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
-	//} else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB24) {
-	//	debugLog<<"Decoding to RGB24"<<endl;
-	//	return DecodeToRGB24(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
-	} else {
+	} 
+	else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB565) 
+	{
+		debugLog<<"Decoding to RGB565"<<endl;
+		return DecodeToRGB565(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
+	} 
+	else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB32) 
+	{
+		debugLog<<"Decoding to RGB32"<<endl;
+		return DecodeToRGB32(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
+	} 
+	else 
+	{
 		debugLog<<"Decoding to unknown type - failure"<<endl;
 		return E_FAIL;
 	}
