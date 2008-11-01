@@ -1,3 +1,8 @@
+if [%COMPILER%] == [] (
+set COMPILER=VS2008
+)
+
+
 @set OGGCODECS_ROOT_DIR=..\..\..
 @set OGGCODECS_CONFIG_PATH=Release
 @set OGGCODECS_VORBIS_CONFIG_PATH=%COMPILER%\libvorbis\Release
