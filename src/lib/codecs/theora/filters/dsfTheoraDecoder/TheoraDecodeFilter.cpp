@@ -714,9 +714,9 @@ HRESULT TheoraDecodeFilter::DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample
 			short pr, pg, pb, y;
 			short r, g, b;
 
-			pr = (short)(-56992 + ptrv[j/2] * 409) >> 8;
+			pr = (-56992 + ptrv[j/2] * 409) >> 8;
 			pg = (34784 - ptru[j/2] * 100 - ptrv[j/2] * 208) >> 8;
-			pb = (short)(-70688 + ptru[j/2] * 516) >> 8;
+			pb = (-70688 + ptru[j/2] * 516) >> 8;
 
 			y = 298*ptry[j] >> 8;
 			r = y + pr;
@@ -785,9 +785,9 @@ HRESULT TheoraDecodeFilter::DecodeToRGB32(yuv_buffer* inYUVBuffer, IMediaSample*
 			short pr, pg, pb, y;
 			short r, g, b;
 
-			pr = (short)(-56992 + ptrv[j/2] * 409) >> 8;
+			pr = (-56992 + ptrv[j/2] * 409) >> 8;
 			pg = (34784 - ptru[j/2] * 100 - ptrv[j/2] * 208) >> 8;
-			pb = (short)(-70688 + ptru[j/2] * 516) >> 8;
+			pb = (-70688 + ptru[j/2] * 516) >> 8;
 
 			y = 298*ptry[j] >> 8;
 			r = y + pr;
@@ -1032,24 +1032,35 @@ HRESULT TheoraDecodeFilter::DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* 
 	return S_OK;
 }
 HRESULT TheoraDecodeFilter::TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) 
-{
+{	
+	AM_MEDIA_TYPE* sampleMediaType;
+	outSample->GetMediaType(&sampleMediaType);
 
-	if (mCurrentOutputSubType == MEDIASUBTYPE_YV12) 
+	static GUID sampleMediaSubType = mCurrentOutputSubType;
+		
+	if (sampleMediaType != NULL)
+	{
+		sampleMediaSubType = sampleMediaType->subtype;
+	}
+
+	DeleteMediaType(sampleMediaType);
+
+	if (sampleMediaSubType == MEDIASUBTYPE_YV12) 
 	{
 		debugLog<<"Decoding to YV12"<<endl;
 		return DecodeToYV12(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
 	} 
-	else if (mCurrentOutputSubType == MEDIASUBTYPE_YUY2) 
+	else if (sampleMediaSubType == MEDIASUBTYPE_YUY2) 
 	{
 		debugLog<<"Decoding to YUY2"<<endl;
 		return DecodeToYUY2(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
 	} 
-	else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB565) 
+	else if (sampleMediaSubType == MEDIASUBTYPE_RGB565) 
 	{
 		debugLog<<"Decoding to RGB565"<<endl;
 		return DecodeToRGB565(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
 	} 
-	else if (mCurrentOutputSubType == MEDIASUBTYPE_RGB32) 
+	else if (sampleMediaSubType == MEDIASUBTYPE_RGB32) 
 	{
 		debugLog<<"Decoding to RGB32"<<endl;
 		return DecodeToRGB32(inYUVBuffer, outSample, inIsKeyFrame, inStart, inEnd);
