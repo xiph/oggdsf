@@ -75,6 +75,8 @@ protected:
 	long encodeYVYUToYV12(unsigned char* inBuf, long inNumBytes);
 	long encodeIYUVToYV12(unsigned char* inBuf, long inNumBytes);
 
+	HRESULT encodeMoreFrames();
+
 protected:
 	HRESULT m_hr;
 
@@ -94,6 +96,9 @@ protected:
 	CMediaType m_pinInputType;
 
 	bool m_hasBegun;
+
+	/* To adapt theora frame rate to variable directshow clock */
+	unsigned __int64 m_numFrames;
 
 	//DEBUG ONLY
 	//fstream debugLog;

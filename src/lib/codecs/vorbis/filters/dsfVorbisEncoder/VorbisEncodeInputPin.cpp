@@ -32,6 +32,9 @@
 #include "stdafx.h"
 #include "VorbisEncodeInputPin.h"
 
+#define ADAPT_FRAME_RATE 1
+
+
 VorbisEncodeInputPin::VorbisEncodeInputPin(     AbstractTransformFilter* inParentFilter
                                             ,   CCritSec* inFilterLock
                                             ,   AbstractTransformOutputPin* inOutputPin
@@ -80,10 +83,32 @@ HRESULT VorbisEncodeInputPin::TransformData(unsigned char* inBuf, long inNumByte
     unsigned long locNumSamplesPerChannel = bufferBytesToSampleCount(inNumBytes);
     locPackets = mVorbisEncoder.encodeVorbis((const short* const)inBuf, locNumSamplesPerChannel);
 
+#ifdef ADAPT_FRAME_RATE
+	/* skip packet if we are too late ? */
+	__int64 curTime = (m_dsTimeStart * mEncoderSettings.mSampleRate) / 1000;
+	if (mUptoFrame-curTime > locNumSamplesPerChannel) 
+	{
+		return S_OK;
+	}
+#endif
+
     locHR = sendPackets(locPackets);
     deletePacketsAndEmptyVector(locPackets);
-    return locHR;
+    
+#ifdef ADAPT_FRAME_RATE
+	/* Resend same packet if we are too early */
+	if (!FAILED(locHR)) 
+	{
+		while (curTime - mUptoFrame > locNumSamplesPerChannel) 
+		{
+		    locPackets = mVorbisEncoder.encodeVorbis((const short* const)inBuf, locNumSamplesPerChannel);
+			locHR = sendPackets(locPackets);
+			deletePacketsAndEmptyVector(locPackets);
+		}
+	}
+#endif
 
+	return locHR;
 }
 
 bool VorbisEncodeInputPin::ConstructCodec() 

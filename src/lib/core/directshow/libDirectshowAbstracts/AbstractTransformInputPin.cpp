@@ -40,7 +40,8 @@ AbstractTransformInputPin::AbstractTransformInputPin (AbstractTransformFilter* i
 	,	mParentFilter (inParentFilter)
 	
 	,	mAcceptableMediaTypes(inAcceptableMediaTypes)
-
+	,	m_dsTimeStart(0)
+	,	m_dsTimeEnd(0)
 
 {
 	mStreamLock = new CCritSec;			//Deleted in destructor.
@@ -110,7 +111,17 @@ STDMETHODIMP AbstractTransformInputPin::Receive(IMediaSample* inSample)
 		if (locHR != S_OK) {
 			//TODO::: Do a debug dump or something here with specific error info.
 			return locHR;
-		} else {
+		} 
+		else 
+		{
+			/* Read DirectShow timestamps */
+			REFERENCE_TIME pTimeStart, pTimeEnd;
+			if (inSample->GetTime(&pTimeStart, &pTimeEnd) == NOERROR) 
+			{
+				m_dsTimeStart = pTimeStart/10000;
+				m_dsTimeEnd = pTimeEnd/10000;
+			}
+
             //http://windowssdk.msdn.microsoft.com/en-us/library/ms787541.aspx
             //Consider using receive to validate conditions ^^^
 			HRESULT locResult = TransformData(locBuff, inSample->GetActualDataLength());

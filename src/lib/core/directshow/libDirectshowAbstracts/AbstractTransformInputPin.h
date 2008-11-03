@@ -102,6 +102,10 @@ protected:
 	AbstractTransformFilter* mParentFilter;
 	vector<CMediaType*> mAcceptableMediaTypes;
 
+	//DirectShow timestamps in milliseconds
+	__int64 m_dsTimeStart;
+	__int64 m_dsTimeEnd;
+
 	//fstream debugLog;
 	CCritSec* mStreamLock;
 };

@@ -32,6 +32,10 @@
 #include "stdafx.h"
 #include "theoraencodeinputpin.h"
 
+/* Define to adapt theora frame rate to DirectShow clock */
+#define ADAPT_FRAME_RATE 1
+
+
 TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes)
 	:	AbstractTransformInputPin(inParentFilter, inFilterLock, inOutputPin, NAME("TheoraEncodeInputPin"), L"Theora In", inAcceptableMediaTypes)
 	,	m_xOffset(0)
@@ -40,6 +44,8 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	m_width(0)
 	,	m_uptoFrame(0)
 	,	m_hasBegun(false)
+	,	m_numFrames(0)
+
 {
 	//debugLog.open("g:\\logs\\theoencfiltinput.log", ios_base::out);
 	m_yuv.y = NULL;
@@ -1233,6 +1239,18 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 		throw 0;
 	}
 	
+#ifdef ADAPT_FRAME_RATE
+	__int64 frameTime = (1000 * m_theoraInfo.fps_denominator) / m_theoraInfo.fps_numerator;
+	__int64 curTheoraTime = (m_numFrames * 1000 * m_theoraInfo.fps_denominator) / m_theoraInfo.fps_numerator;
+
+	// Skip a frame if we are too late
+	if (curTheoraTime - m_dsTimeStart > frameTime) 
+	{
+		//debugLog<<" too late: "<< curTheoraTime << "," << timeStart << ":" << frameTime <<endl;
+		return S_OK;
+	}
+#endif
+
 
 	StampedOggPacket* locPacket = m_theoraEncoder.encodeTheora(&m_yuv);
 	if (locPacket == NULL) {
@@ -1246,6 +1264,53 @@ long TheoraEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes) 
 	//We still own the packet after this, we have to delete it.
 	locHR = deliverData(locFrameStart, locFrameEnd, locPacket->packetData(), locPacket->packetSize());
 	delete locPacket;
+
+
+#ifdef ADAPT_FRAME_RATE
+	if (!FAILED(locHR)) 
+	{
+		++m_numFrames;
+		locHR = encodeMoreFrames();
+	}
+#endif
+
+	return locHR;
+}
+
+HRESULT TheoraEncodeInputPin::encodeMoreFrames()
+{
+	HRESULT locHR = S_OK;
+
+	__int64 frameTime = (1000 * m_theoraInfo.fps_denominator) / m_theoraInfo.fps_numerator;
+	__int64 curTheoraTime = (m_numFrames * 1000 * m_theoraInfo.fps_denominator) / m_theoraInfo.fps_numerator;
+
+	/* Resend previous packet, if we are too fast */
+	while (m_dsTimeStart - curTheoraTime > frameTime) 
+	{
+		LONGLONG locFrameStart = m_uptoFrame;
+		LONGLONG locFrameEnd = 0;
+
+		StampedOggPacket* locPacket = m_theoraEncoder.encodeTheora(&m_yuv);
+		if (locPacket == NULL) 
+		{
+			//debugLog<<"Encode returns NULL"<<endl;
+			return S_FALSE;
+		}
+		locFrameEnd	= m_uptoFrame = locPacket->endTime();
+		//debugLog<<"Delivering..."<<endl;
+
+		//We still own the packet after this, we have to delete it.
+		locHR = deliverData(locFrameStart, locFrameEnd, locPacket->packetData(), locPacket->packetSize());
+		delete locPacket;
+		if (FAILED(locHR)) 
+		{
+			break;
+		}
+
+		++m_numFrames;
+		curTheoraTime = (m_numFrames * 1000 * m_theoraInfo.fps_denominator) / m_theoraInfo.fps_numerator;
+	}
+
 	return locHR;
 }
 

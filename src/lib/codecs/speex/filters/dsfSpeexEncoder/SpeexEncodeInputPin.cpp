@@ -32,6 +32,10 @@
 #include "stdafx.h"
 #include "SpeexEncodeInputPin.h"
 
+
+#define ADAPT_FRAME_RATE 1
+
+
 SpeexEncodeInputPin::SpeexEncodeInputPin(       AbstractTransformFilter* inParentFilter
                                             ,   CCritSec* inFilterLock
                                             ,   AbstractTransformOutputPin* inOutputPin
@@ -80,9 +84,32 @@ HRESULT SpeexEncodeInputPin::TransformData(unsigned char* inBuf, long inNumBytes
     unsigned long locNumSamplesPerChannel = bufferBytesToSampleCount(inNumBytes);
     locPackets = mSpeexEncoder.encode((const short* const)inBuf, locNumSamplesPerChannel);
 
+#ifdef ADAPT_FRAME_RATE
+	/* skip packet if we are too late ? */
+	__int64 curTime = (m_dsTimeStart * mEncoderSettings.sampleRate())/1000;
+	if (mUptoFrame-curTime > locNumSamplesPerChannel) 
+	{
+		return S_OK;
+	}
+#endif
+
     locHR = sendPackets(locPackets);
     deletePacketsAndEmptyVector(locPackets);
-    return locHR;
+
+#ifdef ADAPT_FRAME_RATE
+	/* Resend same packet if we are too early */
+	if (!FAILED(locHR)) 
+	{
+		while (curTime-mUptoFrame > locNumSamplesPerChannel) 
+		{
+		    locPackets = mSpeexEncoder.encode((const short* const)inBuf, locNumSamplesPerChannel);
+			locHR = sendPackets(locPackets);
+			deletePacketsAndEmptyVector(locPackets);
+		}
+	}
+#endif
+
+	return locHR;
 
 }
 bool SpeexEncodeInputPin::ConstructCodec() 
