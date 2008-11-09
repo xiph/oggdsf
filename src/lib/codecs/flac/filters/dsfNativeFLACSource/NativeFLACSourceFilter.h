@@ -151,8 +151,4 @@ protected:
 	unsigned long mBitsPerSample;
     unsigned long mSignificantBitsPerSample;
 	__int64 mTotalNumSamples;
-
-	//Critical Section to protect codec.
-	CCritSec* mCodecLock;
-
 };

@@ -70,7 +70,6 @@ NativeFLACSourceFilter::NativeFLACSourceFilter(void)
 	,	mWasEOF(false)
 {
 	m_pLock = new CCritSec;
-	mCodecLock = new CCritSec;
 	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
 }
 
@@ -78,7 +77,6 @@ NativeFLACSourceFilter::~NativeFLACSourceFilter(void)
 {
 	delete mFLACSourcePin;
 	mFLACSourcePin = NULL;
-	delete mCodecLock;
 }
 
 //BaseFilter Interface
@@ -234,8 +232,8 @@ HRESULT NativeFLACSourceFilter::DataProcessLoop() {
 			return S_OK;
 		}
 		{
-			CAutoLock locLock(mCodecLock);
 			if (mJustSeeked) {
+				mUpto = 0;
 				mJustSeeked = false;
 				bool res2 = false;
 				res2 = seek_absolute(mSeekRequest);
@@ -488,13 +486,8 @@ STDMETHODIMP NativeFLACSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCur
 	mFLACSourcePin->DeliverBeginFlush();
 	mFLACSourcePin->DeliverEndFlush();
 
-	bool locRes = false;
-	{
-		CAutoLock locLock(mCodecLock);
-		mUpto = 0;
-		mJustSeeked = true;
-		mSeekRequest = locSampleToSeek;
-	}
+	mJustSeeked = true;
+	mSeekRequest = locSampleToSeek;
 	
 	return S_OK;
 }
