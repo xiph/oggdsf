@@ -35,52 +35,55 @@
 
 TheoraDecodeInputPin::TheoraDecodeInputPin(CTransformFilter* inParentFilter, HRESULT* outHR) 
 	:	CTransformInputPin(NAME("Theora Input Pin"), inParentFilter, outHR, L"Theora In")
-	,	mSetupState(VSS_SEEN_NOTHING)
-	,	mOggOutputPinInterface(NULL)
-	,	mSentStreamOffset(false)
+	,	m_setupState(VSS_SEEN_NOTHING)
+	,	m_oggOutputPinInterface(NULL)
+	,	m_sentStreamOffset(false)
 {
 	debugLog.open("\\Storage Card\\theoinput.txt", ios_base::out|ios_base::app);
 }
-TheoraDecodeInputPin::~TheoraDecodeInputPin() {
+
+TheoraDecodeInputPin::~TheoraDecodeInputPin() 
+{
 	debugLog.close();
 }
 
 STDMETHODIMP TheoraDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
 {
-
-
-
-	if (riid == IID_IMediaSeeking) {
-		//debugLog<<"Got Seeker"<<endl;
-		*ppv = (IMediaSeeking*)this;
-		((IUnknown*)*ppv)->AddRef();
-		
-		return NOERROR;
-	} else if (riid == IID_IOggDecoder) {
-		*ppv = (IOggDecoder*)this;
-		//((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
-
+	if (riid == IID_IMediaSeeking) 
+    {
+        return GetInterface((IMediaSeeking*) this, ppv);
+	} 
+    else if (riid == IID_IOggDecoder) 
+    {
+        // TODO: Change IOggDecoder into a proper interface
+        *ppv = (IOggDecoder*)this;
+        return NOERROR;
 	}
 
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
+
 HRESULT TheoraDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps)
 {
 	TheoraDecodeFilter* locParent = (TheoraDecodeFilter*)m_pFilter;
-	unsigned long locBuffSize = ((unsigned long)locParent->mTheoraFormatInfo->outerFrameHeight * (unsigned long)locParent->mTheoraFormatInfo->outerFrameWidth * 3) >> 3;
-	debugLog<<"Un adjusted Buffer size = "<<locBuffSize<<endl;
+	unsigned long locBuffSize = (locParent->m_theoraFormatInfo->outerFrameHeight * locParent->m_theoraFormatInfo->outerFrameWidth * 3) >> 3;
+
+    debugLog<<"Un adjusted Buffer size = "<<locBuffSize<<endl;
+
 #ifdef WINCE
-	if (locBuffSize < 4096) {
+	if (locBuffSize < 4096) 
+    {
 		locBuffSize = 4096;
 	}
 #else
-	if (locBuffSize < 65536) {
+	if (locBuffSize < 65536) 
+    {
 		locBuffSize = 65536;
 	}
 #endif
 
 	debugLog<<"Buffer size = "<<locBuffSize<<endl;
+
 	outRequestedProps->cbBuffer =  locBuffSize;
 	outRequestedProps->cBuffers = THEORA_NUM_BUFFERS;
 	outRequestedProps->cbAlign = 1;
@@ -88,37 +91,46 @@ HRESULT TheoraDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *out
 
 	return S_OK;
 }
-HRESULT TheoraDecodeInputPin::BreakConnect() {
+
+HRESULT TheoraDecodeInputPin::BreakConnect() 
+{
 	CAutoLock locLock(m_pLock);
 	debugLog<<"Break conenct"<<endl;
-	//Need a lock ??
+
+    //Need a lock ??
 	ReleaseDelegate();
 	return CTransformInputPin::BreakConnect();
 }
-HRESULT TheoraDecodeInputPin::CompleteConnect (IPin *inReceivePin) {
+
+HRESULT TheoraDecodeInputPin::CompleteConnect (IPin *inReceivePin) 
+{
 	CAutoLock locLock(m_pLock);
 
 	//Offsets
 	IOggOutputPin* locOggOutput = NULL;
-	mSentStreamOffset = false;
+	m_sentStreamOffset = false;
 	HRESULT locHR = inReceivePin->QueryInterface(IID_IOggOutputPin, (void**)&locOggOutput);
-	if (locHR == S_OK) {
-		mOggOutputPinInterface = locOggOutput;
-		
-	} else {
-		mOggOutputPinInterface = NULL;
+	if (locHR == S_OK) 
+    {
+		m_oggOutputPinInterface = locOggOutput;	
+	} 
+    else 
+    {
+		m_oggOutputPinInterface = NULL;
 	}
-
 
 	debugLog<<"Attempt Complete conenct"<<endl;
 	IMediaSeeking* locSeeker = NULL;
 	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
-	if (locSeeker == NULL) {
+
+	if (locSeeker == NULL) 
+    {
 		//debugLog<<"Seeker is null"<<endl;
 	}
 	SetDelegate(locSeeker);
 	locHR = CTransformInputPin::CompleteConnect(inReceivePin);
 	debugLog<<"Complete connect returns "<<locHR<<endl;
+
 	return locHR;
 }
 
@@ -131,31 +143,32 @@ LOOG_INT64 TheoraDecodeInputPin::convertGranuleToTime(LOOG_INT64 inGranule)
 	//}
 	TheoraDecodeFilter* locParent = (TheoraDecodeFilter*)m_pFilter;
 
-
-	LOOG_INT64 locMod = ((LOOG_INT64)1)<<locParent->getTheoraFormatBlock()->maxKeyframeInterval; //(unsigned long)pow((double) 2, (double) mGranulePosShift);
+	LOOG_INT64 locMod = ((LOOG_INT64)1)<<locParent->GetTheoraFormatBlock()->maxKeyframeInterval; //(unsigned long)pow((double) 2, (double) mGranulePosShift);
 	LOOG_INT64 locInterFrameNo = (LOOG_INT64) ( inGranule % locMod );
 			
-
 	//LOOG_INT64 retTime ((((inGranule >> locParent->getTheoraFormatBlock()->maxKeyframeInterval) + locInterFrameNo) * UNITS) * locParent->getTheoraFormatBlock()->frameRateDenominator) / locParent->getTheoraFormatBlock()->frameRateNumerator;
 
-	LOOG_INT64 retTime = inGranule >> locParent->getTheoraFormatBlock()->maxKeyframeInterval;
+	LOOG_INT64 retTime = inGranule >> locParent->GetTheoraFormatBlock()->maxKeyframeInterval;
 	retTime += locInterFrameNo + 1;
 	retTime *= UNITS;
-	retTime *= locParent->getTheoraFormatBlock()->frameRateDenominator;
-	retTime /= locParent->getTheoraFormatBlock()->frameRateNumerator;
-	return retTime;
+	retTime *= locParent->GetTheoraFormatBlock()->frameRateDenominator;
+	retTime /= locParent->GetTheoraFormatBlock()->frameRateNumerator;
 
+	return retTime;
 }
 
 LOOG_INT64 TheoraDecodeInputPin::mustSeekBefore(LOOG_INT64 inGranule)
 {
 	TheoraDecodeFilter* locParent = (TheoraDecodeFilter*)m_pFilter;
-	LOOG_INT64 locShift = locParent->getTheoraFormatBlock()->maxKeyframeInterval;
+	LOOG_INT64 locShift = locParent->GetTheoraFormatBlock()->maxKeyframeInterval;
+
 	return (inGranule >> locShift) << locShift;
 }
+
 IOggDecoder::eAcceptHeaderResult TheoraDecodeInputPin::showHeaderPacket(OggPacket* inCodecHeaderPacket)
 {
 	debugLog<<"Show header packet..."<<endl;
+
 	unsigned char* locPacketData = new unsigned char[inCodecHeaderPacket->packetSize()];
 	memcpy((void*)locPacketData, (const void**)inCodecHeaderPacket->packetData(), inCodecHeaderPacket->packetSize());
 	StampedOggPacket* locStamped = new StampedOggPacket(locPacketData, inCodecHeaderPacket->packetSize(), false, false, 0,0, StampedOggPacket::NONE);
@@ -163,38 +176,42 @@ IOggDecoder::eAcceptHeaderResult TheoraDecodeInputPin::showHeaderPacket(OggPacke
 	TheoraDecodeFilter* locParent = (TheoraDecodeFilter*)m_pFilter;
 
 	IOggDecoder::eAcceptHeaderResult retResult = IOggDecoder::AHR_INVALID_HEADER;
-	switch (mSetupState) {
+	switch (m_setupState) 
+    {
 		case VSS_SEEN_NOTHING:
-			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\200theora", 7) == 0) {
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\200theora", 7) == 0) 
+            {
 				//TODO::: Possibly verify version
-				if (locParent->mTheoraDecoder->decodeTheora(locStamped) == NULL) {
-					mSetupState = VSS_SEEN_BOS;
+				if (locParent->m_theoraDecoder->decodeTheora(locStamped) == NULL) 
+                {
+					m_setupState = VSS_SEEN_BOS;
 					retResult = IOggDecoder::AHR_MORE_HEADERS_TO_COME;
+
 					debugLog<<"Seen ident header 1"<<endl;
 				}
 			}
 			//return IOggDecoder::AHR_INVALID_HEADER;
 			break;
 			
-			
 		case VSS_SEEN_BOS:
-			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\201theora", 7) == 0) {
-				if (locParent->mTheoraDecoder->decodeTheora(locStamped) == NULL) {
-					mSetupState = VSS_SEEN_COMMENT;
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\201theora", 7) == 0) 
+            {
+				if (locParent->m_theoraDecoder->decodeTheora(locStamped) == NULL) 
+                {
+					m_setupState = VSS_SEEN_COMMENT;
 					retResult = IOggDecoder::AHR_MORE_HEADERS_TO_COME;
+
 					debugLog<<"Seen comment header 2"<<endl;
-				}
-				
-				
+                }
 			}
 			//return IOggDecoder::AHR_INVALID_HEADER;
 			break;
 			
-			
 		case VSS_SEEN_COMMENT:
-			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\202theora", 7) == 0) {
-				if (locParent->mTheoraDecoder->decodeTheora(locStamped) == NULL) {
-		
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\202theora", 7) == 0) 
+            {
+				if (locParent->m_theoraDecoder->decodeTheora(locStamped) == NULL) 
+                {
 					//fish_sound_command (mFishSound, FISH_SOUND_GET_INFO, &(mFishInfo), sizeof (FishSoundInfo)); 
 					//Is mBegun useful ?
 					//mBegun = true;
@@ -204,8 +221,9 @@ IOggDecoder::eAcceptHeaderResult TheoraDecodeInputPin::showHeaderPacket(OggPacke
 					//mSampleRate = mFishInfo.samplerate;
 
 		
-					mSetupState = VSS_ALL_HEADERS_SEEN;
+					m_setupState = VSS_ALL_HEADERS_SEEN;
 					retResult = IOggDecoder::AHR_ALL_HEADERS_RECEIVED;
+
 					debugLog<<"Seen code book header 3"<<endl;
 				}
 				
@@ -217,20 +235,39 @@ IOggDecoder::eAcceptHeaderResult TheoraDecodeInputPin::showHeaderPacket(OggPacke
 		case VSS_ERROR:
 		default:
 			debugLog<<"Discarding header packet... bad state"<<endl;
-			delete locStamped;
+			
+            delete locStamped;
 			retResult = IOggDecoder::AHR_UNEXPECTED;
 			break;
 	}
 	
 	debugLog<<"Unexpected header packet..."<<endl;
-	return retResult;
+	
+    return retResult;
 }
-string TheoraDecodeInputPin::getCodecShortName()
+
+std::string TheoraDecodeInputPin::getCodecShortName()
 {
 	return "theora";
 }
-string TheoraDecodeInputPin::getCodecIdentString()
+
+std::string TheoraDecodeInputPin::getCodecIdentString()
 {
 	//TODO:::
 	return "theora";
+}
+
+IOggOutputPin* TheoraDecodeInputPin::GetOutputPinInterface()
+{
+    return m_oggOutputPinInterface;
+}
+
+bool TheoraDecodeInputPin::GetSentStreamOffset()
+{
+    return m_sentStreamOffset;
+}
+
+void TheoraDecodeInputPin::SetSentStreamOffset(bool inSentStreamOffset)
+{
+    m_sentStreamOffset = inSentStreamOffset;
 }

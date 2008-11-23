@@ -33,14 +33,10 @@
 #include "Theoradecoderdllstuff.h"
 #include "BasicSeekPassThrough.h"
 
-#include <fstream>
-using namespace std;
-class TheoraDecodeOutputPin 
-	:	public CTransformOutputPin
-	,	public BasicSeekPassThrough
+class TheoraDecodeOutputPin : public CTransformOutputPin, public BasicSeekPassThrough
 {
 public:
-	//COnstructors
+	
 	TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR);
 	virtual ~TheoraDecodeOutputPin();
 
@@ -55,7 +51,6 @@ public:
 	//Quality control
 	virtual STDMETHODIMP Notify(IBaseFilter* inMessageSource, Quality inQuality);
 
-	//virtual HRESULT Deliver(IMediaSample* inSample)	{	return m_pInputPin->Receive(inSample);	}
 
-	//fstream debugLog;
+	//std::fstream debugLog;
 };

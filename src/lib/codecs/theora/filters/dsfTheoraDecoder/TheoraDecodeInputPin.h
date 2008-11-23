@@ -37,12 +37,8 @@
 
 #include "TheoraDecodeFilter.h"
 
-#include <fstream>
-using namespace std;
-class TheoraDecodeInputPin 
-	:	public CTransformInputPin
-	,	public BasicSeekPassThrough
-	,	public IOggDecoder
+class TheoraDecodeInputPin : public CTransformInputPin,	
+    public BasicSeekPassThrough, public IOggDecoder
 {
 public:
 
@@ -67,18 +63,21 @@ public:
 	virtual IOggDecoder::eAcceptHeaderResult __stdcall showHeaderPacket(OggPacket* inCodecHeaderPacket);
 	virtual string __stdcall getCodecShortName();
 	virtual string __stdcall getCodecIdentString();
-	fstream debugLog;
 
-	virtual IOggOutputPin* getOutputPinInterface()		{		return mOggOutputPinInterface;	}
-	virtual bool getSentStreamOffset()					{		return mSentStreamOffset;		}
-	virtual void setSentStreamOffset(bool inSentStreamOffset)	{	mSentStreamOffset = inSentStreamOffset;	}
+	virtual IOggOutputPin* GetOutputPinInterface();
+	virtual bool GetSentStreamOffset();
+	virtual void SetSentStreamOffset(bool inSentStreamOffset);
+
 protected:
+
 #ifdef WINCE
 	static const unsigned long THEORA_NUM_BUFFERS = 20;
 #else
 	static const unsigned long THEORA_NUM_BUFFERS = 50;
 #endif
-	enum eTheoraSetupState {
+
+	enum eTheoraSetupState 
+    {
 		VSS_SEEN_NOTHING,
 		VSS_SEEN_BOS,
 		VSS_SEEN_COMMENT,
@@ -86,9 +85,10 @@ protected:
 		VSS_ERROR
 	};
 
-	eTheoraSetupState mSetupState;
+	eTheoraSetupState m_setupState;
 
+    std::fstream debugLog;
 
-	IOggOutputPin* mOggOutputPinInterface;
-	bool mSentStreamOffset;
+	IOggOutputPin* m_oggOutputPinInterface;
+	bool m_sentStreamOffset;
 };

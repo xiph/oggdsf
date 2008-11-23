@@ -1,6 +1,8 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
 //
+//Copyright (C) 2008 Cristian Adam
+//
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
 //are met:
@@ -38,20 +40,15 @@
 #include "theoradecodeinputpin.h"
 
 #include <libilliCore/iBE_Math.h>
-#include <math.h>
-//#include "DSStringer.h"
 #include "TheoraDecoder.h"
-#include <fstream>
-using namespace std;
-class TheoraDecodeFilter 
-	//:	public CVideoTransformFilter
-	:	public CTransformFilter
 
+class TheoraDecodeFilter: public CTransformFilter
 {
 public:
 	friend class TheoraDecodeInputPin;
-	TheoraDecodeFilter(void);
-	virtual ~TheoraDecodeFilter(void);
+	
+    TheoraDecodeFilter();
+	virtual ~TheoraDecodeFilter();
 
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
@@ -70,73 +67,73 @@ public:
 	virtual HRESULT NewSegment(REFERENCE_TIME inStart, REFERENCE_TIME inEnd, double inRate);
 	//virtual BOOL ShouldSkipFrame(IMediaSample* inSample);
 	virtual CBasePin* TheoraDecodeFilter::GetPin(int inPinNo);
-	//Helpers
-	sTheoraFormatBlock* getTheoraFormatBlock();
-	void setTheoraFormat(BYTE* inFormatBlock);
-
+	
 #ifdef WINCE
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
 	virtual HRESULT Register();
 #endif
 
-
 protected:
 
-	static const unsigned long THEORA_IDENT_HEADER_SIZE = 42;
 	virtual void ResetFrameCount();
 
+    //Helpers
+    sTheoraFormatBlock* GetTheoraFormatBlock();
+    void SetTheoraFormat(BYTE* inFormatBlock);
+
 	HRESULT CheckOutputType(const CMediaType* inMediaType);
-	void deleteBufferedPacketsAfter(unsigned long inPacketIndex);
+	void DeleteBufferedPacketsAfter(unsigned long inPacketIndex);
 	void FillMediaType(int inPosition, CMediaType* outMediaType, unsigned long inSampleSize);
 	bool FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* inFormatBuffer);
     bool FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* inFormatBuffer);
 	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
+
+    HRESULT TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd);
+    HRESULT DecodeToYUY2(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+    HRESULT DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+    HRESULT DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+    HRESULT DecodeToRGB32(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+
+protected:
+    static const unsigned long THEORA_IDENT_HEADER_SIZE = 42;
+
+    unsigned long m_bmiHeight;
+	unsigned long m_bmiWidth;
+	unsigned long m_bmiFrameSize;
+
+	unsigned long m_pictureHeight;
+	unsigned long m_pictureWidth;
+
+	unsigned long m_frameCount;
+	unsigned long m_yOffset;
+	unsigned long m_xOffset;
 	
-	unsigned long mBMIHeight;
-	unsigned long mBMIWidth;
-	unsigned long mBMIFrameSize;
-
-	unsigned long mPictureHeight;
-	unsigned long mPictureWidth;
-
+    __int64 m_frameDuration;
+	bool m_begun;
 	
-	unsigned long mFrameCount;
-	unsigned long mYOffset;
-	unsigned long mXOffset;
-	__int64 mFrameDuration;
-	bool mBegun;
-	TheoraDecoder* mTheoraDecoder;
+    TheoraDecoder* m_theoraDecoder;
 	
-	vector<StampedOggPacket*> mBufferedPackets;
+    std::vector<StampedOggPacket*> m_bufferedPackets;
 
-	HRESULT TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd);
-	HRESULT DecodeToYUY2(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
-	HRESULT DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
-	HRESULT DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
-	HRESULT DecodeToRGB32(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
-
-
-
-
-	vector<CMediaType*> mOutputMediaTypes;
-	struct sOutputVideoParams {
+    std::vector<CMediaType*> m_outputMediaTypes;
+	struct sOutputVideoParams 
+    {
 		WORD bitsPerPixel;
 		DWORD fourCC;
 	};
 
-	HRESULT YV12ToYUY2(IMediaSample* inoutSample);
-	BYTE* mScratchBuffer;
-	GUID mCurrentOutputSubType;
+	GUID m_currentOutputSubType;
 
-	vector<sOutputVideoParams> mOutputVideoParams;
+    std::vector<sOutputVideoParams> m_outputVideoParams;
 
-	REFERENCE_TIME mSegStart;
-	REFERENCE_TIME mSegEnd;
-	double mPlaybackRate;
+	REFERENCE_TIME m_segStart;
+	REFERENCE_TIME m_segEnd;
+	double m_playbackRate;
 
-	__int64 mSeekTimeBase;
-	__int64 mLastSeenStartGranPos;
+	__int64 m_seekTimeBase;
+	__int64 m_lastSeenStartGranPos;
+
 	//Format Block
-	sTheoraFormatBlock* mTheoraFormatInfo;
-	fstream debugLog;
+	sTheoraFormatBlock* m_theoraFormatInfo;
+    std::fstream debugLog;
 };

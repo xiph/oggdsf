@@ -30,18 +30,11 @@
 //===========================================================================
 
 #pragma once
+
 #include <streams.h>
 #include <pullpin.h>
 #include <initguid.h>
 #include <dvdmedia.h>
-
-//#ifdef DSFABSTRACTOGGVIDEODECODER_EXPORTS
-//#pragma message("----> Exporting from Abstract Video Library...")
-//#define ABS_VIDEO_DEC_API __declspec(dllexport)
-//#else
-//#pragma message("<---- Importing from Abstract Video Library...")
-//#define ABS_VIDEO_DEC_API __declspec(dllimport)
-//#endif
 
 #ifdef LIBOOOGG_EXPORTS
 #define LIBOOOGG_API __declspec(dllexport)
@@ -49,107 +42,30 @@
 #define LIBOOOGG_API __declspec(dllimport)
 #endif
 
-// {05187161-5C36-4324-A734-22BF37509F2D}
-//DEFINE_GUID(CLSID_TheoraDecodeFilter, 
-//0x5187161, 0x5c36, 0x4324, 0xa7, 0x34, 0x22, 0xbf, 0x37, 0x50, 0x9f, 0x2d);
+// TheoraDecodeFilter {05187161-5C36-4324-A734-22BF37509F2D}
 static const GUID  CLSID_TheoraDecodeFilter =
 { 0x5187161, 0x5c36, 0x4324, { 0xa7, 0x34, 0x22, 0xbf, 0x37, 0x50, 0x9f, 0x2d } };
 
-// {60891713-C24F-4767-B6C9-6CA05B3338FC}
-//DEFINE_GUID(MEDIATYPE_OggPacketStream, 
-//0x60891713, 0xc24f, 0x4767, 0xb6, 0xc9, 0x6c, 0xa0, 0x5b, 0x33, 0x38, 0xfc);
+// OggPacketStream {60891713-C24F-4767-B6C9-6CA05B3338FC}
 static const GUID MEDIATYPE_OggPacketStream =
 { 0x60891713, 0xc24f, 0x4767, { 0xb6, 0xc9, 0x6c, 0xa0, 0x5b, 0x33, 0x38, 0xfc } };
 
-// {95388704-162C-42a9-8149-C3577C12AAF9}
-//DEFINE_GUID(FORMAT_OggIdentHeader, 
-//0x95388704, 0x162c, 0x42a9, 0x81, 0x49, 0xc3, 0x57, 0x7c, 0x12, 0xaa, 0xf9);
+// OggIdentHeader {95388704-162C-42a9-8149-C3577C12AAF9}
 static const GUID FORMAT_OggIdentHeader =
 { 0x95388704, 0x162c, 0x42a9, { 0x81, 0x49, 0xc3, 0x57, 0x7c, 0x12, 0xaa, 0xf9 } };
 
-// {43F0F818-10B0-4c86-B9F1-F6B6E2D33462}
-//DEFINE_GUID(IID_IOggDecoder, 
-//0x43f0f818, 0x10b0, 0x4c86, 0xb9, 0xf1, 0xf6, 0xb6, 0xe2, 0xd3, 0x34, 0x62);
+// IOggDecoder {43F0F818-10B0-4c86-B9F1-F6B6E2D33462}
 static const GUID IID_IOggDecoder =
 { 0x43f0f818, 0x10b0, 0x4c86, { 0xb9, 0xf1, 0xf6, 0xb6, 0xe2, 0xd3, 0x34, 0x62 } };
 
-
-// {83D7F506-53ED-4f15-B6D8-7D8E9E72A918}
-//DEFINE_GUID(IID_IOggOutputPin, 
-//0x83d7f506, 0x53ed, 0x4f15, 0xb6, 0xd8, 0x7d, 0x8e, 0x9e, 0x72, 0xa9, 0x18);
+// IOggOutputPin {83D7F506-53ED-4f15-B6D8-7D8E9E72A918}
 static const GUID IID_IOggOutputPin =
 { 0x83d7f506, 0x53ed, 0x4f15, { 0xb6, 0xd8, 0x7d, 0x8e, 0x9e, 0x72, 0xa9, 0x18 } };
 
-
-//// {D124B2B1-8968-4ae8-B288-FE16EA34B0CE}
-//DEFINE_GUID(MEDIASUBTYPE_Theora, 
-//0xd124b2b1, 0x8968, 0x4ae8, 0xb2, 0x88, 0xfe, 0x16, 0xea, 0x34, 0xb0, 0xce);
-//
-//// {A99F116C-DFFA-412c-95DE-725F99874826}
-//DEFINE_GUID(FORMAT_Theora, 
-//0xa99f116c, 0xdffa, 0x412c, 0x95, 0xde, 0x72, 0x5f, 0x99, 0x87, 0x48, 0x26);
-
-
-//// {60891713-C24F-4767-B6C9-6CA05B3338FC}
-//DEFINE_GUID(MEDIATYPE_OggPacketStream, 
-//0x60891713, 0xc24f, 0x4767, 0xb6, 0xc9, 0x6c, 0xa0, 0x5b, 0x33, 0x38, 0xfc);
-//
-//// {95388704-162C-42a9-8149-C3577C12AAF9}
-//DEFINE_GUID(FORMAT_OggIdentHeader, 
-//0x95388704, 0x162c, 0x42a9, 0x81, 0x49, 0xc3, 0x57, 0x7c, 0x12, 0xaa, 0xf9);
-//
-//// {43F0F818-10B0-4c86-B9F1-F6B6E2D33462}
-//DEFINE_GUID(IID_IOggDecoder, 
-//0x43f0f818, 0x10b0, 0x4c86, 0xb9, 0xf1, 0xf6, 0xb6, 0xe2, 0xd3, 0x34, 0x62);
-//
-//// {83D7F506-53ED-4f15-B6D8-7D8E9E72A918}
-//DEFINE_GUID(IID_IOggOutputPin, 
-//0x83d7f506, 0x53ed, 0x4f15, 0xb6, 0xd8, 0x7d, 0x8e, 0x9e, 0x72, 0xa9, 0x18);
-
-
-////MTS::: Need multiple types
-//const REGPINTYPES TheoraDecodeOutputTypes = {
-//    &MEDIATYPE_Video,
-//	&MEDIASUBTYPE_YV12
-//};
-//
-//const REGPINTYPES TheoraDecodeInputTypes = {
-//	&MEDIATYPE_OggPacketStream,
-//	&MEDIASUBTYPE_None
-//};
-//const REGFILTERPINS TheoraDecodePinReg[] = {
-//	{
-//    L"Theora Input",						//Name (obsoleted)
-//	FALSE,								//Renders from this pin ?? Not sure about this.
-//	FALSE,								//Not an output pin
-//	FALSE,								//Cannot have zero instances of this pin
-//	FALSE,								//Cannot have more than one instance of this pin
-//	NULL,								//Connects to filter (obsoleted)
-//	NULL,								//Connects to pin (obsoleted)
-//	1,									//upport two media type
-//	&TheoraDecodeInputTypes				//Pointer to media type (Video/Theora)
-//	} ,
-//
-//	//MTS::: Needs better name
-//	{
-//	L"YV12 Output",						//Name (obsoleted)
-//	FALSE,								//Renders from this pin ?? Not sure about this.
-//	TRUE,								//Is an output pin
-//	FALSE,								//Cannot have zero instances of this pin
-//	FALSE,								//Cannot have more than one instance of this pin
-//	NULL,								//Connects to filter (obsoleted)
-//	NULL,								//Connects to pin (obsoleted)
-//	1,									//Only support one media type
-//	&TheoraDecodeOutputTypes					//Pointer to media type (YV12)
-//
-//	}
-//};
-
-
 #ifndef WINCE
 
-
-const REGPINTYPES TheoraDecodeOutputTypes[] = {
+const REGPINTYPES TheoraDecodeOutputTypes[] = 
+{
 	{
 		&MEDIATYPE_Video,
 		&MEDIASUBTYPE_YV12
@@ -160,13 +76,16 @@ const REGPINTYPES TheoraDecodeOutputTypes[] = {
 	}
 };
 
-const REGPINTYPES TheoraDecodeInputTypes = {
+const REGPINTYPES TheoraDecodeInputTypes = 
+{
 	&MEDIATYPE_OggPacketStream,
 	&MEDIASUBTYPE_None
 };
-const REGFILTERPINS TheoraDecodePinReg[] = {
+
+const REGFILTERPINS TheoraDecodePinReg[] = 
+{
 	{
-    L"Theora Input",						//Name (obsoleted)
+    L"Theora Input",					//Name (obsoleted)
 	FALSE,								//Renders from this pin ?? Not sure about this.
 	FALSE,								//Not an output pin
 	FALSE,								//Cannot have zero instances of this pin
@@ -177,9 +96,8 @@ const REGFILTERPINS TheoraDecodePinReg[] = {
 	&TheoraDecodeInputTypes				//Pointer to media type (Video/Theora)
 	} ,
 
-	//MTS::: Needs better name
 	{
-	L"YV12 Output",						//Name (obsoleted)
+	L"Theora Output",					//Name (obsoleted)
 	FALSE,								//Renders from this pin ?? Not sure about this.
 	TRUE,								//Is an output pin
 	FALSE,								//Cannot have zero instances of this pin
@@ -187,21 +105,19 @@ const REGFILTERPINS TheoraDecodePinReg[] = {
 	NULL,								//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
 	2,									//Only support one media type
-	TheoraDecodeOutputTypes					//Pointer to media types (YV12)
-
+	TheoraDecodeOutputTypes				//Pointer to media types (YV12)
 	}
 };
 
-const REGFILTER2 TheoraDecodeFilterReg = {
+const REGFILTER2 TheoraDecodeFilterReg = 
+{
 		1,
 		MERIT_NORMAL,
 		2,
-        TheoraDecodePinReg
-		
+        TheoraDecodePinReg		
 };
 	   
 #else
-
 
 const AMOVIESETUP_MEDIATYPE TheoraDecodeOutputTypes[] = {
 	{
@@ -223,13 +139,16 @@ const AMOVIESETUP_MEDIATYPE TheoraDecodeOutputTypes[] = {
 	}
 };
 
-const AMOVIESETUP_MEDIATYPE TheoraDecodeInputTypes = {
+const AMOVIESETUP_MEDIATYPE TheoraDecodeInputTypes = 
+{
 	&MEDIATYPE_OggPacketStream,
 	&MEDIASUBTYPE_None
 };
-const AMOVIESETUP_PIN TheoraDecodePinReg[] = {
+
+const AMOVIESETUP_PIN TheoraDecodePinReg[] = 
+{
 	{
-    L"Theora Input",						//Name (obsoleted)
+    L"Theora Input",					//Name (obsoleted)
 	FALSE,								//Renders from this pin ?? Not sure about this.
 	FALSE,								//Not an output pin
 	FALSE,								//Cannot have zero instances of this pin
@@ -240,14 +159,13 @@ const AMOVIESETUP_PIN TheoraDecodePinReg[] = {
 	&TheoraDecodeInputTypes				//Pointer to media type (Video/Theora)
 	} ,
 
-	//MTS::: Needs better name
 	{
-	L"YV12 Output",						//Name (obsoleted)
+	L"Theora Output",					//Name (obsoleted)
 	FALSE,								//Renders from this pin ?? Not sure about this.
 	TRUE,								//Is an output pin
 	FALSE,								//Cannot have zero instances of this pin
 	FALSE,								//Cannot have more than one instance of this pin
-	&GUID_NULL,								//Connects to filter (obsoleted)
+	&GUID_NULL,							//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
 	2,									//Supports two types
 	TheoraDecodeOutputTypes					//Pointer to media type (YV12)
@@ -255,17 +173,19 @@ const AMOVIESETUP_PIN TheoraDecodePinReg[] = {
 	}
 };
 
-const AMOVIESETUP_FILTER TheoraDecodeFilterReg = {
+const AMOVIESETUP_FILTER TheoraDecodeFilterReg = 
+{
 		&CLSID_TheoraDecodeFilter,
 		L"Theora Decode Fiter",
 		MERIT_NORMAL,
 		2,
-        TheoraDecodePinReg
-		
+        TheoraDecodePinReg		
 };
 
 #endif
-struct sTheoraFormatBlock {
+
+struct sTheoraFormatBlock 
+{
 	unsigned long theoraVersion;
 	unsigned long outerFrameWidth;
 	unsigned long outerFrameHeight;
