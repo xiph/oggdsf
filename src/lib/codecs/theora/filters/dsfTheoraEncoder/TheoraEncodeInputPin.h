@@ -97,6 +97,8 @@ protected:
 
 	bool m_hasBegun;
 
+    bool m_isImageFlipped;
+
 	/* To adapt theora frame rate to variable directshow clock */
 	unsigned __int64 m_numFrames;
 

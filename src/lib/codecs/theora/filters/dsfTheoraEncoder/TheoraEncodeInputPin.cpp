@@ -1,6 +1,8 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
 //
+//Copyright (C) 2008 Cristian Adam
+//
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
 //are met:
@@ -45,6 +47,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	m_uptoFrame(0)
 	,	m_hasBegun(false)
 	,	m_numFrames(0)
+    ,   m_isImageFlipped(false)
 
 {
 	//debugLog.open("g:\\logs\\theoencfiltinput.log", ios_base::out);
@@ -549,16 +552,9 @@ long TheoraEncodeInputPin::encodeIYUVToYV12(unsigned char* inBuf, long inNumByte
 }
 //-------------------------------------------------------------------------
 
-long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumBytes) {
-	//Blue Green Red Blue Green Red.
-	unsigned long locNumPixels = (inNumBytes/3);
-	unsigned char* locAYUVBuf = new unsigned char[locNumPixels<<2];   //4 bytes per pixel
-
+long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumBytes) 
+{
 	/*
-
-
-
-
 	Conversion from RGB to YUV is defined by starting with the following:
 
 	L = Kr * R + Kb * B + (1 – Kr – Kb) * G
@@ -622,105 +618,14 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 	/*
 	Kr = 0.299
 	Kb = 0.114
-
-
 	*/
 
-	//Scaled by factor of 65536 to integerise.
-	const int KR = 19596;
-	const int KB = 7472;
-	
-	const int ROUNDER = 32768;
+    //Blue Green Red Blue Green Red.
+    unsigned long numPixels = inNumBytes / 3;
 
-	const int G_FACTOR = 38470;
-	const int U_FACTOR = 12716213;
-	const int V_FACTOR = 10061022;
+    static std::vector<unsigned char> ayuvBuf;
+    ayuvBuf.resize(numPixels * 4);
 
-	int locL = 0;
-	int locB = 0;
-	int locR = 0;
-
-	//unsigned char* locSourcePtr = inBuf;
-	unsigned char* locDestPtr = locAYUVBuf;
-
-    //SOURCE: Blue Green Red Blue Green Red.
-	//DEST: v u y a
-
-	unsigned char* locSourceEnds = inBuf + (locNumPixels * 3);
-
-	//Upside down... Upside down !
-	//for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 3) {
-	//	locB = locSourcePtr[0];					//Blue
-	//	locL = KB * (locB);						//Blue
-	//	
-	//	locL += G_FACTOR * (locSourcePtr[1]);	//Green
-
-	//	locR = locSourcePtr[2];					//Red
-	//	locL += KR * (locR);					//Red
-
-	//	
-	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
-	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
-	//	*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
-	//	*(locDestPtr++) = 255;																		//A for alpha
-	//}
-	
-
-	unsigned char* locColSourcePtr = NULL;
-	unsigned char* locColEndPtr = NULL;
-	unsigned long locLineLength = m_width * 3;
-	unsigned long col = 0;
-	for (unsigned char* locSourcePtr = locSourceEnds - locLineLength; locSourcePtr >= inBuf; locSourcePtr -= locLineLength) {
-		//
-		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < m_width; i++, locColSourcePtr +=4) {
-		//
-		locColSourcePtr = locSourcePtr;
-		locColEndPtr = locColSourcePtr + locLineLength;
-		while (locColSourcePtr < locColEndPtr) {
-			locB = locColSourcePtr[0];					//Blue
-			locL = KB * (locB);							//Blue
-		
-			locL += G_FACTOR * (locColSourcePtr[1]);	//Green
-
-			locR = locColSourcePtr[2];					//Red
-			locL += KR * (locR);						//Red
-
-		
-			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
-			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
-			*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
-			*(locDestPtr++) = 255;																		//A for alpha
-
-			//debugCount++;		
-			locColSourcePtr+=3;
-
-		}
-
-
-	}
-
-
-	//Still need to pass through to the AYUV conversion.
-	encodeAYUVtoYV12(locAYUVBuf, locNumPixels<<2);
-	delete[] locAYUVBuf;
-	locAYUVBuf = NULL;
-
-	return 0;
-}
-
-
-
-long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumBytes) {
-	//Blue Green Red Alpha Blue Green Red Alpha
-	//debugLog<<"EncodeRGB32 To YV12 :"<<endl;
-
-	unsigned long locNumPixels = (inNumBytes/4);
-	
-	//debugLog<<"EncodeRGB32 To YV12 : Num pixels = "<<locNumPixels<<endl;
-	//debugLog<<"EncodeRGB32 To YV12 : Num BYtes = "<<inNumBytes<<endl;
-	unsigned char* locAYUVBuf = new unsigned char[inNumBytes];   //4 bytes per pixel
-
-	//debugLog<<"EncodeRGB32 To YV12 :"<<endl;
 
 	//Scaled by factor of 65536 to integerise.
 	const int KR = 19596;
@@ -736,87 +641,138 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 	int locB = 0;
 	int locR = 0;
 
-	//unsigned char* locSourcePtr = inBuf;
-	unsigned char* locDestPtr = locAYUVBuf;
+    //unsigned char* locSourcePtr = inBuf;
+    unsigned char* pDest = &*ayuvBuf.begin();
 
     //SOURCE: Blue Green Red Blue Green Red.
-	//DEST: v u y a
+    //DEST: v u y a
 
-	unsigned char* locSourceEnds = inBuf + (inNumBytes);
-	//debugLog<<"EncodeRGB32 To YV12 : Source Starts = "<<(int)inBuf<<endl;
-	//debugLog<<"EncodeRGB32 To YV12 : Source Ends = "<<(int)locSourceEnds<<endl;
+    unsigned char* pSourceEnds = inBuf + inNumBytes;
 
-	//Debugging only... all refs to debugCount remove later
-	//unsigned long debugCount = 0;
-	//
+    unsigned char* pSource = 0;
+    unsigned char* pEnd = 0;
 
-	//Upside down !!
-	//for (unsigned char* locSourcePtr = inBuf; locSourcePtr < locSourceEnds; locSourcePtr += 4) {
-	//	locB = locSourcePtr[0];					//Blue
-	//	locL = KB * (locB);						//Blue
-	//	
-	//	locL += G_FACTOR * (locSourcePtr[1]);	//Green
+    long stride = 0;
 
-	//	locR = locSourcePtr[2];					//Red
-	//	locL += KR * (locR);					//Red
+    if (m_isImageFlipped)
+    {
+        stride = m_width * 3;
+        pSource = inBuf;
+        pEnd = pSourceEnds;
+    }
+    else
+    {
+        // Negative stride
+        stride = 0 - m_width * 3;
+        pSource = pSourceEnds - std::abs(stride);
+        pEnd = inBuf - std::abs(stride);
+    }
 
-	//	
-	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
-	//	*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
-	//	*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
-	//	*(locDestPtr++) = locSourcePtr[3];																		//A for alpha
+    for (; pSource != pEnd; pSource += stride) 
+    {
+        unsigned char* pColSource = pSource;
+        unsigned char* pColEnd = pColSource + std::abs(stride);
 
-	//	debugCount++;
-	//}
-	unsigned char* locColSourcePtr = NULL;
-	unsigned char* locColEndPtr = NULL;
-	unsigned long locLineLength = m_width * 4;
-	unsigned long col = 0;
-	for (unsigned char* locSourcePtr = locSourceEnds - locLineLength; locSourcePtr >= inBuf; locSourcePtr -= locLineLength) {
-		//
-		//for(unsigned char* locColSourcePtr = locSourcePtr, int i = 0; i < m_width; i++, locColSourcePtr +=4) {
-		//
-		locColSourcePtr = locSourcePtr;
-		locColEndPtr = locColSourcePtr + locLineLength;
-		while (locColSourcePtr < locColEndPtr) {
-			locB = locColSourcePtr[0];					//Blue
-			locL = KB * (locB);							//Blue
-		
-			locL += G_FACTOR * (locColSourcePtr[1]);	//Green
+        while (pColSource < pColEnd) 
+        {
+            locB = pColSource[0];					//Blue
+            locL = KB * (locB);						//Blue
 
-			locR = locColSourcePtr[2];					//Red
-			locL += KR * (locR);						//Red
+            locL += G_FACTOR * (pColSource[1]);	    //Green
 
-		
-			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);			//V for Victor
-			*(locDestPtr++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);			//U for ugly
-			*(locDestPtr++) = CLIP3(0, 255, locL >> 16);												//Y for yellow
-			*(locDestPtr++) = locColSourcePtr[3];														//A for alpha
+            locR = pColSource[2];					//Red
+            locL += KR * (locR);					//Red
 
-			//debugCount++;		
-			locColSourcePtr+=4;
+            *(pDest++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);	//V for Victor
+            *(pDest++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);	//U for ugly
+            *(pDest++) = CLIP3(0, 255, locL >> 16);											//Y for yellow
+            *(pDest++) = 255;														        //A for alpha
 
-		}
+            pColSource += 3;
+        }
+    }
 
-
-	}
-
-	//debugLog<<"EncodeRGB32 To YV12 : debugCount = "<<debugCount<<endl;
-
-	//ASSERT(debugCount == locNumPixels);
-	
-	ASSERT(locDestPtr == (locAYUVBuf + inNumBytes));
-
-	//debugLog<<"EncodeRGB32 To YV12 : Calling AYUV to YV12 conversion"<<endl;
-	//Still need to pass through to the AYUV conversion.
-
-	encodeAYUVtoYV12(locAYUVBuf, inNumBytes);
-	delete[] locAYUVBuf;
-	locAYUVBuf = NULL;
+    encodeAYUVtoYV12(&*ayuvBuf.begin(), ayuvBuf.size());
 
 	return 0;
 }
 
+
+
+long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumBytes) 
+{
+	static std::vector<unsigned char> ayuvBuf;
+    ayuvBuf.resize(inNumBytes);
+
+	//Scaled by factor of 65536 to integerise.
+	const int KR = 19596;
+	const int KB = 7472;
+	
+	const int ROUNDER = 32768;
+
+	const int G_FACTOR = 38470;
+	const int U_FACTOR = 12716213;
+	const int V_FACTOR = 10061022;
+
+	int locL = 0;
+	int locB = 0;
+	int locR = 0;
+
+	//unsigned char* locSourcePtr = inBuf;
+	unsigned char* pDest = &*ayuvBuf.begin();
+
+    //SOURCE: Blue Green Red Blue Green Red.
+	//DEST: v u y a
+
+	unsigned char* pSourceEnds = inBuf + inNumBytes;
+
+    unsigned char* pSource = 0;
+    unsigned char* pEnd = 0;
+
+    long stride = 0;
+
+    if (m_isImageFlipped)
+    {
+        stride = m_width * 4;
+        pSource = inBuf;
+        pEnd = pSourceEnds;
+    }
+    else
+    {
+        // Negative stride
+	    stride = 0 - m_width * 4;
+        pSource = pSourceEnds - std::abs(stride);
+        pEnd = inBuf - std::abs(stride);
+    }
+
+    for (; pSource != pEnd; pSource += stride) 
+    {
+        unsigned char* pColSource = pSource;
+        unsigned char* pColEnd = pColSource + std::abs(stride);
+
+        while (pColSource < pColEnd) 
+        {
+            locB = pColSource[0];					//Blue
+            locL = KB * (locB);						//Blue
+
+            locL += G_FACTOR * (pColSource[1]);	    //Green
+
+            locR = pColSource[2];					//Red
+            locL += KR * (locR);					//Red
+
+            *(pDest++) = CLIP3(0, 255, ((112 * ( (locR<<16) - locL)) / V_FACTOR) + 128);	//V for Victor
+            *(pDest++) = CLIP3(0, 255, ((112 * ( (locB<<16) - locL)) / U_FACTOR) + 128);	//U for ugly
+            *(pDest++) = CLIP3(0, 255, locL >> 16);											//Y for yellow
+            *(pDest++) = pColSource[3];														//A for alpha
+
+            pColSource += 4;
+        }
+    }
+	
+	encodeAYUVtoYV12(&*ayuvBuf.begin(), ayuvBuf.size());
+	
+	return 0;
+}
 
 
 
@@ -1467,7 +1423,12 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 
 			m_averageTimePerFrame = videoFormat->AvgTimePerFrame;
 			m_width = videoFormat->bmiHeader.biWidth;
-			m_height = videoFormat->bmiHeader.biHeight;
+            m_height = std::abs(videoFormat->bmiHeader.biHeight);
+
+            if (videoFormat->bmiHeader.biHeight > 0)
+            {
+                m_isImageFlipped = true;
+            }
 		}
 		else if (inMediaType->formattype == FORMAT_VideoInfo)
 		{
@@ -1475,7 +1436,12 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 
 			m_averageTimePerFrame = videoFormat->AvgTimePerFrame;
 			m_width = videoFormat->bmiHeader.biWidth;
-			m_height = videoFormat->bmiHeader.biHeight;
+            m_height = std::abs(videoFormat->bmiHeader.biHeight);
+
+            if (videoFormat->bmiHeader.biHeight > 0)
+            {
+                m_isImageFlipped = true;
+            }
 		}
 
 		if (m_averageTimePerFrame == 0)
