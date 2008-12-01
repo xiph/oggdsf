@@ -61,7 +61,7 @@ private:
 	unsigned long mSampleRate;
 
 	//Virtuals frmo FLAC decoder
-	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte buffer[], unsigned *bytes);
+	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte buffer[], size_t *bytes);
 	virtual ::FLAC__StreamDecoderWriteStatus write_callback(const ::FLAC__Frame *frame, const FLAC__int32 * const buffer[]);
 	virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);
 	virtual void error_callback(::FLAC__StreamDecoderErrorStatus status);

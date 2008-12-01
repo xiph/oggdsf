@@ -1,6 +1,12 @@
 @set OGGCODECS_ROOT_DIR=..\..\..
-@set OGGCODECS_CONFIG_PATH=Release
-@set OGGCODECS_VORBIS_CONFIG_PATH=%COMPILER%\libvorbis\Release
+
+if [%X64%] == [] (
+	@set OGGCODECS_CONFIG_PATH=Release
+	@set OGGCODECS_VORBIS_CONFIG_PATH=%COMPILER%\libvorbis\Release
+) else (
+	@set OGGCODECS_CONFIG_PATH=x64\Release
+	@set OGGCODECS_VORBIS_CONFIG_PATH=%COMPILER%\libvorbis\x64\Release
+)
 
 rmdir /s /q pdb
 mkdir pdb

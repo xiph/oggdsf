@@ -49,7 +49,7 @@ public:
 protected:
 	//Overrides from Flac Encoder
 	virtual ::FLAC__StreamEncoderWriteStatus write_callback(        const FLAC__byte buffer[]
-                                                                ,   unsigned bytes
+                                                                ,   size_t bytes
                                                                 ,   unsigned samples
                                                                 ,   unsigned current_frame);
 	virtual void metadata_callback(const ::FLAC__StreamMetadata *metadata);

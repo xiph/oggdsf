@@ -6,10 +6,18 @@
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Location of Visual Studio runtime libraries on the compiling system
 !if "$%COMPILER%" == "VS2008"
-	!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
+	!if "$%X64%" == "true"
+		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\amd64\Microsoft.VC90.CRT\"
+	!else
+		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
+	!endif
 	!define VS_RUNTIME_SUFFIX 90
 !else if "$%COMPILER%" == "VS2005"
-	!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\"
+	!if "$%X64%" == "true"
+		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 8\VC\redist\amd64\Microsoft.VC80.CRT\"
+	!else
+		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\"	
+	!endif
 	!define VS_RUNTIME_SUFFIX 80
 !endif
 
@@ -66,7 +74,11 @@
  
   ; Good.  Now we can carry on writing the real installer.
  
-  OutFile "oggcodecs_${PRODUCT_VERSION}.exe"
+!if "$%X64%" == "true" 
+  OutFile "oggcodecs_${PRODUCT_VERSION}-x64.exe"
+!else
+  OutFile "oggcodecs_${PRODUCT_VERSION}-win32.exe"
+!endif
   SetCompressor /SOLID lzma
   
 !endif
@@ -77,6 +89,7 @@
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 !include "Memento.nsh"
+!include "x64.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -143,7 +156,11 @@ var ICONS_GROUP
 
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-InstallDir "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
+!if "$%X64%" == "true" 
+	InstallDir "$PROGRAMFILES64\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
+!else
+	InstallDir "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
+!endif
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 
 ;Memento Settings
@@ -152,6 +169,10 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Function .onInit
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
 
   ${MementoSectionRestore}
 
@@ -163,6 +184,14 @@ Function .onInit
  
   WriteUninstaller "$%TEMP%\uninst.exe"
   Quit  ; just bail out quickly when running the "inner" installer
+!endif
+
+!if "$%X64%" == "true"  
+  ${IfNot} ${RunningX64}
+	IfSilent +2
+	MessageBox MB_OK|MB_ICONEXCLAMATION  "This installation package is not supported by this processor type."
+	Abort
+  ${EndIf}
 !endif
 
   !insertmacro MUI_LANGDLL_DISPLAY
@@ -210,19 +239,27 @@ FunctionEnd
 ; COM registration macros, with fallbacks on regsvr32
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 !macro RegisterCOM file
-	!define LIBRARY_COM
-	RegDLL "${file}"
-	!undef LIBRARY_COM
-	IfErrors 0 +2
-	ExecWait '$SYSDIR\regsvr32.exe "/s" "${file}"'
+  !if "$%X64%" == "true"
+    ExecWait '$SYSDIR\regsvr32.exe "/s" "${file}"'
+  !else
+    !define LIBRARY_COM
+    RegDLL "${file}"
+    !undef LIBRARY_COM
+    IfErrors 0 +2
+    ExecWait '$SYSDIR\regsvr32.exe "/s" "${file}"'
+  !endif
 !macroend
 
 !macro UnRegisterCOM file
-	!define LIBRARY_COM
-	UnRegDLL "${file}"
-	!undef LIBRARY_COM
-	IfErrors 0 +2
-	ExecWait '$SYSDIR\regsvr32.exe "/u" "/s" "${file}"'
+  !if "$%X64%" == "true"
+    ExecWait '$SYSDIR\regsvr32.exe "/u" "/s" "${file}"'
+  !else
+    !define LIBRARY_COM
+    UnRegDLL "${file}"
+    !undef LIBRARY_COM
+    IfErrors 0 +2
+    ExecWait '$SYSDIR\regsvr32.exe "/u" "/s" "${file}"'
+  !endif
 !macroend
 
 
@@ -251,6 +288,11 @@ FunctionEnd
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section "Oggcodecs Core Files" SEC_CORE
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+
   SectionIn 1 RO
   
   SetShellVarContext all
@@ -662,9 +704,15 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 ; Check for Windows Media player
   Var /GLOBAL WMP_LOCATION  
- 
-  ReadRegStr $WMP_LOCATION HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer" "Player.Path"
-  StrCmp $WMP_LOCATION "" 0 +3
+  
+;  ReadRegStr $WMP_LOCATION HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer" "Player.Path"
+!if "$%X64%" == "true"
+  StrCpy $WMP_LOCATION "$PROGRAMFILES64\Windows Media Player\wmplayer.exe"
+!else
+  StrCpy $WMP_LOCATION "$PROGRAMFILES\Windows Media Player\wmplayer.exe"
+!endif
+  
+  IfFileExists  $WMP_LOCATION +3 0
   IfSilent +2
   MessageBox MB_OK|MB_ICONEXCLAMATION "A recognised version of Windows Media Player was not found. $\n File extenstion association must be done manually." IDOK 0
 
@@ -674,7 +722,11 @@ SectionEnd
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ${MementoSection} ".ogg defaults to audio" SEC_OGG_AUDIO_DEFAULT
   SectionIn 1
-  
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+
   ; Make .ogg recognised as audio
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "" "Ogg File (ogg)"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "Extensions" ".ogg"
@@ -691,30 +743,55 @@ SectionGroup "File type associations" SEC_USE_WMP_FOR_OGG
 
 ${MementoSection} ".ogg"  SecOgg
   SectionIn 1
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+
   WriteRegStr HKCR ".ogg" "" "WMP.OggFile"
   !insertmacro WMPRegisterType "OggFile" "Ogg File"
 ${MementoSectionEnd}
 
 ${MementoSection} ".oga" SecOga
   SectionIn 1
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+
   WriteRegStr HKCR ".oga" "" "WMP.OgaFile"
   !insertmacro WMPRegisterType "OgaFile" "Ogg Audio File"
 ${MementoSectionEnd}
 
 ${MementoSection} ".ogv"  SecOgv
   SectionIn 1
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+
   WriteRegStr HKCR ".ogv" "" "WMP.OgvFile"
   !insertmacro WMPRegisterType "OgvFile" "Ogg Video File"
 ${MementoSectionEnd}
 
 ${MementoSection} ".spx"  SecSpx
   SectionIn 1
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+
   WriteRegStr HKCR ".spx" "" "WMP.SpxFile"
   !insertmacro WMPRegisterType "SpxFile" "Speex File"
 ${MementoSectionEnd}
 
 ${MementoSection} ".flac" SecFlac
   SectionIn 1
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+ 
   WriteRegStr HKCR ".flac" "" "WMP.FlacFile"
   !insertmacro WMPRegisterType "FlacFile" "FLAC File"
 ${MementoSectionEnd}
@@ -736,6 +813,11 @@ LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section -AdditionalIcons
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
+
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   WriteIniStr "$SMPROGRAMS\$ICONS_GROUP\Website.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
@@ -755,6 +837,10 @@ Function .onInstSuccess
 FunctionEnd
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section -Post
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
 
 !ifndef INNER
 
@@ -809,6 +895,10 @@ FunctionEnd
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 !ifdef INNER
 Section Uninstall
+
+!if "$%X64%" == "true"
+	SetRegView 64
+!endif
 
   SetShellVarContext all
 

@@ -1,5 +1,4 @@
-@echo off
-set COMPILER=VS2008
+set COMPILER=VS2005
 
 rem Get revision number
 svn info http://svn.xiph.org/trunk/oggdsf | findstr Revision > revision_text
@@ -18,5 +17,12 @@ signtool sign /a /t http://time.certum.pl/ bin\OOOggStat.exe
 signtool sign /a /t http://time.certum.pl/ bin\OOOggValidate.exe 
 
 "%ProgramFiles%\nsis\makensisw.exe" oggcodecs_release.nsi 
-signtool sign /a /t http://time.certum.pl/ oggcodecs_%PRODUCT_VERSION%.exe 
-"%ProgramFiles%\7-zip\7z.exe" a oggcodecs-%PRODUCT_VERSION%-pdbs.7z pdb\*
+
+if [%X64%] == [] (
+	set SUFFIX=win32
+) else (
+	set SUFFIX=x64
+)
+
+signtool sign /a /t http://time.certum.pl/ oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.exe 
+"%ProgramFiles%\7-zip\7z.exe" a oggcodecs_%PRODUCT_VERSION%_pdbs-%SUFFIX%.7z pdb\*

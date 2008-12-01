@@ -287,7 +287,7 @@ DWORD NativeFLACSourceFilter::ThreadProc(void)
 }
 
 
-::FLAC__StreamDecoderReadStatus NativeFLACSourceFilter::read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes) 
+::FLAC__StreamDecoderReadStatus NativeFLACSourceFilter::read_callback(FLAC__byte outBuffer[], size_t* outNumBytes) 
 {
 	const unsigned long BUFF_SIZE = 8192;
 	mInputFile.read((char*)outBuffer, BUFF_SIZE);

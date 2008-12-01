@@ -106,7 +106,7 @@ const vector<StampedOggPacket*>& FLACEncoder::flush()
 
 
 ::FLAC__StreamEncoderWriteStatus FLACEncoder::write_callback(        const FLAC__byte inBuffer[]
-                                                                ,   unsigned inNumBytes
+                                                                ,   size_t inNumBytes
                                                                 ,   unsigned inNumSamples
                                                                 ,   unsigned inCurrentFrame)
 {

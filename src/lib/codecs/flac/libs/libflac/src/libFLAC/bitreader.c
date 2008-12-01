@@ -158,6 +158,8 @@ static _inline FLAC__uint32 local_swap32_(FLAC__uint32 x)
 }
 static void local_swap32_block_(FLAC__uint32 *start, FLAC__uint32 len)
 {
+// Only on 32 bit
+#ifdef _M_IX86
 	__asm {
 		mov edx, start
 		mov ecx, len
@@ -172,7 +174,24 @@ loop1:
 		jmp short loop1
 done1:
 	}
+#elif  _WIN64
+	while (len-- > 0)
+	{
+	  FLAC__uint8 temp[4];
+	   
+	  temp[0] = *(((FLAC__uint8*)start) + 3);
+	  temp[1] = *(((FLAC__uint8*)start) + 2);
+	  temp[2] = *(((FLAC__uint8*)start) + 1);
+	  temp[3] = *(((FLAC__uint8*)start) + 0);
+
+	  *start = *(FLAC__uint32*)temp;
+
+	  ++start;
+	}
+
+#endif
 }
+
 #endif
 
 static FLaC__INLINE void crc16_update_word_(FLAC__BitReader *br, brword word)

@@ -87,7 +87,7 @@ StampedOggPacket* FLACPushDecoder::decodeFLAC(OggPacket* inPacket) {
 
 }
 //FLAC Callbacks
-::FLAC__StreamDecoderReadStatus FLACPushDecoder::read_callback(FLAC__byte outBuffer[], unsigned* outNumBytes) 
+::FLAC__StreamDecoderReadStatus FLACPushDecoder::read_callback(FLAC__byte outBuffer[], size_t* outNumBytes) 
 {
 	//If we have a packet waiting...
 	if (mInPacket != NULL) {

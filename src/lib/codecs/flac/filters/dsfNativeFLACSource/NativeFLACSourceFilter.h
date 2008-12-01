@@ -97,7 +97,7 @@ public:
 	virtual DWORD ThreadProc(void);
 
 	//FLAC Virtuals
-	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], unsigned int* outNumBytes);
+	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], size_t* outNumBytes);
 	virtual ::FLAC__StreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
 	virtual ::FLAC__StreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
 	virtual ::FLAC__StreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
