@@ -344,7 +344,11 @@ Section "Oggcodecs Core Files" SEC_CORE
   File "${OGGCODECS_ROOT_DIR}\AUTHORS"
   File "${OGGCODECS_ROOT_DIR}\HISTORY"
   File "${OGGCODECS_ROOT_DIR}\ChangeLog.txt"
+!if "$%X64%" == "true"
+  File "${OGGCODECS_ROOT_DIR}\bin\x64\Ogg Codecs.manifest" 
+!else
   File "${OGGCODECS_ROOT_DIR}\bin\Ogg Codecs.manifest" 
+!endif
   
   ; Install Filters - 16  
 

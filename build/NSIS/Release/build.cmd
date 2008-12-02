@@ -26,3 +26,8 @@ if [%X64%] == [] (
 
 signtool sign /a /t http://time.certum.pl/ oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.exe 
 "%ProgramFiles%\7-zip\7z.exe" a oggcodecs_%PRODUCT_VERSION%_pdbs-%SUFFIX%.7z pdb\*
+
+rmdir /s /q "Ogg Codecs"
+"%ProgramFiles%\7-zip\7z.exe" e oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.exe -o"Ogg Codecs"
+call make_cab.cmd oggcodecs_%PRODUCT_VERSION%-%SUFFIX%
+signtool sign /a /t http://time.certum.pl/ oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.cab
