@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007,2008  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -151,15 +151,16 @@ struct FLAC__BitReader {
 
 #ifdef _MSC_VER
 /* OPT: an MSVC built-in would be better */
+/* OPT: use _byteswap_ulong intrinsic? */
 static _inline FLAC__uint32 local_swap32_(FLAC__uint32 x)
 {
 	x = ((x<<8)&0xFF00FF00) | ((x>>8)&0x00FF00FF);
 	return (x>>16) | (x<<16);
 }
+#ifdef _WIN64
+#else
 static void local_swap32_block_(FLAC__uint32 *start, FLAC__uint32 len)
 {
-// Only on 32 bit
-#ifdef _M_IX86
 	__asm {
 		mov edx, start
 		mov ecx, len
@@ -174,24 +175,8 @@ loop1:
 		jmp short loop1
 done1:
 	}
-#elif  _WIN64
-	while (len-- > 0)
-	{
-	  FLAC__uint8 temp[4];
-	   
-	  temp[0] = *(((FLAC__uint8*)start) + 3);
-	  temp[1] = *(((FLAC__uint8*)start) + 2);
-	  temp[2] = *(((FLAC__uint8*)start) + 1);
-	  temp[3] = *(((FLAC__uint8*)start) + 0);
-
-	  *start = *(FLAC__uint32*)temp;
-
-	  ++start;
-	}
-
-#endif
 }
-
+#endif
 #endif
 
 static FLaC__INLINE void crc16_update_word_(FLAC__BitReader *br, brword word)
@@ -282,7 +267,7 @@ FLAC__bool bitreader_read_from_client_(FLAC__BitReader *br)
 #if WORDS_BIGENDIAN
 #else
 	end = (br->words*FLAC__BYTES_PER_WORD + br->bytes + bytes + (FLAC__BYTES_PER_WORD-1)) / FLAC__BYTES_PER_WORD;
-# if defined(_MSC_VER) && (FLAC__BYTES_PER_WORD == 4)
+# if defined(_MSC_VER) && !defined(_WIN64) && (FLAC__BYTES_PER_WORD == 4)
 	if(br->cpu_info.type == FLAC__CPUINFO_TYPE_IA32 && br->cpu_info.data.ia32.bswap) {
 		start = br->words;
 		local_swap32_block_(br->buffer + start, end - start);
