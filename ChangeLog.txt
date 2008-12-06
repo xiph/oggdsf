@@ -1,8 +1,7 @@
-Version 0.81.xxxxx
+Version 0.81.15562 - 06.12.2008
 
-    * Updated compiler to Visual Studio 2008 Service Pack 1, also added project files for Visual Studio 2005 Service Pack 1
-    * Added support for x64 (Amd64) Platforms
     * Updated Theora to version 1.0
+    * Added support for 64 bit (AMD64, EM64T)
     * Added support for Registration Free COM Activation
     * Added support for RGB Theora Decoder output (16 and 32 color bit depth)
     * Fixed bug while seeking at the end of a native FLAC file
@@ -12,12 +11,13 @@ Version 0.81.xxxxx
     * Fixed #1392: OggDemuxPacketSourceFilter GetCurFile memory allocation causes crashes
     * Fixed #1404: Installer doesn't respect the silent command line parameter
     * Fixed #1408: libOOTheora.dll memory leak
+    * Fixed #1429: Supporting of rus text in (file name) or/and (file path)
     * Fixed #1430: Color bleeding on some (newer) ogg theora files
     * Fixed #1437: many regsvr32.exe processes running, but none for long
     * Fixed #1440: A debug log file is created during playback
     * Fixed #1443: Vista Media Centers Crashes when playing FLAC and pressing the "previous track button"
     * Fixed #1451: oggdsf doesn't support RGB output
-
+    * Fixed #1471: speaker vibrations with oggcodecs v.0.80.15039
     
 Version 0.80.15039 - 14.06.2008
 

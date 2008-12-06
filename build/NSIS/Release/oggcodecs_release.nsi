@@ -98,6 +98,7 @@
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP "extra\header.bmp"
 !define MUI_HEADERIMAGE_UNBITMAP "extra\header_uninstall.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "extra\wizard.bmp"
 
 !define MUI_COMPONENTSPAGE_SMALLDESC
 

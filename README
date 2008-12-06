@@ -1,3 +1,33 @@
+Information for builds after 0.80
+=================================
+
+Support for Widows 9x (95, 98, Me) has been dropped.
+
+The project now has Visual Studio 2005 and Visual Studio 2008
+project files.
+
+The Netwide Assembler (NASM) is used to build the assembly
+files in the project. Get version 2.0.3 or later from http://www.nasm.us/
+The nasm.exe should be in the path, doesn't matter where you
+copy it.
+
+NSIS (Nullsoft Scriptable Install System) is used to make the 
+setup files. Get version 2.41 or later from http://nsis.sourceforge.net/Download
+
+Visual Studio 2005 (Express, or Standard) requires the presence
+of the Windows SDK for Windows Server 2008 and .NET Framework 3.5
+http://www.microsoft.com/downloads/details.aspx?FamilyId=F26B1AA4-741A-433A-9BE5-FA919850BDBF&displaylang=en
+The solution file resides in: oggdsf\sln\oggdsf_vs2005\
+
+Visual Studio 2008 (tested only with Express) should compile the source
+code just fine (it comes with Windows SDK)
+The solution file resides in: oggdsf\sln\oggsdf\
+
+In order to build the 64 bit x64 platform you will need at least:
+Visual Studio 2005 Standard or Visual Studio 2008 Professional 
+editions.
+
+
 Information for builds after 0.71 
 =================================
 
