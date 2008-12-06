@@ -139,14 +139,49 @@ HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaTy
         
         locFormatEx->Samples.wValidBitsPerSample = (WORD)mParentFilter->mSignificantBitsPerSample;
 
-        //TODO::: Map this properly! What is the correct mapping ???
-        locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT
-                                        |   SPEAKER_FRONT_RIGHT
-                                        |   SPEAKER_FRONT_CENTER
-                                        |   SPEAKER_LOW_FREQUENCY
-                                        |   SPEAKER_BACK_LEFT
-                                        |   SPEAKER_BACK_RIGHT
-                                        ;
+        switch (locFormatEx->Format.nChannels)
+        {
+        case 1:
+            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT;
+            break;
+        case 2:
+            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
+                                         SPEAKER_FRONT_RIGHT;
+            break;
+        case 3:
+            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
+                                         SPEAKER_FRONT_RIGHT |
+                                         SPEAKER_FRONT_CENTER;
+            break;
+        case 4:
+            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
+                                         SPEAKER_FRONT_RIGHT |
+                                         SPEAKER_BACK_LEFT |
+                                         SPEAKER_BACK_RIGHT;
+            break;
+        case 5:
+            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
+                                         SPEAKER_FRONT_RIGHT |
+                                         SPEAKER_FRONT_CENTER |
+                                         SPEAKER_BACK_LEFT |
+                                         SPEAKER_BACK_RIGHT;
+            break;
+
+        case 6:
+            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
+                                         SPEAKER_FRONT_RIGHT |
+                                         SPEAKER_FRONT_CENTER |
+                                         SPEAKER_LOW_FREQUENCY |
+                                         SPEAKER_BACK_LEFT |
+                                         SPEAKER_BACK_RIGHT;
+            break;
+
+        default:
+            locFormatEx->dwChannelMask = 0;
+            break;
+
+
+        }
 
         ////TODO::: Round up to multiple of 8 or something
         //if (mParentFilter->mBitsPerSample <= 16) {
