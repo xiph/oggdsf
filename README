@@ -1,7 +1,7 @@
 Information for builds after 0.80
 =================================
 
-Support for Widows 9x (95, 98, Me) has been dropped.
+Support for Windows 9x (95, 98, Me) has been dropped.
 
 The project now has Visual Studio 2005 and Visual Studio 2008
 project files.
