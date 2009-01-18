@@ -41,6 +41,11 @@
 #pragma warning ( disable : 4800 )
 #endif
 
+#ifdef _WIN32_WCE
+// Missing strdup
+#define strdup _strdup
+#endif
+
 namespace FLAC {
 	namespace Metadata {
 

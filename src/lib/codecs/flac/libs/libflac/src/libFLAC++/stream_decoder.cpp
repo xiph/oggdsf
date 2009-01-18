@@ -29,6 +29,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// Fixing compiler error C2039: 'wcsftime' : is not a member of '`global namespace''
+#if defined(_WIN32_WCE)
+size_t __cdecl wcsftime(wchar_t *, size_t, const wchar_t *, const struct tm*);
+#endif
+
 #include "FLAC++/decoder.h"
 #include "FLAC/assert.h"
 

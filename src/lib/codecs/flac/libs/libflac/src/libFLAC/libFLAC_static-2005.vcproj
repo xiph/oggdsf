@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
-	Name="libFLAC_dynamic"
+	Version="8,00"
+	Name="libFLAC_static"
 	ProjectGUID="{4CEFBC83-C215-11DB-8314-0800200C9A66}"
 	RootNamespace="libFLAC_dynamic"
 	Keyword="Win32Proj"
@@ -31,7 +31,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -53,10 +53,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;DEBUG;FLAC__OVERFLOW_DETECT;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;DEBUG;FLAC__OVERFLOW_DETECT;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="false"
@@ -73,21 +73,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -99,12 +88,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -112,7 +95,7 @@
 			Name="Debug|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -135,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -155,21 +138,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -181,12 +153,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -194,7 +160,7 @@
 			Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -218,7 +184,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -236,15 +202,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -274,7 +233,7 @@
 			Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -298,7 +257,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -316,15 +275,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -354,7 +306,7 @@
 			Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -378,7 +330,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -396,15 +348,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -434,7 +379,7 @@
 			Name="Release|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -459,7 +404,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -479,24 +424,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -508,12 +439,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -521,7 +446,7 @@
 			Name="Release|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -547,7 +472,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -567,24 +492,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -596,12 +507,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -609,7 +514,7 @@
 			Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -635,7 +540,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -654,18 +559,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -695,7 +590,7 @@
 			Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -721,7 +616,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -740,18 +635,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -781,7 +666,7 @@
 			Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -807,7 +692,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -826,18 +711,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -867,7 +742,7 @@
 			Name="Release_SSE|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -892,7 +767,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="1"
@@ -913,24 +788,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -942,12 +803,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -955,7 +810,7 @@
 			Name="Release_SSE|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -981,7 +836,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="1"
@@ -1002,24 +857,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -1031,12 +872,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -1044,7 +879,7 @@
 			Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1070,7 +905,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -1089,18 +924,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1130,7 +955,7 @@
 			Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1156,7 +981,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -1175,18 +1000,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1216,7 +1031,7 @@
 			Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1242,7 +1057,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -1261,18 +1076,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1302,7 +1107,7 @@
 			Name="Release_SSE2|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1327,7 +1132,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="2"
@@ -1348,24 +1153,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -1377,12 +1168,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -1390,7 +1175,7 @@
 			Name="Release_SSE2|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1416,7 +1201,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL;FLAC__HAS_OGG;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="2"
@@ -1437,24 +1222,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -1466,12 +1237,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -1479,7 +1244,7 @@
 			Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1505,7 +1270,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -1524,18 +1289,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1565,7 +1320,7 @@
 			Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1591,7 +1346,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -1610,18 +1365,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1651,7 +1396,7 @@
 			Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1677,7 +1422,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\core\ogg\libogg\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLAC_API_EXPORTS;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;FLAC__HAS_OGG;VERSION=\&quot;1.2.0\&quot;;_CRT_SECURE_NO_WARNINGS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -1696,18 +1441,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libogg.lib wince.lib"
-				OutputFile="$(OutDir)\libFLAC.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\core\ogg\libogg\win32\VS2005\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"

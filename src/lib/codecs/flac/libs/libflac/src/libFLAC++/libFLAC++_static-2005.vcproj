@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="libFLAC++_dynamic"
+	Name="libFLAC++_static"
 	ProjectGUID="{4CEFBC85-C215-11DB-8314-0800200C9A66}"
 	RootNamespace="libFLAC++_dynamic"
 	Keyword="Win32Proj"
@@ -31,7 +31,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -53,7 +53,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS;DEBUG"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;FLAC__NO_DLL;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -73,19 +73,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="2"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -97,12 +88,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -110,7 +95,7 @@
 			Name="Debug|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -133,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS;DEBUG"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;FLAC__NO_DLL;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -153,19 +138,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="2"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -177,12 +153,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -190,7 +160,7 @@
 			Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -214,7 +184,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
 				RuntimeTypeInfo="true"
@@ -232,14 +202,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -269,7 +233,7 @@
 			Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -293,7 +257,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
 				RuntimeTypeInfo="true"
@@ -311,14 +275,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -348,7 +306,7 @@
 			Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -372,7 +330,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_DEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
 				RuntimeTypeInfo="true"
@@ -390,14 +348,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -427,7 +379,7 @@
 			Name="Release|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -452,7 +404,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -471,22 +423,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -498,12 +438,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -511,7 +445,7 @@
 			Name="Release|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -537,7 +471,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
@@ -556,22 +490,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -583,12 +505,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -596,7 +512,7 @@
 			Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -622,10 +538,9 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
-				TreatWChar_tAsBuiltInType="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -642,17 +557,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -682,7 +588,7 @@
 			Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -708,7 +614,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -727,17 +633,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -767,7 +664,7 @@
 			Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -793,7 +690,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -812,17 +709,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -852,7 +740,7 @@
 			Name="Release_SSE|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -877,7 +765,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="1"
@@ -897,22 +785,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -924,12 +800,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -937,7 +807,7 @@
 			Name="Release_SSE|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -963,7 +833,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="1"
@@ -983,22 +853,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -1010,12 +868,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -1023,7 +875,7 @@
 			Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1049,7 +901,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -1068,17 +920,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1108,7 +951,7 @@
 			Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1134,7 +977,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -1153,17 +996,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1193,7 +1027,7 @@
 			Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1219,7 +1053,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -1238,17 +1072,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1278,7 +1103,7 @@
 			Name="Release_SSE2|Win32"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1303,7 +1128,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="2"
@@ -1323,22 +1148,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -1350,12 +1163,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -1363,7 +1170,7 @@
 			Name="Release_SSE2|x64"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1389,7 +1196,7 @@
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;FLACPP_API_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;FLAC__NO_DLL"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="2"
@@ -1409,22 +1216,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -1436,12 +1231,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -1449,7 +1238,7 @@
 			Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1475,7 +1264,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -1494,17 +1283,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1534,7 +1314,7 @@
 			Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1560,7 +1340,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -1579,17 +1359,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1619,7 +1390,7 @@
 			Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)"
 			OutputDirectory="..\..\obj\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1645,7 +1416,7 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\..\include;..\..\..\..\..\..\helper\wince"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;_USRDLL;FLACPP_API_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;NDEBUG;FLAC__NO_DLL;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
@@ -1664,17 +1435,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libFLAC.lib&quot;"
-				OutputFile="$(OutDir)\libFLAC++.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\..\..\..\helper\wince\$(PlatformName)\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
-				TargetMachine="0"
+				Name="VCLibrarianTool"
+				AdditionalOptions=""
 			/>
 			<Tool
 				Name="VCALinkTool"
