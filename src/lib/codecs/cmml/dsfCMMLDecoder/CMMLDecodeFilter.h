@@ -36,7 +36,7 @@
 #include "cmmldecoderdllstuff.h"
 #include "CMMLDecodeInputPin.h"
 #include <string>
-#include <fstream>
+//#include <fstream>
 #include <libilliCore/StringHelper.h>
 #include <libCMMLParse/libCMMLParse.h>
 #include <libCMMLParse/CMMLParser.h>
@@ -79,6 +79,4 @@ protected:
 	CMMLDecodeInputPin* mInputPin;
 
 	//fstream debugLog;
-	
-
 };
