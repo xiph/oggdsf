@@ -51,12 +51,15 @@ struct sSpeexFormatBlock {
 #include "SpeexEncodeOutputPin.h"
 #include "SpeexEncodeFilter.h"
 
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef SPEEXENCODER_DLL
+	#define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+	#ifdef LIBOOOGG_EXPORTS
+		#define LIBOOOGG_API __declspec(dllexport)
+	#else
+		#define LIBOOOGG_API __declspec(dllimport)
+	#endif
 #endif
-
 
 // {ED79AEC0-68AD-4be6-B06E-B4D3C8101624}
 DEFINE_GUID(CLSID_PropsSpeexEncoder, 
