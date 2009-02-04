@@ -35,12 +35,14 @@
 //#include <pullpin.h>
 //#include <initguid.h>
 
-
-
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef SPEEXDECODER_DLL
+	#define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+	#ifdef LIBOOOGG_EXPORTS
+		#define LIBOOOGG_API __declspec(dllexport)
+	#else
+		#define LIBOOOGG_API __declspec(dllimport)
+	#endif
 #endif
 
 //
