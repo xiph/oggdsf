@@ -47,10 +47,14 @@
 //#define ABS_AUDIO_DEC_API __declspec(dllimport)
 //#endif
 
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef OGMDECODER_DLL
+	#define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+	#ifdef LIBOOOGG_EXPORTS
+		#define LIBOOOGG_API __declspec(dllexport)
+	#else
+		#define LIBOOOGG_API __declspec(dllimport)
+	#endif
 #endif
 
 // {368DD7F2-5644-4a88-AC4C-D334B82660B5}
