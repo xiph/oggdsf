@@ -8,4 +8,9 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
-// TODO: reference additional headers your program requires here
+#define FLAC__NO_DLL
+
+// Fixing compiler error C2039: 'wcsftime' : is not a member of '`global namespace''
+#if defined(_WIN32_WCE)
+size_t __cdecl wcsftime(wchar_t *, size_t, const wchar_t *, const struct tm*);
+#endif
