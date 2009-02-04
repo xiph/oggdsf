@@ -31,12 +31,16 @@
 
 #pragma once
 
-#ifdef WIN32
-# ifdef LIBOOOGGSEEK_EXPORTS
-#  define LIBOOOGGSEEK_API __declspec(dllexport)
-# else
-#  define LIBOOOGGSEEK_API __declspec(dllimport)
-# endif
+#if defined(WIN32) || defined(WINCE) 
+#ifndef OOOGGSSEK_DLL
+    # define LIBOOOGGSEEK_API
+#else
+    # ifdef LIBOOOGGSEEK_EXPORTS
+        #  define LIBOOOGGSEEK_API __declspec(dllexport)
+    # else
+        #  define LIBOOOGGSEEK_API __declspec(dllimport)
+    # endif
+#endif
 # include <windows.h>
 #else
 # define LIBOOOGGSEEK_API
