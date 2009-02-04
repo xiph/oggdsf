@@ -33,10 +33,6 @@
 //===========================================================================
 #pragma once
 
-//STL Includes
-#include <fstream>
-using namespace std;
-
 class BasicSeekPassThrough
 	//Base classes.
 	:	public IMediaSeeking
