@@ -30,17 +30,11 @@
 //===========================================================================
 
 #pragma once
-//#include <sstream>
 #include <libOOOgg/CircularBuffer.h>
 #include <libOOOgg/OggPage.h>
 #include <libOOOgg/OggTypeDefs.h>
 #include <libOOOgg/IOggCallback.h>
 #include <libOOOgg/IFIFOBuffer.h>
-
-//Only needed for debugging
-//#include <fstream>
-//
-using namespace std;
 
 class LIBOOOGG_API OggDataBuffer {
 public:
@@ -129,9 +123,6 @@ protected:
 	//Internal dispatch
 	virtual eDispatchResult dispatch(OggPage* inOggPage);
 
-	//DEBUG
-	//fstream debugLog;
-	//
 private:
 	OggDataBuffer& operator=(const OggDataBuffer& other);  /* Don't assign me */
 	OggDataBuffer(const OggDataBuffer& other); /* Don't copy me */

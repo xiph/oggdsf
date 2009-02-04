@@ -38,11 +38,17 @@
 #pragma once
 
 #if (defined(WIN32) || defined(WINCE))
-# ifdef LIBOOOGG_EXPORTS
-#  define LIBOOOGG_API __declspec(dllexport)
-# else
-#  define LIBOOOGG_API __declspec(dllimport)
-# endif
+
+#ifndef OOOG_DLL
+    #define LIBOOOGG_API
+#else
+    # ifdef LIBOOOGG_EXPORTS
+        #  define LIBOOOGG_API __declspec(dllexport)
+    # else
+        #  define LIBOOOGG_API __declspec(dllimport)
+    # endif
+#endif
+
 # include <windows.h>
 #else  /* assume POSIX */
 # define LIBOOOGG_API

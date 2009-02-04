@@ -37,7 +37,6 @@
 #include <libOOOgg/INotifyArrival.h>
 #include <math.h>
 #include <deque>
-#include <fstream>
 
 
 using namespace std;
@@ -48,10 +47,8 @@ class LIBOOOGG_API OggMuxStream
 {
 public:
 	OggMuxStream(INotifyArrival* inNotifier);
-	virtual ~OggMuxStream(void);
+	virtual ~OggMuxStream();
 	
-	static const LOOG_INT64 INT64_MAX = 9223372036854775807LL;
-
 	//IOggCallback implementaion.
 	virtual bool acceptOggPage(OggPage* inOggPage);
 
@@ -101,7 +98,6 @@ protected:
 	unsigned long mNumHeaders;
 	unsigned long mPacketsSent;
 
-	//fstream debugLog;
 	deque<OggPage*> mPageQueue;
 private:
 	OggMuxStream& operator=(const OggMuxStream& other);  /* Don't assign me */

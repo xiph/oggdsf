@@ -39,9 +39,6 @@
 #include <libOOOgg/IOggCallback.h>
 #include <libOOOgg/StampedOggPacket.h>
 
-#include <fstream>
-using namespace std;
-
 class LIBOOOGG_API OggPaginator
 	:	public IStampedOggPacketSink
 {
@@ -105,7 +102,6 @@ protected:
 	OggPage* mPendingPage;
 
 	unsigned char* mHeaderBuff;
-	fstream debugLog;
 
 	LOOG_INT64 mLastGranulePos;
 

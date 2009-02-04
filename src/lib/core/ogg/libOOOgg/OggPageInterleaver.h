@@ -37,8 +37,6 @@
 #include <libOOOgg/OggMuxStream.h>
 
 #include <vector>
-//#include <fstream>  // Debugging only
-
 
 /** @class OggPageInterleaver
 
@@ -102,9 +100,7 @@ protected:
 
 	LOOG_INT64 mBytesWritten;
 	LOOG_INT64 mProgressTime;
-	//DEBUG ONLY
-	fstream debugLog;
-	//
+
 private:
 	OggPageInterleaver& operator=(const OggPageInterleaver& other);  /* Don't assign me */
 	OggPageInterleaver(const OggPageInterleaver& other); /* Don't copy me */

@@ -33,11 +33,6 @@
 #include <libOOOgg/IStampedOggPacketSink.h>
 #include <libOOOgg/OggPage.h>
 
-//Debug only
-#include <fstream>
-using namespace std;
-//
-
 //TODO::: Loose mode controls
 class LIBOOOGG_API OggPacketiser
 	:	public IOggCallback
@@ -86,7 +81,6 @@ protected:
 	bool processPage(OggPage* inOggPage, bool inIncludeFirst, bool inIncludeLast);
 	ePacketiserState mPacketiserState;
 
-	//fstream debugLog;
 private:
 	OggPacketiser& operator=(const OggPacketiser& other);  /* Don't assign me */
 	OggPacketiser(const OggPacketiser& other); /* Don't copy me */

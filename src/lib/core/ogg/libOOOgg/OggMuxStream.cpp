@@ -30,6 +30,7 @@
 //===========================================================================
 #include "stdafx.h"
 #include <libOOOgg/OggMuxStream.h>
+#include <limits.h>
 
 OggMuxStream::OggMuxStream(INotifyArrival* inNotifier)
 	:	mIsEOS(false)
@@ -102,7 +103,7 @@ OggPage* OggMuxStream::peekFront() {
 	return retPage;
 }
 LOOG_INT64 OggMuxStream::frontTime() {
-	LOOG_INT64 retTime = INT64_MAX;
+	LOOG_INT64 retTime = LLONG_MAX;
 	if (!mPageQueue.empty()) {
 		retTime = mPageQueue.front()->header()->GranulePos();;
 	}
