@@ -44,12 +44,16 @@
 #define OGG_MUX_API __declspec(dllimport)
 #endif
 
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
-#else
-#define LIBOOOGG_API __declspec(dllimport)
-#endif
 
+#ifndef OGGMUX_DLL
+    #define LIBOOOGG_API
+#else
+    #ifdef LIBOOOGG_EXPORTS
+        #define LIBOOOGG_API __declspec(dllexport)
+    #else
+        #define LIBOOOGG_API __declspec(dllimport)
+    #endif
+#endif
 
 
 // {90D6513C-A665-4b16-ACA7-B3D1D4EFE58D}

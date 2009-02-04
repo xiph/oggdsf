@@ -239,6 +239,7 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	BYTE* locSampleBuff;
 	inSample->GetPointer(&locSampleBuff);
 	HRESULT locHR = inSample->GetTime(&locStart, &locEnd);
+    UNREFERENCED_PARAMETER(locHR);
 
 	//debugLog <<"Received "<<locStart<<" - "<<locEnd<<endl;
 	long locBuffSize = inSample->GetActualDataLength();

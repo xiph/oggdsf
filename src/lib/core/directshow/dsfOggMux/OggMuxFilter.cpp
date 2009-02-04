@@ -71,6 +71,7 @@ CUnknown* WINAPI OggMuxFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
 
 void OggMuxFilter::NotifyComplete() {
 	HRESULT locHR = NotifyEvent(EC_COMPLETE, S_OK, NULL);
+    UNREFERENCED_PARAMETER(locHR);
 
 }
 
