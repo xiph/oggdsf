@@ -42,4 +42,4 @@
 #include <windows.h>
 
 
-// TODO: reference additional headers your program requires here
+#define FLAC__NO_DLL
