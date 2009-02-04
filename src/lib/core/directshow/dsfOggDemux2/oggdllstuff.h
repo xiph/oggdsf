@@ -49,21 +49,26 @@
 
 //#pragma warning( pop )
 
-
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef OGGDEMUX_DLL
+    #define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+    #ifdef LIBOOOGG_EXPORTS
+        #define LIBOOOGG_API __declspec(dllexport)
+    #else
+        #define LIBOOOGG_API __declspec(dllimport)
+    #endif
 #endif
 
-
-#ifdef DSFOGGDEMUX2_EXPORTS
-#pragma message("----> Exporting from Ogg Demux...")
-#define OGG_DEMUX2_API __declspec(dllexport)
+#ifndef OGGDEMUX_DLL
+    #define OGG_DEMUX2_API
 #else
-#pragma message("<---- Importing from Ogg Demux...")
-#define OGG_DEMUX2_API __declspec(dllimport)
+    #ifdef DSFOGGDEMUX2_EXPORTS
+        #pragma message("----> Exporting from Ogg Demux...")
+        #define OGG_DEMUX2_API __declspec(dllexport)
+    #else
+        #pragma message("<---- Importing from Ogg Demux...")
+        #define OGG_DEMUX2_API __declspec(dllimport)
+    #endif
 #endif
-
 
 #endif

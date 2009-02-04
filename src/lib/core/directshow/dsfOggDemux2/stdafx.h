@@ -46,12 +46,6 @@
 #include <iostream>
 using namespace std;
 
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
-#else
-#define LIBOOOGG_API __declspec(dllimport)
-#endif
-
 #include "oggdllstuff.h"
 #include "OggDemuxPacketSourceFilter.h"
 #include "ds_guids.h"
