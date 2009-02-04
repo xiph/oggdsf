@@ -41,6 +41,6 @@
 // Windows Header Files:
 #include <windows.h>
 
-#include "flacencoderdllstuff.h"
+#define FLAC__NO_DLL
 
-// TODO: reference additional headers your program requires here
+#include "flacencoderdllstuff.h"

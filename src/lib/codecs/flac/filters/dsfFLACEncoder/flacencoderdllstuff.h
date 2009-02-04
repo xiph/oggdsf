@@ -45,10 +45,14 @@ struct sFLACFormatBlock {
 #include "FLACEncodeOutputPin.h"
 #include "FLACEncodeFilter.h"
 
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef FLACENCODER_DLL
+    #define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+    #ifdef LIBOOOGG_EXPORTS
+        #define LIBOOOGG_API __declspec(dllexport)
+    #else
+        #define LIBOOOGG_API __declspec(dllimport)
+    #endif
 #endif
 
 // {EE66A998-4E5C-4e23-A0F3-97C40D87EC48}
