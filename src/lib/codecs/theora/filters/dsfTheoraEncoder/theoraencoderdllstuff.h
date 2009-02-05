@@ -38,12 +38,14 @@
 #include <initguid.h>
 #include <dvdmedia.h>
 
-
-
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef THEORAENCODER_DLL
+	#define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+	#ifdef LIBOOOGG_EXPORTS
+		#define LIBOOOGG_API __declspec(dllexport)
+	#else
+		#define LIBOOOGG_API __declspec(dllimport)
+	#endif
 #endif
 
 // {121EA765-6D3F-4519-9686-A0BA6E5281A2}
