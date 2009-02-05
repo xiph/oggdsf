@@ -51,10 +51,14 @@ struct sVorbisFormatBlock {
 #include "VorbisEncodeOutputPin.h"
 #include "VorbisEncodeFilter.h"
 
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef VORBISENCODER_DLL
+	#define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+	#ifdef LIBOOOGG_EXPORTS
+		#define LIBOOOGG_API __declspec(dllexport)
+	#else
+		#define LIBOOOGG_API __declspec(dllimport)
+	#endif
 #endif
 
 // {A538F05F-DC08-4bf9-994F-18A86CCA6CC4}
