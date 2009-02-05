@@ -36,11 +36,15 @@
 
 
 #ifdef WIN32
-# ifdef LIBOOOGGCHEF_EXPORTS
-#  define LIBOOOGGCHEF_API __declspec(dllexport)
-# else
-#  define LIBOOOGGCHEF_API __declspec(dllimport)
-# endif
+#ifndef OOOGGCHEF_DLL
+    #define LIBOOOGGCHEF_API
+#else
+    # ifdef LIBOOOGGCHEF_EXPORTS
+        #  define LIBOOOGGCHEF_API __declspec(dllexport)
+    # else
+        #  define LIBOOOGGCHEF_API __declspec(dllimport)
+    # endif
+#endif
 #else  /* assume POSIX */
 # define LIBOOOGGCHEF_API
 #endif

@@ -67,7 +67,6 @@ protected:
 	BufferWriter mBufferWriter;
 	void* mBufferWriterUserData;
 
-	fstream mDebugFile;
 #ifdef UNICODE
 	wstring mCMMLFilename;
 #else
