@@ -40,7 +40,6 @@
 #include <libCMMLParse/xtag.h>
 #include <libilliCore/StringHelper.h>
 
-#include <fstream>
 #include <string>
 
 using namespace std;

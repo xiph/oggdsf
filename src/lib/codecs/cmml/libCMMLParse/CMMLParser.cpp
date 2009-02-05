@@ -39,9 +39,7 @@
 //#include <libCMMLTags/libCMMLTags.h>
 //#include <libilliCore/StringHelper.h>
 //
-//#include <fstream>
-
-
+#include <fstream>
 using namespace std;
 
 
