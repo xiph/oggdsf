@@ -36,7 +36,7 @@
 
 #include "stdafx.h"
 #include "libCMMLTags.h"
-
+/*
 //Ignore these unreferenced variable wanrings only for this file
 #pragma warning(push)
 #pragma warning(disable: 4100)
@@ -58,3 +58,4 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 }
 
 #pragma warning(pop)
+*/
