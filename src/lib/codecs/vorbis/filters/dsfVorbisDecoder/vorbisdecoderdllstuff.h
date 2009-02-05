@@ -52,10 +52,14 @@
 # endif
 #endif
 
-#ifdef LIBOOOGG_EXPORTS
-#define LIBOOOGG_API __declspec(dllexport)
+#ifndef VORBISDECODER_DLL
+	#define LIBOOOGG_API
 #else
-#define LIBOOOGG_API __declspec(dllimport)
+	#ifdef LIBOOOGG_EXPORTS
+		#define LIBOOOGG_API __declspec(dllexport)
+	#else
+		#define LIBOOOGG_API __declspec(dllimport)
+	#endif
 #endif
 
 //// {8A0566AC-42B3-4ad9-ACA3-93B906DDF98A}
