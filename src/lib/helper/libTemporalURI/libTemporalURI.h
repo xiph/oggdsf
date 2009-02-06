@@ -39,12 +39,15 @@
 // LIBTEMPORALURI_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 #ifdef WIN32
-# ifdef LIBTEMPORALURI_EXPORTS
-#  define LIBTEMPORALURI_API __declspec(dllexport)
-# else
-#  define LIBTEMPORALURI_API __declspec(dllimport)
-# endif
+#ifndef TEMPORALURI_DLL
+	# define LIBTEMPORALURI_API
 #else
-# define LIBTEMPORALURI_API
+	# ifdef LIBTEMPORALURI_EXPORTS
+		#  define LIBTEMPORALURI_API __declspec(dllexport)
+	# else
+		#  define LIBTEMPORALURI_API __declspec(dllimport)
+	# endif
 #endif
-
+#else
+	# define LIBTEMPORALURI_API
+#endif
