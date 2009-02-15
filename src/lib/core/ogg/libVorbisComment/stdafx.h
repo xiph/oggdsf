@@ -44,12 +44,15 @@
 
 // TODO: reference additional headers your program requires here
 #ifdef WIN32
-# ifdef LIBOOOGG_EXPORTS
-#  define LIBOOOGG_API __declspec(dllexport)
-# else
-#  define LIBOOOGG_API __declspec(dllimport)
-# endif
+	#ifndef LIBOOOGG_DLL
+		#define LIBOOOGG_API
+	#else
+		# ifdef LIBOOOGG_EXPORTS
+			#  define LIBOOOGG_API __declspec(dllexport)
+		# else
+			#  define LIBOOOGG_API __declspec(dllimport)
+		# endif
+	#endif
 #else  /* assume POSIX */
-# define LIBOOOGG_API
+	# define LIBOOOGG_API
 #endif
-
