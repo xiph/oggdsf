@@ -1,0 +1,18 @@
+// AxPlayer.idl : IDL source for AxPlayer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AxPlayer.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(4856ADA6-564F-41B8-ACAA-E98ABD004A84),
+	version(1.0),
+	helpstring("AxPlayer 1.0 Type Library")
+]
+library AxPlayerLib
+{
+	importlib("stdole2.tlb");
+};

@@ -1,0 +1,10 @@
+; AxPlayer.def : Declares the module parameters.
+
+LIBRARY      "AxPlayer.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE
+	DllInstall		PRIVATE

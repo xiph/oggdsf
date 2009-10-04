@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'AxPlayer'
+		'AxPlayer.DLL'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}
