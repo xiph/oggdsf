@@ -1,1480 +1,550 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<VisualStudioProject
-	ProjectType="Visual C++"
-	Version="9,00"
-	Name="dsfVorbisEncoder"
-	ProjectGUID="{D74A626E-C8CB-4787-913E-2E637FC04F2B}"
-	RootNamespace="dsfVorbisEncoder"
-	Keyword="Win32Proj"
-	TargetFrameworkVersion="131072"
-	>
+<VisualStudioProject ProjectType="Visual C++" Version="9,00" Name="dsfVorbisEncoder" ProjectGUID="{D74A626E-C8CB-4787-913E-2E637FC04F2B}" RootNamespace="dsfVorbisEncoder" Keyword="Win32Proj" TargetFrameworkVersion="131072">
 	<Platforms>
-		<Platform
-			Name="Win32"
-		/>
-		<Platform
-			Name="Pocket PC 2003 (ARMV4)"
-		/>
-		<Platform
-			Name="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-		/>
+		<Platform Name="Win32"/>
+		<Platform Name="x64"/>
+		<Platform Name="Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"/>
+		<Platform Name="Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"/>
+		<Platform Name="Windows Mobile 6 Professional SDK (ARMV4I)"/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
-				CallingConvention="2"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib "
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+		<Configuration Name="Debug|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool"/>
+			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" MinimalRebuild="true" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="4" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb" SubSystem="2" RandomizedBaseAddress="1" DataExecutionPrevention="0" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="1"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
 		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="Release"
-			IntermediateDirectory="Release"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="true"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-				CallingConvention="2"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib "
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+		<Configuration Name="Release|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool"/>
+			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" RandomizedBaseAddress="1" DataExecutionPrevention="0" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="1"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
 		</Configuration>
-		<Configuration
-			Name="Debug_CE_ARM|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
-				CallingConvention="2"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+		<Configuration Name="Release_SSE|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool"/>
+			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" EnableEnhancedInstructionSet="1" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" RandomizedBaseAddress="1" DataExecutionPrevention="0" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="1"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
 		</Configuration>
-		<Configuration
-			Name="Debug_WM5_PPC_ARM|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
-				CallingConvention="2"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+		<Configuration Name="Release_SSE2|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool"/>
+			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" EnableEnhancedInstructionSet="2" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" RandomizedBaseAddress="1" DataExecutionPrevention="0" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="1"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
 		</Configuration>
-		<Configuration
-			Name="Release_WM5_PPC_ARM|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
-				CallingConvention="2"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+		<Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
+			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" MinimalRebuild="true" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="17"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCWebDeploymentTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
 		</Configuration>
-		<Configuration
-			Name="Debug|Pocket PC 2003 (ARMV4)"
-			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
+			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="17"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCWebDeploymentTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
 		</Configuration>
-		<Configuration
-			Name="Release|Pocket PC 2003 (ARMV4)"
-			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="2"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-				DebugInformationFormat="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="4"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
-		<Configuration
-			Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
-			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
-		<Configuration
-			Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
-			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="4"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
-		<Configuration
-			Name="Release_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
-			OutputDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			IntermediateDirectory="Pocket PC 2003 (ARMV4)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
-		<Configuration
-			Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="4"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
-		<Configuration
-			Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="2"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-				DebugInformationFormat="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
-		<Configuration
-			Name="Debug_CE_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Release_SSE|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
+			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="17"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCWebDeploymentTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
 		</Configuration>
-		<Configuration
-			Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib strmiids.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
-		<Configuration
-			Name="Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			IntermediateDirectory="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="1"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\core\directshow\BaseClasses;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\helper\libfishsound\include;..\..\..\helper\libfishsound\win32;..\..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS"
-				MinimalRebuild="true"
-				RuntimeLibrary="2"
-				TreatWChar_tAsBuiltInType="false"
-				UsePrecompiledHeader="2"
-				WarningLevel="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib strmiids.lib"
-				OutputFile="$(OutDir)/dsfVorbisEncoder.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="vorbisencoder.def"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/dsfVorbisEncoder.pdb"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
+		<Configuration Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
+		</Configuration>
+		<Configuration Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
+		</Configuration>
+		<Configuration Name="Release_SSE2|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
+			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="2"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="17"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCManifestTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCFxCopTool"/>
+			<Tool Name="VCAppVerifierTool"/>
+			<Tool Name="VCWebDeploymentTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+		</Configuration>
+		<Configuration Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
+		</Configuration>
+		<Configuration Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
+		</Configuration>
+		<Configuration Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
+			<Tool Name="VCPreBuildEventTool"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
+			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\..\..\core\directshow\libDirectshowAbstracts;..\..\..\..\core\ogg;..\..\..\..\helper;..\..\libs\libOOVorbis;..\..\libs\libvorbis\include;..\..\..\..\core\ogg\libogg\include" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFVORBISENCODER_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0"/>
+			<Tool Name="VCManagedResourceCompilerTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfVorbisEncoder.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="vorbisencoder.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfVorbisEncoder.lib" TargetMachine="0"/>
+			<Tool Name="VCALinkTool"/>
+			<Tool Name="VCXDCMakeTool"/>
+			<Tool Name="VCBscMakeTool"/>
+			<Tool Name="VCCodeSignTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
+			<DebuggerTool/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
-			>
-			<File
-				RelativePath=".\PropsVorbisEncoder.cpp"
-				>
+		<Filter Name="Source Files" Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
+			<File RelativePath=".\PropsVorbisEncoder.cpp">
 			</File>
-			<File
-				RelativePath="stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+			<File RelativePath="stdafx.cpp">
+				<FileConfiguration Name="Debug|Win32">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release|Win32">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release_SSE|Win32">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release_SSE2|Win32">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Debug|x64">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Pocket PC 2003 (ARMV4)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release|x64">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Pocket PC 2003 (ARMV4)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_CE_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release_SSE|x64">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_SSE2|x64">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug|Pocket PC 2003 (ARMV4)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release|Pocket PC 2003 (ARMV4)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_CE_ARM|Win32">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_CE_ARM|x64">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_WM5_PPC_ARM|Win32">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_WM5_PPC_ARM|x64">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_WM5_PPC_ARM|Win32">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_WM5_PPC_ARM|x64">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_CE_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
+					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="VorbisEncodeFilter.cpp"
-				>
+			<File RelativePath="VorbisEncodeFilter.cpp">
 			</File>
-			<File
-				RelativePath="VorbisEncodeInputPin.cpp"
-				>
+			<File RelativePath="VorbisEncodeInputPin.cpp">
 			</File>
-			<File
-				RelativePath="VorbisEncodeOutputPin.cpp"
-				>
+			<File RelativePath="VorbisEncodeOutputPin.cpp">
 			</File>
-			<File
-				RelativePath="vorbisencoder.def"
-				>
+			<File RelativePath="vorbisencoder.def">
 			</File>
-			<File
-				RelativePath="vorbisencoderdllstuff.cpp"
-				>
+			<File RelativePath="vorbisencoderdllstuff.cpp">
 			</File>
 		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc"
-			>
-			<File
-				RelativePath=".\IVorbisEncodeSettings.h"
-				>
+		<Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;inc">
+			<File RelativePath=".\IVorbisEncodeSettings.h">
 			</File>
-			<File
-				RelativePath=".\PropsVorbisEncoder.h"
-				>
+			<File RelativePath=".\PropsVorbisEncoder.h">
 			</File>
-			<File
-				RelativePath=".\resource.h"
-				>
+			<File RelativePath=".\resource.h">
 			</File>
-			<File
-				RelativePath="stdafx.h"
-				>
+			<File RelativePath="stdafx.h">
 			</File>
-			<File
-				RelativePath="VorbisEncodeFilter.h"
-				>
+			<File RelativePath="VorbisEncodeFilter.h">
 			</File>
-			<File
-				RelativePath="VorbisEncodeInputPin.h"
-				>
+			<File RelativePath="VorbisEncodeInputPin.h">
 			</File>
-			<File
-				RelativePath="VorbisEncodeOutputPin.h"
-				>
+			<File RelativePath="VorbisEncodeOutputPin.h">
 			</File>
-			<File
-				RelativePath="vorbisencoderdllstuff.h"
-				>
+			<File RelativePath="vorbisencoderdllstuff.h">
 			</File>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-			>
-			<File
-				RelativePath=".\dsfVorbisEncoder.rc"
-				>
+		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File RelativePath=".\dsfVorbisEncoder.rc">
 			</File>
 		</Filter>
-		<File
-			RelativePath="ReadMe.txt"
-			>
+		<File RelativePath="ReadMe.txt">
 		</File>
 	</Files>
 	<Globals>

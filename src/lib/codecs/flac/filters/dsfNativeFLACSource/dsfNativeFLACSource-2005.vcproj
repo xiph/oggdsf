@@ -1,718 +1,2321 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<VisualStudioProject ProjectType="Visual C++" Version="8,00" Name="dsfNativeFLACSource" ProjectGUID="{43DEE58F-CEC6-49B4-BC06-3D28978BAB63}" RootNamespace="dsfNativeFLACSource" Keyword="Win32Proj">
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="dsfNativeFLACSource"
+	ProjectGUID="{43DEE58F-CEC6-49B4-BC06-3D28978BAB63}"
+	RootNamespace="dsfNativeFLACSource"
+	Keyword="Win32Proj"
+	>
 	<Platforms>
-		<Platform Name="Win32"/>
-		<Platform Name="x64"/>
-		<Platform Name="Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"/>
-		<Platform Name="Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"/>
-		<Platform Name="Windows Mobile 6 Professional SDK (ARMV4I)"/>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+		/>
+		<Platform
+			Name="Windows Mobile 6 Professional SDK (ARMV4I)"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration Name="Debug|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="_DEBUG" MkTypLibCompatible="true" HeaderFileName=""/>
-			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" MinimalRebuild="true" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="4" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="1"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="4"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" MinimalRebuild="true" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="17"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="_DEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName=""/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				MinimalRebuild="true"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb"
+				SubSystem="9"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="_DEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName=""/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				MinimalRebuild="true"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb"
+				SubSystem="9"
+				LinkTimeCodeGeneration="0"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="_DEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName=""/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				MinimalRebuild="true"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfNativeFLACSource.pdb"
+				SubSystem="9"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="1"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="17"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="0" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" ImproveFloatingPointConsistency="false" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" GeneratePreprocessedFile="0" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="9" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				ImproveFloatingPointConsistency="false"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				GeneratePreprocessedFile="0"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" RuntimeLibrary="2" EnableEnhancedInstructionSet="1" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="1"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release_SSE|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				RuntimeLibrary="2"
+				EnableEnhancedInstructionSet="1"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" RuntimeLibrary="2" EnableEnhancedInstructionSet="1" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="17"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release_SSE|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				RuntimeLibrary="2"
+				EnableEnhancedInstructionSet="1"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE2|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" RuntimeLibrary="2" EnableEnhancedInstructionSet="2" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="1"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release_SSE2|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				RuntimeLibrary="2"
+				EnableEnhancedInstructionSet="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE2|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS" RuntimeLibrary="2" EnableEnhancedInstructionSet="2" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="2"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="17"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release_SSE2|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="$(BASECLASSES);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS"
+				RuntimeLibrary="2"
+				EnableEnhancedInstructionSet="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" PreprocessorDefinitions="NDEBUG" MkTypLibCompatible="true" TargetEnvironment="1" HeaderFileName="ComInterfaces.h"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" WholeProgramOptimization="false" AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool" PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib" OutputFile="$(OutDir)/dsfNativeFLACSource.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="NativeFLACSource.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				TargetEnvironment="1"
+				HeaderFileName="ComInterfaces.h"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="$(BASECLASSES_WINCE);..\..\libs\libflac\include;..\..\..\..\helper;..\..\..\..\core\directshow\libDirectshowAbstracts"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFNATIVEFLACSOURCE_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib"
+				OutputFile="$(OutDir)/dsfNativeFLACSource.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="NativeFLACSource.def"
+				GenerateDebugInformation="true"
+				SubSystem="9"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfNativeFLACSource.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
-		<Filter Name="Source Files" Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx" UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
-			<File RelativePath=".\ComInterfaces.idl">
-				<FileConfiguration Name="Debug|Win32">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" HeaderFileName="ComInterfaces.h" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" HeaderFileName="ComInterfaces.h" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" HeaderFileName="ComInterfaces.h" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" HeaderFileName="ComInterfaces.h" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Win32">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Win32">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Win32">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCMIDLTool" MkTypLibCompatible="false" GenerateStublessProxies="true" InterfaceIdentifierFileName="ComInterfaces_i.c" ProxyFileName="ComInterfaces_p.c"/>
-				</FileConfiguration>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath=".\dsfNativeFLACSource.cpp"
+				>
 			</File>
-			<File RelativePath=".\dsfNativeFLACSource.cpp">
+			<File
+				RelativePath=".\NativeFLACSource.def"
+				>
 			</File>
-			<File RelativePath=".\NativeFLACSource.def">
+			<File
+				RelativePath=".\NativeFLACSourceFilter.cpp"
+				>
 			</File>
-			<File RelativePath=".\NativeFLACSourceFilter.cpp">
+			<File
+				RelativePath=".\NativeFLACSourcePin.cpp"
+				>
 			</File>
-			<File RelativePath=".\NativeFLACSourcePin.cpp">
-			</File>
-			<File RelativePath=".\stdafx.cpp">
-				<FileConfiguration Name="Debug|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE2|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE2|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Pocket PC 2003 (ARMV4)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Pocket PC 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Pocket PC 2003 (ARMV4)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Pocket PC 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_CE_ARM|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_CE_ARM|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_CE_ARM|Pocket PC 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_CE_ARM|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_CE_ARM|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_WM5_PPC_ARM|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_WM5_PPC_ARM|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_WM5_PPC_ARM|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Pocket PC 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_WM5_PPC_ARM|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_CE_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_CE_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;inc;xsd" UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File RelativePath=".\dsfNativeFLACSource.h">
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<File
+				RelativePath=".\dsfNativeFLACSource.h"
+				>
 			</File>
-			<File RelativePath=".\Log.h">
+			<File
+				RelativePath=".\NativeFLACSourceFilter.h"
+				>
 			</File>
-			<File RelativePath=".\NativeFLACSourceFilter.h">
+			<File
+				RelativePath=".\NativeFLACSourcePin.h"
+				>
 			</File>
-			<File RelativePath=".\NativeFLACSourcePin.h">
+			<File
+				RelativePath=".\resource.h"
+				>
 			</File>
-			<File RelativePath=".\resource.h">
-			</File>
-			<File RelativePath=".\stdafx.h">
-			</File>
-		</Filter>
-		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx" UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
-			<File RelativePath=".\Resources.rc">
-				<FileConfiguration Name="Debug|Win32">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|x64">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Win32">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|x64">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Win32">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|x64">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Win32">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|x64">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCResourceCompilerTool" AdditionalIncludeDirectories="$(IntDir)"/>
-				</FileConfiguration>
+			<File
+				RelativePath=".\stdafx.h"
+				>
 			</File>
 		</Filter>
-		<Filter Name="Generated Files" SourceControlFiles="false">
-			<File RelativePath=".\ComInterfaces.h">
-			</File>
-			<File RelativePath=".\ComInterfaces_i.c">
-				<FileConfiguration Name="Debug|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<File
+				RelativePath=".\Resources.rc"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE2|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE2|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE2|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE2|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="0"/>
+				<FileConfiguration
+					Name="Release_SSE2|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="$(IntDir)"
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
