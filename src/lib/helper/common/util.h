@@ -47,20 +47,10 @@ namespace util
 
         xpath_query query(queryString.str().c_str());
 
-        string levelString = doc.select_single_node(query).node().attribute("Level").value();
+        wstring levelString = CA2W(doc.select_single_node(query).node().attribute("Level").value());
+        Log::ReportingLevel() = Log::FromString(levelString);
 
-        unsigned short level = logNONE;
-        if (!levelString.empty())
-        {
-            istringstream is;
-            is.str(levelString);
-
-            is >> level;
-        }
-
-        Log::ReportingLevel() = static_cast<LogLevel>(level);
-
-        if (level != logNONE)
+        if (Log::ReportingLevel() != logNONE)
         {
             wstring logFileName = configLocation;
             logFileName += L"\\";

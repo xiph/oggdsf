@@ -138,6 +138,7 @@ LogLevel LogT<T>::FromString(const std::wstring& level)
 
     if (logLevels.empty())
     {
+        logLevels[L"NONE"]    = logNONE;
         logLevels[L"ERROR"]   = logERROR;
         logLevels[L"WARNING"] = logWARNING;
         logLevels[L"INFO"]    = logINFO;
@@ -151,7 +152,7 @@ LogLevel LogT<T>::FromString(const std::wstring& level)
     LogLevelNamesMap::iterator it = logLevels.find(level);
     if (it == logLevels.end())
     {
-        Log<T>().Get(logWARNING) << L"Unknown logging level '" << level
+        LogT<T>().Get(logWARNING) << L"Unknown logging level '" << level
             << L"'. Using INFO level as default.";
 
         return logINFO;
