@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2008, 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,277 +30,321 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "stdafx.h"
-#include ".\NativeFLACSourcePin.h"
+#include "NativeFLACSourcePin.h"
+#include "dsfNativeFLACSource.h"
 
-NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock)
-	:	CBaseOutputPin(NAME("Native FLAC Source Pin"), inParentFilter, inFilterLock, &mFilterHR, L"PCM Out")
-	,	mParentFilter(inParentFilter)
-	,	mDataQueue(NULL)
+#include <sstream>
 
+NativeFLACSourcePin::NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock):   
+CBaseOutputPin(NAME("Native FLAC Source Pin"), inParentFilter, inFilterLock, &m_filterHR, L"PCM Out"),
+m_parentFilter(inParentFilter),
+m_dataQueue(NULL),
+m_haveDiscontinuity(true)
 {
-	//Subvert COM and do this directly... this way, the source filter won't expose the interface to the
-	// graph but we can still delegate to it.
-	IMediaSeeking* locSeeker = NULL;
-	locSeeker = (IMediaSeeking*)mParentFilter;
-	SetDelegate(locSeeker);
+    //Subvert COM and do this directly... this way, the source filter won't expose the interface to the
+    // graph but we can still delegate to it.
+    IMediaSeeking* locSeeker = NULL;
+    locSeeker = (IMediaSeeking*)m_parentFilter;
+    SetDelegate(locSeeker);
 }
 
 NativeFLACSourcePin::~NativeFLACSourcePin(void)
 {
-	SetDelegate(NULL);		//Avoid infinite destructor loop.
-	delete mDataQueue;
-	mDataQueue = NULL;
+    SetDelegate(NULL);      //Avoid infinite destructor loop.
+    delete m_dataQueue;
+    m_dataQueue = NULL;
 }
 
-STDMETHODIMP NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+HRESULT __stdcall NativeFLACSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	if (riid == IID_IMediaSeeking) {
-		*ppv = (IMediaSeeking*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
-	}
-	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
+    if (riid == IID_IMediaSeeking) 
+    {
+        return GetInterface((IMediaSeeking*) this, ppv);
+    }
+    
+    return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
 HRESULT NativeFLACSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-	mDataQueue->NewSegment(tStart, tStop, dRate);
-	return S_OK;
-}
-HRESULT NativeFLACSourcePin::DeliverEndOfStream(void)
-{
-	mDataQueue->EOS();
+    LOG(logINFO) << "DeliverNewSegment: start " << ReferenceTime(tStart) << ", end " << ReferenceTime(tStop);
+
+    if (m_dataQueue != 0)
+    {
+        m_dataQueue->NewSegment(tStart, tStop, dRate);
+    }
+
     return S_OK;
 }
 
-HRESULT NativeFLACSourcePin::DeliverEndFlush(void)
+HRESULT NativeFLACSourcePin::DeliverEndOfStream()
 {
-	mDataQueue->EndFlush();
+    if (m_dataQueue != 0)
+    {
+        m_dataQueue->EOS();
+    }
+
     return S_OK;
 }
 
-HRESULT NativeFLACSourcePin::DeliverBeginFlush(void)
+HRESULT NativeFLACSourcePin::DeliverEndFlush()
 {
-	mDataQueue->BeginFlush();
+    if (m_dataQueue != 0)
+    {
+        m_dataQueue->EndFlush();
+    }
+    
+    m_haveDiscontinuity = true;
+
+    return S_OK;
+}
+
+HRESULT NativeFLACSourcePin::DeliverBeginFlush()
+{
+    if (m_dataQueue != 0)
+    {
+        m_dataQueue->BeginFlush();
+    }
+
     return S_OK;
 }
 
 HRESULT NativeFLACSourcePin::CompleteConnect (IPin *inReceivePin)
 {
-	mFilterHR = S_OK;
-	//Deleted in destructor
-	mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, NUM_BUFFERS);
-	if (FAILED(mFilterHR)) {
-		//TODO::: Probably should handle this !
+    m_filterHR = S_OK;
+    //Deleted in destructor
+    m_dataQueue = new COutputQueue (inReceivePin, &m_filterHR, FALSE, TRUE, 1, TRUE, NUM_BUFFERS);
+    
+    if (FAILED(m_filterHR)) 
+    {
+        //TODO::: Probably should handle this !
         //CHECK::: See if it ever silently reports failure but actually does work before bailing here.
-        
-		mFilterHR = mFilterHR;
-	}
-	
-	return CBaseOutputPin::CompleteConnect(inReceivePin);
+    }
+    
+    return CBaseOutputPin::CompleteConnect(inReceivePin);
 }
 
-HRESULT NativeFLACSourcePin::BreakConnect(void) {
-	delete mDataQueue;
-	mDataQueue = NULL;
-	return CBaseOutputPin::BreakConnect();
+HRESULT NativeFLACSourcePin::BreakConnect() 
+{
+    delete m_dataQueue;
+    m_dataQueue = NULL;
+    return CBaseOutputPin::BreakConnect();
 }
-
 
 
 HRESULT NativeFLACSourcePin::SetMediaType(const CMediaType* inMediaType)
 {
-
-    if (((WAVEFORMATEX*)inMediaType->pbFormat)->wFormatTag == WAVE_FORMAT_EXTENSIBLE) {
-        //mUsingExtendedWave = true;
-    } else if (((WAVEFORMATEX*)inMediaType->pbFormat)->wFormatTag == WAVE_FORMAT_PCM) {
-        //mUsingExtendedWave = false;
-    }
-
     return CBaseOutputPin::SetMediaType(inMediaType);
-
 }
-HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) 
+
+void NativeFLACSourcePin::FillMediaType(CMediaType& mediaType, bool useWaveFormatEx)
 {
-    //WFE::: Also offer extensible format
-	if (inPosition == 0) {
-		outMediaType->SetType(&MEDIATYPE_Audio);
-		outMediaType->SetSubtype(&MEDIASUBTYPE_PCM);
-		outMediaType->SetFormatType(&FORMAT_WaveFormatEx);
-		outMediaType->SetTemporalCompression(FALSE);
-		outMediaType->SetSampleSize(0);
+    if (useWaveFormatEx)
+    {
+        // Windows CE doesn't have ksmedia.h, or at least Windows CE 5.0
+#ifndef WINCE
+        mediaType.SetType(&MEDIATYPE_Audio);
+        mediaType.SetSubtype(&MEDIASUBTYPE_PCM);
+        mediaType.SetFormatType(&FORMAT_WaveFormatEx);
+        mediaType.SetTemporalCompression(FALSE);
+        mediaType.SetSampleSize(0);
 
-		WAVEFORMATEXTENSIBLE* locFormatEx = (WAVEFORMATEXTENSIBLE*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
-        
-		locFormatEx->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+        WAVEFORMATEXTENSIBLE* formatEx = (WAVEFORMATEXTENSIBLE*)mediaType.AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
 
-		locFormatEx->Format.nChannels = (WORD)mParentFilter->mNumChannels;
-		locFormatEx->Format.nSamplesPerSec =  mParentFilter->mSampleRate;
+        formatEx->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
 
-        
-        locFormatEx->Samples.wValidBitsPerSample = (WORD)mParentFilter->mSignificantBitsPerSample;
+        formatEx->Format.nChannels = m_parentFilter->m_numChannels;
+        formatEx->Format.nSamplesPerSec = m_parentFilter->m_sampleRate;
 
-        switch (locFormatEx->Format.nChannels)
+        formatEx->Samples.wValidBitsPerSample = m_parentFilter->m_significantBitsPerSample;
+
+        switch (formatEx->Format.nChannels)
         {
         case 1:
-            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT;
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_MONO;
             break;
         case 2:
-            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
-                                         SPEAKER_FRONT_RIGHT;
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_STEREO;
             break;
         case 3:
-            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
-                                         SPEAKER_FRONT_RIGHT |
-                                         SPEAKER_FRONT_CENTER;
+            formatEx->dwChannelMask = SPEAKER_FRONT_LEFT
+                                    | SPEAKER_FRONT_RIGHT
+                                    | SPEAKER_FRONT_CENTER;
             break;
         case 4:
-            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
-                                         SPEAKER_FRONT_RIGHT |
-                                         SPEAKER_BACK_LEFT |
-                                         SPEAKER_BACK_RIGHT;
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_QUAD;
             break;
         case 5:
-            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
-                                         SPEAKER_FRONT_RIGHT |
-                                         SPEAKER_FRONT_CENTER |
-                                         SPEAKER_BACK_LEFT |
-                                         SPEAKER_BACK_RIGHT;
+            formatEx->dwChannelMask = SPEAKER_FRONT_LEFT
+                                    | SPEAKER_FRONT_RIGHT
+                                    | SPEAKER_FRONT_CENTER
+                                    | SPEAKER_BACK_LEFT
+                                    | SPEAKER_BACK_RIGHT;
             break;
-
         case 6:
-            locFormatEx->dwChannelMask = SPEAKER_FRONT_LEFT |
-                                         SPEAKER_FRONT_RIGHT |
-                                         SPEAKER_FRONT_CENTER |
-                                         SPEAKER_LOW_FREQUENCY |
-                                         SPEAKER_BACK_LEFT |
-                                         SPEAKER_BACK_RIGHT;
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1;
             break;
-
+        case 8:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1;
+            break;
         default:
-            locFormatEx->dwChannelMask = 0;
+            formatEx->dwChannelMask = 0;
             break;
-
-
         }
 
-        ////TODO::: Round up to multiple of 8 or something
-        //if (mParentFilter->mBitsPerSample <= 16) {
-        //    //Round up to multiple of 8, ie 8 or 16
-        //    locFormatEx->Format.wBitsPerSample = (WORD)(mParentFilter->mBitsPerSample + 7) & 0xfff8;
-        //} else if (mParentFilter->mBitsPerSample <= 32) {
-        //    //Just use 32
-        //    locFormatEx->Format.wBitsPerSample = 32;
-        //}
-		locFormatEx->Format.wBitsPerSample = (WORD)mParentFilter->mBitsPerSample;
-		locFormatEx->Format.nBlockAlign = (WORD)((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3));
-		locFormatEx->Format.nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
-		locFormatEx->Format.cbSize = 22; //sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
-        locFormatEx->SubFormat = KSDATAFORMAT_SUBTYPE_PCM;
+        formatEx->Format.wBitsPerSample = m_parentFilter->m_bitsPerSample;
+        formatEx->Format.nBlockAlign = m_parentFilter->m_numChannels * (m_parentFilter->m_bitsPerSample >> 3);
+        formatEx->Format.nAvgBytesPerSec = formatEx->Format.nBlockAlign * m_parentFilter->m_sampleRate;
+        formatEx->Format.cbSize = 22; //sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
+        formatEx->SubFormat = KSDATAFORMAT_SUBTYPE_PCM;
+#endif
+    }
+    else
+    {
+        mediaType.SetType(&MEDIATYPE_Audio);
+        mediaType.SetSubtype(&MEDIASUBTYPE_PCM);
+        mediaType.SetFormatType(&FORMAT_WaveFormatEx);
+        mediaType.SetTemporalCompression(FALSE);
+        mediaType.SetSampleSize(0);
 
-        return S_OK;
+        WAVEFORMATEX* format = (WAVEFORMATEX*)mediaType.AllocFormatBuffer(sizeof(WAVEFORMATEX));
+        format->wFormatTag = WAVE_FORMAT_PCM;
 
-        //mUsingExtendedWav = true;
-    } else if (inPosition == 1) {
-		outMediaType->SetType(&MEDIATYPE_Audio);
-		outMediaType->SetSubtype(&MEDIASUBTYPE_PCM);
-		outMediaType->SetFormatType(&FORMAT_WaveFormatEx);
-		outMediaType->SetTemporalCompression(FALSE);
-		outMediaType->SetSampleSize(0);
-
-		WAVEFORMATEX* locFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-		locFormat->wFormatTag = WAVE_FORMAT_PCM;
-
-		locFormat->nChannels = (WORD)mParentFilter->mNumChannels;
-		locFormat->nSamplesPerSec =  mParentFilter->mSampleRate;
-		locFormat->wBitsPerSample = (WORD)mParentFilter->mBitsPerSample;
-		locFormat->nBlockAlign = (WORD)((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3));
-		locFormat->nAvgBytesPerSec = ((mParentFilter->mNumChannels) * (mParentFilter->mBitsPerSample >> 3)) * mParentFilter->mSampleRate;
-		locFormat->cbSize = 0;
-        //mUsingExtendedWav = false;
-	
-		return S_OK;
-
-    } else {
-		return VFW_S_NO_MORE_ITEMS;
-	}
+        format->nChannels = m_parentFilter->m_numChannels;
+        format->nSamplesPerSec =  m_parentFilter->m_sampleRate;
+        format->wBitsPerSample = m_parentFilter->m_bitsPerSample;
+        format->nBlockAlign = m_parentFilter->m_numChannels * (m_parentFilter->m_bitsPerSample >> 3);
+        format->nAvgBytesPerSec = format->nBlockAlign * m_parentFilter->m_sampleRate;
+        format->cbSize = 0;
+    }
 }
+
+HRESULT NativeFLACSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) 
+{
+    if (outMediaType == 0)
+    {
+        return E_POINTER;
+    }
+
+    HRESULT result = VFW_S_NO_MORE_ITEMS;
+
+#ifdef WINCE
+    if (inPosition == 0)
+    {
+        FillMediaType(*outMediaType, false);
+        result = S_OK;
+    }
+#else
+    if (inPosition == 0) 
+    {
+        FillMediaType(*outMediaType, true);
+        
+        result = S_OK;
+    } 
+    else if (inPosition == 1) 
+    {
+        FillMediaType(*outMediaType, false);
+    
+        result = S_OK;
+    }
+#endif
+    
+    return result;
+}
+
 HRESULT NativeFLACSourcePin::CheckMediaType(const CMediaType* inMediaType) 
 {
     //WFE::: Do check for extensible type
-	if (               (inMediaType->majortype == MEDIATYPE_Audio) 
-                    &&  (inMediaType->subtype == MEDIASUBTYPE_PCM) 
-                    && (inMediaType->formattype == FORMAT_WaveFormatEx)) {
-		return S_OK;
-	} else {
-		return E_FAIL;
-	}
+    if (inMediaType->majortype == MEDIATYPE_Audio &&
+        inMediaType->subtype == MEDIASUBTYPE_PCM &&
+        inMediaType->formattype == FORMAT_WaveFormatEx) 
+    {
+        return S_OK;
+    } 
+    else 
+    {
+        return E_FAIL;
+    }
 }
+
 HRESULT NativeFLACSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) 
 {
-	HRESULT locHR = S_OK;
+    HRESULT hr = S_OK;
 
-	ALLOCATOR_PROPERTIES locReqAlloc;
-	ALLOCATOR_PROPERTIES locActualAlloc;
+    ALLOCATOR_PROPERTIES reqAlloc;
+    ALLOCATOR_PROPERTIES actualAlloc;
 
-	locReqAlloc.cbAlign = 1;
-	locReqAlloc.cbBuffer = BUFFER_SIZE;
-	locReqAlloc.cbPrefix = 0;
-	locReqAlloc.cBuffers = NUM_BUFFERS;
+    reqAlloc.cbAlign = 1;
+    reqAlloc.cbBuffer = m_parentFilter->m_numChannels * (m_parentFilter->m_bitsPerSample >> 3) * m_parentFilter->m_sampleRate;
+    reqAlloc.cbPrefix = 0;
+    reqAlloc.cBuffers = NUM_BUFFERS;
 
-	locHR = inoutAllocator->SetProperties(&locReqAlloc, &locActualAlloc);
+    hr = inoutAllocator->SetProperties(&reqAlloc, &actualAlloc);
 
-	if (locHR != S_OK) {
-		return locHR;
-	}
-	
-	locHR = inoutAllocator->Commit();
+    if (hr != S_OK) 
+    {
+        return hr;
+    }
+    
+    hr = inoutAllocator->Commit();
 
-	return locHR;
+    return hr;
 }
 
 //This method is responsible for deleting the incoming buffer.
-HRESULT NativeFLACSourcePin::deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) 
+HRESULT NativeFLACSourcePin::DeliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd) 
 {
-	//Locks !!
-	
-	IMediaSample* locSample = NULL;
-	REFERENCE_TIME locStart = inStart;
-	REFERENCE_TIME locStop = inEnd;
-	
-	HRESULT	locHR = GetDeliveryBuffer(&locSample, &locStart, &locStop, NULL);
-	
-	//Error checks
-	if (locHR != S_OK) {
-		delete[] inBuff;
-		return locHR;
-	}
+    //Locks !!
+    
+    IMediaSample* pSample = NULL;
+    REFERENCE_TIME locStart = inStart;
+    REFERENCE_TIME locStop = inEnd;
+    
+    HRESULT locHR = GetDeliveryBuffer(&pSample, &locStart, &locStop, NULL);
+    
+    //Error checks
+    if (locHR != S_OK) 
+    {
+        delete[] inBuff;
+        return locHR;
+    }
 
-	locSample->SetTime(&locStart, &locStop);
-	
-	locSample->SetSyncPoint(TRUE);
+    pSample->SetTime(&locStart, &locStop);
+    
+    pSample->SetSyncPoint(TRUE);
 
-	// Create a pointer for the samples buffer
-	BYTE* locBuffer = NULL;
-	locSample->GetPointer(&locBuffer);
+    // Create a pointer for the samples buffer
+    BYTE* locBuffer = NULL;
+    pSample->GetPointer(&locBuffer);
 
-	//*** WARNING 4018 ::: leave this.
-	if (locSample->GetSize() >= inBuffSize) {
-		memcpy((void*)locBuffer, (const void*)inBuff, inBuffSize);
-		locSample->SetActualDataLength(inBuffSize);
+    unsigned long sampleSize = pSample->GetSize();
 
-		locHR = mDataQueue->Receive(locSample);
+    if (m_haveDiscontinuity)
+    {
+        m_haveDiscontinuity = false;
 
-		if (locHR != S_OK) {
-			delete[] inBuff;
-			return locHR;
-			
-		} else {
-			delete[] inBuff;
-			return S_OK;
-		}
-	} else {
-		delete[] inBuff;
-		throw 0;
-	}
+        pSample->SetDiscontinuity(true);
+
+        DeliverNewSegment(locStart, locStop, 1.0);
+    }
+
+    if (sampleSize >= inBuffSize) 
+    {
+        memcpy((void*)locBuffer, (const void*)inBuff, inBuffSize);
+        pSample->SetActualDataLength(inBuffSize);
+
+        locHR = m_dataQueue->Receive(pSample);
+
+        LOG(logDEBUG3) << "Deliver Data: size " << inBuffSize << ", hr: 0x" << std::hex << locHR
+            << ", Start: " << ToString(locStart) << ", Stop: " << ToString(locStop);
+
+        delete [] inBuff;
+        return locHR;
+    } 
+    else 
+    {
+        delete[] inBuff;
+        throw 0;
+    }
 }
+

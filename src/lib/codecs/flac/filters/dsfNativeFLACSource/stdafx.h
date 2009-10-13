@@ -6,9 +6,26 @@
 #pragma once
 
 
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN     // Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
 #include <windows.h>
 
-// TODO: reference additional headers your program requires here
-#include "dsfNativeFLACSource.h"
+#include <streams.h>
+#include <pullpin.h>
+
+#ifndef _WIN32_WCE
+//Kernel streaming header for KSDATA_FORMAT_SUBTYPE_PCM
+#include <ks.h>
+#include <ksmedia.h>
+#include <initguid.h>
+#endif
+
+#include <string>
+#include <set>
+
+#include "common/Log.h"
+
+#include <atlbase.h>
+#include <atlcom.h>
+
+#define FLAC__NO_DLL

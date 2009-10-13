@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2008, 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,16 +30,18 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "stdafx.h"
-#include ".\NativeFLACSourceFilter.h"
+#include "NativeFLACSourceFilter.h"
+#include "dsfNativeFLACSource.h"
+#include <sstream>
 
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"Native FLAC SourceFilter",						// Name
-	    &CLSID_NativeFLACSourceFilter,            // CLSID
-	    NativeFLACSourceFilter::CreateInstance,	// Method to create an instance of MyComponent
-        NULL,									// Initialization function
-        NULL									// Set-up information (for filters)
+        L"Native FLAC SourceFilter",            // Name
+        &CLSID_NativeFLACSourceFilter,          // CLSID
+        NativeFLACSourceFilter::CreateInstance, // Method to create an instance of MyComponent
+        NULL,                                   // Initialization function
+        NULL                                    // Set-up information (for filters)
     }
 
 };
@@ -46,290 +49,380 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
+#ifdef WINCE
+LPAMOVIESETUP_FILTER NativeFLACSourceFilter::GetSetupData()
+{
+    return (LPAMOVIESETUP_FILTER)(&NativeFLACSourceFilterReg);	
+}
+#endif
 
 CUnknown* WINAPI NativeFLACSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
-	NativeFLACSourceFilter *pNewObject = new NativeFLACSourceFilter();
-    if (pNewObject == NULL) {
+    NativeFLACSourceFilter *pNewObject = new (std::nothrow) NativeFLACSourceFilter();
+    if (pNewObject == NULL) 
+    {
         *pHr = E_OUTOFMEMORY;
     }
     return pNewObject;
 } 
 
-NativeFLACSourceFilter::NativeFLACSourceFilter(void)
-	:	CBaseFilter(NAME("NativeFLACSourceFilter"), NULL, m_pLock, CLSID_NativeFLACSourceFilter)
-	,	mNumChannels(0)
-	,	mSampleRate(0)
-	,	mBitsPerSample(0)
-    ,   mSignificantBitsPerSample(0)
-	,	mBegun(false)
-	,	mUpto(0)
-	,	mJustSeeked(true)
-	,	mSeekRequest(0)
-	,	mTotalNumSamples(0)
-	,	mWasEOF(false)
+NativeFLACSourceFilter::NativeFLACSourceFilter(void) :  
+CBaseFilter(NAME("NativeFLACSourceFilter"), NULL, m_pLock, CLSID_NativeFLACSourceFilter),
+m_numChannels(0),
+m_sampleRate(0),
+m_bitsPerSample(0),
+m_significantBitsPerSample(0),
+m_begun(false),
+m_upTo(0),
+m_justSeeked(true),
+m_seekRequest(0),
+m_totalNumSamples(0),
+m_wasEof(false),
+m_inputFileHandle(INVALID_HANDLE_VALUE)
 {
-	m_pLock = new CCritSec;
-	mFLACSourcePin = new NativeFLACSourcePin(this, m_pLock);
+    m_pLock = new CCritSec;
+    m_flacSourcePin = new NativeFLACSourcePin(this, m_pLock);
+
+    LOG(logINFO) << L"NativeFLACSourceFilter object created!" << std::endl;
 }
 
 NativeFLACSourceFilter::~NativeFLACSourceFilter(void)
 {
-	delete mFLACSourcePin;
-	mFLACSourcePin = NULL;
+    ::CloseHandle(m_inputFileHandle);
+
+    delete m_flacSourcePin;
+    m_flacSourcePin = NULL;
 }
 
 //BaseFilter Interface
 int NativeFLACSourceFilter::GetPinCount() 
 {
-	return 1;
+    return 1;
 }
+
 CBasePin* NativeFLACSourceFilter::GetPin(int inPinNo) 
 {
-	if (inPinNo == 0) {
-		return mFLACSourcePin;
-	} else {
-		return NULL;
-	}
+    if (inPinNo == 0) 
+    {
+        return m_flacSourcePin;
+    } 
+    else 
+    {
+        return NULL;
+    }
 }
 
 //IAMFilterMiscFlags Interface
-ULONG NativeFLACSourceFilter::GetMiscFlags(void) 
+ULONG NativeFLACSourceFilter::GetMiscFlags() 
 {
-	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
+    return AM_FILTER_MISC_FLAGS_IS_SOURCE;
 }
 
-	//IFileSource Interface
-STDMETHODIMP NativeFLACSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) 
+//IFileSource Interface
+HRESULT __stdcall NativeFLACSourceFilter::GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType) 
 {
     CheckPointer(outFileName, E_POINTER);
     *outFileName = NULL;
 
-    if (!mFileName.empty()) {
-    	unsigned int size  = sizeof(WCHAR) * (mFileName.size() + 1);
+    if (!m_fileName.empty()) 
+    {
+        unsigned int size  = sizeof(WCHAR) * (m_fileName.size() + 1);
 
         *outFileName = (LPOLESTR) CoTaskMemAlloc(size);
-        if (*outFileName != NULL) {
-              CopyMemory(*outFileName, mFileName.c_str(), size);
+        if (*outFileName != NULL) 
+        {
+            CopyMemory(*outFileName, m_fileName.c_str(), size);
         }
     }
-	
-	return S_OK;
+    
+    return S_OK;
 }
 
-
-STDMETHODIMP NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) 
+__int64 NativeFLACSourceFilter::SeekFile(__int64 distance, unsigned long moveMethod)
 {
-	//Initialise the file here and setup the stream
-	CAutoLock locLock(m_pLock);
-	mFileName = inFileName;
+    LARGE_INTEGER current;
 
-	mInputFile.open(mFileName.c_str(), ios_base::in | ios_base::binary);
+    current.QuadPart = distance;
+    current.LowPart = ::SetFilePointer(m_inputFileHandle, current.LowPart, &current.HighPart, moveMethod);
 
-	//CT> Added header check (for FLAC files with ID3 v1/2 tags in them)
-	//    We'll look in the first 128kb of the file
-	unsigned long locStart = 0;
-	int locHeaderFound = 0;
-	for(int j = 0; !locHeaderFound && j < 128; j++)	{
-		unsigned char locTempBuf[1024]={0,};
-		mInputFile.read((char*)&locTempBuf, sizeof(locTempBuf));
-		unsigned char* locPtr = locTempBuf;
-		for(int i = 0; i < 1023; i++) {
-			if(locPtr[i]=='f' && locPtr[i+1]=='L' && locPtr[i+2]=='a' && locPtr[i+3]=='C')			{
-				locHeaderFound = 1;
-				locStart = i + (j * 1024);
-				break;
-			}
-		}
-	}
-	if(!locHeaderFound) {
-		return E_FAIL;
-	}
-
-	mInputFile.seekg(0, ios_base::end);
-	mFileSize = mInputFile.tellg();
-	mFileSize -= locStart;
-	mInputFile.seekg(locStart, ios_base::beg);
-
-	unsigned char locBuff[64];
-	mInputFile.read((char*)&locBuff, 64);
-	const unsigned char FLAC_CHANNEL_MASK = 14;  //00001110
-	const unsigned char FLAC_BPS_START_MASK = 1; //00000001
-	const unsigned char FLAC_BPS_END_MASK = 240;  //11110000
-
-	mNumChannels = (((locBuff[20]) & FLAC_CHANNEL_MASK) >> 1) + 1;
-	mSampleRate = (iBE_Math::charArrToULong(&locBuff[18])) >> 12;
-	mSignificantBitsPerSample =	(((locBuff[20] & FLAC_BPS_START_MASK) << 4)	| ((locBuff[21] & FLAC_BPS_END_MASK) >> 4)) + 1;
-
-    mBitsPerSample = (mSignificantBitsPerSample + 7)  & 0xfffffff8UL;
-
-    if (mBitsPerSample == 24) {
-        mBitsPerSample = 32;
+    if (current.LowPart == INVALID_SET_FILE_POINTER && GetLastError() != NO_ERROR)
+    {
+        current.QuadPart = -1;
     }
 
-	mTotalNumSamples = (((__int64)(locBuff[21] % 16)) << 32) + ((__int64)(iBE_Math::charArrToULong(&locBuff[22])));
-
-	//TODO::: NEed to handle the case where the number of samples is zero by making it non-seekable.
-	mInputFile.seekg(locStart, ios_base::beg);
-
-	init();
-	bool locResult = process_until_end_of_metadata();
-
-	return (locResult ? S_OK : E_FAIL);
-
+    return current.QuadPart;
 }
 
-STDMETHODIMP NativeFLACSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+__int64 NativeFLACSourceFilter::SeekFile(LARGE_INTEGER distance, unsigned long moveMethod)
 {
-	if (riid == IID_IFileSourceFilter) {
-		*ppv = (IFileSourceFilter*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
-	}
-
-	return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
+    return SeekFile(distance.QuadPart, moveMethod);
 }
 
-
-//IMEdiaStreaming
-STDMETHODIMP NativeFLACSourceFilter::Run(REFERENCE_TIME tStart) 
+HRESULT __stdcall NativeFLACSourceFilter::Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType) 
 {
-	CAutoLock locLock(m_pLock);
-	return CBaseFilter::Run(tStart);
+    //Initialize the file here and setup the stream
+    CAutoLock locLock(m_pLock);
+    m_fileName = inFileName;
+
+    LOG(logINFO) << L"NativeFLACSourceFilter::Load(" << m_fileName << L")";
+
+    if (m_inputFileHandle != INVALID_HANDLE_VALUE)
+    {
+        ::CloseHandle(m_inputFileHandle);
+    }
+
+    m_inputFileHandle = ::CreateFile(m_fileName.c_str(), GENERIC_READ, FILE_SHARE_READ, 0, 
+        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+    if (m_inputFileHandle == INVALID_HANDLE_VALUE)
+    {
+        LOG(logERROR) << L"CreateFile(" << m_fileName << L") failed! GetLastError: 0x"
+            << std::hex << ::GetLastError();
+
+        return HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
+    }
+
+    //CT> Added header check (for FLAC files with ID3 v1/2 tags in them)
+    //    We'll look in the first 128kb of the file
+    unsigned long locStart = 0;
+    bool headerFound = false;
+    for (int j = 0; !headerFound && j < 128; j++)   
+    {
+        unsigned char locTempBuf[1024] = {0};
+
+        unsigned long readBytes = 0;
+        ::ReadFile(m_inputFileHandle, &locTempBuf, sizeof(locTempBuf), &readBytes, 0);
+
+        unsigned char* locPtr = locTempBuf;
+        for (int i = 0; i < 1023; i++) 
+        {
+            if (locPtr[i]=='f' && locPtr[i+1]=='L' && locPtr[i+2]=='a' && locPtr[i+3]=='C')         
+            {
+                headerFound = true;
+                locStart = i + (j * 1024);
+                break;
+            }
+        }
+    }
+
+    if (!headerFound) 
+    {
+        LOG(logERROR) << "No FLAC Header Found!";
+        return E_FAIL;
+    }
+
+    LARGE_INTEGER fileSize;
+    fileSize.LowPart = ::GetFileSize(m_inputFileHandle, (unsigned long*)&fileSize.HighPart);
+    m_fileSize = fileSize.QuadPart;
+    
+    m_extraBeginDataLength = locStart;
+
+    set_md5_checking(false);
+    set_metadata_ignore_all();
+    set_metadata_respond(FLAC__METADATA_TYPE_STREAMINFO);
+    set_metadata_respond(FLAC__METADATA_TYPE_VORBIS_COMMENT);
+
+    //TODO::: Need to handle the case where the number of samples is zero by making it non-seekable.
+
+    SeekFile(locStart, FILE_BEGIN);
+
+    init();
+    bool locResult = process_until_end_of_metadata();
+
+    if (!locResult)
+    {
+        LOG(logERROR) << L"process_until_end_of_metadata returned false!";
+    }
+
+    return locResult ? S_OK : E_FAIL;
 }
-STDMETHODIMP NativeFLACSourceFilter::Pause(void) 
+
+HRESULT __stdcall NativeFLACSourceFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	CAutoLock locLock(m_pLock);
-	if (m_State == State_Stopped) {
-		if (ThreadExists() == FALSE) {
-			Create();
-		}
-		CallWorker(THREAD_RUN);
-	}
+    LOG(logDEBUG) << L"NonDelegatingQueryInterface: " << riid;
 
-	HRESULT locHR = CBaseFilter::Pause();
-	return locHR;
-	
+    if (riid == IID_IFileSourceFilter) 
+    {
+        return GetInterface((IFileSourceFilter*)this, ppv);
+    }
+
+    return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
 }
-STDMETHODIMP NativeFLACSourceFilter::Stop(void) 
+
+
+//IMediaStreaming
+HRESULT __stdcall NativeFLACSourceFilter::Run(REFERENCE_TIME tStart) 
 {
-	CAutoLock locLock(m_pLock);
-	CallWorker(THREAD_EXIT);
-	Close();
-	mJustSeeked = true;
-	mSeekRequest = 0;
-	mUpto = 0;
-	mFLACSourcePin->DeliverBeginFlush();
-	mFLACSourcePin->DeliverEndFlush();
-	return CBaseFilter::Stop();
+    LOG(logINFO) << "Run: " << ReferenceTime(tStart);
+    CAutoLock locLock(m_pLock);
+    return CBaseFilter::Run(tStart);
 }
 
-HRESULT NativeFLACSourceFilter::DataProcessLoop() {
-	DWORD locCommand = 0;
-	bool res = false;
-	while (true) {
-		if(CheckRequest(&locCommand) == TRUE) {
-			return S_OK;
-		}
-		{
-			if (mJustSeeked) {
-				mUpto = 0;
-				mJustSeeked = false;
-				bool res2 = false;
-				res2 = seek_absolute(mSeekRequest);
-				if (!res2)
-				{
-					//ERROR???
-					flush();
-					break;
-				}
-			}
-			
-			res = process_single();
-			if (!res)
-			{
-				//ERROR???
-				flush();
-			}
+HRESULT __stdcall NativeFLACSourceFilter::Pause() 
+{
+    LOG(logINFO) << "Pause";
+    CAutoLock locLock(m_pLock);
+    if (m_State == State_Stopped) 
+    {
+        if (ThreadExists() == FALSE) 
+        {
+            Create();
+        }
+        CallWorker(THREAD_RUN);
+    }
 
-			if (mWasEOF) {
-				break;
-			}
-			
-		}
-	}
+    HRESULT locHR = CBaseFilter::Pause();
+    return locHR;
+    
+}
+HRESULT __stdcall NativeFLACSourceFilter::Stop() 
+{
+    LOG(logINFO) << "Stop";
+    CAutoLock locLock(m_pLock);
+    CallWorker(THREAD_EXIT);
+    Close();
 
-	mInputFile.clear();
-	mInputFile.seekg(0);
-	mWasEOF = false;
-	mFLACSourcePin->DeliverEndOfStream();
-	return S_OK;
+    m_seekRequest = 0;
+    m_upTo = 0;
+
+    m_flacSourcePin->DeliverBeginFlush();
+    m_flacSourcePin->DeliverEndFlush();
+
+    SeekFile(0, FILE_BEGIN);
+
+    return CBaseFilter::Stop();
+}
+
+HRESULT NativeFLACSourceFilter::DataProcessLoop() 
+{
+    while (true) 
+    {
+        DWORD locCommand = 0;
+        if (CheckRequest(&locCommand) == TRUE) 
+        {
+            return S_OK;
+        }
+
+        if (m_justSeeked) 
+        {
+            m_upTo = 0;
+            m_justSeeked = false;
+
+            LOG(logINFO) << "DataProcessLoop: seek_absolute(" << m_seekRequest << ")";
+            if (!seek_absolute(m_seekRequest))
+            {
+                //ERROR???
+
+                LOG(logERROR) << "DataProcessLoop: seek_absolute failed!";
+                flush();
+                break;
+            }
+        }
+        
+        if (!process_single())
+        {
+            //ERROR???
+
+            LOG(logERROR) << "DataProcessLoop: process_single failed!";
+            flush();
+        }
+
+        if (m_wasEof) 
+        {
+            break;
+        }
+    }
+
+    SeekFile(0, FILE_BEGIN);
+    m_wasEof = false;
+    m_flacSourcePin->DeliverEndOfStream();
+
+    return S_OK;
 }
 
 //CAMThread Stuff
 DWORD NativeFLACSourceFilter::ThreadProc(void) 
 {
-	while(true) {
-		DWORD locThreadCommand = GetRequest();
-		switch(locThreadCommand) {
-			case THREAD_EXIT:
-				Reply(S_OK);
-				return S_OK;
+    while(true) 
+    {
+        DWORD locThreadCommand = GetRequest();
+        switch(locThreadCommand) 
+        {
+            case THREAD_EXIT:
+                Reply(S_OK);
+                return S_OK;
 
-			case THREAD_RUN:
-				Reply(S_OK);
-				DataProcessLoop();
-				break;
+            case THREAD_RUN:
+                Reply(S_OK);
+                DataProcessLoop();
+                break;
             //OTHER CASES?
-		}
-	}
-	return S_OK;
+        }
+    }
+    return S_OK;
 }
 
 
 ::FLAC__StreamDecoderReadStatus NativeFLACSourceFilter::read_callback(FLAC__byte outBuffer[], size_t* outNumBytes) 
 {
-	const unsigned long BUFF_SIZE = 8192;
-	mInputFile.read((char*)outBuffer, BUFF_SIZE);
-	*outNumBytes = mInputFile.gcount();
-	mWasEOF = mInputFile.eof();
-	return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
+    unsigned long bytesRead = 0;
+    BOOL result = ::ReadFile(m_inputFileHandle, outBuffer, BUFF_SIZE, &bytesRead, 0);
+    *outNumBytes = bytesRead;
+
+    if (!result && ::GetLastError() == ERROR_HANDLE_EOF || eof_callback())
+    {
+        m_wasEof = true;
+    }
+    
+    return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 }
+
 ::FLAC__StreamDecoderSeekStatus NativeFLACSourceFilter::seek_callback(FLAC__uint64 inSeekPos) 
 {
-	mInputFile.seekg(inSeekPos);
-	return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
+    LOG(logDEBUG) << "seek_callback: pos " << inSeekPos;
+
+    if (SeekFile(inSeekPos, FILE_BEGIN) < 0)
+    {
+        return FLAC__STREAM_DECODER_SEEK_STATUS_ERROR;
+    }
+
+    return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
 }
+
 ::FLAC__StreamDecoderTellStatus NativeFLACSourceFilter::tell_callback(FLAC__uint64* outTellPos) 
 {
-	*outTellPos = mInputFile.tellg();
-	return FLAC__STREAM_DECODER_TELL_STATUS_OK;
+    __int64 currentPosition = SeekFile(0, FILE_CURRENT);
+    if (currentPosition < 0)
+    {
+        return FLAC__STREAM_DECODER_TELL_STATUS_ERROR;
+    }
+
+    *outTellPos = currentPosition;
+
+    return FLAC__STREAM_DECODER_TELL_STATUS_OK;
 }
+
 ::FLAC__StreamDecoderLengthStatus NativeFLACSourceFilter::length_callback(FLAC__uint64* outLength) 
 {
-	*outLength = mFileSize;
-	return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
+    *outLength = m_fileSize - m_extraBeginDataLength;
+    return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
 }
+
 ::FLAC__StreamDecoderWriteStatus NativeFLACSourceFilter::write_callback(const FLAC__Frame* inFrame,const FLAC__int32 *const inBuffer[]) 
 {
-	
-
+    if (!m_begun) 
+    {
+        m_begun = true; 
     
-	if (! mBegun) {
-		mBegun = true;
-		
-	
-		mNumChannels = inFrame->header.channels;
-        mFrameSize = mNumChannels * (mBitsPerSample >> 3);
+        m_numChannels = static_cast<unsigned short>(inFrame->header.channels);
+        m_frameSize = m_numChannels * (m_bitsPerSample >> 3);
 
-		mSampleRate = inFrame->header.sample_rate;
-	}
+        m_sampleRate = inFrame->header.sample_rate;
+    }
 
-	unsigned long locNumFrames = inFrame->header.blocksize;
-	unsigned long locBufferSize = locNumFrames * mFrameSize;
-	unsigned long locTotalFrameCount = locNumFrames * mNumChannels;
-
-
+    unsigned long numFrames = inFrame->header.blocksize;
+    unsigned long bufferSize = numFrames * m_frameSize;
+    unsigned long totalFrameCount = numFrames * m_numChannels;
 
     // TODO::: It's not clear whether in the 32 bit flac sample, the significant bits are always rightmost (
     //      ie justified into the least significant bits. They seem to be for nbits = 16. But it's unclear
@@ -340,180 +433,380 @@ DWORD NativeFLACSourceFilter::ThreadProc(void)
 
 
     //It could actually be a single buffer for the class.????
-    unsigned char* locBuff = new unsigned char[locBufferSize];			//Gives to the deliverdata method
-    unsigned long locLeftShift = mBitsPerSample - mSignificantBitsPerSample;
+    unsigned char* buffer = new unsigned char[bufferSize];          //Gives to the deliverdata method
+    unsigned long leftShift = m_bitsPerSample - m_significantBitsPerSample;
 
-    if (mBitsPerSample == 8) {
-        unsigned char* locByteBuffer = (unsigned char*)locBuff;
+    if (m_bitsPerSample == 8) 
+    {
+        unsigned char* locByteBuffer = (unsigned char*)buffer;
 
-        if (locLeftShift == 0) {
-	        for(unsigned long i = 0; i < locNumFrames; i++) {
-		        for (unsigned long j = 0; j < mNumChannels; j++) {
+        if (leftShift == 0) 
+        {
+            for(unsigned long i = 0; i < numFrames; i++) 
+            {
+                for (unsigned long j = 0; j < m_numChannels; j++) 
+                {
                     *(locByteBuffer++) = (unsigned char)(inFrame + 128);
                 }
-
             }
-        } else {
-	        for(unsigned long i = 0; i < locNumFrames; i++) {
-		        for (unsigned long j = 0; j < mNumChannels; j++) {
-                    *(locByteBuffer++) = (unsigned char)(inFrame + 128) << locLeftShift;
+        } 
+        else 
+        {
+            for(unsigned long i = 0; i < numFrames; i++) 
+            {
+                for (unsigned long j = 0; j < m_numChannels; j++) 
+                {
+                    *(locByteBuffer++) = (unsigned char)(inFrame + 128) << leftShift;
                 }
-
             }
-
         }
-
-
-    } else if (mBitsPerSample == 16) {
-	    signed short* locShortBuffer = (signed short*)locBuff;		//Don't delete this.
-        if (locLeftShift == 0) {
-        
-	        for(unsigned long i = 0; i < locNumFrames; i++) {
-		        for (unsigned long j = 0; j < mNumChannels; j++) {
-
+    } 
+    else if (m_bitsPerSample == 16) 
+    {
+        signed short* locShortBuffer = (signed short*)buffer;      //Don't delete this.
+        if (leftShift == 0) 
+        {
+            for(unsigned long i = 0; i < numFrames; i++) 
+            {
+                for (unsigned long j = 0; j < m_numChannels; j++) 
+                {
                     *(locShortBuffer++) = (signed short)inBuffer[j][i];
-			        //tempLong = inBuffer[j][i];
+                    //tempLong = inBuffer[j][i];
 
-			        ////FIX::: Why on earth are you dividing by 2 ? It does not make sense !
-			        ////tempInt = (signed short)(tempLong/2);
-			        //tempInt = (signed short)(tempLong);
-        		
-			        //*locShortBuffer = tempInt;
-			        //locShortBuffer++;
-		        }
-	        }
-        } else {
-	        for(unsigned long i = 0; i < locNumFrames; i++) {
-		        for (unsigned long j = 0; j < mNumChannels; j++) {
-
-                    *(locShortBuffer++) = (signed short)inBuffer[j][i] << locLeftShift;
-		        }
-	        }
+                    ////FIX::: Why on earth are you dividing by 2 ? It does not make sense !
+                    ////tempInt = (signed short)(tempLong/2);
+                    //tempInt = (signed short)(tempLong);
+                
+                    //*locShortBuffer = tempInt;
+                    //locShortBuffer++;
+                }
+            }
+        } 
+        else 
+        {
+            for(unsigned long i = 0; i < numFrames; i++) 
+            {
+                for (unsigned long j = 0; j < m_numChannels; j++) 
+                {
+                    *(locShortBuffer++) = (signed short)inBuffer[j][i] << leftShift;
+                }
+            }
         }
-    } else if (mBitsPerSample == 32) {
-        signed long* locLongBuffer = (signed long*)locBuff;
-        if (locLeftShift == 8) {
-            //Special case for 24 bit, let the shift be hardcoded.
-            for(unsigned long i = 0; i < locNumFrames; i++) {
-		        for (unsigned long j = 0; j < mNumChannels; j++) {
+    } 
+    else if (m_bitsPerSample == 32) 
+    {
+        signed long* locLongBuffer = (signed long*)buffer;
+        if (leftShift == 8) 
+        {
+            //Special case for 24 bit, let the shift be hard coded.
+            for(unsigned long i = 0; i < numFrames; i++) 
+            {
+                for (unsigned long j = 0; j < m_numChannels; j++) 
+                {
                     *(locLongBuffer++) = inBuffer[j][i] << 8;
                 }
             }
-        } else if (locLeftShift == 0) {
+        } 
+        else if (leftShift == 0) 
+        {
             //Real 32 bit data
-            for(unsigned long i = 0; i < locNumFrames; i++) {
-		        for (unsigned long j = 0; j < mNumChannels; j++) {
+            for(unsigned long i = 0; i < numFrames; i++) 
+            {
+                for (unsigned long j = 0; j < m_numChannels; j++) 
+                {
                     *(locLongBuffer++) = inBuffer[j][i];
                 }
             }
-
-        } else {
-            
-            for(unsigned long i = 0; i < locNumFrames; i++) {
-		        for (unsigned long j = 0; j < mNumChannels; j++) {
-                    *(locLongBuffer++) = inBuffer[j][i] << locLeftShift;
+        } 
+        else 
+        {    
+            for(unsigned long i = 0; i < numFrames; i++) 
+            {
+                for (unsigned long j = 0; j < m_numChannels; j++) 
+                {
+                    *(locLongBuffer++) = inBuffer[j][i] << leftShift;
                 }
             }
-
         }
     }
+    
+    __int64 start = m_upTo * UNITS / m_sampleRate;
+    __int64 stop = (m_upTo + numFrames) * UNITS / m_sampleRate;
 
+    m_flacSourcePin->DeliverData(buffer, bufferSize, start, stop);
+    m_upTo += numFrames;
 
-	
-	mFLACSourcePin->deliverData(locBuff, locBufferSize, (mUpto*UNITS) / mSampleRate, ((mUpto+locNumFrames)*UNITS) / mSampleRate);
-	mUpto += locNumFrames;
-	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
-}
-void NativeFLACSourceFilter::metadata_callback(const FLAC__StreamMetadata* inMetaData) {
-
-}
-void NativeFLACSourceFilter::error_callback(FLAC__StreamDecoderErrorStatus inStatus) {
-
+    return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
 
-bool NativeFLACSourceFilter::eof_callback(void) {
-	return mInputFile.eof();
+std::wstring NativeFLACSourceFilter::VorbisCommentToString( const FLAC__StreamMetadata_VorbisComment_Entry& comment )
+{
+    std::wstring stringComment;
+
+    // Transform it from UTF-8 in wide chars
+    int chars = ::MultiByteToWideChar(CP_UTF8, 0, reinterpret_cast<const char*>(comment.entry), comment.length, 0, 0);
+    stringComment.resize(chars);
+
+    ::MultiByteToWideChar(CP_UTF8, 0, reinterpret_cast<const char*>(comment.entry), comment.length, &*stringComment.begin(), chars);
+
+    return stringComment;
+}
+
+void NativeFLACSourceFilter::metadata_callback(const FLAC__StreamMetadata* metadata) 
+{
+    if (metadata->type == FLAC__METADATA_TYPE_STREAMINFO)
+    {
+        m_numChannels = metadata->data.stream_info.channels;
+        m_sampleRate = metadata->data.stream_info.sample_rate;
+        m_significantBitsPerSample = metadata->data.stream_info.bits_per_sample;
+
+        m_bitsPerSample = (m_significantBitsPerSample + 7) & 0xfff8;
+
+        if (m_bitsPerSample == 24) 
+        {
+            m_bitsPerSample = 32;
+        }
+
+        m_totalNumSamples = metadata->data.stream_info.total_samples;
+
+        LOG(logINFO) << L"NumChannels: " << m_numChannels;
+        LOG(logINFO) << L"SampleRate: " << m_sampleRate;
+        LOG(logINFO) << L"SignificantBitsPerSample: " << m_significantBitsPerSample;
+        LOG(logINFO) << L"BitsPerSample: " << m_bitsPerSample;
+        LOG(logINFO) << L"TotalNumSamples: " << m_totalNumSamples;
+    }
+    else if (metadata->type == FLAC__METADATA_TYPE_VORBIS_COMMENT)
+    {
+        LOG(logINFO) << L"Vorbis Comment: " << metadata->data.vorbis_comment.num_comments;
+        LOG(logINFO) << L"Vendor String: " << VorbisCommentToString(metadata->data.vorbis_comment.vendor_string);
+
+        for (int i = 0; i < metadata->data.vorbis_comment.num_comments; ++i)
+        {
+            std::wstring comment = VorbisCommentToString(metadata->data.vorbis_comment.comments[i]);
+            LOG(logINFO) << comment;
+
+            int pos = comment.find_first_of(L'=');
+            
+            std::wstring key = comment.substr(0, pos);
+            std::wstring value = comment.substr(pos + 1);
+
+            m_vorbisCommentsMap.insert(std::make_pair(key, value));
+        }
+    }
+}
+
+void NativeFLACSourceFilter::error_callback(FLAC__StreamDecoderErrorStatus inStatus) 
+{
+    LOG(logERROR) << "error_callback: status - " << inStatus;
+}
+
+bool NativeFLACSourceFilter::eof_callback() 
+{
+    __int64 currentPosition = SeekFile(0, FILE_CURRENT);
+
+    bool isEof = false;
+    if (currentPosition == m_fileSize)
+    {
+        isEof = true;
+    }
+
+    return isEof;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetCapabilities(DWORD* inCapabilities) 
+{
+    *inCapabilities = AM_SEEKING_CanSeekAbsolute
+                    | AM_SEEKING_CanSeekForwards
+                    | AM_SEEKING_CanSeekBackwards
+                    | AM_SEEKING_CanGetStopPos
+                    | AM_SEEKING_CanGetDuration
+                    | AM_SEEKING_CanGetCurrentPos;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetCapabilities([out] " << std::hex << *inCapabilities << ") -> 0x" << std::hex << S_OK;
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::CheckCapabilities(DWORD *pCapabilities) 
+{
+    HRESULT result = S_OK;
+
+    DWORD dwActual;
+    GetCapabilities(&dwActual);
+    if (*pCapabilities & (~dwActual))
+    {
+        result = S_FALSE;
+    }
+
+    LOG(logDEBUG) << "IMediaSeeking::CheckCapabilities([out]  " << *pCapabilities << ") -> 0x" << std::hex << result;
+
+    return result;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::IsFormatSupported(const GUID *pFormat) 
+{
+    HRESULT result = S_FALSE;
+
+    if (*pFormat == TIME_FORMAT_MEDIA_TIME) 
+    {
+        result = S_OK;
+    } 
+
+    LOG(logDEBUG) << "IMediaSeeking::IsFormatSupported([in] " << ToString(*pFormat) << ") -> 0x" << std::hex << result;
+
+    return result;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::QueryPreferredFormat(GUID *pFormat) 
+{
+    *pFormat = TIME_FORMAT_MEDIA_TIME;
+
+    LOG(logDEBUG) << "IMediaSeeking::QueryPreferredFormat([out] " << ToString(*pFormat) << ") -> 0x" << std::hex << S_OK; 
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::SetTimeFormat(const GUID *pFormat) 
+{
+    LOG(logDEBUG) << "IMediaSeeking::SetTimeFormat([in] " << ToString(pFormat) << ") -> 0x" << std::hex << E_NOTIMPL; 
+
+    return E_NOTIMPL;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetTimeFormat( GUID *pFormat) 
+{
+    *pFormat = TIME_FORMAT_MEDIA_TIME;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetTimeFormat([out] " << ToString(*pFormat) << ") -> 0x" << std::hex << S_OK; 
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetDuration(LONGLONG *pDuration) 
+{
+    *pDuration = m_totalNumSamples * UNITS / m_sampleRate;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetDuration([out] " << ToString(*pDuration) << ") -> 0x" << std::hex << S_OK;
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetStopPosition(LONGLONG *pStop) 
+{
+    *pStop = m_totalNumSamples * UNITS / m_sampleRate;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetStopPosition([out] " << ToString(*pStop) << ") -> 0x" << std::hex << S_OK;
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetCurrentPosition(LONGLONG *pCurrent)
+{
+    *pCurrent = m_upTo * UNITS / m_sampleRate;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetCurrentPosition([out] " << ToString(*pCurrent) << ") -> 0x" << std::hex << S_OK;
+    
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat)
+{
+    LOG(logDEBUG) << "IMediaSeeking::ConvertTimeFormat([out] " << ToString(pTarget) 
+        << ", [in] " << ToString(pTargetFormat) << ", [in] " << ToString(Source)
+        << ", [in] " << ToString(pSourceFormat) << ") -> 0x" << std::hex << E_NOTIMPL;
+
+    return E_NOTIMPL;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags)
+{
+    unsigned __int64 locSampleToSeek = (*pCurrent) * m_sampleRate/ UNITS;
+
+    LOG(logDEBUG) << "IMediaSeeking::SetPositions([in, out] " << ToString(pCurrent) << ", [in] " << dwCurrentFlags
+        << ", [in, out] " << ToString(pStop) << ", [in] " << dwStopFlags << ") -> 0x" << std::hex << S_OK;
+
+    m_flacSourcePin->DeliverBeginFlush();
+    m_flacSourcePin->DeliverEndFlush();
+
+    m_seekRequest = locSampleToSeek;
+    m_justSeeked = true;
+
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop)
+{
+    *pCurrent = m_upTo * UNITS / m_sampleRate;
+    *pStop = m_totalNumSamples * UNITS / m_sampleRate;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetPositions([out] " << ToString(*pCurrent) << ", [out] " << ToString(*pStop)
+        << ") -> 0x" << std::hex << S_OK;
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest)
+{
+    *pEarliest = 0;
+    *pLatest = m_totalNumSamples * UNITS / m_sampleRate;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetAvailable([out] " << ToString(*pEarliest) << ", [out] " << ToString(*pLatest)
+        << ") -> 0x" << std::hex << S_OK;
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::SetRate(double dRate)
+{
+    HRESULT result = VFW_E_UNSUPPORTED_AUDIO;
+
+    if (dRate == 1.00f)
+    {
+        result = S_OK;
+    }
+    else if (dRate <= 0.00f)
+    {
+        result = E_INVALIDARG;
+    }
+
+    LOG(logDEBUG) << "IMediaSeeking::SetRate([in] " << std::setprecision(3) << std::showpoint
+        << dRate << ") -> 0x" << std::hex << result;
+
+    return result;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetRate(double *dRate)
+{
+    *dRate = 1.0;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetRate([out] " << std::setprecision(3) << std::showpoint
+        << *dRate << ") -> 0x" << std::hex << S_OK;
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::GetPreroll(LONGLONG *pllPreroll)
+{
+    *pllPreroll = 0;
+
+    LOG(logDEBUG) << "IMediaSeeking::GetPreroll([out] " << ToString(*pllPreroll) << ") -> 0x" << std::hex << S_OK;
+
+    return S_OK;
+}
+
+HRESULT __stdcall NativeFLACSourceFilter::IsUsingTimeFormat(const GUID *pFormat)
+{
+    HRESULT result = S_FALSE;
+
+    if (*pFormat == TIME_FORMAT_MEDIA_TIME) 
+    {
+        result = S_OK;
+    }
+
+    LOG(logDEBUG) << "IMediaSeeking::IsUsingTimeFormat([in] " << ToString(*pFormat) << ") -> 0x" << std::hex << result;
+
+    return result;
 }
 
 
-
-STDMETHODIMP NativeFLACSourceFilter::GetCapabilities(DWORD* inCapabilities) {
-	*inCapabilities = AM_SEEKING_CanSeekAbsolute |
-						AM_SEEKING_CanSeekForwards |
-						AM_SEEKING_CanSeekBackwards |
-						AM_SEEKING_CanGetCurrentPos |
-						AM_SEEKING_CanGetStopPos |
-						AM_SEEKING_CanGetDuration;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::CheckCapabilities(DWORD *pCapabilities) {
-	return E_NOTIMPL;
-}
-STDMETHODIMP NativeFLACSourceFilter::IsFormatSupported(const GUID *pFormat) {
-	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
-		return S_OK;
-	} else {
-		return S_FALSE;
-	}
-}
-STDMETHODIMP NativeFLACSourceFilter::QueryPreferredFormat(GUID *pFormat) {
-	*pFormat = TIME_FORMAT_MEDIA_TIME;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::SetTimeFormat(const GUID *pFormat) {
-	return E_NOTIMPL;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetTimeFormat( GUID *pFormat) {
-	*pFormat = TIME_FORMAT_MEDIA_TIME;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetDuration(LONGLONG *pDuration) {
-	*pDuration = (mTotalNumSamples * UNITS) / mSampleRate;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetStopPosition(LONGLONG *pStop) {
-	*pStop = (mTotalNumSamples * UNITS) / mSampleRate;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetCurrentPosition(LONGLONG *pCurrent){
-	return E_NOTIMPL;
-}
-STDMETHODIMP NativeFLACSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat){
-	return E_NOTIMPL;
-}
-STDMETHODIMP NativeFLACSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags){
-	unsigned __int64 locSampleToSeek = (*pCurrent) * mSampleRate/ UNITS;
-	mFLACSourcePin->DeliverBeginFlush();
-	mFLACSourcePin->DeliverEndFlush();
-
-	mJustSeeked = true;
-	mSeekRequest = locSampleToSeek;
-	
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetPositions(LONGLONG *pCurrent, LONGLONG *pStop){
-	return E_NOTIMPL;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest){
-	*pEarliest = 0;
-	*pLatest = (mTotalNumSamples * UNITS) / mSampleRate;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::SetRate(double dRate){
-	return E_NOTIMPL;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetRate(double *dRate){
-	*dRate = 1.0;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::GetPreroll(LONGLONG *pllPreroll){
-	*pllPreroll = 0;
-	return S_OK;
-}
-STDMETHODIMP NativeFLACSourceFilter::IsUsingTimeFormat(const GUID *pFormat){
-	if (*pFormat == TIME_FORMAT_MEDIA_TIME) {
-		return S_OK;
-	} else {
-		return S_FALSE;
-	}
-}

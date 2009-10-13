@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2008, 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,126 +30,125 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #pragma once
-//Local Includes
-#include "dsfNativeFLACSource.h"
-#include "NativeFLACSourcePin.h"
 
-//Library Includes
-#include "FLAC++/decoder.h"
-#include <libilliCore/StringHelper.h>
-#include <libilliCore/iBE_Math.h>
-#include "FLAC/seekable_stream_decoder.h"
-#include "FLAC/stream_decoder.h"
-using namespace FLAC::Decoder;
-
-//STL Includes
-#include <string>
-using namespace std;
+#include <FLAC++/decoder.h>
+#include <FLAC/seekable_stream_decoder.h>
+#include <FLAC/stream_decoder.h>
 
 //Forward Declarations
 class NativeFLACSourcePin;
 
-class NativeFLACSourceFilter
-	//Base Classes
-	:	public CBaseFilter
-	,	public IFileSourceFilter
-	,	public IAMFilterMiscFlags
-	,	public IMediaSeeking
-	,	public CAMThread
-	,	protected FLAC::Decoder::Stream
+class NativeFLACSourceFilter: public CBaseFilter, public IFileSourceFilter, public IAMFilterMiscFlags,
+                              public IMediaSeeking, public CAMThread, protected FLAC::Decoder::Stream
 {
 public:
-	//Friends
-	friend class NativeFLACSourcePin;
+    //Friends
+    friend class NativeFLACSourcePin;
 
-	//Constants
-	enum eThreadCommands {
-		THREAD_EXIT = 0,
-		THREAD_PAUSE = 1,
-		THREAD_RUN = 2
-	};
+    //Constants
+    enum eThreadCommands 
+    {
+        THREAD_EXIT = 0,
+        THREAD_PAUSE = 1,
+        THREAD_RUN = 2
+    };
 
-	//COM Stuff
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
+    static const unsigned long BUFF_SIZE = 8192;
 
-	//Constructors
-	NativeFLACSourceFilter(void);
-	virtual ~NativeFLACSourceFilter(void);
+#ifdef WINCE    
+    // returns setup data for filter registration
+    LPAMOVIESETUP_FILTER GetSetupData();
+#endif
 
-	//IBaseFilter Pure Virtuals
-	virtual int GetPinCount();
-	virtual CBasePin* GetPin(int inPinNo);
+    //COM Stuff
+    DECLARE_IUNKNOWN
+    HRESULT __stdcall NonDelegatingQueryInterface(REFIID riid, void **ppv);
+    static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//IAMFilterMiscFlags Interface
-	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
+    NativeFLACSourceFilter();
+    virtual ~NativeFLACSourceFilter();
 
-	//IFileSource Interface
-	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
-	virtual STDMETHODIMP Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
+    //IBaseFilter Pure virtuals
+    virtual int GetPinCount();
+    virtual CBasePin* GetPin(int inPinNo);
 
-	//Streaming MEthods
-	STDMETHODIMP Run(REFERENCE_TIME tStart);
-	STDMETHODIMP Pause(void);
-	STDMETHODIMP Stop(void);
+    //IAMFilterMiscFlags Interface
+    ULONG __stdcall GetMiscFlags();
 
-	//CAMThread
-	virtual DWORD ThreadProc(void);
+    //IFileSource Interface
+    virtual HRESULT __stdcall GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
+    virtual HRESULT __stdcall Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
 
-	//FLAC Virtuals
-	virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], size_t* outNumBytes);
-	virtual ::FLAC__StreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
-	virtual ::FLAC__StreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
-	virtual ::FLAC__StreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
-	virtual ::FLAC__StreamDecoderWriteStatus write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]);
-	virtual void metadata_callback(const FLAC__StreamMetadata* inMetaData);
-	virtual void error_callback(FLAC__StreamDecoderErrorStatus inStatus);
-	virtual bool eof_callback(void);
+    //Streaming Methods
+    HRESULT __stdcall Run(REFERENCE_TIME tStart);
+    HRESULT __stdcall Pause();
+    HRESULT __stdcall Stop();
 
-	//IMediaSeeking Interface
-	virtual STDMETHODIMP GetCapabilities(DWORD *pCapabilities);
-	virtual STDMETHODIMP CheckCapabilities(DWORD *pCapabilities);
-	virtual STDMETHODIMP IsFormatSupported(const GUID *pFormat);
-	virtual STDMETHODIMP QueryPreferredFormat(GUID *pFormat);
-	virtual STDMETHODIMP SetTimeFormat(const GUID *pFormat);
-	virtual STDMETHODIMP GetTimeFormat( GUID *pFormat);
-	virtual STDMETHODIMP GetDuration(LONGLONG *pDuration);
-	virtual STDMETHODIMP GetStopPosition(LONGLONG *pStop);
-	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
-	virtual STDMETHODIMP ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat);
-	virtual STDMETHODIMP SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags);
-	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
-	virtual STDMETHODIMP GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest);
-	virtual STDMETHODIMP SetRate(double dRate);
-	virtual STDMETHODIMP GetRate(double *dRate);
-	virtual STDMETHODIMP GetPreroll(LONGLONG *pllPreroll);
-	virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
+    //CAMThread
+    virtual DWORD ThreadProc();
+
+    //FLAC virtuals
+    virtual ::FLAC__StreamDecoderReadStatus read_callback(FLAC__byte outBuffer[], size_t* outNumBytes);
+    virtual ::FLAC__StreamDecoderSeekStatus seek_callback(FLAC__uint64 inSeekPos);
+    virtual ::FLAC__StreamDecoderTellStatus tell_callback(FLAC__uint64* outTellPos);
+    virtual ::FLAC__StreamDecoderLengthStatus length_callback(FLAC__uint64* outLength);
+    virtual ::FLAC__StreamDecoderWriteStatus write_callback(const FLAC__Frame* outFrame,const FLAC__int32 *const outBuffer[]);
+    virtual void metadata_callback(const FLAC__StreamMetadata* inMetaData);
+    virtual void error_callback(FLAC__StreamDecoderErrorStatus inStatus);
+    virtual bool eof_callback();
+
+    //IMediaSeeking Interface
+    HRESULT __stdcall GetCapabilities(DWORD *pCapabilities);
+    HRESULT __stdcall CheckCapabilities(DWORD *pCapabilities);
+    HRESULT __stdcall IsFormatSupported(const GUID *pFormat);
+    HRESULT __stdcall QueryPreferredFormat(GUID *pFormat);
+    HRESULT __stdcall SetTimeFormat(const GUID *pFormat);
+    HRESULT __stdcall GetTimeFormat(GUID *pFormat);
+    HRESULT __stdcall GetDuration(LONGLONG *pDuration);
+    HRESULT __stdcall GetStopPosition(LONGLONG *pStop);
+    HRESULT __stdcall GetCurrentPosition(LONGLONG *pCurrent);
+    HRESULT __stdcall ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat);
+    HRESULT __stdcall SetPositions(LONGLONG *pCurrent,DWORD dwCurrentFlags,LONGLONG *pStop,DWORD dwStopFlags);
+    HRESULT __stdcall GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
+    HRESULT __stdcall GetAvailable(LONGLONG *pEarliest, LONGLONG *pLatest);
+    HRESULT __stdcall SetRate(double dRate);
+    HRESULT __stdcall GetRate(double *dRate);
+    HRESULT __stdcall GetPreroll(LONGLONG *pllPreroll);
+    HRESULT __stdcall IsUsingTimeFormat(const GUID *pFormat);
 
 protected:
-	//Helper Methods
-	HRESULT DataProcessLoop();
+    //Helper Methods
+    HRESULT DataProcessLoop();
 
-	//Pin Class
-	NativeFLACSourcePin* mFLACSourcePin;
+    __int64 SeekFile(__int64 distance, unsigned long moveMethod);
+    __int64 SeekFile(LARGE_INTEGER distance, unsigned long moveMethod);
 
-	//Source File Members
-	wstring mFileName;
-	fstream mInputFile;
-	unsigned long mFileSize;
+    std::wstring VorbisCommentToString(const FLAC__StreamMetadata_VorbisComment_Entry& comment);
 
-	//State Variables
-	bool mBegun;
-	bool mJustSeeked;
-	__int64 mSeekRequest;
-	bool mWasEOF;
-	unsigned long mUpto;
+    //Pin Class
+    NativeFLACSourcePin* m_flacSourcePin;
 
-	//Stream info data.
-	unsigned long mNumChannels;
-	unsigned long mFrameSize;
-	unsigned long mSampleRate;
-	unsigned long mBitsPerSample;
-    unsigned long mSignificantBitsPerSample;
-	__int64 mTotalNumSamples;
+    //Source File Members
+    std::wstring m_fileName;
+    HANDLE m_inputFileHandle;
+    __int64 m_fileSize;
+    unsigned long m_extraBeginDataLength;
+
+    //State Variables
+    bool m_begun;
+    bool m_justSeeked;
+    __int64 m_seekRequest;
+    bool m_wasEof;
+    unsigned long m_upTo;
+
+    //Stream info data.
+    unsigned short m_numChannels;
+    unsigned long m_frameSize;
+    unsigned long m_sampleRate;
+    unsigned short m_bitsPerSample;
+    unsigned short m_significantBitsPerSample;
+    __int64 m_totalNumSamples;
+
+    typedef std::multimap<std::wstring, std::wstring> VorbisCommentMap;
+    VorbisCommentMap m_vorbisCommentsMap;
 };

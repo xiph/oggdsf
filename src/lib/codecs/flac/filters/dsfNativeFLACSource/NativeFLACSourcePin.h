@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2008, 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -31,56 +32,52 @@
 
 #pragma once
 
-//Local Includes
-#include "dsfNativeFLACSource.h"
-
 //Library Includes
 #include "BasicSeekPassThrough.h"
 
-//Kernel streaming header for KSDATA_FORMAT_SUBTYPE_PCM
-#include "ks.h"
-#include "ksmedia.h"
-
 //Forward Declararions.
 class NativeFLACSourceFilter;
-class NativeFLACSourcePin
-	//Base classes.
-	:	public CBaseOutputPin
-	,	public BasicSeekPassThrough
+
+class NativeFLACSourcePin: public CBaseOutputPin, public BasicSeekPassThrough
 {
 public:
-	//COM Stuff
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+    //Constants
+    static const unsigned long NUM_BUFFERS = 4;
 
-	//Constructors.
-	NativeFLACSourcePin(	NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock);
-	virtual ~NativeFLACSourcePin(void);
+public:
+    //COM Stuff
+    DECLARE_IUNKNOWN
+    HRESULT __stdcall NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	//Constants
-	static const unsigned long BUFFER_SIZE = 65536;			//What should this be ????
-	static const unsigned long NUM_BUFFERS = 10;
+    //Constructors.
+    NativeFLACSourcePin(NativeFLACSourceFilter* inParentFilter, CCritSec* inFilterLock);
+    virtual ~NativeFLACSourcePin(void);
 
-	//CBaseOutputPin virtuals
-	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
+    //CBaseOutputPin virtuals
+    virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
     virtual HRESULT SetMediaType(const CMediaType* inMediaType);
-	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
-	virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
+    virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
+    virtual HRESULT DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest);
 
-	//IPin virtuals
-	virtual HRESULT CompleteConnect (IPin *inReceivePin);
-	virtual HRESULT BreakConnect(void);
-	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
-	virtual HRESULT DeliverEndOfStream(void);
-	virtual HRESULT DeliverEndFlush(void);
-	virtual HRESULT DeliverBeginFlush(void);
+    //IPin virtuals
+    virtual HRESULT CompleteConnect (IPin *inReceivePin);
+    virtual HRESULT BreakConnect(void);
+    virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+    virtual HRESULT DeliverEndOfStream(void);
+    virtual HRESULT DeliverEndFlush(void);
+    virtual HRESULT DeliverBeginFlush(void);
 
-	//Helper method
-	HRESULT deliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd);
+    //Helper method
+    HRESULT DeliverData(unsigned char* inBuff, unsigned long inBuffSize, __int64 inStart, __int64 inEnd);
+
+    void FillMediaType(CMediaType& mediaType, bool useWaveFormatEx);
+
 protected:
-	HRESULT mFilterHR;
-	
-	//Member variables.
-	COutputQueue* mDataQueue;
-	NativeFLACSourceFilter* mParentFilter;
+    HRESULT m_filterHR;
+    
+    //Member variables.
+    COutputQueue* m_dataQueue;
+    NativeFLACSourceFilter* m_parentFilter;
+
+    bool m_haveDiscontinuity;
 };

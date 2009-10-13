@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2008, 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,90 +30,107 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "stdafx.h"
+#include <initguid.h>
+#include "NativeFLACSourceFilter.h"
+#include "dsfNativeFLACSource.h"
+#include "common/util.h"
 
+extern "C" BOOL WINAPI DllEntryPoint(HANDLE, ULONG, LPVOID);
 
-
-
-extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
-    return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
+    if (dwReason == DLL_PROCESS_ATTACH)
+    {
+        util::ConfigureLog(hModule);
+    }
+
+    return DllEntryPoint(hModule, dwReason, lpReserved);
 }
 
 
-//The folowing two functions do the registration and deregistration of the dll and it's contained com objects.
+//The foLlowing two functions do the registration and deregistration of the dll and it's contained com objects.
 STDAPI DllRegisterServer()
-{
-	
-	//TO DO::: Should we be releasing the filter mapper even when we return early ?
-    HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-	
-    hr = AMovieDllRegisterServer2(TRUE);
-	if (FAILED(hr)) {
-		
-        return hr;
-	}
-	
-	
+{	
+    HRESULT hr = AMovieDllRegisterServer2(TRUE);
 
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
-
-	
-	if (FAILED(hr)) {
+    if (FAILED(hr)) 
+    {    
         return hr;
-	}
-	
-	hr = locFilterMapper->RegisterFilter(
-		CLSID_NativeFLACSourceFilter,						// Filter CLSID. 
-		L"Native FLAC Source Filter",							// Filter name.
-        NULL,										// Device moniker. 
-        &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        NULL,							// Instance data. ???????
-        &NativeFLACSourceFilterReg								// Pointer to filter information.
+    }
+    
+#ifndef WINCE
+    CComPtr<IFilterMapper2> filterMapper;
+
+    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&filterMapper);
+
+    if (FAILED(hr)) 
+    {
+        return hr;
+    }
+    
+    hr = filterMapper->RegisterFilter(
+        CLSID_NativeFLACSourceFilter,               // Filter CLSID. 
+        L"Native FLAC Source Filter",               // Filter name.
+        NULL,                                       // Device moniker. 
+        &CLSID_LegacyAmFilterCategory,              // Direct Show general category
+        NULL,                                       // Instance data. ???????
+        &NativeFLACSourceFilterReg                  // Pointer to filter information.
     );
+#else
+    CComPtr<IFilterMapper> filterMapper;
 
+    hr = CoCreateInstance(CLSID_FilterMapper, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper, (void **)&filterMapper);
+    if (FAILED(hr)) 
+    {
+        return hr;
+    }
 
-	//Only call once... if you need multiple you have to fix the hack job in RegWrap !
-	//RegWrap::addMediaPlayerDesc("Ogg File",  "*.ogg;*.ogv;*.oga;*.spx");
-
-
-
-
-
-    locFilterMapper->Release();
+    hr = filterMapper->RegisterFilter(
+        CLSID_NativeFLACSourceFilter,               // Filter CLSID. 
+        L"Native FLAC Source Filter",               // Filter name.
+        MERIT_NORMAL
+        );
+#endif
 
     return hr;
-	//return S_OK;
 }
 
 STDAPI DllUnregisterServer()
 {
-	//This is not a general purpose function.
-	//RegWrap::removeMediaDesc();
-
-   HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-
+    HRESULT hr = S_OK;
+        
     hr = AMovieDllRegisterServer2(FALSE);
-	if (FAILED(hr)) {
-		
+
+    if (FAILED(hr)) 
+    {    
         return hr;
-	}
- 
+    }
+
+#ifndef WINCE
+    CComPtr<IFilterMapper2> locFilterMapper;
+
     hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
             IID_IFilterMapper2, (void **)&locFilterMapper);
 
-	if (FAILED(hr)) {
+    if (FAILED(hr)) 
+    {
         return hr;
-	}
-	
+    }
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
             NULL, CLSID_NativeFLACSourceFilter);
 
-	//
-    locFilterMapper->Release();
-    return hr;
-	
+#else
+    CComPtr<IFilterMapper> filterMapper;
+
+    hr = CoCreateInstance(CLSID_FilterMapper, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper, (void **)&filterMapper);
+    if (FAILED(hr)) 
+    {
+        return hr;
+    }
+
+    hr = filterMapper->UnregisterFilter(CLSID_NativeFLACSourceFilter);
+#endif
+
+    return hr;    
 }
