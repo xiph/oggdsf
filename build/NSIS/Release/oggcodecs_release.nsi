@@ -1,24 +1,24 @@
-;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Copyright (C) 2005, 2006 Zentaro Kavanagh 
-; Copyright (C) 2008 Cristian Adam
+﻿;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Copyright (C) 2005 - 2006 Zentaro Kavanagh 
+; Copyright (C) 2008 - 2009 Cristian Adam
 ;
 ; NSIS install script for oggcodecs
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Location of Visual Studio runtime libraries on the compiling system
 !if "$%COMPILER%" == "VS2008"
-	!if "$%X64%" == "true"
-		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\amd64\Microsoft.VC90.CRT\"
-	!else
-		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
-	!endif
-	!define VS_RUNTIME_SUFFIX 90
+  !if "$%X64%" == "true"
+    !define VS_RUNTIME_LOCATION "d:\Program Files\Microsoft Visual Studio 9.0\VC\redist\amd64\Microsoft.VC90.CRT\"
+  !else
+    !define VS_RUNTIME_LOCATION "d:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
+  !endif
+  !define VS_RUNTIME_SUFFIX 90
 !else if "$%COMPILER%" == "VS2005"
-	!if "$%X64%" == "true"
-		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 8\VC\redist\amd64\Microsoft.VC80.CRT\"
-	!else
-		!define VS_RUNTIME_LOCATION "C:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\"	
-	!endif
-	!define VS_RUNTIME_SUFFIX 80
+  !if "$%X64%" == "true"
+    !define VS_RUNTIME_LOCATION "d:\Program Files\Microsoft Visual Studio 8\VC\redist\amd64\Microsoft.VC80.CRT\"
+  !else
+    !define VS_RUNTIME_LOCATION "d:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\"	
+  !endif
+  !define VS_RUNTIME_SUFFIX 80
 !endif
 
 !define VS_RUNTIME_PREFIX msvc
@@ -35,7 +35,7 @@
 
 !define PRODUCT_PUBLISHER "Xiph.Org"
 !define PRODUCT_WEB_SITE "http://xiph.org/dshow/"
-!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OOOggDump.exe"
+!define PRODUCT_DIR_REGKEY "Software\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
@@ -90,6 +90,7 @@
 !include "FileFunc.nsh"
 !include "Memento.nsh"
 !include "x64.nsh"
+!include "LogicLib.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -108,7 +109,7 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Directshow Filters for 
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${PRODUCT_WEB_SITE}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 ${PRODUCT_PUBLISHER}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 - 2009 ${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "The Xiph Fish Logo and the Vorbis.com many-fish logos are trademarks (tm) of ${PRODUCT_PUBLISHER}"
 
 ; Language Selection Dialog Settings
@@ -155,14 +156,13 @@ var ICONS_GROUP
 ; Language files
 !insertmacro MUI_LANGUAGE "English" 
 
-
-Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 !if "$%X64%" == "true" 
-	InstallDir "$PROGRAMFILES64\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
+  Name "${PRODUCT_NAME} ${PRODUCT_VERSION} 64-bit"
+  InstallDir "$PROGRAMFILES64\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 !else
-	InstallDir "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
+  Name "${PRODUCT_NAME} ${PRODUCT_VERSION} 32-bit"
+  InstallDir "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 !endif
-InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 
 ;Memento Settings
 !define MEMENTO_REGISTRY_ROOT HKLM
@@ -172,9 +172,19 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 Function .onInit
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
+  ; Read here the installdir path instead of using InstallDirRegKey because it doesn't work on 64bit registry view
+  ReadRegStr $INSTDIR HKLM "${PRODUCT_DIR_REGKEY}" ""
+  ${If} $INSTDIR == ""
+!if "$%X64%" == "true"
+  StrCpy $INSTDIR "$PROGRAMFILES64\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
+!else
+  StrCpy $INSTDIR "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
+!endif
+  ${EndIf}
+  
   ${MementoSectionRestore}
 
 !ifdef INNER
@@ -189,9 +199,9 @@ Function .onInit
 
 !if "$%X64%" == "true"  
   ${IfNot} ${RunningX64}
-	IfSilent +2
-	MessageBox MB_OK|MB_ICONEXCLAMATION  "This installation package is not supported by this processor type."
-	Abort
+  IfSilent +2
+  MessageBox MB_OK|MB_ICONEXCLAMATION  "This installation package is not supported by this processor type."
+  Abort
   ${EndIf}
 !endif
 
@@ -288,10 +298,21 @@ FunctionEnd
 !macroend
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+!macro RemoveMediaPlayerDesc RegKey
+  ReadRegStr $0 HKLM "${RegKey}" "MediaDescNum"
+  ${If} $0 != ""
+    DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\Descriptions" $0 
+    DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\MUIDescriptions" $0 
+    DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\Types" $0 
+  ${EndIf}  
+!macroend
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Section "Oggcodecs Core Files" SEC_CORE
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   SectionIn 1 RO
@@ -313,27 +334,6 @@ Section "Oggcodecs Core Files" SEC_CORE
   ; ico files - 1 (One file contains all these packed)
   File "${OGGCODECS_ROOT_DIR}\bin\xifish.ico"
 
-  ; Libraries - 10
-  File "bin\libOOOgg.dll"
-  File "bin\libOOOggSeek.dll"
-  File "bin\libCMMLTags.dll"
-  File "bin\libCMMLParse.dll"
-  File "bin\vorbis.dll"
- 
-  File "bin\libOOTheora.dll"
-  File "bin\libFLAC.dll"
-  File "bin\libFLAC++.dll"
-  File "bin\libVorbisComment.dll"
-
-  File "bin\libTemporalURI.dll"
-
-
-  ; Utilites - 4
-  File "bin\OOOggDump.exe"
-  File "bin\OOOggStat.exe"
-  File "bin\OOOggValidate.exe"
-  File "bin\OOOggCommentDump.exe"
-
 
   ; Text files - 9
   File "${OGGCODECS_ROOT_DIR}\ABOUT.txt"
@@ -351,7 +351,7 @@ Section "Oggcodecs Core Files" SEC_CORE
   File "${OGGCODECS_ROOT_DIR}\bin\Ogg Codecs.manifest" 
 !endif
   
-  ; Install Filters - 16  
+  ; Install Filters - 15  
 
   File "bin\dsfFLACEncoder.dll"
   File "bin\dsfSpeexEncoder.dll"
@@ -373,17 +373,18 @@ Section "Oggcodecs Core Files" SEC_CORE
 
   File "bin\dsfCMMLDecoder.dll"
   File "bin\dsfCMMLRawSource.dll"
-  File "bin\dsfSubtitleVMR9.dll"
 
   ; File "bin\dsfAnxDemux.dll"
   File "bin\dsfAnxMux.dll"                                           
+
+  File "bin\wmpinfo.dll"                                           
 
   SetDetailsPrint textonly
   DetailPrint "Registering DirectShow Filters ..."
   SetDetailsPrint listonly
 
   SetOutPath "$INSTDIR"
-  ; Register libraries - 16
+  ; Register libraries - 15
 
   !insertmacro RegisterCOM "$INSTDIR\dsfFLACEncoder.dll"
   !insertmacro RegisterCOM "$INSTDIR\dsfSpeexEncoder.dll" 
@@ -403,7 +404,6 @@ Section "Oggcodecs Core Files" SEC_CORE
   
   !insertmacro RegisterCOM "$INSTDIR\dsfCMMLDecoder.dll" 
   !insertmacro RegisterCOM "$INSTDIR\dsfCMMLRawSource.dll" 
-  !insertmacro RegisterCOM "$INSTDIR\dsfSubtitleVMR9.dll" 
   
   ;!insertmacro RegisterCOM "$INSTDIR\dsfAnxDemux.dll" 
   !insertmacro RegisterCOM "$INSTDIR\dsfAnxMux.dll"
@@ -637,45 +637,14 @@ Section "Oggcodecs Core Files" SEC_CORE
 ;;;	Directshow extension to filter mapping - 8
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
   WriteRegStr HKCR "Media Type\Extensions\.anx" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
   WriteRegStr HKCR "Media Type\Extensions\.axa" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
   WriteRegStr HKCR "Media Type\Extensions\.axv" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
   WriteRegStr HKCR "Media Type\Extensions\.flac" "Source Filter" "{6DDA37BA-0553-499a-AE0D-BEBA67204548}"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
   WriteRegStr HKCR "Media Type\Extensions\.oga" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
   WriteRegStr HKCR "Media Type\Extensions\.ogg" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
   WriteRegStr HKCR "Media Type\Extensions\.ogv" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
   WriteRegStr HKCR "Media Type\Extensions\.spx" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	Directshow extension to filter mapping for HTTP - 7
@@ -703,6 +672,32 @@ Section "Oggcodecs Core Files" SEC_CORE
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac" "audio"  
   
+  ; Remove the previously set Media Player description
+  !insertmacro RemoveMediaPlayerDesc "SOFTWARE\illiminable\oggcodecs"
+  DeleteRegKey HKLM "SOFTWARE\illiminable\oggcodecs"
+  DeleteRegKey /ifempty HKLM "SOFTWARE\illiminable"
+   
+  ; Get the next file description entry
+  StrCpy $0 0
+  StrCpy $2 0
+  ${Do}
+    EnumRegValue $1 HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\Descriptions" $0
+    ${If} $1 != ""
+      ${If} $1 > $2
+        StrCpy $2 $1
+      ${EndIf}
+    ${EndIf}
+    IntOp $0 $0 + 1
+  ${LoopWhile} $1 != ""
+  IntOp $2 $2 + 1
+
+  ; Write new Media Player file description
+  WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\Descriptions" $2 "Xiph.org Files (*.ogg;*.flac;*.ogv;*.oga;*.spx)"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\MUIDescriptions" $2 "@$INSTDIR\wmpinfo.dll,-101"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\Types" $2 "*.ogg;*.flac;*.ogv;*.oga;*.spx"
+   
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "MediaDescNum" $2
+  
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -729,7 +724,7 @@ ${MementoSection} ".ogg defaults to audio" SEC_OGG_AUDIO_DEFAULT
   SectionIn 1
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   ; Make .ogg recognised as audio
@@ -750,7 +745,7 @@ ${MementoSection} ".ogg"  SecOgg
   SectionIn 1
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   WriteRegStr HKCR ".ogg" "" "WMP.OggFile"
@@ -761,7 +756,7 @@ ${MementoSection} ".oga" SecOga
   SectionIn 1
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   WriteRegStr HKCR ".oga" "" "WMP.OgaFile"
@@ -772,7 +767,7 @@ ${MementoSection} ".ogv"  SecOgv
   SectionIn 1
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   WriteRegStr HKCR ".ogv" "" "WMP.OgvFile"
@@ -783,7 +778,7 @@ ${MementoSection} ".spx"  SecSpx
   SectionIn 1
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   WriteRegStr HKCR ".spx" "" "WMP.SpxFile"
@@ -794,7 +789,7 @@ ${MementoSection} ".flac" SecFlac
   SectionIn 1
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
  
   WriteRegStr HKCR ".flac" "" "WMP.FlacFile"
@@ -820,7 +815,7 @@ LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows
 Section -AdditionalIcons
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -830,10 +825,10 @@ Section -AdditionalIcons
 SectionEnd
 
 ${MementoSectionDone}
-	
+  
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Function ShowReleaseNotes
-	ExecShell "open" "$INSTDIR\ChangeLog.txt"
+  ExecShell "open" "$INSTDIR\ChangeLog.txt"
 FunctionEnd
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -844,7 +839,7 @@ FunctionEnd
 Section -Post
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
 !ifndef INNER
@@ -856,7 +851,7 @@ Section -Post
   File "$%TEMP%\uninst.exe"
 !endif  
 
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\OOOggDump.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\xifish.ico"
@@ -902,7 +897,7 @@ FunctionEnd
 Section Uninstall
 
 !if "$%X64%" == "true"
-	SetRegView 64
+  SetRegView 64
 !endif
 
   SetShellVarContext all
@@ -911,11 +906,10 @@ Section Uninstall
   DetailPrint "Unregistering DirectShow Filters ..."
   SetDetailsPrint listonly
   
-  ; Unregister libraries - 16
+  ; Unregister libraries - 15
 
   ; Unregister core annodex libraries
 
-  !insertmacro UnRegisterCOM "$INSTDIR\dsfSubtitleVMR9.dll"
   !insertmacro UnRegisterCOM "$INSTDIR\dsfCMMLDecoder.dll"
   !insertmacro UnRegisterCOM "$INSTDIR\dsfCMMLRawSource.dll"
   
@@ -1021,7 +1015,7 @@ Section Uninstall
   DeleteRegKey HKCR "WMP.OgvFile"
   DeleteRegKey HKCR "WMP.SpxFile"
   DeleteRegKey HKCR "WMP.FlacFile"
-  
+
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
  
   SetDetailsPrint textonly
@@ -1029,28 +1023,8 @@ Section Uninstall
   SetDetailsPrint listonly 
   Delete "$INSTDIR\Install.log"
 
-  ; Delete utils - 4
-  Delete "$INSTDIR\OOOggCommentDump.exe"
-  Delete "$INSTDIR\OOOggValidate.exe"
-  Delete "$INSTDIR\OOOggStat.exe"
-  Delete "$INSTDIR\OOOggDump.exe"
 
-
-  ; Delete libraries - 10
-  Delete "$INSTDIR\libFLAC++.dll"
-  Delete "$INSTDIR\libFLAC.dll"
-  Delete "$INSTDIR\libOOTheora.dll"
-  Delete "$INSTDIR\vorbis.dll"
-
-  Delete "$INSTDIR\libCMMLParse.dll"
-  Delete "$INSTDIR\libCMMLTags.dll"
-  Delete "$INSTDIR\libVorbisComment.dll"
-  Delete "$INSTDIR\libOOOggSeek.dll"
-  Delete "$INSTDIR\libOOOgg.dll"
-
-  Delete "$INSTDIR\libTemporalURI.dll"
-
-  ;Delete Filters - 16
+  ;Delete Filters - 15
   Delete "$INSTDIR\dsfVorbisEncoder.dll"
   Delete "$INSTDIR\dsfTheoraEncoder.dll"
   Delete "$INSTDIR\dsfSpeexEncoder.dll"
@@ -1066,8 +1040,6 @@ Section Uninstall
 
   Delete "$INSTDIR\dsfCMMLDecoder.dll"
   Delete "$INSTDIR\dsfCMMLRawSource.dll"
-
-  Delete "$INSTDIR\dsfSubtitleVMR9.dll"
   
   Delete "$INSTDIR\dsfOggDemux2.dll"
   Delete "$INSTDIR\dsfOggMux.dll"
@@ -1077,7 +1049,7 @@ Section Uninstall
 
   Delete "$INSTDIR\dsfAnxMux.dll"
   ; Delete "$INSTDIR\dsfAnxDemux.dll"
-
+  Delete "$INSTDIR\wmpinfo.dll"
 
   ; Delete text files - 9
   Delete "$INSTDIR\ABOUT.txt"
@@ -1115,8 +1087,12 @@ Section Uninstall
   ; Remove the parent directory (but only if it's empty)
   RMDir "$INSTDIR\.."
 
+  ; Remove the previously set Media Player description
+  !insertmacro RemoveMediaPlayerDesc "${PRODUCT_DIR_REGKEY}"
+  
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
+  DeleteRegKey /ifempty HKLM "Software\${PRODUCT_PUBLISHER}"
 
   StrCmp $option_runFromInstaller "1" 0 +2
   SetAutoClose true
