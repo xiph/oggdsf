@@ -91,6 +91,7 @@
 !include "Memento.nsh"
 !include "x64.nsh"
 !include "LogicLib.nsh"
+!include "WinVer.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -278,23 +279,34 @@ FunctionEnd
 ; Windows Media Player type registraton macro
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-!macro WMPRegisterType typeName description
+!macro RegisterWMPType typeName description
 
-  WriteRegStr HKCR "WMP.${typeName}" "" "${description}"
-  WriteRegStr HKCR "WMP.${typeName}\shell" "" "open"
+  WriteRegStr HKCR "${typeName}" "" "${description}"
+  WriteRegStr HKCR "${typeName}\shell" "" "play"
 
-  WriteRegStr HKCR "WMP.${typeName}\shell\open" "" "&Open"
-  WriteRegStr HKCR "WMP.${typeName}\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
+  WriteRegStr HKCR "${typeName}\shell\open" "" "&Open"
+  WriteRegStr HKCR "${typeName}\shell\open\command" "" "$WMP_LOCATION /Open $\"%L$\""
   
-  WriteRegStr HKCR "WMP.${typeName}\shell\play" "" "&Play"
-  WriteRegStr HKCR "WMP.${typeName}\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
+  WriteRegStr HKCR "${typeName}\shell\play" "" "&Play"
+  WriteRegStr HKCR "${typeName}\shell\play\command" "" "$WMP_LOCATION /Play $\"%L$\""    
 
-  ; WMP extra integration
-  WriteRegStr HKCR "WMP.${typeName}\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
-  WriteRegStr HKCR "WMP.${typeName}\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
+  ${If} ${AtMostWinVista}
+    ; WMP extra integration
+    WriteRegStr HKCR "${typeName}\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
+    WriteRegStr HKCR "${typeName}\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
+  ${EndIf}
 
-  WriteRegStr HKCR "WMP.${typeName}\DefaultIcon" "" "$INSTDIR\xifish.ico"
+  WriteRegStr HKCR "${typeName}\DefaultIcon" "" "$INSTDIR\xifish.ico"
 
+!macroend
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+!macro RegisterExtension Ext WMPType MIMEType PerceivedType
+    WriteRegStr HKCR "${Ext}" "" "${WMPType}"
+    WriteRegStr HKCR "${Ext}" "Content Type" "${MIMEType}"
+    WriteRegStr HKCR "${Ext}" "PerceivedType" "${PerceivedType}"
+    WriteRegStr HKCR "Applications\wmplayer.exe\supportedtypes" "${Ext}" ""
 !macroend
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -306,6 +318,40 @@ FunctionEnd
     DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\MUIDescriptions" $0 
     DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\Player\Extensions\Types" $0 
   ${EndIf}  
+!macroend
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+!macro AddWMPExtension TypeExt TypeDesc MIMEType PerceivedType ExtensionHandler
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "MediaType.Description" "${TypeDesc}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "MediaType.Icon" "$INSTDIR\xifish.ico"
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "Permissions" 0x0000000f
+  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "Runtime" 0x00000007
+  ${If} "${PerceivedType}" != ""  
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "PerceivedType" "${PerceivedType}"
+  ${EndIf}
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "Extension.MIME" "${MIMEType}"
+  ${if} "${ExtensionHandler}" != ""
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "Extension.Handler" "${ExtensionHandler}"
+  ${EndIf}
+  
+!macroend 
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+!macro AddWMPMediaGroup TypeExt TypeUppercase TypeDesc MIMEType PerceivedType
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\${PerceivedType}\${TypeUppercase}" "" "${TypeDesc}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\${PerceivedType}\${TypeUppercase}" "Extensions" "${TypeExt}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\${PerceivedType}\${TypeUppercase}" "MIME Types" "${MIMEType}"
+!macroend
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+!macro AddWMPMimeTypes MIMEType TypeDesc TypeExt TypeExtComma TypeExtSpace
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\${MIMEType}" "" "${TypeDesc}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\${MIMEType}" "Extension.Key" "${TypeExt}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\${MIMEType}" "Extensions.CommaSep" "${TypeExtComma}"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\${MIMEType}" "Extensions.SpaceSep" "${TypeExtSpace}"
 !macroend
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -433,205 +479,42 @@ Section "Oggcodecs Core Files" SEC_CORE
 ;;;	*	Media Type Entries/Filter association for Directshow
 ;;;	*	MLS(?) Entries for WMP
 
-
-
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Media Group Entries - 6
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\FLAC" "" "FLAC File (flac)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\FLAC" "Extensions" ".flac"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\FLAC" "MIME Types" "audio/x-flac"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA" "" "Ogg Audio File (oga)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA" "Extensions" ".oga"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGA" "MIME Types" "audio/x-ogg"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "" "Ogg Video File (ogv)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "Extensions" ".ogv"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\OGV" "MIME Types" "video/x-ogg"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "" "Annodex Audio File (axa)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "Extensions" ".axa"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\AXA" "MIME Types" "audio/x-annodex"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "" "Annodex Video File (axv)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "Extensions" ".axv"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Video\AXV" "MIME Types" "video/x-annodex"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "" "Speex File (spx)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "Extensions" ".spx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\SPX" "MIME Types" "audio/x-ogg"
-  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
+!insertmacro AddWMPMediaGroup ".flac" "FLAC" "FLAC File (flac)" "audio/flac" "Audio"
+!insertmacro AddWMPMediaGroup ".oga" "OGA" "Ogg Audio File (oga)" "audio/ogg" "Audio"
+!insertmacro AddWMPMediaGroup ".ogg" "OGG" "Ogg Audio File (ogg)" "audio/ogg" "Audio"
+!insertmacro AddWMPMediaGroup ".ogv" "OGV" "Ogg Video File (ogv)" "video/ogg" "Video"
+!insertmacro AddWMPMediaGroup ".axa" "AXA" "Annodex Audio File (axa)" "audio/annodex" "Audio"
+!insertmacro AddWMPMediaGroup ".axv" "AXV" "Annodex Video File (axv)" "video/annodex" "Video"
+!insertmacro AddWMPMediaGroup ".spx" "SPX" "Speex File (spx)" "audio/ogg" "Audio"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	WMP Mime type entries - 7
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "" "Annodex File"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extension.Key" ".anx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.CommaSep" "anx,axa,axv"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex" "Extensions.SpaceSep" ".anx .axa .axv"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "" "Ogg File"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "Extension.Key" ".ogg"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "Extensions.CommaSep" "ogg,oga,ogv,spx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg" "Extensions.SpaceSep" ".ogg .oga .ogv .spx"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac" "" "FLAC Audio File"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac" "Extension.Key" ".flac"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "" "Ogg Audio File"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extension.Key" ".oga"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extensions.CommaSep" "oga,spx"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg" "Extensions.SpaceSep" ".oga .spx"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "" "Ogg Video File"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg" "Extension.Key" ".ogv"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "" "Annodex Audio File"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "Extension.Key" ".axa"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "Extensions.CommaSep" "axa"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex" "Extensions.SpaceSep" ".axa"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex" "" "Annodex Video File"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex" "Extension.Key" ".axv"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
+!insertmacro AddWMPMimeTypes "application/annodex" "Annodex File" ".anx" "anx,axa,axv" ".anx .axa .axv"
+!insertmacro AddWMPMimeTypes "application/ogg" "Ogg File" ".ogg" "ogg,oga,ogv,spx" ".ogg .oga .ogv .spx"
+!insertmacro AddWMPMimeTypes "audio/flac" "FLAC Audio File" ".flac" "flac" ".flac"
+!insertmacro AddWMPMimeTypes "audio/ogg" "Ogg Audio File" ".oga" "oga,spx" ".oga .spx"
+!insertmacro AddWMPMimeTypes "video/ogg" "Ogg Video File" ".ogv" "ogv" ".ogv"
+!insertmacro AddWMPMimeTypes "audio/annodex" "Annodex Audio File" ".axa" "axa" ".axa"
+!insertmacro AddWMPMimeTypes "video/annodex" "Annodex Video File" ".axv" "axv" ".axv"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	WMP extension entries - 8
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "MediaType.Description" "Annodex"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.anx" "Extension.MIME" "application/x-annodex"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "MediaType.Description" "Annodex Audio"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "PerceivedType" "audio"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axa" "Extension.MIME" "audio/x-annodex"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "MediaType.Description" "Annodex Video"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "PerceivedType" "video"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.axv" "Extension.MIME" "video/x-annodex"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "MediaType.Description" "FLAC Audio"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "PerceivedType" "audio"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.flac" "Extension.MIME" "audio/x-flac"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "MediaType.Description" "Ogg Audio"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "PerceivedType" "audio"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.oga" "Extension.MIME" "audio/x-ogg"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "MediaType.Description" "Ogg"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "Extension.MIME" "application/ogg"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "MediaType.Description" "Ogg Video"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "PerceivedType" "video"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogv" "Extension.MIME" "video/x-ogg"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "AlreadyRegistered" "yes"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "MediaType.Description" "Speex Audio"
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "Permissions" 0x0000000f
-  WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "Runtime" 0x00000007
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "PerceivedType" "audio"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.spx" "Extension.MIME" "audio/x-ogg"
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+!insertmacro AddWMPExtension ".anx" "Annodex" "application/annodex" "" ""
+!insertmacro AddWMPExtension ".axa" "Annodex Audio" "audio/annodex" "audio" ""
+!insertmacro AddWMPExtension ".axv" "Annodex Video" "video/annodex" "video" ""
+!insertmacro AddWMPExtension ".flac" "FLAC Audio" "audio/flac" "audio" "WMP.FlacFile"
+!insertmacro AddWMPExtension ".oga" "Ogg Audio" "audio/ogg" "audio" "WMP.OgaFile"
+!insertmacro AddWMPExtension ".ogg" "Ogg Audio" "audio/ogg" "audio" "WMP.OggFile"
+!insertmacro AddWMPExtension ".ogv" "Ogg Video" "video/ogg" "video" "WMP.OgvFile"
+!insertmacro AddWMPExtension ".spx" "Speex Audio" "audio/ogg" "audio" "WMP.SpxFile"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	Directshow extension to filter mapping - 8
@@ -658,11 +541,8 @@ Section "Oggcodecs Core Files" SEC_CORE
   WriteRegStr HKCR "http\Extensions" ".AXV" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
   WriteRegStr HKCR "http\Extensions" ".AXA" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
   
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;	MLS Perceived type - 6
+;;;	MLS Perceived type - 7
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogv" "video"
@@ -671,6 +551,7 @@ Section "Oggcodecs Core Files" SEC_CORE
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "axa" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx" "audio"
   WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac" "audio"  
+  WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogg" "audio"  
   
   ; Remove the previously set Media Player description
   !insertmacro RemoveMediaPlayerDesc "SOFTWARE\illiminable\oggcodecs"
@@ -718,26 +599,6 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 SectionEnd
 
-
-;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-${MementoSection} ".ogg defaults to audio" SEC_OGG_AUDIO_DEFAULT
-  SectionIn 1
-
-!if "$%X64%" == "true"
-  SetRegView 64
-!endif
-
-  ; Make .ogg recognised as audio
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "" "Ogg File (ogg)"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "Extensions" ".ogg"
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\Audio\OGG" "MIME Types" "application/ogg"  
-    
-  WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\.ogg" "PerceivedType" "audio"
-  
-  WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "ogg" "audio"  
-
-${MementoSectionEnd}
-
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SectionGroup "File type associations" SEC_USE_WMP_FOR_OGG
 
@@ -747,10 +608,11 @@ ${MementoSection} ".ogg"  SecOgg
 !if "$%X64%" == "true"
   SetRegView 64
 !endif
-
-  WriteRegStr HKCR ".ogg" "" "WMP.OggFile"
-  !insertmacro WMPRegisterType "OggFile" "Ogg File"
+  !insertmacro RegisterExtension ".ogg" "WMP.OggFile" "audio/ogg" "audio"
+  !insertmacro RegisterWMPType "WMP.OggFile" "Ogg File"
 ${MementoSectionEnd}
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ${MementoSection} ".oga" SecOga
   SectionIn 1
@@ -759,9 +621,11 @@ ${MementoSection} ".oga" SecOga
   SetRegView 64
 !endif
 
-  WriteRegStr HKCR ".oga" "" "WMP.OgaFile"
-  !insertmacro WMPRegisterType "OgaFile" "Ogg Audio File"
+  !insertmacro RegisterExtension ".oga" "WMP.OgaFile" "audio/ogg" "audio"
+  !insertmacro RegisterWMPType "WMP.OgaFile" "Ogg Audio File"
 ${MementoSectionEnd}
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ${MementoSection} ".ogv"  SecOgv
   SectionIn 1
@@ -770,9 +634,11 @@ ${MementoSection} ".ogv"  SecOgv
   SetRegView 64
 !endif
 
-  WriteRegStr HKCR ".ogv" "" "WMP.OgvFile"
-  !insertmacro WMPRegisterType "OgvFile" "Ogg Video File"
+  !insertmacro RegisterExtension ".ogv" "WMP.OgvFile" "video/ogg" "video"
+  !insertmacro RegisterWMPType "WMP.OgvFile" "Ogg Video File"
 ${MementoSectionEnd}
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ${MementoSection} ".spx"  SecSpx
   SectionIn 1
@@ -781,9 +647,11 @@ ${MementoSection} ".spx"  SecSpx
   SetRegView 64
 !endif
 
-  WriteRegStr HKCR ".spx" "" "WMP.SpxFile"
-  !insertmacro WMPRegisterType "SpxFile" "Speex File"
+  !insertmacro RegisterExtension ".spx" "WMP.SpxFile" "audio/ogg" "audio"
+  !insertmacro RegisterWMPType "WMP.SpxFile" "Speex File"
 ${MementoSectionEnd}
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ${MementoSection} ".flac" SecFlac
   SectionIn 1
@@ -792,8 +660,8 @@ ${MementoSection} ".flac" SecFlac
   SetRegView 64
 !endif
  
-  WriteRegStr HKCR ".flac" "" "WMP.FlacFile"
-  !insertmacro WMPRegisterType "FlacFile" "FLAC File"
+  !insertmacro RegisterExtension ".flac" "WMP.FlacFile" "audio/flac" "audio"
+  !insertmacro RegisterWMPType "WMP.FlacFile" "FLAC File"
 ${MementoSectionEnd}
 
 SectionGroupEnd
@@ -806,7 +674,6 @@ LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_CORE} $(DESC_OggCoreSection)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_OGG_AUDIO_DEFAULT} $(DESC_OggExtensionAudioByDefault)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_USE_WMP_FOR_OGG} $(DESC_OggOpensInWMP)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
@@ -958,12 +825,12 @@ Section Uninstall
   ; MIME Type entries	- 7
 
   DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/ogg"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-flac"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-ogg"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-ogg"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/x-annodex"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/x-annodex"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/x-annodex"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/flac"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/ogg"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/ogg"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\application/annodex"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\audio/annodex"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\video/annodex"
 
 
   ; File Extension Entries - 8
@@ -1009,12 +876,19 @@ Section Uninstall
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "spx"
   DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "flac"  
 
-    ; Point the extension to the handlers
+  ; Point the extension to the handlers
   DeleteRegKey HKCR "WMP.OggFile"
   DeleteRegKey HKCR "WMP.OgaFile"
   DeleteRegKey HKCR "WMP.OgvFile"
   DeleteRegKey HKCR "WMP.SpxFile"
   DeleteRegKey HKCR "WMP.FlacFile"
+  
+  ; Delete all the registered supported types from wmplayer.exe's list
+  DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".ogg"
+  DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".oga"
+  DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".ogv"
+  DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".spx"
+  DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".flac"
 
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
  

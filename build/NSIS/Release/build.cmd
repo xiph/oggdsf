@@ -48,11 +48,6 @@ if [%X64%] == [] (
 signtool sign /a /t http://time.certum.pl/ oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.exe 
 "%ProgramFiles%\7-zip\7z.exe" a oggcodecs_%PRODUCT_VERSION%_pdbs-%SUFFIX%.7z pdb\*
 
-rmdir /s /q "Ogg Codecs"
-"%ProgramFiles%\7-zip\7z.exe" e oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.exe -o"Ogg Codecs"
-call:make_cab oggcodecs_%PRODUCT_VERSION%-%SUFFIX%
-signtool sign /a /t http://time.certum.pl/ oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.cab
-
 goto:eof
 ::---------------------------------------------------------------------------------------------------------------------------------
 
@@ -79,21 +74,3 @@ copy "%OGGCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\%PLATFORM%\Release\%%i.pdb" pdb
 )
 
 goto:eof
-::---------------------------------------------------------------------------------------------------------------------------------
-
-:make_cab
-
-cd "Ogg Codecs"
-del LangDLL.dll nsDialogs.dll StartMenu.dll System.dll uninst.exe modern-header.bmp modern-wizard.bmp xifish.ico 
-cd ..
-
-for %%i in ("Ogg Codecs\*.*") do echo "%cd%\%%i" >> files.ddf
-makecab /L .  /D CompresionMemory=21 /D CompressionType=LZX  /D DestinationDir="Ogg Codecs" /D MaxDiskSize=CDROM /F files.ddf 
-del files.ddf
-move disk1\1.cab "%1.cab"
-rmdir disk1
-del setup.inf
-del setup.rpt
-
-goto:eof
-::---------------------------------------------------------------------------------------------------------------------------------
