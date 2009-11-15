@@ -1,64 +1,120 @@
+//===========================================================================
+//Copyright (C) 2009 Cristian Adam
+//
+//Redistribution and use in source and binary forms, with or without
+//modification, are permitted provided that the following conditions
+//are met:
+//
+//- Redistributions of source code must retain the above copyright
+//  notice, this list of conditions and the following disclaimer.
+//
+//- Redistributions in binary form must reproduce the above copyright
+//  notice, this list of conditions and the following disclaimer in the
+//  documentation and/or other materials provided with the distribution.
+//
+//- Neither the name of Cristian Adam nor the names of contributors 
+//  may be used to endorse or promote products derived from this software 
+//  without specific prior written permission.
+//
+//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+//LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+//PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE ORGANISATION OR
+//CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+//EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+//PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+//SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//===========================================================================
+
 #ifndef UTIL_H
 #define UTIL_H
 
 #include <shlobj.h>
-#include <fstream>
-#include "pugixml/pugixml.hpp"
+#include "common/XmlSettings.h"
 
 namespace util
 {
-    inline void ConfigureLog(HANDLE hModule)
+    inline std::wstring GetModuleName(HANDLE hModule)
     {
-        using namespace std;
-        using namespace pugi;
-
-        // Obtain the module name
-        wstring moduleFileName;
+        std::wstring moduleFileName;
         moduleFileName.resize(MAX_PATH);
 
-        int chars = ::GetModuleFileName(static_cast<HMODULE>(hModule), &*moduleFileName.begin(), moduleFileName.size());
+        int chars = ::GetModuleFileName(static_cast<HMODULE>(hModule), 
+                        &*moduleFileName.begin(), moduleFileName.size());
+
         moduleFileName.resize(chars);
 
         size_t lastBackslash = moduleFileName.rfind(L'\\') + 1;
         size_t lastDot = moduleFileName.rfind(L'.');
 
-        wstring moduleName = moduleFileName.substr(lastBackslash, lastDot - lastBackslash);
+        return moduleFileName.substr(lastBackslash, lastDot - lastBackslash);
+    }
 
-        // Obtain the user data configuration directory
-        wstring configLocation;
+    inline std::wstring GetConfigurationPath()
+    {
+        std::wstring configLocation;
         configLocation.resize(MAX_PATH);
+        
         ::SHGetSpecialFolderPath(0, &*configLocation.begin(), CSIDL_APPDATA, false);
+        
         configLocation.resize(wcslen(configLocation.c_str()));
+        configLocation += L"\\Xiph.Org\\Ogg Codecs";
 
-        configLocation += L"\\Xiph.org\\oggcodecs";
+        return configLocation;
+    }
 
-        // Open the settings xml and read the log configuration
-        wstring xmlFileName = configLocation;
-        xmlFileName += L"\\settings.xml";
-
-        ifstream xmlConfigStream;
-        xmlConfigStream.open(xmlFileName.c_str());
-
-        xml_document doc;
-        doc.load(xmlConfigStream);
-
-        stringstream queryString;
-        queryString << "/Configuration/Module[@Name=\"" << CW2A(moduleName.c_str()) << "\"]/Log";
-
-        xpath_query query(queryString.str().c_str());
-
-        wstring levelString = CA2W(doc.select_single_node(query).node().attribute("Level").value());
-        Log::ReportingLevel() = Log::FromString(levelString);
-
-        if (Log::ReportingLevel() != logNONE)
+    struct ComInitializer
+    {
+        ComInitializer()
         {
-            wstring logFileName = configLocation;
-            logFileName += L"\\";
-            logFileName += moduleName + L".log";
-            
-            Log::Stream(logFileName);
+            ::CoInitializeEx(0, COINIT_APARTMENTTHREADED);
+        }
+        ~ComInitializer()
+        {
+            ::CoUninitialize();
+        }
+    };
+
+    inline HMODULE& GetHModule()
+    {
+        static HMODULE module = 0;
+        return module;
+    }
+
+    inline void ConfigureLogSettings() 
+    {
+        std::wstring moduleName = util::GetModuleName(util::GetHModule());
+        std::wstring configurationPath = util::GetConfigurationPath();
+
+        std::wstring xmlConfigurationFile = configurationPath;
+        xmlConfigurationFile+= L"\\settings.xml";
+
+        std::wstring levelString;
+
+        XmlSettings settings;
+        if (settings.Load(xmlConfigurationFile, moduleName))
+        {
+            levelString = settings.GetAttributeValue(L"Log", L"Level");
+        }
+
+        if (!levelString.empty())
+        {
+            Log::ReportingLevel() = Log::FromString(levelString);
+
+            if (Log::ReportingLevel() != logNONE)
+            {
+                std::wstring logFileName = configurationPath;
+                logFileName += L"\\";
+                logFileName += moduleName + L".log";
+
+                Log::Stream(logFileName);
+            }
         }
     }
+
 }
 
 #endif // UTIL_H
