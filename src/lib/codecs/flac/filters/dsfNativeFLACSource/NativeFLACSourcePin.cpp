@@ -31,7 +31,7 @@
 //===========================================================================
 #include "stdafx.h"
 #include "NativeFLACSourcePin.h"
-#include "dsfNativeFLACSource.h"
+#include "NativeFLACSourceFilter.h"
 
 #include <sstream>
 

@@ -31,106 +31,26 @@
 //===========================================================================
 #include "stdafx.h"
 #include <initguid.h>
-#include "NativeFLACSourceFilter.h"
 #include "dsfNativeFLACSource.h"
 #include "common/util.h"
+
+util::ComInitializer g_comInit;
 
 extern "C" BOOL WINAPI DllEntryPoint(HANDLE, ULONG, LPVOID);
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
-    if (dwReason == DLL_PROCESS_ATTACH)
-    {
-        util::ConfigureLog(hModule);
-    }
+    util::GetHModule() = (HMODULE)hModule;
 
     return DllEntryPoint(hModule, dwReason, lpReserved);
 }
 
-
-//The foLlowing two functions do the registration and deregistration of the dll and it's contained com objects.
 STDAPI DllRegisterServer()
 {	
-    HRESULT hr = AMovieDllRegisterServer2(TRUE);
-
-    if (FAILED(hr)) 
-    {    
-        return hr;
-    }
-    
-#ifndef WINCE
-    CComPtr<IFilterMapper2> filterMapper;
-
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&filterMapper);
-
-    if (FAILED(hr)) 
-    {
-        return hr;
-    }
-    
-    hr = filterMapper->RegisterFilter(
-        CLSID_NativeFLACSourceFilter,               // Filter CLSID. 
-        L"Native FLAC Source Filter",               // Filter name.
-        NULL,                                       // Device moniker. 
-        &CLSID_LegacyAmFilterCategory,              // Direct Show general category
-        NULL,                                       // Instance data. ???????
-        &NativeFLACSourceFilterReg                  // Pointer to filter information.
-    );
-#else
-    CComPtr<IFilterMapper> filterMapper;
-
-    hr = CoCreateInstance(CLSID_FilterMapper, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper, (void **)&filterMapper);
-    if (FAILED(hr)) 
-    {
-        return hr;
-    }
-
-    hr = filterMapper->RegisterFilter(
-        CLSID_NativeFLACSourceFilter,               // Filter CLSID. 
-        L"Native FLAC Source Filter",               // Filter name.
-        MERIT_NORMAL
-        );
-#endif
-
-    return hr;
+    return AMovieDllRegisterServer2(TRUE);
 }
 
 STDAPI DllUnregisterServer()
 {
-    HRESULT hr = S_OK;
-        
-    hr = AMovieDllRegisterServer2(FALSE);
-
-    if (FAILED(hr)) 
-    {    
-        return hr;
-    }
-
-#ifndef WINCE
-    CComPtr<IFilterMapper2> locFilterMapper;
-
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
-            IID_IFilterMapper2, (void **)&locFilterMapper);
-
-    if (FAILED(hr)) 
-    {
-        return hr;
-    }
-
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
-            NULL, CLSID_NativeFLACSourceFilter);
-
-#else
-    CComPtr<IFilterMapper> filterMapper;
-
-    hr = CoCreateInstance(CLSID_FilterMapper, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper, (void **)&filterMapper);
-    if (FAILED(hr)) 
-    {
-        return hr;
-    }
-
-    hr = filterMapper->UnregisterFilter(CLSID_NativeFLACSourceFilter);
-#endif
-
-    return hr;    
+    return AMovieDllRegisterServer2(FALSE);
 }

@@ -31,33 +31,67 @@
 //===========================================================================
 #include "stdafx.h"
 #include "NativeFLACSourceFilter.h"
+#include "NativeFLACSourcePin.h"
 #include "dsfNativeFLACSource.h"
 #include <sstream>
+#include "common/util.h"
 
 CFactoryTemplate g_Templates[] = 
 {
     { 
-        L"Native FLAC SourceFilter",            // Name
+        NativeFLACSourceFilter::NAME,           // Name
         &CLSID_NativeFLACSourceFilter,          // CLSID
         NativeFLACSourceFilter::CreateInstance, // Method to create an instance of MyComponent
         NULL,                                   // Initialization function
-        NULL                                    // Set-up information (for filters)
+        &NativeFLACSourceFilter::m_filterReg    // Set-up information (for filters)
     }
-
 };
 
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
+const wchar_t* NativeFLACSourceFilter::NAME = L"Xiph.Org Native FLAC Source";
+
+const AMOVIESETUP_MEDIATYPE NativeFLACSourceFilter::m_mediaTypes = 
+{
+    &MEDIATYPE_Audio,
+    &MEDIASUBTYPE_PCM
+};
+
+const AMOVIESETUP_PIN NativeFLACSourceFilter::m_pinReg = 
+{
+    L"PCM Output",                      //Name (obsoleted)
+    FALSE,                              //Renders from this pin ?? Not sure about this.
+    TRUE,                               //Is an output pin
+    FALSE,                              //Cannot have zero instances of this pin
+    FALSE,                              //Cannot have more than one instance of this pin
+    &CLSID_NULL,                        //Connects to filter (obsoleted)
+    NULL,                               //Connects to pin (obsoleted)
+    1,                                  //Only support one media type
+    &m_mediaTypes                       //Pointer to media type (Audio/PCM)
+};
+
+const AMOVIESETUP_FILTER NativeFLACSourceFilter::m_filterReg = 
+{
+    &CLSID_NativeFLACSourceFilter,          // Filter CLSID.
+    NAME,                                   // Filter name.
+    MERIT_NORMAL,                           // Merit.
+    1,                                      // Number of pin types.
+    &m_pinReg                               // Pointer to pin information.
+};
+
+
 #ifdef WINCE
 LPAMOVIESETUP_FILTER NativeFLACSourceFilter::GetSetupData()
 {
-    return (LPAMOVIESETUP_FILTER)(&NativeFLACSourceFilterReg);	
+    return (LPAMOVIESETUP_FILTER)(&m_filterReg);	
 }
 #endif
 
 CUnknown* WINAPI NativeFLACSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
+    util::ConfigureLogSettings();
+
     NativeFLACSourceFilter *pNewObject = new (std::nothrow) NativeFLACSourceFilter();
     if (pNewObject == NULL) 
     {
@@ -66,8 +100,8 @@ CUnknown* WINAPI NativeFLACSourceFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT 
     return pNewObject;
 } 
 
-NativeFLACSourceFilter::NativeFLACSourceFilter(void) :  
-CBaseFilter(NAME("NativeFLACSourceFilter"), NULL, m_pLock, CLSID_NativeFLACSourceFilter),
+NativeFLACSourceFilter::NativeFLACSourceFilter() :  
+CBaseFilter(NAME, NULL, m_pLock, CLSID_NativeFLACSourceFilter),
 m_numChannels(0),
 m_sampleRate(0),
 m_bitsPerSample(0),
@@ -253,15 +287,17 @@ HRESULT __stdcall NativeFLACSourceFilter::NonDelegatingQueryInterface(REFIID rii
 //IMediaStreaming
 HRESULT __stdcall NativeFLACSourceFilter::Run(REFERENCE_TIME tStart) 
 {
-    LOG(logINFO) << "Run: " << ReferenceTime(tStart);
     CAutoLock locLock(m_pLock);
+    LOG(logINFO) << "Run: " << ReferenceTime(tStart);
+
     return CBaseFilter::Run(tStart);
 }
 
 HRESULT __stdcall NativeFLACSourceFilter::Pause() 
 {
-    LOG(logINFO) << "Pause";
     CAutoLock locLock(m_pLock);
+    LOG(logINFO) << "Pause";
+
     if (m_State == State_Stopped) 
     {
         if (ThreadExists() == FALSE) 
@@ -277,8 +313,9 @@ HRESULT __stdcall NativeFLACSourceFilter::Pause()
 }
 HRESULT __stdcall NativeFLACSourceFilter::Stop() 
 {
-    LOG(logINFO) << "Stop";
     CAutoLock locLock(m_pLock);
+    LOG(logINFO) << "Stop";
+
     CallWorker(THREAD_EXIT);
     Close();
 

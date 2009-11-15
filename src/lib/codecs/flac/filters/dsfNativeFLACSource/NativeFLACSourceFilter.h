@@ -54,6 +54,11 @@ public:
     };
 
     static const unsigned long BUFF_SIZE = 8192;
+    
+    static const wchar_t* NAME;
+    static const AMOVIESETUP_MEDIATYPE m_mediaTypes;
+    static const AMOVIESETUP_PIN m_pinReg;
+    static const AMOVIESETUP_FILTER m_filterReg;
 
 #ifdef WINCE    
     // returns setup data for filter registration

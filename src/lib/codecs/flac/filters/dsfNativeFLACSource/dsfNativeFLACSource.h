@@ -32,65 +32,6 @@
 
 #pragma once
 
-#include "dsfNativeFLACSource.h"
-#include "NativeFLACSourceFilter.h"
-#include "NativeFLACSourcePin.h"
-
-
 // {6DDA37BA-0553-499a-AE0D-BEBA67204548}
 DEFINE_GUID(CLSID_NativeFLACSourceFilter, 
 0x6dda37ba, 0x553, 0x499a, 0xae, 0xd, 0xbe, 0xba, 0x67, 0x20, 0x45, 0x48);
-
-
-const REGPINTYPES FLACSourceOutputTypes = 
-{
-    &MEDIATYPE_Audio,
-    &MEDIASUBTYPE_PCM
-};
-
-#ifndef WINCE
-
-const REGFILTERPINS FLACSourcePinReg[] = 
-{
-    {
-        L"PCM Output",                      //Name (obsoleted)
-        FALSE,                              //Renders from this pin ?? Not sure about this.
-        TRUE,                               //Is an output pin
-        FALSE,                              //Cannot have zero instances of this pin
-        FALSE,                              //Cannot have more than one instance of this pin
-        NULL,                               //Connects to filter (obsoleted)
-        NULL,                               //Connects to pin (obsoleted)
-        1,                                  //Only support one media type
-        &FLACSourceOutputTypes              //Pointer to media type (Audio/PCM)
-    }
-};
-
-const REGFILTER2 NativeFLACSourceFilterReg = 
-{
-    1,
-    MERIT_NORMAL,
-    0,
-    FLACSourcePinReg
-};
-#else
-
-const AMOVIESETUP_PIN FLACSourcePinReg = {
-    L"PCM Output",                      //Name (obsoleted)
-    FALSE,                              //Renders from this pin ?? Not sure about this.
-    TRUE,                               //Is an output pin
-    FALSE,                              //Cannot have zero instances of this pin
-    FALSE,                              //Cannot have more than one instance of this pin
-    &CLSID_NULL,                        //Connects to filter (obsoleted)
-    NULL,                               //Connects to pin (obsoleted)
-    1,                                  //Only support one media type
-    &FLACSourceOutputTypes              //Pointer to media type (Audio/PCM)
-};
-
-static const AMOVIESETUP_FILTER NativeFLACSourceFilterReg = {
-    &CLSID_NativeFLACSourceFilter,      // Filter CLSID.
-    L"Native FLAC SourceFilter",        // Filter name.
-    MERIT_NORMAL,                       // Merit.
-    1,                                  // Number of pin types.
-    &FLACSourcePinReg                   // Pointer to pin information.
-};
-#endif

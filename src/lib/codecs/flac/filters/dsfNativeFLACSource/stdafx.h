@@ -13,7 +13,7 @@
 #include <streams.h>
 #include <pullpin.h>
 
-#ifndef _WIN32_WCE
+#ifndef WINCE
 //Kernel streaming header for KSDATA_FORMAT_SUBTYPE_PCM
 #include <ks.h>
 #include <ksmedia.h>
