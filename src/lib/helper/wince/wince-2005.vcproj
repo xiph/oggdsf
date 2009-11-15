@@ -118,7 +118,7 @@
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 			/>
@@ -188,7 +188,7 @@
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -259,7 +259,7 @@
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
 				MinimalRebuild="true"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 			/>
@@ -450,7 +450,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -520,7 +520,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -590,7 +590,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -782,7 +782,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -852,7 +852,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -922,7 +922,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -1114,7 +1114,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -1184,7 +1184,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -1254,7 +1254,7 @@
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories=".\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -2559,12 +2559,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
 		</Filter>
 	</Files>
 	<Globals>
