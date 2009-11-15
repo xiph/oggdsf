@@ -1,6 +1,9 @@
 #pragma once
+
 #include "IFilterDataSource.h"
-class ICustomSource {
+
+DECLARE_INTERFACE_(ICustomSource, IUnknown)
+{
 public:
 	virtual HRESULT setCustomSourceAndLoad(IFilterDataSource* inDataSource) = 0;
 };

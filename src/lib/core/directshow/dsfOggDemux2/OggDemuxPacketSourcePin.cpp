@@ -29,6 +29,7 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "StdAfx.h"
+#include "ds_guids.h"
 #include ".\OggDemuxPacketsourcepin.h"
 
 OggDemuxPacketSourcePin::	OggDemuxPacketSourcePin(		TCHAR* inObjectName

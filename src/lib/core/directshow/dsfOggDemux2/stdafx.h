@@ -40,6 +40,8 @@
 // Windows Header Files:
 #include <windows.h>
 
+#include <tchar.h>
+
 // TODO: reference additional headers your program requires here
 #include <vector>
 #include <fstream>
@@ -48,15 +50,13 @@ using namespace std;
 
 #include "oggdllstuff.h"
 #include "OggDemuxPacketSourceFilter.h"
-#include "ds_guids.h"
 #include "OggDemuxPacketSourcePin.h"
 
 #include <Dshow.h>
-//#include <Initguid.h>
 #include <Qnetwork.h>
-//#include "OggStreamMapper.h"
-//#include "OggStream.h"
-//#include "StreamHeaders.h"
 
+#include "common/Log.h"
 
+#include <atlbase.h>
+#include <atlcom.h>
 

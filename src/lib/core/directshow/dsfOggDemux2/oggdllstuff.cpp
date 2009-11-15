@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004, 2005 Zentaro Kavanagh
+//Copyright (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,111 +30,26 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 #include "stdafx.h"
+#include "ds_guids.h"
+#include "common/util.h"
 
-#include "oggdllstuff.h"
-#include "RegWrap.h"
-
-//#define DONT_TOUCH_REGISTRY
-
+util::ComInitializer g_comInit;
 
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
+
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
+    util::GetHModule() = (HMODULE) hModule;
+
     return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
 }
 
-
-//The folowing two functions do the registration and deregistration of the dll and it's contained com objects.
 STDAPI DllRegisterServer()
 {
-	
-	//TO DO::: Should we be releasing the filter mapper even when we return early ?
-    HRESULT hr;
-
-	//MessageBox(NULL, L"Ogg", L"Ogg", MB_OK);
-    
-	
-#ifdef WINCE
-	hr = AMovieDllRegisterServer();//AMovieDLLRegisterServer(TRUE);
-#else
-    hr = AMovieDllRegisterServer2(TRUE);
-#endif
-	if (FAILED(hr)) {
-		
-        return hr;
-	}
-	
-#ifdef WINCE
-
-#else
-	IFilterMapper2* locFilterMapper = NULL;
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
-
-	
-	if (FAILED(hr)) {
-        return hr;
-	}
-	
-	hr = locFilterMapper->RegisterFilter(
-		CLSID_OggDemuxPacketSourceFilter,						// Filter CLSID. 
-		L"Ogg Demux Packet Source Filter",							// Filter name.
-        NULL,										// Device moniker. 
-        &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        NULL,							// Instance data. ???????
-        &OggDemuxPacketSourceFilterReg								// Pointer to filter information.
-    );
-
-#if (!defined(DONT_TOUCH_REGISTRY))
-	//Only call once... if you need multiple you have to fix the hack job in RegWrap !
-	RegWrap::addMediaPlayerDesc(TEXT("Ogg File"),  TEXT("*.ogg;*.ogv;*.oga;*.spx"));
-	RegWrap::deleteKeyRecurse(HKEY_CLASSES_ROOT, TEXT(".OGG"), TEXT("ShellEx"));
-#endif
-
-
-
-
-    locFilterMapper->Release();
-#endif //WINCE
-    return hr;
-
+    return AMovieDllRegisterServer2(TRUE);
 }
 
 STDAPI DllUnregisterServer()
 {
-#if (!defined(DONT_TOUCH_REGISTRY))
-	//This is not a general purpose function.
-	RegWrap::removeMediaDesc();
-#endif
-   HRESULT hr;
-    
-
-#ifdef WINCE
-	hr = AMovieDllUnregisterServer();//AMovieDLLRegisterServer(TRUE);
-#else
-    hr = AMovieDllRegisterServer2(TRUE);
-#endif
-	if (FAILED(hr)) {
-		
-        return hr;
-	}
-#ifdef WINCE
-
-#else
-	IFilterMapper2* locFilterMapper = NULL;
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
-            IID_IFilterMapper2, (void **)&locFilterMapper);
-
-	if (FAILED(hr)) {
-        return hr;
-	}
-	
-
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
-            NULL, CLSID_OggDemuxPacketSourceFilter);
-
-	//
-    locFilterMapper->Release();
-#endif //WINCE
-    return hr;
-
+    return AMovieDllRegisterServer2(FALSE);
 }

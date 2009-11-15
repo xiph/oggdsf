@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004, 2005 Zentaro Kavanagh
+//Copyright (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -42,28 +43,34 @@
 
 class OggStreamMapper;
 
-class OggDemuxPacketSourceFilter
-	:	public CBaseFilter
-	,	public CAMThread
-	,	public IFileSourceFilter
-	,	public IOggCallback
-	,	public IOggBaseTime
-	,	public ICustomSource
-	,	public BasicSeekPassThrough
-	//,	public ISpecifyPropertyPages
-	,	public IAMFilterMiscFlags
-	//,	public IAMMediaContent
+class OggDemuxPacketSourceFilter:	
+    public CBaseFilter,	
+    public CAMThread,	
+    public IFileSourceFilter,	
+    public IOggCallback,	
+    public IOggBaseTime,	
+    public ICustomSource,	
+    public BasicSeekPassThrough,	
+    public IAMFilterMiscFlags
 {
 public:
-	OggDemuxPacketSourceFilter(void);
-	virtual ~OggDemuxPacketSourceFilter(void);
-	enum eThreadCommands {
+	OggDemuxPacketSourceFilter();
+	virtual ~OggDemuxPacketSourceFilter();
+
+    enum eThreadCommands 
+    {
 		THREAD_EXIT = 0,
 		THREAD_PAUSE = 1,
 		THREAD_RUN = 2
 	};
+
 	//Com Stuff
 	DECLARE_IUNKNOWN
+
+    static const wchar_t* NAME;
+    static const AMOVIESETUP_MEDIATYPE m_mediaTypes;
+    static const AMOVIESETUP_PIN m_pinReg;
+    static const AMOVIESETUP_FILTER m_filterReg;
 
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	static CUnknown * WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
@@ -121,16 +128,14 @@ public:
 	vector<OggPage*> getMatchingBufferedPages(unsigned long inSerialNo);
 	void removeMatchingBufferedPages(unsigned long inSerialNo);
 
-	CCritSec* streamLock()			{		return mStreamLock;		}
+	CCritSec* streamLock();
 
 	virtual void notifyPinConnected();
-
-	//HHHH:::
 	virtual bool notifyStreamBaseTime(__int64 inStreamBaseTime);
 
 	//IOggBaseTime Interface
 	virtual __int64 getGlobalBaseTime();
-	//
+
 protected:
 	static const unsigned long SETUP_BUFFER_SIZE = 24;
 	virtual HRESULT SetUpPins();
@@ -147,7 +152,7 @@ protected:
 	CCritSec* mDemuxLock;
 	CCritSec* mStreamLock;
 
-	wstring mFileName;
+	wstring m_fileName;
 
 	bool mSeenAllBOSPages;
 	bool mSeenPositiveGranulePos;
@@ -160,19 +165,7 @@ protected:
 
 	AutoOggChainGranuleSeekTable* mSeekTable;
 
-	//Custom source
 	bool mUsingCustomSource;
-	//bool mQueriedIFileSource;
-	//bool mQueriedICustomSource;
-	//
-
-
 	bool mJustReset;
-
-	//HHHH:::
 	__int64 mGlobalBaseTime;
-
-	wfstream debugLog;
-
-	//double mPlaybackRate;
 };

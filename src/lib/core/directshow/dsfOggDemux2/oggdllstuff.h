@@ -43,10 +43,6 @@
 #include <streams.h>
 #include <pullpin.h>
 
-#ifndef WINCE
-#include <initguid.h>
-#endif
-
 //#pragma warning( pop )
 
 #ifndef OGGDEMUX_DLL

@@ -53,7 +53,7 @@ IFilterDataSource* DataSourceFactory::createDataSource(wstring inSourceLocation)
 		//return new HTTPFileSource;
 		return new HTTPStreamingFileSource;
 #ifdef WINCE
-	} else if (locType == "\\") {
+	} else if (locType == L"\\") {
 		//WinCE absolute file path
 		return new FilterFileSource;
 #endif

@@ -1,15 +1,9 @@
 #pragma once
 
-//#include "OggDemuxPacketSourcePin.h"
-//#include "OggDemuxPacketSourceFilter.h"
-
 #include <libOOOgg/IOggCallback.h>
 #include <vector>
-using namespace std;
 
-
-class OggStreamMapper
-	:	public IOggCallback
+class OggStreamMapper:	public IOggCallback
 {
 public:
 
@@ -37,7 +31,7 @@ public:
 
 protected:
 	eStreamState mStreamState;
-	vector<OggDemuxPacketSourcePin*> mPins;
+    std::vector<OggDemuxPacketSourcePin*> mPins;
 	OggDemuxPacketSourceFilter* mParentFilter;
 	CCritSec* mParentFilterLock;
 
