@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
+//Copyright (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -32,7 +33,6 @@
 
 #pragma once
 //Include Files
-#include "vorbisdecoderdllstuff.h"
 #include "AbstractTransformFilter.h"
 
 //#include "wmpservices.h"
@@ -57,6 +57,11 @@ public:
 	VorbisDecodeFilter(void);
 	virtual ~VorbisDecodeFilter(void);
 
+    static const wchar_t* NAME;
+    static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes;
+    static const AMOVIESETUP_MEDIATYPE m_outputMediaTypes;
+    static const AMOVIESETUP_PIN m_pinReg[];
+    static const AMOVIESETUP_FILTER m_filterReg;
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
@@ -74,15 +79,14 @@ public:
 
 #ifdef WINCE
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
-	virtual HRESULT Register();
 #endif
+
 protected:
 	//VIRTUAL FUNCTIONS - AbstractTransformFilter
 	virtual bool ConstructPins();
 
 	//Format Block
 	sVorbisFormatBlock* mVorbisFormatInfo;
-
 
     static const bool USE_CORRECT_VORBIS_CHANNEL_MAPPING = true;
 };

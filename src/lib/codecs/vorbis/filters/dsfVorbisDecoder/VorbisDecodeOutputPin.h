@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
+//Copyright (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -30,18 +31,21 @@
 //===========================================================================
 
 #pragma once
-#include "vorbisdecoderdllstuff.h"
 #include "AbstractTransformOutputPin.h"
 
+#ifndef WINCE
 //Kernel streaming header for KSDATA_FORMAT_SUBTYPE_PCM
 #include "ks.h"
 #include "ksmedia.h"
+#endif
 
 class VorbisDecodeFilter;
 class VorbisDecodeOutputPin :
 	public AbstractTransformOutputPin
 {
 public:
+
+    static const unsigned long NUM_BUFFERS = 4;
 
 	friend class VorbisDecodeInputPin;
 
@@ -52,7 +56,9 @@ public:
 	virtual ~VorbisDecodeOutputPin(void);
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
+    virtual HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES *inReqAllocProps);
 
-
+private:
+    HRESULT FillMediaType(CMediaType& mediaType, bool useWaveFormatEx);
 };
 

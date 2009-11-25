@@ -42,4 +42,38 @@
 
 #include <libOOOgg/libOOOgg.h>
 
-// TODO: reference additional headers your program requires here
+#include <fstream>
+
+#include "AbstractTransformFilter.h"
+#include "AbstractTransformInputPin.h"
+#include "AbstractTransformOutputPin.h"
+
+#include "VorbisDecodeInputPin.h"
+#include "VorbisDecodeOutputPin.h"
+#include "VorbisDecodeFilter.h"
+
+#include "libilliCore/iLE_Math.h"
+#include "libOOOgg/OggPacket.h"
+
+#include "common/Log.h"
+
+#include <atlbase.h>
+#include <atlcom.h>
+
+#ifndef LOOG_INT64
+# ifdef WIN32
+#  define LOOG_INT64 signed __int64
+# else  /* assume POSIX */
+#  define LOOG_INT64 int64_t
+# endif
+#endif
+
+#ifndef VORBISDECODER_DLL
+#define LIBOOOGG_API
+#else
+#ifdef LIBOOOGG_EXPORTS
+#define LIBOOOGG_API __declspec(dllexport)
+#else
+#define LIBOOOGG_API __declspec(dllimport)
+#endif
+#endif

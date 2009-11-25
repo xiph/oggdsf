@@ -30,164 +30,142 @@
 //===========================================================================
 
 #include "stdafx.h"
+#include "vorbisdecoderdllstuff.h"
+#undef INITGUID
 #include "Vorbisdecodeoutputpin.h"
 
-VorbisDecodeOutputPin::VorbisDecodeOutputPin(		VorbisDecodeFilter* inParentFilter
-												,	CCritSec* inFilterLock
-												,	vector<CMediaType*> inAcceptableMediaTypes)
-
-	:	AbstractTransformOutputPin(		inParentFilter
-									,	inFilterLock
-									,	NAME("VorbisDecodeOutputPin")
-									,	L"PCM Out"
-									,	65536
-									,	20
-									,	inAcceptableMediaTypes)
-
+VorbisDecodeOutputPin::VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock, 
+                                             vector<CMediaType*> inAcceptableMediaTypes) :	
+AbstractTransformOutputPin(inParentFilter, inFilterLock, NAME("VorbisDecodeOutputPin"),	
+                           L"PCM Out", 65535, 20, inAcceptableMediaTypes)
 {
-
-		
 }
+
 VorbisDecodeOutputPin::~VorbisDecodeOutputPin(void)
+{	
+}
+
+HRESULT VorbisDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES *inReqAllocProps)
 {
-	
-	
+    sVorbisFormatBlock* formatBlock = static_cast<VorbisDecodeFilter*>(m_pFilter)->getVorbisFormatBlock();
+    if (formatBlock)
+    {
+        mDesiredBufferSize = formatBlock->numChannels * formatBlock->samplesPerSec * 2;
+        mDesiredBufferCount = NUM_BUFFERS;
+    }
+
+    HRESULT hr = AbstractTransformOutputPin::DecideBufferSize(inAllocator, inReqAllocProps);
+
+    LOG(logINFO) << "Desired buffer size: " << mDesiredBufferSize << ", buffers: " << mDesiredBufferCount
+        << " Actual buffer size: " << mActualBufferSize << ", buffers: " << mActualBufferCount;
+    
+    return hr;
 }
 
 STDMETHODIMP VorbisDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	if (riid == IID_IMediaSeeking) {
-		*ppv = (IMediaSeeking*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
+	if (riid == IID_IMediaSeeking) 
+    {
+        return GetInterface((IMediaSeeking*)this, ppv);
 	}
 
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-HRESULT VorbisDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
+HRESULT VorbisDecodeOutputPin::CreateAndFillFormatBuffer(CMediaType* mediaType, int inPosition)
 {
-    //WFE::: Extensible format here
-    if (inPosition == 0) {
-        //This is not required... it's done in FillMediaType in the base class
-		//outMediaType->SetType(&MEDIATYPE_Audio);
-		//outMediaType->SetSubtype(&MEDIASUBTYPE_PCM);
-		//outMediaType->SetFormatType(&FORMAT_WaveFormatEx);
-		//outMediaType->SetTemporalCompression(FALSE);
-		//outMediaType->SetSampleSize(0);
+    HRESULT result = E_FAIL;
 
-		WAVEFORMATEXTENSIBLE* locFormatEx = (WAVEFORMATEXTENSIBLE*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
-        
-		locFormatEx->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+#ifdef WINCE
+    if (inPosition == 0)
+    {
+        result = FillMediaType(*mediaType, false);
+    }
+#else
+    if (inPosition == 0) 
+    {
+        result = FillMediaType(*mediaType, true);
+    } 
+    else if (inPosition == 1) 
+    {
+        result = FillMediaType(*mediaType, false);
+    }
+#endif
 
-		locFormatEx->Format.nChannels = (WORD)((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->numChannels;
-		locFormatEx->Format.nSamplesPerSec =  ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->samplesPerSec;
-        locFormatEx->Format.wBitsPerSample = 16;
+    return result;
+}
 
-        
-        locFormatEx->Samples.wValidBitsPerSample = 16;
+HRESULT VorbisDecodeOutputPin::FillMediaType(CMediaType& mediaType, bool useWaveFormatEx)
+{
+    if (useWaveFormatEx)
+    {
+#ifndef WINCE
+        WAVEFORMATEXTENSIBLE* formatEx = (WAVEFORMATEXTENSIBLE*)mediaType.AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
 
-        if (locFormatEx->Format.nChannels <= 6)
+        formatEx->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+
+        formatEx->Format.nChannels = (WORD)((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->numChannels;
+        formatEx->Format.nSamplesPerSec =  ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->samplesPerSec;
+        formatEx->Format.wBitsPerSample = 16;
+
+        formatEx->Samples.wValidBitsPerSample = 16;
+
+        switch (formatEx->Format.nChannels)
         {
-            //THis is the incorrect order for vorbis, but we have to reorder it manually on output.
-
-            switch (locFormatEx->Format.nChannels)
-            {
-                case 1:
-                    locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT;
-                    break;
-                case 2:
-                    locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT
-                                        |   SPEAKER_FRONT_RIGHT;
-                    break;
-                case 3:
-                    locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT
-                                        |   SPEAKER_FRONT_RIGHT
-                                        |   SPEAKER_FRONT_CENTER;
-                    break;
-                case 4:
-                    locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT
-                                        |   SPEAKER_FRONT_RIGHT
-                                        |   SPEAKER_BACK_LEFT
-                                        |   SPEAKER_BACK_RIGHT;
-                    break;
-                case 5:
-                   locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT
-                                        |   SPEAKER_FRONT_RIGHT
-                                        |   SPEAKER_FRONT_CENTER
-                                        |   SPEAKER_BACK_LEFT
-                                        |   SPEAKER_BACK_RIGHT;
-                    break;
-
-                case 6:
-                     locFormatEx->dwChannelMask =        SPEAKER_FRONT_LEFT
-                                        |   SPEAKER_FRONT_RIGHT
-                                        |   SPEAKER_FRONT_CENTER
-                                        |   SPEAKER_LOW_FREQUENCY
-                                        |   SPEAKER_BACK_LEFT
-                                        |   SPEAKER_BACK_RIGHT
-                                        ;
-                     break;
-
-                default:
-                    locFormatEx->dwChannelMask = 0;
-                    break;
-
-
-            }
-
-           
-
-            //Assume channels ordered 012345
-
-            //For 1 channel
-            //      Do nothing
-
-            //For 2 channels
-            //      Do nothing
-
-            //For 3 channels
-            //      Swap channels 1 and 2 (the right and centre)
-
-            //For 4 channels
-            //      Do nothing
-
-            //For 5 channels
-            //      Swap channels 1 and 2 (the right and centre)
-
-            //For 6 channels
-            //      Change from FL   FC   FR   RL   RR   LFE
-            //      to          FL   FR   FC   LFE  RL   RR
-
-  
-        } else {
-            //More than 6 channels it's up to the output device to figure it out.
-            locFormatEx->dwChannelMask = 0;
+        case 1:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_MONO;
+            break;
+        case 2:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_STEREO;
+            break;
+        case 3:
+            formatEx->dwChannelMask = SPEAKER_FRONT_LEFT
+                | SPEAKER_FRONT_RIGHT
+                | SPEAKER_FRONT_CENTER;
+            break;
+        case 4:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_QUAD;
+            break;
+        case 5:
+            formatEx->dwChannelMask = SPEAKER_FRONT_LEFT
+                | SPEAKER_FRONT_RIGHT
+                | SPEAKER_FRONT_CENTER
+                | SPEAKER_BACK_LEFT
+                | SPEAKER_BACK_RIGHT;
+            break;
+        case 6:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1;
+            break;
+        case 8:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1;
+            break;
+        default:
+            formatEx->dwChannelMask = 0;
+            break;
         }
 
-		locFormatEx->Format.nBlockAlign = (WORD)((locFormatEx->Format.nChannels) * (locFormatEx->Format.wBitsPerSample >> 3));
-		locFormatEx->Format.nAvgBytesPerSec = ((locFormatEx->Format.nChannels) * (locFormatEx->Format.wBitsPerSample >> 3)) * locFormatEx->Format.nSamplesPerSec;
-		locFormatEx->Format.cbSize = 22; //sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
-        locFormatEx->SubFormat = KSDATAFORMAT_SUBTYPE_PCM;
-
+        formatEx->Format.nBlockAlign = (WORD)(formatEx->Format.nChannels * (formatEx->Format.wBitsPerSample >> 3));
+        formatEx->Format.nAvgBytesPerSec = (formatEx->Format.nChannels * (formatEx->Format.wBitsPerSample >> 3)) * formatEx->Format.nSamplesPerSec;
+        formatEx->Format.cbSize = 22; //sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
+        formatEx->SubFormat = KSDATAFORMAT_SUBTYPE_PCM;
 
         return S_OK;
-    } else if (inPosition == 1) {
+#endif
+    }
+    else
+    {
+        WAVEFORMATEX* waveFormat = (WAVEFORMATEX*)mediaType.AllocFormatBuffer(sizeof(WAVEFORMATEX));
 
-		WAVEFORMATEX* locWaveFormat = (WAVEFORMATEX*)outMediaType->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-		//TODO::: Check for null ?
+        waveFormat->wFormatTag = WAVE_FORMAT_PCM;
+        waveFormat->nChannels = static_cast<VorbisDecodeFilter*>(m_pFilter)->mVorbisFormatInfo->numChannels;
+        waveFormat->nSamplesPerSec =  static_cast<VorbisDecodeFilter*>(m_pFilter)->mVorbisFormatInfo->samplesPerSec;
+        waveFormat->wBitsPerSample = 16;
+        waveFormat->nBlockAlign = waveFormat->nChannels * (waveFormat->wBitsPerSample >> 3);
+        waveFormat->nAvgBytesPerSec = (waveFormat->nChannels * (waveFormat->wBitsPerSample >> 3)) * waveFormat->nSamplesPerSec;
+        waveFormat->cbSize = 0;
 
-		locWaveFormat->wFormatTag = WAVE_FORMAT_PCM;
-		locWaveFormat->nChannels = ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->numChannels;
-		locWaveFormat->nSamplesPerSec =  ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->samplesPerSec;
-		locWaveFormat->wBitsPerSample = 16;
-		locWaveFormat->nBlockAlign = (locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3);
-		locWaveFormat->nAvgBytesPerSec = ((locWaveFormat->nChannels) * (locWaveFormat->wBitsPerSample >> 3)) * locWaveFormat->nSamplesPerSec;
-		locWaveFormat->cbSize = 0;
+        return S_OK;
+    }
 
- 
-		return S_OK;
-	} else {
-        return S_FALSE;
-	}
+    return S_FALSE;
 }

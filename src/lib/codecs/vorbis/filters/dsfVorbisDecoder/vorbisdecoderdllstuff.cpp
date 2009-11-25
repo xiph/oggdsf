@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -30,80 +31,27 @@
 //===========================================================================
 
 #include "stdafx.h"
+#include <initguid.h>
 #include "vorbisdecoderdllstuff.h"
+#include "common/util.h"
+
+util::ComInitializer g_comInit;
 
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
+
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
-	//MessageBox(NULL, L"asda", L"ASD", MB_OK);
-    return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
+    util::GetHModule() = (HMODULE) hModule;
+    return DllEntryPoint((HINSTANCE)hModule, dwReason, lpReserved);
 }
 
 
-//The folowing two functions do the registration and deregistration of the dll and it's contained com objects.
 STDAPI DllRegisterServer()
 {
-
-	//MessageBox(NULL, L"xxxxx", L"xxxxx", MB_OK);
-	//return S_OK;
-    HRESULT hr;
-    
-#ifdef WINCE
-	hr = AMovieDllRegisterServer();//AMovieDLLRegisterServer(TRUE);
-#else
-    hr = AMovieDllRegisterServer2(TRUE);
-#endif
-	//MessageBox(NULL, L"asdfsdfsdf", L"xzzzzz", MB_OK);
-
-#ifndef WINCE
-	IFilterMapper2* locFilterMapper = NULL;
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
-
-
-	hr = locFilterMapper->RegisterFilter(
-		CLSID_VorbisDecodeFilter,						// Filter CLSID. 
-		L"Vorbis Decode Filter",							// Filter name.
-        NULL,										// Device moniker. 
-        &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        NULL,							// Instance data. ???????
-        &VorbisDecodeFilterReg								// Pointer to filter information.
-    );
-
-    locFilterMapper->Release();
-#endif
-    return hr;
-
+    return AMovieDllRegisterServer2(TRUE);
 }
 
 STDAPI DllUnregisterServer()
 {
-   HRESULT hr;
-   //return S_OK;
-#ifdef WINCE
-   hr = AMovieDllUnregisterServer();
-#else
-    hr = AMovieDllRegisterServer2(FALSE);
-#endif
-	if (FAILED(hr)) {
-		
-        return hr;
-	}
-#ifndef WINCE
-	IFilterMapper2* locFilterMapper = NULL;
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
-            IID_IFilterMapper2, (void **)&locFilterMapper);
-
-	if (FAILED(hr)) {
-        return hr;
-	}
-	
-
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_VorbisDecodeFilter);
-
-
-	//
-    locFilterMapper->Release();
-#endif
-    return hr;
-
+    return AMovieDllRegisterServer2(FALSE);
 }

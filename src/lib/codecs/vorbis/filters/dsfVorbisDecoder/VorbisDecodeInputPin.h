@@ -30,10 +30,6 @@
 //===========================================================================
 
 #pragma once
-#include <vector>
-#include <fstream>
-using namespace std;
-#include "vorbisdecoderdllstuff.h"
 
 #include "IOggDecoder.h"
 #include "IOggOutputPin.h"
@@ -83,8 +79,6 @@ public:
 	virtual string __stdcall getCodecIdentString();
 
 protected:
-	fstream debugLog;
-
 	static const unsigned long DECODED_BUFFER_SIZE = 1<<20;		//1 Meg buffer
 
 	enum eVorbisSetupState {

@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
+//Copyrithg (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -32,36 +33,78 @@
 //Include Files
 #include "stdafx.h"
 #include "VorbisDecodeFilter.h"
+#include "vorbisdecoderdllstuff.h"
+#include "common/util.h"
 
 //COM Factory Template
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"Vorbis Decode Filter",						// Name
-	    &CLSID_VorbisDecodeFilter,            // CLSID
-	    VorbisDecodeFilter::CreateInstance,	// Method to create an instance of MyComponent
-        NULL,									// Initialization function
-#ifdef WINCE
-		&VorbisDecodeFilterReg
-#else
-        NULL									// Set-up information (for filters)
-#endif
+		VorbisDecodeFilter::NAME,			    // Name
+	    &CLSID_VorbisDecodeFilter,              // CLSID
+	    VorbisDecodeFilter::CreateInstance,	    // Method to create an instance of MyComponent
+        NULL,								    // Initialization function
+        &VorbisDecodeFilter::m_filterReg	    // Set-up information (for filters)
     }
-
 };
 
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
+const wchar_t* VorbisDecodeFilter::NAME = L"Xiph.Org Vorbis Decoder";
+
+const REGPINTYPES VorbisDecodeFilter::m_outputMediaTypes = 
+{
+    &MEDIATYPE_Audio,
+    &MEDIASUBTYPE_PCM
+};
+
+const REGPINTYPES VorbisDecodeFilter::m_inputMediaTypes = 
+{
+    &MEDIATYPE_OggPacketStream,
+    &MEDIASUBTYPE_None
+};
+
+const AMOVIESETUP_PIN VorbisDecodeFilter::m_pinReg[] = 
+{
+    {
+        L"Vorbis Input",					//Name (obsoleted)
+        FALSE,								//Renders from this pin ?? Not sure about this.
+        FALSE,								//Not an output pin
+        FALSE,								//Cannot have zero instances of this pin
+        FALSE,								//Cannot have more than one instance of this pin
+        &GUID_NULL,							//Connects to filter (obsoleted)
+        NULL,								//Connects to pin (obsoleted)
+        1,									//upport two media type
+        &m_inputMediaTypes				    //Pointer to media type (Audio/Vorbis or Audio/Speex)
+    } ,
+
+    {
+        L"PCM Output",						//Name (obsoleted)
+        FALSE,								//Renders from this pin ?? Not sure about this.
+        TRUE,								//Is an output pin
+        FALSE,								//Cannot have zero instances of this pin
+        FALSE,								//Cannot have more than one instance of this pin
+        &GUID_NULL,							//Connects to filter (obsoleted)
+        NULL,								//Connects to pin (obsoleted)
+        1,									//Only support one media type
+        &m_outputMediaTypes     			//Pointer to media type (Audio/PCM)
+    }
+};
+const AMOVIESETUP_FILTER VorbisDecodeFilter::m_filterReg = 
+{
+    &CLSID_VorbisDecodeFilter,
+    NAME,
+    MERIT_NORMAL,
+    2,
+    m_pinReg
+};
+
+
 #ifdef WINCE
 LPAMOVIESETUP_FILTER VorbisDecodeFilter::GetSetupData()
 {	
-	return (LPAMOVIESETUP_FILTER)&VorbisDecodeFilterReg;	
-}
-
-HRESULT VorbisDecodeFilter::Register()
-{
-	return CBaseFilter::Register();
+	return (LPAMOVIESETUP_FILTER)&m_filterReg;	
 }
 #endif
 
@@ -70,6 +113,7 @@ VorbisDecodeFilter::VorbisDecodeFilter()
 	:	AbstractTransformFilter(NAME("Vorbis Decoder"), CLSID_VorbisDecodeFilter)
 	,	mVorbisFormatInfo(NULL)
 {
+    LOG(logINFO) << L"VorbisDecodeFilter object created!" << std::endl;
 
 	bool locWasConstructed = ConstructPins();
 	//TODO::: Error check !
@@ -131,16 +175,18 @@ bool VorbisDecodeFilter::ConstructPins()
 
 VorbisDecodeFilter::~VorbisDecodeFilter(void)
 {
-	DbgLog((LOG_TRACE,1,TEXT("Vorbis Destructor...")));
+    LOG(logINFO) << L"VorbisDecodeFilter destroyed!" << std::endl;
 	
 	delete mVorbisFormatInfo;
 }
 
 CUnknown* WINAPI VorbisDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
+    util::ConfigureLogSettings();
 
-	VorbisDecodeFilter *pNewObject = new VorbisDecodeFilter();
-    if (pNewObject == NULL) {
+    VorbisDecodeFilter *pNewObject = new (std::nothrow) VorbisDecodeFilter();
+    if (pNewObject == NULL) 
+    {
         *pHr = E_OUTOFMEMORY;
     }
 	return pNewObject;
@@ -165,4 +211,10 @@ void VorbisDecodeFilter::setVorbisFormat(BYTE* inFormatBlock)
 	mVorbisFormatInfo->avgBitsPerSec = iLE_Math::charArrToULong(inFormatBlock + 20);
 	mVorbisFormatInfo->minBitsPerSec = iLE_Math::charArrToULong(inFormatBlock + 24);
 
+    LOG(logINFO) << "Vorbis Version: " << mVorbisFormatInfo->vorbisVersion
+        << " Channels: " << mVorbisFormatInfo->numChannels
+        << " SamplesPerSec: " << mVorbisFormatInfo->samplesPerSec
+        << " MaxBitsPerSec: " << mVorbisFormatInfo->maxBitsPerSec
+        << " AvgBitsPerSec: " << mVorbisFormatInfo->avgBitsPerSec
+        << " MinBitsPerSec: " << mVorbisFormatInfo->minBitsPerSec;
 }

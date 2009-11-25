@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
+//Copyright (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -30,89 +31,77 @@
 //===========================================================================
 
 #include "stdafx.h"
-
 #include "VorbisDecodeInputPin.h"
+#include "vorbisdecoderdllstuff.h"
 
 
-VorbisDecodeInputPin::VorbisDecodeInputPin	(		AbstractTransformFilter* inFilter
-												,	CCritSec* inFilterLock
-												,	AbstractTransformOutputPin* inOutputPin
-												,	vector<CMediaType*> inAcceptableMediaTypes
-											)
-
-	:	AbstractTransformInputPin			(		inFilter
-												,	inFilterLock
-												,	inOutputPin
-												,	NAME("VorbisDecodeInputPin")
-												,	L"Vorbis In", inAcceptableMediaTypes
-											)
-	,	mBegun(false)
-
-	,	mNumChannels(0)
-	,	mFrameSize(0)
-	,	mSampleRate(0)
-	//,	mUptoFrame(0)
-	,	mSetupState(VSS_SEEN_NOTHING)
-	,	mDecodedBuffer(NULL)
-	,	mDecodedByteCount(0)
-	,	mRateNumerator(RATE_DENOMINATOR)
-	,	mOggOutputPinInterface(NULL)
-	,	mSentStreamOffset(false)
-		
+VorbisDecodeInputPin::VorbisDecodeInputPin(AbstractTransformFilter* inFilter,	CCritSec* inFilterLock,	
+                                           AbstractTransformOutputPin* inOutputPin, 
+                                           vector<CMediaType*> inAcceptableMediaTypes) :	
+AbstractTransformInputPin (inFilter, inFilterLock,	inOutputPin, NAME("VorbisDecodeInputPin"),	
+                           L"Vorbis In", inAcceptableMediaTypes),	
+mBegun(false),	
+mNumChannels(0),	
+mFrameSize(0),	
+mSampleRate(0),
+// mUptoFrame(0),
+mSetupState(VSS_SEEN_NOTHING),	
+mDecodedBuffer(NULL),	
+mDecodedByteCount(0),	
+mRateNumerator(RATE_DENOMINATOR),	
+mOggOutputPinInterface(NULL),	
+mSentStreamOffset(false)		
 {
-	debugLog.open(L"\\Memory Card\\vorbinpin.txt", ios_base::out);
-	debugLog<<"Pin constructor"<<endl;
+	LOG(logDEBUG) << "Pin constructor";
 	ConstructCodec();
-	debugLog<<"Pin constructor - post construct codec"<<endl;
+	LOG(logDEBUG) << "Pin constructor - post construct codec";
 
 	mDecodedBuffer = new unsigned char[DECODED_BUFFER_SIZE];
 }
 
 VorbisDecodeInputPin::~VorbisDecodeInputPin(void)
 {
-	debugLog.close();
 	DestroyCodec();
 	delete[] mDecodedBuffer;
-
 }
+
 //Is this needed ??
 STDMETHODIMP VorbisDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	if (riid == IID_IMediaSeeking) {
-		*ppv = (IMediaSeeking*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
-	} else if (riid == IID_IOggDecoder) {
-		*ppv = (IOggDecoder*)this;
-		//((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
-
+	if (riid == IID_IMediaSeeking) 
+    {
+        return GetInterface((IMediaSeeking*)this, ppv);
+	} 
+    else if (riid == IID_IOggDecoder) 
+    {
+        return GetInterface((IOggDecoder*)this, ppv);
 	}
 
 	return AbstractTransformInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
+
 bool VorbisDecodeInputPin::ConstructCodec() 
 {
 	return true;
 	//Vorbis decoder should be good to go
 }
+
 void VorbisDecodeInputPin::DestroyCodec() 
 {
 
 }
 
-
 STDMETHODIMP VorbisDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 
 {
 	CAutoLock locLock(mStreamLock);
-	//debugLog<<"New segment "<<inStartTime<<" - "<<inStopTime<<endl;
+	//LOG(logDEBUG) << "New segment " << inStartTime<< " - " << inStopTime;
 	//mUptoFrame = 0;
 	mRateNumerator = RATE_DENOMINATOR * inRate;
-	if (mRateNumerator > RATE_DENOMINATOR) {
+	if (mRateNumerator > RATE_DENOMINATOR) 
+    {
 		mRateNumerator = RATE_DENOMINATOR;
 	}
 	return AbstractTransformInputPin::NewSegment(inStartTime, inStopTime, inRate);
-	
 }
 
 STDMETHODIMP VorbisDecodeInputPin::EndFlush()
@@ -121,10 +110,9 @@ STDMETHODIMP VorbisDecodeInputPin::EndFlush()
 	
 	HRESULT locHR = AbstractTransformInputPin::EndFlush();
 	mDecodedByteCount = 0;
-	return locHR;
+
+    return locHR;
 }
-
-
 
 STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample) 
 {
@@ -132,26 +120,30 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 
 	HRESULT locHR = CheckStreaming();
 
-	if (locHR == S_OK) {
-
-
+	if (locHR == S_OK) 
+    {
 		BYTE* locBuff = NULL;
 		locHR = inSample->GetPointer(&locBuff);
 
-		if (locHR != S_OK) {
+		if (locHR != S_OK) 
+        {
 			//TODO::: Do a debug dump or something here with specific error info.
 			return locHR;
-		} else {
+		} 
+        else 
+        {
 			REFERENCE_TIME locStart = -1;
 			REFERENCE_TIME locEnd = -1;
 			__int64 locSampleDuration = 0;
 			inSample->GetTime(&locStart, &locEnd);
 
 			HRESULT locResult = TransformData(locBuff, inSample->GetActualDataLength());
-			if (locResult != S_OK) {
+			if (locResult != S_OK) 
+            {
 				return S_FALSE;
 			}
-			if (locEnd > 0) {
+			if (locEnd > 0) 
+            {
 				//Can dump it all downstream now	
 				IMediaSample* locSample;
 				unsigned long locBytesCopied = 0;
@@ -161,33 +153,36 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 
 				REFERENCE_TIME locGlobalOffset = 0;
 				//Handle stream offsetting
-				if (!mSentStreamOffset && (mOggOutputPinInterface != NULL)) {
+				if (!mSentStreamOffset && (mOggOutputPinInterface != NULL)) 
+                {
 					mOggOutputPinInterface->notifyStreamBaseTime(locStart);
-					mSentStreamOffset = true;
-					
+					mSentStreamOffset = true;	
 				}
 
 				if (mOggOutputPinInterface != NULL) {
 					locGlobalOffset = mOggOutputPinInterface->getGlobalBaseTime();
 				}
 
-				do {
+				do 
+                {
 					HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
-					if (locHR != S_OK) {
+					if (locHR != S_OK) 
+                    {
 						return locHR;
 					}
 
 					BYTE* locBuffer = NULL;
 					locHR = locSample->GetPointer(&locBuffer);
 				
-					if (locHR != S_OK) {
+					if (locHR != S_OK) 
+                    {
 						return locHR;
 					}
 
-					debugLog<<"Sample Size = "<<locSample->GetSize()<<endl;
+					LOG(logDEBUG4) << "Sample Size = " << locSample->GetSize();
 					locBytesToCopy = ((mDecodedByteCount - locBytesCopied) <= locSample->GetSize()) ? (mDecodedByteCount - locBytesCopied) : locSample->GetSize();
-					debugLog<<"Filled size = "<<locBytesToCopy<<endl;
-					debugLog<<"Actual Buffer count = "<<mOutputPin->actualBufferCount()<<endl;
+					LOG(logDEBUG4) << "Filled size = " << locBytesToCopy;
+					LOG(logDEBUG4) << "Actual Buffer count = " << mOutputPin->actualBufferCount();
 					//locBytesCopied += locBytesToCopy;
 
 					locSampleDuration = (((locBytesToCopy/mFrameSize) * UNITS) / mSampleRate);
@@ -200,10 +195,14 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 					locAdjustedEnd -= (m_tStart + locGlobalOffset);
 
 					__int64 locSeekStripOffset = 0;
-					if (locAdjustedEnd < 0) {
+					if (locAdjustedEnd < 0) 
+                    {
 						locSample->Release();
-					} else {
-						if (locAdjustedStart < 0) {
+					} 
+                    else 
+                    {
+						if (locAdjustedStart < 0) 
+                        {
 							locSeekStripOffset = (-locAdjustedStart) * mSampleRate;
 							locSeekStripOffset *= mFrameSize;
 							locSeekStripOffset /= UNITS;
@@ -213,8 +212,6 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 						}
 							
 
-					
-
 						//memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
                         reorderChannels(locBuffer, &mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
 
@@ -223,7 +220,8 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 						locSample->SetSyncPoint(TRUE);
 						locSample->SetActualDataLength(locBytesToCopy - locSeekStripOffset);
 						locHR = ((VorbisDecodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);
-						if (locHR != S_OK) {
+						if (locHR != S_OK) 
+                        {
 							return locHR;
 						}
 						locStart += locSampleDuration;
@@ -240,7 +238,9 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 			return S_OK;
 
 		}
-	} else {
+	} 
+    else 
+    {
 		//Not streaming - Bail out.
 		return S_FALSE;
 	}
@@ -250,11 +250,12 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
 {
     //memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
 
-    if (((VorbisDecodeFilter*)m_pFilter)->USE_CORRECT_VORBIS_CHANNEL_MAPPING && ((mNumChannels == 6)  || (mNumChannels == 3) || (mNumChannels == 5))) {
+    if (((VorbisDecodeFilter*)m_pFilter)->USE_CORRECT_VORBIS_CHANNEL_MAPPING && 
+        (mNumChannels == 6  || mNumChannels == 3 || mNumChannels == 5)) 
+    {
         //We only have to reorder the channels if we are using the extended format, we have declared that we want to map correctly
-        // and teh number channels is 3 or 6. All other cases we just memcpy
-
-        
+        // and the number channels is 3 or 6. All other cases we just memcpy
+    
         unsigned long locSampleCount = inNumBytes / (mNumChannels * sizeof(short));
 
         short* locDest = (short*)inDestBuffer;
@@ -264,7 +265,6 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
         {
             for (unsigned long i = 0; i < locSampleCount; i++)
             {
-                
                 *locDest++ = *locSource;
                 *locDest++ = locSource[2];
                 *locDest++ = locSource[1];
@@ -275,7 +275,9 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
                 locSource += 6;
              }
 
-        } else if (mNumChannels == 3) {
+        } 
+        else if (mNumChannels == 3) 
+        {
             //3 channels
             for (unsigned long i = 0; i < locSampleCount; i++)
             {
@@ -284,7 +286,9 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
                 *locDest++ = locSource[1];
                 locSource += 3;
             }
-        } else {
+        } 
+        else 
+        {
             //5 channels
             for (unsigned long i = 0; i < locSampleCount; i++)
             {
@@ -300,8 +304,6 @@ void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const un
     }
     
     memcpy((void*)inDestBuffer, (const void*)inSourceBuffer, inNumBytes);
-    
-
 }
 
 HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes) 
@@ -310,20 +312,17 @@ HRESULT VorbisDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 
 	VorbisDecoder::eVorbisResult locResult;
 	unsigned long locNumSamples = 0;
-	locResult = mVorbisDecoder.decodePacket(	inBuf
-											,	inNumBytes
-											,	(short*)(mDecodedBuffer + mDecodedByteCount)
-											,	DECODED_BUFFER_SIZE - mDecodedByteCount
-											,	&locNumSamples);
+	locResult = mVorbisDecoder.decodePacket(inBuf, inNumBytes,(short*)(mDecodedBuffer + mDecodedByteCount),	
+                    DECODED_BUFFER_SIZE - mDecodedByteCount, &locNumSamples);
 
-	if (locResult == VorbisDecoder::VORBIS_DATA_OK) {
+	if (locResult == VorbisDecoder::VORBIS_DATA_OK) 
+    {
 		mDecodedByteCount += locNumSamples * mFrameSize;
 		return S_OK;
 	}
 
 	//For now, just silently ignore busted packets.
 	return S_OK;
-
 }
 
 
@@ -331,28 +330,35 @@ HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType)
 {
 	//FIX:::Error checking
 
-	if (CheckMediaType(inMediaType) == S_OK) {
+	if (CheckMediaType(inMediaType) == S_OK) 
+    {
 		((VorbisDecodeFilter*)mParentFilter)->setVorbisFormat(inMediaType->pbFormat);
-		debugLog<<"Set media type"<<endl;
-	} else {
+		LOG(logDEBUG) << "Set media type";
+	} 
+    else 
+    {
 		throw 0;
 	}
-	return CBaseInputPin::SetMediaType(inMediaType);
+	
+    return CBaseInputPin::SetMediaType(inMediaType);
 }
 HRESULT VorbisDecodeInputPin::CheckMediaType(const CMediaType *inMediaType)
 {
-	if (AbstractTransformInputPin::CheckMediaType(inMediaType) == S_OK) {
-		if (inMediaType->cbFormat == VORBIS_IDENT_HEADER_SIZE) {
-			if (strncmp((char*)inMediaType->pbFormat, "\001vorbis", 7) == 0) {
+	if (AbstractTransformInputPin::CheckMediaType(inMediaType) == S_OK) 
+    {
+		if (inMediaType->cbFormat == VORBIS_IDENT_HEADER_SIZE) 
+        {
+			if (strncmp((char*)inMediaType->pbFormat, "\001vorbis", 7) == 0) 
+            {
 				//TODO::: Possibly verify version
-				debugLog<<"Check media type ok"<<endl;
+				LOG(logDEBUG) << "Check media type ok";
 				return S_OK;
 			}
 		}
 	}
-	debugLog<<"Check media type failed"<<endl;
-	return S_FALSE;
 	
+    LOG(logDEBUG) << "Check media type failed";
+	return S_FALSE;
 }
 
 HRESULT VorbisDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps)
@@ -367,9 +373,12 @@ HRESULT VorbisDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *out
 
 LOOG_INT64 VorbisDecodeInputPin::convertGranuleToTime(LOOG_INT64 inGranule)
 {
-	if (mBegun) {	
+	if (mBegun) 
+    {	
 		return (inGranule * UNITS) / mSampleRate;
-	} else {
+	} 
+    else 
+    {
 		return -1;
 	}
 }
@@ -383,9 +392,11 @@ LOOG_INT64 VorbisDecodeInputPin::mustSeekBefore(LOOG_INT64 inGranule)
 IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacket* inCodecHeaderPacket)
 {
 	unsigned long locDummy;
-	switch (mSetupState) {
+	switch (mSetupState) 
+    {
 		case VSS_SEEN_NOTHING:
-			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\001vorbis", 7) == 0) {
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\001vorbis", 7) == 0) 
+            {
 				//TODO::: Possibly verify version
 				if (mVorbisDecoder.decodePacket(		inCodecHeaderPacket->packetData()
 													,	inCodecHeaderPacket->packetSize()
@@ -393,7 +404,7 @@ IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacke
 													,	0
 													,	&locDummy) == VorbisDecoder::VORBIS_HEADER_OK) {
 					mSetupState = VSS_SEEN_BOS;
-					debugLog<<"Saw first header"<<endl;
+					LOG(logDEBUG) << "Saw first header";
 					return IOggDecoder::AHR_MORE_HEADERS_TO_COME;
 				}
 			}
@@ -401,7 +412,8 @@ IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacke
 			
 			
 		case VSS_SEEN_BOS:
-			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\003vorbis", 7) == 0) {
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\003vorbis", 7) == 0) 
+            {
 				if (mVorbisDecoder.decodePacket(		inCodecHeaderPacket->packetData()
 													,	inCodecHeaderPacket->packetSize()
 													,	NULL
@@ -409,17 +421,16 @@ IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacke
 													,	&locDummy) == VorbisDecoder::VORBIS_COMMENT_OK) {
 
 					mSetupState = VSS_SEEN_COMMENT;
-					debugLog<<"Saw second header"<<endl;
+					LOG(logDEBUG) << "Saw second header";
 					return IOggDecoder::AHR_MORE_HEADERS_TO_COME;
-				}
-				
-				
+				}	
 			}
 			return IOggDecoder::AHR_INVALID_HEADER;
 			
 			
 		case VSS_SEEN_COMMENT:
-			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\005vorbis", 7) == 0) {
+			if (strncmp((char*)inCodecHeaderPacket->packetData(), "\005vorbis", 7) == 0) 
+            {
 				if (mVorbisDecoder.decodePacket(		inCodecHeaderPacket->packetData()
 													,	inCodecHeaderPacket->packetSize()
 													,	NULL
@@ -436,7 +447,7 @@ IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacke
 
 		
 					mSetupState = VSS_ALL_HEADERS_SEEN;
-					debugLog<<"Saw third header"<<endl;
+					LOG(logDEBUG) << "Saw third header";
 					return IOggDecoder::AHR_ALL_HEADERS_RECEIVED;
 				}
 				
@@ -449,10 +460,12 @@ IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacke
 			return IOggDecoder::AHR_UNEXPECTED;
 	}
 }
+
 string VorbisDecodeInputPin::getCodecShortName()
 {
 	return "vorbis";
 }
+
 string VorbisDecodeInputPin::getCodecIdentString()
 {
 	//TODO::: Get full ident string
@@ -464,13 +477,15 @@ HRESULT VorbisDecodeInputPin::CompleteConnect(IPin *inReceivePin)
 	IOggOutputPin* locOggOutput = NULL;
 	mSentStreamOffset = false;
 	HRESULT locHR = inReceivePin->QueryInterface(IID_IOggOutputPin, (void**)&locOggOutput);
-	if (locHR == S_OK) {
-		mOggOutputPinInterface = locOggOutput;
-		
-	} else {
+	if (locHR == S_OK) 
+    {
+		mOggOutputPinInterface = locOggOutput;	
+	} 
+    else 
+    {
 		mOggOutputPinInterface = NULL;
 	}
-	debugLog<<"Complete Connect"<<endl;
-	return AbstractTransformInputPin::CompleteConnect(inReceivePin);
+	LOG(logDEBUG) << "Complete Connect";
 	
+    return AbstractTransformInputPin::CompleteConnect(inReceivePin);
 }
