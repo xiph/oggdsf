@@ -30,76 +30,26 @@
 //===========================================================================
 
 #include "stdafx.h"
-
 #include "Theoradecoderdllstuff.h"
+#include "common/util.h"
+
+util::ComInitializer g_comInit;
 
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
+
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
+    util::GetHModule() = (HMODULE)hModule;
+
     return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
 }
 
-
-//The folowing two functions do the registration and deregistration of the dll and it's contained com objects.
 STDAPI DllRegisterServer()
 {
-
-	//TO DO::: Should we be releasing the filter mapper even when we return early ?
-    HRESULT hr;
-    
-#ifndef WINCE
-    hr = AMovieDllRegisterServer2(TRUE);
-#else
-	hr = AMovieDllRegisterServer();
-#endif
-
-
-#ifndef WINCE
-	IFilterMapper2* locFilterMapper = NULL;
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
-
-
-	hr = locFilterMapper->RegisterFilter(
-		CLSID_TheoraDecodeFilter,						// Filter CLSID. 
-		L"Theora Decode Filter",							// Filter name.
-        NULL,										// Device moniker. 
-        &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        NULL,							// Instance data. ???????
-        &TheoraDecodeFilterReg								// Pointer to filter information.
-    );
-
-    locFilterMapper->Release();
-#endif
-    return hr;
-
+    return AMovieDllRegisterServer2(TRUE);
 }
 
 STDAPI DllUnregisterServer()
 {
-   HRESULT hr;
-    
-
-    hr = AMovieDllRegisterServer2(FALSE);
-	if (FAILED(hr)) {
-		
-        return hr;
-	}
-#ifndef WINCE
-	IFilterMapper2* locFilterMapper = NULL;
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
-            IID_IFilterMapper2, (void **)&locFilterMapper);
-
-	if (FAILED(hr)) {
-        return hr;
-	}
-	
-
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_TheoraDecodeFilter);
-
-
-	//
-    locFilterMapper->Release();
-#endif
-    return hr;
-
+    return AMovieDllRegisterServer2(FALSE);
 }

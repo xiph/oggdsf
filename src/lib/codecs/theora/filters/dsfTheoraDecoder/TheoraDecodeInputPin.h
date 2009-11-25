@@ -87,8 +87,6 @@ protected:
 
 	eTheoraSetupState m_setupState;
 
-    std::fstream debugLog;
-
 	IOggOutputPin* m_oggOutputPinInterface;
 	bool m_sentStreamOffset;
 };

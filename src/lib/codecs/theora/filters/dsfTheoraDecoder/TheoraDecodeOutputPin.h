@@ -50,7 +50,4 @@ public:
 
 	//Quality control
 	virtual STDMETHODIMP Notify(IBaseFilter* inMessageSource, Quality inQuality);
-
-
-	//std::fstream debugLog;
 };

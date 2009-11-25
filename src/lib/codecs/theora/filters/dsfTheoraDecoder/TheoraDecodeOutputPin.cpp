@@ -32,31 +32,28 @@
 #include "stdafx.h"
 #include "theoradecodeoutputpin.h"
 
-
-
 TheoraDecodeOutputPin::TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR) :	
 CTransformOutputPin(NAME("Theora Output Pin"), inParentFilter, outHR, L"Theora Out")
 {
-	//debugLog.open("G:\\logs\\theooutput.log", ios_base::out);
 }
+
 TheoraDecodeOutputPin::~TheoraDecodeOutputPin() 
 {
-	//debugLog.close();
 }
 
 STDMETHODIMP TheoraDecodeOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv) 
 {
-	//debugLog<<"Querying interface"<<endl;
+	//LOG(logDEBUG) << "Querying interface";
 	if (riid == IID_IMediaSeeking) 
     {
         return GetInterface((IMediaSeeking*)this, ppv);
 	} 
     else if (riid == IID_IMediaPosition) 
     {
-		//debugLog<<"Asking for OLD SEEKER"<<endl;
+		//LOG(logDEBUG) << "Asking for OLD SEEKER";
 	}
 	
-    //debugLog<<"Trying base output pin"<<endl;
+    //LOG(logDEBUG) << "Trying base output pin";
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
@@ -65,21 +62,21 @@ HRESULT TheoraDecodeOutputPin::BreakConnect()
 	CAutoLock locLock(m_pLock);
 	//Need a lock ??
 	ReleaseDelegate();
-	//debugLog<<"Break connect"<<endl;
+	//LOG(logDEBUG) << "Break connect";
 	return CTransformOutputPin::BreakConnect();
 }
 
 HRESULT TheoraDecodeOutputPin::CompleteConnect (IPin *inReceivePin) 
 {
 	CAutoLock locLock(m_pLock);
-	//debugLog<<"Complete connect"<<endl;
+	//LOG(logDEBUG) << "Complete connect";
 	IMediaSeeking* locSeeker = NULL;
 
 	m_pFilter->GetPin(0)->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 
 	if (locSeeker == NULL) 
     {
-		//debugLog<<"Seeker was NULL"<<endl;
+		//LOG(logDEBUG) << "Seeker was NULL";
 	}
 
 	SetDelegate(locSeeker);

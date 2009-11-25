@@ -1,7 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
-//
-//Copyright (C) 2008 Cristian Adam
+//Copyright (C) 2008-2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -33,8 +32,6 @@
 
 #pragma once
 
-//#define OGGCODECS_LOGGING
-
 #include "Theoradecoderdllstuff.h"
 #include "theoradecodeoutputpin.h"
 #include "theoradecodeinputpin.h"
@@ -53,6 +50,12 @@ public:
 	//COM Creator Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
+    static const wchar_t* NAME;
+    static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes;
+    static const AMOVIESETUP_MEDIATYPE m_outputMediaTypes[];
+    static const AMOVIESETUP_PIN m_pinReg[];
+    static const AMOVIESETUP_FILTER m_filterReg;
+
 	//CTransfrom filter pure virtuals
 	virtual HRESULT CheckInputType(const CMediaType* inMediaType);
 	virtual HRESULT CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType);
@@ -70,7 +73,6 @@ public:
 	
 #ifdef WINCE
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
-	virtual HRESULT Register();
 #endif
 
 protected:
@@ -115,7 +117,7 @@ protected:
 	
     std::vector<StampedOggPacket*> m_bufferedPackets;
 
-    std::vector<CMediaType*> m_outputMediaTypes;
+    std::vector<CMediaType*> m_outputMediaTypesList;
 	struct sOutputVideoParams 
     {
 		WORD bitsPerPixel;
@@ -135,5 +137,4 @@ protected:
 
 	//Format Block
 	sTheoraFormatBlock* m_theoraFormatInfo;
-    std::fstream debugLog;
 };
