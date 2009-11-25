@@ -30,6 +30,8 @@
 //===========================================================================
 
 #include "stdafx.h"
+#include "SpeexDecodeFilter.h"
+#include "SpeexDecodeOutputPin.h"
 #include "SpeexDecodeInputPin.h"
 
 
@@ -77,19 +79,16 @@ SpeexDecodeInputPin::~SpeexDecodeInputPin(void)
 
 STDMETHODIMP SpeexDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	//TODO::: Make the IOggDecoder interface a proper COM interface
-	if (riid == IID_IMediaSeeking) {
-		*ppv = (IMediaSeeking*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
-	} else if (riid == IID_IOggDecoder) {
-		*ppv = (IOggDecoder*)this;
-		//((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
-
+	if (riid == IID_IMediaSeeking) 
+    {
+        return GetInterface((IMediaSeeking*)this, ppv);
+	} 
+    else if (riid == IID_IOggDecoder) 
+    {
+        return GetInterface((IOggDecoder*)this, ppv);
 	}
 
-	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
+	return AbstractTransformInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 STDMETHODIMP SpeexDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 
 {
@@ -99,7 +98,8 @@ STDMETHODIMP SpeexDecodeInputPin::NewSegment(REFERENCE_TIME inStartTime, REFEREN
 
 	//Denominator and numerator are a 16 bit fraction
 	mRateNumerator = RATE_DENOMINATOR * inRate;
-	if (mRateNumerator > RATE_DENOMINATOR) {
+	if (mRateNumerator > RATE_DENOMINATOR) 
+    {
 		mRateNumerator = RATE_DENOMINATOR;
 	}
 	return AbstractTransformInputPin::NewSegment(inStartTime, inStopTime, inRate);	
@@ -253,15 +253,16 @@ HRESULT SpeexDecodeInputPin::TransformData(BYTE* inBuf, long inNumBytes)
 
 HRESULT SpeexDecodeInputPin::SetMediaType(const CMediaType* inMediaType) 
 {
-	if (CheckMediaType(inMediaType) == S_OK) {
+	if (CheckMediaType(inMediaType) == S_OK) 
+    {
 		((SpeexDecodeFilter*)mParentFilter)->setSpeexFormat(inMediaType->pbFormat);
-		
-	} else {
+	} 
+    else 
+    {
 		throw 0;
 	}
-	return CBaseInputPin::SetMediaType(inMediaType);
-
-
+	
+    return CBaseInputPin::SetMediaType(inMediaType);
 }
 
 HRESULT SpeexDecodeInputPin::CheckMediaType(const CMediaType *inMediaType)

@@ -42,11 +42,11 @@
 
 #include <libOOOgg/libOOOgg.h>
 
-// TODO: reference additional headers your program requires here
-
 #include "AbstractTransformFilter.h"
 #include "AbstractTransformInputPin.h"
 #include "AbstractTransformOutputPin.h"
-#include "SpeexDecodeInputPin.h"
-#include "SpeexDecodeOutputPin.h"
-#include "SpeexDecodeFilter.h"
+
+#include "common/Log.h"
+
+#include <atlbase.h>
+#include <atlcom.h>

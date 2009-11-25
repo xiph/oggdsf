@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
+//Copyright (C) 2009 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -31,51 +32,93 @@
 
 //Include Files
 #include "stdafx.h"
+#include "SpeexDecodeOutputPin.h"
+#include "SpeexDecodeInputPin.h"
 #include "SpeexDecodeFilter.h"
-
+#include "common/util.h"
 
 //COM Factory Template
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"Speex Decode Filter",					// Name
+        SpeexDecodeFilter::NAME,				// Name
 	    &CLSID_SpeexDecodeFilter,				// CLSID
 	    SpeexDecodeFilter::CreateInstance,		// Method to create an instance of Speex Decoder
         NULL,									// Initialization function
-#ifdef WINCE
-		&SpeexDecodeFilterReg
-#else
-        NULL									// Set-up information (for filters)
-#endif
-      
+        &SpeexDecodeFilter::m_filterReg         // Set-up information (for filters)      
     }
-
 };
 
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
+const wchar_t* SpeexDecodeFilter::NAME = L"Xiph.Org Speex Audio Decoder";
+
+const AMOVIESETUP_MEDIATYPE SpeexDecodeFilter::m_outputMediaTypes = 
+{
+    &MEDIATYPE_Audio,
+    &MEDIASUBTYPE_PCM
+};
+
+const AMOVIESETUP_MEDIATYPE SpeexDecodeFilter::m_inputMediaTypes = 
+{
+    &MEDIATYPE_OggPacketStream,
+    &MEDIASUBTYPE_None
+};
+
+const AMOVIESETUP_PIN SpeexDecodeFilter::m_pinReg[] = 
+{
+    {
+        L"Speex Input",						//Name (obsoleted)
+        FALSE,								//Renders from this pin ?? Not sure about this.
+        FALSE,								//Not an output pin
+        FALSE,								//Cannot have zero instances of this pin
+        FALSE,								//Cannot have more than one instance of this pin
+        &GUID_NULL,							//Connects to filter (obsoleted)
+        NULL,								//Connects to pin (obsoleted)
+        1,									//Support two media type
+        &m_inputMediaTypes				    //Pointer to media type (Audio/Vorbis or Audio/Speex)
+    } ,
+
+    {
+        L"PCM Output",						//Name (obsoleted)
+        FALSE,								//Renders from this pin ?? Not sure about this.
+        TRUE,								//Is an output pin
+        FALSE,								//Cannot have zero instances of this pin
+        FALSE,								//Cannot have more than one instance of this pin
+        &GUID_NULL,							//Connects to filter (obsoleted)
+        NULL,								//Connects to pin (obsoleted)
+        1,									//Only support one media type
+        &m_outputMediaTypes					//Pointer to media type (Audio/PCM)
+     }
+};
+
+const AMOVIESETUP_FILTER SpeexDecodeFilter::m_filterReg = 
+{
+    &CLSID_SpeexDecodeFilter,
+    NAME,
+    MERIT_NORMAL,
+    2,
+    m_pinReg
+};
 
 
 #ifdef WINCE
 LPAMOVIESETUP_FILTER SpeexDecodeFilter::GetSetupData()
 {	
-	return (LPAMOVIESETUP_FILTER)&SpeexDecodeFilterReg;	
-}
-
-HRESULT SpeexDecodeFilter::Register()
-{
-	return CBaseFilter::Register();
+	return (LPAMOVIESETUP_FILTER)&m_filterReg;	
 }
 #endif
 
 
 SpeexDecodeFilter::SpeexDecodeFilter()
-	:	AbstractTransformFilter(NAME("Speex Audio Decoder"), CLSID_SpeexDecodeFilter)
+	:	AbstractTransformFilter(NAME, CLSID_SpeexDecodeFilter)
 	,	mSpeexFormatInfo(NULL)
 {
-
 	bool locWasConstructed = ConstructPins();
+
+    LOG(logDEBUG) << "Created SpeexDecodeFilter, ConstructPins returned " <<
+        std::boolalpha << locWasConstructed << std::endl;
 }
 
 bool SpeexDecodeFilter::ConstructPins() 
@@ -113,18 +156,34 @@ bool SpeexDecodeFilter::ConstructPins()
 
 SpeexDecodeFilter::~SpeexDecodeFilter(void)
 {
-	delete mSpeexFormatInfo;
+    LOG(logINFO) << L"SpeexDecodeFilter destroyed!" << std::endl;
+
+    delete mSpeexFormatInfo;
 }
 
 CUnknown* WINAPI SpeexDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr) 
 {
-	//This routine is the COM implementation to create a new Filter
-	SpeexDecodeFilter *pNewObject = new SpeexDecodeFilter();
-    if (pNewObject == NULL) {
+    util::ConfigureLogSettings();
+
+    //This routine is the COM implementation to create a new Filter
+    SpeexDecodeFilter *pNewObject = new (std::nothrow) SpeexDecodeFilter();
+    if (pNewObject == NULL) 
+    {
         *pHr = E_OUTOFMEMORY;
     }
 	return pNewObject;
 } 
+
+STDMETHODIMP SpeexDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+{
+    //if (riid == IID_IWMPTranscodePolicy) {
+    //	*ppv = (IWMPTranscodePolicy*)this;
+    //	((IUnknown*)*ppv)->AddRef();
+    //	return NOERROR;
+    //}
+
+    return AbstractTransformFilter::NonDelegatingQueryInterface(riid, ppv); 
+}
 
 //QUERY::: Do we need these ? Aren't we all friedns here ??
 //RESULT::: Keep them, set function must be kept... get could go... but keep for consistency
@@ -144,4 +203,10 @@ void SpeexDecodeFilter::setSpeexFormat(BYTE* inFormatBlock)
 	mSpeexFormatInfo->maxBitsPerSec = 0;
 	mSpeexFormatInfo->minBitsPerSec = 0;
 
+    LOG(logINFO) << "Speex Version: " << mSpeexFormatInfo->speexVersion
+        << " Channels: " << mSpeexFormatInfo->numChannels
+        << " SamplesPerSec: " << mSpeexFormatInfo->samplesPerSec
+        << " MaxBitsPerSec: " << mSpeexFormatInfo->maxBitsPerSec
+        << " AvgBitsPerSec: " << mSpeexFormatInfo->avgBitsPerSec
+        << " MinBitsPerSec: " << mSpeexFormatInfo->minBitsPerSec;
 }

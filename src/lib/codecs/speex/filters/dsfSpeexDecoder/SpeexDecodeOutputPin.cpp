@@ -30,6 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
+#include "SpeexDecodeFilter.h"
 #include "speexdecodeoutputpin.h"
 
 SpeexDecodeOutputPin::SpeexDecodeOutputPin(		SpeexDecodeFilter* inParentFilter

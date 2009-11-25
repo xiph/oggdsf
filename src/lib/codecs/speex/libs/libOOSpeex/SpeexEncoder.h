@@ -6,20 +6,11 @@
 #include "SpeexEncodeSettings.h"
 
 extern "C" {
-//#include "speex/speex.h"
-#include "speex_cdecl.h"
-
-//#include "speex/speex_header.h"
-#include "speex_header_cdecl.h"
-
-//#include "speex/speex_callbacks.h"
-//#include "speex_callbacks_cdecl.h"
-
-//#include "speex/speex_stereo.h"
-#include "speex_stereo_cdecl.h"
-
-//#include "speex/speex_preprocess.h"
-#include "speex_preprocess_cdecl.h"
+#include "speex/speex.h"
+#include "speex/speex_header.h"
+#include "speex/speex_callbacks.h"
+#include "speex/speex_stereo.h"
+#include "speex/speex_preprocess.h"
 }
 
 #include <vector>

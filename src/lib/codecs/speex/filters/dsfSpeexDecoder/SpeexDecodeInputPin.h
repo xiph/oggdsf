@@ -30,7 +30,6 @@
 //===========================================================================
 
 #pragma once
-#include "speexdecoderdllstuff.h"
 #include "IOggDecoder.h"
 #include "AbstractTransformInputPin.h"
 #include "SpeexDecodeInputPin.h"
