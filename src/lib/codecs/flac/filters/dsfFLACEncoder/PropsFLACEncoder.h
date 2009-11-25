@@ -1,11 +1,8 @@
 #pragma once
 
-#include "resource.h"
+struct IFLACEncodeSettings;
 
-#include <commctrl.h>
-
-class PropsFLACEncoder
-    :	public CBasePropertyPage
+class PropsFLACEncoder:	public CBasePropertyPage
 {
 public:
     PropsFLACEncoder(LPUNKNOWN inUnk, HRESULT* outHR);
@@ -25,6 +22,4 @@ protected:
 	void SetClean();
 
     IFLACEncodeSettings* mFLACEncodeSettings;
-
-
 };

@@ -1,5 +1,7 @@
 #include "StdAfx.h"
+#include "resource.h"
 #include "PropsFLACEncoder.h"
+#include "flacencoderdllstuff.h"
 
 PropsFLACEncoder::PropsFLACEncoder(     LPUNKNOWN inUnk
                                         ,   HRESULT* outHR)

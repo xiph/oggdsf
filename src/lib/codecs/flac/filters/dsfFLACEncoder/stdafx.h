@@ -43,4 +43,4 @@
 
 #define FLAC__NO_DLL
 
-#include "flacencoderdllstuff.h"
+#include <streams.h>

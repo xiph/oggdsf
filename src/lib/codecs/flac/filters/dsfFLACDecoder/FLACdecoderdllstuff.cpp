@@ -30,6 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
+#include <InitGuid.h>
 #include "FLACdecoderdllstuff.h"
 
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
