@@ -38,7 +38,7 @@
 #include "AbstractTransformFilter.h"
 
 //Constructors
-AbstractTransformFilter::AbstractTransformFilter(TCHAR* inFilterName, REFCLSID inFilterGUID)
+AbstractTransformFilter::AbstractTransformFilter(const wchar_t* inFilterName, REFCLSID inFilterGUID)
 	:	CBaseFilter(inFilterName, NULL, m_pLock, inFilterGUID)
 
 	,	mInputPin(NULL)

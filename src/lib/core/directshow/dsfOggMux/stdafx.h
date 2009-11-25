@@ -43,3 +43,7 @@
 // TODO: reference additional headers your program requires here
 #include "oggmuxdllstuff.h"
 #include <libilliCore/StringHelper.h>
+
+#include <atlbase.h>
+#include <atlcom.h>
+

@@ -56,7 +56,7 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//Constructors
-	AbstractTransformFilter(TCHAR* inFilterName, REFCLSID inFilterGUID);
+	AbstractTransformFilter(const wchar_t* inFilterName, REFCLSID inFilterGUID);
 	virtual ~AbstractTransformFilter(void);
 	
 	//Pin Access Methods

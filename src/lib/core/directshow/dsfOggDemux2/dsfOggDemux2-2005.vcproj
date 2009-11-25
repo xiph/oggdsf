@@ -227,7 +227,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="1"
@@ -309,7 +309,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="1"
@@ -391,7 +391,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="1"
@@ -786,9 +786,9 @@
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
-				RemoteDirectory=""
-				RegisterOutput="0"
-				AdditionalFiles=""
+				RemoteDirectory="%CSIDL_PROGRAM_FILES%\Xiph.Org\Ogg Codecs"
+				RegisterOutput="-1"
+				AdditionalFiles="$(TargetDir)\dsfVorbisDecoder.dll"
 			/>
 			<DebuggerTool
 			/>
@@ -2194,11 +2194,11 @@
 			>
 		</Filter>
 		<File
-			RelativePath=".\ReadMe.txt"
+			RelativePath="..\..\..\codecs\flac\filters\dsfNativeFLACSource\ReadMe.txt"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\codecs\flac\filters\dsfNativeFLACSource\ReadMe.txt"
+			RelativePath=".\ReadMe.txt"
 			>
 		</File>
 	</Files>

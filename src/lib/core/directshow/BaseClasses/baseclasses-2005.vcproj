@@ -67,6 +67,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 				CompileAs="0"
 			/>
@@ -148,6 +149,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 				CompileAs="0"
 			/>
@@ -227,6 +229,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -313,6 +316,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -399,6 +403,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -602,7 +607,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories="$(BASECLASSES_WINCE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				PreprocessorDefinitions="WIN32;DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="1"
 			/>
 			<Tool
@@ -668,7 +673,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories="$(BASECLASSES_WINCE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
+				PreprocessorDefinitions="WIN32;DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="1"
 			/>
 			<Tool
@@ -734,7 +739,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories="$(BASECLASSES_WINCE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				PreprocessorDefinitions="WIN32;DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="1"
 			/>
 			<Tool
@@ -815,6 +820,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 				CompileAs="0"
 			/>
@@ -897,6 +903,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 				CompileAs="0"
 			/>
@@ -976,6 +983,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -1062,6 +1070,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -1148,6 +1157,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -1233,6 +1243,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 				CompileAs="0"
 			/>
@@ -1315,6 +1326,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CallingConvention="2"
 				CompileAs="0"
 			/>
@@ -1394,6 +1406,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -1480,6 +1493,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -1566,6 +1580,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -10939,7 +10954,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Pocket PC SDK 2 (ARMV4I)"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -10949,7 +10963,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 5.0 Smartphone SDK 2 (ARMV4I)"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -10959,7 +10972,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
