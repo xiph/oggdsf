@@ -43,3 +43,7 @@
 #endif
 
 #include <libOOOggSeek/libOOOggSeek.h>
+
+#include <atlbase.h>
+#include <atlcom.h>
+
