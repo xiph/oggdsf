@@ -39,7 +39,7 @@
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
-!define PRODUCT_SUPPORT "http://www.xiph.org/dshow/pmwiki.php/Main/ReportIssues"
+!define PRODUCT_SUPPORT "http://xiph.org/dshow/bugs/"
 
 ; Path from .nsi to oggcodecs root
 !define OGGCODECS_ROOT_DIR "..\..\.."
