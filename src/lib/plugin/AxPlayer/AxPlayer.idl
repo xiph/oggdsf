@@ -8,6 +8,16 @@ import "oaidl.idl";
 import "ocidl.idl";
 
 [
+	object,
+	uuid(8DEA6524-F708-46AE-9D20-2C8CA0BCF075),
+	dual,
+	nonextensible,
+	helpstring("IVideoTagBehavior Interface"),
+	pointer_default(unique)
+]
+interface IVideoTagBehavior : IDispatch{
+};
+[
 	uuid(4856ADA6-564F-41B8-ACAA-E98ABD004A84),
 	version(1.0),
 	helpstring("AxPlayer 1.0 Type Library")
@@ -15,4 +25,22 @@ import "ocidl.idl";
 library AxPlayerLib
 {
 	importlib("stdole2.tlb");
+	[
+		uuid(35E1EB3E-98C3-40FC-9E52-5A7FF0AC394F),
+		helpstring("_IVideoTagBehaviorEvents Interface")
+	]
+	dispinterface _IVideoTagBehaviorEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA),
+		helpstring("HTML5 <video> and <audio> implementation.")
+	]
+	coclass VideoTagBehavior
+	{
+		[default] interface IVideoTagBehavior;
+		[default, source] dispinterface _IVideoTagBehaviorEvents;
+	};
 };

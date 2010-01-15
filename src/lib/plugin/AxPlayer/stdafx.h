@@ -19,5 +19,11 @@
 #include <atlbase.h>
 #include <atlcom.h>
 #include <atlctl.h>
+#include <atltypes.h>
+#include <atlstr.h>
 
 using namespace ATL;
+
+#include <msxml.h>
+
+#include "common/Log.h"

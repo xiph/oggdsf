@@ -6,7 +6,10 @@
 #include "dllmain.h"
 #include "dlldatax.h"
 
+#include "common/util.h"
+
 CAxPlayerModule _AtlModule;
+
 
 // DLL Entry Point
 extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
@@ -15,6 +18,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpRes
 	if (!PrxDllMain(hInstance, dwReason, lpReserved))
 		return FALSE;
 #endif
-	hInstance;
+    util::GetHModule() = (HMODULE)hInstance;
+
 	return _AtlModule.DllMain(dwReason, lpReserved); 
 }

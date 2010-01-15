@@ -6,6 +6,13 @@
 #include "AxPlayer_i.h"
 #include "dllmain.h"
 #include "dlldatax.h"
+#include <MsHtmHst.h>
+
+namespace 
+{
+    // Conform with http://wiki.whatwg.org/wiki/FAQ#What_is_the_namespace_declaration.3F
+    const wchar_t* HTML5NS = L"http://www.w3.org/1999/xhtml";
+}
 
 // Used to determine whether the DLL can be unloaded by OLE
 STDAPI DllCanUnloadNow(void)
@@ -40,6 +47,18 @@ STDAPI DllRegisterServer(void)
         return hr;
     hr = PrxDllRegisterServer();
 #endif
+
+    // Microsoft has IERegisterXMLNS function in <MsHtmHst.h> but
+    // didn't bother to give also a library
+    HMODULE mshtml = (HMODULE)::LoadLibrary(L"mshtml.dll");
+
+    IEREGISTERXMLNSFN* ieRegisterXmlsNs = (IEREGISTERXMLNSFN*)::GetProcAddress(mshtml, "IERegisterXMLNS");
+
+    if (ieRegisterXmlsNs != 0)
+    {
+        (*ieRegisterXmlsNs)(HTML5NS, CLSID_VideoTagBehavior, TRUE);
+    }
+
 	return hr;
 }
 
@@ -89,5 +108,3 @@ STDAPI DllInstall(BOOL bInstall, LPCWSTR pszCmdLine)
 
     return hr;
 }
-
-

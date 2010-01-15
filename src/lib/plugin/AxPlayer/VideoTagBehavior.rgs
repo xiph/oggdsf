@@ -1,0 +1,26 @@
+HKCR
+{
+	AxPlayer.VideoTagBehavior.1 = s 'VideoTagBehavior Class'
+	{
+		CLSID = s '{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}'
+	}
+	AxPlayer.VideoTagBehavior = s 'VideoTagBehavior Class'
+	{
+		CLSID = s '{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}'
+		CurVer = s 'AxPlayer.VideoTagBehavior.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA} = s 'VideoTagBehavior Class'
+		{
+			ProgID = s 'AxPlayer.VideoTagBehavior.1'
+			VersionIndependentProgID = s 'AxPlayer.VideoTagBehavior'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{4856ADA6-564F-41B8-ACAA-E98ABD004A84}'
+		}
+	}
+}
