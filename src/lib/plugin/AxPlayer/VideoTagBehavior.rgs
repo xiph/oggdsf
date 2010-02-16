@@ -1,17 +1,17 @@
 HKCR
 {
-	AxPlayer.VideoTagBehavior.1 = s 'VideoTagBehavior Class'
+	AxPlayer.VideoTagBehavior.1 = s 'HTML5 <video> and <audio> implementation'
 	{
 		CLSID = s '{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}'
 	}
-	AxPlayer.VideoTagBehavior = s 'VideoTagBehavior Class'
+	AxPlayer.VideoTagBehavior = s 'HTML5 <video> and <audio> implementation'
 	{
 		CLSID = s '{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}'
 		CurVer = s 'AxPlayer.VideoTagBehavior.1'
 	}
 	NoRemove CLSID
 	{
-		ForceRemove {7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA} = s 'VideoTagBehavior Class'
+		ForceRemove {7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA} = s 'HTML5 <video> and <audio> implementation'
 		{
 			ProgID = s 'AxPlayer.VideoTagBehavior.1'
 			VersionIndependentProgID = s 'AxPlayer.VideoTagBehavior'

@@ -27,3 +27,4 @@ using namespace ATL;
 #include <msxml.h>
 
 #include "common/Log.h"
+#include "common/util.h"

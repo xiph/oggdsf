@@ -1,12 +1,46 @@
-// VideoTagBehavior.cpp : Implementation of VideoTagBehavior
+//===========================================================================
+// Copyright (C) 2010 Cristian Adam
+//
+//Redistribution and use in source and binary forms, with or without
+//modification, are permitted provided that the following conditions
+//are met:
+//
+//- Redistributions of source code must retain the above copyright
+//  notice, this list of conditions and the following disclaimer.
+//
+//- Redistributions in binary form must reproduce the above copyright
+//  notice, this list of conditions and the following disclaimer in the
+//  documentation and/or other materials provided with the distribution.
+//
+//- Neither the name of Cristian Adam nor the names of contributors
+//  may be used to endorse or promote products derived from this software
+//  without specific prior written permission.
+//
+//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+//LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+//PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE ORGANISATION OR
+//CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+//EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+//PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+//SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//==============================================================
 
 #include "stdafx.h"
+#include <InitGuid.h>
 #include "VideoTagBehavior.h"
 #include "common/util.h"
+#include <ddraw.h>
 
 // VideoTagBehavior
 namespace {
-    const wchar_t* VIDEO_TAG = L"VIDEO";
+    const wchar_t* VIDEO_TAG = L"video";
+    const wchar_t* SRC_ATTRIBUTE = L"src";
+    const wchar_t* WIDTH_ATTRIBUTE = L"width";
+    const wchar_t* HEIGHT_ATTRIBUTE = L"height";
 }
 
 VideoTagBehavior::VideoTagBehavior() : 
@@ -31,37 +65,55 @@ HRESULT __stdcall VideoTagBehavior::Init(IElementBehaviorSite* pBehaviorSite)
 
 HRESULT __stdcall VideoTagBehavior::Notify(LONG lEvent, VARIANT* pVar)
 {
-    LOG(logDEBUG) << __FUNCTIONW__ << " lEvent: " << lEvent << ", pVar: " << ToString((CComVariant)pVar);
+    LOG(logDEBUG) << __FUNCTIONW__ << " lEvent: " << lEvent;
 
-    switch (lEvent)
+    HRESULT hr = S_OK;
+
+    try
     {
-    case BEHAVIOREVENT_CONTENTREADY: 
-        // End tag of element has been parsed (we can get at attributes)
-        break;
-    case BEHAVIOREVENT_DOCUMENTREADY:	
-        // HTML document has been parsed (we can get at the document object model)
+        switch (lEvent)
         {
-            HRESULT hr = m_site->GetElement(&m_element);
-            
-            CComPtr<IHTMLStyle> style;
-            m_element->get_style(&style);
-
-            style->put_pixelWidth(m_width);
-            style->put_pixelHeight(m_height);
-
-            if (m_paintSite)
+        case BEHAVIOREVENT_CONTENTREADY: 
+            // End tag of element has been parsed (we can get at attributes)
+            break;
+        case BEHAVIOREVENT_DOCUMENTREADY:	
+            // HTML document has been parsed (we can get at the document object model)
             {
-                m_paintSite->InvalidateRect(0);
-            }
-        }
+                CHECK_HR(m_site->GetElement(&m_element));
+                
+                CComPtr<IHTMLStyle> style;
+                CHECK_HR(m_element->get_style(&style));
 
-        break;
+                ParseElementAttributes();
+
+                CHECK_HR(style->put_pixelWidth(m_width));
+                CHECK_HR(style->put_pixelHeight(m_height));
+
+                m_videoPlayer.SetWidth(m_width);
+                m_videoPlayer.SetHeight(m_height);
+
+                m_videoPlayer.Create(::GetDesktopWindow(), 0, L"PlayerWindow", WS_POPUP);
+                m_videoPlayer.SetPlayerCallback(this);
+                m_videoPlayer.InitializePlaybackThread();
+
+                CHECK_HR(HTMLEvents::DispEventAdvise(m_element));
+            }
+            break;
+        }
     }
+    catch (const CAtlException& except)
+    {
+        hr = except.m_hr;
+    }
+
     return S_OK;
 }
 
 HRESULT __stdcall VideoTagBehavior::Detach()
 {
+    m_videoPlayer.StopPlaybackThread();
+    m_videoPlayer.DestroyWindow();
+
     return S_OK;
 }
 
@@ -75,19 +127,24 @@ HRESULT __stdcall VideoTagBehavior::FindBehavior(BSTR bstrBehavior, BSTR bstrBeh
         return E_POINTER;
     }
 
-    HRESULT hr = E_FAIL;
+    HRESULT hr = S_OK;
 
-    if (wcsicmp(bstrBehavior, VIDEO_TAG) == 0)
+    try
     {
-        CComObject<VideoTagBehavior>* behavior;
-        hr = CComObject<VideoTagBehavior>::CreateInstance(&behavior);
+        CComBSTR behavior(bstrBehavior);
+        behavior.ToLower();
 
-        if (FAILED(hr))
+        if (behavior == VIDEO_TAG)
         {
-            return hr;
-        }
+            CComObject<VideoTagBehavior>* behavior;
+            CHECK_HR(CComObject<VideoTagBehavior>::CreateInstance(&behavior));
 
-        hr = behavior->QueryInterface(IID_IElementBehavior, (void**)ppBehavior);
+            CHECK_HR(behavior->QueryInterface(IID_IElementBehavior, (void**)ppBehavior));
+        }
+    }
+    catch (const CAtlException& except)
+    {
+        hr = except.m_hr;
     }
 
     return hr;
@@ -166,11 +223,14 @@ HRESULT __stdcall VideoTagBehavior::GetPainterInfo(HTML_PAINTER_INFO *pInfo)
 {
     pInfo->lFlags = 
         HTMLPAINTER_NOSAVEDC | 
-        HTMLPAINTER_SUPPORTS_XFORM;
+        HTMLPAINTER_SUPPORTS_XFORM | 
+        HTMLPAINTER_OVERLAY |
+        HTMLPAINTER_SURFACE |
+        HTMLPAINTER_HITTEST;
 
     pInfo->lZOrder = HTMLPAINT_ZORDER_REPLACE_ALL;
 
-    memset(&pInfo->iidDrawObject, 0, sizeof(IID));
+    pInfo->iidDrawObject = IID_IDirectDrawSurface;
 
     pInfo->rcExpand.left = 0;
     pInfo->rcExpand.top = 0;
@@ -182,17 +242,29 @@ HRESULT __stdcall VideoTagBehavior::GetPainterInfo(HTML_PAINTER_INFO *pInfo)
 
 HRESULT __stdcall VideoTagBehavior::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HDC hdc, LPVOID pvDrawObject)
 {
-    CRect rect(rcBounds.left, rcBounds.top,
-        rcBounds.left + m_width, rcBounds.top + m_height);
-
-    FillRect(hdc, &rect, (HBRUSH)GetStockObject(GRAY_BRUSH));
-
-    return S_OK;
+    HRESULT hr = m_videoPlayer.Draw(rcBounds, rcUpdate, lDrawFlags, hdc, pvDrawObject);
+    return hr;
 }
 
 HRESULT __stdcall VideoTagBehavior::HitTestPoint(POINT pt, BOOL *pbHit, LONG *plPartID)
 {
+    *pbHit = TRUE;
     return S_OK;
+}
+
+VARIANT_BOOL __stdcall VideoTagBehavior::OnClick()
+{
+    if (m_videoPlayer.GetState() == DShowVideoPlayer::Paused ||
+        m_videoPlayer.GetState() == DShowVideoPlayer::Stopped)
+    {
+        m_videoPlayer.Play();
+    }
+    else if (m_videoPlayer.GetState() == DShowVideoPlayer::Playing)
+    {
+        m_videoPlayer.Pause();
+    }
+
+    return VARIANT_FALSE;
 }
 
 HRESULT __stdcall VideoTagBehavior::OnResize(SIZE pt)
@@ -201,4 +273,77 @@ HRESULT __stdcall VideoTagBehavior::OnResize(SIZE pt)
         << "size: " << pt.cx << ", " << pt.cy;
 
     return S_OK;
+}
+
+HRESULT __stdcall VideoTagBehavior::SetInterfaceSafetyOptions(REFIID riid, DWORD dwOptionSetMask, DWORD dwEnabledOptions)
+{
+    m_dwCurrentSafety = m_dwCurrentSafety  & ~dwEnabledOptions | dwOptionSetMask;
+    return S_OK;
+}
+
+void VideoTagBehavior::ParseElementAttributes()
+{
+    CComQIPtr<IHTMLDOMNode> node = m_element;
+    
+    CComPtr<IDispatch> disp;
+    CHECK_HR(node->get_attributes(&disp));
+
+    CComQIPtr<IHTMLAttributeCollection> attributesList = disp;
+    disp = 0;
+
+    long attributesCount = 0;
+    CHECK_HR(attributesList->get_length(&attributesCount));
+
+    for (long i = 0; i < attributesCount; ++i)
+    {
+        CComVariant item(i);
+        CHECK_HR(attributesList->item(&item, &disp));
+
+        CComQIPtr<IHTMLDOMAttribute> attribute = disp;
+        disp = 0;
+
+        CComBSTR attributeName;
+        CHECK_HR(attribute->get_nodeName(&attributeName));
+
+        attributeName.ToLower();
+
+        if (attributeName == SRC_ATTRIBUTE)
+        {
+            CComVariant attributeValue;
+            CHECK_HR(attribute->get_nodeValue(&attributeValue));
+
+            LOG(logINFO) << SRC_ATTRIBUTE << " = \"" << attributeValue << "\"";
+
+            m_videoPlayer.SetSrc(attributeValue);
+        }
+    }
+}
+
+void VideoTagBehavior::Refresh()
+{
+    if (m_paintSite)
+    {
+        m_paintSite->InvalidateRect(0);
+    }
+}
+
+void VideoTagBehavior::MovieSize(const CSize& movieSize)
+{
+    m_width = movieSize.cx;
+    m_height = movieSize.cy;
+
+    try
+    {
+        CComPtr<IHTMLStyle> style;
+        CHECK_HR(m_element->get_style(&style));
+
+        CHECK_HR(style->put_pixelWidth(m_width));
+        CHECK_HR(style->put_pixelHeight(m_height));
+
+        m_videoPlayer.SetWidth(m_width);
+        m_videoPlayer.SetHeight(m_height);
+    }
+    catch (const CAtlException& /*except*/)
+    {
+    }
 }

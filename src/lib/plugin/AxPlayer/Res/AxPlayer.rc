@@ -75,13 +75,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "TODO: <Company name>"
-            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "CompanyName", "Xiph.Org"
+            VALUE "FileDescription", "HTML5 <video> implementation"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
             VALUE "InternalName", "AxPlayer.dll"
+            VALUE "LegalCopyright", "(c) 2010 Xiph.Org.  All rights reserved."
             VALUE "OriginalFilename", "AxPlayer.dll"
-            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductName", "AxPlayer"
             VALUE "ProductVersion", "1.0.0.1"
         END
     END

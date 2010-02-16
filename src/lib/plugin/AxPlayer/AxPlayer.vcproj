@@ -21,7 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfATL="2"
@@ -62,7 +62,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -81,6 +81,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
+				AdditionalDependencies="ddraw.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -111,7 +112,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfATL="2"
@@ -145,7 +146,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\common\"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -169,6 +170,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
+				AdditionalDependencies="ddraw.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -199,7 +201,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfATL="2"
@@ -234,11 +236,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\common\"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
+				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -257,6 +260,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
+				AdditionalDependencies="ddraw.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -289,7 +293,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfATL="2"
@@ -323,8 +327,9 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\common\"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
+				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -345,6 +350,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
+				AdditionalDependencies="ddraw.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -394,6 +400,14 @@
 			</File>
 			<File
 				RelativePath=".\AxPlayer.idl"
+				>
+			</File>
+			<File
+				RelativePath=".\CustomVMR7Allocator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DDrawUtil.cpp"
 				>
 			</File>
 			<File
@@ -477,6 +491,18 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\DShowUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DShowVideoPlayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FilterGraph.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -527,11 +553,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CustomVMR7Allocator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DDrawUtil.h"
+				>
+			</File>
+			<File
 				RelativePath=".\dlldatax.h"
 				>
 			</File>
 			<File
 				RelativePath=".\dllmain.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DShowVideoPlayer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FilterGraph.h"
 				>
 			</File>
 			<File
