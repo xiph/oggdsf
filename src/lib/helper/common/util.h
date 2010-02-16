@@ -32,6 +32,19 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#define CHECK_HR(expr) CHECK_HR_CORE(expr, __FUNCTION__)
+
+#define CHECK_HR_CORE(expr, func) \
+    do { \
+    HRESULT hr = expr; \
+    if (FAILED(hr)) \
+        { \
+            LOG(logERROR) << "Expression " << #expr << " in function " << func \
+                << " has failed, error code: 0x" << std::hex << hr; \
+            AtlThrow(hr); \
+        } \
+    } while (false);
+
 #include <shlobj.h>
 #include "common/XmlSettings.h"
 
@@ -43,7 +56,7 @@ namespace util
         moduleFileName.resize(MAX_PATH);
 
         int chars = ::GetModuleFileName(static_cast<HMODULE>(hModule), 
-                        &*moduleFileName.begin(), moduleFileName.size());
+                        &*moduleFileName.begin(), static_cast<int>(moduleFileName.size()));
 
         moduleFileName.resize(chars);
 

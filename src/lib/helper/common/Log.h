@@ -424,7 +424,7 @@ inline HANDLE& Output2FILE::Stream(const std::wstring& logFile /*= L""*/)
             bom.push_back(0xbf);
 
             DWORD bytesWritten = 0;
-            ::WriteFile(streamHandle, &*bom.begin(), bom.size(), &bytesWritten, 0);
+            ::WriteFile(streamHandle, &*bom.begin(), static_cast<DWORD>(bom.size()), &bytesWritten, 0);
         }
     }
 
@@ -443,13 +443,13 @@ inline void Output2FILE::Output(const std::wstring& msg)
     std::string utf8msg;
 
     // Transform wide chars to UTF-8 
-    int chars = ::WideCharToMultiByte(CP_UTF8, 0, &*msg.begin(), msg.size(), 0, 0, 0, 0);
+    int chars = ::WideCharToMultiByte(CP_UTF8, 0, &*msg.begin(), static_cast<int>(msg.size()), 0, 0, 0, 0);
     utf8msg.resize(chars);
 
-    ::WideCharToMultiByte(CP_UTF8, 0, &*msg.begin(), msg.size(), &*utf8msg.begin(), chars, 0, 0);
+    ::WideCharToMultiByte(CP_UTF8, 0, &*msg.begin(), static_cast<int>(msg.size()), &*utf8msg.begin(), chars, 0, 0);
 
     DWORD bytesWritten;
-    ::WriteFile(streamHandle, utf8msg.c_str(), utf8msg.size(), &bytesWritten, 0);
+    ::WriteFile(streamHandle, utf8msg.c_str(), static_cast<DWORD>(utf8msg.size()), &bytesWritten, 0);
 }
 
 typedef LogT<Output2FILE> Log;
@@ -468,7 +468,7 @@ inline std::wstring NowTime()
     std::wstring time(9, L'0');
 
     if (::GetTimeFormat(LOCALE_USER_DEFAULT, 0, 0, L"HH':'mm':'ss",
-                        &*time.begin(), time.size()) == 0)
+                        &*time.begin(), static_cast<int>(time.size())) == 0)
     {
         return L"Error in NowTime()";
     }
