@@ -58,7 +58,7 @@ STDAPI DllRegisterServer()
 
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_TheoraEncodeFilter,						// Filter CLSID. 
-		L"Theora Encode Filter",							// Filter name.
+		L"Xiph.Org Theora Encoder",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
         NULL,							// Instance data. ???????

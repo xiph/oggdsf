@@ -57,6 +57,9 @@ public:
 
 	theora_info* theoraInfo();
 
+    bool GetFlipImageVerticaly() const;
+    void SetFlipImageVerticaly(bool val);
+
 protected:
 
 	//PURE VIRTUALS
@@ -97,8 +100,7 @@ protected:
 
 	bool m_hasBegun;
 
-    bool m_isImageFlipped;
-
+    bool m_flipImageVerticaly;
 	/* To adapt theora frame rate to variable directshow clock */
 	unsigned __int64 m_numFrames;
 

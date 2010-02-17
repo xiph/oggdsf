@@ -96,7 +96,8 @@ public:
     virtual STDMETHODIMP_(bool) setKeyframeFreqMin(unsigned long inKeyframeFreqMin);
     virtual STDMETHODIMP_(bool) setKeyframeAutoThreshold(long inKeyframeAutoThreshold);
 	//
-
+    virtual STDMETHODIMP_(void) setFlipImageVerticaly(bool flipVerticalImage);
+    virtual STDMETHODIMP_(bool) getFlipImageVerticaly();
 
 	
 	//SpecifyPropertyPages Implementation

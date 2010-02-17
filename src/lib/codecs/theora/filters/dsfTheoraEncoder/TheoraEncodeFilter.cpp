@@ -82,7 +82,7 @@ STDMETHODIMP TheoraEncodeFilter::NonDelegatingQueryInterface(REFIID riid, void *
 }
 
 TheoraEncodeFilter::TheoraEncodeFilter(void)
-	:	AbstractTransformFilter(NAME("Theora Encoder"), CLSID_TheoraEncodeFilter)
+	:	AbstractTransformFilter(NAME("Xiph.Org Theora Encoder"), CLSID_TheoraEncodeFilter)
     ,   mUsingQualityMode(true)
 {
 	bool locWasConstructed = ConstructPins();
@@ -391,4 +391,26 @@ STDMETHODIMP TheoraEncodeFilter::GetPages(CAUUID* outPropPages)
     
     return S_OK;
 
+}
+
+void TheoraEncodeFilter::setFlipImageVerticaly(bool flipImageVerticaly)
+{
+    if (!mInputPin)
+    {
+        return;
+    }
+
+    TheoraEncodeInputPin* inputPin = static_cast<TheoraEncodeInputPin*>(mInputPin);
+    inputPin->SetFlipImageVerticaly(flipImageVerticaly);
+}
+
+bool TheoraEncodeFilter::getFlipImageVerticaly()
+{
+    if (!mInputPin)
+    {
+        return false;
+    }
+
+    TheoraEncodeInputPin* inputPin = static_cast<TheoraEncodeInputPin*>(mInputPin);
+    return inputPin->GetFlipImageVerticaly();
 }

@@ -47,7 +47,7 @@ TheoraEncodeInputPin::TheoraEncodeInputPin(AbstractTransformFilter* inParentFilt
 	,	m_uptoFrame(0)
 	,	m_hasBegun(false)
 	,	m_numFrames(0)
-    ,   m_isImageFlipped(false)
+    ,   m_flipImageVerticaly(false)
 
 {
 	//debugLog.open("g:\\logs\\theoencfiltinput.log", ios_base::out);
@@ -654,7 +654,7 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 
     long stride = 0;
 
-    if (m_isImageFlipped)
+    if (m_flipImageVerticaly)
     {
         stride = m_width * 3;
         pSource = inBuf;
@@ -731,7 +731,7 @@ long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumByt
 
     long stride = 0;
 
-    if (m_isImageFlipped)
+    if (m_flipImageVerticaly)
     {
         stride = m_width * 4;
         pSource = inBuf;
@@ -1424,11 +1424,6 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 			m_averageTimePerFrame = videoFormat->AvgTimePerFrame;
 			m_width = videoFormat->bmiHeader.biWidth;
             m_height = std::abs(videoFormat->bmiHeader.biHeight);
-
-            if (videoFormat->bmiHeader.biHeight > 0)
-            {
-                m_isImageFlipped = true;
-            }
 		}
 		else if (inMediaType->formattype == FORMAT_VideoInfo)
 		{
@@ -1437,11 +1432,6 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 			m_averageTimePerFrame = videoFormat->AvgTimePerFrame;
 			m_width = videoFormat->bmiHeader.biWidth;
             m_height = std::abs(videoFormat->bmiHeader.biHeight);
-
-            if (videoFormat->bmiHeader.biHeight > 0)
-            {
-                m_isImageFlipped = true;
-            }
 		}
 
 		if (m_averageTimePerFrame == 0)
@@ -1465,4 +1455,14 @@ HRESULT TheoraEncodeInputPin::SetMediaType(const CMediaType* inMediaType)
 theora_info* TheoraEncodeInputPin::theoraInfo() 
 {
 	return &m_theoraInfo;
+}
+
+bool TheoraEncodeInputPin::GetFlipImageVerticaly() const
+{
+    return m_flipImageVerticaly;
+}
+
+void TheoraEncodeInputPin::SetFlipImageVerticaly( bool val )
+{
+    m_flipImageVerticaly = val;
 }

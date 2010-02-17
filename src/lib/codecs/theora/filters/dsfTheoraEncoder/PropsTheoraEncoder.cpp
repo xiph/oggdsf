@@ -3,7 +3,7 @@
 
 PropsTheoraEncoder::PropsTheoraEncoder(     LPUNKNOWN inUnk
                                         ,   HRESULT* outHR)
-	:	CBasePropertyPage(      NAME("illiminable Theora Encoder")
+	:	CBasePropertyPage(      NAME("Xiph.Org Theora Encoder")
                             ,   inUnk
                             ,   IDD_THEORA_ENCODE_SETTINGS
                             ,   IDS_THEORA_ENC_PROPS_STRING)
@@ -85,6 +85,12 @@ HRESULT PropsTheoraEncoder::OnApplyChanges(void)
         mTheoraEncodeSettings->setAllowDroppedFrames(true);
     } else {
         mTheoraEncodeSettings->setAllowDroppedFrames(false);
+    }
+
+    if (SendDlgItemMessage(m_hwnd,IDC_FLIP_VERTICAL_IMAGE, BM_GETCHECK, NOT_USED, NOT_USED)) {
+        mTheoraEncodeSettings->setFlipImageVerticaly(true);
+    } else {
+        mTheoraEncodeSettings->setFlipImageVerticaly(false);
     }
 
     mTheoraEncodeSettings->setNoiseSensitivity(SendDlgItemMessage(m_hwnd,IDC_LIST_NOISE_SENS, LB_GETCURSEL, NOT_USED, NOT_USED));
@@ -201,6 +207,7 @@ HRESULT PropsTheoraEncoder::OnActivate(void)
         SendDlgItemMessage(m_Dlg, IDC_CHECK_ALLOW_DROP_FRAMES, BM_SETCHECK, (WPARAM)(mTheoraEncodeSettings->allowDroppedFrames() ? BST_CHECKED : BST_UNCHECKED), NOT_USED);
         SendDlgItemMessage(m_Dlg, IDC_CHECK_QUICK_MODE, BM_SETCHECK, (WPARAM)(mTheoraEncodeSettings->isUsingQuickMode() ? BST_CHECKED : BST_UNCHECKED), NOT_USED);
         SendDlgItemMessage(m_Dlg, IDC_FIXED_KFI_CHECK, BM_SETCHECK, (WPARAM)(mTheoraEncodeSettings->isFixedKeyframeInterval() ? BST_CHECKED : BST_UNCHECKED), NOT_USED);
+        SendDlgItemMessage(m_Dlg, IDC_FLIP_VERTICAL_IMAGE, BM_SETCHECK, (WPARAM)(mTheoraEncodeSettings->getFlipImageVerticaly() ? BST_CHECKED : BST_UNCHECKED), NOT_USED);
 
         //TODO::: Disable
         setDialogQualityModeView(mTheoraEncodeSettings->isUsingQualityMode());
@@ -354,6 +361,11 @@ INT_PTR PropsTheoraEncoder::OnReceiveMessage(HWND hwnd,  UINT uMsg, WPARAM wPara
                 } else if (HWND(lParam) == GetDlgItem(m_hwnd, IDC_CHECK_QUALITY_MODE)) {
                     SetDirty();
                     setDialogQualityModeView(SendDlgItemMessage(m_hwnd,IDC_CHECK_QUALITY_MODE, BM_GETCHECK, NOT_USED, NOT_USED));
+                } else if (HWND(lParam) == GetDlgItem(m_hwnd, IDC_FLIP_VERTICAL_IMAGE)) {
+                    SetDirty();
+                    if (SendDlgItemMessage(m_hwnd,IDC_FLIP_VERTICAL_IMAGE, BM_GETCHECK, NOT_USED, NOT_USED)) {
+                        //Do we even need to catch this one?
+                    }
                 }
             } else if (HIWORD(wParam) == LBN_SELCHANGE) {
                 if (HWND(lParam) == GetDlgItem(m_hwnd, IDC_LIST_SHARPNESS)) {

@@ -39,7 +39,8 @@ DECLARE_INTERFACE_(ITheoraEncodeSettings, IUnknown) {
     virtual STDMETHODIMP_(bool) setKeyframeFreqMin(unsigned long inKeyframeFreqMin) PURE;
     virtual STDMETHODIMP_(bool) setKeyframeAutoThreshold(long inKeyframeAutoThreshold) PURE;
 
-
+    virtual STDMETHODIMP_(void) setFlipImageVerticaly(bool flipImageVerticaly) PURE;
+    virtual STDMETHODIMP_(bool) getFlipImageVerticaly() PURE;
 };
 
 #ifdef __cplusplus
