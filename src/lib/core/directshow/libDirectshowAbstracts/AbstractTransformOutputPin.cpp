@@ -170,12 +170,22 @@ HRESULT AbstractTransformOutputPin::GetMediaType(int inPosition, CMediaType *out
 
 HRESULT AbstractTransformOutputPin::DeliverNewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate) 
 {
+    if (!mDataQueue)
+    {
+        return S_FALSE;
+    }
+
 	mDataQueue->NewSegment(inStartTime, inStopTime, inRate);
 	return S_OK;
 }
 HRESULT AbstractTransformOutputPin::DeliverEndOfStream(void) 
 {
-	//Lock ?????
+    if (!mDataQueue)
+    {
+        return S_FALSE;
+    }
+
+    //Lock ?????
 	mDataQueue->EOS();
     return S_OK;
 }
@@ -183,7 +193,12 @@ HRESULT AbstractTransformOutputPin::DeliverEndOfStream(void)
 HRESULT AbstractTransformOutputPin::DeliverEndFlush(void) 
 {
 	CAutoLock locLock(m_pLock);
-	
+
+    if (!mDataQueue)
+    {
+        return S_FALSE;
+    }
+
 	mDataQueue->EndFlush();
     return S_OK;
 }
@@ -191,7 +206,12 @@ HRESULT AbstractTransformOutputPin::DeliverEndFlush(void)
 HRESULT AbstractTransformOutputPin::DeliverBeginFlush(void) 
 {
 	CAutoLock locLock(m_pLock);
-	
+
+    if (!mDataQueue)
+    {
+        return S_FALSE;
+    }
+
 	mDataQueue->BeginFlush();
     return S_OK;
 }

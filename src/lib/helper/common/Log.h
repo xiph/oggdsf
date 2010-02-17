@@ -99,6 +99,9 @@ template <typename T>
 std::wostringstream& LogT<T>::Get(LogLevel level)
 {
     os << L"- " << NowTime();
+    os << std::setfill(L'0') << std::hex;
+    os << L" (0x" << std::setw(2) << ::GetCurrentThreadId() << L")";
+    os << std::setfill(L' ') << std::dec;
     os << L" " << ToString(level) << L": ";
     os << std::wstring(level > logDEBUG ? level - logDEBUG : 0, L'\t');
 

@@ -184,7 +184,6 @@ void HTTPStreamingFileSource::unChunk(unsigned char* inBuff, unsigned long inNum
 	//Debugging
 	if (strcmp((const char*)mInterBuff, "1000") == 0) {
 		debugLog<<"---- Probably failure point"<<endl;
-		int x= x;
 	}
 }
 void HTTPStreamingFileSource::DataProcessLoop() {
@@ -192,7 +191,6 @@ void HTTPStreamingFileSource::DataProcessLoop() {
 	int locNumRead = 0;
 	char* locBuff = NULL;
 	DWORD locCommand = 0;
-	bool locSeenAny = false;
 	debugLog<<"Starting dataprocessloop"<<endl;
 
 	mIsBufferFilling = false;

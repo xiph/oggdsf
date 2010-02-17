@@ -727,7 +727,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetDuration(LONGLONG* pDuration)
 
 	*pDuration = mSeekTable->fileDuration();
 
-    LOG(logDEBUG3) << "IMediaSeeking::GetDuration([out] " << ToString(*pDuration) << ") -> 0x" << std::hex << S_OK;
+    LOG(logDEBUG3) << "IMediaSeeking::GetDuration(" << ReferenceTime(*pDuration) << ") -> 0x" << std::hex << S_OK;
 
     return S_OK;
 }
@@ -743,7 +743,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::CheckCapabilities(DWORD *pCapabilities)
         result = S_FALSE;
     }
 
-    LOG(logDEBUG3) << "IMediaSeeking::CheckCapabilities([out]  " << *pCapabilities << ") -> 0x" << std::hex << result;
+    LOG(logDEBUG3) << "IMediaSeeking::CheckCapabilities(" << *pCapabilities << ") -> 0x" << std::hex << result;
 
     return result;
 }
@@ -757,7 +757,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::IsFormatSupported(const GUID *pFormat)
         result = S_OK;
     } 
 
-    LOG(logDEBUG3) << "IMediaSeeking::IsFormatSupported([in] " << ToString(*pFormat) << ") -> 0x" << std::hex << result;
+    LOG(logDEBUG3) << "IMediaSeeking::IsFormatSupported(" << ToString(*pFormat) << ") -> 0x" << std::hex << result;
 
     return result;
 }
@@ -766,14 +766,14 @@ STDMETHODIMP OggDemuxPacketSourceFilter::QueryPreferredFormat(GUID *pFormat)
 {
 	*pFormat = TIME_FORMAT_MEDIA_TIME;
 
-    LOG(logDEBUG3) << "IMediaSeeking::QueryPreferredFormat([out] " << ToString(*pFormat) << ") -> 0x" << std::hex << S_OK; 
+    LOG(logDEBUG3) << "IMediaSeeking::QueryPreferredFormat(" << ToString(*pFormat) << ") -> 0x" << std::hex << S_OK; 
 
 	return S_OK;
 }
 
 STDMETHODIMP OggDemuxPacketSourceFilter::SetTimeFormat(const GUID *pFormat)
 {
-    LOG(logDEBUG3) << "IMediaSeeking::SetTimeFormat([in] " << ToString(pFormat) << ") -> 0x" << std::hex << E_NOTIMPL; 
+    LOG(logDEBUG3) << "IMediaSeeking::SetTimeFormat(" << ToString(pFormat) << ") -> 0x" << std::hex << E_NOTIMPL; 
 	
     return E_NOTIMPL;
 }
@@ -782,7 +782,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetTimeFormat( GUID *pFormat)
 {
 	*pFormat = TIME_FORMAT_MEDIA_TIME;
 
-    LOG(logDEBUG3) << "IMediaSeeking::GetTimeFormat([out] " << ToString(*pFormat) << ") -> 0x" << std::hex << S_OK; 
+    LOG(logDEBUG3) << "IMediaSeeking::GetTimeFormat(" << ToString(*pFormat) << ") -> 0x" << std::hex << S_OK; 
 
     return S_OK;
 }
@@ -796,7 +796,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetStopPosition(LONGLONG *pStop)
 
     *pStop = mSeekTable->fileDuration();
 
-    LOG(logDEBUG3) << "IMediaSeeking::GetStopPosition([out] " << ToString(*pStop) << ") -> 0x" << std::hex << S_OK;
+    LOG(logDEBUG3) << "IMediaSeeking::GetStopPosition(" << ReferenceTime(*pStop) << ") -> 0x" << std::hex << S_OK;
 
 	return S_OK;
 }
@@ -808,9 +808,9 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetCurrentPosition(LONGLONG *pCurrent)
 
 STDMETHODIMP OggDemuxPacketSourceFilter::ConvertTimeFormat(LONGLONG *pTarget, const GUID *pTargetFormat, LONGLONG Source, const GUID *pSourceFormat)
 {
-    LOG(logDEBUG3) << "IMediaSeeking::ConvertTimeFormat([out] " << ToString(pTarget) 
-        << ", [in] " << ToString(pTargetFormat) << ", [in] " << ToString(Source)
-        << ", [in] " << ToString(pSourceFormat) << ") -> 0x" << std::hex << E_NOTIMPL;
+    LOG(logDEBUG3) << "IMediaSeeking::ConvertTimeFormat(" << ToString(pTarget) 
+        << ", " << ToString(pTargetFormat) << ", " << ToString(Source)
+        << ", " << ToString(pSourceFormat) << ") -> 0x" << std::hex << E_NOTIMPL;
 
     return E_NOTIMPL;
 }
@@ -819,8 +819,8 @@ STDMETHODIMP OggDemuxPacketSourceFilter::SetPositions(LONGLONG *pCurrent,DWORD d
 {
     CAutoLock locLock(m_pLock);
 
-    LOG(logDEBUG3) << "IMediaSeeking::SetPositions([in, out] " << ToString(pCurrent) << ", [in] " << dwCurrentFlags
-        << ", [in, out] " << ToString(pStop) << ", [in] " << dwStopFlags << ") -> 0x" << std::hex << S_OK;
+    LOG(logDEBUG3) << "IMediaSeeking::SetPositions(" << ReferenceTime(*pCurrent) << ", " << dwCurrentFlags
+        << ", " << ReferenceTime(*pStop) << ", " << dwStopFlags << ") -> 0x" << std::hex << S_OK;
 
     if (mSeekTable == NULL || !mSeekTable->enabled())  
     {
@@ -870,7 +870,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGL
     *pEarliest = 0;
     *pLatest = mSeekTable->fileDuration();
 
-    LOG(logDEBUG3) << "IMediaSeeking::GetAvailable([out] " << ToString(*pEarliest) << ", [out] " << ToString(*pLatest)
+    LOG(logDEBUG3) << "IMediaSeeking::GetAvailable(" << ToString(*pEarliest) << ", " << ToString(*pLatest)
         << ") -> 0x" << std::hex << S_OK;
 
     return S_OK;
@@ -889,7 +889,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::SetRate(double dRate)
         result = E_INVALIDARG;
     }
 
-    LOG(logDEBUG3) << "IMediaSeeking::SetRate([in] " << std::setprecision(3) << std::showpoint
+    LOG(logDEBUG3) << "IMediaSeeking::SetRate(" << std::setprecision(3) << std::showpoint
         << dRate << ") -> 0x" << std::hex << result;
 
     return result;
@@ -899,7 +899,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetRate(double *dRate)
 {
     *dRate = 1.0;
 
-    LOG(logDEBUG3) << "IMediaSeeking::GetRate([out] " << std::setprecision(3) << std::showpoint
+    LOG(logDEBUG3) << "IMediaSeeking::GetRate(" << std::setprecision(3) << std::showpoint
         << *dRate << ") -> 0x" << std::hex << S_OK;
 
     return S_OK;
@@ -909,7 +909,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetPreroll(LONGLONG *pllPreroll)
 {
     *pllPreroll = 0;
 
-    LOG(logDEBUG3) << "IMediaSeeking::GetPreroll([out] " << ToString(*pllPreroll) << ") -> 0x" << std::hex << S_OK;
+    LOG(logDEBUG3) << "IMediaSeeking::GetPreroll(" << ToString(*pllPreroll) << ") -> 0x" << std::hex << S_OK;
 
     return S_OK;
 }
@@ -923,7 +923,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::IsUsingTimeFormat(const GUID *pFormat)
         result = S_OK;
     }
 
-    LOG(logDEBUG3) << "IMediaSeeking::IsUsingTimeFormat([in] " << ToString(*pFormat) << ") -> 0x" << std::hex << result;
+    LOG(logDEBUG3) << "IMediaSeeking::IsUsingTimeFormat(" << ToString(*pFormat) << ") -> 0x" << std::hex << result;
 
     return result;
 }
