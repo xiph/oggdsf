@@ -279,8 +279,8 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
 
 	inFormatBuffer->bmiHeader.biCompression = m_outputVideoParams[inPosition].fourCC;
-	inFormatBuffer->bmiHeader.biWidth = locFilter->m_theoraFormatInfo->pictureWidth;
-	inFormatBuffer->bmiHeader.biHeight = locFilter->m_theoraFormatInfo->pictureHeight; 
+	inFormatBuffer->bmiHeader.biWidth = ((locFilter->m_theoraFormatInfo->pictureWidth + 15) >> 4) << 4;
+	inFormatBuffer->bmiHeader.biHeight = ((locFilter->m_theoraFormatInfo->pictureHeight + 15) >> 4) << 4; 
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);   
 	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
@@ -315,11 +315,11 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
 	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
 
 	inFormatBuffer->bmiHeader.biCompression = m_outputVideoParams[inPosition].fourCC;
-	inFormatBuffer->bmiHeader.biHeight = locFilter->m_theoraFormatInfo->pictureHeight;
+	inFormatBuffer->bmiHeader.biHeight = ((locFilter->m_theoraFormatInfo->pictureHeight + 15) >> 4) << 4;
+    inFormatBuffer->bmiHeader.biWidth = ((locFilter->m_theoraFormatInfo->pictureWidth + 15) >> 4) << 4;
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
-	inFormatBuffer->bmiHeader.biWidth = locFilter->m_theoraFormatInfo->pictureWidth;
 	inFormatBuffer->bmiHeader.biXPelsPerMeter = 0;   //Fuck knows
 	inFormatBuffer->bmiHeader.biYPelsPerMeter = 0;   //" " " " " 
 	
@@ -523,7 +523,7 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 		return locHR;
 	}
 
-	LOG(logDEBUG) << "Buffer allocated";
+    LOG(logINFO) << __FUNCTIONW__ << " Buffer size: " << locActualAlloc.cbBuffer << ", buffers: " << locActualAlloc.cBuffers;
 
 	return S_OK;
 }
