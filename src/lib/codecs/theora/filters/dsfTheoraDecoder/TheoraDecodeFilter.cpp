@@ -280,7 +280,7 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 
 	inFormatBuffer->bmiHeader.biCompression = m_outputVideoParams[inPosition].fourCC;
 	inFormatBuffer->bmiHeader.biWidth = locFilter->m_theoraFormatInfo->pictureWidth;
-	inFormatBuffer->bmiHeader.biHeight = 0 - locFilter->m_theoraFormatInfo->pictureHeight; 
+	inFormatBuffer->bmiHeader.biHeight = locFilter->m_theoraFormatInfo->pictureHeight; 
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);   
 	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
@@ -315,7 +315,7 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
 	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
 
 	inFormatBuffer->bmiHeader.biCompression = m_outputVideoParams[inPosition].fourCC;
-	inFormatBuffer->bmiHeader.biHeight = 0 - locFilter->m_theoraFormatInfo->pictureHeight;
+	inFormatBuffer->bmiHeader.biHeight = locFilter->m_theoraFormatInfo->pictureHeight;
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
