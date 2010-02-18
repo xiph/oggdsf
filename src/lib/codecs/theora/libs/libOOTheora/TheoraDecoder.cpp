@@ -31,6 +31,7 @@
 
 #include "stdafx.h"
 #include "theoradecoder.h"
+#include "common/Log.h"
 
 TheoraDecoder::TheoraDecoder()
 	: mFirstPacket(true)
@@ -61,6 +62,7 @@ bool TheoraDecoder::initCodec()
 yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) 
 {		
     //Accepts packet and deletes it.
+    LOG(logDEBUG3) << __FUNCTIONW__;
 
 	if (mPacketCount < 3) 
     {
@@ -72,6 +74,7 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket)
 			//TODO::: Post processing http://people.xiph.org/~tterribe/doc/libtheora-exp/theoradec_8h.html#a1
 		}
 		
+        LOG(logDEBUG3) << __FUNCTIONW__ << " PacketCount under 3: " << mPacketCount;
 		return NULL;
 	} 
     else 
@@ -85,6 +88,8 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket)
         {
 			//Ignore header packets
 			delete inPacket;
+
+            LOG(logDEBUG3) << __FUNCTIONW__ << " Ignoring header packets";
 			return NULL;
 		}
 
@@ -108,7 +113,9 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket)
 		if (	!	(	(mYCbCrBuffer[1].width == mYCbCrBuffer[2].width)
 					&&	(mYCbCrBuffer[1].height == mYCbCrBuffer[2].height)
 					&&	(mYCbCrBuffer[1].stride == mYCbCrBuffer[2].stride)
-					)) {
+					)) 
+        {
+            LOG(logERROR) << "Not 4:2:0 - OOTheora needs fixing";
 			throw "Not 4:2:0 - OOTheora needs fixing";
 		}
 

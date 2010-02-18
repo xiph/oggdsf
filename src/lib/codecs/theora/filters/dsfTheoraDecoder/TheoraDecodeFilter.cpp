@@ -394,8 +394,8 @@ HRESULT TheoraDecodeFilter::CheckOutputType(const CMediaType* inMediaType)
 	if (inMediaType->majortype == MEDIATYPE_Video) 
     {
 		LOG(logDEBUG) << "Querying for video - FAIL";
-		LOG(logDEBUG) << "Sub type = " << inMediaType->subtype.Data1 << "-" << inMediaType->subtype.Data2 << "-" << inMediaType->subtype.Data3 << "-";
-		LOG(logDEBUG) << "format type = " << inMediaType->formattype.Data1 << "-" << inMediaType->formattype.Data2 << "-" << inMediaType->formattype.Data3 << "-";
+		LOG(logDEBUG) << "Sub type = " << inMediaType->subtype;
+		LOG(logDEBUG) << "format type = " << inMediaType->formattype;
 	} 
     else 
     {
@@ -777,12 +777,12 @@ HRESULT TheoraDecodeFilter::DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample
     BYTE* locBuffer = NULL;
 	outSample->GetPointer(&locBuffer);
 
-    unsigned char * ptry = inYUVBuffer->y + m_xOffset * inYUVBuffer->y_stride;
-    unsigned char * ptru = inYUVBuffer->u + (m_xOffset / 2) * inYUVBuffer->uv_stride;
-    unsigned char * ptrv = inYUVBuffer->v + (m_xOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptry = inYUVBuffer->y + m_yOffset * inYUVBuffer->y_stride;
+    unsigned char * ptru = inYUVBuffer->u + (m_yOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptrv = inYUVBuffer->v + (m_yOffset / 2) * inYUVBuffer->uv_stride;
 	unsigned char * ptro = locBuffer;
 
-	for (unsigned long i = m_yOffset; i < m_pictureHeight + m_yOffset; ++i) 
+	for (unsigned long i = 0; i < m_pictureHeight; ++i) 
 	{
 		unsigned char* ptro2 = ptro;
 		for (unsigned long j = m_xOffset; j < m_pictureWidth + m_xOffset; j += 2) 
@@ -839,12 +839,12 @@ HRESULT TheoraDecodeFilter::DecodeToRGB32(yuv_buffer* inYUVBuffer, IMediaSample*
 	unsigned char* locBuffer = NULL;
 	outSample->GetPointer(&locBuffer);
 
-    unsigned char * ptry = inYUVBuffer->y + m_xOffset * inYUVBuffer->y_stride;
-    unsigned char * ptru = inYUVBuffer->u + (m_xOffset / 2) * inYUVBuffer->uv_stride;
-    unsigned char * ptrv = inYUVBuffer->v + (m_xOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptry = inYUVBuffer->y + m_yOffset * inYUVBuffer->y_stride;
+    unsigned char * ptru = inYUVBuffer->u + (m_yOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptrv = inYUVBuffer->v + (m_yOffset / 2) * inYUVBuffer->uv_stride;
 	unsigned char * ptro = locBuffer;
 
-	for (unsigned long i = m_yOffset; i < m_pictureHeight + m_yOffset; i++) 
+	for (unsigned long i = 0; i < m_pictureHeight; i++) 
 	{
 		unsigned char* ptro2 = ptro;
 		for (unsigned long j = m_xOffset; j < m_pictureWidth + m_xOffset; j += 2) 
@@ -897,12 +897,12 @@ HRESULT TheoraDecodeFilter::DecodeToYUY2(yuv_buffer* inYUVBuffer, IMediaSample* 
     unsigned char* locBuffer = NULL;
     outSample->GetPointer(&locBuffer);
 
-    unsigned char * ptry = inYUVBuffer->y + m_xOffset * inYUVBuffer->y_stride;
-    unsigned char * ptru = inYUVBuffer->u + (m_xOffset / 2) * inYUVBuffer->uv_stride;
-    unsigned char * ptrv = inYUVBuffer->v + (m_xOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptry = inYUVBuffer->y + m_yOffset * inYUVBuffer->y_stride;
+    unsigned char * ptru = inYUVBuffer->u + (m_yOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptrv = inYUVBuffer->v + (m_yOffset / 2) * inYUVBuffer->uv_stride;
     unsigned char * ptro = locBuffer;
 
-    for (unsigned long i = m_yOffset; i < m_pictureHeight + m_yOffset; ++i) 
+    for (unsigned long i = 0; i < m_pictureHeight; ++i) 
     {
         unsigned char* ptro2 = ptro;
         for (unsigned long j = m_xOffset; j < m_pictureWidth + m_xOffset; j += 2) 
@@ -934,9 +934,9 @@ HRESULT TheoraDecodeFilter::DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* 
 	BYTE* locBuffer = NULL;
 	outSample->GetPointer(&locBuffer);
 
-    unsigned char * ptry = inYUVBuffer->y + m_xOffset * inYUVBuffer->y_stride;
-    unsigned char * ptru = inYUVBuffer->u + (m_xOffset / 2) * inYUVBuffer->uv_stride;
-    unsigned char * ptrv = inYUVBuffer->v + (m_xOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptry = inYUVBuffer->y + m_yOffset * inYUVBuffer->y_stride;
+    unsigned char * ptru = inYUVBuffer->u + (m_yOffset / 2) * inYUVBuffer->uv_stride;
+    unsigned char * ptrv = inYUVBuffer->v + (m_yOffset / 2) * inYUVBuffer->uv_stride;
     unsigned char * ptro = locBuffer;
 
 	for (unsigned long line = 0; line < m_pictureHeight; ++line) 
@@ -1012,9 +1012,10 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 			//LOG(logDEBUG) << "Setting format block";
 			SetTheoraFormat(inMediaType->pbFormat);
 			
-			//Set some other stuff here too...
+            // TODO: after using th_decode_headerin to get the theora informations
+            // remove the vertical flip of the yoffset
 			m_xOffset = m_theoraFormatInfo->xOffset;
-			m_yOffset = m_theoraFormatInfo->yOffset;
+			m_yOffset = m_theoraFormatInfo->outerFrameHeight - m_theoraFormatInfo->pictureHeight - m_theoraFormatInfo->yOffset;
 
 			m_pictureWidth = m_theoraFormatInfo->pictureWidth;
 			m_pictureHeight = m_theoraFormatInfo->pictureHeight;
@@ -1072,6 +1073,8 @@ void TheoraDecodeFilter::SetTheoraFormat(BYTE* inFormatBlock)
 {
 	delete m_theoraFormatInfo;
 	m_theoraFormatInfo = new sTheoraFormatBlock;			//Deelted in destructor.
+
+    // TODO: replace code blow with th_decode_headerin
 
 	//0		-	55			theora ident						0	-	6
 	//56	-	63			ver major							7	-	7
