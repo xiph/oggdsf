@@ -33,9 +33,8 @@
 #include "libootheora.h"
 #include <libOOOgg/dllstuff.h>
 #include <libOOOgg/StampedOggPacket.h>
-extern "C" {
-#include "theora_cdecl.h"
-}
+#include <theora/theora.h>
+
 class LIBOOTHEORA_API TheoraEncoder
 {
 public:

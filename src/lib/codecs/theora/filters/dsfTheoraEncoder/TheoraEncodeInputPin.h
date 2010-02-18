@@ -33,10 +33,6 @@
 #include "theoraencoderdllstuff.h"
 #include "TheoraEncoder.h"
 
-extern "C" {
-#include "theora_cdecl.h"
-}
-
 
 //Mmmmm macrolicious !
 //#define INT_FLOOR(num,scale) (num - (num % scale))

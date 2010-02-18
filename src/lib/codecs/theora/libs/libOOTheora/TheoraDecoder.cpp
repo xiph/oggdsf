@@ -32,76 +32,57 @@
 #include "stdafx.h"
 #include "theoradecoder.h"
 
-TheoraDecoder::TheoraDecoder(void)
+TheoraDecoder::TheoraDecoder()
 	: mFirstPacket(true)
 	, mFirstHeader(true)
 	, mPacketCount(0)
-#ifdef USE_THEORA_EXP
-	, mTheoraSetup(NULL)
-	, mTheoraState(NULL)
-#endif
+	, mTheoraSetup(0)
+	, mTheoraState(0)
 {
-#ifndef USE_THEORA_EXP
-	memset(&mTheoraState, 0, sizeof(mTheoraState));
-#endif
 }
 
-TheoraDecoder::~TheoraDecoder(void)
+TheoraDecoder::~TheoraDecoder()
 {
-#ifdef USE_THEORA_EXP
 	th_comment_clear(&mTheoraComment);
 	th_info_clear(&mTheoraInfo);
 
 	th_decode_free(mTheoraState);
 	th_setup_free(mTheoraSetup);
-#else
-	theora_comment_clear(&mTheoraComment); 
-	theora_info_clear(&mTheoraInfo); 
-
-	theora_clear(&mTheoraState); 
-#endif
-
 }
 
 bool TheoraDecoder::initCodec() 
 {
-#ifdef USE_THEORA_EXP
 	th_comment_init(&mTheoraComment);
 	th_info_init(&mTheoraInfo);
-
-#else
-	theora_comment_init(&mTheoraComment);
-	theora_info_init(&mTheoraInfo);
-#endif
 	
 	return true;
  }
 
+yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) 
+{		
+    //Accepts packet and deletes it.
 
-
-yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts packet and deletes it.
-
-	if (mPacketCount < 3) {
+	if (mPacketCount < 3) 
+    {
 		decodeHeader(inPacket);		//Accepts header and deletes it.
 
-		if (mPacketCount == 3) {
-#ifdef USE_THEORA_EXP
+		if (mPacketCount == 3) 
+        {
 			mTheoraState = th_decode_alloc(&mTheoraInfo, mTheoraSetup);
-#else
-			theora_decode_init(&mTheoraState, &mTheoraInfo);
-#endif
 			//TODO::: Post processing http://people.xiph.org/~tterribe/doc/libtheora-exp/theoradec_8h.html#a1
-
 		}
-
 		
 		return NULL;
-	} else {
-		//if (mFirstPacket) {
+	} 
+    else 
+    {
+		//if (mFirstPacket) 
+        //{
 		//	theora_decode_init(&mTheoraState, &mTheoraInfo);
 		//	mFirstPacket = false;
 		//}
-		if ((inPacket->packetSize() > 0) && ((inPacket->packetData()[0] & 128) != 0)) {
+		if (inPacket->packetSize() > 0 && (inPacket->packetData()[0] & 128) != 0) 
+        {
 			//Ignore header packets
 			delete inPacket;
 			return NULL;
@@ -109,16 +90,11 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts
 
 		ogg_packet* locOldPack = simulateOldOggPacket(inPacket);		//Accepts the packet and deletes it.
 
-#ifdef USE_THEORA_EXP
-
 		th_decode_packetin(mTheoraState, locOldPack, NULL);
-#else
-		theora_decode_packetin(&mTheoraState, locOldPack);
-#endif
-		delete locOldPack->packet;
+
+        delete locOldPack->packet;
 		delete locOldPack;
 		
-#ifdef USE_THEORA_EXP
 		th_decode_ycbcr_out(mTheoraState, mYCbCrBuffer);
 
 		//TODO:::
@@ -145,26 +121,27 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket) {		//Accepts
 		mYUVBuffer.uv_stride = mYCbCrBuffer[1].stride;
 		mYUVBuffer.u = mYCbCrBuffer[1].data;
 		mYUVBuffer.v = mYCbCrBuffer[2].data;
-
-#else
-		//Ignore return value... always returns 0 (or crashes :)
-		theora_decode_YUVout(&mTheoraState, &mYUVBuffer);
-#endif
 		
 		return &mYUVBuffer;
 	}
-
 }
 
-ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) {		//inPacket is accepted and deleted.
+ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) 
+{		
+    //inPacket is accepted and deleted.
 	const unsigned char NOT_USED = 0;
 	ogg_packet* locOldPacket = new ogg_packet;		//Returns this... the caller is responsible for it.
-	if (mFirstHeader) {
+	
+    if (mFirstHeader) 
+    {
 		locOldPacket->b_o_s = 1;
 		mFirstHeader = false;
-	} else {
+	} 
+    else 
+    {
 		locOldPacket->b_o_s = NOT_USED;
 	}
+
 	locOldPacket->e_o_s = NOT_USED;
 	locOldPacket->bytes = inPacket->packetSize();
 	locOldPacket->granulepos = inPacket->endTime();
@@ -181,26 +158,26 @@ ogg_packet* TheoraDecoder::simulateOldOggPacket(StampedOggPacket* inPacket) {		/
 bool TheoraDecoder::isKeyFrame(StampedOggPacket* inPacket)
 {
 	const unsigned char KEY_FRAME_FLAG = 0x40;
-	if ((inPacket->packetSize() > 0) && (inPacket->packetData() != NULL)) {
+	if (inPacket->packetSize() > 0 && inPacket->packetData() != NULL) 
+    {
 		return ((inPacket->packetData()[0] & KEY_FRAME_FLAG) == KEY_FRAME_FLAG) ? false : true;
-	} else {
-		return false;
-	}
+	} 
+
+    return false;
 }
+
 bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket) 
-{		//inHeaderPacket is accepted and deleted.
+{		
+    //inHeaderPacket is accepted and deleted.
 	//TODO::: Error handling
 
 	ogg_packet* locOldPack = simulateOldOggPacket(inHeaderPacket);		//Accepts packet and deletes it.
 
-#ifdef USE_THEORA_EXP
-	th_decode_headerin(&mTheoraInfo, &mTheoraComment, &mTheoraSetup, locOldPack);
-#else
-	theora_decode_header(&mTheoraInfo, &mTheoraComment, locOldPack);
-#endif
+    th_decode_headerin(&mTheoraInfo, &mTheoraComment, &mTheoraSetup, locOldPack);
 
 	delete locOldPack->packet;
 	delete locOldPack;
-	mPacketCount++;
+
+    mPacketCount++;
 	return true;
 }
