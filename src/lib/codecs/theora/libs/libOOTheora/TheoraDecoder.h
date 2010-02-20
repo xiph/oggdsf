@@ -56,7 +56,7 @@ public:
 	/// Returns true if the packet is a keyframe.
 	bool isKeyFrame(StampedOggPacket* inPacket);
 
-    th_info mTheoraInfo;
+    th_pixel_fmt GetPixelFormat() const;
 
 protected:
 
@@ -68,6 +68,7 @@ protected:
 
 	//theora_info mTheoraInfo;
 
+    th_info mTheoraInfo;
     th_ycbcr_buffer mYCbCrBuffer;
 	th_comment mTheoraComment;
 	th_setup_info* mTheoraSetup;

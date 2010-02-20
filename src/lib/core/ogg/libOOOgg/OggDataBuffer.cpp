@@ -31,7 +31,7 @@
 
 #include "stdafx.h"
 #include <libOOOgg/OggDataBuffer.h>
-
+#include "common/Log.h"
 
 //LEAK CHECKED - 2004/10/17		-	OK.
 //LEAK FOUND - 2004/11/29  -  acceptOggPage
@@ -43,7 +43,6 @@ OggDataBuffer::OggDataBuffer(void)
 	,	mNumBytesNeeded(OggPageHeader::OGG_BASE_HEADER_SIZE)
 {
 	mBuffer = new CircularBuffer(MAX_OGG_PAGE_SIZE);			//Deleted in destructor
-	//debugLog.open("G:\\logs\\OggDataBuffer.log", ios_base::out);
 }
 
 //Debug only
@@ -66,8 +65,6 @@ OggDataBuffer::~OggDataBuffer(void)
 	mBuffer = 0;
 	delete pendingPage;
 	pendingPage = 0;
-	//debugLog.close();
-	
 }
 
 
@@ -104,45 +101,58 @@ bool OggDataBuffer::registerStaticCallback(fPageCallback inPageCallback, void* i
     IOggCallback class for more information.
   */
 
-bool OggDataBuffer::registerVirtualCallback(IOggCallback* inPageCallback) {
+bool OggDataBuffer::registerVirtualCallback(IOggCallback* inPageCallback) 
+{
 	//Holds the virtual callback and nulls the static one.
 	mVirtualCallback = inPageCallback;
 	mStaticCallback = NULL;
 
-	return true;
-	
+	return true;	
 }
 
 
-unsigned long OggDataBuffer::numBytesAvail() {
+unsigned long OggDataBuffer::numBytesAvail() 
+{
 	//Returns how many bytes are available in the buffer
 	unsigned long locBytesAvail = mBuffer->numBytesAvail();	
 
-	//debugLog<<"Bytes avail = "<<locBytesAvail<<endl;
+	// LOG(logDEBUG1) << "Bytes avail = " << locBytesAvail;
 	return locBytesAvail;
 }
 
-OggDataBuffer::eState OggDataBuffer::state() {
+OggDataBuffer::eState OggDataBuffer::state() 
+{
 	//returns the state of the stream
 	return mState;
 }
-//This function accepts the responsibility for the incoming page.
-OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
-	//TODO::: Who owns this pointer inOggPage ?
 
-	//debugLog<<"Dispatching page..."<<endl<<endl;
+//This function accepts the responsibility for the incoming page.
+OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) 
+{
+	//TODO::: Who owns this pointer inOggPage ?
+    // LOG(logDEBUG1) << "Dispatching page to: " << mVirtualCallback;
 
 	//Fire off the oggpage to whoever is registered to get it
-	if (mVirtualCallback != NULL) {
-		if (mVirtualCallback->acceptOggPage(inOggPage) == true) {		//Page given away, never used again.
+	if (mVirtualCallback != NULL) 
+    {
+		if (mVirtualCallback->acceptOggPage(inOggPage) == true) 
+        {		
+            //Page given away, never used again.
 			return DISPATCH_OK;
-		} else {
+		} 
+        else 
+        {
 			return DISPATCH_FALSE;
 		}
-	} else if (mStaticCallback != NULL) {
-		if (mStaticCallback(inOggPage, mStaticCallbackUserData) == true) {
+	} 
+    else if (mStaticCallback != NULL) 
+    {
+		if (mStaticCallback(inOggPage, mStaticCallbackUserData) == true) 
+        {
 			return DISPATCH_OK;	
-		} else {
+		} 
+        else 
+        {
 			return DISPATCH_FALSE;
 		}
 	}
@@ -154,44 +164,50 @@ OggDataBuffer::eDispatchResult OggDataBuffer::dispatch(OggPage* inOggPage) {
 	return DISPATCH_NO_CALLBACK;
 }
 
-OggDataBuffer::eFeedResult OggDataBuffer::feed(const unsigned char* inData, unsigned long inNumBytes) {
-	if (inNumBytes != 0) {
-		if (inData != NULL) {
+OggDataBuffer::eFeedResult OggDataBuffer::feed(const unsigned char* inData, unsigned long inNumBytes)
+{
+	if (inNumBytes != 0) 
+    {
+		if (inData != NULL) 
+        {
 			//Buffer is not null and there is at least 1 byte of data.
 			
-			//debugLog<<"Fed "<<inNumBytes<<" bytes..."<<endl;
+			// LOG(logDEBUG1) << "Fed " << inNumBytes << " bytes...";
 			unsigned long locNumWritten = mBuffer->write(inData, inNumBytes);
 
-			if (locNumWritten < inNumBytes) {
+			if (locNumWritten < inNumBytes) 
+            {
 				//TODO::: What does happen in this case.
 
 				//Handle this case... you lose data.
 				//Buffer is full
 				
-				//debugLog<<"Feed : Could count feed in " <<inNumBytes<<" bytes"<<endl
-				//		<<"Feed : ** "<<mBuffer->numBytesAvail()<<" avail, "<<mBuffer->spaceLeft()<<" space left."<<endl;
+				// LOG(logDEBUG1) << "Feed : Could count feed in " << inNumBytes <<" bytes";
+				// LOG(logDEBUG1) << "Feed : ** "<< mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";
 
 				locNumWritten = locNumWritten;
 			}
 			return (eFeedResult)processBuffer();
-		} else {
+		} 
+        else 
+        {
 			//Numbytes not equal to zero but inData pointer is NULL
 
-			//debugLog<<"Feed : Fed NULL Pointer"<<endl;
+			// LOG(logDEBUG1) << "Feed : Fed NULL Pointer";
 			return FEED_NULL_POINTER;
 		}
-	} else {
+	} 
+    else 
+    {
 		//numbytes was zero... we do nothing and it's not an error.
 		
-		//debugLog<<"Feed : Fed *zero* bytes... Not an error, do nothing, return ok."<<endl;
+		// LOG(logDEBUG1) << "Feed : Fed *zero* bytes... Not an error, do nothing, return ok.";
 		return FEED_OK;
-	}
-		
-	
+	}	
 }
 OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader() 
 {
-		//debugLog<<"Processing base header..."<<endl;
+		// LOG(logDEBUG1) << "Processing base header..." <<endl;
 		
 		//Delete the previous page
 		delete pendingPage;
@@ -202,23 +218,25 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader()
 		//Make a local buffer for the header
 		unsigned char* locBuff = new unsigned char[OggPageHeader::OGG_BASE_HEADER_SIZE];		//deleted before this function returns
 		
-		//debugLog<<"ProcessBaseHeader : Reading from stream..."<<endl;
+		// LOG(logDEBUG1) << "ProcessBaseHeader : Reading from stream...";
 		
 		//STREAM ACCESS::: Read
 		unsigned long locNumRead = mBuffer->read(locBuff, OggPageHeader::OGG_BASE_HEADER_SIZE);
 		
-		if (locNumRead < OggPageHeader::OGG_BASE_HEADER_SIZE) {
+		if (locNumRead < OggPageHeader::OGG_BASE_HEADER_SIZE) 
+        {
 			//TODO::: Handle this case... we read less than we expected.
 			//The buffer handles it for us, it won't let us read less, and will return 0
 			//	This is fine for valid files, but still needs to be reviewed.
 
-			//debugLog<<"ProcessBaseHeader : ###### Read was short."<<endl;
-			//debugLog<<"ProcessBaseHeader : ** "<<mBuffer->numBytesAvail()<<" avail, "<<mBuffer->spaceLeft()<<" space left."<<endl;
+			// LOG(logDEBUG1) << "ProcessBaseHeader : ###### Read was short.";
+			// LOG(logDEBUG1) << "ProcessBaseHeader : ** "<< mBuffer->numBytesAvail() <<" avail, " << mBuffer->spaceLeft() <<" space left.";
 			locNumRead = locNumRead;
 		}
 
 		bool locRetVal = pendingPage->header()->setBaseHeader((unsigned char*)locBuff);		//Views pointer only.
-		if (locRetVal == false) {
+		if (locRetVal == false) 
+        {
 			delete[] locBuff;
 			return PROCESS_FAILED_TO_SET_HEADER;
 		}
@@ -226,12 +244,13 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader()
 		//Set the number of bytes we want for next time
 		mNumBytesNeeded = pendingPage->header()->NumPageSegments();
 
-		//debugLog<<"Setting state to AWAITING_SEG_TABLE"<<endl;
-		//Change the state.
+		// LOG(logDEBUG1) << "Setting state to AWAITING_SEG_TABLE";
+
+        //Change the state.
 		mState = AWAITING_SEG_TABLE;
 
 		delete[] locBuff;
-		//debugLog<<"Bytes needed for seg table = "<<mNumBytesNeeded<<endl;	
+		// LOG(logDEBUG1) << "Bytes needed for seg table = " << mNumBytesNeeded<<endl;	
 		return PROCESS_OK;
 }
 OggDataBuffer::eProcessResult OggDataBuffer::processSegTable() 
@@ -244,29 +263,28 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable()
 	//Assumes a valid pending page, with numPagesegments set in the header already.
 	//creates a chunk of memory size numpagesegments and stores it,.
 
-	//debugLog<<"Processing Segment Table..."<<endl;
+	// LOG(logDEBUG1) << "Processing Segment Table...";
 
 	//TODAY::: What happens when numpage segments is zero.
 
 	//Save a local copy of the number of page segments - Get this from the already set header.
 	unsigned char locNumSegs = pendingPage->header()->NumPageSegments();
 
-	//debugLog<<"Num segments = "<<(int)locNumSegs<<endl;
+	// LOG(logDEBUG1) << "Num segments = " <<(int)locNumSegs;
 
 	//Make a local buffer the size of the segment table. 0 - 255
 	unsigned char* locBuff = new unsigned char[locNumSegs];				//Given to setSegmentTable. Not deleted here.
 	
-	////debugLog<<"ProcessSegTable : Reading from buffer..."<<endl;
+	// LOG(logDEBUG1) << "ProcessSegTable : Reading from buffer...";
 
 	//Read the segment table from the buffer to locBuff
 	unsigned long locNumRead = mBuffer->read(locBuff, (unsigned long)locNumSegs);
 	
-	if (locNumRead < locNumSegs) {
+	if (locNumRead < locNumSegs) 
+    {
 		//TODO::: Handle this case
-
-		//debugLog<<"ProcessSegTable : ##### Short read"<<endl;
-		//debugLog<<"ProcessSegTable : ** "<<mBuffer->numBytesAvail()<<" avail, "<<mBuffer->spaceLeft()<<" space left."<<endl;
-		
+		// LOG(logDEBUG1) << "ProcessSegTable : ##### Short read";
+		// LOG(logDEBUG1) << "ProcessSegTable : ** "<< mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";		
 	}
 
 
@@ -277,8 +295,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable()
 	//Set the number of bytes we want for next time - which is the size of the page data.
 	mNumBytesNeeded = pendingPage->header()->calculateDataSize();
 
-	//debugLog<<"Num bytes needed for data = "<< mNumBytesNeeded<<endl;
-	//debugLog<<"Transition to AWAITING_DATA"<<endl;
+	// LOG(logDEBUG1) << "Num bytes needed for data = " << mNumBytesNeeded;
+	// LOG(logDEBUG1) << "Transition to AWAITING_DATA";
 	
 	mState = AWAITING_DATA;
 	return PROCESS_OK;
@@ -287,9 +305,9 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable()
 
 OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment() 
 {
-	//unsigned long locPageDataSize = pendingPage->header()->dataSize();  //unused
-	
-	//debugLog<<"ProcessDataSegment : Page data size = "<<locPageDataSize<<endl;
+	unsigned long locPageDataSize = pendingPage->header()->dataSize();  //unused	
+	// LOG(logDEBUG1) << "ProcessDataSegment : Page data size = " << locPageDataSize;
+
 	unsigned char* locBuff = NULL;
 	//unsigned long locPacketOffset = 0;
 
@@ -298,14 +316,14 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment()
 	unsigned char* locSegTable = pendingPage->header()->SegmentTable();			//View only don't delete.
 	unsigned int locNumSegs = pendingPage->header()->NumPageSegments();
 	
-	//debugLog<<"ProcessDataSegment : Num segs = "<<locNumSegs<<endl;
-
+	// LOG(logDEBUG1) << "ProcessDataSegment : Num segs = " << locNumSegs;
 
 	unsigned long locCurrPackSize = 0;
 	bool locIsFirstPacket = true;
 	LOOG_INT64 locPrevGranPos = 0;
 
-	for (unsigned long i = 0; i < locNumSegs; i++) {
+	for (unsigned long i = 0; i < locNumSegs; i++) 
+    {
 		//Packet sums the lacing values of the segment table.
 		locCurrPackSize += locSegTable[i];
 
@@ -324,7 +342,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment()
 			Lacing values for a Packet never end with 255... if multiple of 255 have a next 0 lacing value.
 		*/
 		
-		if ( (locSegTable[i] != 255) || (locNumSegs - 1 == i) ) {
+		if ( (locSegTable[i] != 255) || (locNumSegs - 1 == i) ) 
+        {
 			//If its the last lacing value or the the lacing value is not 255 (ie packet boundry)
 			
 			//This pointer is given to the packet... it deletes it.
@@ -335,22 +354,24 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment()
 			
 			unsigned long locNumRead = mBuffer->read(locBuff, locCurrPackSize);
 			
-			if (locNumRead < locCurrPackSize) {
+			if (locNumRead < locCurrPackSize) 
+            {
 				//TODO::: Handle this case.
 
-				//debugLog<<"ProcessDataSegment : ###### Short read"<<endl;
-				//debugLog<<"ProcessDataSegment : ** "<<mBuffer->numBytesAvail()<<" avail, "<<mBuffer->spaceLeft()<<" space left."<<endl;
+				// LOG(logDEBUG1) << "ProcessDataSegment : ###### Short read";
+				// LOG(logDEBUG1) << "ProcessDataSegment : ** " << mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";
 				locNumRead = locNumRead;
 			}
 
-			//debugLog<<"Adding packet - size = "<<locCurrPackSize<<endl;
+			// LOG(logDEBUG1) << "Adding packet - size = "<<locCurrPackSize;
 			
 			//A packet ends when a lacing value is not 255. So the check for != 255 means the isComplete property of the packet is not set unless the
 			// lacing value is not equal to 255.
 			//ERROR CHECK:::
 			bool locIsContinuation = false;
 			
-			if (locIsFirstPacket) {
+			if (locIsFirstPacket) 
+            {
 				locIsFirstPacket = false;
 
 				//Remember what the granule pos was and get it from the new page.
@@ -376,29 +397,35 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment()
 	//Update the state for how many bytes are now needed
 	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	
-	//debugLog<<"ProcessDataSegment : num bytes needed = "<<mNumBytesNeeded<<endl;
+	// LOG(logDEBUG1) << "ProcessDataSegment : num bytes needed = "<<mNumBytesNeeded;
 
 	//Dispatch the finished pagbve
 	eDispatchResult locRet = dispatch(pendingPage);			//The dispatch function takes responsibility for this page.
 	pendingPage = NULL;   //We give away the pointer
 	
-	if (locRet == DISPATCH_OK) {
-        //debugLog<<"ProcessDataSegment : Transition to AWAITING_BASE_HEADER"<<endl;
+	if (locRet == DISPATCH_OK) 
+    {
+        // LOG(logDEBUG1) << "ProcessDataSegment : Transition to AWAITING_BASE_HEADER";
 		mState = AWAITING_BASE_HEADER;
 		return PROCESS_OK;
-	} else if (locRet == DISPATCH_FALSE) {
+	} 
+    else if (locRet == DISPATCH_FALSE) 
+    {
 		mState = AWAITING_BASE_HEADER;
 		return PROCESS_DISPATCH_FALSE;	
-	} else {
-		//debugLog<<"ProcessDataSegment : Dispatch failed."<<endl;
+	} 
+    else 
+    {
+		// LOG(logDEBUG1) << "ProcessDataSegment : Dispatch failed.";
 		return PROCESS_DISPATCH_FAILED;
-	}
-		
+	}		
 }
-void OggDataBuffer::clearData() {
+
+void OggDataBuffer::clearData() 
+{
 	mBuffer->reset();
 	mPrevGranPos = 0;
-	//debugLog<<"ClearData : Transition back to AWAITING_BASE_HEADER"<<endl;
+	// LOG(logDEBUG1) << "ClearData : Transition back to AWAITING_BASE_HEADER";
 	
 	// This might leak, but fixes crash with invalid data
 	pendingPage = 0;
@@ -406,28 +433,32 @@ void OggDataBuffer::clearData() {
 	mNumBytesNeeded = OggPageHeader::OGG_BASE_HEADER_SIZE;
 	mState = AWAITING_BASE_HEADER;
 
-	////debugLog<<"ClearData : Num bytes needed = "<<mNumBytesNeeded<<endl;
+	// LOG(logDEBUG1) << "ClearData : Num bytes needed = " << mNumBytesNeeded;
 }
 
-OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
-		
+OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() 
+{		
 	eProcessResult locResult = PROCESS_OK;
 
-	while (numBytesAvail() >= mNumBytesNeeded) {
-		////debugLog<<"ProcessBuffer : Bytes Needed = "<<mNumBytesNeeded<<" --- "<<"Bytes avail = "<<numBytesAvail()<<endl;
-		switch (mState) {
+	while (numBytesAvail() >= mNumBytesNeeded) 
+    {
+		// LOG(logDEBUG1) << "ProcessBuffer : Bytes Needed = " << mNumBytesNeeded << " --- " << "Bytes avail = "<< numBytesAvail();
+		switch (mState) 
+        {
 
 			//QUERY:::	Should it be a bug when the if state inside the switch falls through,... potential for infinite loop.
 			case AWAITING_BASE_HEADER:
-				//debugLog<<"ProcessBuffer : State = AWAITING_BASE_HEADER"<<endl;
+				// LOG(logDEBUG1) << "ProcessBuffer : State = AWAITING_BASE_HEADER";
 				
 				//If theres enough data to form the base header
-				if (numBytesAvail() >= OggPageHeader::OGG_BASE_HEADER_SIZE) {
-					//debugLog<<"ProcessBuffer : Enough to process..."<<endl;
+				if (numBytesAvail() >= OggPageHeader::OGG_BASE_HEADER_SIZE) 
+                {
+					// LOG(logDEBUG1) << "ProcessBuffer : Enough to process...";
 					
 					locResult = processBaseHeader();
                     
-					if (locResult != PROCESS_OK) {
+					if (locResult != PROCESS_OK) 
+                    {
 						mState = LOST_PAGE_SYNC;
 						//Base header process failed
 						return locResult;
@@ -436,15 +467,17 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				break;
 			
 			case AWAITING_SEG_TABLE:
-				//debugLog<<"ProcessBuffer : State = AWAITING_SEG_TABLE"<<endl;
+				// LOG(logDEBUG1) << "ProcessBuffer : State = AWAITING_SEG_TABLE";
 				
 				//If there is enough data to get the segt table
-				if (numBytesAvail() >= pendingPage->header()->NumPageSegments()) {
-					//debugLog<<"ProcessBuffer : Enough to process..."<<endl;
+				if (numBytesAvail() >= pendingPage->header()->NumPageSegments()) 
+                {
+					// LOG(logDEBUG1) << "ProcessBuffer : Enough to process...";
 					
 					locResult = processSegTable();
                
-					if (locResult != PROCESS_OK) {
+					if (locResult != PROCESS_OK) 
+                    {
 						mState = LOST_PAGE_SYNC;
 						//segment table process failed
 						return locResult;
@@ -453,31 +486,32 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 				break;
 
 			case AWAITING_DATA:
-				//debugLog<<"ProcessBuffer : State = AWAITING_DATA"<<endl;
+				// LOG(logDEBUG1) << "ProcessBuffer : State = AWAITING_DATA";
 				//If all the data segment is available
-				if (numBytesAvail() >= pendingPage->header()->dataSize()) {
-					//debugLog<<"ProcessBuffer : Enough to process..."<<endl;
+				if (numBytesAvail() >= pendingPage->header()->dataSize()) 
+                {
+					// LOG(logDEBUG1) << "ProcessBuffer : Enough to process...";
 
 					//FIX::: Need error check.
 					locResult = processDataSegment();
 					
-					if (locResult == PROCESS_DISPATCH_FAILED) {
+					if (locResult == PROCESS_DISPATCH_FAILED) 
+                    {
 						mState = LOST_PAGE_SYNC;
 						//segment table process failed
 						return locResult;
 					}
-
 				}	
 				break;
 			case LOST_PAGE_SYNC:
 				//TODO::: Insert resync code here.
 
-				//debugLog<<"ProcessBuffer : State = LOST_PAGE_SYNC"<<endl;
+				// LOG(logDEBUG1) << "ProcessBuffer : State = LOST_PAGE_SYNC";
 				return PROCESS_LOST_SYNC;
 			default:
 				//TODO::: What are we supposed to do with this. Anything need cleaning up ?
 				
-				//debugLog<<"ProcessBuffer : Ogg Buffer Error"<<endl;
+				LOG(logDEBUG1) << __FUNCTIONW__ << " Ogg Buffer Error";
 				return PROCESS_UNKNOWN_INTERNAL_ERROR;
 				break;
 		}
@@ -485,10 +519,5 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer() {
 
 	//There wasn't enough data to progress if we are here.
 	return locResult;
-
 }
 
-//Debug Only
-void OggDataBuffer::debugWrite(string inString) {
-	//debugLog<<inString<<endl;
-}

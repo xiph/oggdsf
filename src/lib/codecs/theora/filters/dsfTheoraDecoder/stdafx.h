@@ -42,6 +42,7 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "common/log.h"
 

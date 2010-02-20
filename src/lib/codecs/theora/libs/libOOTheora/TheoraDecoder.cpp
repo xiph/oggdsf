@@ -108,16 +108,7 @@ yuv_buffer* TheoraDecoder::decodeTheora(StampedOggPacket* inPacket)
 		//
 		//Need to probably use the theora-exp buffer type and change all the
 		// uses of yuv_buffer to handle this, and avoid assumptions about
-		// the relative size of the Y and U and V buffers
-
-		if (	!	(	(mYCbCrBuffer[1].width == mYCbCrBuffer[2].width)
-					&&	(mYCbCrBuffer[1].height == mYCbCrBuffer[2].height)
-					&&	(mYCbCrBuffer[1].stride == mYCbCrBuffer[2].stride)
-					)) 
-        {
-            LOG(logERROR) << "Not 4:2:0 - OOTheora needs fixing";
-			throw "Not 4:2:0 - OOTheora needs fixing";
-		}
+		// the relative size of the Y and U and V buffer
 
 		mYUVBuffer.y_width = mYCbCrBuffer[0].width;
 		mYUVBuffer.y_height = mYCbCrBuffer[0].height;
@@ -187,4 +178,9 @@ bool TheoraDecoder::decodeHeader(StampedOggPacket* inHeaderPacket)
 
     mPacketCount++;
 	return true;
+}
+
+th_pixel_fmt TheoraDecoder::GetPixelFormat() const
+{
+    return mTheoraInfo.pixel_fmt;
 }

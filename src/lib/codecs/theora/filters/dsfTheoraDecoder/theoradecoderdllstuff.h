@@ -83,4 +83,5 @@ struct sTheoraFormatBlock
 	unsigned char xOffset;
 	unsigned char yOffset;
 	unsigned char colourSpace;
+    unsigned char pixelFormat;
 };

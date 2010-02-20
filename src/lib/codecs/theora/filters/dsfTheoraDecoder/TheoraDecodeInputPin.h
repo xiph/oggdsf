@@ -71,9 +71,9 @@ public:
 protected:
 
 #ifdef WINCE
-	static const unsigned long THEORA_NUM_BUFFERS = 20;
+	static const unsigned long THEORA_NUM_BUFFERS = 15;
 #else
-	static const unsigned long THEORA_NUM_BUFFERS = 50;
+	static const unsigned long THEORA_NUM_BUFFERS = 30;
 #endif
 
 	enum eTheoraSetupState 

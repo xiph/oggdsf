@@ -91,10 +91,18 @@ protected:
 	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
 
     HRESULT TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd);
-    HRESULT DecodeToYUY2(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
-    HRESULT DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
-    HRESULT DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
-    HRESULT DecodeToRGB32(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd) ;
+
+    void DecodeToAYUV(yuv_buffer* inYUVBuffer, IMediaSample* outSample);    
+    void DecodeToYUY2(yuv_buffer* inYUVBuffer, IMediaSample* outSample);    
+    void DecodeToYUY2_42x(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool fullHeight);
+    void DecodeToYV12(yuv_buffer* inYUVBuffer, IMediaSample* outSample);
+    void DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* outSample);
+    void DecodeToRGB32(yuv_buffer* inYUVBuffer, IMediaSample* outSample);
+    void DecodeToRGB32_42x(yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool fullHeight);
+    void DecodeToRGB32_444(yuv_buffer* inYUVBuffer, IMediaSample* outSample);
+
+    void Setup42xMediaTypes();
+    void Setup444MediaTypes();
 
 protected:
     static const unsigned long THEORA_IDENT_HEADER_SIZE = 42;

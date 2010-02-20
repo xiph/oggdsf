@@ -63,9 +63,9 @@ STDMETHODIMP TheoraDecodeInputPin::NonDelegatingQueryInterface(REFIID riid, void
 HRESULT TheoraDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps)
 {
 	TheoraDecodeFilter* locParent = (TheoraDecodeFilter*)m_pFilter;
-	unsigned long locBuffSize = (locParent->m_theoraFormatInfo->outerFrameHeight * locParent->m_theoraFormatInfo->outerFrameWidth * 3) >> 3;
+	unsigned long locBuffSize = (locParent->m_theoraFormatInfo->outerFrameHeight * locParent->m_theoraFormatInfo->outerFrameWidth * 3) >> 2;
 
-    LOG(logDEBUG) << "Unadjusted Buffer size = " << locBuffSize;
+    LOG(logDEBUG) << __FUNCTIONW__ << " Buffer Size: " << locBuffSize;
 
 #ifdef WINCE
 	if (locBuffSize < 4096) 
@@ -78,8 +78,6 @@ HRESULT TheoraDecodeInputPin::GetAllocatorRequirements(ALLOCATOR_PROPERTIES *out
 		locBuffSize = 65536;
 	}
 #endif
-
-	LOG(logDEBUG) << "Buffer size = " << locBuffSize;
 
 	outRequestedProps->cbBuffer =  locBuffSize;
 	outRequestedProps->cBuffers = THEORA_NUM_BUFFERS;

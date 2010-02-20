@@ -871,7 +871,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetAvailable(LONGLONG *pEarliest, LONGL
     *pLatest = mSeekTable->fileDuration();
 
     LOG(logDEBUG3) << "IMediaSeeking::GetAvailable(" << ToString(*pEarliest) << ", " << ToString(*pLatest)
-        << ") -> 0x" << std::hex << S_OK;
+                   << ") -> 0x" << std::hex << S_OK;
 
     return S_OK;
 }
@@ -890,7 +890,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::SetRate(double dRate)
     }
 
     LOG(logDEBUG3) << "IMediaSeeking::SetRate(" << std::setprecision(3) << std::showpoint
-        << dRate << ") -> 0x" << std::hex << result;
+                   << dRate << ") -> 0x" << std::hex << result;
 
     return result;
 }
@@ -900,7 +900,7 @@ STDMETHODIMP OggDemuxPacketSourceFilter::GetRate(double *dRate)
     *dRate = 1.0;
 
     LOG(logDEBUG3) << "IMediaSeeking::GetRate(" << std::setprecision(3) << std::showpoint
-        << *dRate << ") -> 0x" << std::hex << S_OK;
+                   << *dRate << ") -> 0x" << std::hex << S_OK;
 
     return S_OK;
 }

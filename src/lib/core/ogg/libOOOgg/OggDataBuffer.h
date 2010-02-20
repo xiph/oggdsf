@@ -74,14 +74,9 @@ public:
 											(OggPageHeader::MAX_NUM_SEGMENTS * OggPageHeader::MAX_SEGMENT_SIZE) +		//Page Data
 											(OggPageHeader::SEGMENT_WIDTH * OggPageHeader::MAX_NUM_SEGMENTS);			//Segment table
 
-	//Debug only
-	//OggDataBuffer::OggDataBuffer(bool x);
-	void debugWrite(string inString);
-	//
-
 	//Constructors
-	OggDataBuffer(void);
-	virtual ~OggDataBuffer(void);
+	OggDataBuffer();
+	virtual ~OggDataBuffer();
 
 	/// Register as a callback, which gets called when data is received via our feed() method.
 	bool registerStaticCallback(fPageCallback inPageCallback, void* inUserData);

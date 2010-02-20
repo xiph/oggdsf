@@ -47,7 +47,7 @@ public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	//OggDemuxPacketSourcePin(void);
+	//OggDemuxPacketSourcePin();
 	OggDemuxPacketSourcePin(	TCHAR* inObjectName, 
 							OggDemuxPacketSourceFilter* inParentFilter,
 							CCritSec* inFilterLock,
@@ -59,7 +59,7 @@ public:
 							//bool inAllowSeek,
 							//unsigned long inNumBuffers,
 							//unsigned long inBufferSize);
-	virtual ~OggDemuxPacketSourcePin(void);
+	virtual ~OggDemuxPacketSourcePin();
 
 	static const unsigned long NUM_PAGE_BUFFERS = 100;
 
@@ -83,9 +83,9 @@ public:
 
 	//Pin streaming methods
 	virtual HRESULT DeliverNewSegment(REFERENCE_TIME inStart, REFERENCE_TIME inStop, double inRate);
-	virtual HRESULT DeliverEndOfStream(void);
-	virtual HRESULT DeliverEndFlush(void);
-	virtual HRESULT DeliverBeginFlush(void);
+	virtual HRESULT DeliverEndOfStream();
+	virtual HRESULT DeliverEndFlush();
+	virtual HRESULT DeliverBeginFlush();
 
 	//IOggOutputPin interface
 	virtual bool notifyStreamBaseTime(__int64 inStreamTime);

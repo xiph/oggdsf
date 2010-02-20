@@ -128,6 +128,15 @@ namespace util
         }
     }
 
+    struct Deleter
+    {	
+        template<typename T>
+        void operator()(const T* arg) const
+        {	
+            delete arg;
+        }
+    };
+
 }
 
 #endif // UTIL_H
