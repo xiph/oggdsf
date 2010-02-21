@@ -1,4 +1,4 @@
-Version 0.82.16929
+Version 0.82.16930
 
     * Updated Theora to version 1.1.1
     * Updated Vorbis to version 1.2.3
