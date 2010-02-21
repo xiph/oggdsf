@@ -703,6 +703,8 @@ void TheoraDecodeFilter::DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* o
     unsigned char * ptrv = inYUVBuffer->v + (m_yOffset / 2) * inYUVBuffer->uv_stride;
 	unsigned char * ptro = locBuffer;
 
+    unsigned long stride = (m_bmiWidth * 2 + 3) & ~3;
+
 	for (unsigned long i = 0; i < m_pictureHeight; ++i) 
 	{
 		unsigned char* ptro2 = ptro;
@@ -745,7 +747,7 @@ void TheoraDecodeFilter::DecodeToRGB565(yuv_buffer* inYUVBuffer, IMediaSample* o
 			ptru += inYUVBuffer->uv_stride;
 			ptrv += inYUVBuffer->uv_stride;
 		}
-		ptro += m_bmiWidth * 2;
+		ptro += stride;
 	}
 }
 
@@ -920,6 +922,8 @@ void TheoraDecodeFilter::DecodeToYUY2_42x(yuv_buffer* inYUVBuffer, IMediaSample*
     unsigned char * ptrv = inYUVBuffer->v + (m_yOffset / 2) * inYUVBuffer->uv_stride;
     unsigned char * ptro = locBuffer;
 
+    unsigned long stride = (m_bmiWidth * 2 + 3) & ~3;
+
     for (unsigned long i = 0; i < m_pictureHeight; ++i) 
     {
         unsigned char* ptro2 = ptro;
@@ -937,7 +941,7 @@ void TheoraDecodeFilter::DecodeToYUY2_42x(yuv_buffer* inYUVBuffer, IMediaSample*
             ptru += inYUVBuffer->uv_stride;
             ptrv += inYUVBuffer->uv_stride;
         }
-        ptro += m_bmiWidth * 2;
+        ptro += stride;
     }
 }
 
@@ -1045,8 +1049,9 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 			m_xOffset = m_theoraFormatInfo->xOffset;
 			m_yOffset = m_theoraFormatInfo->outerFrameHeight - m_theoraFormatInfo->pictureHeight - m_theoraFormatInfo->yOffset;
 
-			m_pictureWidth = m_theoraFormatInfo->pictureWidth;
-			m_pictureHeight = m_theoraFormatInfo->pictureHeight;
+            // Round up to multiple of two, to remove artefacts when the picture dimensions are not divisible by two
+			m_pictureWidth = (m_theoraFormatInfo->pictureWidth >> 1) << 1;
+			m_pictureHeight = (m_theoraFormatInfo->pictureHeight >> 1) << 1;
 
 			//How many UNITS does one frame take.
 			m_frameDuration = (UNITS * m_theoraFormatInfo->frameRateDenominator) / (m_theoraFormatInfo->frameRateNumerator);
