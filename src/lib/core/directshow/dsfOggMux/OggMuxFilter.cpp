@@ -38,7 +38,7 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"OggMuxFilter",						// Name
+		L"Xiph.Org Ogg Muxer",			// Name
 	    &CLSID_OggMuxFilter,            // CLSID
 	    OggMuxFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
@@ -137,7 +137,7 @@ ULONG OggMuxFilter::GetMiscFlags(void)
 //------------------
 
 OggMuxFilter::OggMuxFilter()
-	:	CBaseFilter(NAME("OggMuxFilter"), NULL, m_pLock, CLSID_OggMuxFilter)
+	:	CBaseFilter(NAME("Xiph.Org Ogg Muxer"), NULL, m_pLock, CLSID_OggMuxFilter)
 	,	mInterleaver(NULL)
 {
 	mInterleaver = new OggPageInterleaver(this, this);

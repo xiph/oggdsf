@@ -1,6 +1,6 @@
 ﻿;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Copyright (C) 2005 - 2006 Zentaro Kavanagh 
-; Copyright (C) 2008 - 2009 Cristian Adam
+; Copyright (C) 2008 - 2010 Cristian Adam
 ;
 ; NSIS install script for oggcodecs
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -158,10 +158,10 @@ var ICONS_GROUP
 !insertmacro MUI_LANGUAGE "English" 
 
 !if "$%X64%" == "true" 
-  Name "${PRODUCT_NAME} ${PRODUCT_VERSION} 64-bit"
+  Name "${PRODUCT_PUBLISHER} ${PRODUCT_NAME} ${PRODUCT_VERSION} 64-bit"
   InstallDir "$PROGRAMFILES64\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 !else
-  Name "${PRODUCT_NAME} ${PRODUCT_VERSION} 32-bit"
+  Name "${PRODUCT_PUBLISHER} ${PRODUCT_NAME} ${PRODUCT_VERSION} 32-bit"
   InstallDir "$PROGRAMFILES\${PRODUCT_PUBLISHER}\${PRODUCT_NAME}"
 !endif
 
@@ -381,9 +381,7 @@ Section "Oggcodecs Core Files" SEC_CORE
   File "${OGGCODECS_ROOT_DIR}\bin\xifish.ico"
 
 
-  ; Text files - 9
-  File "${OGGCODECS_ROOT_DIR}\ABOUT.txt"
-  File "${OGGCODECS_ROOT_DIR}\VERSIONS"
+  ; Text files - 7
   File "${OGGCODECS_ROOT_DIR}\README"
   File "${OGGCODECS_ROOT_DIR}\COPYRIGHTS.rtf"
   File "${OGGCODECS_ROOT_DIR}\COPYRIGHTS"
@@ -423,7 +421,10 @@ Section "Oggcodecs Core Files" SEC_CORE
   ; File "bin\dsfAnxDemux.dll"
   File "bin\dsfAnxMux.dll"                                           
 
-  File "bin\wmpinfo.dll"                                           
+  File "bin\wmpinfo.dll"
+
+  ; HTML <video> Tag Implementation
+  File "bin\AxPlayer.dll"
 
   SetDetailsPrint textonly
   DetailPrint "Registering DirectShow Filters ..."
@@ -453,11 +454,7 @@ Section "Oggcodecs Core Files" SEC_CORE
   
   ;!insertmacro RegisterCOM "$INSTDIR\dsfAnxDemux.dll" 
   !insertmacro RegisterCOM "$INSTDIR\dsfAnxMux.dll"
-
-  IfSilent +3
-  Push $INSTDIR\Install.log
-  Call DumpLog
-
+  
   SetDetailsPrint textonly
   DetailPrint "Writing Registry Entries ..."
   SetDetailsPrint listonly
@@ -668,13 +665,30 @@ SectionGroupEnd
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+${MementoUnselectedSection} "HTML5 <video> tag for Internet Explorer" SEC_VIDEO_TAG
+  SectionIn 1 
+
+!if "$%X64%" == "true"
+  SetRegView 64
+!endif
+
+  !insertmacro RegisterCOM "$INSTDIR\AxPlayer.dll"
+  
+  ; Add AxPlayer XMLNamespace registry value
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" "{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}"
+
+${MementoSectionEnd}
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 LangString DESC_OggCoreSection ${LANG_ENGLISH} "Core files for ${PRODUCT_NAME}"
-LangString DESC_OggExtensionAudioByDefault ${LANG_ENGLISH} "Makes files with .ogg extension default to the audio section in Windows Media Player Library."
 LangString DESC_OggOpensInWMP ${LANG_ENGLISH} "Associates Ogg Files with Windows Media Player, so you can double click them in explorer."
+LangString DESC_OggVideoTag ${LANG_ENGLISH} "Technical Preview! Add support for HTML5 <video> tag in Internet Explorer."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_CORE} $(DESC_OggCoreSection)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_USE_WMP_FOR_OGG} $(DESC_OggOpensInWMP)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_VIDEO_TAG} $(DESC_OggVideoTag)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
@@ -689,6 +703,11 @@ Section -AdditionalIcons
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   WriteIniStr "$SMPROGRAMS\$ICONS_GROUP\Website.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   !insertmacro MUI_STARTMENU_WRITE_END
+  
+  IfSilent +3
+  Push $INSTDIR\Install.log
+  Call DumpLog
+
 SectionEnd
 
 ${MementoSectionDone}
@@ -804,6 +823,8 @@ Section Uninstall
   !insertmacro UnRegisterCOM "$INSTDIR\dsfVorbisDecoder.dll"
 
   !insertmacro UnRegisterCOM "$INSTDIR\dsfOGMDecoder.dll"
+  
+  !insertmacro UnRegisterCOM "$INSTDIR\AxPlayer.dll"
 
   SetDetailsPrint textonly
   DetailPrint "Deleting Registry Entries ..."
@@ -889,6 +910,9 @@ Section Uninstall
   DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".ogv"
   DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".spx"
   DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".flac"
+  
+  ; Delete the AxPlayer XMLNamespace registry value
+  DeleteRegValue HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" 
 
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
  
@@ -924,10 +948,10 @@ Section Uninstall
   Delete "$INSTDIR\dsfAnxMux.dll"
   ; Delete "$INSTDIR\dsfAnxDemux.dll"
   Delete "$INSTDIR\wmpinfo.dll"
+  
+  Delete "$INSTDIR\AxPlayer.dll"
 
-  ; Delete text files - 9
-  Delete "$INSTDIR\ABOUT.txt"
-  Delete "$INSTDIR\VERSIONS"
+  ; Delete text files - 7
   Delete "$INSTDIR\README"
   Delete "$INSTDIR\COPYRIGHTS.rtf"
   Delete "$INSTDIR\COPYRIGHTS"
@@ -937,7 +961,7 @@ Section Uninstall
   Delete "$INSTDIR\ChangeLog.txt"
   Delete "$INSTDIR\Ogg Codecs.manifest" 
 
-  ; Delete runtimes - 2
+  ; Delete runtimes - 3
   Delete "$INSTDIR\${VS_RUNTIME_PREFIX}r${VS_RUNTIME_SUFFIX}.dll"
   Delete "$INSTDIR\${VS_RUNTIME_PREFIX}p${VS_RUNTIME_SUFFIX}.dll"
   Delete "$INSTDIR\Microsoft.VC${VS_RUNTIME_SUFFIX}.CRT.manifest"

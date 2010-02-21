@@ -37,7 +37,7 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"Vorbis Encode Filter",				// Name
+		L"Xiph.Org Vorbis Encoder",				// Name
 	    &CLSID_VorbisEncodeFilter,              // CLSID
 	    VorbisEncodeFilter::CreateInstance,	    // Method to create an instance of MyComponent
         NULL,									// Initialization function
@@ -67,7 +67,7 @@ CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 } 
 
 VorbisEncodeFilter::VorbisEncodeFilter(void)
-	:	AbstractTransformFilter(NAME("Vorbis Encoder"), CLSID_VorbisEncodeFilter)
+	:	AbstractTransformFilter(NAME("Xiph.Org Vorbis Encoder"), CLSID_VorbisEncodeFilter)
 {
 	bool locWasConstructed = ConstructPins();
 	//Error checks ??

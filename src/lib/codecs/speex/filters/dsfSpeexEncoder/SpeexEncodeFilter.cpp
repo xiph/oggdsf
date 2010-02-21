@@ -39,7 +39,7 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"Speex Encode Filter",						// Name
+		L"Xiph.Org Speex Encoder",						// Name
 	    &CLSID_SpeexEncodeFilter,					// CLSID
 	    SpeexEncodeFilter::CreateInstance,			// Method to create an instance of MyComponent
         NULL,										// Initialization function
@@ -102,7 +102,7 @@ STDMETHODIMP SpeexEncodeFilter::GetPages(CAUUID* outPropPages)
 }
 
 SpeexEncodeFilter::SpeexEncodeFilter(void)
-	:	AbstractTransformFilter(NAME("Speex Encoder"), CLSID_SpeexEncodeFilter)
+	:	AbstractTransformFilter(NAME("Xiph.Org Speex Encoder"), CLSID_SpeexEncodeFilter)
 {
 	bool locWasConstructed = ConstructPins();
 }

@@ -277,6 +277,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Annodex", "Annodex", "{D9FC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wmpinfo", "..\..\src\lib\helper\wmpinfo\wmpinfo-2005.vcproj", "{CF9BAF67-3ABB-4D96-A211-70532D2AA95A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AxPlayer", "..\..\src\lib\plugin\AxPlayer\AxPlayer-2005.vcproj", "{C2C1F096-2541-4B13-A57E-52F2368A0E36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1357,6 +1359,20 @@ Global
 		{CF9BAF67-3ABB-4D96-A211-70532D2AA95A}.Release|Windows Mobile 6 Professional SDK (ARMV4I).Deploy.0 = Release|Windows Mobile 6 Professional SDK (ARMV4I)
 		{CF9BAF67-3ABB-4D96-A211-70532D2AA95A}.Release|x64.ActiveCfg = Release|x64
 		{CF9BAF67-3ABB-4D96-A211-70532D2AA95A}.Release|x64.Build.0 = Release|x64
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Debug|Win32.Build.0 = Debug|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I).ActiveCfg = Debug|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Debug|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Debug|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Debug|x64.ActiveCfg = Debug|x64
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Debug|x64.Build.0 = Debug|x64
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Release|Win32.ActiveCfg = Release|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Release|Win32.Build.0 = Release|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I).ActiveCfg = Release|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Release|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Release|Win32
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Release|x64.ActiveCfg = Release|x64
+		{C2C1F096-2541-4B13-A57E-52F2368A0E36}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

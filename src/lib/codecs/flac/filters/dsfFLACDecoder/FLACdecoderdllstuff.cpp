@@ -54,7 +54,7 @@ STDAPI DllRegisterServer()
 
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_FLACDecodeFilter,						// Filter CLSID. 
-		L"FLAC Decode Filter",							// Filter name.
+		L"Xiph.Org FLAC Decoder",					// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
         NULL,							// Instance data. ???????

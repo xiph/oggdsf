@@ -19,7 +19,7 @@ set OGGCODECS_ROOT_DIR=..\..\..
 @set FILTERS=%FILTERS% dsfVorbisEncoder dsfVorbisDecoder
 @set FILTERS=%FILTERS% dsfCMMLDecoder dsfCMMLRawSource
 @set FILTERS=%FILTERS% dsfOggMux dsfAnxMux dsfOggDemux2
-@set FILTERS=%FILTERS% dsfOGMDecoder wmpinfo
+@set FILTERS=%FILTERS% dsfOGMDecoder wmpinfo AxPlayer
 
 :: First make the x86 installer
 set X64=
@@ -36,6 +36,8 @@ goto:eof
 ::---------------------------------------------------------------------------------------------------------------------------------
 
 :make_installer
+
+signtool sign /a /t http://time.certum.pl/ bin\AxPlayer.dll
 
 "%ProgramFiles%\nsis\unicode\makensis.exe" oggcodecs_release.nsi 
 

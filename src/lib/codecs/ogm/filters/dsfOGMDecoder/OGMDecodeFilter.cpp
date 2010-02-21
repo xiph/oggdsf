@@ -38,7 +38,7 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"OGM Decode Filter",					// Name
+		L"Xiph.Org OGM Decoder",			// Name
 	    &CLSID_OGMDecodeFilter,				// CLSID
 	    OGMDecodeFilter::CreateInstance,		// Method to create an instance of Speex Decoder
         NULL,									// Initialization function
@@ -51,7 +51,7 @@ CFactoryTemplate g_Templates[] =
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
 OGMDecodeFilter::OGMDecodeFilter()
-	:	CTransformFilter(NAME("OGM Video Decoder"), NULL, CLSID_OGMDecodeFilter)
+	:	CTransformFilter(NAME("Xiph.Org OGM Decoder"), NULL, CLSID_OGMDecodeFilter)
 	,	mInputPin(NULL)
 	,	mOutputPin(NULL)
 	,	mOGMGranulesBuffered(0)

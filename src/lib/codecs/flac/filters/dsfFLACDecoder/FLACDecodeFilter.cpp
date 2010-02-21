@@ -37,7 +37,7 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"FLAC Decode Filter",						// Name
+		L"Xiph.Org FLAC Decoder",						// Name
 	    &CLSID_FLACDecodeFilter,            // CLSID
 	    FLACDecodeFilter::CreateInstance,	// Method to create an instance of MyComponent
         NULL,									// Initialization function
@@ -50,7 +50,7 @@ CFactoryTemplate g_Templates[] =
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
 FLACDecodeFilter::FLACDecodeFilter(void)
-	:	AbstractTransformFilter(NAME("FLAC Audio Decoder"), CLSID_FLACDecodeFilter)
+	:	AbstractTransformFilter(NAME("Xiph.Org FLAC Decoder"), CLSID_FLACDecodeFilter)
 	,	mFLACFormatBlock(NULL)
 {
 	bool locWasConstructed = ConstructPins();

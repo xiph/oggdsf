@@ -1,3 +1,26 @@
+Version 0.82.16927
+
+    * Updated Theora to version 1.1.1
+    * Updated Vorbis to version 1.2.3
+    * Windows 7 suppport (note that contextual menu entries in Windows Explorer is not yet available - Ticket #1619)
+    * Added support for Theora 4:2:2 and 4:4:4 color sampling formats.
+    * Added HTML5 <video> tag support for Microsoft Internet Explorer. This component is not enabled by default in the
+       installer and it is only a technical preview - only basic playback (play/pause by left click button), no seeking, no
+       controls and no HTML5 <video> interfaces support.
+       To use it this functionality in Internet Explorer simply add xmlns="http://www.w3.org/1999/xhtml/video" to the 
+       <video> tag.
+    * Added 7.1 channels support for FLAC and support for files bigger than 2GBytes.
+    * Prefixed all DirectShow filters with "Xiph.Org". This should simplify usage for GraphEdit/GraphStudio users.
+    * Fixed #1474: The installer for 64-bit Stable Version (0.81.15562) - 06.12.2008 it's NOT working properly
+    * Fixed #1475: Typo in README
+    * Fixed #1490: Theroa video resumes after starting to play in wmp 9 (win xp)
+    * Fixed #1491: oggcodecs doesn't work with 6-channel FLACs
+    * Fixed #1497: Ogg Theora Video is upside down/flipped in Windows Media Player (v6.4.09 and v7.10)
+    * Fixed #1500: directshow filters messes up windows media player file open dialogue
+    * Fixed #1546: OGV file(s) are crashing WMP (12)
+    * Fixed #1563: DirectShow filter installer does not add proper "PerceivedType" REG_SZ to HKCR\.ext key
+    * Fixed #1603: Theora Videos Encoded At Around 480x360 Crash Directshow Filter
+
 Version 0.81.15562 - 06.12.2008
 
     * Updated Theora to version 1.0

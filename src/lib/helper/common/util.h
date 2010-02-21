@@ -41,7 +41,7 @@
         { \
             LOG(logERROR) << "Expression " << #expr << " in function " << func \
                 << " has failed, error code: 0x" << std::hex << hr; \
-            AtlThrow(hr); \
+            throw CAtlException(hr); \
         } \
     } while (false);
 

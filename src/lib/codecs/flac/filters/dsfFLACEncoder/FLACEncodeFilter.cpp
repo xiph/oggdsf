@@ -36,7 +36,7 @@
 CFactoryTemplate g_Templates[] = 
 {
     { 
-		L"FLAC Encode Filter",					// Name
+		L"Xiph.Org FLAC Encoder",				// Name
 	    &CLSID_FLACEncodeFilter,				// CLSID
 	    FLACEncodeFilter::CreateInstance,		// Method to create an instance of MyComponent
         NULL,									// Initialization function
@@ -99,7 +99,7 @@ STDMETHODIMP FLACEncodeFilter::GetPages(CAUUID* outPropPages)
 }
 
 FLACEncodeFilter::FLACEncodeFilter(void)
-	:	AbstractTransformFilter(NAME("FLAC Encoder"), CLSID_FLACEncodeFilter)
+	:	AbstractTransformFilter(NAME("Xiph.Org FLAC Encoder"), CLSID_FLACEncodeFilter)
 {
 	bool locWasConstructed = ConstructPins();
 }

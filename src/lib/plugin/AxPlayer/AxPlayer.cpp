@@ -76,6 +76,9 @@ STDAPI DllRegisterServer(void)
     hr = PrxDllRegisterServer();
 #endif
 
+    // IEREGISTERXMLNSFN is available in Microsoft SDK for Windows 7,
+    // which doesn't work with Visual Studio 2005
+#if _MSC_VER >= 1500
     // Microsoft has IERegisterXMLNS function in <MsHtmHst.h> but
     // didn't bother to give also a library
     HMODULE mshtml = (HMODULE)::LoadLibrary(L"mshtml.dll");
@@ -86,6 +89,7 @@ STDAPI DllRegisterServer(void)
     {
         (*ieRegisterXmlsNs)(HTML5NS, CLSID_VideoTagBehavior, TRUE);
     }
+#endif
 
 	return hr;
 }
@@ -117,7 +121,10 @@ STDAPI DllInstall(BOOL bInstall, LPCWSTR pszCmdLine)
     {
     	if (_wcsnicmp(pszCmdLine, szUserSwitch, _countof(szUserSwitch)) == 0)
     	{
+            // AtlSetPerUserRegistration is available only in Visual Studio 2008
+#if _MSC_VER >= 1500
     		AtlSetPerUserRegistration(true);
+#endif
     	}
     }
 

@@ -270,22 +270,29 @@ void DShowVideoPlayer::Thread_PrepareGraph()
 
 unsigned DShowVideoPlayer::PlaybackThreadFunc(void* arg)
 {
+    const int WAITTIME = 20;
+
     util::ComInitializer comInit;
 
     DShowVideoPlayer* self = reinterpret_cast<DShowVideoPlayer*>(arg);
 
     self->Thread_PrepareGraph();
 
-    HANDLE events[3];
-    events[0] = self->m_stopPlaybackEvent;
-    events[1] = self->m_executeFunctionEvent;
-    events[2] = self->m_filterGraph.GetMovieEventHandle();
+    std::vector<HANDLE> events;
+    events.push_back(self->m_stopPlaybackEvent);
+    events.push_back(self->m_executeFunctionEvent);
+
+    HANDLE movieEventHandle = self->m_filterGraph.GetMovieEventHandle();
+    if (movieEventHandle != INVALID_HANDLE_VALUE)
+    {
+        events.push_back(movieEventHandle);
+    }
 
     bool exit;
     do
     {
         exit = false;
-        DWORD result = ::WaitForMultipleObjects(sizeof(events) / sizeof HANDLE, events, FALSE, 10);
+        DWORD result = ::WaitForMultipleObjects(events.size(), &*events.begin(), FALSE, WAITTIME);
         
         if (result == WAIT_OBJECT_0)
         {
@@ -311,6 +318,12 @@ unsigned DShowVideoPlayer::PlaybackThreadFunc(void* arg)
                 break;
             }
         }
+        else if (result == WAIT_FAILED)
+        {
+            LOG(logERROR) << __FUNCTIONW__ << " WaitFailed, GetLastError: 0x" << std::hex << ::GetLastError();
+            ::Sleep(WAITTIME);
+        }
+
     } while (!exit);
 
     return 0;

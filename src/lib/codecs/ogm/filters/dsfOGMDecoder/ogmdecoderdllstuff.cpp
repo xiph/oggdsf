@@ -57,7 +57,7 @@ STDAPI DllRegisterServer()
 
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_OGMDecodeFilter,						// Filter CLSID. 
-		L"OGM Decode Filter",							// Filter name.
+		L"Xiph.Org OGM Decoder",					// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
         NULL,							// Instance data. ???????

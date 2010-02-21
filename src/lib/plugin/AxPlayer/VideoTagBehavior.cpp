@@ -140,6 +140,7 @@ HRESULT __stdcall VideoTagBehavior::FindBehavior(BSTR bstrBehavior, BSTR bstrBeh
             CHECK_HR(CComObject<VideoTagBehavior>::CreateInstance(&behavior));
 
             CHECK_HR(behavior->QueryInterface(IID_IElementBehavior, (void**)ppBehavior));
+            CHECK_HR(behavior->SetSite(m_oleClientSite));
         }
     }
     catch (const CAtlException& except)
@@ -314,7 +315,17 @@ void VideoTagBehavior::ParseElementAttributes()
 
             LOG(logINFO) << SRC_ATTRIBUTE << " = \"" << attributeValue << "\"";
 
-            m_videoPlayer.SetSrc(attributeValue);
+            CString src(attributeValue);
+
+            if (IsRelativeURL(src))
+            {
+                CString siteUrl = GetSiteURL();
+                siteUrl.Append(src);
+
+                src = siteUrl;
+            }
+
+            m_videoPlayer.SetSrc(src);
         }
     }
 }
@@ -346,4 +357,62 @@ void VideoTagBehavior::MovieSize(const CSize& movieSize)
     catch (const CAtlException& /*except*/)
     {
     }
+}
+
+HRESULT __stdcall VideoTagBehavior::SetSite( IUnknown *pUnkSite )
+{
+    try
+    {
+        if (pUnkSite)
+        {
+            CHECK_HR(pUnkSite->QueryInterface(IID_IOleClientSite, (void**)&m_oleClientSite));
+        }
+    }
+    catch (const CAtlException /*except*/)
+    {
+    }
+
+    return IObjectWithSiteImpl<VideoTagBehavior>::SetSite(pUnkSite);
+}
+
+CString VideoTagBehavior::GetSiteURL()
+{
+    CString siteUrl;
+
+    try
+    {
+        CComPtr<IMoniker> objectWithSiteMoniker;
+        LPOLESTR displayNameOleStr;
+
+        ATLASSERT(m_oleClientSite);
+        CHECK_HR(m_oleClientSite->GetMoniker(OLEGETMONIKER_TEMPFORUSER, OLEWHICHMK_CONTAINER, &objectWithSiteMoniker));
+        CHECK_HR(objectWithSiteMoniker->GetDisplayName(NULL, NULL, &displayNameOleStr));
+
+        siteUrl = displayNameOleStr;
+        ::CoTaskMemFree((LPVOID)displayNameOleStr);
+    }
+    catch (const CAtlException& /*except*/)
+    {
+    }
+
+    return siteUrl;
+}
+
+bool VideoTagBehavior::IsRelativeURL(const CString& url)
+{
+    // This is a very simple implementation
+    CString lowerCaseUrl(url);
+    lowerCaseUrl.MakeLower();
+
+    bool isRelative = true;
+    if (lowerCaseUrl.Find(L"http://") != -1)
+    {
+        isRelative = false;
+    }
+    else if (lowerCaseUrl.Find(L"ftp://") != -1)
+    {
+        isRelative = false;
+    }
+
+    return isRelative;
 }

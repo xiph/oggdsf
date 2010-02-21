@@ -50,7 +50,7 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
-const wchar_t* NativeFLACSourceFilter::NAME = L"Xiph.Org Native FLAC Source";
+const wchar_t* NativeFLACSourceFilter::NAME = L"Xiph.Org Native FLAC Decoder";
 
 const AMOVIESETUP_MEDIATYPE NativeFLACSourceFilter::m_mediaTypes = 
 {

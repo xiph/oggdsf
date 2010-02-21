@@ -56,7 +56,7 @@ STDAPI DllRegisterServer()
 
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_SpeexEncodeFilter,						// Filter CLSID. 
-		L"Speex Encode Filter",							// Filter name.
+		L"Xiph.Org Speex Encoder",							// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
         NULL,							// Instance data. ???????

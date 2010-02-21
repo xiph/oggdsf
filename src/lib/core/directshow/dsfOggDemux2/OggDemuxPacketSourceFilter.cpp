@@ -51,7 +51,7 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
-const wchar_t* OggDemuxPacketSourceFilter::NAME = L"Xiph.Org Ogg Demux Source";
+const wchar_t* OggDemuxPacketSourceFilter::NAME = L"Xiph.Org Ogg Demuxer";
 
 const AMOVIESETUP_PIN OggDemuxPacketSourceFilter::m_pinReg = 
 {	

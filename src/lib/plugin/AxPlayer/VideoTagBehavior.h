@@ -139,14 +139,21 @@ public:
     virtual void Refresh();
     virtual void MovieSize(const CSize& movieSize);
 
+    // IObjectWithSite
+    virtual HRESULT __stdcall SetSite(IUnknown *pUnkSite);
+
 private:
     void ParseElementAttributes();
+    
+    CString GetSiteURL();
+    bool IsRelativeURL(const CString& url);
 private:
 
     CComPtr<IElementBehaviorSite> m_site;
     CComPtr<IElementBehaviorSiteOM2> m_omSite;
     CComPtr<IHTMLPaintSite> m_paintSite;
     CComPtr<IHTMLElement> m_element;
+    CComPtr<IOleClientSite> m_oleClientSite;
 
     int m_width;
     int m_height;

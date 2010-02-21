@@ -52,7 +52,7 @@ CFactoryTemplate g_Templates[] =
 // Generic way of determining the number of items in the template
 int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]); 
 
-const wchar_t* SpeexDecodeFilter::NAME = L"Xiph.Org Speex Audio Decoder";
+const wchar_t* SpeexDecodeFilter::NAME = L"Xiph.Org Speex Decoder";
 
 const AMOVIESETUP_MEDIATYPE SpeexDecodeFilter::m_outputMediaTypes = 
 {

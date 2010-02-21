@@ -59,8 +59,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 0,0,0,1
+ PRODUCTVERSION 0,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -77,12 +77,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Xiph.Org"
             VALUE "FileDescription", "HTML5 <video> implementation"
-            VALUE "FileVersion", "1.0.0.1"
+            VALUE "FileVersion", "0.0.0.1"
             VALUE "InternalName", "AxPlayer.dll"
             VALUE "LegalCopyright", "(c) 2010 Xiph.Org.  All rights reserved."
             VALUE "OriginalFilename", "AxPlayer.dll"
             VALUE "ProductName", "AxPlayer"
-            VALUE "ProductVersion", "1.0.0.1"
+            VALUE "ProductVersion", "0.0.0.1"
         END
     END
     BLOCK "VarFileInfo"

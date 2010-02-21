@@ -62,7 +62,7 @@ STDAPI DllRegisterServer()
 	
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_OggMuxFilter,						// Filter CLSID. 
-		L"Ogg Mux Filter",							// Filter name.
+		L"Xiph.Org Ogg Muxer",					// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
         NULL,							// Instance data. ???????

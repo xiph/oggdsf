@@ -57,7 +57,7 @@ STDAPI DllRegisterServer()
 
 	hr = locFilterMapper->RegisterFilter(
 		CLSID_VorbisEncodeFilter,						// Filter CLSID. 
-		L"Vorbis Encode Filter",							// Filter name.
+		L"Xiph.Org Vorbis Encoder",						// Filter name.
         NULL,										// Device moniker. 
         &CLSID_LegacyAmFilterCategory,				// Direct Show general category
         NULL,							// Instance data. ???????
