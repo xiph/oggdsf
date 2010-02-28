@@ -54,7 +54,9 @@ namespace {
 FilterGraph::FilterGraph() :
 m_customVmrAllocator(0),
 m_notifyWindow(0),
-m_presentImageMessage(0)
+m_presentImageMessage(0),
+m_haveAudio(true),
+m_haveVideo(true)
 {
 }
 
@@ -120,13 +122,27 @@ void FilterGraph::ConnectDecoders()
     CComPtr<IPin> vorbisDemuxOut = DShowUtil::FindPin(m_oggSource, PINDIR_OUTPUT, 1);
     CComPtr<IPin> vorbisDecoderIn = DShowUtil::FindPin(m_vorbisDecoder, PINDIR_INPUT, 0);
 
-    CHECK_HR(m_graphBuilder->Connect(vorbisDemuxOut, vorbisDecoderIn));
+    if (vorbisDemuxOut)
+    {
+        CHECK_HR(m_graphBuilder->Connect(vorbisDemuxOut, vorbisDecoderIn));
+    }
+    else
+    {
+        m_haveAudio = false;
+    }
 
     // Connect theora decoder
     CComPtr<IPin> theoraDemuxOut = DShowUtil::FindPin(m_oggSource, PINDIR_OUTPUT, 0);
     CComPtr<IPin> theoraDecoderIn = DShowUtil::FindPin(m_theoraDecoder, PINDIR_INPUT, 0);
 
-    CHECK_HR(m_graphBuilder->Connect(theoraDemuxOut, theoraDecoderIn));
+    if (theoraDemuxOut)
+    {
+        CHECK_HR(m_graphBuilder->Connect(theoraDemuxOut, theoraDecoderIn));
+    }
+    else
+    {
+        m_haveVideo = false;
+    }
 }
 
 void FilterGraph::AddRenderers()
@@ -146,13 +162,19 @@ void FilterGraph::ConnnectRenderers()
     CComPtr<IPin> vorbisDecoderOut = DShowUtil::FindPin(m_vorbisDecoder, PINDIR_OUTPUT, 0);
     CComPtr<IPin> audioRendererIn = DShowUtil::FindPin(m_audioRenderer, PINDIR_INPUT, 0);
 
-    CHECK_HR(m_graphBuilder->Connect(vorbisDecoderOut, audioRendererIn));
+    if (m_haveAudio)
+    {
+        CHECK_HR(m_graphBuilder->Connect(vorbisDecoderOut, audioRendererIn));
+    }
 
     // Connect video renderer
     CComPtr<IPin> theoraDecoderOut = DShowUtil::FindPin(m_theoraDecoder, PINDIR_OUTPUT, 0);
     CComPtr<IPin> videoRendererIn = DShowUtil::FindPin(m_videoRenderer, PINDIR_INPUT, 0);
 
-    CHECK_HR(m_graphBuilder->Connect(theoraDecoderOut, videoRendererIn));
+    if (m_haveVideo)
+    {
+        CHECK_HR(m_graphBuilder->Connect(theoraDecoderOut, videoRendererIn));
+    }
 }
 
 void FilterGraph::ConfigureVideoRenderer()

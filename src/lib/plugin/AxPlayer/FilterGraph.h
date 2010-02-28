@@ -88,6 +88,9 @@ private:
     
     HWND m_notifyWindow;
     int m_presentImageMessage;
+
+    bool m_haveAudio;
+    bool m_haveVideo;
 };
 
 #endif // FILTERGRAPH_H
