@@ -111,37 +111,16 @@ CComPtr<IDirectDrawSurface7> DShowVideoPlayer::GetScalingSurface(const CSize &aS
 
 HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HDC hdc, LPVOID pvDrawObject)
 {
-//    CRect rect(rcBounds.left, rcBounds.top, rcBounds.left + m_width, rcBounds.top + m_height);
     CRect rect(rcBounds);
 
     HRESULT hr = S_OK;
     try
     {
-        CComPtr<IDirectDrawSurface> destSurface;
-
-        destSurface = reinterpret_cast<IDirectDrawSurface*>(pvDrawObject);
-
-        DDSURFACEDESC descriptor = {};
-        descriptor.dwSize = sizeof(DDSURFACEDESC);
-
-        CHECK_HR(destSurface->GetSurfaceDesc(&descriptor));
-
-        LOG(logDEBUG4) << __FUNCTIONW__ << " DirectDrawSurface: " << destSurface;
-        LOG(logDEBUG4) << "SurfaceDescFlags: " << DDrawUtil::GetSurfaceDescFlags(descriptor.dwFlags).c_str();
-        LOG(logDEBUG4) << "Pixel Format: " << std::endl
-            << "\tSize: " << descriptor.ddpfPixelFormat.dwSize << std::endl
-            << "\tFlags: " << DDrawUtil::GetPixelFormatFlags(descriptor.ddpfPixelFormat.dwFlags).c_str() << std::endl
-            << "\tFourCC: " << descriptor.ddpfPixelFormat.dwFourCC << std::endl
-            << "\tRGBBitCount: " << descriptor.ddpfPixelFormat.dwRGBBitCount << std::endl;
-
         if (m_backBuffer)
         {
             // Use a third buffer to scale the picture
             CComPtr<IDirectDrawSurface7> scaledSurface = GetScalingSurface(CSize(rect.Width(), rect.Height()));
             CHECK_HR(scaledSurface->Blt(NULL, m_backBuffer, NULL, DDBLT_WAIT, NULL));
-
-            HDC destDC;
-            CHECK_HR(destSurface->GetDC(&destDC));
 
             HDC scaledDC;
             CHECK_HR(scaledSurface->GetDC(&scaledDC));
@@ -171,10 +150,9 @@ HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HD
                 break;
             }
 
-            ::BitBlt(destDC, rect.left, rect.top, rect.Width(), rect.Height(), scaledDC, 0, 0, SRCCOPY);
+            ::BitBlt(hdc, rect.left, rect.top, rect.Width(), rect.Height(), scaledDC, 0, 0, SRCCOPY);
 
             CHECK_HR(scaledSurface->ReleaseDC(scaledDC));
-            CHECK_HR(destSurface->ReleaseDC(destDC));
         }
     }
     catch (const CAtlException& except)

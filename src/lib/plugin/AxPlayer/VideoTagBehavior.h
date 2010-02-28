@@ -64,10 +64,43 @@ class ATL_NO_VTABLE VideoTagBehavior :
     public IElementNamespaceFactoryCallback,
     public IHTMLPainter,
     public HTMLEvents,
-    public DShowVideoPlayerCallback
+    public DShowVideoPlayerCallback,
+    // Regular ActiveX
+    public IOleControlImpl<VideoTagBehavior>,
+    public IOleObjectImpl<VideoTagBehavior>,
+    public IOleInPlaceActiveObjectImpl<VideoTagBehavior>,
+    public IViewObjectExImpl<VideoTagBehavior>,
+    public IOleInPlaceObjectWindowlessImpl<VideoTagBehavior>,
+    public IQuickActivateImpl<VideoTagBehavior>,
+    public CComControl<VideoTagBehavior>,
+    public IEmbeddedAxEventsSink,
+    public IEmbeddedAx
 {
 public:
 	VideoTagBehavior();
+    virtual ~VideoTagBehavior();
+
+    // ActiveX
+    DECLARE_OLEMISC_STATUS(
+        OLEMISC_RECOMPOSEONRESIZE |
+        OLEMISC_CANTLINKINSIDE |
+        OLEMISC_INSIDEOUT |
+        OLEMISC_ACTIVATEWHENVISIBLE |
+        OLEMISC_SETCLIENTSITEFIRST)
+
+    BEGIN_PROP_MAP(VideoTagBehavior)
+        PROP_DATA_ENTRY("_cx", m_sizeExtent.cx, VT_UI4)
+        PROP_DATA_ENTRY("_cy", m_sizeExtent.cy, VT_UI4)
+        // Example entries
+        // PROP_ENTRY_TYPE("Property Name", dispid, clsid, vtType)
+        // PROP_PAGE(CLSID_StockColorPage)
+    END_PROP_MAP()
+
+    HWND Create(HWND hWndParent, _U_RECT rect, LPCTSTR szWindowName = NULL,
+        DWORD dwStyle = 0, DWORD dwExStyle = 0,
+        _U_MENUorID MenuOrID = 0U, LPVOID lpCreateParam = NULL);
+
+    HRESULT OnDraw(ATL_DRAWINFO& di);
 
     DECLARE_REGISTRY_RESOURCEID(IDR_VIDEOTAGBEHAVIOR)
 
@@ -85,6 +118,18 @@ public:
         COM_INTERFACE_ENTRY(IElementNamespaceFactory)
         COM_INTERFACE_ENTRY(IElementNamespaceFactoryCallback)
         COM_INTERFACE_ENTRY(IHTMLPainter)
+        // ActiveX
+        COM_INTERFACE_ENTRY(IViewObjectEx)
+        COM_INTERFACE_ENTRY(IViewObject2)
+        COM_INTERFACE_ENTRY(IViewObject)
+        COM_INTERFACE_ENTRY(IOleInPlaceObjectWindowless)
+        COM_INTERFACE_ENTRY(IOleInPlaceObject)
+        COM_INTERFACE_ENTRY2(IOleWindow, IOleInPlaceObjectWindowless)
+        COM_INTERFACE_ENTRY(IOleInPlaceActiveObject)
+        COM_INTERFACE_ENTRY(IOleControl)
+        COM_INTERFACE_ENTRY(IOleObject)
+        COM_INTERFACE_ENTRY(IEmbeddedAxEventsSink)
+        COM_INTERFACE_ENTRY(IEmbeddedAx)
     END_COM_MAP()
 
     BEGIN_CONNECTION_POINT_MAP(VideoTagBehavior)
@@ -94,6 +139,12 @@ public:
     BEGIN_SINK_MAP(VideoTagBehavior)
         SINK_ENTRY_EX(1, DIID_HTMLElementEvents, DISPID_HTMLDOCUMENTEVENTS_ONCLICK, OnClick)
     END_SINK_MAP()
+
+    BEGIN_MSG_MAP(VideoTagBehavior)
+        MESSAGE_HANDLER(WM_LBUTTONDOWN, OnLButtonDown)
+        CHAIN_MSG_MAP(CComControl<VideoTagBehavior>)
+        DEFAULT_REFLECTION_HANDLER()
+    END_MSG_MAP()
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 
@@ -142,8 +193,26 @@ public:
     // IObjectWithSite
     virtual HRESULT __stdcall SetSite(IUnknown *pUnkSite);
 
+    HRESULT __stdcall SetClientSite(IOleClientSite* pSite);
+
+    // IViewObjectEx
+    DECLARE_VIEW_STATUS(VIEWSTATUS_SOLIDBKGND | VIEWSTATUS_OPAQUE)
+
+    // ActiveX Windows Events, received only by the embedded control
+    LRESULT OnLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
+
+    // IEmbeddedAxEventsSink
+    virtual HRESULT __stdcall OnLeftButtonDown(LONG x, LONG y);
+    virtual HRESULT __stdcall OnEmbeddedDraw(RECT rect, HDC hdc);
+
+    // IEmbeddedAx
+    virtual HRESULT __stdcall SetEventsSink(IUnknown *events);
+    virtual HRESULT __stdcall EmbeddedRefresh();
+
+
 private:
     void ParseElementAttributes();
+    void AcquireEmbeddedAx();
     
     CString GetSiteURL();
     bool IsRelativeURL(const CString& url);
@@ -155,12 +224,20 @@ private:
     CComPtr<IHTMLElement> m_element;
     CComPtr<IOleClientSite> m_oleClientSite;
 
+    CString m_embeddedAxGuid;
+    CComPtr<IHTMLElement> m_embeddedAxElement;
+
+    CComPtr<IEmbeddedAxEventsSink> m_embeddedAxEventsSink;
+
     int m_width;
     int m_height;
 
     CSize m_movieSize;
 
     DShowVideoPlayer m_videoPlayer;
+    
+    bool m_factoryObject;
+    bool m_standardsMode;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(VideoTagBehavior), VideoTagBehavior)

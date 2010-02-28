@@ -28,6 +28,30 @@ interface IVideoTagBehavior : IDispatch{
 interface IHTMLEventsSink : IDispatch{
 };
 [
+	object,
+	uuid(12804362-B793-4237-89BF-AAB42EF969EA),
+	nonextensible,
+	helpstring("IEmbeddedAxEventsSink Interface"),
+	pointer_default(unique)
+]
+interface IEmbeddedAxEventsSink : IUnknown{
+
+    [helpstring("method OnLeftButtonDown")] HRESULT OnLeftButtonDown(LONG x, LONG y);
+    [helpstring("method OnEmbeddedDraw")] HRESULT OnEmbeddedDraw(RECT rect, HDC hdc);
+};
+[
+	object,
+	uuid(C71190BD-F187-4187-8136-820B40C6F629),
+	nonextensible,
+	helpstring("IEmbeddedAx Interface"),
+	pointer_default(unique)
+]
+interface IEmbeddedAx : IUnknown{
+    [helpstring("method SetEventsSink")] HRESULT SetEventsSink(IUnknown* events);
+    [helpstring("method EmbeddedRefresh")] HRESULT EmbeddedRefresh();
+};
+
+[
 	uuid(4856ADA6-564F-41B8-ACAA-E98ABD004A84),
 	version(1.0),
 	helpstring("AxPlayer 1.0 Type Library")

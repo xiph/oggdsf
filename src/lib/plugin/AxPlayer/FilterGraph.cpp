@@ -62,6 +62,8 @@ void FilterGraph::BuildGraph(const CString& videoUrl)
 {
     m_videoUrl = videoUrl;
 
+    LOG(logINFO) << __FUNCTIONW__ << " Building graph for: \"" << m_videoUrl << "\"";
+
     try
     {
         CHECK_HR(m_graphBuilder.CoCreateInstance(CLSID_FilterGraph));
@@ -75,6 +77,8 @@ void FilterGraph::BuildGraph(const CString& videoUrl)
 
         CHECK_HR(m_graphBuilder.QueryInterface(&m_mediaControl));
         CHECK_HR(m_graphBuilder.QueryInterface(&m_mediaEvent));
+
+        LOG(logINFO) << __FUNCTIONW__ << " Graph was successfully build.";
     }
     catch (const CAtlException& /*except*/)
     {

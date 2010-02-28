@@ -34,6 +34,7 @@
 #include "VideoTagBehavior.h"
 #include "common/util.h"
 #include <ddraw.h>
+#include "Guid.h"
 
 // VideoTagBehavior
 namespace {
@@ -45,20 +46,38 @@ namespace {
 
 VideoTagBehavior::VideoTagBehavior() : 
 m_width(320),
-m_height(240)
+m_height(240),
+m_factoryObject(false),
+m_standardsMode(true)
 {
+    m_sizeExtent.cx = 0;
+    m_sizeExtent.cy = 0;
+
     LOG(logDEBUG) << this << ": " << __FUNCTIONW__; 
 }
 
+VideoTagBehavior::~VideoTagBehavior()
+{
+    LOG(logDEBUG) << this << ": " << __FUNCTIONW__;
+}
+
+
 HRESULT __stdcall VideoTagBehavior::Init(IElementBehaviorSite* pBehaviorSite)
 {
+    LOG(logDEBUG) << __FUNCTIONW__;
+
     HRESULT hr = S_OK;
 
-    m_site = pBehaviorSite;
-    hr = m_site->QueryInterface(&m_omSite);
-    hr = m_site->QueryInterface(&m_paintSite);
-
-    LOG(logDEBUG) << __FUNCTIONW__;
+    try
+    {
+        m_site = pBehaviorSite;
+        CHECK_HR(m_site->QueryInterface(&m_omSite));
+        CHECK_HR(m_site->QueryInterface(&m_paintSite));
+    }
+    catch(const CAtlException& except)
+    {
+        hr = except.m_hr;
+    }
 
     return hr;
 }
@@ -75,10 +94,24 @@ HRESULT __stdcall VideoTagBehavior::Notify(LONG lEvent, VARIANT* pVar)
         {
         case BEHAVIOREVENT_CONTENTREADY: 
             // End tag of element has been parsed (we can get at attributes)
+            {
+                CHECK_HR(m_site->GetElement(&m_element));
+
+                m_embeddedAxGuid = Guid::Create().ToString().c_str();
+
+                CString embeddedAxText;
+                embeddedAxText.Format(
+                    L"<object id=\"%s\""
+                        L"classid=\"clsid:7cc95ae6-c1fa-40cc-ab17-3e91da2f77ca\">"
+                    L"</object>", m_embeddedAxGuid);
+
+                CHECK_HR(m_element->put_innerHTML(CComBSTR(embeddedAxText)));
+            }
             break;
         case BEHAVIOREVENT_DOCUMENTREADY:	
             // HTML document has been parsed (we can get at the document object model)
             {
+                m_element = 0;
                 CHECK_HR(m_site->GetElement(&m_element));
                 
                 CComPtr<IHTMLStyle> style;
@@ -97,6 +130,8 @@ HRESULT __stdcall VideoTagBehavior::Notify(LONG lEvent, VARIANT* pVar)
                 m_videoPlayer.InitializePlaybackThread();
 
                 CHECK_HR(HTMLEvents::DispEventAdvise(m_element));
+
+                AcquireEmbeddedAx();
             }
             break;
         }
@@ -111,6 +146,8 @@ HRESULT __stdcall VideoTagBehavior::Notify(LONG lEvent, VARIANT* pVar)
 
 HRESULT __stdcall VideoTagBehavior::Detach()
 {
+    LOG(logDEBUG) << this << ": " << __FUNCTIONW__;
+
     m_videoPlayer.StopPlaybackThread();
     m_videoPlayer.DestroyWindow();
 
@@ -120,7 +157,7 @@ HRESULT __stdcall VideoTagBehavior::Detach()
 HRESULT __stdcall VideoTagBehavior::FindBehavior(BSTR bstrBehavior, BSTR bstrBehaviorUrl, 
                                                  IElementBehaviorSite* pSite, IElementBehavior** ppBehavior)
 {
-    LOG(logDEBUG) << __FUNCTIONW__ << " bstrBehavior: " << bstrBehavior;
+    LOG(logDEBUG) << this << " " << __FUNCTIONW__ << " bstrBehavior: " << bstrBehavior;
 
     if (bstrBehavior == 0)
     {
@@ -158,7 +195,17 @@ HRESULT __stdcall VideoTagBehavior::Create(IElementNamespace * pNamespace)
 
     LOG(logDEBUG) << this << ": " << __FUNCTIONW__;
 
+    m_factoryObject = true;
+
     return S_OK;
+}
+
+HWND VideoTagBehavior::Create( HWND hWndParent, _U_RECT rect, LPCTSTR szWindowName /*= NULL*/, 
+                              DWORD dwStyle /*= 0*/, DWORD dwExStyle /*= 0*/, _U_MENUorID MenuOrID /*= 0U*/, 
+                              LPVOID lpCreateParam /*= NULL*/ )
+{
+    return CComControl<VideoTagBehavior>::Create(hWndParent, rect, szWindowName, dwStyle, 
+        dwExStyle, MenuOrID, lpCreateParam);
 }
 
 HRESULT __stdcall VideoTagBehavior::Resolve(BSTR bstrNamespace, BSTR bstrTagName, BSTR bstrAttrs, 
@@ -225,13 +272,9 @@ HRESULT __stdcall VideoTagBehavior::GetPainterInfo(HTML_PAINTER_INFO *pInfo)
     pInfo->lFlags = 
         HTMLPAINTER_NOSAVEDC | 
         HTMLPAINTER_SUPPORTS_XFORM | 
-        HTMLPAINTER_OVERLAY |
-        HTMLPAINTER_SURFACE |
         HTMLPAINTER_HITTEST;
 
     pInfo->lZOrder = HTMLPAINT_ZORDER_REPLACE_ALL;
-
-    pInfo->iidDrawObject = IID_IDirectDrawSurface;
 
     pInfo->rcExpand.left = 0;
     pInfo->rcExpand.top = 0;
@@ -241,11 +284,34 @@ HRESULT __stdcall VideoTagBehavior::GetPainterInfo(HTML_PAINTER_INFO *pInfo)
     return S_OK;
 }
 
+
+HRESULT __stdcall VideoTagBehavior::OnEmbeddedDraw(RECT rect, HDC hdc)
+{
+    HRESULT hr = m_videoPlayer.Draw(rect, rect, 0, hdc, 0);
+    return hr;
+}
+
 HRESULT __stdcall VideoTagBehavior::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HDC hdc, LPVOID pvDrawObject)
 {
+    // This is called only in Quirks mode
+    m_standardsMode = false;
+
     HRESULT hr = m_videoPlayer.Draw(rcBounds, rcUpdate, lDrawFlags, hdc, pvDrawObject);
     return hr;
 }
+
+HRESULT VideoTagBehavior::OnDraw(ATL_DRAWINFO& di)
+{
+    RECT& rc = *(RECT*)di.prcBounds;
+
+    if (m_embeddedAxEventsSink)
+    {
+        m_embeddedAxEventsSink->OnEmbeddedDraw(rc, di.hdcDraw);
+    }
+
+    return S_OK;
+}
+
 
 HRESULT __stdcall VideoTagBehavior::HitTestPoint(POINT pt, BOOL *pbHit, LONG *plPartID)
 {
@@ -332,10 +398,25 @@ void VideoTagBehavior::ParseElementAttributes()
 
 void VideoTagBehavior::Refresh()
 {
-    if (m_paintSite)
+    if (m_standardsMode)
+    {
+        CComQIPtr<IEmbeddedAx> embeddedAx = m_embeddedAxElement;
+        if (embeddedAx)
+        {
+            embeddedAx->EmbeddedRefresh();
+        }
+    }
+    else if (m_paintSite)
     {
         m_paintSite->InvalidateRect(0);
     }
+}
+
+
+HRESULT __stdcall VideoTagBehavior::EmbeddedRefresh()
+{
+    FireViewChange();
+    return S_OK;
 }
 
 void VideoTagBehavior::MovieSize(const CSize& movieSize)
@@ -348,6 +429,12 @@ void VideoTagBehavior::MovieSize(const CSize& movieSize)
         CComPtr<IHTMLStyle> style;
         CHECK_HR(m_element->get_style(&style));
 
+        CHECK_HR(style->put_pixelWidth(m_width));
+        CHECK_HR(style->put_pixelHeight(m_height));
+
+        style = 0;
+
+        CHECK_HR(m_embeddedAxElement->get_style(&style));
         CHECK_HR(style->put_pixelWidth(m_width));
         CHECK_HR(style->put_pixelHeight(m_height));
 
@@ -415,4 +502,74 @@ bool VideoTagBehavior::IsRelativeURL(const CString& url)
     }
 
     return isRelative;
+}
+
+HRESULT __stdcall VideoTagBehavior::SetClientSite(IOleClientSite* pSite)
+{
+    m_oleClientSite = pSite;
+    return CComControlBase::IOleObject_SetClientSite(pSite);
+}
+
+void VideoTagBehavior::AcquireEmbeddedAx()
+{
+    CComPtr<IDispatch> disp;
+    CHECK_HR(m_element->get_children(&disp));
+
+    CComQIPtr<IHTMLElementCollection> elementCollectionList = disp;
+    disp = 0;
+
+    long childrenCount = 0;
+    CHECK_HR(elementCollectionList->get_length(&childrenCount));
+    ATLASSERT(childrenCount == 1 && "We should have only one child");
+
+    for (long i = 0; i < childrenCount; ++i)
+    {
+        CComVariant itemId(m_embeddedAxGuid);
+        CComVariant item(i);
+        CHECK_HR(elementCollectionList->item(itemId, item, &disp));
+
+        CComQIPtr<IHTMLElement> element = disp;
+        disp = 0;
+
+        if (!element)
+        {
+            continue;
+        }
+
+        m_embeddedAxElement = element;
+
+        // Configure the communication between the <video> tag and the
+        // embedded ActiveX
+        CComQIPtr<IEmbeddedAx> embeddedAx = element;
+        CComQIPtr<IEmbeddedAxEventsSink> embeddedAxEventsSink = this;
+        
+        embeddedAx->SetEventsSink(embeddedAxEventsSink);
+    }
+}
+
+LRESULT VideoTagBehavior::OnLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
+{
+    if (m_embeddedAxEventsSink)
+    {
+        m_embeddedAxEventsSink->OnLeftButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+    }
+
+    return 0;
+}
+
+HRESULT __stdcall VideoTagBehavior::OnLeftButtonDown(LONG /*x*/, LONG /*y*/)
+{
+    OnClick();
+    return 0;
+}
+
+HRESULT __stdcall VideoTagBehavior::SetEventsSink(IUnknown *events)
+{
+    if (!events)
+    {
+        return E_POINTER;
+    }
+
+    HRESULT hr = events->QueryInterface(&m_embeddedAxEventsSink);
+    return hr;
 }

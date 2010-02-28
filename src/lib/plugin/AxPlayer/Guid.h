@@ -76,6 +76,14 @@ public:
         Data4[7] = other.Data4[7];
     }
 
+    static Guid Create()
+    {
+        Guid guid;
+        ::CoCreateGuid(&guid);
+
+        return guid;
+    }
+
     template <class T>
     T strToNum(const string &inputString, std::ios_base &(*f)(std::ios_base&) = std::dec)
     {
