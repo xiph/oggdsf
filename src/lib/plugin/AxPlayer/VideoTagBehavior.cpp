@@ -42,13 +42,18 @@ namespace {
     const wchar_t* SRC_ATTRIBUTE = L"src";
     const wchar_t* WIDTH_ATTRIBUTE = L"width";
     const wchar_t* HEIGHT_ATTRIBUTE = L"height";
+
+    const int NOT_SET = -1;
 }
 
 VideoTagBehavior::VideoTagBehavior() : 
-m_width(320),
-m_height(240),
+m_width(300),
+m_height(150),
 m_factoryObject(false),
-m_standardsMode(true)
+m_standardsMode(true),
+m_desiredVideoSize(NOT_SET, NOT_SET),
+m_widthPercentage(NOT_SET),
+m_heightPercentage(NOT_SET)
 {
     m_sizeExtent.cx = 0;
     m_sizeExtent.cy = 0;
@@ -379,19 +384,27 @@ void VideoTagBehavior::ParseElementAttributes()
             CComVariant attributeValue;
             CHECK_HR(attribute->get_nodeValue(&attributeValue));
 
-            LOG(logINFO) << SRC_ATTRIBUTE << " = \"" << attributeValue << "\"";
+            LOG(logINFO) << attributeName << " = \"" << attributeValue << "\"";
 
-            CString src(attributeValue);
+            ParseSrcAttribute(attributeValue);
+        }
+        else if (attributeName == HEIGHT_ATTRIBUTE)
+        {
+            CComVariant attributeValue;
+            CHECK_HR(attribute->get_nodeValue(&attributeValue));
 
-            if (IsRelativeURL(src))
-            {
-                CString siteUrl = GetSiteURL();
-                siteUrl.Append(src);
+            LOG(logINFO) << attributeName << " = \"" << attributeValue << "\"";
+        
+            ParseDimensionAttribute(attributeValue, false);
+        }
+        else if (attributeName == WIDTH_ATTRIBUTE)
+        {
+            CComVariant attributeValue;
+            CHECK_HR(attribute->get_nodeValue(&attributeValue));
 
-                src = siteUrl;
-            }
+            LOG(logINFO) << attributeName << " = \"" << attributeValue << "\"";
 
-            m_videoPlayer.SetSrc(src);
+            ParseDimensionAttribute(attributeValue, true);
         }
     }
 }
@@ -421,8 +434,9 @@ HRESULT __stdcall VideoTagBehavior::EmbeddedRefresh()
 
 void VideoTagBehavior::MovieSize(const CSize& movieSize)
 {
-    m_width = movieSize.cx;
-    m_height = movieSize.cy;
+    AdjustElementDimensions(movieSize);
+    
+    LOG(logINFO) << __FUNCTIONW__ << " Resizing the element to: " << m_width << "x" << m_height;
 
     try
     {
@@ -572,4 +586,101 @@ HRESULT __stdcall VideoTagBehavior::SetEventsSink(IUnknown *events)
 
     HRESULT hr = events->QueryInterface(&m_embeddedAxEventsSink);
     return hr;
+}
+
+void VideoTagBehavior::ParseSrcAttribute(const CComVariant& attributeValue)
+{
+    CString src(attributeValue);
+
+    if (IsRelativeURL(src))
+    {
+        CString siteUrl = GetSiteURL();
+        siteUrl.Append(src);
+
+        src = siteUrl;
+    }
+
+    m_videoPlayer.SetSrc(src);
+}
+
+void VideoTagBehavior::ParseDimensionAttribute(const CComVariant& attributeValue, bool isHorizontal)
+{
+    std::wstring attributeStr(attributeValue.bstrVal);
+    
+    double percentage = NOT_SET;
+    std::wistringstream wis(attributeStr);
+
+    long dimension = NOT_SET;
+
+    if (attributeStr.find_last_of(L'%') != std::wstring::npos)
+    {
+        long value = 0;
+        wis >> value;
+
+        if (value > 0)
+        {
+            percentage =  value / 100.0;
+        }
+    }
+    else
+    {
+        long value = 0;
+        wis >> value;
+
+        if (value >= 0)
+        {
+            dimension = value;
+        }
+    }
+
+    if (isHorizontal)
+    {
+        m_widthPercentage = percentage;
+        m_desiredVideoSize.cx = dimension;
+    }
+    else
+    {
+        m_heightPercentage = percentage;
+        m_desiredVideoSize.cy = dimension;
+    }
+}
+
+void VideoTagBehavior::AdjustElementDimensions(const CSize &movieSize)
+{
+    // Take percentage into consideration
+    if (m_widthPercentage == NOT_SET && m_heightPercentage != NOT_SET)
+    {
+        m_widthPercentage = m_heightPercentage;
+    }
+    else if (m_widthPercentage != NOT_SET && m_heightPercentage == NOT_SET)
+    {
+        m_heightPercentage = m_widthPercentage;
+    }
+    else if (m_widthPercentage == NOT_SET && m_heightPercentage == NOT_SET)
+    {
+        m_widthPercentage = m_heightPercentage = 1.0;
+    }
+
+    // Take desired dimensions into consideration
+    double aspectRatio = 4 / 3.0;
+    if (movieSize.cy != 0)
+    {
+        aspectRatio = movieSize.cx / static_cast<double>(movieSize.cy);
+    }
+
+    if (m_desiredVideoSize.cx == NOT_SET && m_desiredVideoSize.cy == NOT_SET)
+    {
+        m_width = static_cast<unsigned int>(movieSize.cx * m_widthPercentage);
+        m_height = static_cast<unsigned int>(movieSize.cy * m_heightPercentage);
+    }
+    else if (m_desiredVideoSize.cx != NOT_SET)
+    {
+        m_width = m_desiredVideoSize.cx;
+        m_height =  static_cast<unsigned long>(m_desiredVideoSize.cx / aspectRatio);
+    }
+    else if (m_desiredVideoSize.cy != NOT_SET)
+    {
+        m_height = m_desiredVideoSize.cy;
+        m_width = static_cast<unsigned long>(m_desiredVideoSize.cy * aspectRatio);
+    }
 }

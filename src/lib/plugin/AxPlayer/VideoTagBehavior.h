@@ -212,6 +212,10 @@ public:
 
 private:
     void ParseElementAttributes();
+    void ParseSrcAttribute(const CComVariant& attributeValue);
+    void ParseDimensionAttribute(const CComVariant& attributeValue, bool isHorizontal);
+    void AdjustElementDimensions(const CSize &movieSize);
+
     void AcquireEmbeddedAx();
     
     CString GetSiteURL();
@@ -229,10 +233,13 @@ private:
 
     CComPtr<IEmbeddedAxEventsSink> m_embeddedAxEventsSink;
 
-    int m_width;
-    int m_height;
+    unsigned int m_width;
+    unsigned int m_height;
 
-    CSize m_movieSize;
+    double m_widthPercentage;
+    double m_heightPercentage;
+
+    CSize m_desiredVideoSize;
 
     DShowVideoPlayer m_videoPlayer;
     
