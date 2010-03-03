@@ -55,7 +55,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -149,7 +149,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -245,7 +245,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
@@ -342,7 +342,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
@@ -626,11 +626,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\VideoTagBehavior.rgs"
+				RelativePath=".\Res\VideoTagBehavior.rgs"
 				>
 			</File>
 			<File
-				RelativePath=".\Res\VideoTagBehavior.rgs"
+				RelativePath=".\VideoTagBehavior.rgs"
 				>
 			</File>
 		</Filter>

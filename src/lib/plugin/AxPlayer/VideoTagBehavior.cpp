@@ -35,6 +35,7 @@
 #include "common/util.h"
 #include <ddraw.h>
 #include "Guid.h"
+#include "uriparser/uri.h"
 
 // VideoTagBehavior
 namespace {
@@ -514,6 +515,10 @@ bool VideoTagBehavior::IsRelativeURL(const CString& url)
     {
         isRelative = false;
     }
+    else if (lowerCaseUrl.Find(L"file://") != -1)
+    {
+        isRelative = false;
+    }
 
     return isRelative;
 }
@@ -594,10 +599,64 @@ void VideoTagBehavior::ParseSrcAttribute(const CComVariant& attributeValue)
 
     if (IsRelativeURL(src))
     {
-        CString siteUrl = GetSiteURL();
-        siteUrl.Append(src);
+        UriUriW relativeSrc;
+        UriParserStateW state;
+        state.uri = &relativeSrc;
 
-        src = siteUrl;
+        if (uriParseUriW(&state, src) != URI_SUCCESS)
+        {
+            LOG(logERROR) << "Failed to parse src: \"" << src << "\"";
+            uriFreeUriMembersW(&relativeSrc);
+            return;
+        }
+
+        UriUriW absoluteBase;
+        state.uri = &absoluteBase;
+
+        CString siteUrl = GetSiteURL();
+        if (uriParseUriW(&state, siteUrl) != URI_SUCCESS)
+        {
+            LOG(logERROR) << "Failed to parse site url: \"" << siteUrl << "\"";
+            uriFreeUriMembersW(&relativeSrc);
+            uriFreeUriMembersW(&absoluteBase);
+            return;
+        }
+
+        UriUriW absoluteDest;
+        if (uriAddBaseUriW(&absoluteDest, &relativeSrc, &absoluteBase) != URI_SUCCESS)
+        {
+            LOG(logERROR) << "Failed to create absolute uri from relative src: \"" << src << "\""
+                << " and absolute base: \"" << siteUrl << "\"";
+            uriFreeUriMembersW(&relativeSrc);
+            uriFreeUriMembersW(&absoluteBase);
+            uriFreeUriMembersW(&absoluteDest);
+            return;
+        }
+
+        CString dest;
+        int charsRequired;
+        if (uriToStringCharsRequiredW(&absoluteDest, &charsRequired) != URI_SUCCESS)
+        {
+            LOG(logERROR) << "uriToStringCharsRequiredW failed";
+            return;
+        }
+
+        dest.GetBuffer(charsRequired);
+        int charsWritten;
+
+        if (uriToStringW(dest.GetBuffer(), &absoluteDest, charsRequired, &charsWritten) != URI_SUCCESS)
+        {
+            LOG(logERROR) << "uriToStringW failed";
+            return;
+        }
+
+        dest.ReleaseBuffer(charsWritten);
+
+        uriFreeUriMembersW(&relativeSrc);
+        uriFreeUriMembersW(&absoluteBase);
+        uriFreeUriMembersW(&absoluteDest);
+
+        src = dest;
     }
 
     m_videoPlayer.SetSrc(src);
