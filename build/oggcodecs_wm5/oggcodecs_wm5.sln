@@ -5,20 +5,14 @@ Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "oggcodecs_wm5", "oggcodecs_
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug_WM5_PPC_ARM|Default = Debug_WM5_PPC_ARM|Default
 		Debug|Default = Debug|Default
-		Release_WM5_PPC_ARM|Default = Release_WM5_PPC_ARM|Default
 		Release|Default = Release|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Debug_WM5_PPC_ARM|Default.ActiveCfg = Debug_WM5_PPC_ARM
-		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Debug_WM5_PPC_ARM|Default.Build.0 = Debug_WM5_PPC_ARM
-		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Debug|Default.ActiveCfg = Debug
-		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Debug|Default.Build.0 = Debug_WM5_PPC_ARM
-		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Release_WM5_PPC_ARM|Default.ActiveCfg = Release_WM5_PPC_ARM
-		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Release_WM5_PPC_ARM|Default.Build.0 = Release_WM5_PPC_ARM
+		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Debug|Default.ActiveCfg = Release
+		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Debug|Default.Build.0 = Release
 		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Release|Default.ActiveCfg = Release
-		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Release|Default.Build.0 = Release_WM5_PPC_ARM
+		{EC9174C6-27C1-4F10-A378-D04533F1E2BC}.Release|Default.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

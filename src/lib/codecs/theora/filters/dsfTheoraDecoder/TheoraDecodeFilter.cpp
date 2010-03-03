@@ -38,6 +38,10 @@
 #include "TheoraDecodeFilter.h"
 #include "common/util.h"
 
+#ifdef WINCE
+const GUID MEDIASUBTYPE_AYUV = { 0x56555941, 0x0000, 0x0010, { 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71 } };
+#endif
+
 //COM Factory Template
 CFactoryTemplate g_Templates[] = 
 {

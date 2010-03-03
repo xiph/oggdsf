@@ -63,18 +63,6 @@
         "CertificateHash" = "8:"
         "TimeStampServer" = "8:"
         }
-        "Debug_WM5_PPC_ARM"
-        {
-        "DisplayName" = "8:Debug_WM5_PPC_ARM"
-        "IsDebugOnly" = "11:FALSE"
-        "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug_WM5_PPC_ARM\\oggcodecs_wm5.cab"
-        "PackageFileSize" = "3:-2147483648"
-        "CabType" = "3:1"
-        "SignOutput" = "11:FALSE"
-        "CertificateHash" = "8:"
-        "TimeStampServer" = "8:"
-        }
         "Release"
         {
         "DisplayName" = "8:Release"
@@ -83,20 +71,8 @@
         "OutputFilename" = "8:Release\\oggcodecs_wm5.cab"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "SignOutput" = "11:TRUE"
-        "CertificateHash" = "8:75E588AA04977B574EBA1090E44CFD9F6BC8A5F5"
-        "TimeStampServer" = "8:"
-        }
-        "Release_WM5_PPC_ARM"
-        {
-        "DisplayName" = "8:Release_WM5_PPC_ARM"
-        "IsDebugOnly" = "11:FALSE"
-        "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Release_WM5_PPC_ARM\\oggcodecs_wm5.cab"
-        "PackageFileSize" = "3:-2147483648"
-        "CabType" = "3:1"
         "SignOutput" = "11:FALSE"
-        "CertificateHash" = "8:"
+        "CertificateHash" = "8:75E588AA04977B574EBA1090E44CFD9F6BC8A5F5"
         "TimeStampServer" = "8:"
         }
     }
