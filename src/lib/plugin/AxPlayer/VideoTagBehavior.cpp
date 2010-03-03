@@ -603,9 +603,10 @@ void VideoTagBehavior::ParseSrcAttribute(const CComVariant& attributeValue)
         UriParserStateW state;
         state.uri = &relativeSrc;
 
-        if (uriParseUriW(&state, src) != URI_SUCCESS)
+        int error = uriParseUriW(&state, src);
+        if (error != URI_SUCCESS)
         {
-            LOG(logERROR) << "Failed to parse src: \"" << src << "\"";
+            LOG(logERROR) << "Failed to parse src: \"" << src << "\". Error: " << error;
             uriFreeUriMembersW(&relativeSrc);
             return;
         }
@@ -614,19 +615,21 @@ void VideoTagBehavior::ParseSrcAttribute(const CComVariant& attributeValue)
         state.uri = &absoluteBase;
 
         CString siteUrl = GetSiteURL();
-        if (uriParseUriW(&state, siteUrl) != URI_SUCCESS)
+        error = uriParseUriW(&state, siteUrl);
+        if (error != URI_SUCCESS)
         {
-            LOG(logERROR) << "Failed to parse site url: \"" << siteUrl << "\"";
+            LOG(logERROR) << "Failed to parse site url: \"" << siteUrl << "\". Error: " << error;
             uriFreeUriMembersW(&relativeSrc);
             uriFreeUriMembersW(&absoluteBase);
             return;
         }
 
         UriUriW absoluteDest;
-        if (uriAddBaseUriW(&absoluteDest, &relativeSrc, &absoluteBase) != URI_SUCCESS)
+        error = uriAddBaseUriW(&absoluteDest, &relativeSrc, &absoluteBase);
+        if (error != URI_SUCCESS)
         {
             LOG(logERROR) << "Failed to create absolute uri from relative src: \"" << src << "\""
-                << " and absolute base: \"" << siteUrl << "\"";
+                << " and absolute base: \"" << siteUrl << "\". Error: " << error;
             uriFreeUriMembersW(&relativeSrc);
             uriFreeUriMembersW(&absoluteBase);
             uriFreeUriMembersW(&absoluteDest);
@@ -635,18 +638,27 @@ void VideoTagBehavior::ParseSrcAttribute(const CComVariant& attributeValue)
 
         CString dest;
         int charsRequired;
-        if (uriToStringCharsRequiredW(&absoluteDest, &charsRequired) != URI_SUCCESS)
+        error = uriToStringCharsRequiredW(&absoluteDest, &charsRequired);
+        if (error != URI_SUCCESS)
         {
-            LOG(logERROR) << "uriToStringCharsRequiredW failed";
+            LOG(logERROR) << "uriToStringCharsRequiredW failed. Error: " << error;
+            uriFreeUriMembersW(&relativeSrc);
+            uriFreeUriMembersW(&absoluteBase);
+            uriFreeUriMembersW(&absoluteDest);
             return;
         }
+        ++charsRequired;
 
         dest.GetBuffer(charsRequired);
         int charsWritten;
 
-        if (uriToStringW(dest.GetBuffer(), &absoluteDest, charsRequired, &charsWritten) != URI_SUCCESS)
+        error = uriToStringW(dest.GetBuffer(), &absoluteDest, charsRequired, &charsWritten);
+        if (error != URI_SUCCESS)
         {
-            LOG(logERROR) << "uriToStringW failed";
+            LOG(logERROR) << "uriToStringW failed. Error: " << error;
+            uriFreeUriMembersW(&relativeSrc);
+            uriFreeUriMembersW(&absoluteBase);
+            uriFreeUriMembersW(&absoluteDest);
             return;
         }
 
