@@ -36,8 +36,10 @@
 
 #include <dshow.h>
 #include <strmif.h>
+#include <d3d9.h>
+#include <vmr9.h>
 
-class CustomVMR7Allocator;
+class CustomVMR9Allocator;
 
 class FilterGraph
 {
@@ -56,6 +58,12 @@ public:
 
     int GetPresentImageMessage() const;
     void SetPresentImageMessage(int val);
+
+    CComPtr<IDirect3DDevice9> GetD3DDevice() const;
+    void SetD3DDevice(const CComPtr<IDirect3DDevice9>& val);
+
+    CComPtr<IDirect3D9> GetD3D() const;
+    void SetD3D(const CComPtr<IDirect3D9>& val);
 
     HANDLE GetMovieEventHandle();
     long GetMovieEventCode();
@@ -80,14 +88,16 @@ private:
     CComPtr<IBaseFilter> m_audioRenderer;
     CComPtr<IBaseFilter> m_videoRenderer;
 
-    CComPtr<IVMRSurfaceAllocatorNotify> m_surfaceNotify;
-    CComObject<CustomVMR7Allocator>* m_customVmrAllocator;
+    CComPtr<IVMRSurfaceAllocatorNotify9> m_surfaceNotify;
+    CComObject<CustomVMR9Allocator>* m_customVmrAllocator;
 
     CComPtr<IMediaControl> m_mediaControl;
     CComPtr<IMediaEvent> m_mediaEvent;
     
     HWND m_notifyWindow;
     int m_presentImageMessage;
+    CComPtr<IDirect3D9> m_d3d;
+    CComPtr<IDirect3DDevice9> m_d3dDevice;
 
     bool m_haveAudio;
     bool m_haveVideo;

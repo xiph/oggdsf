@@ -36,7 +36,7 @@
 #include <uuids.h>
 
 #include "DShowUtil.h"
-#include "CustomVMR7Allocator.h"
+#include "CustomVMR9Allocator.h"
 
 namespace {
     const GUID CLSID_OggDemuxPacketSourceFilter =
@@ -152,8 +152,8 @@ void FilterGraph::AddRenderers()
                                                     L"DirectSound Renderer");
     
     // Add video renderer
-    m_videoRenderer = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_VideoMixingRenderer,
-                                                    L"Video Renderer");
+    m_videoRenderer = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_VideoMixingRenderer9,
+                                                    L"Video Mixing Renderer 9");
 }
 
 void FilterGraph::ConnnectRenderers()
@@ -179,39 +179,37 @@ void FilterGraph::ConnnectRenderers()
 
 void FilterGraph::ConfigureVideoRenderer()
 {
-    CComQIPtr<IVMRFilterConfig> config = m_videoRenderer;
+    CComQIPtr<IVMRFilterConfig9> config = m_videoRenderer;
 
     if (!config)
     {
         return;
     }
 
-    CHECK_HR(config->SetRenderingMode(VMRMode_Renderless));
-
+    CHECK_HR(config->SetRenderingMode(VMR9Mode_Renderless));
     CHECK_HR(m_videoRenderer.QueryInterface(&m_surfaceNotify));
 
-    // Connect our custom VMR7 allocator
-    CComObject<CustomVMR7Allocator>::CreateInstance(&m_customVmrAllocator);
+    // Connect our custom VMR9 allocator
+    CComObject<CustomVMR9Allocator>::CreateInstance(&m_customVmrAllocator);
     m_customVmrAllocator->AddRef();
 
-    ATLASSERT(GetNotifyWindow() && "SetNotifyWindow should be called first!");
-    ATLASSERT(GetPresentImageMessage() && "SetPresentImageMessage should be called first!");
     m_customVmrAllocator->SetNotifyWindow(GetNotifyWindow());
     m_customVmrAllocator->SetPresentImageMessage(GetPresentImageMessage());
+    m_customVmrAllocator->SetD3D(GetD3D());
+    m_customVmrAllocator->SetD3DDevice(GetD3DDevice());
 
     CHECK_HR(m_surfaceNotify->AdviseSurfaceAllocator(ALLOCATOR_ID, m_customVmrAllocator));
-    CHECK_HR(m_customVmrAllocator->CreateDefaultSurfaceAllocator());
     CHECK_HR(m_customVmrAllocator->AdviseNotify(m_surfaceNotify));
 
     CHECK_HR(config->SetNumberOfStreams(1));
 
-    CComQIPtr<IVMRMixerControl> mixerControl = m_videoRenderer;
+    CComQIPtr<IVMRMixerControl9> mixerControl = m_videoRenderer;
 
     DWORD mixingPrefs;
     CHECK_HR(mixerControl->GetMixingPrefs(&mixingPrefs));
 
-    mixingPrefs &= ~MixerPref_RenderTargetMask;
-    mixingPrefs |= MixerPref_RenderTargetRGB;
+    mixingPrefs &= ~MixerPref9_RenderTargetMask;
+    mixingPrefs |= MixerPref9_RenderTargetRGB;
 
     CHECK_HR(mixerControl->SetMixingPrefs(mixingPrefs));
 }
@@ -272,6 +270,7 @@ void FilterGraph::Stop()
 
 HWND FilterGraph::GetNotifyWindow() const
 {
+    ATLASSERT(m_notifyWindow && "SetNotifyWindow should be called first!");
     return m_notifyWindow;
 }
 
@@ -282,6 +281,7 @@ void FilterGraph::SetNotifyWindow( HWND val )
 
 int FilterGraph::GetPresentImageMessage() const
 {
+    ATLASSERT(m_presentImageMessage && "SetPresentImageMessage should be called first!");
     return m_presentImageMessage;
 }
 
@@ -330,4 +330,26 @@ long FilterGraph::GetMovieEventCode()
     }
 
     return eventCode;
+}
+
+CComPtr<IDirect3DDevice9> FilterGraph::GetD3DDevice() const
+{
+    ATLASSERT(m_d3dDevice && L"SetD3DDevice should have been called before");
+    return m_d3dDevice;
+}
+
+void FilterGraph::SetD3DDevice(const CComPtr<IDirect3DDevice9>& val)
+{
+    m_d3dDevice = val;
+}
+
+CComPtr<IDirect3D9> FilterGraph::GetD3D() const
+{
+    ATLASSERT(m_d3d && L"SetD3D should have been called before");
+    return m_d3d;
+}
+
+void FilterGraph::SetD3D(const CComPtr<IDirect3D9>& val)
+{
+    m_d3d = val;
 }

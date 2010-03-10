@@ -39,10 +39,13 @@ DShowVideoPlayer::DShowVideoPlayer() :
 m_isFirstFrame(false),
 m_executeFunctionOnThread(0),
 m_playerCallback(0),
-m_state(NotOpened)
+m_state(NotOpened),
+m_textureFilterType(D3DTEXF_NONE)
 {
     m_stopPlaybackEvent = ::CreateEvent(0, FALSE, FALSE, 0);
     m_executeFunctionEvent = ::CreateEvent(0 , FALSE, FALSE, 0);
+
+    m_d3d.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 }
 
 DShowVideoPlayer::~DShowVideoPlayer()
@@ -55,58 +58,66 @@ void DShowVideoPlayer::CreateBackBufferSurface(const CSize& videoSize)
 {
     try
     {
-        CHECK_HR(DirectDrawCreateEx(0, (void**)&m_directDraw7, IID_IDirectDraw7, 0));
-        CHECK_HR(m_directDraw7->SetCooperativeLevel(m_hWnd, DDSCL_NORMAL + DDSCL_MULTITHREADED));
-     
-        // Create back buffer for conversion to RGB.
-        // Buffer will by default be in a format compatible to the primary surface.
-        LPDIRECTDRAWSURFACE7 surface = NULL;
-        DDSURFACEDESC2 descriptor = {0};
-        ZeroMemory(&descriptor, sizeof(DDSURFACEDESC2));
-
-        descriptor.dwSize = sizeof(DDSURFACEDESC2);
-        descriptor.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-        descriptor.dwWidth = videoSize.cx;
-        descriptor.dwHeight = videoSize.cy;
-
-        descriptor.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
-
-        CHECK_HR(m_directDraw7->CreateSurface(&descriptor, &surface, 0));
-        m_backBuffer = surface;
+        CHECK_HR(GetDevice()->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &m_backBuffer));
+ 
+        D3DSURFACE_DESC backBufferDesc;
+        CHECK_HR(m_backBuffer->GetDesc(&backBufferDesc));
     }
     catch (const CAtlException& /*except*/)
     {
     }
 }
 
-
-CComPtr<IDirectDrawSurface7> DShowVideoPlayer::GetScalingSurface(const CSize &aSize)
+void DShowVideoPlayer::CreateDevice()
 {
-    if (m_scalingBuffer && aSize != m_scalingSize) 
+    ATLASSERT(m_d3d && "Direct3D should be created!");
+    if (!m_d3d)
     {
-        LOG(logDEBUG3) << __FUNCTIONW__ << " Releasing old scaling surface";
-
-        m_scalingBuffer = 0;
+        return;
     }
 
-    if (!m_scalingBuffer) 
+    try
     {
-        LOG(logDEBUG3) << __FUNCTIONW__ << " Creating new scaling surface";
+        D3DDISPLAYMODE displayMode = {};
+        CHECK_HR(m_d3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &displayMode));
 
-        // Create a new back buffer surface
-        DDSURFACEDESC2 descriptor = {0};
-        descriptor.dwSize = sizeof(DDSURFACEDESC2);
-        descriptor.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-        descriptor.dwWidth = aSize.cx;
-        descriptor.dwHeight = aSize.cy;
-        descriptor.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
+        // CreateDevice fails on 0x0 windows;
+        MoveWindow(0, 0, displayMode.Width, displayMode.Height, false);
 
-        CHECK_HR(m_directDraw7->CreateSurface(&descriptor, &m_scalingBuffer, 0));
+        D3DPRESENT_PARAMETERS presentParameters = {};
+        presentParameters.Windowed = TRUE;
+        presentParameters.hDeviceWindow = m_hWnd;
+        presentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+        presentParameters.BackBufferFormat = displayMode.Format;
+        presentParameters.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 
-        m_scalingSize = aSize;
+        CHECK_HR(m_d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd, 
+            D3DCREATE_MULTITHREADED | D3DCREATE_SOFTWARE_VERTEXPROCESSING, &presentParameters, &m_direct3dDevice));
+
+        D3DCAPS9 d3dCaps = {};
+        CHECK_HR(m_d3d->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &d3dCaps));
+        if (d3dCaps.StretchRectFilterCaps & D3DPTFILTERCAPS_MAGFPOINT)
+        {
+            m_textureFilterType = D3DTEXF_POINT;
+        }
+        if (d3dCaps.StretchRectFilterCaps & D3DPTFILTERCAPS_MAGFLINEAR)
+        {
+            m_textureFilterType = D3DTEXF_LINEAR;
+        }
+    }
+    catch (const CAtlException& /*except*/)
+    {
+    }
+}
+
+CComPtr<IDirect3DDevice9>& DShowVideoPlayer::GetDevice()
+{
+    if (!m_direct3dDevice)
+    {
+        CreateDevice();
     }
 
-    return m_scalingBuffer;
+    return m_direct3dDevice;
 }
 
 HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HDC hdc, LPVOID pvDrawObject)
@@ -118,41 +129,41 @@ HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HD
     {
         if (m_backBuffer)
         {
-            // Use a third buffer to scale the picture
-            CComPtr<IDirectDrawSurface7> scaledSurface = GetScalingSurface(CSize(rect.Width(), rect.Height()));
-            CHECK_HR(scaledSurface->Blt(NULL, m_backBuffer, NULL, DDBLT_WAIT, NULL));
-
-            HDC scaledDC;
-            CHECK_HR(scaledSurface->GetDC(&scaledDC));
+            HDC backBufferDC;
+            CHECK_HR(m_backBuffer->GetDC(&backBufferDC));
 
             // Do not paint when the current displayed line is passing
             // our rect, when it does and we draw we get tearing.
             for(; ;)
             {
-                DWORD scanLine;
-                hr = m_directDraw7->GetScanLine(&scanLine);
-
-                if (hr ==  DDERR_VERTICALBLANKINPROGRESS)
-                {
-                    break;
-                }
+                D3DRASTER_STATUS rasterStatus;
+                hr = GetDevice()->GetRasterStatus(0, &rasterStatus);
 
                 if (FAILED(hr))
                 {
                     break;
                 }
 
-                if (scanLine >= (DWORD)rect.top && scanLine <= (DWORD)rect.bottom)
+                if (rasterStatus.InVBlank)
                 {
+                    break;
+                }
+
+                if (rasterStatus.ScanLine >= (DWORD)rect.top && rasterStatus.ScanLine <= (DWORD)rect.bottom)
+                {
+                    Sleep(1);
                     continue;
                 }
 
                 break;
             }
 
-            ::BitBlt(hdc, rect.left, rect.top, rect.Width(), rect.Height(), scaledDC, 0, 0, SRCCOPY);
+            ::BitBlt(hdc, rect.left, rect.top, rect.Width(), rect.Height(), backBufferDC, 0, 0, SRCCOPY);
 
-            CHECK_HR(scaledSurface->ReleaseDC(scaledDC));
+            CHECK_HR(m_backBuffer->ReleaseDC(backBufferDC));
+
+            m_width = rect.Width();
+            m_height = rect.Height();
         }
     }
     catch (const CAtlException& except)
@@ -237,6 +248,8 @@ void DShowVideoPlayer::Thread_PrepareGraph()
 {
     m_filterGraph.SetNotifyWindow(m_hWnd);
     m_filterGraph.SetPresentImageMessage(WM_PRESENT_IMAGE);
+    m_filterGraph.SetD3D(m_d3d);
+    m_filterGraph.SetD3DDevice(GetDevice());
 
     m_isFirstFrame = true;
     m_filterGraph.BuildGraph(GetSrc());
@@ -307,19 +320,17 @@ unsigned DShowVideoPlayer::PlaybackThreadFunc(void* arg)
     return 0;
 }
 
-CSize DShowVideoPlayer::GetSurfaceSize(const CComPtr<IDirectDrawSurface7>& surface)
+CSize DShowVideoPlayer::GetSurfaceSize(const CComPtr<IDirect3DSurface9>& surface)
 {
-    DDSURFACEDESC2 descriptor;
-    ZeroMemory(&descriptor, sizeof(DDSURFACEDESC2));
-    descriptor.dwSize = sizeof(DDSURFACEDESC2);
-    
-    surface->GetSurfaceDesc(&descriptor);
-    return CSize(descriptor.dwWidth, descriptor.dwHeight);
+    D3DSURFACE_DESC descriptor;
+    surface->GetDesc(&descriptor);
+
+    return CSize(descriptor.Width, descriptor.Height);
 }
 
 LRESULT DShowVideoPlayer::OnPresentImage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-    VMRPRESENTATIONINFO* frame = reinterpret_cast<VMRPRESENTATIONINFO*>(lParam);
+    VMR9PresentationInfo* frame = reinterpret_cast<VMR9PresentationInfo*>(lParam);
 
     if (m_isFirstFrame)
     {
@@ -338,10 +349,11 @@ LRESULT DShowVideoPlayer::OnPresentImage(UINT uMsg, WPARAM wParam, LPARAM lParam
         return 0;
     }
 
-    HRESULT hr = m_backBuffer->BltFast(0, 0, frame->lpSurf, NULL, DDBLTFAST_DONOTWAIT);
+    CRect displayRect(0, 0, m_width, m_height);
+    HRESULT hr = GetDevice()->StretchRect(frame->lpSurf, 0, m_backBuffer, &displayRect, m_textureFilterType);
 
     LOG(logDEBUG2) << __FUNCTIONW__ << " Start: " << ReferenceTime(frame->rtStart) 
-        << " End: " << ReferenceTime(frame->rtEnd) << " result: 0x" << std::hex << hr;
+        << " End: " << ReferenceTime(frame->rtEnd) << " StretchRect result: 0x" << std::hex << hr;
 
     if (m_playerCallback)
     {

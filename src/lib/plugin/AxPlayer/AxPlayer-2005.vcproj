@@ -56,7 +56,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -81,7 +81,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib "
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -174,7 +174,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -270,7 +270,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -366,7 +366,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -422,7 +422,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CustomVMR7Allocator.cpp"
+				RelativePath=".\CustomVMR9Allocator.cpp"
 				>
 			</File>
 			<File
@@ -572,7 +572,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CustomVMR7Allocator.h"
+				RelativePath=".\CustomVMR9Allocator.h"
 				>
 			</File>
 			<File
@@ -626,11 +626,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Res\VideoTagBehavior.rgs"
+				RelativePath=".\VideoTagBehavior.rgs"
 				>
 			</File>
 			<File
-				RelativePath=".\VideoTagBehavior.rgs"
+				RelativePath=".\Res\VideoTagBehavior.rgs"
 				>
 			</File>
 		</Filter>

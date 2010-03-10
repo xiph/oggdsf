@@ -99,16 +99,18 @@ private:
     void Thread_ExecuteFunction();
     
     void CreateBackBufferSurface(const CSize& videoSize);
-    CSize GetSurfaceSize(const CComPtr<IDirectDrawSurface7>& surface);
-    CComPtr<IDirectDrawSurface7> GetScalingSurface(const CSize &aSize);
+    CSize GetSurfaceSize(const CComPtr<IDirect3DSurface9>& surface);
+    CComPtr<IDirect3DSurface9>& GetScalingSurface(const CSize &aSize);
+
+    void CreateDevice();
+    CComPtr<IDirect3DDevice9>& GetDevice();
 
 private:
     FilterGraph m_filterGraph;
 
-    CComPtr<IDirectDraw7> m_directDraw7;
-    CComPtr<IDirectDrawSurface7> m_backBuffer;
-    CComPtr<IDirectDrawSurface7> m_scalingBuffer;
-    CSize m_scalingSize;
+    CComPtr<IDirect3D9> m_d3d;
+    CComPtr<IDirect3DDevice9> m_direct3dDevice;
+    CComPtr<IDirect3DSurface9> m_backBuffer;
 
     int m_width;
     int m_height;
@@ -126,6 +128,8 @@ private:
 
     bool m_isFirstFrame;
     PlayerState m_state;
+
+    D3DTEXTUREFILTERTYPE m_textureFilterType;
 };
 
 #endif // DSHOWVIDEOPLAYER_H
