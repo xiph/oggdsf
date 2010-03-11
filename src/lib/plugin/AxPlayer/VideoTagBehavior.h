@@ -100,7 +100,7 @@ public:
         DWORD dwStyle = 0, DWORD dwExStyle = 0,
         _U_MENUorID MenuOrID = 0U, LPVOID lpCreateParam = NULL);
 
-    HRESULT OnDraw(ATL_DRAWINFO& di);
+    HRESULT OnDrawAdvanced(ATL_DRAWINFO& di);
 
     DECLARE_REGISTRY_RESOURCEID(IDR_VIDEOTAGBEHAVIOR)
 
@@ -142,6 +142,7 @@ public:
 
     BEGIN_MSG_MAP(VideoTagBehavior)
         MESSAGE_HANDLER(WM_LBUTTONDOWN, OnLButtonDown)
+        MESSAGE_HANDLER(WM_ERASEBKGND, OnEraseBkgnd)
         CHAIN_MSG_MAP(CComControl<VideoTagBehavior>)
         DEFAULT_REFLECTION_HANDLER()
     END_MSG_MAP()
@@ -200,6 +201,7 @@ public:
 
     // ActiveX Windows Events, received only by the embedded control
     LRESULT OnLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
+    LRESULT OnEraseBkgnd(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
 
     // IEmbeddedAxEventsSink
     virtual HRESULT __stdcall OnLeftButtonDown(LONG x, LONG y);

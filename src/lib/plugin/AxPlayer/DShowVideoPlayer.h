@@ -111,6 +111,8 @@ private:
     CComPtr<IDirect3D9> m_d3d;
     CComPtr<IDirect3DDevice9> m_direct3dDevice;
     CComPtr<IDirect3DSurface9> m_backBuffer;
+    CComPtr<IDirect3DSurface9> m_scalingBuffer;
+    CSize m_scalingSize;
 
     int m_width;
     int m_height;

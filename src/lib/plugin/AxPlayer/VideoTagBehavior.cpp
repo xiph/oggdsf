@@ -59,6 +59,8 @@ m_heightPercentage(NOT_SET)
     m_sizeExtent.cx = 0;
     m_sizeExtent.cy = 0;
 
+    m_bWindowOnly = TRUE;
+
     LOG(logDEBUG) << this << ": " << __FUNCTIONW__; 
 }
 
@@ -293,7 +295,13 @@ HRESULT __stdcall VideoTagBehavior::GetPainterInfo(HTML_PAINTER_INFO *pInfo)
 
 HRESULT __stdcall VideoTagBehavior::OnEmbeddedDraw(RECT rect, HDC hdc)
 {
-    HRESULT hr = m_videoPlayer.Draw(rect, rect, 0, hdc, 0);
+    CRect windowRect(0, 0, m_width, m_height);
+    if (m_hWnd != 0)
+    {
+        GetWindowRect(&windowRect);
+    }
+
+    HRESULT hr = m_videoPlayer.Draw(rect, windowRect, 0, hdc, 0);
     return hr;
 }
 
@@ -302,11 +310,17 @@ HRESULT __stdcall VideoTagBehavior::Draw(RECT rcBounds, RECT rcUpdate, LONG lDra
     // This is called only in Quirks mode
     m_standardsMode = false;
 
-    HRESULT hr = m_videoPlayer.Draw(rcBounds, rcUpdate, lDrawFlags, hdc, pvDrawObject);
+    CRect windowRect(0, 0, m_width, m_height);
+    if (m_hWnd != 0)
+    {
+        GetWindowRect(&windowRect);
+    }
+
+    HRESULT hr = m_videoPlayer.Draw(rcBounds, windowRect, lDrawFlags, hdc, pvDrawObject);
     return hr;
 }
 
-HRESULT VideoTagBehavior::OnDraw(ATL_DRAWINFO& di)
+HRESULT VideoTagBehavior::OnDrawAdvanced(ATL_DRAWINFO& di)
 {
     RECT& rc = *(RECT*)di.prcBounds;
 
@@ -754,4 +768,9 @@ void VideoTagBehavior::AdjustElementDimensions(const CSize &movieSize)
         m_height = m_desiredVideoSize.cy;
         m_width = static_cast<unsigned long>(m_desiredVideoSize.cy * aspectRatio);
     }
+}
+
+LRESULT VideoTagBehavior::OnEraseBkgnd( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/ )
+{
+    return FALSE;
 }
