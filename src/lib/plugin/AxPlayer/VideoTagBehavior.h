@@ -219,6 +219,7 @@ private:
     void AdjustElementDimensions(const CSize &movieSize);
 
     void AcquireEmbeddedAx();
+    void AcquireHtmlWindow3();
     
     CString GetSiteURL();
     bool IsRelativeURL(const CString& url);
@@ -229,6 +230,7 @@ private:
     CComPtr<IHTMLPaintSite> m_paintSite;
     CComPtr<IHTMLElement> m_element;
     CComPtr<IOleClientSite> m_oleClientSite;
+    CComPtr<IHTMLWindow3> m_htmlWindow3;
 
     CString m_embeddedAxGuid;
     CComPtr<IHTMLElement> m_embeddedAxElement;

@@ -122,22 +122,26 @@ CComPtr<IDirect3DDevice9>& DShowVideoPlayer::GetDevice()
 
 CComPtr<IDirect3DSurface9>& DShowVideoPlayer::GetScalingSurface(const CSize &aSize)
 {
-    if (m_scalingBuffer && aSize != m_scalingSize) 
+    if (m_scalingBuffer && m_presentBuffer && aSize != m_scalingSize) 
     {
-        LOG(logDEBUG3) << __FUNCTIONW__ << " Releasing old scaling surface";
+        LOG(logDEBUG3) << __FUNCTIONW__ << " Releasing old scaling surfaces";
 
         m_scalingBuffer = 0;
+        m_presentBuffer = 0;
     }
 
-    if (!m_scalingBuffer) 
+    if (!m_scalingBuffer && !m_presentBuffer) 
     {
-        LOG(logDEBUG3) << __FUNCTIONW__ << " Creating new scaling surface";
+        LOG(logDEBUG3) << __FUNCTIONW__ << " Creating new scaling surfaces";
 
         D3DDISPLAYMODE displayMode = {};
         CHECK_HR(m_d3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &displayMode));
 
         CHECK_HR(GetDevice()->CreateRenderTarget(aSize.cx, aSize.cy, displayMode.Format, 
-            D3DMULTISAMPLE_NONE, 0, TRUE, &m_scalingBuffer, 0));
+            D3DMULTISAMPLE_NONE, 0, FALSE, &m_scalingBuffer, 0));
+
+        CHECK_HR(GetDevice()->CreateOffscreenPlainSurface(aSize.cx, aSize.cy, displayMode.Format,
+            D3DPOOL_SYSTEMMEM, &m_presentBuffer, 0));
 
         m_scalingSize = aSize;
     }
@@ -145,9 +149,13 @@ CComPtr<IDirect3DSurface9>& DShowVideoPlayer::GetScalingSurface(const CSize &aSi
     return m_scalingBuffer;
 }
 
-HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HDC hdc, LPVOID pvDrawObject)
+HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcWindow, LONG lDrawFlags, HDC hdc, LPVOID pvDrawObject)
 {
     CRect rect(rcBounds);
+
+    LOG(logDEBUG4) << __FUNCTIONW__ 
+        << " [" << rect.left << "," << rect.top << " x " << rect.right << "," << rect.bottom << "] ->"
+        << " [" << rcWindow.left << "," << rcWindow.top << " x " << rcWindow.right  << "," << rcWindow.bottom << "]";
 
     HRESULT hr = S_OK;
     try
@@ -157,9 +165,10 @@ HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HD
             // Use a third buffer to scale the picture
             CComPtr<IDirect3DSurface9> scaledSurface = GetScalingSurface(CSize(rect.Width(), rect.Height()));
             CHECK_HR(GetDevice()->StretchRect(m_backBuffer, 0, scaledSurface, 0, m_textureFilterType));
+            CHECK_HR(GetDevice()->GetRenderTargetData(scaledSurface, m_presentBuffer));
 
-            HDC scalingBufferDC;
-            CHECK_HR(m_scalingBuffer->GetDC(&scalingBufferDC));
+            HDC presentBufferDC;
+            CHECK_HR(m_presentBuffer->GetDC(&presentBufferDC));
 
             // Do not paint when the current displayed line is passing
             // our rect, when it does and we draw we get tearing.
@@ -178,7 +187,7 @@ HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HD
                     break;
                 }
 
-                if (rasterStatus.ScanLine >= (DWORD)rcUpdate.top && rasterStatus.ScanLine <= (DWORD)rcUpdate.bottom)
+                if (rasterStatus.ScanLine >= (DWORD)rcWindow.top && rasterStatus.ScanLine <= (DWORD)rcWindow.bottom)
                 {
                     Sleep(1);
                     continue;
@@ -187,9 +196,9 @@ HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HD
                 break;
             }
 
-            ::BitBlt(hdc, rect.left, rect.top, rect.Width(), rect.Height(), scalingBufferDC, 0, 0, SRCCOPY);
+            ::BitBlt(hdc, rect.left, rect.top, rect.Width(), rect.Height(), presentBufferDC, 0, 0, SRCCOPY);
 
-            CHECK_HR(m_scalingBuffer->ReleaseDC(scalingBufferDC));
+            CHECK_HR(m_presentBuffer->ReleaseDC(presentBufferDC));
         }
     }
     catch (const CAtlException& except)

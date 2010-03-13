@@ -140,6 +140,7 @@ HRESULT __stdcall VideoTagBehavior::Notify(LONG lEvent, VARIANT* pVar)
                 CHECK_HR(HTMLEvents::DispEventAdvise(m_element));
 
                 AcquireEmbeddedAx();
+                AcquireHtmlWindow3();
             }
             break;
         }
@@ -150,6 +151,19 @@ HRESULT __stdcall VideoTagBehavior::Notify(LONG lEvent, VARIANT* pVar)
     }
 
     return S_OK;
+}
+
+void VideoTagBehavior::AcquireHtmlWindow3()
+{
+    CComPtr<IDispatch> disp;
+    CComPtr<IHTMLDocument2> document2;
+    CComPtr<IHTMLWindow2> window2;
+
+    CHECK_HR(m_element->get_document(&disp));
+    CHECK_HR(disp->QueryInterface(IID_IHTMLDocument2, (LPVOID *) &document2));
+    CHECK_HR(document2->get_parentWindow(&window2));
+
+    CHECK_HR(window2->QueryInterface(&m_htmlWindow3));
 }
 
 HRESULT __stdcall VideoTagBehavior::Detach()
@@ -280,9 +294,13 @@ HRESULT __stdcall VideoTagBehavior::GetPainterInfo(HTML_PAINTER_INFO *pInfo)
     pInfo->lFlags = 
         HTMLPAINTER_NOSAVEDC | 
         HTMLPAINTER_SUPPORTS_XFORM | 
-        HTMLPAINTER_HITTEST;
+        HTMLPAINTER_HITTEST | 
+        HTMLPAINTER_SURFACE | 
+        HTMLPAINTER_OVERLAY;
 
     pInfo->lZOrder = HTMLPAINT_ZORDER_REPLACE_ALL;
+
+    pInfo->iidDrawObject = IID_IDirectDrawSurface;
 
     pInfo->rcExpand.left = 0;
     pInfo->rcExpand.top = 0;
@@ -295,13 +313,24 @@ HRESULT __stdcall VideoTagBehavior::GetPainterInfo(HTML_PAINTER_INFO *pInfo)
 
 HRESULT __stdcall VideoTagBehavior::OnEmbeddedDraw(RECT rect, HDC hdc)
 {
-    CRect windowRect(0, 0, m_width, m_height);
-    if (m_hWnd != 0)
+    HRESULT hr = S_OK;
+    try
     {
-        GetWindowRect(&windowRect);
+        long screenLeft = 0;
+        long screenTop = 0;
+        CHECK_HR(m_htmlWindow3->get_screenLeft(&screenLeft));
+        CHECK_HR(m_htmlWindow3->get_screenTop(&screenTop));
+
+        CRect clientRect(rect);
+        CRect windowRect(screenLeft, screenTop, screenLeft + clientRect.Width(), screenTop + clientRect.Height());
+
+        CHECK_HR(m_videoPlayer.Draw(clientRect, windowRect, 0, hdc, 0));
+    }
+    catch (const CAtlException& except)
+    {
+        hr = except.m_hr;
     }
 
-    HRESULT hr = m_videoPlayer.Draw(rect, windowRect, 0, hdc, 0);
     return hr;
 }
 
@@ -310,13 +339,30 @@ HRESULT __stdcall VideoTagBehavior::Draw(RECT rcBounds, RECT rcUpdate, LONG lDra
     // This is called only in Quirks mode
     m_standardsMode = false;
 
-    CRect windowRect(0, 0, m_width, m_height);
-    if (m_hWnd != 0)
+    HRESULT hr = S_OK;
+    try
     {
-        GetWindowRect(&windowRect);
+        long screenLeft = 0;
+        long screenTop = 0;
+        CHECK_HR(m_htmlWindow3->get_screenLeft(&screenLeft));
+        CHECK_HR(m_htmlWindow3->get_screenTop(&screenTop));
+
+        CRect clientRect(rcBounds);
+        CRect windowRect(screenLeft, screenTop, screenLeft + clientRect.Width(), screenTop + clientRect.Height());
+
+        CComPtr<IDirectDrawSurface> destSurface;
+        destSurface = reinterpret_cast<IDirectDrawSurface*>(pvDrawObject);
+
+        HDC destSurfaceDC;
+        CHECK_HR(destSurface->GetDC(&destSurfaceDC));
+        CHECK_HR(m_videoPlayer.Draw(clientRect, windowRect, lDrawFlags, destSurfaceDC, pvDrawObject));
+        CHECK_HR(destSurface->ReleaseDC(destSurfaceDC));
+    }
+    catch (const CAtlException& except)
+    {
+        hr = except.m_hr;
     }
 
-    HRESULT hr = m_videoPlayer.Draw(rcBounds, windowRect, lDrawFlags, hdc, pvDrawObject);
     return hr;
 }
 
