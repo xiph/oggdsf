@@ -6,7 +6,6 @@
 	ProjectGUID="{C2C1F096-2541-4B13-A57E-52F2368A0E36}"
 	RootNamespace="AxPlayer"
 	Keyword="AtlProj"
-	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -56,8 +55,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -82,7 +81,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib "
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -106,6 +105,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -147,8 +149,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -172,7 +174,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -196,6 +198,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -240,8 +245,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -265,7 +270,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -291,6 +296,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -334,8 +342,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
+				AdditionalIncludeDirectories="&quot;Generated Files&quot;;res;..\..\helper\;..\uriparser\include"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -358,7 +366,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -386,6 +394,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -411,7 +422,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CustomVMR7Allocator.cpp"
+				RelativePath=".\CustomVMR9Allocator.cpp"
 				>
 			</File>
 			<File
@@ -561,7 +572,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CustomVMR7Allocator.h"
+				RelativePath=".\CustomVMR9Allocator.h"
 				>
 			</File>
 			<File
@@ -616,6 +627,10 @@
 			</File>
 			<File
 				RelativePath=".\VideoTagBehavior.rgs"
+				>
+			</File>
+			<File
+				RelativePath=".\Res\VideoTagBehavior.rgs"
 				>
 			</File>
 		</Filter>
