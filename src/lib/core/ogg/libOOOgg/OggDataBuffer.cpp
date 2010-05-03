@@ -32,6 +32,7 @@
 #include "stdafx.h"
 #include <libOOOgg/OggDataBuffer.h>
 #include "common/Log.h"
+#undef min
 
 //LEAK CHECKED - 2004/10/17		-	OK.
 //LEAK FOUND - 2004/11/29  -  acceptOggPage
@@ -171,23 +172,22 @@ OggDataBuffer::eFeedResult OggDataBuffer::feed(const unsigned char* inData, unsi
 		if (inData != NULL) 
         {
 			//Buffer is not null and there is at least 1 byte of data.
-			
 			// LOG(logDEBUG1) << "Fed " << inNumBytes << " bytes...";
-			unsigned long locNumWritten = mBuffer->write(inData, inNumBytes);
+			unsigned long locNumWritten = 0;
 
-			if (locNumWritten < inNumBytes) 
+            eProcessResult locResult = PROCESS_OK;
+            while (locNumWritten < inNumBytes && locResult == PROCESS_OK) 
             {
-				//TODO::: What does happen in this case.
-
-				//Handle this case... you lose data.
-				//Buffer is full
-				
-				// LOG(logDEBUG1) << "Feed : Could count feed in " << inNumBytes <<" bytes";
-				// LOG(logDEBUG1) << "Feed : ** "<< mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";
-
-				locNumWritten = locNumWritten;
-			}
-			return (eFeedResult)processBuffer();
+                unsigned long locBytesToWrite = std::min(inNumBytes - locNumWritten, mBuffer->spaceLeft());
+                unsigned long locBytesWritten = mBuffer->write(&inData[locNumWritten], locBytesToWrite);
+                if (locBytesWritten == 0)
+                {
+                    return FEED_BUFFER_WRITE_ERROR;
+                }
+                locNumWritten += locBytesWritten;
+                locResult = processBuffer();
+            }
+            return (eFeedResult)locResult;
 		} 
         else 
         {
@@ -229,8 +229,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBaseHeader()
 			//The buffer handles it for us, it won't let us read less, and will return 0
 			//	This is fine for valid files, but still needs to be reviewed.
 
-			// LOG(logDEBUG1) << "ProcessBaseHeader : ###### Read was short.";
-			// LOG(logDEBUG1) << "ProcessBaseHeader : ** "<< mBuffer->numBytesAvail() <<" avail, " << mBuffer->spaceLeft() <<" space left.";
+			LOG(logDEBUG1) << "ProcessBaseHeader : ###### Read was short.";
+			LOG(logDEBUG1) << "ProcessBaseHeader : ** "<< mBuffer->numBytesAvail() <<" avail, " << mBuffer->spaceLeft() <<" space left.";
 			locNumRead = locNumRead;
 		}
 
@@ -283,8 +283,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processSegTable()
 	if (locNumRead < locNumSegs) 
     {
 		//TODO::: Handle this case
-		// LOG(logDEBUG1) << "ProcessSegTable : ##### Short read";
-		// LOG(logDEBUG1) << "ProcessSegTable : ** "<< mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";		
+		LOG(logDEBUG1) << "ProcessSegTable : ##### Short read";
+		LOG(logDEBUG1) << "ProcessSegTable : ** "<< mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";		
 	}
 
 
@@ -358,8 +358,8 @@ OggDataBuffer::eProcessResult OggDataBuffer::processDataSegment()
             {
 				//TODO::: Handle this case.
 
-				// LOG(logDEBUG1) << "ProcessDataSegment : ###### Short read";
-				// LOG(logDEBUG1) << "ProcessDataSegment : ** " << mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";
+				LOG(logDEBUG1) << "ProcessDataSegment : ###### Short read";
+				LOG(logDEBUG1) << "ProcessDataSegment : ** " << mBuffer->numBytesAvail() << " avail, " << mBuffer->spaceLeft() << " space left.";
 				locNumRead = locNumRead;
 			}
 
@@ -506,7 +506,7 @@ OggDataBuffer::eProcessResult OggDataBuffer::processBuffer()
 			case LOST_PAGE_SYNC:
 				//TODO::: Insert resync code here.
 
-				// LOG(logDEBUG1) << "ProcessBuffer : State = LOST_PAGE_SYNC";
+				LOG(logDEBUG1) << "ProcessBuffer : State = LOST_PAGE_SYNC";
 				return PROCESS_LOST_SYNC;
 			default:
 				//TODO::: What are we supposed to do with this. Anything need cleaning up ?

@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004, 2005 Zentaro Kavanagh
+//Copyright (C) 2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -49,7 +50,7 @@ OggGranuleSeekTable::~OggGranuleSeekTable(void)
 bool OggGranuleSeekTable::enabled() {
 	return mEnabled;
 }
-bool OggGranuleSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos, LOOG_INT64 inGranulePos)
+bool OggGranuleSeekTable::addSeekPoint(LOOG_INT64 inTime, LOOG_INT64 mStartPos, LOOG_INT64 inGranulePos)
 {
 	//stDebug<< "Add Point :  Time = "<<inTime<<"   --   Byte Pos : "<<mStartPos<<endl;
 	tGranulePair locPair;
@@ -59,7 +60,6 @@ bool OggGranuleSeekTable::addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPo
 	mSeekMap.insert(tSeekMap::value_type(inTime, locPair));
 
 	return true;
-
 }
 
 
@@ -73,12 +73,26 @@ OggGranuleSeekTable::tSeekPair OggGranuleSeekTable::getStartPos(LOOG_INT64 inTim
 	// Finds the upper bound of the requested time in mSeekMap, which will always be in the range
 	// (0, maxItems], and return the element _before_ the upper bound
     //return *(--(mSeekMap.upper_bound(inTime)));
+    if (mSeekMap.empty())
+    {
+        tSeekPair empty;
+        tGranulePair zeroGranule;
 
+        zeroGranule.first = 0;
+        zeroGranule.second = 0;
+        empty.first = 0;
+        empty.second = zeroGranule;
+
+        return empty;
+    }
 
 	tSeekMap::iterator locIt = mSeekMap.lower_bound(inTime);
-	if (locIt == mSeekMap.begin()) {
+	if (locIt == mSeekMap.begin()) 
+    {
 		return *(locIt);
-	} else {
+	} 
+    else 
+    {
 		return *(--locIt);
 	}
 }

@@ -62,21 +62,23 @@ HRESULT TheoraDecodeOutputPin::BreakConnect()
 	CAutoLock locLock(m_pLock);
 	//Need a lock ??
 	ReleaseDelegate();
-	//LOG(logDEBUG) << "Break connect";
-	return CTransformOutputPin::BreakConnect();
+	LOG(logDEBUG) << __FUNCTIONW__;
+	
+    return CTransformOutputPin::BreakConnect();
 }
 
 HRESULT TheoraDecodeOutputPin::CompleteConnect (IPin *inReceivePin) 
 {
 	CAutoLock locLock(m_pLock);
-	//LOG(logDEBUG) << "Complete connect";
+	LOG(logDEBUG) << __FUNCTIONW__;
+
 	IMediaSeeking* locSeeker = NULL;
 
 	m_pFilter->GetPin(0)->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 
 	if (locSeeker == NULL) 
     {
-		//LOG(logDEBUG) << "Seeker was NULL";
+		LOG(logDEBUG) << __FUNCTIONW__ << "Seeker was NULL";
 	}
 
 	SetDelegate(locSeeker);

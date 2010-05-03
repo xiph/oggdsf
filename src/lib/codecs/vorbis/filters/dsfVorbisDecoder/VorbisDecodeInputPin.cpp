@@ -118,137 +118,146 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 {
 	CAutoLock locLock(mStreamLock);
 
-	HRESULT locHR = CheckStreaming();
+	HRESULT hr = CheckStreaming();
 
-	if (locHR == S_OK) 
+	if (hr != S_OK) 
     {
-		BYTE* locBuff = NULL;
-		locHR = inSample->GetPointer(&locBuff);
+        //Not streaming - Bail out.
+        return S_FALSE;
+    }
 
-		if (locHR != S_OK) 
-        {
-			//TODO::: Do a debug dump or something here with specific error info.
-			return locHR;
-		} 
-        else 
-        {
-			REFERENCE_TIME locStart = -1;
-			REFERENCE_TIME locEnd = -1;
-			__int64 locSampleDuration = 0;
-			inSample->GetTime(&locStart, &locEnd);
+	BYTE* buffer = NULL;
+	hr = inSample->GetPointer(&buffer);
 
-			HRESULT locResult = TransformData(locBuff, inSample->GetActualDataLength());
-			if (locResult != S_OK) 
-            {
-				return S_FALSE;
-			}
-			if (locEnd > 0) 
-            {
-				//Can dump it all downstream now	
-				IMediaSample* locSample;
-				unsigned long locBytesCopied = 0;
-				unsigned long locBytesToCopy = 0;
-
-				locStart = convertGranuleToTime(locEnd) - (((mDecodedByteCount / mFrameSize) * UNITS) / mSampleRate);
-
-				REFERENCE_TIME locGlobalOffset = 0;
-				//Handle stream offsetting
-				if (!mSentStreamOffset && (mOggOutputPinInterface != NULL)) 
-                {
-					mOggOutputPinInterface->notifyStreamBaseTime(locStart);
-					mSentStreamOffset = true;	
-				}
-
-				if (mOggOutputPinInterface != NULL) {
-					locGlobalOffset = mOggOutputPinInterface->getGlobalBaseTime();
-				}
-
-				do 
-                {
-					HRESULT locHR = mOutputPin->GetDeliveryBuffer(&locSample, NULL, NULL, NULL);
-					if (locHR != S_OK) 
-                    {
-						return locHR;
-					}
-
-					BYTE* locBuffer = NULL;
-					locHR = locSample->GetPointer(&locBuffer);
-				
-					if (locHR != S_OK) 
-                    {
-						return locHR;
-					}
-
-					LOG(logDEBUG4) << "Sample Size = " << locSample->GetSize();
-					locBytesToCopy = ((mDecodedByteCount - locBytesCopied) <= locSample->GetSize()) ? (mDecodedByteCount - locBytesCopied) : locSample->GetSize();
-					LOG(logDEBUG4) << "Filled size = " << locBytesToCopy;
-					LOG(logDEBUG4) << "Actual Buffer count = " << mOutputPin->actualBufferCount();
-					//locBytesCopied += locBytesToCopy;
-
-					locSampleDuration = (((locBytesToCopy/mFrameSize) * UNITS) / mSampleRate);
-					locEnd = locStart + locSampleDuration;
-
-					//Adjust the time stamps for rate and seeking
-					REFERENCE_TIME locAdjustedStart = (locStart * RATE_DENOMINATOR) / mRateNumerator;
-					REFERENCE_TIME locAdjustedEnd = (locEnd * RATE_DENOMINATOR) / mRateNumerator;
-					locAdjustedStart -= (m_tStart + locGlobalOffset);
-					locAdjustedEnd -= (m_tStart + locGlobalOffset);
-
-					__int64 locSeekStripOffset = 0;
-					if (locAdjustedEnd < 0) 
-                    {
-						locSample->Release();
-					} 
-                    else 
-                    {
-						if (locAdjustedStart < 0) 
-                        {
-							locSeekStripOffset = (-locAdjustedStart) * mSampleRate;
-							locSeekStripOffset *= mFrameSize;
-							locSeekStripOffset /= UNITS;
-							locSeekStripOffset += (mFrameSize - (locSeekStripOffset % mFrameSize));
-							__int64 locStrippedDuration = (((locSeekStripOffset/mFrameSize) * UNITS) / mSampleRate);
-							locAdjustedStart += locStrippedDuration;
-						}
-							
-
-						//memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
-                        reorderChannels(locBuffer, &mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
-
-						locSample->SetTime(&locAdjustedStart, &locAdjustedEnd);
-						locSample->SetMediaTime(&locStart, &locEnd);
-						locSample->SetSyncPoint(TRUE);
-						locSample->SetActualDataLength(locBytesToCopy - locSeekStripOffset);
-						locHR = ((VorbisDecodeOutputPin*)(mOutputPin))->mDataQueue->Receive(locSample);
-						if (locHR != S_OK) 
-                        {
-							return locHR;
-						}
-						locStart += locSampleDuration;
-
-					}
-					locBytesCopied += locBytesToCopy;
-
-				
-				} while(locBytesCopied < mDecodedByteCount);
-
-				mDecodedByteCount = 0;
-				
-			}
-			return S_OK;
-
-		}
+	if (hr != S_OK) 
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " inSample->GetPointer failed, error code: 0x" << std::hex << hr;
+		return hr;
 	} 
-    else 
+
+	REFERENCE_TIME tStart = -1;
+	REFERENCE_TIME tStop = -1;
+	__int64 sampleDuration = 0;
+	inSample->GetTime(&tStart, &tStop);
+
+	hr = TransformData(buffer, inSample->GetActualDataLength());
+	if (hr != S_OK) 
     {
-		//Not streaming - Bail out.
 		return S_FALSE;
 	}
+	if (tStop > 0) 
+    {
+		//Can dump it all downstream now	
+		IMediaSample* sample;
+		unsigned long bytesCopied = 0;
+		unsigned long bytesToCopy = 0;
+
+		tStart = convertGranuleToTime(tStop) - (((mDecodedByteCount / mFrameSize) * UNITS) / mSampleRate);
+
+		REFERENCE_TIME globalOffset = 0;
+		//Handle stream offsetting
+		if (!mSentStreamOffset && (mOggOutputPinInterface != NULL)) 
+        {
+			mOggOutputPinInterface->notifyStreamBaseTime(tStart);
+			mSentStreamOffset = true;	
+		}
+
+		if (mOggOutputPinInterface != NULL) 
+        {
+			globalOffset = mOggOutputPinInterface->getGlobalBaseTime();
+		}
+
+		do 
+        {
+			HRESULT hr = mOutputPin->GetDeliveryBuffer(&sample, NULL, NULL, NULL);
+			if (hr != S_OK) 
+            {
+				return hr;
+			}
+
+			BYTE* locBuffer = NULL;
+			hr = sample->GetPointer(&locBuffer);
+		
+			if (hr != S_OK) 
+            {
+				return hr;
+			}
+
+            LOG(logDEBUG4) << __FUNCTIONW__ << " Sample Size: " << sample->GetSize();
+			bytesToCopy = sample->GetSize();
+            
+            if (mDecodedByteCount - bytesCopied < sample->GetSize()) 
+            {
+                bytesToCopy = mDecodedByteCount - bytesCopied;
+            }
+
+            LOG(logDEBUG4) << __FUNCTIONW__ << " Bytes to copy: " << bytesToCopy;
+			LOG(logDEBUG4) << __FUNCTIONW__ << " Actual Buffer count = " << mOutputPin->actualBufferCount();
+			//bytesCopied += bytesToCopy;
+
+			sampleDuration = (((bytesToCopy/mFrameSize) * UNITS) / mSampleRate);
+			tStop = tStart + sampleDuration;
+
+			//Adjust the time stamps for rate and seeking
+			REFERENCE_TIME adjustedStart = (tStart * RATE_DENOMINATOR) / mRateNumerator;
+			REFERENCE_TIME adjustedStop = (tStop * RATE_DENOMINATOR) / mRateNumerator;
+			adjustedStart -= (m_tStart + globalOffset);
+			adjustedStop -= (m_tStart + globalOffset);
+
+			__int64 seekStripOffset = 0;
+			if (adjustedStop < 0) 
+            {
+				sample->Release();
+			} 
+            else 
+            {
+				if (adjustedStart < 0) 
+                {
+					seekStripOffset = (-adjustedStart) * mSampleRate;
+					seekStripOffset *= mFrameSize;
+					seekStripOffset /= UNITS;
+					seekStripOffset += (mFrameSize - (seekStripOffset % mFrameSize));
+					__int64 strippedDuration = (((seekStripOffset/mFrameSize) * UNITS) / mSampleRate);
+					adjustedStart += strippedDuration;
+				}					
+
+                LOG(logDEBUG4) << __FUNCTIONW__ << " Seek strip offset: " << seekStripOffset;
+
+                if (bytesToCopy - seekStripOffset < 0)
+                {
+                    sample->Release();
+                }
+                else
+                {
+				    //memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[bytesCopied + seekStripOffset], bytesToCopy - seekStripOffset);
+                    reorderChannels(locBuffer, &mDecodedBuffer[bytesCopied + seekStripOffset], bytesToCopy - seekStripOffset);
+
+				    sample->SetTime(&adjustedStart, &adjustedStop);
+				    sample->SetMediaTime(&tStart, &tStop);
+				    sample->SetSyncPoint(TRUE);
+				    sample->SetActualDataLength(bytesToCopy - seekStripOffset);
+				    hr = ((VorbisDecodeOutputPin*)(mOutputPin))->mDataQueue->Receive(sample);
+				    if (hr != S_OK) 
+                    {
+					    return hr;
+				    }
+				    tStart += sampleDuration;
+                }
+			}
+			bytesCopied += bytesToCopy;
+
+		
+		} while(bytesCopied < mDecodedByteCount);
+
+		mDecodedByteCount = 0;
+		
+	}
+	return S_OK;
 }
 
 void VorbisDecodeInputPin::reorderChannels(unsigned char* inDestBuffer, const unsigned char* inSourceBuffer, unsigned long inNumBytes)
 {
-    //memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[locBytesCopied + locSeekStripOffset], locBytesToCopy - locSeekStripOffset);
+    //memcpy((void*)locBuffer, (const void*)&mDecodedBuffer[bytesCopied + seekStripOffset], bytesToCopy - seekStripOffset);
 
     if (((VorbisDecodeFilter*)m_pFilter)->USE_CORRECT_VORBIS_CHANNEL_MAPPING && 
         (mNumChannels == 6  || mNumChannels == 3 || mNumChannels == 5)) 

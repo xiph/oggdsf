@@ -57,8 +57,8 @@ protected:
 #else
 	string mFilename;
 #endif
-	unsigned long mFilePos;
+	LOOG_INT64 mFilePos;
 
-	unsigned long mPreviousFilePos;
+	LOOG_INT64 mPreviousFilePos;
 	OggDataBuffer* mOggDemux;
 };

@@ -110,7 +110,7 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Directshow Filters for 
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${PRODUCT_WEB_SITE}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 - 2009 ${PRODUCT_PUBLISHER}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 - 2010 ${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "The Xiph Fish Logo and the Vorbis.com many-fish logos are trademarks (tm) of ${PRODUCT_PUBLISHER}"
 
 ; Language Selection Dialog Settings
@@ -515,28 +515,34 @@ Section "Oggcodecs Core Files" SEC_CORE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	Directshow extension to filter mapping - 8
+;;;  Mapped to File Source (Async.), except for FLAC
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  WriteRegStr HKCR "Media Type\Extensions\.anx" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "Media Type\Extensions\.axa" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "Media Type\Extensions\.axv" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "Media Type\Extensions\.anx" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "Media Type\Extensions\.axa" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "Media Type\Extensions\.axv" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
   WriteRegStr HKCR "Media Type\Extensions\.flac" "Source Filter" "{6DDA37BA-0553-499a-AE0D-BEBA67204548}"
-  WriteRegStr HKCR "Media Type\Extensions\.oga" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "Media Type\Extensions\.ogg" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "Media Type\Extensions\.ogv" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "Media Type\Extensions\.spx" "Source Filter" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "Media Type\Extensions\.oga" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "Media Type\Extensions\.ogg" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "Media Type\Extensions\.ogv" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "Media Type\Extensions\.spx" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	Directshow extension to filter mapping for HTTP - 7
+;;;  Mapped to File Source (URL)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  WriteRegStr HKCR "http\Extensions" ".OGG" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "http\Extensions" ".OGV" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "http\Extensions" ".OGA" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "http\Extensions" ".SPX" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "http\Extensions" ".ANX" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "http\Extensions" ".AXV" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
-  WriteRegStr HKCR "http\Extensions" ".AXA" "{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+  WriteRegStr HKCR "http\Extensions" ".OGG" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "http\Extensions" ".OGV" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "http\Extensions" ".OGA" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "http\Extensions" ".SPX" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "http\Extensions" ".ANX" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "http\Extensions" ".AXV" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+  WriteRegStr HKCR "http\Extensions" ".AXA" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+  
+  ;; Add the "OggS" recognition pattern
+  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{DD142C1E-0C1E-4381-A24E-0B2D80B6098A}" "0" "0,4,,4F676753"
+  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{DD142C1E-0C1E-4381-A24E-0B2D80B6098A}" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}";
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	MLS Perceived type - 7
@@ -910,7 +916,10 @@ Section Uninstall
   DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".ogv"
   DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".spx"
   DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" ".flac"
-  
+
+  ; Delete the "OggS" regonition pattern
+  DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{DD142C1E-0C1E-4381-A24E-0B2D80B6098A}"
+
   ; Delete the AxPlayer XMLNamespace registry value
   DeleteRegValue HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" 
 

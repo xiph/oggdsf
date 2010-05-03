@@ -39,8 +39,10 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // LIBWINCMMLPARSE_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifdef LIBWINCMMLPARSE_EXPORTS
-#define LIBWINCMMLPARSE_API __declspec(dllexport)
-#else
-#define LIBWINCMMLPARSE_API __declspec(dllimport)
-#endif
+
+#define LIBWINCMMLPARSE_API
+// #ifdef LIBWINCMMLPARSE_EXPORTS
+// #define LIBWINCMMLPARSE_API __declspec(dllexport)
+// #else
+// #define LIBWINCMMLPARSE_API __declspec(dllimport)
+// #endif

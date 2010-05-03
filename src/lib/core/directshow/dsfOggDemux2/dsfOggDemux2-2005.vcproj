@@ -1,324 +1,1082 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<VisualStudioProject ProjectType="Visual C++" Version="8.00" Name="dsfOggDemux2" ProjectGUID="{304B710A-7355-471C-A4A8-9E8F6D640E6D}" RootNamespace="dsfOggDemux2" Keyword="Win32Proj">
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="dsfOggDemux2"
+	ProjectGUID="{304B710A-7355-471C-A4A8-9E8F6D640E6D}"
+	RootNamespace="dsfOggDemux2"
+	Keyword="Win32Proj"
+	>
 	<Platforms>
-		<Platform Name="Win32"/>
-		<Platform Name="x64"/>
-		<Platform Name="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"/>
-		<Platform Name="Windows Mobile 5.0 Smartphone SDK (ARMV4I)"/>
-		<Platform Name="Windows Mobile 6 Professional SDK (ARMV4I)"/>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+		/>
+		<Platform
+			Name="Windows Mobile 6 Professional SDK (ARMV4I)"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration Name="Debug|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool"/>
-			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS" MinimalRebuild="true" ExceptionHandling="2" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="0" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib " OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="1"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS"
+				MinimalRebuild="true"
+				ExceptionHandling="2"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="4"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib "
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS" MinimalRebuild="true" ExceptionHandling="2" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="0" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib " OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="17"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS"
+				MinimalRebuild="true"
+				ExceptionHandling="2"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib "
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" ExceptionHandling="2" RuntimeLibrary="1" UsePrecompiledHeader="0" WarningLevel="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib" OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				MinimalRebuild="true"
+				ExceptionHandling="2"
+				RuntimeLibrary="1"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" ExceptionHandling="2" RuntimeLibrary="1" UsePrecompiledHeader="0" WarningLevel="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib" OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				MinimalRebuild="true"
+				ExceptionHandling="2"
+				RuntimeLibrary="1"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" ExceptionHandling="2" RuntimeLibrary="1" UsePrecompiledHeader="0" WarningLevel="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib" OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="2" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb" SubSystem="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;DEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				MinimalRebuild="true"
+				ExceptionHandling="2"
+				RuntimeLibrary="1"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/dsfOggDemux2.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS" ExceptionHandling="2" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib " OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="1"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS"
+				ExceptionHandling="2"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib "
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS" ExceptionHandling="2" RuntimeLibrary="2" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib " OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="17"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCManifestTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCAppVerifierTool"/>
-			<Tool Name="VCWebDeploymentTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS"
+				ExceptionHandling="2"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib Strmiids.lib Quartz.lib Ole32.Lib AdvAPI32.Lib OleAut32.Lib user32.lib WSock32.Lib ShLwApi.Lib "
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" ExceptionHandling="2" RuntimeLibrary="0" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib" OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				ExceptionHandling="2"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" ExceptionHandling="2" RuntimeLibrary="0" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib" OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="%CSIDL_PROGRAM_FILES%\Xiph.Org\Ogg Codecs" RegisterOutput="-1" AdditionalFiles="$(TargetDir)\dsfVorbisDecoder.dll"/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				ExceptionHandling="2"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory="%CSIDL_PROGRAM_FILES%\Xiph.Org\Ogg Codecs"
+				RegisterOutput="-1"
+				AdditionalFiles="$(TargetDir)\dsfVorbisDecoder.dll"
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" ExceptionHandling="2" RuntimeLibrary="0" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="3" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLinkerTool" AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib" OutputFile="$(OutDir)/dsfOggDemux2.dll" LinkIncremental="1" AdditionalLibraryDirectories="" ModuleDefinitionFile="dsfOggDemux2.def" GenerateDebugInformation="true" SubSystem="2" OptimizeReferences="2" EnableCOMDATFolding="2" ImportLibrary="$(OutDir)/dsfOggDemux2.lib" TargetMachine="0"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="&quot;$(BASECLASSES_WINCE)&quot;;..\..\ogg;..\libDirectshowAbstracts;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				ExceptionHandling="2"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				OutputFile="$(OutDir)/dsfOggDemux2.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="dsfOggDemux2.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/dsfOggDemux2.lib"
+				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
-		<Filter Name="Source Files" Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx" UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
-			<File RelativePath=".\CustomOggChainGranuleSeekTable.cpp">
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath=".\CustomOggChainGranuleSeekTable.cpp"
+				>
 			</File>
-			<File RelativePath=".\DataSourceFactory.cpp">
-			</File>
-			<File RelativePath=".\ds_guids.cpp">
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="2"/>
+			<File
+				RelativePath=".\ds_guids.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
 				</FileConfiguration>
 			</File>
-			<File RelativePath=".\dsfOggDemux2.def">
+			<File
+				RelativePath=".\dsfOggDemux2.def"
+				>
 			</File>
-			<File RelativePath=".\FilterFileSource.cpp">
+			<File
+				RelativePath=".\OggDemuxFilter.cpp"
+				>
 			</File>
-			<File RelativePath=".\HTTPSocket.cpp">
+			<File
+				RelativePath=".\OggDemuxInputPin.cpp"
+				>
 			</File>
-			<File RelativePath=".\HTTPStreamingFileSource.cpp">
+			<File
+				RelativePath=".\OggDemuxOutputPin.cpp"
+				>
 			</File>
-			<File RelativePath=".\OggDemuxPacketSourceFilter.cpp">
+			<File
+				RelativePath=".\oggdllstuff.cpp"
+				>
 			</File>
-			<File RelativePath=".\OggDemuxPacketSourcePin.cpp">
+			<File
+				RelativePath=".\OggStreamMapper.cpp"
+				>
 			</File>
-			<File RelativePath=".\oggdllstuff.cpp">
-			</File>
-			<File RelativePath=".\OggStreamMapper.cpp">
-			</File>
-			<File RelativePath=".\SingleMediaFileCache.cpp">
-			</File>
-			<File RelativePath=".\stdafx.cpp">
-				<FileConfiguration Name="Debug|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;inc;xsd" UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File RelativePath=".\CustomOggChainGranuleSeekTable.h">
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<File
+				RelativePath=".\CustomOggChainGranuleSeekTable.h"
+				>
 			</File>
-			<File RelativePath=".\DataSourceFactory.h">
+			<File
+				RelativePath=".\ds_guids.h"
+				>
 			</File>
-			<File RelativePath=".\ds_guids.h">
+			<File
+				RelativePath=".\FilterFileSource.h"
+				>
 			</File>
-			<File RelativePath=".\FilterFileSource.h">
+			<File
+				RelativePath=".\IOggBaseTime.h"
+				>
 			</File>
-			<File RelativePath=".\HTTPSocket.h">
+			<File
+				RelativePath=".\IOggDecoder.h"
+				>
 			</File>
-			<File RelativePath=".\HTTPStreamingFileSource.h">
+			<File
+				RelativePath=".\IOggFilterSeeker.h"
+				>
 			</File>
-			<File RelativePath=".\ICustomSource.h">
+			<File
+				RelativePath=".\IOggOutputPin.h"
+				>
 			</File>
-			<File RelativePath=".\IFilterDataSource.h">
+			<File
+				RelativePath=".\OggDemuxFilter.h"
+				>
 			</File>
-			<File RelativePath=".\IOggBaseTime.h">
+			<File
+				RelativePath=".\OggDemuxInputPin.h"
+				>
 			</File>
-			<File RelativePath=".\IOggDecoder.h">
+			<File
+				RelativePath=".\OggDemuxOutputPin.h"
+				>
 			</File>
-			<File RelativePath=".\IOggFilterSeeker.h">
+			<File
+				RelativePath=".\oggdllstuff.h"
+				>
 			</File>
-			<File RelativePath=".\IOggOutputPin.h">
+			<File
+				RelativePath=".\OggStreamMapper.h"
+				>
 			</File>
-			<File RelativePath=".\OggDemuxPacketSourceFilter.h">
-			</File>
-			<File RelativePath=".\OggDemuxPacketSourcePin.h">
-			</File>
-			<File RelativePath=".\oggdllstuff.h">
-			</File>
-			<File RelativePath=".\OggStreamMapper.h">
-			</File>
-			<File RelativePath=".\SingleMediaFileCache.h">
-			</File>
-			<File RelativePath=".\stdafx.h">
+			<File
+				RelativePath=".\stdafx.h"
+				>
 			</File>
 		</Filter>
-		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx" UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
 		</Filter>
-		<File RelativePath="..\..\..\codecs\flac\filters\dsfNativeFLACSource\ReadMe.txt">
-		</File>
-		<File RelativePath=".\ReadMe.txt">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

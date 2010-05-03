@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004, 2005 Zentaro Kavanagh
+//Copyright (C) 2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -36,7 +37,9 @@
 #include "IOggDecoder.h"
 #include "IOggOutputPin.h"
 
-class OggDemuxPacketSourcePin
+class OggDemuxFilter;
+
+class OggDemuxOutputPin
 	:	public CBaseOutputPin
 	,	public BasicSeekPassThrough
 	,	public IOggCallback
@@ -47,26 +50,20 @@ public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-	//OggDemuxPacketSourcePin();
-	OggDemuxPacketSourcePin(	TCHAR* inObjectName, 
-							OggDemuxPacketSourceFilter* inParentFilter,
-							CCritSec* inFilterLock,
-							OggPacket* inIdentHeader,
-							unsigned long inSerialNo);
-							//StreamHeaders* inHeaderSource, 
-							//CMediaType* inMediaType,
-							//wstring inPinName,
-							//bool inAllowSeek,
-							//unsigned long inNumBuffers,
-							//unsigned long inBufferSize);
-	virtual ~OggDemuxPacketSourcePin();
+	//OggDemuxOutputPin();
+	OggDemuxOutputPin(	TCHAR* inObjectName, 
+						OggDemuxFilter* inParentFilter,
+						CCritSec* inFilterLock,
+						OggPacket* inIdentHeader,
+						unsigned long inSerialNo);
+	virtual ~OggDemuxOutputPin();
 
 	static const unsigned long NUM_PAGE_BUFFERS = 100;
 
 	unsigned long getSerialNo();
-	IOggDecoder* getDecoderInterface();
-	bool isStreamReady()							{		return mIsStreamReady;				}
-	void setIsStreamReady(bool inIsStreamReady)		{		mIsStreamReady = inIsStreamReady;	}
+	CComPtr<IOggDecoder> getDecoderInterface();
+	bool IsStreamReady();
+	void SetIsStreamReady(bool inIsStreamReady);
 
 	//IOggCallback Interface
 	virtual bool acceptOggPage(OggPage* inOggPage);
@@ -95,23 +92,26 @@ protected:
 	virtual bool acceptStampedOggPacket(StampedOggPacket* inPacket);
 	virtual bool dispatchPacket(StampedOggPacket* inPacket);
 
+    OggDemuxFilter* GetFilter();
+private:
+
 	//What is this actually for ?
 	HRESULT mFilterHR;
 
 	BYTE* getIdentAsFormatBlock();
 	unsigned long getIdentSize();
-	unsigned long mSerialNo;
+	unsigned long m_serialNo;
 
-	CCritSec* mPacketiserLock;
+	CCritSec* m_packetiserLock;
 
-	unsigned long mNumBuffers;
+	unsigned long m_numBuffers;
 	
-	OggPacket* mIdentHeader;
-	IOggDecoder* mDecoderInterface;
-	OggPacketiser mPacketiser;
+	OggPacket* m_identHeader;
+	CComPtr<IOggDecoder> m_decoderInterface;
+	OggPacketiser m_packetiser;
 
-	COutputQueue* mDataQueue;
+	COutputQueue* m_dataQueue;
 
-	bool mIsStreamReady;
-	bool mAcceptingData;
+	bool m_isStreamReady;
+	bool m_acceptingData;
 };

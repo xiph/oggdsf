@@ -40,23 +40,13 @@
 // Windows Header Files:
 #include <windows.h>
 
-#include <tchar.h>
+#include <atlbase.h>
+#include <atlcom.h>
 
-// TODO: reference additional headers your program requires here
 #include <vector>
-#include <fstream>
-#include <iostream>
-using namespace std;
-
 #include "oggdllstuff.h"
-#include "OggDemuxPacketSourceFilter.h"
-#include "OggDemuxPacketSourcePin.h"
 
 #include <Dshow.h>
 #include <Qnetwork.h>
 
 #include "common/Log.h"
-
-#include <atlbase.h>
-#include <atlcom.h>
-

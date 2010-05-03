@@ -1,8 +1,6 @@
-
-
-
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//Copyright (C) 2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -49,7 +47,7 @@ public:
 	virtual ~OggGranuleSeekTable(void);
 
 	/// A Pair consitsing of a byte position and a granule pos
-	typedef pair<unsigned long, LOOG_INT64> tGranulePair;
+	typedef pair<LOOG_INT64, LOOG_INT64> tGranulePair;
 
 	/// A pair consiting of a real time, and a granule pair, making a triplet.
 	typedef pair<LOOG_INT64, tGranulePair> tSeekPair;
@@ -59,7 +57,7 @@ public:
 	tSeekMap getSeekMap();
 
 	/// Add a seek point (which consists of a time in DirectShow units, and a byte offset corresponding to that time, and a granule pos) to the seek table.
-	bool addSeekPoint(LOOG_INT64 inTime, unsigned long mStartPos, LOOG_INT64 inGranulePos);
+	bool addSeekPoint(LOOG_INT64 inTime, LOOG_INT64 mStartPos, LOOG_INT64 inGranulePos);
 
 	/// Given a requested seek time in DirectShow units, returns the closest time and byte to the seek time.
 	tSeekPair getStartPos(LOOG_INT64 inTime);

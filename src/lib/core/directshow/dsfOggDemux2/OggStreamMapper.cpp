@@ -1,7 +1,9 @@
 #include "StdAfx.h"
-#include ".\oggstreammapper.h"
+#include "OggStreamMapper.h"
+#include "OggDemuxFilter.h"
+#include "OggDemuxOutputPin.h"
 
-OggStreamMapper::OggStreamMapper(OggDemuxPacketSourceFilter* inParentFilter, CCritSec* inParentFilterLock):	
+OggStreamMapper::OggStreamMapper(OggDemuxFilter* inParentFilter, CCritSec* inParentFilterLock):	
 mStreamState(STRMAP_READY),	
 mParentFilter(inParentFilter),	
 mParentFilterLock(inParentFilterLock),	
@@ -18,7 +20,7 @@ OggStreamMapper::~OggStreamMapper(void)
 	}
 }
 
-OggDemuxPacketSourcePin* OggStreamMapper::getPinByIndex(unsigned long inIndex)
+OggDemuxOutputPin* OggStreamMapper::getPinByIndex(unsigned long inIndex)
 {
 	if (inIndex < mPins.size()) 
     {
@@ -68,7 +70,7 @@ bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)
 				//		int x = 2;
 				//	}
 				// }
-				OggDemuxPacketSourcePin* locPin = getMatchingPin(inOggPage->header()->StreamSerialNo());
+				OggDemuxOutputPin* locPin = getMatchingPin(inOggPage->header()->StreamSerialNo());
 				if (locPin != NULL) 
                 {
 					return locPin->acceptOggPage(inOggPage);
@@ -92,10 +94,10 @@ bool OggStreamMapper::acceptOggPage(OggPage* inOggPage)
 bool OggStreamMapper::allStreamsReady()
 {
 	bool locAllReady = true;
-	//OggDemuxPacketSourcePin* locPin = NULL;
+	//OggDemuxOutputPin* locPin = NULL;
 	for (size_t i = 0; i < mPins.size(); i++) 
     {
-		locAllReady = locAllReady && mPins[i]->isStreamReady();
+		locAllReady = locAllReady && mPins[i]->IsStreamReady();
 	}	
 
 	return locAllReady && (mPins.size() > 0);
@@ -137,7 +139,7 @@ bool OggStreamMapper::addNewPin(OggPage* inOggPage)
 	} 
     else 
     {
-		OggDemuxPacketSourcePin* locNewPin = new OggDemuxPacketSourcePin(NAME("OggPageSourcePin"), mParentFilter, mParentFilterLock, inOggPage->getPacket(0)->clone(), inOggPage->header()->StreamSerialNo());
+		OggDemuxOutputPin* locNewPin = new OggDemuxOutputPin(NAME("OggPageSourcePin"), mParentFilter, mParentFilterLock, inOggPage->getPacket(0)->clone(), inOggPage->header()->StreamSerialNo());
 		//locNewPin->AddRef();
 		delete inOggPage;
 		mPins.push_back(locNewPin);
@@ -145,9 +147,9 @@ bool OggStreamMapper::addNewPin(OggPage* inOggPage)
 	}
 }
 
-OggDemuxPacketSourcePin* OggStreamMapper::getMatchingPin(unsigned long inSerialNo)
+OggDemuxOutputPin* OggStreamMapper::getMatchingPin(unsigned long inSerialNo)
 {
-	OggDemuxPacketSourcePin* locPin = NULL;
+	OggDemuxOutputPin* locPin = NULL;
 	for (size_t i = 0; i < mPins.size(); i++) 
     {
 		locPin = mPins[i];

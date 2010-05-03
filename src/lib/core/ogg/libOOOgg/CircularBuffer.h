@@ -123,8 +123,7 @@
 //
 //
 
-class LIBOOOGG_API CircularBuffer
-	:	public IFIFOBuffer
+class LIBOOOGG_API CircularBuffer:	public IFIFOBuffer
 {
 public:
 	/// Constructor taking in the size in bytes of the internal buffer.

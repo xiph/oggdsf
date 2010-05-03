@@ -45,7 +45,7 @@ class VorbisDecodeOutputPin :
 {
 public:
 
-    static const unsigned long NUM_BUFFERS = 4;
+    static const unsigned long NUM_BUFFERS = 16;
 
 	friend class VorbisDecodeInputPin;
 

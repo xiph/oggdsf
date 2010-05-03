@@ -39,7 +39,7 @@
 #include "CustomVMR9Allocator.h"
 
 namespace {
-    const GUID CLSID_OggDemuxPacketSourceFilter =
+    const GUID CLSID_OggDemuxFilter =
     {0xc9361f5a, 0x3282, 0x4944, {0x98, 0x99, 0x6d, 0x99, 0xcd, 0xc5, 0x37, 0xb}};
 
     const GUID CLSID_VorbisDecodeFilter =
@@ -70,7 +70,7 @@ void FilterGraph::BuildGraph(const CString& videoUrl)
     {
         CHECK_HR(m_graphBuilder.CoCreateInstance(CLSID_FilterGraph));
 
-        AddSourceFilter();
+        AddSourceDemuxFilters();
         AddDecoders();
         ConnectDecoders();
         AddRenderers();
@@ -96,13 +96,33 @@ FilterGraph::~FilterGraph()
     }
 }
 
-void FilterGraph::AddSourceFilter()
+void FilterGraph::AddSourceDemuxFilters()
 {
-    m_oggSource = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_OggDemuxPacketSourceFilter, 
-                                                L"Ogg Source Filter");
+    CLSID sourceCLSID = CLSID_URLReader;
 
-    CComQIPtr<IFileSourceFilter> fileSource = m_oggSource;
+    CString lowerCaseUrl(m_videoUrl);
+    lowerCaseUrl.MakeLower();
+
+    if (lowerCaseUrl.Find(L"file://") != -1)
+    {
+        sourceCLSID = CLSID_AsyncReader;
+    }
+
+    // Add the source filter
+    m_sourceFilter = DShowUtil::AddFilterFromCLSID(m_graphBuilder, sourceCLSID, L"Source Filter");
+
+    CComQIPtr<IFileSourceFilter> fileSource = m_sourceFilter;
     CHECK_HR(fileSource->Load(m_videoUrl, 0));
+
+    // Add the ogg demux filter
+    m_oggDemux = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_OggDemuxFilter, 
+        L"Ogg Demux Filter");
+
+    // Connect the source and demux filters
+    CComPtr<IPin> sourceOut = DShowUtil::FindPin(m_sourceFilter, PINDIR_OUTPUT);
+    CComPtr<IPin> oggDemuxIn = DShowUtil::FindPin(m_oggDemux, PINDIR_INPUT);
+
+    CHECK_HR(m_graphBuilder->Connect(sourceOut, oggDemuxIn));
 }
 
 void FilterGraph::AddDecoders()
@@ -119,7 +139,7 @@ void FilterGraph::AddDecoders()
 void FilterGraph::ConnectDecoders()
 {
     // Connect vorbis decoder
-    CComPtr<IPin> vorbisDemuxOut = DShowUtil::FindPin(m_oggSource, PINDIR_OUTPUT, 1);
+    CComPtr<IPin> vorbisDemuxOut = DShowUtil::FindPin(m_oggDemux, PINDIR_OUTPUT, 1);
     CComPtr<IPin> vorbisDecoderIn = DShowUtil::FindPin(m_vorbisDecoder, PINDIR_INPUT, 0);
 
     if (vorbisDemuxOut)
@@ -132,7 +152,7 @@ void FilterGraph::ConnectDecoders()
     }
 
     // Connect theora decoder
-    CComPtr<IPin> theoraDemuxOut = DShowUtil::FindPin(m_oggSource, PINDIR_OUTPUT, 0);
+    CComPtr<IPin> theoraDemuxOut = DShowUtil::FindPin(m_oggDemux, PINDIR_OUTPUT, 0);
     CComPtr<IPin> theoraDecoderIn = DShowUtil::FindPin(m_theoraDecoder, PINDIR_INPUT, 0);
 
     if (theoraDemuxOut)

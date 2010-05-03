@@ -2,8 +2,10 @@
 
 #include <string>
 #include <map>
-#include <libCMMLParse/libCMMLParse.h>
-#include <libCMMLParse/CMMLParser.h>
+//#include <libCMMLParse/libCMMLParse.h>
+//#include <libCMMLParse/CMMLParser.h>
+#include <libWinCMMLParse/libWinCMMLParse.h>
+#include <libWinCMMLParse/CMMLParser.h>
 #include <libTemporalURI/C_TimeStamp.h>
 #include "CMMLRawSourcePin.h"
 using namespace std;

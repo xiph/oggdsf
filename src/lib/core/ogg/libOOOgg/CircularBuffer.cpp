@@ -31,6 +31,7 @@
 
 #include "stdafx.h"
 #include <libOOOgg/CircularBuffer.h>
+#undef min
 
 //Leak checked : 20041017 - OK
 CircularBuffer::CircularBuffer(unsigned long inBufferSize)
@@ -43,34 +44,29 @@ CircularBuffer::CircularBuffer(unsigned long inBufferSize)
 	mBuffer = new unsigned char[inBufferSize + 1];			//Deleted in destructor.
 }
 
-CircularBuffer::~CircularBuffer(void)
+CircularBuffer::~CircularBuffer()
 {
 	delete[] mBuffer;
 }
 
-unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytesToRead, bool inAllowShortRead) {
-
-	//Returns early. - why?
-	//TODO::: This is probably a bug?
-	if (inBytesToRead >  spaceLeft()) {
-		return 0;
-	}
-    	
+unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytesToRead, bool inAllowShortRead) 
+{
 	unsigned long locBytesToRead =	inBytesToRead;
 	
-	if (inAllowShortRead) {
-		locBytesToRead = (inBytesToRead <= numBytesAvail())		?	inBytesToRead
-																:	numBytesAvail();
+	if (inAllowShortRead) 
+    {
+        locBytesToRead = std::min(inBytesToRead, numBytesAvail());
 	}
+    else if (inBytesToRead >  spaceLeft()) 
+    {
+        return 0;
+    }
 
-	if (locBytesToRead == 0) {
+	if (locBytesToRead == 0) 
+    {
 		return 0;
 	}
 	
-		//	(inBytesToRead <= numBytesAvail())	?	inBytesToRead
-		//											:	numBytesAvail();
-	//locBytesToRead = the lower of numBytesAvail() and inBytesToRead
-
 	bufASSERT(locBytesToRead <= mBufferSize);
 	bufASSERT(locBytesToRead <= inBytesToRead);
 	bufASSERT(locBytesToRead <= numBytesAvail());
@@ -84,12 +80,15 @@ unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytes
 	unsigned long locEndDistance = (mBufferSize + 1 - mReadPtr);
 	
 	//bufASSERT(locEndDistance <= mBufferSize);
-	if (locEndDistance >= locBytesToRead) {
+	if (locEndDistance >= locBytesToRead) 
+    {
 		//Within the buffer
 		bufASSERT(mReadPtr <= mBufferSize);
 		
 		memcpy((void*)outData, (const void*)(mBuffer + mReadPtr), locBytesToRead);
-	} else {
+	} 
+    else 
+    {
 		bufASSERT(locEndDistance <= mBufferSize);
 
 		//Copy from the end of the raw buffer as much as we can into outdtata
@@ -103,8 +102,10 @@ unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytes
 	return locBytesToRead;
 }
 
-unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long inBytesToWrite) {
-	if (inBytesToWrite >  spaceLeft()) {
+unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long inBytesToWrite) 
+{
+	if (inBytesToWrite >  spaceLeft()) 
+    {
 		return 0;
 	}
 
@@ -126,10 +127,13 @@ unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long i
 	//signed long locEndOffset = locEndDistance - locBytesToWrite;
 
 
-	if (locEndDistance >= locBytesToWrite) {
+	if (locEndDistance >= locBytesToWrite) 
+    {
 		//Within the buffer
 		memcpy((void*)(mBuffer + mWritePtr), ((const void*)inData), locBytesToWrite);
-	} else {
+	} 
+    else 
+    {
 		bufASSERT(locEndDistance <= mBufferSize);
 
 		//Copy from the end of the raw buffer as much as we can into outdtata
@@ -144,18 +148,17 @@ unsigned long CircularBuffer::write(const unsigned char* inData, unsigned long i
 	mWritePtr = (mWritePtr + locBytesToWrite) % (mBufferSize + 1);
 
 	return locBytesToWrite;
-
-	
-
 }
 
-unsigned long CircularBuffer::spaceLeft() {
+unsigned long CircularBuffer::spaceLeft() 
+{
 	bufASSERT(mReadPtr <= mBufferSize);
 	bufASSERT(mWritePtr <= mBufferSize);
 
 	//The write pointer is always treated as being equal to or in front of the read pointer.
 	//return mBufferSize - numBytesAvail() - 1;
-	if (mReadPtr > mWritePtr) {
+	if (mReadPtr > mWritePtr) 
+    {
 		//Read pointer is to the right of the Write pointer
 		// Since the write pointer is always in front, this means all the data from the read ptr
 		// to the end of the buffer, plus everything from the start up to the write pointer is
@@ -165,16 +168,20 @@ unsigned long CircularBuffer::spaceLeft() {
 
 		bufASSERT(mReadPtr > mWritePtr);
 		return  (mReadPtr - mWritePtr - 1);
-	} else {
+	} 
+    else 
+    {
 		bufASSERT(mReadPtr <= mWritePtr);
 		return mBufferSize + mReadPtr - mWritePtr ;
 	}
 }
-unsigned long CircularBuffer::numBytesAvail() {
+unsigned long CircularBuffer::numBytesAvail() 
+{
 	bufASSERT(mReadPtr <= mBufferSize);
 	bufASSERT(mWritePtr <= mBufferSize);
 
-	if (mReadPtr > mWritePtr) {
+	if (mReadPtr > mWritePtr) 
+    {
 		//Read pointer is to the right of the Write pointer
 		// Since the write pointer is always in front, this means all the data from the read ptr
 		// to the end of the buffer, plus everything from the start up to the write pointer is
@@ -186,14 +193,16 @@ unsigned long CircularBuffer::numBytesAvail() {
 
 		//Here
 		return  (mBufferSize + 1 + mWritePtr - mReadPtr);
-	} else {
+	} 
+    else 
+    {
 		//if (mReadPtr <= mWritePtr)
 		return mWritePtr - mReadPtr;
 	}
 }
 
-void CircularBuffer::reset() {
+void CircularBuffer::reset() 
+{
 	mWritePtr = 0;
 	mReadPtr = 0;
 }
-

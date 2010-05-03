@@ -69,7 +69,7 @@ public:
     long GetMovieEventCode();
 
 private:
-    void AddSourceFilter();
+    void AddSourceDemuxFilters();
     void AddDecoders();
     void ConnectDecoders();
     void AddRenderers();
@@ -81,7 +81,8 @@ private:
 
     CComPtr<IFilterGraph2> m_graphBuilder;
     
-    CComPtr<IBaseFilter> m_oggSource;
+    CComPtr<IBaseFilter> m_sourceFilter;
+    CComPtr<IBaseFilter> m_oggDemux;
     CComPtr<IBaseFilter> m_vorbisDecoder;
     CComPtr<IBaseFilter> m_theoraDecoder;
 

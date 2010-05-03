@@ -42,7 +42,7 @@ class NativeFLACSourcePin: public CBaseOutputPin, public BasicSeekPassThrough
 {
 public:
     //Constants
-    static const unsigned long NUM_BUFFERS = 4;
+    static const unsigned long NUM_BUFFERS = 16;
 
 public:
     //COM Stuff

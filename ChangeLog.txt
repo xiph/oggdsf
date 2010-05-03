@@ -1,8 +1,21 @@
-Version 0.82.16930
+Version 0.83.xxxxx 
+
+    * Updated libvorbis to version 1.3.1
+    * Updated libogg to version 1.2.0
+    * Ogg Demux filter has been changed from a source + parser filter to just parser filter. This step allows usage of 
+       DirectShow's "File Source (Async.)" filter which give support of files bigger than 2GB, or "File Source (URL)" which
+       gives better networking support.
+    * HTML5 <video> plug-in has received a couple of improvements:
+        - URI support given by uriparser library
+        - VMR9 support (instead of VMR7), this requires DirectX9
+        - Internet Explorer Standards mode support, instead of just Quirks mode
+        - width and height basic attribute support
+
+Version 0.82.16930 - 22.02.2010
 
     * Updated Theora to version 1.1.1
     * Updated Vorbis to version 1.2.3
-    * Windows 7 suppport (note that contextual menu entries in Windows Explorer is not yet available - Ticket #1619)
+    * Windows 7 support (note that contextual menu entries in Windows Explorer is not yet available - Ticket #1619)
     * Added support for Theora 4:2:2 and 4:4:4 color sampling formats.
     * Added HTML5 <video> tag support for Microsoft Internet Explorer. This component is not enabled by default in the
        installer and it is only a technical preview - only basic playback (play/pause by left click button), no seeking, no

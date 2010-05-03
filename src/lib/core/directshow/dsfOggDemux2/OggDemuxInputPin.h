@@ -1,5 +1,5 @@
 //===========================================================================
-//Copyright (C) 2003-2006 Zentaro Kavanagh
+//Copyright (C) 2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -12,7 +12,7 @@
 //  notice, this list of conditions and the following disclaimer in the
 //  documentation and/or other materials provided with the distribution.
 //
-//- Neither the name of Zentaro Kavanagh nor the names of contributors 
+//- Neither the name of Cristian Adam nor the names of contributors 
 //  may be used to endorse or promote products derived from this software 
 //  without specific prior written permission.
 //
@@ -28,38 +28,36 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#include "stdafx.h"
-#include "filterfilesource.h"
+#pragma once
 
-FilterFileSource::FilterFileSource(void)
-{
-}
+class OggDemuxFilter;
 
-FilterFileSource::~FilterFileSource(void)
+// Since we are not using IMemInputPin, it does not make sense to derive from 
+// CBaseInputPin. We need random access to the data, so we do not use CPullPin.
+// A worker thread on the filter calls a Read method to synchronously fetch data
+// from the source.
+class OggDemuxInputPin : public CBasePin
 {
-	mSourceFile.close();
-}
+public:
+    OggDemuxInputPin(OggDemuxFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
-unsigned long FilterFileSource::seek(unsigned long inPos) 
-{
-	mSourceFile.clear();
-	mSourceFile.seekg(inPos, ios_base::beg);
-	return mSourceFile.tellg();
-}
-void FilterFileSource::close() {
-	mSourceFile.close();
-}
-bool FilterFileSource::open(wstring inSourceLocation, unsigned long) {
-	mSourceFile.open(inSourceLocation.c_str(), ios_base::in|ios_base::binary);
-	return mSourceFile.is_open();
-}
-void FilterFileSource::clear() {
-	mSourceFile.clear();
-}
-bool FilterFileSource::isEOF() {
-	return mSourceFile.eof();
-}
-unsigned long FilterFileSource::read(char* outBuffer, unsigned long inNumBytes) {
-	mSourceFile.read(outBuffer, inNumBytes);
-	return mSourceFile.gcount();
-}
+    // base pin overrides
+    HRESULT CheckMediaType(const CMediaType* pmt);
+    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+    HRESULT CompleteConnect(IPin* pPeer);
+    HRESULT CheckConnect(IPin* pPin);
+    HRESULT BreakConnect();
+    
+    HRESULT __stdcall BeginFlush();
+    HRESULT __stdcall EndFlush();
+
+    HRESULT Read(LONGLONG llOffset, long cBytes, BYTE* pBuffer);
+    LONGLONG Length();
+
+    CComQIPtr<IAsyncReader> GetReader();
+
+private:
+    OggDemuxFilter* m_filter;
+    CMediaType m_mediaType;
+};
+

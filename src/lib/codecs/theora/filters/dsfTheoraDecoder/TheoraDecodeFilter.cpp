@@ -297,6 +297,11 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
 
 HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType) 
 {
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tMajortype: " << inMediaType->majortype;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tSubtype: " << inMediaType->subtype;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tFormattype: " << inMediaType->formattype;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tcbFormat: " << inMediaType->cbFormat;
+
 	if	( inMediaType->majortype == MEDIATYPE_OggPacketStream &&
 		  inMediaType->subtype == MEDIASUBTYPE_None && 
           inMediaType->formattype == FORMAT_OggIdentHeader)
@@ -306,11 +311,19 @@ HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType)
 			if (strncmp((char*)inMediaType->pbFormat, "\200theora", 7) == 0) 
             {
 				//TODO::: Possibly verify version
-				LOG(logDEBUG) << "Input type ok";
+				LOG(logDEBUG) << __FUNCTIONW__ << " Input type ok";
 				return S_OK;
 			}
 		}
 	}
+
+    LOG(logDEBUG) << __FUNCTIONW__ << " Input type not ok.";
+    if (inMediaType->cbFormat > 7)
+    {
+        char format[8] = {};
+        strncpy(format, reinterpret_cast<const char*>(inMediaType->pbFormat), 7);
+        LOG(logDEBUG) << __FUNCTIONW__ << " cbFormat start: " << format;
+    }
 
 	return S_FALSE;
 }
@@ -468,6 +481,8 @@ HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCAT
 
 HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMediaType) 
 {
+    LOG(logDEBUG) << __FUNCTIONW__ << " inPosition: " << inPosition;
+
 	if (inPosition < 0) 
 	{
 		return E_INVALIDARG;

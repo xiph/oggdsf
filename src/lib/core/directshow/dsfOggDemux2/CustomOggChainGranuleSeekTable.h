@@ -1,16 +1,13 @@
 #pragma once
 
-#include "IFilterDataSource.h"
-class CustomOggChainGranuleSeekTable
-	:	public AutoOggChainGranuleSeekTable
+#include "libOOOggSeek/AutoOggChainGranuleSeekTable.h"
+
+class CustomOggChainGranuleSeekTable : public AutoOggChainGranuleSeekTable
 {
 public:
-	CustomOggChainGranuleSeekTable(IFilterDataSource* inDataSource);
-	virtual ~CustomOggChainGranuleSeekTable(void);
+	CustomOggChainGranuleSeekTable();
+	virtual ~CustomOggChainGranuleSeekTable();
 
 	virtual bool buildTable();
-
-protected:
-	IFilterDataSource* mCustomSource;
-
+    virtual bool buildTable(IAsyncReader* inReader);
 };

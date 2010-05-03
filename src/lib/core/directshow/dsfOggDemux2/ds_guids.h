@@ -1,7 +1,15 @@
 #pragma once
 
+// Stream subtype for Ogg byte streams. The filter can handle
+// MEDIASUBTYPE_NULL, but specifying MEDIASUBTYPE_Ogg can save
+// the filter graph the trouble of trying out all the available
+// filters.
+// {DD142C1E-0C1E-4381-A24E-0B2D80B6098A}
+DEFINE_GUID(MEDIASUBTYPE_Ogg, 
+0xdd142c1e, 0xc1e, 0x4381, 0xa2, 0x4e, 0xb, 0x2d, 0x80, 0xb6, 0x9, 0x8a);
+
 // {C9361F5A-3282-4944-9899-6D99CDC5370B}
-DEFINE_GUID(CLSID_OggDemuxPacketSourceFilter, 
+DEFINE_GUID(CLSID_OggDemuxFilter, 
 0xc9361f5a, 0x3282, 0x4944, 0x98, 0x99, 0x6d, 0x99, 0xcd, 0xc5, 0x37, 0xb);
 
 // {60891713-C24F-4767-B6C9-6CA05B3338FC}
@@ -23,8 +31,4 @@ DEFINE_GUID(IID_IOggOutputPin,
 // {EB5AED9C-8CD0-4c4b-B5E8-F5D10AD1314D}
 DEFINE_GUID(IID_IOggBaseTime, 
 0xeb5aed9c, 0x8cd0, 0x4c4b, 0xb5, 0xe8, 0xf5, 0xd1, 0xa, 0xd1, 0x31, 0x4d);
-
-// {23EF732D-DAAF-41ee-85FB-BB97B1D01FF3}
-DEFINE_GUID(IID_ICustomSource, 
-0x23ef732d, 0xdaaf, 0x41ee, 0x85, 0xfb, 0xbb, 0x97, 0xb1, 0xd0, 0x1f, 0xf3);
 

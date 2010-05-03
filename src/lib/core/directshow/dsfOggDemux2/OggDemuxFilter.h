@@ -1,6 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004, 2005 Zentaro Kavanagh
-//Copyright (C) 2009 Cristian Adam
+//Copyright (C) 2009, 2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -31,45 +31,40 @@
 //===========================================================================
 #pragma once
 #include "BasicSeekPassThrough.h"
-#include "IFilterDataSource.h"
 #include "IOggBaseTime.h"
-#include "ICustomSource.h"
-//#include "OggStreamMapper.h"
 #include <libOOOgg/OggDataBuffer.h>
 
 #include <libOOOggSeek/AutoOggChainGranuleSeekTable.h>
 #include "CustomOggChainGranuleSeekTable.h"
-#include "DataSourceFactory.h"
+#include "OggDemuxInputPin.h"
 
 class OggStreamMapper;
-
-class OggDemuxPacketSourceFilter:	
+class OggDemuxFilter:	
     public CBaseFilter,	
     public CAMThread,	
-    public IFileSourceFilter,	
     public IOggCallback,	
     public IOggBaseTime,	
-    public ICustomSource,	
-    public BasicSeekPassThrough,	
-    public IAMFilterMiscFlags
+    public BasicSeekPassThrough
 {
 public:
-	OggDemuxPacketSourceFilter();
-	virtual ~OggDemuxPacketSourceFilter();
+    OggDemuxFilter(HRESULT* outHR);
+	virtual ~OggDemuxFilter();
 
     enum eThreadCommands 
     {
 		THREAD_EXIT = 0,
 		THREAD_PAUSE = 1,
-		THREAD_RUN = 2
+		THREAD_RUN = 2,
+        THREAD_SEEK = 3
 	};
 
 	//Com Stuff
 	DECLARE_IUNKNOWN
 
     static const wchar_t* NAME;
-    static const AMOVIESETUP_MEDIATYPE m_mediaTypes;
-    static const AMOVIESETUP_PIN m_pinReg;
+    static const AMOVIESETUP_MEDIATYPE m_outputMediaTypes;
+    static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes;
+    static const AMOVIESETUP_PIN m_pinReg[];
     static const AMOVIESETUP_FILTER m_filterReg;
 
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
@@ -77,8 +72,8 @@ public:
 
 	//Streaming MEthods
 	STDMETHODIMP Run(REFERENCE_TIME tStart);
-	STDMETHODIMP Pause(void);
-	STDMETHODIMP Stop(void);
+	STDMETHODIMP Pause();
+	STDMETHODIMP Stop();
 
 #ifdef WINCE
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
@@ -92,17 +87,7 @@ public:
 	virtual CBasePin* GetPin(int inPinNo);
 
 	//PURE VIRTUALS from CAMThread
-	virtual DWORD ThreadProc(void);
-
-	//IFileSource Interface
-	virtual STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
-	virtual STDMETHODIMP Load(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
-
-	//ICustomSource Interface
-	virtual HRESULT setCustomSourceAndLoad(IFilterDataSource* inDataSource);
-
-	//IAMFilterMiscFlags Interface
-	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
+	virtual DWORD ThreadProc();
 
 	//IMediaSeeking
 	virtual STDMETHODIMP GetDuration(LONGLONG* outDuration);
@@ -125,7 +110,7 @@ public:
 	virtual STDMETHODIMP GetPreroll(LONGLONG *pllPreroll);
 	virtual STDMETHODIMP IsUsingTimeFormat(const GUID *pFormat);
 
-	vector<OggPage*> getMatchingBufferedPages(unsigned long inSerialNo);
+    std::vector<OggPage*> getMatchingBufferedPages(unsigned long inSerialNo);
 	void removeMatchingBufferedPages(unsigned long inSerialNo);
 
 	CCritSec* streamLock();
@@ -136,7 +121,17 @@ public:
 	//IOggBaseTime Interface
 	virtual __int64 getGlobalBaseTime();
 
+    LONGLONG GetCurrentReaderPos() const;
+    void SetCurrentReaderPos(LONGLONG val);
+
+    LONGLONG GetRequestedSeekPos() const;
+    void SetRequestedSeekPos(LONGLONG val);
+
+
 protected:
+    friend class OggDemuxInputPin;
+    friend class OggDemuxOutputPin;
+
 	static const unsigned long SETUP_BUFFER_SIZE = 24;
 	virtual HRESULT SetUpPins();
 
@@ -148,24 +143,29 @@ protected:
 	void DeliverEndFlush();
 	void DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
-	CCritSec* mSourceFileLock;
-	CCritSec* mDemuxLock;
-	CCritSec* mStreamLock;
+	CCritSec m_filterLock;
+	CCritSec m_demuxLock;
+	CCritSec m_streamLock;
+    CCritSec m_positionLock;
 
 	wstring m_fileName;
 
-	bool mSeenAllBOSPages;
-	bool mSeenPositiveGranulePos;
-	OggPage* mPendingPage;
-	vector<OggPage*> mBufferedPages;
+	bool m_seenAllBOSPages;
+	bool m_seenPositiveGranulePos;
+	OggPage* m_pendingPage;
+    std::vector<OggPage*> m_bufferedPages;
 
-	OggDataBuffer mOggBuffer;
-	IFilterDataSource* mDataSource;
-	OggStreamMapper* mStreamMapper;
+	OggDataBuffer m_oggBuffer;
+	OggStreamMapper* m_streamMapper;
 
-	AutoOggChainGranuleSeekTable* mSeekTable;
+    OggDemuxInputPin m_inputPin;
 
-	bool mUsingCustomSource;
-	bool mJustReset;
-	__int64 mGlobalBaseTime;
+	AutoOggChainGranuleSeekTable* m_seekTable;
+
+	bool m_usingCustomSource;
+	bool m_justReset;
+	LONGLONG m_globalBaseTime;
+
+    LONGLONG m_currentReaderPos; 
+    LONGLONG m_requestedSeekPos;
 };

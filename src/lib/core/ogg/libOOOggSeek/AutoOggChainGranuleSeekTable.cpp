@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 #include ".\autooggchaingranuleseektable.h"
+#include <limits>
+#undef max
 
 #ifdef UNICODE
 AutoOggChainGranuleSeekTable::AutoOggChainGranuleSeekTable(wstring inFilename)
@@ -55,7 +57,7 @@ bool AutoOggChainGranuleSeekTable::buildTable()
 }
 OggGranuleSeekTable::tSeekPair AutoOggChainGranuleSeekTable::seekPos(LOOG_INT64 inTime)
 {
-	unsigned long retEarliestPos = 4294967295UL;
+    LOOG_INT64 retEarliestPos = std::numeric_limits<LOOG_INT64>::max();
 
 	LOOG_INT64 locStreamTime = -1;
 	bool locGotAValidPos = false;
@@ -65,7 +67,9 @@ OggGranuleSeekTable::tSeekPair AutoOggChainGranuleSeekTable::seekPos(LOOG_INT64 
 	OggGranuleSeekTable::tSeekPair retBestSeekInfo;
 	for (size_t i = 0; i < mStreamMaps.size(); i++) {
 
-		if ((mStreamMaps[i].mSeekTable != NULL) && (mStreamMaps[i].mSeekInterface != NULL)) {
+		if (mStreamMaps[i].mSeekTable != NULL && 
+            mStreamMaps[i].mSeekInterface != NULL) 
+        {
 			//Get the preliminary seek info
 			locSeekInfo = mStreamMaps[i].mSeekTable->getStartPos(inTime);
 			//1. Get the granule pos in the preliminary seek

@@ -40,9 +40,10 @@
 // Windows Header Files:
 #include <windows.h>
 
-#include <libOOOgg/libOOOgg.h>
+#include <atlbase.h>
+#include <atlcom.h>
 
-#include <fstream>
+#include <libOOOgg/libOOOgg.h>
 
 #include "AbstractTransformFilter.h"
 #include "AbstractTransformInputPin.h"
@@ -56,9 +57,6 @@
 #include "libOOOgg/OggPacket.h"
 
 #include "common/Log.h"
-
-#include <atlbase.h>
-#include <atlcom.h>
 
 #ifndef LOOG_INT64
 # ifdef WIN32

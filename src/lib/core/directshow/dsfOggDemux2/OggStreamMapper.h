@@ -3,6 +3,9 @@
 #include <libOOOgg/IOggCallback.h>
 #include <vector>
 
+class OggDemuxFilter;
+class OggDemuxOutputPin;
+
 class OggStreamMapper:	public IOggCallback
 {
 public:
@@ -16,7 +19,7 @@ public:
 		STRMAP_ERROR
 
 	};
-	OggStreamMapper(OggDemuxPacketSourceFilter* inParentFilter, CCritSec* inParentFilterLock);
+	OggStreamMapper(OggDemuxFilter* inParentFilter, CCritSec* inParentFilterLock);
 	virtual ~OggStreamMapper(void);
 
 	//IOggCallback Interface
@@ -27,19 +30,19 @@ public:
 	bool allStreamsReady();
 
 	unsigned long numPins()				{		return mPins.size();		}
-	OggDemuxPacketSourcePin* getPinByIndex(unsigned long inIndex);
+	OggDemuxOutputPin* getPinByIndex(unsigned long inIndex);
 
 protected:
 	eStreamState mStreamState;
-    std::vector<OggDemuxPacketSourcePin*> mPins;
-	OggDemuxPacketSourceFilter* mParentFilter;
+    std::vector<OggDemuxOutputPin*> mPins;
+	OggDemuxFilter* mParentFilter;
 	CCritSec* mParentFilterLock;
 
 	OggPacket* mFishHeadPacket;
 	unsigned long mSkeletonSerialNo;
 
 	bool addNewPin(OggPage* inOggPage);
-	OggDemuxPacketSourcePin* getMatchingPin(unsigned long inSerialNo);
+	OggDemuxOutputPin* getMatchingPin(unsigned long inSerialNo);
 
 	bool handleFishHead(OggPage* inOggPage);
 	bool isFishHead(OggPage* inOggPage);

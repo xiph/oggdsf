@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004, 2005 Zentaro Kavanagh
+//Copyright (C) 2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -30,46 +31,37 @@
 //===========================================================================
 #include "StdAfx.h"
 #include "ds_guids.h"
-#include ".\OggDemuxPacketsourcepin.h"
+#include "OggDemuxFilter.h"
+#include "OggDemuxOutputPin.h"
 #include "common/Log.h"
 
-OggDemuxPacketSourcePin::	OggDemuxPacketSourcePin(		TCHAR* inObjectName
-												,	OggDemuxPacketSourceFilter* inParentFilter
-												,	CCritSec* inFilterLock
-												,	OggPacket* inIdentHeader
-												,	unsigned long inSerialNo)
-	:	CBaseOutputPin(			NAME("Ogg Demux Output Pin")
-							,	inParentFilter
-							,	inFilterLock
-							,	&mFilterHR
-							,	L"Ogg Stream" )
-	,	mIdentHeader(inIdentHeader)
-	,	mSerialNo(inSerialNo)
-	,	mIsStreamReady(false)
-	,	mAcceptingData(false)
-	,	mNumBuffers(0)
-	,	mDataQueue(NULL)
-	,	mFilterHR(S_OK)
+OggDemuxOutputPin::	OggDemuxOutputPin(TCHAR* inObjectName, OggDemuxFilter* inParentFilter, CCritSec* inFilterLock,	
+                                      OggPacket* inIdentHeader,	unsigned long inSerialNo):	
+CBaseOutputPin(NAME("Ogg Demux Output Pin"), inParentFilter, inFilterLock, &mFilterHR, L"Ogg Stream"),	
+m_identHeader(inIdentHeader),	
+m_serialNo(inSerialNo),	
+m_isStreamReady(false),	
+m_acceptingData(false),	
+m_numBuffers(0),
+m_dataQueue(NULL),
+mFilterHR(S_OK)
 {
-
-	mPacketiserLock = new CCritSec;
+	m_packetiserLock = new CCritSec;
 	
 	//(BYTE*)inBOSPage->createRawPageData();
-	mPacketiser.setPacketSink(this);
+	m_packetiser.setPacketSink(this);
 
 	//Subvert COM and do this directly... this way, the source filter won't expose the interface to the
 	// graph but we can still delegate to it.
 	IMediaSeeking* locSeeker = (IMediaSeeking*)inParentFilter;
 	SetDelegate(locSeeker);
 }
-STDMETHODIMP OggDemuxPacketSourcePin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
+
+STDMETHODIMP OggDemuxOutputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
 	if (riid == IID_IMediaSeeking) 
     {
-		//debugLog<<"Pin queried for IMediaSeeking"<<endl;
-		*ppv = (IMediaSeeking*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
+        return GetInterface((IMediaSeeking*)this, ppv);
 	} 
     else if (riid == IID_IOggOutputPin) 
     {
@@ -81,26 +73,26 @@ STDMETHODIMP OggDemuxPacketSourcePin::NonDelegatingQueryInterface(REFIID riid, v
 	return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
-OggDemuxPacketSourcePin::~OggDemuxPacketSourcePin()
+OggDemuxOutputPin::~OggDemuxOutputPin()
 {
 	//Since we didn't addref the filter when we set the seek delegate onto it, we have to avoid
 	//	it getting released, so set it to NULL, to avoid the destructor releasing it.
 	SetDelegate(NULL);
 	//delete[] mBOSAsFormatBlock;
 	//delete mBOSPage;
-	delete mIdentHeader;
-	delete mDataQueue;
+	delete m_identHeader;
+	delete m_dataQueue;
 
-	delete mPacketiserLock;
+	delete m_packetiserLock;
 }
 
-bool OggDemuxPacketSourcePin::acceptOggPage(OggPage* inOggPage)
+bool OggDemuxOutputPin::acceptOggPage(OggPage* inOggPage)
 {
-	CAutoLock locPackLock(mPacketiserLock);
-	if (mIsStreamReady) 
+	CAutoLock locPackLock(m_packetiserLock);
+	if (m_isStreamReady) 
     {
-		mAcceptingData = true;
-		return mPacketiser.acceptOggPage(inOggPage);
+		m_acceptingData = true;
+		return m_packetiser.acceptOggPage(inOggPage);
 	} 
     else 
     {
@@ -109,41 +101,39 @@ bool OggDemuxPacketSourcePin::acceptOggPage(OggPage* inOggPage)
 	
     return false;
 }
-BYTE* OggDemuxPacketSourcePin::getIdentAsFormatBlock()
+
+BYTE* OggDemuxOutputPin::getIdentAsFormatBlock()
 {
-	return (BYTE*)mIdentHeader->packetData();
+	return (BYTE*)m_identHeader->packetData();
 }
 
-unsigned long OggDemuxPacketSourcePin::getIdentSize()
+unsigned long OggDemuxOutputPin::getIdentSize()
 {
-	return mIdentHeader->packetSize();
+	return m_identHeader->packetSize();
 }
 
-unsigned long OggDemuxPacketSourcePin::getSerialNo()
+unsigned long OggDemuxOutputPin::getSerialNo()
 {
-	return mSerialNo;//mBOSPage->header()->StreamSerialNo();
+	return m_serialNo;//mBOSPage->header()->StreamSerialNo();
 }
 
-IOggDecoder* OggDemuxPacketSourcePin::getDecoderInterface()
+CComPtr<IOggDecoder> OggDemuxOutputPin::getDecoderInterface()
 {
-	if (mDecoderInterface == NULL) 
+    if (!m_decoderInterface) 
     {
-		IOggDecoder* locDecoder = NULL;
-		if (IsConnected()) 
-        {
-			IPin* locPin = GetConnected();
-			if (locPin != NULL) 
+        if (IsConnected()) 
+        {   
+            IPin* locPin = GetConnected();
+            if (locPin != NULL) 
             {
-				locPin->QueryInterface(IID_IOggDecoder, (void**)&locDecoder);
-			}
-		}
-
-		mDecoderInterface = locDecoder;
-	}
-	return mDecoderInterface;
-	
+                locPin->QueryInterface(IID_IOggDecoder, (void**)&m_decoderInterface);
+            }
+        }
+    }
+    return m_decoderInterface;
 }
-HRESULT OggDemuxPacketSourcePin::GetMediaType(int inPosition, CMediaType* outMediaType) 
+
+HRESULT OggDemuxOutputPin::GetMediaType(int inPosition, CMediaType* outMediaType) 
 {
 	//Put it in from the info we got in the constructor.
 	if (inPosition == 0) 
@@ -157,8 +147,6 @@ HRESULT OggDemuxPacketSourcePin::GetMediaType(int inPosition, CMediaType* outMed
 		locAMMediaType.pbFormat = getIdentAsFormatBlock();
 		locAMMediaType.pUnk = NULL;
 	
-			
-	
 		CMediaType locMediaType(locAMMediaType);		
 		*outMediaType = locMediaType;
 		return S_OK;
@@ -167,106 +155,98 @@ HRESULT OggDemuxPacketSourcePin::GetMediaType(int inPosition, CMediaType* outMed
     return VFW_S_NO_MORE_ITEMS;
 }
 
-HRESULT OggDemuxPacketSourcePin::CheckMediaType(const CMediaType* inMediaType) {
-	if (		(inMediaType->majortype == MEDIATYPE_OggPacketStream) 
-			&&	(inMediaType->subtype == MEDIASUBTYPE_None)
-			&&	(inMediaType->formattype == FORMAT_OggIdentHeader)) 
+HRESULT OggDemuxOutputPin::CheckMediaType(const CMediaType* inMediaType) 
+{
+	if (inMediaType->majortype == MEDIATYPE_OggPacketStream &&
+		inMediaType->subtype == MEDIASUBTYPE_None &&
+		inMediaType->formattype == FORMAT_OggIdentHeader) 
     {
-			//&&	(inMediaType->cbFormat == mBOSPage->pageSize()) {
+		//&&	(inMediaType->cbFormat == mBOSPage->pageSize()) {
 		return S_OK;
     }
     
     return E_FAIL;
 }
 
-HRESULT OggDemuxPacketSourcePin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) 
+HRESULT OggDemuxOutputPin::DecideBufferSize(IMemAllocator* inoutAllocator, ALLOCATOR_PROPERTIES* inoutInputRequest) 
 {
-	HRESULT locHR = S_OK;
+	HRESULT hr = S_OK;
 
 	ALLOCATOR_PROPERTIES locReqAlloc = *inoutInputRequest;
 	ALLOCATOR_PROPERTIES locActualAlloc;
 
-	//locReqAlloc.cbAlign = 1;
-	//locReqAlloc.cbBuffer = 65536; //BUFFER_SIZE;
-	//locReqAlloc.cbPrefix = 0;
-	//locReqAlloc.cBuffers = NUM_PAGE_BUFFERS; //NUM_BUFFERS;
+	hr = inoutAllocator->SetProperties(&locReqAlloc, &locActualAlloc);
 
-	locHR = inoutAllocator->SetProperties(&locReqAlloc, &locActualAlloc);
-
-	if (locHR != S_OK) 
+	if (hr != S_OK) 
     {
-		return locHR;
+		return hr;
 	}
 
-	mNumBuffers = locActualAlloc.cBuffers;
-	locHR = inoutAllocator->Commit();
+	m_numBuffers = locActualAlloc.cBuffers;
+	hr = inoutAllocator->Commit();
 
     LOG(logINFO) << __FUNCTIONW__ << " BufferSize: " << locActualAlloc.cbBuffer << ", Buffers: " << locActualAlloc.cBuffers;
 
-	return locHR;
+	return hr;
 }
 
-
 //Pin Conenction Methods
-HRESULT OggDemuxPacketSourcePin::BreakConnect()
+HRESULT OggDemuxOutputPin::BreakConnect()
 {
-	delete mDataQueue;
-	mDataQueue = NULL;
+	delete m_dataQueue;
+	m_dataQueue = NULL;
 	return CBaseOutputPin::BreakConnect();
 }
 
-HRESULT OggDemuxPacketSourcePin::CompleteConnect(IPin *inReceivePin)
+HRESULT OggDemuxOutputPin::CompleteConnect(IPin *inReceivePin)
 {
-	IOggDecoder* locDecoder = NULL;
-	inReceivePin->QueryInterface(IID_IOggDecoder, (void**)&locDecoder);
-	if (locDecoder != NULL) 
+    CComPtr<IOggDecoder> decoder;
+    inReceivePin->QueryInterface(IID_IOggDecoder, (void**)&decoder);
+	if (decoder != NULL) 
     {
-		mDecoderInterface = locDecoder;
+		m_decoderInterface = decoder;
 
-		IOggDecoder::eAcceptHeaderResult locResult = mDecoderInterface->showHeaderPacket(mIdentHeader->clone());
-		if (locResult == IOggDecoder::AHR_ALL_HEADERS_RECEIVED) 
+		IOggDecoder::eAcceptHeaderResult result = m_decoderInterface->showHeaderPacket(m_identHeader->clone());
+		if (result == IOggDecoder::AHR_ALL_HEADERS_RECEIVED) 
         {
-			mIsStreamReady = true;
-
+			m_isStreamReady = true;
 		} 
         else 
         {
-			OggPacketiser locPacketiser;
-			locPacketiser.setPacketSink(this);
-			OggDemuxPacketSourceFilter* locParent = (OggDemuxPacketSourceFilter*)m_pFilter;
-			vector<OggPage*> locList = locParent->getMatchingBufferedPages(mSerialNo);
+			OggPacketiser packetiser;
+			packetiser.setPacketSink(this);
+            std::vector<OggPage*> locList = GetFilter()->getMatchingBufferedPages(m_serialNo);
 			
 			for (size_t i = 0; i < locList.size(); i++) 
             {
-				locPacketiser.acceptOggPage(locList[i]);
+				packetiser.acceptOggPage(locList[i]);
 			}
 
-			locParent->removeMatchingBufferedPages(mSerialNo);	
+			GetFilter()->removeMatchingBufferedPages(m_serialNo);	
 		}
 
-		if (mIsStreamReady) 
+		if (m_isStreamReady) 
         {
-			HRESULT locHR = CBaseOutputPin::CompleteConnect(inReceivePin);
-			if (locHR == S_OK) 
+			HRESULT hr = CBaseOutputPin::CompleteConnect(inReceivePin);
+			if (hr == S_OK) 
             {
-				((OggDemuxPacketSourceFilter*)m_pFilter)->notifyPinConnected();
-				mDataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, mNumBuffers);
+				GetFilter()->notifyPinConnected();
+				m_dataQueue = new COutputQueue (inReceivePin, &mFilterHR, FALSE, TRUE,1,TRUE, m_numBuffers);
 				
                 return S_OK;
 			}  
             else 
             {
-				return locHR;
+				return hr;
 			}
 		}	
 	}
 	return E_FAIL;
-	
 }
 
-bool OggDemuxPacketSourcePin::dispatchPacket(StampedOggPacket* inPacket)
+bool OggDemuxOutputPin::dispatchPacket(StampedOggPacket* inPacket)
 {
-	CAutoLock locStreamLock(((OggDemuxPacketSourceFilter*)m_pFilter)->streamLock());
+	CAutoLock locStreamLock(GetFilter()->streamLock());
 
 	//Set up the sample info
 	IMediaSample* locSample = NULL;
@@ -296,13 +276,12 @@ bool OggDemuxPacketSourcePin::dispatchPacket(StampedOggPacket* inPacket)
 	BYTE* locBuffer = NULL;
 	locSample->GetPointer(&locBuffer);
 
-	if (locSample->GetSize() >= inPacket->packetSize()) 
+	if (static_cast<unsigned long>(locSample->GetSize()) >= inPacket->packetSize()) 
     {
-
-		memcpy((void*)locBuffer, (const void*)inPacket->packetData(), inPacket->packetSize());
+		memcpy(locBuffer, inPacket->packetData(), inPacket->packetSize());
 		locSample->SetActualDataLength(inPacket->packetSize());
 
-		locHR = mDataQueue->Receive(locSample);
+		locHR = m_dataQueue->Receive(locSample);
 
 		if (locHR != S_OK) 
         {
@@ -325,9 +304,9 @@ bool OggDemuxPacketSourcePin::dispatchPacket(StampedOggPacket* inPacket)
 	}	
 }
 
-bool OggDemuxPacketSourcePin::acceptStampedOggPacket(StampedOggPacket* inPacket)
+bool OggDemuxOutputPin::acceptStampedOggPacket(StampedOggPacket* inPacket)
 {
-	if (mAcceptingData) 
+	if (m_acceptingData) 
     {
 		return dispatchPacket(inPacket);
 	} 
@@ -335,12 +314,12 @@ bool OggDemuxPacketSourcePin::acceptStampedOggPacket(StampedOggPacket* inPacket)
     {
 		//This handles callbacks with header packets
 		IOggDecoder::eAcceptHeaderResult locResult;
-		if ((mDecoderInterface != NULL) && (!mIsStreamReady)) 
+		if ((m_decoderInterface != NULL) && (!m_isStreamReady)) 
         {
-			locResult = mDecoderInterface->showHeaderPacket(inPacket);
+			locResult = m_decoderInterface->showHeaderPacket(inPacket);
 			if (locResult == IOggDecoder::AHR_ALL_HEADERS_RECEIVED) 
             {
-				mIsStreamReady = true;
+				m_isStreamReady = true;
 			}
 		}
 		delete inPacket;
@@ -349,55 +328,71 @@ bool OggDemuxPacketSourcePin::acceptStampedOggPacket(StampedOggPacket* inPacket)
 }
 
 //Pin streaming methods
-HRESULT OggDemuxPacketSourcePin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
+HRESULT OggDemuxOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	NewSegment(tStart, tStop, dRate);
 
-	if (mDataQueue != NULL) 
+	if (m_dataQueue != NULL) 
     {
-		mDataQueue->NewSegment(tStart, tStop, dRate);
+		m_dataQueue->NewSegment(tStart, tStop, dRate);
 	}
 
 	return S_OK;
 }
 
-HRESULT OggDemuxPacketSourcePin::DeliverEndOfStream()
+HRESULT OggDemuxOutputPin::DeliverEndOfStream()
 {
-	if (mDataQueue != NULL) 
+	if (m_dataQueue != NULL) 
     {
-		mDataQueue->EOS();
+		m_dataQueue->EOS();
 	}
     return S_OK;
 }
 
-HRESULT OggDemuxPacketSourcePin::DeliverEndFlush()
+HRESULT OggDemuxOutputPin::DeliverEndFlush()
 {
-	CAutoLock locPackLock(mPacketiserLock);
+	CAutoLock locPackLock(m_packetiserLock);
 	
-	if (mDataQueue != NULL) 
+	if (m_dataQueue != NULL) 
     {
-		mDataQueue->EndFlush();
+		m_dataQueue->EndFlush();
 	}
 
-	mPacketiser.reset();
+	m_packetiser.reset();
     return S_OK;
 }
 
-HRESULT OggDemuxPacketSourcePin::DeliverBeginFlush()
+HRESULT OggDemuxOutputPin::DeliverBeginFlush()
 {
-	if (mDataQueue != NULL) 
+	if (m_dataQueue != NULL) 
     {
-		mDataQueue->BeginFlush();
+		m_dataQueue->BeginFlush();
 	}
 	
     return S_OK;
 }
 
-bool OggDemuxPacketSourcePin::notifyStreamBaseTime(__int64 inStreamTime)
+bool OggDemuxOutputPin::notifyStreamBaseTime(__int64 inStreamTime)
 {
-	return ((OggDemuxPacketSourceFilter*)m_pFilter)->notifyStreamBaseTime(inStreamTime);
+	return GetFilter()->notifyStreamBaseTime(inStreamTime);
 }
-__int64 OggDemuxPacketSourcePin::getGlobalBaseTime()
+
+__int64 OggDemuxOutputPin::getGlobalBaseTime()
 {
-	return ((OggDemuxPacketSourceFilter*)m_pFilter)->getGlobalBaseTime();
+	return GetFilter()->getGlobalBaseTime();
+}
+
+bool OggDemuxOutputPin::IsStreamReady()
+{
+    return m_isStreamReady;
+}
+
+void OggDemuxOutputPin::SetIsStreamReady(bool inIsStreamReady)
+{
+    m_isStreamReady = inIsStreamReady;
+}
+
+OggDemuxFilter* OggDemuxOutputPin::GetFilter()
+{
+    return static_cast<OggDemuxFilter*>(m_pFilter);
 }

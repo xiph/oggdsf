@@ -1,62 +1,57 @@
 #include "StdAfx.h"
 #include "CustomOggChainGranuleSeekTable.h"
+#undef min
 
-CustomOggChainGranuleSeekTable::CustomOggChainGranuleSeekTable(IFilterDataSource* inDataSource)
+CustomOggChainGranuleSeekTable::CustomOggChainGranuleSeekTable()
 	:	AutoOggChainGranuleSeekTable(TEXT(""))
-	,	mCustomSource(inDataSource)
 {
 
 }
 
-CustomOggChainGranuleSeekTable::~CustomOggChainGranuleSeekTable(void)
+CustomOggChainGranuleSeekTable::~CustomOggChainGranuleSeekTable()
 {
 }
 
 bool CustomOggChainGranuleSeekTable::buildTable()
 {
-	//if (mFilename.find("http") != 0) {
-	//	
-	//	//mSeekMap.clear();
-	//	//addSeekPoint(0, 0);
+    return true;
+}
 
-	//	mFile.open(mFilename.c_str(), ios_base::in | ios_base::binary);
-	//	//TODO::: Error check
-	//	const unsigned long BUFF_SIZE = 4096;
-	//	unsigned char* locBuff = new unsigned char[BUFF_SIZE];		//Deleted this function.
-	//	while (!mFile.eof()) {
-	//		mFile.read((char*)locBuff, BUFF_SIZE);
-	//		mOggDemux->feed((const unsigned char*)locBuff, mFile.gcount());
-	//	}
-	//	delete[] locBuff;
+bool CustomOggChainGranuleSeekTable::buildTable(IAsyncReader* inReader)
+{
+    LONGLONG total = 0;
+    LONGLONG available = 0;
+    if (FAILED(inReader->Length(&total, &available)) || total > available)
+    {
+        return false;
+    }
 
-	//	mFile.close();
-	//	mIsEnabled = true;
-	//	
-	//} else {
-	//	mIsEnabled = false;
-	//}
-	//return true;
+    const LONGLONG BUFFER_SIZE = 4096;
+    unsigned char* buffer = new unsigned char[BUFFER_SIZE];
 
-	mCustomSource->seek(0);
+    bool isEnabled = true;
+    LONGLONG position = 0;
+    
+    while (position < total) 
+    {
+        // This construction is needed because IAsyncReader::SyncRead
+        // doesn't report the number of bytes actually read.
+        LONG bytesToRead = static_cast<LONG>(std::min(BUFFER_SIZE, total - position));
+        if (inReader->SyncRead(position, bytesToRead, buffer) == S_OK) 
+        {
+            if (mOggDemux->feed(buffer, bytesToRead) == OggDataBuffer::FEED_OK) 
+            {
+                position += bytesToRead;
+                continue;
+            }
+        }
+        //An error has occured.
+        isEnabled = false;
+        break;
+    }
 
-	if (mCustomSource->isError() || mCustomSource->isEOF()) {
-		return false;
-	} else {
-		const unsigned long BUFF_SIZE = 4096;
-		unsigned char* locBuff = new unsigned char[BUFF_SIZE];		//Deleted this function.
-		unsigned long locReadCount = 0;
-		while (!mCustomSource->isEOF()) {
-			locReadCount = mCustomSource->read((char*)locBuff, BUFF_SIZE);
-			mOggDemux->feed((const unsigned char*)locBuff, locReadCount);
-		}
-		delete[] locBuff;
+    delete[] buffer;
+    mIsEnabled = isEnabled;	
 
-
-		mIsEnabled = true;	
-	
-		mCustomSource->clear();
-		mCustomSource->seek(0);
-		return true;
-	}
-
+    return isEnabled;
 }
