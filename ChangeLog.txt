@@ -10,6 +10,7 @@ Version 0.83.xxxxx
         - VMR9 support (instead of VMR7), this requires DirectX9
         - Internet Explorer Standards mode support, instead of just Quirks mode
         - width and height basic attribute support
+    * Removed OGM decoding support
 
 Version 0.82.16930 - 22.02.2010
 

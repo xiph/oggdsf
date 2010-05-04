@@ -408,8 +408,6 @@ Section "Oggcodecs Core Files" SEC_CORE
   File "bin\dsfFLACDecoder.dll"
   File "bin\dsfVorbisDecoder.dll"
 
-  File "bin\dsfOGMDecoder.dll"
-
   File "bin\dsfOggDemux2.dll"
   File "bin\dsfOggMux.dll"
 
@@ -443,9 +441,7 @@ Section "Oggcodecs Core Files" SEC_CORE
   !insertmacro RegisterCOM "$INSTDIR\dsfTheoraDecoder.dll" 
   !insertmacro RegisterCOM "$INSTDIR\dsfFLACDecoder.dll" 
   !insertmacro RegisterCOM "$INSTDIR\dsfVorbisDecoder.dll" 
-  
-  !insertmacro RegisterCOM "$INSTDIR\dsfOGMDecoder.dll" 
-  
+    
   !insertmacro RegisterCOM "$INSTDIR\dsfOggDemux2.dll" 
   !insertmacro RegisterCOM "$INSTDIR\dsfOggMux.dll" 
   
@@ -469,7 +465,6 @@ Section "Oggcodecs Core Files" SEC_CORE
 ;;;			-	axa
 ;;;			-	axv
 ;;;			-	spx
-;;;			-	ogm(????? TODO:::)
 ;;;			-	ogg(TODO::: Check if can have no group)
 ;;;	*	Mime Type Entries for WMP
 ;;;	*	Extension Entries for WMP - TODO::: Other entries, icons
@@ -827,8 +822,6 @@ Section Uninstall
   !insertmacro UnRegisterCOM "$INSTDIR\dsfTheoraDecoder.dll"
   !insertmacro UnRegisterCOM "$INSTDIR\dsfFLACDecoder.dll"
   !insertmacro UnRegisterCOM "$INSTDIR\dsfVorbisDecoder.dll"
-
-  !insertmacro UnRegisterCOM "$INSTDIR\dsfOGMDecoder.dll"
   
   !insertmacro UnRegisterCOM "$INSTDIR\AxPlayer.dll"
 
@@ -941,7 +934,6 @@ Section Uninstall
   Delete "$INSTDIR\dsfFLACDecoder.dll"
   Delete "$INSTDIR\dsfTheoraDecoder.dll"
   Delete "$INSTDIR\dsfSpeexDecoder.dll"
-  Delete "$INSTDIR\dsfOGMDecoder.dll"
 
   Delete "$INSTDIR\dsfNativeFLACSource.dll"
 
