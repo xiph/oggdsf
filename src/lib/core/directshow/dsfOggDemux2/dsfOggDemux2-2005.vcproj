@@ -1027,19 +1027,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FilterFileSource.h"
-				>
-			</File>
-			<File
 				RelativePath=".\IOggBaseTime.h"
 				>
 			</File>
 			<File
 				RelativePath=".\IOggDecoder.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IOggFilterSeeker.h"
 				>
 			</File>
 			<File

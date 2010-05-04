@@ -29,7 +29,7 @@ public:
 
 	bool allStreamsReady();
 
-	unsigned long numPins()				{		return mPins.size();		}
+	size_t numPins()				{		return mPins.size();		}
 	OggDemuxOutputPin* getPinByIndex(unsigned long inIndex);
 
 protected:

@@ -19,7 +19,7 @@ set OGGCODECS_ROOT_DIR=..\..\..
 @set FILTERS=%FILTERS% dsfVorbisEncoder dsfVorbisDecoder
 @set FILTERS=%FILTERS% dsfCMMLDecoder dsfCMMLRawSource
 @set FILTERS=%FILTERS% dsfOggMux dsfAnxMux dsfOggDemux2
-@set FILTERS=%FILTERS% dsfOGMDecoder wmpinfo AxPlayer
+@set FILTERS=%FILTERS% wmpinfo AxPlayer
 
 :: First make the x86 installer
 set X64=

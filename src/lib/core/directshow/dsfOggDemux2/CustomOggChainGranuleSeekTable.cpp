@@ -45,7 +45,7 @@ bool CustomOggChainGranuleSeekTable::buildTable(IAsyncReader* inReader)
                 continue;
             }
         }
-        //An error has occured.
+        //An error has occurred.
         isEnabled = false;
         break;
     }

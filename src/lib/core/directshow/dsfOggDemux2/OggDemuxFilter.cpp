@@ -198,7 +198,7 @@ STDMETHODIMP OggDemuxFilter::Pause()
 	return hr;	
 }
 
-STDMETHODIMP OggDemuxFilter::Stop(void) 
+STDMETHODIMP OggDemuxFilter::Stop() 
 {
 	CAutoLock locLock(m_pLock);
     LOG(logDEBUG) << __FUNCTIONW__;
@@ -362,9 +362,9 @@ std::vector<OggPage*> OggDemuxFilter::getMatchingBufferedPages(unsigned long inS
 void OggDemuxFilter::removeMatchingBufferedPages(unsigned long inSerialNo)
 {
     std::vector<OggPage*> locNewList;
-	int locSize = m_bufferedPages.size();
+	size_t locSize = m_bufferedPages.size();
 	
-    for (int i = 0; i < locSize; i++) 
+    for (size_t i = 0; i < locSize; i++) 
     {
 		if (m_bufferedPages[i]->header()->StreamSerialNo() != inSerialNo) 
         {
@@ -381,7 +381,7 @@ void OggDemuxFilter::removeMatchingBufferedPages(unsigned long inSerialNo)
 
 int OggDemuxFilter::GetPinCount() 
 {
-	return m_streamMapper->numPins() + 1;
+	return static_cast<int>(m_streamMapper->numPins() + 1);
 }
 
 CBasePin* OggDemuxFilter::GetPin(int inPinNo) 
