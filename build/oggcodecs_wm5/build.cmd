@@ -12,7 +12,7 @@ set /p SVN_REVISION_FULL=<revision_text
 set SVN_REVISION=%SVN_REVISION_FULL:~-5%
 del revision_text
 
-set PRODUCT_VERSION=0.82.%SVN_REVISION%
+set PRODUCT_VERSION=0.83.%SVN_REVISION%
 set OGGCODECS_ROOT_DIR=..\..
 
 @set FILTERS=dsfNativeFLACSource dsfOggDemux2

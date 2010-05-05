@@ -581,7 +581,7 @@
                                             "Name" = "8:Source Filter"
                                             "Condition" = "8:"
                                             "ValueTypes" = "3:1"
-                                            "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                            "Value" = "8:{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
                                             }
                                         }
                                     }
@@ -599,7 +599,7 @@
                                             "Name" = "8:Source Filter"
                                             "Condition" = "8:"
                                             "ValueTypes" = "3:1"
-                                            "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                            "Value" = "8:{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
                                             }
                                         }
                                     }
@@ -617,7 +617,7 @@
                                             "Name" = "8:Source Filter"
                                             "Condition" = "8:"
                                             "ValueTypes" = "3:1"
-                                            "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                            "Value" = "8:{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
                                             }
                                         }
                                     }
@@ -635,7 +635,43 @@
                                             "Name" = "8:Source Filter"
                                             "Condition" = "8:"
                                             "ValueTypes" = "3:1"
-                                            "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                            "Value" = "8:{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+                                            }
+                                        }
+                                    }
+                                }
+                                "Values"
+                                {
+                                }
+                            }
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_7D675829BCFB4577B368BCC3B6F57145"
+                            {
+                            "Name" = "8:{E436EB83-524F-11CE-9F53-0020AF0BA770}"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_8E5F6817616D48EF9BCD39256E473C5C"
+                                    {
+                                    "Name" = "8:{DD142C1E-0C1E-4381-A24E-0B2D80B6098A}"
+                                    "Condition" = "8:"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_505ED4DBD93F48298D7C4ABC0E5106B1"
+                                            {
+                                            "Name" = "8:Source Filter"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+                                            }
+                                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_994E7E42801441CD968F0BC974D7E080"
+                                            {
+                                            "Name" = "8:0"
+                                            "Condition" = "8:"
+                                            "ValueTypes" = "3:1"
+                                            "Value" = "8:0,4,,4F676753"
                                             }
                                         }
                                     }
@@ -665,6 +701,20 @@
                             "ValueTypes" = "3:1"
                             "Value" = "8:OggFile"
                             }
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_90728C395B4F41BF82E0AFEBA71705C2"
+                            {
+                            "Name" = "8:PerceivedType"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:audio"
+                            }
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_CF348B2B68FC4DDAB03BC213010D3228"
+                            {
+                            "Name" = "8:Content Type"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:audio/ogg"
+                            }
                         }
                     }
                     "{B1EBC968-6B66-4532-A885-748B79AF4477}:_4D20CDCE4C394BF7984D816B2EABA9D5"
@@ -676,6 +726,20 @@
                         }
                         "Values"
                         {
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_91DD351CDB134E66A6863DB64A8C4E4A"
+                            {
+                            "Name" = "8:Content Type"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:audio/ogg"
+                            }
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_DEECC5EDF4F1484B82975D8BB9761E44"
+                            {
+                            "Name" = "8:PerceivedType"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:audio"
+                            }
                             "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_F019F9906ACE48DEA76E1080BF1BB5F6"
                             {
                             "Name" = "8:"
@@ -908,6 +972,20 @@
                             "ValueTypes" = "3:1"
                             "Value" = "8:OgvFile"
                             }
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_69C6E162C4EA4072A4F1BEE259567FE1"
+                            {
+                            "Name" = "8:PerceivedType"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:video"
+                            }
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_CFFF314BC3A34A25983571272908F403"
+                            {
+                            "Name" = "8:Content Type"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:video/ogg"
+                            }
                         }
                     }
                     "{B1EBC968-6B66-4532-A885-748B79AF4477}:_D7298916AC64405C8D4AE15E620F7878"
@@ -919,6 +997,20 @@
                         }
                         "Values"
                         {
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_45B74B07FFCF4BB0A35CD2113670DA68"
+                            {
+                            "Name" = "8:Content Type"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:audio/flac"
+                            }
+                            "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_945FE24885A54EF1B191142757FC446B"
+                            {
+                            "Name" = "8:PerceivedType"
+                            "Condition" = "8:"
+                            "ValueTypes" = "3:1"
+                            "Value" = "8:audio"
+                            }
                             "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_C18EE7FA65AB4973BAE03D93AA1650E4"
                             {
                             "Name" = "8:"
@@ -948,28 +1040,28 @@
                                     "Name" = "8:.spx"
                                     "Condition" = "8:"
                                     "ValueTypes" = "3:1"
-                                    "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                    "Value" = "8:{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
                                     }
                                     "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_19FA1050D6F84195AC113A0081557FEE"
                                     {
                                     "Name" = "8:.ogv"
                                     "Condition" = "8:"
                                     "ValueTypes" = "3:1"
-                                    "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                    "Value" = "8:{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
                                     }
                                     "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_1C237950894C498B99C9C8710D8FC5AB"
                                     {
                                     "Name" = "8:.ogg"
                                     "Condition" = "8:"
                                     "ValueTypes" = "3:1"
-                                    "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                    "Value" = "8:{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
                                     }
                                     "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_7F81A2BE3F38444F844F3143DA64B77A"
                                     {
                                     "Name" = "8:.anx"
                                     "Condition" = "8:"
                                     "ValueTypes" = "3:1"
-                                    "Value" = "8:{C9361F5A-3282-4944-9899-6D99CDC5370B}"
+                                    "Value" = "8:{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
                                     }
                                 }
                             }

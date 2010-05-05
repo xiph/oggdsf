@@ -212,12 +212,14 @@ inline std::wostream& operator << (std::wostream& wos, const CComVariant& var)
     case VT_ERROR:
         wos << var.lVal;
         break;
+#if (_WIN32_WINNT >= 0x0501) || defined(_ATL_SUPPORT_VT_I8)
     case VT_I8:
         wos << var.llVal;
         break;
     case VT_UI8:
         wos << var.ullVal;
         break;
+#endif
     case VT_R4:
         wos << var.fltVal;
         break;

@@ -33,7 +33,6 @@
 #include "OggDemuxFilter.h"
 #include "OggDemuxOutputPin.h"
 #include "OggStreamMapper.h"
-#include <InitGuid.h>
 #include "ds_guids.h"
 #include "common/util.h"
 
@@ -108,7 +107,7 @@ namespace {
 #ifdef WINCE
 LPAMOVIESETUP_FILTER OggDemuxFilter::GetSetupData()
 {	
-	return (LPAMOVIESETUP_FILTER)&m_pinReg;	
+	return (LPAMOVIESETUP_FILTER)&m_filterReg;	
 }
 #endif
 
