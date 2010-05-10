@@ -114,7 +114,6 @@ HRESULT TheoraDecodeInputPin::CompleteConnect (IPin *inReceivePin)
 		m_oggOutputPinInterface = NULL;
 	}
 
-	LOG(logDEBUG) << "Attempt CompleteConnect";
 	IMediaSeeking* locSeeker = NULL;
 	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 
@@ -124,7 +123,7 @@ HRESULT TheoraDecodeInputPin::CompleteConnect (IPin *inReceivePin)
 	}
 	SetDelegate(locSeeker);
 	locHR = CTransformInputPin::CompleteConnect(inReceivePin);
-	LOG(logDEBUG) << "CompleteConnect returns " << locHR;
+    LOG(logDEBUG) << __FUNCTIONW__ <<  " returned: " << locHR;
 
 	return locHR;
 }

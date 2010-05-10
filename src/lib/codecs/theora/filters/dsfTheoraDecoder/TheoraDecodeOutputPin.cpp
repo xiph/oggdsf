@@ -30,9 +30,10 @@
 //===========================================================================
 
 #include "stdafx.h"
-#include "theoradecodeoutputpin.h"
+#include "TheoraDecodeOutputpin.h"
+#include "TheoraDecodeFilter.h"
 
-TheoraDecodeOutputPin::TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR) :	
+TheoraDecodeOutputPin::TheoraDecodeOutputPin(TheoraDecodeFilter* inParentFilter, HRESULT* outHR) :	
 CTransformOutputPin(NAME("Theora Output Pin"), inParentFilter, outHR, L"Theora Out")
 {
 }
@@ -89,4 +90,9 @@ HRESULT TheoraDecodeOutputPin::CompleteConnect (IPin *inReceivePin)
 STDMETHODIMP TheoraDecodeOutputPin::Notify(IBaseFilter* inMessageSource, Quality inQuality) 
 {
 	return E_NOTIMPL;
+}
+
+TheoraDecodeFilter* TheoraDecodeOutputPin::GetFilter()
+{
+    return static_cast<TheoraDecodeFilter*>(m_pTransformFilter);
 }

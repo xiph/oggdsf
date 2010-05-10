@@ -33,11 +33,13 @@
 #include "Theoradecoderdllstuff.h"
 #include "BasicSeekPassThrough.h"
 
+class TheoraDecodeFilter;
+
 class TheoraDecodeOutputPin : public CTransformOutputPin, public BasicSeekPassThrough
 {
 public:
 	
-	TheoraDecodeOutputPin(CTransformFilter* inParentFilter, HRESULT* outHR);
+	TheoraDecodeOutputPin(TheoraDecodeFilter* inParentFilter, HRESULT* outHR);
 	virtual ~TheoraDecodeOutputPin();
 
 	//COM Guff
@@ -50,4 +52,6 @@ public:
 
 	//Quality control
 	virtual STDMETHODIMP Notify(IBaseFilter* inMessageSource, Quality inQuality);
+
+    TheoraDecodeFilter* GetFilter();
 };

@@ -43,6 +43,7 @@ class TheoraDecodeFilter: public CTransformFilter
 {
 public:
 	friend class TheoraDecodeInputPin;
+    friend class TheoraDecodeOutputPin;
 	
     TheoraDecodeFilter();
 	virtual ~TheoraDecodeFilter();
@@ -59,7 +60,8 @@ public:
 	//CTransfrom filter pure virtuals
 	virtual HRESULT CheckInputType(const CMediaType* inMediaType);
 	virtual HRESULT CheckTransform(const CMediaType* inInputMediaType, const CMediaType* inOutputMediaType);
-	virtual HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest);
+
+    virtual HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest);
 	virtual HRESULT GetMediaType(int inPosition, CMediaType* outOutputMediaType);
 	virtual HRESULT Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample);
 
@@ -71,6 +73,11 @@ public:
 	//virtual BOOL ShouldSkipFrame(IMediaSample* inSample);
 	virtual CBasePin* TheoraDecodeFilter::GetPin(int inPinNo);
 	
+
+    HRESULT __stdcall Stop();
+    HRESULT __stdcall Pause();
+    HRESULT __stdcall Run(REFERENCE_TIME tStart);
+
 #ifdef WINCE
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
 #endif
@@ -89,6 +96,8 @@ protected:
 	bool FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* inFormatBuffer);
     bool FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* inFormatBuffer);
 	bool SetSampleParams(IMediaSample* outMediaSample, unsigned long inDataSize, REFERENCE_TIME* inStartTime, REFERENCE_TIME* inEndTime, BOOL inIsSync);
+
+    void ComputeBmiFrameSize(const CMediaType* inOutputMediaType);
 
     HRESULT TheoraDecoded (yuv_buffer* inYUVBuffer, IMediaSample* outSample, bool inIsKeyFrame, REFERENCE_TIME inStart, REFERENCE_TIME inEnd);
 

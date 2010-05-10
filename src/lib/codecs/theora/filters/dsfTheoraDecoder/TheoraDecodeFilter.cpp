@@ -205,11 +205,11 @@ void TheoraDecodeFilter::FillMediaType(int inPosition, CMediaType* outMediaType,
 
 bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* inFormatBuffer) 
 {
-	//MTS::: Needs changes for alternate media types. FOURCC and bitCOunt
-	TheoraDecodeFilter* locFilter = this;
-
-	inFormatBuffer->AvgTimePerFrame = (UNITS * locFilter->m_theoraFormatInfo->frameRateDenominator) / locFilter->m_theoraFormatInfo->frameRateNumerator;
-	inFormatBuffer->dwBitRate = locFilter->m_theoraFormatInfo->targetBitrate;
+    unsigned long width = m_theoraFormatInfo->pictureWidth;
+    unsigned long height = m_theoraFormatInfo->pictureHeight;
+    
+	inFormatBuffer->AvgTimePerFrame = (UNITS * m_theoraFormatInfo->frameRateDenominator) / m_theoraFormatInfo->frameRateNumerator;
+	inFormatBuffer->dwBitRate = m_theoraFormatInfo->targetBitrate;
 	
 	inFormatBuffer->bmiHeader.biBitCount = m_outputVideoParams[inPosition].bitsPerPixel;  
 
@@ -217,8 +217,8 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
 
 	inFormatBuffer->bmiHeader.biCompression = m_outputVideoParams[inPosition].fourCC;
-    inFormatBuffer->bmiHeader.biWidth = locFilter->m_theoraFormatInfo->pictureWidth;
-    inFormatBuffer->bmiHeader.biHeight = locFilter->m_theoraFormatInfo->pictureHeight;
+    inFormatBuffer->bmiHeader.biWidth = width;
+    inFormatBuffer->bmiHeader.biHeight = height;
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);   
 	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
@@ -226,14 +226,14 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 	inFormatBuffer->bmiHeader.biYPelsPerMeter = 0;   //" " " " " 
 	
 	inFormatBuffer->rcSource.top = 0;
-	inFormatBuffer->rcSource.bottom = locFilter->m_theoraFormatInfo->pictureHeight;
+	inFormatBuffer->rcSource.bottom = height;
 	inFormatBuffer->rcSource.left = 0;
-	inFormatBuffer->rcSource.right = locFilter->m_theoraFormatInfo->pictureWidth;
+	inFormatBuffer->rcSource.right = width;
 
 	inFormatBuffer->rcTarget.top = 0;
-	inFormatBuffer->rcTarget.bottom = locFilter->m_theoraFormatInfo->pictureHeight;
+	inFormatBuffer->rcTarget.bottom = height;
 	inFormatBuffer->rcTarget.left = 0;
-	inFormatBuffer->rcTarget.right = locFilter->m_theoraFormatInfo->pictureWidth;
+	inFormatBuffer->rcTarget.right = width;
 
 	inFormatBuffer->dwBitErrorRate=0;
 	return true;
@@ -241,11 +241,11 @@ bool TheoraDecodeFilter::FillVideoInfoHeader(int inPosition, VIDEOINFOHEADER* in
 
 bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* inFormatBuffer) 
 {
-	//MTS::: Needs changes for alternate media types. FOURCC and bitCOunt
-	TheoraDecodeFilter* locFilter = this;
+    unsigned long width = m_theoraFormatInfo->pictureWidth;
+    unsigned long height = m_theoraFormatInfo->pictureHeight;
 
-	inFormatBuffer->AvgTimePerFrame = (UNITS * locFilter->m_theoraFormatInfo->frameRateDenominator) / locFilter->m_theoraFormatInfo->frameRateNumerator;
-	inFormatBuffer->dwBitRate = locFilter->m_theoraFormatInfo->targetBitrate;
+	inFormatBuffer->AvgTimePerFrame = (UNITS * m_theoraFormatInfo->frameRateDenominator) / m_theoraFormatInfo->frameRateNumerator;
+	inFormatBuffer->dwBitRate = m_theoraFormatInfo->targetBitrate;
 	
 	inFormatBuffer->bmiHeader.biBitCount = m_outputVideoParams[inPosition].bitsPerPixel;  
 
@@ -253,8 +253,8 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
 	inFormatBuffer->bmiHeader.biClrUsed = 0;        //Use max colour depth
 
 	inFormatBuffer->bmiHeader.biCompression = m_outputVideoParams[inPosition].fourCC;
-    inFormatBuffer->bmiHeader.biWidth = locFilter->m_theoraFormatInfo->pictureWidth;
-    inFormatBuffer->bmiHeader.biHeight = locFilter->m_theoraFormatInfo->pictureHeight;
+    inFormatBuffer->bmiHeader.biWidth = width;
+    inFormatBuffer->bmiHeader.biHeight = height;
 	inFormatBuffer->bmiHeader.biPlanes = 1;    //Must be 1
 	inFormatBuffer->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	inFormatBuffer->bmiHeader.biSizeImage = GetBitmapSize(&inFormatBuffer->bmiHeader);
@@ -262,14 +262,14 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
 	inFormatBuffer->bmiHeader.biYPelsPerMeter = 0;   //" " " " " 
 	
 	inFormatBuffer->rcSource.top = 0;
-	inFormatBuffer->rcSource.bottom = locFilter->m_theoraFormatInfo->pictureHeight;
+	inFormatBuffer->rcSource.bottom = height;
 	inFormatBuffer->rcSource.left = 0;
-	inFormatBuffer->rcSource.right = locFilter->m_theoraFormatInfo->pictureWidth;
+	inFormatBuffer->rcSource.right = width;
 
 	inFormatBuffer->rcTarget.top = 0;
-	inFormatBuffer->rcTarget.bottom = locFilter->m_theoraFormatInfo->pictureHeight;
+	inFormatBuffer->rcTarget.bottom = height;
 	inFormatBuffer->rcTarget.left = 0;
-	inFormatBuffer->rcTarget.right = locFilter->m_theoraFormatInfo->pictureWidth;
+	inFormatBuffer->rcTarget.right = width;
 
 	inFormatBuffer->dwBitErrorRate=0;
 
@@ -280,13 +280,13 @@ bool TheoraDecodeFilter::FillVideoInfoHeader2(int inPosition, VIDEOINFOHEADER2* 
     if (m_theoraFormatInfo->aspectNumerator == 0 || m_theoraFormatInfo->aspectDenominator == 0) 
 	{
         //Maybe setting to 0?
-        inFormatBuffer->dwPictAspectRatioX = m_theoraFormatInfo->pictureWidth;
-        inFormatBuffer->dwPictAspectRatioY = m_theoraFormatInfo->pictureHeight;
+        inFormatBuffer->dwPictAspectRatioX = width;
+        inFormatBuffer->dwPictAspectRatioY = height;
     } 
 	else 
 	{
-        inFormatBuffer->dwPictAspectRatioX = m_theoraFormatInfo->pictureWidth * m_theoraFormatInfo->aspectNumerator;
-        inFormatBuffer->dwPictAspectRatioY = m_theoraFormatInfo->pictureHeight * m_theoraFormatInfo->aspectDenominator;
+        inFormatBuffer->dwPictAspectRatioX = width * m_theoraFormatInfo->aspectNumerator;
+        inFormatBuffer->dwPictAspectRatioY = height * m_theoraFormatInfo->aspectDenominator;
     }
 #ifndef WINCE
     inFormatBuffer->dwControlFlags = 0;
@@ -330,28 +330,49 @@ HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType)
 
 HRESULT TheoraDecodeFilter::CheckOutputType(const CMediaType* inMediaType)
 {
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tMajortype: " << inMediaType->majortype;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tSubtype: " << inMediaType->subtype;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tFormattype: " << inMediaType->formattype;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tcbFormat: " << inMediaType->cbFormat;
+
 	for (size_t i = 0; i < m_outputMediaTypesList.size(); i++) 
     {
 		if	(inMediaType->majortype == m_outputMediaTypesList[i]->majortype &&
 			inMediaType->subtype == m_outputMediaTypesList[i]->subtype &&
 			inMediaType->formattype == m_outputMediaTypesList[i]->formattype)
 		{
-			LOG(logDEBUG) << "Output type ok";
+            long biWidth = 0;
+            long biHeight = 0;
+
+            if (inMediaType->formattype == FORMAT_VideoInfo2)
+            {
+                VIDEOINFOHEADER2* locVideoHeader = (VIDEOINFOHEADER2*)inMediaType->Format();
+
+                biWidth = locVideoHeader->bmiHeader.biWidth;
+                biHeight = locVideoHeader->bmiHeader.biHeight;
+            }
+            else if (inMediaType->formattype == FORMAT_VideoInfo)
+            {
+                VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inMediaType->Format();
+
+                biWidth = locVideoHeader->bmiHeader.biWidth;
+                biHeight = locVideoHeader->bmiHeader.biHeight;
+            }
+
+            LOG(logDEBUG) << __FUNCTIONW__ << "\tbiWidth: " << biWidth;
+            LOG(logDEBUG) << __FUNCTIONW__ << "\tbiHeight:  " << biHeight;
+
+            if (abs(biWidth) < m_theoraFormatInfo->pictureWidth ||
+                abs(biHeight) < m_theoraFormatInfo->pictureHeight)
+            {
+                LOG(logDEBUG) << __FUNCTIONW__ << " Output type NOT OK (" << i << ")";
+                return S_FALSE;
+            }
+
 			return S_OK;
 		} 
 	}
 	LOG(logDEBUG) << "Output type no good";
-
-	if (inMediaType->majortype == MEDIATYPE_Video) 
-    {
-		LOG(logDEBUG) << "Querying for video - FAIL";
-		LOG(logDEBUG) << "Sub type = " << inMediaType->subtype;
-		LOG(logDEBUG) << "format type = " << inMediaType->formattype;
-	} 
-    else 
-    {
-		LOG(logDEBUG) << "Querying for non-video type";
-	}
 
 	//If it matched none... return false.
 	return S_FALSE;
@@ -363,38 +384,42 @@ HRESULT TheoraDecodeFilter::CheckTransform(const CMediaType* inInputMediaType, c
 	if (CheckInputType(inInputMediaType) == S_OK && 
         CheckOutputType(inOutputMediaType) == S_OK) 
 	{
-		if (inOutputMediaType->formattype == FORMAT_VideoInfo2)
-		{
-			VIDEOINFOHEADER2* locVideoHeader = (VIDEOINFOHEADER2*)inOutputMediaType->Format();
-
-			m_bmiHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
-			m_bmiWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
-
-
-			m_bmiFrameSize = (m_bmiHeight * m_bmiWidth * locVideoHeader->bmiHeader.biBitCount) / 8;
-		}
-		else if (inOutputMediaType->formattype == FORMAT_VideoInfo)
-		{
-			VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inOutputMediaType->Format();
-
-			m_bmiHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
-			m_bmiWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
-
-			m_bmiFrameSize = (m_bmiHeight * m_bmiWidth * locVideoHeader->bmiHeader.biBitCount) / 8;
-		}
-
-        LOG(logDEBUG) << "Check transform:";
-        LOG(logDEBUG) << "\tbmiWidth: " << m_bmiWidth;
-        LOG(logDEBUG) << "\tbmiHeight: " << m_bmiHeight;
-        LOG(logDEBUG) << "\tbmiFrameSize: " << m_bmiFrameSize;
-
+        LOG(logDEBUG) << __FUNCTIONW__;
+        ComputeBmiFrameSize(inOutputMediaType);
 		return S_OK;
 	} 
     else 
     {
-		LOG(logDEBUG) << "Check transform FAILED";
+		LOG(logDEBUG) << __FUNCTIONW__ << " FAILED";
 		return S_FALSE;
 	}
+}
+
+
+void TheoraDecodeFilter::ComputeBmiFrameSize(const CMediaType* inOutputMediaType)
+{
+    if (inOutputMediaType->formattype == FORMAT_VideoInfo2)
+    {
+        VIDEOINFOHEADER2* locVideoHeader = (VIDEOINFOHEADER2*)inOutputMediaType->Format();
+
+        m_bmiHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+        m_bmiWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+
+        m_bmiFrameSize = (m_bmiHeight * m_bmiWidth * locVideoHeader->bmiHeader.biBitCount) / 8;
+    }
+    else if (inOutputMediaType->formattype == FORMAT_VideoInfo)
+    {
+        VIDEOINFOHEADER* locVideoHeader = (VIDEOINFOHEADER*)inOutputMediaType->Format();
+
+        m_bmiHeight = (unsigned long)abs(locVideoHeader->bmiHeader.biHeight);
+        m_bmiWidth = (unsigned long)abs(locVideoHeader->bmiHeader.biWidth);
+
+        m_bmiFrameSize = (m_bmiHeight * m_bmiWidth * locVideoHeader->bmiHeader.biBitCount) / 8;
+    }
+
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tbmiWidth: " << m_bmiWidth;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tbmiHeight: " << m_bmiHeight;
+    LOG(logDEBUG) << __FUNCTIONW__ << "\tbmiFrameSize: " << m_bmiFrameSize;
 }
 
 HRESULT TheoraDecodeFilter::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES* inPropertyRequest) 
@@ -490,11 +515,17 @@ HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMe
 	
     if (inPosition < (int)m_outputMediaTypesList.size()) 
 	{	
+        long biWidth = 0;
+        long biHeight = 0;
+
 		if (m_outputMediaTypesList[inPosition]->formattype == FORMAT_VideoInfo2)
 		{
 			VIDEOINFOHEADER2* locVideoFormat = (VIDEOINFOHEADER2*)outOutputMediaType->AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
 			FillVideoInfoHeader2(inPosition, locVideoFormat);
 			FillMediaType(inPosition, outOutputMediaType, locVideoFormat->bmiHeader.biSizeImage);
+
+            biWidth = locVideoFormat->bmiHeader.biWidth;
+            biHeight = locVideoFormat->bmiHeader.biHeight;
 		}
 		else if (m_outputMediaTypesList[inPosition]->formattype == FORMAT_VideoInfo)
 		{
@@ -517,9 +548,12 @@ HRESULT TheoraDecodeFilter::GetMediaType(int inPosition, CMediaType* outOutputMe
 
 			FillVideoInfoHeader(inPosition, locVideoFormat);
 			FillMediaType(inPosition, outOutputMediaType, locVideoFormat->bmiHeader.biSizeImage);
+
+            biWidth = locVideoFormat->bmiHeader.biWidth;
+            biHeight = locVideoFormat->bmiHeader.biHeight;
 		}
 
-		LOG(logDEBUG) << "Get Media Type";
+        LOG(logDEBUG) << __FUNCTIONW__ << " Width: " << biWidth << ", Height: " << biHeight; 
 		return S_OK;
 	} 
 	else 
@@ -706,7 +740,7 @@ void TheoraDecodeFilter::DeleteBufferedPacketsAfter(unsigned long inPacketIndex)
 }
 HRESULT TheoraDecodeFilter::Transform(IMediaSample* inInputSample, IMediaSample* outOutputSample) 
 {
-	//LOG(logDEBUG) << "Theora::Transform NOT IMPLEMENTED";
+	LOG(logDEBUG) << __FUNCTIONW__ << " NOT IMPLEMENTED";
 	return E_NOTIMPL;
 }
 
@@ -1090,8 +1124,15 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
     {
 		m_currentOutputSubType = inMediaType->subtype;
 		
-        LOG(logDEBUG) << "SETTING output type";
+        LOG(logDEBUG) << __FUNCTIONW__ << " SETTING output type";
+        LOG(logDEBUG) << __FUNCTIONW__ << "\tMajortype: " << inMediaType->majortype;
+        LOG(logDEBUG) << __FUNCTIONW__ << "\tSubtype: " << inMediaType->subtype;
+        LOG(logDEBUG) << __FUNCTIONW__ << "\tFormattype: " << inMediaType->formattype;
+        LOG(logDEBUG) << __FUNCTIONW__ << "\tcbFormat: " << inMediaType->cbFormat;
 		
+        LOG(logDEBUG) << __FUNCTIONW__;
+        ComputeBmiFrameSize(inMediaType);
+
         return CTransformFilter::SetMediaType(PINDIR_OUTPUT, inMediaType);//CVideoTransformFilter::SetMediaType(PINDIR_OUTPUT, inMediaType);
 	}
 }
@@ -1352,3 +1393,22 @@ void TheoraDecodeFilter::Setup444MediaTypes()
     videoParams.fourCC = BI_RGB;
     m_outputVideoParams.push_back(videoParams);
 }
+
+HRESULT __stdcall TheoraDecodeFilter::Stop()
+{
+    LOG(logDEBUG) << __FUNCTIONW__;
+    return CTransformFilter::Stop();
+}
+
+HRESULT __stdcall TheoraDecodeFilter::Pause()
+{
+    LOG(logDEBUG) << __FUNCTIONW__;
+    return CTransformFilter::Pause();
+}
+
+HRESULT __stdcall TheoraDecodeFilter::Run(REFERENCE_TIME tStart)
+{
+    LOG(logDEBUG) << __FUNCTIONW__;
+    return CTransformFilter::Run(tStart);
+}
+
