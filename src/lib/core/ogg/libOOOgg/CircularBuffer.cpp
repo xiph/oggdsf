@@ -57,7 +57,7 @@ unsigned long CircularBuffer::read(unsigned char* outData, unsigned long inBytes
     {
         locBytesToRead = std::min(inBytesToRead, numBytesAvail());
 	}
-    else if (inBytesToRead >  spaceLeft()) 
+    else if (inBytesToRead >  numBytesAvail()) 
     {
         return 0;
     }
