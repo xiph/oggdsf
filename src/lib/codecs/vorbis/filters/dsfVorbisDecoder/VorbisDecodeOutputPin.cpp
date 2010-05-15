@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
+//Copyright (2) 2009-2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -137,7 +138,7 @@ HRESULT VorbisDecodeOutputPin::FillMediaType(CMediaType& mediaType, bool useWave
             formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1;
             break;
         case 8:
-            formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1;
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1_SURROUND;
             break;
         default:
             formatEx->dwChannelMask = 0;

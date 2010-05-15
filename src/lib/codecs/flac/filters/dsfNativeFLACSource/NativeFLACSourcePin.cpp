@@ -1,6 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
-//Copyright (C) 2008, 2009 Cristian Adam
+//Copyright (C) 2008, 2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -185,7 +185,7 @@ void NativeFLACSourcePin::FillMediaType(CMediaType& mediaType, bool useWaveForma
             formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1;
             break;
         case 8:
-            formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1;
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1_SURROUND;
             break;
         default:
             formatEx->dwChannelMask = 0;
