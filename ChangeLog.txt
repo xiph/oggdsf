@@ -1,9 +1,9 @@
-Version 0.83.xxxxx 
+Version 0.83.17220 - 16.05.2010
 
     * Updated libvorbis to version 1.3.1
     * Updated libogg to version 1.2.0
     * Ogg Demux filter has been changed from a source + parser filter to just parser filter. This step allows usage of 
-      DirectShow's "File Source (Async.)" filter which gives support of files bigger than 2GB, or "File Source (URL)" which
+      DirectShow's "File Source (Async.)" filter which can handle files bigger than 2GB, or "File Source (URL)" which
       gives better networking support (proxy, ipv6, etc.)
     * HTML5 <video> plug-in has received a couple of improvements:
         - URI support given by uriparser library
@@ -11,6 +11,10 @@ Version 0.83.xxxxx
         - Internet Explorer Standards mode support, instead of just Quirks mode
         - width and height basic attribute support
     * Removed OGM decoding support
+    * Fixed playback of Theora files with big ogg pages (e.g. hi-res "Patent Absurdity")
+    * Fixed #1447: common http based ogg streams broken in Vista WMP (atleast vista 64)
+    * Fixed #1301: [OGGDSF] dsfOggDemux2.dll, fails for http with private ip
+    * Fixed #1657: FLAC 7.1 wrong mapped channels
 
 Version 0.82.16930 - 22.02.2010
 
