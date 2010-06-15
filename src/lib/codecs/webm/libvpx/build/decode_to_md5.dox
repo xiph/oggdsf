@@ -1,0 +1,3 @@
+/*!\page example_decode_to_md5 decode_to_md5
+   \includelineno decode_to_md5.c
+*/

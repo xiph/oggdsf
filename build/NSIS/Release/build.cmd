@@ -1,5 +1,5 @@
 ::---------------------------------------------------------------------------------------------------------------------------------
-:: Copyright (C) 2008 - 2009 Cristian Adam
+:: Copyright (C) 2008 - 2010 Cristian Adam
 ::---------------------------------------------------------------------------------------------------------------------------------
 
 set COMPILER=VS2005
@@ -11,7 +11,7 @@ set SVN_REVISION=%SVN_REVISION_FULL:~-5%
 del revision_text
 
 set PRODUCT_VERSION=0.83.%SVN_REVISION%
-set OGGCODECS_ROOT_DIR=..\..\..
+set OPENCODECS_ROOT_DIR=..\..\..
 
 @set FILTERS=dsfFLACEncoder dsfNativeFLACSource dsfFLACDecoder
 @set FILTERS=%FILTERS% dsfTheoraEncoder dsfTheoraDecoder
@@ -21,13 +21,6 @@ set OGGCODECS_ROOT_DIR=..\..\..
 @set FILTERS=%FILTERS% dsfOggMux dsfAnxMux dsfOggDemux2
 @set FILTERS=%FILTERS% wmpinfo AxPlayer
 
-:: First make the x86 installer
-set X64=
-call:copy_binaries
-call:make_installer
-
-:: Then the x64 installer
-set X64=true
 call:copy_binaries
 call:make_installer
 
@@ -37,42 +30,40 @@ goto:eof
 
 :make_installer
 
-signtool sign /a /t http://time.certum.pl/ bin\AxPlayer.dll
+signtool sign /a /t http://time.certum.pl/ bin\win32\AxPlayer.dll
+signtool sign /a /t http://time.certum.pl/ bin\x64\AxPlayer.dll
+"%ProgramFiles%\nsis\unicode\makensis.exe" opencodecs.nsi 
 
-"%ProgramFiles%\nsis\unicode\makensis.exe" oggcodecs_release.nsi 
-
-if [%X64%] == [] (
-	set SUFFIX=win32
-) else (
-	set SUFFIX=x64
-)
-
-signtool sign /a /t http://time.certum.pl/ oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.exe 
-"%ProgramFiles%\7-zip\7z.exe" a oggcodecs_%PRODUCT_VERSION%_pdbs-%SUFFIX%.7z pdb\*
+signtool sign /a /t http://time.certum.pl/ opencodecs_%PRODUCT_VERSION%.exe 
+"%ProgramFiles%\7-zip\7z.exe" a opencodecs_%PRODUCT_VERSION%_pdbs.7z pdb\*
 
 goto:eof
 ::---------------------------------------------------------------------------------------------------------------------------------
 
 :copy_binaries
 
-if [%X64%] == [] (
-	@set PLATFORM=win32
-) else (
-	@set PLATFORM=x64
+rmdir /s /q bin
+
+mkdir bin\win32
+for %%i in (%FILTERS%) do (
+copy "%OPENCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\win32\Release\%%i.dll" bin\win32
 )
 
-rmdir /s /q bin
-mkdir bin
-
+mkdir bin\x64
 for %%i in (%FILTERS%) do (
-copy "%OGGCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\%PLATFORM%\Release\%%i.dll" bin\
+copy "%OPENCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\x64\Release\%%i.dll" bin\x64
 )
 
 rmdir /s /q pdb
-mkdir pdb
 
+mkdir pdb\win32
 for %%i in (%FILTERS%) do (
-copy "%OGGCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\%PLATFORM%\Release\%%i.pdb" pdb\
+copy "%OPENCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\win32\Release\%%i.pdb" pdb\win32
+)
+
+mkdir pdb\x64
+for %%i in (%FILTERS%) do (
+copy "%OPENCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\x64\Release\%%i.pdb" pdb\x64
 )
 
 goto:eof

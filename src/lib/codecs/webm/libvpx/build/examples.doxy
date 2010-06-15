@@ -1,0 +1,1 @@
+INPUT += samples.dox ivfdec.dox ivfenc.dox example_xma.dox simple_decoder.dox postproc.dox decode_to_md5.dox simple_encoder.dox twopass_encoder.dox force_keyframe.dox decode_with_drops.dox error_resilient.dox vp8_scalable_patterns.dox vp8_set_maps.dox vp8cx_set_ref.dox

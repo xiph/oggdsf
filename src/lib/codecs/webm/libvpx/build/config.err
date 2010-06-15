@@ -1,0 +1,32 @@
+# ../src/configure --target=x86-win32-vs8
+Configuring selected codecs
+  enabling vp8_encoder
+  enabling vp8_decoder
+Configuring for target 'x86-win32-vs8'
+  enabling x86
+  enabling runtime_cpu_detect
+  enabling mmx
+  enabling sse
+  enabling sse2
+  enabling sse3
+  enabling ssse3
+check_cflags -O3
+check_cc -O3
+BEGIN /tmp/vpx-conf-2056-21332.c
+    1	int x;
+END /tmp/vpx-conf-2056-21332.c
+-O3 -c -o /tmp/vpx-conf-2056-3267.o /tmp/vpx-conf-2056-21332.c
+../src/build/make/configure.sh: line 268: -O3: command not found
+check_cc
+BEGIN /tmp/vpx-conf-2056-21332.c
+    1	    unsigned int e = 'O'<<24 | '2'<<16 | 'B'<<8 | 'E';
+END /tmp/vpx-conf-2056-21332.c
+-c -o /tmp/vpx-conf-2056-3267.o /tmp/vpx-conf-2056-21332.c
+../src/build/make/configure.sh: line 268: -c: command not found
+  disabling ccache
+  enabling postproc
+fake_check_header stdio.h
+fake_check_header stdint.h
+fake_check_header pthread.h
+fake_check_header sys/mman.h
+fake_check_header vpx_ports/vpx_integer.h -I../src
