@@ -78,7 +78,7 @@ Var /GLOBAL WMP_LOCATION_X64
 ; Windows Media Player type registraton macro
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-!macro RegisterWmpType_Internal typeName description WmpLocation
+!macro RegisterWmpType_Internal typeName description WmpLocation IcoFile
 
     WriteRegStr HKCR "${typeName}" "" "${description}"
     WriteRegStr HKCR "${typeName}\shell" "" "play"
@@ -95,15 +95,15 @@ Var /GLOBAL WMP_LOCATION_X64
         WriteRegStr HKCR "${typeName}\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
     ${EndIf}
 
-    WriteRegStr HKCR "${typeName}\DefaultIcon" "" "$INSTDIR\xifish.ico"
+    WriteRegStr HKCR "${typeName}\DefaultIcon" "" "$INSTDIR\${IcoFile}"
 !macroend
 
-!macro RegisterWmpType typeName description
+!macro RegisterWmpType typeName description IcoFile
     SetRegView 32
-    !insertmacro RegisterWmpType_Internal "${typeName}" "${description}" "$WMP_LOCATION_WIN32"
+    !insertmacro RegisterWmpType_Internal "${typeName}" "${description}" "$WMP_LOCATION_WIN32" "${IcoFile}"
     ${If} ${RunningX64}
         SetRegView 64
-        !insertmacro RegisterWmpType_Internal "${typeName}" "${description}" "$WMP_LOCATION_X64"
+        !insertmacro RegisterWmpType_Internal "${typeName}" "${description}" "$WMP_LOCATION_X64" "${IcoFile}"
     ${EndIf}
 !macroend
 !define RegisterWmpType "!insertmacro RegisterWmpType"
@@ -149,9 +149,9 @@ Var /GLOBAL WMP_LOCATION_X64
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-!macro AddWmpExtension_Internal TypeExt TypeDesc MimeType PerceivedType ExtensionHandler
+!macro AddWmpExtension_Internal TypeExt TypeDesc MimeType PerceivedType ExtensionHandler IcoFile
     WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "MediaType.Description" "${TypeDesc}"
-    WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "MediaType.Icon" "$INSTDIR\xifish.ico"
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "MediaType.Icon" "$INSTDIR\${IcoFile}"
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "Permissions" 0x0000000f
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}" "Runtime" 0x00000007
     ${If} "${PerceivedType}" != ""  
@@ -163,12 +163,12 @@ Var /GLOBAL WMP_LOCATION_X64
     ${EndIf}
 !macroend 
 
-!macro AddWmpExtension TypeExt TypeDesc MimeType PerceivedType ExtensionHandler
+!macro AddWmpExtension TypeExt TypeDesc MimeType PerceivedType ExtensionHandler IcoFile
     SetRegView 32
-    !insertmacro AddWmpExtension_Internal "${TypeExt}" "${TypeDesc}" "${MimeType}" "${PerceivedType}" "${ExtensionHandler}"
+    !insertmacro AddWmpExtension_Internal "${TypeExt}" "${TypeDesc}" "${MimeType}" "${PerceivedType}" "${ExtensionHandler}" "${IcoFile}"
     ${If} ${RunningX64}
         SetRegView 64
-        !insertmacro AddWmpExtension_Internal "${TypeExt}" "${TypeDesc}" "${MimeType}" "${PerceivedType}" "${ExtensionHandler}"
+        !insertmacro AddWmpExtension_Internal "${TypeExt}" "${TypeDesc}" "${MimeType}" "${PerceivedType}" "${ExtensionHandler}" "${IcoFile}"
     ${EndIf}
 !macroend
 !define AddWmpExtension "!insertmacro AddWmpExtension"
@@ -324,6 +324,33 @@ Var /GLOBAL WMP_LOCATION_X64
     ${EndIf}
 !macroend
 !define DeleteOggRecognitionPattern "!insertmacro DeleteOggRecognitionPattern"
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+!macro AddWebmRecognitionPattern_Internal
+  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}" "0" "0,4,,1A45DFA3"
+  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}";
+!macroend
+
+!macro AddWebmRecognitionPattern
+    SetRegView 32
+    !insertmacro AddWebmRecognitionPattern_Internal
+    ${If} ${RunningX64}
+        SetRegView 64
+        !insertmacro AddWebmRecognitionPattern_Internal
+    ${EndIf}
+!macroend
+!define AddWebmRecognitionPattern "!insertmacro AddWebmRecognitionPattern"
+
+!macro DeleteWebmRecognitionPattern
+    SetRegView 32
+    DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}"
+    ${If} ${RunningX64}
+        SetRegView 64
+        DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}"
+    ${EndIf}
+!macroend
+!define DeleteWebmRecognitionPattern "!insertmacro DeleteWebmRecognitionPattern"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

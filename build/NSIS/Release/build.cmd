@@ -10,15 +10,16 @@ set /p SVN_REVISION_FULL=<revision_text
 set SVN_REVISION=%SVN_REVISION_FULL:~-5%
 del revision_text
 
-set PRODUCT_VERSION=0.83.%SVN_REVISION%
+set PRODUCT_VERSION=0.84.%SVN_REVISION%
 set OPENCODECS_ROOT_DIR=..\..\..
 
 @set FILTERS=dsfFLACEncoder dsfNativeFLACSource dsfFLACDecoder
 @set FILTERS=%FILTERS% dsfTheoraEncoder dsfTheoraDecoder
 @set FILTERS=%FILTERS% dsfSpeexEncoder dsfSpeexDecoder
 @set FILTERS=%FILTERS% dsfVorbisEncoder dsfVorbisDecoder
-@set FILTERS=%FILTERS% dsfCMMLDecoder dsfCMMLRawSource
-@set FILTERS=%FILTERS% dsfOggMux dsfAnxMux dsfOggDemux2
+@set FILTERS=%FILTERS% dsfOggMux dsfOggDemux2
+@set FILTERS=%FILTERS% vp8decoder vp8encoder
+@set FILTERS=%FILTERS% webmmux webmsplit
 @set FILTERS=%FILTERS% wmpinfo AxPlayer
 
 call:copy_binaries

@@ -1,3 +1,11 @@
+Version 0.84.xxxxx - xx.06.2010
+    
+    * Added WebM support (libvpx 0.9.0, webmdshow 0.9.8.0)
+    * Installer updates: 
+        - merged Win32 and x64 installers into one installer
+        - added support for WebM
+        - dropped support for Annodex Muxer, CMML decoder filters     
+    
 Version 0.83.17220 - 16.05.2010
 
     * Updated libvorbis to version 1.3.1

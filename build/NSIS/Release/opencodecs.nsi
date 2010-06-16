@@ -187,8 +187,9 @@ Section "Oggcodecs Core Files" SEC_CORE
     ; Runtime libraries from visual studio
     ${AddVisualStudioRuntime}
   
-    ; ico files - 1 (One file contains all these packed)
+    ; Icon files - 2
     File "${OPENCODECS_ROOT_DIR}\bin\xifish.ico"
+    File "${OPENCODECS_ROOT_DIR}\bin\webm.ico"
 
     ; Text files - 7
     File "${OPENCODECS_ROOT_DIR}\README"
@@ -204,21 +205,19 @@ Section "Oggcodecs Core Files" SEC_CORE
     ${AddFile} "dsfSpeexEncoder.dll"
     ${AddFile} "dsfTheoraEncoder.dll"
     ${AddFile} "dsfVorbisEncoder.dll"
-
+    ${AddFile} "vp8encoder.dll"
+  
     ${AddFile} "dsfNativeFLACSource.dll"
     ${AddFile} "dsfSpeexDecoder.dll"
     ${AddFile} "dsfTheoraDecoder.dll"
     ${AddFile} "dsfFLACDecoder.dll"
     ${AddFile} "dsfVorbisDecoder.dll"
+    ${AddFile} "vp8decoder.dll"
 
     ${AddFile} "dsfOggDemux2.dll"
     ${AddFile} "dsfOggMux.dll"
-
-    ${AddFile} "dsfCMMLDecoder.dll"
-    ${AddFile} "dsfCMMLRawSource.dll"
-
-    ; ${AddFile} "dsfAnxDemux.dll"
-    ${AddFile} "dsfAnxMux.dll"                                           
+    ${AddFile} "webmsplit.dll"
+    ${AddFile} "webmmux.dll"
 
     ${AddFile} "wmpinfo.dll"
 
@@ -230,117 +229,97 @@ Section "Oggcodecs Core Files" SEC_CORE
     SetDetailsPrint listonly
 
     SetOutPath "$INSTDIR"
-    ; Register libraries - 15
 
+    ; Register libraries 
     ${RegisterCOM} "dsfFLACEncoder.dll"
     ${RegisterCOM} "dsfSpeexEncoder.dll" 
     ${RegisterCOM} "dsfTheoraEncoder.dll"
     ${RegisterCOM} "dsfVorbisEncoder.dll" 
+    ${RegisterCOM} "vp8encoder.dll"
   
     ${RegisterCOM} "dsfNativeFLACSource.dll" 
     ${RegisterCOM} "dsfSpeexDecoder.dll" 
     ${RegisterCOM} "dsfTheoraDecoder.dll" 
     ${RegisterCOM} "dsfFLACDecoder.dll" 
     ${RegisterCOM} "dsfVorbisDecoder.dll" 
+    ${RegisterCOM} "vp8decoder.dll"
     
     ${RegisterCOM} "dsfOggDemux2.dll" 
     ${RegisterCOM} "dsfOggMux.dll" 
-  
-    ${RegisterCOM} "dsfCMMLDecoder.dll" 
-    ${RegisterCOM} "dsfCMMLRawSource.dll" 
-  
-    ;${RegisterCOM} "dsfAnxDemux.dll" 
-    ${RegisterCOM} "dsfAnxMux.dll"
-  
+    ${RegisterCOM} "webmsplit.dll"
+    ${RegisterCOM} "webmmux.dll"
+   
     SetDetailsPrint textonly
     DetailPrint "Writing Registry Entries ..."
     SetDetailsPrint listonly
-
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; Registry Entries for directshow and WMP
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;	*	Media Group Entries for WMP
-    ;;;			-	flac (audio)
-    ;;;			-	oga
-    ;;;			-	ogv
-    ;;;			-	axa
-    ;;;			-	axv
-    ;;;			-	spx
-    ;;;			-	ogg(TODO::: Check if can have no group)
-    ;;;	*	Mime Type Entries for WMP
-    ;;;	*	Extension Entries for WMP - TODO::: Other entries, icons
-    ;;;	*	Media Type Entries/Filter association for Directshow
-    ;;;	*	MLS(?) Entries for WMP
 
     ; Media Group Entries - 7
     ${AddWmpMediaGroup} ".flac" "FLAC" "FLAC File (flac)" "audio/flac" "Audio"
     ${AddWmpMediaGroup} ".oga" "OGA" "Ogg Audio File (oga)" "audio/ogg" "Audio"
     ${AddWmpMediaGroup} ".ogg" "OGG" "Ogg Audio File (ogg)" "audio/ogg" "Audio"
-    ${AddWmpMediaGroup} ".axa" "AXA" "Annodex Audio File (axa)" "audio/annodex" "Audio"
-    ${AddWmpMediaGroup} ".spx" "SPX" "Speex File (spx)" "audio/ogg" "Audio"
-    ${AddWmpMediaGroup} ".axv" "AXV" "Annodex Video File (axv)" "video/annodex" "Video"
     ${AddWmpMediaGroup} ".ogv" "OGV" "Ogg Video File (ogv)" "video/ogg" "Video"
+    ${AddWmpMediaGroup} ".spx" "SPX" "Speex File (spx)" "audio/ogg" "Audio"
+    ${AddWmpMediaGroup} ".weba" "WEBA" "WebM Audio File (weba)" "audio/webm" "Audio"
+    ${AddWmpMediaGroup} ".webm" "WEBM" "WebM Video File (webm)" "video/webm" "Video"
 
-    ; WMP Mime type entries - 7
-    ${AddWmpMimeType} "application/annodex" "Annodex File" ".anx" "anx,axa,axv" ".anx .axa .axv"
+    ; WMP Mime type entries - 6
     ${AddWmpMimeType} "application/ogg" "Ogg File" ".ogg" "ogg,oga,ogv,spx" ".ogg .oga .ogv .spx"
     ${AddWmpMimeType} "audio/flac" "FLAC Audio File" ".flac" "flac" ".flac"
     ${AddWmpMimeType} "audio/ogg" "Ogg Audio File" ".oga" "ogg,oga,spx" ".ogg .oga .spx"
     ${AddWmpMimeType} "video/ogg" "Ogg Video File" ".ogv" "ogv" ".ogv"
-    ${AddWmpMimeType} "audio/annodex" "Annodex Audio File" ".axa" "axa" ".axa"
-    ${AddWmpMimeType} "video/annodex" "Annodex Video File" ".axv" "axv" ".axv"
+    ${AddWmpMimeType} "audio/webm" "WebM Audio File" ".weba" "weba" ".weba"
+    ${AddWmpMimeType} "video/webm" "WebM Video File" ".webm" "webm" ".webm"
 
-    ; WMP extension entries - 8
-    ${AddWmpExtension} ".anx" "Annodex" "application/annodex" "" ""
-    ${AddWmpExtension} ".axa" "Annodex Audio" "audio/annodex" "audio" ""
-    ${AddWmpExtension} ".axv" "Annodex Video" "video/annodex" "video" ""
-    ${AddWmpExtension} ".flac" "FLAC Audio" "audio/flac" "audio" "WMP.FlacFile"
-    ${AddWmpExtension} ".oga" "Ogg Audio" "audio/ogg" "audio" "WMP.OgaFile"
-    ${AddWmpExtension} ".ogg" "Ogg Audio" "audio/ogg" "audio" "WMP.OggFile"
-    ${AddWmpExtension} ".ogv" "Ogg Video" "video/ogg" "video" "WMP.OgvFile"
-    ${AddWmpExtension} ".spx" "Speex Audio" "audio/ogg" "audio" "WMP.SpxFile"
+    ; WMP extension entries - 7
+    ${AddWmpExtension} ".flac" "FLAC Audio" "audio/flac" "audio" "WMP.FlacFile" "xifish.ico"
+    ${AddWmpExtension} ".oga" "Ogg Audio" "audio/ogg" "audio" "WMP.OgaFile" "xifish.ico"
+    ${AddWmpExtension} ".ogg" "Ogg Audio" "audio/ogg" "audio" "WMP.OggFile" "xifish.ico"
+    ${AddWmpExtension} ".ogv" "Ogg Video" "video/ogg" "video" "WMP.OgvFile" "xifish.ico"
+    ${AddWmpExtension} ".spx" "Speex Audio" "audio/ogg" "audio" "WMP.SpxFile" "xifish.ico"
+    ${AddWmpExtension} ".weba" "WebM Audio" "audio/webm" "audio" "WMP.WebaFile" "webm.ico"
+    ${AddWmpExtension} ".webm" "WebM Video" "video/webm" "video" "WMP.WebmFile" "webm.ico"
 
-    ; MIME type entries - 7
-    ${AddMimeType} "application/annodex" ".anx"
+    ; MIME type entries  - 6
     ${AddMimeType} "application/ogg" ".ogx"
-    ${AddMimeType} "audio/annodex" ".axa" 
-    ${AddMimeType} "video/annodex" ".axv" 
     ${AddMimeType} "audio/flac" ".flac"
     ${AddMimeType} "audio/ogg" ".ogg"
     ${AddMimeType} "video/ogg" ".ogv"
+    ${AddMimeType} "audio/webm" ".weba"
+    ${AddMimeType} "video/webm" ".webm"
 
-    ; Directshow extension to filter mapping - 8
+    ; Directshow extension to filter mapping - 7
     ; Mapped to File Source (Async.), except for FLAC
-    ${AddMediaTypeExtensionSource} ".anx" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
-    ${AddMediaTypeExtensionSource} ".axa" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
-    ${AddMediaTypeExtensionSource} ".axv" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
     ${AddMediaTypeExtensionSource} ".flac" "{6DDA37BA-0553-499a-AE0D-BEBA67204548}"
     ${AddMediaTypeExtensionSource} ".oga" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
     ${AddMediaTypeExtensionSource} ".ogg" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
     ${AddMediaTypeExtensionSource} ".ogv" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
     ${AddMediaTypeExtensionSource} ".spx" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+    ${AddMediaTypeExtensionSource} ".weba" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+    ${AddMediaTypeExtensionSource} ".webm" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
 
-    ; Directshow extension to filter mapping for HTTP - 7
+    ; Directshow extension to filter mapping for HTTP  - 6
     ; Mapped to File Source (URL)
+    ${AddHttpExtensionSource} ".OGA" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
     ${AddHttpExtensionSource} ".OGG" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
     ${AddHttpExtensionSource} ".OGV" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
-    ${AddHttpExtensionSource} ".OGA" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
     ${AddHttpExtensionSource} ".SPX" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
-    ${AddHttpExtensionSource} ".ANX" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
-    ${AddHttpExtensionSource} ".AXV" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
-    ${AddHttpExtensionSource} ".AXA" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+    ${AddHttpExtensionSource} ".WEBA" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+    ${AddHttpExtensionSource} ".WEBM" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
       
     ; Add the "OggS" recognition pattern
     ${AddOggRecognitionPattern}
+    
+    ; Add "EBML" recognition pattern
+    ${AddWebmRecognitionPattern}
 
     ; MLS Perceived type - 7
-    ${AddMediaPlayerMlsExtension} "ogv" "video"
-    ${AddMediaPlayerMlsExtension} "oga" "audio"
-    ${AddMediaPlayerMlsExtension} "axv" "video"
-    ${AddMediaPlayerMlsExtension} "axa" "audio"
-    ${AddMediaPlayerMlsExtension} "spx" "audio"
     ${AddMediaPlayerMlsExtension} "flac" "audio"  
+    ${AddMediaPlayerMlsExtension} "oga" "audio"
     ${AddMediaPlayerMlsExtension} "ogg" "audio"  
+    ${AddMediaPlayerMlsExtension} "ogv" "video"
+    ${AddMediaPlayerMlsExtension} "spx" "audio"
+    ${AddMediaPlayerMlsExtension} "weba" "audio"
+    ${AddMediaPlayerMlsExtension} "webm" "audio"  
       
     ; Remove the previously set Media Player description
     ${RemoveMediaPlayerDesc} "SOFTWARE\illiminable\oggcodecs"
@@ -363,31 +342,43 @@ SectionGroup "File type associations" SEC_USE_WMP_FOR_OGG
 ${MementoSection} ".ogg"  SecOgg
     SectionIn 1
     ${RegisterExtension} ".ogg" "WMP.OggFile" "audio/ogg" "audio"
-    ${RegisterWmpType} "WMP.OggFile" "Ogg File"
+    ${RegisterWmpType} "WMP.OggFile" "Ogg File" "xifish.ico"
 ${MementoSectionEnd}
 
 ${MementoSection} ".oga" SecOga
     SectionIn 1
     ${RegisterExtension} ".oga" "WMP.OgaFile" "audio/ogg" "audio"
-    ${RegisterWmpType} "WMP.OgaFile" "Ogg Audio File"
+    ${RegisterWmpType} "WMP.OgaFile" "Ogg Audio File" "xifish.ico"
 ${MementoSectionEnd}
 
 ${MementoSection} ".ogv"  SecOgv
     SectionIn 1
     ${RegisterExtension} ".ogv" "WMP.OgvFile" "video/ogg" "video"
-    ${RegisterWmpType} "WMP.OgvFile" "Ogg Video File"
+    ${RegisterWmpType} "WMP.OgvFile" "Ogg Video File" "xifish.ico"
 ${MementoSectionEnd}
 
 ${MementoSection} ".spx"  SecSpx
     SectionIn 1
     ${RegisterExtension} ".spx" "WMP.SpxFile" "audio/ogg" "audio"
-    ${RegisterWmpType} "WMP.SpxFile" "Speex File"
+    ${RegisterWmpType} "WMP.SpxFile" "Speex File" "xifish.ico"
 ${MementoSectionEnd}
 
 ${MementoSection} ".flac" SecFlac
     SectionIn 1
     ${RegisterExtension} ".flac" "WMP.FlacFile" "audio/flac" "audio"
-    ${RegisterWmpType} "WMP.FlacFile" "FLAC File"
+    ${RegisterWmpType} "WMP.FlacFile" "FLAC File" "xifish.ico"
+${MementoSectionEnd}
+
+${MementoSection} ".weba" SecWeba
+    SectionIn 1
+    ${RegisterExtension} ".weba" "WMP.WebaFile" "audio/webm" "audio"
+    ${RegisterWmpType} "WMP.WebaFile" "WebM Audio File" "webm.ico"
+${MementoSectionEnd}
+
+${MementoSection} ".webm" SecWebm
+    SectionIn 1
+    ${RegisterExtension} ".webm" "WMP.WebmFile" "video/webm" "video"
+    ${RegisterWmpType} "WMP.WebmFile" "WebM Video File" "webm.ico"
 ${MementoSectionEnd}
 
 SectionGroupEnd
@@ -499,119 +490,116 @@ Section Uninstall
     SetDetailsPrint listonly
   
     ; Unregister libraries - 15
-    ; Unregister core annodex libraries
-    ${UnRegisterCOM} "dsfCMMLDecoder.dll"
-    ${UnRegisterCOM} "dsfCMMLRawSource.dll"
-  
-    ; ${UnRegisterCOM} "dsfAnxDemux.dll"'
-    ${UnRegisterCOM} "dsfAnxMux.dll"
-  
-    ; Unregister core ogg libraries
     ${UnRegisterCOM} "dsfOggDemux2.dll"
     ${UnRegisterCOM} "dsfOggMux.dll"
+    ${UnRegisterCOM} "webmsplit.dll"
+    ${UnRegisterCOM} "webmmux.dll"
 
-    ; Unregister encoders
     ${UnRegisterCOM} "dsfFLACEncoder.dll"
     ${UnRegisterCOM} "dsfSpeexEncoder.dll"
     ${UnRegisterCOM} "dsfTheoraEncoder.dll"
     ${UnRegisterCOM} "dsfVorbisEncoder.dll"
+    ${UnRegisterCOM} "vp8encoder.dll"
 
-    ; Unregister decoders
     ${UnRegisterCOM} "dsfNativeFLACSource.dll"
     ${UnRegisterCOM} "dsfSpeexDecoder.dll"
     ${UnRegisterCOM} "dsfTheoraDecoder.dll"
     ${UnRegisterCOM} "dsfFLACDecoder.dll"
     ${UnRegisterCOM} "dsfVorbisDecoder.dll"
+    ${UnRegisterCOM} "vp8decoder.dll"
 
     ${UnRegisterCOM} "AxPlayer.dll"
 
     SetDetailsPrint textonly
     DetailPrint "Deleting Registry Entries ..."
     SetDetailsPrint listonly
+    
     ; Get rid of all the registry keys we made for directshow and WMP
 
     ; Media Type Groups entries - 7
     ${DeleteWmpMediaGroup} "FLAC" "Audio"
     ${DeleteWmpMediaGroup} "OGA" "Audio"
     ${DeleteWmpMediaGroup} "OGG" "Audio"
-    ${DeleteWmpMediaGroup} "AXA" "Audio"
-    ${DeleteWmpMediaGroup} "SPX" "Audio"
-    ${DeleteWmpMediaGroup} "AXV" "Video"
     ${DeleteWmpMediaGroup} "OGV" "Video"
+    ${DeleteWmpMediaGroup} "SPX" "Audio"
+    ${DeleteWmpMediaGroup} "WEBA" "Audio"
+    ${DeleteWmpMediaGroup} "WEBM" "Video"
 
-    ; WMP MIME Type entries - 7
+    ; WMP MIME Type entries  - 6
     ${DeleteWmpMimeType} "application/ogg"
     ${DeleteWmpMimeType} "audio/flac"
     ${DeleteWmpMimeType} "audio/ogg"
     ${DeleteWmpMimeType} "video/ogg"
-    ${DeleteWmpMimeType} "application/annodex"
-    ${DeleteWmpMimeType} "audio/annodex"
-    ${DeleteWmpMimeType} "video/annodex"
+    ${DeleteWmpMimeType} "audio/webm"
+    ${DeleteWmpMimeType} "video/webm"
 
-    ; MIME Type entries - 7
+    ; MIME Type entries - 6
     ${DeleteMimeType} "application/ogg"
     ${DeleteMimeType} "audio/flac"
     ${DeleteMimeType} "audio/ogg"
     ${DeleteMimeType} "video/ogg"
-    ${DeleteMimeType} "application/annodex"
-    ${DeleteMimeType} "audio/annodex" 
-    ${DeleteMimeType} "video/annodex" 
+    ${DeleteMimeType} "audio/webm"
+    ${DeleteMimeType} "video/webm"
 
-    ; File Extension Entries - 8
+    ; File Extension Entries - 7
     ${DeleteWmpExtension} ".flac"
     ${DeleteWmpExtension} ".oga"
     ${DeleteWmpExtension} ".ogg"
     ${DeleteWmpExtension} ".ogv"
     ${DeleteWmpExtension} ".spx"
-    ${DeleteWmpExtension} ".anx"
-    ${DeleteWmpExtension} ".axa"
-    ${DeleteWmpExtension} ".axv"
+    ${DeleteWmpExtension} ".weba"
+    ${DeleteWmpExtension} ".webm"
 
-    ; Extension to filter mapping - 8
-    ${DeleteMediaTypeExtension} ".anx"
-    ${DeleteMediaTypeExtension} ".axa"
-    ${DeleteMediaTypeExtension} ".axv"
+    ; Extension to filter mapping - 7
     ${DeleteMediaTypeExtension} ".flac"
     ${DeleteMediaTypeExtension} ".oga"
     ${DeleteMediaTypeExtension} ".ogg"
     ${DeleteMediaTypeExtension} ".ogv"
     ${DeleteMediaTypeExtension} ".spx"
+    ${DeleteMediaTypeExtension} ".weba"
+    ${DeleteMediaTypeExtension} ".webm"
 
-    ; Extension to filter mapping for http - 7
+    ; Extension to filter mapping for http - 6
+    ${DeleteHttpExtensionSource} ".OGA"
     ${DeleteHttpExtensionSource} ".OGG"
     ${DeleteHttpExtensionSource} ".OGV"
-    ${DeleteHttpExtensionSource} ".OGA"
     ${DeleteHttpExtensionSource} ".SPX"
-    ${DeleteHttpExtensionSource} ".ANX"
-    ${DeleteHttpExtensionSource} ".AXA"
-    ${DeleteHttpExtensionSource} ".AXV"
-    ; TODO::: FLAC
+    ${DeleteHttpExtensionSource} ".WEBA"
+    ${DeleteHttpExtensionSource} ".WEBM"
+    ; TODO: FLAC
 
-    ; MLS Perceived type - 6
-    ${DeleteMediaPlayerMlsExtension} "ogv"
+    ; MLS Perceived type - 7
+    ${DeleteMediaPlayerMlsExtension} "flac"  
     ${DeleteMediaPlayerMlsExtension} "oga"
     ${DeleteMediaPlayerMlsExtension} "ogg"
-    ${DeleteMediaPlayerMlsExtension} "axa"
-    ${DeleteMediaPlayerMlsExtension} "axv"
+    ${DeleteMediaPlayerMlsExtension} "ogv"
     ${DeleteMediaPlayerMlsExtension} "spx"
-    ${DeleteMediaPlayerMlsExtension} "flac"  
+    ${DeleteMediaPlayerMlsExtension} "weba"
+    ${DeleteMediaPlayerMlsExtension} "webm"
 
-    ; Point the extension to the handlers
+    ; Point the extension to the handlers - 7
     ${UnRegisterWmpType} "WMP.OggFile"
     ${UnRegisterWmpType} "WMP.OgaFile"
     ${UnRegisterWmpType} "WMP.OgvFile"
     ${UnRegisterWmpType} "WMP.SpxFile"
     ${UnRegisterWmpType} "WMP.FlacFile"
+    ${UnRegisterWmpType} "WMP.WebaFile"
+    ${UnRegisterWmpType} "WMP.WebmFile"
 
-    ; Delete all the registered supported types from wmplayer.exe's list
+    ; Delete all the registered supported types from wmplayer.exe's list - 7
     ${UnRegisterExtension} ".ogg"
     ${UnRegisterExtension} ".oga"
     ${UnRegisterExtension} ".ogv"
     ${UnRegisterExtension} ".spx"
     ${UnRegisterExtension} ".flac"
+    ${UnRegisterExtension} ".weba"
+    ${UnRegisterExtension} ".webm"
 
     ; Delete the "OggS" regonition pattern
     ${DeleteOggRecognitionPattern}
+
+    ; Delete "EBML" recognition pattern
+    ${DeleteWebmRecognitionPattern}
 
     ; Delete the AxPlayer XMLNamespace registry value
     ${UnRegisterAxPlayerXmlNamespace}
@@ -628,27 +616,25 @@ Section Uninstall
     ${DeleteFile} "dsfTheoraEncoder.dll"
     ${DeleteFile} "dsfSpeexEncoder.dll"
     ${DeleteFile} "dsfFLACEncoder.dll"
+    ${DeleteFile} "vp8encoder.dll"
 
     ${DeleteFile} "dsfVorbisDecoder.dll"
     ${DeleteFile} "dsfFLACDecoder.dll"
+    ${DeleteFile} "dsfNativeFLACSource.dll"
     ${DeleteFile} "dsfTheoraDecoder.dll"
     ${DeleteFile} "dsfSpeexDecoder.dll"
-
-    ${DeleteFile} "dsfNativeFLACSource.dll"
-
-    ${DeleteFile} "dsfCMMLDecoder.dll"
-    ${DeleteFile} "dsfCMMLRawSource.dll"
+    ${DeleteFile} "vp8decoder.dll"
 
     ${DeleteFile} "dsfOggDemux2.dll"
     ${DeleteFile} "dsfOggMux.dll"
+    ${DeleteFile} "webmsplit.dll"
+    ${DeleteFile} "webmmux.dll"
 
-    ${DeleteFile} "dsfAnxMux.dll"
-    ;  ${DeleteFile} "dsfAnxDemux.dll"
     ${DeleteFile} "wmpinfo.dll"
-
+    
     ${DeleteFile} "AxPlayer.dll"
 
-    ; Delete text files - 7
+    ; Delete text files - 6
     Delete "$INSTDIR\README"
     Delete "$INSTDIR\COPYRIGHTS.rtf"
     Delete "$INSTDIR\COPYRIGHTS"
@@ -662,6 +648,7 @@ Section Uninstall
 
     ; Delete icons - 2
     Delete "$INSTDIR\xifish.ico"
+    Delete "$INSTDIR\webm.ico"
 
     ;Delete accesory files, links etc.
     Delete "$SMPROGRAMS\$ICONS_GROUP\Website.url"
