@@ -626,11 +626,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\VideoTagBehavior.rgs"
+				RelativePath=".\Res\VideoTagBehavior.rgs"
 				>
 			</File>
 			<File
-				RelativePath=".\Res\VideoTagBehavior.rgs"
+				RelativePath=".\VideoTagBehavior.rgs"
 				>
 			</File>
 		</Filter>

@@ -48,3 +48,7 @@
 
 #include <atlbase.h>
 #include <atlcom.h>
+
+#include <streams.h>
+#include <pullpin.h>
+#include <dvdmedia.h>

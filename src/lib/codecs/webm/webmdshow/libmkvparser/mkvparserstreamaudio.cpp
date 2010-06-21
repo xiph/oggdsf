@@ -203,17 +203,17 @@ void AudioStream::GetVorbisMediaTypes(CMediaTypes& mtv) const
     
     //TODO: if we decide source filter should attempt to also
     //connect to Xiph Ogg Vorbis decoder filter:
-    //mt.majortype = VorbisTypes::MEDIATYPE_OggPacketStream;
-    //mt.subtype = MEDIASUBTYPE_None;
-    //mt.bFixedSizeSamples = FALSE;
-    //mt.bTemporalCompression = FALSE;
-    //mt.lSampleSize = 0;
-    //mt.formattype = VorbisTypes::FORMAT_OggIdentHeader;
-    //mt.pUnk = 0;
-    //mt.cbFormat = id_len;
-    //mt.pbFormat = const_cast<BYTE*>(id_hdr);
-    //
-    //mtv.Add(mt);
+    mt.majortype = VorbisTypes::MEDIATYPE_OggPacketStream;
+    mt.subtype = MEDIASUBTYPE_None;
+    mt.bFixedSizeSamples = FALSE;
+    mt.bTemporalCompression = FALSE;
+    mt.lSampleSize = 0;
+    mt.formattype = VorbisTypes::FORMAT_OggIdentHeader;
+    mt.pUnk = 0;
+    mt.cbFormat = id_len;
+    mt.pbFormat = const_cast<BYTE*>(id_hdr);
+
+    mtv.Add(mt);
 }
 
 
@@ -242,8 +242,8 @@ HRESULT AudioStream::QueryAccept(const AM_MEDIA_TYPE* pmt) const
 }
 
 
-#if 0  //if we decide to support Xiph Ogg Vorbis decoder filter:
-HRESULT AudioStream::SetConnectionMediaType(const AM_MEDIA_TYPE&)
+#if 1  //if we decide to support Xiph Ogg Vorbis decoder filter:
+HRESULT AudioStream::SetConnectionMediaType(const AM_MEDIA_TYPE& mt)
 {
     if (mt.majortype == VorbisTypes::MEDIATYPE_OggPacketStream)
         m_preroll = &AudioStream::SendOggIdentPacket;
@@ -432,7 +432,7 @@ HRESULT AudioStream::OnPopulateSample(
 }
 
 
-#if 0  //if we decide to support Xiph Ogg Vorbis decoder filter
+#if 1  //if we decide to support Xiph Ogg Vorbis decoder filter
 bool AudioStream::SendPreroll(IMediaSample* pSample)
 {
     assert(m_preroll);

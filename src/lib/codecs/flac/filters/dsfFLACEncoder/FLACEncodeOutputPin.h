@@ -35,7 +35,7 @@
 #include "AbstractTransformOutputPin.h"
 
 class FLACEncodeFilter;
-struct sFLACFormatBlock;
+struct FLACFORMAT;
 
 class FLACEncodeOutputPin
 	:	public	AbstractTransformOutputPin

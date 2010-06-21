@@ -35,7 +35,7 @@
 
 
 class TheoraEncodeFilter;
-struct sTheoraFormatBlock;
+struct THEORAFORMAT;
 
 class TheoraEncodeOutputPin
 	:	public	AbstractTransformOutputPin

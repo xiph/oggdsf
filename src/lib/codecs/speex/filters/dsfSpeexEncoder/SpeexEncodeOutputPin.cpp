@@ -52,10 +52,10 @@ SpeexEncodeOutputPin::~SpeexEncodeOutputPin(void)
 HRESULT SpeexEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
 {
 	if (inPosition == 0) {
-		sSpeexFormatBlock* locSpeexFormat = (sSpeexFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sSpeexFormatBlock));
+		SPEEXFORMAT* locSpeexFormat = (SPEEXFORMAT*)outMediaType->AllocFormatBuffer(sizeof(SPEEXFORMAT));
 		//TODO::: Check for null ?
 
-		memcpy((void*)locSpeexFormat, (const void*) &(((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock), sizeof(sSpeexFormatBlock));
+		memcpy((void*)locSpeexFormat, (const void*) &(((SpeexEncodeFilter*)mParentFilter)->mSpeexFormatBlock), sizeof(SPEEXFORMAT));
 		return S_OK;
 	} else {
         return S_FALSE;

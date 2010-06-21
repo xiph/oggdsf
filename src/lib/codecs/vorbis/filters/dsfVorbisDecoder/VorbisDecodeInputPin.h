@@ -46,6 +46,7 @@
 #include "VorbisDecoder.h"
 #endif
 
+class VorbisDecodeFilter;
 class VorbisDecodeOutputPin;
 
 class VorbisDecodeInputPin 
@@ -109,7 +110,7 @@ protected:
 
     void reorderChannels(unsigned char* inDestBuffer, const unsigned char* inSourceBuffer, unsigned long inNumBytes);
 
-	
+	VorbisDecodeFilter* GetFilter();
 
 	//TODO::: Are these needed?
 	bool mBegun;

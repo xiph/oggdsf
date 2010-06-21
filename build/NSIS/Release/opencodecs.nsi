@@ -172,7 +172,7 @@ Function .onInit
 FunctionEnd
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Section "Oggcodecs Core Files" SEC_CORE
+Section "Open Codecs Core Files" SEC_CORE
     SectionIn 1 RO
   
     SetShellVarContext all

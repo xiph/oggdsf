@@ -37,7 +37,7 @@
 
 
 //Forward Declarations
-//struct sTheoraFormatBlock;
+//struct THEORAFORMAT;
 class TheoraEncodeInputPin;
 class TheoraEncodeOutputPin;
 
@@ -109,7 +109,7 @@ protected:
 	virtual bool ConstructPins();
 
 	//Member data
-	sTheoraFormatBlock mTheoraFormatBlock;
+	THEORAFORMAT mTheoraFormatBlock;
 
     bool mUsingQualityMode;
 	

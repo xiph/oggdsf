@@ -1,6 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
-//Copyrithg (C) 2009 Cristian Adam
+//Copyright (C) 2009-2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -75,7 +75,7 @@ const AMOVIESETUP_PIN VorbisDecodeFilter::m_pinReg[] =
         FALSE,								//Cannot have more than one instance of this pin
         &GUID_NULL,							//Connects to filter (obsoleted)
         NULL,								//Connects to pin (obsoleted)
-        1,									//upport two media type
+        1,									//Support two media type
         &m_inputMediaTypes				    //Pointer to media type (Audio/Vorbis or Audio/Speex)
     } ,
 
@@ -108,15 +108,13 @@ LPAMOVIESETUP_FILTER VorbisDecodeFilter::GetSetupData()
 }
 #endif
 
-//*************************************************************************************************
-VorbisDecodeFilter::VorbisDecodeFilter()
-	:	AbstractTransformFilter(NAME("Vorbis Decoder"), CLSID_VorbisDecodeFilter)
-	,	mVorbisFormatInfo(NULL)
+VorbisDecodeFilter::VorbisDecodeFilter() :
+AbstractTransformFilter(NAME("Vorbis Decoder"), CLSID_VorbisDecodeFilter),
+mVorbisFormatInfo(NULL)
 {
     LOG(logINFO) << L"VorbisDecodeFilter object created!" << std::endl;
 
-	bool locWasConstructed = ConstructPins();
-	//TODO::: Error check !
+	ConstructPins();
 }
 
 STDMETHODIMP VorbisDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv)
@@ -135,48 +133,53 @@ STDMETHODIMP VorbisDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void *
 //    *outAllowTranscode = VARIANT_TRUE;
 //    return S_OK;
 //}
+
 bool VorbisDecodeFilter::ConstructPins() 
 {
-	//Vector to hold our set of media types we want to accept.
-	vector<CMediaType*> locAcceptableTypes;
+	// Vector to hold our set of media types we want to accept.
+    MediaTypesList acceptableTypes;
 
-	//Setup the media types for the output pin.
-	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
-	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
-	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
-	
-	locAcceptableTypes.push_back(locAcceptMediaType);
+	// Setup the media types for the output pin, media types are deleted in pin destructor
+	CMediaType* mediaType = new CMediaType(&MEDIATYPE_Audio);
+	mediaType->subtype = MEDIASUBTYPE_PCM;
+	mediaType->formattype = FORMAT_WaveFormatEx;
+	acceptableTypes.push_back(mediaType);
 
-	//Second one the same type... they are actually different one is the extensible format. See CreateAndFill
-	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
-	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
-	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
-	
-	locAcceptableTypes.push_back(locAcceptMediaType);
+	//Second one the same type... they are actually different one is the extensible 
+    // format. See CreateAndFill
+	mediaType = new CMediaType(&MEDIATYPE_Audio);
+	mediaType->subtype = MEDIASUBTYPE_PCM;
+	mediaType->formattype = FORMAT_WaveFormatEx;
+	acceptableTypes.push_back(mediaType);
 
-	//Output pin must be done first because it's passed to the input pin.
-	mOutputPin = new VorbisDecodeOutputPin(this, m_pLock, locAcceptableTypes);			//Deleted in base class destructor
+	// Output pin must be done first because it's passed to the input pin. 
+    // Deleted in base class destructor
+	mOutputPin = new VorbisDecodeOutputPin(this, m_pLock, acceptableTypes);			
 
-	//Clear out the vector, now we've already passed it to the output pin.
-	locAcceptableTypes.clear();
+	// Clear out the vector, now we've already passed it to the output pin.
+	acceptableTypes.clear();
 
 	//Setup the media Types for the input pin.
-	locAcceptMediaType = NULL;
-	locAcceptMediaType = new CMediaType(&MEDIATYPE_OggPacketStream);			//Deleted by pin
+    // OggPacketStream received from Ogg Demuxer filter
+	mediaType = new CMediaType(&MEDIATYPE_OggPacketStream);
+	mediaType->subtype = MEDIASUBTYPE_None;
+	mediaType->formattype = FORMAT_OggIdentHeader;
+    acceptableTypes.push_back(mediaType);
 
-	locAcceptMediaType->subtype = MEDIASUBTYPE_None;
-	locAcceptMediaType->formattype = FORMAT_OggIdentHeader;
-
-	locAcceptableTypes.push_back(locAcceptMediaType);
+    // Vorbis stream received from Vorbis Encoder
+    mediaType = new CMediaType(&MEDIATYPE_Audio);
+    mediaType->subtype = MEDIASUBTYPE_Vorbis;
+    mediaType->formattype = FORMAT_Vorbis;
+	acceptableTypes.push_back(mediaType);
 	
-	mInputPin = new VorbisDecodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.
+    //Deleted in base class filter destructor.
+	mInputPin = new VorbisDecodeInputPin(this, m_pLock, mOutputPin, acceptableTypes);	
 	return true;
 }
 
 VorbisDecodeFilter::~VorbisDecodeFilter(void)
 {
     LOG(logINFO) << L"VorbisDecodeFilter destroyed!" << std::endl;
-	
 	delete mVorbisFormatInfo;
 }
 
@@ -192,17 +195,20 @@ CUnknown* WINAPI VorbisDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 	return pNewObject;
 } 
 
-//QUERY::: Do we need these ? Aren't we all friedns here ??
-//RESULT::: Keep them, set function must be kept... get could go... but keep for consistency
-sVorbisFormatBlock* VorbisDecodeFilter::getVorbisFormatBlock() 
+VORBISFORMAT* VorbisDecodeFilter::getVorbisFormatBlock() 
 {
 	return mVorbisFormatInfo;
 }
+
 void VorbisDecodeFilter::setVorbisFormat(BYTE* inFormatBlock) 
 {
+    if (!inFormatBlock)
+    {
+        return;
+    }
+
 	delete mVorbisFormatInfo;
-	mVorbisFormatInfo = new sVorbisFormatBlock;				//Deleted in destructor.
-	//*mVorbisFormatInfo = *inFormatBlock;
+	mVorbisFormatInfo = new VORBISFORMAT;
 
 	mVorbisFormatInfo->vorbisVersion = iLE_Math::charArrToULong(inFormatBlock + 7);
 	mVorbisFormatInfo->numChannels = inFormatBlock[11];
@@ -211,6 +217,25 @@ void VorbisDecodeFilter::setVorbisFormat(BYTE* inFormatBlock)
 	mVorbisFormatInfo->avgBitsPerSec = iLE_Math::charArrToULong(inFormatBlock + 20);
 	mVorbisFormatInfo->minBitsPerSec = iLE_Math::charArrToULong(inFormatBlock + 24);
 
+    PrintVorbisFormatInfo();
+}
+
+void VorbisDecodeFilter::setVorbisFormat(VORBISFORMAT* vorbisFormat)
+{
+    if (!vorbisFormat)
+    {
+        return;
+    }
+
+    delete mVorbisFormatInfo;
+    mVorbisFormatInfo = new VORBISFORMAT;
+
+    *mVorbisFormatInfo = *vorbisFormat;
+    PrintVorbisFormatInfo();
+}
+
+void VorbisDecodeFilter::PrintVorbisFormatInfo()
+{
     LOG(logINFO) << "Vorbis Version: " << mVorbisFormatInfo->vorbisVersion
         << " Channels: " << mVorbisFormatInfo->numChannels
         << " SamplesPerSec: " << mVorbisFormatInfo->samplesPerSec

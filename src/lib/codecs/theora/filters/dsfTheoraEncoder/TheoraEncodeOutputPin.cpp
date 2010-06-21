@@ -43,20 +43,20 @@ TheoraEncodeOutputPin::~TheoraEncodeOutputPin(void)
 
 //bool TheoraEncodeOutputPin::FillFormatBuffer(BYTE* inFormatBuffer) {
 //	TheoraEncodeFilter* locParentFilter = (TheoraEncodeFilter*)mParentFilter;
-//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mTheoraFormatBlock), sizeof(sTheoraFormatBlock));
+//	memcpy((void*)inFormatBuffer, (const void*) &(locParentFilter->mTheoraFormatBlock), sizeof(THEORAFORMAT));
 //	return true;
 //}
 //unsigned long TheoraEncodeOutputPin::FormatBufferSize() {
-//	return sizeof(sTheoraFormatBlock);
+//	return sizeof(THEORAFORMAT);
 //}
 
 HRESULT TheoraEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
 {
 	if (inPosition == 0) {
-		sTheoraFormatBlock* locTheoraFormat = (sTheoraFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sTheoraFormatBlock));
+		THEORAFORMAT* locTheoraFormat = (THEORAFORMAT*)outMediaType->AllocFormatBuffer(sizeof(THEORAFORMAT));
 		//TODO::: Check for null ?
 
-		memcpy((void*)locTheoraFormat, (const void*) &(((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock), sizeof(sTheoraFormatBlock));
+		memcpy((void*)locTheoraFormat, (const void*) &(((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock), sizeof(THEORAFORMAT));
 		return S_OK;
 	} else {
         return S_FALSE;

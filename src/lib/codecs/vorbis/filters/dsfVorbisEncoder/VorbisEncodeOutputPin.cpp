@@ -54,10 +54,10 @@ VorbisEncodeOutputPin::~VorbisEncodeOutputPin(void)
 HRESULT VorbisEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
 {
 	if (inPosition == 0) {
-		sVorbisFormatBlock* locVorbisFormat = (sVorbisFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sVorbisFormatBlock));
+		VORBISFORMAT* locVorbisFormat = (VORBISFORMAT*)outMediaType->AllocFormatBuffer(sizeof(VORBISFORMAT));
 		//TODO::: Check for null ?
 
-		memcpy((void*)locVorbisFormat, (const void*) &(((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock), sizeof(sVorbisFormatBlock));
+		memcpy((void*)locVorbisFormat, (const void*) &(((VorbisEncodeFilter*)mParentFilter)->mVorbisFormatBlock), sizeof(VORBISFORMAT));
 		return S_OK;
 	} else {
         return S_FALSE;

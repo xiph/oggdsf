@@ -1157,7 +1157,7 @@ bool TheoraDecodeFilter::SetSampleParams(IMediaSample* outMediaSample, unsigned 
 //	return FALSE;
 //}
 
-sTheoraFormatBlock* TheoraDecodeFilter::GetTheoraFormatBlock() 
+THEORAFORMAT* TheoraDecodeFilter::GetTheoraFormatBlock() 
 {
 	return m_theoraFormatInfo;
 }
@@ -1165,7 +1165,7 @@ sTheoraFormatBlock* TheoraDecodeFilter::GetTheoraFormatBlock()
 void TheoraDecodeFilter::SetTheoraFormat(BYTE* inFormatBlock) 
 {
 	delete m_theoraFormatInfo;
-	m_theoraFormatInfo = new sTheoraFormatBlock;			//Deelted in destructor.
+	m_theoraFormatInfo = new THEORAFORMAT;			//Deelted in destructor.
 
     // TODO: replace code blow with th_decode_headerin
 

@@ -40,7 +40,7 @@
 #include "AbstractTransformFilter.h"
 
 //Forward Declarations
-struct sVorbisFormatBlock;
+struct VORBISFORMAT;
 class VorbisEncodeInputPin;
 class VorbisEncodeOutputPin;
 
@@ -85,5 +85,5 @@ protected:
 	virtual bool ConstructPins();
 
 	//Member data
-	sVorbisFormatBlock mVorbisFormatBlock;
+	VORBISFORMAT mVorbisFormatBlock;
 };

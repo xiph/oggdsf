@@ -87,7 +87,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 	if (inMediaType->majortype == MEDIATYPE_Video) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Theora) {
 			//Theora	
-			sTheoraFormatBlock* locTheora = (sTheoraFormatBlock*)inMediaType->pbFormat;
+			THEORAFORMAT* locTheora = (THEORAFORMAT*)inMediaType->pbFormat;
 			//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
 			//debugLog<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
 			mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
@@ -102,7 +102,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
 		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
 			//Vorbis
-			sVorbisFormatBlock* locVorbis = (sVorbisFormatBlock*)inMediaType->pbFormat;
+			VORBISFORMAT* locVorbis = (VORBISFORMAT*)inMediaType->pbFormat;
 			//debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
 			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
 			mMuxStream->setNumHeaders(3);
@@ -110,13 +110,13 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 			
 		} else if (inMediaType->subtype == MEDIASUBTYPE_Speex) {
 			//Speex
-			sSpeexFormatBlock* locSpeex = (sSpeexFormatBlock*)inMediaType->pbFormat;
+			SPEEXFORMAT* locSpeex = (SPEEXFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
 			mMuxStream->setNumHeaders(2);
 			mPaginator.setNumHeaders(2);
 		} else if (inMediaType->subtype == MEDIASUBTYPE_OggFLAC_1_0) {
 			//We are connected to the encoder nd getting individual metadata packets.
-			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
+			FLACFORMAT* locFLAC = (FLACFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
 			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			//mNeedsFLACHeaderTweak = true;
@@ -124,12 +124,12 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
 			//We are connected directly to the demux and are getting metadata in one block
 			// Need to use the header splitter class.
-			sFLACFormatBlock* locFLAC = (sFLACFormatBlock*)inMediaType->pbFormat;
+			FLACFORMAT* locFLAC = (FLACFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
 			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			mNeedsFLACHeaderTweak = true;
 		} else if (inMediaType->subtype == MEDIASUBTYPE_RawOggAudio) {
-			sOggRawAudioFormatBlock* locRawAudio = (sOggRawAudioFormatBlock*)inMediaType->pbFormat;
+			OGGRAWAUDIOFORMAT* locRawAudio = (OGGRAWAUDIOFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locRawAudio->samplesPerSec, 1, 10000000);
 			mMuxStream->setNumHeaders(locRawAudio->numHeaders);
 			mPaginator.setNumHeaders(locRawAudio->numHeaders);
@@ -138,7 +138,7 @@ HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
 		
 	} else if (inMediaType->majortype == MEDIATYPE_Text) {
 		if (inMediaType->subtype == MEDIASUBTYPE_CMML) {
-			sCMMLFormatBlock* locCMML = (sCMMLFormatBlock*)inMediaType->pbFormat;
+			CMMLFORMAT* locCMML = (CMMLFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locCMML->granuleNumerator,locCMML->granuleDenominator, 10000000);
 			mMuxStream->setNumHeaders(1);
 			mPaginator.setNumHeaders(1);

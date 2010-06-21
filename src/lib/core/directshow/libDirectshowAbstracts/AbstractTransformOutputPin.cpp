@@ -33,26 +33,27 @@
 #include "AbstractTransformOutputPin.h"
 
 
-AbstractTransformOutputPin::AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, TCHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> inAcceptableMediaTypes)
-	:	CBaseOutputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName)
+AbstractTransformOutputPin::AbstractTransformOutputPin(
+    AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, TCHAR* inObjectName, 
+    LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, const MediaTypesList& inAcceptableMediaTypes) :	
 
-	,	mParentFilter(inParentFilter)
-	,	mDataQueue(NULL)
-	
-	,	mDesiredBufferSize(inBuffSize)
-	,	mDesiredBufferCount(inNumBuffs)
+CBaseOutputPin(inObjectName, inParentFilter, inFilterLock, &mHR, inPinDisplayName),	
 
-	,	mActualBufferSize(0)
-	,	mActualBufferCount(0)
-
-	,	mAcceptableMediaTypes(inAcceptableMediaTypes)
+mParentFilter(inParentFilter),	
+mDataQueue(NULL),	
+mDesiredBufferSize(inBuffSize),	
+mDesiredBufferCount(inNumBuffs),	
+mActualBufferSize(0),	
+mActualBufferCount(0),	
+mAcceptableMediaTypes(inAcceptableMediaTypes)
 {
-
 }
+
 AbstractTransformOutputPin::~AbstractTransformOutputPin(void)
 {	
 	ReleaseDelegate();
-	delete mDataQueue;
+
+    delete mDataQueue;
 	mDataQueue = NULL;
 
 	for (size_t i = 0; i < mAcceptableMediaTypes.size(); i++) {

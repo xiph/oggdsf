@@ -30,6 +30,7 @@
 //===========================================================================
 
 #include "stdafx.h"
+#include <initguid.h>
 #include "Theoradecoderdllstuff.h"
 #include "common/util.h"
 

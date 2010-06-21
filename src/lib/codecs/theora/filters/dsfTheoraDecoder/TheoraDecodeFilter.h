@@ -87,7 +87,7 @@ protected:
 	virtual void ResetFrameCount();
 
     //Helpers
-    sTheoraFormatBlock* GetTheoraFormatBlock();
+    THEORAFORMAT* GetTheoraFormatBlock();
     void SetTheoraFormat(BYTE* inFormatBlock);
 
 	HRESULT CheckOutputType(const CMediaType* inMediaType);
@@ -153,5 +153,5 @@ protected:
 	__int64 m_lastSeenStartGranPos;
 
 	//Format Block
-	sTheoraFormatBlock* m_theoraFormatInfo;
+	THEORAFORMAT* m_theoraFormatInfo;
 };

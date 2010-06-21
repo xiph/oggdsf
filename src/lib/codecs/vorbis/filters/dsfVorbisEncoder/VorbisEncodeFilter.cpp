@@ -69,8 +69,7 @@ CUnknown* WINAPI VorbisEncodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr
 VorbisEncodeFilter::VorbisEncodeFilter(void)
 	:	AbstractTransformFilter(NAME("Xiph.Org Vorbis Encoder"), CLSID_VorbisEncodeFilter)
 {
-	bool locWasConstructed = ConstructPins();
-	//Error checks ??
+	ConstructPins();
 }
 
 VorbisEncodeFilter::~VorbisEncodeFilter(void)
@@ -104,7 +103,7 @@ bool VorbisEncodeFilter::ConstructPins()
 	CMediaType* locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);		//Deleted in pin destructor
 	locAcceptMediaType->subtype = MEDIASUBTYPE_Vorbis;
 	locAcceptMediaType->formattype = FORMAT_Vorbis;
-	
+
 	locAcceptableTypes.push_back(locAcceptMediaType);
 
 	//Output pin must be done first because it's passed to the input pin.
@@ -114,12 +113,9 @@ bool VorbisEncodeFilter::ConstructPins()
 	locAcceptableTypes.clear();
 
 	//Setup the media Types for the input pin.
-	locAcceptMediaType = NULL;
 	locAcceptMediaType = new CMediaType(&MEDIATYPE_Audio);			//Deleted by pin
-
 	locAcceptMediaType->subtype = MEDIASUBTYPE_PCM;
 	locAcceptMediaType->formattype = FORMAT_WaveFormatEx;
-
 	locAcceptableTypes.push_back(locAcceptMediaType);
 	
 	mInputPin = new VorbisEncodeInputPin(this, m_pLock, mOutputPin, locAcceptableTypes);	//Deleted in base class filter destructor.

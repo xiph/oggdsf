@@ -35,7 +35,7 @@
 #include "AbstractTransformOutputPin.h"
 
 class VorbisEncodeFilter;
-struct sVorbisFormatBlock;
+struct VORBISFORMAT;
 
 class VorbisEncodeOutputPin
 	:	public AbstractTransformOutputPin

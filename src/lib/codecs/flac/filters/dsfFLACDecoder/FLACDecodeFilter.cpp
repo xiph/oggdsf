@@ -105,19 +105,19 @@ CUnknown* WINAPI FLACDecodeFilter::CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr)
 	return pNewObject;
 } 
 
-sFLACFormatBlock* FLACDecodeFilter::getFLACFormatBlock() 
+FLACFORMAT* FLACDecodeFilter::getFLACFormatBlock() 
 {
 	return mFLACFormatBlock;
 }
 void FLACDecodeFilter::setFLACFormatBlock(BYTE* inFormatBlock) 
 {
 	delete mFLACFormatBlock;
-	mFLACFormatBlock = new sFLACFormatBlock;		//Deleted in destructor.
+	mFLACFormatBlock = new FLACFORMAT;		//Deleted in destructor.
 
 	const unsigned char FLAC_CHANNEL_MASK = 14;  //00001110
 	const unsigned char FLAC_BPS_START_MASK = 1; //00000001
 	const unsigned char FLAC_BPS_END_MASK = 240;  //11110000
-	mFLACFormatBlock = new sFLACFormatBlock;
+	mFLACFormatBlock = new FLACFORMAT;
 	//Fix the format block data... use header version and other version.
 	//mFLACFormatBlock->FLACVersion = FLACMath::charArrToULong(mCodecHeaders->getPacket(1)->packetData() + 28);
 

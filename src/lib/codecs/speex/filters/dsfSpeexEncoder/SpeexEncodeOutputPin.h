@@ -36,7 +36,7 @@
 #include "AbstractTransformOutputPin.h"
 
 class SpeexEncodeFilter;
-struct sSpeexFormatBlock;
+struct SPEEXFORMAT;
 
 class SpeexEncodeOutputPin
 	:	public	AbstractTransformOutputPin

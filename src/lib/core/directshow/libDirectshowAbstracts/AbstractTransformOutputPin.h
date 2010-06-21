@@ -37,7 +37,8 @@
 
 //STL Includes
 #include <vector>
-using namespace std;
+
+typedef std::vector<CMediaType*> MediaTypesList;
 
 //Forward Declarations
 class AbstractTransformFilter;
@@ -54,7 +55,8 @@ public:
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	//Constructors
-	AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, TCHAR* inObjectName, LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, vector<CMediaType*> inAcceptableMediaTypes);
+	AbstractTransformOutputPin(AbstractTransformFilter* inParentFilter, CCritSec* inFilterLock, TCHAR* inObjectName, 
+        LPCWSTR inPinDisplayName, int inBuffSize, int inNumBuffs, const MediaTypesList& inAcceptableMediaTypes);
 	virtual ~AbstractTransformOutputPin(void);
 
 	//Buffer control method
@@ -85,7 +87,7 @@ protected:
 	//Pin member data
 	AbstractTransformFilter* mParentFilter;
 	COutputQueue* mDataQueue;
-	vector<CMediaType*> mAcceptableMediaTypes;
+	MediaTypesList mAcceptableMediaTypes;
 	
 	HRESULT mHR;		//Is this even used ??
 
@@ -94,8 +96,4 @@ protected:
 	int mDesiredBufferCount;
 	int mActualBufferSize;
 	int mActualBufferCount;
-
-	
 };
-
-

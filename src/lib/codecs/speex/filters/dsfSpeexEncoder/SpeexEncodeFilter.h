@@ -40,7 +40,7 @@
 #include "AbstractTransformFilter.h"
 
 //Forward Declarations
-struct sSpeexFormatBlock;
+struct SPEEXFORMAT;
 class SpeexEncodeInputPin;
 class SpeexEncodeOutputPin;
 
@@ -90,6 +90,6 @@ protected:
 	virtual bool ConstructPins();
 
 	//Member data
-	sSpeexFormatBlock mSpeexFormatBlock;
+	SPEEXFORMAT mSpeexFormatBlock;
 	
 };

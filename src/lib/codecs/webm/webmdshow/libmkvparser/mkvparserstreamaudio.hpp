@@ -25,7 +25,7 @@ public:
     void GetMediaTypes(CMediaTypes&) const;
     HRESULT QueryAccept(const AM_MEDIA_TYPE*) const;
 
-#if 0  //if we decide to support Xiph Ogg Vorbis decoder filter:    
+#if 1  //if we decide to support Xiph Ogg Vorbis decoder filter:    
     HRESULT SetConnectionMediaType(const AM_MEDIA_TYPE&);
 #endif
 
@@ -39,7 +39,7 @@ protected:
 
     void GetVorbisMediaTypes(CMediaTypes&) const;
     
-#if 0  //if we decide to support Xiph Ogg Vorbis decoder filter:    
+#if 1  //if we decide to support Xiph Ogg Vorbis decoder filter:    
     bool SendPreroll(IMediaSample*);        
     bool (AudioStream::*m_preroll)(IMediaSample*);
     bool DoNothing(IMediaSample*);

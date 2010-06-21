@@ -187,14 +187,14 @@ STDMETHODIMP SpeexDecodeFilter::NonDelegatingQueryInterface(REFIID riid, void **
 
 //QUERY::: Do we need these ? Aren't we all friedns here ??
 //RESULT::: Keep them, set function must be kept... get could go... but keep for consistency
-sSpeexFormatBlock* SpeexDecodeFilter::getSpeexFormatBlock() 
+SPEEXFORMAT* SpeexDecodeFilter::getSpeexFormatBlock() 
 {
 	return mSpeexFormatInfo;
 }
 void SpeexDecodeFilter::setSpeexFormat(BYTE* inFormatBlock) 
 {
 	delete mSpeexFormatInfo;
-	mSpeexFormatInfo = new sSpeexFormatBlock;
+	mSpeexFormatInfo = new SPEEXFORMAT;
 
 	mSpeexFormatInfo->speexVersion = iLE_Math::charArrToULong(inFormatBlock + 28);
 	mSpeexFormatInfo->numChannels = iLE_Math::charArrToULong(inFormatBlock + 48);

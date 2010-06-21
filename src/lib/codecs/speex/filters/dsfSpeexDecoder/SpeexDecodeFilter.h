@@ -37,7 +37,7 @@
 #include <libilliCore/iLE_Math.h>
 
 //Forward Declarations
-struct sSpeexFormatBlock;
+struct SPEEXFORMAT;
 class SpeexDecodeInputPin;
 class SpeexDecodeOutputPin;
 
@@ -70,7 +70,7 @@ public:
 	//TODO::: Do we need these ? Aren't they all friends ?? Should set be public?
 
 	///Gets the speex format block
-	virtual sSpeexFormatBlock* getSpeexFormatBlock();
+	virtual SPEEXFORMAT* getSpeexFormatBlock();
 
 	///Sets the speex format block
 	virtual void setSpeexFormat(BYTE* inFormatBlock);
@@ -84,5 +84,5 @@ protected:
 	virtual bool ConstructPins();
 
 	//Format Block
-	sSpeexFormatBlock* mSpeexFormatInfo;
+	SPEEXFORMAT* mSpeexFormatInfo;
 };

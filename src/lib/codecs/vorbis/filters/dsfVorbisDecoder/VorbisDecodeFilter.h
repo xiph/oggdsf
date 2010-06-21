@@ -1,6 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003-2006 Zentaro Kavanagh
-//Copyright (C) 2009 Cristian Adam
+//Copyright (C) 2009-2010 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -38,15 +38,13 @@
 //#include "wmpservices.h"
 
 //Forward Declarations
-struct sVorbisFormatBlock;
+struct VORBISFORMAT;
 class VorbisDecodeInputPin;
 class VorbisDecodeOutputPin;
 
 //Class Interface
-class VorbisDecodeFilter
-	//Base Classes
-	:	public AbstractTransformFilter
-    //,   public IWMPTranscodePolicy
+class VorbisDecodeFilter:	public AbstractTransformFilter
+                            //,   public IWMPTranscodePolicy
 {
 public:
 	//Friends
@@ -54,8 +52,8 @@ public:
 	friend class VorbisDecodeOutputPin;
 
 	//Constructors and Destructors
-	VorbisDecodeFilter(void);
-	virtual ~VorbisDecodeFilter(void);
+	VorbisDecodeFilter();
+	virtual ~VorbisDecodeFilter();
 
     static const wchar_t* NAME;
     static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes;
@@ -69,13 +67,12 @@ public:
     //IWMPTranscodePolicy interface -- it's documented... but it doesn't really exist.
     //HRESULT allowTranscode(VARIANT_BOOL* outAllowTranscode);
 
-
 	///COM CreateInstance Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	//FIX::: Do we need these ? Aren't they all friends ??
-	virtual sVorbisFormatBlock* getVorbisFormatBlock();
+	virtual VORBISFORMAT* getVorbisFormatBlock();
 	virtual void setVorbisFormat(BYTE* inFormatBlock);
+    virtual void setVorbisFormat(VORBISFORMAT* vorbisFormat);
 
 #ifdef WINCE
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
@@ -85,8 +82,10 @@ protected:
 	//VIRTUAL FUNCTIONS - AbstractTransformFilter
 	virtual bool ConstructPins();
 
+    void PrintVorbisFormatInfo();
+
 	//Format Block
-	sVorbisFormatBlock* mVorbisFormatInfo;
+	VORBISFORMAT* mVorbisFormatInfo;
 
     static const bool USE_CORRECT_VORBIS_CHANNEL_MAPPING = true;
 };

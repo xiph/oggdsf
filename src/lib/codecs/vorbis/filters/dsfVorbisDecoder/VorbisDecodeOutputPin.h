@@ -40,25 +40,25 @@
 #endif
 
 class VorbisDecodeFilter;
-class VorbisDecodeOutputPin :
-	public AbstractTransformOutputPin
+class VorbisDecodeOutputPin : public AbstractTransformOutputPin
 {
+    friend class VorbisDecodeInputPin;
+
 public:
-
     static const unsigned long NUM_BUFFERS = 16;
-
-	friend class VorbisDecodeInputPin;
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
-	virtual ~VorbisDecodeOutputPin(void);
+    VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock, 
+                          const MediaTypesList& inAcceptableMediaTypes);
+	virtual ~VorbisDecodeOutputPin();
+
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
     virtual HRESULT DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES *inReqAllocProps);
 
 private:
     HRESULT FillMediaType(CMediaType& mediaType, bool useWaveFormatEx);
+    VorbisDecodeFilter* GetFilter();
 };
-

@@ -54,10 +54,10 @@ FLACEncodeOutputPin::~FLACEncodeOutputPin(void)
 HRESULT FLACEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition)
 {
 	if (inPosition == 0) {
-		sFLACFormatBlock* locFLACFormat = (sFLACFormatBlock*)outMediaType->AllocFormatBuffer(sizeof(sFLACFormatBlock));
+		FLACFORMAT* locFLACFormat = (FLACFORMAT*)outMediaType->AllocFormatBuffer(sizeof(FLACFORMAT));
 		//TODO::: Check for null ?
 
-		memcpy((void*)locFLACFormat, (const void*) &(((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock), sizeof(sFLACFormatBlock));
+		memcpy((void*)locFLACFormat, (const void*) &(((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock), sizeof(FLACFORMAT));
 		return S_OK;
 	} else {
         return S_FALSE;

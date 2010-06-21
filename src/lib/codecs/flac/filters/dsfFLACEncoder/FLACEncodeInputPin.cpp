@@ -90,7 +90,7 @@ bool FLACEncodeInputPin::ConstructCodec()
 	FLACEncodeFilter* locParentFilter = (FLACEncodeFilter*)mParentFilter;	//View only don't delete.
 	locParentFilter->mFLACFormatBlock.numBitsPerSample = mWaveFormat->wBitsPerSample;
 	locParentFilter->mFLACFormatBlock.numChannels = mWaveFormat->nChannels;
-	locParentFilter->mFLACFormatBlock.sampleRate = mWaveFormat->nSamplesPerSec;
+	locParentFilter->mFLACFormatBlock.samplesPerSec = mWaveFormat->nSamplesPerSec;
 
     mWaveFormat = NULL;
 
@@ -170,7 +170,7 @@ HRESULT FLACEncodeInputPin::CompleteConnect (IPin *inReceivePin)
     mFLACEncoderSettings = locSettings;
 
     mFLACEncoderSettings.setAudioParameters(    ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numChannels
-                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.sampleRate 
+                                            ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.samplesPerSec 
                                             ,   ((FLACEncodeFilter*)mParentFilter)->mFLACFormatBlock.numBitsPerSample);
 
     return AbstractTransformInputPin::CompleteConnect(inReceivePin);

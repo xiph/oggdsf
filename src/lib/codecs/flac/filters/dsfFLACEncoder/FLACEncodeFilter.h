@@ -40,7 +40,7 @@
 #include "AbstractTransformFilter.h"
 
 //Forward Declarations
-struct sFLACFormatBlock;
+struct FLACFORMAT;
 class FLACEncodeInputPin;
 class FLACEncodeOutputPin;
 
@@ -94,6 +94,6 @@ protected:
 	//Implementation from AbstractTransformFilter
 	virtual bool ConstructPins();
 
-	sFLACFormatBlock mFLACFormatBlock;
+	FLACFORMAT mFLACFormatBlock;
 	
 };

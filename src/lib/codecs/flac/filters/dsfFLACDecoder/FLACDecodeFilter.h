@@ -55,11 +55,11 @@ public:
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
 	void setFLACFormatBlock(BYTE* inFormatBlock) ;
-	sFLACFormatBlock* getFLACFormatBlock();
+	FLACFORMAT* getFLACFormatBlock();
 
 protected:
 	//Implemenation of Pue Virtuals from AbstractTransformFilter
 	virtual bool ConstructPins();
 
-	sFLACFormatBlock* mFLACFormatBlock;
+	FLACFORMAT* mFLACFormatBlock;
 };

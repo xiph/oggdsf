@@ -36,19 +36,19 @@
 #include "Vorbisdecodeoutputpin.h"
 
 VorbisDecodeOutputPin::VorbisDecodeOutputPin(VorbisDecodeFilter* inParentFilter, CCritSec* inFilterLock, 
-                                             vector<CMediaType*> inAcceptableMediaTypes) :	
+    const MediaTypesList& inAcceptableMediaTypes) :	
 AbstractTransformOutputPin(inParentFilter, inFilterLock, NAME("VorbisDecodeOutputPin"),	
-                           L"PCM Out", 65535, 20, inAcceptableMediaTypes)
+    L"PCM Out", 65535, 20, inAcceptableMediaTypes)
 {
 }
 
-VorbisDecodeOutputPin::~VorbisDecodeOutputPin(void)
+VorbisDecodeOutputPin::~VorbisDecodeOutputPin()
 {	
 }
 
 HRESULT VorbisDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocator, ALLOCATOR_PROPERTIES *inReqAllocProps)
 {
-    sVorbisFormatBlock* formatBlock = static_cast<VorbisDecodeFilter*>(m_pFilter)->getVorbisFormatBlock();
+    VORBISFORMAT* formatBlock = static_cast<VorbisDecodeFilter*>(m_pFilter)->getVorbisFormatBlock();
     if (formatBlock)
     {
         mDesiredBufferSize = formatBlock->numChannels * formatBlock->samplesPerSec * 2;
@@ -105,8 +105,14 @@ HRESULT VorbisDecodeOutputPin::FillMediaType(CMediaType& mediaType, bool useWave
 
         formatEx->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
 
-        formatEx->Format.nChannels = (WORD)((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->numChannels;
-        formatEx->Format.nSamplesPerSec =  ((VorbisDecodeFilter*)m_pFilter)->mVorbisFormatInfo->samplesPerSec;
+        formatEx->Format.nChannels = 0;
+        formatEx->Format.nSamplesPerSec = 0;
+        if (GetFilter()->mVorbisFormatInfo)
+        {
+            formatEx->Format.nChannels = (WORD)GetFilter()->mVorbisFormatInfo->numChannels;
+            formatEx->Format.nSamplesPerSec =  GetFilter()->mVorbisFormatInfo->samplesPerSec;
+        }
+
         formatEx->Format.wBitsPerSample = 16;
 
         formatEx->Samples.wValidBitsPerSample = 16;
@@ -158,8 +164,13 @@ HRESULT VorbisDecodeOutputPin::FillMediaType(CMediaType& mediaType, bool useWave
         WAVEFORMATEX* waveFormat = (WAVEFORMATEX*)mediaType.AllocFormatBuffer(sizeof(WAVEFORMATEX));
 
         waveFormat->wFormatTag = WAVE_FORMAT_PCM;
-        waveFormat->nChannels = static_cast<VorbisDecodeFilter*>(m_pFilter)->mVorbisFormatInfo->numChannels;
-        waveFormat->nSamplesPerSec =  static_cast<VorbisDecodeFilter*>(m_pFilter)->mVorbisFormatInfo->samplesPerSec;
+        waveFormat->nChannels = 0;
+        waveFormat->nSamplesPerSec = 0;
+        if (GetFilter()->mVorbisFormatInfo)
+        {
+            waveFormat->nChannels = GetFilter()->mVorbisFormatInfo->numChannels;
+            waveFormat->nSamplesPerSec =  GetFilter()->mVorbisFormatInfo->samplesPerSec;
+        }
         waveFormat->wBitsPerSample = 16;
         waveFormat->nBlockAlign = waveFormat->nChannels * (waveFormat->wBitsPerSample >> 3);
         waveFormat->nAvgBytesPerSec = (waveFormat->nChannels * (waveFormat->wBitsPerSample >> 3)) * waveFormat->nSamplesPerSec;
@@ -169,4 +180,9 @@ HRESULT VorbisDecodeOutputPin::FillMediaType(CMediaType& mediaType, bool useWave
     }
 
     return S_FALSE;
+}
+
+VorbisDecodeFilter* VorbisDecodeOutputPin::GetFilter()
+{
+    return static_cast<VorbisDecodeFilter*>(m_pFilter);
 }
