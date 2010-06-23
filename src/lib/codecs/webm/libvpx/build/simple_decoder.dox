@@ -1,0 +1,3 @@
+/*!\page example_simple_decoder simple_decoder
+   \includelineno simple_decoder.c
+*/

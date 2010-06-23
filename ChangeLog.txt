@@ -1,6 +1,6 @@
 Version 0.84.xxxxx - xx.06.2010
     
-    * Added WebM support (libvpx 0.9.0, webmdshow 0.9.8.0)
+    * Added WebM support (libvpx 0.9.1, webmdshow 0.9.8.0)
     * Installer updates: 
         - merged Win32 and x64 installers into one installer
         - added support for WebM

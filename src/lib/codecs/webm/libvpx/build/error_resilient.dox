@@ -1,0 +1,3 @@
+/*!\page example_error_resilient error_resilient
+   \includelineno error_resilient.c
+*/
