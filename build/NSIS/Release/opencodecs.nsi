@@ -319,7 +319,7 @@ Section "Open Codecs Core Files" SEC_CORE
     ${AddMediaPlayerMlsExtension} "ogv" "video"
     ${AddMediaPlayerMlsExtension} "spx" "audio"
     ${AddMediaPlayerMlsExtension} "weba" "audio"
-    ${AddMediaPlayerMlsExtension} "webm" "audio"  
+    ${AddMediaPlayerMlsExtension} "webm" "video"  
       
     ; Remove the previously set Media Player description
     ${RemoveMediaPlayerDesc} "SOFTWARE\illiminable\oggcodecs"

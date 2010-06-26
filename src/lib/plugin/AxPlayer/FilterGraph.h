@@ -82,9 +82,9 @@ private:
     CComPtr<IFilterGraph2> m_graphBuilder;
     
     CComPtr<IBaseFilter> m_sourceFilter;
-    CComPtr<IBaseFilter> m_oggDemux;
-    CComPtr<IBaseFilter> m_vorbisDecoder;
-    CComPtr<IBaseFilter> m_theoraDecoder;
+    CComPtr<IBaseFilter> m_streamDemux;
+    CComPtr<IBaseFilter> m_audioDecoder;
+    CComPtr<IBaseFilter> m_videoDecoder;
 
     CComPtr<IBaseFilter> m_audioRenderer;
     CComPtr<IBaseFilter> m_videoRenderer;
@@ -102,6 +102,7 @@ private:
 
     bool m_haveAudio;
     bool m_haveVideo;
+    bool m_haveWebm;
 };
 
 #endif // FILTERGRAPH_H

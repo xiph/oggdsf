@@ -42,11 +42,17 @@ namespace {
     const GUID CLSID_OggDemuxFilter =
     {0xc9361f5a, 0x3282, 0x4944, {0x98, 0x99, 0x6d, 0x99, 0xcd, 0xc5, 0x37, 0xb}};
 
+    const GUID CLSID_WebmDemuxFilter = 
+    {0xed3110f8, 0x5211, 0x11df, {0x94, 0xaf, 0x00, 0x26, 0xb9, 0x77, 0xee, 0xaa}};
+
     const GUID CLSID_VorbisDecodeFilter =
     {0x5a1d945, 0xa794, 0x44ef, {0xb4, 0x1a, 0x2f, 0x85, 0x1a, 0x11, 0x71, 0x55}};
 
     const GUID CLSID_TheoraDecodeFilter =
     {0x5187161, 0x5c36, 0x4324, {0xa7, 0x34, 0x22, 0xbf, 0x37, 0x50, 0x9f, 0x2d}};
+
+    const GUID CLSID_VP8DecoderFilter =
+    {0xed3110f3, 0x5211, 0x11df, {0x94, 0xaf, 0x00, 0x26, 0xb9, 0x77, 0xee, 0xaa}};
 
     const DWORD ALLOCATOR_ID = 0xDAC10542;
 }
@@ -56,13 +62,15 @@ m_customVmrAllocator(0),
 m_notifyWindow(0),
 m_presentImageMessage(0),
 m_haveAudio(true),
-m_haveVideo(true)
+m_haveVideo(true),
+m_haveWebm(false)
 {
 }
 
 void FilterGraph::BuildGraph(const CString& videoUrl)
 {
     m_videoUrl = videoUrl;
+    m_haveWebm = m_videoUrl.Right(6).MakeLower() == L".webm";
 
     LOG(logINFO) << __FUNCTIONW__ << " Building graph for: \"" << m_videoUrl << "\"";
 
@@ -114,50 +122,62 @@ void FilterGraph::AddSourceDemuxFilters()
     CComQIPtr<IFileSourceFilter> fileSource = m_sourceFilter;
     CHECK_HR(fileSource->Load(m_videoUrl, 0));
 
-    // Add the ogg demux filter
-    m_oggDemux = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_OggDemuxFilter, 
-        L"Ogg Demux Filter");
+    CLSID clsidDemuxFilter = CLSID_OggDemuxFilter;
+    if (m_haveWebm)
+    {
+        clsidDemuxFilter = CLSID_WebmDemuxFilter;
+    }
+
+    // Add the stream demux filter
+    m_streamDemux = DShowUtil::AddFilterFromCLSID(m_graphBuilder, clsidDemuxFilter, 
+        L"Stream Demux Filter");
 
     // Connect the source and demux filters
     CComPtr<IPin> sourceOut = DShowUtil::FindPin(m_sourceFilter, PINDIR_OUTPUT);
-    CComPtr<IPin> oggDemuxIn = DShowUtil::FindPin(m_oggDemux, PINDIR_INPUT);
+    CComPtr<IPin> demuxIn = DShowUtil::FindPin(m_streamDemux, PINDIR_INPUT);
 
-    CHECK_HR(m_graphBuilder->Connect(sourceOut, oggDemuxIn));
+    CHECK_HR(m_graphBuilder->Connect(sourceOut, demuxIn));
 }
 
 void FilterGraph::AddDecoders()
 {
-    // Connect Vorbis audio decoder
-    m_vorbisDecoder = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_VorbisDecodeFilter, 
-                                                    L"Vorbis Decoder");
+    // Add audio decoder
+    m_audioDecoder = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_VorbisDecodeFilter, 
+                                                    L"Audio Decoder");
 
-    // Connect Theora video decoder
-    m_theoraDecoder = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_TheoraDecodeFilter,
-        L"Theora Decoder");
+    CLSID clsidVideoDecoder = CLSID_TheoraDecodeFilter;
+    if (m_haveWebm)
+    {
+        clsidVideoDecoder = CLSID_VP8DecoderFilter;
+    }
+
+    // Add video decoder
+    m_videoDecoder = DShowUtil::AddFilterFromCLSID(m_graphBuilder, clsidVideoDecoder,
+        L"Video Decoder");
 }
 
 void FilterGraph::ConnectDecoders()
 {
-    // Connect vorbis decoder
-    CComPtr<IPin> vorbisDemuxOut = DShowUtil::FindPin(m_oggDemux, PINDIR_OUTPUT, 1);
-    CComPtr<IPin> vorbisDecoderIn = DShowUtil::FindPin(m_vorbisDecoder, PINDIR_INPUT, 0);
+    // Connect audio decoder
+    CComPtr<IPin> audioDemuxOut = DShowUtil::FindPin(m_streamDemux, PINDIR_OUTPUT, 1);
+    CComPtr<IPin> audioDecoderIn = DShowUtil::FindPin(m_audioDecoder, PINDIR_INPUT, 0);
 
-    if (vorbisDemuxOut)
+    if (audioDemuxOut)
     {
-        CHECK_HR(m_graphBuilder->Connect(vorbisDemuxOut, vorbisDecoderIn));
+        CHECK_HR(m_graphBuilder->Connect(audioDemuxOut, audioDecoderIn));
     }
     else
     {
         m_haveAudio = false;
     }
 
-    // Connect theora decoder
-    CComPtr<IPin> theoraDemuxOut = DShowUtil::FindPin(m_oggDemux, PINDIR_OUTPUT, 0);
-    CComPtr<IPin> theoraDecoderIn = DShowUtil::FindPin(m_theoraDecoder, PINDIR_INPUT, 0);
+    // Connect video decoder
+    CComPtr<IPin> videoDemuxOut = DShowUtil::FindPin(m_streamDemux, PINDIR_OUTPUT, 0);
+    CComPtr<IPin> videoDecoderIn = DShowUtil::FindPin(m_videoDecoder, PINDIR_INPUT, 0);
 
-    if (theoraDemuxOut)
+    if (videoDemuxOut)
     {
-        CHECK_HR(m_graphBuilder->Connect(theoraDemuxOut, theoraDecoderIn));
+        CHECK_HR(m_graphBuilder->Connect(videoDemuxOut, videoDecoderIn));
     }
     else
     {
@@ -179,21 +199,21 @@ void FilterGraph::AddRenderers()
 void FilterGraph::ConnnectRenderers()
 {
     // Connect audio renderer
-    CComPtr<IPin> vorbisDecoderOut = DShowUtil::FindPin(m_vorbisDecoder, PINDIR_OUTPUT, 0);
+    CComPtr<IPin> audioDecoderOut = DShowUtil::FindPin(m_audioDecoder, PINDIR_OUTPUT, 0);
     CComPtr<IPin> audioRendererIn = DShowUtil::FindPin(m_audioRenderer, PINDIR_INPUT, 0);
 
     if (m_haveAudio)
     {
-        CHECK_HR(m_graphBuilder->Connect(vorbisDecoderOut, audioRendererIn));
+        CHECK_HR(m_graphBuilder->Connect(audioDecoderOut, audioRendererIn));
     }
 
     // Connect video renderer
-    CComPtr<IPin> theoraDecoderOut = DShowUtil::FindPin(m_theoraDecoder, PINDIR_OUTPUT, 0);
+    CComPtr<IPin> videoDecoderOut = DShowUtil::FindPin(m_videoDecoder, PINDIR_OUTPUT, 0);
     CComPtr<IPin> videoRendererIn = DShowUtil::FindPin(m_videoRenderer, PINDIR_INPUT, 0);
 
     if (m_haveVideo)
     {
-        CHECK_HR(m_graphBuilder->Connect(theoraDecoderOut, videoRendererIn));
+        CHECK_HR(m_graphBuilder->Connect(videoDecoderOut, videoRendererIn));
     }
 }
 
