@@ -50,26 +50,30 @@ Var /GLOBAL WMP_LOCATION_X64
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 !macro RegisterCOM file
     !define LIBRARY_COM
-    RegDLL "${file}"
+    RegDLL "$INSTDIR\${file}"
     !undef LIBRARY_COM
     IfErrors 0 +2
-       ExecWait '$SYSDIR\regsvr32.exe "/s" "$INSTDIR\${file}"'
+       ExecWait '$SYSDIR\regsvr32.exe /s "$INSTDIR\${file}"'
             
     ${If} ${RunningX64}
-        ExecWait '$SYSDIR\regsvr32.exe "/s" "$INSTDIR\x64\${file}"'
+        ${EnableX64FSRedirection}
+        ExecWait '$SYSDIR\regsvr32.exe /s "$INSTDIR\x64\${file}"'
+        ${DisableX64FSRedirection}
     ${EndIf}
 !macroend
 !define RegisterCOM "!insertmacro RegisterCOM"
 
 !macro UnRegisterCOM file
     !define LIBRARY_COM
-    UnRegDLL "${file}"
+    UnRegDLL "$INSTDIR\${file}"
     !undef LIBRARY_COM
     IfErrors 0 +2
-        ExecWait '$SYSDIR\regsvr32.exe "/u" "/s" "$INSTDIR\${file}"'
+        ExecWait '$SYSDIR\regsvr32.exe /u /s "$INSTDIR\${file}"'
 
     ${If} ${RunningX64}
-        ExecWait '$SYSDIR\regsvr32.exe "/u" "/s" "$INSTDIR\x64\${file}"'
+        ${EnableX64FSRedirection}
+        ExecWait '$SYSDIR\regsvr32.exe /u /s "$INSTDIR\x64\${file}"'
+        ${DisableX64FSRedirection}
     ${EndIf}
 !macroend
 !define UnRegisterCOM "!insertmacro UnRegisterCOM"
@@ -401,6 +405,27 @@ Var /GLOBAL WMP_LOCATION_X64
     ${EndIf}
 !macroend
 !define UnRegisterAxPlayerXmlNamespace "!insertmacro UnRegisterAxPlayerXmlNamespace"
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+!macro RegisterUserAgentString OpenCodecsInfo
+    SetRegView 32
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}" ""
+    ${If} ${RunningX64}
+        SetRegView 64
+        WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}" ""
+    ${EndIf}
+!macroend
+!define RegisterUserAgentString "!insertmacro RegisterUserAgentString"
+
+!macro UnRegisterUserAgentString OpenCodecsInfo
+    SetRegView 32
+    DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}"
+    ${If} ${RunningX64}
+        SetRegView 64
+        DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}"
+    ${EndIf}
+!macroend
+!define UnRegisterUserAgentString "!insertmacro UnRegisterUserAgentString"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 !macro AddMediaPlayerDesc_Internal Descriptions Types MuiDescription

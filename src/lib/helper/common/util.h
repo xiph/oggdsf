@@ -71,10 +71,10 @@ namespace util
         std::wstring configLocation;
         configLocation.resize(MAX_PATH);
         
-        ::SHGetSpecialFolderPath(0, &*configLocation.begin(), CSIDL_APPDATA, false);
+        ::SHGetSpecialFolderPath(0, &*configLocation.begin(), CSIDL_COMMON_APPDATA, false);
         
         configLocation.resize(wcslen(configLocation.c_str()));
-        configLocation += L"\\Xiph.Org\\Ogg Codecs";
+        configLocation += L"\\Xiph.Org\\Open Codecs";
 
         return configLocation;
     }

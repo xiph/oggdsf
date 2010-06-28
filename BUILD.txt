@@ -1,4 +1,4 @@
-Information for builds after 0.82
+Information for builds after 0.83
 =================================
 
 Visual Studio Standard (or better) version 2005 or 2008 is needed
@@ -6,7 +6,11 @@ to build the project. The express editions do not suffice anymore.
 
 The Netwide Assembler (NASM) is used to build the FLAC assembly
 files. Get version 2.0.7 or later from http://www.nasm.us/
-nasm.exe is assumed to be in path.
+nasm.exe is assumed to be located in PATH environment variable.
+
+YASM is used to build the VP8 assembly files. Getversion 1.0.1 or later
+from http://www.tortall.net/projects/yasm/. yasm.exe is assumed to
+be located in PATH environment variable.
 
 NSIS (Nullsoft Scriptable Install System) Unicode is used to make the 
 setup files. Get version 2.45 or later from http://www.scratchpaper.com/

@@ -183,6 +183,10 @@ Section "Open Codecs Core Files" SEC_CORE
     SetDetailsPrint textonly
     DetailPrint "Copying Files ..."
     SetDetailsPrint listonly
+    
+    ${If} ${RunningX64}
+        CreateDirectory "$INSTDIR\x64"
+    ${EndIf}
   
     ; Runtime libraries from visual studio
     ${AddVisualStudioRuntime}
@@ -390,6 +394,7 @@ ${MementoUnselectedSection} "HTML5 <video> tag for Internet Explorer" SEC_VIDEO_
     ${RegisterCOM} "AxPlayer.dll"
     ; Add AxPlayer XMLNamespace registry value
     ${RegisterAxPlayerXmlNamespace}
+    ${RegisterUserAgentString} "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 ${MementoSectionEnd}
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -603,6 +608,7 @@ Section Uninstall
 
     ; Delete the AxPlayer XMLNamespace registry value
     ${UnRegisterAxPlayerXmlNamespace}
+    ${UnRegisterUserAgentString} "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 
     !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
@@ -661,6 +667,9 @@ Section Uninstall
     ; Need to change the working directory to something else (anything) besides
     ; the output directory, so we can rmdir it
     SetOutPath "$TEMP"
+    ${If} ${RunningX64}
+        RMDir "$INSTDIR\x64"
+    ${EndIf}
     RMDir "$INSTDIR"
 
     ; Remove the parent directory (but only if it's empty)
