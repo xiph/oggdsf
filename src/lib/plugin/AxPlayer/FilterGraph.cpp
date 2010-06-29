@@ -70,7 +70,9 @@ m_haveWebm(false)
 void FilterGraph::BuildGraph(const CString& videoUrl)
 {
     m_videoUrl = videoUrl;
-    m_haveWebm = m_videoUrl.Right(6).MakeLower() == L".webm";
+
+    const CString WEBM_EXT(L".webm");
+    m_haveWebm = m_videoUrl.Right(WEBM_EXT.GetLength()).MakeLower() == WEBM_EXT;
 
     LOG(logINFO) << __FUNCTIONW__ << " Building graph for: \"" << m_videoUrl << "\"";
 

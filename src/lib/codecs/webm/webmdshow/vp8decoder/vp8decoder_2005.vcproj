@@ -224,7 +224,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
@@ -312,7 +312,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"

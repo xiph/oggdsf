@@ -103,22 +103,22 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro RegisterWmpType typeName description IcoFile
-    SetRegView 32
-    !insertmacro RegisterWmpType_Internal "${typeName}" "${description}" "$WMP_LOCATION_WIN32" "${IcoFile}"
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro RegisterWmpType_Internal "${typeName}" "${description}" "$WMP_LOCATION_X64" "${IcoFile}"
     ${EndIf}
+    SetRegView 32
+    !insertmacro RegisterWmpType_Internal "${typeName}" "${description}" "$WMP_LOCATION_WIN32" "${IcoFile}"
 !macroend
 !define RegisterWmpType "!insertmacro RegisterWmpType"
 
 !macro UnRegisterWmpType typeName
-    SetRegView 32
-    DeleteRegKey HKCR "${typeName}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKCR "${typeName}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKCR "${typeName}"
 !macroend
 !define UnRegisterWmpType "!insertmacro UnRegisterWmpType"
 
@@ -132,22 +132,22 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro RegisterExtension Ext WMPType MimeType PerceivedType
-    SetRegView 32
-    !insertmacro RegisterExtension_Internal "${Ext}" "${WMPType}" "${MimeType}" "${PerceivedType}"
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro RegisterExtension_Internal "${Ext}" "${WMPType}" "${MimeType}" "${PerceivedType}"
     ${EndIf}
+    SetRegView 32
+    !insertmacro RegisterExtension_Internal "${Ext}" "${WMPType}" "${MimeType}" "${PerceivedType}"
 !macroend
 !define RegisterExtension "!insertmacro RegisterExtension"
 
 !macro UnRegisterExtension TypeExt
-    SetRegView 32
-    DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" "${TypeExt}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" "${TypeExt}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegValue HKCR "Applications\wmplayer.exe\supportedtypes" "${TypeExt}"
 !macroend
 !define UnRegisterExtension "!insertmacro UnRegisterExtension"
 
@@ -168,109 +168,109 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend 
 
 !macro AddWmpExtension TypeExt TypeDesc MimeType PerceivedType ExtensionHandler IcoFile
-    SetRegView 32
-    !insertmacro AddWmpExtension_Internal "${TypeExt}" "${TypeDesc}" "${MimeType}" "${PerceivedType}" "${ExtensionHandler}" "${IcoFile}"
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro AddWmpExtension_Internal "${TypeExt}" "${TypeDesc}" "${MimeType}" "${PerceivedType}" "${ExtensionHandler}" "${IcoFile}"
     ${EndIf}
+    SetRegView 32
+    !insertmacro AddWmpExtension_Internal "${TypeExt}" "${TypeDesc}" "${MimeType}" "${PerceivedType}" "${ExtensionHandler}" "${IcoFile}"
 !macroend
 !define AddWmpExtension "!insertmacro AddWmpExtension"
 
 !macro DeleteWmpExtension TypeExt
-    SetRegView 32
-    DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Extensions\${TypeExt}"
 !macroend
 !define DeleteWmpExtension "!insertmacro DeleteWmpExtension"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 !macro AddMediaTypeExtensionSource TypeExt SourceFilterClsid
-    SetRegView 32
-    WriteRegStr HKCR "Media Type\Extensions\${TypeExt}" "Source Filter" "${SourceFilterClsid}"
     ${If} ${RunningX64}
         SetRegView 64
         WriteRegStr HKCR "Media Type\Extensions\${TypeExt}" "Source Filter" "${SourceFilterClsid}"
     ${EndIf}
+    SetRegView 32
+    WriteRegStr HKCR "Media Type\Extensions\${TypeExt}" "Source Filter" "${SourceFilterClsid}"
 !macroend
 !define AddMediaTypeExtensionSource "!insertmacro AddMediaTypeExtensionSource"
 
 !macro DeleteMediaTypeExtension TypeExt
-    SetRegView 32
-    DeleteRegKey HKCR "Media Type\Extensions\${TypeExt}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKCR "Media Type\Extensions\${TypeExt}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKCR "Media Type\Extensions\${TypeExt}"
 !macroend
 !define DeleteMediaTypeExtension "!insertmacro DeleteMediaTypeExtension"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 !macro AddHttpExtensionSource ${TypeExt} ${SourceFilterClsid}
-    SetRegView 32
-    WriteRegStr HKCR "http\Extensions" "${TypeExt}" "${SourceFilterClsid}"
     ${If} ${RunningX64}
         SetRegView 64
         WriteRegStr HKCR "http\Extensions" "${TypeExt}" "${SourceFilterClsid}"
     ${EndIf}
+    SetRegView 32
+    WriteRegStr HKCR "http\Extensions" "${TypeExt}" "${SourceFilterClsid}"
 !macroend
 !define AddHttpExtensionSource "!insertmacro AddHttpExtensionSource"
 
 !macro DeleteHttpExtensionSource TypeExt 
-    SetRegView 32
-    DeleteRegValue HKCR "http\Extensions" "${TypeExt}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegValue HKCR "http\Extensions" "${TypeExt}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegValue HKCR "http\Extensions" "${TypeExt}"
 !macroend
 !define DeleteHttpExtensionSource "!insertmacro DeleteHttpExtensionSource"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 !macro AddMimeType MimeType TypeExt 
-    SetRegView 32
-    WriteRegStr HKCR "MIME\DataBase\Content Type\${MimeType}" "Extension" "${TypeExt}"  
     ${If} ${RunningX64}
         SetRegView 64
         WriteRegStr HKCR "MIME\DataBase\Content Type\${MimeType}" "Extension" "${TypeExt}"  
     ${EndIf}
+    SetRegView 32
+    WriteRegStr HKCR "MIME\DataBase\Content Type\${MimeType}" "Extension" "${TypeExt}"  
 !macroend
 !define AddMimeType "!insertmacro AddMimeType"
 
 !macro DeleteMimeType MimeType
-    SetRegView 32
-    DeleteRegKey HKCR "MIME\DataBase\Content Type\${MimeType}" 
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKCR "MIME\DataBase\Content Type\${MimeType}" 
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKCR "MIME\DataBase\Content Type\${MimeType}" 
 !macroend
 !define DeleteMimeType "!insertmacro DeleteMimeType"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 !macro AddMediaPlayerMlsExtension TypeExt MediaType
-    SetRegView 32
-    WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "${TypeExt}" "${MediaType}"
     ${If} ${RunningX64}
         SetRegView 64
         WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "${TypeExt}" "${MediaType}"
     ${EndIf} 
+    SetRegView 32
+    WriteRegStr HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "${TypeExt}" "${MediaType}"
 !macroend
 !define AddMediaPlayerMlsExtension "!insertmacro AddMediaPlayerMlsExtension"
 
 !macro DeleteMediaPlayerMlsExtension TypeExt
-    SetRegView 32
-    DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "${TypeExt}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "${TypeExt}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegValue HKLM "SOFTWARE\Microsoft\MediaPlayer\MLS\Extensions" "${TypeExt}"
 !macroend
 !define DeleteMediaPlayerMlsExtension "!insertmacro DeleteMediaPlayerMlsExtension"
 
@@ -283,22 +283,22 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro AddWmpMediaGroup TypeExt TypeUppercase TypeDesc MimeType PerceivedType
-    SetRegView 32
-    !insertmacro AddWmpMediaGroup_Internal "${TypeExt}" "${TypeUppercase}" "${TypeDesc}" "${MimeType}" "${PerceivedType}"
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro AddWmpMediaGroup_Internal "${TypeExt}" "${TypeUppercase}" "${TypeDesc}" "${MimeType}" "${PerceivedType}"
     ${EndIf}
+    SetRegView 32
+    !insertmacro AddWmpMediaGroup_Internal "${TypeExt}" "${TypeUppercase}" "${TypeDesc}" "${MimeType}" "${PerceivedType}"
 !macroend
 !define AddWmpMediaGroup "!insertmacro AddWmpMediaGroup"
 
 !macro DeleteWmpMediaGroup TypeUppercase PerceivedType
-    SetRegView 32
-    DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\${PerceivedType}\${TypeUppercase}"  
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\${PerceivedType}\${TypeUppercase}"  
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\Groups\${PerceivedType}\${TypeUppercase}"  
 !macroend
 !define DeleteWmpMediaGroup "!insertmacro DeleteWmpMediaGroup"
 
@@ -310,22 +310,22 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro AddOggRecognitionPattern
-    SetRegView 32
-    !insertmacro AddOggRecognitionPattern_Internal
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro AddOggRecognitionPattern_Internal
     ${EndIf}
+    SetRegView 32
+    !insertmacro AddOggRecognitionPattern_Internal
 !macroend
 !define AddOggRecognitionPattern "!insertmacro AddOggRecognitionPattern"
 
 !macro DeleteOggRecognitionPattern
-    SetRegView 32
-    DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{DD142C1E-0C1E-4381-A24E-0B2D80B6098A}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{DD142C1E-0C1E-4381-A24E-0B2D80B6098A}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{DD142C1E-0C1E-4381-A24E-0B2D80B6098A}"
 !macroend
 !define DeleteOggRecognitionPattern "!insertmacro DeleteOggRecognitionPattern"
 
@@ -337,22 +337,22 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro AddWebmRecognitionPattern
-    SetRegView 32
-    !insertmacro AddWebmRecognitionPattern_Internal
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro AddWebmRecognitionPattern_Internal
     ${EndIf}
+    SetRegView 32
+    !insertmacro AddWebmRecognitionPattern_Internal
 !macroend
 !define AddWebmRecognitionPattern "!insertmacro AddWebmRecognitionPattern"
 
 !macro DeleteWebmRecognitionPattern
-    SetRegView 32
-    DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}"
 !macroend
 !define DeleteWebmRecognitionPattern "!insertmacro DeleteWebmRecognitionPattern"
 
@@ -366,64 +366,64 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro AddWmpMimeType MimeType TypeDesc TypeExt TypeExtComma TypeExtSpace
-    SetRegView 32
-    !insertmacro AddWmpMimeType_Internal "${MimeType}" "${TypeDesc}" "${TypeExt}" "${TypeExtComma}" "${TypeExtSpace}"
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro AddWmpMimeType_Internal "${MimeType}" "${TypeDesc}" "${TypeExt}" "${TypeExtComma}" "${TypeExtSpace}"
     ${EndIf}
+    SetRegView 32
+    !insertmacro AddWmpMimeType_Internal "${MimeType}" "${TypeDesc}" "${TypeExt}" "${TypeExtComma}" "${TypeExtSpace}"
 !macroend
 !define AddWmpMimeType "!insertmacro AddWmpMimeType"
 
 !macro DeleteWmpMimeType MimeType
-    SetRegView 32
-    DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\${MimeType}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\${MimeType}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegKey HKLM "SOFTWARE\Microsoft\Multimedia\WMPlayer\MIME Types\${MimeType}"
 !macroend
 !define DeleteWmpMimeType "!insertmacro DeleteWmpMimeType"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 !macro RegisterAxPlayerXmlNamespace
-    SetRegView 32
-    WriteRegStr HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" "{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}"
     ${If} ${RunningX64}
         SetRegView 64
         WriteRegStr HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" "{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}"
     ${EndIf}
+    SetRegView 32
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" "{7CC95AE6-C1FA-40CC-AB17-3E91DA2F77CA}"
 !macroend
 !define RegisterAxPlayerXmlNamespace "!insertmacro RegisterAxPlayerXmlNamespace"
 
 !macro UnRegisterAxPlayerXmlNamespace
-    SetRegView 32
-    DeleteRegValue HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" 
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegValue HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" 
     ${EndIf}
+    SetRegView 32
+    DeleteRegValue HKLM "SOFTWARE\Microsoft\Internet Explorer\XMLNamespace" "http://www.w3.org/1999/xhtml/video" 
 !macroend
 !define UnRegisterAxPlayerXmlNamespace "!insertmacro UnRegisterAxPlayerXmlNamespace"
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 !macro RegisterUserAgentString OpenCodecsInfo
-    SetRegView 32
-    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}" ""
     ${If} ${RunningX64}
         SetRegView 64
         WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}" ""
     ${EndIf}
+    SetRegView 32
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}" ""
 !macroend
 !define RegisterUserAgentString "!insertmacro RegisterUserAgentString"
 
 !macro UnRegisterUserAgentString OpenCodecsInfo
-    SetRegView 32
-    DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}"
     ${If} ${RunningX64}
         SetRegView 64
         DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}"
     ${EndIf}
+    SetRegView 32
+    DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform" "${OpenCodecsInfo}"
 !macroend
 !define UnRegisterUserAgentString "!insertmacro UnRegisterUserAgentString"
 
@@ -452,12 +452,12 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro AddMediaPlayerDesc Descriptions Types
-    SetRegView 32
-    !insertmacro AddMediaPlayerDesc_Internal "${Descriptions}" "${Types}" "$INSTDIR\wmpinfo.dll"
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro AddMediaPlayerDesc_Internal "${Descriptions}" "${Types}" "$INSTDIR\x64\wmpinfo.dll"
     ${EndIf}
+    SetRegView 32
+    !insertmacro AddMediaPlayerDesc_Internal "${Descriptions}" "${Types}" "$INSTDIR\wmpinfo.dll"
 !macroend
 !define AddMediaPlayerDesc "!insertmacro AddMediaPlayerDesc"
 
@@ -471,12 +471,12 @@ Var /GLOBAL WMP_LOCATION_X64
 !macroend
 
 !macro RemoveMediaPlayerDesc RegKey
-    SetRegView 32
-    !insertmacro RemoveMediaPlayerDesc_Internal "${RegKey}"
     ${If} ${RunningX64}
         SetRegView 64
         !insertmacro RemoveMediaPlayerDesc_Internal "${RegKey}"
     ${EndIf}
+    SetRegView 32
+    !insertmacro RemoveMediaPlayerDesc_Internal "${RegKey}"
 !macroend
 !define RemoveMediaPlayerDesc "!insertmacro RemoveMediaPlayerDesc"
 

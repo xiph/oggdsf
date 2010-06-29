@@ -171,7 +171,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="$(ProjectDir)\..\common"
-				PreprocessorDefinitions="WIN32;_LIB;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
@@ -233,7 +233,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="$(ProjectDir)\..\common"
-				PreprocessorDefinitions="WIN32;_LIB;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"

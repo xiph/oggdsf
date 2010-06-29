@@ -710,7 +710,7 @@ void VideoTagBehavior::ParseSrcAttribute(const CComVariant& attributeValue)
         ++charsRequired;
 
         dest.GetBuffer(charsRequired);
-        int charsWritten;
+        int charsWritten = 0;
 
         error = uriToStringW(dest.GetBuffer(), &absoluteDest, charsRequired, &charsWritten);
         if (error != URI_SUCCESS)
@@ -722,6 +722,10 @@ void VideoTagBehavior::ParseSrcAttribute(const CComVariant& attributeValue)
             return;
         }
 
+        if (charsWritten > 0)
+        {
+            --charsWritten;
+        }
         dest.ReleaseBuffer(charsWritten);
 
         uriFreeUriMembersW(&relativeSrc);

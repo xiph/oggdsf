@@ -207,7 +207,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;NOMINMAX;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
@@ -289,7 +289,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;NOMINMAX;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
