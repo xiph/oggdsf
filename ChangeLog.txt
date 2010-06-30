@@ -1,10 +1,11 @@
-Version 0.84.17xxx - xx.06.2010
+Version 0.84.17315 - 30.06.2010
     
-    * Added WebM support (libvpx 0.9.1, webmdshow 0.9.8.0)
+    * Added WebM support (libvpx 0.9.1, webmdshow 0.9.8.1)
     * Installer updates: 
         - merged Win32 and x64 installers into one installer
         - added support for WebM
-        - dropped support for Annodex Muxer, CMML decoder filters     
+        - dropped support for Annodex Muxer, CMML decoder filters 
+        - added "Open Codecs version" to Internet Explorer User Agent signature
     * Added WebM support to HTML5 <video> ActiveX plugin.
     * Fixed #1702: Consider integration of webm and vp8
     
