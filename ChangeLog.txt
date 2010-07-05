@@ -1,4 +1,4 @@
-Version 0.84.17324 - 05.07.2010
+Version 0.84.17325 - 05.07.2010
 
     * Updated webmdshow to 0.9.9.0
     * Fixed installer script regarding URL registration 

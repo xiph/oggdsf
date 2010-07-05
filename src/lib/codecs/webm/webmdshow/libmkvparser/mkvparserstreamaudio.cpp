@@ -203,17 +203,17 @@ void AudioStream::GetVorbisMediaTypes(CMediaTypes& mtv) const
 
     //TODO: if we decide source filter should attempt to also
     //connect to Xiph Ogg Vorbis decoder filter:
-    //mt.majortype = VorbisTypes::MEDIATYPE_OggPacketStream;
-    //mt.subtype = MEDIASUBTYPE_None;
-    //mt.bFixedSizeSamples = FALSE;
-    //mt.bTemporalCompression = FALSE;
-    //mt.lSampleSize = 0;
-    //mt.formattype = VorbisTypes::FORMAT_OggIdentHeader;
-    //mt.pUnk = 0;
-    //mt.cbFormat = id_len;
-    //mt.pbFormat = const_cast<BYTE*>(id_hdr);
-    //
-    //mtv.Add(mt);
+    mt.majortype = VorbisTypes::MEDIATYPE_OggPacketStream;
+    mt.subtype = MEDIASUBTYPE_None;
+    mt.bFixedSizeSamples = FALSE;
+    mt.bTemporalCompression = FALSE;
+    mt.lSampleSize = 0;
+    mt.formattype = VorbisTypes::FORMAT_OggIdentHeader;
+    mt.pUnk = 0;
+    mt.cbFormat = id_len;
+    mt.pbFormat = const_cast<BYTE*>(id_hdr);
+
+    mtv.Add(mt);
 }
 
 
@@ -317,7 +317,7 @@ HRESULT AudioStream::OnPopulateSample(
     assert(start_ns >= 0);
     assert((start_ns % 100) == 0);
 
-#if 1
+#if 0
     const __int64 basetime_ns = m_pBase->GetTime();
     assert(basetime_ns >= 0);
     assert((basetime_ns % 100) == 0);
