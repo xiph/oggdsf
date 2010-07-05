@@ -48,7 +48,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;;&quot;$(ProjectDir)\$(PlatformName)\$(ConfigurationName)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -136,7 +136,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;;&quot;$(ProjectDir)\$(PlatformName)\$(ConfigurationName)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -223,7 +223,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;;&quot;$(ProjectDir)\$(PlatformName)\$(ConfigurationName)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -311,7 +311,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\IDL&quot;;&quot;$(ProjectDir)\..\..\libvpx\include&quot;;&quot;$(ProjectDir)\$(PlatformName)\$(ConfigurationName)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;VP8DECODER_EXPORTS;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -466,11 +466,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IDL\vp8decoderidl.c"
+				RelativePath="$(IntDir)\vp8decoderidl.c"
 				>
 			</File>
 			<File
-				RelativePath="..\IDL\vp8decoderidl.h"
+				RelativePath="$(IntDir)\vp8decoderidl.h"
 				>
 			</File>
 		</Filter>

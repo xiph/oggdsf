@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;;$(IntDir);$(ProjectDir)"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -58,6 +58,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -125,7 +126,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;;$(IntDir);$(ProjectDir)"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -140,6 +141,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -206,7 +208,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;;$(IntDir);$(ProjectDir)"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -219,6 +221,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -288,7 +291,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\common&quot;;&quot;$(ProjectDir)\..\libmkvparser&quot;;$(IntDir);$(ProjectDir)"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;_WIN32_WINNT=0x0400;NOMINMAX;_BIND_TO_CURRENT_CRT_VERSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -301,6 +304,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -458,7 +462,63 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IDL\webmmux.idl"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCMIDLTool"
+						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
+						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						HeaderFileName="$(InputName)idl.h"
+						InterfaceIdentifierFileName="$(InputName)idl.c"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCMIDLTool"
+						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
+						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						HeaderFileName="$(InputName)idl.h"
+						InterfaceIdentifierFileName="$(InputName)idl.c"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCMIDLTool"
+						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
+						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						HeaderFileName="$(InputName)idl.h"
+						InterfaceIdentifierFileName="$(InputName)idl.c"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCMIDLTool"
+						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
+						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						HeaderFileName="$(InputName)idl.h"
+						InterfaceIdentifierFileName="$(InputName)idl.c"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\webmmux.rc"
+				>
+			</File>
+			<File
+				RelativePath="$(IntDir)\webmmuxidl.c"
+				>
+			</File>
+			<File
+				RelativePath="$(IntDir)\webmmuxidl.h"
 				>
 			</File>
 		</Filter>

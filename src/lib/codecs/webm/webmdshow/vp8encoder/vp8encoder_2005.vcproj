@@ -396,7 +396,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IDL\vp8encoderidl.h"
+				RelativePath="$(IntDir)\vp8encoderidl.h"
 				>
 			</File>
 		</Filter>

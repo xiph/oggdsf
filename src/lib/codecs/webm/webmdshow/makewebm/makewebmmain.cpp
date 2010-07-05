@@ -11,44 +11,44 @@
 
 static int CoMain(int, wchar_t*[]);
 
-static HANDLE s_hQuit;
-
+HANDLE g_hQuit;
 
 static BOOL __stdcall ConsoleCtrlHandler(DWORD type)
 {
     if (type != CTRL_C_EVENT)
         return FALSE;  //no, not handled here
-        
-    const BOOL b = SetEvent(s_hQuit);
-    assert(b); b;
-    
+
+    const BOOL b = SetEvent(g_hQuit);
+    b;
+    assert(b);
+
     return TRUE;  //yes, handled here
 }
 
 
 int wmain(int argc, wchar_t* argv[])
 {
-    s_hQuit = CreateEvent(0, 0, 0, 0);
-    assert(s_hQuit);
+    g_hQuit = CreateEvent(0, 1, 0, 0);  //manual-reset event, non-signalled
+    assert(g_hQuit);
 
     const BOOL b = SetConsoleCtrlHandler(&ConsoleCtrlHandler, TRUE);
     assert(b); b;
 
     const HRESULT hr = CoInitialize(0);
-    
+
     if (FAILED(hr))
         return 1;
-        
+
     const int status = CoMain(argc, argv);
-    
+
     CoUninitialize();
-    
+
     return status;
 }
 
 
 static int CoMain(int argc, wchar_t* argv[])
 {
-    App app(s_hQuit);
+    App app;
     return app(argc, argv);
 }

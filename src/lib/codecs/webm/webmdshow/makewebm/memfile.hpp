@@ -7,20 +7,26 @@
 // be found in the AUTHORS file in the root of the source tree.
 
 #pragma once
-#include <iosfwd>
 
-class IIDStr
+class MemFile
 {
+    MemFile(const MemFile&);
+    MemFile& operator=(const MemFile&);
+
 public:
-    IIDStr(const IID&);
-    const IID& m_iid;
+    MemFile();
+    ~MemFile();
+
+    HRESULT Open(const wchar_t*);
+    HRESULT Close();
+    bool IsOpen() const;
+
+    HRESULT GetView(const BYTE*&, LONGLONG&) const;
+
 private:
-    IIDStr(const IIDStr&);
-    IIDStr& operator=(const IIDStr&);
+    HANDLE m_hFile;
+    HANDLE m_hMap;
+    void* m_pView;
+    LONGLONG m_size;
+
 };
-
-std::wostream& operator<<(std::wostream&, const IIDStr&);
-
-inline IIDStr::IIDStr(const IID& iid) : m_iid(iid)
-{
-}

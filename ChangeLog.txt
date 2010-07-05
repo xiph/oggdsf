@@ -1,3 +1,9 @@
+Version 0.84.17324 - 05.07.2010
+
+    * Updated webmdshow to 0.9.9.0
+    * Fixed installer script regarding URL registration 
+      (fixes "Open URL..." in Windows Media Player)
+
 Version 0.84.17315 - 30.06.2010
     
     * Added WebM support (libvpx 0.9.1, webmdshow 0.9.8.1)

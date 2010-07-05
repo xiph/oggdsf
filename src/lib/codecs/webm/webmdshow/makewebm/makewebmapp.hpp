@@ -12,6 +12,7 @@
 #include <uuids.h>
 #include "graphutil.hpp"
 #include "makewebmcmdline.hpp"
+#include "memfile.hpp"
 #include <amvideo.h>
 #include <dvdmedia.h>
 #include <list>
@@ -22,23 +23,31 @@ class App
 {
     App(const App&);
     App& operator=(const App&);
-    
+
 public:
 
-    explicit App(HANDLE);
+    App();
     int operator()(int, wchar_t*[]);
-    
+
 private:
 
-    const HANDLE m_hQuit;
-    CmdLine m_cmdline;    
-
+    CmdLine m_cmdline;
     GraphUtil::IFilterGraphPtr m_pGraph;
 
+    int LoadGraph();
+    int SaveGraph();
+
     int m_progress;
-    
-    int CreateMuxerGraph(IPin* pDemuxVideo, IPin* pDemuxAudio, IBaseFilter* pMux);
-    int RunMuxerGraph(IBaseFilter* pMux);
+
+    int CreateMuxerGraph(
+            bool bTwoPass,
+            IPin* pDemuxVideo,
+            IPin* pDemuxAudio,
+            IBaseFilter** pMux);
+
+    int CreateFirstPassGraph(IPin* pDemuxVideo, IPin** pEncoderOutpin);
+
+    int RunGraph(IMediaSeeking* pSeek);
 
     static bool IsVP8(IPin*);
     static GUID GetSubtype(IPin*);
@@ -47,16 +56,24 @@ private:
     GraphUtil::IBaseFilterPtr FindDemuxFilter(IBaseFilter*) const;
     GraphUtil::IBaseFilterPtr EnumDemuxFilters(IPin*) const;
 
-#if 0    
+#if 0
     bool ConnectVideo(IPin*, IPin*) const;
     HRESULT ConnectVideoConverter(IPin*, IPin*) const;
 #endif
 
-    bool ConnectAudio(IPin*, IPin*) const;        
+    bool ConnectAudio(IPin*, IPin*) const;
     HRESULT ConnectVorbisEncoder(IPin*, IPin*) const;
 
-    static void DumpPreferredMediaTypes(IPin*, const wchar_t*, void (*)(const AM_MEDIA_TYPE&));
-    static void DumpConnectionMediaType(IPin*, const wchar_t*, void (*)(const AM_MEDIA_TYPE&));
+    static void DumpPreferredMediaTypes(
+                    IPin*,
+                    const wchar_t*,
+                    void (*)(const AM_MEDIA_TYPE&));
+
+    static void DumpConnectionMediaType(
+                    IPin*,
+                    const wchar_t*,
+                    void (*)(const AM_MEDIA_TYPE&));
+
     void DisplayProgress(IMediaSeeking*, bool);
 
     static void DumpVideoMediaType(const AM_MEDIA_TYPE&);
@@ -64,7 +81,12 @@ private:
     static void DumpVideoInfoHeader2(const VIDEOINFOHEADER2&);
     static void DumpBitMapInfoHeader(const BITMAPINFOHEADER&);
     static void DumpAudioMediaType(const AM_MEDIA_TYPE&);
-    
-    HRESULT SetVP8Options(IVP8Encoder*) const;
+    static double GetFramerate(const AM_MEDIA_TYPE&);
+
+    HRESULT SetVP8Options(IVP8Encoder*, const AM_MEDIA_TYPE*) const;
+
+    const wchar_t* GetStatsFileName();
+    std::wstring m_stats_filename;
+    MemFile m_stats_file;
 
 };

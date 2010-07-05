@@ -301,6 +301,8 @@ Section "Open Codecs Core Files" SEC_CORE
     ${AddMediaTypeExtensionSource} ".weba" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
     ${AddMediaTypeExtensionSource} ".webm" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
 
+    ; Remove a faulty http extension added by mistake
+    ${DeleteHttpExtensionSource} "${TypeExt}"
     ; Directshow extension to filter mapping for HTTP  - 6
     ; Mapped to File Source (URL)
     ${AddHttpExtensionSource} ".OGA" "{E436EBB6-524F-11CE-9F53-0020AF0BA770}"

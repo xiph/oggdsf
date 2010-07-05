@@ -19,18 +19,17 @@ class Outpin : public Pin
 {
     Outpin(const Outpin&);
     Outpin& operator=(const Outpin&);
-    
+
 protected:
     HRESULT OnDisconnect();
-    //HRESULT GetName(PIN_INFO&) const;
-    
+
     Outpin(Filter*, const wchar_t* id);
-    virtual ~Outpin();    
+    virtual ~Outpin();
 
 public:
     HRESULT Start();  //from stopped to running/paused
     void Stop();      //from running/paused to stopped
-    
+
     //IPin interface:
 
     //HRESULT STDMETHODCALLTYPE EnumMediaTypes(IEnumMediaTypes**);
@@ -39,38 +38,38 @@ public:
 
     //HRESULT STDMETHODCALLTYPE Disconnect();
 
-    HRESULT STDMETHODCALLTYPE ReceiveConnection( 
+    HRESULT STDMETHODCALLTYPE ReceiveConnection(
         IPin*,
         const AM_MEDIA_TYPE*);
-        
+
     //HRESULT STDMETHODCALLTYPE QueryAccept(const AM_MEDIA_TYPE*);
 
-    HRESULT STDMETHODCALLTYPE QueryInternalConnections( 
+    HRESULT STDMETHODCALLTYPE QueryInternalConnections(
         IPin**,
         ULONG*);
-        
+
     HRESULT STDMETHODCALLTYPE EndOfStream();
 
-    HRESULT STDMETHODCALLTYPE BeginFlush();    
+    HRESULT STDMETHODCALLTYPE BeginFlush();
     HRESULT STDMETHODCALLTYPE EndFlush();
-    
-    HRESULT STDMETHODCALLTYPE NewSegment( 
+
+    HRESULT STDMETHODCALLTYPE NewSegment(
         REFERENCE_TIME,
         REFERENCE_TIME,
         double);
-        
+
     //local functions
-    
+
     GraphUtil::IMemInputPinPtr m_pInputPin;
     GraphUtil::IMemAllocatorPtr m_pAllocator;
-        
-    void OnInpinConnect();
+
+    virtual void OnInpinConnect();
     HRESULT OnInpinDisconnect();
-    
+
 protected:
     virtual void SetDefaultMediaTypes() = 0;
-    HRESULT GetAllocator(IMemInputPin*);
-    virtual HRESULT GetAllocator(IMemInputPin*, IMemAllocator**) const = 0;
+    virtual HRESULT PostConnect(IPin*) = 0;
+    HRESULT InitAllocator(IMemInputPin*, IMemAllocator*);
     virtual void GetSubtype(GUID&) const = 0;
 
 };

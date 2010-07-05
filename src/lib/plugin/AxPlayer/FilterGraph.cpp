@@ -75,6 +75,7 @@ void FilterGraph::BuildGraph(const CString& videoUrl)
     m_haveWebm = m_videoUrl.Right(WEBM_EXT.GetLength()).MakeLower() == WEBM_EXT;
 
     LOG(logINFO) << __FUNCTIONW__ << " Building graph for: \"" << m_videoUrl << "\"";
+    LOG(logINFO) << __FUNCTIONW__ << " Have WebM: " << std::boolalpha << m_haveWebm;
 
     try
     {

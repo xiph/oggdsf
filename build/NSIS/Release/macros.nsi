@@ -211,7 +211,7 @@ Var /GLOBAL WMP_LOCATION_X64
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-!macro AddHttpExtensionSource ${TypeExt} ${SourceFilterClsid}
+!macro AddHttpExtensionSource TypeExt SourceFilterClsid
     ${If} ${RunningX64}
         SetRegView 64
         WriteRegStr HKCR "http\Extensions" "${TypeExt}" "${SourceFilterClsid}"
@@ -332,8 +332,8 @@ Var /GLOBAL WMP_LOCATION_X64
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 !macro AddWebmRecognitionPattern_Internal
-  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}" "0" "0,4,,1A45DFA3"
-  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110F8-5211-11DF-94AF-0026B977EEAA}" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}";
+  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110EB-5211-11DF-94AF-0026B977EEAA}" "0" "0,4,,1A45DFA3"
+  WriteRegStr HKCR "Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{ED3110EB-5211-11DF-94AF-0026B977EEAA}" "Source Filter" "{E436EBB5-524F-11CE-9F53-0020AF0BA770}";
 !macroend
 
 !macro AddWebmRecognitionPattern

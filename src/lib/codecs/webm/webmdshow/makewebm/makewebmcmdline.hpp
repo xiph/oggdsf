@@ -15,13 +15,13 @@ class CmdLine
 {
     CmdLine(const CmdLine&);
     CmdLine& operator=(const CmdLine&);
-    
+
 public:
 
     CmdLine();
-    
+
     int Parse(int argc, wchar_t* argv[]);
-    
+
     const wchar_t* GetInputFileName() const;
     const wchar_t* GetOutputFileName() const;
     bool ScriptMode() const;
@@ -37,6 +37,7 @@ public:
     int GetDecoderBufferSize() const;
     int GetDecoderBufferInitialSize() const;
     int GetDecoderBufferOptimalSize() const;
+    double GetKeyframeFrequency() const;
     int GetKeyframeMode() const;
     int GetKeyframeMinInterval() const;
     int GetKeyframeMaxInterval() const;
@@ -48,11 +49,17 @@ public:
     int GetResizeDownThreshold() const;
     int GetEndUsage() const;
     int GetLagInFrames() const;
-    int GetTokenPartitions() const;    
+    int GetTokenPartitions() const;
     int GetTwoPass() const;
+    int GetTwoPassVbrBiasPct() const;
+    int GetTwoPassVbrMinsectionPct() const;
+    int GetTwoPassVbrMaxsectionPct() const;
+    const wchar_t* GetSaveGraphFile() const;
+
+    static std::wstring GetPath(const wchar_t*);
 
 private:
-    
+
     const wchar_t* const* m_argv;
     bool m_usage;
     bool m_list;
@@ -76,6 +83,7 @@ private:
     int m_keyframe_mode;
     int m_keyframe_min_interval;
     int m_keyframe_max_interval;
+    double m_keyframe_frequency;
     int m_thread_count;
     int m_dropframe_thresh;
     int m_resize_allowed;
@@ -86,7 +94,13 @@ private:
     int m_lag_in_frames;
     int m_token_partitions;
     int m_two_pass;
-    
+    int m_two_pass_vbr_bias_pct;
+    int m_two_pass_vbr_minsection_pct;
+    int m_two_pass_vbr_maxsection_pct;
+
+    std::wstring m_save_graph_file_str;
+    const wchar_t* m_save_graph_file_ptr;
+
     static bool IsSwitch(const wchar_t*);
     int Parse(wchar_t**);
     int ParseShort(wchar_t**);
@@ -96,14 +110,14 @@ private:
     void PrintUsage() const;
     void PrintVersion() const;
     void ListArgs() const;
-    static std::wstring GetPath(const wchar_t*);
     void SynthesizeOutput();
+    void SynthesizeSaveGraph();
 
-//doesn't compile for some reason    
+//doesn't compile for some reason
 //    enum { kValueIsRequired = std::numeric_limits<int>::min() };
 
     enum { kValueIsRequired = INT_MAX };
-    
+
     int ParseOpt(
         wchar_t** i,
         const wchar_t* arg,
@@ -113,5 +127,5 @@ private:
         int min,
         int max,
         int optional = kValueIsRequired) const;
-    
+
 };
