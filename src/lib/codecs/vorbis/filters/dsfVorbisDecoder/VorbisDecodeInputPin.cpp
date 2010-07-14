@@ -153,6 +153,11 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
         unsigned long bytesToCopy = 0;
 
         REFERENCE_TIME globalOffset = 0;
+        if (mFrameSize != 0 && mSampleRate != 0)
+        {
+            tStart = convertGranuleToTime(tStop) - (((mDecodedByteCount / mFrameSize) * UNITS) / mSampleRate);
+        }
+
         //Handle stream offsetting
         if (!mSentStreamOffset && (mOggOutputPinInterface != NULL)) 
         {
@@ -162,7 +167,6 @@ STDMETHODIMP VorbisDecodeInputPin::Receive(IMediaSample* inSample)
 
         if (mOggOutputPinInterface != NULL) 
         {
-            tStart = convertGranuleToTime(tStop) - (((mDecodedByteCount / mFrameSize) * UNITS) / mSampleRate);
             globalOffset = mOggOutputPinInterface->getGlobalBaseTime();
         }
 
