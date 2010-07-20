@@ -1,8 +1,10 @@
-Version 0.84.17325 - 05.07.2010
+Version 0.84.17338 - 20.07.2010
 
     * Updated webmdshow to 0.9.9.0
     * Fixed installer script regarding URL registration 
       (fixes "Open URL..." in Windows Media Player)
+    * Fixed Vorbis URL playback which was broken in previous version
+    * Installer uses localised "Open" and "Play" shell commands
 
 Version 0.84.17315 - 30.06.2010
     

@@ -4,6 +4,8 @@
 ; Windows Media Player location
 Var /GLOBAL WMP_LOCATION_WIN32
 Var /GLOBAL WMP_LOCATION_X64
+Var /GLOBAL WMP_OPEN
+Var /GLOBAL WMP_PLAY
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Location of Visual Studio runtime libraries on the compiling system
@@ -87,10 +89,10 @@ Var /GLOBAL WMP_LOCATION_X64
     WriteRegStr HKCR "${typeName}" "" "${description}"
     WriteRegStr HKCR "${typeName}\shell" "" "play"
 
-    WriteRegStr HKCR "${typeName}\shell\open" "" "&Open"
+    WriteRegStr HKCR "${typeName}\shell\open" "" "$WMP_OPEN"
     WriteRegStr HKCR "${typeName}\shell\open\command" "" "$\"${WmpLocation}$\" /Open $\"%L$\""
   
-    WriteRegStr HKCR "${typeName}\shell\play" "" "&Play"
+    WriteRegStr HKCR "${typeName}\shell\play" "" "$WMP_PLAY"
     WriteRegStr HKCR "${typeName}\shell\play\command" "" "$\"${WmpLocation}$\" /Play $\"%L$\""    
 
     ${If} ${AtMostWinVista}
@@ -487,7 +489,15 @@ Var /GLOBAL WMP_LOCATION_X64
     ${If} ${RunningX64}
         StrCpy $WMP_LOCATION_X64 "$PROGRAMFILES64\Windows Media Player\wmplayer.exe"
     ${EndIf}
-  
+
+    ReadRegStr $WMP_OPEN HKLM "SOFTWARE\Classes\Applications\wmplayer.exe\shell\open" ""
+    IfErrors 0 +2
+        StrCpy $WMP_OPEN "&Open"
+    
+    ReadRegStr $WMP_PLAY HKLM "SOFTWARE\Classes\Applications\wmplayer.exe\shell\play" ""
+    IfErrors 0 +2
+        StrCpy $WMP_PLAY "&Play"
+
     IfFileExists  $WMP_LOCATION_WIN32 +3 0
     IfSilent +2
     MessageBox MB_OK|MB_ICONEXCLAMATION "A recognised version of Windows Media Player was not found. $\n File extenstion association must be done manually." IDOK 0
