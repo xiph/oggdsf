@@ -63,6 +63,15 @@ STDAPI DllRegisterServer()
         &SpeexEncodeFilterReg								// Pointer to filter information.
     );
 
+    hr = locFilterMapper->RegisterFilter(
+        CLSID_SpeexEncodeFilter,						// Filter CLSID. 
+        L"Xiph.Org Speex Encoder",							// Filter name.
+        NULL,										// Device moniker. 
+        &CLSID_AudioCompressorCategory,				// Direct Show general category
+        NULL,							// Instance data. ???????
+        &SpeexEncodeFilterReg								// Pointer to filter information.
+        );
+
     locFilterMapper->Release();
 
     return hr;
@@ -89,7 +98,7 @@ STDAPI DllUnregisterServer()
 	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_SpeexEncodeFilter);
-
+    hr = locFilterMapper->UnregisterFilter(&CLSID_AudioCompressorCategory, NULL, CLSID_SpeexEncodeFilter);
 
 	//
     locFilterMapper->Release();

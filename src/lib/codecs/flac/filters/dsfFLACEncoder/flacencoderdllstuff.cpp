@@ -60,6 +60,15 @@ STDAPI DllRegisterServer()
         &FLACEncodeFilterReg								// Pointer to filter information.
     );
 
+    hr = locFilterMapper->RegisterFilter(
+        CLSID_FLACEncodeFilter,						// Filter CLSID. 
+        L"Xiph.Org FLAC Encoder",					// Filter name.
+        NULL,										// Device moniker. 
+        &CLSID_AudioCompressorCategory,				// Direct Show general category
+        NULL,							// Instance data. ???????
+        &FLACEncodeFilterReg								// Pointer to filter information.
+        );
+
     locFilterMapper->Release();
 
     return hr;
@@ -85,6 +94,8 @@ STDAPI DllUnregisterServer()
 	}
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_FLACEncodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_AudioCompressorCategory, NULL, CLSID_FLACEncodeFilter);
+    
     locFilterMapper->Release();
     return hr;
 

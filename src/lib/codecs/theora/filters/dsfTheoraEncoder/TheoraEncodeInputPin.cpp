@@ -623,7 +623,7 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
     //Blue Green Red Blue Green Red.
     unsigned long numPixels = inNumBytes / 3;
 
-    static std::vector<unsigned char> ayuvBuf;
+    std::vector<unsigned char> ayuvBuf;
     ayuvBuf.resize(numPixels * 4);
 
 
@@ -701,7 +701,7 @@ long TheoraEncodeInputPin::encodeRGB24toYV12(unsigned char* inBuf, long inNumByt
 
 long TheoraEncodeInputPin::encodeRGB32toYV12(unsigned char* inBuf, long inNumBytes) 
 {
-	static std::vector<unsigned char> ayuvBuf;
+	std::vector<unsigned char> ayuvBuf;
     ayuvBuf.resize(inNumBytes);
 
 	//Scaled by factor of 65536 to integerise.

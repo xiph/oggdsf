@@ -64,6 +64,15 @@ STDAPI DllRegisterServer()
         &VorbisEncodeFilterReg								// Pointer to filter information.
     );
 
+    hr = locFilterMapper->RegisterFilter(
+        CLSID_VorbisEncodeFilter,						// Filter CLSID. 
+        L"Xiph.Org Vorbis Encoder",						// Filter name.
+        NULL,										// Device moniker. 
+        &CLSID_AudioCompressorCategory,				// Direct Show general category
+        NULL,							// Instance data. ???????
+        &VorbisEncodeFilterReg								// Pointer to filter information.
+        );
+
     locFilterMapper->Release();
 
     return hr;
@@ -90,6 +99,7 @@ STDAPI DllUnregisterServer()
 	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_VorbisEncodeFilter);
+    hr = locFilterMapper->UnregisterFilter(&CLSID_AudioCompressorCategory, NULL, CLSID_VorbisEncodeFilter);
 
 
 	//

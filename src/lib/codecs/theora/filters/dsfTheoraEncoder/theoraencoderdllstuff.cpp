@@ -65,6 +65,16 @@ STDAPI DllRegisterServer()
         &TheoraEncodeFilterReg								// Pointer to filter information.
     );
 
+    hr = locFilterMapper->RegisterFilter(
+        CLSID_TheoraEncodeFilter,						// Filter CLSID. 
+        L"Xiph.Org Theora Encoder",							// Filter name.
+        NULL,										// Device moniker. 
+        &CLSID_VideoCompressorCategory,				// Direct Show general category
+        NULL,							// Instance data. ???????
+        &TheoraEncodeFilterReg								// Pointer to filter information.
+        );
+    
+
     locFilterMapper->Release();
 
     return hr;
@@ -91,7 +101,7 @@ STDAPI DllUnregisterServer()
 	
 
     hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, NULL, CLSID_TheoraEncodeFilter);
-
+    hr = locFilterMapper->UnregisterFilter(&CLSID_VideoCompressorCategory, NULL, CLSID_TheoraEncodeFilter);
 
 	//
     locFilterMapper->Release();
