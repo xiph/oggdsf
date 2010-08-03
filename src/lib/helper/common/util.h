@@ -71,7 +71,11 @@ namespace util
         std::wstring configLocation;
         configLocation.resize(MAX_PATH);
         
+#ifndef WINCE
         ::SHGetSpecialFolderPath(0, &*configLocation.begin(), CSIDL_COMMON_APPDATA, false);
+#else
+        ::SHGetSpecialFolderPath(0, &*configLocation.begin(), CSIDL_APPDATA, false);
+#endif
         
         configLocation.resize(wcslen(configLocation.c_str()));
         configLocation += L"\\Xiph.Org\\Open Codecs";

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "oggcodecs_wm5", "oggcodecs_wm5.vddproj", "{EC9174C6-27C1-4F10-A378-D04533F1E2BC}"
+Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "opencodecs_wm5", "opencodecs_wm5.vddproj", "{EC9174C6-27C1-4F10-A378-D04533F1E2BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

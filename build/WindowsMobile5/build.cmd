@@ -12,8 +12,8 @@ set /p SVN_REVISION_FULL=<revision_text
 set SVN_REVISION=%SVN_REVISION_FULL:~-5%
 del revision_text
 
-set PRODUCT_VERSION=0.83.%SVN_REVISION%
-set OGGCODECS_ROOT_DIR=..\..
+set PRODUCT_VERSION=0.84.%SVN_REVISION%
+set OPENCODECS_ROOT_DIR=..\..
 
 @set FILTERS=dsfNativeFLACSource dsfOggDemux2
 @set FILTERS=%FILTERS% dsfSpeexDecoder dsfTheoraDecoder
@@ -33,11 +33,11 @@ signtool sign /a /t http://time.certum.pl/ bin\%%i.dll
 )
 
 mkdir Release
-devenv oggcodecs_wm5.sln /Rebuild "Release"
-move Release\oggcodecs_wm5.CAB oggcodecs_%PRODUCT_VERSION%-wm5.cab
+devenv opencodecs_wm5.sln /Rebuild "Release"
+move Release\opencodecs_wm5.CAB opencodecs_%PRODUCT_VERSION%-wm5.cab
 
-signtool sign /a /t http://time.certum.pl/  oggcodecs_%PRODUCT_VERSION%-%SUFFIX%.cab
-"%ProgramFiles%\7-zip\7z.exe" a oggcodecs_%PRODUCT_VERSION%_pdbs-%SUFFIX%.7z pdb\*
+signtool sign /a /t http://time.certum.pl/  opencodecs_%PRODUCT_VERSION%-%SUFFIX%.cab
+"%ProgramFiles%\7-zip\7z.exe" a opencodecs_%PRODUCT_VERSION%_pdbs-%SUFFIX%.7z pdb\*
 
 goto:eof
 ::---------------------------------------------------------------------------------------------------------------------------------
@@ -48,14 +48,14 @@ rmdir /s /q bin
 mkdir bin
 
 for %%i in (%FILTERS%) do (
-copy "%OGGCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\%PLATFORM%\Release\%%i.dll" bin\
+copy "%OPENCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\%PLATFORM%\Release\%%i.dll" bin\
 )
 
 rmdir /s /q pdb
 mkdir pdb
 
 for %%i in (%FILTERS%) do (
-copy "%OGGCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\%PLATFORM%\Release\%%i.pdb" pdb\
+copy "%OPENCODECS_ROOT_DIR%\sln\oggdsf_%COMPILER%\%PLATFORM%\Release\%%i.pdb" pdb\
 )
 
 goto:eof

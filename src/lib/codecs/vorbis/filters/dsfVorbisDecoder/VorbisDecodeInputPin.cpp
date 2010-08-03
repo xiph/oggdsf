@@ -344,6 +344,8 @@ VorbisDecodeFilter* VorbisDecodeInputPin::GetFilter()
 
 HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType) 
 {
+    LOG(logDEBUG) << __FUNCTIONW__;
+
 	//FIX:::Error checking
 	if (CheckMediaType(inMediaType) == S_OK) 
     {
@@ -351,17 +353,20 @@ HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType)
             inMediaType->formattype == FORMAT_OggIdentHeader &&
             inMediaType->cbFormat == VORBIS_IDENT_HEADER_SIZE) 
         {
+            LOG(logINFO) << __FUNCTIONW__ << " MEDIATYPE_OggPacketStream, FORMAT_OggIdentHeader";
 		    GetFilter()->setVorbisFormat(inMediaType->pbFormat);
         }
         else if (inMediaType->majortype == MEDIATYPE_Audio &&
                  inMediaType->subtype == MEDIASUBTYPE_Vorbis &&
                  inMediaType->formattype == FORMAT_Vorbis)
         {
+            LOG(logINFO) << __FUNCTIONW__ << " MEDIATYPE_Audio, MEDIASUBTYPE_Vorbis";
             GetFilter()->setVorbisFormat(reinterpret_cast<VORBISFORMAT*>(inMediaType->pbFormat));
         }
 	} 
     else 
     {
+        LOG(logERROR) << __FUNCTIONW__ << " MediaType not OK, Exiting";
 		throw 0;
 	}
 	
@@ -418,6 +423,7 @@ LOOG_INT64 VorbisDecodeInputPin::mustSeekBefore(LOOG_INT64 inGranule)
 }
 IOggDecoder::eAcceptHeaderResult VorbisDecodeInputPin::showHeaderPacket(OggPacket* inCodecHeaderPacket)
 {
+    LOG(logDEBUG) << __FUNCTIONW__ << " SetupState: " << mSetupState;
 	unsigned long locDummy;
 	switch (mSetupState) 
     {
@@ -512,7 +518,8 @@ HRESULT VorbisDecodeInputPin::CompleteConnect(IPin *inReceivePin)
     {
 		mOggOutputPinInterface = NULL;
 	}
-	LOG(logDEBUG) << "Complete Connect";
+    LOG(logDEBUG) << __FUNCTIONW__ << " QueryInterface(IOggOutputPin) " << std::boolalpha 
+        << (mOggOutputPinInterface != NULL ? "succeeded" : "failed");
 
     if (GetFilter()->getVorbisFormatBlock())
     {
