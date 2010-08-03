@@ -1,3 +1,10 @@
+Version 0.84.17359 - 04.08.2010
+    
+    * Released Windows CE decoder package, no WebM/VP8 support for now, only Ogg Vorbis,
+      Theora, FLAC and Speex decoders.
+    * Fixed a bug in Theora DirectShow encoder filter when multiple encoder filters were used
+      in the same graph
+
 Version 0.84.17338 - 20.07.2010
 
     * Updated webmdshow to 0.9.9.0
