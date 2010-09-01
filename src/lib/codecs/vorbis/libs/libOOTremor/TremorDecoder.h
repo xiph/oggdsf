@@ -43,7 +43,7 @@ protected:
 		int retVal = inVal;
 		retVal -= ((inVal <= 32767) - 1) & (inVal - 32767);
 		retVal -= ((inVal >= -32768) -1) & (inVal + 32768);
-		return retVal;
+		return (short)retVal;
 	}
 	unsigned long mPacketCount;
 
@@ -59,8 +59,10 @@ protected:
 	vorbis_block mVorbisBlock;
 
 	ogg_packet mWorkPacket;
+/*
 	ogg_reference mOggRef;
 	ogg_buffer mOggBuffer;
+*/
 
 
 };

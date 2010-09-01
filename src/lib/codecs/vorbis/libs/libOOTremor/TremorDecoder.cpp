@@ -8,8 +8,10 @@ TremorDecoder::TremorDecoder(void)
 {
 	vorbis_info_init(&mVorbisInfo);
 	vorbis_comment_init(&mVorbisComment);
+/*
 	mWorkPacket.packet = &mOggRef;
 	mOggRef.buffer = &mOggBuffer;
+*/
 
 
 }
@@ -68,7 +70,8 @@ TremorDecoder::eVorbisResult TremorDecoder::decodePacket(		const unsigned char* 
 	mWorkPacket.bytes = inPacketSize;
 	mWorkPacket.e_o_s = 0;
 	mWorkPacket.granulepos = 0;
-	//mWorkPacket.packet = (unsigned char*)inPacket;		//Naughty!
+	mWorkPacket.packet = (unsigned char*)inPacket;		//Naughty!
+/*
 	mWorkPacket.packet->buffer->data = (unsigned char*)inPacket;		//Naughty!
 	mWorkPacket.packet->buffer->ptr.next = NULL;
 	mWorkPacket.packet->buffer->refcount = 1;
@@ -76,6 +79,7 @@ TremorDecoder::eVorbisResult TremorDecoder::decodePacket(		const unsigned char* 
 	mWorkPacket.packet->begin = 0;
 	mWorkPacket.packet->length = inPacketSize;
 	mWorkPacket.packet->next = NULL;
+*/
 
 	mWorkPacket.packetno = mPacketCount;
 
@@ -96,7 +100,7 @@ TremorDecoder::eVorbisResult TremorDecoder::decodePacket(		const unsigned char* 
 	} else {
 		mPacketCount++;
 
-		int locRet = vorbis_synthesis(&mVorbisBlock, &mWorkPacket, 1);
+		int locRet = vorbis_synthesis(&mVorbisBlock, &mWorkPacket);
 
 		if (locRet != 0) {
 			//Error
@@ -112,7 +116,7 @@ TremorDecoder::eVorbisResult TremorDecoder::decodePacket(		const unsigned char* 
 
 		ogg_int32_t** locPCM;
 		int locNumSamples;
-		int locTemp = 0;
+		//int locTemp = 0;
 		short* locOutBuffer;
 		
 		while ((locNumSamples = vorbis_synthesis_pcmout(&mVorbisState, &locPCM)) > 0) {
