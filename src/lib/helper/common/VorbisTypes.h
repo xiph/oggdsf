@@ -42,6 +42,14 @@ struct VORBISFORMAT
     unsigned char numChannels;
 };
 
+struct VORBISFORMAT2
+{
+	unsigned long channels;
+	unsigned long samplesPerSec;
+	unsigned long bitsPerSample;
+	unsigned long headerSize[3];  // 0: Identification, 1: Comment, 2: CodecSetup
+};
+
 // {A538F05F-DC08-4bf9-994F-18A86CCA6CC4}
 DEFINE_GUID(CLSID_PropsVorbisEncoder, 
 0xa538f05f, 0xdc08, 0x4bf9, 0x99, 0x4f, 0x18, 0xa8, 0x6c, 0xca, 0x6c, 0xc4);
@@ -54,9 +62,17 @@ DEFINE_GUID(CLSID_VorbisEncodeFilter,
 DEFINE_GUID(MEDIASUBTYPE_Vorbis, 
 0x8a0566ac, 0x42b3, 0x4ad9, 0xac, 0xa3, 0x93, 0xb9, 0x6, 0xdd, 0xf9, 0x8a);
 
+// {8D2FD10B-5841-4a6b-8905-588FEC1ADED9}
+DEFINE_GUID(MEDIASUBTYPE_Vorbis2,
+0x8D2FD10B, 0x5841, 0x4a6b, 0x89, 0x05, 0x58, 0x8F, 0xEC, 0x1A, 0xDE, 0xD9);
+
 // {44E04F43-58B3-4de1-9BAA-8901F852DAE4}
 DEFINE_GUID(FORMAT_Vorbis, 
 0x44e04f43, 0x58b3, 0x4de1, 0x9b, 0xaa, 0x89, 0x1, 0xf8, 0x52, 0xda, 0xe4);
+
+// {B36E107F-A938-4387-93C7-55E966757473}    
+DEFINE_GUID(FORMAT_Vorbis2,
+0xB36E107F, 0xA938, 0x4387, 0x93, 0xC7, 0x55, 0xE9, 0x66, 0x75, 0x74, 0x73);
 
 // {A4C6A887-7BD3-4b33-9A57-A3EB10924D3A}
 DEFINE_GUID(IID_IVorbisEncodeSettings, 
@@ -65,6 +81,5 @@ DEFINE_GUID(IID_IVorbisEncodeSettings,
 // {05A1D945-A794-44ef-B41A-2F851A117155}
 DEFINE_GUID(CLSID_VorbisDecodeFilter, 
 0x5a1d945, 0xa794, 0x44ef, 0xb4, 0x1a, 0x2f, 0x85, 0x1a, 0x11, 0x71, 0x55);
-
 
 #endif // VORBISTYPES_H

@@ -36,15 +36,7 @@
 #include "AbstractTransformInputPin.h"
 #include "VorbisDecodeInputPin.h"
 #include "VorbisDecodeFilter.h"
-
-
-
-#ifdef USING_TREMOR
-#include "TremorDecoder.h"
-#define VorbisDecoder TremorDecoder
-#else
 #include "VorbisDecoder.h"
-#endif
 
 class VorbisDecodeFilter;
 class VorbisDecodeOutputPin;
@@ -107,6 +99,7 @@ protected:
 	virtual bool ConstructCodec();
 	virtual void DestroyCodec();
 	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
+	virtual HRESULT TransformVorbis2(const BYTE* const in_buffer, const long size_of_in_buffer); 
 
     void reorderChannels(unsigned char* inDestBuffer, const unsigned char* inSourceBuffer, unsigned long inNumBytes);
 
@@ -121,7 +114,6 @@ protected:
 	int mFrameSize;
 	int mSampleRate;
 
-
 	VorbisDecoder mVorbisDecoder;
 
 	unsigned char* mDecodedBuffer;
@@ -133,5 +125,7 @@ protected:
 	IOggOutputPin* mOggOutputPinInterface;
 	bool mSentStreamOffset;
 
+private:
+	bool m_isVorbisFormat2;
 };
 

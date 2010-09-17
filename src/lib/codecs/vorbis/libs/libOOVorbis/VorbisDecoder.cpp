@@ -30,27 +30,36 @@
 //===========================================================================
 
 #include "StdAfx.h"
+#include <guiddef.h>
 #include "VorbisDecoder.h"
+#include "common/VorbisTypes.h"
 
-VorbisDecoder::VorbisDecoder(void)
-	:	mPacketCount(0)
-	,	mNumChannels(0)
-	,	mSampleRate(0)
+#include <assert.h>
+
+#ifdef USING_TREMOR
+    typedef ogg_int32_t pcm_t;
+#else
+    typedef float pcm_t;
+#endif
+
+VorbisDecoder::VorbisDecoder():	
+mPacketCount(0),	
+mNumChannels(0),	
+mSampleRate(0)
 {
 	vorbis_info_init(&mVorbisInfo);
 	vorbis_comment_init(&mVorbisComment);
-
 }
 
-VorbisDecoder::~VorbisDecoder(void)
+VorbisDecoder::~VorbisDecoder()
 {
 }
 
 VorbisDecoder::eVorbisResult VorbisDecoder::decodeHeader()
 {
-	int locRet = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &mWorkPacket);
-	if (locRet < 0) {
-		//Error
+	int ret = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &mWorkPacket);
+	if (ret < 0) 
+    {
 		return VORBIS_HEADER_BAD;
 	}
 
@@ -59,111 +68,165 @@ VorbisDecoder::eVorbisResult VorbisDecoder::decodeHeader()
 
 VorbisDecoder::eVorbisResult VorbisDecoder::decodeComment()
 {
-	int locRet = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &mWorkPacket);
-	if (locRet < 0) {
-		//Error
+	int ret = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &mWorkPacket);
+	if (ret < 0) 
+    {
 		return VORBIS_COMMENT_BAD;
 	}
 
 	return VORBIS_COMMENT_OK;
 }
+
 VorbisDecoder::eVorbisResult VorbisDecoder::decodeCodebook()
 {
-	int locRet = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &mWorkPacket);
-	if (locRet < 0) {
-		//Error
+	int ret = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &mWorkPacket);
+	if (ret < 0) 
+    {
 		return VORBIS_CODEBOOK_BAD;
 	}
 
-	locRet = vorbis_synthesis_init(&mVorbisState, &mVorbisInfo);
+	ret = vorbis_synthesis_init(&mVorbisState, &mVorbisInfo);
 
 	//TODO::: What return codes?
 
-	locRet = vorbis_block_init(&mVorbisState, &mVorbisBlock);
+	ret = vorbis_block_init(&mVorbisState, &mVorbisBlock);
 
 	mNumChannels = mVorbisInfo.channels;
 	mSampleRate = mVorbisInfo.rate;
 
 	return VORBIS_CODEBOOK_OK;
 }
-VorbisDecoder::eVorbisResult VorbisDecoder::decodePacket(		const unsigned char* inPacket
-											,	unsigned long inPacketSize
-											,	short* outSamples
-											,	unsigned long inOutputBufferSize
-											,	unsigned long* outNumSamples)
+
+VorbisDecoder::eVorbisResult VorbisDecoder::PrepareEncoder()
+{
+    if (mPacketCount == 0) 
+    {
+        mPacketCount++;
+        mWorkPacket.b_o_s = 1;
+        return decodeHeader();
+    } 
+    else if (mPacketCount == 1) 
+    {
+        //Comment
+        mPacketCount++;
+        return decodeComment();
+    } 
+    else if (mPacketCount == 2) 
+    {
+        //Codebooks
+        mPacketCount++;
+        return decodeCodebook();
+    } 
+
+    return VORBIS_DATA_OK;
+}
+
+void VorbisDecoder::Init(const VORBISFORMAT2* vf2)
+{
+    assert(vf2);
+
+    // Save the 3 vorbis header packets
+
+    int vorbisId = vf2->headerSize[0];
+    unsigned char* pVorbisId = (unsigned char*)vf2 + sizeof(VORBISFORMAT2);
+
+    int vorbisComment = vf2->headerSize[1];
+    unsigned char* pVorbisComment = (unsigned char*)vf2 + sizeof(VORBISFORMAT2) + vf2->headerSize[0];
+
+    int vorbisCodebook = vf2->headerSize[2];
+    unsigned char* pVorbisCodebook = (unsigned char*)vf2 + sizeof(VORBISFORMAT2) + vf2->headerSize[0] + vf2->headerSize[1];
+
+    vorbis_info_init(&mVorbisInfo);
+    vorbis_comment_init(&mVorbisComment);
+
+    ogg_packet ogg_pkt;
+    memset(&ogg_pkt, 0, sizeof(ogg_packet));
+
+    ogg_pkt.packet = pVorbisId;
+    ogg_pkt.bytes = vorbisId;
+    ogg_pkt.b_o_s = 1;
+    ogg_pkt.packetno = mPacketCount++;
+
+    // Build the "Comment Header" packet
+    ogg_packet ogg_comment;
+    memset(&ogg_comment, 0, sizeof(ogg_packet));
+
+    ogg_comment.packet = pVorbisComment;
+    ogg_comment.bytes = vorbisComment;
+    ogg_comment.b_o_s = 0;
+    ogg_comment.packetno = mPacketCount++;
+
+    // Build the "Setup Header" packet
+    ogg_packet ogg_codecsetup;
+    memset(&ogg_codecsetup, 0, sizeof(ogg_packet));
+    ogg_codecsetup.packet = pVorbisCodebook;
+    ogg_codecsetup.bytes = vorbisCodebook;
+    ogg_codecsetup.b_o_s = 0;
+    ogg_codecsetup.packetno = mPacketCount++;
+
+    int ret = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &ogg_pkt);
+    assert( ret >= 0);
+    ret = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &ogg_comment);
+    assert( ret >= 0);
+    ret = vorbis_synthesis_headerin(&mVorbisInfo, &mVorbisComment, &ogg_codecsetup);
+    assert( ret >= 0);
+
+    vorbis_synthesis_init(&mVorbisState, &mVorbisInfo);
+    vorbis_block_init(&mVorbisState, &mVorbisBlock);
+
+    mNumChannels = mVorbisInfo.channels;
+}
+
+VorbisDecoder::eVorbisResult VorbisDecoder::DecodePacket( const unsigned char* const packet,
+											const unsigned long packet_size,
+											short* pcm_samples,
+											unsigned long& num_of_pcm_samples)
 {
 	mWorkPacket.b_o_s = 0;
-	mWorkPacket.bytes = inPacketSize;
+	mWorkPacket.bytes = packet_size;
 	mWorkPacket.e_o_s = 0;
 	mWorkPacket.granulepos = 0;
-	mWorkPacket.packet = (unsigned char*)inPacket;		//Naughty!
+	mWorkPacket.packet = const_cast<unsigned char*>(packet);
 	mWorkPacket.packetno = mPacketCount;
 
-	*outNumSamples = 0;
+	mNumChannels = mVorbisInfo.channels;
+	mSampleRate = mVorbisInfo.rate;
 
-	if (mPacketCount == 0) {
-		mPacketCount++;
-		mWorkPacket.b_o_s = 1;
-		return decodeHeader();
-	} else if (mPacketCount == 1) {
-		//Comment
-		mPacketCount++;
-		return decodeComment();
-	} else if (mPacketCount == 2) {
-		//Codebooks
-		mPacketCount++;
-		return decodeCodebook();
-	} else {
-		mPacketCount++;
+    if (mPacketCount <= 2)
+    {
+        return PrepareEncoder();
+    }
+    ++mPacketCount;
 
-		int locRet = vorbis_synthesis(&mVorbisBlock, &mWorkPacket);
-
-		if (locRet != 0) {
-			//Error
-			return VORBIS_SYNTH_FAILED;
-		}
-
-		locRet = vorbis_synthesis_blockin(&mVorbisState, &mVorbisBlock);
-
-		if (locRet != 0) {
-			//Error
-			return VORBIS_BLOCKIN_FAILED;
-		}
-
-		float** locPCM;
-		int locNumSamples;
-		int locTemp = 0;
-		short* locOutBuffer;
-		
-		while ((locNumSamples = vorbis_synthesis_pcmout(&mVorbisState, &locPCM)) > 0) {
-			if (locNumSamples * mNumChannels * sizeof(short) > inOutputBufferSize) {
-				//TODO::: Buffer overflow
-			} else {
-				
-				for (int chan= 0; chan < mNumChannels; chan++) {
-					//Interleave offset
-					locOutBuffer = outSamples + chan;
-					//Pointer into one channel of pcm
-					float* locOneChannel = locPCM[chan];
-					for (int i = 0; i < locNumSamples; i++) {
-						locTemp = (int)(locOneChannel[i] * 32767.0f);
-						*locOutBuffer = clip16(locTemp);
-
-						//Jump forward numChannels in the buffer
-						locOutBuffer += mNumChannels;
-					}
-				}
-
-				vorbis_synthesis_read(&mVorbisState, locNumSamples);
-				*outNumSamples = locNumSamples;
-			}
-
-		}
-
-		return VORBIS_DATA_OK;
-
-
-		
+	if (vorbis_synthesis(&mVorbisBlock, &mWorkPacket) == 0)
+	{
+		const int ret = vorbis_synthesis_blockin(&mVorbisState, &mVorbisBlock);
+		assert(ret == 0);
 	}
 
+    pcm_t** pcm;
+	int samples = 0;
+	
+	while ((samples = vorbis_synthesis_pcmout(&mVorbisState, &pcm)) > 0) 
+	{
+		// TODO:: handling buffer overflow if the size is over 1 mega
+		// samples * mNumChannels * sizeof(short) > 1 mega
+
+		for (int ch = 0; ch < mNumChannels; ++ch)
+		{
+			short* temp_buffer = pcm_samples + ch;
+			const pcm_t* const one_channel = pcm[ch];
+
+			for (int i = 0; i < samples; ++i)
+			{
+				int temp = static_cast<int>(one_channel[i] * 32767.0f);
+				*temp_buffer = clip16(temp);
+				
+				temp_buffer += mNumChannels;
+			}
+		}
+		num_of_pcm_samples = samples;
+		vorbis_synthesis_read(&mVorbisState, num_of_pcm_samples);
+	}
+	return VORBIS_DATA_OK;
 }

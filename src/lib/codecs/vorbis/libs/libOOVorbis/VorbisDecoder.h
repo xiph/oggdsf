@@ -30,15 +30,19 @@
 //===========================================================================
 #pragma once
 
+#ifdef USING_TREMOR
+#include <ivorbiscodec.h>
+#else
 #include <vorbis/codec.h>
+#endif
+
+struct VORBISFORMAT2;
 
 class VorbisDecoder
 {
 public:
-	VorbisDecoder(void);
-	~VorbisDecoder(void);
-
-
+	VorbisDecoder();
+	~VorbisDecoder();
 
 	enum eVorbisResult {
 		VORBIS_DATA_OK = 0,
@@ -53,28 +57,28 @@ public:
 		VORBIS_BLOCKIN_FAILED
 	};
 
-	//bool setDecodeParams(SpeexDecodeSettings inSettings);
-	eVorbisResult decodePacket(		const unsigned char* inPacket
-								,	unsigned long inPacketSize
-								,	short* outSamples
-								,	unsigned long inOutputBufferSize
-								,	unsigned long* outNumSamples); 
+	eVorbisResult DecodePacket(const unsigned char* const inPacket,
+							   const unsigned long inPacketSize,
+							   short* outSamples,
+							   unsigned long& outNumSamples); 
 
 	int numChannels()	{	return mNumChannels;	}
 	int sampleRate()	{	return mSampleRate;		}
+
+    void Init(const VORBISFORMAT2* vf2);
+	
 protected:
 	eVorbisResult decodeHeader();
 	eVorbisResult decodeComment();
 	eVorbisResult decodeCodebook();
+
+    eVorbisResult PrepareEncoder();
 
 	short clip16(int inVal)		{	return (short)((inVal > 32767) ? (32767) : ((inVal < -32768) ? (-32768) : (inVal)));	}
 	unsigned long mPacketCount;
 
 	int mNumChannels;
 	int mSampleRate;
-	//int mNumFrames;
-	//int mNumExtraHeaders;
-	//bool mIsVBR;
 
 	vorbis_info mVorbisInfo;
 	vorbis_comment mVorbisComment;
@@ -82,6 +86,4 @@ protected:
 	vorbis_block mVorbisBlock;
 
 	ogg_packet mWorkPacket;
-
-
 };

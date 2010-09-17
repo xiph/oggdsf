@@ -242,7 +242,7 @@ HRESULT AudioStream::QueryAccept(const AM_MEDIA_TYPE* pmt) const
 }
 
 
-#if 1  //if we decide to support Xiph Ogg Vorbis decoder filter:
+#if 0  //if we decide to support Xiph Ogg Vorbis decoder filter:
 HRESULT AudioStream::SetConnectionMediaType(const AM_MEDIA_TYPE& mt)
 {
     if (mt.majortype == VorbisTypes::MEDIATYPE_OggPacketStream)
@@ -432,7 +432,7 @@ HRESULT AudioStream::OnPopulateSample(
 }
 
 
-#if 1  //if we decide to support Xiph Ogg Vorbis decoder filter
+#if 0  //if we decide to support Xiph Ogg Vorbis decoder filter
 bool AudioStream::SendPreroll(IMediaSample* pSample)
 {
     assert(m_preroll);

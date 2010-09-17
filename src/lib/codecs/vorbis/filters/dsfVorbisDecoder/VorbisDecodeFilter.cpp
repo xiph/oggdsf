@@ -59,10 +59,11 @@ const REGPINTYPES VorbisDecodeFilter::m_outputMediaTypes =
     &MEDIASUBTYPE_PCM
 };
 
-const REGPINTYPES VorbisDecodeFilter::m_inputMediaTypes = 
+const REGPINTYPES VorbisDecodeFilter::m_inputMediaTypes[] = 
 {
-    &MEDIATYPE_OggPacketStream,
-    &MEDIASUBTYPE_None
+	{ &MEDIATYPE_OggPacketStream, &MEDIASUBTYPE_None },
+	{ &MEDIATYPE_Audio, &MEDIASUBTYPE_Vorbis},
+	{ &MEDIATYPE_Audio, &MEDIASUBTYPE_Vorbis2}
 };
 
 const AMOVIESETUP_PIN VorbisDecodeFilter::m_pinReg[] = 
@@ -75,8 +76,8 @@ const AMOVIESETUP_PIN VorbisDecodeFilter::m_pinReg[] =
         FALSE,								//Cannot have more than one instance of this pin
         &GUID_NULL,							//Connects to filter (obsoleted)
         NULL,								//Connects to pin (obsoleted)
-        1,									//Support two media type
-        &m_inputMediaTypes				    //Pointer to media type (Audio/Vorbis or Audio/Speex)
+		sizeof(m_inputMediaTypes) / sizeof(REGPINTYPES),
+        m_inputMediaTypes				    //Pointer to media type (Audio/Vorbis or Audio/Speex)
     } ,
 
     {
@@ -171,6 +172,12 @@ bool VorbisDecodeFilter::ConstructPins()
     mediaType->subtype = MEDIASUBTYPE_Vorbis;
     mediaType->formattype = FORMAT_Vorbis;
 	acceptableTypes.push_back(mediaType);
+
+	mediaType = new CMediaType(&MEDIATYPE_Audio);
+	mediaType->subtype = MEDIASUBTYPE_Vorbis2;
+	mediaType->formattype = FORMAT_Vorbis2;
+	acceptableTypes.push_back(mediaType);
+
 	
     //Deleted in base class filter destructor.
 	mInputPin = new VorbisDecodeInputPin(this, m_pLock, mOutputPin, acceptableTypes);	
@@ -233,6 +240,27 @@ void VorbisDecodeFilter::setVorbisFormat(VORBISFORMAT* vorbisFormat)
     *mVorbisFormatInfo = *vorbisFormat;
     PrintVorbisFormatInfo();
 }
+
+void VorbisDecodeFilter::setVorbisFormat(VORBISFORMAT2* vorbisFormat2)
+{
+    if (!vorbisFormat2)
+    {
+        return;
+    }
+
+    delete mVorbisFormatInfo;
+    mVorbisFormatInfo = new VORBISFORMAT;
+
+    mVorbisFormatInfo->numChannels = vorbisFormat2->channels;
+    mVorbisFormatInfo->samplesPerSec = vorbisFormat2->samplesPerSec;
+    mVorbisFormatInfo->avgBitsPerSec = vorbisFormat2->bitsPerSample;
+    mVorbisFormatInfo->maxBitsPerSec = 0;
+    mVorbisFormatInfo->avgBitsPerSec = 0;
+    mVorbisFormatInfo->minBitsPerSec = 0;
+
+    PrintVorbisFormatInfo();
+}
+
 
 void VorbisDecodeFilter::PrintVorbisFormatInfo()
 {

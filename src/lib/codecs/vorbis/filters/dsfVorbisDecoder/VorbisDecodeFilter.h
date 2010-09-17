@@ -39,6 +39,7 @@
 
 //Forward Declarations
 struct VORBISFORMAT;
+struct VORBISFORMAT2;
 class VorbisDecodeInputPin;
 class VorbisDecodeOutputPin;
 
@@ -56,7 +57,7 @@ public:
 	virtual ~VorbisDecodeFilter();
 
     static const wchar_t* NAME;
-    static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes;
+    static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes[3];
     static const AMOVIESETUP_MEDIATYPE m_outputMediaTypes;
     static const AMOVIESETUP_PIN m_pinReg[];
     static const AMOVIESETUP_FILTER m_filterReg;
@@ -67,12 +68,14 @@ public:
     //IWMPTranscodePolicy interface -- it's documented... but it doesn't really exist.
     //HRESULT allowTranscode(VARIANT_BOOL* outAllowTranscode);
 
+
 	///COM CreateInstance Function
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
 	virtual VORBISFORMAT* getVorbisFormatBlock();
 	virtual void setVorbisFormat(BYTE* inFormatBlock);
     virtual void setVorbisFormat(VORBISFORMAT* vorbisFormat);
+    virtual void setVorbisFormat(VORBISFORMAT2* vorbisFormat2);
 
 #ifdef WINCE
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
