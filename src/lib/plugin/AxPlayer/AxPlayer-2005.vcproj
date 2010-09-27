@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="AxPlayer"
 	ProjectGUID="{C2C1F096-2541-4B13-A57E-52F2368A0E36}"
 	RootNamespace="AxPlayer"
@@ -81,7 +81,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib "
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -174,7 +174,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -270,7 +270,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -366,7 +366,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -626,11 +626,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Res\VideoTagBehavior.rgs"
+				RelativePath=".\VideoTagBehavior.rgs"
 				>
 			</File>
 			<File
-				RelativePath=".\VideoTagBehavior.rgs"
+				RelativePath=".\Res\VideoTagBehavior.rgs"
 				>
 			</File>
 		</Filter>

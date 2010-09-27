@@ -90,6 +90,7 @@ void FilterGraph::BuildGraph(const CString& videoUrl)
 
         CHECK_HR(m_graphBuilder.QueryInterface(&m_mediaControl));
         CHECK_HR(m_graphBuilder.QueryInterface(&m_mediaEvent));
+        CHECK_HR(m_graphBuilder.QueryInterface(&m_mediaSeeking));
 
         LOG(logINFO) << __FUNCTIONW__ << " Graph was successfully build.";
     }
@@ -193,7 +194,9 @@ void FilterGraph::AddRenderers()
     // Add audio renderer
     m_audioRenderer = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_DSoundRender, 
                                                     L"DirectSound Renderer");
-    
+
+    m_audioRenderer->QueryInterface(&m_basicAudio);
+
     // Add video renderer
     m_videoRenderer = DShowUtil::AddFilterFromCLSID(m_graphBuilder, CLSID_VideoMixingRenderer9,
                                                     L"Video Mixing Renderer 9");
@@ -395,4 +398,87 @@ CComPtr<IDirect3D9> FilterGraph::GetD3D() const
 void FilterGraph::SetD3D(const CComPtr<IDirect3D9>& val)
 {
     m_d3d = val;
+}
+
+long FilterGraph::GetVolume() const
+{
+    if (!m_haveAudio)
+    {
+        return MIN_VOLUME;
+    }
+
+    if (!m_basicAudio)
+    {
+        return MIN_VOLUME;
+    }
+
+    long volume = MIN_VOLUME;
+    try
+    {
+        CHECK_HR(m_basicAudio->get_Volume(&volume));
+    }
+    catch (const CAtlException& except)
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " Error code: " << std::hex << except.m_hr;
+    }
+
+    return volume;
+}
+
+void FilterGraph::SetVolume(long vol)
+{
+    if (!m_haveAudio)
+    {
+        return;
+    }
+
+    if (!m_basicAudio)
+    {
+        return;
+    }
+
+    try
+    {
+        CHECK_HR(m_basicAudio->put_Volume(vol));
+    }
+    catch (const CAtlException& except)
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " Error code: " << std::hex << except.m_hr;
+    }
+}
+
+unsigned long FilterGraph::GetDuration() const
+{
+    unsigned long duration = 0;
+    try
+    {
+        REFERENCE_TIME rtDuration = 0;
+        CHECK_HR(m_mediaSeeking->GetDuration(&rtDuration));
+
+        duration = rtDuration / 10000;
+    }
+    catch (const CAtlException& except)
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " Error code: " << std::hex << except.m_hr;
+    }
+
+    return duration;
+}
+
+unsigned long FilterGraph::GetPosition() const
+{
+    unsigned long position = 0;
+    try
+    {
+        REFERENCE_TIME rtCurrentPosition = 0;
+        CHECK_HR(m_mediaSeeking->GetCurrentPosition(&rtCurrentPosition));
+
+        position = rtCurrentPosition / 10000;
+    }
+    catch (const CAtlException& except)
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " Error code: " << std::hex << except.m_hr;
+    }
+
+    return position;
 }

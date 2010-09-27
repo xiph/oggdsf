@@ -137,11 +137,17 @@ public:
     END_CONNECTION_POINT_MAP()
 
     BEGIN_SINK_MAP(VideoTagBehavior)
-        SINK_ENTRY_EX(1, DIID_HTMLElementEvents, DISPID_HTMLDOCUMENTEVENTS_ONCLICK, OnClick)
+        SINK_ENTRY_EX(1, DIID_HTMLElementEvents, DISPID_HTMLDOCUMENTEVENTS_ONMOUSEMOVE, OnDHTMLMouseMove)
+        SINK_ENTRY_EX(1, DIID_HTMLElementEvents, DISPID_HTMLDOCUMENTEVENTS_ONMOUSEDOWN, OnDHTMLMouseDown)
+        SINK_ENTRY_EX(1, DIID_HTMLElementEvents, DISPID_HTMLDOCUMENTEVENTS_ONMOUSEUP, OnDHTMLMouseUp)
+        SINK_ENTRY_EX(1, DIID_HTMLElementEvents, DISPID_HTMLDOCUMENTEVENTS_ONMOUSEOUT, OnDHTMLMouseOut)
+        SINK_ENTRY_EX(1, DIID_HTMLElementEvents, DISPID_HTMLDOCUMENTEVENTS_ONMOUSEOVER, OnDHTMLMouseOver)
     END_SINK_MAP()
 
     BEGIN_MSG_MAP(VideoTagBehavior)
         MESSAGE_HANDLER(WM_LBUTTONDOWN, OnLButtonDown)
+        MESSAGE_HANDLER(WM_LBUTTONUP, OnLButtonUp)
+        MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
         MESSAGE_HANDLER(WM_ERASEBKGND, OnEraseBkgnd)
         CHAIN_MSG_MAP(CComControl<VideoTagBehavior>)
         DEFAULT_REFLECTION_HANDLER()
@@ -185,7 +191,11 @@ public:
     HRESULT __stdcall SetInterfaceSafetyOptions(REFIID riid, DWORD dwOptionSetMask, DWORD dwEnabledOptions);
 
     // Events
-    VARIANT_BOOL __stdcall OnClick();
+    VARIANT_BOOL __stdcall OnDHTMLMouseMove();
+    VARIANT_BOOL __stdcall OnDHTMLMouseDown();
+    VARIANT_BOOL __stdcall OnDHTMLMouseUp();
+    VARIANT_BOOL __stdcall OnDHTMLMouseOut();
+    VARIANT_BOOL __stdcall OnDHTMLMouseOver();
 
     // DShowVideoPlayerCallback
     virtual void Refresh();
@@ -201,10 +211,14 @@ public:
 
     // ActiveX Windows Events, received only by the embedded control
     LRESULT OnLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
+    LRESULT OnLButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
+    LRESULT OnMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
     LRESULT OnEraseBkgnd(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
 
     // IEmbeddedAxEventsSink
-    virtual HRESULT __stdcall OnLeftButtonDown(LONG x, LONG y);
+    virtual HRESULT __stdcall OnEmbeddedLButtonDown(LONG x, LONG y);
+    virtual HRESULT __stdcall OnEmbeddedLButtonUp(LONG x, LONG y);
+    virtual HRESULT __stdcall OnEmbeddedMouseMove(LONG x, LONG y);
     virtual HRESULT __stdcall OnEmbeddedDraw(RECT rect, HDC hdc);
 
     // IEmbeddedAx
@@ -230,6 +244,7 @@ private:
     CComPtr<IHTMLPaintSite> m_paintSite;
     CComPtr<IHTMLElement> m_element;
     CComPtr<IOleClientSite> m_oleClientSite;
+    CComPtr<IHTMLWindow2> m_htmlWindow2;
     CComPtr<IHTMLWindow3> m_htmlWindow3;
 
     CString m_embeddedAxGuid;

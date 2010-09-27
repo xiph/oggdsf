@@ -99,6 +99,15 @@ END
 
 IDR_AXPLAYER            REGISTRY                "AxPlayer.rgs"
 
+IDI_PNG_ERROR                   RCDATA "res\\error.png"
+IDI_PNG_MUTE                    RCDATA "res\\muteButton.png"
+IDI_PNG_UNMUTE                  RCDATA "res\\unmuteButton.png"
+IDI_PNG_PAUSE                   RCDATA "res\\pauseButton.png"
+IDI_PNG_PLAY                    RCDATA "res\\playButton.png"
+IDI_PNG_THROBBER                RCDATA "res\\throbber.png"
+IDI_PNG_VOLUME_THUMB            RCDATA "res\\volumeThumb.png"
+IDI_PNG_POSITION_THUMB          RCDATA "res\\positionThumb.png"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table

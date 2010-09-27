@@ -36,7 +36,9 @@ interface IHTMLEventsSink : IDispatch{
 ]
 interface IEmbeddedAxEventsSink : IUnknown{
 
-    [helpstring("method OnLeftButtonDown")] HRESULT OnLeftButtonDown(LONG x, LONG y);
+    [helpstring("method OnMouseLeftButtonDown")] HRESULT OnEmbeddedLButtonDown(LONG x, LONG y);
+    [helpstring("method OnMouseLeftButtonDown")] HRESULT OnEmbeddedLButtonUp(LONG x, LONG y);
+    [helpstring("method OnMouseMove")] HRESULT OnEmbeddedMouseMove(LONG x, LONG y);
     [helpstring("method OnEmbeddedDraw")] HRESULT OnEmbeddedDraw(RECT rect, HDC hdc);
 };
 [

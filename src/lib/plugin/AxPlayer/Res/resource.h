@@ -12,6 +12,15 @@
 #define IDR_EVENTSINK                   110
 #define IDR_HTMLEVENTSSINK              111
 
+#define IDI_PNG_ERROR                   501
+#define IDI_PNG_MUTE                    502
+#define IDI_PNG_UNMUTE                  503
+#define IDI_PNG_PAUSE                   504
+#define IDI_PNG_PLAY                    505
+#define IDI_PNG_POSITION_THUMB          506
+#define IDI_PNG_THROBBER                507
+#define IDI_PNG_VOLUME_THUMB            508
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

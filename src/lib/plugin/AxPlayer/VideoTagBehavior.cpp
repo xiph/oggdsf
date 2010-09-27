@@ -157,13 +157,12 @@ void VideoTagBehavior::AcquireHtmlWindow3()
 {
     CComPtr<IDispatch> disp;
     CComPtr<IHTMLDocument2> document2;
-    CComPtr<IHTMLWindow2> window2;
 
     CHECK_HR(m_element->get_document(&disp));
     CHECK_HR(disp->QueryInterface(IID_IHTMLDocument2, (LPVOID *) &document2));
-    CHECK_HR(document2->get_parentWindow(&window2));
+    CHECK_HR(document2->get_parentWindow(&m_htmlWindow2));
 
-    CHECK_HR(window2->QueryInterface(&m_htmlWindow3));
+    CHECK_HR(m_htmlWindow2->QueryInterface(&m_htmlWindow3));
 }
 
 HRESULT __stdcall VideoTagBehavior::Detach()
@@ -385,19 +384,73 @@ HRESULT __stdcall VideoTagBehavior::HitTestPoint(POINT pt, BOOL *pbHit, LONG *pl
     return S_OK;
 }
 
-VARIANT_BOOL __stdcall VideoTagBehavior::OnClick()
+
+VARIANT_BOOL __stdcall VideoTagBehavior::OnDHTMLMouseMove()
 {
-    if (m_videoPlayer.GetState() == DShowVideoPlayer::Paused ||
-        m_videoPlayer.GetState() == DShowVideoPlayer::Stopped)
+    if (!m_standardsMode)
     {
-        m_videoPlayer.Play();
-    }
-    else if (m_videoPlayer.GetState() == DShowVideoPlayer::Playing)
-    {
-        m_videoPlayer.Pause();
+        CComPtr<IHTMLEventObj> event;
+        m_htmlWindow2->get_event(&event);
+
+        long x = 0;
+        long y = 0;
+        event->get_offsetX(&x);
+        event->get_offsetY(&y);
+
+        m_videoPlayer.OnMouseMove(x, y);
     }
 
-    return VARIANT_FALSE;
+    return S_OK;
+}
+
+VARIANT_BOOL __stdcall VideoTagBehavior::OnDHTMLMouseDown()
+{
+    if (!m_standardsMode)
+    {
+        CComPtr<IHTMLEventObj> event;
+        m_htmlWindow2->get_event(&event);
+
+        long x = 0;
+        long y = 0;
+        event->get_offsetX(&x);
+        event->get_offsetY(&y);
+
+        m_videoPlayer.OnMouseButtonDown(x, y);
+    }
+
+    return S_OK;
+}
+
+VARIANT_BOOL __stdcall VideoTagBehavior::OnDHTMLMouseUp()
+{
+    if (!m_standardsMode)
+    {
+        CComPtr<IHTMLEventObj> event;
+        m_htmlWindow2->get_event(&event);
+
+        long x = 0;
+        long y = 0;
+        event->get_offsetX(&x);
+        event->get_offsetY(&y);
+
+        m_videoPlayer.OnMouseButtonUp(x, y);
+    }
+
+    return S_OK;
+}
+
+VARIANT_BOOL __stdcall VideoTagBehavior::OnDHTMLMouseOut()
+{
+    m_videoPlayer.SetMouseOver(false);
+    Refresh();
+    return S_OK;
+}
+
+VARIANT_BOOL __stdcall VideoTagBehavior::OnDHTMLMouseOver()
+{
+    m_videoPlayer.SetMouseOver(true);
+    Refresh();
+    return S_OK;
 }
 
 HRESULT __stdcall VideoTagBehavior::OnResize(SIZE pt)
@@ -630,15 +683,51 @@ LRESULT VideoTagBehavior::OnLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 {
     if (m_embeddedAxEventsSink)
     {
-        m_embeddedAxEventsSink->OnLeftButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+        m_embeddedAxEventsSink->OnEmbeddedLButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
     }
 
     return 0;
 }
 
-HRESULT __stdcall VideoTagBehavior::OnLeftButtonDown(LONG /*x*/, LONG /*y*/)
+LRESULT VideoTagBehavior::OnLButtonUp( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/ )
 {
-    OnClick();
+    if (m_embeddedAxEventsSink)
+    {
+        m_embeddedAxEventsSink->OnEmbeddedLButtonUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+    }
+
+    return 0;
+}
+
+LRESULT VideoTagBehavior::OnMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
+{
+    LOG(logDEBUG) << __FUNCTIONW__ << " x: " << GET_X_LPARAM(lParam) << " y: " << GET_Y_LPARAM(lParam);
+    if (m_embeddedAxEventsSink)
+    {
+        m_embeddedAxEventsSink->OnEmbeddedMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+    }
+
+    return 0;
+}
+
+
+HRESULT __stdcall VideoTagBehavior::OnEmbeddedLButtonDown(LONG x, LONG y)
+{
+    m_videoPlayer.OnMouseButtonDown(x, y);
+    return 0;
+}
+
+
+HRESULT __stdcall VideoTagBehavior::OnEmbeddedLButtonUp(LONG x, LONG y)
+{
+    m_videoPlayer.OnMouseButtonUp(x, y);
+    return 0;
+}
+
+
+HRESULT __stdcall VideoTagBehavior::OnEmbeddedMouseMove(LONG x, LONG y)
+{
+    m_videoPlayer.OnMouseMove(x, y);
     return 0;
 }
 

@@ -34,24 +34,56 @@
 #include <ddraw.h>
 #include "DDrawUtil.h"
 #include "DShowUtil.h"
+#include "resource.h"
+
+namespace 
+{
+    const int CONTROLS_HEIGHT = 28;
+
+    const Gdiplus::Color CONTROLS_BACKGROUND_COLOR = Gdiplus::Color((BYTE)(0.74 * 256), 35, 31, 32);
+    const Gdiplus::Color TEXT_COLOR = Gdiplus::Color((BYTE)(0.75 * 256), 255, 255, 255);
+
+    const int UPDATE_DURATION = 1;
+}
 
 DShowVideoPlayer::DShowVideoPlayer() :
 m_isFirstFrame(false),
 m_executeFunctionOnThread(0),
 m_playerCallback(0),
 m_state(NotOpened),
-m_textureFilterType(D3DTEXF_NONE)
+m_audioState(UnMuted),
+m_textureFilterType(D3DTEXF_NONE),
+m_isMouseOver(false),
+m_audioVolume(FilterGraph::MIN_VOLUME),
+m_duration(0),
+m_position(0)
 {
     m_stopPlaybackEvent = ::CreateEvent(0, FALSE, FALSE, 0);
     m_executeFunctionEvent = ::CreateEvent(0 , FALSE, FALSE, 0);
 
     m_d3d.Attach(Direct3DCreate9(D3D_SDK_VERSION));
+
+    Gdiplus::GdiplusStartup(&m_gdiplusToken, &m_gdiplusStartupInput, 0);
+
+    m_pngPlay = LoadImage(IDI_PNG_PLAY);
+    m_pngPause = LoadImage(IDI_PNG_PAUSE);
+    m_pngMute = LoadImage(IDI_PNG_MUTE);
+    m_pngUnmute = LoadImage(IDI_PNG_UNMUTE);
+    m_pngPositionThumb = LoadImage(IDI_PNG_POSITION_THUMB);
 }
 
 DShowVideoPlayer::~DShowVideoPlayer()
 {
     ::CloseHandle(m_stopPlaybackEvent);
     ::CloseHandle(m_executeFunctionEvent);
+
+    delete m_pngPlay;
+    delete m_pngPause;
+    delete m_pngMute;
+    delete m_pngUnmute;
+    delete m_pngPositionThumb;
+
+    Gdiplus::GdiplusShutdown(m_gdiplusToken);
 }
 
 void DShowVideoPlayer::CreateBackBufferSurface(const CSize& videoSize)
@@ -144,6 +176,7 @@ CComPtr<IDirect3DSurface9>& DShowVideoPlayer::GetScalingSurface(const CSize &aSi
             D3DPOOL_SYSTEMMEM, &m_presentBuffer, 0));
 
         m_scalingSize = aSize;
+        CreateControls(m_scalingSize);
     }
 
     return m_scalingBuffer;
@@ -195,6 +228,8 @@ HRESULT DShowVideoPlayer::Draw(RECT rcBounds, RECT rcWindow, LONG lDrawFlags, HD
 
                 break;
             }
+
+            DrawControls(rect, presentBufferDC);
 
             ::BitBlt(hdc, rect.left, rect.top, rect.Width(), rect.Height(), presentBufferDC, 0, 0, SRCCOPY);
 
@@ -266,6 +301,14 @@ HRESULT DShowVideoPlayer::Stop()
     return S_OK;
 }
 
+HRESULT DShowVideoPlayer::Mute()
+{
+    m_executeFunctionOnThread = &DShowVideoPlayer::Thread_Mute;
+    ::SetEvent(m_executeFunctionEvent);
+
+    return S_OK;
+}
+
 void DShowVideoPlayer::InitializePlaybackThread()
 {
     unsigned int threadId;
@@ -290,6 +333,12 @@ void DShowVideoPlayer::Thread_PrepareGraph()
     m_filterGraph.BuildGraph(GetSrc());
     
     m_filterGraph.Pause();
+
+    if (m_filterGraph.GetVolume() == FilterGraph::MIN_VOLUME)
+    {
+        m_audioState = Muted;
+    }
+
     m_state = Paused;
 }
 
@@ -371,12 +420,15 @@ LRESULT DShowVideoPlayer::OnPresentImage(UINT uMsg, WPARAM wParam, LPARAM lParam
     {
         CSize videoSize = GetSurfaceSize(frame->lpSurf);
         CreateBackBufferSurface(videoSize);
+        CreateControls(videoSize);
 
         if (m_playerCallback)
         {
             m_playerCallback->MovieSize(videoSize);
         }
         m_isFirstFrame = false;
+
+        SetTimer(UPDATE_DURATION, 1000);
     }
 
     if (!m_backBuffer)
@@ -412,6 +464,30 @@ void DShowVideoPlayer::Thread_Stop()
     m_filterGraph.Stop();
 }
 
+void DShowVideoPlayer::Thread_Mute()
+{
+    long currentVolume = m_filterGraph.GetVolume();
+    if (m_audioState == DShowVideoPlayer::UnMuted)
+    {
+        m_audioVolume = currentVolume;
+        m_filterGraph.SetVolume(FilterGraph::MIN_VOLUME);
+
+        m_audioState = DShowVideoPlayer::Muted;
+    }
+    else
+    {
+        m_filterGraph.SetVolume(m_audioVolume);
+        m_audioState = DShowVideoPlayer::UnMuted;
+    }
+}
+
+
+void DShowVideoPlayer::Thread_DurationPosition()
+{
+    m_duration = m_filterGraph.GetDuration();
+    m_position = m_filterGraph.GetPosition();
+}
+
 
 void DShowVideoPlayer::Thread_ExecuteFunction()
 {
@@ -434,4 +510,218 @@ void DShowVideoPlayer::SetPlayerCallback( DShowVideoPlayerCallback* val )
 DShowVideoPlayer::PlayerState DShowVideoPlayer::GetState() const
 {
     return m_state;
+}
+
+
+DShowVideoPlayer::AudioState DShowVideoPlayer::GetAudioState() const
+{
+    return m_audioState;
+}
+
+void DShowVideoPlayer::CreateControls(const CSize& videoSize)
+{
+    m_playButtonRect.SetRect(0, videoSize.cy - CONTROLS_HEIGHT, CONTROLS_HEIGHT, videoSize.cy);
+    m_muteButtonRect.SetRect(videoSize.cx - CONTROLS_HEIGHT, videoSize.cy - CONTROLS_HEIGHT,
+        videoSize.cx, videoSize.cy);
+}
+
+void DShowVideoPlayer::DrawControls(const CRect& rect, HDC dc)
+{
+    if (!GetMouseOver())
+    {
+        return;
+    }
+
+    using namespace Gdiplus;
+    Graphics graphics(dc);
+    graphics.SetInterpolationMode(InterpolationModeHighQuality);
+
+    // Draw the background
+    SolidBrush brush(CONTROLS_BACKGROUND_COLOR);
+    graphics.FillRectangle(&brush, 0, rect.Height() - CONTROLS_HEIGHT, rect.Width(), CONTROLS_HEIGHT);
+
+    // Draw the play/pause button
+    if (GetState() == DShowVideoPlayer::Paused ||
+        GetState() == DShowVideoPlayer::Stopped)
+    {
+        graphics.DrawImage(m_pngPlay, 0, rect.Height() - CONTROLS_HEIGHT, CONTROLS_HEIGHT, CONTROLS_HEIGHT);
+    }
+    else if (GetState() == DShowVideoPlayer::Playing)
+    {
+        graphics.DrawImage(m_pngPause, 0, rect.Height() - CONTROLS_HEIGHT, CONTROLS_HEIGHT, CONTROLS_HEIGHT);
+    }
+
+    // Draw the mute/unmute button
+    if (GetAudioState() == DShowVideoPlayer::UnMuted)
+    {
+        graphics.DrawImage(m_pngMute, rect.Width() - CONTROLS_HEIGHT, rect.Height() - CONTROLS_HEIGHT, 
+            CONTROLS_HEIGHT, CONTROLS_HEIGHT);
+    }
+    else
+    {
+        graphics.DrawImage(m_pngUnmute, rect.Width() - CONTROLS_HEIGHT, rect.Height() - CONTROLS_HEIGHT, 
+            CONTROLS_HEIGHT, CONTROLS_HEIGHT);
+    }
+
+    // Draw the duration
+    CString durationText;
+
+    if ((m_position / 1000) / 3600 == 0)
+    {
+        durationText.Format(L"%d:%.2d / %d:%.2d", 
+            (m_position / 1000) / 60, (m_position / 1000) % 60,
+            (m_duration / 1000) / 60, (m_duration / 1000) % 60);
+    }
+    else
+    {
+        durationText.Format(L"%d%.2d:%.2d / %d:%.2d:%.2d", 
+            (m_position / 1000) / 3600, ((m_position / 1000) % 3600) / 60, ((m_position / 1000) % 3600) % 60,
+            (m_duration / 1000) / 3600, ((m_duration / 1000) % 3600) / 60, ((m_duration / 1000) % 3600) % 60);
+    }
+
+    Font durationFont(L"Arial", 9);
+    SolidBrush durationBrush(TEXT_COLOR);
+
+    RectF durationRect(rect.Width() - CONTROLS_HEIGHT - 65, rect.Height() - CONTROLS_HEIGHT, 
+        65, CONTROLS_HEIGHT);
+
+    const StringFormat* durationStringFormat = StringFormat::GenericDefault();
+
+    RectF measuredBox;
+    graphics.MeasureString(durationText, -1, &durationFont, durationRect, &measuredBox);
+
+    durationRect.X = rect.Width() - CONTROLS_HEIGHT - measuredBox.Width;
+    durationRect.Y = rect.Height() - CONTROLS_HEIGHT + (CONTROLS_HEIGHT - measuredBox.Height) / 2;
+    durationRect.Width  = measuredBox.Width;
+    durationRect.Height = measuredBox.Height;
+
+    graphics.DrawString(durationText, -1, &durationFont, durationRect, durationStringFormat, &durationBrush);
+
+    // Draw the position
+    long positionSliderWidth = rect.Width() - CONTROLS_HEIGHT - CONTROLS_HEIGHT - durationRect.Width - 
+                                m_pngPositionThumb->GetWidth() - 10;
+
+    long positionThumb = CONTROLS_HEIGHT;
+    if (m_duration)
+    {
+        positionThumb += (long)(((float)m_position / m_duration) * positionSliderWidth);
+    }
+
+    SolidBrush colorPlayed(Color(192, 255, 255, 255));
+    graphics.FillRectangle(&colorPlayed, CONTROLS_HEIGHT, rect.Height() - CONTROLS_HEIGHT + 9, 
+        positionThumb - CONTROLS_HEIGHT, 10);
+
+    SolidBrush colorToBePlayed(Color(128, 255, 255, 255));
+    graphics.FillRectangle(&colorToBePlayed, positionThumb, rect.Height() - CONTROLS_HEIGHT + 9, 
+        positionSliderWidth - positionThumb + CONTROLS_HEIGHT + m_pngPositionThumb->GetWidth() , 10);
+
+    graphics.DrawImage(m_pngPositionThumb, positionThumb, 
+        rect.Height() - CONTROLS_HEIGHT + (CONTROLS_HEIGHT - m_pngPositionThumb->GetHeight()) / 2,
+        m_pngPositionThumb->GetWidth(), m_pngPositionThumb->GetHeight());
+}
+
+void DShowVideoPlayer::OnMouseButtonDown(long x, long y)
+{
+
+}
+
+void DShowVideoPlayer::OnMouseButtonUp(long x, long y)
+{
+    if (m_playButtonRect.PtInRect(CPoint(x, y)))
+    {
+        if (GetState() == DShowVideoPlayer::Paused ||
+            GetState() == DShowVideoPlayer::Stopped)
+        {
+            Play();
+            if (m_playerCallback)
+            {
+                m_playerCallback->Refresh();
+            }
+        }
+        else if (GetState() == DShowVideoPlayer::Playing)
+        {
+            Pause();
+            if (m_playerCallback)
+            {
+                m_playerCallback->Refresh();
+            }
+        }
+    }
+
+    if (m_muteButtonRect.PtInRect(CPoint(x, y)))
+    {
+        Mute();
+        if (m_playerCallback)
+        {
+            m_playerCallback->Refresh();
+        }
+    }
+}
+
+void DShowVideoPlayer::OnMouseMove(long x, long y)
+{
+
+}
+
+Gdiplus::Image* DShowVideoPlayer::LoadImage(UINT resourceId)
+{
+    Gdiplus::Image* image = 0;
+
+    HRSRC hResource = ::FindResource(util::GetHModule(), MAKEINTRESOURCE(resourceId), RT_RCDATA);
+    if (!hResource)
+    {
+        return image;
+    }
+
+    DWORD imageSize = ::SizeofResource(util::GetHModule(), hResource);
+    if (!imageSize)
+    {
+        image;
+    }
+
+    const void* pResourceData = ::LockResource(::LoadResource(util::GetHModule(), hResource));
+    if (!pResourceData)
+    {
+        return image;
+    }
+
+    HGLOBAL buffer = ::GlobalAlloc(GMEM_MOVEABLE, imageSize);
+    if (!buffer)
+    {
+        return image;
+    }
+    void* pBuffer = ::GlobalLock(buffer);
+    if (!pBuffer)
+    {
+        ::GlobalFree(buffer);
+        return image;
+    }
+    CopyMemory(pBuffer, pResourceData, imageSize);
+
+    CComPtr<IStream> pStream = NULL;
+    if (::CreateStreamOnHGlobal(buffer, FALSE, &pStream) == S_OK)
+    {
+        image = Gdiplus::Bitmap::FromStream(pStream);
+    }
+    ::GlobalUnlock(buffer);
+    ::GlobalFree(buffer);
+
+    return image;
+}
+
+LRESULT DShowVideoPlayer::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+    if (wParam == UPDATE_DURATION)
+    {
+        m_executeFunctionOnThread = &DShowVideoPlayer::Thread_DurationPosition;
+        ::SetEvent(m_executeFunctionEvent);
+    }
+
+    return 0;
+}
+
+LRESULT DShowVideoPlayer::OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+    KillTimer(UPDATE_DURATION);
+    return 0;
 }

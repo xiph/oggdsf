@@ -35,6 +35,7 @@
 #pragma once
 
 #include <atlwin.h>
+#include <gdiplus.h>
 #include "FilterGraph.h"
 
 class DShowVideoPlayerCallback
@@ -54,6 +55,8 @@ public:
 
     BEGIN_MSG_MAP(DShowVideoPlayer)
         MESSAGE_HANDLER(WM_PRESENT_IMAGE, OnPresentImage)
+        MESSAGE_HANDLER(WM_TIMER, OnTimer)
+        MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
     END_MSG_MAP()
 
     enum PlayerState
@@ -64,7 +67,15 @@ public:
         Stopped,
     };
 
+    enum AudioState
+    {
+        Muted,
+        UnMuted
+    };
+
     LRESULT OnPresentImage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+    LRESULT OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+    LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
     HRESULT Draw(RECT rcBounds, RECT rcUpdate, LONG lDrawFlags, HDC hdc, LPVOID pvDrawObject);
 
     int GetWidth() const;
@@ -87,7 +98,17 @@ public:
     HRESULT Pause();
     HRESULT Stop();
 
+    HRESULT Mute();
+
     DShowVideoPlayer::PlayerState GetState() const;
+    DShowVideoPlayer::AudioState GetAudioState() const;
+
+    bool GetMouseOver() const { return m_isMouseOver; }
+    void SetMouseOver(bool val) { m_isMouseOver = val; }
+
+    void OnMouseButtonDown(long x, long y);
+    void OnMouseButtonUp(long x, long y);
+    void OnMouseMove(long x, long y);
 
 private:
     void Thread_PrepareGraph();
@@ -95,6 +116,8 @@ private:
     void Thread_Play();
     void Thread_Pause();
     void Thread_Stop();
+    void Thread_Mute();
+    void Thread_DurationPosition();
 
     void Thread_ExecuteFunction();
     
@@ -102,8 +125,13 @@ private:
     CSize GetSurfaceSize(const CComPtr<IDirect3DSurface9>& surface);
     CComPtr<IDirect3DSurface9>& GetScalingSurface(const CSize &aSize);
 
+    void CreateControls(const CSize& videoSize);
+    void DrawControls(const CRect& rect, HDC dc);
+
     void CreateDevice();
     CComPtr<IDirect3DDevice9>& GetDevice();
+
+    Gdiplus::Image* LoadImage(UINT resourceId);
 
 private:
     FilterGraph m_filterGraph;
@@ -124,6 +152,15 @@ private:
     HANDLE m_stopPlaybackEvent;
     HANDLE m_executeFunctionEvent;
 
+    Gdiplus::GdiplusStartupInput m_gdiplusStartupInput;
+    ULONG_PTR m_gdiplusToken;
+
+    Gdiplus::Image* m_pngPlay;
+    Gdiplus::Image* m_pngPause;
+    Gdiplus::Image* m_pngMute;
+    Gdiplus::Image* m_pngUnmute;
+    Gdiplus::Image* m_pngPositionThumb;
+
     DShowVideoPlayerCallback* m_playerCallback;
 
     typedef void (DShowVideoPlayer::* ExecuteFunctionOnThread)();
@@ -131,6 +168,16 @@ private:
 
     bool m_isFirstFrame;
     PlayerState m_state;
+    AudioState m_audioState;
+
+    bool m_isMouseOver;
+    CRect m_playButtonRect;
+    CRect m_muteButtonRect;
+
+    long m_audioVolume;
+
+    unsigned long m_duration;
+    unsigned long m_position;
 
     D3DTEXTUREFILTERTYPE m_textureFilterType;
 };

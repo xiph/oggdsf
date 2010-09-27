@@ -68,6 +68,14 @@ public:
     HANDLE GetMovieEventHandle();
     long GetMovieEventCode();
 
+    long GetVolume() const;
+    void SetVolume(long vol);
+
+    unsigned long GetDuration() const;
+    unsigned long GetPosition() const;
+
+    static const long MIN_VOLUME = -10000;
+
 private:
     void AddSourceDemuxFilters();
     void AddDecoders();
@@ -88,12 +96,15 @@ private:
 
     CComPtr<IBaseFilter> m_audioRenderer;
     CComPtr<IBaseFilter> m_videoRenderer;
+    CComPtr<IBasicAudio> m_basicAudio;
 
     CComPtr<IVMRSurfaceAllocatorNotify9> m_surfaceNotify;
     CComObject<CustomVMR9Allocator>* m_customVmrAllocator;
 
     CComPtr<IMediaControl> m_mediaControl;
     CComPtr<IMediaEvent> m_mediaEvent;
+
+    CComPtr<IMediaSeeking> m_mediaSeeking;
     
     HWND m_notifyWindow;
     int m_presentImageMessage;
