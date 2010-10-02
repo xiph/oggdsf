@@ -1,4 +1,0 @@
-INPUT += ../src/vpx/vp8.h ../src/vpx/vp8cx.h ../src/vpx/vp8dx.h ../src/vpx/vpx_codec.h ../src/vpx/vpx_decoder.h ../src/vpx/vpx_encoder.h ../src/vpx/vpx_image.h
-PREDEFINED = VPX_CODEC_DISABLE_COMPAT
-INCLUDE_PATH += .
-ENABLED_SECTIONS += decoder encoder vp8 vp8_decoder vp8_encoder
