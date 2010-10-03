@@ -1054,6 +1054,8 @@ void Context::CreateNewCluster(
 
     clusters_t& cc = m_clusters;
 
+    //const Cluster* const pPrevCluster = cc.empty() ? 0 : &cc.back();
+
     cc.push_back(Cluster());
     Cluster& c = cc.back();
 
@@ -1089,6 +1091,26 @@ void Context::CreateNewCluster(
     m_file.WriteID1(0xE7);
     m_file.Write1UInt(4);
     m_file.Serialize4UInt(c.m_timecode);
+
+    const __int64 off = c.m_pos - m_segment_pos - 12;
+    assert(off >= 0);
+
+#if 0
+    //TODO: disable until we're sure this is allowed per the Webm std
+    m_file.WriteID1(0xA7);        //Position ID
+    m_file.Write1UInt(8);         //payload size is 8 bytes
+    m_file.Serialize8UInt(off);   //payload
+
+    if (pPrevCluster)
+    {
+        const __int64 size = c.m_pos - pPrevCluster->m_pos;
+        assert(size > 0);
+
+        m_file.WriteID1(0xAB);        //PrevSize ID
+        m_file.Write1UInt(8);         //payload size is 8 bytes
+        m_file.Serialize8UInt(size);  //payload
+    }
+#endif
 
     ULONG cFrames = 0;
 
@@ -1207,6 +1229,8 @@ void Context::CreateNewClusterAudioOnly()
     clusters_t& cc = m_clusters;
     assert(cc.empty() || (af_first_time > cc.back().m_timecode));
 
+    //const Cluster* const pPrevCluster = cc.empty() ? 0 : &cc.back();
+
     cc.push_back(Cluster());
     Cluster& c = cc.back();
 
@@ -1224,6 +1248,26 @@ void Context::CreateNewClusterAudioOnly()
     m_file.WriteID1(0xE7);
     m_file.Write1UInt(4);
     m_file.Serialize4UInt(c.m_timecode);
+
+    const __int64 off = c.m_pos - m_segment_pos - 12;
+    assert(off >= 0);
+
+#if 0
+    //disable this until we're sure it's allowed per the WebM std
+    m_file.WriteID1(0xA7);        //Position ID
+    m_file.Write1UInt(8);         //payload size is 8 bytes
+    m_file.Serialize8UInt(off);   //payload
+
+    if (pPrevCluster)
+    {
+        const __int64 size = c.m_pos - pPrevCluster->m_pos;
+        assert(size > 0);
+
+        m_file.WriteID1(0xAB);        //PrevSize ID
+        m_file.Write1UInt(8);         //payload size is 8 bytes
+        m_file.Serialize8UInt(size);  //payload
+    }
+#endif
 
     ULONG cFrames = 0;   //TODO: must write cues for audio
 

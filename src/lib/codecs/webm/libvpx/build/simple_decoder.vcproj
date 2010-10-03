@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+    ProjectType="Visual C++"
+    Version="8.00"
+    Name="simple_decoder"
+    ProjectGUID="{D3BBF1E9-2427-450D-BBFF-B2843C1D44CC}"
+    RootNamespace="simple_decoder"
+    Keyword="ManagedCProj"
+    >
+    <Platforms>
+        <Platform
+            Name="Win32"
+        />
+    </Platforms>
+    <ToolFiles>
+    </ToolFiles>
+    <Configurations>
+        <Configuration
+            Name="Debug|Win32"
+            OutputDirectory="$(SolutionDir)Win32\$(ConfigurationName)"
+            IntermediateDirectory="Win32\$(ConfigurationName)\simple_decoder"
+            ConfigurationType="1"
+            CharacterSet="1"
+            >
+            <Tool
+                Name="VCCLCompilerTool"
+                Optimization="0"
+                AdditionalIncludeDirectories="&quot;.&quot;;&quot;..\src&quot;;&quot;..\src\vp8&quot;;&quot;..\src\vp8&quot;"
+                PreprocessorDefinitions="WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;"
+                RuntimeLibrary="1"
+                UsePrecompiledHeader="0"
+                WarningLevel="3"
+                DebugInformationFormat="1"
+                Detect64BitPortabilityProblems="true"
+            />
+            <Tool
+                Name="VCLinkerTool"
+                AdditionalDependencies="vpxmtd.lib winmm.lib $(NoInherit)"
+                AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
+                GenerateDebugInformation="true"
+                ProgramDatabaseFile="$(OutDir)\simple_decoder.pdb"
+            />
+        </Configuration>
+        <Configuration
+            Name="Release|Win32"
+            OutputDirectory="$(SolutionDir)Win32\$(ConfigurationName)"
+            IntermediateDirectory="Win32\$(ConfigurationName)\simple_decoder"
+            ConfigurationType="1"
+            CharacterSet="1"
+            WholeProgramOptimization="0"
+            >
+            <Tool
+                Name="VCCLCompilerTool"
+                AdditionalIncludeDirectories="&quot;.&quot;;&quot;..\src&quot;;&quot;..\src\vp8&quot;;&quot;..\src\vp8&quot;"
+                PreprocessorDefinitions="WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;"
+                RuntimeLibrary="0"
+                UsePrecompiledHeader="0"
+                WarningLevel="3"
+                DebugInformationFormat="0"
+                Detect64BitPortabilityProblems="true"
+            />
+            <Tool
+                Name="VCLinkerTool"
+                AdditionalDependencies="vpxmt.lib winmm.lib $(NoInherit)"
+                AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
+            />
+        </Configuration>
+    </Configurations>
+    <Files>
+        <Filter
+            Name="Source Files"
+            Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+            UniqueIdentifier="D8CF3497-F85B-297F-9206-E4BB0D9139AB"
+            >
+            <File
+                RelativePath=".\..\src\simple_decoder.c"
+                >
+            </File>
+        </Filter>
+        <Filter
+            Name="Header Files"
+            Filter="h;hpp;hxx;hm;inl;inc;xsd"
+            UniqueIdentifier="1F5C62A5-92A1-D01A-B8DD-8D737942F1A3"
+            >
+        </Filter>
+        <Filter
+            Name="Resource Files"
+            Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+            UniqueIdentifier="2B496F97-425C-72B0-DBE0-3DE2FF5AF50E"
+            >
+        </Filter>
+        <Filter
+            Name="Build Files"
+            Filter="mk"
+            UniqueIdentifier="1D711844-78EB-88D6-4411-FC29374276CA"
+            >
+            <File
+                RelativePath=".\..\src\examples.mk"
+                >
+            </File>
+        </Filter>
+    </Files>
+    <Globals/>
+</VisualStudioProject>

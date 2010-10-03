@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+    ProjectType="Visual C++"
+    Version="8.00"
+    Name="postproc"
+    ProjectGUID="{65E33355-F35E-4088-884D-3FD4905881D7}"
+    RootNamespace="postproc"
+    Keyword="ManagedCProj"
+    >
+    <Platforms>
+        <Platform
+            Name="Win32"
+        />
+    </Platforms>
+    <ToolFiles>
+    </ToolFiles>
+    <Configurations>
+        <Configuration
+            Name="Debug|Win32"
+            OutputDirectory="$(SolutionDir)Win32\$(ConfigurationName)"
+            IntermediateDirectory="Win32\$(ConfigurationName)\postproc"
+            ConfigurationType="1"
+            CharacterSet="1"
+            >
+            <Tool
+                Name="VCCLCompilerTool"
+                Optimization="0"
+                AdditionalIncludeDirectories="&quot;.&quot;;&quot;..\src&quot;;&quot;..\src\vp8&quot;;&quot;..\src\vp8&quot;"
+                PreprocessorDefinitions="WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;"
+                RuntimeLibrary="1"
+                UsePrecompiledHeader="0"
+                WarningLevel="3"
+                DebugInformationFormat="1"
+                Detect64BitPortabilityProblems="true"
+            />
+            <Tool
+                Name="VCLinkerTool"
+                AdditionalDependencies="vpxmtd.lib winmm.lib $(NoInherit)"
+                AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
+                GenerateDebugInformation="true"
+                ProgramDatabaseFile="$(OutDir)\postproc.pdb"
+            />
+        </Configuration>
+        <Configuration
+            Name="Release|Win32"
+            OutputDirectory="$(SolutionDir)Win32\$(ConfigurationName)"
+            IntermediateDirectory="Win32\$(ConfigurationName)\postproc"
+            ConfigurationType="1"
+            CharacterSet="1"
+            WholeProgramOptimization="0"
+            >
+            <Tool
+                Name="VCCLCompilerTool"
+                AdditionalIncludeDirectories="&quot;.&quot;;&quot;..\src&quot;;&quot;..\src\vp8&quot;;&quot;..\src\vp8&quot;"
+                PreprocessorDefinitions="WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;"
+                RuntimeLibrary="0"
+                UsePrecompiledHeader="0"
+                WarningLevel="3"
+                DebugInformationFormat="0"
+                Detect64BitPortabilityProblems="true"
+            />
+            <Tool
+                Name="VCLinkerTool"
+                AdditionalDependencies="vpxmt.lib winmm.lib $(NoInherit)"
+                AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
+            />
+        </Configuration>
+    </Configurations>
+    <Files>
+        <Filter
+            Name="Source Files"
+            Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+            UniqueIdentifier="FADBA850-0A2F-08AF-34C4-8682C8DFC07A"
+            >
+            <File
+                RelativePath=".\..\src\postproc.c"
+                >
+            </File>
+        </Filter>
+        <Filter
+            Name="Header Files"
+            Filter="h;hpp;hxx;hm;inl;inc;xsd"
+            UniqueIdentifier="ADEBC705-13FA-EC7A-290C-6E7591D68E28"
+            >
+        </Filter>
+        <Filter
+            Name="Resource Files"
+            Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+            UniqueIdentifier="7EC7304B-B390-EF3A-650F-FFF1A6170000"
+            >
+        </Filter>
+        <Filter
+            Name="Build Files"
+            Filter="mk"
+            UniqueIdentifier="466BA14B-25D3-50CF-793D-640C7BE5B7AB"
+            >
+            <File
+                RelativePath=".\..\src\examples.mk"
+                >
+            </File>
+        </Filter>
+    </Files>
+    <Globals/>
+</VisualStudioProject>

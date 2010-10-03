@@ -1,0 +1,3 @@
+/*!\page example_vp8_scalable_patterns vp8_scalable_patterns
+   \includelineno vp8_scalable_patterns.c
+*/

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="vp8encoder_2005"
 	ProjectGUID="{8AD7BB4A-3923-405B-B70A-3778252248C5}"
 	RootNamespace="vp8encoder"
@@ -542,6 +542,14 @@
 		</File>
 		<File
 			RelativePath=".\vp8encoderpin.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\vp8encoderproppage.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\vp8encoderproppage.hpp"
 			>
 		</File>
 	</Files>

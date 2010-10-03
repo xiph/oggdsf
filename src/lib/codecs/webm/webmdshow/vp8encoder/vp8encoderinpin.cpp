@@ -526,7 +526,7 @@ HRESULT Inpin::QueryAccept(const AM_MEDIA_TYPE* pmt)
     if (bmih.biWidth % 2)  //TODO
         return S_FALSE;
 
-    if (bmih.biHeight <= 0)
+    if (bmih.biHeight == 0)
         return S_FALSE;
 
     if (bmih.biHeight % 2)  //TODO
@@ -624,7 +624,7 @@ HRESULT Inpin::Receive(IMediaSample* pInSample)
     assert(w > 0);
     assert((w % 2) == 0);  //TODO
 
-    const LONG h = bmih.biHeight;
+    const LONG h = labs(bmih.biHeight);
     assert(h > 0);
     assert((h % 2) == 0);  //TODO
 
@@ -1003,7 +1003,7 @@ HRESULT Inpin::Start()
     assert(w > 0);
     assert((w % 2) == 0);  //TODO
 
-    const LONG h = bmih.biHeight;
+    const LONG h = labs(bmih.biHeight);
     assert(h > 0);
     assert((h % 2) == 0);  //TODO
 
@@ -1059,23 +1059,47 @@ void Inpin::Stop()
 }
 
 
-HRESULT Inpin::OnApplySettings()
+HRESULT Inpin::OnApplySettings(std::wstring& msg)
 {
     SetConfig();
 
     const vpx_codec_err_t err = vpx_codec_enc_config_set(&m_ctx, &m_cfg);
 
-    if (err != VPX_CODEC_OK)
+    if (err == VPX_CODEC_OK)
     {
-#ifdef _DEBUG
-        const char* str = vpx_codec_error_detail(&m_ctx);
-        str;
-#endif
-
-        return E_FAIL;
+        msg.clear();
+        return S_OK;
     }
 
-    return S_OK;
+    const char* const str = vpx_codec_error_detail(&m_ctx);
+
+    const int cch = MultiByteToWideChar(
+                        CP_UTF8,
+                        0,  //TODO: MB_ERR_INVALID_CHARS
+                        str,
+                        -1,  //include NUL terminator in result
+                        0,
+                        0);  //request length
+
+    assert(cch > 0);
+
+    const size_t cb = cch * sizeof(wchar_t);
+    wchar_t* const wstr = (wchar_t*)_alloca(cb);
+
+    const int cch2 = MultiByteToWideChar(
+                        CP_UTF8,
+                        0,  //TODO: MB_ERR_INVALID_CHARS
+                        str,
+                        -1,
+                        wstr,
+                        cch);
+
+    cch2;
+    assert(cch2 > 0);
+    assert(cch2 == cch);
+
+    msg.assign(wstr);
+    return E_FAIL;
 }
 
 
@@ -1093,13 +1117,6 @@ void Inpin::SetConfig()
     switch (src.pass_mode)
     {
         default:
-            //TODO: resolve whether to do this here,
-            //or in OnStart directly.  The problem we have is
-            //if you want to adjust one value while started
-            //(e.g. target bitrate), but you want to leave the
-            //existing value of g_pass alone.  We need something
-            //that says "this value hasn't been set yet".
-
             break;
 
         case kPassModeOnePass:
@@ -1207,8 +1224,6 @@ void Inpin::SetConfig()
 
     if (src.keyframe_max_interval >= 0)
         tgt.kf_max_dist = src.keyframe_max_interval;
-
-    //TODO: more params here
 }
 
 

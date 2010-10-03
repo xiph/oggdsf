@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+    ProjectType="Visual C++"
+    Version="8.00"
+    Name="vp8_scalable_patterns"
+    ProjectGUID="{0D6A210B-F482-4D6F-8570-4A9C01ACC88C}"
+    RootNamespace="vp8_scalable_patterns"
+    Keyword="ManagedCProj"
+    >
+    <Platforms>
+        <Platform
+            Name="Win32"
+        />
+    </Platforms>
+    <ToolFiles>
+    </ToolFiles>
+    <Configurations>
+        <Configuration
+            Name="Debug|Win32"
+            OutputDirectory="$(SolutionDir)Win32\$(ConfigurationName)"
+            IntermediateDirectory="Win32\$(ConfigurationName)\vp8_scalable_patterns"
+            ConfigurationType="1"
+            CharacterSet="1"
+            >
+            <Tool
+                Name="VCCLCompilerTool"
+                Optimization="0"
+                AdditionalIncludeDirectories="&quot;.&quot;;&quot;..\src&quot;;&quot;..\src\vp8&quot;;&quot;..\src\vp8&quot;"
+                PreprocessorDefinitions="WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;"
+                RuntimeLibrary="1"
+                UsePrecompiledHeader="0"
+                WarningLevel="3"
+                DebugInformationFormat="1"
+                Detect64BitPortabilityProblems="true"
+            />
+            <Tool
+                Name="VCLinkerTool"
+                AdditionalDependencies="vpxmtd.lib winmm.lib $(NoInherit)"
+                AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
+                GenerateDebugInformation="true"
+                ProgramDatabaseFile="$(OutDir)\vp8_scalable_patterns.pdb"
+            />
+        </Configuration>
+        <Configuration
+            Name="Release|Win32"
+            OutputDirectory="$(SolutionDir)Win32\$(ConfigurationName)"
+            IntermediateDirectory="Win32\$(ConfigurationName)\vp8_scalable_patterns"
+            ConfigurationType="1"
+            CharacterSet="1"
+            WholeProgramOptimization="0"
+            >
+            <Tool
+                Name="VCCLCompilerTool"
+                AdditionalIncludeDirectories="&quot;.&quot;;&quot;..\src&quot;;&quot;..\src\vp8&quot;;&quot;..\src\vp8&quot;"
+                PreprocessorDefinitions="WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;"
+                RuntimeLibrary="0"
+                UsePrecompiledHeader="0"
+                WarningLevel="3"
+                DebugInformationFormat="0"
+                Detect64BitPortabilityProblems="true"
+            />
+            <Tool
+                Name="VCLinkerTool"
+                AdditionalDependencies="vpxmt.lib winmm.lib $(NoInherit)"
+                AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
+            />
+        </Configuration>
+    </Configurations>
+    <Files>
+        <Filter
+            Name="Source Files"
+            Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+            UniqueIdentifier="8B57E195-2554-5D41-B5AE-93856CEDE9DF"
+            >
+            <File
+                RelativePath=".\..\src\vp8_scalable_patterns.c"
+                >
+            </File>
+        </Filter>
+        <Filter
+            Name="Header Files"
+            Filter="h;hpp;hxx;hm;inl;inc;xsd"
+            UniqueIdentifier="911657DF-6FC6-0552-9DF2-C63CD0650740"
+            >
+        </Filter>
+        <Filter
+            Name="Resource Files"
+            Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+            UniqueIdentifier="FE18CECA-1A7D-473F-EDCC-E26FC78BE4B8"
+            >
+        </Filter>
+        <Filter
+            Name="Build Files"
+            Filter="mk"
+            UniqueIdentifier="073DABA5-0C21-450E-E95A-77B188D80E96"
+            >
+            <File
+                RelativePath=".\..\src\examples.mk"
+                >
+            </File>
+        </Filter>
+    </Files>
+    <Globals/>
+</VisualStudioProject>

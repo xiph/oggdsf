@@ -9,10 +9,8 @@
 #include <strmif.h>
 #include "mkvreader.hpp"
 #include <cassert>
-#if 0
 #include <limits>
 #include <vfwmsgs.h>
-#endif
 
 namespace WebmSplit
 {
@@ -54,12 +52,10 @@ HRESULT MkvReader::MkvLength(
     LONGLONG* pAvailable)
 {
     HRESULT hr = m_pSource->Length(pTotal, pAvailable);
-#if 0
     if (hr == VFW_S_ESTIMATED)
     {
         *pAvailable = *pTotal = std::numeric_limits<LONGLONG>::max();
     }
-#endif
     return hr;
 }
 
