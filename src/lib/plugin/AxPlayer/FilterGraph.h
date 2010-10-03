@@ -73,6 +73,9 @@ public:
 
     unsigned long GetDuration() const;
     unsigned long GetPosition() const;
+    void SetPosition(unsigned long position);
+
+    unsigned long GetOpenProgress() const;
 
     static const long MIN_VOLUME = -10000;
 
@@ -97,6 +100,7 @@ private:
     CComPtr<IBaseFilter> m_audioRenderer;
     CComPtr<IBaseFilter> m_videoRenderer;
     CComPtr<IBasicAudio> m_basicAudio;
+    CComPtr<IAMOpenProgress> m_openProgress;
 
     CComPtr<IVMRSurfaceAllocatorNotify9> m_surfaceNotify;
     CComObject<CustomVMR9Allocator>* m_customVmrAllocator;

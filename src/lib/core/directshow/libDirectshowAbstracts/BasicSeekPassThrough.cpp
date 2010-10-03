@@ -49,9 +49,6 @@ BasicSeekPassThrough::BasicSeekPassThrough(IMediaSeeking* inDelegate)
 						AM_SEEKING_CanGetStopPos |
 						AM_SEEKING_CanGetDuration;
 
-	//string x = "g:\\logs\\seeker.log";
-	//seekDebug.open(x.c_str(), ios_base::out);
-
 }
 
 BasicSeekPassThrough::BasicSeekPassThrough(void)

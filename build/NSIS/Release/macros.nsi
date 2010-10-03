@@ -10,12 +10,12 @@ Var /GLOBAL WMP_PLAY
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Location of Visual Studio runtime libraries on the compiling system
 !if "$%COMPILER%" == "VS2008"
-    !define VS_RUNTIME_LOCATION_X64 "d:\Program Files\Microsoft Visual Studio 9.0\VC\redist\amd64\Microsoft.VC90.CRT\"
-    !define VS_RUNTIME_LOCATION_WIN32 "d:\Program Files\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
+    !define VS_RUNTIME_LOCATION_X64 "c:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\redist\amd64\Microsoft.VC90.CRT\"
+    !define VS_RUNTIME_LOCATION_WIN32 "c:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT\"
     !define VS_RUNTIME_SUFFIX 90
 !else if "$%COMPILER%" == "VS2005"
-    !define VS_RUNTIME_LOCATION_X64 "d:\Program Files\Microsoft Visual Studio 8\VC\redist\amd64\Microsoft.VC80.CRT\"
-    !define VS_RUNTIME_LOCATION_WIN32 "d:\Program Files\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\"	
+    !define VS_RUNTIME_LOCATION_X64 "c:\Program Files (x86)\Microsoft Visual Studio 8\VC\redist\amd64\Microsoft.VC80.CRT\"
+    !define VS_RUNTIME_LOCATION_WIN32 "c:\Program Files (x86)\Microsoft Visual Studio 8\VC\redist\x86\Microsoft.VC80.CRT\"	
     !define VS_RUNTIME_SUFFIX 80
 !endif
 

@@ -98,6 +98,7 @@ HRESULT OggDemuxInputPin::CheckConnect(IPin* pPin)
     CComQIPtr<IAsyncReader> reader = pPin;
     if (!reader)
     {
+        LOG(logERROR) << __FUNCTIONW__ << " No IAsyncReader interface found";
         hr = VFW_E_NO_TRANSPORT;
     }
 
@@ -114,8 +115,15 @@ HRESULT OggDemuxInputPin::CheckConnect(IPin* pPin)
             magic[2] != 'g' ||
             magic[3] != 'S')
         {
+            LOG(logERROR) << __FUNCTIONW__ << " Magic is different than 'OggS': " << 
+                magic[0] << ", " << magic[1] << ", " << magic[2] << ", " << magic[3];
+
             hr = VFW_E_UNSUPPORTED_STREAM;
         }
+    }
+    else
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " SyncRead failed. Error: 0x" << hex << hr;
     }
 
     return hr;

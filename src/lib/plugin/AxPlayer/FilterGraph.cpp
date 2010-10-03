@@ -123,6 +123,8 @@ void FilterGraph::AddSourceDemuxFilters()
     // Add the source filter
     m_sourceFilter = DShowUtil::AddFilterFromCLSID(m_graphBuilder, sourceCLSID, L"Source Filter");
 
+    CHECK_HR(m_sourceFilter.QueryInterface(&m_openProgress));
+
     CComQIPtr<IFileSourceFilter> fileSource = m_sourceFilter;
     CHECK_HR(fileSource->Load(m_videoUrl, 0));
 
@@ -480,5 +482,50 @@ unsigned long FilterGraph::GetPosition() const
         LOG(logERROR) << __FUNCTIONW__ << " Error code: " << std::hex << except.m_hr;
     }
 
+    LOG(logDEBUG2) << __FUNCTIONW__ << " result: " << position;
+
     return position;
+}
+
+
+void FilterGraph::SetPosition(unsigned long position)
+{
+    try
+    {
+        REFERENCE_TIME rtPosition = position;
+        rtPosition *= 10000;
+
+        CHECK_HR(m_mediaSeeking->SetPositions(&rtPosition, AM_SEEKING_AbsolutePositioning, 0, AM_SEEKING_NoPositioning));
+    }
+    catch (const CAtlException& except)
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " Error code: " << std::hex << except.m_hr;
+    }
+}
+
+unsigned long FilterGraph::GetOpenProgress() const
+{
+    unsigned long percentage = 0;
+    try
+    {
+        REFERENCE_TIME total = 0;
+        REFERENCE_TIME current = 0;
+        CHECK_HR(m_openProgress->QueryProgress(&total, &current));
+
+        // This should not happen
+        ATLASSERT(total != 0);
+        if (total == 0)
+        {
+            total = 1;
+        }
+        percentage = static_cast<long>((current / static_cast<double>(total)) * 100);
+    }
+    catch (const CAtlException& except)
+    {
+        LOG(logERROR) << __FUNCTIONW__ << " Error code: " << std::hex << except.m_hr;
+    }
+
+    LOG(logDEBUG2) << __FUNCTIONW__ << " result: " << percentage << "%";
+
+    return percentage;
 }

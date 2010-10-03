@@ -1,3 +1,8 @@
+Version 0.84.xxxxx - xx.xx.2010
+
+    * Updated libvpx to 0.9.2
+    * Updated webmdshow to 0.9.10
+
 Version 0.84.17359 - 04.08.2010
     
     * Released Windows CE decoder package, no WebM/VP8 support for now, only Ogg Vorbis,
