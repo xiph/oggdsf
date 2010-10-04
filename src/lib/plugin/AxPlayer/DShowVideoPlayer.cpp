@@ -156,6 +156,7 @@ m_playerCallback(0),
 m_state(NotOpened),
 m_audioState(UnMuted),
 m_textureFilterType(D3DTEXF_NONE),
+m_enableControls(false),
 m_isMouseOver(false),
 m_audioVolume(FilterGraph::MIN_VOLUME),
 m_audioUnMuteVolume(FilterGraph::MIN_VOLUME),
@@ -677,6 +678,11 @@ void DShowVideoPlayer::CreateControls(const CSize& videoSize)
 
 void DShowVideoPlayer::DrawControls(const CRect& rect, HDC dc)
 {
+    if (!EnableControls())
+    {
+        return;
+    }
+
     if (!GetMouseOver())
     {
         return;

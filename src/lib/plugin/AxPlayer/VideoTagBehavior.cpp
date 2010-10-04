@@ -43,6 +43,7 @@ namespace {
     const wchar_t* SRC_ATTRIBUTE = L"src";
     const wchar_t* WIDTH_ATTRIBUTE = L"width";
     const wchar_t* HEIGHT_ATTRIBUTE = L"height";
+    const wchar_t* CONTROLS_ATTRIBUTE = L"controls";
 
     const int NOT_SET = -1;
 }
@@ -519,6 +520,11 @@ void VideoTagBehavior::ParseElementAttributes()
             LOG(logINFO) << attributeName << " = \"" << attributeValue << "\"";
 
             ParseDimensionAttribute(attributeValue, true);
+        }
+        else if (attributeName == CONTROLS_ATTRIBUTE)
+        {
+            LOG(logINFO) << attributeName << " was set";
+            m_videoPlayer.EnableControls(true);
         }
     }
 }

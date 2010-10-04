@@ -133,6 +133,9 @@ private:
     void CreateDevice();
     CComPtr<IDirect3DDevice9>& GetDevice();
 
+    bool EnableControls() const { return m_enableControls; }
+    void EnableControls(bool val) { m_enableControls = val; }
+
 private:
     FilterGraph m_filterGraph;
 
@@ -172,6 +175,7 @@ private:
     PlayerState m_state;
     AudioState m_audioState;
 
+    bool m_enableControls;
     bool m_isMouseOver;
     bool m_doDisplayAudioVolume;
     bool m_isMouseOverMuteButton;
