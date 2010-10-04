@@ -40,6 +40,11 @@ namespace
 {
     const int CONTROLS_HEIGHT = 28;
     const int CONTROLS_WIDTH = 28;
+    const int AUDIO_SLIDER_HEIGHT = 75;
+
+    const int AUDIO_PADDING = 8;
+    const int AUDIO_PADDING_LEFT = 10;
+    const int AUDIO_PADDING_RIGHT = 9;
 
     using Gdiplus::Color;
 
@@ -57,6 +62,91 @@ namespace
 
     const int SLIDER_TOP = 9;
     const int SLIDER_BOTTOM = 10;
+
+    Gdiplus::Image* LoadImage(UINT resourceId)
+    {
+        Gdiplus::Image* image = 0;
+
+        HRSRC hResource = ::FindResource(util::GetHModule(), MAKEINTRESOURCE(resourceId), RT_RCDATA);
+        if (!hResource)
+        {
+            return image;
+        }
+
+        DWORD imageSize = ::SizeofResource(util::GetHModule(), hResource);
+        if (!imageSize)
+        {
+            image;
+        }
+
+        const void* pResourceData = ::LockResource(::LoadResource(util::GetHModule(), hResource));
+        if (!pResourceData)
+        {
+            return image;
+        }
+
+        HGLOBAL buffer = ::GlobalAlloc(GMEM_MOVEABLE, imageSize);
+        if (!buffer)
+        {
+            return image;
+        }
+        void* pBuffer = ::GlobalLock(buffer);
+        if (!pBuffer)
+        {
+            ::GlobalFree(buffer);
+            return image;
+        }
+        CopyMemory(pBuffer, pResourceData, imageSize);
+
+        CComPtr<IStream> pStream = NULL;
+        if (::CreateStreamOnHGlobal(buffer, FALSE, &pStream) == S_OK)
+        {
+            image = Gdiplus::Bitmap::FromStream(pStream);
+        }
+        ::GlobalUnlock(buffer);
+        ::GlobalFree(buffer);
+
+        return image;
+    }
+
+    using Gdiplus::Rect;
+
+    Rect GetControlsRect(const CRect& displayRect)
+    {
+        return Rect(0, displayRect.Height() - CONTROLS_HEIGHT, displayRect.Width(), CONTROLS_HEIGHT);
+    }
+
+    Rect GetPlayButtonRect(const CRect& displayRect)
+    {
+        return Rect(0, displayRect.Height() - CONTROLS_HEIGHT, CONTROLS_WIDTH, CONTROLS_HEIGHT);
+    }
+
+    Rect GetMuteButtonRect(const CRect& displayRect)
+    {
+        return Rect(displayRect.Width() - CONTROLS_WIDTH, displayRect.Height() - CONTROLS_HEIGHT, 
+            CONTROLS_WIDTH, CONTROLS_HEIGHT);
+    }
+
+    std::pair<Rect, Rect> GetPositionSliderRects(const CRect& displayRect, unsigned long thumbPercent)
+    {
+        unsigned long thumbPosition = thumbPercent * displayRect.Width() / 100;
+
+        Rect first(displayRect.left, displayRect.top, thumbPosition, displayRect.Height());
+        Rect second(displayRect.left + thumbPosition, displayRect.top, displayRect.Width() - thumbPosition, displayRect.Height());
+
+        return std::make_pair(first, second);
+    }
+
+    std::pair<Rect, Rect> GetAudioSliderRects(const CRect& displayRect, unsigned long thumbPercent)
+    {
+        unsigned long thumbPosition = thumbPercent * displayRect.Height() / 100;
+
+        Rect first(displayRect.left, displayRect.top, displayRect.Width(), thumbPosition);
+        Rect second(displayRect.left, displayRect.top + thumbPosition, displayRect.Width(), 
+            displayRect.Height() - thumbPosition);
+
+        return std::make_pair(first, second);
+    }
 }
 
 DShowVideoPlayer::DShowVideoPlayer() :
@@ -68,9 +158,13 @@ m_audioState(UnMuted),
 m_textureFilterType(D3DTEXF_NONE),
 m_isMouseOver(false),
 m_audioVolume(FilterGraph::MIN_VOLUME),
+m_audioUnMuteVolume(FilterGraph::MIN_VOLUME),
+m_setAudioVolume(FilterGraph::MIN_VOLUME),
 m_duration(0),
 m_currentPosition(0),
-m_openProgress(0)
+m_openProgress(0),
+m_isMouseOverMuteButton(false),
+m_doDisplayAudioVolume(false)
 {
     m_stopPlaybackEvent = ::CreateEvent(0, FALSE, FALSE, 0);
     m_executeFunctionEvent = ::CreateEvent(0 , FALSE, FALSE, 0);
@@ -85,6 +179,7 @@ m_openProgress(0)
     m_pngMute = LoadImage(IDI_PNG_MUTE);
     m_pngUnmute = LoadImage(IDI_PNG_UNMUTE);
     m_pngPositionThumb = LoadImage(IDI_PNG_POSITION_THUMB);
+    m_pngAudioPositionThumb = LoadImage(IDI_PNG_VOLUME_THUMB);
 }
 
 DShowVideoPlayer::~DShowVideoPlayer()
@@ -98,6 +193,7 @@ DShowVideoPlayer::~DShowVideoPlayer()
     delete m_pngMute;
     delete m_pngUnmute;
     delete m_pngPositionThumb;
+    delete m_pngAudioPositionThumb;
 
     Gdiplus::GdiplusShutdown(m_gdiplusToken);
 }
@@ -350,10 +446,8 @@ void DShowVideoPlayer::Thread_PrepareGraph()
     
     m_filterGraph.Pause();
 
-    if (m_filterGraph.GetVolume() == FilterGraph::MIN_VOLUME)
-    {
-        m_audioState = Muted;
-    }
+    m_audioVolume = m_filterGraph.GetVolume();
+    m_audioState = (m_audioVolume != FilterGraph::MIN_VOLUME) ? DShowVideoPlayer::UnMuted : DShowVideoPlayer::Muted;
 
     m_state = Paused;
 }
@@ -485,16 +579,18 @@ void DShowVideoPlayer::Thread_Mute()
     long currentVolume = m_filterGraph.GetVolume();
     if (m_audioState == DShowVideoPlayer::UnMuted)
     {
-        m_audioVolume = currentVolume;
+        m_audioUnMuteVolume = currentVolume;
         m_filterGraph.SetVolume(FilterGraph::MIN_VOLUME);
 
         m_audioState = DShowVideoPlayer::Muted;
     }
     else
     {
-        m_filterGraph.SetVolume(m_audioVolume);
+        m_filterGraph.SetVolume(m_audioUnMuteVolume);
         m_audioState = DShowVideoPlayer::UnMuted;
     }
+
+    m_audioVolume = m_filterGraph.GetVolume();
 }
 
 
@@ -517,6 +613,17 @@ void DShowVideoPlayer::Thread_SetPosition()
     ::SetEvent(m_waitForFunction);
 }
 
+void DShowVideoPlayer::Thread_SetVolume()
+{
+    m_filterGraph.SetVolume(m_setAudioVolume);
+
+    LOG(logDEBUG2) << __FUNCTIONW__ << " Volume: " << m_setAudioVolume;
+
+    m_audioVolume = m_filterGraph.GetVolume();
+    m_audioState = (m_audioVolume != FilterGraph::MIN_VOLUME) ? DShowVideoPlayer::UnMuted : DShowVideoPlayer::Muted;
+
+    ::SetEvent(m_waitForFunction);
+}
 
 void DShowVideoPlayer::Thread_ExecuteFunction()
 {
@@ -555,24 +662,17 @@ void DShowVideoPlayer::CreateControls(const CSize& videoSize)
 
     m_positionSliderRect.SetRect(CONTROLS_WIDTH, videoSize.cy - CONTROLS_HEIGHT,
         videoSize.cx - CONTROLS_WIDTH - TEXT_WIDTH, videoSize.cy);
-}
 
+    m_audioVolumePanel.SetRect(videoSize.cx - CONTROLS_WIDTH, 
+        videoSize.cy - AUDIO_SLIDER_HEIGHT - CONTROLS_HEIGHT,
+        videoSize.cx, 
+        videoSize.cy - CONTROLS_HEIGHT);
 
-Gdiplus::Rect DShowVideoPlayer::GetControlsRect(const CRect& displayRect)
-{
-    return Gdiplus::Rect(0, displayRect.Height() - CONTROLS_HEIGHT, displayRect.Width(), CONTROLS_HEIGHT);
-}
-
-
-Gdiplus::Rect DShowVideoPlayer::GetPlayButtonRect(const CRect& displayRect)
-{
-    return Gdiplus::Rect(0, displayRect.Height() - CONTROLS_HEIGHT, CONTROLS_WIDTH, CONTROLS_HEIGHT);
-}
-
-Gdiplus::Rect DShowVideoPlayer::GetMuteButtonRect(const CRect& displayRect)
-{
-    return Gdiplus::Rect(displayRect.Width() - CONTROLS_WIDTH, displayRect.Height() - CONTROLS_HEIGHT, 
-        CONTROLS_WIDTH, CONTROLS_HEIGHT);
+    m_audioVolumeSliderRect.SetRect(
+        videoSize.cx - CONTROLS_WIDTH + AUDIO_PADDING_LEFT, 
+        videoSize.cy - AUDIO_SLIDER_HEIGHT - CONTROLS_HEIGHT + AUDIO_PADDING,
+        videoSize.cx - AUDIO_PADDING_RIGHT, 
+        videoSize.cy - CONTROLS_HEIGHT - AUDIO_PADDING);
 }
 
 void DShowVideoPlayer::DrawControls(const CRect& rect, HDC dc)
@@ -587,8 +687,8 @@ void DShowVideoPlayer::DrawControls(const CRect& rect, HDC dc)
     graphics.SetInterpolationMode(InterpolationModeHighQuality);
 
     // Draw the background
-    SolidBrush brush(CONTROLS_BACKGROUND_COLOR);
-    graphics.FillRectangle(&brush, GetControlsRect(rect));
+    SolidBrush backgroundBrush(CONTROLS_BACKGROUND_COLOR);
+    graphics.FillRectangle(&backgroundBrush, GetControlsRect(rect));
 
     // Draw the play/pause button
     if (GetState() == DShowVideoPlayer::Paused ||
@@ -680,6 +780,30 @@ void DShowVideoPlayer::DrawControls(const CRect& rect, HDC dc)
     graphics.DrawImage(m_pngPositionThumb, positionThumb, 
         rect.Height() - CONTROLS_HEIGHT + (CONTROLS_HEIGHT - m_pngPositionThumb->GetHeight()) / 2,
         m_pngPositionThumb->GetWidth(), m_pngPositionThumb->GetHeight());
+
+    // Draw the audio volume slider
+    if (m_doDisplayAudioVolume)
+    {
+        graphics.FillRectangle(&backgroundBrush, m_audioVolumePanel.left, m_audioVolumePanel.top,
+            m_audioVolumePanel.Width(), m_audioVolumePanel.Height());
+
+        unsigned long audioPositionPercent = static_cast<unsigned long>(static_cast<double>(m_audioVolume) / FilterGraph::MIN_VOLUME * 100);
+        std::pair<Rect, Rect> rects = GetAudioSliderRects(m_audioVolumeSliderRect, audioPositionPercent);
+
+        // Draw the rectangle until the position thumb
+        SolidBrush playedBrush(PLAYED_COLOR);
+        graphics.FillRectangle(&playedBrush, rects.first);
+
+        // Draw the rectangle until the end of movie
+        SolidBrush toBePlayedBrush(TO_BE_PLAYED_COLOR);
+        graphics.FillRectangle(&playedBrush, rects.second);
+
+        CSize thumbPadding((m_pngAudioPositionThumb->GetWidth() - rects.second.Width) / 2, 0);
+
+        graphics.DrawImage(m_pngAudioPositionThumb, rects.second.X - thumbPadding.cx, 
+            rects.second.Y - thumbPadding.cy,
+            m_pngAudioPositionThumb->GetWidth(), m_pngAudioPositionThumb->GetHeight());
+    }
 }
 
 void DShowVideoPlayer::OnMouseButtonDown(long x, long y)
@@ -697,34 +821,17 @@ void DShowVideoPlayer::OnMouseButtonDown(long x, long y)
             m_playerCallback->Refresh();
         }
     }
-}
-
-void DShowVideoPlayer::OnMouseButtonUp(long x, long y)
-{
-    if (m_playButtonRect.PtInRect(CPoint(x, y)))
+    
+    if (m_audioVolumeSliderRect.PtInRect(CPoint(x, y)))
     {
-        if (GetState() == DShowVideoPlayer::Paused ||
-            GetState() == DShowVideoPlayer::Stopped)
-        {
-            Play();
-            if (m_playerCallback)
-            {
-                m_playerCallback->Refresh();
-            }
-        }
-        else if (GetState() == DShowVideoPlayer::Playing)
-        {
-            Pause();
-            if (m_playerCallback)
-            {
-                m_playerCallback->Refresh();
-            }
-        }
-    }
+        double volume = (y - m_audioVolumeSliderRect.top) / static_cast<double>(m_audioVolumeSliderRect.Height());
 
-    if (m_muteButtonRect.PtInRect(CPoint(x, y)))
-    {
-        Mute();
+        m_setAudioVolume = volume * FilterGraph::MIN_VOLUME;
+
+        m_executeFunctionOnThread = &DShowVideoPlayer::Thread_SetVolume;
+        ::SetEvent(m_executeFunctionEvent);
+
+        AtlWaitWithMessageLoop(m_waitForFunction);
         if (m_playerCallback)
         {
             m_playerCallback->Refresh();
@@ -732,55 +839,59 @@ void DShowVideoPlayer::OnMouseButtonUp(long x, long y)
     }
 }
 
-void DShowVideoPlayer::OnMouseMove(long x, long y)
+void DShowVideoPlayer::OnMouseButtonUp(long x, long y)
 {
+    bool dirty = false;
+    if (m_playButtonRect.PtInRect(CPoint(x, y)))
+    {
+        if (GetState() == DShowVideoPlayer::Paused ||
+            GetState() == DShowVideoPlayer::Stopped)
+        {
+            Play();
+            dirty = true;
+        }
+        else if (GetState() == DShowVideoPlayer::Playing)
+        {
+            Pause();
+            dirty = true;
+        }
+    }
 
+    if (m_muteButtonRect.PtInRect(CPoint(x, y)))
+    {
+        Mute();
+        dirty = true;
+    }
+
+    if (dirty && m_playerCallback)
+    {
+        m_playerCallback->Refresh();
+    }
 }
 
-Gdiplus::Image* DShowVideoPlayer::LoadImage(UINT resourceId)
+void DShowVideoPlayer::OnMouseMove(long x, long y)
 {
-    Gdiplus::Image* image = 0;
-
-    HRSRC hResource = ::FindResource(util::GetHModule(), MAKEINTRESOURCE(resourceId), RT_RCDATA);
-    if (!hResource)
+    bool dirty = false;
+    if (m_muteButtonRect.PtInRect(CPoint(x, y)))
     {
-        return image;
+        m_isMouseOverMuteButton = true;
+        m_doDisplayAudioVolume = true;
+        dirty = true;
+    }
+    else if (m_isMouseOverMuteButton && !m_audioVolumePanel.PtInRect(CPoint(x, y)))
+    {
+        m_isMouseOverMuteButton = false;
+        if (m_doDisplayAudioVolume)
+        {
+            m_doDisplayAudioVolume = false;
+            dirty = true;
+        }
     }
 
-    DWORD imageSize = ::SizeofResource(util::GetHModule(), hResource);
-    if (!imageSize)
+    if (dirty && m_playerCallback)
     {
-        image;
+        m_playerCallback->Refresh();
     }
-
-    const void* pResourceData = ::LockResource(::LoadResource(util::GetHModule(), hResource));
-    if (!pResourceData)
-    {
-        return image;
-    }
-
-    HGLOBAL buffer = ::GlobalAlloc(GMEM_MOVEABLE, imageSize);
-    if (!buffer)
-    {
-        return image;
-    }
-    void* pBuffer = ::GlobalLock(buffer);
-    if (!pBuffer)
-    {
-        ::GlobalFree(buffer);
-        return image;
-    }
-    CopyMemory(pBuffer, pResourceData, imageSize);
-
-    CComPtr<IStream> pStream = NULL;
-    if (::CreateStreamOnHGlobal(buffer, FALSE, &pStream) == S_OK)
-    {
-        image = Gdiplus::Bitmap::FromStream(pStream);
-    }
-    ::GlobalUnlock(buffer);
-    ::GlobalFree(buffer);
-
-    return image;
 }
 
 LRESULT DShowVideoPlayer::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)

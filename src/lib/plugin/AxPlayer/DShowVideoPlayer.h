@@ -119,6 +119,7 @@ private:
     void Thread_Mute();
     void Thread_DurationPosition();
     void Thread_SetPosition();
+    void Thread_SetVolume();
 
     void Thread_ExecuteFunction();
     
@@ -131,12 +132,6 @@ private:
 
     void CreateDevice();
     CComPtr<IDirect3DDevice9>& GetDevice();
-
-    Gdiplus::Image* LoadImage(UINT resourceId);
-
-    Gdiplus::Rect GetControlsRect(const CRect& displayRect);
-    Gdiplus::Rect GetPlayButtonRect(const CRect& displayRect);
-    Gdiplus::Rect GetMuteButtonRect(const CRect& displayRect);
 
 private:
     FilterGraph m_filterGraph;
@@ -166,6 +161,7 @@ private:
     Gdiplus::Image* m_pngMute;
     Gdiplus::Image* m_pngUnmute;
     Gdiplus::Image* m_pngPositionThumb;
+    Gdiplus::Image* m_pngAudioPositionThumb;
 
     DShowVideoPlayerCallback* m_playerCallback;
 
@@ -177,16 +173,23 @@ private:
     AudioState m_audioState;
 
     bool m_isMouseOver;
+    bool m_doDisplayAudioVolume;
+    bool m_isMouseOverMuteButton;
+
     CRect m_playButtonRect;
     CRect m_muteButtonRect;
     CRect m_positionSliderRect;
-
-    long m_audioVolume;
+    CRect m_audioVolumeSliderRect;
+    CRect m_audioVolumePanel;
 
     unsigned long m_duration;
     unsigned long m_currentPosition;
     unsigned long m_openProgress;
     unsigned long m_setPosition;
+
+    long m_audioVolume;
+    long m_audioUnMuteVolume;
+    long m_setAudioVolume;
 
     D3DTEXTUREFILTERTYPE m_textureFilterType;
 };
