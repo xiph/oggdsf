@@ -33,7 +33,6 @@
 #include "resource.h"
 #include "AxPlayer_i.h"
 #include "dllmain.h"
-#include "dlldatax.h"
 #include <MsHtmHst.h>
 
 namespace 
@@ -45,11 +44,6 @@ namespace
 // Used to determine whether the DLL can be unloaded by OLE
 STDAPI DllCanUnloadNow(void)
 {
-#ifdef _MERGE_PROXYSTUB
-    HRESULT hr = PrxDllCanUnloadNow();
-    if (hr != S_OK)
-        return hr;
-#endif
     return _AtlModule.DllCanUnloadNow();
 }
 
@@ -57,10 +51,6 @@ STDAPI DllCanUnloadNow(void)
 // Returns a class factory to create an object of the requested type
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 {
-#ifdef _MERGE_PROXYSTUB
-    if (PrxDllGetClassObject(rclsid, riid, ppv) == S_OK)
-        return S_OK;
-#endif
     return _AtlModule.DllGetClassObject(rclsid, riid, ppv);
 }
 
@@ -70,11 +60,6 @@ STDAPI DllRegisterServer(void)
 {
     // registers object, typelib and all interfaces in typelib
     HRESULT hr = _AtlModule.DllRegisterServer();
-#ifdef _MERGE_PROXYSTUB
-    if (FAILED(hr))
-        return hr;
-    hr = PrxDllRegisterServer();
-#endif
 
     // IEREGISTERXMLNSFN is available in Microsoft SDK for Windows 7,
     // which doesn't work with Visual Studio 2005
@@ -99,14 +84,6 @@ STDAPI DllRegisterServer(void)
 STDAPI DllUnregisterServer(void)
 {
 	HRESULT hr = _AtlModule.DllUnregisterServer();
-#ifdef _MERGE_PROXYSTUB
-    if (FAILED(hr))
-        return hr;
-    hr = PrxDllRegisterServer();
-    if (FAILED(hr))
-        return hr;
-    hr = PrxDllUnregisterServer();
-#endif
 	return hr;
 }
 

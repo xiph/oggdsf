@@ -4,6 +4,8 @@ Version 0.84.xxxxx - xx.xx.2010
     * Updated webmdshow to 0.9.10
     * Updated libtheora to 1.2.0 alpha (SVN)
     * Updated libtremor
+    * Fixed Speex playback. The previous versions had a Vorbis bug which caused Speex playback to
+       be broken.
     * Added "controls" attribute to HTML5 <video> ActiveX plugin
 
 Version 0.84.17359 - 04.08.2010

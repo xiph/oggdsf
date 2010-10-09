@@ -29,6 +29,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -49,7 +50,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 				ValidateParameters="true"
 			/>
 			<Tool
@@ -124,6 +125,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -144,7 +146,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -218,6 +220,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -238,7 +241,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 				ValidateParameters="true"
 			/>
 			<Tool
@@ -316,6 +319,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -336,7 +340,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -428,46 +432,6 @@
 			<File
 				RelativePath=".\DDrawUtil.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\dlldatax.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\dllmain.cpp"
@@ -580,10 +544,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\dlldatax.h"
-				>
-			</File>
-			<File
 				RelativePath=".\dllmain.h"
 				>
 			</File>
@@ -626,11 +586,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Res\VideoTagBehavior.rgs"
+				RelativePath=".\VideoTagBehavior.rgs"
 				>
 			</File>
 			<File
-				RelativePath=".\VideoTagBehavior.rgs"
+				RelativePath=".\Res\VideoTagBehavior.rgs"
 				>
 			</File>
 		</Filter>

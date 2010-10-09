@@ -38,7 +38,7 @@ OggDemuxInputPin::OggDemuxInputPin(OggDemuxFilter* pFilter, CCritSec* pLock, HRE
 CBasePin(NAME("OggDemuxInputPin"), pFilter, pLock, phr, L"Input", PINDIR_INPUT)
 {
     m_mediaType.SetType(&MEDIATYPE_Stream);
-    m_mediaType.SetSubtype(&MEDIASUBTYPE_Ogg);
+    m_mediaType.SetSubtype(&MEDIASUBTYPE_NULL);
 }
 
 // base pin overrides

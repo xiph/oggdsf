@@ -430,24 +430,42 @@ HRESULT VorbisDecodeInputPin::SetMediaType(const CMediaType* inMediaType)
 	
     return CBaseInputPin::SetMediaType(inMediaType);
 }
+
 HRESULT VorbisDecodeInputPin::CheckMediaType(const CMediaType *inMediaType)
 {
-	if (AbstractTransformInputPin::CheckMediaType(inMediaType) == S_OK) 
+	if (inMediaType->majortype == MEDIATYPE_OggPacketStream &&
+        inMediaType->formattype == FORMAT_OggIdentHeader &&
+        inMediaType->cbFormat == VORBIS_IDENT_HEADER_SIZE) 
     {
-		if (inMediaType->majortype == MEDIATYPE_OggPacketStream &&
-            inMediaType->formattype == FORMAT_OggIdentHeader &&
-            inMediaType->cbFormat == VORBIS_IDENT_HEADER_SIZE) 
+		if (strncmp((char*)inMediaType->pbFormat, "\001vorbis", 7) == 0) 
         {
-			if (strncmp((char*)inMediaType->pbFormat, "\001vorbis", 7) != 0) 
-            {
-                LOG(logDEBUG) << "Check media type failed";
-                return S_FALSE;
-			}
+            LOG(logDEBUG) << "Check media type OK (MEDIATYPE_OggPacketStream)";
+            return S_OK;
 		}
-        LOG(logDEBUG) << "Check media type ok";
-        return S_OK;
 	}
-    LOG(logDEBUG) << "Check media type failed";
+    else if (inMediaType->majortype == MEDIATYPE_Audio &&
+             inMediaType->subtype == MEDIASUBTYPE_Vorbis &&
+             inMediaType->formattype == FORMAT_Vorbis)
+    {
+        LOG(logDEBUG) << "Check media type OK (MEDIASUBTYPE_Vorbis)";
+        return S_OK;
+    }
+    else if (inMediaType->majortype == MEDIATYPE_Audio &&
+             inMediaType->subtype == MEDIASUBTYPE_Vorbis2 &&
+             inMediaType->formattype == FORMAT_Vorbis2)
+    {
+        LOG(logDEBUG) << "Check media type OK (MEDIASUBTYPE_Vorbis2)";
+        return S_OK;
+    }
+
+    LOG(logDEBUG) << __FUNCTIONW__ << " Input type not OK.";
+    if (inMediaType->cbFormat > 7)
+    {
+        char format[8] = {};
+        strncpy(format, reinterpret_cast<const char*>(inMediaType->pbFormat), 7);
+        LOG(logDEBUG) << __FUNCTIONW__ << " cbFormat start: " << format;
+    }
+
     return S_FALSE;
 }
 
