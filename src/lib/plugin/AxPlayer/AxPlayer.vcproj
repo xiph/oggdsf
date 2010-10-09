@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="AxPlayer"
 	ProjectGUID="{C2C1F096-2541-4B13-A57E-52F2368A0E36}"
 	RootNamespace="AxPlayer"
@@ -29,6 +29,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -49,7 +50,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 				ValidateParameters="true"
 			/>
 			<Tool
@@ -81,7 +82,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib "
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -124,6 +125,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -144,7 +146,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -174,7 +176,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -218,6 +220,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -238,7 +241,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 				ValidateParameters="true"
 			/>
 			<Tool
@@ -270,7 +273,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -316,6 +319,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -336,7 +340,7 @@
 				HeaderFileName="&quot;Generated Files\AxPlayer_i.h&quot;"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="&quot;Generated Files\AxPlayer_i.c&quot;"
-				ProxyFileName="&quot;Generated Files\AxPlayer_p.c&quot;"
+				ProxyFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -366,7 +370,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="ddraw.lib d3d9.lib"
+				AdditionalDependencies="ddraw.lib d3d9.lib gdiplus.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\AxPlayer.def"
 				GenerateDebugInformation="true"
@@ -428,46 +432,6 @@
 			<File
 				RelativePath=".\DDrawUtil.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\dlldatax.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\dllmain.cpp"
@@ -577,10 +541,6 @@
 			</File>
 			<File
 				RelativePath=".\DDrawUtil.h"
-				>
-			</File>
-			<File
-				RelativePath=".\dlldatax.h"
 				>
 			</File>
 			<File

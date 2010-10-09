@@ -4,7 +4,6 @@
 #include "resource.h"
 #include "AxPlayer_i.h"
 #include "dllmain.h"
-#include "dlldatax.h"
 
 #include "common/util.h"
 
