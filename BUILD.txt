@@ -44,21 +44,6 @@ Windows Mobile
 
 Visual Studio 2005 Standard or Visual Studio 2008 Professional is required.
 
-* Microsoft® Windows® CE 5.0 Evaluation Edition
-http://www.microsoft.com/downloads/details.aspx?familyid=486e8250-d311-4f67-9fb3-23e8b8944f3e&displaylang=en
-
-Install only the ARMV4I operating system.
-
-- Microsoft .NET Framework 1.1
-http://www.microsoft.com/downloads/details.aspx?FamilyId=262D25E3-F589-4842-8157-034D1E7CF3A3&displaylang=en
-
-- Windows CE 5.0 Cumulative Product Update Rollup Package (through 12/31/2009)
-http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=5ae5ff14-4d40-4e39-a245-0e94b9debcb7
-
-The above is required for DirectShow Baseclasses. The following system environment variable BASECLASSES_WINCE 
-should point to the DirectShow BaseClasses path e.g.:
-c:\WINCE500\PUBLIC\DIRECTX\SDK\SAMPLES\DSHOW\BASECLASSES\
-
 The following are needed to add Windows Mobile platforms in Visual Studio
 
 - Windows Mobile 5.0 SDK for Pocket PC

@@ -38,18 +38,27 @@ OggDemuxInputPin::OggDemuxInputPin(OggDemuxFilter* pFilter, CCritSec* pLock, HRE
 CBasePin(NAME("OggDemuxInputPin"), pFilter, pLock, phr, L"Input", PINDIR_INPUT)
 {
     m_mediaType.SetType(&MEDIATYPE_Stream);
-    m_mediaType.SetSubtype(&MEDIASUBTYPE_NULL);
+    m_mediaType.SetSubtype(&MEDIASUBTYPE_Ogg);
 }
 
 // base pin overrides
 HRESULT OggDemuxInputPin::CheckMediaType(const CMediaType* inMediaType)
 {
     CheckPointer(inMediaType, E_POINTER);
-    if (m_mediaType.MatchesPartial(inMediaType))
+
+    HRESULT hr = S_FALSE;
+    
+    if (inMediaType->majortype == MEDIATYPE_Stream ||
+        inMediaType->majortype == GUID_NULL)
     {
-        return S_OK;
+        hr = S_OK;
     }
-    return S_FALSE;
+
+    LOG(logDEBUG) << __FUNCTIONW__ << " Media type " << (hr == S_OK ? "OK" : "*not* OK");
+    LOG(logDEBUG) << __FUNCTIONW__ << " Majortype: " << ToString(inMediaType->majortype); 
+    LOG(logDEBUG) << __FUNCTIONW__ << " Subtype: " << ToString(inMediaType->subtype); 
+
+    return hr;
 }
 
 HRESULT OggDemuxInputPin::GetMediaType(int iPosition, CMediaType* outMediaType)
@@ -60,6 +69,9 @@ HRESULT OggDemuxInputPin::GetMediaType(int iPosition, CMediaType* outMediaType)
         return VFW_S_NO_MORE_ITEMS;
     }
     *outMediaType = m_mediaType;
+
+    LOG(logDEBUG) << __FUNCTIONW__ << " Majortype: " << ToString(outMediaType->majortype); 
+    LOG(logDEBUG) << __FUNCTIONW__ << " Subtype: " << ToString(outMediaType->subtype); 
 
     return S_OK;
 }
@@ -84,6 +96,9 @@ HRESULT OggDemuxInputPin::CompleteConnect(IPin* pPeer)
     {
         hr = m_filter->SetUpPins();
     }
+
+    LOG(logDEBUG) << __FUNCTIONW__ << " result: 0x" << std::hex << hr;
+
     return hr;
 }
 

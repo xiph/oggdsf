@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="libOOVorbis"
 	ProjectGUID="{C97A67F9-B786-41FA-9FC9-13167FE2BA49}"
 	RootNamespace="libOOVorbis"
@@ -187,6 +187,7 @@
 				PreprocessorDefinitions="USING_TREMOR;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 			/>
@@ -257,6 +258,7 @@
 				PreprocessorDefinitions="USING_TREMOR;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 			/>
@@ -327,6 +329,7 @@
 				PreprocessorDefinitions="USING_TREMOR;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 			/>
@@ -521,6 +524,7 @@
 				AdditionalIncludeDirectories="..\libtremor;..\..\..\..\core\ogg\libogg\include; ..\..\..\..\core\ogg;..\..\..\..\helper;"
 				PreprocessorDefinitions="USING_TREMOR;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				RuntimeLibrary="2"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -591,6 +595,7 @@
 				AdditionalIncludeDirectories="..\libtremor;..\..\..\..\core\ogg\libogg\include; ..\..\..\..\core\ogg;..\..\..\..\helper;"
 				PreprocessorDefinitions="USING_TREMOR;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				RuntimeLibrary="0"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -661,6 +666,7 @@
 				AdditionalIncludeDirectories="..\libtremor;..\..\..\..\core\ogg\libogg\include; ..\..\..\..\core\ogg;..\..\..\..\helper;"
 				PreprocessorDefinitions="USING_TREMOR;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_LIB;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				RuntimeLibrary="2"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"

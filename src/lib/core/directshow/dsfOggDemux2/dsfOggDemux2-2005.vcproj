@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="dsfOggDemux2"
 	ProjectGUID="{304B710A-7355-471C-A4A8-9E8F6D640E6D}"
 	RootNamespace="dsfOggDemux2"
@@ -231,6 +231,7 @@
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="1"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 			/>
@@ -245,7 +246,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				AdditionalDependencies="Strmiids.lib strmbase.lib"
 				OutputFile="$(OutDir)/dsfOggDemux2.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -313,6 +314,7 @@
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="1"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 			/>
@@ -327,7 +329,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				AdditionalDependencies="Strmiids.lib strmbase.lib"
 				OutputFile="$(OutDir)/dsfOggDemux2.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -395,6 +397,7 @@
 				MinimalRebuild="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="1"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 			/>
@@ -409,7 +412,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				AdditionalDependencies="Strmiids.lib strmbase.lib"
 				OutputFile="$(OutDir)/dsfOggDemux2.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -656,6 +659,7 @@
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				ExceptionHandling="2"
 				RuntimeLibrary="0"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -671,7 +675,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				AdditionalDependencies="Strmiids.lib strmbase.lib"
 				OutputFile="$(OutDir)/dsfOggDemux2.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -742,6 +746,7 @@
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				ExceptionHandling="2"
 				RuntimeLibrary="0"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -757,7 +762,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				AdditionalDependencies="Strmiids.lib strmbase.lib"
 				OutputFile="$(OutDir)/dsfOggDemux2.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -828,6 +833,7 @@
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;DSFOGGDEMUX2_EXPORTS;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
 				ExceptionHandling="2"
 				RuntimeLibrary="0"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -843,7 +849,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Strmiids.lib Ole32.Lib OleAut32.Lib Ws2.lib"
+				AdditionalDependencies="Strmiids.lib strmbase.lib"
 				OutputFile="$(OutDir)/dsfOggDemux2.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
