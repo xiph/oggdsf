@@ -2,7 +2,7 @@
 :: Copyright (C) 2008 - 2010 Cristian Adam
 ::---------------------------------------------------------------------------------------------------------------------------------
 
-set COMPILER=VS2005
+set COMPILER=VS2008
 
 :: Get revision number
 svn info http://svn.xiph.org/trunk/oggdsf | findstr Revision > revision_text

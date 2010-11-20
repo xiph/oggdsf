@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="webmmux_2005"
 	ProjectGUID="{C3A37824-8CF1-4B1F-81B9-6D7A49CFC03C}"
 	RootNamespace="webmmux"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -94,9 +95,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -175,9 +173,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -259,9 +254,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -340,9 +332,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -470,7 +459,7 @@
 					<Tool
 						Name="VCMIDLTool"
 						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						OutputDirectory="$(ProjectDir)"
 						HeaderFileName="$(InputName)idl.h"
 						InterfaceIdentifierFileName="$(InputName)idl.c"
 					/>
@@ -481,7 +470,7 @@
 					<Tool
 						Name="VCMIDLTool"
 						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						OutputDirectory="$(ProjectDir)"
 						HeaderFileName="$(InputName)idl.h"
 						InterfaceIdentifierFileName="$(InputName)idl.c"
 					/>
@@ -492,7 +481,7 @@
 					<Tool
 						Name="VCMIDLTool"
 						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						OutputDirectory="$(ProjectDir)"
 						HeaderFileName="$(InputName)idl.h"
 						InterfaceIdentifierFileName="$(InputName)idl.c"
 					/>
@@ -503,7 +492,7 @@
 					<Tool
 						Name="VCMIDLTool"
 						TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-						OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+						OutputDirectory="$(ProjectDir)"
 						HeaderFileName="$(InputName)idl.h"
 						InterfaceIdentifierFileName="$(InputName)idl.c"
 					/>
@@ -514,11 +503,11 @@
 				>
 			</File>
 			<File
-				RelativePath="$(IntDir)\webmmuxidl.c"
+				RelativePath=".\webmmuxidl.c"
 				>
 			</File>
 			<File
-				RelativePath="$(IntDir)\webmmuxidl.h"
+				RelativePath=".\webmmuxidl.h"
 				>
 			</File>
 		</Filter>

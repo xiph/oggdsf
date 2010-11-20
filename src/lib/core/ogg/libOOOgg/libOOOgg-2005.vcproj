@@ -1,312 +1,996 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<VisualStudioProject ProjectType="Visual C++" Version="8.00" Name="libOOOgg" ProjectGUID="{223ACC19-608E-4E1B-A054-067F0CACB272}" RootNamespace="libOOOgg" Keyword="Win32Proj">
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8,00"
+	Name="libOOOgg"
+	ProjectGUID="{223ACC19-608E-4E1B-A054-067F0CACB272}"
+	RootNamespace="libOOOgg"
+	Keyword="Win32Proj"
+	>
 	<Platforms>
-		<Platform Name="Win32"/>
-		<Platform Name="x64"/>
-		<Platform Name="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"/>
-		<Platform Name="Windows Mobile 5.0 Smartphone SDK (ARMV4I)"/>
-		<Platform Name="Windows Mobile 6 Professional SDK (ARMV4I)"/>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+		/>
+		<Platform
+			Name="Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+		/>
+		<Platform
+			Name="Windows Mobile 6 Professional SDK (ARMV4I)"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration Name="Debug|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool"/>
-			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL" MinimalRebuild="true" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="4"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL" MinimalRebuild="true" BasicRuntimeChecks="3" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="3" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				MinimalRebuild="true"
+				RuntimeLibrary="1"
+				TreatWChar_tAsBuiltInType="false"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				MinimalRebuild="true"
+				RuntimeLibrary="1"
+				TreatWChar_tAsBuiltInType="false"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="0" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" MinimalRebuild="true" RuntimeLibrary="3" UsePrecompiledHeader="2" WarningLevel="4" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				MinimalRebuild="true"
+				RuntimeLibrary="1"
+				TreatWChar_tAsBuiltInType="false"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Win32" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool"/>
-			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL" StringPooling="true" RuntimeLibrary="2" BufferSecurityCheck="false" EnableFunctionLevelLinking="true" EnableEnhancedInstructionSet="0" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				EnableEnhancedInstructionSet="0"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="0"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="3"/>
-			<Tool Name="VCCLCompilerTool" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" OmitFramePointers="true" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL" StringPooling="true" RuntimeLibrary="2" BufferSecurityCheck="false" EnableFunctionLevelLinking="true" EnableEnhancedInstructionSet="0" UsePrecompiledHeader="2" WarningLevel="4" Detect64BitPortabilityProblems="false" DebugInformationFormat="0" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCFxCopTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
+		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_CRT_VERSION;WIN32;NDEBUG;_WINDOWS;_USRDLL"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				EnableEnhancedInstructionSet="0"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="0"
+				CallingConvention="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" BufferSecurityCheck="false" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="0" BufferSecurityCheck="false" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
-		<Configuration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)" OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="$(PlatformName)\$(ConfigurationName)" ConfigurationType="4" InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops" CharacterSet="1" WholeProgramOptimization="1">
-			<Tool Name="VCPreBuildEventTool"/>
-			<Tool Name="VCCustomBuildTool"/>
-			<Tool Name="VCXMLDataGeneratorTool"/>
-			<Tool Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool Name="VCMIDLTool" TargetEnvironment="1"/>
-			<Tool Name="VCCLCompilerTool" ExecutionBucket="7" Optimization="2" InlineFunctionExpansion="2" EnableIntrinsicFunctions="true" FavorSizeOrSpeed="1" AdditionalIncludeDirectories="..;..\..\..\helper" PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)" StringPooling="true" RuntimeLibrary="2" BufferSecurityCheck="false" EnableFunctionLevelLinking="true" UsePrecompiledHeader="2" WarningLevel="4" DebugInformationFormat="0" CallingConvention="0"/>
-			<Tool Name="VCManagedResourceCompilerTool"/>
-			<Tool Name="VCResourceCompilerTool"/>
-			<Tool Name="VCPreLinkEventTool"/>
-			<Tool Name="VCLibrarianTool"/>
-			<Tool Name="VCALinkTool"/>
-			<Tool Name="VCXDCMakeTool"/>
-			<Tool Name="VCBscMakeTool"/>
-			<Tool Name="VCCodeSignTool"/>
-			<Tool Name="VCPostBuildEventTool"/>
-			<DeploymentTool ForceDirty="-1" RemoteDirectory="" RegisterOutput="0" AdditionalFiles=""/>
-			<DebuggerTool/>
+		<Configuration
+			Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..;..\..\..\helper"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);$(PLATFORMDEFINES)"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="2"
+				WarningLevel="4"
+				DebugInformationFormat="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
-		<Filter Name="Source Files" Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
-			<File RelativePath=".\CircularBuffer.cpp">
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
+			>
+			<File
+				RelativePath=".\CircularBuffer.cpp"
+				>
 			</File>
-			<File RelativePath="libOOOgg.cpp">
+			<File
+				RelativePath="libOOOgg.cpp"
+				>
 			</File>
-			<File RelativePath="OggDataBuffer.cpp">
+			<File
+				RelativePath="OggDataBuffer.cpp"
+				>
 			</File>
-			<File RelativePath="OggMuxStream.cpp">
+			<File
+				RelativePath="OggMuxStream.cpp"
+				>
 			</File>
-			<File RelativePath="OggPacket.cpp">
+			<File
+				RelativePath="OggPacket.cpp"
+				>
 			</File>
-			<File RelativePath=".\OggPacketiser.cpp">
+			<File
+				RelativePath=".\OggPacketiser.cpp"
+				>
 			</File>
-			<File RelativePath="OggPage.cpp">
+			<File
+				RelativePath="OggPage.cpp"
+				>
 			</File>
-			<File RelativePath="OggPageHeader.cpp">
+			<File
+				RelativePath="OggPageHeader.cpp"
+				>
 			</File>
-			<File RelativePath="OggPageInterleaver.cpp">
+			<File
+				RelativePath="OggPageInterleaver.cpp"
+				>
 			</File>
-			<File RelativePath="OggPaginator.cpp">
+			<File
+				RelativePath="OggPaginator.cpp"
+				>
 			</File>
-			<File RelativePath="OggPaginatorSettings.cpp">
+			<File
+				RelativePath="OggPaginatorSettings.cpp"
+				>
 			</File>
-			<File RelativePath="StampedOggPacket.cpp">
+			<File
+				RelativePath="StampedOggPacket.cpp"
+				>
 			</File>
-			<File RelativePath="stdafx.cpp">
-				<FileConfiguration Name="Debug|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+			<File
+				RelativePath="stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Win32">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|x64">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 5.0 Smartphone SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)">
-					<Tool Name="VCCLCompilerTool" UsePrecompiledHeader="1"/>
+				<FileConfiguration
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;inc">
-			<File RelativePath=".\CircularBuffer.h">
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc"
+			>
+			<File
+				RelativePath=".\CircularBuffer.h"
+				>
 			</File>
-			<File RelativePath="dllstuff.h">
+			<File
+				RelativePath="dllstuff.h"
+				>
 			</File>
-			<File RelativePath=".\IFIFOBuffer.h">
+			<File
+				RelativePath=".\IFIFOBuffer.h"
+				>
 			</File>
-			<File RelativePath="INotifyArrival.h">
+			<File
+				RelativePath="INotifyArrival.h"
+				>
 			</File>
-			<File RelativePath="INotifyComplete.h">
+			<File
+				RelativePath="INotifyComplete.h"
+				>
 			</File>
-			<File RelativePath="IOggCallback.h">
+			<File
+				RelativePath="IOggCallback.h"
+				>
 			</File>
-			<File RelativePath="IOggPackSource.h">
+			<File
+				RelativePath="IOggPackSource.h"
+				>
 			</File>
-			<File RelativePath="IStampedOggPacketSink.h">
+			<File
+				RelativePath="IStampedOggPacketSink.h"
+				>
 			</File>
-			<File RelativePath="libOOOgg.h">
+			<File
+				RelativePath="libOOOgg.h"
+				>
 			</File>
-			<File RelativePath="OggDataBuffer.h">
+			<File
+				RelativePath="OggDataBuffer.h"
+				>
 			</File>
-			<File RelativePath="OggMuxStream.h">
+			<File
+				RelativePath="OggMuxStream.h"
+				>
 			</File>
-			<File RelativePath="OggPacket.h">
+			<File
+				RelativePath="OggPacket.h"
+				>
 			</File>
-			<File RelativePath=".\OggPacketiser.h">
+			<File
+				RelativePath=".\OggPacketiser.h"
+				>
 			</File>
-			<File RelativePath="OggPage.h">
+			<File
+				RelativePath="OggPage.h"
+				>
 			</File>
-			<File RelativePath="OggPageHeader.h">
+			<File
+				RelativePath="OggPageHeader.h"
+				>
 			</File>
-			<File RelativePath="OggPageInterleaver.h">
+			<File
+				RelativePath="OggPageInterleaver.h"
+				>
 			</File>
-			<File RelativePath="OggPaginator.h">
+			<File
+				RelativePath="OggPaginator.h"
+				>
 			</File>
-			<File RelativePath="OggPaginatorSettings.h">
+			<File
+				RelativePath="OggPaginatorSettings.h"
+				>
 			</File>
-			<File RelativePath="OggTypeDefs.h">
+			<File
+				RelativePath="OggTypeDefs.h"
+				>
 			</File>
-			<File RelativePath="StampedOggPacket.h">
+			<File
+				RelativePath="StampedOggPacket.h"
+				>
 			</File>
-			<File RelativePath="stdafx.h">
+			<File
+				RelativePath="stdafx.h"
+				>
 			</File>
 		</Filter>
-		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+			>
 		</Filter>
-		<File RelativePath="ReadMe.txt">
+		<File
+			RelativePath="ReadMe.txt"
+			>
 		</File>
 	</Files>
 	<Globals>

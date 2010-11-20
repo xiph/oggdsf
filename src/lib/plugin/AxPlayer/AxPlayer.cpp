@@ -60,22 +60,6 @@ STDAPI DllRegisterServer(void)
 {
     // registers object, typelib and all interfaces in typelib
     HRESULT hr = _AtlModule.DllRegisterServer();
-
-    // IEREGISTERXMLNSFN is available in Microsoft SDK for Windows 7,
-    // which doesn't work with Visual Studio 2005
-#if _MSC_VER >= 1500
-    // Microsoft has IERegisterXMLNS function in <MsHtmHst.h> but
-    // didn't bother to give also a library
-    HMODULE mshtml = (HMODULE)::LoadLibrary(L"mshtml.dll");
-
-    IEREGISTERXMLNSFN* ieRegisterXmlsNs = (IEREGISTERXMLNSFN*)::GetProcAddress(mshtml, "IERegisterXMLNS");
-
-    if (ieRegisterXmlsNs != 0)
-    {
-        (*ieRegisterXmlsNs)(HTML5NS, CLSID_VideoTagBehavior, TRUE);
-    }
-#endif
-
 	return hr;
 }
 

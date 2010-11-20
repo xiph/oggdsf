@@ -41,7 +41,7 @@
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="$(IntDir)"
 				TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-				OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+				OutputDirectory="$(ProjectDir)"
 				HeaderFileName="$(InputName)idl.h"
 				InterfaceIdentifierFileName="$(InputName)idl.c"
 			/>
@@ -130,7 +130,7 @@
 				AdditionalIncludeDirectories="$(IntDir)"
 				TargetEnvironment="3"
 				TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-				OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+				OutputDirectory="$(ProjectDir)"
 				HeaderFileName="$(InputName)idl.h"
 				InterfaceIdentifierFileName="$(InputName)idl.c"
 			/>
@@ -219,7 +219,7 @@
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="$(IntDir)"
 				TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-				OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+				OutputDirectory="$(ProjectDir)"
 				HeaderFileName="$(InputName)idl.h"
 				InterfaceIdentifierFileName="$(InputName)idl.c"
 			/>
@@ -307,7 +307,7 @@
 				AdditionalIncludeDirectories="$(IntDir)"
 				TargetEnvironment="3"
 				TypeLibraryName="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)\$(InputName).tlb"
-				OutputDirectory="$(ProjectDir)\$(PlatformName)\$(ConfigurationName)"
+				OutputDirectory="$(ProjectDir)"
 				HeaderFileName="$(InputName)idl.h"
 				InterfaceIdentifierFileName="$(InputName)idl.c"
 			/>
@@ -392,11 +392,11 @@
 				>
 			</File>
 			<File
-				RelativePath="$(IntDir)\vp8encoderidl.c"
+				RelativePath=".\vp8encoderidl.c"
 				>
 			</File>
 			<File
-				RelativePath="$(IntDir)\vp8encoderidl.h"
+				RelativePath=".\vp8encoderidl.h"
 				>
 			</File>
 		</Filter>

@@ -82,6 +82,17 @@ public:
 	virtual LPAMOVIESETUP_FILTER GetSetupData();
 #endif
 
+#if defined (_DEBUG) && defined (WINCE)
+    ULONG __stdcall NonDelegatingRelease()
+    {
+        if (m_cRef == 1) 
+        {
+            ASSERT(m_pGraph == NULL);
+        }
+        return CUnknown::NonDelegatingRelease();
+    }
+#endif
+
 protected:
 
 	virtual void ResetFrameCount();

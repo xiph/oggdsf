@@ -55,6 +55,17 @@ public:
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
+#if defined (_DEBUG) && defined (WINCE)
+    ULONG __stdcall NonDelegatingRelease()
+    {
+        if (m_cRef == 1) 
+        {
+            ASSERT(m_pGraph == NULL);
+        }
+        return CUnknown::NonDelegatingRelease();
+    }
+#endif
+
 	//Constructors
 	AbstractTransformFilter(const wchar_t* inFilterName, REFCLSID inFilterGUID);
 	virtual ~AbstractTransformFilter(void);
