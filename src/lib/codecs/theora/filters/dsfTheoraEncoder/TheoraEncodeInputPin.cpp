@@ -1387,6 +1387,7 @@ bool TheoraEncodeInputPin::ConstructCodec()
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.outerFrameWidth = m_theoraInfo.width;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.xOffset = (unsigned char)m_xOffset;
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.yOffset = (unsigned char)m_yOffset;
+    ((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.pixelFormat = m_theoraInfo.pixelformat; 
 
 	//TODO ::: DO something about aspect ratios
 	((TheoraEncodeFilter*)mParentFilter)->mTheoraFormatBlock.aspectDenominator = 0;
@@ -1465,4 +1466,9 @@ bool TheoraEncodeInputPin::GetFlipImageVerticaly() const
 void TheoraEncodeInputPin::SetFlipImageVerticaly( bool val )
 {
     m_flipImageVerticaly = val;
+}
+
+StampedOggPacket** TheoraEncodeInputPin::GetCodecHeaders()
+{
+    return m_theoraEncoder.initCodec(m_theoraInfo);
 }

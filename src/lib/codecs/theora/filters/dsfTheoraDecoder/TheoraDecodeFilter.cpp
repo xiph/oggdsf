@@ -79,10 +79,16 @@ const AMOVIESETUP_MEDIATYPE TheoraDecodeFilter::m_outputMediaTypes[] =
     }
 };
 
-const AMOVIESETUP_MEDIATYPE TheoraDecodeFilter::m_inputMediaTypes = 
+const AMOVIESETUP_MEDIATYPE TheoraDecodeFilter::m_inputMediaTypes[] = 
 {
-    &MEDIATYPE_OggPacketStream,
-    &MEDIASUBTYPE_None
+	{
+		&MEDIATYPE_OggPacketStream,
+		&MEDIASUBTYPE_None
+	},
+	{
+		&MEDIATYPE_Video,
+		&MEDIASUBTYPE_Theora
+	}
 };
 
 const AMOVIESETUP_PIN TheoraDecodeFilter::m_pinReg[] = 
@@ -95,8 +101,8 @@ const AMOVIESETUP_PIN TheoraDecodeFilter::m_pinReg[] =
         FALSE,								//Cannot have more than one instance of this pin
         &GUID_NULL,							//Connects to filter (obsoleted)
         NULL,								//Connects to pin (obsoleted)
-        1,									//Supports two media type
-        &m_inputMediaTypes				    //Pointer to media type (Video/Theora)
+        2,									//Supports two media type
+        m_inputMediaTypes				    //Pointer to media type (Video/Theora)
     } ,
 
     {
@@ -316,6 +322,14 @@ HRESULT TheoraDecodeFilter::CheckInputType(const CMediaType* inMediaType)
 			}
 		}
 	}
+
+	if (inMediaType->majortype == MEDIATYPE_Video &&
+		inMediaType->subtype == MEDIASUBTYPE_Theora &&
+		inMediaType->formattype == FORMAT_Theora)
+	{
+		LOG(logDEBUG) << __FUNCTIONW__ << " Input type ok";
+		return S_OK;
+	} 
 
     LOG(logDEBUG) << __FUNCTIONW__ << " Input type not ok.";
     if (inMediaType->cbFormat > 7)
@@ -1085,7 +1099,16 @@ HRESULT TheoraDecodeFilter::SetMediaType(PIN_DIRECTION inDirection, const CMedia
 		if (CheckInputType(inMediaType) == S_OK) 
         {
 			//LOG(logDEBUG) << "Setting format block";
-			SetTheoraFormat(inMediaType->pbFormat);
+			if (inMediaType->majortype == MEDIATYPE_Video &&
+				inMediaType->subtype == MEDIASUBTYPE_Theora && 
+				inMediaType->formattype == FORMAT_Theora)
+			{
+                SetTheoraFormat(reinterpret_cast<THEORAFORMAT*>(inMediaType->pbFormat));
+			}
+			else
+			{
+				SetTheoraFormat(inMediaType->pbFormat);
+			} 
 
             if (m_theoraFormatInfo->pixelFormat == TH_PF_420 ||
                 m_theoraFormatInfo->pixelFormat == TH_PF_422)
@@ -1165,9 +1188,9 @@ THEORAFORMAT* TheoraDecodeFilter::GetTheoraFormatBlock()
 void TheoraDecodeFilter::SetTheoraFormat(BYTE* inFormatBlock) 
 {
 	delete m_theoraFormatInfo;
-	m_theoraFormatInfo = new THEORAFORMAT;			//Deelted in destructor.
+	m_theoraFormatInfo = new THEORAFORMAT;			//Deleted in destructor.
 
-    // TODO: replace code blow with th_decode_headerin
+    // TODO: replace code below with th_decode_headerin
 
 	//0		-	55			theora ident						0	-	6
 	//56	-	63			ver major							7	-	7
@@ -1207,6 +1230,20 @@ void TheoraDecodeFilter::SetTheoraFormat(BYTE* inFormatBlock)
 	m_theoraFormatInfo->maxKeyframeInterval= (((locIdentHeader[40]) % 4) << 3) + (locIdentHeader[41] >> 5);
     m_theoraFormatInfo->pixelFormat = (locIdentHeader[41] >> 3) & 3;
 
+    PrintTheoraFormatInfo();
+}
+
+void TheoraDecodeFilter::SetTheoraFormat(THEORAFORMAT* theoraFormat)
+{
+    delete m_theoraFormatInfo;
+    m_theoraFormatInfo = new THEORAFORMAT;			//Deleted in destructor.
+
+    *m_theoraFormatInfo = *theoraFormat;
+    PrintTheoraFormatInfo();
+}
+
+void TheoraDecodeFilter::PrintTheoraFormatInfo()
+{
     LOG(logINFO) << "Theora Format: ";
     LOG(logINFO) << "\ttheoraVersion: " << m_theoraFormatInfo->theoraVersion;
     LOG(logINFO) << "\touterFrameWidth: " << m_theoraFormatInfo->outerFrameWidth;

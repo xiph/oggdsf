@@ -52,7 +52,7 @@ public:
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
     static const wchar_t* NAME;
-    static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes;
+    static const AMOVIESETUP_MEDIATYPE m_inputMediaTypes[];
     static const AMOVIESETUP_MEDIATYPE m_outputMediaTypes[];
     static const AMOVIESETUP_PIN m_pinReg[];
     static const AMOVIESETUP_FILTER m_filterReg;
@@ -100,6 +100,8 @@ protected:
     //Helpers
     THEORAFORMAT* GetTheoraFormatBlock();
     void SetTheoraFormat(BYTE* inFormatBlock);
+    void SetTheoraFormat(THEORAFORMAT* theoraFormat);
+    void PrintTheoraFormatInfo();
 
 	HRESULT CheckOutputType(const CMediaType* inMediaType);
 	void DeleteBufferedPacketsAfter(unsigned long inPacketIndex);

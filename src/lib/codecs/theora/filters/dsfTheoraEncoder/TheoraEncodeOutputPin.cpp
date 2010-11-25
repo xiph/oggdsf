@@ -31,6 +31,9 @@
 
 #include "stdafx.h"
 #include "theoraencodeoutputpin.h"
+#include <atlcomcli.h>
+#include "IOggDecoder.h"
+#include "Common/OggTypes.h" 
 
 TheoraEncodeOutputPin::TheoraEncodeOutputPin(TheoraEncodeFilter* inParentFilter,CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes)
 	:	AbstractTransformOutputPin(inParentFilter, inFilterLock,NAME("TheoraEncodeOutputPin"), L"Theora Out", 1024*1024, 3, inAcceptableMediaTypes)
@@ -61,4 +64,27 @@ HRESULT TheoraEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaTyp
 	} else {
         return S_FALSE;
 	}
+}
+
+HRESULT TheoraEncodeOutputPin::CompleteConnect(IPin *inReceivePin)
+{
+	CComPtr<IOggDecoder> decoder;
+    inReceivePin->QueryInterface(IID_IOggDecoder, (void**)&decoder);
+	if (decoder != NULL) 
+    {
+		StampedOggPacket** locHeaders;
+		locHeaders = ((TheoraEncodeInputPin*)(GetFilter()->GetPin(0)))->GetCodecHeaders();
+
+		for (int i = 0; i < 3; i++) {
+			decoder->showHeaderPacket(locHeaders[i]);
+			delete locHeaders[i];
+		}
+	}
+
+	return AbstractTransformOutputPin::CompleteConnect(inReceivePin);
+}
+
+TheoraEncodeFilter* TheoraEncodeOutputPin::GetFilter()
+{
+    return static_cast<TheoraEncodeFilter*>(mParentFilter);
 }

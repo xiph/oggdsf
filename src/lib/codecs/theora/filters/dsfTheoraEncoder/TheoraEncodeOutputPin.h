@@ -36,6 +36,7 @@
 
 class TheoraEncodeFilter;
 struct THEORAFORMAT;
+struct IPin;
 
 class TheoraEncodeOutputPin
 	:	public	AbstractTransformOutputPin
@@ -47,6 +48,9 @@ public:
 	TheoraEncodeOutputPin(TheoraEncodeFilter* inParentFilter, CCritSec* inFilterLock, vector<CMediaType*> inAcceptableMediaTypes);
 	virtual ~TheoraEncodeOutputPin(void);
 
+    //Pin Connection Methods
+    virtual HRESULT CompleteConnect(IPin *inReceivePin); 
+
 	//PURE VIRTUAL IMPLEMENTATION
 	//virtual bool FillFormatBuffer(BYTE* inFormatBuffer);
 	//virtual unsigned long FormatBufferSize();
@@ -55,5 +59,5 @@ public:
 protected:
 	HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
 
-	
+    TheoraEncodeFilter* GetFilter(); 	
 };

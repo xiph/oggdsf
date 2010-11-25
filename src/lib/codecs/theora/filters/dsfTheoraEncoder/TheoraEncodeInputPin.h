@@ -56,6 +56,8 @@ public:
     bool GetFlipImageVerticaly() const;
     void SetFlipImageVerticaly(bool val);
 
+    StampedOggPacket** GetCodecHeaders(); 
+
 protected:
 
 	//PURE VIRTUALS
