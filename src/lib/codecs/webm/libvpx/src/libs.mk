@@ -1,5 +1,5 @@
 ##
-##  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+##  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
 ##
 ##  Use of this source code is governed by a BSD-style license
 ##  that can be found in the LICENSE file in the root of the source
@@ -91,7 +91,9 @@ ifeq ($(ARCH_X86)$(ARCH_X86_64),yes)
 CODEC_SRCS-$(BUILD_LIBVPX) += vpx_ports/emms.asm
 CODEC_SRCS-$(BUILD_LIBVPX) += vpx_ports/x86.h
 CODEC_SRCS-$(BUILD_LIBVPX) += vpx_ports/x86_abi_support.asm
+CODEC_SRCS-$(BUILD_LIBVPX) += vpx_ports/x86_cpuid.c
 endif
+CODEC_SRCS-$(ARCH_ARM) += vpx_ports/arm_cpudetect.c
 CODEC_SRCS-$(ARCH_ARM) += $(BUILD_PFX)vpx_config.asm
 CODEC_EXPORTS-$(BUILD_LIBVPX) += vpx/exports_com
 CODEC_EXPORTS-$(CONFIG_ENCODERS) += vpx/exports_enc

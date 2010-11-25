@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="D8CF3497-F85B-297F-9206-E4BB0D9139AB"
+            UniqueIdentifier="329132D6-E855-8574-10A9-EA54BC5C350B"
             >
             <File
                 RelativePath=".\..\src\simple_decoder.c"
@@ -80,19 +80,19 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="1F5C62A5-92A1-D01A-B8DD-8D737942F1A3"
+            UniqueIdentifier="4CD217E1-45B5-41A0-204E-22757BBAFF63"
             >
         </Filter>
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="2B496F97-425C-72B0-DBE0-3DE2FF5AF50E"
+            UniqueIdentifier="B305DE60-1603-1F98-E999-FE119BB3DFFE"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="1D711844-78EB-88D6-4411-FC29374276CA"
+            UniqueIdentifier="437F087B-AC96-E208-D472-53162E26849E"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

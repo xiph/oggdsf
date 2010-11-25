@@ -6,6 +6,7 @@
 	ProjectGUID="{DCE19DAF-69AC-46DB-B14A-39F0FAA5DB74}"
 	RootNamespace="vpx"
 	Keyword="ManagedCProj"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -595,6 +596,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\vp8\decoder\reconintra_mt.c"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\vp8\encoder\sad_c.c"
 				>
 			</File>
@@ -643,11 +648,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\vp8\encoder\x86\subtract_sse2.asm"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\vp8\common\swapyv12buffer.c"
 				>
 			</File>
 			<File
 				RelativePath=".\..\src\vp8\common\generic\systemdependent.c"
+				>
+			</File>
+			<File
+				RelativePath="..\src\vp8\encoder\temporal_filter.c"
 				>
 			</File>
 			<File
@@ -1025,6 +1038,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\vp8\decoder\reconintra_mt.h"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\vpx_scale\scale_mode.h"
 				>
 			</File>
@@ -1050,6 +1067,10 @@
 			</File>
 			<File
 				RelativePath=".\..\src\vp8\common\systemdependent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\vp8\encoder\temporal_filter.h"
 				>
 			</File>
 			<File

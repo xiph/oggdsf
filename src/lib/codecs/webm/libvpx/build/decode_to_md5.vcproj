@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="B0B78E0F-C3D7-4690-0B7F-FFB7A1040057"
+            UniqueIdentifier="5BE7BFDF-D692-9C73-264C-9E6ABE09DE8E"
             >
             <File
                 RelativePath=".\..\src\md5_utils.c"
@@ -84,7 +84,7 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="5D0893F4-5A95-321A-515D-2C3C71F9F960"
+            UniqueIdentifier="C71B4F01-AB75-1449-804C-335ADBC40A50"
             >
             <File
                 RelativePath=".\..\src\md5_utils.h"
@@ -94,13 +94,13 @@
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="CEADFD70-1BBC-9FEB-2D89-4EFF64000AF5"
+            UniqueIdentifier="0A252DFF-783B-24B2-F508-CB697641CC6E"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="7A83A9AC-6CAA-CC2B-88EE-33F9BEBA28BF"
+            UniqueIdentifier="E6DFFF80-71E1-9AE8-9F09-74AC8B108D6C"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

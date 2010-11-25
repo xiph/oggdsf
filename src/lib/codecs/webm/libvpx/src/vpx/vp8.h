@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -53,7 +53,7 @@ enum vp8_postproc_level
     VP8_NOFILTERING    = 0,
     VP8_DEBLOCK        = 1,
     VP8_DEMACROBLOCK   = 2,
-    VP8_ADDNOISE       = 4,
+    VP8_ADDNOISE       = 4
 };
 
 /*!\brief post process flags

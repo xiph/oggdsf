@@ -1,5 +1,5 @@
 ;
-;  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+;  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
 ;
 ;  Use of this source code is governed by a BSD-style license
 ;  that can be found in the LICENSE file in the root of the source
@@ -12,7 +12,7 @@
 %include "vpx_ports/x86_abi_support.asm"
 
 ;void vp8_subtract_b_mmx_impl(unsigned char *z,  int src_stride,
-;                            unsigned short *diff, unsigned char *Predictor,
+;                            short *diff, unsigned char *Predictor,
 ;                            int pitch);
 global sym(vp8_subtract_b_mmx_impl)
 sym(vp8_subtract_b_mmx_impl):

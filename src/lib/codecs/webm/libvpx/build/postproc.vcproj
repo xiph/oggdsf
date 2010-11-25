@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="FADBA850-0A2F-08AF-34C4-8682C8DFC07A"
+            UniqueIdentifier="CC0B920E-9C80-5DF3-2600-FE561F55D1E9"
             >
             <File
                 RelativePath=".\..\src\postproc.c"
@@ -80,19 +80,19 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="ADEBC705-13FA-EC7A-290C-6E7591D68E28"
+            UniqueIdentifier="8C053362-CA8B-CF24-EE4D-AE402F9AEF3A"
             >
         </Filter>
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="7EC7304B-B390-EF3A-650F-FFF1A6170000"
+            UniqueIdentifier="850CD92F-1DDA-5E81-5F91-2524E5E49EA0"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="466BA14B-25D3-50CF-793D-640C7BE5B7AB"
+            UniqueIdentifier="C4926180-54E1-75CF-F314-48089A4BA732"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

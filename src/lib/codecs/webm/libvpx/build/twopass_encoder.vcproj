@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="B69B2333-D7D1-C0C4-9D1A-C05ED163D1F4"
+            UniqueIdentifier="3E7536A3-E233-9CDD-52D8-1844F3476128"
             >
             <File
                 RelativePath=".\..\src\twopass_encoder.c"
@@ -80,19 +80,19 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="B7009610-D27F-2B4C-5A77-8A6796CB6581"
+            UniqueIdentifier="E4BDE045-DC30-28C5-190A-CCAD8A8509A7"
             >
         </Filter>
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="0F8A9AD3-2006-3F8B-2317-ACE274467C2C"
+            UniqueIdentifier="BBD3ED05-44C3-D110-DFEF-51120D133B74"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="885B7929-44CD-E4DE-F0DF-DFCC6BF997BA"
+            UniqueIdentifier="FC2697A9-063C-D230-7BD4-07E11A676486"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

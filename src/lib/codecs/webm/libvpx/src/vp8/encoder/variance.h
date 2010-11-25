@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -15,9 +15,9 @@
 #define prototype_sad(sym)\
     unsigned int (sym)\
     (\
-     unsigned char *src_ptr, \
+     const unsigned char *src_ptr, \
      int source_stride, \
-     unsigned char *ref_ptr, \
+     const unsigned char *ref_ptr, \
      int  ref_stride, \
      int max_sad\
     )
@@ -25,9 +25,9 @@
 #define prototype_sad_multi_same_address(sym)\
     void (sym)\
     (\
-     unsigned char *src_ptr, \
+     const unsigned char *src_ptr, \
      int source_stride, \
-     unsigned char *ref_ptr, \
+     const unsigned char *ref_ptr, \
      int  ref_stride, \
      unsigned int *sad_array\
     )
@@ -35,7 +35,7 @@
 #define prototype_sad_multi_dif_address(sym)\
     void (sym)\
     (\
-     unsigned char *src_ptr, \
+     const unsigned char *src_ptr, \
      int source_stride, \
      unsigned char *ref_ptr[4], \
      int  ref_stride, \
@@ -45,9 +45,9 @@
 #define prototype_variance(sym) \
     unsigned int (sym) \
     (\
-     unsigned char *src_ptr, \
+     const unsigned char *src_ptr, \
      int source_stride, \
-     unsigned char *ref_ptr, \
+     const unsigned char *ref_ptr, \
      int  ref_stride, \
      unsigned int *sse\
     )
@@ -55,9 +55,9 @@
 #define prototype_variance2(sym) \
     unsigned int (sym) \
     (\
-     unsigned char *src_ptr, \
+     const unsigned char *src_ptr, \
      int source_stride, \
-     unsigned char *ref_ptr, \
+     const unsigned char *ref_ptr, \
      int  ref_stride, \
      unsigned int *sse,\
      int *sum\
@@ -66,17 +66,17 @@
 #define prototype_subpixvariance(sym) \
     unsigned int (sym) \
     ( \
-      unsigned char  *src_ptr, \
+      const unsigned char  *src_ptr, \
       int  source_stride, \
       int  xoffset, \
       int  yoffset, \
-      unsigned char *ref_ptr, \
+      const unsigned char *ref_ptr, \
       int Refstride, \
       unsigned int *sse \
     );
 
 
-#define prototype_getmbss(sym) unsigned int (sym)(short *)
+#define prototype_getmbss(sym) unsigned int (sym)(const short *)
 
 #if ARCH_X86 || ARCH_X86_64
 #include "x86/variance_x86.h"
@@ -219,6 +219,21 @@ extern prototype_subpixvariance(vp8_variance_subpixvar16x8);
 #endif
 extern prototype_subpixvariance(vp8_variance_subpixvar16x16);
 
+#ifndef vp8_variance_halfpixvar16x16_h
+#define vp8_variance_halfpixvar16x16_h vp8_variance_halfpixvar16x16_h_c
+#endif
+extern prototype_variance(vp8_variance_halfpixvar16x16_h);
+
+#ifndef vp8_variance_halfpixvar16x16_v
+#define vp8_variance_halfpixvar16x16_v vp8_variance_halfpixvar16x16_v_c
+#endif
+extern prototype_variance(vp8_variance_halfpixvar16x16_v);
+
+#ifndef vp8_variance_halfpixvar16x16_hv
+#define vp8_variance_halfpixvar16x16_hv vp8_variance_halfpixvar16x16_hv_c
+#endif
+extern prototype_variance(vp8_variance_halfpixvar16x16_hv);
+
 #ifndef vp8_variance_subpixmse16x16
 #define vp8_variance_subpixmse16x16 vp8_sub_pixel_mse16x16_c
 #endif
@@ -283,6 +298,9 @@ typedef struct
     vp8_subpixvariance_fn_t  subpixvar8x16;
     vp8_subpixvariance_fn_t  subpixvar16x8;
     vp8_subpixvariance_fn_t  subpixvar16x16;
+    vp8_variance_fn_t        halfpixvar16x16_h;
+    vp8_variance_fn_t        halfpixvar16x16_v;
+    vp8_variance_fn_t        halfpixvar16x16_hv;
     vp8_subpixvariance_fn_t  subpixmse16x16;
 
     vp8_getmbss_fn_t         getmbss;
@@ -309,11 +327,14 @@ typedef struct
 
 typedef struct
 {
-    vp8_sad_fn_t  sdf;
-    vp8_sad_multi_fn_t sdx3f;
-    vp8_sad_multi_d_fn_t sdx4df;
-    vp8_variance_fn_t vf;
+    vp8_sad_fn_t            sdf;
+    vp8_variance_fn_t       vf;
     vp8_subpixvariance_fn_t svf;
+    vp8_variance_fn_t       svf_halfpix_h;
+    vp8_variance_fn_t       svf_halfpix_v;
+    vp8_variance_fn_t       svf_halfpix_hv;
+    vp8_sad_multi_fn_t      sdx3f;
+    vp8_sad_multi_d_fn_t    sdx4df;
 } vp8_variance_fn_ptr_t;
 
 #if CONFIG_RUNTIME_CPU_DETECT
@@ -321,8 +342,5 @@ typedef struct
 #else
 #define VARIANCE_INVOKE(ctx,fn) vp8_variance_##fn
 #endif
-
-/* TODO: Determine if this USEBILINEAR flag is necessary. */
-#define USEBILINEAR
 
 #endif

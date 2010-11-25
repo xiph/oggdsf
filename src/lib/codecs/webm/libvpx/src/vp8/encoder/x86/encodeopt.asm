@@ -1,5 +1,5 @@
 ;
-;  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+;  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
 ;
 ;  Use of this source code is governed by a BSD-style license
 ;  that can be found in the LICENSE file in the root of the source
@@ -50,7 +50,7 @@ sym(vp8_block_error_xmm):
         psrldq      xmm0,       8
         paddd       xmm0,       xmm3
 
-        movd        rax,        xmm0
+        movq        rax,        xmm0
 
     pop rdi
     pop rsi
@@ -115,7 +115,7 @@ sym(vp8_block_error_mmx):
         psrlq       mm1,        32
         paddd       mm0,        mm1
 
-        movd        rax,        mm0
+        movq        rax,        mm0
 
     pop rdi
     pop rsi
@@ -192,7 +192,7 @@ mberror_loop_mmx:
         psrlq       mm2,        32
 
         paddd       mm0,        mm2
-        movd        rax,        mm0
+        movq        rax,        mm0
 
     pop rdi
     pop rsi
@@ -260,7 +260,7 @@ mberror_loop:
         psrldq      xmm0,       8
 
         paddd       xmm0,       xmm1
-        movd        rax,        xmm0
+        movq        rax,        xmm0
 
     pop rdi
     pop rsi
@@ -317,7 +317,7 @@ mbuverror_loop_mmx:
         psrlq           mm7,        32
 
         paddd           mm0,        mm7
-        movd            rax,        mm0
+        movq            rax,        mm0
 
     pop rdi
     pop rsi
@@ -374,7 +374,7 @@ mbuverror_loop:
         psrldq      xmm1,           8
         paddd       xmm1,           xmm2
 
-        movd            rax,            xmm1
+        movq            rax,            xmm1
 
     pop rdi
     pop rsi

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -16,6 +16,12 @@
 #include "block.h"
 
 void vp8_tokenize_initialize();
+
+typedef struct
+{
+    short Token;
+    short Extra;
+} TOKENVALUE;
 
 typedef struct
 {
@@ -40,6 +46,6 @@ extern const int *vp8_dct_value_cost_ptr;
  *  improve cache locality, since it's needed for costing when the rest of the
  *  fields are not.
  */
-extern const TOKENEXTRA *vp8_dct_value_tokens_ptr;
+extern const TOKENVALUE *vp8_dct_value_tokens_ptr;
 
 #endif  /* tokenize_h */

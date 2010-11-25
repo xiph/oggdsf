@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -20,4 +20,5 @@ extern void vp8_init_second_pass(VP8_COMP *cpi);
 extern void vp8_second_pass(VP8_COMP *cpi);
 extern void vp8_end_second_pass(VP8_COMP *cpi);
 
+extern size_t vp8_firstpass_stats_sz(unsigned int mb_count);
 #endif

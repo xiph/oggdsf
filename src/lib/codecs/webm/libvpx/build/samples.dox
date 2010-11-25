@@ -13,6 +13,6 @@
      - \subpage example_vp8cx_set_ref VP8 set encoder reference frame
 
     In addition, the SDK contains a number of utilities. Since these utilities are built upon the concepts described in the sample code listed above, they are not documented in pieces like the samples are. Thir sourcre is included here for reference. The following utilities are included:
-     - \subpage example_ivfdec Full featured decoder
-     - \subpage example_ivfenc Full featured encoder
+     - \subpage example_vpxdec Full featured decoder
+     - \subpage example_vpxenc Full featured encoder
 */

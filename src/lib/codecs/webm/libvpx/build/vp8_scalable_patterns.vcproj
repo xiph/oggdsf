@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="8B57E195-2554-5D41-B5AE-93856CEDE9DF"
+            UniqueIdentifier="886C29F5-78E7-318D-44CF-084F62C5635B"
             >
             <File
                 RelativePath=".\..\src\vp8_scalable_patterns.c"
@@ -80,19 +80,19 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="911657DF-6FC6-0552-9DF2-C63CD0650740"
+            UniqueIdentifier="B165D0CC-580E-B773-440F-0A8263B1F6A3"
             >
         </Filter>
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="FE18CECA-1A7D-473F-EDCC-E26FC78BE4B8"
+            UniqueIdentifier="50A0C3B9-503D-2B71-B3BE-5019FB2020DA"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="073DABA5-0C21-450E-E95A-77B188D80E96"
+            UniqueIdentifier="F2458ACA-44CA-9D85-F08D-FCE2967D843B"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

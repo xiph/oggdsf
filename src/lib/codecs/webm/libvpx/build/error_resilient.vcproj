@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="44499200-9121-DD9C-E34D-BC0D7A4A33E6"
+            UniqueIdentifier="679DF6C8-2E8F-C227-023F-A08522DE2C73"
             >
             <File
                 RelativePath=".\..\src\error_resilient.c"
@@ -80,19 +80,19 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="1C7E2257-307F-C618-6E38-D82873521AF8"
+            UniqueIdentifier="E3206D35-9F61-C19E-008E-62B68BFC3162"
             >
         </Filter>
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="176FB60C-E43F-DDFA-186D-881EF1161A7C"
+            UniqueIdentifier="25ADA923-FB2A-BDD4-91AB-277E7A99E9A5"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="DAF0D659-E3B7-DBC2-DE1B-247184B673A5"
+            UniqueIdentifier="9F870A08-C6FC-09EB-4C69-0B10AE400A96"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -877,5 +877,5 @@ int y4m_input_fetch_frame(y4m_input *_y4m,FILE *_fin,vpx_image_t *_img){
   _img->planes[PLANE_Y]=_y4m->dst_buf;
   _img->planes[PLANE_U]=_y4m->dst_buf+pic_sz;
   _img->planes[PLANE_V]=_y4m->dst_buf+pic_sz+c_sz;
-  return 0;
+  return 1;
 }

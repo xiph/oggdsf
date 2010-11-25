@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="12BCC27B-FECF-B316-9D0B-709E0524D65F"
+            UniqueIdentifier="2960404B-4844-06E8-C223-C6B5EB04D407"
             >
             <File
                 RelativePath=".\..\src\force_keyframe.c"
@@ -80,19 +80,19 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="481E46D3-C5BE-6D23-C9B5-EFB10E3B49A9"
+            UniqueIdentifier="F3602A04-0148-36B8-B0D9-743A361D4602"
             >
         </Filter>
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="0534AFDD-7882-109D-E566-D53003057BF2"
+            UniqueIdentifier="CD808A92-BBA9-39BE-DD6F-C6B69CEED835"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="0EF92B53-A094-5901-6C83-D14794B8DB0D"
+            UniqueIdentifier="73A92BD7-7CAF-C43E-A09C-5E6293E99B37"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

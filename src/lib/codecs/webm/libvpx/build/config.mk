@@ -4,7 +4,7 @@ ALL_TARGETS += libs
 ALL_TARGETS += examples
 ALL_TARGETS += solution
 ifeq ($(MAKECMDGOALS),dist)
-DIST_DIR?=vpx-vp8-debug-src-x86-win32mt-vs8-v0.9.2
+DIST_DIR?=vpx-vp8-debug-src-x86-win32mt-vs8-v0.9.5
 else
 DIST_DIR?=$(DESTDIR)/usr/local
 endif
@@ -12,7 +12,7 @@ LIBSUBDIR=lib
 
 VERSION_MAJOR=0
 VERSION_MINOR=9
-VERSION_PATCH=2
+VERSION_PATCH=5
 
-CONFIGURE_ARGS=--target=x86-win32-vs8 --enable-debug-libs --enable-install-srcs --enable-codec-srcs --enable-static-msvcrt
-CONFIGURE_ARGS?=--target=x86-win32-vs8 --enable-debug-libs --enable-install-srcs --enable-codec-srcs --enable-static-msvcrt
+CONFIGURE_ARGS=--target=x86-win32-vs8 --enable-static-msvcrt --as=yasm --enable-install-srcs --enable-codec-srcs --enable-debug-libs
+CONFIGURE_ARGS?=--target=x86-win32-vs8 --enable-static-msvcrt --as=yasm --enable-install-srcs --enable-codec-srcs --enable-debug-libs

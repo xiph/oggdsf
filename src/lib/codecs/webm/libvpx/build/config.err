@@ -1,4 +1,4 @@
-# ../src/configure --target=x86-win32-vs8 --enable-debug-libs --enable-install-srcs --enable-codec-srcs --enable-static-msvcrt
+# ../src/configure --target=x86-win32-vs8 --enable-static-msvcrt --as=yasm --enable-install-srcs --enable-codec-srcs --enable-debug-libs
 Configuring selected codecs
   enabling vp8_encoder
   enabling vp8_decoder
@@ -10,19 +10,20 @@ Configuring for target 'x86-win32-vs8'
   enabling sse2
   enabling sse3
   enabling ssse3
+  using yasm
 check_cflags -O3
 check_cc -O3
-BEGIN /tmp/vpx-conf-296-2772.c
+BEGIN /tmp/vpx-conf-2244-18967.c
     1	int x;
-END /tmp/vpx-conf-296-2772.c
--O3 -c -o /tmp/vpx-conf-296-20009.o /tmp/vpx-conf-296-2772.c
-../src/build/make/configure.sh: line 268: -O3: command not found
+END /tmp/vpx-conf-2244-18967.c
+-O3 -c -o /tmp/vpx-conf-2244-31660.o /tmp/vpx-conf-2244-18967.c
+../src/build/make/configure.sh: line 269: -O3: command not found
 check_cc
-BEGIN /tmp/vpx-conf-296-2772.c
+BEGIN /tmp/vpx-conf-2244-18967.c
     1	    unsigned int e = 'O'<<24 | '2'<<16 | 'B'<<8 | 'E';
-END /tmp/vpx-conf-296-2772.c
--c -o /tmp/vpx-conf-296-20009.o /tmp/vpx-conf-296-2772.c
-../src/build/make/configure.sh: line 268: -c: command not found
+END /tmp/vpx-conf-2244-18967.c
+-c -o /tmp/vpx-conf-2244-31660.o /tmp/vpx-conf-2244-18967.c
+../src/build/make/configure.sh: line 269: -c: command not found
   disabling ccache
   enabling postproc
 fake_check_header stdio.h

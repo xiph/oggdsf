@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -55,7 +55,9 @@ extern prototype_submbuv(vp8_subtract_mbuv_mmx);
 extern prototype_berr(vp8_block_error_xmm);
 extern prototype_mberr(vp8_mbblock_error_xmm);
 extern prototype_mbuverr(vp8_mbuverror_xmm);
-
+extern prototype_subb(vp8_subtract_b_sse2);
+extern prototype_submby(vp8_subtract_mby_sse2);
+extern prototype_submbuv(vp8_subtract_mbuv_sse2);
 
 #if !CONFIG_RUNTIME_CPU_DETECT
 #undef  vp8_encodemb_berr
@@ -66,6 +68,15 @@ extern prototype_mbuverr(vp8_mbuverror_xmm);
 
 #undef  vp8_encodemb_mbuverr
 #define vp8_encodemb_mbuverr vp8_mbuverror_xmm
+
+#undef  vp8_encodemb_subb
+#define vp8_encodemb_subb vp8_subtract_b_sse2
+
+#undef  vp8_encodemb_submby
+#define vp8_encodemb_submby vp8_subtract_mby_sse2
+
+#undef  vp8_encodemb_submbuv
+#define vp8_encodemb_submbuv vp8_subtract_mbuv_sse2
 
 #endif
 #endif

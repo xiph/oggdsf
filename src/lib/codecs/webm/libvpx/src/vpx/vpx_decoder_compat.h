@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -78,7 +78,7 @@ extern "C" {
         /*!\brief An iterator reached the end of list.
          *
          */
-        VPX_DEC_LIST_END = VPX_CODEC_LIST_END,
+        VPX_DEC_LIST_END = VPX_CODEC_LIST_END
 
     }
     vpx_dec_err_t;

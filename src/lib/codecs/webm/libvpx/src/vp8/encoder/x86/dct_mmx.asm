@@ -1,5 +1,5 @@
 ;
-;  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+;  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
 ;
 ;  Use of this source code is governed by a BSD-style license
 ;  that can be found in the LICENSE file in the root of the source
@@ -35,7 +35,7 @@ sym(vp8_short_fdct4x4_mmx):
         mov     rsi,    arg(0) ;input
         mov     rdi,    arg(1) ;output
 
-        lea     rdx,    [dct_const_mmx GLOBAL]
+        lea     rdx,    [GLOBAL(dct_const_mmx)]
         movsxd  rax,    dword ptr arg(2) ;pitch
 
         lea     rcx,    [rsi + rax*2]
@@ -243,7 +243,7 @@ sym(vp8_short_fdct8x4_wmt):
         mov         rsi,    arg(0) ;input
         mov         rdi,    arg(1) ;output
 
-        lea         rdx,    [dct_const_xmm GLOBAL]
+        lea         rdx,    [GLOBAL(dct_const_xmm)]
         movsxd      rax,    dword ptr arg(2) ;pitch
 
         lea         rcx,    [rsi + rax*2]

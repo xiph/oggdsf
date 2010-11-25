@@ -70,7 +70,7 @@
         <Filter
             Name="Source Files"
             Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-            UniqueIdentifier="FD532968-A96E-E659-8621-F98A9EE2D8CC"
+            UniqueIdentifier="A0159D28-04DA-6012-56E5-5408ADD8C2DA"
             >
             <File
                 RelativePath=".\..\src\vp8cx_set_ref.c"
@@ -80,19 +80,19 @@
         <Filter
             Name="Header Files"
             Filter="h;hpp;hxx;hm;inl;inc;xsd"
-            UniqueIdentifier="43B8AFD9-0D34-77EE-32B8-E31BC29B2F09"
+            UniqueIdentifier="7640B65C-44F5-A351-D7ED-FC18FA3F8906"
             >
         </Filter>
         <Filter
             Name="Resource Files"
             Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-            UniqueIdentifier="137167DD-6FCE-14FB-03A5-59633EDDD14A"
+            UniqueIdentifier="16393A29-AC20-3C83-2B3B-05F63E8EDDF8"
             >
         </Filter>
         <Filter
             Name="Build Files"
             Filter="mk"
-            UniqueIdentifier="4BCE6247-B5E1-7445-3A52-5DB0F395747A"
+            UniqueIdentifier="1E733489-566B-B555-D3EC-ADE5B8A49C36"
             >
             <File
                 RelativePath=".\..\src\examples.mk"

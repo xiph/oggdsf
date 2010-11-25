@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -1130,6 +1130,8 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
     int bsd = 0;
     int bestsegmentyrate = 0;
 
+    static const int segmentation_to_sseshift[4] = {3, 3, 2, 0};
+
     // FIX TO Rd error outrange bug PGW 9 june 2004
     B_PREDICTION_MODE bmodes[16] = {ZERO4X4, ZERO4X4, ZERO4X4, ZERO4X4,
                                     ZERO4X4, ZERO4X4, ZERO4X4, ZERO4X4,
@@ -1151,10 +1153,10 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
         int rate = 0;
         int sbr = 0;
         int sbd = 0;
-        int UNINITIALIZED_IS_SAFE(sseshift);
+        int sseshift;
         int segmentyrate = 0;
 
-        vp8_variance_fn_ptr_t v_fn_ptr;
+        vp8_variance_fn_ptr_t *v_fn_ptr;
 
         ENTROPY_CONTEXT_PLANES t_above, t_left;
         ENTROPY_CONTEXT *ta;
@@ -1174,42 +1176,8 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
         br = 0;
         bd = 0;
 
-        switch (segmentation)
-        {
-        case 0:
-            v_fn_ptr.vf    = VARIANCE_INVOKE(&cpi->rtcd.variance, var16x8);
-            v_fn_ptr.svf   = VARIANCE_INVOKE(&cpi->rtcd.variance, subpixvar16x8);
-            v_fn_ptr.sdf   = VARIANCE_INVOKE(&cpi->rtcd.variance, sad16x8);
-            v_fn_ptr.sdx3f = VARIANCE_INVOKE(&cpi->rtcd.variance, sad16x8x3);
-            v_fn_ptr.sdx4df = VARIANCE_INVOKE(&cpi->rtcd.variance, sad16x8x4d);
-            sseshift = 3;
-            break;
-        case 1:
-            v_fn_ptr.vf    = VARIANCE_INVOKE(&cpi->rtcd.variance, var8x16);
-            v_fn_ptr.svf   = VARIANCE_INVOKE(&cpi->rtcd.variance, subpixvar8x16);
-            v_fn_ptr.sdf   = VARIANCE_INVOKE(&cpi->rtcd.variance, sad8x16);
-            v_fn_ptr.sdx3f = VARIANCE_INVOKE(&cpi->rtcd.variance, sad8x16x3);
-            v_fn_ptr.sdx4df = VARIANCE_INVOKE(&cpi->rtcd.variance, sad8x16x4d);
-            sseshift = 3;
-            break;
-        case 2:
-            v_fn_ptr.vf    = VARIANCE_INVOKE(&cpi->rtcd.variance, var8x8);
-            v_fn_ptr.svf   = VARIANCE_INVOKE(&cpi->rtcd.variance, subpixvar8x8);
-            v_fn_ptr.sdf   = VARIANCE_INVOKE(&cpi->rtcd.variance, sad8x8);
-            v_fn_ptr.sdx3f = VARIANCE_INVOKE(&cpi->rtcd.variance, sad8x8x3);
-            v_fn_ptr.sdx4df = VARIANCE_INVOKE(&cpi->rtcd.variance, sad8x8x4d);
-            sseshift = 2;
-            break;
-        case 3:
-            v_fn_ptr.vf    = VARIANCE_INVOKE(&cpi->rtcd.variance, var4x4);
-            v_fn_ptr.svf   = VARIANCE_INVOKE(&cpi->rtcd.variance, subpixvar4x4);
-            v_fn_ptr.sdf   = VARIANCE_INVOKE(&cpi->rtcd.variance, sad4x4);
-            v_fn_ptr.sdx3f = VARIANCE_INVOKE(&cpi->rtcd.variance, sad4x4x3);
-            v_fn_ptr.sdx4df = VARIANCE_INVOKE(&cpi->rtcd.variance, sad4x4x4d);
-            sseshift = 0;
-            break;
-        }
-
+        v_fn_ptr = &cpi->fn_ptr[segmentation];
+        sseshift = segmentation_to_sseshift[segmentation];
         labels = vp8_mbsplits[segmentation];
         label_count = vp8_count_labels(labels);
 
@@ -1281,10 +1249,10 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
                         int sadpb = x->sadperbit4;
 
                         if (cpi->sf.search_method == HEX)
-                            bestsme = vp8_hex_search(x, c, e, best_ref_mv, &mode_mv[NEW4X4], step_param, sadpb/*x->errorperbit*/, &num00, v_fn_ptr.vf, v_fn_ptr.sdf, x->mvsadcost, mvcost);
+                            bestsme = vp8_hex_search(x, c, e, best_ref_mv, &mode_mv[NEW4X4], step_param, sadpb/*x->errorperbit*/, &num00, v_fn_ptr, x->mvsadcost, mvcost);
                         else
                         {
-                            bestsme = cpi->diamond_search_sad(x, c, e, best_ref_mv, &mode_mv[NEW4X4], step_param, sadpb / 2/*x->errorperbit*/, &num00, &v_fn_ptr, x->mvsadcost, mvcost);
+                            bestsme = cpi->diamond_search_sad(x, c, e, best_ref_mv, &mode_mv[NEW4X4], step_param, sadpb / 2/*x->errorperbit*/, &num00, v_fn_ptr, x->mvsadcost, mvcost);
 
                             n = num00;
                             num00 = 0;
@@ -1297,7 +1265,7 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
                                     num00--;
                                 else
                                 {
-                                    thissme = cpi->diamond_search_sad(x, c, e, best_ref_mv, &temp_mv, step_param + n, sadpb / 2/*x->errorperbit*/, &num00, &v_fn_ptr, x->mvsadcost, mvcost);
+                                    thissme = cpi->diamond_search_sad(x, c, e, best_ref_mv, &temp_mv, step_param + n, sadpb / 2/*x->errorperbit*/, &num00, v_fn_ptr, x->mvsadcost, mvcost);
 
                                     if (thissme < bestsme)
                                     {
@@ -1312,7 +1280,7 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
                         // Should we do a full search (best quality only)
                         if ((compressor_speed == 0) && (bestsme >> sseshift) > 4000)
                         {
-                            thissme = cpi->full_search_sad(x, c, e, best_ref_mv, sadpb / 4, 16, &v_fn_ptr, x->mvcost, x->mvsadcost);
+                            thissme = cpi->full_search_sad(x, c, e, best_ref_mv, sadpb / 4, 16, v_fn_ptr, x->mvcost, x->mvsadcost);
 
                             if (thissme < bestsme)
                             {
@@ -1330,9 +1298,9 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
                     if (bestsme < INT_MAX)
                     {
                         if (!fullpixel)
-                            cpi->find_fractional_mv_step(x, c, e, &mode_mv[NEW4X4], best_ref_mv, x->errorperbit / 2, v_fn_ptr.svf, v_fn_ptr.vf, mvcost);
+                            cpi->find_fractional_mv_step(x, c, e, &mode_mv[NEW4X4], best_ref_mv, x->errorperbit / 2, v_fn_ptr, mvcost);
                         else
-                            vp8_skip_fractional_mv_step(x, c, e, &mode_mv[NEW4X4], best_ref_mv, x->errorperbit, v_fn_ptr.svf, v_fn_ptr.vf, mvcost);
+                            vp8_skip_fractional_mv_step(x, c, e, &mode_mv[NEW4X4], best_ref_mv, x->errorperbit, v_fn_ptr, mvcost);
                     }
                 }
 
@@ -1439,9 +1407,9 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
     // save partitions
     labels = vp8_mbsplits[best_seg];
     x->e_mbd.mode_info_context->mbmi.partitioning = best_seg;
-    x->e_mbd.mode_info_context->mbmi.partition_count = vp8_count_labels(labels);
+    x->partition_info->count = vp8_count_labels(labels);
 
-    for (i = 0; i < x->e_mbd.mode_info_context->mbmi.partition_count; i++)
+    for (i = 0; i < x->partition_info->count; i++)
     {
         int j;
 
@@ -1451,8 +1419,8 @@ static int vp8_rd_pick_best_mbsegmentation(VP8_COMP *cpi, MACROBLOCK *x, MV *bes
                 break;
         }
 
-        x->e_mbd.mode_info_context->mbmi.partition_bmi[i].mode = x->e_mbd.block[j].bmi.mode;
-        x->e_mbd.mode_info_context->mbmi.partition_bmi[i].mv.as_mv = x->e_mbd.block[j].bmi.mv.as_mv;
+        x->partition_info->bmi[i].mode = x->e_mbd.block[j].bmi.mode;
+        x->partition_info->bmi[i].mv.as_mv = x->e_mbd.block[j].bmi.mv.as_mv;
     }
 
     return best_segment_rd;
@@ -1466,6 +1434,7 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
     MACROBLOCKD *xd = &x->e_mbd;
     B_MODE_INFO best_bmodes[16];
     MB_MODE_INFO best_mbmode;
+    PARTITION_INFO best_partition;
     MV best_ref_mv;
     MV mode_mv[MB_MODE_COUNT];
     MB_PREDICTION_MODE this_mode;
@@ -1787,19 +1756,19 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
             }
 
             // trap cases where the 8x8s can be promoted to 8x16s or 16x8s
-            if (0)//x->e_mbd.mbmi.partition_count == 4)
+            if (0)//x->partition_info->count == 4)
             {
 
-                if (x->e_mbd.mode_info_context->mbmi.partition_bmi[0].mv.as_int == x->e_mbd.mode_info_context->mbmi.partition_bmi[1].mv.as_int
-                    && x->e_mbd.mode_info_context->mbmi.partition_bmi[2].mv.as_int == x->e_mbd.mode_info_context->mbmi.partition_bmi[3].mv.as_int)
+                if (x->partition_info->bmi[0].mv.as_int == x->partition_info->bmi[1].mv.as_int
+                    && x->partition_info->bmi[2].mv.as_int == x->partition_info->bmi[3].mv.as_int)
                 {
                     const int *labels = vp8_mbsplits[2];
                     x->e_mbd.mode_info_context->mbmi.partitioning = 0;
                     rate -= vp8_cost_token(vp8_mbsplit_tree, vp8_mbsplit_probs, vp8_mbsplit_encodings + 2);
                     rate += vp8_cost_token(vp8_mbsplit_tree, vp8_mbsplit_probs, vp8_mbsplit_encodings);
-                    //rate -=  x->inter_bmode_costs[  x->e_mbd.mbmi.partition_bmi[1]];
-                    //rate -=  x->inter_bmode_costs[  x->e_mbd.mbmi.partition_bmi[3]];
-                    x->e_mbd.mode_info_context->mbmi.partition_bmi[1] = x->e_mbd.mode_info_context->mbmi.partition_bmi[2];
+                    //rate -=  x->inter_bmode_costs[  x->partition_info->bmi[1]];
+                    //rate -=  x->inter_bmode_costs[  x->partition_info->bmi[3]];
+                    x->partition_info->bmi[1] = x->partition_info->bmi[2];
                 }
             }
 
@@ -1851,13 +1820,13 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
 
                     if (cpi->sf.search_method == HEX)
                     {
-                        bestsme = vp8_hex_search(x, b, d, &best_ref_mv, &d->bmi.mv.as_mv, step_param, sadpb/*x->errorperbit*/, &num00, cpi->fn_ptr.vf, cpi->fn_ptr.sdf, x->mvsadcost, x->mvcost);
+                        bestsme = vp8_hex_search(x, b, d, &best_ref_mv, &d->bmi.mv.as_mv, step_param, sadpb/*x->errorperbit*/, &num00, &cpi->fn_ptr[BLOCK_16X16], x->mvsadcost, x->mvcost);
                         mode_mv[NEWMV].row = d->bmi.mv.as_mv.row;
                         mode_mv[NEWMV].col = d->bmi.mv.as_mv.col;
                     }
                     else
                     {
-                        bestsme = cpi->diamond_search_sad(x, b, d, &best_ref_mv, &d->bmi.mv.as_mv, step_param, sadpb / 2/*x->errorperbit*/, &num00, &cpi->fn_ptr, x->mvsadcost, x->mvcost); //sadpb < 9
+                        bestsme = cpi->diamond_search_sad(x, b, d, &best_ref_mv, &d->bmi.mv.as_mv, step_param, sadpb / 2/*x->errorperbit*/, &num00, &cpi->fn_ptr[BLOCK_16X16], x->mvsadcost, x->mvcost); //sadpb < 9
                         mode_mv[NEWMV].row = d->bmi.mv.as_mv.row;
                         mode_mv[NEWMV].col = d->bmi.mv.as_mv.col;
 
@@ -1876,7 +1845,7 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
                                 num00--;
                             else
                             {
-                                thissme = cpi->diamond_search_sad(x, b, d, &best_ref_mv, &d->bmi.mv.as_mv, step_param + n, sadpb / 4/*x->errorperbit*/, &num00, &cpi->fn_ptr, x->mvsadcost, x->mvcost); //sadpb = 9
+                                thissme = cpi->diamond_search_sad(x, b, d, &best_ref_mv, &d->bmi.mv.as_mv, step_param + n, sadpb / 4/*x->errorperbit*/, &num00, &cpi->fn_ptr[BLOCK_16X16], x->mvsadcost, x->mvcost); //sadpb = 9
 
                                 if (thissme < bestsme)
                                 {
@@ -1913,7 +1882,7 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
                     search_range = (search_range > cpi->sf.max_fs_radius) ? cpi->sf.max_fs_radius : search_range;
                     {
                         int sadpb = x->sadperbit16 >> 2;
-                        thissme = cpi->full_search_sad(x, b, d, &best_ref_mv, sadpb, search_range, &cpi->fn_ptr, x->mvcost, x->mvsadcost);
+                        thissme = cpi->full_search_sad(x, b, d, &best_ref_mv, sadpb, search_range, &cpi->fn_ptr[BLOCK_16X16], x->mvcost, x->mvsadcost);
                     }
 
                     // Barrier threshold to initiating full search
@@ -1938,7 +1907,7 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
 
                 if (bestsme < INT_MAX)
                     // cpi->find_fractional_mv_step(x,b,d,&d->bmi.mv.as_mv,&best_ref_mv,x->errorperbit/2,cpi->fn_ptr.svf,cpi->fn_ptr.vf,x->mvcost);  // normal mvc=11
-                    cpi->find_fractional_mv_step(x, b, d, &d->bmi.mv.as_mv, &best_ref_mv, x->errorperbit / 4, cpi->fn_ptr.svf, cpi->fn_ptr.vf, x->mvcost);
+                    cpi->find_fractional_mv_step(x, b, d, &d->bmi.mv.as_mv, &best_ref_mv, x->errorperbit / 4, &cpi->fn_ptr[BLOCK_16X16], x->mvcost);
 
                 mode_mv[NEWMV].row = d->bmi.mv.as_mv.row;
                 mode_mv[NEWMV].col = d->bmi.mv.as_mv.col;
@@ -2143,6 +2112,7 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
             *returndistortion = distortion2;
             best_rd = this_rd;
             vpx_memcpy(&best_mbmode, &x->e_mbd.mode_info_context->mbmi, sizeof(MB_MODE_INFO));
+            vpx_memcpy(&best_partition, x->partition_info, sizeof(PARTITION_INFO));
 
             for (i = 0; i < 16; i++)
             {
@@ -2224,6 +2194,7 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
         best_mbmode.dc_diff = 0;
 
         vpx_memcpy(&x->e_mbd.mode_info_context->mbmi, &best_mbmode, sizeof(MB_MODE_INFO));
+        vpx_memcpy(x->partition_info, &best_partition, sizeof(PARTITION_INFO));
 
         for (i = 0; i < 16; i++)
         {
@@ -2238,6 +2209,7 @@ int vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset, int 
 
     // macroblock modes
     vpx_memcpy(&x->e_mbd.mode_info_context->mbmi, &best_mbmode, sizeof(MB_MODE_INFO));
+    vpx_memcpy(x->partition_info, &best_partition, sizeof(PARTITION_INFO));
 
     for (i = 0; i < 16; i++)
     {

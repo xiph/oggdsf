@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -67,8 +67,8 @@ int main(int argc, char **argv) {
         die("Failed to open %s for writing", argv[2]);
 
     /* Read file header */
-    fread(file_hdr, 1, IVF_FILE_HDR_SZ, infile);
-    if(!(file_hdr[0]=='D' && file_hdr[1]=='K' && file_hdr[2]=='I'
+    if(!(fread(file_hdr, 1, IVF_FILE_HDR_SZ, infile) == IVF_FILE_HDR_SZ
+         && file_hdr[0]=='D' && file_hdr[1]=='K' && file_hdr[2]=='I'
          && file_hdr[3]=='F'))
         die("%s is not an IVF file.", argv[1]);
 
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
                 unsigned char *buf =img->planes[plane];
             
                 for(y=0; y<img->d_h >> (plane?1:0); y++) {
-                    fwrite(buf, 1, img->d_w >> (plane?1:0), outfile);
+                    if(fwrite(buf, 1, img->d_w >> (plane?1:0), outfile));
                     buf += img->stride[plane];
                 }
             }

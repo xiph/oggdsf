@@ -255,9 +255,10 @@ TMP_H="${TMPDIRx}/vpx-conf-$$-${RANDOM}.h"
 TMP_C="${TMPDIRx}/vpx-conf-$$-${RANDOM}.c"
 TMP_O="${TMPDIRx}/vpx-conf-$$-${RANDOM}.o"
 TMP_X="${TMPDIRx}/vpx-conf-$$-${RANDOM}.x"
+TMP_ASM="${TMPDIRx}/vpx-conf-$$-${RANDOM}.asm"
 
 clean_temp_files() {
-    rm -f ${TMP_C} ${TMP_H} ${TMP_O} ${TMP_X}
+    rm -f ${TMP_C} ${TMP_H} ${TMP_O} ${TMP_X} ${TMP_ASM}
 }
 
 #
@@ -320,6 +321,21 @@ check_add_asflags() {
 check_add_ldflags() {
     log add_ldflags "$@"
     add_ldflags "$@"
+}
+
+check_asm_align() {
+    log check_asm_align "$@"
+    cat >${TMP_ASM} <<EOF
+section .rodata
+align 16
+EOF
+    log_file ${TMP_ASM}
+    check_cmd ${AS} ${ASFLAGS} -o ${TMP_O} ${TMP_ASM}
+    readelf -WS ${TMP_O} >${TMP_X}
+    log_file ${TMP_X}
+    if ! grep -q '\.rodata .* 16$' ${TMP_X}; then
+        die "${AS} ${ASFLAGS} does not support section alignment (nasm <=2.08?)"
+    fi
 }
 
 write_common_config_banner() {
@@ -440,13 +456,18 @@ process_common_cmdline() {
         disable builtin_libc
         alt_libc="${optval}"
         ;;
+        --as=*)
+        [ "${optval}" = yasm -o "${optval}" = nasm -o "${optval}" = auto ] \
+            || die "Must be yasm, nasm or auto: ${optval}"
+        alt_as="${optval}"
+        ;;
         --prefix=*)
         prefix="${optval}"
         ;;
         --libdir=*)
         libdir="${optval}"
         ;;
-        --libc|--prefix|--libdir)
+        --libc|--as|--prefix|--libdir)
         die "Option ${opt} requires argument"
         ;;
         --help|-h) show_help
@@ -495,7 +516,7 @@ setup_gnu_toolchain() {
 
 process_common_toolchain() {
     if [ -z "$toolchain" ]; then
-	gcctarget="$(gcc -dumpmachine 2> /dev/null)"
+        gcctarget="$(gcc -dumpmachine 2> /dev/null)"
 
         # detect tgt_isa
         case "$gcctarget" in
@@ -504,6 +525,15 @@ process_common_toolchain() {
                 ;;
             *i[3456]86*)
                 tgt_isa=x86
+                ;;
+            *powerpc64*)
+                tgt_isa=ppc64
+                ;;
+            *powerpc*)
+                tgt_isa=ppc32
+                ;;
+            *sparc*)
+                tgt_isa=sparc
                 ;;
         esac
 
@@ -523,6 +553,9 @@ process_common_toolchain() {
                 ;;
             *linux*|*bsd*)
                 tgt_os=linux
+                ;;
+            *solaris2.10)
+                tgt_os=solaris
                 ;;
         esac
 
@@ -556,19 +589,29 @@ process_common_toolchain() {
     mips*)        enable mips;;
     esac
 
+    # PIC is probably what we want when building shared libs
+    enabled shared && soft_enable pic
+
     # Handle darwin variants
     case ${toolchain} in
-        *-darwin8-gcc)
+        *-darwin8-*)
             add_cflags  "-isysroot /Developer/SDKs/MacOSX10.4u.sdk"
             add_cflags  "-mmacosx-version-min=10.4"
             add_ldflags "-isysroot /Developer/SDKs/MacOSX10.4u.sdk"
             add_ldflags "-mmacosx-version-min=10.4"
             ;;
-        *-darwin9-gcc)
+        *-darwin9-*)
             add_cflags  "-isysroot /Developer/SDKs/MacOSX10.5.sdk"
             add_cflags  "-mmacosx-version-min=10.5"
             add_ldflags "-isysroot /Developer/SDKs/MacOSX10.5.sdk"
             add_ldflags "-mmacosx-version-min=10.5"
+            ;;
+    esac
+
+    # Handle Solaris variants. Solaris 10 needs -lposix4
+    case ${toolchain} in
+        *-solaris-*)
+            add_extralibs -lposix4
             ;;
     esac
 
@@ -755,8 +798,8 @@ process_common_toolchain() {
         link_with_cc=gcc
         setup_gnu_toolchain
         add_asflags -force_cpusubtype_ALL -I"\$(dir \$<)darwin"
-        add_cflags -maltivec -faltivec
         soft_enable altivec
+        enabled altivec && add_cflags -maltivec
 
         case "$tgt_os" in
         linux*)
@@ -768,6 +811,7 @@ process_common_toolchain() {
             add_cflags  ${darwin_arch} -m${bits} -fasm-blocks
             add_asflags ${darwin_arch} -force_cpusubtype_ALL -I"\$(dir \$<)darwin"
             add_ldflags ${darwin_arch} -m${bits}
+            enabled altivec && add_cflags -faltivec
         ;;
         esac
     ;;
@@ -792,6 +836,7 @@ process_common_toolchain() {
                 ;;
         esac
 
+        AS="${alt_as:-${AS:-auto}}"
         case  ${tgt_cc} in
             icc*)
                 CC=${CC:-icc}
@@ -820,7 +865,16 @@ process_common_toolchain() {
                 ;;
         esac
 
-        AS=yasm
+        case "${AS}" in
+            auto|"")
+                which nasm >/dev/null 2>&1 && AS=nasm
+                which yasm >/dev/null 2>&1 && AS=yasm
+                [ "${AS}" = auto -o -z "${AS}" ] \
+                    && die "Neither yasm nor nasm have been found"
+                ;;
+        esac
+        log_echo "  using $AS"
+        [ "${AS##*/}" = nasm ] && add_asflags -Ox
         AS_SFX=.asm
         case  ${tgt_os} in
             win*)
@@ -829,7 +883,9 @@ process_common_toolchain() {
             ;;
             linux*|solaris*)
                 add_asflags -f elf${bits}
-                enabled debug && add_asflags -g dwarf2
+                enabled debug && [ "${AS}" = yasm ] && add_asflags -g dwarf2
+                enabled debug && [ "${AS}" = nasm ] && add_asflags -g
+                [ "${AS##*/}" = nasm ] && check_asm_align
             ;;
             darwin*)
                 add_asflags -f macho${bits}
@@ -842,7 +898,7 @@ process_common_toolchain() {
                 # enabled icc && ! enabled pic && add_cflags -fno-pic -mdynamic-no-pic
                 enabled icc && ! enabled pic && add_cflags -fno-pic
             ;;
-            *) log "Warning: Unknown os $tgt_os while setting up yasm flags"
+            *) log "Warning: Unknown os $tgt_os while setting up $AS flags"
             ;;
         esac
     ;;
@@ -873,9 +929,9 @@ process_common_toolchain() {
     enabled gcov &&
         check_add_cflags -fprofile-arcs -ftest-coverage &&
         check_add_ldflags -fprofile-arcs -ftest-coverage
-    enabled optimizations && check_add_cflags -O3
-    if enabled rvct; then
-        enabled optimizations && check_add_cflags -Otime
+    if enabled optimizations; then
+        enabled rvct && check_add_cflags -Otime
+        enabled small && check_add_cflags -O2 || check_add_cflags -O3
     fi
 
     # Position Independant Code (PIC) support, for building relocatable
@@ -902,8 +958,8 @@ EOF
 
     # glibc needs these
     if enabled linux; then
-	add_cflags -D_LARGEFILE_SOURCE
-	add_cflags -D_FILE_OFFSET_BITS=64
+        add_cflags -D_LARGEFILE_SOURCE
+        add_cflags -D_FILE_OFFSET_BITS=64
     fi
 }
 

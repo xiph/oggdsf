@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+ *  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -92,7 +92,7 @@ static void write_ivf_file_header(FILE *outfile,
     mem_put_le32(header+24, frame_cnt);           /* length */
     mem_put_le32(header+28, 0);                   /* unused */
 
-    fwrite(header, 1, 32, outfile);
+    if(fwrite(header, 1, 32, outfile));
 }
 
 
@@ -110,7 +110,7 @@ static void write_ivf_frame_header(FILE *outfile,
     mem_put_le32(header+4, pts&0xFFFFFFFF);
     mem_put_le32(header+8, pts >> 32);
 
-    fwrite(header, 1, 12, outfile);
+    if(fwrite(header, 1, 12, outfile));
 }
 
 int main(int argc, char **argv) {
@@ -186,8 +186,8 @@ int main(int argc, char **argv) {
                 switch(pkt->kind) {
                 case VPX_CODEC_CX_FRAME_PKT:
                     write_ivf_frame_header(outfile, pkt);
-                    fwrite(pkt->data.frame.buf, 1, pkt->data.frame.sz,
-                           outfile);
+                    if(fwrite(pkt->data.frame.buf, 1, pkt->data.frame.sz,
+                              outfile));
                     break;
                 default:
                     break;

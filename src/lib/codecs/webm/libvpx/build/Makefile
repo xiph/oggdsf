@@ -1,5 +1,5 @@
 ##
-##  Copyright (c) 2010 The VP8 project authors. All Rights Reserved.
+##  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
 ##
 ##  Use of this source code is governed by a BSD-style license
 ##  that can be found in the LICENSE file in the root of the source
@@ -65,7 +65,7 @@ endif
 BUILD_ROOT?=.
 VPATH=$(SRC_PATH_BARE)
 CFLAGS+=-I$(BUILD_PFX)$(BUILD_ROOT) -I$(SRC_PATH)
-ASFLAGS+=-I$(BUILD_PFX)$(BUILD_ROOT) -I$(SRC_PATH)
+ASFLAGS+=-I$(BUILD_PFX)$(BUILD_ROOT)/ -I$(SRC_PATH)/
 DIST_DIR?=dist
 HOSTCC?=gcc
 TGT_ISA:=$(word 1, $(subst -, ,$(TOOLCHAIN)))
