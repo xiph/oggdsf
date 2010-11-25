@@ -31,6 +31,9 @@
 
 #include "stdafx.h"
 #include "VorbisEncodeOutputPin.h"
+#include <atlcomcli.h>
+#include "IOggDecoder.h"
+#include "Common/OggTypes.h" 
 
 VorbisEncodeOutputPin::VorbisEncodeOutputPin(       VorbisEncodeFilter* inParentFilter
                                                 ,   CCritSec* inFilterLock
@@ -62,4 +65,27 @@ HRESULT VorbisEncodeOutputPin::CreateAndFillFormatBuffer(CMediaType* outMediaTyp
 	} else {
         return S_FALSE;
 	}
+}
+
+HRESULT VorbisEncodeOutputPin::CompleteConnect(IPin *inReceivePin)
+{
+    CComPtr<IOggDecoder> decoder;
+    inReceivePin->QueryInterface(IID_IOggDecoder, (void**)&decoder);
+    if (decoder != NULL) 
+    {
+        std::vector<StampedOggPacket*> locHeaders;
+        locHeaders = ((VorbisEncodeInputPin*)(GetFilter()->GetPin(0)))->GetCodecHeaders();
+
+        for (int i = 0; i < 3; i++) {
+            decoder->showHeaderPacket(locHeaders[i]);
+            delete locHeaders[i];
+        }
+    }
+
+    return AbstractTransformOutputPin::CompleteConnect(inReceivePin);
+}
+
+VorbisEncodeFilter* VorbisEncodeOutputPin::GetFilter()
+{
+    return static_cast<VorbisEncodeFilter*>(mParentFilter);
 }

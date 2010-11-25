@@ -36,6 +36,7 @@
 
 class VorbisEncodeFilter;
 struct VORBISFORMAT;
+struct IPin;
 
 class VorbisEncodeOutputPin
 	:	public AbstractTransformOutputPin
@@ -49,7 +50,11 @@ public:
                             ,   vector<CMediaType*> inAcceptabletMediaTypes);
 	virtual ~VorbisEncodeOutputPin(void);
 
+    //Pin Connection Methods
+    virtual HRESULT CompleteConnect(IPin *inReceivePin); 
+
 protected:
 	virtual HRESULT CreateAndFillFormatBuffer(CMediaType* outMediaType, int inPosition);
-	
+
+    VorbisEncodeFilter* GetFilter(); 	
 };

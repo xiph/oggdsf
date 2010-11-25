@@ -49,14 +49,10 @@ VorbisEncodeInputPin::VorbisEncodeInputPin(     AbstractTransformFilter* inParen
 	,	mWaveFormat(NULL)
 	,	mUptoFrame(0)
 {
-#ifdef OGGCODECS_LOGGING
-	debugLog.open("G:\\logs\\vorbisenc.logs", ios_base::out);
-#endif
 }
 
 VorbisEncodeInputPin::~VorbisEncodeInputPin(void)
 {
-	debugLog.close();
 	DestroyCodec();
 }
 
@@ -214,4 +210,9 @@ HRESULT VorbisEncodeInputPin::sendPackets(const vector<StampedOggPacket*>& inPac
     }
 
     return S_OK;
+}
+
+std::vector<StampedOggPacket*> VorbisEncodeInputPin::GetCodecHeaders()
+{
+    return mVorbisEncoder.setupCodec(mEncoderSettings);
 }

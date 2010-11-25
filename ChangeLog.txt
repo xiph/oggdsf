@@ -9,6 +9,8 @@ Version 0.84.xxxxx - xx.11.2010
        be broken.
     * Added "controls" attribute to HTML5 <video> ActiveX plugin
     * Theora Decoder filter can now be connected to the output of the Theora Encoder filter.
+    * Fixed graph freeze when a Vorbis Decoder filter was connected to the output of a 
+      Vorbis Encoder filter.
 
 Version 0.84.17359 - 04.08.2010
     

@@ -39,8 +39,7 @@
 #include "VorbisEncoder.h"
 #include "VorbisEncodeSettings.h"
 
-#include <fstream>
-using namespace std;
+class StampedOggPacket;
 
 class VorbisEncodeInputPin
 	:	public AbstractTransformInputPin
@@ -57,6 +56,7 @@ public:
 	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
     virtual STDMETHODIMP EndOfStream();
 
+    std::vector<StampedOggPacket*> GetCodecHeaders();
 protected:
 
 	//Implementation of codec specific pure virtuals from AbstractTransformInputPin
@@ -75,7 +75,5 @@ protected:
 
     VorbisEncodeSettings mEncoderSettings;
     VorbisEncoder mVorbisEncoder;
-
-	fstream debugLog;
 	
 };
