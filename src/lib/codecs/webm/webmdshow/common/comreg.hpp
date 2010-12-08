@@ -53,6 +53,8 @@ namespace ComReg
 
     HRESULT GetTypeLibAttr(const wchar_t*, TLIBATTR&);
 
+    //DirectShow
+
     HRESULT RegisterCustomFileType(
                 const wchar_t* ext,
                 const GUID& filter,
@@ -68,4 +70,27 @@ namespace ComReg
                 const GUID& filter,
                 const GUID& mediatype,
                 const GUID& subtype);
+
+    HRESULT RegisterProtocolSource(
+                const wchar_t* protocol,
+                const wchar_t* ext,
+                const GUID& filter);
+
+    HRESULT UnRegisterProtocolSource(
+                const wchar_t* protocol,
+                const wchar_t* ext,
+                const GUID& filter);
+
+    //Media Foundation
+
+#if (_WIN32_WINNT >= 0x0601)
+    HRESULT RegisterByteStreamHandler(
+        const wchar_t* ext,
+        const GUID& clsid,
+        const wchar_t* friendly_name);
+
+    HRESULT UnRegisterByteStreamHandler(
+        const wchar_t* ext,
+        const GUID& clsid);
+#endif
 }

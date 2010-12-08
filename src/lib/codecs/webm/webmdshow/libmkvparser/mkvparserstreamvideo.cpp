@@ -11,6 +11,7 @@
 #include "mkvparser.hpp"
 #include "webmtypes.hpp"
 #include "graphutil.hpp"
+#include "cmediatypes.hpp"
 #include <cassert>
 #include <amvideo.h>
 #include <dvdmedia.h>
@@ -24,11 +25,11 @@ static const char* const s_CodecId_VP8 = "V_VP8";
 static const char* const s_CodecId_ON2VP8 = "V_ON2VP8";
 static const char* const s_CodecId_VFW = "V_MS/VFW/FOURCC";
 
-namespace MkvParser
+namespace mkvparser
 {
 
 
-VideoStream* VideoStream::CreateInstance(VideoTrack* pTrack)
+VideoStream* VideoStream::CreateInstance(const VideoTrack* pTrack)
 {
     assert(pTrack);
 
@@ -60,7 +61,7 @@ VideoStream* VideoStream::CreateInstance(VideoTrack* pTrack)
 }
 
 
-VideoStream::VideoStream(VideoTrack* pTrack) : Stream(pTrack)
+VideoStream::VideoStream(const VideoTrack* pTrack) : Stream(pTrack)
 {
 }
 
@@ -110,7 +111,7 @@ void VideoStream::GetVp8MediaTypes(CMediaTypes& mtv) const
     vih.dwBitRate = 0;
     vih.dwBitErrorRate = 0;
 
-    const VideoTrack* const pTrack = static_cast<VideoTrack*>(m_pTrack);
+    const VideoTrack* const pTrack = static_cast<const VideoTrack*>(m_pTrack);
 
     const double r = pTrack->GetFrameRate();
 
@@ -148,9 +149,10 @@ void VideoStream::GetVp8MediaTypes(CMediaTypes& mtv) const
 
 void VideoStream::GetVfwMediaTypes(CMediaTypes& mtv) const
 {
-    const bytes_t& cp = m_pTrack->GetCodecPrivate();
-    const ULONG cp_size = static_cast<ULONG>(cp.size());
-    cp_size;
+    size_t cp_size;
+
+    const BYTE* const cp = m_pTrack->GetCodecPrivate(cp_size);
+    assert(cp);
     assert(cp_size >= sizeof(BITMAPINFOHEADER));
 
     AM_MEDIA_TYPE mt;
@@ -176,7 +178,7 @@ void VideoStream::GetVfwMediaTypes(CMediaTypes& mtv) const
     vih.dwBitRate = 0;
     vih.dwBitErrorRate = 0;
 
-    const VideoTrack* const pTrack = static_cast<VideoTrack*>(m_pTrack);
+    const VideoTrack* const pTrack = static_cast<const VideoTrack*>(m_pTrack);
 
     const double r = pTrack->GetFrameRate();
 
@@ -233,9 +235,13 @@ HRESULT VideoStream::QueryAccept(const AM_MEDIA_TYPE* pmt) const
         if (!GraphUtil::FourCCGUID::IsFourCC(mt.subtype))
             return S_FALSE;
 
-        const bytes_t& cp = m_pTrack->GetCodecPrivate();
+        size_t cp_size;
+        const BYTE* const cp = m_pTrack->GetCodecPrivate(cp_size);
 
-        if (cp.size() < sizeof(BITMAPINFOHEADER))
+        if (cp == 0)
+            return S_FALSE;
+
+        if (cp_size < sizeof(BITMAPINFOHEADER))
             return S_FALSE;
 
         BITMAPINFOHEADER bmih;
@@ -288,7 +294,7 @@ HRESULT VideoStream::UpdateAllocatorProperties(
 
 long VideoStream::GetBufferSize() const
 {
-    const VideoTrack* const pTrack = static_cast<VideoTrack*>(m_pTrack);
+    const VideoTrack* const pTrack = static_cast<const VideoTrack*>(m_pTrack);
 
     const __int64 w = pTrack->GetWidth();
     const __int64 h = pTrack->GetHeight();
@@ -304,27 +310,22 @@ long VideoStream::GetBufferSize() const
 }
 
 
-HRESULT VideoStream::OnPopulateSample(
+void VideoStream::OnPopulateSample(
     const BlockEntry* pNextEntry,
-    IMediaSample* pSample)
+    const samples_t& samples) const
 {
-    assert(pSample);
-    assert(m_pBase);
-    assert(!m_pBase->EOS());
-    //assert(m_baseTime >= 0);
-    //assert((m_baseTime % 100) == 0);
+    assert(!samples.empty());
+    //assert(m_pBase);
+    //assert(!m_pBase->EOS());
     assert(m_pCurr);
     assert(m_pCurr != m_pStop);
     assert(!m_pCurr->EOS());
-    assert((pNextEntry == 0) ||
-           pNextEntry->EOS() ||
-           !pNextEntry->IsBFrame());
 
     const Block* const pCurrBlock = m_pCurr->GetBlock();
     assert(pCurrBlock);
-    assert(pCurrBlock->GetNumber() == m_pTrack->GetNumber());
+    assert(pCurrBlock->GetTrackNumber() == m_pTrack->GetNumber());
 
-    Cluster* const pCurrCluster = m_pCurr->GetCluster();
+    const Cluster* const pCurrCluster = m_pCurr->GetCluster();
     assert(pCurrCluster);
 
     assert((m_pStop == 0) ||
@@ -332,107 +333,128 @@ HRESULT VideoStream::OnPopulateSample(
            (m_pStop->GetBlock()->GetTimeCode(m_pStop->GetCluster()) >
              pCurrBlock->GetTimeCode(pCurrCluster)));
 
-#if 0
-    const __int64 basetime_ns = m_pBase->GetTime();
-    assert(basetime_ns >= 0);
-    assert((basetime_ns % 100) == 0);
-#else
-    const __int64 basetime_ns = m_pBase->GetFirstTime();
-    assert(basetime_ns >= 0);
-    assert((basetime_ns % 100) == 0);
-#endif
+    const int nFrames = pCurrBlock->GetFrameCount();
+    assert(nFrames > 0);  //checked by caller
+    assert(samples.size() == samples_t::size_type(nFrames));
 
-    const LONG srcsize = pCurrBlock->GetSize();
-    assert(srcsize >= 0);
+    const LONGLONG base_ns = m_base_time_ns;
+    assert(base_ns >= 0);
 
-    const long tgtsize = pSample->GetSize();
-    tgtsize;
-    assert(tgtsize >= 0);
-    assert(tgtsize >= srcsize);
-
-    BYTE* ptr;
-
-    HRESULT hr = pSample->GetPointer(&ptr);  //read srcsize bytes
-    assert(SUCCEEDED(hr));
-    assert(ptr);
-
-    IMkvFile* const pFile = pCurrCluster->m_pSegment->m_pFile;
-
-    hr = pCurrBlock->Read(pFile, ptr);
-    assert(hr == S_OK);  //all bytes were read
-
-    hr = pSample->SetActualDataLength(srcsize);
-
-    hr = pSample->SetPreroll(0);
-    assert(SUCCEEDED(hr));
-
-    hr = pSample->SetMediaType(0);
-    assert(SUCCEEDED(hr));
-
-    hr = pSample->SetDiscontinuity(m_bDiscontinuity);
-    assert(SUCCEEDED(hr));
-
-    //set by caller:
-    //m_bDiscontinuity = false;
-
-    hr = pSample->SetMediaTime(0, 0);
-    assert(SUCCEEDED(hr));
+    Segment* const pSegment = m_pTrack->m_pSegment;
+    IMkvReader* const pFile = pSegment->m_pReader;
 
     const bool bKey = pCurrBlock->IsKey();
+    assert(!m_bDiscontinuity || bKey);
 
-    hr = pSample->SetSyncPoint(bKey ? TRUE : FALSE);
-    assert(SUCCEEDED(hr));
+    const __int64 start_ns = pCurrBlock->GetTime(pCurrCluster);
+    assert(start_ns >= base_ns);
+    //assert((start_ns % 100) == 0);
 
-    //TODO: is there a better way to make this test?
-    //We could genericize this, e.g. BlockEntry::HasTime().
-    if (m_pCurr->IsBFrame())
+    __int64 stop_ns;
+
+    if ((pNextEntry == 0) || pNextEntry->EOS())
     {
-        assert(!bKey);
+        //TODO: read duration from block group, if present
 
-        hr = pSample->SetTime(0, 0);
-        assert(SUCCEEDED(hr));
+        const LONGLONG duration_ns = pSegment->GetDuration();
+
+        if ((duration_ns >= 0) && (duration_ns > start_ns))
+            stop_ns = duration_ns;
+        else
+        {
+            typedef mkvparser::VideoTrack VT;
+            const VT* const pVT = static_cast<const VT*>(m_pTrack);
+
+            double frame_rate = pVT->GetFrameRate();
+
+            if (frame_rate <= 0)
+                frame_rate = 10;  //100ms
+
+            const double ns = 1000000000.0 / frame_rate;
+            const LONGLONG ns_per_frame = static_cast<LONGLONG>(ns);
+
+            stop_ns = start_ns + LONGLONG(nFrames) * ns_per_frame;
+        }
     }
     else
     {
-        const __int64 start_ns = pCurrBlock->GetTime(pCurrCluster);
-        assert(start_ns >= basetime_ns);
-        assert((start_ns % 100) == 0);
+        const Block* const pNextBlock = pNextEntry->GetBlock();
+        assert(pNextBlock);
 
-        __int64 ns = start_ns - basetime_ns;
-        __int64 start_reftime = ns / 100;
+        const Cluster* const pNextCluster = pNextEntry->GetCluster();
 
-        __int64 stop_reftime;
-        __int64* pstop_reftime;
-
-        if ((pNextEntry == 0) || pNextEntry->EOS())
-            pstop_reftime = 0;  //TODO: use duration of curr block
-        else
-        {
-            const Block* const pNextBlock = pNextEntry->GetBlock();
-            assert(pNextBlock);
-
-            Cluster* const pNextCluster = pNextEntry->GetCluster();
-
-            const __int64 stop_ns = pNextBlock->GetTime(pNextCluster);
-            assert(stop_ns > start_ns);
-            assert((stop_ns % 100) == 0);
-
-            ns = stop_ns - basetime_ns;
-            stop_reftime = ns / 100;
-            assert(stop_reftime > start_reftime);
-
-            pstop_reftime = &stop_reftime;
-        }
-
-        hr = pSample->SetTime(&start_reftime, pstop_reftime);
-        assert(SUCCEEDED(hr));
+        stop_ns = pNextBlock->GetTime(pNextCluster);
+        assert(stop_ns > start_ns);
+        //assert((stop_ns % 100) == 0);
     }
 
-    //m_pCurr = pNextBlock;
-    return S_OK;
+    __int64 start_reftime = (start_ns - base_ns) / 100;
+
+    const __int64 block_stop_reftime = (stop_ns - base_ns) / 100;
+    assert(block_stop_reftime > start_reftime);
+
+    const __int64 block_duration = block_stop_reftime - start_reftime;
+    assert(block_duration > 0);
+
+    __int64 frame_duration = block_duration / nFrames;  //reftime units
+
+    if (frame_duration <= 0)  //weird: block duration is very small
+        frame_duration = 1;
+
+    BOOL bDiscontinuity = m_bDiscontinuity ? TRUE : FALSE;
+
+    for (int idx = 0; idx < nFrames; ++idx)
+    {
+        IMediaSample* const pSample = samples[idx];
+
+        const Block::Frame& f = pCurrBlock->GetFrame(idx);
+
+        const LONG srcsize = f.len;
+        assert(srcsize >= 0);
+
+        const long tgtsize = pSample->GetSize();
+        tgtsize;
+        assert(tgtsize >= 0);
+        assert(tgtsize >= srcsize);
+
+        BYTE* ptr;
+
+        HRESULT hr = pSample->GetPointer(&ptr);  //read srcsize bytes
+        assert(SUCCEEDED(hr));
+        assert(ptr);
+
+        const long status = f.Read(pFile, ptr);
+        assert(status == 0);  //all bytes were read
+
+        hr = pSample->SetActualDataLength(srcsize);
+
+        hr = pSample->SetPreroll(0);
+        assert(SUCCEEDED(hr));
+
+        hr = pSample->SetMediaType(0);
+        assert(SUCCEEDED(hr));
+
+        hr = pSample->SetDiscontinuity(bDiscontinuity);
+        assert(SUCCEEDED(hr));
+
+        bDiscontinuity = FALSE;
+
+        hr = pSample->SetMediaTime(0, 0);
+        assert(SUCCEEDED(hr));
+
+        hr = pSample->SetSyncPoint(bKey ? TRUE : FALSE);
+        assert(SUCCEEDED(hr));
+
+        LONGLONG stop_reftime = start_reftime + frame_duration;
+
+        hr = pSample->SetTime(&start_reftime, &stop_reftime);
+        assert(SUCCEEDED(hr));
+
+        start_reftime = stop_reftime;
+    }
 }
 
 
 
 
-}  //end namespace MkvParser
+}  //end namespace mkvparser

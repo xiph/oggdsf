@@ -9,19 +9,19 @@
 #pragma once
 #include "mkvparserstream.hpp"
 
-namespace MkvParser
+namespace mkvparser
 {
 
 class VideoTrack;
 
 class VideoStream : public Stream
 {
-    explicit VideoStream(VideoTrack*);
+    explicit VideoStream(const VideoTrack*);
     VideoStream(const VideoStream&);
     VideoStream& operator=(const VideoStream&);
 
 public:
-    static VideoStream* CreateInstance(VideoTrack*);
+    static VideoStream* CreateInstance(const VideoTrack*);
 
     void GetMediaTypes(CMediaTypes&) const;
     HRESULT QueryAccept(const AM_MEDIA_TYPE*) const;
@@ -30,7 +30,8 @@ public:
 
 protected:
     std::wostream& GetKind(std::wostream&) const;
-    HRESULT OnPopulateSample(const BlockEntry* pNext, IMediaSample* pSample);
+
+    void OnPopulateSample(const BlockEntry*, const samples_t&) const;
 
     void GetVp8MediaTypes(CMediaTypes&) const;
     void GetVfwMediaTypes(CMediaTypes&) const;
@@ -38,4 +39,4 @@ protected:
 };
 
 
-}  //end namespace MkvParser
+}  //end namespace mkvparser

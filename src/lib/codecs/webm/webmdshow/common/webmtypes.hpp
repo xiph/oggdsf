@@ -16,6 +16,14 @@ namespace WebmTypes
     extern const GUID MEDIASUBTYPE_VP8_STATS;
 
     //extern const CLSID CLSID_WebmMux;
-    extern const CLSID CLSID_WebmSource;
+    extern const CLSID CLSID_WebmSource;  //DirectShow
     extern const CLSID CLSID_WebmSplit;
+
+    extern const CLSID CLSID_WebmMfSource;  //Media Foundation
+    extern const CLSID CLSID_WebmMfByteStreamHandler;
+
+    extern const CLSID CLSID_WebmMfVp8Dec;  //Media Foundation
+    extern const GUID WebMSample_Preroll;
+
+    extern const CLSID CLSID_WebmMfVorbisDec; //Media Foundation
 }

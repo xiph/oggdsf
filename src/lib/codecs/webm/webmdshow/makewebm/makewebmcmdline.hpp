@@ -23,11 +23,14 @@ public:
     int Parse(int argc, wchar_t* argv[]);
 
     const wchar_t* GetInputFileName() const;
+    const wchar_t* GetAudioInputFileName() const;
     const wchar_t* GetOutputFileName() const;
     bool ScriptMode() const;
     bool GetList() const;
     bool GetVerbose() const;
+    bool GetNoVideo() const;
     bool GetRequireAudio() const;
+    bool GetNoAudio() const;
     int GetDeadline() const;
     int GetTargetBitrate() const;
     int GetMinQuantizer() const;
@@ -54,6 +57,10 @@ public:
     int GetTwoPassVbrBiasPct() const;
     int GetTwoPassVbrMinsectionPct() const;
     int GetTwoPassVbrMaxsectionPct() const;
+    int GetAutoAltRef() const;
+    int GetARNRMaxFrames() const;
+    int GetARNRStrength() const;
+    int GetARNRType() const;
     const wchar_t* GetSaveGraphFile() const;
 
     static std::wstring GetPath(const wchar_t*);
@@ -65,9 +72,12 @@ private:
     bool m_list;
     bool m_version;
     const wchar_t* m_input;
+    const wchar_t* m_audio_input;
     std::wstring m_synthesized_output;
     const wchar_t* m_output;
+    bool m_no_video;
     bool m_require_audio;
+    bool m_no_audio;
 
     bool m_script;
     bool m_verbose;
@@ -97,6 +107,10 @@ private:
     int m_two_pass_vbr_bias_pct;
     int m_two_pass_vbr_minsection_pct;
     int m_two_pass_vbr_maxsection_pct;
+    int m_auto_alt_ref;
+    int m_arnr_maxframes;
+    int m_arnr_strength;
+    int m_arnr_type;
 
     std::wstring m_save_graph_file_str;
     const wchar_t* m_save_graph_file_ptr;

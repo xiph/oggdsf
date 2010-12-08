@@ -10,6 +10,7 @@
 #include "mkvparserstreamaudio.hpp"
 #include "mkvparser.hpp"
 #include "vorbistypes.hpp"
+#include "cmediatypes.hpp"
 #include <cassert>
 #include <limits>
 #include <uuids.h>
@@ -21,10 +22,10 @@ using std::endl;
 #endif
 
 
-namespace MkvParser
+namespace mkvparser
 {
 
-AudioStream* AudioStream::CreateInstance(AudioTrack* pTrack)
+AudioStream* AudioStream::CreateInstance(const AudioTrack* pTrack)
 {
     assert(pTrack);
 
@@ -45,7 +46,7 @@ AudioStream* AudioStream::CreateInstance(AudioTrack* pTrack)
 }
 
 
-AudioStream::AudioStream(AudioTrack* pTrack) :
+AudioStream::AudioStream(const AudioTrack* pTrack) :
     Stream(pTrack)
     //m_preroll(0)
 {
@@ -60,7 +61,7 @@ std::wostream& AudioStream::GetKind(std::wostream& os) const
 
 BYTE AudioStream::GetChannels() const
 {
-    const AudioTrack* const pTrack = static_cast<AudioTrack*>(m_pTrack);
+    const AudioTrack* const pTrack = static_cast<const AudioTrack*>(m_pTrack);
 
     const __int64 channels = pTrack->GetChannels();
     assert(channels > 0);
@@ -73,7 +74,7 @@ BYTE AudioStream::GetChannels() const
 
 ULONG AudioStream::GetSamplesPerSec() const
 {
-    const AudioTrack* const pTrack = static_cast<AudioTrack*>(m_pTrack);
+    const AudioTrack* const pTrack = static_cast<const AudioTrack*>(m_pTrack);
 
     const double rate = pTrack->GetSamplingRate();
     assert(rate > 0);
@@ -90,7 +91,7 @@ ULONG AudioStream::GetSamplesPerSec() const
 
 BYTE AudioStream::GetBitsPerSample() const
 {
-    const AudioTrack* const pTrack = static_cast<AudioTrack*>(m_pTrack);
+    const AudioTrack* const pTrack = static_cast<const AudioTrack*>(m_pTrack);
 
     const __int64 val = pTrack->GetBitDepth();
 
@@ -121,10 +122,10 @@ void AudioStream::GetMediaTypes(CMediaTypes& mtv) const
 
 void AudioStream::GetVorbisMediaTypes(CMediaTypes& mtv) const
 {
-    const bytes_t& cp = m_pTrack->GetCodecPrivate();
-    assert(!cp.empty());
+    size_t cp_size;
 
-    const ULONG cp_size = static_cast<ULONG>(cp.size());
+    const BYTE* const cp = m_pTrack->GetCodecPrivate(cp_size);
+    assert(cp);
     assert(cp_size > 0);
 
     const BYTE* const begin = &cp[0];
@@ -278,7 +279,7 @@ HRESULT AudioStream::UpdateAllocatorProperties(
 
 long AudioStream::GetBufferSize() const
 {
-    const AudioTrack* const pTrack = static_cast<AudioTrack*>(m_pTrack);
+    const AudioTrack* const pTrack = static_cast<const AudioTrack*>(m_pTrack);
 
     const double rr = pTrack->GetSamplingRate();
     const long nSamplesPerSec = static_cast<long>(rr);
@@ -295,140 +296,130 @@ long AudioStream::GetBufferSize() const
 }
 
 
-HRESULT AudioStream::OnPopulateSample(
+void AudioStream::OnPopulateSample(
     const BlockEntry* pNextEntry,
-    IMediaSample* pSample)
+    const samples_t& samples) const
 {
-    assert(pSample);
-    assert(m_pBase);
-    assert(!m_pBase->EOS());
+    assert(!samples.empty());
+    //assert(m_pBase);
+    //assert(!m_pBase->EOS());
     assert(m_pCurr);
     assert(m_pCurr != m_pStop);
     assert(!m_pCurr->EOS());
 
     const Block* const pCurrBlock = m_pCurr->GetBlock();
     assert(pCurrBlock);
-    assert(pCurrBlock->GetNumber() == m_pTrack->GetNumber());
+    assert(pCurrBlock->GetTrackNumber() == m_pTrack->GetNumber());
 
-    Cluster* const pCurrCluster = m_pCurr->GetCluster();
+    const int nFrames = pCurrBlock->GetFrameCount();
+    assert(nFrames > 0);  //checked by caller
+    assert(samples.size() == samples_t::size_type(nFrames));
+
+    const Cluster* const pCurrCluster = m_pCurr->GetCluster();
     assert(pCurrCluster);
 
     const __int64 start_ns = pCurrBlock->GetTime(pCurrCluster);
     assert(start_ns >= 0);
-    assert((start_ns % 100) == 0);
+    //assert((start_ns % 100) == 0);
 
-#if 0
-    const __int64 basetime_ns = m_pBase->GetTime();
-    assert(basetime_ns >= 0);
-    assert((basetime_ns % 100) == 0);
-#else
-    const __int64 basetime_ns = m_pBase->GetFirstTime();
-    assert(basetime_ns >= 0);
-    assert((basetime_ns % 100) == 0);
-#endif
+    const LONGLONG base_ns = m_base_time_ns;
+    assert(base_ns >= 0);
+    assert(start_ns >= base_ns);
 
-    if (start_ns < basetime_ns)
-    {
-#ifdef _DEBUG
-        odbgstream os;
-        os << "webmsource::AudioStream::OnPopulateSample: start_ns="
-           << start_ns
-           << " basetime_ns="
-           << basetime_ns
-           << " start_ns-basetime_ns="
-           << (start_ns - basetime_ns)
-           << " dt[ms]="
-           << (double(start_ns - basetime_ns) / 1000000)
-           << "; THROWING AWAY AUDIO SAMPLE"
-           << endl;
+    Segment* const pSegment = m_pTrack->m_pSegment;
+    IMkvReader* const pFile = pSegment->m_pReader;
 
-        assert(m_bDiscontinuity);
-#endif
-
-        return S_FALSE;  //throw away this sample
-    }
-
-    const LONG srcsize = pCurrBlock->GetSize();
-    assert(srcsize >= 0);
-
-    const long tgtsize = pSample->GetSize();
-    tgtsize;
-    assert(tgtsize >= 0);
-    assert(tgtsize >= srcsize);
-
-    IMkvFile* const pFile = pCurrCluster->m_pSegment->m_pFile;
-
-    BYTE* ptr;
-
-    HRESULT hr = pSample->GetPointer(&ptr);
-    assert(SUCCEEDED(hr));
-    assert(ptr);
-
-    hr = pCurrBlock->Read(pFile, ptr);
-    assert(hr == S_OK);  //all bytes were read
-
-    hr = pSample->SetActualDataLength(srcsize);
-
-    hr = pSample->SetPreroll(FALSE);
-    assert(SUCCEEDED(hr));
-
-    hr = pSample->SetMediaType(0);
-    assert(SUCCEEDED(hr));
-
-    hr = pSample->SetDiscontinuity(m_bDiscontinuity);
-    assert(SUCCEEDED(hr));
-
-    //set by caller:
-    //m_bDiscontinuity = false;
-
-    //TODO: this is meaningful for audio streams.  MediaTime is the accumulated
-    //sum of audio samples.
-    hr = pSample->SetMediaTime(0, 0);
-    assert(SUCCEEDED(hr));
-
-    //const BlockGroup* const pGroup = m_pCurr->m_pGroup;
-    //pGroup;
-    //assert(pGroup);
-
-    hr = pSample->SetSyncPoint(TRUE);
-    assert(SUCCEEDED(hr));
-
-    __int64 ns = start_ns - basetime_ns;
-    assert(ns >= 0);
-
-    __int64 start_reftime = ns / 100;
-
-    __int64 stop_reftime;
-    __int64* pstop_reftime;
+    __int64 stop_ns;
 
     if ((pNextEntry == 0) || pNextEntry->EOS())
-        pstop_reftime = 0;  //TODO: use duration of curr block
+    {
+        const LONGLONG duration_ns = pSegment->GetDuration();
+
+        if ((duration_ns >= 0) && (duration_ns > start_ns))
+            stop_ns = duration_ns;
+        else
+        {
+            const LONGLONG ns_per_frame = 10000000;  //10ms
+            stop_ns = start_ns + LONGLONG(nFrames) * ns_per_frame;
+        }
+    }
     else
     {
         const Block* const pNextBlock = pNextEntry->GetBlock();
         assert(pNextBlock);
 
-        Cluster* const pNextCluster = pNextEntry->GetCluster();
+        const Cluster* const pNextCluster = pNextEntry->GetCluster();
 
-        const __int64 stop_ns = pNextBlock->GetTime(pNextCluster);
+        stop_ns = pNextBlock->GetTime(pNextCluster);
         assert(stop_ns > start_ns);
-        assert((stop_ns % 100) == 0);
-
-        ns = stop_ns - basetime_ns;
-        assert(ns >= 0);
-
-        stop_reftime = ns / 100;
-        assert(stop_reftime > start_reftime);
-
-        pstop_reftime = &stop_reftime;
+        //assert((stop_ns % 100) == 0);
     }
 
-    hr = pSample->SetTime(&start_reftime, pstop_reftime);
-    assert(SUCCEEDED(hr));
+    __int64 start_reftime = (start_ns - base_ns) / 100;
+    assert(start_ns >= 0);
 
-    //set by caller:
-    //m_pCurr = pNextBlock;
-    return S_OK;
+    const __int64 block_stop_reftime = (stop_ns - base_ns) / 100;
+    assert(block_stop_reftime > start_reftime);
+
+    const __int64 block_duration = block_stop_reftime - start_reftime;
+    assert(block_duration > 0);
+
+    __int64 frame_duration = block_duration / nFrames;  //reftime units
+
+    if (frame_duration <= 0)  //weird: block duration is very small
+        frame_duration = 1;
+
+    BOOL bDiscontinuity = m_bDiscontinuity ? TRUE : FALSE;
+
+    for (int idx = 0; idx < nFrames; ++idx)
+    {
+        IMediaSample* const pSample = samples[idx];
+
+        const Block::Frame& f = pCurrBlock->GetFrame(idx);
+
+        const LONG srcsize = f.len;
+        assert(srcsize >= 0);
+
+        const long tgtsize = pSample->GetSize();
+        tgtsize;
+        assert(tgtsize >= 0);
+        assert(tgtsize >= srcsize);
+
+        BYTE* ptr;
+
+        HRESULT hr = pSample->GetPointer(&ptr);
+        assert(SUCCEEDED(hr));
+        assert(ptr);
+
+        const long status = f.Read(pFile, ptr);
+        assert(status == 0);  //all bytes were read
+
+        hr = pSample->SetActualDataLength(srcsize);
+
+        hr = pSample->SetPreroll(FALSE);
+        assert(SUCCEEDED(hr));
+
+        hr = pSample->SetMediaType(0);
+        assert(SUCCEEDED(hr));
+
+        hr = pSample->SetDiscontinuity(bDiscontinuity);
+        assert(SUCCEEDED(hr));
+
+        bDiscontinuity = FALSE;
+
+        hr = pSample->SetMediaTime(0, 0);
+        assert(SUCCEEDED(hr));
+
+        hr = pSample->SetSyncPoint(TRUE);
+        assert(SUCCEEDED(hr));
+
+        LONGLONG stop_reftime = start_reftime + frame_duration;
+
+        hr = pSample->SetTime(&start_reftime, &stop_reftime);
+        assert(SUCCEEDED(hr));
+
+        start_reftime = stop_reftime;
+    }
 }
 
 
@@ -720,4 +711,4 @@ bool AudioStream::SendOggSetupPacket(IMediaSample* pSample)
 #endif
 
 
-}  //end namespace MkvParser
+}  //end namespace mkvparser

@@ -7,10 +7,10 @@
 // be found in the AUTHORS file in the root of the source tree.
 
 #include "webmsplitfilter.hpp"
-#include "webmsplitoutpin.hpp"
 #include "mkvparser.hpp"
 #include "mkvparserstreamvideo.hpp"
 #include "mkvparserstreamaudio.hpp"
+#include "webmsplitoutpin.hpp"
 #include <vfwmsgs.h>
 #include <uuids.h>
 #include <cassert>
@@ -164,8 +164,6 @@ HRESULT Inpin::ReceiveConnection(
     if (bool(m_pPinConnection))
         return VFW_E_ALREADY_CONNECTED;
 
-    //assert(!bool(m_pReader));
-
     m_connection_mtv.Clear();
 
     if ((pmt != 0) && (pmt->majortype != GUID_NULL))
@@ -181,8 +179,45 @@ HRESULT Inpin::ReceiveConnection(
     if (FAILED(hr))
         return hr;
 
-    m_reader.SetSource(pReader);
-    hr = m_pFilter->Open(&m_reader);
+    hr = m_reader.SetSource(pReader);
+
+    if (FAILED(hr))
+        return hr;
+
+    m_reader.m_sync_read = true;
+
+#if 1
+    hr = m_pFilter->Open();
+#else
+    for (;;)
+    {
+        hr = m_pFilter->Open();
+
+        if (SUCCEEDED(hr))
+            break;
+
+        if (hr != VFW_E_BUFFER_UNDERFLOW)
+            break;
+
+        LONGLONG total, avail;
+
+        const int status = m_reader.Length(&total, &avail);
+
+        if (status < 0)
+        {
+            hr = VFW_E_RUNTIME_ERROR;
+            break;
+        }
+
+        if (avail >= total)
+            continue;
+
+        hr = m_reader.Wait(*m_pFilter, avail, 1, 5000);
+
+        if (FAILED(hr))
+            break;
+    }
+#endif
 
     if (FAILED(hr))
     {
@@ -190,6 +225,7 @@ HRESULT Inpin::ReceiveConnection(
         return hr;
     }
 
+    m_reader.m_sync_read = false;
     m_pPinConnection = pin;
 
     return S_OK;
@@ -241,14 +277,9 @@ HRESULT Inpin::QueryAccept(const AM_MEDIA_TYPE* pmt)
 
 HRESULT Inpin::OnDisconnect()
 {
-    //odbgstream os;
-    //os << "WebmSplit::Inpin::OnDisconnect: calling OnDisconnectInpin" << endl;
-
     const HRESULT hr = m_pFilter->OnDisconnectInpin();
     hr;
     assert(SUCCEEDED(hr));  //TODO
-
-    //os << "WebmSplit::Inpin::OnDisconnect: called OnDisconnectInpin" << endl;
 
     m_reader.SetSource(0);
 
@@ -258,7 +289,7 @@ HRESULT Inpin::OnDisconnect()
 
 HRESULT Inpin::GetName(PIN_INFO& info) const
 {
-    const wchar_t name[] = L"MKV";  //TODO
+    const wchar_t name[] = L"WebM";
 
 #if _MSC_VER >= 1400
     enum { namelen = sizeof(info.achName) / sizeof(WCHAR) };
@@ -271,6 +302,7 @@ HRESULT Inpin::GetName(PIN_INFO& info) const
 
     return S_OK;
 }
+
 
 }  //end namespace WebmSplit
 

@@ -170,24 +170,37 @@ StreamAudioVorbisOgg::VorbisFrame::VorbisFrame(
     assert(SUCCEEDED(hr));
     assert(st >= 0);
 
-    const double samples = double(st);
+    double samples = double(st);
 
-    const ULONG samplesPerSec = pStream->GetSamplesPerSec();
-    assert(samplesPerSec > 0);
+    const ULONG samples_per_sec_ = pStream->GetSamplesPerSec();
+    assert(samples_per_sec_ > 0);
+
+    const double samples_per_sec = double(samples_per_sec_);
 
     //secs [=] samples / samples/sec
-    const double secs = samples / double(samplesPerSec);
+    double secs = samples / samples_per_sec;
 
-    const double ns = secs * 1000000000.0;
+    double ns = secs * 1000000000.0;
 
     const Context& ctx = pStream->m_context;
     const ULONG scale = ctx.GetTimecodeScale();
     assert(scale >= 1);
 
-    const double tc = ns / scale;
+    double tc = ns / scale;
     assert(tc <= ULONG_MAX);
 
     m_timecode = static_cast<ULONG>(tc);
+
+    if ((hr == VFW_S_NO_STOP_TIME) || (sp <= st))
+        m_duration = 0;
+    else
+    {
+        samples = double(sp - st);
+        secs = samples / samples_per_sec;
+        ns = secs * 1000000000.0;
+        tc = ns / scale;
+        m_duration = static_cast<ULONG>(tc);
+    }
 
     const long size = pSample->GetActualDataLength();
     assert(size > 0);
@@ -257,6 +270,12 @@ ULONG StreamAudioVorbisOgg::VorbisFrame::GetTimecode() const
 }
 
 
+ULONG StreamAudioVorbisOgg::VorbisFrame::GetDuration() const
+{
+    return m_duration;
+}
+
+
 ULONG StreamAudioVorbisOgg::VorbisFrame::GetSize() const
 {
 #if 0
@@ -295,13 +314,12 @@ StreamAudioVorbisOgg::StreamAudioVorbisOgg(
 }
 
 
-void StreamAudioVorbisOgg::Final()
-{
-    const HRESULT hr = FinalizeTrackCodecPrivate();
-    hr;
-    SUCCEEDED(hr);
-}
-
+//void StreamAudioVorbisOgg::Final()
+//{
+//    const HRESULT hr = FinalizeTrackCodecPrivate();
+//    hr;
+//    SUCCEEDED(hr);
+//}
 
 
 void StreamAudioVorbisOgg::WriteTrackCodecID()
@@ -328,7 +346,12 @@ void StreamAudioVorbisOgg::WriteTrackCodecPrivate()
 
     m_codec_private_data_pos = file.GetPosition();
 
-    file.SetPosition(kPRIVATE_DATA_BYTES_RESERVED, STREAM_SEEK_CUR);
+    const USHORT size = kPRIVATE_DATA_BYTES_RESERVED - 3;
+
+    file.WriteID1(0xEC); // Void
+    file.Write2UInt(size);
+
+    file.SetPosition(size, STREAM_SEEK_CUR);
 
 #if 0 //def _DEBUG
     odbgstream ods;
@@ -341,26 +364,13 @@ void StreamAudioVorbisOgg::WriteTrackCodecPrivate()
 
 HRESULT StreamAudioVorbisOgg::FinalizeTrackCodecPrivate()
 {
+    if (m_ident.empty() || m_comment.empty() || m_setup.empty())
+        return S_OK;
+
     EbmlIO::File& file = m_context.m_file;
 
     const __int64 old_pos = file.GetPosition();
     file.SetPosition(m_codec_private_data_pos);
-
-    if (m_ident.empty() || m_comment.empty() || m_setup.empty())
-    {
-        //debit allocated size by Void type (1) and length (2)
-        const int bytes_to_write_ = kPRIVATE_DATA_BYTES_RESERVED - 1 - 2;
-        assert(bytes_to_write_ <= USHRT_MAX);
-
-        const USHORT bytes_to_write = static_cast<USHORT>(bytes_to_write_);
-
-        file.WriteID1(0xEC); // Void
-        file.Write2UInt(bytes_to_write);
-
-        file.SetPosition(old_pos);
-
-        return S_OK;
-    }
 
     const DWORD ident_len = static_cast<const DWORD>(m_ident.size());
     assert(ident_len > 0);
@@ -438,6 +448,8 @@ HRESULT StreamAudioVorbisOgg::Receive(IMediaSample* pSample)
     if (pSample == 0)
         return E_INVALIDARG;
 
+    EbmlIO::File& file = m_context.m_file;
+
     BYTE* buf;
 
     HRESULT hr = pSample->GetPointer(&buf);
@@ -481,10 +493,15 @@ HRESULT StreamAudioVorbisOgg::Receive(IMediaSample* pSample)
         assert(memcmp(buf + 1, "vorbis", 6) == 0);
         m_setup.assign(buf, buf_end);
 
+        if (file.GetStream())
+        {
+            const HRESULT hr = FinalizeTrackCodecPrivate();
+            hr;
+            SUCCEEDED(hr);
+        }
+
         return S_OK;
     }
-
-    EbmlIO::File& file = m_context.m_file;
 
     if (file.GetStream() == 0)
         return S_OK;

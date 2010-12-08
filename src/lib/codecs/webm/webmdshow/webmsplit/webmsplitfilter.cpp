@@ -10,10 +10,10 @@
 #include <uuids.h>
 #include "webmsplitfilter.hpp"
 #include "cenumpins.hpp"
-#include "webmsplitoutpin.hpp"
 #include "mkvparser.hpp"
 #include "mkvparserstreamvideo.hpp"
 #include "mkvparserstreamaudio.hpp"
+#include "webmsplitoutpin.hpp"
 #include "webmtypes.hpp"
 #include <new>
 #include <cassert>
@@ -88,7 +88,8 @@ Filter::Filter(IClassFactory* pClassFactory, IUnknown* pOuter)
       m_hThread(0),
       m_pSegment(0),
       m_pSeekBase(0),
-      m_seekTime(kNoSeek),
+      m_seekBase_ns(-1),
+      m_currTime(kNoSeek),
       m_inpin(this),
       m_cStarvation(-1)  //means "not starving"
 {
@@ -183,6 +184,9 @@ void Filter::Final()
     //os << "WebmSplit::Filter::Final: called BeginFlush; "
     //   << "waiting for thread termination"
        //<< endl;
+
+    //HRESULT hr = m_inpin.m_reader.Cancel();
+    //assert(SUCCEEDED(hr));
 
     const DWORD dw = WaitForSingleObject(m_hThread, INFINITE);
     dw;
@@ -307,17 +311,12 @@ HRESULT Filter::Stop()
     //Stop is a synchronous operation: when it completes,
     //the filter is stopped.
 
-    //odbgstream os;
-
     Lock lock;
 
     HRESULT hr = lock.Seize(this);
 
     if (FAILED(hr))
         return hr;
-
-    //odbgstream os;
-    //os << "WebmSplit::Filter::Stop" << endl;
 
     switch (m_state)
     {
@@ -349,22 +348,20 @@ HRESULT Filter::Stop()
             //decommit the allocator immediately, and then wait
             //for the threads to terminated.)
 
-            //os << "WebmSplit::filter::stop: calling Release" << endl;
-
             m_state = State_Stopped;
+
+            hr = m_inpin.m_reader.BeginFlush();
+            assert(SUCCEEDED(hr));
 
             lock.Release();
 
-            //os << "WebmSplit::filter::stop: called Release; calling OnStop" << endl;
-
             OnStop();
-
-            //os << "WebmSplit::filter::stop: called OnStop; calling Seize" << endl;
 
             hr = lock.Seize(this);
             assert(SUCCEEDED(hr));  //TODO
 
-            //os << "WebmSplit::filter::stop: Seize called" << endl;
+            hr = m_inpin.m_reader.EndFlush();
+            assert(SUCCEEDED(hr));
 
             break;
 
@@ -472,12 +469,8 @@ HRESULT Filter::GetState(
 
     FILTER_STATE& state = *p;
 
-    //odbgstream os;
-
     if (m_cStarvation < 0)  //not starving
     {
-        //os << "\nWebmSplit::Filter::GetState: NOT STARVING\n" << endl;
-
         state = m_state;
         return S_OK;
     }
@@ -488,11 +481,6 @@ HRESULT Filter::GetState(
 
     if (count > m_cStarvation)
     {
-        //os << "\nWebmSplit::Filter::GetState: cStarvation=" << m_cStarvation
-        //   << " clusters.count=" << count
-        //   << "; EXITING STARVATION MODE\n"
-        //   << endl;
-
         m_cStarvation = -1;
 
         state = m_state;  //TODO: should be State_Paused?
@@ -501,12 +489,6 @@ HRESULT Filter::GetState(
 
     for (;;)
     {
-        //os << "\nWebmSplit::Filter::GetState: cStarvation=" << m_cStarvation
-        //   << " clusters.count=" << count
-        //   << " timeout=" << timeout
-        //   << "; WAITING FOR SIGNAL\n"
-        //   << endl;
-
         lock.Release();
 
         DWORD index;
@@ -524,7 +506,7 @@ HRESULT Filter::GetState(
 
         if (SUCCEEDED(hrWait))
             assert(index == 0);
-        else if (hrWait != RPC_S_CALLPENDING) //despite the "S" in this name, this is an error
+        else if (hrWait != RPC_S_CALLPENDING) //error, despite "S" in name
             return hrWait;
 
         hrLock = lock.Seize(this);
@@ -536,11 +518,6 @@ HRESULT Filter::GetState(
 
         if (count > m_cStarvation)
         {
-            //os << "\nWebmSplit::Filter::GetState(cont'd): cStarvation=" << m_cStarvation
-            //   << " clusters.count=" << count
-            //   << "; EXITING STARVATION MODE\n"
-            //   << endl;
-
             m_cStarvation = -1;
 
             state = m_state;  //TODO: should be State_Paused?
@@ -548,14 +525,7 @@ HRESULT Filter::GetState(
         }
 
         if (FAILED(hrWait))  //there was a timeout before receiving signal
-        {
-            //os << "\nWebmSplit::Filter::GetState(cont'd): cStarvation=" << m_cStarvation
-            //   << " clusters.count=" << count
-            //   << "; INTERMEDIATE FILTER STATE\n"
-            //   << endl;
-
            return VFW_S_STATE_INTERMEDIATE;
-        }
     }
 }
 
@@ -766,27 +736,34 @@ HRESULT Filter::QueryVendorInfo(LPWSTR* pstr)
 }
 
 
-HRESULT Filter::Open(MkvParser::IMkvFile* pFile)
+HRESULT Filter::Open()
 {
     if (m_pSegment)
         return VFW_E_WRONG_STATE;
 
-    assert(pFile);
     assert(m_outpins.empty());
+
+    MkvReader& reader = m_inpin.m_reader;
 
     __int64 result, pos;
 
-    //TODO: must initialize header to defaults
+    mkvparser::EBMLHeader h;
 
-    MkvParser::EBMLHeader h;
-
-    result = h.Parse(pFile, pos);
+    result = h.Parse(&reader, pos);
 
     if (result < 0)  //error
-        return static_cast<HRESULT>(result);
+    {
+        if (result == mkvparser::E_FILE_FORMAT_INVALID)
+            return VFW_E_INVALID_FILE_FORMAT;
 
-    if (result > 0)  //need more data
-        return VFW_E_BUFFER_UNDERFLOW;  //require full header
+        if (result == mkvparser::E_BUFFER_NOT_FULL)
+            return VFW_E_BUFFER_UNDERFLOW;
+
+        return VFW_E_RUNTIME_ERROR;
+    }
+
+    if (result > 0)
+        return VFW_E_BUFFER_UNDERFLOW;
 
     if (h.m_version > 1)
         return VFW_E_INVALID_FILE_FORMAT;
@@ -797,9 +774,11 @@ HRESULT Filter::Open(MkvParser::IMkvFile* pFile)
     if (h.m_maxSizeLength > 8)
         return VFW_E_INVALID_FILE_FORMAT;
 
-    if (_stricmp(h.m_docType.c_str(), "webm") == 0)
+    const char* const docType = h.m_docType;
+
+    if (_stricmp(docType, "webm") == 0)
         __noop;
-    else if (_stricmp(h.m_docType.c_str(), "matroska") == 0)
+    else if (_stricmp(docType, "matroska") == 0)
         __noop;
     else
         return VFW_E_INVALID_FILE_FORMAT;
@@ -813,77 +792,130 @@ HRESULT Filter::Open(MkvParser::IMkvFile* pFile)
     //Just the EBML header has been consumed.  pos points
     //to start of (first) segment.
 
-    MkvParser::Segment* p;
+    mkvparser::Segment* p;
 
-    result = MkvParser::Segment::CreateInstance(pFile, pos, p);
+    result = mkvparser::Segment::CreateInstance(&reader, pos, p);
 
-    if (result < 0)
-        return static_cast<HRESULT>(result);
+    if (result < 0)  //error
+    {
+        if (result == mkvparser::E_FILE_FORMAT_INVALID)
+            return VFW_E_INVALID_FILE_FORMAT;
+
+        if (result == mkvparser::E_BUFFER_NOT_FULL)
+            return VFW_E_BUFFER_UNDERFLOW;
+
+        return VFW_E_RUNTIME_ERROR;
+    }
 
     if (result > 0)
-        return VFW_E_BUFFER_UNDERFLOW;
+        return VFW_E_BUFFER_UNDERFLOW;  //TODO: handle this as below
 
     assert(p);
+    std::auto_ptr<mkvparser::Segment> pSegment(p);
 
-    std::auto_ptr<MkvParser::Segment> pSegment(p);
+#if 0
+    result = pSegment->FindFirstCluster(pos);
+
+    if (result < 0)
+    {
+        if (result == mkvparser::E_FILE_FORMAT_INVALID)
+            return VFW_E_INVALID_FILE_FORMAT;
+
+        if (result != mkvparser::E_BUFFER_NOT_FULL)
+            return VFW_E_RUNTIME_ERROR;
+    }
+
+    //if you're going to do this, why not just a sync read...
+    const HRESULT hr = reader.Wait(*this, pos, 1, 5000);
+
+    if (FAILED(hr))
+        return hr;
+#endif
 
     result = pSegment->ParseHeaders();
 
-    if (result < 0)
-        return static_cast<HRESULT>(result);
+    if (result < 0)  //error
+    {
+        if (result == mkvparser::E_FILE_FORMAT_INVALID)
+            return VFW_E_INVALID_FILE_FORMAT;
+
+        if (result == mkvparser::E_BUFFER_NOT_FULL)
+            return VFW_E_BUFFER_UNDERFLOW;
+
+        return VFW_E_RUNTIME_ERROR;
+    }
 
     if (result > 0)
         return VFW_E_BUFFER_UNDERFLOW;
 
-    const MkvParser::Tracks* const pTracks = pSegment->GetTracks();
+    using namespace mkvparser;
 
-    if (pTracks == 0)
-        return VFW_E_INVALID_FILE_FORMAT;
-
-    const MkvParser::SegmentInfo* const pInfo = pSegment->GetInfo();
+    const SegmentInfo* const pInfo = pSegment->GetInfo();
 
     if (pInfo == 0)
         return VFW_E_INVALID_FILE_FORMAT;  //TODO: liberalize
 
-    using MkvParser::VideoTrack;
-    using MkvParser::VideoStream;
+#ifdef _DEBUG
+    {
+        wstring muxingApp, writingApp;
 
-    using MkvParser::AudioTrack;
-    using MkvParser::AudioStream;
+        if (const char* str = pInfo->GetMuxingAppAsUTF8())
+            muxingApp = Stream::ConvertFromUTF8(str);
 
-    using MkvParser::Stream;
+        if (const char* str = pInfo->GetWritingAppAsUTF8())
+            writingApp = Stream::ConvertFromUTF8(str);
+    }
+#endif
 
-    typedef Stream::TCreateOutpins<VideoTrack, VideoStream, Filter> EV;
-    typedef Stream::TCreateOutpins<AudioTrack, AudioStream, Filter> EA;
+    const Tracks* const pTracks = pSegment->GetTracks();
 
-    const EV ev(this, &VideoStream::CreateInstance);
-    pTracks->EnumerateVideoTracks(ev);
+    if (pTracks == 0)
+        return VFW_E_INVALID_FILE_FORMAT;
 
-    const EA ea(this, &AudioStream::CreateInstance);
-    pTracks->EnumerateAudioTracks(ea);
+    const ULONG n = pTracks->GetTracksCount();
+
+    for (ULONG i = 0; i < n; ++i)
+    {
+        const Track* const pTrack = pTracks->GetTrackByIndex(i);
+
+        if (pTrack == 0)
+            continue;
+
+        const long long type = pTrack->GetType();
+
+        if (type == 1)  //video
+        {
+            typedef mkvparser::VideoTrack VT;
+            const VT* const t = static_cast<const VT*>(pTrack);
+
+            if (VideoStream* s = VideoStream::CreateInstance(t))
+                CreateOutpin(s);
+        }
+#if 1
+        else if (type == 2)  //audio
+        {
+            typedef mkvparser::AudioTrack AT;
+            const AT* const t = static_cast<const AT*>(pTrack);
+
+            if (AudioStream* s = AudioStream::CreateInstance(t))
+                CreateOutpin(s);
+        }
+#endif
+    }
 
     if (m_outpins.empty())
         return VFW_E_INVALID_FILE_FORMAT;  //TODO: better return value here?
 
-    //ALLOCATOR_PROPERTIES props;
-    //props.cbBuffer = GetMaxBufferSize();
-    //props.cbAlign = 1;
-    //props.cbPrefix = 0;
-    //props.cBuffers = 1;
-
-    //HRESULT hr = pReader->RequestAllocator(0, &props, &m_pAllocator);
-    //assert(SUCCEEDED(hr));  //TODO
-    //assert(bool(m_pAllocator));
-
     m_pSegment = pSegment.release();
     m_pSeekBase = 0;
-    m_seekTime = kNoSeek;
+    m_seekBase_ns = -1;
+    m_currTime = kNoSeek;
 
     return S_OK;
 }
 
 
-void Filter::CreateOutpin(MkvParser::Stream* s)
+void Filter::CreateOutpin(mkvparser::Stream* s)
 {
     //Outpin* const p = new (std::nothrow) Outpin(this, s);
     Outpin* const p = Outpin::Create(this, s);
@@ -894,7 +926,7 @@ void Filter::CreateOutpin(MkvParser::Stream* s)
 
 void Filter::OnStart()
 {
-    //TODO: init inpin
+    //m_inpin.Start();
 
     typedef outpins_t::iterator iter_t;
 
@@ -921,13 +953,13 @@ void Filter::OnStart()
         m_cStarvation = 0;  //temporarily enter starvation mode to force check
     }
 
-    Init();
+    Init();  //create reader thread
 }
 
 
 void Filter::OnStop()
 {
-    Final();
+    Final();  //terminate reader thread
 
     typedef outpins_t::iterator iter_t;
 
@@ -942,7 +974,7 @@ void Filter::OnStop()
         pPin->Stop();
     }
 
-    //TODO: final inpin
+    //m_inpin.Stop();
 }
 
 
@@ -982,59 +1014,76 @@ unsigned Filter::ThreadProc(void* pv)
 unsigned Filter::Main()
 {
     assert(m_pSegment);
-    const __int64 stop = m_pSegment->m_start + m_pSegment->m_size;
-    stop;
-
-    //odbgstream os;
-    //os << "WebmSplit::filter::main: thread running" << endl;
 
     for (;;)
     {
         Sleep(0);
 
-        MkvParser::Cluster* pCluster;
-        __int64 pos;
+#if 0
+        LONGLONG cluster_pos, new_pos;
 
-        HRESULT hr = m_pSegment->ParseCluster(pCluster, pos);
-        assert(SUCCEEDED(hr));  //TODO
-        assert((hr != S_OK) || (pCluster != 0));
+        const long status = m_pSegment->ParseCluster(cluster_pos, new_pos);
 
-        //os << "WebmSplit::filter::main: cluster=0x" << (void*)pCluster
-        //   << " pos=" << pos
-        //   << "/" << stop
-        //   << " hr=0x" << hex << hr << dec
-        //   << endl;
-
-        if (FAILED(hr))  //TODO: how to handle outpin streaming threads?
+        if (status < 0)  //TODO: how to handle outpin streaming threads?
             return 1;
 
         Lock lock;
 
-        hr = lock.Seize(this);
+        const HRESULT hr = lock.Seize(this);
         assert(SUCCEEDED(hr));  //TODO
 
         if (FAILED(hr))
-            return 1;  //TODO: pCluster != 0 => memory leak
+            return 1;
 
-        const bool bDone = m_pSegment->AddCluster(pCluster, pos);
+        const bool bDone = m_pSegment->AddCluster(cluster_pos, new_pos);
 
-        //os << "WebmSplit::filter::main: AddCluster; newcount="
+        //odbgstream os;
+        //os << "webmsplit::filter::main: ParseCluster; cluster_pos="
+        //   << cluster_pos
+        //   << " new_pos="
+        //   << new_pos
+        //   << " count="
         //   << m_pSegment->GetCount()
+        //   << " unparsed="
+        //   << m_pSegment->Unparsed()
         //   << endl;
+#else
+        Lock lock;
+
+        HRESULT hr = lock.Seize(this);
+
+        if (FAILED(hr))
+            return 1;
+
+        for (;;)
+        {
+            LONGLONG pos;
+            LONG size;
+
+            const long status = m_pSegment->LoadCluster(pos, size);
+
+            if (status >= 0)
+                break;
+
+            if (status != mkvparser::E_BUFFER_NOT_FULL)
+                return 1;
+
+            hr = m_inpin.m_reader.Wait(*this, pos, size, INFINITE);
+
+            if (FAILED(hr))  //wait was cancelled
+                return 1;
+        }
+
+        const bool bDone = (m_pSegment->Unparsed() <= 0);
+#endif
 
         OnNewCluster();
 
         if (bDone)
-        {
-            //os << "WebmSplit::filter::main: AddCluster returned Done; EXITING" << endl;
             return 0;
-        }
 
         if (m_state == State_Stopped)
-        {
-            //os << "WebmSplit::filter::main: state=Stopped; EXITING" << endl;
             return 0;
-        }
     }
 }
 
@@ -1064,9 +1113,6 @@ HRESULT Filter::OnDisconnectInpin()
 {
     assert(m_hThread == 0);
 
-    //wodbgstream os;
-    //os << "WebmSplit::Filter::OnDisconnectInpin(begin)" << endl;
-
     while (!m_outpins.empty())
     {
         Outpin* const pPin = m_outpins.back();
@@ -1085,29 +1131,18 @@ HRESULT Filter::OnDisconnectInpin()
 
         m_outpins.pop_back();
 
-        //os << "WebmSplit::Filter::OnDisconnectInpin(cont'd): destroying outpin["
-        //   << pPin->m_id
-        //   << "]"
-        //   << endl;
-
         const ULONG n = pPin->Destroy();
         n;
-
-        //os << "WebmSplit::Filter::OnDisconnectInpin(cont'd): destroyed outpin"
-        //   << "; n=" << n
-        //   << endl;
     }
 
-    m_seekTime = kNoSeek;
+    m_currTime = kNoSeek;
     m_pSeekBase = 0;
+    m_seekBase_ns = -1;
 
     delete m_pSegment;
     m_pSegment = 0;
 
     m_cStarvation = -1;
-
-    //os << "WebmSplit::Filter::OnDisconnectInpin(end)" << endl;
-
     return S_OK;
 }
 
@@ -1143,37 +1178,159 @@ void Filter::SetCurrPosition(
     assert(pOutpin);
     assert(bool(pOutpin->m_pPinConnection));
 
-    MkvParser::Stream* const pSeekStream = pOutpin->GetStream();
+    using namespace mkvparser;
+
+    Stream* const pSeekStream = pOutpin->GetStream();
     assert(pSeekStream);
 
-    //odbgstream os;
-
-    if (m_seekTime == currTime)
+    if (m_currTime == currTime)
     {
-        pSeekStream->SetCurrPosition(m_pSeekBase);
-        //os << "mkvsource::filter::setcurrpos: seektime=currtime #1" << endl;
+        SetCurrPositionUsingSameTime(pSeekStream);
+        return;
+    }
+
+    m_currTime = currTime;
+
+    if (InCache())
+        m_pSegment->LoadCluster();
+
+    if (m_pSegment->GetCount() <= 0)  //no clusters loaded yet
+    {
+        m_pSeekBase = 0;  //best we can do is to assume first cluster
+        m_seekBase_ns = -1;
+        m_seekTime_ns = -1;
+
+        pSeekStream->SetCurrPosition(-1, 0);  //lazy init
         return;
     }
 
     const LONGLONG ns = pSeekStream->GetSeekTime(currTime, dwCurr);
+    const Track* const pSeekTrack = pSeekStream->m_pTrack;
 
-    if (pSeekStream->m_pTrack->GetType() == 1)  //video
+    if (pSeekTrack->GetType() == 1)  //video
+        SetCurrPositionVideo(ns, pSeekStream);
+    else
+        SetCurrPositionAudio(ns, pSeekStream);
+}
+
+
+void Filter::SetCurrPositionUsingSameTime(mkvparser::Stream* pStream)
+{
+    const mkvparser::BlockEntry* pCurr;
+
+    const mkvparser::Track* const pTrack = pStream->m_pTrack;
+
+    if (m_pSeekBase == 0)  //lazy init
+        pCurr = 0;
+
+    else if (m_pSeekBase->EOS())
+        pCurr = pTrack->GetEOS();
+
+    else
     {
-        const AM_MEDIA_TYPE& mt = pOutpin->m_connection_mtv[0];
-        const BOOL bVideo = (mt.majortype == MEDIATYPE_Video);
-        bVideo;
-        assert(bVideo);
+        pCurr = m_pSeekBase->GetEntry(pTrack, m_seekTime_ns);
 
-        m_pSeekBase = pSeekStream->SetCurrPosition(ns);
-        m_seekTime = currTime;
-        //os << "mkvsource::filter::setcurrpos: outpin is video #2" << endl;
-        return;
+#ifdef _DEBUG
+        if (pCurr == 0)
+            __noop;
+
+        else if (pCurr->EOS())
+            __noop;
+
+        else if (pTrack->GetType() == 1)  //video
+        {
+            const mkvparser::Block* const pCurrBlock = pCurr->GetBlock();
+            const LONGLONG ns = pCurrBlock->GetTime(pCurr->GetCluster());
+            assert(ns >= m_seekBase_ns);
+            assert(pCurrBlock->IsKey());
+        }
+#endif
     }
+
+    pStream->SetCurrPosition(m_seekBase_ns, pCurr);
+}
+
+
+void Filter::SetCurrPositionVideo(
+    LONGLONG ns,
+    mkvparser::Stream* pStream)
+{
+    using namespace mkvparser;
+    const Track* const pTrack = pStream->m_pTrack;
+
+    const bool bInCache = InCache();
+
+    if (!bInCache)
+        __noop;
+    else if (const Cues* pCues = m_pSegment->GetCues())
+    {
+        const CuePoint* pCP;
+        const CuePoint::TrackPosition* pTP;
+
+        if (pCues->Find(ns, pTrack, pCP, pTP))
+        {
+            const BlockEntry* const pCurr = pCues->GetBlock(pCP, pTP);
+            assert(pCurr);
+            assert(!pCurr->EOS());
+
+            m_pSeekBase = pCurr->GetCluster();
+            m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+            m_seekTime_ns = m_seekBase_ns;
+
+            pStream->SetCurrPosition(m_seekBase_ns, pCurr);
+            return;
+        }
+    }
+
+    const mkvparser::BlockEntry* pCurr = 0;
+
+    for (;;)
+    {
+        long status = pTrack->Seek(ns, pCurr);
+
+        if ((status >= 0) ||
+            (status != mkvparser::E_BUFFER_NOT_FULL) ||
+            !bInCache)
+        {
+            break;
+        }
+
+        status = m_pSegment->LoadCluster();
+
+        if (status < 0)
+            break;
+    }
+
+    if ((pCurr == 0) || pCurr->EOS())
+    {
+        m_pSeekBase = &m_pSegment->m_eos;
+        m_seekBase_ns = -1;
+        m_seekTime_ns = -1;
+    }
+    else
+    {
+        m_pSeekBase = pCurr->GetCluster();
+        m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+        m_seekTime_ns = m_seekBase_ns;
+    }
+
+    pStream->SetCurrPosition(m_seekBase_ns, pCurr);
+}
+
+
+void Filter::SetCurrPositionAudio(
+    LONGLONG ns,
+    mkvparser::Stream* pSeekStream)
+{
+    using namespace mkvparser;
+    const Track* const pSeekTrack = pSeekStream->m_pTrack;
 
     typedef outpins_t::const_iterator iter_t;
 
     iter_t i = m_outpins.begin();
     const iter_t j = m_outpins.end();
+
+    mkvparser::Stream* pVideoStream = 0;
 
     while (i != j)
     {
@@ -1186,36 +1343,129 @@ void Filter::SetCurrPosition(
         const AM_MEDIA_TYPE& mt = pin->m_connection_mtv[0];
         const BOOL bVideo = (mt.majortype == MEDIATYPE_Video);
 
-        if (!bVideo)
-            continue;
+        if (bVideo)
+        {
+            pVideoStream = pin->GetStream();
+            assert(pVideoStream);
+            assert(pVideoStream != pSeekStream);
 
-        MkvParser::Stream* const pStream = pin->GetStream();
-        assert(pStream);
-        assert(pStream != pSeekStream);
-        assert(pStream->m_pTrack->GetType() == 1);  //video
+            break;
+        }
+    }
 
-        m_pSeekBase = pStream->GetSeekBase(ns);
-        m_seekTime = currTime;
+    if (pVideoStream == 0)  //no video tracks in this file
+    {
+        const mkvparser::BlockEntry* pCurr;
+        const long status = pSeekTrack->Seek(ns, pCurr);
 
-        //os << "mkvsource::filter::setcurrpos: searched for and found video pin;"
-        //   << " timecode[ns]=" << ns
-        //   << " seekbase.time[ns]="
-        //   << ((m_pSeekBase == 0) ? -42 : m_pSeekBase->GetTime())
-        //   << " #3a"
-        //   << endl;
+        if ((status < 0) || (pCurr == 0) || pCurr->EOS())
+        {
+            m_pSeekBase = &m_pSegment->m_eos;
+            m_seekBase_ns = -1;
+            m_seekTime_ns = -1;
+        }
+        else
+        {
+            m_pSeekBase = pCurr->GetCluster();
+            m_seekBase_ns = m_pSeekBase->GetFirstTime();
+            m_seekTime_ns = ns;
+        }
 
-        pSeekStream->SetCurrPosition(m_pSeekBase);
-
-        //os << "mkvsource::filter::setcurrpos: searched for and found video pin #3b" << endl;
+        pSeekStream->SetCurrPosition(m_seekBase_ns, pCurr);
         return;
     }
 
-    //os << "mkvsource::filter::setcurrpos: searched for but did not find video pin #4" << endl;
+    const mkvparser::Track* const pVideoTrack = pVideoStream->m_pTrack;
+    assert(pVideoTrack->GetType() == 1);  //video
 
-    m_pSeekBase = pSeekStream->SetCurrPosition(ns);
-    m_seekTime = currTime;
+    const bool bInCache = InCache();
+
+    if (!bInCache)
+        __noop;
+    else if (const Cues* pCues = m_pSegment->GetCues())
+    {
+        const CuePoint* pCP;
+        const CuePoint::TrackPosition* pTP;
+
+        if (pCues->Find(ns, pVideoTrack, pCP, pTP))
+        {
+            const BlockEntry* pCurr = pCues->GetBlock(pCP, pTP);
+            assert(pCurr);
+            assert(!pCurr->EOS());
+
+            m_pSeekBase = pCurr->GetCluster();
+            m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+            m_seekTime_ns = m_seekBase_ns;  //to find same block later
+
+            pCurr = m_pSeekBase->GetEntry(pSeekTrack, m_seekBase_ns);
+            assert(pCurr);
+
+            if (!pCurr->EOS())
+                m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+
+            pSeekStream->SetCurrPosition(m_seekBase_ns, pCurr);
+            return;
+        }
+    }
+
+    const BlockEntry* pCurr = 0;
+
+    for (;;)
+    {
+        long status = pVideoTrack->Seek(ns, pCurr);
+
+        if ((status >= 0) ||
+            (status != mkvparser::E_BUFFER_NOT_FULL) ||
+            !bInCache)
+        {
+            break;
+        }
+
+        status = m_pSegment->LoadCluster();
+
+        if (status < 0)
+            break;
+    }
+
+    if ((pCurr == 0) || pCurr->EOS())
+    {
+        m_pSeekBase = &m_pSegment->m_eos;
+        m_seekBase_ns = -1;
+        m_seekTime_ns = -1;
+
+        pCurr = pSeekTrack->GetEOS();
+        pSeekStream->SetCurrPosition(m_seekBase_ns, pCurr);
+        return;
+    }
+
+    m_pSeekBase = pCurr->GetCluster();
+    m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+    m_seekTime_ns = m_seekBase_ns;  //to find same block later
+
+    pCurr = m_pSeekBase->GetEntry(pSeekTrack, m_seekBase_ns);
+    assert(pCurr);
+
+    if (!pCurr->EOS())
+        m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+
+    pSeekStream->SetCurrPosition(m_seekBase_ns, pCurr);
 }
 
+
+bool Filter::InCache()
+{
+    LONGLONG total, avail;
+
+    const int status = m_inpin.m_reader.Length(&total, &avail);
+
+    if (status < 0)
+        return false;
+
+    assert(total >= 0);
+    assert(avail <= total);
+
+    return (avail >= total);
+}
 
 
 } //end namespace WebmSplit

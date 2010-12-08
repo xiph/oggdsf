@@ -85,14 +85,34 @@ STDAPI DllUnregisterServer()
                     0,
                     WebmTypes::CLSID_WebmSplit);
 
-    //assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+        return hr;
 
-    //hr = ComReg::UnRegisterCustomFileType(L".mkv", WebmSplit::CLSID_WebmSplit);
-    //assert(SUCCEEDED(hr));
+#if 0
+    hr = ComReg::UnRegisterCustomFileType(
+            L".webm",
+            CLSID_AsyncReader);
+
+    if (FAILED(hr))
+        return hr;
+#endif
+
+#if 0
+    hr = ComReg::UnRegisterProtocolSource(
+            L"http",
+            L".webm",
+            CLSID_URLReader /* WebmTypes::CLSID_WebmSplit */ );
+
+    if (FAILED(hr))
+        return hr;
+#endif
 
     hr = ComReg::UnRegisterCoclass(WebmTypes::CLSID_WebmSplit);
 
-    return SUCCEEDED(hr) ? S_OK : S_FALSE;
+    if (FAILED(hr))
+        return hr;
+
+    return S_OK;
 }
 
 
@@ -113,7 +133,9 @@ STDAPI DllRegisterServer()
 #endif
 
     hr = DllUnregisterServer();
-    assert(SUCCEEDED(hr));
+
+    if (FAILED(hr))
+        return hr;
 
     hr = ComReg::RegisterCoclass(
             WebmTypes::CLSID_WebmSplit,
@@ -128,7 +150,8 @@ STDAPI DllRegisterServer()
             0,    //no version specified
             0);   //no toolbox bitmap
 
-    assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+        return hr;
 
 #if 0
     hr = ComReg::RegisterCustomFileType(
@@ -137,7 +160,18 @@ STDAPI DllRegisterServer()
             MEDIATYPE_Stream,              //major
             WebmTypes::MEDIASUBTYPE_WEBM); //minor
 
-    assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+        return hr;
+#endif
+
+#if 0
+    hr = ComReg::RegisterProtocolSource(
+            L"http",
+            L".webm",
+            CLSID_URLReader /* WebmTypes::CLSID_WebmSplit */ );
+
+    if (FAILED(hr))
+        return hr;
 #endif
 
     const GraphUtil::IFilterMapper2Ptr pMapper(CLSID_FilterMapper2);
@@ -151,7 +185,8 @@ STDAPI DllRegisterServer()
     enum { nInpinMediaTypes = 1 };
     const REGPINTYPES inpinMediaTypes[nInpinMediaTypes] =
     {
-        { &MEDIATYPE_Stream, &MEDIATYPE_NULL }
+/*        { &MEDIATYPE_Stream, &WebmTypes::MEDIASUBTYPE_WEBM }*/
+          { &MEDIATYPE_Stream, &MEDIATYPE_NULL }
     };
 
     inpin.strName = 0;              //obsolete

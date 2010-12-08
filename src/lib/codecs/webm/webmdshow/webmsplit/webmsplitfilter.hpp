@@ -13,9 +13,9 @@
 #include "webmsplitinpin.hpp"
 #include "clockable.hpp"
 
-namespace MkvParser
+namespace mkvparser
 {
-interface IMkvFile;
+class IMkvReader;
 class Cluster;
 class Stream;
 }
@@ -98,8 +98,10 @@ public:
 
     FILTER_STATE m_state;
     Inpin m_inpin;
-    MkvParser::Cluster* m_pSeekBase;
-    __int64 m_seekTime;
+    const mkvparser::Cluster* m_pSeekBase;
+    LONGLONG m_seekBase_ns;
+    __int64 m_currTime;     //requested seek time
+    __int64 m_seekTime_ns;  //actual seek time (normalized)
 
     typedef std::vector<Outpin*> outpins_t;
     outpins_t m_outpins;
@@ -109,12 +111,14 @@ public:
     HRESULT OnDisconnectInpin();
     void OnStarvation(ULONG);
 
-    HRESULT Open(MkvParser::IMkvFile*);
-    void CreateOutpin(MkvParser::Stream*);
+    HRESULT Open();
+    void CreateOutpin(mkvparser::Stream*);
+
+    bool InCache();
 
 private:
     HANDLE m_hThread;
-    MkvParser::Segment* m_pSegment;
+    mkvparser::Segment* m_pSegment;
     HANDLE m_hNewCluster;
     long m_cStarvation;
 
@@ -127,6 +131,10 @@ private:
     void OnStart();
     void OnNewCluster();
     void PopulateSamples(const HANDLE*, DWORD);
+
+    void SetCurrPositionUsingSameTime(mkvparser::Stream*);
+    void SetCurrPositionVideo(LONGLONG ns, mkvparser::Stream*);
+    void SetCurrPositionAudio(LONGLONG ns, mkvparser::Stream*);
 
 };
 

@@ -10,10 +10,10 @@
 #include <comdef.h>
 #include <uuids.h>
 #include "webmsourcefilter.hpp"
+#include "mkvparserstream.hpp"
 #include "webmsourceoutpin.hpp"
 //#include "cmemallocator.hpp"
 #include "cmediasample.hpp"
-#include "mkvparserstream.hpp"
 #include <vfwmsgs.h>
 #include <cassert>
 #include <sstream>
@@ -35,7 +35,7 @@ namespace WebmSource
 
 Outpin::Outpin(
     Filter* pFilter,
-    MkvParser::Stream* pStream) :
+    mkvparser::Stream* pStream) :
     Pin(pFilter, PINDIR_OUTPUT, pStream->GetId().c_str()),
     m_pStream(pStream),
     m_hThread(0)
@@ -491,6 +491,9 @@ HRESULT Outpin::GetDuration(LONGLONG* p)
     if (p == 0)
         return E_POINTER;
 
+    LONGLONG& reftime = *p;
+    reftime = -1;
+
     Filter::Lock lock;
 
     const HRESULT hr = lock.Seize(m_pFilter);
@@ -498,10 +501,115 @@ HRESULT Outpin::GetDuration(LONGLONG* p)
     if (FAILED(hr))
         return hr;
 
-    LONGLONG& d = *p;
-    d = m_pStream->GetDuration();
+    using namespace mkvparser;
 
-    return S_OK;
+    Segment* const pSegment = m_pStream->m_pTrack->m_pSegment;
+    assert(pSegment);
+
+    LONGLONG duration_ns = pSegment->GetDuration();
+
+    if (duration_ns >= 0)  //actually have a duration in file
+    {
+        reftime = duration_ns / 100;
+        return S_OK;
+    }
+
+    if (pSegment->Unparsed() <= 0)  //done parsing
+    {
+        const Cluster* const pCluster = pSegment->GetLast();
+
+        if ((pCluster == 0) || pCluster->EOS())
+        {
+            reftime = 0;
+            return S_OK;
+        }
+
+        duration_ns = pCluster->GetLastTime();
+        assert(duration_ns >= 0);
+
+        reftime = duration_ns / 100;
+
+        return S_OK;
+    }
+
+    if (const Cues* pCues = pSegment->GetCues())
+    {
+        const CuePoint* const pCP = pCues->GetLast();
+        assert(pCP);  //TODO
+
+        const Tracks* const pTracks = pSegment->GetTracks();
+        const ULONG count = pTracks->GetTracksCount();
+
+        for (ULONG idx = 0; idx < count; ++idx)
+        {
+            const Track* const pTrack = pTracks->GetTrackByIndex(idx);
+
+            if (pTrack == 0)
+                continue;
+
+            const CuePoint::TrackPosition* const pTP = pCP->Find(pTrack);
+
+            if (pTP == 0)
+                continue;
+
+            const BlockEntry* const pBE = pCues->GetBlock(pCP, pTP);
+
+            if ((pBE == 0) || pBE->EOS())
+                continue;
+
+            const Cluster* pCluster = pBE->GetCluster();
+            assert(pCluster);
+            assert(!pCluster->EOS());
+
+            if (pCluster->m_index >= 0)  //loaded
+            {
+                const Cluster* const p = pSegment->GetLast();
+                assert(p);
+                assert(p->m_index >= 0);
+
+                pCluster = p;
+            }
+            else //pre-loaded
+            {
+                for (int i = 0; i < 10; ++i)
+                {
+                    const Cluster* const p = pSegment->GetNext(pCluster);
+
+                    if ((p == 0) || p->EOS())
+                        break;
+
+                    pCluster = p;
+                }
+            }
+
+            duration_ns = pCluster->GetLastTime();
+            assert(duration_ns >= 0);
+
+            reftime = duration_ns / 100;  //reftime
+
+            return S_OK;
+        }
+    }
+
+    const long status = pSegment->LoadCluster();
+    assert(status >= 0);
+
+    {
+        const Cluster* const pCluster = pSegment->GetLast();  //best we can do
+
+        if ((pCluster == 0) || pCluster->EOS())
+        {
+            reftime = 0;
+            return S_OK;
+        }
+
+        duration_ns = pCluster->GetLastTime();
+        assert(duration_ns >= 0);
+
+        reftime = duration_ns / 100;
+
+        return S_OK;
+    }
 }
 
 
@@ -512,13 +620,21 @@ HRESULT Outpin::GetStopPosition(LONGLONG* p)
 
     Filter::Lock lock;
 
-    const HRESULT hr = lock.Seize(m_pFilter);
+    HRESULT hr = lock.Seize(m_pFilter);
 
     if (FAILED(hr))
         return hr;
 
     LONGLONG& pos = *p;
-    pos = m_pStream->GetStopPosition();
+    pos = m_pStream->GetStopTime();
+
+    if (pos < 0)  //means "use duration"
+    {
+        hr = GetDuration(&pos);
+
+        if (FAILED(hr) || (pos < 0))
+            return E_FAIL;  //?
+    }
 
     return S_OK;
 }
@@ -531,13 +647,21 @@ HRESULT Outpin::GetCurrentPosition(LONGLONG* p)
 
     Filter::Lock lock;
 
-    const HRESULT hr = lock.Seize(m_pFilter);
+    HRESULT hr = lock.Seize(m_pFilter);
 
     if (FAILED(hr))
         return hr;
 
     LONGLONG& pos = *p;
-    pos = m_pStream->GetCurrPosition();
+    pos = m_pStream->GetCurrTime();
+
+    if (pos < 0)  //means "use duration"
+    {
+        hr = GetDuration(&pos);
+
+        if (FAILED(hr) || (pos < 0))
+            return E_FAIL;
+    }
 
     return S_OK;
 }
@@ -584,7 +708,7 @@ HRESULT Outpin::SetPositions(
     if (FAILED(hr))
         return hr;
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
     wodbgstream os;
     os << "\nwebmsource::Outpin[" << m_id << "]::SetPos(begin): pCurr="
        << dec << (pCurr ? *pCurr : -1)
@@ -612,6 +736,14 @@ HRESULT Outpin::SetPositions(
                 return E_POINTER;
 
             *pCurr = m_pStream->GetCurrTime();
+
+            if (*pCurr < 0)  //means "use duration"
+            {
+                hr = GetDuration(pCurr);
+
+                if (FAILED(hr) || (*pCurr < 0))
+                    *pCurr = 0;  //?
+            }
         }
 
         if (dwStopPos == AM_SEEKING_NoPositioning)
@@ -622,6 +754,14 @@ HRESULT Outpin::SetPositions(
                     return E_POINTER;
 
                 *pStop = m_pStream->GetStopTime();
+
+                if (*pStop < 0) //means "use duration"
+                {
+                    hr = GetDuration(pStop);
+
+                    if (FAILED(hr) || (*pStop < 0))
+                        *pStop = 0;  //?
+                }
             }
 
             return S_FALSE;  //no position change
@@ -644,7 +784,17 @@ HRESULT Outpin::SetPositions(
         m_pStream->SetStopPosition(tStop, dwStop_);
 
         if (dwStop_ & AM_SEEKING_ReturnTime)
+        {
             tStop = m_pStream->GetStopTime();
+
+            if (tStop < 0)  //means "use duration"
+            {
+                hr = GetDuration(&tStop);
+
+                if (FAILED(hr) || (tStop < 0))
+                    tStop = 0;  //??
+            }
+        }
 
         //TODO: You're supposed to return S_FALSE if there has
         //been no change in position.  Does changing only the stop
@@ -685,7 +835,7 @@ HRESULT Outpin::SetPositions(
 
     if (m_pFilter->m_state != State_Stopped)
     {
-#ifdef _DEBUG
+#if 0 //def _DEBUG
         os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
            << dec << (pCurr ? tCurr : -1)
            << " dwCurr=0x"
@@ -701,7 +851,7 @@ HRESULT Outpin::SetPositions(
 
         lock.Release();
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
         os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
            << dec << (pCurr ? tCurr : -1)
            << " dwCurr=0x"
@@ -710,13 +860,14 @@ HRESULT Outpin::SetPositions(
            << dec << (pStop ? *pStop : -1)
            << " dwStop=0x"
            << hex << dwStop_
-           << "; BEGIN FLUSH: released filter lock; connection->calling BeginFlush"
+           << "; BEGIN FLUSH: released filter lock; "
+           << "connection->calling BeginFlush"
            << endl;
 #endif
 
         hr = m_connection->BeginFlush();
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
         os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
            << dec << (pCurr ? tCurr : -1)
            << " dwCurr=0x"
@@ -725,7 +876,9 @@ HRESULT Outpin::SetPositions(
            << dec << (pStop ? *pStop : -1)
            << " dwStop=0x"
            << hex << dwStop_
-           << "; BEGIN FLUSH: released filter lock; connection->called BeginFlush; waiting for thread termination"
+           << "; BEGIN FLUSH: released filter lock; "
+           << "connection->called BeginFlush; "
+           << "waiting for thread termination"
            << endl;
 #endif
 
@@ -741,7 +894,7 @@ HRESULT Outpin::SetPositions(
 
         m_hThread = 0;
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
         os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
            << dec << (pCurr ? tCurr : -1)
            << " dwCurr=0x"
@@ -756,7 +909,7 @@ HRESULT Outpin::SetPositions(
 
         hr = m_connection->EndFlush();
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
         os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
            << dec << (pCurr ? tCurr : -1)
            << " dwCurr=0x"
@@ -772,7 +925,7 @@ HRESULT Outpin::SetPositions(
         hr = lock.Seize(m_pFilter);
         assert(SUCCEEDED(hr));  //TODO
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
         os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
            << dec << (pCurr ? tCurr : -1)
            << " dwCurr=0x"
@@ -787,7 +940,7 @@ HRESULT Outpin::SetPositions(
     }
 
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
     os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
        << dec << (pCurr ? tCurr : -1)
        << " pStop="
@@ -814,7 +967,7 @@ HRESULT Outpin::SetPositions(
         m_pStream->SetStopPosition(*pStop, dwStop_);
     }
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
     os << "webmsource::Outpin[" << m_id << "]::SetPos(cont'd): pCurr="
        << dec << (pCurr ? tCurr : -1)
        << " pStop="
@@ -824,18 +977,36 @@ HRESULT Outpin::SetPositions(
 #endif
 
     if (dwCurr_ & AM_SEEKING_ReturnTime)
+    {
         tCurr = m_pStream->GetCurrTime();
+
+        if (tCurr < 0)  //means "use duration"
+        {
+            hr = GetDuration(&tCurr);
+
+            if (FAILED(hr) || (tCurr < 0))
+                tCurr = 0;  //?
+        }
+    }
 
     if (dwStop_ & AM_SEEKING_ReturnTime)
     {
         assert(pStop);  //we checked this above
         *pStop = m_pStream->GetStopTime();
+
+        if (*pStop < 0)  //means "use duration"
+        {
+            hr = GetDuration(pStop);
+
+            if (FAILED(hr) || (*pStop < 0))
+                *pStop = 0;  //?
+        }
     }
 
     if (m_pFilter->m_state != State_Stopped)
         StartThread();
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
     os << "webmsource::Outpin[" << m_id << "]::SetPos(end): pCurr="
        << dec << (pCurr ? tCurr : -1)
        << " pStop="
@@ -854,16 +1025,16 @@ HRESULT Outpin::GetPositions(
 {
     Filter::Lock lock;
 
-    const HRESULT hr = lock.Seize(m_pFilter);
+    HRESULT hr = lock.Seize(m_pFilter);
 
     if (FAILED(hr))
         return hr;
 
     if (pCurrPos)
-        *pCurrPos = m_pStream->GetCurrPosition();
+        hr = GetCurrentPosition(pCurrPos);
 
     if (pStopPos)
-        *pStopPos = m_pStream->GetStopPosition();
+        hr = GetStopPosition(pStopPos);
 
     return S_OK;
 }
@@ -876,17 +1047,7 @@ HRESULT Outpin::GetAvailable(
     if (pEarliest)
         *pEarliest = 0;
 
-    Filter::Lock lock;
-
-    HRESULT hr = lock.Seize(m_pFilter);
-
-    if (FAILED(hr))
-        return hr;
-
-    if (m_pStream == 0)
-        return E_FAIL;
-
-    return m_pStream->GetAvailable(pLatest);
+    return GetDuration(pLatest);
 }
 
 
@@ -955,136 +1116,151 @@ unsigned Outpin::Main()
     //TODO: we need duration to send NewSegment
     //HRESULT hr = m_connection->NewSegment(st, sp, 1);
 
-#ifdef _DEBUG
-    wodbgstream os;
-#endif
+    typedef mkvparser::Stream::samples_t samples_t;
+    samples_t samples;
 
     for (;;)
     {
-        GraphUtil::IMediaSamplePtr pSample;
+        HRESULT hr = PopulateSamples(samples);
 
-#if 0 //def _DEBUG
-        os << "\nOutpin::Main: calling GetBuffer" << endl;
-#endif
+        if (FAILED(hr))
+            break;
 
-        HRESULT hr = m_pAllocator->GetBuffer(&pSample, 0, 0, 0);
-
-#if 0 //def _DEBUG
-        os << "Outpin::Main: called GetBuffer: hr=0x"
-           << hex << hr << dec
-           << endl;
-#endif
-
-        if (hr != S_OK)
-            return 0;
-
-        assert(bool(pSample));
-
-#if 0 //def _DEBUG
-        os << "Outpin::Main: calling PopulateSample" << endl;
-#endif
-
-        const bool bEOS = PopulateSample(pSample);
-
-#if 0 //def _DEBUG
-        os << "Outpin::Main: called PopulateSample: bEOS="
-           << boolalpha << bEOS
-           << endl;
-#endif
-
-        if (bEOS)
+        if (hr != S_OK)  //EOS
         {
-#ifdef _DEBUG
-        os << "webmsource::Outpin[" << m_id << "]::Main: calling EndOfStream" << endl;
-#endif
-
             hr = m_connection->EndOfStream();
-
-#ifdef _DEBUG
-        os << "webmsource::Outpin[" << m_id << "]::Main: called EndOfStream; hr=0x"
-           << hex << hr << dec
-           << endl;
-#endif
-            return 0;
+            break;
         }
 
-#if 0 //def _DEBUG
-        os << "Outpin::Main: calling Receive" << endl;
-#endif
+        assert(!samples.empty());
 
-        hr = m_pInputPin->Receive(pSample);
+        IMediaSample** const pSamples = &samples[0];
 
-#if 0 //def _DEBUG
-        os << "Outpin::Main: called Receive; hr=0x"
-           << hex << hr << dec
-           << '\n'
-           << endl;
-#endif
+        const samples_t::size_type nSamples_ = samples.size();
+        const long nSamples = static_cast<long>(nSamples_);
+
+        long nProcessed;
+
+        hr = m_pInputPin->ReceiveMultiple(pSamples, nSamples, &nProcessed);
 
         //TODO: there is a potential problem here.  If the upstream decoder
-        //rejects the sample (problem with bitstream, etc), then this terminates
-        //this streaming thread, but the filter isn't in the Stopped state.
+        //rejects the sample (problem with bitstream, etc), then this
+        //terminates this streaming thread, but the filter isn't in the
+        //Stopped state.
         //Now say the use notices that the window isn't displaying any video.
         //He closes the window to stop play, but this causes the FGM to
         //call IMediaSeeking::SetPosition to reset the position back to 0.
         //But since we weren't stopped when that happened, we restart the
-        //thread, thinking that a play had been interrupted by a seek request --
-        //but that's not the case, because the thread had already been interrupted
-        //much earlier, because the bitstream failed to decode.  We probably need
-        //a stronger test: instead of testing whether we were stopped or not stopped,
-        //we need to test whether we we not stopped and thread wasn't already
-        //terminated.
+        //thread, thinking that a play had been interrupted by a seek request,
+        //but that's not the case, because the thread had already been
+        //interrupted much earlier, because the bitstream failed to decode.
+        //We probably need a stronger test: instead of testing whether we
+        //were stopped or not stopped, we need to test whether we we not
+        //stopped and thread wasn't already terminated.
 
         if (hr != S_OK)
-            return 0;
+            break;
 
-        Sleep(0);  //TODO: find a better way to do this
+        mkvparser::Stream::Clear(samples);
+        Sleep(0);       //better way to do this?
     }
+
+    mkvparser::Stream::Clear(samples);
+    m_pStream->Stop();
+
+    return 0;
 }
 
 
-bool Outpin::PopulateSample(IMediaSample* pSample)
+HRESULT Outpin::PopulateSamples(mkvparser::Stream::samples_t& samples)
 {
-    assert(pSample);
-
-    Filter::Lock lock;
-
-    HRESULT hr = lock.Seize(m_pFilter);
-    assert(SUCCEEDED(hr));  //TODO
+    mkvparser::Segment* const pSegment = m_pStream->m_pTrack->m_pSegment;
 
     for (;;)
     {
-        hr = m_pStream->PopulateSample(pSample);
+        assert(samples.empty());
 
-        if (hr == VFW_E_BUFFER_UNDERFLOW)
+        Filter::Lock lock;
+
+        HRESULT hr = lock.Seize(m_pFilter);
+
+        if (FAILED(hr))
+            return hr;
+
+        long count;
+
+        for (;;)
         {
-#ifdef _DEBUG
-            MkvParser::Track* const pTrack = m_pStream->m_pTrack;
-            MkvParser::Segment* const pSegment = pTrack->m_pSegment;
+            hr = m_pStream->GetSampleCount(count);
 
-            const ULONG n0 = pSegment->GetCount();
-#endif
+            if (SUCCEEDED(hr))
+                break;
 
+            if (hr != VFW_E_BUFFER_UNDERFLOW)
+                return hr;
+#if 0
             hr = m_pStream->Preload();
-            assert(SUCCEEDED(hr));
 
-#ifdef _DEBUG
-            const ULONG n = pSegment->GetCount();
-            assert((n > n0) || (hr == S_FALSE));
+            if (FAILED(hr))
+                return hr;
+#else
+            const long status = pSegment->LoadCluster();
+            assert(status == 0);
 #endif
-
-            continue;
         }
 
+        if (hr != S_OK)      //EOS
+            return S_FALSE;  //report EOS
+
+        hr = lock.Release();
         assert(SUCCEEDED(hr));
 
-        if (hr == S_OK)    //0
-            return false;  //no, not EOS yet
+        samples.reserve(count);
 
-        if (hr == S_FALSE)  //1
-            return true;    //yes, EOS
+        for (long idx = 0; idx < count; ++idx)
+        {
+            IMediaSample* sample;
 
-        assert(hr == 2);  //throw away this sample
+            hr = m_pAllocator->GetBuffer(&sample, 0, 0, 0);
+
+            if (hr != S_OK)
+                return E_FAIL;  //we're done
+
+            samples.push_back(sample);
+        }
+
+        hr = lock.Seize(m_pFilter);
+
+        if (FAILED(hr))
+            return hr;
+
+        for (;;)
+        {
+            hr = m_pStream->PopulateSamples(samples);
+
+            if (SUCCEEDED(hr))
+                break;
+
+            if (hr != VFW_E_BUFFER_UNDERFLOW)
+                return hr;
+#if 0
+            hr = m_pStream->Preload();
+
+            if (FAILED(hr))
+                return hr;
+#else
+            const long status = pSegment->LoadCluster();
+            assert(status == 0);
+#endif
+        }
+
+        if (hr != 2)
+            return hr;  //either have samples, or EOS
+
+        hr = lock.Release();
+        assert(SUCCEEDED(hr));
+
+        mkvparser::Stream::Clear(samples);
     }
 }
 

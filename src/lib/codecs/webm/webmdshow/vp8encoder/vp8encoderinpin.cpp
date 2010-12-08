@@ -713,10 +713,95 @@ HRESULT Inpin::Receive(IMediaSample* pInSample)
     if (FAILED(hr))
         return hr;
 
-    assert(st >= 0);
-    assert(st >= m_start_reftime);
+    if (st < 0)  //?
+    {
+#ifdef _DEBUG
+        odbgstream os;
+        os << "Vp8Encoder::Receive: st[reftime="
+           << st
+           << " st[sec]="
+           << (double(st) / 10000000)
+           << " sp[reftime]="
+           << sp
+           << " sp[sec]="
+           << (double(sp) / 10000000)
+           << " start_reftime="
+           << m_start_reftime
+           << "; START TIME LESS THAN 0"
+           << endl;
+#endif
 
-    m_start_reftime = st;
+        return S_OK;
+    }
+
+    const bool bFirst = (m_start_reftime < 0);
+
+    if (bFirst)
+    {
+#ifdef _DEBUG
+        odbgstream os;
+        os << "Vp8Encoder::Receive: st[reftime]="
+           << st
+           << " st[sec]="
+           << (double(st) / 10000000)
+           << " sp[reftime]="
+           << sp
+           << " sp[sec]="
+           << (double(sp) / 10000000)
+           //<< " start_reftime="
+           //<< m_start_reftime
+           //<< " start_reftime[sec]="
+           //<< (double(m_start_reftime) / 10000000)
+           << "; FIRST SAMPLE DETECTED"
+           << endl;
+#endif
+
+        m_start_reftime = 0;
+    }
+    else if (st <= m_start_reftime)  //?
+    {
+#ifdef _DEBUG
+        odbgstream os;
+        os << "Vp8Encoder::Receive: st[reftime]="
+           << st
+           << " st[sec]="
+           << (double(st) / 10000000)
+           << " sp[reftime]="
+           << sp
+           << " sp[sec]="
+           << (double(sp) / 10000000)
+           << " start_reftime="
+           << m_start_reftime
+           << " start_reftime[sec]="
+           << (double(m_start_reftime) / 10000000)
+           << "; START TIME LESS THAN PREV SAMPLE"
+           << endl;
+#endif
+
+        return S_OK;
+    }
+    else
+    {
+#if 0 //def _DEBUG
+        odbgstream os;
+        os << "Vp8Encoder::Receive: st[reftime]="
+           << st
+           << " st[sec]="
+           << (double(st) / 10000000)
+           << " sp[reftime]="
+           << sp
+           << " sp[sec]="
+           << (double(sp) / 10000000)
+           << " start_reftime="
+           << m_start_reftime
+           << " start_reftime[sec]="
+           << (double(m_start_reftime) / 10000000)
+           << "; POST-FIRST SAMPLE DETECTED"
+           << endl;
+#endif
+
+        m_start_reftime = st;
+    }
 
     const __int64 duration_ = GetAvgTimePerFrame();
     assert(duration_ > 0);
@@ -728,7 +813,7 @@ HRESULT Inpin::Receive(IMediaSample* pInSample)
 
     vpx_enc_frame_flags_t f = 0;
 
-    if (m_pFilter->m_bForceKeyframe || bDiscontinuity || (st <= 0))
+    if (m_pFilter->m_bForceKeyframe || bDiscontinuity || bFirst)
     {
         f |= VPX_EFLAG_FORCE_KF;
         m_pFilter->m_bForceKeyframe = false;
@@ -737,7 +822,10 @@ HRESULT Inpin::Receive(IMediaSample* pInSample)
     const Filter::Config::int32_t deadline_ = m_pFilter->m_cfg.deadline;
     const ULONG dl = (deadline_ >= 0) ? deadline_ : kDeadlineGoodQuality;
 
-    const vpx_codec_err_t err = vpx_codec_encode(&m_ctx, img, st, d, f, dl);
+    const __int64 st2 = m_start_reftime / 10000;  // scale to ms
+    const unsigned long d2 = (d + 9999) / 10000;  // scale to ms
+
+    const vpx_codec_err_t err = vpx_codec_encode(&m_ctx, img, st2, d2, f, dl);
     err;
     assert(err == VPX_CODEC_OK);  //TODO
 
@@ -878,7 +966,7 @@ void Inpin::AppendFrame(const vpx_codec_cx_pkt_t* pkt)
 
     f.len = len;
 
-    f.start = pkt->data.frame.pts;
+    f.start = pkt->data.frame.pts * 10000; // scale to 100 ns ticks
     assert(f.start >= 0);
 
 #if 0
@@ -993,7 +1081,7 @@ HRESULT Inpin::Start()
     m_bDiscontinuity = true;
     m_bEndOfStream = false;
     m_bFlush = false;
-    m_start_reftime = 0;
+    m_start_reftime = -1;  //first-time flag
 
     PurgePending();
 
@@ -1019,7 +1107,11 @@ HRESULT Inpin::Start()
     tgt.g_w = w;
     tgt.g_h = h;
     tgt.g_timebase.num = 1;
-    tgt.g_timebase.den = 10000000;  //100-ns ticks
+    tgt.g_timebase.den = 1000;  // millisecond ticks
+    // The filter scales to milliseconds because the encoder will generate
+    // altref frames that is one timestamp tick different than another frame.
+    // The default downstream filter has a resolution of milliseconds so set
+    // the encoder timebase to milliseconds.
 
     SetConfig();
 
@@ -1036,6 +1128,50 @@ HRESULT Inpin::Start()
     }
 
     err = SetTokenPartitions();
+
+    if (err != VPX_CODEC_OK)
+    {
+        const vpx_codec_err_t err = vpx_codec_destroy(&m_ctx);
+        err;
+        assert(err == VPX_CODEC_OK);
+
+        return E_FAIL;
+    }
+
+    err = SetAutoAltRef();
+
+    if (err != VPX_CODEC_OK)
+    {
+        const vpx_codec_err_t err = vpx_codec_destroy(&m_ctx);
+        err;
+        assert(err == VPX_CODEC_OK);
+
+        return E_FAIL;
+    }
+
+    err = SetARNRMaxFrames();
+
+    if (err != VPX_CODEC_OK)
+    {
+        const vpx_codec_err_t err = vpx_codec_destroy(&m_ctx);
+        err;
+        assert(err == VPX_CODEC_OK);
+
+        return E_FAIL;
+    }
+
+    err = SetARNRStrength();
+
+    if (err != VPX_CODEC_OK)
+    {
+        const vpx_codec_err_t err = vpx_codec_destroy(&m_ctx);
+        err;
+        assert(err == VPX_CODEC_OK);
+
+        return E_FAIL;
+    }
+
+    err = SetARNRType();
 
     if (err != VPX_CODEC_OK)
     {
@@ -1241,7 +1377,49 @@ vpx_codec_err_t Inpin::SetTokenPartitions()
         &m_ctx, VP8E_SET_TOKEN_PARTITIONS, token_partitions);
 }
 
+vpx_codec_err_t Inpin::SetAutoAltRef()
+{
+    const Filter::Config& src = m_pFilter->m_cfg;
 
+    if (src.auto_alt_ref < 0)
+        return VPX_CODEC_OK;
+
+    return vpx_codec_control(
+        &m_ctx, VP8E_SET_ENABLEAUTOALTREF, src.auto_alt_ref);
+}
+
+vpx_codec_err_t Inpin::SetARNRMaxFrames()
+{
+    const Filter::Config& src = m_pFilter->m_cfg;
+
+    if (src.arnr_max_frames < 0)
+        return VPX_CODEC_OK;
+
+    return vpx_codec_control(
+        &m_ctx, VP8E_SET_ARNR_MAXFRAMES, src.arnr_max_frames);
+}
+
+vpx_codec_err_t Inpin::SetARNRStrength()
+{
+    const Filter::Config& src = m_pFilter->m_cfg;
+
+    if (src.arnr_strength < 0)
+        return VPX_CODEC_OK;
+
+    return vpx_codec_control(
+        &m_ctx, VP8E_SET_ARNR_STRENGTH, src.arnr_strength);
+}
+
+vpx_codec_err_t Inpin::SetARNRType()
+{
+    const Filter::Config& src = m_pFilter->m_cfg;
+
+    if (src.arnr_type < 1)
+        return VPX_CODEC_OK;
+
+    return vpx_codec_control(
+        &m_ctx, VP8E_SET_ARNR_TYPE, src.arnr_type);
+}
 
 BYTE* Inpin::ConvertYUY2ToYV12(
     const BYTE* srcbuf,

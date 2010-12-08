@@ -9,10 +9,11 @@
 #pragma once
 #include <string>
 #include <iosfwd>
+#include <vector>
 
 class CMediaTypes;
 
-namespace MkvParser
+namespace mkvparser
 {
 
 class Track;
@@ -27,6 +28,7 @@ class Stream
 public:
     virtual ~Stream();
     void Init();
+    void Stop();
 
     std::wstring GetId() const;  //IPin::QueryId
     std::wstring GetName() const;  //IPin::QueryPinInfo
@@ -36,71 +38,60 @@ public:
     virtual HRESULT SetConnectionMediaType(const AM_MEDIA_TYPE&);
     virtual HRESULT UpdateAllocatorProperties(ALLOCATOR_PROPERTIES&) const = 0;
 
-    HRESULT Preload();  //exactly one cluster
-    HRESULT PopulateSample(IMediaSample*);
+    //HRESULT Preload();  //exactly one cluster
 
-    __int64 GetDuration() const;
-    __int64 GetCurrPosition() const;
-    __int64 GetStopPosition() const;
+    HRESULT GetSampleCount(long&);
+
+    typedef std::vector<IMediaSample*> samples_t;
+
+    HRESULT PopulateSamples(const samples_t&);
+    static void Clear(samples_t&);
+
+    //__int64 GetDuration() const;
+    //__int64 GetCurrPosition() const;
+    //__int64 GetStopPosition() const;
     __int64 GetCurrTime() const;
     __int64 GetStopTime() const;
 
-    HRESULT GetAvailable(LONGLONG*) const;
-
-    //NOTE: too inefficient
-    //void LoadCurrPosition(LONGLONG, DWORD, __int64& parse_result);
+    //HRESULT GetAvailable(LONGLONG*) const;
 
     LONGLONG GetSeekTime(LONGLONG currTime, DWORD dwCurr) const;
     //convert from reftime to ns
 
-    Cluster* GetSeekBase(LONGLONG ns) const;
-    //find the cluster that corresponds to this seek time
-
-    void PreloadSeek(LONGLONG ns);
-    //(pre)load a few clusters, an anticpation of seek request
-
-    Cluster* SetCurrPosition(LONGLONG ns);
-    void SetCurrPosition(Cluster*);
+    void SetCurrPosition(
+        //const Cluster*,
+        LONGLONG base_time_ns,
+        const BlockEntry*);
 
     void SetStopPosition(LONGLONG, DWORD);
     void SetStopPositionEOS();
 
     ULONG GetClusterCount() const;
 
-    template<typename T, typename S, typename F>
-    struct TCreateOutpins
-    {
-        F* f;
-
-        typedef S* (*pfn_t)(T*);
-        pfn_t pfn;
-
-        TCreateOutpins(F* f_, pfn_t pfn_) : f(f_), pfn(pfn_) {}
-
-        void operator()(T* t) const
-        {
-            if (S* s = (*pfn)(t))
-                f->CreateOutpin(s);
-        }
-    };
-
-    Track* const m_pTrack;
+    const Track* const m_pTrack;
+    static std::wstring ConvertFromUTF8(const char*);
 
 protected:
-    explicit Stream(Track*);
+    explicit Stream(const Track*);
     bool m_bDiscontinuity;
     const BlockEntry* m_pCurr;
     const BlockEntry* m_pStop;
-    Cluster* m_pBase;
+    //const Cluster* m_pBase;
+    LONGLONG m_base_time_ns;
 
     virtual std::wostream& GetKind(std::wostream&) const = 0;
 
-    virtual bool SendPreroll(IMediaSample*);
+    HRESULT InitCurr();
 
-    virtual HRESULT OnPopulateSample(
-                const BlockEntry* pNext,
-                IMediaSample* pSample) = 0;
+    virtual void OnPopulateSample(
+                const BlockEntry*,
+                const samples_t&) const = 0;
+
+private:
+
+    const BlockEntry* m_pLocked;
+    void SetCurr(const mkvparser::BlockEntry*);
 
 };
 
-}  //end namespace MkvParser
+}  //end namespace mkvparser

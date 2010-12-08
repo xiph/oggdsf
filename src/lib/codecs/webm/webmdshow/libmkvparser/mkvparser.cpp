@@ -6,100 +6,79 @@
 // in the file PATENTS.  All contributing project authors may
 // be found in the AUTHORS file in the root of the source tree.
 
-#include <strmif.h>
 #include "mkvparser.hpp"
 #include <cassert>
-#include <algorithm>
-#include <limits>
+#include <cstring>
+#include <new>
 #include <climits>
-#include <vfwmsgs.h>
-#include <sstream>
-#include <iomanip>
-#ifdef _DEBUG
-#include "odbgstream.hpp"
-using std::endl;
-using std::hex;
-#endif
 
-__int64 MkvParser::ReadUInt(
-    IMkvFile* pFile,
-    LONGLONG pos,
-    long& len)
+mkvparser::IMkvReader::~IMkvReader()
 {
-    assert(pFile);
+}
+
+void mkvparser::GetVersion(int& major, int& minor, int& build, int& revision)
+{
+    major = 1;
+    minor = 0;
+    build = 0;
+    revision = 9;
+}
+
+long long mkvparser::ReadUInt(IMkvReader* pReader, long long pos, long& len)
+{
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    int status;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    assert(SUCCEEDED(hr));
+#ifdef _DEBUG
+    long long total, available;
+    status = pReader->Length(&total, &available);
+    assert(status >= 0);
+    assert(total > 0);
+    assert(available <= total);
     assert(pos < available);
     assert((available - pos) >= 1);  //assume here max u-int len is 8
+#endif
 
-    BYTE b;
+    unsigned char b;
 
-    hr = pFile->MkvRead(pos, 1, &b);
+    status = pReader->Read(pos, 1, &b);
 
-    if (FAILED(hr))
-        return __int64(hr);
+    if (status < 0)  //error
+        return status;
 
-    assert(hr == S_OK);
+    if (status > 0)  //interpreted as "underflow"
+        return E_BUFFER_NOT_FULL;
 
-    if (b & 0x80)       //1000 0000
+    if (b == 0)  //we can't handle u-int values larger than 8 bytes
+        return E_FILE_FORMAT_INVALID;
+
+    unsigned char m = 0x80;
+    len = 1;
+
+    while (!(b & m))
     {
-        len = 1;
-        b &= 0x7F;      //0111 1111
-    }
-    else if (b & 0x40)  //0100 0000
-    {
-        len = 2;
-        b &= 0x3F;      //0011 1111
-    }
-    else if (b & 0x20)  //0010 0000
-    {
-        len = 3;
-        b &= 0x1F;      //0001 1111
-    }
-    else if (b & 0x10)  //0001 0000
-    {
-        len = 4;
-        b &= 0x0F;      //0000 1111
-    }
-    else if (b & 0x08)  //0000 1000
-    {
-        len = 5;
-        b &= 0x07;      //0000 0111
-    }
-    else if (b & 0x04)  //0000 0100
-    {
-        len = 6;
-        b &= 0x03;      //0000 0011
-    }
-    else if (b & 0x02)  //0000 0010
-    {
-        len = 7;
-        b &= 0x01;      //0000 0001
-    }
-    else
-    {
-        assert(b & 0x01);  //0000 0001
-        len = 8;
-        b = 0;             //0000 0000
+        m >>= 1;
+        ++len;
     }
 
+#ifdef _DEBUG
     assert((available - pos) >= len);
+#endif
 
-    __int64 result = b;
+    long long result = b & (~m);
     ++pos;
 
-    for (long i = 1; i < len; ++i)
+    for (int i = 1; i < len; ++i)
     {
-        hr = pFile->MkvRead(pos, 1, &b);
+        status = pReader->Read(pos, 1, &b);
 
-        if (FAILED(hr))
-            return __int64(hr);
+        if (status < 0)
+            return status;
 
-        assert(hr == S_OK);
+        if (status > 0)
+            return E_BUFFER_NOT_FULL;
 
         result <<= 8;
         result |= b;
@@ -110,37 +89,37 @@ __int64 MkvParser::ReadUInt(
     return result;
 }
 
-
-__int64 MkvParser::GetUIntLength(
-    IMkvFile* pFile,
-    LONGLONG pos,
+long long mkvparser::GetUIntLength(
+    IMkvReader* pReader,
+    long long pos,
     long& len)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    assert(SUCCEEDED(hr));
+    int status = pReader->Length(&total, &available);
+    assert(status >= 0);
+    assert(total >= 0);
     assert(available <= total);
 
     if (pos >= available)
         return pos;  //too few bytes available
 
-    BYTE b;
+    unsigned char b;
 
-    hr = pFile->MkvRead(pos, 1, &b);
+    status = pReader->Read(pos, 1, &b);
 
-    if (FAILED(hr))
-        return __int64(hr);
+    if (status < 0)
+        return status;
 
-    assert(hr == S_OK);
+    assert(status == 0);
 
     if (b == 0)  //we can't handle u-int values larger than 8 bytes
-        return VFW_E_INVALID_FILE_FORMAT;
+        return E_FILE_FORMAT_INVALID;
 
-    BYTE m = 0x80;
+    unsigned char m = 0x80;
     len = 1;
 
     while (!(b & m))
@@ -152,32 +131,31 @@ __int64 MkvParser::GetUIntLength(
     return 0;  //success
 }
 
-
-__int64 MkvParser::SyncReadUInt(
-    IMkvFile* pFile,
-    LONGLONG pos,
-    LONGLONG stop,
+long long mkvparser::SyncReadUInt(
+    IMkvReader* pReader,
+    long long pos,
+    long long stop,
     long& len)
 {
-    assert(pFile);
+    assert(pReader);
 
     if (pos >= stop)
-        return VFW_E_INVALID_FILE_FORMAT;
+        return E_FILE_FORMAT_INVALID;
 
-    BYTE b;
+    unsigned char b;
 
-    HRESULT hr = pFile->MkvRead(pos, 1, &b);
+    long hr = pReader->Read(pos, 1, &b);
 
-    if (FAILED(hr))
+    if (hr < 0)
         return hr;
 
-    if (hr != S_OK)
-        return VFW_E_BUFFER_UNDERFLOW;
+    if (hr != 0L)
+        return E_BUFFER_NOT_FULL;
 
     if (b == 0)  //we can't handle u-int values larger than 8 bytes
-        return VFW_E_INVALID_FILE_FORMAT;
+        return E_FILE_FORMAT_INVALID;
 
-    BYTE m = 0x80;
+    unsigned char m = 0x80;
     len = 1;
 
     while (!(b & m))
@@ -187,20 +165,20 @@ __int64 MkvParser::SyncReadUInt(
     }
 
     if ((pos + len) > stop)
-        return VFW_E_INVALID_FILE_FORMAT;
+        return E_FILE_FORMAT_INVALID;
 
-    __int64 result = b & (~m);
+    long long result = b & (~m);
     ++pos;
 
     for (int i = 1; i < len; ++i)
     {
-        hr = pFile->MkvRead(pos, 1, &b);
+        hr = pReader->Read(pos, 1, &b);
 
-        if (FAILED(hr))
+        if (hr < 0)
             return hr;
 
-        if (hr != S_OK)
-            return VFW_E_BUFFER_UNDERFLOW;
+        if (hr != 0L)
+            return E_BUFFER_NOT_FULL;
 
         result <<= 8;
         result |= b;
@@ -212,31 +190,25 @@ __int64 MkvParser::SyncReadUInt(
 }
 
 
-__int64 MkvParser::UnserializeUInt(
-    IMkvFile* pFile,
-    LONGLONG pos,
-    __int64 size)
+long long mkvparser::UnserializeUInt(
+    IMkvReader* pReader,
+    long long pos,
+    long long size)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
     assert(size > 0);
     assert(size <= 8);
 
-    //LONGLONG total, available;
-    //HRESULT hr = pFile->MkvLength(&total, &available);
-    //assert(SUCCEEDED(hr));
-    //assert(available <= total);
-    //assert((pos + size) <= available);
+    long long result = 0;
 
-    __int64 result = 0;
-
-    for (__int64 i = 0; i < size; ++i)
+    for (long long i = 0; i < size; ++i)
     {
-        BYTE b;
+        unsigned char b;
 
-        const HRESULT hr = pFile->MkvRead(pos, 1, &b);
+        const long hr = pReader->Read(pos, 1, &b);
 
-        if (FAILED(hr))
+        if (hr < 0)
             return hr;
 
         result <<= 8;
@@ -249,29 +221,29 @@ __int64 MkvParser::UnserializeUInt(
 }
 
 
-float MkvParser::Unserialize4Float(
-    IMkvFile* pFile,
-    LONGLONG pos)
+float mkvparser::Unserialize4Float(
+    IMkvReader* pReader,
+    long long pos)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
     assert((pos + 4) <= available);
 
     float result;
 
-    BYTE* const p = (BYTE*)&result;
-    BYTE* q = p + 4;
+    unsigned char* const p = (unsigned char*)&result;
+    unsigned char* q = p + 4;
 
     for (;;)
     {
-        hr = pFile->MkvRead(pos, 1, --q);
-        assert(hr == S_OK);
+        hr = pReader->Read(pos, 1, --q);
+        assert(hr == 0L);
 
         if (q == p)
             break;
@@ -283,23 +255,22 @@ float MkvParser::Unserialize4Float(
 }
 
 
-double MkvParser::Unserialize8Double(
-    IMkvFile* pFile,
-    LONGLONG pos)
+double mkvparser::Unserialize8Double(
+    IMkvReader* pReader,
+    long long pos)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
     double result;
 
-    BYTE* const p = (BYTE*)&result;
-    BYTE* q = p + 8;
+    unsigned char* const p = (unsigned char*)&result;
+    unsigned char* q = p + 8;
 
     for (;;)
     {
-        const HRESULT hr = pFile->MkvRead(pos, 1, --q);
-        hr;
-        assert(hr == S_OK);
+        const long hr = pReader->Read(pos, 1, --q);
+        assert(hr == 0L);
 
         if (q == p)
             break;
@@ -310,53 +281,51 @@ double MkvParser::Unserialize8Double(
     return result;
 }
 
-
-signed char MkvParser::Unserialize1SInt(
-    IMkvFile* pFile,
-    LONGLONG pos)
+signed char mkvparser::Unserialize1SInt(
+    IMkvReader* pReader,
+    long long pos)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr == 0);
     assert(available <= total);
     assert(pos < available);
 
     signed char result;
 
-    hr = pFile->MkvRead(pos, 1, (BYTE*)&result);
-    assert(hr == S_OK);
+    hr = pReader->Read(pos, 1, (unsigned char*)&result);
+    assert(hr == 0);
 
     return result;
 }
 
-
-SHORT MkvParser::Unserialize2SInt(
-    IMkvFile* pFile,
-    LONGLONG pos)
+short mkvparser::Unserialize2SInt(
+    IMkvReader* pReader,
+    long long pos)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
     assert((pos + 2) <= available);
 
-    SHORT result;
+    short result;
 
-    BYTE* const p = (BYTE*)&result;
-    BYTE* q = p + 2;
+    unsigned char* const p = (unsigned char*)&result;
+    unsigned char* q = p + 2;
 
     for (;;)
     {
-        hr = pFile->MkvRead(pos, 1, --q);
-        assert(hr == S_OK);
+        hr = pReader->Read(pos, 1, --q);
+        assert(hr == 0L);
 
         if (q == p)
             break;
@@ -368,36 +337,35 @@ SHORT MkvParser::Unserialize2SInt(
 }
 
 
-bool MkvParser::Match(
-    IMkvFile* pFile,
-    LONGLONG& pos,
-    ULONG id_,
-    __int64& val)
+bool mkvparser::Match(
+    IMkvReader* pReader,
+    long long& pos,
+    unsigned long id_,
+    long long& val)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    hr;
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
 
     long len;
 
-    const __int64 id = ReadUInt(pFile, pos, len);
+    const long long id = ReadUInt(pReader, pos, len);
     assert(id >= 0);
     assert(len > 0);
     assert(len <= 8);
     assert((pos + len) <= available);
 
-    if (id != id_)
+    if ((unsigned long)id != id_)
         return false;
 
     pos += len;  //consume id
 
-    const __int64 size = ReadUInt(pFile, pos, len);
+    const long long size = ReadUInt(pReader, pos, len);
     assert(size >= 0);
     assert(size <= 8);
     assert(len > 0);
@@ -406,7 +374,7 @@ bool MkvParser::Match(
 
     pos += len;  //consume length of size of payload
 
-    val = UnserializeUInt(pFile, pos, size);
+    val = UnserializeUInt(pReader, pos, size);
     assert(val >= 0);
 
     pos += size;  //consume size of payload
@@ -414,198 +382,147 @@ bool MkvParser::Match(
     return true;
 }
 
-
-bool MkvParser::Match(
-    IMkvFile* pFile,
-    LONGLONG& pos,
-    ULONG id_,
-    std::string& val)
+bool mkvparser::Match(
+    IMkvReader* pReader,
+    long long& pos,
+    unsigned long id_,
+    char*& val)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
 
     long len;
 
-    const __int64 id = ReadUInt(pFile, pos, len);
+    const long long id = ReadUInt(pReader, pos, len);
     assert(id >= 0);
     assert(len > 0);
     assert(len <= 8);
     assert((pos + len) <= available);
 
-    if (id != id_)
+    if ((unsigned long)id != id_)
         return false;
 
     pos += len;  //consume id
 
-    const __int64 size = ReadUInt(pFile, pos, len);
-    assert(size >= 0);
+    const long long size_ = ReadUInt(pReader, pos, len);
+    assert(size_ >= 0);
     assert(len > 0);
     assert(len <= 8);
     assert((pos + len) <= available);
 
     pos += len;  //consume length of size of payload
-    assert((pos + size) <= available);
+    assert((pos + size_) <= available);
 
-    val.clear();
+    const size_t size = static_cast<size_t>(size_);
+    val = new char[size+1];
 
-    const bytes_t::size_type size_ = static_cast<bytes_t::size_type>(size);
-    val.reserve(size_);
-
-    for (__int64 i = 0; i < size; ++i)
+    for (size_t i = 0; i < size; ++i)
     {
         char c;
 
-        hr = pFile->MkvRead(pos + i, 1, (BYTE*)&c);
-        assert(hr == S_OK);
+        hr = pReader->Read(pos + i, 1, (unsigned char*)&c);
+        assert(hr == 0L);
+
+        val[i] = c;
 
         if (c == '\0')
             break;
 
-        val.append(1, c);
     }
 
-    pos += size;  //consume size of payload
+    val[size] = '\0';
+    pos += size_;  //consume size of payload
 
     return true;
 }
 
-
-bool MkvParser::Match(
-    IMkvFile* pFile,
-    LONGLONG& pos,
-    ULONG id,
-    std::wstring& val)
+bool mkvparser::Match(
+    IMkvReader* pReader,
+    long long& pos,
+    unsigned long id_,
+    unsigned char*& buf,
+    size_t& buflen)
 {
-    std::string str;
-
-    if (!Match(pFile, pos, id, str))
-        return false;
-
-    const int cch = MultiByteToWideChar(
-                        CP_UTF8,
-                        0,  //TODO: MB_ERR_INVALID_CHARS
-                        str.c_str(),
-                        -1,  //include NUL terminator in result
-                        0,
-                        0);  //request length
-
-    assert(cch > 0);
-
-    const size_t cb = cch * sizeof(wchar_t);
-    wchar_t* const wstr = (wchar_t*)_alloca(cb);
-
-    const int cch2 = MultiByteToWideChar(
-                        CP_UTF8,
-                        0,  //TODO: MB_ERR_INVALID_CHARS
-                        str.c_str(),
-                        -1,
-                        wstr,
-                        cch);
-
-    cch2;
-    assert(cch2 > 0);
-    assert(cch2 == cch);
-
-    val.assign(wstr);
-    return true;
-}
-
-
-bool MkvParser::Match(
-    IMkvFile* pFile,
-    LONGLONG& pos,
-    ULONG id_,
-    bytes_t& val)
-{
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
 
     long len;
-
-    const __int64 id = ReadUInt(pFile, pos, len);
+    const long long id = ReadUInt(pReader, pos, len);
     assert(id >= 0);
     assert(len > 0);
     assert(len <= 8);
     assert((pos + len) <= available);
 
-    if (id != id_)
+    if ((unsigned long)id != id_)
         return false;
 
     pos += len;  //consume id
 
-    const __int64 size = ReadUInt(pFile, pos, len);
-    assert(size >= 0);
+    const long long size_ = ReadUInt(pReader, pos, len);
+    assert(size_ >= 0);
     assert(len > 0);
     assert(len <= 8);
     assert((pos + len) <= available);
 
     pos += len;  //consume length of size of payload
-    assert((pos + size) <= available);
+    assert((pos + size_) <= available);
 
-    val.clear();
+    const long buflen_ = static_cast<long>(size_);
 
-    const bytes_t::size_type size_ = static_cast<bytes_t::size_type>(size);
-    val.reserve(size_);
+    buf = new (std::nothrow) unsigned char[buflen_];
+    assert(buf);  //TODO
 
-    for (__int64 i = 0; i < size; ++i)
-    {
-        BYTE b;
+    hr = pReader->Read(pos, buflen_, buf);
+    assert(hr == 0L);
 
-        hr = pFile->MkvRead(pos + i, 1, &b);
-        assert(hr == S_OK);
+    buflen = buflen_;
 
-        val.push_back(b);
-    }
-
-    pos += size;  //consume size of payload
+    pos += size_;  //consume size of payload
     return true;
 }
 
 
-bool MkvParser::Match(
-    IMkvFile* pFile,
-    LONGLONG& pos,
-    ULONG id_,
+bool mkvparser::Match(
+    IMkvReader* pReader,
+    long long& pos,
+    unsigned long id_,
     double& val)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    hr;
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
-
     long idlen;
-    const __int64 id = ReadUInt(pFile, pos, idlen);
+    const long long id = ReadUInt(pReader, pos, idlen);
     assert(id >= 0);  //TODO
 
-    if (id != id_)
+    if ((unsigned long)id != id_)
         return false;
 
     long sizelen;
-    const __int64 size = ReadUInt(pFile, pos + idlen, sizelen);
+    const long long size = ReadUInt(pReader, pos + idlen, sizelen);
 
     switch (size)
     {
         case 4:
         case 8:
             break;
-
         default:
             return false;
     }
@@ -614,11 +531,11 @@ bool MkvParser::Match(
     assert((pos + size) <= available);
 
     if (size == 4)
-        val = Unserialize4Float(pFile, pos);
+        val = Unserialize4Float(pReader, pos);
     else
     {
         assert(size == 8);
-        val = Unserialize8Double(pFile, pos);
+        val = Unserialize8Double(pReader, pos);
     }
 
     pos += size;  //consume size of payload
@@ -627,45 +544,44 @@ bool MkvParser::Match(
 }
 
 
-bool MkvParser::Match(
-    IMkvFile* pFile,
-    LONGLONG& pos,
-    ULONG id_,
-    SHORT& val)
+bool mkvparser::Match(
+    IMkvReader* pReader,
+    long long& pos,
+    unsigned long id_,
+    short& val)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    hr;
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
 
     long len;
-
-    const __int64 id = ReadUInt(pFile, pos, len);
+    const long long id = ReadUInt(pReader, pos, len);
     assert(id >= 0);
     assert((pos + len) <= available);
 
-    if (id != id_)
+    if ((unsigned long)id != id_)
         return false;
 
     pos += len;  //consume id
 
-    const __int64 size = ReadUInt(pFile, pos, len);
+    const long long size = ReadUInt(pReader, pos, len);
     assert(size <= 2);
     assert((pos + len) <= available);
 
     pos += len;  //consume length of size of payload
     assert((pos + size) <= available);
 
-    //TODO: generalize this to work for any size signed int
+    //TODO:
+    // Generalize this to work for any size signed int
     if (size == 1)
-        val = Unserialize1SInt(pFile, pos);
+        val = Unserialize1SInt(pReader, pos);
     else
-        val = Unserialize2SInt(pFile, pos);
+        val = Unserialize2SInt(pReader, pos);
 
     pos += size;  //consume size of payload
 
@@ -673,35 +589,44 @@ bool MkvParser::Match(
 }
 
 
-namespace MkvParser
+namespace mkvparser
 {
 
-
-__int64 EBMLHeader::Parse(
-    IMkvFile* pFile,
-    LONGLONG& pos)
+EBMLHeader::EBMLHeader():
+    m_docType(NULL)
 {
-    assert(pFile);
+}
 
-    LONGLONG total, available;
+EBMLHeader::~EBMLHeader()
+{
+    delete[] m_docType;
+}
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
+long long EBMLHeader::Parse(
+    IMkvReader* pReader,
+    long long& pos)
+{
+    assert(pReader);
 
-    if (FAILED(hr))
+    long long total, available;
+
+    long hr = pReader->Length(&total, &available);
+
+    if (hr < 0)
         return hr;
 
     pos = 0;
-    LONGLONG end = std::min<LONGLONG>(1024, available);
+    long long end = (1024 < available)? 1024: available;
 
     for (;;)
     {
-        BYTE b = 0;
+        unsigned char b = 0;
 
         while (pos < end)
         {
-            hr = pFile->MkvRead(pos, 1, &b);
+            hr = pReader->Read(pos, 1, &b);
 
-            if (FAILED(hr))
+            if (hr < 0)
                 return hr;
 
             if (b == 0x1A)
@@ -715,21 +640,20 @@ __int64 EBMLHeader::Parse(
             if ((pos >= 1024) ||
                 (available >= total) ||
                 ((total - available) < 5))
-            {
-                return VFW_E_INVALID_FILE_FORMAT;
-            }
+                  return -1;
 
             return available + 5;  //5 = 4-byte ID + 1st byte of size
         }
 
         if ((total - pos) < 5)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         if ((available - pos) < 5)
             return pos + 5;  //try again later
 
         long len;
-        const __int64 result = ReadUInt(pFile, pos, len);
+
+        const long long result = ReadUInt(pReader, pos, len);
 
         if (result < 0)  //error
             return result;
@@ -745,7 +669,7 @@ __int64 EBMLHeader::Parse(
     }
 
     long len;
-    __int64 result = GetUIntLength(pFile, pos, len);
+    long long result = GetUIntLength(pReader, pos, len);
 
     if (result < 0)  //error
         return result;
@@ -757,12 +681,12 @@ __int64 EBMLHeader::Parse(
     assert(len <= 8);
 
     if ((total -  pos) < len)
-        return VFW_E_INVALID_FILE_FORMAT;
+        return E_FILE_FORMAT_INVALID;
 
     if ((available - pos) < len)
         return pos + len;  //try again later
 
-    result = ReadUInt(pFile, pos, len);
+    result = ReadUInt(pReader, pos, len);
 
     if (result < 0)  //error
         return result;
@@ -770,7 +694,7 @@ __int64 EBMLHeader::Parse(
     pos += len;  //consume u-int
 
     if ((total - pos) < result)
-        return VFW_E_INVALID_FILE_FORMAT;
+        return E_FILE_FORMAT_INVALID;
 
     if ((available - pos) < result)
         return pos + result;
@@ -781,36 +705,28 @@ __int64 EBMLHeader::Parse(
     m_readVersion = 1;
     m_maxIdLength = 4;
     m_maxSizeLength = 8;
-    m_docType = "matroska";
     m_docTypeVersion = 1;
     m_docTypeReadVersion = 1;
 
     while (pos < end)
     {
-        if (Match(pFile, pos, 0x0286, m_version))
-            __noop;
-
-        else if (Match(pFile, pos, 0x02F7, m_readVersion))
-            __noop;
-
-        else if (Match(pFile, pos, 0x02F2, m_maxIdLength))
-            __noop;
-
-        else if (Match(pFile, pos, 0x02F3, m_maxSizeLength))
-            __noop;
-
-        else if (Match(pFile, pos, 0x0282, m_docType))
-            __noop;
-
-        else if (Match(pFile, pos, 0x0287, m_docTypeVersion))
-            __noop;
-
-        else if (Match(pFile, pos, 0x0285, m_docTypeReadVersion))
-            __noop;
-
+        if (Match(pReader, pos, 0x0286, m_version))
+            ;
+        else if (Match(pReader, pos, 0x02F7, m_readVersion))
+            ;
+        else if (Match(pReader, pos, 0x02F2, m_maxIdLength))
+            ;
+        else if (Match(pReader, pos, 0x02F3, m_maxSizeLength))
+            ;
+        else if (Match(pReader, pos, 0x0282, m_docType))
+            ;
+        else if (Match(pReader, pos, 0x0287, m_docTypeVersion))
+            ;
+        else if (Match(pReader, pos, 0x0285, m_docTypeReadVersion))
+            ;
         else
         {
-            result = ReadUInt(pFile, pos, len);
+            result = ReadUInt(pReader, pos, len);
             assert(result > 0);
             assert(len > 0);
             assert(len <= 8);
@@ -818,7 +734,7 @@ __int64 EBMLHeader::Parse(
             pos += len;
             assert(pos < end);
 
-            result = ReadUInt(pFile, pos, len);
+            result = ReadUInt(pReader, pos, len);
             assert(result >= 0);
             assert(len > 0);
             assert(len <= 8);
@@ -829,60 +745,66 @@ __int64 EBMLHeader::Parse(
     }
 
     assert(pos == end);
-
     return 0;
 }
 
 
 Segment::Segment(
-    IMkvFile* pFile,
-    __int64 start,
-    __int64 size) :
-    m_pFile(pFile),
+    IMkvReader* pReader,
+    long long start,
+    long long size) :
+    m_pReader(pReader),
     m_start(start),
     m_size(size),
     m_pos(start),
-    //m_pSeekHead(0),
-    m_pInfo(0),
-    m_pTracks(0),
-    m_pCues(0)
-    //m_index(0)
+    m_pInfo(NULL),
+    m_pTracks(NULL),
+    m_pCues(NULL),
+    m_clusters(NULL),
+    m_clusterCount(0),
+    m_clusterPreloadCount(0),
+    m_clusterSize(0)
 {
 }
 
 
 Segment::~Segment()
 {
-    while (!m_clusters.empty())
-    {
-        Cluster* pCluster = m_clusters.front();
-        assert(pCluster);
+    const long count = m_clusterCount + m_clusterPreloadCount;
 
-        m_clusters.pop_front();
-        delete pCluster;
+    Cluster** i = m_clusters;
+    Cluster** j = m_clusters + count;
+
+    while (i != j)
+    {
+        Cluster* const p = *i++;
+        assert(p);
+
+        delete p;
     }
+
+    delete[] m_clusters;
 
     delete m_pTracks;
     delete m_pInfo;
-    //delete m_pSeekHead;
+    delete m_pCues;
 }
 
 
-__int64 Segment::CreateInstance(
-    IMkvFile* pFile,
-    LONGLONG pos,
+long long Segment::CreateInstance(
+    IMkvReader* pReader,
+    long long pos,
     Segment*& pSegment)
 {
-    assert(pFile);
+    assert(pReader);
     assert(pos >= 0);
 
-    pSegment = 0;
+    pSegment = NULL;
 
-    LONGLONG total, available;
+    long long total, available;
 
-    HRESULT hr = pFile->MkvLength(&total, &available);
-    hr;
-    assert(SUCCEEDED(hr));
+    long hr = pReader->Length(&total, &available);
+    assert(hr >= 0);
     assert(available <= total);
 
     //I would assume that in practice this loop would execute
@@ -898,20 +820,20 @@ __int64 Segment::CreateInstance(
         //Read ID
 
         long len;
-        __int64 result = GetUIntLength(pFile, pos, len);
+        long long result = GetUIntLength(pReader, pos, len);
 
         if (result)  //error, or too few available bytes
             return result;
 
         if ((pos + len) > total)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         if ((pos + len) > available)
             return pos + len;
 
         //TODO: if we liberalize the behavior of ReadUInt, we can
         //probably eliminate having to use GetUIntLength here.
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
 
         if (id < 0)  //error
             return id;
@@ -920,20 +842,20 @@ __int64 Segment::CreateInstance(
 
         //Read Size
 
-        result = GetUIntLength(pFile, pos, len);
+        result = GetUIntLength(pReader, pos, len);
 
         if (result)  //error, or too few available bytes
             return result;
 
         if ((pos + len) > total)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         if ((pos + len) > available)
             return pos + len;
 
         //TODO: if we liberalize the behavior of ReadUInt, we can
         //probably eliminate having to use GetUIntLength here.
-        const __int64 size = ReadUInt(pFile, pos, len);
+        long long size = ReadUInt(pReader, pos, len);
 
         if (size < 0)
             return size;
@@ -942,86 +864,90 @@ __int64 Segment::CreateInstance(
 
         //Pos now points to start of payload
 
-        if ((pos + size) > total)
-            return VFW_E_INVALID_FILE_FORMAT;
-
         if (id == 0x08538067)  //Segment ID
         {
-            pSegment = new (std::nothrow) Segment(pFile, pos, size);
-            assert(pSegment);  //TODO
+            //Handle "unknown size" for live streaming of webm files.
+            const long long unknown_size = (1LL << (7 * len)) - 1;
+
+            if (size == unknown_size)
+                size = total - pos;
+            else if ((pos + size) > total)
+                return E_FILE_FORMAT_INVALID;
+
+            pSegment = new (std::nothrow) Segment(pReader, pos, size);
+
+            if (pSegment == 0)
+                return -1;  //generic error
 
             return 0;    //success
         }
 
+        if ((pos + size) > total)
+            return E_FILE_FORMAT_INVALID;
+
         pos += size;  //consume payload
     }
 
-    assert(pos == total);
-
-    pSegment = new (std::nothrow) Segment(pFile, pos, 0);
-    assert(pSegment);  //TODO
-
-    return 0;  //success (sort of)
+    return E_FILE_FORMAT_INVALID;  //there is no segment
 }
 
 
-__int64 Segment::ParseHeaders()
+long long Segment::ParseHeaders()
 {
     //Outermost (level 0) segment object has been constructed,
     //and pos designates start of payload.  We need to find the
     //inner (level 1) elements.
+    long long total, available;
 
-    LONGLONG total, available;
-
-    HRESULT hr = m_pFile->MkvLength(&total, &available);
-    hr;
-    assert(SUCCEEDED(hr));
+    const int status = m_pReader->Length(&total, &available);
+    assert(status == 0);
+    assert(total >= 0);
     assert(available <= total);
 
-    const __int64 stop = m_start + m_size;
+    const long long stop = m_start + m_size;
     assert(stop <= total);
     assert(m_pos <= stop);
 
-    bool bQuit = false;
-
-    while ((m_pos < stop) && !bQuit)
+    while (m_pos < stop)
     {
-        __int64 pos = m_pos;
+        long long pos = m_pos;
 
         long len;
-        __int64 result = GetUIntLength(m_pFile, pos, len);
+        long long result = GetUIntLength(m_pReader, pos, len);
 
         if (result)  //error, or too few available bytes
             return result;
 
         if ((pos + len) > stop)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         if ((pos + len) > available)
             return pos + len;
 
-        const __int64 idpos = pos;
-        const __int64 id = ReadUInt(m_pFile, idpos, len);
+        const long long idpos = pos;
+        const long long id = ReadUInt(m_pReader, idpos, len);
 
         if (id < 0)  //error
             return id;
 
+        if (id == 0x0F43B675)  //Cluster ID
+            break;
+
         pos += len;  //consume ID
 
         //Read Size
-
-        result = GetUIntLength(m_pFile, pos, len);
+        result = GetUIntLength(m_pReader, pos, len);
 
         if (result)  //error, or too few available bytes
             return result;
 
         if ((pos + len) > stop)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         if ((pos + len) > available)
             return pos + len;
 
-        const __int64 size = ReadUInt(m_pFile, pos, len);
+        const long long size = ReadUInt(m_pReader, pos, len);
 
         if (size < 0)
             return size;
@@ -1031,7 +957,7 @@ __int64 Segment::ParseHeaders()
         //Pos now points to start of payload
 
         if ((pos + size) > stop)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         //We read EBML elements either in total or nothing at all.
 
@@ -1040,25 +966,30 @@ __int64 Segment::ParseHeaders()
 
         if (id == 0x0549A966)  //Segment Info ID
         {
-            assert(m_pInfo == 0);
-            m_pInfo = new (std::nothrow) SegmentInfo(this, pos, size);
+            assert(m_pInfo == NULL);
+
+            m_pInfo = new SegmentInfo(this, pos, size);
             assert(m_pInfo);  //TODO
         }
         else if (id == 0x0654AE6B)  //Tracks ID
         {
-            assert(m_pTracks == 0);
-            m_pTracks = new (std::nothrow) Tracks(this, pos, size);
+            assert(m_pTracks == NULL);
+
+            m_pTracks = new Tracks(this, pos, size);
             assert(m_pTracks);  //TODO
         }
         else if (id == 0x0C53BB6B)  //Cues ID
         {
-            assert(m_pCues == 0);
-            m_pCues = new (std::nothrow) Cues(this, pos, size);
-            assert(m_pCues);  //TODO
+            if (m_pCues == NULL)
+            {
+                m_pCues = new Cues(this, pos, size);
+                assert(m_pCues);  //TODO
+            }
         }
-        else if (id == 0x0F43B675)  //Cluster ID
+        else if (id == 0x014D9B74)  //SeekHead ID
         {
-            bQuit = true;
+            if (available >= total)
+                ParseSeekHead(pos, size);
         }
 
         m_pos = pos + size;  //consume payload
@@ -1066,81 +997,154 @@ __int64 Segment::ParseHeaders()
 
     assert(m_pos <= stop);
 
+    if (m_pInfo == NULL)  //TODO: liberalize this behavior
+        return E_FILE_FORMAT_INVALID;
+
+    if (m_pTracks == NULL)
+        return E_FILE_FORMAT_INVALID;
+
     return 0;  //success
 }
 
 
-HRESULT Segment::ParseCluster(Cluster*& pCluster, __int64& pos_) const
+#if 0
+long Segment::FindNextCluster(long long& pos, size& len) const
 {
-    //This is a const member function, which means that it doesn't
-    //modify the segment object.  Instead we determine where the next
-    //cluster is (loading the file into network cache as a side effect),
-    //create a pre-loaded cluster object, and then return that to the
-    //caller, who immediately calls AddCluster to update the segment
-    //object (which is where the actual modification occurs).  The
-    //reason for this roundabout way of doing things is that a read
-    //from a network cache can block indefinitely (or at least for
-    //unpredictable amounts of time), and we don't want to block the
-    //streaming threads, which are busying pushing frames downstream,
-    //so they must have unhindered access to the file.  It's OK if
-    //if the worker thread blocks (that's the thread that calls
-    //Segment::ParseCluster), because it only works in background.
-    //Furthermore, the caller should have bound IMkvFile to some
-    //abstraction that allows timed reads, so we anticipate read
-    //errors here, especially when the worker thread must be terminated
-    //in order to implement IBaseFilter::Stop.  Note that it doesn't
-    //matter whether any read errors occur here, because we haven't
-    //modified any segment state.  We either successfully parse the
-    //entire cluster (and modify the segment state accordingly, in
-    //Segment:AddCluster), or the parse here fails (and segment
-    //state is not modified at all, because the worker thread
-    //terminates itself without calling Segment::AddCluster).
+    //Outermost (level 0) segment object has been constructed,
+    //and pos designates start of payload.  We need to find the
+    //inner (level 1) elements.
+    long long total, available;
 
-    pCluster = 0;  //0 means "no cluster found"
-    pos_ = -1;     //>= 0 means "we parsed something"
+    const int status = m_pReader->Length(&total, &available);
+    assert(status == 0);
+    assert(total >= 0);
+    assert(available <= total);
 
-    const __int64 stop = m_start + m_size;
+    const long long stop = m_start + m_size;
+    assert(stop <= total);
     assert(m_pos <= stop);
 
-    __int64 pos = m_pos;  //how much of the file has been consumed
-    __int64 off = -1;     //offset of cluster relative to segment
+    pos = m_pos;
+
+    while (pos < stop)
+    {
+        long long result = GetUIntLength(m_pReader, pos, len);
+
+        if (result < 0)
+            return static_cast<long>(result);
+
+        if (result > 0)
+            return E_BUFFER_NOT_FULL;
+
+        if ((pos + len) > stop)
+            return E_FILE_FORMAT_INVALID;
+
+        if ((pos + len) > available)
+            return E_BUFFER_NOT_FULL;
+
+        const long long idpos = pos;
+        const long long id = ReadUInt(m_pReader, idpos, len);
+
+        if (id < 0)  //error
+            return static_cast<long>(id);
+
+        pos += len;  //consume ID
+
+        //Read Size
+        result = GetUIntLength(m_pReader, pos, len);
+
+        if (result < 0)  //error
+            return static_cast<long>(result);
+
+        if (result > 0)
+            return E_BUFFER_NOT_FULL;
+
+        if ((pos + len) > stop)
+            return E_FILE_FORMAT_INVALID;
+
+        if ((pos + len) > available)
+            return E_BUFFER_NOT_FULL;
+
+        const long long size = ReadUInt(m_pReader, pos, len);
+
+        if (size < 0)  //error
+            return static_cast<long>(size);
+
+        pos += len;  //consume length of size of element
+
+        //Pos now points to start of payload
+
+        if ((pos + size) > stop)
+            return E_FILE_FORMAT_INVALID;
+
+        if ((pos + size) > available)
+            return E_BUFFER_NOT_FULL;
+
+        if (id == 0x0F43B675)  //Cluster ID
+        {
+            len = static_cast<long>(size);
+            return 0;  //success
+        }
+
+        pos += size;  //consume payload
+    }
+
+    return E_FILE_FORMAT_INVALID;
+}
+#endif
+
+
+long Segment::ParseCluster(long long& off, long long& new_pos) const
+{
+    off = -1;
+    new_pos = -1;
+
+    const long long stop = m_start + m_size;
+    assert(m_pos <= stop);
+
+    long long pos = m_pos;
 
     while (pos < stop)
     {
         long len;
-        const __int64 idpos = pos;
+        const long long idpos = pos;
 
-        const __int64 id = SyncReadUInt(m_pFile, pos, stop, len);
+        const long long id = SyncReadUInt(m_pReader, pos, stop, len);
 
         if (id < 0)  //error
-            return static_cast<HRESULT>(id);
+            return static_cast<long>(id);
 
         if (id == 0)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         pos += len;  //consume id
         assert(pos < stop);
 
-        const __int64 size = SyncReadUInt(m_pFile, pos, stop, len);
+        const long long size = SyncReadUInt(m_pReader, pos, stop, len);
 
         if (size < 0)  //error
-            return static_cast<HRESULT>(size);
+            return static_cast<long>(size);
 
         pos += len;  //consume size
         assert(pos <= stop);
 
-        //pos now points to start of payload
-
         if (size == 0)  //weird
-            continue;   //throw away this (empty) element
+            continue;
+
+        //pos now points to start of payload
 
         pos += size;  //consume payload
         assert(pos <= stop);
 
         if (id == 0x0F43B675)  //Cluster ID
         {
-            off = idpos - m_start;  //>= 0 means "we found a cluster"
-            break;
+            const long long off_ = idpos - m_start;
+
+            if (Cluster::HasBlockEntries(this, off_))
+            {
+                off = off_;   // >= 0 means we found a cluster
+                break;
+            }
         }
     }
 
@@ -1153,8 +1157,8 @@ HRESULT Segment::ParseCluster(Cluster*& pCluster, __int64& pos_) const
 
     if (off < 0)  //we did not found any more clusters
     {
-        pos_ = stop;
-        return S_FALSE;  //pos_ >= 0 here means EOF (cluster is NULL)
+        new_pos = stop;  //pos >= 0 here means EOF (cluster is NULL)
+        return 0;        //TODO: confirm this return value
     }
 
     //We found a cluster.  Now read something, to ensure that it is
@@ -1181,96 +1185,373 @@ HRESULT Segment::ParseCluster(Cluster*& pCluster, __int64& pos_) const
         //since this makes fewer assumptions about the network
         //reader abstraction.)
 
-        BYTE b;
+        unsigned char b;
 
-        const HRESULT hr = m_pFile->MkvRead(pos - 1, 1, &b);
+        const int result = m_pReader->Read(pos - 1, 1, &b);
+        assert(result == 0);
 
-        if (FAILED(hr))
-            return hr;
-
-        if (hr != S_OK)
-            return VFW_E_BUFFER_UNDERFLOW;
-
-        pos_ = stop;
+        new_pos = stop;
     }
     else
     {
         long len;
-        const __int64 idpos = pos;
+        const long long idpos = pos;
 
-        const __int64 id = SyncReadUInt(m_pFile, pos, stop, len);
+        const long long id = SyncReadUInt(m_pReader, pos, stop, len);
 
         if (id < 0)  //error
-            return static_cast<HRESULT>(id);
+            return static_cast<long>(id);
 
         if (id == 0)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_BUFFER_NOT_FULL;
 
         pos += len;  //consume id
         assert(pos < stop);
 
-        const __int64 size = SyncReadUInt(m_pFile, pos, stop, len);
+        const long long size = SyncReadUInt(m_pReader, pos, stop, len);
 
         if (size < 0)  //error
-            return static_cast<HRESULT>(size);
+            return static_cast<long>(size);
 
-        pos_ = idpos;
+        new_pos = idpos;
     }
 
-    //We found a cluster, and it has been completely loaded into the
-    //network cache.  (We can guarantee this because we actually read
-    //the EBML tag that follows the cluster, or, if we reached EOF,
-    //because we actually read the last byte of the cluster).
-
-    Segment* const this_ = const_cast<Segment*>(this);
-    const Cluster::index_t idx = m_clusters.size();
-
-    pCluster = Cluster::Parse(this_, idx, off);  //create new cluster object
-    assert(pCluster);
-
-    return S_OK;
+    return 0;
 }
 
 
-bool Segment::AddCluster(Cluster* pCluster, __int64 pos)
+bool Segment::AddCluster(long long off, long long pos)
 {
-    //AddCluster completes the parsing work done by the worker
-    //thread in Segment::ParseCluster.  pCluster is either the
-    //new cluster object created (if one was found), or NULL
-    //(meaning we've reached EOF without finding a cluster).
-    //pos indicates how much of the file was consumed during the
-    //parse.  It will have a value just beyond the end of the
-    //cluster, so that the next time Segment::ParserCluster is
-    //called, we begin the parse starting from that position.
-
     assert(pos >= m_start);
 
-    const __int64 stop = m_start + m_size;
+    const long long stop = m_start + m_size;
     assert(pos <= stop);
 
-    if (pCluster)
-        m_clusters.push_back(pCluster);
+    if (off >= 0)
+    {
+        Cluster* const pCluster = Cluster::Parse(this, m_clusterCount, off);
+        assert(pCluster);
 
-    m_pos = pos;  //m_pos >= stop is how we know we have all clusters
+        AppendCluster(pCluster);
+        assert(m_clusters);
+        assert(m_clusterSize > pCluster->m_index);
+        assert(m_clusters[pCluster->m_index] == pCluster);
+    }
 
+    m_pos = pos;  //m_pos >= stop is now we know we have all clusters
     return (pos >= stop);
 }
 
 
-HRESULT Segment::Load()
+long Segment::LoadCluster(
+    long long& pos,
+    long& len)
 {
+    const long long stop = m_start + m_size;
+
+    while (m_pos < stop)
+    {
+        pos = m_pos;
+
+        //Read ID
+
+        long long result = GetUIntLength(m_pReader, pos, len);
+
+        if (result < 0)  //error
+            return static_cast<long>(result);
+
+        if (result > 0)
+            return E_BUFFER_NOT_FULL;
+
+        if ((pos + len) > stop)
+            return E_FILE_FORMAT_INVALID;
+
+        const long long idpos = pos;
+        const long long id = ReadUInt(m_pReader, idpos, len);
+
+        if (id < 0)  //error
+            return static_cast<long>(id);
+
+        pos += len;  //consume ID
+
+        //Read Size
+
+        result = GetUIntLength(m_pReader, pos, len);
+
+        if (result < 0)  //error
+            return static_cast<long>(result);
+
+        if (result > 0)
+            return E_BUFFER_NOT_FULL;
+
+        if ((pos + len) > stop)
+            return E_FILE_FORMAT_INVALID;
+
+        const long long size = ReadUInt(m_pReader, pos, len);
+
+        if (size < 0)  //error
+            return static_cast<long>(size);
+
+        pos += len;  //consume length of size of element
+
+        if (size == 0)  //weird
+        {
+            m_pos = pos;
+            continue;
+        }
+
+        //Pos now points to start of payload
+
+        if ((pos + size) > stop)
+            return E_FILE_FORMAT_INVALID;
+
+        long long total, avail;
+
+        const int status = m_pReader->Length(&total, &avail);
+        assert(status == 0);
+        assert(total >= 0);
+        assert(avail <= total);
+
+        if ((pos + size) > avail)
+        {
+            len = static_cast<long>(size);
+            return E_BUFFER_NOT_FULL;
+        }
+
+        if (id == 0x0C53BB6B)  //Cues ID
+        {
+            if (m_pCues == NULL)
+            {
+                m_pCues = new Cues(this, pos, size);
+                assert(m_pCues);  //TODO
+            }
+
+            m_pos = pos + size;  //consume payload
+            continue;
+        }
+
+        if (id != 0x0F43B675)  //Cluster ID
+        {
+            m_pos = pos + size;  //consume payload
+            continue;
+        }
+
+        const long idx = m_clusterCount;
+        const long long idoff = idpos - m_start;
+
+        if (m_clusterPreloadCount > 0)
+        {
+            assert(idx < m_clusterSize);
+
+            Cluster* const pCluster = m_clusters[idx];
+            assert(pCluster);
+            assert(pCluster->m_index < 0);
+
+            const long long off_ = pCluster->m_pos;
+            assert(off_);
+
+            const long long off = off_ * ((off_ >= 0) ? 1 : -1);
+            assert(idoff <= off);
+
+            if (idoff == off)  //cluster has been preloaded already
+            {
+                pCluster->m_index = idx;
+                ++m_clusterCount;
+                --m_clusterPreloadCount;
+
+                m_pos = pos + size;  //consume payload
+                assert(m_pos <= stop);
+
+                return 0;
+            }
+        }
+
+        m_pos = pos + size;  //consume payload
+        assert(m_pos <= stop);
+
+        if (Cluster::HasBlockEntries(this, idoff))
+        {
+            Cluster* const pCluster = Cluster::Parse(this, idx, idoff);
+            assert(pCluster);
+
+            AppendCluster(pCluster);
+            assert(m_clusters);
+            assert(idx < m_clusterSize);
+            assert(m_clusters[idx] == pCluster);
+
+            return 0;
+        }
+    }
+
+    assert(m_pos <= stop);
+    return 0;
+}
+
+
+void Segment::AppendCluster(Cluster* pCluster)
+{
+    assert(pCluster);
+    assert(pCluster->m_index >= 0);
+
+    const long count = m_clusterCount + m_clusterPreloadCount;
+
+    long& size = m_clusterSize;
+    assert(size >= count);
+
+    const long idx = pCluster->m_index;
+    assert(idx == m_clusterCount);
+
+    if (count >= size)
+    {
+        long n;
+
+        if (size > 0)
+            n = 2 * size;
+        else if (m_pInfo == 0)
+            n = 2048;
+        else
+        {
+            const long long ns = m_pInfo->GetDuration();
+
+            if (ns <= 0)
+                n = 2048;
+            else
+            {
+                const long long sec = (ns + 999999999LL) / 1000000000LL;
+                n = static_cast<long>(sec);
+            }
+        }
+
+        Cluster** const qq = new Cluster*[n];
+        Cluster** q = qq;
+
+        Cluster** p = m_clusters;
+        Cluster** const pp = p + count;
+
+        while (p != pp)
+            *q++ = *p++;
+
+        delete[] m_clusters;
+
+        m_clusters = qq;
+        size = n;
+    }
+
+    if (m_clusterPreloadCount > 0)
+    {
+        assert(m_clusters);
+
+        Cluster** const p = m_clusters + m_clusterCount;
+        assert(*p);
+        assert((*p)->m_index < 0);
+
+        Cluster** q = p + m_clusterPreloadCount;
+        assert(q < (m_clusters + size));
+
+        for (;;)
+        {
+            Cluster** const qq = q - 1;
+            assert((*qq)->m_index < 0);
+
+            *q = *qq;
+            q = qq;
+
+            if (q == p)
+                break;
+        }
+    }
+
+    m_clusters[idx] = pCluster;
+    ++m_clusterCount;
+}
+
+
+void Segment::PreloadCluster(Cluster* pCluster, ptrdiff_t idx)
+{
+    assert(pCluster);
+    assert(pCluster->m_index < 0);
+    assert(idx >= m_clusterCount);
+
+    const long count = m_clusterCount + m_clusterPreloadCount;
+
+    long& size = m_clusterSize;
+    assert(size >= count);
+
+    if (count >= size)
+    {
+        long n;
+
+        if (size > 0)
+            n = 2 * size;
+        else if (m_pInfo == 0)
+            n = 2048;
+        else
+        {
+            const long long ns = m_pInfo->GetDuration();
+
+            if (ns <= 0)
+                n = 2048;
+            else
+            {
+                const long long sec = (ns + 999999999LL) / 1000000000LL;
+                n = static_cast<long>(sec);
+            }
+        }
+
+        Cluster** const qq = new Cluster*[n];
+        Cluster** q = qq;
+
+        Cluster** p = m_clusters;
+        Cluster** const pp = p + count;
+
+        while (p != pp)
+            *q++ = *p++;
+
+        delete[] m_clusters;
+
+        m_clusters = qq;
+        size = n;
+    }
+
+    assert(m_clusters);
+
+    Cluster** const p = m_clusters + idx;
+
+    Cluster** q = m_clusters + count;
+    assert(q >= p);
+    assert(q < (m_clusters + size));
+
+    while (q > p)
+    {
+        Cluster** const qq = q - 1;
+        assert((*qq)->m_index < 0);
+
+        *q = *qq;
+        q = qq;
+    }
+
+    m_clusters[idx] = pCluster;
+    ++m_clusterPreloadCount;
+}
+
+
+long Segment::Load()
+{
+    assert(m_clusters == NULL);
+    assert(m_clusterSize == 0);
+    assert(m_clusterCount == 0);
+
     //Outermost (level 0) segment object has been constructed,
     //and pos designates start of payload.  We need to find the
     //inner (level 1) elements.
+    const long long stop = m_start + m_size;
 
-    const __int64 stop = m_start + m_size;
-
-#ifdef _DEBUG
+#ifdef _DEBUG  //TODO: this is really Microsoft-specific
     {
-        LONGLONG total, available;
+        long long total, available;
 
-        HRESULT hr = m_pFile->MkvLength(&total, &available);
-        assert(SUCCEEDED(hr));
+        long hr = m_pReader->Length(&total, &available);
+        assert(hr >= 0);
         assert(available >= total);
         assert(stop <= total);
     }
@@ -1278,94 +1559,123 @@ HRESULT Segment::Load()
 
     while (m_pos < stop)
     {
-        __int64 pos = m_pos;
+        long long pos = m_pos;
 
         long len;
 
-        __int64 result = GetUIntLength(m_pFile, pos, len);
+        long long result = GetUIntLength(m_pReader, pos, len);
 
         if (result < 0)  //error
-            return static_cast<HRESULT>(result);
+            return static_cast<long>(result);
 
         if ((pos + len) > stop)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
-        const __int64 idpos = pos;
-        const __int64 id = ReadUInt(m_pFile, idpos, len);
+        const long long idpos = pos;
+        const long long id = ReadUInt(m_pReader, idpos, len);
 
         if (id < 0)  //error
-            return static_cast<HRESULT>(id);
+            return static_cast<long>(id);
 
         pos += len;  //consume ID
 
         //Read Size
-
-        result = GetUIntLength(m_pFile, pos, len);
+        result = GetUIntLength(m_pReader, pos, len);
 
         if (result < 0)  //error
-            return static_cast<HRESULT>(result);
+            return static_cast<long>(result);
 
         if ((pos + len) > stop)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
-        const __int64 size = ReadUInt(m_pFile, pos, len);
+        const long long size = ReadUInt(m_pReader, pos, len);
 
         if (size < 0)  //error
-            return static_cast<HRESULT>(size);
+            return static_cast<long>(size);
 
         pos += len;  //consume length of size of element
 
         //Pos now points to start of payload
 
         if ((pos + size) > stop)
-            return VFW_E_INVALID_FILE_FORMAT;
+            return E_FILE_FORMAT_INVALID;
 
         if (id == 0x0F43B675)  //Cluster ID
-            break;
+        {
+            const long idx = m_clusterCount;
+            const long long off = idpos - m_start;
 
-        if (id == 0x014D9B74)  //SeekHead ID
-        {
-            ParseSeekHead(pos, size);
+            if (Cluster::HasBlockEntries(this, off))
+            {
+                Cluster* const pCluster = Cluster::Parse(this, idx, off);
+                assert(pCluster);
+
+                AppendCluster(pCluster);
+                assert(m_clusters);
+                assert(m_clusterSize > idx);
+                assert(m_clusters[idx] == pCluster);
+            }
         }
-        else if (id == 0x0549A966)  //Segment Info ID
+        else if (id == 0x0C53BB6B)  //Cues ID
         {
-            assert(m_pInfo == 0);
-            m_pInfo = new (std::nothrow) SegmentInfo(this, pos, size);
-            assert(m_pInfo);  //TODO
+            assert(m_pCues == NULL);
+
+            m_pCues = new Cues(this, pos, size);
+            assert(m_pCues);  //TODO
+        }
+        else if (id == 0x0549A966)  //SegmentInfo ID
+        {
+            assert(m_pInfo == NULL);
+
+            m_pInfo = new  SegmentInfo(this, pos, size);
+            assert(m_pInfo);
         }
         else if (id == 0x0654AE6B)  //Tracks ID
         {
-            assert(m_pTracks == 0);
-            m_pTracks = new (std::nothrow) Tracks(this, pos, size);
+            assert(m_pTracks == NULL);
+
+            m_pTracks = new Tracks(this, pos, size);
             assert(m_pTracks);  //TODO
         }
 
         m_pos = pos + size;  //consume payload
     }
 
-    if (!m_clusters.empty())
-        m_pos = stop;  //means "loading done, because we have all clusters"
+    assert(m_pos >= stop);
 
-    return S_OK;
+    if (m_pInfo == NULL)
+        return E_FILE_FORMAT_INVALID;  //TODO: ignore this case?
+
+    if (m_pTracks == NULL)
+        return E_FILE_FORMAT_INVALID;
+
+    if (m_clusters == NULL)  //TODO: ignore this case?
+        return E_FILE_FORMAT_INVALID;
+
+    //TODO: decide whether we require Cues element
+    //if (m_pCues == NULL)
+    //   return E_FILE_FORMAT_INVALID;
+
+    return 0;
 }
 
 
-void Segment::ParseSeekHead(__int64 start, __int64 size_)
+void Segment::ParseSeekHead(long long start, long long size_)
 {
-    __int64 pos = start;
-    const __int64 stop = start + size_;
+    long long pos = start;
+    const long long stop = start + size_;
 
     while (pos < stop)
     {
         long len;
 
-        const __int64 id = ReadUInt(m_pFile, pos, len);
+        const long long id = ReadUInt(m_pReader, pos, len);
         assert(id >= 0);  //TODO
         assert((pos + len) <= stop);
 
         pos += len;  //consume ID
 
-        const __int64 size = ReadUInt(m_pFile, pos, len);
+        const long long size = ReadUInt(m_pReader, pos, len);
         assert(size >= 0);
         assert((pos + len) <= stop);
 
@@ -1383,148 +1693,26 @@ void Segment::ParseSeekHead(__int64 start, __int64 size_)
 }
 
 
-void Segment::ParseSecondarySeekHead(__int64 off)
+void Segment::ParseCues(long long off)
 {
-    assert(off >= 0);
-    assert(off < m_size);
-
-    __int64 pos = m_start + off;
-    const __int64 stop = m_start + m_size;
-    stop;
-
-    long len;
-
-    __int64 result = GetUIntLength(m_pFile, pos, len);
-    assert(result == 0);
-    assert((pos + len) <= stop);
-
-    const __int64 idpos = pos;
-
-    const __int64 id = ReadUInt(m_pFile, idpos, len);
-    id;
-    assert(id == 0x014D9B74);  //SeekHead ID
-
-    pos += len;  //consume ID
-    assert(pos < stop);
-
-    //Read Size
-
-    result = GetUIntLength(m_pFile, pos, len);
-    assert(result == 0);
-    assert((pos + len) <= stop);
-
-    const __int64 size = ReadUInt(m_pFile, pos, len);
-    assert(size >= 0);
-
-    pos += len;  //consume length of size of element
-    assert((pos + size) <= stop);
-
-    //Pos now points to start of payload
-
-    ParseSeekHead(pos, size);
-}
-
-
-void Segment::ParseSeekEntry(__int64 start, __int64 size_)
-{
-    __int64 pos = start;
-
-    const __int64 stop = start + size_;
-    stop;
-
-    long len;
-
-    const __int64 seekIdId = ReadUInt(m_pFile, pos, len);
-    seekIdId;
-    assert(seekIdId == 0x13AB);  //SeekID ID
-    assert((pos + len) <= stop);
-
-    pos += len;  //consume id
-
-    const __int64 seekIdSize = ReadUInt(m_pFile, pos, len);
-    assert(seekIdSize >= 0);
-    assert((pos + len) <= stop);
-
-    pos += len;  //consume size
-
-    const __int64 seekId = ReadUInt(m_pFile, pos, len);  //payload
-    assert(seekId >= 0);
-    assert(len == seekIdSize);
-    assert((pos + len) <= stop);
-
-    pos += seekIdSize;  //consume payload
-
-    const __int64 seekPosId = ReadUInt(m_pFile, pos, len);
-    seekPosId;
-    assert(seekPosId == 0x13AC);  //SeekPos ID
-    assert((pos + len) <= stop);
-
-    pos += len;  //consume id
-
-    const __int64 seekPosSize = ReadUInt(m_pFile, pos, len);
-    assert(seekPosSize >= 0);
-    assert((pos + len) <= stop);
-
-    pos += len;  //consume size
-    assert((pos + seekPosSize) <= stop);
-
-    const __int64 seekOff = UnserializeUInt(m_pFile, pos, seekPosSize);
-    assert(seekOff >= 0);
-    assert(seekOff < m_size);
-
-    pos += seekPosSize;  //consume payload
-    assert(pos == stop);
-
-    const __int64 seekPos = m_start + seekOff;
-    seekPos;
-    assert(seekPos < (m_start + m_size));
+    if (m_pCues)
+        return;
 
     //odbgstream os;
-    //os << "ParseSeekEntry: id=0x" << hex << seekId << endl;
+    //os << "Segment::ParseCues (begin)" << endl;
 
-    if (seekId == 0x0F43B675)  //cluster id
-    {
-#if 0
-        Cluster::Preload(this, m_clusters, seekOff);
-#else
-        const Cluster::index_t idx = m_clusters.size();
-
-        Cluster* const pCluster = Cluster::Parse(this, idx, seekOff);
-        assert(pCluster);  //TODO
-
-        m_clusters.push_back(pCluster);
-#endif
-    }
-    else if (seekId == 0x014D9B74)  //SeekHead ID
-    {
-        ParseSecondarySeekHead(seekOff);
-    }
-    else if (seekId == 0x0C53BB6B)  //Cues ID
-    {
-        ParseCues(seekOff);
-    }
-}
-
-
-void Segment::ParseCues(__int64 off)
-{
-    assert(off >= 0);
-    assert(off < m_size);
-
-    __int64 pos = m_start + off;
-    const __int64 stop = m_start + m_size;
-    stop;
+    long long pos = m_start + off;
+    const long long stop = m_start + m_size;
 
     long len;
 
-    __int64 result = GetUIntLength(m_pFile, pos, len);
+    long long result = GetUIntLength(m_pReader, pos, len);
     assert(result == 0);
     assert((pos + len) <= stop);
 
-    const __int64 idpos = pos;
+    const long long idpos = pos;
 
-    const __int64 id = ReadUInt(m_pFile, idpos, len);
-    id;
+    const long long id = ReadUInt(m_pReader, idpos, len);
     assert(id == 0x0C53BB6B);  //Cues ID
 
     pos += len;  //consume ID
@@ -1532,11 +1720,11 @@ void Segment::ParseCues(__int64 off)
 
     //Read Size
 
-    result = GetUIntLength(m_pFile, pos, len);
+    result = GetUIntLength(m_pReader, pos, len);
     assert(result == 0);
     assert((pos + len) <= stop);
 
-    const __int64 size = ReadUInt(m_pFile, pos, len);
+    const long long size = ReadUInt(m_pReader, pos, len);
     assert(size >= 0);
 
     pos += len;  //consume length of size of element
@@ -1544,33 +1732,131 @@ void Segment::ParseCues(__int64 off)
 
     //Pos now points to start of payload
 
-    assert(m_pCues == 0);
-    m_pCues = new (std::nothrow) Cues(this, pos, size);
+    m_pCues = new Cues(this, pos, size);
     assert(m_pCues);  //TODO
+
+    //os << "Segment::ParseCues (end)" << endl;
 }
 
 
-Cues::Cues(Segment* pSegment, __int64 start_, __int64 size_) :
+void Segment::ParseSeekEntry(
+   long long start,
+   long long size_)
+{
+    long long pos = start;
+
+    const long long stop = start + size_;
+
+    long len;
+
+    const long long seekIdId = ReadUInt(m_pReader, pos, len);
+    //seekIdId;
+    assert(seekIdId == 0x13AB);  //SeekID ID
+    assert((pos + len) <= stop);
+
+    pos += len;  //consume id
+
+    const long long seekIdSize = ReadUInt(m_pReader, pos, len);
+    assert(seekIdSize >= 0);
+    assert((pos + len) <= stop);
+
+    pos += len;  //consume size
+
+    const long long seekId = ReadUInt(m_pReader, pos, len);  //payload
+    assert(seekId >= 0);
+    assert(len == seekIdSize);
+    assert((pos + len) <= stop);
+
+    pos += seekIdSize;  //consume payload
+
+    const long long seekPosId = ReadUInt(m_pReader, pos, len);
+    //seekPosId;
+    assert(seekPosId == 0x13AC);  //SeekPos ID
+    assert((pos + len) <= stop);
+
+    pos += len;  //consume id
+
+    const long long seekPosSize = ReadUInt(m_pReader, pos, len);
+    assert(seekPosSize >= 0);
+    assert((pos + len) <= stop);
+
+    pos += len;  //consume size
+    assert((pos + seekPosSize) <= stop);
+
+    const long long seekOff = UnserializeUInt(m_pReader, pos, seekPosSize);
+    assert(seekOff >= 0);
+    assert(seekOff < m_size);
+
+    pos += seekPosSize;  //consume payload
+    assert(pos == stop);
+
+    const long long seekPos = m_start + seekOff;
+    assert(seekPos < (m_start + m_size));
+
+    if (seekId == 0x0C53BB6B)  //Cues ID
+        ParseCues(seekOff);
+}
+
+
+Cues::Cues(Segment* pSegment, long long start_, long long size_) :
     m_pSegment(pSegment),
     m_start(start_),
-    m_size(size_)
+    m_size(size_),
+    m_cue_points(NULL),
+    m_count(0),
+    m_preload_count(0),
+    m_pos(start_)
 {
-    IMkvFile* const pFile = m_pSegment->m_pFile;
+}
 
-    const __int64 stop = m_start + m_size;
-    __int64 pos = m_start;
+
+Cues::~Cues()
+{
+    const size_t n = m_count + m_preload_count;
+
+    CuePoint** p = m_cue_points;
+    CuePoint** const q = p + n;
+
+    while (p != q)
+    {
+        CuePoint* const pCP = *p++;
+        assert(pCP);
+
+        delete pCP;
+    }
+
+    delete[] m_cue_points;
+}
+
+
+void Cues::Init() const
+{
+    if (m_cue_points)
+        return;
+
+    assert(m_count == 0);
+    assert(m_preload_count == 0);
+
+    IMkvReader* const pReader = m_pSegment->m_pReader;
+
+    const long long stop = m_start + m_size;
+    long long pos = m_start;
+
+    size_t cue_points_size = 0;
 
     while (pos < stop)
     {
+        const long long idpos = pos;
+
         long len;
 
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         assert(id >= 0);  //TODO
         assert((pos + len) <= stop);
 
         pos += len;  //consume ID
 
-        const __int64 size = ReadUInt(pFile, pos, len);
+        const long long size = ReadUInt(pReader, pos, len);
         assert(size >= 0);
         assert((pos + len) <= stop);
 
@@ -1578,31 +1864,129 @@ Cues::Cues(Segment* pSegment, __int64 start_, __int64 size_) :
         assert((pos + size) <= stop);
 
         if (id == 0x3B)  //CuePoint ID
-        {
-            CuePoint p;
-            p.Parse(pFile, pos, size);
-
-#ifdef _DEBUG
-            if (!m_cue_points.empty())
-            {
-                const CuePoint& b = m_cue_points.back();
-                assert(p.m_timecode > b.m_timecode);
-            }
-#endif
-
-            m_cue_points.push_back(p);
-        }
+            PreloadCuePoint(cue_points_size, idpos);
 
         pos += size;  //consume payload
         assert(pos <= stop);
     }
+}
 
-    assert(pos == stop);
+
+void Cues::PreloadCuePoint(
+    size_t& cue_points_size,
+    long long pos) const
+{
+    assert(m_count == 0);
+
+    if (m_preload_count >= cue_points_size)
+    {
+        size_t n;
+
+        if (cue_points_size > 0)
+            n = static_cast<size_t>(2 * cue_points_size);
+        else
+        {
+            const SegmentInfo* const pInfo = m_pSegment->GetInfo();
+
+            if (pInfo == NULL)
+                n = 2048;
+            else
+            {
+                const long long ns = pInfo->GetDuration();
+
+                if (ns <= 0)
+                    n = 2048;
+                else
+                {
+                    const long long sec = (ns + 999999999LL) / 1000000000LL;
+                    n = static_cast<size_t>(sec);
+                }
+            }
+        }
+
+        CuePoint** const qq = new CuePoint*[n];
+        CuePoint** q = qq;  //beginning of target
+
+        CuePoint** p = m_cue_points;                //beginning of source
+        CuePoint** const pp = p + m_preload_count;  //end of source
+
+        while (p != pp)
+            *q++ = *p++;
+
+        delete[] m_cue_points;
+
+        m_cue_points = qq;
+        cue_points_size = n;
+    }
+
+    CuePoint* const pCP = new CuePoint(m_preload_count, pos);
+    m_cue_points[m_preload_count++] = pCP;
+}
+
+
+bool Cues::LoadCuePoint() const
+{
+    //odbgstream os;
+    //os << "Cues::LoadCuePoint" << endl;
+
+    const long long stop = m_start + m_size;
+
+    if (m_pos >= stop)
+        return false;  //nothing else to do
+
+    Init();
+
+    IMkvReader* const pReader = m_pSegment->m_pReader;
+
+    while (m_pos < stop)
+    {
+        const long long idpos = m_pos;
+
+        long len;
+
+        const long long id = ReadUInt(pReader, m_pos, len);
+        assert(id >= 0);  //TODO
+        assert((m_pos + len) <= stop);
+
+        m_pos += len;  //consume ID
+
+        const long long size = ReadUInt(pReader, m_pos, len);
+        assert(size >= 0);
+        assert((m_pos + len) <= stop);
+
+        m_pos += len;  //consume Size field
+        assert((m_pos + size) <= stop);
+
+        if (id != 0x3B)  //CuePoint ID
+        {
+            m_pos += size;  //consume payload
+            assert(m_pos <= stop);
+
+            continue;
+        }
+
+        assert(m_preload_count > 0);
+
+        CuePoint* const pCP = m_cue_points[m_count];
+        assert(pCP);
+        assert((pCP->GetTimeCode() >= 0) || (-pCP->GetTimeCode() == idpos));
+
+        pCP->Load(pReader);
+        ++m_count;
+        --m_preload_count;
+
+        m_pos += size;  //consume payload
+        assert(m_pos <= stop);
+
+        break;
+    }
+
+    return (m_pos < stop);
 }
 
 
 bool Cues::Find(
-    __int64 time_ns,
+    long long time_ns,
     const Track* pTrack,
     const CuePoint*& pCP,
     const CuePoint::TrackPosition*& pTP) const
@@ -1610,38 +1994,77 @@ bool Cues::Find(
     assert(time_ns >= 0);
     assert(pTrack);
 
-    if (m_cue_points.empty())
-        return false;
+    LoadCuePoint();
 
-    typedef cue_points_t::const_iterator iter_t;
+    assert(m_cue_points);
+    assert(m_count > 0);
 
-    const iter_t i = m_cue_points.begin();
+    CuePoint** const ii = m_cue_points;
+    CuePoint** i = ii;
 
-    pCP = &*i;
+    CuePoint** const jj = ii + m_count + m_preload_count;
+    CuePoint** j = jj;
+
+    pCP = *i;
+    assert(pCP);
 
     if (time_ns <= pCP->GetTime(m_pSegment))
     {
         pTP = pCP->Find(pTrack);
-        return (pTP != 0);
+        return (pTP != NULL);
     }
 
-    const iter_t j = m_cue_points.end();
+    IMkvReader* const pReader = m_pSegment->m_pReader;
 
-    const CuePoint::CompareTime pred(m_pSegment);
+    while (i < j)
+    {
+        //INVARIANT:
+        //[ii, i) <= time_ns
+        //[i, j)  ?
+        //[j, jj) > time_ns
 
-    const iter_t k = std::upper_bound(i, j, time_ns, pred);
-    assert(k != i);
+        CuePoint** const k = i + (j - i) / 2;
+        assert(k < jj);
 
-    pCP = &*--iter_t(k);
+        CuePoint* const pCP = *k;
+        assert(pCP);
+
+        pCP->Load(pReader);
+
+        const long long t = pCP->GetTime(m_pSegment);
+
+        if (t <= time_ns)
+            i = k + 1;
+        else
+            j = k;
+
+        assert(i <= j);
+    }
+
+    assert(i == j);
+    assert(i <= jj);
+    assert(i > ii);
+
+    pCP = *--i;
+    assert(pCP);
     assert(pCP->GetTime(m_pSegment) <= time_ns);
 
+    //TODO: here and elsewhere, it's probably not correct to search
+    //for the cue point with this time, and then search for a matching
+    //track.  In principle, the matching track could be on some earlier
+    //cue point, and with our current algorithm, we'd miss it.  To make
+    //this bullet-proof, we'd need to create a secondary structure,
+    //with a list of cue points that apply to a track, and then search
+    //that track-based structure for a matching cue point.
+
     pTP = pCP->Find(pTrack);
-    return (pTP != 0);
+    return (pTP != NULL);
 }
 
 
+#if 0
 bool Cues::FindNext(
-    __int64 time_ns,
+    long long time_ns,
     const Track* pTrack,
     const CuePoint*& pCP,
     const CuePoint::TrackPosition*& pTP) const
@@ -1649,48 +2072,269 @@ bool Cues::FindNext(
     pCP = 0;
     pTP = 0;
 
-    if (m_cue_points.empty())  //weird
+    if (m_count == 0)
         return false;
 
-    typedef cue_points_t::const_iterator iter_t;
+    assert(m_cue_points);
 
-    const iter_t i = m_cue_points.begin();
-    const iter_t j = m_cue_points.end();
+    const CuePoint* const* const ii = m_cue_points;
+    const CuePoint* const* i = ii;
 
-    const CuePoint::CompareTime pred(m_pSegment);
+    const CuePoint* const* const jj = ii + m_count;
+    const CuePoint* const* j = jj;
 
-    const iter_t k = std::upper_bound(i, j, time_ns, pred);
+    while (i < j)
+    {
+        //INVARIANT:
+        //[ii, i) <= time_ns
+        //[i, j)  ?
+        //[j, jj) > time_ns
 
-    if (k == j)  //time_ns is greater than max cue point
+        const CuePoint* const* const k = i + (j - i) / 2;
+        assert(k < jj);
+
+        pCP = *k;
+        assert(pCP);
+
+        const long long t = pCP->GetTime(m_pSegment);
+
+        if (t <= time_ns)
+            i = k + 1;
+        else
+            j = k;
+
+        assert(i <= j);
+    }
+
+    assert(i == j);
+    assert(i <= jj);
+
+    if (i >= jj)  //time_ns is greater than max cue point
         return false;
 
-    pCP = &*k;
+    pCP = *i;
+    assert(pCP);
     assert(pCP->GetTime(m_pSegment) > time_ns);
 
     pTP = pCP->Find(pTrack);
+    return (pTP != NULL);
+}
+#endif
 
-    return (pTP != 0);
+
+const CuePoint* Cues::GetFirst() const
+{
+    LoadCuePoint();  //init cues
+
+    const size_t count = m_count + m_preload_count;
+
+    if (count == 0)  //weird
+        return NULL;
+
+    CuePoint* const* const pp = m_cue_points;
+    assert(pp);
+
+    CuePoint* const pCP = pp[0];
+    assert(pCP);
+    assert(pCP->GetTimeCode() >= 0);
+
+    return pCP;
 }
 
 
-void CuePoint::Parse(IMkvFile* pFile, __int64 start_, __int64 size_)
+const CuePoint* Cues::GetLast() const
 {
-    const __int64 stop = start_ + size_;
-    __int64 pos = start_;
+    LoadCuePoint();  //init cues
 
-    m_timecode = -1;
+    const size_t count = m_count + m_preload_count;
+
+    if (count == 0)  //weird
+        return NULL;
+
+    const size_t index = count - 1;
+
+    CuePoint* const* const pp = m_cue_points;
+    assert(pp);
+
+    CuePoint* const pCP = pp[index];
+    assert(pCP);
+
+    pCP->Load(m_pSegment->m_pReader);
+    assert(pCP->GetTimeCode() >= 0);
+
+    return pCP;
+}
+
+
+const CuePoint* Cues::GetNext(const CuePoint* pCurr) const
+{
+    if (pCurr == NULL)
+        return NULL;
+
+    assert(pCurr->GetTimeCode() >= 0);
+    assert(m_cue_points);
+    assert(m_count >= 1);
+
+    const size_t count = m_count + m_preload_count;
+
+    size_t index = pCurr->m_index;
+    assert(index < count);
+
+    CuePoint* const* const pp = m_cue_points;
+    assert(pp);
+    assert(pp[index] == pCurr);
+
+    ++index;
+
+    if (index >= count)
+        return NULL;
+
+    CuePoint* const pNext = pp[index];
+    assert(pNext);
+
+    pNext->Load(m_pSegment->m_pReader);
+
+    return pNext;
+}
+
+
+const BlockEntry* Cues::GetBlock(
+    const CuePoint* pCP,
+    const CuePoint::TrackPosition* pTP) const
+{
+    if (pCP == NULL)
+        return NULL;
+
+    if (pTP == NULL)
+        return NULL;
+
+    return m_pSegment->GetBlock(*pCP, *pTP);
+}
+
+
+const BlockEntry* Segment::GetBlock(
+    const CuePoint& cp,
+    const CuePoint::TrackPosition& tp)
+{
+    Cluster** const ii = m_clusters;
+    Cluster** i = ii;
+
+    const long count = m_clusterCount + m_clusterPreloadCount;
+
+    Cluster** const jj = ii + count;
+    Cluster** j = jj;
+
+    while (i < j)
+    {
+        //INVARIANT:
+        //[ii, i) < pTP->m_pos
+        //[i, j) ?
+        //[j, jj)  > pTP->m_pos
+
+        Cluster** const k = i + (j - i) / 2;
+        assert(k < jj);
+
+        Cluster* const pCluster = *k;
+        assert(pCluster);
+
+        const long long pos_ = pCluster->m_pos;
+        assert(pos_);
+
+        const long long pos = pos_ * ((pos_ < 0) ? -1 : 1);
+
+        if (pos < tp.m_pos)
+            i = k + 1;
+        else if (pos > tp.m_pos)
+            j = k;
+        else
+            return pCluster->GetEntry(cp, tp);
+    }
+
+    assert(i == j);
+    assert(Cluster::HasBlockEntries(this, tp.m_pos));
+
+    Cluster* const pCluster = Cluster::Parse(this, -1, tp.m_pos);
+    assert(pCluster);
+
+    const ptrdiff_t idx = i - m_clusters;
+
+    PreloadCluster(pCluster, idx);
+    assert(m_clusters);
+    assert(m_clusterPreloadCount > 0);
+    assert(m_clusters[idx] == pCluster);
+
+    return pCluster->GetEntry(cp, tp);
+}
+
+
+
+CuePoint::CuePoint(size_t idx, long long pos) :
+    m_index(idx),
+    m_timecode(-1 * pos),
+    m_track_positions(NULL),
+    m_track_positions_count(0)
+{
+    assert(pos > 0);
+}
+
+
+CuePoint::~CuePoint()
+{
+    delete[] m_track_positions;
+}
+
+
+void CuePoint::Load(IMkvReader* pReader)
+{
+    //odbgstream os;
+    //os << "CuePoint::Load(begin): timecode=" << m_timecode << endl;
+
+    if (m_timecode >= 0)  //already loaded
+        return;
+
+    assert(m_track_positions == NULL);
+    assert(m_track_positions_count == 0);
+
+    long long pos_ = -m_timecode;
+
+    long long stop;
+
+    {
+        long len;
+
+        const long long id = ReadUInt(pReader, pos_, len);
+        assert(id == 0x3B);  //CuePoint ID
+        //assert((pos + len) <= stop);
+
+        pos_ += len;  //consume ID
+
+        const long long size = ReadUInt(pReader, pos_, len);
+        assert(size >= 0);
+        //assert((pos + len) <= stop);
+
+        pos_ += len;  //consume Size field
+        //assert((pos + size) <= stop);
+
+        //pos_ now points to start of payload
+
+        stop = pos_ + size;
+    }
+
+    long long pos = pos_;
+
+    //First count number of track positions
 
     while (pos < stop)
     {
         long len;
 
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         assert(id >= 0);  //TODO
         assert((pos + len) <= stop);
 
         pos += len;  //consume ID
 
-        const __int64 size = ReadUInt(pFile, pos, len);
+        const long long size = ReadUInt(pReader, pos, len);
         assert(size >= 0);
         assert((pos + len) <= stop);
 
@@ -1698,45 +2342,84 @@ void CuePoint::Parse(IMkvFile* pFile, __int64 start_, __int64 size_)
         assert((pos + size) <= stop);
 
         if (id == 0x33)  //CueTime ID
-            m_timecode = UnserializeUInt(pFile, pos, size);
+            m_timecode = UnserializeUInt(pReader, pos, size);
 
         else if (id == 0x37) //CueTrackPosition(s) ID
-            ParseTrackPosition(pFile, pos, size);
+            ++m_track_positions_count;
 
         pos += size;  //consume payload
         assert(pos <= stop);
     }
 
     assert(m_timecode >= 0);
-    assert(!m_track_positions.empty());
-}
+    assert(m_track_positions_count > 0);
 
+    //os << "CuePoint::Load(cont'd): idpos=" << idpos
+    //   << " timecode=" << m_timecode
+    //   << endl;
 
-void CuePoint::ParseTrackPosition(
-    IMkvFile* pFile,
-    __int64 start_,
-    __int64 size_)
-{
-    const __int64 stop = start_ + size_;
-    __int64 pos = start_;
+    m_track_positions = new TrackPosition[m_track_positions_count];
 
-    TrackPosition p;
+    //Now parse track positions
 
-    p.m_track = -1;
-    p.m_pos = -1;
-    p.m_block = -1;
+    TrackPosition* p = m_track_positions;
+    pos = pos_;
 
     while (pos < stop)
     {
         long len;
 
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         assert(id >= 0);  //TODO
         assert((pos + len) <= stop);
 
         pos += len;  //consume ID
 
-        const __int64 size = ReadUInt(pFile, pos, len);
+        const long long size = ReadUInt(pReader, pos, len);
+        assert(size >= 0);
+        assert((pos + len) <= stop);
+
+        pos += len;  //consume Size field
+        assert((pos + size) <= stop);
+
+        if (id == 0x37) //CueTrackPosition(s) ID
+        {
+            TrackPosition& tp = *p++;
+            tp.Parse(pReader, pos, size);
+        }
+
+        pos += size;  //consume payload
+        assert(pos <= stop);
+    }
+
+    assert(size_t(p - m_track_positions) == m_track_positions_count);
+}
+
+
+
+void CuePoint::TrackPosition::Parse(
+    IMkvReader* pReader,
+    long long start_,
+    long long size_)
+{
+    const long long stop = start_ + size_;
+    long long pos = start_;
+
+    m_track = -1;
+    m_pos = -1;
+    m_block = 1;  //default
+
+    while (pos < stop)
+    {
+        long len;
+
+        const long long id = ReadUInt(pReader, pos, len);
+        assert(id >= 0);  //TODO
+        assert((pos + len) <= stop);
+
+        pos += len;  //consume ID
+
+        const long long size = ReadUInt(pReader, pos, len);
         assert(size >= 0);
         assert((pos + len) <= stop);
 
@@ -1744,23 +2427,21 @@ void CuePoint::ParseTrackPosition(
         assert((pos + size) <= stop);
 
         if (id == 0x77)  //CueTrack ID
-            p.m_track = UnserializeUInt(pFile, pos, size);
+            m_track = UnserializeUInt(pReader, pos, size);
 
         else if (id == 0x71)  //CueClusterPos ID
-            p.m_pos = UnserializeUInt(pFile, pos, size);
+            m_pos = UnserializeUInt(pReader, pos, size);
 
         else if (id == 0x1378)  //CueBlockNumber
-            p.m_block = UnserializeUInt(pFile, pos, size);
+            m_block = UnserializeUInt(pReader, pos, size);
 
         pos += size;  //consume payload
         assert(pos <= stop);
     }
 
-    assert(p.m_track > 0);
-    assert(p.m_pos >= 0);
-    assert(p.m_block != 0);
-
-    m_track_positions.push_back(p);
+    assert(m_pos >= 0);
+    assert(m_track > 0);
+    //assert(m_block > 0);
 }
 
 
@@ -1768,12 +2449,10 @@ const CuePoint::TrackPosition* CuePoint::Find(const Track* pTrack) const
 {
     assert(pTrack);
 
-    const ULONG n = pTrack->GetNumber();
+    const long long n = pTrack->GetNumber();
 
-    typedef track_positions_t::const_iterator iter_t;
-
-    iter_t i = m_track_positions.begin();
-    const iter_t j = m_track_positions.end();
+    const TrackPosition* i = m_track_positions;
+    const TrackPosition* const j = i + m_track_positions_count;
 
     while (i != j)
     {
@@ -1783,352 +2462,456 @@ const CuePoint::TrackPosition* CuePoint::Find(const Track* pTrack) const
             return &p;
     }
 
-    return 0;  //no matching track number found
+    return NULL;  //no matching track number found
 }
 
 
-__int64 CuePoint::GetTime(Segment* pSegment) const
+long long CuePoint::GetTimeCode() const
+{
+    return m_timecode;
+}
+
+long long CuePoint::GetTime(Segment* pSegment) const
 {
     assert(pSegment);
+    assert(m_timecode >= 0);
 
     const SegmentInfo* const pInfo = pSegment->GetInfo();
     assert(pInfo);
 
-    const __int64 scale = pInfo->GetTimeCodeScale();
+    const long long scale = pInfo->GetTimeCodeScale();
     assert(scale >= 1);
 
-    const __int64 time = scale * m_timecode;
+    const long long time = scale * m_timecode;
 
     return time;
 }
 
 
-__int64 Segment::Unparsed() const
+long long Segment::Unparsed() const
 {
-    const __int64 stop = m_start + m_size;
+    const long long stop = m_start + m_size;
 
-    const __int64 result = stop - m_pos;
+    const long long result = stop - m_pos;
     assert(result >= 0);
 
     return result;
 }
 
 
-#if 0  //NOTE: too inefficient
-__int64 Segment::Load(__int64 time_ns)
+const Cluster* Segment::GetFirst() const
 {
-    if (Unparsed() <= 0)
-        return 0;
+    if ((m_clusters == NULL) || (m_clusterCount <= 0))
+       return &m_eos;
 
-    while (m_clusters.empty())
-    {
-        const __int64 result = Parse();
-
-        if (result)  //error, or not enough bytes available
-            return result;
-
-        if (Unparsed() <= 0)
-            return 0;
-    }
-
-    while (m_clusters.back()->GetTime() < time_ns)
-    {
-        const __int64 result = Parse();
-
-        if (result)  //error, or not enough bytes available
-            return result;
-
-        if (Unparsed() <= 0)
-            return 0;
-    }
-
-    return 0;
-}
-#endif
-
-
-Cluster* Segment::GetFirst()
-{
-    const Cluster::clusters_t& cc = m_clusters;
-
-    if (cc.empty())
-        return &m_eos;
-
-    Cluster* const pCluster = cc.front();
+    Cluster* const pCluster = m_clusters[0];
     assert(pCluster);
 
     return pCluster;
 }
 
 
-Cluster* Segment::GetLast()
+const Cluster* Segment::GetLast() const
 {
-    const Cluster::clusters_t& cc = m_clusters;
-
-    if (cc.empty())
+    if ((m_clusters == NULL) || (m_clusterCount <= 0))
         return &m_eos;
 
-    Cluster* const pCluster = cc.back();
+    const long idx = m_clusterCount - 1;
+
+    Cluster* const pCluster = m_clusters[idx];
     assert(pCluster);
 
     return pCluster;
 }
 
 
-ULONG Segment::GetCount() const
+unsigned long Segment::GetCount() const
 {
-    const Cluster::clusters_t::size_type result = m_clusters.size();
-    return static_cast<ULONG>(result);
+    return m_clusterCount;
 }
 
 
-Cluster* Segment::GetNext(const Cluster* pCurr)
+const Cluster* Segment::GetNext(const Cluster* pCurr)
 {
     assert(pCurr);
+    assert(pCurr != &m_eos);
+    assert(m_clusters);
 
-    Cluster::clusters_t& cc = m_clusters;
-    assert(!cc.empty());
+    long idx =  pCurr->m_index;
 
-    Cluster::index_t idx = pCurr->m_index;
-    assert(idx < cc.size());
-    assert(cc[idx] == pCurr);
+    if (idx >= 0)
+    {
+        assert(m_clusterCount > 0);
+        assert(idx < m_clusterCount);
+        assert(pCurr == m_clusters[idx]);
 
-    ++idx;
+        ++idx;
 
-    if (idx >= cc.size())
-        return &m_eos;
+        if (idx >= m_clusterCount)
+            return &m_eos;  //caller will LoadCluster as desired
 
-    Cluster* const pNext = cc[idx];
+        Cluster* const pNext = m_clusters[idx];
+        assert(pNext);
+        assert(pNext->m_index >= 0);
+        assert(pNext->m_index == idx);
+
+        return pNext;
+    }
+
+    assert(m_clusterPreloadCount > 0);
+
+    const long long off_ = pCurr->m_pos;
+    const long long off = off_ * ((off_ < 0) ? -1 : 1);
+
+    long long pos = m_start + off;
+    const long long stop = m_start + m_size;  //end of segment
+
+    {
+        long len;
+
+        long long result = GetUIntLength(m_pReader, pos, len);
+        assert(result == 0);  //TODO
+        assert((pos + len) <= stop);  //TODO
+
+        const long long id = ReadUInt(m_pReader, pos, len);
+        assert(id == 0x0F43B675);  //Cluster ID   //TODO
+
+        pos += len;  //consume ID
+
+        //Read Size
+        result = GetUIntLength(m_pReader, pos, len);
+        assert(result == 0);  //TODO
+        assert((pos + len) <= stop);  //TODO
+
+        const long long size = ReadUInt(m_pReader, pos, len);
+        assert(size > 0);  //TODO
+        assert((pCurr->m_size <= 0) || (pCurr->m_size == size));
+
+        pos += len;  //consume length of size of element
+        assert((pos + size) <= stop);  //TODO
+
+        //Pos now points to start of payload
+
+        pos += size;  //consume payload
+    }
+
+    long long off_next = 0;
+
+    while (pos < stop)
+    {
+        long len;
+
+        long long result = GetUIntLength(m_pReader, pos, len);
+        assert(result == 0);  //TODO
+        assert((pos + len) <= stop);  //TODO
+
+        const long long idpos = pos;  //pos of next (potential) cluster
+
+        const long long id = ReadUInt(m_pReader, idpos, len);
+        assert(id > 0);  //TODO
+
+        pos += len;  //consume ID
+
+        //Read Size
+        result = GetUIntLength(m_pReader, pos, len);
+        assert(result == 0);  //TODO
+        assert((pos + len) <= stop);  //TODO
+
+        const long long size = ReadUInt(m_pReader, pos, len);
+        assert(size >= 0);  //TODO
+
+        pos += len;  //consume length of size of element
+        assert((pos + size) <= stop);  //TODO
+
+        //Pos now points to start of payload
+
+        if (size == 0)  //weird
+            continue;
+
+        if (id == 0x0F43B675)  //Cluster ID
+        {
+            const long long off_next_ = idpos - m_start;
+
+            if (Cluster::HasBlockEntries(this, off_next_))
+            {
+                off_next = off_next_;
+                break;
+            }
+        }
+
+        pos += size;  //consume payload
+    }
+
+    if (off_next <= 0)
+        return 0;
+
+    Cluster** const ii = m_clusters + m_clusterCount;
+    Cluster** i = ii;
+
+    Cluster** const jj = ii + m_clusterPreloadCount;
+    Cluster** j = jj;
+
+    while (i < j)
+    {
+        //INVARIANT:
+        //[0, i) < pos_next
+        //[i, j) ?
+        //[j, jj)  > pos_next
+
+        Cluster** const k = i + (j - i) / 2;
+        assert(k < jj);
+
+        Cluster* const pNext = *k;
+        assert(pNext);
+        assert(pNext->m_index < 0);
+
+        const long long pos_ = pNext->m_pos;
+        assert(pos_);
+
+        pos = pos_ * ((pos_ < 0) ? -1 : 1);
+
+        if (pos < off_next)
+            i = k + 1;
+        else if (pos > off_next)
+            j = k;
+        else
+            return pNext;
+    }
+
+    assert(i == j);
+
+    Cluster* const pNext = Cluster::Parse(this, -1, off_next);
     assert(pNext);
+
+    const ptrdiff_t idx_next = i - m_clusters;  //insertion position
+
+    PreloadCluster(pNext, idx_next);
+    assert(m_clusters);
+    assert(idx_next < m_clusterSize);
+    assert(m_clusters[idx_next] == pNext);
 
     return pNext;
 }
 
 
-Cluster* Segment::GetPrevious(const Cluster* pCurr)
+const Cluster* Segment::FindCluster(long long time_ns) const
 {
-    assert(pCurr);
-
-    Cluster::clusters_t& cc = m_clusters;
-    assert(!cc.empty());
-
-    Cluster::index_t idx = pCurr->m_index;
-    assert(idx < cc.size());
-    assert(cc[idx] == pCurr);
-
-    if (idx == 0)
-        return 0;  //no previous cluster
-
-    Cluster* const pPrev = cc[--idx];
-    assert(pPrev);
-    assert(pPrev->m_index == idx);
-
-    return pPrev;
-}
-
-
-Cluster* Segment::GetCluster(__int64 time_ns)
-{
-    if (m_clusters.empty())
+    if ((m_clusters == NULL) || (m_clusterCount <= 0))
         return &m_eos;
 
-    typedef Cluster::clusters_t::const_iterator iter_t;
-
-    const iter_t i = m_clusters.begin();
-
     {
-        Cluster* const pCluster = *i;
+        Cluster* const pCluster = m_clusters[0];
         assert(pCluster);
+        assert(pCluster->m_index == 0);
 
         if (time_ns <= pCluster->GetTime())
             return pCluster;
     }
 
-    const iter_t j = m_clusters.end();
+    //Binary search of cluster array
 
-    const iter_t k = std::upper_bound(i, j, time_ns, Cluster::CompareTime());
-    assert(k != i);
+    long i = 0;
+    long j = m_clusterCount;
 
-    Cluster* const pCluster = *--iter_t(k);
+    while (i < j)
+    {
+        //INVARIANT:
+        //[0, i) <= time_ns
+        //[i, j) ?
+        //[j, m_clusterCount)  > time_ns
+
+        const long k = i + (j - i) / 2;
+        assert(k < m_clusterCount);
+
+        Cluster* const pCluster = m_clusters[k];
+        assert(pCluster);
+        assert(pCluster->m_index == k);
+
+        const long long t = pCluster->GetTime();
+
+        if (t <= time_ns)
+            i = k + 1;
+        else
+            j = k;
+
+        assert(i <= j);
+    }
+
+    assert(i == j);
+    assert(i > 0);
+    assert(i <= m_clusterCount);
+
+    const long k = i - 1;
+
+    Cluster* const pCluster = m_clusters[k];
     assert(pCluster);
+    assert(pCluster->m_index == k);
     assert(pCluster->GetTime() <= time_ns);
 
     return pCluster;
 }
 
 
-void Segment::GetCluster(
-    __int64 time_ns,
-    Track* pTrack,
-    Cluster*& pCluster,
-    const BlockEntry*& pBlockEntry)
+#if 0
+const BlockEntry* Segment::Seek(
+    long long time_ns,
+    const Track* pTrack) const
 {
     assert(pTrack);
 
-    if (m_clusters.empty())
-    {
-        pCluster = &m_eos;
-        pBlockEntry = pTrack->GetEOS();
+    if ((m_clusters == NULL) || (m_clusterCount <= 0))
+        return pTrack->GetEOS();
 
-        return;
-    }
-
-    typedef Cluster::clusters_t::const_iterator iter_t;
-
-    const iter_t i = m_clusters.begin();
+    Cluster** const i = m_clusters;
+    assert(i);
 
     {
-        pCluster = *i;
+        Cluster* const pCluster = *i;
         assert(pCluster);
+        assert(pCluster->m_index == 0);  //m_clusterCount > 0
+        assert(pCluster->m_pSegment == this);
 
         if (time_ns <= pCluster->GetTime())
-        {
-            pBlockEntry = pCluster->GetEntry(pTrack);
-            return;
-        }
+            return pCluster->GetEntry(pTrack);
     }
 
-    const iter_t j = m_clusters.end();
+    Cluster** const j = i + m_clusterCount;
 
     if (pTrack->GetType() == 2)  //audio
     {
         //TODO: we could decide to use cues for this, as we do for video.
         //But we only use it for video because looking around for a keyframe
-        //can get expensive.  Audio doesn't require anything special we a
+        //can get expensive.  Audio doesn't require anything special so a
         //straight cluster search is good enough (we assume).
 
-        iter_t k = std::upper_bound(i, j, time_ns, Cluster::CompareTime());
-        assert(k != i);
+        Cluster** lo = i;
+        Cluster** hi = j;
 
-        pCluster = *--k;
-        assert(pCluster);
-        assert(pCluster->GetTime() <= time_ns);
+        while (lo < hi)
+        {
+            //INVARIANT:
+            //[i, lo) <= time_ns
+            //[lo, hi) ?
+            //[hi, j)  > time_ns
 
-        pBlockEntry = pCluster->GetEntry(pTrack);
-        return;
+            Cluster** const mid = lo + (hi - lo) / 2;
+            assert(mid < hi);
+
+            Cluster* const pCluster = *mid;
+            assert(pCluster);
+            assert(pCluster->m_index == long(mid - m_clusters));
+            assert(pCluster->m_pSegment == this);
+
+            const long long t = pCluster->GetTime();
+
+            if (t <= time_ns)
+                lo = mid + 1;
+            else
+                hi = mid;
+
+            assert(lo <= hi);
+        }
+
+        assert(lo == hi);
+        assert(lo > i);
+        assert(lo <= j);
+
+        while (lo > i)
+        {
+            Cluster* const pCluster = *--lo;
+            assert(pCluster);
+            assert(pCluster->GetTime() <= time_ns);
+
+            const BlockEntry* const pBE = pCluster->GetEntry(pTrack);
+
+            if ((pBE != 0) && !pBE->EOS())
+                return pBE;
+
+            //landed on empty cluster (no entries)
+        }
+
+        return pTrack->GetEOS();  //weird
     }
 
     assert(pTrack->GetType() == 1);  //video
 
-    if (SearchCues(time_ns, pTrack, pCluster, pBlockEntry))
-        return;
+    Cluster** lo = i;
+    Cluster** hi = j;
 
-    iter_t k = std::upper_bound(i, j, time_ns, Cluster::CompareTime());
-    assert(k != i);
+    while (lo < hi)
+    {
+        //INVARIANT:
+        //[i, lo) <= time_ns
+        //[lo, hi) ?
+        //[hi, j)  > time_ns
 
-    pCluster = *--k;
+        Cluster** const mid = lo + (hi - lo) / 2;
+        assert(mid < hi);
+
+        Cluster* const pCluster = *mid;
+        assert(pCluster);
+
+        const long long t = pCluster->GetTime();
+
+        if (t <= time_ns)
+            lo = mid + 1;
+        else
+            hi = mid;
+
+        assert(lo <= hi);
+    }
+
+    assert(lo == hi);
+    assert(lo > i);
+    assert(lo <= j);
+
+    Cluster* pCluster = *--lo;
     assert(pCluster);
     assert(pCluster->GetTime() <= time_ns);
 
     {
-        pBlockEntry = pCluster->GetEntry(pTrack);
-        assert(pBlockEntry);
+        const BlockEntry* const pBE = pCluster->GetEntry(pTrack, time_ns);
 
-        if (!pBlockEntry->EOS())  //found a keyframe
-        {
-            const Block* const pBlock = pBlockEntry->GetBlock();
-            assert(pBlock);
-
-            //TODO: this isn't necessarily the keyframe we want,
-            //since there might another keyframe on this same
-            //cluster with a greater timecode that but that is
-            //still less than the requested time.  For now we
-            //simply return the first keyframe we find.
-
-            if (pBlock->GetTime(pCluster) <= time_ns)
-                return;
-        }
+        if ((pBE != 0) && !pBE->EOS())  //found a keyframe
+            return pBE;
     }
 
-    const VideoTrack* const pVideo = static_cast<VideoTrack*>(pTrack);
+    const VideoTrack* const pVideo = static_cast<const VideoTrack*>(pTrack);
 
-    while (k != i)
+    while (lo != i)
     {
-#if 0
-        const LONGLONG dt = time_ns - pCluster->GetTime();
-        assert(dt >= 0);
-
-        if (dt >= 33000000000)  //33 sec
-            k = i;  //don't bother searching anymore
-        else
-            --k;    //try previous cluster
-
-        pCluster = *k;
+        pCluster = *--lo;
         assert(pCluster);
         assert(pCluster->GetTime() <= time_ns);
 
-        pBlockEntry = pCluster->GetEntry(pTrack);
-        assert(pBlockEntry);
+        const BlockEntry* const pBlockEntry = pCluster->GetMaxKey(pVideo);
 
-        if (!pBlockEntry->EOS())
-            return;
-#else
-        pCluster = *--k;
-        assert(pCluster);
-        assert(pCluster->GetTime() <= time_ns);
-
-        pBlockEntry = pCluster->GetMaxKey(pVideo);
-        assert(pBlockEntry);
-
-        if (!pBlockEntry->EOS())
-            return;
-#endif
+        if ((pBlockEntry != 0) && !pBlockEntry->EOS())
+            return pBlockEntry;
     }
 
     //weird: we're on the first cluster, but no keyframe found
     //should never happen but we must return something anyway
 
-    pCluster = &m_eos;
-    pBlockEntry = pTrack->GetEOS();
+    return pTrack->GetEOS();
 }
+#endif
 
 
+#if 0
 bool Segment::SearchCues(
-    __int64 time_ns_,
+    long long time_ns,
     Track* pTrack,
     Cluster*& pCluster,
-    const BlockEntry*& pBlockEntry)
+    const BlockEntry*& pBlockEntry,
+    const CuePoint*& pCP,
+    const CuePoint::TrackPosition*& pTP)
 {
-    if (m_pCues == 0)
+    if (pTrack->GetType() != 1)  //not video
+        return false;  //TODO: for now, just handle video stream
+
+    if (m_pCues == NULL)
         return false;
-
-    if (m_clusters.empty())
-        return false;
-
-    //TODO:
-    //search among cuepoints for time
-    //if time is less then what's already loaded then
-    //  return that cluster and we're done
-    //else (time is greater than what's loaded)
-    //  if time isn't "too far into the future" then
-    //     pre-load the necessary clusters
-    //     return that cluster and we're done
-    //  else
-    //     find (earlier) cue point corresponding to something
-    //       already loaded in cache, and return that
-
-    Cluster* const pLastCluster = m_clusters.back();
-    assert(pLastCluster);
-    assert(pLastCluster->m_pos);
-
-    const __int64 last_pos = _abs64(pLastCluster->m_pos);
-    last_pos;
-    
-    const __int64 last_ns = pLastCluster->GetTime();
-
-    __int64 time_ns;
-
-    if (Unparsed() <= 0)  //all clusters loaded
-        time_ns = time_ns_;
-
-    else if (time_ns_ < last_ns)
-        time_ns = time_ns_;
-
-    else
-        time_ns = last_ns;
-
-    const CuePoint* pCP;
-    const CuePoint::TrackPosition* pTP;
 
     if (!m_pCues->Find(time_ns, pTrack, pCP, pTP))
         return false;  //weird
@@ -2136,33 +2919,17 @@ bool Segment::SearchCues(
     assert(pCP);
     assert(pTP);
     assert(pTP->m_track == pTrack->GetNumber());
-    assert(pTP->m_pos <= last_pos);
 
-    typedef Cluster::clusters_t::const_iterator iter_t;
+    //We have the cue point and track position we want,
+    //so we now need to search for the cluster having
+    //the indicated position.
 
-    const iter_t i = m_clusters.begin();
-    assert(pTP->m_pos >= _abs64((*i)->m_pos));
-
-    const iter_t j = m_clusters.end();
-
-    const Cluster::ComparePos pred;
-
-    const iter_t k = std::upper_bound(i, j, pTP->m_pos, pred);
-    assert(k != i);
-
-    pCluster = *--iter_t(k);
-    assert(pCluster);
-    assert(pCluster->m_pos);
-    assert(_abs64(pCluster->m_pos) == pTP->m_pos);
-
-    pBlockEntry = pCluster->GetEntry(*pCP, *pTP);
-    assert(pBlockEntry);
-
-    return true;
+    return GetCluster(pCP, pTP, pCluster, pBlockEntry);
 }
+#endif
 
 
-const Tracks* Segment::GetTracks() const
+Tracks* Segment::GetTracks() const
 {
     return m_pTracks;
 }
@@ -2180,53 +2947,59 @@ const Cues* Segment::GetCues() const
 }
 
 
-__int64 Segment::GetDuration() const
+long long Segment::GetDuration() const
 {
     assert(m_pInfo);
     return m_pInfo->GetDuration();
 }
 
 
-SegmentInfo::SegmentInfo(Segment* pSegment, __int64 start, __int64 size_) :
+SegmentInfo::SegmentInfo(Segment* pSegment, long long start, long long size_) :
     m_pSegment(pSegment),
     m_start(start),
-    m_size(size_)
+    m_size(size_),
+    m_pMuxingAppAsUTF8(NULL),
+    m_pWritingAppAsUTF8(NULL),
+    m_pTitleAsUTF8(NULL)
 {
-    IMkvFile* const pFile = m_pSegment->m_pFile;
+    IMkvReader* const pReader = m_pSegment->m_pReader;
 
-    __int64 pos = start;
-    const __int64 stop = start + size_;
+    long long pos = start;
+    const long long stop = start + size_;
 
     m_timecodeScale = 1000000;
-    m_duration = 0;
+    m_duration = -1;
 
     while (pos < stop)
     {
-        if (Match(pFile, pos, 0x0AD7B1, m_timecodeScale))
+        if (Match(pReader, pos, 0x0AD7B1, m_timecodeScale))
             assert(m_timecodeScale > 0);
 
-        else if (Match(pFile, pos, 0x0489, m_duration))
+        else if (Match(pReader, pos, 0x0489, m_duration))
             assert(m_duration >= 0);
 
-        else if (Match(pFile, pos, 0x0D80, m_muxingApp))
-            m_muxingApp;
+        else if (Match(pReader, pos, 0x0D80, m_pMuxingAppAsUTF8))   //[4D][80]
+            assert(m_pMuxingAppAsUTF8);
 
-        else if (Match(pFile, pos, 0x1741, m_writingApp))
-            m_writingApp;
+        else if (Match(pReader, pos, 0x1741, m_pWritingAppAsUTF8))  //[57][41]
+            assert(m_pWritingAppAsUTF8);
+
+        else if (Match(pReader, pos, 0x3BA9, m_pTitleAsUTF8))       //[7B][A9]
+            assert(m_pTitleAsUTF8);
 
         else
         {
             long len;
 
-            const __int64 id = ReadUInt(pFile, pos, len);
-            id;
+            const long long id = ReadUInt(pReader, pos, len);
+            //id;
             assert(id >= 0);
             assert((pos + len) <= stop);
 
             pos += len;  //consume id
             assert((stop - pos) > 0);
 
-            const __int64 size = ReadUInt(pFile, pos, len);
+            const long long size = ReadUInt(pReader, pos, len);
             assert(size >= 0);
             assert((pos + len) <= stop);
 
@@ -2238,42 +3011,61 @@ SegmentInfo::SegmentInfo(Segment* pSegment, __int64 start, __int64 size_) :
     assert(pos == stop);
 }
 
+SegmentInfo::~SegmentInfo()
+{
+    if (m_pMuxingAppAsUTF8)
+    {
+        delete[] m_pMuxingAppAsUTF8;
+        m_pMuxingAppAsUTF8 = NULL;
+    }
 
-__int64 SegmentInfo::GetTimeCodeScale() const
+    if (m_pWritingAppAsUTF8)
+    {
+        delete[] m_pWritingAppAsUTF8;
+        m_pWritingAppAsUTF8 = NULL;
+    }
+
+    if (m_pTitleAsUTF8)
+    {
+        delete[] m_pTitleAsUTF8;
+        m_pTitleAsUTF8 = NULL;
+    }
+}
+
+long long SegmentInfo::GetTimeCodeScale() const
 {
     return m_timecodeScale;
 }
 
 
-__int64 SegmentInfo::GetDuration() const
+long long SegmentInfo::GetDuration() const
 {
-    assert(m_duration >= 0);
+    if (m_duration < 0)
+        return -1;
+
     assert(m_timecodeScale >= 1);
 
     const double dd = double(m_duration) * double(m_timecodeScale);
-    const __int64 d = static_cast<__int64>(dd);
+    const long long d = static_cast<long long>(dd);
 
     return d;
 }
 
-
-const wchar_t* SegmentInfo::GetMuxingApp() const
+const char* SegmentInfo::GetMuxingAppAsUTF8() const
 {
-    if (m_muxingApp.empty())
-        return 0;
-
-    return m_muxingApp.c_str();
+    return m_pMuxingAppAsUTF8;
 }
 
 
-const wchar_t* SegmentInfo::GetWritingApp() const
+const char* SegmentInfo::GetWritingAppAsUTF8() const
 {
-    if (m_writingApp.empty())
-        return 0;
-
-    return m_writingApp.c_str();
+    return m_pWritingAppAsUTF8;
 }
 
+const char* SegmentInfo::GetTitleAsUTF8() const
+{
+    return m_pTitleAsUTF8;
+}
 
 Track::Track(Segment* pSegment, const Info& i) :
     m_pSegment(pSegment),
@@ -2281,254 +3073,226 @@ Track::Track(Segment* pSegment, const Info& i) :
 {
 }
 
-
 Track::~Track()
+{
+    Info& info = const_cast<Info&>(m_info);
+    info.Clear();
+}
+
+Track::Info::Info():
+    type(-1),
+    number(-1),
+    uid(ULLONG_MAX),
+    nameAsUTF8(NULL),
+    codecId(NULL),
+    codecPrivate(NULL),
+    codecPrivateSize(0),
+    codecNameAsUTF8(NULL)
 {
 }
 
+
+void Track::Info::Clear()
+{
+    delete[] nameAsUTF8;
+    nameAsUTF8 = NULL;
+
+    delete[] codecId;
+    codecId = NULL;
+
+    delete[] codecPrivate;
+    codecPrivate = NULL;
+
+    codecPrivateSize = 0;
+
+    delete[] codecNameAsUTF8;
+    codecNameAsUTF8 = NULL;
+}
 
 const BlockEntry* Track::GetEOS() const
 {
     return &m_eos;
 }
 
-
-BYTE Track::GetType() const
+long long Track::GetType() const
 {
-    assert(m_info.type >= 1);
-    assert(m_info.type <= 2);  //TODO
-
-    const BYTE result = static_cast<BYTE>(m_info.type);
-    return result;
+    return m_info.type;
 }
 
-
-ULONG Track::GetNumber() const
+long long Track::GetNumber() const
 {
-    assert(m_info.number >= 0);
-    const ULONG result = static_cast<ULONG>(m_info.number);
-    return result;
+    return m_info.number;
 }
 
-
-const wchar_t* Track::GetName() const
+unsigned long long Track::GetUid() const
 {
-    if (m_info.name.empty())
-        return 0;
-
-    return m_info.name.c_str();
+    return m_info.uid;
 }
 
-
-const wchar_t* Track::GetCodecName() const
+const char* Track::GetNameAsUTF8() const
 {
-    if (m_info.codecName.empty())
-        return 0;
+    return m_info.nameAsUTF8;
+}
 
-    return m_info.codecName.c_str();
+const char* Track::GetCodecNameAsUTF8() const
+{
+    return m_info.codecNameAsUTF8;
 }
 
 
 const char* Track::GetCodecId() const
 {
-    if (m_info.codecId.empty())
-        return 0;
-
-    return m_info.codecId.c_str();
+    return m_info.codecId;
 }
 
-
-const bytes_t& Track::GetCodecPrivate() const
+const unsigned char* Track::GetCodecPrivate(size_t& size) const
 {
+    size = m_info.codecPrivateSize;
     return m_info.codecPrivate;
 }
 
 
-HRESULT Track::GetFirst(const BlockEntry*& pBlockEntry) const
+bool Track::GetLacing() const
 {
-    Cluster* pCluster = m_pSegment->GetFirst();
+    return m_info.lacing;
+}
 
-    for (int i = 0; i < 100; ++i)  //arbitrary upper bound to search
+
+long Track::GetFirst(const BlockEntry*& pBlockEntry) const
+{
+    const Cluster* pCluster = m_pSegment->GetFirst();
+
+    for (int i = 0; ; )
     {
-        if ((pCluster == 0) || pCluster->EOS())
+        if (pCluster == NULL)
         {
-            if (m_pSegment->Unparsed() <= 0)   //all clusters have been loaded
+            pBlockEntry = GetEOS();
+            return 1;
+        }
+
+        if (pCluster->EOS())
+        {
+            if (m_pSegment->Unparsed() <= 0)  //all clusters have been loaded
             {
                 pBlockEntry = GetEOS();
-                return S_FALSE;
+                return 1;
             }
 
             pBlockEntry = 0;
-            return VFW_E_BUFFER_UNDERFLOW;
+            return E_BUFFER_NOT_FULL;
         }
 
         pBlockEntry = pCluster->GetFirst();
 
-        while (pBlockEntry)
+        if (pBlockEntry == 0)  //empty cluster
+        {
+            pCluster = m_pSegment->GetNext(pCluster);
+            continue;
+        }
+
+        for (;;)
         {
             const Block* const pBlock = pBlockEntry->GetBlock();
             assert(pBlock);
 
-            if (pBlock->GetNumber() == m_info.number)
-                return S_OK;
+            const long long tn = pBlock->GetTrackNumber();
+
+            if ((tn == m_info.number) && VetEntry(pBlockEntry))
+                return 0;
 
             pBlockEntry = pCluster->GetNext(pBlockEntry);
+
+            if (pBlockEntry == 0)
+                break;
         }
+
+        ++i;
+
+        if (i >= 100)
+            break;
 
         pCluster = m_pSegment->GetNext(pCluster);
     }
 
     //NOTE: if we get here, it means that we didn't find a block with
-    //a matching track number after lots of searching, so we give
-    //up trying.
+    //a matching track number.  We interpret that as an error (which
+    //might be too conservative).
 
     pBlockEntry = GetEOS();  //so we can return a non-NULL value
-    return S_FALSE;
+    return 1;
 }
 
 
-HRESULT Track::GetNextBlock(
+long Track::GetNext(
     const BlockEntry* pCurrEntry,
     const BlockEntry*& pNextEntry) const
 {
     assert(pCurrEntry);
     assert(!pCurrEntry->EOS());  //?
-    assert(pCurrEntry->GetBlock()->GetNumber() == m_info.number);
 
-#if 0
-    const Cluster* const pCurrCluster = pCurrEntry->GetCluster();
-    assert(pCurrCluster);
-    assert(!pCurrCluster->EOS());
+    const Block* const pCurrBlock = pCurrEntry->GetBlock();
+    assert(pCurrBlock->GetTrackNumber() == m_info.number);
 
-    pNextEntry = pCurrCluster->GetNext(pCurrEntry);
-
-    while (pNextEntry)
-    {
-        const Block* const pNextBlock = pNextEntry->GetBlock();
-        assert(pNextBlock);
-
-        if (pNextBlock->GetNumber() == m_info.number)
-            return S_OK;
-
-        pNextEntry = pCurrCluster->GetNext(pNextEntry);
-    }
-
-    Segment* pSegment = pCurrCluster->m_pSegment;
-    Cluster* const pNextCluster = pSegment->GetNext(pCurrCluster);
-
-    if ((pNextCluster == 0) || pNextCluster->EOS())
-    {
-        if (pSegment->Unparsed() <= 0)   //all clusters have been loaded
-        {
-            pNextEntry = GetEOS();
-            return S_FALSE;
-        }
-
-        pNextEntry = 0;
-        return VFW_E_BUFFER_UNDERFLOW;
-    }
-
-    pNextEntry = pNextCluster->GetFirst();
-
-    while (pNextEntry)
-    {
-        const Block* const pNextBlock = pNextEntry->GetBlock();
-        assert(pNextBlock);
-
-        if (pNextBlock->GetNumber() == m_info.number)
-            return S_OK;
-
-        pNextEntry = pNextCluster->GetNext(pNextEntry);
-    }
-
-    //TODO: what has happened here is that we did not find a block
-    //with a matching track number on the next cluster.  It might
-    //be the case that some cluster beyond the next cluster
-    //contains a block having a matching track number, but for
-    //now we terminate the search immediately.  We do this so that
-    //we don't end up searching the entire file looking for the
-    //next block.  Another possibility is to try searching for the next
-    //block in a small, fixed number of clusters (intead searching
-    //just the next one), or to terminate the search when when the
-    //there is a large gap in time, or large gap in file position.  It
-    //might very well be the case that the approach we use here is
-    //unnecessarily conservative.
-
-    //TODO: again, here's a case where we need to return the special
-    //EOS block.  Or something.  It's OK if pNext is NULL, because
-    //we only need it to set the stop time of the media sample.
-    //(The start time is determined from pCurr, which is non-NULL
-    //and non-EOS.)  The problem is when we set pCurr=pNext; when
-    //pCurr has the value NULL we interpret that to mean that we
-    //haven't fully initialized pCurr and we attempt to set it to
-    //point to the first block for this track.  But that's not what
-    //we want at all; we want the next call to PopulateSample to
-    //return end-of-stream, not (re)start from the beginning.
-    //
-    //One work-around is to send EOS immediately.  We would send
-    //the EOS the next pass anyway, so maybe it's no great loss.  The
-    //only problem is that if this the stream really does end one
-    //cluster early (relative to other tracks), or the last frame
-    //happens to be a keyframe ("CanSeekToEnd").
-    //
-    //The problem is that we need a way to mark as stream as
-    //"at end of stream" without actually being at end of stream.
-    //We need to give pCurr some value that means "you've reached EOS".
-    //We can't synthesize the special EOS Cluster immediately
-    //(when we first open the file, say), because we use the existance
-    //of that special cluster value to mean that we've read all of
-    //the clusters (this is a network download, so we can't know apriori
-    //how many we have).
-    //
-    //Or, we could return E_FAIL, and set another bit in the stream
-    //object itself, to indicate that it should send EOS earlier
-    //than when (pCurr=pStop).
-    //
-    //Or, probably the best solution, when we actually load the
-    //blocks into a cluster: if we notice that there's no block
-    //for a track, we synthesize a nonce EOS block for that track.
-    //That way we always have something to return.  But that will
-    //only work for sequential scan???
-
-    //pNext = 0;
-    //return E_FAIL;
-    pNextEntry = GetEOS();
-    return S_FALSE;
-#else
-    Cluster* pCluster = pCurrEntry->GetCluster();
+    const Cluster* pCluster = pCurrEntry->GetCluster();
     assert(pCluster);
     assert(!pCluster->EOS());
 
     pNextEntry = pCluster->GetNext(pCurrEntry);
 
-    for (int i = 0; i < 100; ++i)  //arbitrary upper bound to search
+    for (int i = 0; ; )
     {
         while (pNextEntry)
         {
             const Block* const pNextBlock = pNextEntry->GetBlock();
             assert(pNextBlock);
 
-            if (pNextBlock->GetNumber() == m_info.number)
-                return S_OK;
+            if (pNextBlock->GetTrackNumber() == m_info.number)
+                return 0;
 
             pNextEntry = pCluster->GetNext(pNextEntry);
         }
 
         pCluster = m_pSegment->GetNext(pCluster);
 
-        if ((pCluster == 0) || pCluster->EOS())
+        if (pCluster == NULL)
+        {
+            pNextEntry = GetEOS();
+            return 1;
+        }
+
+        if (pCluster->EOS())
         {
             if (m_pSegment->Unparsed() <= 0)   //all clusters have been loaded
             {
                 pNextEntry = GetEOS();
-                return S_FALSE;
+                return 1;
             }
 
-            pNextEntry = 0;
-            return VFW_E_BUFFER_UNDERFLOW;
+            //TODO: there is a potential O(n^2) problem here: we tell the
+            //caller to (pre)load another cluster, which he does, but then he
+            //calls GetNext again, which repeats the same search.  This is
+            //a pathological case, since the only way it can happen is if
+            //there exists a long sequence of clusters none of which contain a
+            // block from this track.  One way around this problem is for the
+            //caller to be smarter when he loads another cluster: don't call
+            //us back until you have a cluster that contains a block from this
+            //track. (Of course, that's not cheap either, since our caller
+            //would have to scan the each cluster as it's loaded, so that
+            //would just push back the problem.)
+
+            pNextEntry = NULL;
+            return E_BUFFER_NOT_FULL;
         }
 
         pNextEntry = pCluster->GetFirst();
+
+        if (pNextEntry == NULL)  //empty cluster
+            continue;
+
+        ++i;
+
+        if (i >= 100)
+            break;
     }
 
     //NOTE: if we get here, it means that we didn't find a block with
@@ -2536,8 +3300,7 @@ HRESULT Track::GetNextBlock(
     //up trying.
 
     pNextEntry = GetEOS();  //so we can return a non-NULL value
-    return S_FALSE;
-#endif
+    return 1;
 }
 
 
@@ -2552,13 +3315,13 @@ bool Track::EOSBlock::EOS() const
 }
 
 
-Cluster* Track::EOSBlock::GetCluster() const
+const Cluster* Track::EOSBlock::GetCluster() const
 {
-    return 0;
+    return NULL;
 }
 
 
-BlockEntry::index_t Track::EOSBlock::GetIndex() const
+size_t Track::EOSBlock::GetIndex() const
 {
     return 0;
 }
@@ -2566,7 +3329,7 @@ BlockEntry::index_t Track::EOSBlock::GetIndex() const
 
 const Block* Track::EOSBlock::GetBlock() const
 {
-    return 0;
+    return NULL;
 }
 
 
@@ -2585,45 +3348,41 @@ VideoTrack::VideoTrack(Segment* pSegment, const Info& i) :
     assert(i.type == 1);
     assert(i.number > 0);
 
-    IMkvFile* const pFile = pSegment->m_pFile;
+    IMkvReader* const pReader = pSegment->m_pReader;
 
     const Settings& s = i.settings;
     assert(s.start >= 0);
     assert(s.size >= 0);
 
-    __int64 pos = s.start;
+    long long pos = s.start;
     assert(pos >= 0);
 
-    const __int64 stop = pos + s.size;
+    const long long stop = pos + s.size;
 
     while (pos < stop)
     {
 #ifdef _DEBUG
         long len;
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         assert(id >= 0);  //TODO: handle error case
         assert((pos + len) <= stop);
 #endif
-        if (Match(pFile, pos, 0x30, m_width))
-            __noop;
-
-        else if (Match(pFile, pos, 0x3A, m_height))
-            __noop;
-
-        else if (Match(pFile, pos, 0x0383E3, m_rate))
-            __noop;
-
+        if (Match(pReader, pos, 0x30, m_width))
+            ;
+        else if (Match(pReader, pos, 0x3A, m_height))
+            ;
+        else if (Match(pReader, pos, 0x0383E3, m_rate))
+            ;
         else
         {
             long len;
-            const __int64 id = ReadUInt(pFile, pos, len);
-            id;
+            const long long id = ReadUInt(pReader, pos, len);
             assert(id >= 0);  //TODO: handle error case
             assert((pos + len) <= stop);
 
             pos += len;  //consume id
 
-            const __int64 size = ReadUInt(pFile, pos, len);
+            const long long size = ReadUInt(pReader, pos, len);
             assert(size >= 0);  //TODO: handle error case
             assert((pos + len) <= stop);
 
@@ -2641,57 +3400,118 @@ VideoTrack::VideoTrack(Segment* pSegment, const Info& i) :
 }
 
 
-HRESULT VideoTrack::GetNextTime(
-    const BlockEntry* pCurr,
-    const BlockEntry* pNext,
-    const BlockEntry*& pTime) const
-{
-    assert(pCurr);
-    assert(!pCurr->EOS());
-    assert(pNext);
-    assert(pCurr != pNext);
-
-    for (;;)
-    {
-        if (pNext->EOS() || !pNext->IsBFrame())
-        {
-            pTime = pNext;
-            return S_OK;
-        }
-
-        pCurr = pNext;
-
-        const HRESULT hr = GetNextBlock(pCurr, pNext);
-
-        if (FAILED(hr))
-            return hr;  //underflow
-
-        assert(pNext);
-    }
-}
-
-
 bool VideoTrack::VetEntry(const BlockEntry* pBlockEntry) const
 {
-    pBlockEntry;
     assert(pBlockEntry);
 
     const Block* const pBlock = pBlockEntry->GetBlock();
     assert(pBlock);
-    assert(pBlock->GetNumber() == m_info.number);
+    assert(pBlock->GetTrackNumber() == m_info.number);
 
     return pBlock->IsKey();
 }
 
 
+long VideoTrack::Seek(
+    long long time_ns,
+    const BlockEntry*& pResult) const
+{
+    const long status = GetFirst(pResult);
 
-__int64 VideoTrack::GetWidth() const
+    if (status < 0)  //buffer underflow, etc
+        return status;
+
+    assert(pResult);
+
+    if (pResult->EOS())
+        return 0;
+
+    const Cluster* pCluster = pResult->GetCluster();
+    assert(pCluster);
+
+    if (time_ns <= pResult->GetBlock()->GetTime(pCluster))
+        return 0;
+
+    Cluster** const clusters = m_pSegment->m_clusters;
+    assert(clusters);
+
+    const long count = m_pSegment->GetCount();
+    assert(count > 0);
+
+    Cluster** const i = clusters + pCluster->m_index;
+    assert(i);
+    assert(*i == pCluster);
+    assert(pCluster->GetTime() <= time_ns);
+
+    Cluster** const j = clusters + count;
+
+    Cluster** lo = i;
+    Cluster** hi = j;
+
+    while (lo < hi)
+    {
+        //INVARIANT:
+        //[i, lo) <= time_ns
+        //[lo, hi) ?
+        //[hi, j)  > time_ns
+
+        Cluster** const mid = lo + (hi - lo) / 2;
+        assert(mid < hi);
+
+        pCluster = *mid;
+        assert(pCluster);
+        assert(pCluster->m_index == long(mid - m_pSegment->m_clusters));
+
+        const long long t = pCluster->GetTime();
+
+        if (t <= time_ns)
+            lo = mid + 1;
+        else
+            hi = mid;
+
+        assert(lo <= hi);
+    }
+
+    assert(lo == hi);
+    assert(lo > i);
+    assert(lo <= j);
+
+    pCluster = *--lo;
+    assert(pCluster);
+    assert(pCluster->GetTime() <= time_ns);
+
+    pResult = pCluster->GetEntry(this, time_ns);
+
+    if ((pResult != 0) && !pResult->EOS())  //found a keyframe
+        return 0;
+
+    while (lo != i)
+    {
+        pCluster = *--lo;
+        assert(pCluster);
+        assert(pCluster->GetTime() <= time_ns);
+
+        pResult = pCluster->GetMaxKey(this);
+
+        if ((pResult != 0) && !pResult->EOS())
+            return 0;
+    }
+
+    //weird: we're on the first cluster, but no keyframe found
+    //should never happen but we must return something anyway
+
+    pResult = GetEOS();
+    return 0;
+}
+
+
+long long VideoTrack::GetWidth() const
 {
     return m_width;
 }
 
 
-__int64 VideoTrack::GetHeight() const
+long long VideoTrack::GetHeight() const
 {
     return m_height;
 }
@@ -2705,52 +3525,48 @@ double VideoTrack::GetFrameRate() const
 
 AudioTrack::AudioTrack(Segment* pSegment, const Info& i) :
     Track(pSegment, i),
-    m_rate(8000),
-    m_channels(1),
-    m_bit_depth(-1)
+    m_rate(0.0),
+    m_channels(0),
+    m_bitDepth(-1)
 {
     assert(i.type == 2);
     assert(i.number > 0);
 
-    IMkvFile* const pFile = pSegment->m_pFile;
+    IMkvReader* const pReader = pSegment->m_pReader;
 
     const Settings& s = i.settings;
     assert(s.start >= 0);
     assert(s.size >= 0);
 
-    __int64 pos = s.start;
+    long long pos = s.start;
     assert(pos >= 0);
 
-    const __int64 stop = pos + s.size;
+    const long long stop = pos + s.size;
 
     while (pos < stop)
     {
 #ifdef _DEBUG
         long len;
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         assert(id >= 0);  //TODO: handle error case
         assert((pos + len) <= stop);
 #endif
-        if (Match(pFile, pos, 0x35, m_rate))
-            assert(m_rate > 0);
-
-        else if (Match(pFile, pos, 0x1F, m_channels))
-            assert(m_channels > 0);
-
-        else if (Match(pFile, pos, 0x2264, m_bit_depth))
-            assert(m_bit_depth > 0);
-
+        if (Match(pReader, pos, 0x35, m_rate))
+            ;
+        else if (Match(pReader, pos, 0x1F, m_channels))
+            ;
+        else if (Match(pReader, pos, 0x2264, m_bitDepth))
+            ;
         else
         {
             long len;
-            const __int64 id = ReadUInt(pFile, pos, len);
-            id;
+            const long long id = ReadUInt(pReader, pos, len);
             assert(id >= 0);  //TODO: handle error case
             assert((pos + len) <= stop);
 
             pos += len;  //consume id
 
-            const __int64 size = ReadUInt(pFile, pos, len);
+            const long long size = ReadUInt(pReader, pos, len);
             assert(size >= 0);  //TODO: handle error case
             assert((pos + len) <= stop);
 
@@ -2768,33 +3584,98 @@ AudioTrack::AudioTrack(Segment* pSegment, const Info& i) :
 }
 
 
-HRESULT AudioTrack::GetNextTime(
-    const BlockEntry* pCurr,
-    const BlockEntry* pNextBlock,
-    const BlockEntry*& pNextTime) const
-{
-    pCurr;
-    assert(pCurr);
-    assert(!pCurr->EOS());
-    assert(pNextBlock);
-    assert(pCurr != pNextBlock);
-
-    pNextTime = pNextBlock;
-    return S_OK;
-}
-
-
 bool AudioTrack::VetEntry(const BlockEntry* pBlockEntry) const
 {
-    pBlockEntry;
     assert(pBlockEntry);
 
     const Block* const pBlock = pBlockEntry->GetBlock();
-    pBlock;
     assert(pBlock);
-    assert(pBlock->GetNumber() == m_info.number);
+    assert(pBlock->GetTrackNumber() == m_info.number);
 
     return true;
+}
+
+
+long AudioTrack::Seek(
+    long long time_ns,
+    const BlockEntry*& pResult) const
+{
+    const long status = GetFirst(pResult);
+
+    if (status < 0)  //buffer underflow, etc
+        return status;
+
+    assert(pResult);
+
+    if (pResult->EOS())
+        return 0;
+
+    const Cluster* pCluster = pResult->GetCluster();
+    assert(pCluster);
+
+    if (time_ns <= pResult->GetBlock()->GetTime(pCluster))
+        return 0;
+
+    Cluster** const clusters = m_pSegment->m_clusters;
+    assert(clusters);
+
+    const long count = m_pSegment->GetCount();
+    assert(count > 0);
+
+    Cluster** const i = clusters + pCluster->m_index;
+    assert(i);
+    assert(*i == pCluster);
+    assert(pCluster->GetTime() <= time_ns);
+
+    Cluster** const j = clusters + count;
+
+    Cluster** lo = i;
+    Cluster** hi = j;
+
+    while (lo < hi)
+    {
+        //INVARIANT:
+        //[i, lo) <= time_ns
+        //[lo, hi) ?
+        //[hi, j)  > time_ns
+
+        Cluster** const mid = lo + (hi - lo) / 2;
+        assert(mid < hi);
+
+        pCluster = *mid;
+        assert(pCluster);
+        assert(pCluster->m_index == long(mid - m_pSegment->m_clusters));
+
+        const long long t = pCluster->GetTime();
+
+        if (t <= time_ns)
+            lo = mid + 1;
+        else
+            hi = mid;
+
+        assert(lo <= hi);
+    }
+
+    assert(lo == hi);
+    assert(lo > i);
+    assert(lo <= j);
+
+    while (lo > i)
+    {
+        pCluster = *--lo;
+        assert(pCluster);
+        assert(pCluster->GetTime() <= time_ns);
+
+        pResult = pCluster->GetEntry(this);
+
+        if ((pResult != 0) && !pResult->EOS())
+            return 0;
+
+        //landed on empty cluster (no entries)
+    }
+
+    pResult = GetEOS();  //weird
+    return 0;
 }
 
 
@@ -2804,39 +3685,71 @@ double AudioTrack::GetSamplingRate() const
 }
 
 
-__int64 AudioTrack::GetChannels() const
+long long AudioTrack::GetChannels() const
 {
     return m_channels;
 }
 
-
-__int64 AudioTrack::GetBitDepth() const
+long long AudioTrack::GetBitDepth() const
 {
-    return m_bit_depth;
+    return m_bitDepth;
 }
 
-
-Tracks::Tracks(Segment* pSegment, __int64 start, __int64 size_) :
+Tracks::Tracks(Segment* pSegment, long long start, long long size_) :
     m_pSegment(pSegment),
     m_start(start),
-    m_size(size_)
+    m_size(size_),
+    m_trackEntries(NULL),
+    m_trackEntriesEnd(NULL)
 {
-    const __int64 stop = m_start + m_size;
-    IMkvFile* const pFile = m_pSegment->m_pFile;
+    long long stop = m_start + m_size;
+    IMkvReader* const pReader = m_pSegment->m_pReader;
 
-    __int64 pos = m_start;
+    long long pos1 = m_start;
+    int count = 0;
+
+    while (pos1 < stop)
+    {
+        long len;
+        const long long id = ReadUInt(pReader, pos1, len);
+        assert(id >= 0);
+        assert((pos1 + len) <= stop);
+
+        pos1 += len;  //consume id
+
+        const long long size = ReadUInt(pReader, pos1, len);
+        assert(size >= 0);
+        assert((pos1 + len) <= stop);
+
+        pos1 += len;  //consume length of size
+
+        //pos now desinates start of element
+        if (id == 0x2E)  //TrackEntry ID
+            ++count;
+
+        pos1 += size;  //consume payload
+        assert(pos1 <= stop);
+    }
+
+    if (count <= 0)
+        return;
+
+    m_trackEntries = new Track*[count];
+    m_trackEntriesEnd = m_trackEntries;
+
+    long long pos = m_start;
 
     while (pos < stop)
     {
         long len;
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         assert(id >= 0);
         assert((pos + len) <= stop);
 
         pos += len;  //consume id
 
-        const __int64 size = ReadUInt(pFile, pos, len);
-        assert(size >= 0);
+        const long long size1 = ReadUInt(pReader, pos, len);
+        assert(size1 >= 0);
         assert((pos + len) <= stop);
 
         pos += len;  //consume length of size
@@ -2844,90 +3757,96 @@ Tracks::Tracks(Segment* pSegment, __int64 start, __int64 size_) :
         //pos now desinates start of element
 
         if (id == 0x2E)  //TrackEntry ID
-            ParseTrackEntry(pos, size);
+        {
+            Track*& pTrack = *m_trackEntriesEnd;
+            ParseTrackEntry(pos, size1, pTrack);
 
-        pos += size;  //consume payload
+            if (pTrack)
+                ++m_trackEntriesEnd;
+        }
+
+        pos += size1;  //consume payload
         assert(pos <= stop);
     }
 }
 
 
-void Tracks::ParseTrackEntry(__int64 start, __int64 size)
+unsigned long Tracks::GetTracksCount() const
 {
-    IMkvFile* const pFile = m_pSegment->m_pFile;
+    const ptrdiff_t result = m_trackEntriesEnd - m_trackEntries;
+    assert(result >= 0);
 
-    __int64 pos = start;
-    const __int64 stop = start + size;
+    return static_cast<unsigned long>(result);
+}
 
-#if 1
+
+void Tracks::ParseTrackEntry(
+    long long start,
+    long long size,
+    Track*& pTrack)
+{
+    IMkvReader* const pReader = m_pSegment->m_pReader;
+
+    long long pos = start;
+    const long long stop = start + size;
+
     Track::Info i;
-
-    //TODO: use ctor for this
-    i.number = -1;
-    i.uid = -1;
-    i.type = -1;
 
     Track::Settings videoSettings;
     videoSettings.start = -1;
 
     Track::Settings audioSettings;
     audioSettings.start = -1;
-#else
-    __int64 tn = -1;
-    __int64 uid = -1;
-    __int64 type = -1;
-    std::wstring name;  //UTF8 converted to wchar[]
-    std::string codecId;
-    bytes_t codecPrivate;
-    std::wstring codecName;
-    bytes_t videoSettings;
-    bytes_t audioSettings;
-#endif
+
+    long long lacing = 1;  //default is true
 
     while (pos < stop)
     {
 #ifdef _DEBUG
         long len;
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         len;
         id;
 #endif
-        if (Match(pFile, pos, 0x57, i.number))
+        if (Match(pReader, pos, 0x57, i.number))
             assert(i.number > 0);
-        else if (Match(pFile, pos, 0x33C5, i.uid))
-            __noop;
-        else if (Match(pFile, pos, 0x03, i.type))
-            __noop;
-        else if (Match(pFile, pos, 0x136E, i.name))
-            __noop;
-        else if (Match(pFile, pos, 0x06, i.codecId))
-            __noop;
-        else if (Match(pFile, pos, 0x23A2, i.codecPrivate))
-            __noop;
-        else if (Match(pFile, pos, 0x058688, i.codecName))
-            __noop;
-#if 0
-        else if (Match(pFile, pos, 0x60, videoSettings))
-            __noop;
-        else if (Match(pFile, pos, 0x61, audioSettings))
-            __noop;
-#endif
+        //else if (Match(pReader, pos, 0x33C5, i.uid))
+        //    ;
+        else if (Match(pReader, pos, 0x03, i.type))
+            ;
+        else if (Match(pReader, pos, 0x136E, i.nameAsUTF8))
+            assert(i.nameAsUTF8);
+        else if (Match(pReader, pos, 0x06, i.codecId))
+            ;
+        else if (Match(pReader, pos, 0x1C, lacing))
+            assert(lacing <= 1);
+        else if (Match(pReader,
+                       pos,
+                       0x23A2,
+                       i.codecPrivate,
+                       i.codecPrivateSize))
+            ;
+        else if (Match(pReader, pos, 0x058688, i.codecNameAsUTF8))
+            assert(i.codecNameAsUTF8);
         else
         {
             long len;
 
-            const __int64 id = ReadUInt(pFile, pos, len);
+            const long long idpos = pos;
+            idpos;
+
+            const long long id = ReadUInt(pReader, pos, len);
             assert(id >= 0);  //TODO: handle error case
             assert((pos + len) <= stop);
 
             pos += len;  //consume id
 
-            const __int64 size = ReadUInt(pFile, pos, len);
+            const long long size = ReadUInt(pReader, pos, len);
             assert(size >= 0);  //TODO: handle error case
             assert((pos + len) <= stop);
 
             pos += len;  //consume length of size
-            const __int64 start = pos;
+            const long long start = pos;
 
             pos += size;  //consume payload
             assert(pos <= stop);
@@ -2942,77 +3861,70 @@ void Tracks::ParseTrackEntry(__int64 start, __int64 size)
                 audioSettings.start = start;
                 audioSettings.size = size;
             }
+            else if (id == 0x33C5)  //Track UID
+            {
+                assert(size <= 8);
+
+                i.uid = 0;
+                long long pos_ = start;
+                const long long pos_end = start + size;
+
+                while (pos_ != pos_end)
+                {
+                    unsigned char b;
+
+                    const long status = pReader->Read(pos_, 1, &b);
+                    assert(status == 0);
+
+                    i.uid <<= 8;
+                    i.uid |= b;
+
+                    ++pos_;
+                }
+            }
         }
     }
 
     assert(pos == stop);
-
     //TODO: propertly vet info.number, to ensure both its existence,
     //and that it is unique among all tracks.
     assert(i.number > 0);
 
+    i.lacing = (lacing > 0) ? true : false;
+
     //TODO: vet settings, to ensure that video settings (0x60)
     //were specified when type = 1, and that audio settings (0x61)
     //were specified when type = 2.
-
-    typedef tracks_map_t::iterator map_iter_t;
-    typedef std::pair<map_iter_t, bool> map_status_t;
-
-    typedef tracks_set_t::iterator set_iter_t;
-    typedef std::pair<set_iter_t, bool> set_status_t;
-
     if (i.type == 1)  //video
     {
-        //assert(audioSettings.empty());  //TODO
-        //i.settings.swap(videoSettings);
-
         assert(audioSettings.start < 0);
         assert(videoSettings.start >= 0);
 
         i.settings = videoSettings;
 
-        VideoTrack* const t = new (std::nothrow) VideoTrack(m_pSegment, i);
+        VideoTrack* const t = new VideoTrack(m_pSegment, i);
         assert(t);  //TODO
-
-        //m_tracks.push_back(t);
-
-        const ULONG tn = static_cast<ULONG>(i.number);
-        const tracks_map_t::value_type value(tn, t);
-        const map_status_t map_status = m_tracks_map.insert(value);
-        assert(map_status.second);
-
-        const set_status_t set_status = m_video_tracks_set.insert(t);
-        assert(set_status.second);
+        pTrack = t;
     }
     else if (i.type == 2)  //audio
     {
-        //assert(videoSettings.empty());  //TODO
-        //i.settings.swap(audioSettings);
-
         assert(videoSettings.start < 0);
         assert(audioSettings.start >= 0);
 
         i.settings = audioSettings;
 
-        AudioTrack* const t = new (std::nothrow) AudioTrack(m_pSegment, i);
+        AudioTrack* const t = new  AudioTrack(m_pSegment, i);
         assert(t);  //TODO
-
-        //m_tracks.push_back(t);
-
-        const ULONG tn = static_cast<ULONG>(i.number);
-        const tracks_map_t::value_type value(tn, t);
-        const map_status_t map_status = m_tracks_map.insert(value);
-        assert(map_status.second);
-
-        const set_status_t set_status = m_audio_tracks_set.insert(t);
-        assert(set_status.second);
+        pTrack = t;
     }
-#ifdef _DEBUG
     else
     {
-        DebugBreak();
+        // for now we do not support other track types yet.
+        // TODO: support other track types
+        i.Clear();
+
+        pTrack = NULL;
     }
-#endif
 
     return;
 }
@@ -3020,42 +3932,53 @@ void Tracks::ParseTrackEntry(__int64 start, __int64 size)
 
 Tracks::~Tracks()
 {
-    m_video_tracks_set.clear();
-    m_audio_tracks_set.clear();
-
-    typedef tracks_map_t::iterator iter_t;
-
-    iter_t i = m_tracks_map.begin();
-    const iter_t j = m_tracks_map.end();
+    Track** i = m_trackEntries;
+    Track** const j = m_trackEntriesEnd;
 
     while (i != j)
     {
-        Track* pTrack = i->second;
-        assert(pTrack);
-
-        m_tracks_map.erase(i++);
-
+        Track* const pTrack = *i++;
         delete pTrack;
     }
+
+    delete[] m_trackEntries;
 }
 
 
-Track* Tracks::GetTrack(ULONG idx) const
+const Track* Tracks::GetTrackByNumber(unsigned long tn_) const
 {
-    typedef tracks_map_t::const_iterator iter_t;
-    const iter_t iter = m_tracks_map.find(idx);
+    const long long tn = tn_;
 
-    if (iter == m_tracks_map.end())
-        return 0;
+    Track** i = m_trackEntries;
+    Track** const j = m_trackEntriesEnd;
 
-    Track* const pTrack = iter->second;
-    assert(pTrack);
+    while (i != j)
+    {
+        Track* const pTrack = *i++;
 
-    return pTrack;
+        if (pTrack == NULL)
+            continue;
+
+        if (tn == pTrack->GetNumber())
+            return pTrack;
+    }
+
+    return NULL;  //not found
 }
 
 
-void Cluster::Load()
+const Track* Tracks::GetTrackByIndex(unsigned long idx) const
+{
+    const ptrdiff_t count = m_trackEntriesEnd - m_trackEntries;
+
+    if (idx >= static_cast<unsigned long>(count))
+         return NULL;
+
+    return m_trackEntries[idx];
+}
+
+
+void Cluster::Load() const
 {
     assert(m_pSegment);
     assert(m_pos);
@@ -3072,45 +3995,42 @@ void Cluster::Load()
     assert(m_size < 0);
     assert(m_timecode < 0);
 
-    IMkvFile* const pFile = m_pSegment->m_pFile;
+    IMkvReader* const pReader = m_pSegment->m_pReader;
 
-    m_pos *= -1;                                //relative to segment
-    __int64 pos = m_pSegment->m_start + m_pos;  //absolute
+    m_pos *= -1;                                  //relative to segment
+    long long pos = m_pSegment->m_start + m_pos;  //absolute
 
     long len;
 
-    const __int64 id_ = ReadUInt(pFile, pos, len);
-    id_;
+    const long long id_ = ReadUInt(pReader, pos, len);
     assert(id_ >= 0);
     assert(id_ == 0x0F43B675);  //Cluster ID
 
     pos += len;  //consume id
 
-    const __int64 size_ = ReadUInt(pFile, pos, len);
+    const long long size_ = ReadUInt(pReader, pos, len);
     assert(size_ >= 0);
 
     pos += len;  //consume size
 
-    //const __int64 start = pos;  //of payload
     m_size = size_;
+    const long long stop = pos + size_;
 
-    const __int64 stop = pos + size_;
-
-    __int64 timecode = -1;
+    long long timecode = -1;
 
     while (pos < stop)
     {
-        if (Match(pFile, pos, 0x67, timecode))
+        if (Match(pReader, pos, 0x67, timecode))
             break;
         else
         {
-            const __int64 id = ReadUInt(pFile, pos, len);
+            const long long id = ReadUInt(pReader, pos, len);
             assert(id >= 0);  //TODO
             assert((pos + len) <= stop);
 
             pos += len;  //consume id
 
-            const __int64 size = ReadUInt(pFile, pos, len);
+            const long long size = ReadUInt(pReader, pos, len);
             assert(size >= 0);  //TODO
             assert((pos + len) <= stop);
 
@@ -3136,14 +4056,17 @@ void Cluster::Load()
 
 Cluster* Cluster::Parse(
     Segment* pSegment,
-    index_t idx,
-    __int64 off)
+    long idx,
+    long long off)
 {
     assert(pSegment);
     assert(off >= 0);
     assert(off < pSegment->m_size);
 
-    Cluster* const pCluster = new (std::nothrow) Cluster(pSegment, idx, -off);
+    //if (!HasBlockEntries(pSegment, off))
+    //    return NULL;
+
+    Cluster* const pCluster = new Cluster(pSegment, idx, -off);
     assert(pCluster);
 
     return pCluster;
@@ -3151,105 +4074,151 @@ Cluster* Cluster::Parse(
 
 
 Cluster::Cluster() :
-    m_pSegment(0),
+    m_pSegment(NULL),
     m_index(0),
     m_pos(0),
     m_size(0),
-    m_timecode(0)
+    m_timecode(0),
+    m_entries(NULL),
+    m_entries_count(0)  //means "no entries"
 {
 }
 
+
 Cluster::Cluster(
     Segment* pSegment,
-    index_t idx,
-    __int64 off) :
+    long idx,
+    long long off) :
     m_pSegment(pSegment),
     m_index(idx),
     m_pos(off),
     m_size(-1),
-    m_timecode(-1)
+    m_timecode(-1),
+    m_entries(NULL),
+    m_entries_count(-1)  //means "has not been parsed yet"
 {
 }
 
 
 Cluster::~Cluster()
 {
-    while (!m_entries.empty())
-    {
-        BlockEntry* pBlockEntry = m_entries.front();
-        assert(pBlockEntry);
+    if (m_entries_count <= 0)
+        return;
 
-        m_entries.pop_front();
-        delete pBlockEntry;
+    BlockEntry** i = m_entries;
+    BlockEntry** const j = m_entries + m_entries_count;
+
+    while (i != j)
+    {
+         BlockEntry* p = *i++;
+         assert(p);
+
+         delete p;
     }
+
+    delete[] m_entries;
 }
+
 
 bool Cluster::EOS() const
 {
-    return (m_pSegment == 0);
+    return (m_pSegment == NULL);
 }
 
 
-__int64 Cluster::GetSize() const
+bool Cluster::HasBlockEntries(
+    const Segment* pSegment,
+    long long off)  //relative to start of segment payload
 {
-    IMkvFile* const pFile = m_pSegment->m_pFile;
+    assert(pSegment);
+    assert(off >= 0);  //relative to segment
 
-    const __int64 pos_ = m_pSegment->m_start + _abs64(m_pos);
-    __int64 pos = pos_;
+    IMkvReader* const pReader = pSegment->m_pReader;
 
-    long len;
-
-    const __int64 id = ReadUInt(pFile, pos, len);
-    id;
-    assert(id >= 0);
-    assert(id == 0x0F43B675);  //Cluster ID
-
-    pos += len;  //consume id
-
-    const __int64 size = ReadUInt(pFile, pos, len);
-    assert(size > 0);
-    assert((m_size < 0) || (m_size == size));
-
-    pos += len;  //consume size
-
-    //pos now points to start of payload
-
-    pos += size;  //consume payload
-
-    //pos now points to end of payload (stop pos)
-
-    const __int64 result = pos - pos_;
-    return result;
-}
-
-
-void Cluster::LoadBlockEntries()
-{
-    if (!m_entries.empty())
-        return;
-
-    assert(m_pSegment);
-    assert(m_pos);
-    assert(m_size);
-
-    IMkvFile* const pFile = m_pSegment->m_pFile;
-
-    if (m_pos < 0)
-        m_pos *= -1;
-
-    __int64 pos = m_pSegment->m_start + m_pos;
+    long long pos = pSegment->m_start + off;  //absolute
+    long long size;
 
     {
         long len;
 
-        const __int64 id = ReadUInt(pFile, pos, len);
+        const long long id = ReadUInt(pReader, pos, len);
         id;
         assert(id >= 0);
         assert(id == 0x0F43B675);  //Cluster ID
 
         pos += len;  //consume id
 
-        const __int64 size = ReadUInt(pFile, pos, len);
+        size = ReadUInt(pReader, pos, len);
+        assert(size > 0);
+
+        pos += len;  //consume size
+
+        //pos now points to start of payload
+    }
+
+    const long long stop = pos + size;
+
+    while (pos < stop)
+    {
+        long len;
+
+        const long long id = ReadUInt(pReader, pos, len);
+        assert(id >= 0);  //TODO
+        assert((pos + len) <= stop);
+
+        pos += len;  //consume id
+
+        const long long size = ReadUInt(pReader, pos, len);
+        assert(size >= 0);  //TODO
+        assert((pos + len) <= stop);
+
+        pos += len;  //consume size
+
+        if (id == 0x20)  //BlockGroup ID
+            return true;
+
+        if (id == 0x23)  //SimpleBlock ID
+            return true;
+
+        pos += size;  //consume payload
+        assert(pos <= stop);
+    }
+
+    return false;
+}
+
+
+void Cluster::LoadBlockEntries() const
+{
+    if (m_entries)
+        return;
+
+    if (m_entries_count == 0)  //already parsed, and no entries found
+        return;
+
+    assert(m_pSegment);
+    assert(m_pos);
+    assert(m_size);
+    assert(m_entries_count < 0);
+
+    IMkvReader* const pReader = m_pSegment->m_pReader;
+
+    if (m_pos < 0)
+        m_pos *= -1;  //relative to segment
+
+    long long pos = m_pSegment->m_start + m_pos;  //absolute
+
+    {
+        long len;
+
+        const long long id = ReadUInt(pReader, pos, len);
+        id;
+        assert(id >= 0);
+        assert(id == 0x0F43B675);  //Cluster ID
+
+        pos += len;  //consume id
+
+        const long long size = ReadUInt(pReader, pos, len);
         assert(size > 0);
 
         pos += len;  //consume size
@@ -3262,62 +4231,81 @@ void Cluster::LoadBlockEntries()
             m_size = size;
     }
 
-    const __int64 stop = pos + m_size;
-    __int64 timecode = -1;  //of cluster itself
-    __int64 off = -1;
-    __int64 prev_size = -1;
+    const long long stop = pos + m_size;
+    long long timecode = -1;  //of cluster itself
 
-    while (pos < stop)
+    //First count the number of entries
+
+    long long idx = pos;  //points to start of payload
+    m_entries_count = 0;
+
+    while (idx < stop)
     {
-        if (Match(pFile, pos, 0x67, timecode))
+        if (Match(pReader, idx, 0x67, timecode))
         {
             if (m_timecode >= 0)
                 assert(timecode == m_timecode);
             else
                 m_timecode = timecode;
         }
-        else if (Match(pFile, pos, 0x27, off))
-        {
-#ifdef _DEBUG
-            assert(m_pos >= 0);
-            assert(off == m_pos);
-#endif
-        }
-        else if (Match(pFile, pos, 0x2B, prev_size))
-        {
-#ifdef _DEBUG
-            Cluster* const pPrev = m_pSegment->GetPrevious(this);
-
-            if (pPrev == 0)
-                assert(prev_size == 0);
-            else
-            {
-                const __int64 prev_size_ = pPrev->GetSize();
-                prev_size_;
-                assert(prev_size_ == prev_size);
-            }
-#endif
-        }
         else
         {
             long len;
 
-            const __int64 id = ReadUInt(pFile, pos, len);
+            const long long id = ReadUInt(pReader, idx, len);
+            assert(id >= 0);  //TODO
+            assert((idx + len) <= stop);
+
+            idx += len;  //consume id
+
+            const long long size = ReadUInt(pReader, idx, len);
+            assert(size >= 0);  //TODO
+            assert((idx + len) <= stop);
+
+            idx += len;  //consume size
+
+            if (id == 0x20)  //BlockGroup ID
+                ++m_entries_count;
+            else if (id == 0x23)  //SimpleBlock ID
+                ++m_entries_count;
+
+            idx += size;  //consume payload
+            assert(idx <= stop);
+        }
+    }
+
+    assert(idx == stop);
+    assert(m_timecode >= 0);
+
+    if (m_entries_count == 0)
+        return;
+
+    m_entries = new BlockEntry*[m_entries_count];
+    long index = 0;
+
+    while (pos < stop)
+    {
+        if (Match(pReader, pos, 0x67, timecode))
+            assert(timecode == m_timecode);
+        else
+        {
+            long len;
+            const long long id = ReadUInt(pReader, pos, len);
             assert(id >= 0);  //TODO
             assert((pos + len) <= stop);
 
             pos += len;  //consume id
 
-            const __int64 size = ReadUInt(pFile, pos, len);
+            const long long size = ReadUInt(pReader, pos, len);
             assert(size >= 0);  //TODO
             assert((pos + len) <= stop);
 
             pos += len;  //consume size
 
             if (id == 0x20)  //BlockGroup ID
-                ParseBlockGroup(pos, size);
+                ParseBlockGroup(pos, size, index++);
             else if (id == 0x23)  //SimpleBlock ID
-                ParseSimpleBlock(pos, size);
+                ParseSimpleBlock(pos, size, index++);
 
             pos += size;  //consume payload
             assert(pos <= stop);
@@ -3326,41 +4314,40 @@ void Cluster::LoadBlockEntries()
 
     assert(pos == stop);
     assert(timecode >= 0);
-    assert(!m_entries.empty());
+    assert(index == m_entries_count);
 }
 
 
 
-__int64 Cluster::GetTimeCode()
+long long Cluster::GetTimeCode() const
 {
     Load();
     return m_timecode;
 }
 
 
-__int64 Cluster::GetTime()
+long long Cluster::GetTime() const
 {
-    const __int64 tc = GetTimeCode();
-    tc;
+    const long long tc = GetTimeCode();
     assert(tc >= 0);
 
     const SegmentInfo* const pInfo = m_pSegment->GetInfo();
     assert(pInfo);
 
-    const __int64 scale = pInfo->GetTimeCodeScale();
+    const long long scale = pInfo->GetTimeCodeScale();
     assert(scale >= 1);
 
-    const __int64 t = m_timecode * scale;
+    const long long t = m_timecode * scale;
 
     return t;
 }
 
 
-__int64 Cluster::GetFirstTime()
+long long Cluster::GetFirstTime() const
 {
     const BlockEntry* const pEntry = GetFirst();
 
-    if (pEntry == 0)  //empty cluster
+    if (pEntry == NULL)  //empty cluster
         return GetTime();
 
     const Block* const pBlock = pEntry->GetBlock();
@@ -3370,132 +4357,120 @@ __int64 Cluster::GetFirstTime()
 }
 
 
-
-void Cluster::ParseBlockGroup(__int64 start, __int64 size)
+long long Cluster::GetLastTime() const
 {
-    const BlockEntry::index_t idx = m_entries.size();
+    const BlockEntry* const pEntry = GetLast();
 
-    BlockGroup* const pGroup =
-        new (std::nothrow) BlockGroup(this, idx, start, size);
+    if (pEntry == NULL)  //empty cluster
+        return GetTime();
 
-    assert(pGroup);  //TODO
+    const Block* const pBlock = pEntry->GetBlock();
+    assert(pBlock);
 
-#ifdef _DEBUG
-    if (!m_entries.empty())
-    {
-        const BlockEntry* const pFirstEntry = m_entries.back();
-        assert(pFirstEntry);
-
-        const Block* const pFirstBlock = pFirstEntry->GetBlock();
-        assert(pFirstBlock);
-
-        const SHORT t0 = pFirstBlock->GetRelativeTimeCode();
-
-        const Block* const pBlock = pGroup->GetBlock();
-        assert(pBlock);
-
-        const SHORT t = pBlock->GetRelativeTimeCode();
-        assert(t >= t0);
-    }
-#endif
-
-    m_entries.push_back(pGroup);
+    return pBlock->GetTime(this);
 }
 
 
-void Cluster::ParseSimpleBlock(__int64 start, __int64 size)
+void Cluster::ParseBlockGroup(long long st, long long sz, size_t idx) const
 {
-    const BlockEntry::index_t idx = m_entries.size();
+    assert(m_entries != NULL);
+    assert(m_entries_count > 0);
+    assert(idx < size_t(m_entries_count));
 
-    SimpleBlock* const pSimpleBlock =
-        new (std::nothrow) SimpleBlock(this, idx, start, size);
+    Cluster* const this_ = const_cast<Cluster*>(this);
 
-    assert(pSimpleBlock);  //TODO
+    BlockGroup* const e = new (std::nothrow) BlockGroup(this_, idx, st, sz);
+    assert(e);  //TODO
 
-#ifdef _DEBUG
-    if (!m_entries.empty())
-    {
-        const BlockEntry* const pFirstEntry = m_entries.back();
-        assert(pFirstEntry);
-
-        const Block* const pFirstBlock = pFirstEntry->GetBlock();
-        assert(pFirstBlock);
-
-        const SHORT t0 = pFirstBlock->GetRelativeTimeCode();
-
-        const Block* const pBlock = pSimpleBlock->GetBlock();
-        assert(pBlock);
-
-        const SHORT t = pBlock->GetRelativeTimeCode();
-        assert(t >= t0);
-    }
-#endif
-
-    m_entries.push_back(pSimpleBlock);
+    m_entries[idx] = e;
 }
 
 
-const BlockEntry* Cluster::GetFirst()
+
+void Cluster::ParseSimpleBlock(long long st, long long sz, size_t idx) const
+{
+    assert(m_entries != NULL);
+    assert(m_entries_count > 0);
+    assert(idx < size_t(m_entries_count));
+
+    Cluster* const this_ = const_cast<Cluster*>(this);
+
+    SimpleBlock* const e = new (std::nothrow) SimpleBlock(this_, idx, st, sz);
+    assert(e);  //TODO
+
+    m_entries[idx] = e;
+}
+
+
+const BlockEntry* Cluster::GetFirst() const
 {
     LoadBlockEntries();
 
-    const BlockEntry::entries_t& ee = m_entries;
-    ee;
-    assert(!ee.empty());
+    if ((m_entries == NULL) || (m_entries_count <= 0))
+        return NULL;
 
-    return ee.front();
+    const BlockEntry* const pFirst = m_entries[0];
+    assert(pFirst);
+
+    return pFirst;
 }
 
 
-const BlockEntry* Cluster::GetLast()
+const BlockEntry* Cluster::GetLast() const
 {
     LoadBlockEntries();
 
-    const BlockEntry::entries_t& ee = m_entries;
-    ee;
-    assert(!ee.empty());
+    if ((m_entries == NULL) || (m_entries_count <= 0))
+        return NULL;
 
-    return ee.back();
+    const long idx = m_entries_count - 1;
+
+    const BlockEntry* const pLast = m_entries[idx];
+    assert(pLast);
+
+    return pLast;
 }
 
 
 const BlockEntry* Cluster::GetNext(const BlockEntry* pEntry) const
 {
     assert(pEntry);
+    assert(m_entries != NULL);
+    assert(m_entries_count > 0);
 
-    const BlockEntry::entries_t& ee = m_entries;
-    assert(!ee.empty());
-
-    BlockEntry::index_t idx = pEntry->GetIndex();
-    assert(idx < ee.size());
-    assert(ee[idx] == pEntry);
+    size_t idx = pEntry->GetIndex();
+    assert(idx < size_t(m_entries_count));
+    assert(m_entries[idx] == pEntry);
 
     ++idx;
 
-    if (idx >= ee.size())
-        return 0;
+    if (idx >= size_t(m_entries_count))
+      return NULL;
 
-    return ee[idx];
+    return m_entries[idx];
 }
 
 
-const BlockEntry* Cluster::GetEntry(const Track* pTrack)
+const BlockEntry* Cluster::GetEntry(
+    const Track* pTrack,
+    long long time_ns) const
 {
     assert(pTrack);
 
-    if (m_pSegment == 0)  //EOS
+    if (m_pSegment == NULL)  //this is the special EOS cluster
         return pTrack->GetEOS();
 
     LoadBlockEntries();
 
-    const BlockEntry::entries_t& ee = m_entries;
-    ee;
-    assert(!ee.empty());
+    if ((m_entries == NULL) || (m_entries_count <= 0))
+        return NULL;  //return EOS here?
 
-    typedef BlockEntry::entries_t::const_iterator iter_t;
+    const BlockEntry* pResult = pTrack->GetEOS();
 
-    iter_t i = ee.begin();
-    const iter_t j = ee.end();
+    BlockEntry** i = m_entries;
+    assert(i);
+
+    BlockEntry** const j = i + m_entries_count;
 
     while (i != j)
     {
@@ -3506,113 +4481,152 @@ const BlockEntry* Cluster::GetEntry(const Track* pTrack)
         const Block* const pBlock = pEntry->GetBlock();
         assert(pBlock);
 
-        if (pBlock->GetNumber() != pTrack->GetNumber())
+        if (pBlock->GetTrackNumber() != pTrack->GetNumber())
             continue;
 
         if (pTrack->VetEntry(pEntry))
-            return pEntry;
+        {
+            if (time_ns < 0)  //just want first candidate block
+                return pEntry;
+
+            const long long ns = pBlock->GetTime(this);
+
+            if (ns > time_ns)
+                break;
+
+            pResult = pEntry;
+        }
+        else if (time_ns >= 0)
+        {
+            const long long ns = pBlock->GetTime(this);
+
+            if (ns > time_ns)
+                break;
+        }
     }
 
-    return pTrack->GetEOS();  //no satisfactory block found
+    return pResult;
 }
 
 
 const BlockEntry*
 Cluster::GetEntry(
     const CuePoint& cp,
-    const CuePoint::TrackPosition& tp)
+    const CuePoint::TrackPosition& tp) const
 {
     assert(m_pSegment);
 
     LoadBlockEntries();
 
-    const BlockEntry::entries_t& ee = m_entries;
-    ee;
-    assert(!ee.empty());
+    if (m_entries == NULL)
+        return NULL;
 
-    typedef BlockEntry::entries_t::const_iterator iter_t;
+    const long long count = m_entries_count;
 
-    iter_t i = ee.begin();
-    const iter_t j = ee.end();
+    if (count <= 0)
+        return NULL;
 
-    if (tp.m_block > 0)
+    const long long tc = cp.GetTimeCode();
+
+    if ((tp.m_block > 0) && (tp.m_block <= count))
     {
-        assert(tp.m_block <= ee.size());
+        const size_t block = static_cast<size_t>(tp.m_block);
+        const size_t index = block - 1;
 
-        const int block = static_cast<int>(tp.m_block);
-        const int off = block - 1;
-
-        const iter_t k = i + off;
-        assert(k != j);
-
-        const BlockEntry* const pEntry = *k;
+        const BlockEntry* const pEntry = m_entries[index];
         assert(pEntry);
         assert(!pEntry->EOS());
 
         const Block* const pBlock = pEntry->GetBlock();
-        pBlock;
         assert(pBlock);
-        assert(pBlock->GetNumber() == tp.m_track);
 
-        const __int64 timecode = pBlock->GetTimeCode(this);
-        timecode;
-        assert(timecode == cp.m_timecode);
+        if ((pBlock->GetTrackNumber() == tp.m_track) &&
+            (pBlock->GetTimeCode(this) == tc))
+        {
+            return pEntry;
+        }
+    }
+
+    const BlockEntry* const* i = m_entries;
+    const BlockEntry* const* const j = i + count;
+
+    while (i != j)
+    {
+#ifdef _DEBUG
+        const ptrdiff_t idx = i - m_entries;
+        idx;
+#endif
+
+        const BlockEntry* const pEntry = *i++;
+        assert(pEntry);
+        assert(!pEntry->EOS());
+
+        const Block* const pBlock = pEntry->GetBlock();
+        assert(pBlock);
+
+        if (pBlock->GetTrackNumber() != tp.m_track)
+            continue;
+
+        const long long tc_ = pBlock->GetTimeCode(this);
+
+        if (tc_ < tc)
+            continue;
+
+        if (tc_ > tc)
+            return NULL;
+
+        const Tracks* const pTracks = m_pSegment->GetTracks();
+        assert(pTracks);
+
+        const long tn = static_cast<long>(tp.m_track);
+        const Track* const pTrack = pTracks->GetTrackByNumber(tn);
+
+        if (pTrack == NULL)
+            return NULL;
+
+        const long long type = pTrack->GetType();
+
+        if (type == 2)  //audio
+            return pEntry;
+
+        if (type != 1)  //not video
+            return NULL;
+
+        if (!pBlock->IsKey())
+            return NULL;
 
         return pEntry;
     }
 
-    while (i != j)
-    {
-        const BlockEntry* const pEntry = *i++;
-        assert(pEntry);
-        assert(!pEntry->EOS());
-
-        const Block* const pBlock = pEntry->GetBlock();
-        assert(pBlock);
-
-        if (pBlock->GetNumber() != tp.m_track)
-            continue;
-
-        const __int64 timecode = pBlock->GetTimeCode(this);
-
-        if (timecode == cp.m_timecode)
-            return pEntry;
-
-        assert(timecode < cp.m_timecode);
-    }
-
-    return 0;  //no satisfactory block found
+    return NULL;
 }
 
 
-const BlockEntry* Cluster::GetMaxKey(const VideoTrack* pTrack)
+const BlockEntry* Cluster::GetMaxKey(const VideoTrack* pTrack) const
 {
     assert(pTrack);
 
-    if (m_pSegment == 0)  //EOS
+    if (m_pSegment == NULL)  //EOS
         return pTrack->GetEOS();
 
     LoadBlockEntries();
 
-    const BlockEntry::entries_t& ee = m_entries;
-    ee;
-    assert(!ee.empty());
+    if ((m_entries == NULL) || (m_entries_count <= 0))
+        return pTrack->GetEOS();
 
-    typedef BlockEntry::entries_t::const_reverse_iterator iter_t;
-
-    iter_t i = ee.rbegin();
-    const iter_t j = ee.rend();
+    BlockEntry** i = m_entries + m_entries_count;
+    BlockEntry** const j = m_entries;
 
     while (i != j)
     {
-        const BlockEntry* const pEntry = *i++;
+        const BlockEntry* const pEntry = *--i;
         assert(pEntry);
         assert(!pEntry->EOS());
 
         const Block* const pBlock = pEntry->GetBlock();
         assert(pBlock);
 
-        if (pBlock->GetNumber() != pTrack->GetNumber())
+        if (pBlock->GetTrackNumber() != pTrack->GetNumber())
             continue;
 
         if (pBlock->IsKey())
@@ -3621,6 +4635,7 @@ const BlockEntry* Cluster::GetMaxKey(const VideoTrack* pTrack)
 
     return pTrack->GetEOS();  //no satisfactory block found
 }
+
 
 
 BlockEntry::BlockEntry()
@@ -3633,15 +4648,14 @@ BlockEntry::~BlockEntry()
 }
 
 
-
 SimpleBlock::SimpleBlock(
     Cluster* pCluster,
-    index_t idx,
-    __int64 start,
-    __int64 size) :
+    size_t idx,
+    long long start,
+    long long size) :
     m_pCluster(pCluster),
     m_index(idx),
-    m_block(start, size, pCluster->m_pSegment->m_pFile)
+    m_block(start, size, pCluster->m_pSegment->m_pReader)
 {
 }
 
@@ -3652,13 +4666,13 @@ bool SimpleBlock::EOS() const
 }
 
 
-Cluster* SimpleBlock::GetCluster() const
+const Cluster* SimpleBlock::GetCluster() const
 {
     return m_pCluster;
 }
 
 
-BlockEntry::index_t SimpleBlock::GetIndex() const
+size_t SimpleBlock::GetIndex() const
 {
     return m_index;
 }
@@ -3670,37 +4684,36 @@ const Block* SimpleBlock::GetBlock() const
 }
 
 
-bool SimpleBlock::IsBFrame() const
-{
-    return false;
-}
+//bool SimpleBlock::IsBFrame() const
+//{
+//    return false;
+//}
 
 
 BlockGroup::BlockGroup(
     Cluster* pCluster,
-    index_t idx,
-    __int64 start,
-    __int64 size_) :
+    size_t idx,
+    long long start,
+    long long size_) :
     m_pCluster(pCluster),
     m_index(idx),
-    //m_start(start),
-    //m_size(size_),
     m_prevTimeCode(0),
     m_nextTimeCode(0),
-    m_pBlock(0)  //TODO: accept multiple blocks within a block group
+    m_pBlock(NULL)  //TODO: accept multiple blocks within a block group
 {
-    IMkvFile* const pFile = m_pCluster->m_pSegment->m_pFile;
+    IMkvReader* const pReader = m_pCluster->m_pSegment->m_pReader;
 
-    __int64 pos = start;
-    const __int64 stop = start + size_;
+    long long pos = start;
+    const long long stop = start + size_;
 
     bool bSimpleBlock = false;
+    bool bReferenceBlock = false;
 
     while (pos < stop)
     {
-        SHORT t;
+        short t;
 
-        if (Match(pFile, pos, 0x7B, t))
+        if (Match(pReader, pos, 0x7B, t))
         {
             if (t < 0)
                 m_prevTimeCode = t;
@@ -3708,17 +4721,19 @@ BlockGroup::BlockGroup(
                 m_nextTimeCode = t;
             else
                 assert(false);
+
+            bReferenceBlock = true;
         }
         else
         {
             long len;
-            const __int64 id = ReadUInt(pFile, pos, len);
+            const long long id = ReadUInt(pReader, pos, len);
             assert(id >= 0);  //TODO
             assert((pos + len) <= stop);
 
             pos += len;  //consume ID
 
-            const __int64 size = ReadUInt(pFile, pos, len);
+            const long long size = ReadUInt(pReader, pos, len);
             assert(size >= 0);  //TODO
             assert((pos + len) <= stop);
 
@@ -3747,7 +4762,7 @@ BlockGroup::BlockGroup(
     assert(m_pBlock);
 
     if (!bSimpleBlock)
-        m_pBlock->SetKey(m_prevTimeCode >= 0);
+        m_pBlock->SetKey(!bReferenceBlock);
 }
 
 
@@ -3757,31 +4772,18 @@ BlockGroup::~BlockGroup()
 }
 
 
-void BlockGroup::ParseBlock(__int64 start, __int64 size)
+void BlockGroup::ParseBlock(long long start, long long size)
 {
-    IMkvFile* const pFile = m_pCluster->m_pSegment->m_pFile;
+    IMkvReader* const pReader = m_pCluster->m_pSegment->m_pReader;
 
-    Block* const pBlock = new (std::nothrow) Block(start, size, pFile);
+    Block* const pBlock = new Block(start, size, pReader);
     assert(pBlock);  //TODO
 
     //TODO: the Matroska spec says you have multiple blocks within the
     //same block group, with blocks ranked by priority (the flag bits).
-    //I haven't ever seen such a file (mkvmux certainly doesn't make
-    //one), so until then I'll just assume block groups contain a single
-    //block.
-#if 0
-    m_blocks.push_back(pBlock);
-#else
-    assert(m_pBlock == 0);
+
+    assert(m_pBlock == NULL);
     m_pBlock = pBlock;
-#endif
-
-#if 0
-    Track* const pTrack = pBlock->GetTrack();
-    assert(pTrack);
-
-    pTrack->Insert(pBlock);
-#endif
 }
 
 
@@ -3791,13 +4793,13 @@ bool BlockGroup::EOS() const
 }
 
 
-Cluster* BlockGroup::GetCluster() const
+const Cluster* BlockGroup::GetCluster() const
 {
     return m_pCluster;
 }
 
 
-BlockEntry::index_t BlockGroup::GetIndex() const
+size_t BlockGroup::GetIndex() const
 {
     return m_index;
 }
@@ -3809,180 +4811,380 @@ const Block* BlockGroup::GetBlock() const
 }
 
 
-SHORT BlockGroup::GetPrevTimeCode() const
+short BlockGroup::GetPrevTimeCode() const
 {
     return m_prevTimeCode;
 }
 
 
-SHORT BlockGroup::GetNextTimeCode() const
+short BlockGroup::GetNextTimeCode() const
 {
     return m_nextTimeCode;
 }
 
 
-bool BlockGroup::IsBFrame() const
-{
-    return (m_nextTimeCode > 0);
-}
+//bool BlockGroup::IsBFrame() const
+//{
+//    return (m_nextTimeCode > 0);
+//}
 
 
-
-Block::Block(__int64 start, __int64 size_, IMkvFile* pFile) :
+Block::Block(long long start, long long size_, IMkvReader* pReader) :
     m_start(start),
     m_size(size_)
 {
-    __int64 pos = start;
-    const __int64 stop = start + size_;
+    long long pos = start;
+    const long long stop = start + size_;
 
     long len;
 
-    m_track = ReadUInt(pFile, pos, len);
+    m_track = ReadUInt(pReader, pos, len);
     assert(m_track > 0);
     assert((pos + len) <= stop);
 
     pos += len;  //consume track number
     assert((stop - pos) >= 2);
 
-    m_timecode = Unserialize2SInt(pFile, pos);
+    m_timecode = Unserialize2SInt(pReader, pos);
 
     pos += 2;
     assert((stop - pos) >= 1);
 
-    const HRESULT hr = pFile->MkvRead(pos, 1, &m_flags);
-    hr;
-    assert(hr == S_OK);
+    long status = pReader->Read(pos, 1, &m_flags);
+    assert(status == 0);
 
-    //if (id == 0x21)  //Block ID
-    //    assert(m_flags == 0);  //TODO
-    //else
-    //{
-    //    assert(id == 0x23);  //SimpleBlock ID
-    //    assert((m_flags & 0x7F) == 0);  //TODO
-    //}
+    const int invisible = int(m_flags & 0x08) >> 3;
+    invisible;
+    assert(!invisible);  //TODO
 
-    ++pos;
+    const int lacing = int(m_flags & 0x06) >> 1;
+
+    ++pos;  //consume flags byte
     assert(pos <= stop);
 
-    m_frame_off = pos;
+    if (lacing == 0)  //no lacing
+    {
+        m_frame_count = 1;
+        m_frames = new Frame[m_frame_count];
 
-    const __int64 frame_size = stop - pos;
-    assert(frame_size <= LONG_MAX);
+        Frame& f = m_frames[0];
+        f.pos = pos;
 
-    m_frame_size = static_cast<LONG>(frame_size);
+        const long long frame_size = stop - pos;
+        assert(frame_size <= LONG_MAX);
+
+        f.len = static_cast<long>(frame_size);
+
+        return;
+    }
+
+    assert(pos < stop);
+
+    unsigned char count;
+
+    status = pReader->Read(pos, 1, &count);
+    assert(status == 0);
+
+    ++pos;  //consume frame count
+    assert(pos <= stop);
+
+    m_frame_count = ++count;
+    m_frames = new Frame[m_frame_count];
+
+    if (lacing == 1)  //Xiph
+    {
+        Frame* pf = m_frames;
+        Frame* const pf_end = pf + m_frame_count;
+
+        long size = 0;
+
+        while (count > 1)
+        {
+            long frame_size = 0;
+
+            for (;;)
+            {
+                unsigned char val;
+
+                status = pReader->Read(pos, 1, &val);
+                assert(status == 0);
+
+                ++pos;  //consume xiph size byte
+
+                frame_size += val;
+
+                if (val < 255)
+                    break;
+            }
+
+            Frame& f = *pf++;
+            assert(pf < pf_end);
+
+            f.len = frame_size;
+            size += frame_size;  //contribution of this frame
+
+            --count;
+        }
+
+        assert(pf < pf_end);
+        assert(pos < stop);
+
+        {
+            Frame& f = *pf++;
+            assert(pf == pf_end);
+
+            const long long total_size = stop - pos;
+            assert(total_size > size);
+
+            const long long frame_size = total_size - size;
+            assert(frame_size <= LONG_MAX);
+
+            f.len = static_cast<long>(frame_size);
+        }
+
+        pf = m_frames;
+        while (pf != pf_end)
+        {
+            Frame& f = *pf++;
+            assert((pos + f.len) <= stop);
+
+            f.pos = pos;
+            pos += f.len;
+        }
+
+        assert(pos == stop);
+    }
+    else if (lacing == 2)  //fixed-size lacing
+    {
+        const long long total_size = stop - pos;
+        assert((total_size % m_frame_count) == 0);
+
+        const long long frame_size = total_size / m_frame_count;
+        assert(frame_size <= LONG_MAX);
+
+        Frame* pf = m_frames;
+        Frame* const pf_end = pf + m_frame_count;
+
+        while (pf != pf_end)
+        {
+            assert((pos + frame_size) <= stop);
+
+            Frame& f = *pf++;
+
+            f.pos = pos;
+            f.len = static_cast<long>(frame_size);
+
+            pos += frame_size;
+        }
+
+        assert(pos == stop);
+    }
+    else
+    {
+        assert(lacing == 3);  //EBML lacing
+        assert(pos < stop);
+
+        long size = 0;
+
+        long long frame_size = ReadUInt(pReader, pos, len);
+        assert(frame_size > 0);
+        assert(frame_size <= LONG_MAX);
+        assert((pos + len) <= stop);
+
+        pos += len; //consume length of size of first frame
+        assert((pos + frame_size) <= stop);
+
+        Frame* pf = m_frames;
+        Frame* const pf_end = pf + m_frame_count;
+
+        {
+            Frame& curr = *pf;
+
+            curr.len = static_cast<long>(frame_size);
+            size += curr.len;  //contribution of this frame
+        }
+
+        --count;
+
+        while (count > 1)
+        {
+            assert(pos < stop);
+            assert(pf < pf_end);
+
+            const Frame& prev = *pf++;
+            assert(pf < pf_end);
+            assert(prev.len == frame_size);
+
+            Frame& curr = *pf;
+
+            const long long delta_size_ = ReadUInt(pReader, pos, len);
+            assert(delta_size_ >= 0);
+            assert((pos + len) <= stop);
+
+            pos += len;  //consume length of (delta) size
+            assert(pos <= stop);
+
+            const int exp = 7*len - 1;
+            const long long bias = (1LL << exp) - 1LL;
+            const long long delta_size = delta_size_ - bias;
+
+            frame_size += delta_size;
+            assert(frame_size > 0);
+            assert(frame_size <= LONG_MAX);
+
+            curr.len = static_cast<long>(frame_size);
+            size += curr.len;  //contribution of this frame
+
+            --count;
+        }
+
+        {
+            assert(pos < stop);
+            assert(pf < pf_end);
+
+            const Frame& prev = *pf++;
+            assert(pf < pf_end);
+            assert(prev.len == frame_size);
+
+            Frame& curr = *pf++;
+            assert(pf == pf_end);
+
+            const long long total_size = stop - pos;
+            assert(total_size > 0);
+            assert(total_size > size);
+
+            frame_size = total_size - size;
+            assert(frame_size > 0);
+            assert(frame_size <= LONG_MAX);
+
+            curr.len = static_cast<long>(frame_size);
+        }
+
+        pf = m_frames;
+        while (pf != pf_end)
+        {
+            Frame& f = *pf++;
+            assert((pos + f.len) <= stop);
+
+            f.pos = pos;
+            pos += f.len;
+        }
+
+        assert(pos == stop);
+    }
 }
 
 
-//Block::Block(ULONG track) :
-//    m_pGroup(0),
-//    m_start(0),
-//    m_size(0),
-//    m_track(track),
-//    m_timecode(0),
-//    m_flags(0),
-//    m_frame_off(0),
-//    m_frame_size(0)
-//{
-//}
+Block::~Block()
+{
+    delete[] m_frames;
+}
 
 
-//bool Block::EOS() const
-//{
-//    return (m_pGroup == 0);
-//}
-
-
-//Track* Block::GetTrack() const
-//{
-//    const Segment* const pSegment = m_pGroup->m_pCluster->m_pSegment;
-//    const Tracks* const pTracks = pSegment->GetTracks();
-//
-//    const ULONG tn = static_cast<ULONG>(m_track);
-//    Track* const pTrack = pTracks->GetTrack(tn);
-//
-//    return pTrack;
-//}
-
-
-__int64 Block::GetTimeCode(Cluster* pCluster) const
+long long Block::GetTimeCode(const Cluster* pCluster) const
 {
     assert(pCluster);
 
-    const __int64 tc0 = pCluster->GetTimeCode();
+    const long long tc0 = pCluster->GetTimeCode();
     assert(tc0 >= 0);
 
-    const __int64 tc = tc0 + __int64(m_timecode);
+    const long long tc = tc0 + static_cast<long long>(m_timecode);
     assert(tc >= 0);
 
     return tc;  //unscaled timecode units
 }
 
 
-__int64 Block::GetTime(Cluster* pCluster) const
+long long Block::GetTime(const Cluster* pCluster) const
 {
     assert(pCluster);
 
-    const __int64 tc = GetTimeCode(pCluster);
+    const long long tc = GetTimeCode(pCluster);
 
     const Segment* const pSegment = pCluster->m_pSegment;
     const SegmentInfo* const pInfo = pSegment->GetInfo();
     assert(pInfo);
 
-    const __int64 scale = pInfo->GetTimeCodeScale();
+    const long long scale = pInfo->GetTimeCodeScale();
     assert(scale >= 1);
 
-    const __int64 ns = tc * scale;
+    const long long ns = tc * scale;
 
     return ns;
 }
 
 
-
-ULONG Block::GetNumber() const
+long long Block::GetTrackNumber() const
 {
-    assert(m_track > 0);
-    assert(m_track <= ULONG_MAX);
-
-    return static_cast<ULONG>(m_track);
-}
-
-
-SHORT Block::GetRelativeTimeCode() const
-{
-    return m_timecode;
+    return m_track;
 }
 
 
 bool Block::IsKey() const
 {
-    return ((m_flags & BYTE(1 << 7)) != 0);
+    return ((m_flags & static_cast<unsigned char>(1 << 7)) != 0);
 }
 
 
 void Block::SetKey(bool bKey)
 {
     if (bKey)
-        m_flags |= BYTE(1 << 7);
+        m_flags |= static_cast<unsigned char>(1 << 7);
     else
         m_flags &= 0x7F;
 }
 
 
-LONG Block::GetSize() const
+#if 0
+long long Block::GetOffset() const
 {
-    return m_frame_size;
+  return m_frameOff;
 }
 
 
-HRESULT Block::Read(IMkvFile* pFile, BYTE* buf) const
+long Block::GetSize() const
 {
-    assert(pFile);
+    return m_frameSize;
+}
+
+long Block::Read(IMkvReader* pReader, unsigned char* buf) const
+{
+    assert(pReader);
     assert(buf);
 
-    const HRESULT hr = pFile->MkvRead(m_frame_off, m_frame_size, buf);
+    const long hr = pReader->Read(m_frameOff, m_frameSize, buf);
 
     return hr;
 }
+#else
+int Block::GetFrameCount() const
+{
+    return m_frame_count;
+}
 
 
-}  //end namespace MkvParser
+const Block::Frame& Block::GetFrame(int idx) const
+{
+    assert(idx >= 0);
+    assert(idx < m_frame_count);
+
+    const Frame& f = m_frames[idx];
+    assert(f.pos > 0);
+    assert(f.len > 0);
+
+    return f;
+}
+
+
+long Block::Frame::Read(IMkvReader* pReader, unsigned char* buf) const
+{
+    assert(pReader);
+    assert(buf);
+
+    const long status = pReader->Read(pos, len, buf);
+    return status;
+}
+#endif
+
+
+}  //end namespace mkvparser

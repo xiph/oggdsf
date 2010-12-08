@@ -11,6 +11,10 @@
 #include <malloc.h>
 #include <cassert>
 #include <sstream>
+//#if (_WIN32_WINNT >= 0x0601)
+//#include <sfc.h>
+//#pragma comment(lib, "sfc")
+//#endif
 
 using std::wstring;
 using std::wostringstream;
@@ -123,7 +127,10 @@ HRESULT ComReg::UnRegisterCustomFileType(
 {
     Registry::Key parent, key;
 
-    LONG e = parent.open(HKEY_CLASSES_ROOT, L"Media Type\\Extensions", KEY_ALL_ACCESS);
+    LONG e = parent.open(
+                HKEY_CLASSES_ROOT,
+                L"Media Type\\Extensions",
+                KEY_ALL_ACCESS);
 
     if (e == ERROR_FILE_NOT_FOUND)  //weird
         return S_FALSE;
@@ -555,7 +562,8 @@ HRESULT ComReg::UnRegisterCoclass(const GUID& clsid)
 
     const wstring clsid_keyname = wstring(L"CLSID\\") + clsid_str;
 
-    Registry::Key clsid_key(HKEY_CLASSES_ROOT, clsid_keyname); //TODO: , KEY_QUERY_VALUE | KEY_SET_VALUE);
+    Registry::Key clsid_key(HKEY_CLASSES_ROOT, clsid_keyname);
+    //TODO: KEY_QUERY_VALUE | KEY_SET_VALUE);
 
     if (!clsid_key.is_open())
         return S_OK;
@@ -569,7 +577,7 @@ HRESULT ComReg::UnRegisterCoclass(const GUID& clsid)
         if (subkey(val))
         {
             const DWORD dw = Registry::SHDeleteKey(HKEY_CLASSES_ROOT, val);
-            assert(dw == ERROR_SUCCESS);
+            assert((dw == ERROR_SUCCESS) || (dw == ERROR_FILE_NOT_FOUND));
             dw;
 
             //TODO: delete subkey from clsid_key
@@ -585,7 +593,7 @@ HRESULT ComReg::UnRegisterCoclass(const GUID& clsid)
         if (subkey(val))
         {
             const DWORD dw = Registry::SHDeleteKey(HKEY_CLASSES_ROOT, val);
-            assert(dw == ERROR_SUCCESS);
+            assert((dw == ERROR_SUCCESS) || (dw == ERROR_FILE_NOT_FOUND));
             dw;
 
             //TODO: delete subkey
@@ -597,7 +605,7 @@ HRESULT ComReg::UnRegisterCoclass(const GUID& clsid)
     clsid_key.close();
 
     const DWORD dw = Registry::SHDeleteKey(HKEY_CLASSES_ROOT, clsid_keyname);
-    assert(dw == ERROR_SUCCESS);
+    assert((dw == ERROR_SUCCESS) || (dw == ERROR_FILE_NOT_FOUND));
     dw;
 
     return S_OK;
@@ -709,3 +717,229 @@ HRESULT ComReg::GetTypeLibAttr(
 
     return S_OK;
 }
+
+
+#if (_WIN32_WINNT >= 0x0601)
+HRESULT ComReg::RegisterByteStreamHandler(
+    const wchar_t* ext,
+    const GUID& clsid,
+    const wchar_t* friendly_name)
+{
+    const wchar_t parent_subkey[] =
+        L"Software\\Microsoft\\Windows Media Foundation\\ByteStreamHandlers";
+
+#if 0
+    const BOOL bProtected = SfcIsKeyProtected(
+                                HKEY_LOCAL_MACHINE,
+                                parent_subkey,
+                                0);
+
+    if (bProtected)
+        return E_ACCESSDENIED;
+
+    Registry::Key parent;
+
+    LONG e = parent.open(
+                HKEY_LOCAL_MACHINE,
+                parent_subkey,
+                KEY_WRITE);  //KEY_CREATE_SUB_KEY?
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    Registry::Key key;
+
+    e = key.create<wchar_t>(parent, ext, 0, 0, KEY_SET_VALUE, 0);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+#else
+    const wstring subkey = wstring(parent_subkey) + L"\\" + ext;
+
+    Registry::Key key;
+
+    LONG e = key.create<wchar_t>(
+                HKEY_LOCAL_MACHINE,
+                subkey.c_str(),
+                0,
+                0,
+                KEY_WRITE,
+                0);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+#endif
+
+    wchar_t buf[guid_buflen];
+
+    const int n = StringFromGUID2(clsid, buf, guid_buflen);
+    n;
+    assert(n == guid_buflen);
+
+    e = key.set(buf, friendly_name);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    return S_OK;
+}
+
+
+HRESULT ComReg::UnRegisterByteStreamHandler(
+    const wchar_t* ext,
+    const GUID& clsid)
+{
+    Registry::Key parent, key;
+
+    LONG e = parent.open(
+                HKEY_LOCAL_MACHINE,
+                L"Software\\Microsoft"
+                  L"\\Windows Media Foundation\\ByteStreamHandlers",
+                KEY_ALL_ACCESS);
+
+    if (e == ERROR_FILE_NOT_FOUND)  //weird
+        return S_FALSE;
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    e = key.open(parent, ext, KEY_ALL_ACCESS);
+
+    if (e == ERROR_FILE_NOT_FOUND)  //normal
+        return S_FALSE;  //not an error if key does not already exist
+
+    if (e)  //indicates a deeper problem
+        return HRESULT_FROM_WIN32(e);
+
+    wchar_t clsidstr[guid_buflen];  //name
+
+    const int n = StringFromGUID2(clsid, clsidstr, guid_buflen);
+    n;
+    assert(n == guid_buflen);
+
+    wstring value;
+
+    e = key.query(clsidstr, value);
+
+    if (e == ERROR_FILE_NOT_FOUND)
+        return S_FALSE;
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    key.close();
+
+    e = Registry::DeleteKey(parent, ext);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    return S_OK;
+}
+#endif
+
+
+HRESULT ComReg::RegisterProtocolSource(
+    const wchar_t* protocol,
+    const wchar_t* ext,
+    const GUID& filter)
+{
+    if (protocol == 0)
+        return E_INVALIDARG;
+
+    if (ext == 0)
+        return E_INVALIDARG;
+
+    if (filter == GUID_NULL)
+        return E_INVALIDARG;
+
+    Registry::Key pk;  //protocol
+
+    LONG e = pk.open(HKEY_CLASSES_ROOT, protocol, KEY_READ | KEY_WRITE);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    Registry::Key ek;  //extensions
+
+    e = ek.open(pk, L"Extensions", KEY_READ | KEY_WRITE);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    wchar_t buf[guid_buflen];
+
+    const int n = StringFromGUID2(filter, buf, guid_buflen);
+    assert(n == guid_buflen);
+
+    e = ek.set(ext, buf);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    return S_OK;
+}
+
+
+HRESULT ComReg::UnRegisterProtocolSource(
+    const wchar_t* protocol,
+    const wchar_t* ext,
+    const GUID& filter)
+{
+    if (protocol == 0)
+        return E_INVALIDARG;
+
+    if (ext == 0)
+        return E_INVALIDARG;
+
+    if (filter == GUID_NULL)
+        return E_INVALIDARG;
+
+    Registry::Key pk;  //protocol
+
+    LONG e = pk.open(HKEY_CLASSES_ROOT, protocol, KEY_READ | KEY_WRITE);
+
+    if (e == ERROR_FILE_NOT_FOUND)
+        return S_FALSE;
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    Registry::Key ek;  //extensions
+
+    e = ek.open(pk, L"Extensions", KEY_READ | KEY_WRITE);
+
+    if (e == ERROR_FILE_NOT_FOUND)
+        return S_FALSE;
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    wstring val;
+
+    e = ek.query(ext, val);
+
+    if (e == ERROR_FILE_NOT_FOUND)
+        return S_FALSE;
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    GUID guid;
+
+    const HRESULT hr = ::CLSIDFromString(const_cast<wchar_t*>(val.c_str()), &guid);
+
+    if (FAILED(hr))
+        return S_FALSE;
+
+    if (guid != filter)
+        return S_FALSE;
+
+    e = ::RegDeleteValue(ek, ext);
+
+    if (e)
+        return HRESULT_FROM_WIN32(e);
+
+    return S_OK;
+}
+

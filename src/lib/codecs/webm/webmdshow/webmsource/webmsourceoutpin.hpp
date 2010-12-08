@@ -33,10 +33,10 @@ protected:
     GraphUtil::IMemInputPinPtr m_pInputPin;
     HANDLE m_hThread;
 
-    bool PopulateSample(IMediaSample*);
+    HRESULT PopulateSamples(mkvparser::Stream::samples_t&);
 
 public:
-    Outpin(Filter*, MkvParser::Stream*);
+    Outpin(Filter*, mkvparser::Stream*);
     virtual ~Outpin();
 
     void Init();
@@ -113,7 +113,7 @@ public:
     HRESULT STDMETHODCALLTYPE GetRate(double*);
     HRESULT STDMETHODCALLTYPE GetPreroll(LONGLONG*);
 
-    MkvParser::Stream* const m_pStream;
+    mkvparser::Stream* const m_pStream;
 
 private:
     static unsigned __stdcall ThreadProc(void*);

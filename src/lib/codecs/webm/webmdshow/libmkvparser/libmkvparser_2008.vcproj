@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="libmkvparser_2008"
 	ProjectGUID="{71A257DD-0721-406F-9E32-283C46592285}"
 	RootNamespace="libmkvparser"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -294,6 +295,14 @@
 		</File>
 		<File
 			RelativePath=".\mkvparserstreamaudio.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\mkvparserstreamreader.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\mkvparserstreamreader.hpp"
 			>
 		</File>
 		<File

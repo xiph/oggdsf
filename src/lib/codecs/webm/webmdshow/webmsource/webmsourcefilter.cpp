@@ -10,9 +10,9 @@
 #include <uuids.h>
 #include "webmsourcefilter.hpp"
 #include "cenumpins.hpp"
-#include "webmsourceoutpin.hpp"
 #include "mkvparserstreamvideo.hpp"
 #include "mkvparserstreamaudio.hpp"
+#include "webmsourceoutpin.hpp"
 #include "webmtypes.hpp"
 #include <new>
 #include <cassert>
@@ -84,7 +84,8 @@ Filter::Filter(IClassFactory* pClassFactory, IUnknown* pOuter)
       m_clock(0),
       m_pSegment(0),
       m_pSeekBase(0),
-      m_seekTime(kNoSeek)
+      m_seekBase_ns(-1),
+      m_currTime(kNoSeek)
 {
     m_pClassFactory->LockServer(TRUE);
 
@@ -654,12 +655,20 @@ HRESULT Filter::CreateSegment()
 
     __int64 result, pos;
 
-    MkvParser::EBMLHeader h;
+    mkvparser::EBMLHeader h;
 
     result = h.Parse(&m_file, pos);
 
     if (result < 0)  //error
-        return static_cast<HRESULT>(result);
+    {
+        if (result == mkvparser::E_FILE_FORMAT_INVALID)
+            return VFW_E_INVALID_FILE_FORMAT;
+
+        //if (result == mkvparser::E_BUFFER_NOT_FULL)
+        //    return VFW_E_BUFFER_UNDERFLOW;  //require full header
+
+        return E_FAIL;
+    }
 
     assert(result == 0);  //all data available in local file
 
@@ -672,7 +681,7 @@ HRESULT Filter::CreateSegment()
     if (h.m_maxSizeLength > 8)
         return VFW_E_INVALID_FILE_FORMAT;
 
-    const char* const docType = h.m_docType.c_str();
+    const char* const docType = h.m_docType;
 
     if (_stricmp(docType, "webm") == 0)
         __noop;
@@ -690,65 +699,119 @@ HRESULT Filter::CreateSegment()
     //Just the EBML header has been consumed.  pos points
     //to start of (first) segment.
 
-    MkvParser::Segment* p;
+    mkvparser::Segment* p;
 
-    result = MkvParser::Segment::CreateInstance(&m_file, pos, p);
+    result = mkvparser::Segment::CreateInstance(&m_file, pos, p);
 
-    if (result < 0)
-        return static_cast<HRESULT>(result);
+    if (result < 0)  //error
+    {
+        if (result == mkvparser::E_FILE_FORMAT_INVALID)
+            return VFW_E_INVALID_FILE_FORMAT;
+
+        //if (result == mkvparser::E_BUFFER_NOT_FULL)
+        //    return VFW_E_BUFFER_UNDERFLOW;
+
+        return E_FAIL;
+    }
 
     assert(result == 0);  //all data available in local file
     assert(p);
 
-    std::auto_ptr<MkvParser::Segment> pSegment(p);
+    std::auto_ptr<mkvparser::Segment> pSegment(p);
 
+#if 0
     const HRESULT hr = pSegment->Load();
 
     if (FAILED(hr))
         return hr;
+#else
+    result = p->ParseHeaders();
+
+    if (result < 0)  //error
+    {
+        if (result == mkvparser::E_FILE_FORMAT_INVALID)
+            return VFW_E_INVALID_FILE_FORMAT;
+
+        return E_FAIL;  //TODO
+    }
+
+    assert(result == 0);  //all data available in local file
+#endif
 
 #ifdef _DEBUG
-    if (const MkvParser::SegmentInfo* pInfo = pSegment->GetInfo())
+    if (const mkvparser::SegmentInfo* pInfo = pSegment->GetInfo())
     {
         wstring muxingApp, writingApp;
 
-        if (const wchar_t* str = pInfo->GetMuxingApp())
-            muxingApp = str;
+        if (const char* str = pInfo->GetMuxingAppAsUTF8())
+            muxingApp = mkvparser::Stream::ConvertFromUTF8(str);
 
-        if (const wchar_t* str = pInfo->GetWritingApp())
-            writingApp = str;
+        if (const char* str = pInfo->GetWritingAppAsUTF8())
+            writingApp = mkvparser::Stream::ConvertFromUTF8(str);
 
         pInfo = 0;
     }
 #endif
 
-    const MkvParser::Tracks* const pTracks = pSegment->GetTracks();
+    const mkvparser::Tracks* const pTracks = pSegment->GetTracks();
 
     if (pTracks == 0)
         return S_FALSE;
 
     assert(m_pins.empty());
 
-    using namespace MkvParser;
+    using namespace mkvparser;
 
+#if 0
     typedef Stream::TCreateOutpins<VideoTrack, VideoStream, Filter> EV;
     pTracks->EnumerateVideoTracks(EV(this, &VideoStream::CreateInstance));
 
     typedef Stream::TCreateOutpins<AudioTrack, AudioStream, Filter> EA;
     pTracks->EnumerateAudioTracks(EA(this, &AudioStream::CreateInstance));
+#else
+    const ULONG n = pTracks->GetTracksCount();
+
+    for (ULONG i = 0; i < n; ++i)
+    {
+        const Track* const pTrack = pTracks->GetTrackByIndex(i);
+
+        if (pTrack == 0)
+            continue;
+
+        const long long type = pTrack->GetType();
+
+        if (type == 1)  //video
+        {
+            typedef mkvparser::VideoTrack VT;
+            const VT* const t = static_cast<const VT*>(pTrack);
+
+            if (VideoStream* s = VideoStream::CreateInstance(t))
+                CreateOutpin(s);
+        }
+        else if (type == 2)  //audio
+        {
+            typedef mkvparser::AudioTrack AT;
+            const AT* const t = static_cast<const AT*>(pTrack);
+
+            if (AudioStream* s = AudioStream::CreateInstance(t))
+                CreateOutpin(s);
+        }
+    }
+#endif
 
     if (m_pins.empty())
         return VFW_E_INVALID_FILE_FORMAT;  //TODO: better return value here?
 
     m_pSegment = pSegment.release();
     m_pSeekBase = 0;
-    m_seekTime = kNoSeek;
+    m_seekBase_ns = -1;
+    m_currTime = kNoSeek;
 
     return S_OK;
 }
 
 
-void Filter::CreateOutpin(MkvParser::Stream* s)
+void Filter::CreateOutpin(mkvparser::Stream* s)
 {
     Outpin* const p = new (std::nothrow) Outpin(this, s);
     m_pins.push_back(p);
@@ -870,31 +933,90 @@ void Filter::SetCurrPosition(
     assert(pOutpin);
     assert(pOutpin->m_connection);
 
-    MkvParser::Stream* const pOutpinStream = pOutpin->m_pStream;
+    using namespace mkvparser;
 
-    //odbgstream os;
+    Stream* const pOutpinStream = pOutpin->m_pStream;
+    const Track* const pOutpinTrack = pOutpinStream->m_pTrack;
 
-    if (m_seekTime == currTime)
+    if (m_currTime == currTime)
     {
-        pOutpinStream->SetCurrPosition(m_pSeekBase);
-        //os << "webmsource::filter::setcurrpos: seektime=currtime #1" << endl;
+       const BlockEntry* pCurr;
+
+        if (m_pSeekBase == 0)  //lazy init
+            pCurr = 0;
+        else if (m_pSeekBase->EOS())
+            pCurr = pOutpinTrack->GetEOS();
+        else
+            pCurr = m_pSeekBase->GetEntry(pOutpinTrack, m_seekTime_ns);
+
+        pOutpinStream->SetCurrPosition(m_seekBase_ns, pCurr);
         return;
     }
 
+    m_currTime = currTime;
     const LONGLONG ns = pOutpinStream->GetSeekTime(currTime, dwCurr);
 
-    if (pOutpinStream->m_pTrack->GetType() == 1)  //video
+    long status = m_pSegment->LoadCluster();
+    assert(status >= 0);  //TODO
+
+    if (pOutpinTrack->GetType() == 1)  //video
     {
         const AM_MEDIA_TYPE& mt = pOutpin->m_connection_mtv[0];
         const BOOL bVideo = (mt.majortype == MEDIATYPE_Video);
         bVideo;
         assert(bVideo);
 
-        pOutpinStream->PreloadSeek(ns);
+        if (const Cues* pCues = m_pSegment->GetCues())
+        {
+            const CuePoint* pCP;
+            const CuePoint::TrackPosition* pTP;
 
-        m_pSeekBase = pOutpinStream->SetCurrPosition(ns);
-        m_seekTime = currTime;
-        //os << "webmsource::filter::setcurrpos: outpin is video #2" << endl;
+            if (pCues->Find(ns, pOutpinTrack, pCP, pTP))
+            {
+                const BlockEntry* const pCurr = pCues->GetBlock(pCP, pTP);
+                assert(pCurr);
+                assert(!pCurr->EOS());
+
+                m_pSeekBase = pCurr->GetCluster();
+                m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+                m_seekTime_ns = m_seekBase_ns;
+
+                pOutpinStream->SetCurrPosition(m_seekBase_ns, pCurr);
+                return;
+            }
+        }
+
+        const BlockEntry* pCurr;
+
+        for (;;)
+        {
+            status = pOutpinTrack->Seek(ns, pCurr);
+
+            if (status >= 0)
+                break;
+
+            assert(status == mkvparser::E_BUFFER_NOT_FULL);
+
+            status = m_pSegment->LoadCluster();
+            assert(status >= 0);
+        }
+
+        assert(pCurr);
+
+        if (pCurr->EOS())  //pathological
+        {
+            m_pSeekBase = &m_pSegment->m_eos;
+            m_seekBase_ns = -1;
+            m_seekTime_ns = -1;
+        }
+        else
+        {
+            m_pSeekBase = pCurr->GetCluster();
+            m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+            m_seekTime_ns = m_seekBase_ns;
+        }
+
+        pOutpinStream->SetCurrPosition(m_seekBase_ns, pCurr);
         return;
     }
 
@@ -917,35 +1039,111 @@ void Filter::SetCurrPosition(
         if (!bVideo)
             continue;
 
-        MkvParser::Stream* const pStream = pin->m_pStream;
+        Stream* const pStream = pin->m_pStream;
         assert(pStream);
         assert(pStream != pOutpinStream);
-        assert(pStream->m_pTrack->GetType() == 1);  //video
 
-        pStream->PreloadSeek(ns);
+        const Track* const pVideoTrack = pStream->m_pTrack;
+        assert(pVideoTrack->GetType() == 1);  //video
 
-        m_pSeekBase = pStream->GetSeekBase(ns);
-        m_seekTime = currTime;
+        if (const Cues* pCues = m_pSegment->GetCues())
+        {
+            const CuePoint* pCP;
+            const CuePoint::TrackPosition* pTP;
 
-        //os << "webmsource::filter::setcurrpos: searched for and found video pin;"
-        //   << " timecode[ns]=" << ns
-        //   << " seekbase.time[ns]="
-        //   << ((m_pSeekBase == 0) ? -42 : m_pSeekBase->GetTime())
-        //   << " #3a"
-        //   << endl;
+            if (pCues->Find(ns, pVideoTrack, pCP, pTP))
+            {
+                const BlockEntry* pCurr = pCues->GetBlock(pCP, pTP);
+                assert(pCurr);
+                assert(!pCurr->EOS());
 
-        pOutpinStream->SetCurrPosition(m_pSeekBase);
+                m_pSeekBase = pCurr->GetCluster();
+                m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+                m_seekTime_ns = m_seekBase_ns;  //to find same block later
 
-        //os << "webmsource::filter::setcurrpos: searched for and found video pin #3b" << endl;
+                pCurr = m_pSeekBase->GetEntry(pOutpinTrack, m_seekBase_ns);
+                assert(pCurr);
+
+                if (!pCurr->EOS())
+                    m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+
+                pOutpinStream->SetCurrPosition(m_seekBase_ns, pCurr);
+                return;
+            }
+        }
+
+        const BlockEntry* pCurr;
+
+        for (;;)
+        {
+            status = pVideoTrack->Seek(ns, pCurr);
+
+            if (status >= 0)
+                break;
+
+            assert(status == mkvparser::E_BUFFER_NOT_FULL);
+
+            status = m_pSegment->LoadCluster();
+            assert(status >= 0);
+        }
+
+        if (pCurr->EOS())  //pathological
+        {
+            m_pSeekBase = &m_pSegment->m_eos;
+            m_seekBase_ns = -1;
+            m_seekTime_ns = -1;
+
+            pCurr = pOutpinTrack->GetEOS();
+            pOutpinStream->SetCurrPosition(m_seekBase_ns, pCurr);
+            return;
+        }
+
+        m_pSeekBase = pCurr->GetCluster();
+        m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+        m_seekTime_ns = m_seekBase_ns;  //to find same block later
+
+        pCurr = m_pSeekBase->GetEntry(pOutpinTrack, m_seekBase_ns);
+        assert(pCurr);
+
+        if (!pCurr->EOS())
+            m_seekBase_ns = pCurr->GetBlock()->GetTime(m_pSeekBase);
+
+        pOutpinStream->SetCurrPosition(m_seekBase_ns, pCurr);
         return;
     }
 
-    //os << "webmsource::filter::setcurrpos: searched for but did not find video pin #4" << endl;
+    const BlockEntry* pCurr;
 
-    m_pSeekBase = pOutpinStream->SetCurrPosition(ns);
-    m_seekTime = currTime;
+    for (;;)
+    {
+        status = pOutpinTrack->Seek(ns, pCurr);
+
+        if (status >= 0)
+            break;
+
+        assert(status == mkvparser::E_BUFFER_NOT_FULL);
+
+        status = m_pSegment->LoadCluster();
+        assert(status >= 0);
+    }
+
+    assert(pCurr);
+
+    if (pCurr->EOS())  //pathological
+    {
+        m_pSeekBase = &m_pSegment->m_eos;
+        m_seekBase_ns = -1;
+        m_seekTime_ns = -1;
+    }
+    else
+    {
+        m_pSeekBase = pCurr->GetCluster();
+        m_seekBase_ns = m_pSeekBase->GetFirstTime();
+        m_seekTime_ns = ns;
+    }
+
+    pOutpinStream->SetCurrPosition(m_seekBase_ns, pCurr);
 }
-
 
 
 } //end namespace WebmSource
