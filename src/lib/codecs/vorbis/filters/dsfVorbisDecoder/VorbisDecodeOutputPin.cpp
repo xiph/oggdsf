@@ -58,7 +58,8 @@ HRESULT VorbisDecodeOutputPin::DecideBufferSize(IMemAllocator* inAllocator, ALLO
     HRESULT hr = AbstractTransformOutputPin::DecideBufferSize(inAllocator, inReqAllocProps);
 
     LOG(logINFO) << "Desired buffer size: " << mDesiredBufferSize << ", buffers: " << mDesiredBufferCount
-        << " Actual buffer size: " << mActualBufferSize << ", buffers: " << mActualBufferCount;
+        << " Actual buffer size: " << mActualBufferSize << ", buffers: " << mActualBufferCount
+        << " Result: 0x" << std::hex << hr;
     
     return hr;
 }
@@ -127,21 +128,25 @@ HRESULT VorbisDecodeOutputPin::FillMediaType(CMediaType& mediaType, bool useWave
             break;
         case 3:
             formatEx->dwChannelMask = SPEAKER_FRONT_LEFT
-                | SPEAKER_FRONT_RIGHT
-                | SPEAKER_FRONT_CENTER;
+                                    | SPEAKER_FRONT_RIGHT
+                                    | SPEAKER_FRONT_CENTER;
             break;
         case 4:
             formatEx->dwChannelMask = KSAUDIO_SPEAKER_QUAD;
             break;
         case 5:
             formatEx->dwChannelMask = SPEAKER_FRONT_LEFT
-                | SPEAKER_FRONT_RIGHT
-                | SPEAKER_FRONT_CENTER
-                | SPEAKER_BACK_LEFT
-                | SPEAKER_BACK_RIGHT;
+                                    | SPEAKER_FRONT_RIGHT
+                                    | SPEAKER_FRONT_CENTER
+                                    | SPEAKER_BACK_LEFT
+                                    | SPEAKER_BACK_RIGHT;
             break;
         case 6:
             formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1;
+            break;
+        case 7:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1_SURROUND 
+                                    | SPEAKER_BACK_CENTER;
             break;
         case 8:
             formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1_SURROUND;

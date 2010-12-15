@@ -105,8 +105,6 @@ StampedOggPacket* VorbisEncoder::oldToNewPacket(ogg_packet* inOldPacket)
 
 vector<StampedOggPacket*> VorbisEncoder::encodeVorbis(const short* const inSampleBuffer, unsigned long inNumSamplesPerChannel)
 {
-    //TODO::: Handle 5 channel input
-
     if (inNumSamplesPerChannel == 0) {
         return vector<StampedOggPacket*>();
     }
@@ -115,8 +113,50 @@ vector<StampedOggPacket*> VorbisEncoder::encodeVorbis(const short* const inSampl
 
     float* locOneOutputChannelBuffer = NULL;
     const short* locReadChannelBuffer = NULL;
+
+	const short* channel_order;
+	const short channel_order_mono[] = {0};
+	const short channel_order_stereo[] = {0, 1};
+	const short channel_order_three[] = {0, 2, 1};
+	const short channel_order_four[] = {0, 1, 2, 3};
+	const short channel_order_five[] = {0, 2, 1, 3, 4};
+	const short channel_order_5_1[] = {0, 2, 1, 5, 3, 4};
+	const short channel_order_6_1[] = {0, 2, 1, 6, 5, 3, 4};
+	const short channel_order_7_1[] = {0, 2, 1, 7, 5, 6, 3, 4};
+
+	switch (mSettings.mNumChannels) {
+        case 1: // mono ch. 
+		    channel_order = channel_order_mono;
+            break;
+        case 2: // stereo ch. 
+		    channel_order = channel_order_stereo;
+            break;
+        case 3: // 3 ch. 
+			channel_order = channel_order_three;
+            break;
+        case 4: // 4 ch. 
+			channel_order = channel_order_four;
+            break;
+        case 5: // 5 ch. 
+			channel_order = channel_order_five;
+            break;
+        case 6: // 5.1 ch. 
+			channel_order = channel_order_5_1;
+            break;
+        case 7: // 6.1 ch. 
+			channel_order = channel_order_6_1;
+            break;
+        case 8: // 7.1 ch.
+			channel_order = channel_order_7_1;
+            break;
+		default:
+			channel_order = channel_order_mono;  //?
+			break;
+	}
+
     for (unsigned long chan = 0; chan < mSettings.mNumChannels; chan++) {
-        locOneOutputChannelBuffer = locBuffer[chan];
+        //locOneOutputChannelBuffer = locBuffer[chan];
+        locOneOutputChannelBuffer = locBuffer[channel_order[chan]];
         locReadChannelBuffer = inSampleBuffer + chan;
 
         for (unsigned long sam = 0; sam < inNumSamplesPerChannel; sam++) {

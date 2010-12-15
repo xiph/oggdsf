@@ -184,6 +184,10 @@ void NativeFLACSourcePin::FillMediaType(CMediaType& mediaType, bool useWaveForma
         case 6:
             formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1;
             break;
+        case 7:
+            formatEx->dwChannelMask = KSAUDIO_SPEAKER_5POINT1_SURROUND 
+                                    | SPEAKER_BACK_CENTER;
+            break;
         case 8:
             formatEx->dwChannelMask = KSAUDIO_SPEAKER_7POINT1_SURROUND;
             break;

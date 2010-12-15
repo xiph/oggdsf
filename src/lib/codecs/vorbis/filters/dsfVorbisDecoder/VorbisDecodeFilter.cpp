@@ -264,10 +264,10 @@ void VorbisDecodeFilter::setVorbisFormat(VORBISFORMAT2* vorbisFormat2)
 
 void VorbisDecodeFilter::PrintVorbisFormatInfo()
 {
-    LOG(logINFO) << "Vorbis Version: " << mVorbisFormatInfo->vorbisVersion
-        << " Channels: " << mVorbisFormatInfo->numChannels
-        << " SamplesPerSec: " << mVorbisFormatInfo->samplesPerSec
-        << " MaxBitsPerSec: " << mVorbisFormatInfo->maxBitsPerSec
-        << " AvgBitsPerSec: " << mVorbisFormatInfo->avgBitsPerSec
-        << " MinBitsPerSec: " << mVorbisFormatInfo->minBitsPerSec;
+    LOG(logINFO) << "Vorbis Version: " << mVorbisFormatInfo->vorbisVersion;
+    LOG(logINFO) << "Channels: " << mVorbisFormatInfo->numChannels;
+    LOG(logINFO) << "SamplesPerSec: " << mVorbisFormatInfo->samplesPerSec;
+    LOG(logINFO) << "MaxBitsPerSec: " << mVorbisFormatInfo->maxBitsPerSec;
+    LOG(logINFO) << "AvgBitsPerSec: " << mVorbisFormatInfo->avgBitsPerSec;
+    LOG(logINFO) << "MinBitsPerSec: " << mVorbisFormatInfo->minBitsPerSec;
 }

@@ -37,95 +37,102 @@
 #include "VorbisDecodeInputPin.h"
 #include "VorbisDecodeFilter.h"
 #include "VorbisDecoder.h"
+#include "IDownmixAudio.h"
 
 class VorbisDecodeFilter;
 class VorbisDecodeOutputPin;
 
 class VorbisDecodeInputPin 
-	:	public AbstractTransformInputPin
-	,	public IOggDecoder
+    :    public AbstractTransformInputPin
+    ,    public IOggDecoder
+    ,    public IDownmixAudio
 {
 public:
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-	VorbisDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
-	virtual ~VorbisDecodeInputPin(void);
+    VorbisDecodeInputPin(AbstractTransformFilter* inFilter, CCritSec* inFilterLock, AbstractTransformOutputPin* inOutputPin, vector<CMediaType*> inAcceptableMediaTypes);
+    virtual ~VorbisDecodeInputPin(void);
 
-	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
-	virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
-	virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
-	virtual STDMETHODIMP EndFlush();
+    virtual HRESULT SetMediaType(const CMediaType* inMediaType);
+    virtual HRESULT CheckMediaType(const CMediaType *inMediaType);
+    virtual STDMETHODIMP NewSegment(REFERENCE_TIME inStartTime, REFERENCE_TIME inStopTime, double inRate);
+    virtual STDMETHODIMP EndFlush();
 
-	virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
-	virtual HRESULT CompleteConnect(IPin *inReceivePin);
+    virtual STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES *outRequestedProps);
+    virtual HRESULT CompleteConnect(IPin *inReceivePin);
 
-	//Overriden from AbstractTransform input pin
-	virtual STDMETHODIMP Receive(IMediaSample* inSample);
+    //Overriden from AbstractTransform input pin
+    virtual STDMETHODIMP Receive(IMediaSample* inSample);
 
-	//IOggDecoder Interface
-	virtual LOOG_INT64 __stdcall convertGranuleToTime(LOOG_INT64 inGranule);
-	virtual LOOG_INT64 __stdcall mustSeekBefore(LOOG_INT64 inGranule);
-	virtual IOggDecoder::eAcceptHeaderResult __stdcall showHeaderPacket(OggPacket* inCodecHeaderPacket);
-	virtual string __stdcall getCodecShortName();
-	virtual string __stdcall getCodecIdentString();
+    //IOggDecoder Interface
+    virtual LOOG_INT64 __stdcall convertGranuleToTime(LOOG_INT64 inGranule);
+    virtual LOOG_INT64 __stdcall mustSeekBefore(LOOG_INT64 inGranule);
+    virtual IOggDecoder::eAcceptHeaderResult __stdcall showHeaderPacket(OggPacket* inCodecHeaderPacket);
+    virtual string __stdcall getCodecShortName();
+    virtual string __stdcall getCodecIdentString();
+
+    //IDownmixAudio Interface
+    virtual void __stdcall setDownmixAudio(const bool setDownmix);
+    virtual bool __stdcall getDownmixAudio();
 
 protected:
-	static const unsigned long DECODED_BUFFER_SIZE = 1<<20;		//1 Meg buffer
+    static const unsigned long DECODED_BUFFER_SIZE = 1<<21;        //2 Meg buffer
 
-	enum eVorbisSetupState {
-		VSS_SEEN_NOTHING,
-		VSS_SEEN_BOS,
-		VSS_SEEN_COMMENT,
-		VSS_ALL_HEADERS_SEEN,
-		VSS_ERROR
-	};
+    enum eVorbisSetupState {
+        VSS_SEEN_NOTHING,
+        VSS_SEEN_BOS,
+        VSS_SEEN_COMMENT,
+        VSS_ALL_HEADERS_SEEN,
+        VSS_ERROR
+    };
 
-	eVorbisSetupState mSetupState;
+    eVorbisSetupState mSetupState;
 
-	static const unsigned long VORBIS_IDENT_HEADER_SIZE = 30;
+    static const unsigned long VORBIS_IDENT_HEADER_SIZE = 30;
 
 #ifdef WINCE
-	static const unsigned long VORBIS_NUM_BUFFERS = 50;
-	static const unsigned long VORBIS_BUFFER_SIZE = 8192;
+    static const unsigned long VORBIS_NUM_BUFFERS = 50;
+    static const unsigned long VORBIS_BUFFER_SIZE = 8192;
 
 #else
-	static const unsigned long VORBIS_NUM_BUFFERS = 75;
-	static const unsigned long VORBIS_BUFFER_SIZE = 65536;
+    static const unsigned long VORBIS_NUM_BUFFERS = 75;
+    static const unsigned long VORBIS_BUFFER_SIZE = 65536;
 #endif
 
-	//Implementation of virtuals from AbstractTransform Filter
-	virtual bool ConstructCodec();
-	virtual void DestroyCodec();
-	virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
-	virtual HRESULT TransformVorbis2(const BYTE* const in_buffer, const long size_of_in_buffer); 
+    //Implementation of virtuals from AbstractTransform Filter
+    virtual bool ConstructCodec();
+    virtual void DestroyCodec();
+    virtual HRESULT TransformData(unsigned char* inBuf, long inNumBytes);
+    virtual HRESULT TransformVorbis2(const BYTE* const in_buffer, const long size_of_in_buffer); 
 
     void reorderChannels(unsigned char* inDestBuffer, const unsigned char* inSourceBuffer, unsigned long inNumBytes);
 
-	VorbisDecodeFilter* GetFilter();
+    VorbisDecodeFilter* GetFilter();
 
-	//TODO::: Are these needed?
-	bool mBegun;
-	//unsigned int mUptoFrame;
-	//HRESULT mHR;
+    //TODO::: Are these needed?
+    bool mBegun;
+    //unsigned int mUptoFrame;
+    //HRESULT mHR;
 
-	int mNumChannels;
-	int mFrameSize;
-	int mSampleRate;
+    int mNumChannels;
+    int mFrameSize;
+    int mSampleRate;
 
-	VorbisDecoder mVorbisDecoder;
+    VorbisDecoder mVorbisDecoder;
 
-	unsigned char* mDecodedBuffer;
-	unsigned long mDecodedByteCount;
+    unsigned char* mDecodedBuffer;
+    unsigned long mDecodedByteCount;
 
-	__int64 mRateNumerator;
-	static const __int64 RATE_DENOMINATOR = 65536;
+    __int64 mRateNumerator;
+    static const __int64 RATE_DENOMINATOR = 65536;
 
-	IOggOutputPin* mOggOutputPinInterface;
-	bool mSentStreamOffset;
+    IOggOutputPin* mOggOutputPinInterface;
+    bool mSentStreamOffset;
 
 private:
-	bool m_isVorbisFormat2;
+    bool m_isVorbisFormat2;
+    bool m_isDownmix;
 };
 

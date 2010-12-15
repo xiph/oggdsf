@@ -89,6 +89,4 @@ protected:
 
 	//Format Block
 	VORBISFORMAT* mVorbisFormatInfo;
-
-    static const bool USE_CORRECT_VORBIS_CHANNEL_MAPPING = true;
 };
