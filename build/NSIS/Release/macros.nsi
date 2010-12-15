@@ -100,6 +100,10 @@ Var /GLOBAL WMP_PLAY
         WriteRegStr HKCR "${typeName}\shellex\ContextMenuHandlers\WMPAddToPlaylist" "" "{F1B9284F-E9DC-4e68-9D7E-42362A59F0FD}"
         WriteRegStr HKCR "${typeName}\shellex\ContextMenuHandlers\WMPPlayAsPlaylist" "" "{CE3FB1D1-02AE-4a5f-A6E9-D9F1B4073E6C}"
     ${EndIf}
+    
+    ${If} ${AtLeastWinVista}
+        WriteRegStr HKCR "${typeName}\shell\play\command" "DelegateExecute" "{ed1d0fdf-4414-470a-a56d-cfb68623fc58}"
+    ${EndIf}
 
     WriteRegStr HKCR "${typeName}\DefaultIcon" "" "$INSTDIR\${IcoFile}"
 !macroend

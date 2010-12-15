@@ -11,6 +11,7 @@ Version 0.85.xxxxx - xx.12.2010
     * Theora Decoder filter can now be connected to the output of the Theora Encoder filter.
     * Fixed graph freeze when a Vorbis Decoder filter was connected to the output of a 
       Vorbis Encoder filter.
+    * Fixed #1619: Contextual menu / open
     * Fixed #1748: opencodecs unable to cope with less usual audio setups (ogg 6.1, possibly 7.1 
       and other non-stereo ones)
 
