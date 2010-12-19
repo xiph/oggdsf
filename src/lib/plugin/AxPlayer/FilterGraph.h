@@ -79,6 +79,8 @@ public:
 
     static const long MIN_VOLUME = -10000;
 
+    void BuildSeekTable();
+
 private:
     void AddSourceDemuxFilters();
     void AddDecoders();
@@ -118,6 +120,8 @@ private:
     bool m_haveAudio;
     bool m_haveVideo;
     bool m_haveWebm;
+
+    bool m_buildSeekTable;
 };
 
 #endif // FILTERGRAPH_H

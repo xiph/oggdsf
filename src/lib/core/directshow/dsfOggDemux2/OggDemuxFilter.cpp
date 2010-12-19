@@ -158,6 +158,10 @@ STDMETHODIMP OggDemuxFilter::NonDelegatingQueryInterface(REFIID riid, void **ppv
     {
         return GetInterface((IOggBaseTime*)this, ppv);
     }
+    else if (riid == IID_IOggSeekTable)
+    {
+        return GetInterface((IOggSeekTable*)this, ppv);
+    }
 
     return CBaseFilter::NonDelegatingQueryInterface(riid, ppv); 
 }
@@ -809,4 +813,31 @@ LONGLONG OggDemuxFilter::GetRequestedSeekPos() const
 void OggDemuxFilter::SetRequestedSeekPos(LONGLONG val)
 {
     m_requestedSeekPos = val;
+}
+
+void OggDemuxFilter::buildSeekTable()
+{
+    unsigned threadID = 0;
+    _beginthreadex( NULL, 0, &SeekTableThread, this, 0, &threadID);
+}
+
+unsigned __stdcall OggDemuxFilter::SeekTableThread(void* arg)
+{
+    OggDemuxFilter* self = reinterpret_cast<OggDemuxFilter*>(arg);
+    self->BuildSeekTable();
+    
+    return 0;
+}
+
+void OggDemuxFilter::BuildSeekTable()
+{
+    LOG(logDEBUG) << __FUNCTIONW__ << L" Building seek table...";
+
+    CComPtr<IAsyncReader> reader = m_inputPin.GetReader();
+    if (reader)
+    {
+        static_cast<CustomOggChainGranuleSeekTable*>(m_seekTable)->buildTable(reader);
+    }
+
+    LOG(logDEBUG) << __FUNCTIONW__ << L" Built.";    
 }

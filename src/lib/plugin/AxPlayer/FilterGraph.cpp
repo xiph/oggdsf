@@ -37,11 +37,10 @@
 
 #include "DShowUtil.h"
 #include "CustomVMR9Allocator.h"
+#include "IOggSeekTable.h"
+#include "OggTypes.h"
 
 namespace {
-    const GUID CLSID_OggDemuxFilter =
-    {0xc9361f5a, 0x3282, 0x4944, {0x98, 0x99, 0x6d, 0x99, 0xcd, 0xc5, 0x37, 0xb}};
-
     const GUID CLSID_WebmDemuxFilter = 
     {0xed3110f8, 0x5211, 0x11df, {0x94, 0xaf, 0x00, 0x26, 0xb9, 0x77, 0xee, 0xaa}};
 
@@ -63,7 +62,8 @@ m_notifyWindow(0),
 m_presentImageMessage(0),
 m_haveAudio(true),
 m_haveVideo(true),
-m_haveWebm(false)
+m_haveWebm(false),
+m_buildSeekTable(false)
 {
 }
 
@@ -528,4 +528,25 @@ unsigned long FilterGraph::GetOpenProgress() const
     LOG(logDEBUG2) << __FUNCTIONW__ << " result: " << percentage << "%";
 
     return percentage;
+}
+
+void FilterGraph::BuildSeekTable()
+{
+    if (m_haveWebm)
+    {
+        return;
+    }
+
+    if (m_buildSeekTable)
+    {
+        return;
+    }
+    
+    CComPtr<IOggSeekTable> seekTable;
+    m_streamDemux->QueryInterface(IID_IOggSeekTable, (void**)&seekTable);
+    if (seekTable && GetDuration() == 0)
+    {
+        seekTable->buildSeekTable();
+        m_buildSeekTable = true;
+    }
 }

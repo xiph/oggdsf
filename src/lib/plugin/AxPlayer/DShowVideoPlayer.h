@@ -115,7 +115,7 @@ public:
 
 private:
     void Thread_PrepareGraph();
-
+    void Thread_CleanGraph();
     void Thread_Play();
     void Thread_Pause();
     void Thread_Stop();
@@ -137,7 +137,7 @@ private:
     CComPtr<IDirect3DDevice9>& GetDevice();
 
 private:
-    FilterGraph m_filterGraph;
+    FilterGraph* m_filterGraph;
 
     CComPtr<IDirect3D9> m_d3d;
     CComPtr<IDirect3DDevice9> m_direct3dDevice;

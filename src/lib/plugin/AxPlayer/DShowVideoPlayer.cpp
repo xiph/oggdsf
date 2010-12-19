@@ -165,22 +165,12 @@ m_duration(0),
 m_currentPosition(0),
 m_openProgress(0),
 m_isMouseOverMuteButton(false),
-m_doDisplayAudioVolume(false)
+m_doDisplayAudioVolume(false),
+m_filterGraph(0)
 {
     m_stopPlaybackEvent = ::CreateEvent(0, FALSE, FALSE, 0);
     m_executeFunctionEvent = ::CreateEvent(0 , FALSE, FALSE, 0);
     m_waitForFunction = ::CreateEvent(0, FALSE, FALSE, 0);
-
-    m_d3d.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-
-    Gdiplus::GdiplusStartup(&m_gdiplusToken, &m_gdiplusStartupInput, 0);
-
-    m_pngPlay = LoadImage(IDI_PNG_PLAY);
-    m_pngPause = LoadImage(IDI_PNG_PAUSE);
-    m_pngMute = LoadImage(IDI_PNG_MUTE);
-    m_pngUnmute = LoadImage(IDI_PNG_UNMUTE);
-    m_pngPositionThumb = LoadImage(IDI_PNG_POSITION_THUMB);
-    m_pngAudioPositionThumb = LoadImage(IDI_PNG_VOLUME_THUMB);
 }
 
 DShowVideoPlayer::~DShowVideoPlayer()
@@ -188,15 +178,6 @@ DShowVideoPlayer::~DShowVideoPlayer()
     ::CloseHandle(m_stopPlaybackEvent);
     ::CloseHandle(m_executeFunctionEvent);
     ::CloseHandle(m_waitForFunction);
-
-    delete m_pngPlay;
-    delete m_pngPause;
-    delete m_pngMute;
-    delete m_pngUnmute;
-    delete m_pngPositionThumb;
-    delete m_pngAudioPositionThumb;
-
-    Gdiplus::GdiplusShutdown(m_gdiplusToken);
 }
 
 void DShowVideoPlayer::CreateBackBufferSurface(const CSize& videoSize)
@@ -437,20 +418,48 @@ void DShowVideoPlayer::StopPlaybackThread()
 
 void DShowVideoPlayer::Thread_PrepareGraph()
 {
-    m_filterGraph.SetNotifyWindow(m_hWnd);
-    m_filterGraph.SetPresentImageMessage(WM_PRESENT_IMAGE);
-    m_filterGraph.SetD3D(m_d3d);
-    m_filterGraph.SetD3DDevice(GetDevice());
+    m_d3d = Direct3DCreate9(D3D_SDK_VERSION);
+
+    Gdiplus::GdiplusStartup(&m_gdiplusToken, &m_gdiplusStartupInput, 0);
+
+    m_pngPlay = LoadImage(IDI_PNG_PLAY);
+    m_pngPause = LoadImage(IDI_PNG_PAUSE);
+    m_pngMute = LoadImage(IDI_PNG_MUTE);
+    m_pngUnmute = LoadImage(IDI_PNG_UNMUTE);
+    m_pngPositionThumb = LoadImage(IDI_PNG_POSITION_THUMB);
+    m_pngAudioPositionThumb = LoadImage(IDI_PNG_VOLUME_THUMB);
+
+    m_filterGraph = new FilterGraph();
+    m_filterGraph->SetNotifyWindow(m_hWnd);
+    m_filterGraph->SetPresentImageMessage(WM_PRESENT_IMAGE);
+    m_filterGraph->SetD3D(m_d3d);
+    m_filterGraph->SetD3DDevice(GetDevice());
 
     m_isFirstFrame = true;
-    m_filterGraph.BuildGraph(GetSrc());
+    m_filterGraph->BuildGraph(GetSrc());
     
-    m_filterGraph.Pause();
+    m_filterGraph->Pause();
 
-    m_audioVolume = m_filterGraph.GetVolume();
+    m_audioVolume = m_filterGraph->GetVolume();
     m_audioState = (m_audioVolume != FilterGraph::MIN_VOLUME) ? DShowVideoPlayer::UnMuted : DShowVideoPlayer::Muted;
 
     m_state = Paused;
+}
+
+
+void DShowVideoPlayer::Thread_CleanGraph()
+{
+    delete m_filterGraph;
+    m_filterGraph = 0;
+
+    delete m_pngPlay;
+    delete m_pngPause;
+    delete m_pngMute;
+    delete m_pngUnmute;
+    delete m_pngPositionThumb;
+    delete m_pngAudioPositionThumb;
+
+    Gdiplus::GdiplusShutdown(m_gdiplusToken);
 }
 
 
@@ -468,7 +477,7 @@ unsigned DShowVideoPlayer::PlaybackThreadFunc(void* arg)
     events.push_back(self->m_stopPlaybackEvent);
     events.push_back(self->m_executeFunctionEvent);
 
-    HANDLE movieEventHandle = self->m_filterGraph.GetMovieEventHandle();
+    HANDLE movieEventHandle = self->m_filterGraph->GetMovieEventHandle();
     if (movieEventHandle != INVALID_HANDLE_VALUE)
     {
         events.push_back(movieEventHandle);
@@ -490,7 +499,7 @@ unsigned DShowVideoPlayer::PlaybackThreadFunc(void* arg)
         }
         else if (result == WAIT_OBJECT_0 + 2)
         {
-            long eventCode = self->m_filterGraph.GetMovieEventCode();
+            long eventCode = self->m_filterGraph->GetMovieEventCode();
             LOG(logINFO) << __FUNCTIONW__ << " FilterGraph event code: " << DShowUtil::GetEventCodeString(eventCode);
 
             switch(eventCode)
@@ -511,6 +520,8 @@ unsigned DShowVideoPlayer::PlaybackThreadFunc(void* arg)
         }
 
     } while (!exit);
+
+    self->Thread_CleanGraph();
 
     return 0;
 }
@@ -562,65 +573,71 @@ LRESULT DShowVideoPlayer::OnPresentImage(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 void DShowVideoPlayer::Thread_Play()
 {
-    m_filterGraph.Run();
+    m_filterGraph->Run();
 }
 
 void DShowVideoPlayer::Thread_Pause()
 {
-    m_filterGraph.Pause();
+    m_filterGraph->Pause();
 }
 
 void DShowVideoPlayer::Thread_Stop()
 {
-    m_filterGraph.Stop();
+    m_filterGraph->Stop();
 }
 
 void DShowVideoPlayer::Thread_Mute()
 {
-    long currentVolume = m_filterGraph.GetVolume();
+    long currentVolume = m_filterGraph->GetVolume();
     if (m_audioState == DShowVideoPlayer::UnMuted)
     {
         m_audioUnMuteVolume = currentVolume;
-        m_filterGraph.SetVolume(FilterGraph::MIN_VOLUME);
+        m_filterGraph->SetVolume(FilterGraph::MIN_VOLUME);
 
         m_audioState = DShowVideoPlayer::Muted;
     }
     else
     {
-        m_filterGraph.SetVolume(m_audioUnMuteVolume);
+        m_filterGraph->SetVolume(m_audioUnMuteVolume);
         m_audioState = DShowVideoPlayer::UnMuted;
     }
 
-    m_audioVolume = m_filterGraph.GetVolume();
+    m_audioVolume = m_filterGraph->GetVolume();
 }
 
 
 void DShowVideoPlayer::Thread_DurationPosition()
 {
-    m_duration = m_filterGraph.GetDuration();
-    m_currentPosition = m_filterGraph.GetPosition();
-    m_openProgress = m_filterGraph.GetOpenProgress();
+    m_duration = m_filterGraph->GetDuration();
+    m_currentPosition = m_filterGraph->GetPosition();
+    m_openProgress = m_filterGraph->GetOpenProgress();
+
+    // Seeking table is needed (will be removed in the future) for Ogg Theora
+    if (m_openProgress == 100)
+    {
+        m_filterGraph->BuildSeekTable();
+    }
 }
 
 void DShowVideoPlayer::Thread_SetPosition()
 {
-    m_filterGraph.SetPosition(m_setPosition);
+    m_filterGraph->SetPosition(m_setPosition);
     long percent = static_cast<unsigned long>((m_setPosition / static_cast<double>(m_duration)) * 100.0);
 
     LOG(logDEBUG2) << __FUNCTIONW__ << " Percent: " << percent << "%" << " Duration: " << m_duration << " Position: " << m_setPosition;
 
-    m_currentPosition = m_filterGraph.GetPosition();
+    m_currentPosition = m_filterGraph->GetPosition();
 
     ::SetEvent(m_waitForFunction);
 }
 
 void DShowVideoPlayer::Thread_SetVolume()
 {
-    m_filterGraph.SetVolume(m_setAudioVolume);
+    m_filterGraph->SetVolume(m_setAudioVolume);
 
     LOG(logDEBUG2) << __FUNCTIONW__ << " Volume: " << m_setAudioVolume;
 
-    m_audioVolume = m_filterGraph.GetVolume();
+    m_audioVolume = m_filterGraph->GetVolume();
     m_audioState = (m_audioVolume != FilterGraph::MIN_VOLUME) ? DShowVideoPlayer::UnMuted : DShowVideoPlayer::Muted;
 
     ::SetEvent(m_waitForFunction);

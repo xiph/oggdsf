@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -51,8 +52,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,11,0
- PRODUCTVERSION 0,9,11,0
+ FILEVERSION 0,9,12,0
+ PRODUCTVERSION 0,9,12,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -69,12 +70,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Google"
             VALUE "FileDescription", "WebM VP8 Encoder Filter"
-            VALUE "FileVersion", "0, 9, 11, 0"
+            VALUE "FileVersion", "0, 9, 12, 0"
             VALUE "InternalName", "vp8encoder"
             VALUE "LegalCopyright", "Copyright (C) 2010"
             VALUE "OriginalFilename", "vp8encoder.dll"
             VALUE "ProductName", "WebM VP8 Encoder Filter"
-            VALUE "ProductVersion", "0, 9, 11, 0"
+            VALUE "ProductVersion", "0, 9, 12, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -174,7 +175,8 @@ END
 // Generated from the TEXTINCLUDE 3 resource.
 //
 
-1 TYPELIB "vp8encoder.tlb"
+1 TYPELIB "vp8encoder.tlb"
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

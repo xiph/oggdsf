@@ -33,13 +33,6 @@
 #include "resource.h"
 #include "AxPlayer_i.h"
 #include "dllmain.h"
-#include <MsHtmHst.h>
-
-namespace 
-{
-    // Conform with http://wiki.whatwg.org/wiki/FAQ#What_is_the_namespace_declaration.3F
-    const wchar_t* HTML5NS = L"http://www.w3.org/1999/xhtml/video";
-}
 
 // Used to determine whether the DLL can be unloaded by OLE
 STDAPI DllCanUnloadNow(void)

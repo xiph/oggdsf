@@ -32,6 +32,7 @@
 #pragma once
 #include "BasicSeekPassThrough.h"
 #include "IOggBaseTime.h"
+#include "IOggSeekTable.h"
 #include <libOOOgg/OggDataBuffer.h>
 
 #include <libOOOggSeek/AutoOggChainGranuleSeekTable.h>
@@ -43,7 +44,8 @@ class OggDemuxFilter:
     public CBaseFilter,	
     public CAMThread,	
     public IOggCallback,	
-    public IOggBaseTime,	
+    public IOggBaseTime,
+    public IOggSeekTable,
     public BasicSeekPassThrough
 {
 public:
@@ -138,6 +140,8 @@ public:
     LONGLONG GetRequestedSeekPos() const;
     void SetRequestedSeekPos(LONGLONG val);
 
+    //IOggSeekTable Interface
+    void buildSeekTable();
 
 protected:
     friend class OggDemuxInputPin;
@@ -153,6 +157,9 @@ protected:
 	void DeliverBeginFlush();
 	void DeliverEndFlush();
 	void DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+
+    static unsigned __stdcall SeekTableThread(void* arg);
+    void BuildSeekTable();
 
 	CCritSec m_filterLock;
 	CCritSec m_demuxLock;

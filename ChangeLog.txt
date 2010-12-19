@@ -1,7 +1,7 @@
-Version 0.85.xxxxx - xx.12.2010
+Version 0.85.17766 - 19.12.2010
 
     * Updated libvpx to 0.9.5 (Aylesbury)
-    * Updated webmdshow to 0.9.11
+    * Updated webmdshow to 0.9.12
     * Updated libvorbis to 1.3.2
     * Updated libtremor
     * Updated libtheora to 1.2.0 alpha (SVN)
@@ -12,6 +12,8 @@ Version 0.85.xxxxx - xx.12.2010
     * Fixed graph freeze when a Vorbis Decoder filter was connected to the output of a 
       Vorbis Encoder filter.
     * Fixed #1619: Contextual menu / open
+    * Fixed #1737: No audio on 'A Digital Media Primer for Geeks'
+    * Fixed #1738: dsfVorbisDecoder.dll DirectShow filter doesn't connect to source pin
     * Fixed #1748: opencodecs unable to cope with less usual audio setups (ogg 6.1, possibly 7.1 
       and other non-stereo ones)
 

@@ -399,6 +399,15 @@ VARIANT_BOOL __stdcall VideoTagBehavior::OnDHTMLMouseMove()
         event->get_offsetY(&y);
 
         m_videoPlayer.OnMouseMove(x, y);
+
+        long button = 0;
+        event->get_button(&button);
+
+        // Left button pressed
+        if (button == 1)
+        {
+            m_videoPlayer.OnMouseButtonDown(x, y);
+        }
     }
 
     return S_OK;
@@ -705,12 +714,17 @@ LRESULT VideoTagBehavior::OnLButtonUp( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
     return 0;
 }
 
-LRESULT VideoTagBehavior::OnMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
+LRESULT VideoTagBehavior::OnMouseMove(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/)
 {
     LOG(logDEBUG) << __FUNCTIONW__ << " x: " << GET_X_LPARAM(lParam) << " y: " << GET_Y_LPARAM(lParam);
     if (m_embeddedAxEventsSink)
     {
         m_embeddedAxEventsSink->OnEmbeddedMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+
+        if ((wParam & MK_LBUTTON) == MK_LBUTTON)
+        {
+            m_embeddedAxEventsSink->OnEmbeddedLButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+        }
     }
 
     return 0;
