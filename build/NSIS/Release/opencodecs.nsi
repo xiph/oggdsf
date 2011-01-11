@@ -1,6 +1,6 @@
 ﻿;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Copyright (C) 2005 - 2006 Zentaro Kavanagh 
-; Copyright (C) 2008 - 2010 Cristian Adam
+; Copyright (C) 2008 - 2011 Cristian Adam
 ;
 ; NSIS install script for opencodecs
 ;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Directshow Filters for 
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${PRODUCT_WEB_SITE}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 - 2010 ${PRODUCT_PUBLISHER}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (c) 2008 - 2011 ${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "The Xiph Fish Logo and the Vorbis.com many-fish logos are trademarks (tm) of ${PRODUCT_PUBLISHER}"
 
 ; Language Selection Dialog Settings
