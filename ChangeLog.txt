@@ -1,4 +1,4 @@
-Version 0.85.17776 - 11.01.2011
+Version 0.85.17777 - 12.01.2011
 
     * Fixed project configuration which referenced two CRT versions in output binaries.
       The above issue created faulty binaries for Windows XP and it was due migration

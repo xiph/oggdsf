@@ -134,9 +134,6 @@ STDAPI DllRegisterServer()
 
     hr = DllUnregisterServer();
 
-    if (FAILED(hr))
-        return hr;
-
     hr = ComReg::RegisterCoclass(
             WebmTypes::CLSID_WebmSplit,
             friendlyname,
