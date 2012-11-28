@@ -1,0 +1,1 @@
+#define OPUS_VERSION "" 
