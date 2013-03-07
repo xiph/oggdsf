@@ -38,13 +38,15 @@
 #include <time.h>
 #if (!defined WIN32 && !defined _WIN32) || defined(__MINGW32__)
 #include <unistd.h>
+#else
+#include <process.h>
+#define getpid _getpid
 #endif
 #include "opus.h"
 #include "test_opus_common.h"
 
 #define MAX_PACKET (1500)
 #define MAX_FRAME_SAMP (5760)
-extern int jackpot;
 
 int test_decoder_code0(int no_fuzz)
 {
@@ -102,22 +104,27 @@ int test_decoder_code0(int no_fuzz)
       int factor=48000/fsv[t>>1];
       for(fec=0;fec<2;fec++)
       {
+         int dur;
          /*Test PLC on a fresh decoder*/
-         out_samples = opus_decode(dec[t], 0, 0, outbuf, MAX_FRAME_SAMP, fec);
+         out_samples = opus_decode(dec[t], 0, 0, outbuf, 120/factor, fec);
          if(out_samples!=120/factor)test_failed();
+         if(opus_decoder_ctl(dec[t], OPUS_GET_LAST_PACKET_DURATION(&dur))!=OPUS_OK)test_failed();
+         if(dur!=120/factor)test_failed();
 
          /*Test null pointer input*/
-         out_samples = opus_decode(dec[t], 0, -1, outbuf, MAX_FRAME_SAMP, fec);
+         out_samples = opus_decode(dec[t], 0, -1, outbuf, 120/factor, fec);
          if(out_samples!=120/factor)test_failed();
-         out_samples = opus_decode(dec[t], 0, 1, outbuf, MAX_FRAME_SAMP, fec);
+         out_samples = opus_decode(dec[t], 0, 1, outbuf, 120/factor, fec);
          if(out_samples!=120/factor)test_failed();
-         out_samples = opus_decode(dec[t], 0, 10, outbuf, MAX_FRAME_SAMP, fec);
+         out_samples = opus_decode(dec[t], 0, 10, outbuf, 120/factor, fec);
          if(out_samples!=120/factor)test_failed();
-         out_samples = opus_decode(dec[t], 0, fast_rand(), outbuf, MAX_FRAME_SAMP, fec);
+         out_samples = opus_decode(dec[t], 0, fast_rand(), outbuf, 120/factor, fec);
          if(out_samples!=120/factor)test_failed();
+         if(opus_decoder_ctl(dec[t], OPUS_GET_LAST_PACKET_DURATION(&dur))!=OPUS_OK)test_failed();
+         if(dur!=120/factor)test_failed();
 
          /*Zero lengths*/
-         out_samples = opus_decode(dec[t], packet, 0, outbuf, MAX_FRAME_SAMP, fec);
+         out_samples = opus_decode(dec[t], packet, 0, outbuf, 120/factor, fec);
          if(out_samples!=120/factor)test_failed();
 
          /*Zero buffer*/
@@ -149,6 +156,7 @@ int test_decoder_code0(int no_fuzz)
    /*Count code 0 tests*/
    for(i=0;i<64;i++)
    {
+      int dur;
       int j,expected[5*2];
       packet[0]=i<<2;
       packet[1]=255;
@@ -168,6 +176,8 @@ int test_decoder_code0(int no_fuzz)
          {
             out_samples = opus_decode(dec[t], packet, 3, outbuf, MAX_FRAME_SAMP, 0);
             if(out_samples!=expected[t])test_failed();
+            if(opus_decoder_ctl(dec[t], OPUS_GET_LAST_PACKET_DURATION(&dur))!=OPUS_OK)test_failed();
+            if(dur!=out_samples)test_failed();
             opus_decoder_ctl(dec[t], OPUS_GET_FINAL_RANGE(&dec_final_range1));
             if(t==0)dec_final_range2=dec_final_range1;
             else if(dec_final_range1!=dec_final_range2)test_failed();
@@ -179,8 +189,10 @@ int test_decoder_code0(int no_fuzz)
          /* The PLC is run for 6 frames in order to get better PLC coverage. */
          for(j=0;j<6;j++)
          {
-            out_samples = opus_decode(dec[t], 0, 0, outbuf, MAX_FRAME_SAMP, 0);
+            out_samples = opus_decode(dec[t], 0, 0, outbuf, expected[t], 0);
             if(out_samples!=expected[t])test_failed();
+            if(opus_decoder_ctl(dec[t], OPUS_GET_LAST_PACKET_DURATION(&dur))!=OPUS_OK)test_failed();
+            if(dur!=out_samples)test_failed();
          }
          /* Run the PLC once at 2.5ms, as a simulation of someone trying to
             do small drift corrections. */
@@ -188,6 +200,8 @@ int test_decoder_code0(int no_fuzz)
          {
             out_samples = opus_decode(dec[t], 0, 0, outbuf, 120/factor, 0);
             if(out_samples!=120/factor)test_failed();
+            if(opus_decoder_ctl(dec[t], OPUS_GET_LAST_PACKET_DURATION(&dur))!=OPUS_OK)test_failed();
+            if(dur!=out_samples)test_failed();
          }
          out_samples = opus_decode(dec[t], packet, 2, outbuf, expected[t]-1, 0);
          if(out_samples>0)test_failed();
@@ -289,17 +303,20 @@ int test_decoder_code0(int no_fuzz)
       for(t=0;t<5*2;t++)expected[t]=opus_decoder_get_nb_samples(dec[t],packet,plen);
       for(j=0;j<plen;j++)packet[j+1]=(fast_rand()|fast_rand())&255;
       memcpy(decbak,dec[0],decsize);
-      if(opus_decode(decbak, packet, plen+1, outbuf, MAX_FRAME_SAMP, 1)!=expected[0])test_failed();
+      if(opus_decode(decbak, packet, plen+1, outbuf, expected[0], 1)!=expected[0])test_failed();
       memcpy(decbak,dec[0],decsize);
       if(opus_decode(decbak,  0, 0, outbuf, MAX_FRAME_SAMP, 1)<20)test_failed();
       memcpy(decbak,dec[0],decsize);
       if(opus_decode(decbak,  0, 0, outbuf, MAX_FRAME_SAMP, 0)<20)test_failed();
       for(t=0;t<5*2;t++)
       {
+         int dur;
          out_samples = opus_decode(dec[t], packet, plen+1, outbuf, MAX_FRAME_SAMP, 0);
          if(out_samples!=expected[t])test_failed();
          if(t==0)dec_final_range2=dec_final_range1;
          else if(dec_final_range1!=dec_final_range2)test_failed();
+         if(opus_decoder_ctl(dec[t], OPUS_GET_LAST_PACKET_DURATION(&dur))!=OPUS_OK)test_failed();
+         if(dur!=out_samples)test_failed();
       }
    }
    fprintf(stdout,"  dec[all] random packets, all mode pairs (4096), %d bytes/frame OK.\n",plen+1);

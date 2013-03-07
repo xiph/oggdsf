@@ -95,7 +95,7 @@ static void check_encoder_option(int decode_only, const char *opt)
    }
 }
 
-int silk8_test[][4] = {
+static const int silk8_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_NARROWBAND, 960*3, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_NARROWBAND, 960*2, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_NARROWBAND, 960,   1},
@@ -106,7 +106,7 @@ int silk8_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_NARROWBAND, 480,   2}
 };
 
-int silk12_test[][4] = {
+static const int silk12_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_MEDIUMBAND, 960*3, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_MEDIUMBAND, 960*2, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_MEDIUMBAND, 960,   1},
@@ -117,7 +117,7 @@ int silk12_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_MEDIUMBAND, 480,   2}
 };
 
-int silk16_test[][4] = {
+static const int silk16_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_WIDEBAND, 960*3, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_WIDEBAND, 960*2, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_WIDEBAND, 960,   1},
@@ -128,21 +128,21 @@ int silk16_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_WIDEBAND, 480,   2}
 };
 
-int hybrid24_test[][4] = {
+static const int hybrid24_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_SUPERWIDEBAND, 960, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_SUPERWIDEBAND, 480, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_SUPERWIDEBAND, 960, 2},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_SUPERWIDEBAND, 480, 2}
 };
 
-int hybrid48_test[][4] = {
+static const int hybrid48_test[][4] = {
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_FULLBAND, 960, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_FULLBAND, 480, 1},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_FULLBAND, 960, 2},
       {MODE_SILK_ONLY, OPUS_BANDWIDTH_FULLBAND, 480, 2}
 };
 
-int celt_test[][4] = {
+static const int celt_test[][4] = {
       {MODE_CELT_ONLY, OPUS_BANDWIDTH_FULLBAND,      960, 1},
       {MODE_CELT_ONLY, OPUS_BANDWIDTH_SUPERWIDEBAND, 960, 1},
       {MODE_CELT_ONLY, OPUS_BANDWIDTH_WIDEBAND,      960, 1},
@@ -185,7 +185,7 @@ int celt_test[][4] = {
 
 };
 
-int celt_hq_test[][4] = {
+static const int celt_hq_test[][4] = {
       {MODE_CELT_ONLY, OPUS_BANDWIDTH_FULLBAND,      960, 2},
       {MODE_CELT_ONLY, OPUS_BANDWIDTH_FULLBAND,      480, 2},
       {MODE_CELT_ONLY, OPUS_BANDWIDTH_FULLBAND,      240, 2},
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
     int random_framesize=0, newsize=0, delayed_celt=0;
     int sweep_max=0, sweep_min=0;
     int random_fec=0;
-    int (*mode_list)[4]=NULL;
+    const int (*mode_list)[4]=NULL;
     int nb_modes_in_list=0;
     int curr_mode=0;
     int curr_mode_count=0;
@@ -684,18 +684,22 @@ int main(int argc, char *argv[])
         } else {
             int output_samples;
             lost = len[toggle]==0 || (packet_loss_perc>0 && rand()%100 < packet_loss_perc);
+            if (lost)
+               opus_decoder_ctl(dec, OPUS_GET_LAST_PACKET_DURATION(&output_samples));
+            else
+               output_samples = max_frame_size;
             if( count >= use_inbandfec ) {
                 /* delay by one packet when using in-band FEC */
                 if( use_inbandfec  ) {
                     if( lost_prev ) {
                         /* attempt to decode with in-band FEC from next packet */
-                        output_samples = opus_decode(dec, lost ? NULL : data[toggle], len[toggle], out, max_frame_size, 1);
+                        output_samples = opus_decode(dec, lost ? NULL : data[toggle], len[toggle], out, output_samples, 1);
                     } else {
                         /* regular decode */
-                        output_samples = opus_decode(dec, data[1-toggle], len[1-toggle], out, max_frame_size, 0);
+                        output_samples = opus_decode(dec, data[1-toggle], len[1-toggle], out, output_samples, 0);
                     }
                 } else {
-                    output_samples = opus_decode(dec, lost ? NULL : data[toggle], len[toggle], out, max_frame_size, 0);
+                    output_samples = opus_decode(dec, lost ? NULL : data[toggle], len[toggle], out, output_samples, 0);
                 }
                 if (output_samples>0)
                 {

@@ -63,16 +63,18 @@ extern "C" {
 /** @cond OPUS_INTERNAL_DOC */
 /**Export control for opus functions */
 
-#if defined(__GNUC__) && defined(OPUS_BUILD)
-# define OPUS_EXPORT __attribute__ ((visibility ("default")))
-#elif defined(WIN32) && !defined(__MINGW32__)
-# ifdef OPUS_BUILD
+#ifndef OPUS_EXPORT
+# if defined(__GNUC__) && defined(OPUS_BUILD)
+#  define OPUS_EXPORT __attribute__ ((visibility ("default")))
+# elif defined(WIN32) && !defined(__MINGW32__)
+#  ifdef OPUS_BUILD
 #   define OPUS_EXPORT __declspec(dllexport)
-# else
+#  else
 #   define OPUS_EXPORT
+#  endif
+# else
+#  define OPUS_EXPORT
 # endif
-#else
-# define OPUS_EXPORT
 #endif
 
 # if !defined(OPUS_GNUC_PREREQ)
@@ -111,7 +113,8 @@ extern "C" {
 #endif
 
 /** These are the actual Encoder CTL ID numbers.
-  * They should not be used directly by applications. */
+  * They should not be used directly by applications.
+  * In general, SETs should be even and GETs should be odd.*/
 #define OPUS_SET_APPLICATION_REQUEST         4000
 #define OPUS_GET_APPLICATION_REQUEST         4001
 #define OPUS_SET_BITRATE_REQUEST             4002
@@ -138,12 +141,17 @@ extern "C" {
 #define OPUS_GET_SIGNAL_REQUEST              4025
 #define OPUS_GET_LOOKAHEAD_REQUEST           4027
 /* #define OPUS_RESET_STATE 4028 */
+#define OPUS_GET_SAMPLE_RATE_REQUEST         4029
 #define OPUS_GET_FINAL_RANGE_REQUEST         4031
 #define OPUS_GET_PITCH_REQUEST               4033
 #define OPUS_SET_GAIN_REQUEST                4034
-#define OPUS_GET_GAIN_REQUEST                4045
+#define OPUS_GET_GAIN_REQUEST                4045 /* Should have been 4035 */
 #define OPUS_SET_LSB_DEPTH_REQUEST           4036
 #define OPUS_GET_LSB_DEPTH_REQUEST           4037
+
+#define OPUS_GET_LAST_PACKET_DURATION_REQUEST 4039
+
+/* Don't use 4045, it's already taken by OPUS_GET_GAIN_REQUEST */
 
 /* Macros to trigger compilation errors when the wrong types are provided to a CTL */
 #define __opus_check_int(x) (((void)((x) == (opus_int32)0)), (opus_int32)(x))
@@ -422,6 +430,14 @@ extern "C" {
   * @hideinitializer */
 #define OPUS_GET_APPLICATION(x) OPUS_GET_APPLICATION_REQUEST, __opus_check_int_ptr(x)
 
+/** Gets the sampling rate the encoder or decoder was initialized with.
+  * This simply returns the <code>Fs</code> value passed to opus_encoder_init()
+  * or opus_decoder_init().
+  * @param[out] x <tt>opus_int32 *</tt>: Sampling rate of encoder or decoder.
+  * @hideinitializer
+  */
+#define OPUS_GET_SAMPLE_RATE(x) OPUS_GET_SAMPLE_RATE_REQUEST, __opus_check_int_ptr(x)
+
 /** Gets the total samples of delay added by the entire codec.
   * This can be queried by the encoder and then the provided number of samples can be
   * skipped on from the start of the decoder's output to provide time aligned input
@@ -491,6 +507,24 @@ extern "C" {
   * </dl>
   * @hideinitializer */
 #define OPUS_GET_DTX(x) OPUS_GET_DTX_REQUEST, __opus_check_int_ptr(x)
+/** Configures the depth of signal being encoded.
+  * This is a hint which helps the encoder identify silence and near-silence.
+  * @see OPUS_GET_LSB_DEPTH
+  * @param[in] x <tt>opus_int32</tt>: Input precision in bits, between 8 and 24
+  *                                   (default: 24).
+  * @hideinitializer */
+#define OPUS_SET_LSB_DEPTH(x) OPUS_SET_LSB_DEPTH_REQUEST, __opus_check_int(x)
+/** Gets the encoder's configured signal depth.
+  * @see OPUS_SET_LSB_DEPTH
+  * @param[out] x <tt>opus_int32 *</tt>: Input precision in bits, between 8 and
+  *                                      24 (default: 24).
+  * @hideinitializer */
+#define OPUS_GET_LSB_DEPTH(x) OPUS_GET_LSB_DEPTH_REQUEST, __opus_check_int_ptr(x)
+
+/** Gets the duration (in samples) of the last packet successfully decoded or concealed.
+  * @param[out] x <tt>opus_int32 *</tt>: Number of samples (at current sampling rate).
+  * @hideinitializer */
+#define OPUS_GET_LAST_PACKET_DURATION(x) OPUS_GET_LAST_PACKET_DURATION_REQUEST, __opus_check_int_ptr(x)
 /**@}*/
 
 /** @defgroup opus_genericctls Generic CTLs
@@ -570,19 +604,6 @@ extern "C" {
   * @hideinitializer */
 #define OPUS_GET_BANDWIDTH(x) OPUS_GET_BANDWIDTH_REQUEST, __opus_check_int_ptr(x)
 
-/** Configures the depth of signal being encoded.
-  * This is a hint which helps the encoder identify silence and near-silence.
-  * @see OPUS_GET_LSB_DEPTH
-  * @param[in] x <tt>opus_int32</tt>: Input precision in bits, between 8 and 24
-  *                                   (default: 24).
-  * @hideinitializer */
-#define OPUS_SET_LSB_DEPTH(x) OPUS_SET_LSB_DEPTH_REQUEST, __opus_check_int(x)
-/** Gets the encoder's configured signal depth.
-  * @see OPUS_SET_LSB_DEPTH
-  * @param[out] x <tt>opus_int32 *</tt>: Input precision in bits, between 8 and
-  *                                      24 (default: 24).
-  * @hideinitializer */
-#define OPUS_GET_LSB_DEPTH(x) OPUS_GET_LSB_DEPTH_REQUEST, __opus_check_int_ptr(x)
 /**@}*/
 
 /** @defgroup opus_decoderctls Decoder related CTLs
