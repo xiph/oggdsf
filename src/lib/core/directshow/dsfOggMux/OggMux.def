@@ -1,4 +1,4 @@
-LIBRARY	dsfOggMux
+LIBRARY	OggMux
 EXPORTS 
 	DllMain				PRIVATE
     DllGetClassObject   PRIVATE

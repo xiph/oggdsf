@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//          (C) 2013 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -29,31 +30,10 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
-
 #pragma once
 #include <streams.h>
 #include <pullpin.h>
 #include <initguid.h>
-
-
-#ifdef DSFOGGMUX_EXPORTS
-#pragma message("----> Exporting from Ogg Mux...")
-#define OGG_MUX_API __declspec(dllexport)
-#else
-#pragma message("<---- Importing from Ogg Mux...")
-#define OGG_MUX_API __declspec(dllimport)
-#endif
-
-
-#ifndef OGGMUX_DLL
-    #define LIBOOOGG_API
-#else
-    #ifdef LIBOOOGG_EXPORTS
-        #define LIBOOOGG_API __declspec(dllexport)
-    #else
-        #define LIBOOOGG_API __declspec(dllimport)
-    #endif
-#endif
 
 #include "common/OggTypes.h"
 #include "common/VorbisTypes.h"
@@ -68,14 +48,6 @@ DEFINE_GUID(MEDIASUBTYPE_Schroedinger,
 // {BBCD12AC-c356-11ce-bf01-00aa0055595a}
 DEFINE_GUID(FORMAT_Schroedinger,
 0xBBCD12AC, 0xc356, 0x11ce, 0xbf, 0x01, 0x00, 0xaa, 0x00, 0x55, 0x59, 0x5a);
-
-// {53696C76-6961-40b2-B136-436F6E726164}
-DEFINE_GUID(FORMAT_CMML, 
-0x53696c76, 0x6961, 0x40b2, 0xb1, 0x36, 0x43, 0x6f, 0x6e, 0x72, 0x61, 0x64);
-
-// {5A656E74-6172-6F26-B79C-D6416E647282}
-DEFINE_GUID(MEDIASUBTYPE_CMML, 
-0x5a656e74, 0x6172, 0x6f26, 0xb7, 0x9c, 0xd6, 0x41, 0x6e, 0x64, 0x72, 0x82);
 
 // {37535B3C-F068-4f93-9763-E7208277D71F}
 DEFINE_GUID(MEDIASUBTYPE_RawOggAudio, 
@@ -108,12 +80,7 @@ const REGPINTYPES OggMuxInputTypes[] = {
 	{
 		&MEDIATYPE_Audio,
 		&MEDIASUBTYPE_RawOggAudio
-	},
-	{
-		&MEDIATYPE_Text,
-		&MEDIASUBTYPE_CMML
 	}
-
 };
 const REGFILTERPINS OggMuxPinReg = {
 	
@@ -124,28 +91,23 @@ const REGFILTERPINS OggMuxPinReg = {
 	FALSE,								//Cannot have more than one instance of this pin
 	NULL,								//Connects to filter (obsoleted)
 	NULL,								//Connects to pin (obsoleted)
-	7,									//upport two media type
+	6,									//Support two media type
 	OggMuxInputTypes					//Pointer to media type (Audio/Vorbis or Audio/Speex)
 };
 
-const REGFILTER2 OggMuxFilterReg = {
-		1,
-		MERIT_DO_NOT_USE,
-		1,
-        &OggMuxPinReg
-		
+const REGFILTER2 OggMuxFilterReg = 
+{
+	1,
+	MERIT_DO_NOT_USE,
+	1,
+    &OggMuxPinReg		
 };
 
-struct OGGRAWAUDIOFORMAT {
+struct OGGRAWAUDIOFORMAT 
+{
 	unsigned long samplesPerSec;
 	unsigned long numHeaders;
 	unsigned long numChannels;
 	unsigned long bitsPerSample;
 	unsigned long maxFramesPerPacket;
-};
-
-struct CMMLFORMAT {
-	__int64 granuleNumerator;
-	__int64 granuleDenominator;
-	unsigned short granuleSplitBits;
 };

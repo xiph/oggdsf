@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//          (C) 2013 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -28,78 +29,5 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#include "stdafx.h"
-#include "oggmuxdllstuff.h"
 
-extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
-{
-    return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
-}
-
-
-//The folowing two functions do the registration and deregistration of the dll and it's contained com objects.
-STDAPI DllRegisterServer()
-{
-	
-    HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-	
-    hr = AMovieDllRegisterServer2(TRUE);
-	if (FAILED(hr)) {
-		
-        return hr;
-	}
-	
-	
-
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER, IID_IFilterMapper2, (void **)&locFilterMapper);
-
-	
-	if (FAILED(hr)) {
-        return hr;
-	}
-	
-	hr = locFilterMapper->RegisterFilter(
-		CLSID_OggMuxFilter,						// Filter CLSID. 
-		L"Xiph.Org Ogg Muxer",					// Filter name.
-        NULL,										// Device moniker. 
-        &CLSID_LegacyAmFilterCategory,				// Direct Show general category
-        NULL,							// Instance data. ???????
-        &OggMuxFilterReg								// Pointer to filter information.
-    );
-
-
-    locFilterMapper->Release();
-
-    return hr;
-
-}
-
-STDAPI DllUnregisterServer()
-{
-   HRESULT hr;
-    IFilterMapper2* locFilterMapper = NULL;
-
-    hr = AMovieDllRegisterServer2(FALSE);
-	if (FAILED(hr)) {
-		
-        return hr;
-	}
- 
-    hr = CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
-            IID_IFilterMapper2, (void **)&locFilterMapper);
-
-	if (FAILED(hr)) {
-        return hr;
-	}
-	
-
-    hr = locFilterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
-            NULL, CLSID_OggMuxFilter);
-
-	//
-    locFilterMapper->Release();
-    return hr;
-
-}
+#include "Precompiled.h"

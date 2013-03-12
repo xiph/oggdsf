@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//          (C) 2013 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -28,7 +29,8 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#include "stdafx.h"
+
+#include "Precompiled.h"
 #include "oggmuxinputpin.h"
 
 OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream)
@@ -37,10 +39,7 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	,	mMuxStream(inMuxStream)
 	,	mNeedsFLACHeaderTweak(false)
 	,	mNeedsFLACHeaderCount(false)
-
 {
-
-	
 	OggPaginatorSettings* locSettings = new OggPaginatorSettings;
 	locSettings->mMinPageSize = 4096;
 	locSettings->mMaxPageSize = 8192;
@@ -49,108 +48,101 @@ OggMuxInputPin::OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterL
 	QueryPerformanceCounter(&locTicks);
 	srand((unsigned int)locTicks.LowPart);
 	locSettings->mSerialNo = ((unsigned long)(rand() + 1)) * ((unsigned long)(rand() + 1));
-	//string x = "G:\\logs\\muxinput_";
-	//char* ser = new char[10];
-	//itoa(locSettings->mSerialNo, ser, 10);
-	//x = x + ser;
-	//x = x +".log";
 
-	//debugLog.open(x.c_str(), ios_base::out);
-	//locSettings->mSerialNo = 13130;
-	
 	mPaginator.setParameters(locSettings);
 	mPaginator.setPageCallback(mMuxStream);
-
-	
 }
 
-OggMuxInputPin::~OggMuxInputPin(void)
+OggMuxInputPin::~OggMuxInputPin()
 {
-	//debugLog.close();
 }
 
 STDMETHODIMP OggMuxInputPin::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
-	if (riid == IID_IMediaSeeking) {
-		*ppv = (IMediaSeeking*)this;
-		((IUnknown*)*ppv)->AddRef();
-		return NOERROR;
+	if (riid == IID_IMediaSeeking) 
+    {
+        return GetInterface((IMediaSeeking*)this, ppv);
 	}
 
 	return CBaseInputPin::NonDelegatingQueryInterface(riid, ppv); 
 }
 
 //ANX::: Override and insert an anxdata into the stream.
-HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) {
-	//debugLog.open("G:\\logs\\oggmuxinpin.log", ios_base::out);
-	//debugLog<<"Set media type..."<<endl;
-	if (inMediaType->majortype == MEDIATYPE_Video) {
-		if (inMediaType->subtype == MEDIASUBTYPE_Theora) {
+HRESULT OggMuxInputPin::SetMediaType(const CMediaType* inMediaType) 
+{
+	//LOG(logDEBUG)<<"Set media type..."<<endl;
+	if (inMediaType->majortype == MEDIATYPE_Video) 
+    {
+		if (inMediaType->subtype == MEDIASUBTYPE_Theora) 
+        {
 			//Theora	
 			THEORAFORMAT* locTheora = (THEORAFORMAT*)inMediaType->pbFormat;
-			//debugLog<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
-			//debugLog<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
+			//LOG(logDEBUG)<<"Theo sample rate = "<<locTheora->frameRateNumerator<<" / "<<locTheora->frameRateDenominator<<endl;
+			//LOG(logDEBUG)<<"Theo KFI = "<<locTheora->maxKeyframeInterval<<endl;
 			mMuxStream->setConversionParams(locTheora->frameRateNumerator, locTheora->frameRateDenominator, 10000000, locTheora->maxKeyframeInterval);
 			mMuxStream->setNumHeaders(3);
 			mPaginator.setNumHeaders(3);
 		}
-		else if (inMediaType->subtype == MEDIASUBTYPE_Schroedinger) {
+		else if (inMediaType->subtype == MEDIASUBTYPE_Schroedinger) 
+        {
 			mMuxStream->setConversionParams(*((unsigned *)inMediaType->pbFormat), *(((unsigned *)inMediaType->pbFormat) + 1), 10000000, 32);
 			mMuxStream->setNumHeaders(1);
 			mPaginator.setNumHeaders(1);
 		} 
-	} else if (inMediaType->majortype == MEDIATYPE_Audio) {
-		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) {
+	} else if (inMediaType->majortype == MEDIATYPE_Audio) 
+    {
+		if (inMediaType->subtype == MEDIASUBTYPE_Vorbis) 
+        {
 			//Vorbis
 			VORBISFORMAT* locVorbis = (VORBISFORMAT*)inMediaType->pbFormat;
-			//debugLog<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
+			//LOG(logDEBUG)<<"Vorbis sample rate = "<<locVorbis->samplesPerSec<<endl;
 			mMuxStream->setConversionParams(locVorbis->samplesPerSec, 1, 10000000);
 			mMuxStream->setNumHeaders(3);
 			mPaginator.setNumHeaders(3);
 			
-		} else if (inMediaType->subtype == MEDIASUBTYPE_Speex) {
+		} 
+        else if (inMediaType->subtype == MEDIASUBTYPE_Speex) 
+        {
 			//Speex
 			SPEEXFORMAT* locSpeex = (SPEEXFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locSpeex->samplesPerSec, 1, 10000000);
 			mMuxStream->setNumHeaders(2);
 			mPaginator.setNumHeaders(2);
-		} else if (inMediaType->subtype == MEDIASUBTYPE_OggFLAC_1_0) {
+		} 
+        else if (inMediaType->subtype == MEDIASUBTYPE_OggFLAC_1_0) 
+        {
 			//We are connected to the encoder nd getting individual metadata packets.
 			FLACFORMAT* locFLAC = (FLACFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
-			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
+			//LOG(logDEBUG)<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			//mNeedsFLACHeaderTweak = true;
 			mNeedsFLACHeaderCount = true;
-		} else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) {
+		} 
+        else if (inMediaType->subtype == MEDIASUBTYPE_FLAC) 
+        {
 			//We are connected directly to the demux and are getting metadata in one block
 			// Need to use the header splitter class.
 			FLACFORMAT* locFLAC = (FLACFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locFLAC->samplesPerSec, 1, 10000000);
-			//debugLog<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
+			//LOG(logDEBUG)<<"FLAC sample rate = "<<locFLAC->samplesPerSec<<endl;
 			mNeedsFLACHeaderTweak = true;
-		} else if (inMediaType->subtype == MEDIASUBTYPE_RawOggAudio) {
+		} 
+        else if (inMediaType->subtype == MEDIASUBTYPE_RawOggAudio) 
+        {
 			OGGRAWAUDIOFORMAT* locRawAudio = (OGGRAWAUDIOFORMAT*)inMediaType->pbFormat;
 			mMuxStream->setConversionParams(locRawAudio->samplesPerSec, 1, 10000000);
 			mMuxStream->setNumHeaders(locRawAudio->numHeaders);
 			mPaginator.setNumHeaders(locRawAudio->numHeaders);
-		}
+		}		
+	} 
 
-		
-	} else if (inMediaType->majortype == MEDIATYPE_Text) {
-		if (inMediaType->subtype == MEDIASUBTYPE_CMML) {
-			CMMLFORMAT* locCMML = (CMMLFORMAT*)inMediaType->pbFormat;
-			mMuxStream->setConversionParams(locCMML->granuleNumerator,locCMML->granuleDenominator, 10000000);
-			mMuxStream->setNumHeaders(1);
-			mPaginator.setNumHeaders(1);
-
-		}
-
-	}
 	return S_OK;
 }
 
-HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
-	switch(inPosition) {
+HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) 
+{
+	switch(inPosition) 
+    {
 		case 0:
 			outMediaType->majortype = MEDIATYPE_Video;
 			outMediaType->subtype = MEDIASUBTYPE_Theora;
@@ -177,22 +169,17 @@ HRESULT OggMuxInputPin::GetMediaType(int inPosition, CMediaType* outMediaType) {
 			return S_OK;
 
 		case 6:
-			outMediaType->majortype = MEDIATYPE_Text;
-			outMediaType->subtype = MEDIASUBTYPE_CMML;
-			return S_OK;
-
-		case 7:
 			outMediaType->majortype = MEDIATYPE_Audio;
 			outMediaType->subtype = MEDIASUBTYPE_RawOggAudio;
 			return S_OK;
 
-
 		default:
-			return VFW_S_NO_MORE_ITEMS;
-	
+			return VFW_S_NO_MORE_ITEMS;	
 	}
 }
-HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
+
+HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) 
+{
 	if	(	(inMediaType->majortype == MEDIATYPE_Video 
 				&& inMediaType->subtype == MEDIASUBTYPE_Theora 
 				&& inMediaType->formattype == FORMAT_Theora) 
@@ -220,19 +207,18 @@ HRESULT OggMuxInputPin::CheckMediaType(const CMediaType* inMediaType) {
 			(inMediaType->majortype == MEDIATYPE_Audio
 				&&	inMediaType->subtype == MEDIASUBTYPE_RawOggAudio
 				&&	inMediaType->formattype == FORMAT_RawOggAudio)
-			||
-			(inMediaType->majortype == MEDIATYPE_Text
-				&&	inMediaType->subtype == MEDIASUBTYPE_CMML
-				&&	inMediaType->formattype == FORMAT_CMML)
-
-		) {
+    )
+    {
 		return S_OK;
-	} else {
+	} 
+    else 
+    {
 		return E_FAIL;
 	}
 }
 
-STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
+STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) 
+{
 	CAutoLock locLock(mParentFilter->mStreamLock);
 	LONGLONG locStart = 0;
 	LONGLONG locEnd = 0;
@@ -241,18 +227,22 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 	HRESULT locHR = inSample->GetTime(&locStart, &locEnd);
     UNREFERENCED_PARAMETER(locHR);
 
-	//debugLog <<"Received "<<locStart<<" - "<<locEnd<<endl;
+	//LOG(logDEBUG) <<"Received "<<locStart<<" - "<<locEnd<<endl;
 	long locBuffSize = inSample->GetActualDataLength();
 	unsigned char* locBuff = new unsigned char[locBuffSize];
 	memcpy((void*)locBuff, (const void*)locSampleBuff, inSample->GetActualDataLength());
-	StampedOggPacket* locPacket = new StampedOggPacket(locBuff, inSample->GetActualDataLength(), false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
+	StampedOggPacket* locPacket = new StampedOggPacket(locBuff, inSample->GetActualDataLength(), 
+                                        false, false, locStart, locEnd, StampedOggPacket::OGG_END_ONLY);
 	
-	if (mNeedsFLACHeaderCount) {
+	if (mNeedsFLACHeaderCount) 
+    {
 		mNeedsFLACHeaderCount = false;
 		//This is to set the number of headers on the paginator for OggFLAC_1_0
 		mPaginator.setNumHeaders( (locPacket->packetData()[8]) + 1 );
 	}
-	if ((mNeedsFLACHeaderTweak)) {
+
+    if ((mNeedsFLACHeaderTweak)) 
+    {
 		//The first packet in FLAC has all the metadata in one block...
 		// It needs to be broken up for correct muxing....
 
@@ -275,56 +265,54 @@ STDMETHODIMP OggMuxInputPin::Receive(IMediaSample* inSample) {
 		//This could be to mux multi stream flac.
 		//Alternatively this configuration could be used to convert the old format to the new.
 
-		//debugLog<<"In the header tweak section..."<<endl;
+		//LOG(logDEBUG)<<"In the header tweak section..."<<endl;
 		FLACMetadataSplitter* locFLACSplitter = new FLACMetadataSplitter;
 
-		//debugLog<<"Feeding metadata..."<<endl;
+		//LOG(logDEBUG)<<"Feeding metadata..."<<endl;
 		locFLACSplitter->loadMetadata(locPacket->clone());
 		
 		//delete locPacket;		//Don't delete the splitter will delete when it's done.
 
-		for (unsigned long i = 0; i < locFLACSplitter->numHeaders(); i++) {
-			//debugLog<<"Giving pager, packet "<<i<<endl;
-			//debugLog<<locFLACSplitter->getHeader(i)->toPackDumpString()<<endl;		//This is a leak !!
-			if (i == 0) {
+		for (unsigned long i = 0; i < locFLACSplitter->numHeaders(); i++) 
+        {
+			//LOG(logDEBUG)<<"Giving pager, packet "<<i<<endl;
+			//LOG(logDEBUG)<<locFLACSplitter->getHeader(i)->toPackDumpString()<<endl;		//This is a leak !!
+			if (i == 0) 
+            {
 				//Set the number of headers in the paginator for FLAC classic.
 				StampedOggPacket* locHeadPack = locFLACSplitter->getHeader(i);
 				mPaginator.setNumHeaders((locHeadPack->packetData()[8]) + 1);
 				delete locHeadPack;
 			}
 			mPaginator.acceptStampedOggPacket(locFLACSplitter->getHeader(i));		//This get function returns our copy which we give away.
-			//debugLog<<"After paginator feed..."<<endl;
+			//LOG(logDEBUG)<<"After paginator feed..."<<endl;
 		}
 		mNeedsFLACHeaderTweak = false;
-		//debugLog<<"Pre delete of splitter..."<<endl;
+		//LOG(logDEBUG)<<"Pre delete of splitter..."<<endl;
 		delete locFLACSplitter;
-		//debugLog<<"Post delete of splitter"<<endl;
+		//LOG(logDEBUG)<<"Post delete of splitter"<<endl;
 
-	} else {
+	} 
+    else 
+    {
 		//Not truncated or contuned... its a full packet.
 		
-		//debugLog<<"Normal add packet..."<<endl;
+		//LOG(logDEBUG)<<"Normal add packet..."<<endl;
 		mPaginator.acceptStampedOggPacket(locPacket);
 	}
 
 	return S_OK;
-	 
-
-
 }
 
-HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) {
-	
+HRESULT OggMuxInputPin::CompleteConnect(IPin* inReceivePin) 
+{	
 	//Set our delegate to the pin that is connecting to us... we'll send them our seek messages.
 	IMediaSeeking* locSeeker = NULL;
 	inReceivePin->QueryInterface(IID_IMediaSeeking, (void**)&locSeeker);
 	SetDelegate(locSeeker);
 	
-	
 	mMuxStream->setIsActive(true);
 	return mParentFilter->addAnotherPin();
-
-
 }
 
 HRESULT OggMuxInputPin::BreakConnect() 
@@ -335,18 +323,14 @@ HRESULT OggMuxInputPin::BreakConnect()
 	return CBaseInputPin::BreakConnect();
 }
 
-
-
-
-STDMETHODIMP OggMuxInputPin::EndOfStream(void) {
-	CAutoLock locLock(mParentFilter->mStreamLock);
+STDMETHODIMP OggMuxInputPin::EndOfStream(void) 
+{	
+    CAutoLock locLock(mParentFilter->mStreamLock);
 	mPaginator.finishStream();
 	mMuxStream->setIsEOS(true);
 	
-	
 	//HRESULT locHR = mParentFilter->NotifyEvent(EC_COMPLETE, S_OK, NULL);
 	return S_OK;
-	
 }
 
 unsigned long OggMuxInputPin::PaginatorMaximumPacketsPerPage()
@@ -358,4 +342,3 @@ void OggMuxInputPin::SetPaginatorMaximumPacketsPerPage(unsigned long inMaxPacket
 {
 	mPaginator.parameters()->mMaxPacksPerPage = inMaxPacketsPerPage;
 }
-

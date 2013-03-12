@@ -4,19 +4,14 @@
 #include "resource.h"
 
 #include <commctrl.h>
-//Debug
-//#include <fstream>
-using namespace std;
-//
 
-
-class PropsOggMux
-	:	public CBasePropertyPage
+class PropsOggMux:	public CBasePropertyPage
 {
 public:
 	static const UINT NOT_USED = 0;
-	PropsOggMux(LPUNKNOWN inUnk, HRESULT* outHR);
-	virtual ~PropsOggMux(void);
+
+    PropsOggMux(LPUNKNOWN inUnk, HRESULT* outHR);
+	virtual ~PropsOggMux();
 
 	static CUnknown* WINAPI CreateInstance(LPUNKNOWN inUnk, HRESULT* outHR);
 
@@ -28,14 +23,8 @@ public:
 	HRESULT OnApplyChanges(void);
 
 protected:
-
 	void SetDirty();
 	void SetClean();
-	//
-	IOggMuxSettings* mOggMuxSettings;
 
-	//Debug
-
-	//fstream debugLog;
-	//
+    CComPtr<IOggMuxSettings> oggMuxSettings_;
 };

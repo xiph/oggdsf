@@ -29,12 +29,21 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
 
+// stdafx.h : include file for standard system include files,
+// or project specific include files that are used frequently, but
+// are changed infrequently
+//
 
-// stdafx.cpp : source file that includes just the standard includes
-// dsfOggMux.pch will be the pre-compiled header
-// stdafx.obj will contain the pre-compiled type information
+#pragma once
 
-#include "stdafx.h"
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+// Windows Header Files:
+#include <windows.h>
 
-// TODO: reference any additional headers you need in STDAFX.H
-// and not in this file
+#include "FilterRegistration.h"
+#include <libilliCore/StringHelper.h>
+
+#include <atlbase.h>
+#include <atlcom.h>
+
+#include "common/Log.h"

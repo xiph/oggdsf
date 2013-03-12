@@ -1,5 +1,6 @@
 //===========================================================================
 //Copyright (C) 2003, 2004 Zentaro Kavanagh
+//          (C) 2013 Cristian Adam
 //
 //Redistribution and use in source and binary forms, with or without
 //modification, are permitted provided that the following conditions
@@ -30,7 +31,7 @@
 //===========================================================================
 
 #pragma once
-#include "oggmuxdllstuff.h"
+#include "FilterRegistration.h"
 #include "OggMuxInputPin.h"
 #include "IOggMuxProgress.h"
 #include "IOggMuxSettings.h"
@@ -40,14 +41,14 @@
 #include <libOOOgg/INotifyComplete.h>
 
 #include <string>
-
 #include <fstream>
+
 #include <libOOOgg/IOggCallback.h>
-using namespace std;
 #include <libilliCore/StringHelper.h>
+
 class OggMuxInputPin;
 
-class OGG_MUX_API OggMuxFilter
+class OggMuxFilter
 	:	public IFileSinkFilter
 	,	public CBaseFilter
 	,	public IOggCallback
@@ -59,44 +60,35 @@ class OGG_MUX_API OggMuxFilter
 	//,	public ISpecifyPropertyPages
 {
 public:
-	OggMuxFilter(void);
+	OggMuxFilter();
 	OggMuxFilter(REFCLSID inFilterGUID);
-	virtual ~OggMuxFilter(void);
-
+	virtual ~OggMuxFilter();
 
 	friend class OggMuxInputPin;
-	//Com Stuff
 	DECLARE_IUNKNOWN
+
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 	static CUnknown * WINAPI CreateInstance(LPUNKNOWN pUnk, HRESULT *pHr);
 
-	// *********************************************
-	// ***** IAMFilterMiscFlags Implementation *****
-	// *********************************************
+	// IAMFilterMiscFlags Implementation
 
 	/// Allows the filter to return a flag to tell the graph it's a renderer.
-	ULONG STDMETHODCALLTYPE GetMiscFlags(void);
+	ULONG __stdcall GetMiscFlags();
 
-	// ***************************************
-	// ***** IOggCallback Implementation *****
-	// ***************************************
+	// IOggCallback Implementation
 
 	/// Takes an incoming page, usually from the interleaver.
 	virtual bool acceptOggPage(OggPage* inOggPage);
 	
-	// ******************************************
-	// ***** IFileSinkFilter Implementation *****
-	// ******************************************
+	// IFileSinkFilter Implementation
 
 	/// Sets the filename to be used to output to
-	STDMETHODIMP SetFileName(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
+	HRESULT __stdcall SetFileName(LPCOLESTR inFileName, const AM_MEDIA_TYPE* inMediaType);
 
 	/// Gets the output filename this filter is currently using.
-	STDMETHODIMP GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
+	HRESULT __stdcall GetCurFile(LPOLESTR* outFileName, AM_MEDIA_TYPE* outMediaType);
 
-	// *************************************
-	// ***** CBaseFilter Pure Virtuals *****
-	// *************************************
+	// CBaseFilter Pure virtuals
 
 	/// Returns the number of pins this filter has
 	virtual int GetPinCount();
@@ -104,43 +96,38 @@ public:
 	/// Returns the indexed pin or NULL.
 	virtual CBasePin* GetPin(int inPinNo);
 
-	// **********************************
-	// ***** IMediaFilter Overrides *****
-	// **********************************
+	// IMediaFilter Overrides
 
 	/// Called when the graph starts playing
-	STDMETHODIMP Run(REFERENCE_TIME tStart);
+	HRESULT __stdcall Run(REFERENCE_TIME tStart);
 
 	/// Called when the graph pauses
-	STDMETHODIMP Pause(void);
+	HRESULT __stdcall Pause(void);
 
 	/// Called when the graph stops
-	STDMETHODIMP Stop(void);
+	HRESULT __stdcall Stop(void);
 
-	// ******************************************
-	// ***** IOggMuxProgress Implementation *****
-	// ******************************************
+	// IOggMuxProgress Implementation
 
 	/// Returns the time in 100 nanosecond units of the last page that was written.
-	virtual STDMETHODIMP_(LONGLONG) getProgressTime();
+	virtual LONGLONG __stdcall getProgressTime();
 
 	/// Returns the number of bytes written so far.
-	virtual STDMETHODIMP_(LONGLONG) getBytesWritten();
-
+	virtual LONGLONG __stdcall getBytesWritten();
 
 	//Helpers
 	virtual HRESULT addAnotherPin();
 	virtual void NotifyComplete();
 
-	//IMediaSeeking Override to give progress. - This is unreliable !!
-	virtual STDMETHODIMP GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
-	virtual STDMETHODIMP GetCurrentPosition(LONGLONG *pCurrent);
+	// IMediaSeeking Override to give progress. - This is unreliable !!
+	virtual HRESULT __stdcall GetPositions(LONGLONG *pCurrent, LONGLONG *pStop);
+	virtual HRESULT __stdcall GetCurrentPosition(LONGLONG *pCurrent);
 
-	//IOggMuxSettings Implementation
-	STDMETHODIMP_(unsigned long) maxPacketsPerPage();
-	STDMETHODIMP_(bool) setMaxPacketsPerPage(unsigned long inMaxPacketsPerPage);
+	// IOggMuxSettings Implementation
+	unsigned long __stdcall maxPacketsPerPage();
+	bool __stdcall setMaxPacketsPerPage(unsigned long inMaxPacketsPerPage);
 
-	//SpecifyPropertyPages Implementation
+	// SpecifyPropertyPages Implementation
 	//STDMETHODIMP OggMuxFilter::GetPages(CAUUID* outPropPages);
 
 protected:
@@ -148,16 +135,13 @@ protected:
 	bool SetupOutput();
 	bool CloseOutput();
 
-	wstring mFileName;
-	vector<OggMuxInputPin*> mInputPins;
+	std::wstring mFileName;
+	std::vector<OggMuxInputPin*> mInputPins;
 
 	OggPageInterleaver* mInterleaver;
 
 	CCritSec* mStreamLock;
 
-	fstream mOutputFile;
-	fstream debugLog;
+	std::fstream mOutputFile;
 	HRESULT mHR;
-
-
 };

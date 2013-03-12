@@ -29,60 +29,66 @@
 //NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //===========================================================================
-#pragma once
 
+#include "Precompiled.h"
 #include "FilterRegistration.h"
-#include "OggMuxFilter.h"
-#include <libOOOgg/OggPaginator.h>
-#include <libOOOgg/OggMuxStream.h>
-#include "BasicSeekPassThrough.h"
-#include "FLACMetadataSplitter.h"
-#include <time.h>
-#include <fstream>
+#include "common/util.h"
 
-class OggMuxFilter;
-
-class OggMuxInputPin
-	:	public CBaseInputPin
-	,	public BasicSeekPassThrough
+extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
+BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 {
-public:
-	OggMuxInputPin(OggMuxFilter* inParentFilter, CCritSec* inFilterLock, HRESULT* inHR, OggMuxStream* inMuxStream);
-	virtual ~OggMuxInputPin(void);
+    util::ConfigureLogSettings((HMODULE)hModule);
+    return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
+}
 
-	DECLARE_IUNKNOWN
+STDAPI DllRegisterServer()
+{	
+    HRESULT hr = S_OK;
+    try
+    {
+        CComPtr<IFilterMapper2> filterMapper;
 	
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
-
-	virtual HRESULT GetMediaType(int inPosition, CMediaType* outMediaType);
-	virtual HRESULT CheckMediaType(const CMediaType* inMediaType);
-	virtual HRESULT SetMediaType(const CMediaType* inMediaType);
-
-	STDMETHODIMP Receive(IMediaSample* inSample);
-
-	virtual STDMETHODIMP EndOfStream();
-
-	/// Notification that the output pin of an upstream filter has connected.
-	virtual HRESULT CompleteConnect(IPin* inReceivePin);
-
-	/// Notification the output pin of an upstream filter has been disconnected.
-	virtual HRESULT BreakConnect();
-
-	/// Find out the maximum number of packets per page this input pin's paginator is using
-	unsigned long PaginatorMaximumPacketsPerPage();
-
-	/// Set the maximum number of packets per page for the Ogg paginator
-	void SetPaginatorMaximumPacketsPerPage(unsigned long inMaxPacketsPerPage);
+        CHECK_HR( AMovieDllRegisterServer2(TRUE) );
 	
-	//virtual HRESULT DeliverEndFlush(void);
-	//virtual HRESULT DeliverBeginFlush(void);
+        CHECK_HR( CoCreateInstance(CLSID_FilterMapper2, NULL, 
+                                   CLSCTX_INPROC_SERVER, IID_IFilterMapper2, 
+                                   (void **)&filterMapper) );
 
-protected:
-	OggMuxFilter* mParentFilter;
+		CHECK_HR( filterMapper->RegisterFilter(
+		                        CLSID_OggMuxFilter,
+		                        L"Xiph.Org Ogg Muxer",
+                                NULL,
+                                &CLSID_LegacyAmFilterCategory,
+                                NULL,
+                                &OggMuxFilterReg) );
+    }
+    catch (const CAtlException& ex)
+    {
+        hr = ex;
+    }
 
-	bool mNeedsFLACHeaderTweak;
-	bool mNeedsFLACHeaderCount;
+    return hr;
+}
+
+STDAPI DllUnregisterServer()
+{
+    HRESULT hr = S_OK;
+    try
+    {
+        CComPtr<IFilterMapper2> filterMapper;
+
+        CHECK_HR( AMovieDllRegisterServer2(FALSE) );
+ 
+        CHECK_HR( CoCreateInstance(CLSID_FilterMapper2, NULL, CLSCTX_INPROC_SERVER,
+                IID_IFilterMapper2, (void **)&filterMapper) );
 	
-	OggPaginator mPaginator;
-	OggMuxStream* mMuxStream;
-};
+        CHECK_HR( filterMapper->UnregisterFilter(&CLSID_LegacyAmFilterCategory, 
+                NULL, CLSID_OggMuxFilter) );
+    } 
+    catch (const CAtlException& ex)
+    {
+        hr = ex;
+    }
+
+    return hr;
+ }
